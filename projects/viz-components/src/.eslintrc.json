@@ -1,0 +1,33 @@
+{
+  "root": false,
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": [
+          "projects/charts/tsconfig.lib.json",
+          "projects/charts/tsconfig.spec.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "viz-comp",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "viz-comp",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    }
+  ]
+}

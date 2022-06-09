@@ -1,0 +1,38 @@
+<div
+  #div
+  class="chart-container"
+  [style.maxWidth.px]="width"
+  [style.maxHeight.px]="height"
+  [style.display]="'flex'"
+>
+  <ng-content select="[html-elements-before]"></ng-content>
+  <svg
+    #svg
+    [attr.width]="div.offsetWidth"
+    [attr.height]="div.offsetWidth | resizeChartHeight: height:width"
+    attr.style="'max-width: 100%; height: auto; height: intrinsic;'"
+    (touchstart)="dataMarksComponent.config.showTooltip && onTouchStart($event)"
+    (pointerenter)="dataMarksComponent.config.showTooltip && onPointerEnter($event)"
+    (pointerleave)="dataMarksComponent.config.showTooltip && onPointerLeave($event)"
+    (pointermove)="dataMarksComponent.config.showTooltip && onPointerMove($event)"
+    (mousewheel)="dataMarksComponent.config.showTooltip && onWheel()"
+  >
+    <ng-content select="[svg-elements]"></ng-content>
+  </svg>
+  <ng-content select="[html-elements-after]"></ng-content>
+  <m-charts-html-tooltip
+    class="html-tooltip-component"
+    *ngIf="htmlTooltip.exists"
+    [ngStyle]="{
+      display: htmlTooltip.display,
+      'top.px': htmlTooltip.position.top,
+      'left.px': htmlTooltip.position.left,
+      'height.px': div.offsetHeight,
+      'width.px': div.offsetWidth
+    }"
+    [bottom]="htmlTooltip.offset.bottom"
+    [left]="htmlTooltip.offset.left"
+  >
+    <ng-content select="[tooltip-content]"></ng-content>
+  </m-charts-html-tooltip>
+</div>

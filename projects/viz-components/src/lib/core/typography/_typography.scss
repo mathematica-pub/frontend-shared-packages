@@ -1,0 +1,129 @@
+@use '../utilities/utilities';
+
+$sans-font: 'Fira Sans', sans-serif;
+$serif-font: 'PT Serif', monospace;
+
+$font-properties: (
+  'weights': (
+    'light': 300,
+    'regular': 400,
+    'medium': 500,
+    'semibold': 600,
+    'bold': 700,
+  ),
+  'line-heights': (
+    'ht-0': 1,
+    'ht-1': 1.125,
+    'ht-2': 1.25,
+    'ht-3': 1.5,
+    'ht-4': 1.75,
+    'ht-5': 2,
+  ),
+);
+
+$font-weight-light: utilities.get($font-properties, 'weights.light');
+$font-weight-regular: utilities.get($font-properties, 'weights.regular');
+$font-weight-medium: utilities.get($font-properties, 'weights.medium');
+$font-weight-semibold: utilities.get($font-properties, 'weights.semibold');
+$font-weight-bold: utilities.get($font-properties, 'weights.bold');
+
+@mixin headline-1 {
+  font-family: $sans-font;
+  font-size: 96px;
+  font-weight: $font-weight-light;
+  letter-spacing: -1.5px;
+}
+
+@mixin headline-2 {
+  font-family: $sans-font;
+  font-size: 60px;
+  font-weight: $font-weight-light;
+  letter-spacing: -0.5px;
+}
+
+@mixin headline-3 {
+  font-family: $sans-font;
+  font-size: 48px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0;
+}
+
+@mixin headline-4 {
+  font-family: $sans-font;
+  font-size: 34px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.25px;
+}
+
+@mixin headline-5 {
+  font-family: $sans-font;
+  font-size: 24px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0;
+}
+
+@mixin headline-6 {
+  font-family: $sans-font;
+  font-size: 20px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.15px;
+}
+
+@mixin subtitle-1 {
+  font-family: $sans-font;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.15px;
+}
+
+@mixin subtitle-2 {
+  font-family: $sans-font;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.1px;
+}
+
+@mixin body-1 {
+  font-family: $sans-font;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.5px;
+}
+
+@mixin body-2 {
+  font-family: $sans-font;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.25px;
+}
+
+@mixin button {
+  font-family: $sans-font;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+@mixin caption {
+  font-family: $sans-font;
+  font-size: 12px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.4px;
+}
+
+@mixin overline {
+  font-family: $sans-font;
+  font-size: 10px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+@mixin overline-large {
+  font-family: $sans-font;
+  font-size: 11px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}

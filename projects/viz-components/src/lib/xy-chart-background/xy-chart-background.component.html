@@ -1,0 +1,8 @@
+<svg:rect
+  *ngIf="(xySpace.xScale$ | async) && (xySpace.yScale$ | async)"
+  [attr.x]="(xySpace.xScale$ | async).range()[0]"
+  [attr.y]="(xySpace.yScale$ | async).range()[1]"
+  [attr.width]="(xySpace.xScale$ | async).range()[1] - (xySpace.xScale$ | async).range()[0]"
+  [attr.height]="(xySpace.yScale$ | async).range()[0] - (xySpace.yScale$ | async).range()[1]"
+  [attr.fill]="color"
+></svg:rect>

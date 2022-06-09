@@ -1,0 +1,8 @@
+<div
+  class="html-tooltip-container"
+  [ngStyle]="{ 'bottom.px': bottom, 'left.px': getLeftOffset(content.offsetWidth) }"
+>
+  <div #content class="html-tooltip-content-container">
+    <ng-content></ng-content>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  ViewEncapsulation,
+} from '@angular/core';
+import { InternSet, range, scaleBand } from 'd3';
+import { BarsComponent } from '../bars/bars.component';
+import { ChartComponent } from '../chart/chart.component';
+import { UtilitiesService } from '../core/services/utilities.service';
+import { DATA_MARKS_COMPONENT } from '../data-marks/data-marks.token';
+import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { GroupedBarsConfig } from './grouped-bars.model';
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: '[m-charts-data-marks-grouped-bars]',
+  templateUrl: '../bars/bars.component.html',
+  styleUrls: ['./grouped-bars.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: DATA_MARKS_COMPONENT, useExisting: GroupedBarsComponent },
+  ],
+})
+export class GroupedBarsComponent extends BarsComponent {
+  @Input() override config: GroupedBarsConfig;
+  groupScale: any;
+
+  constructor(
+    utilities: UtilitiesService,
+    chart: ChartComponent,
+    xySpace: XYChartSpaceComponent
+  ) {
+    super(utilities, chart, xySpace);
+  }
+
+  override setMethodsFromConfigAndDraw(): void {
+    this.setValueArrays();
+    this.initNonQuantitativeDomains();
+    this.setValueIndicies();
+    this.setHasBarsWithNegativeValues();
+    this.initQuantitativeDomain();
+    this.initCategoryScale();
+    this.initRanges();
+    this.setScaledSpaceProperties();
+    this.setGroupScale();
+    this.drawMarks(this.config.transitionDuration);
+  }
+
+  override setValueIndicies(): void {
+    // no unit test
+    this.values.indicies = range(
+      this.values[this.config.dimensions.ordinal].length
+    ).filter((i) => {
+      return (
+        (this.config.ordinal.domain as InternSet).has(
+          this.values[this.config.dimensions.ordinal][i]
+        ) &&
+        (this.config.category.domain as InternSet).has(this.values.category[i])
+      );
+    });
+  }
+
+  setGroupScale(): void {
+    if (this.config.dimensions.ordinal === 'x') {
+      this.groupScale = scaleBand(this.config.category.domain, [
+        0,
+        (this.xScale as any).bandwidth(),
+      ]).padding(this.config.intraGroupPadding);
+    } else {
+      this.groupScale = scaleBand(this.config.category.domain, [
+        (this.yScale as any).bandwidth(),
+        0,
+      ]).padding(this.config.intraGroupPadding);
+    }
+  }
+
+  override getBarColor(i: number): string {
+    return this.config.category.colorScale(this.values.category[i]);
+  }
+
+  override getBarXOrdinal(i: number): number {
+    return (
+      this.xScale(this.values.x[i]) + this.groupScale(this.values.category[i])
+    );
+  }
+
+  override getBarY(i: number): number {
+    if (this.config.dimensions.ordinal === 'x') {
+      return this.getBarYQuantitative(i);
+    } else {
+      return this.getBarYOrdinal(i);
+    }
+  }
+
+  getBarYOrdinal(i: number): number {
+    return (
+      this.yScale(this.values.y[i]) + this.groupScale(this.values.category[i])
+    );
+  }
+
+  getBarYQuantitative(i: number): number {
+    return this.yScale(this.values.y[i]);
+  }
+
+  override getBarWidthOrdinal(i: number): number {
+    return (this.groupScale as any).bandwidth();
+  }
+
+  override getBarHeightOrdinal(i: number): number {
+    return (this.groupScale as any).bandwidth();
+  }
+}

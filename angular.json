@@ -1,0 +1,50 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "defaultCollection": "@angular-eslint/schematics"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "viz-components": {
+      "projectType": "library",
+      "root": "projects/viz-components",
+      "sourceRoot": "projects/viz-components/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/viz-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/viz-components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/viz-components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/viz-components/src/test.ts",
+            "tsConfig": "projects/viz-components/tsconfig.spec.json",
+            "karmaConfig": "projects/viz-components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/viz-components/**/*.ts",
+              "projects/viz-components/**/*.html"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
