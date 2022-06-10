@@ -1,6 +1,14 @@
 {
   "name": "viz-components",
   "version": "0.0.1",
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "copyfiles schematics/collection.json ../../dist/viz-components"
+  },
+  "ng-add": {
+    "save": "true"
+  },
+  "schematics": "./schematics/collection.json",
   "peerDependencies": {
     "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0"
