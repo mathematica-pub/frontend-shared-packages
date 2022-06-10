@@ -1,5 +1,6 @@
 {
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "$id": "SchematicsForVizComponents",
   "schematics": {
     "ng-add": {
       "description": "Add Super UI Library to the project",
