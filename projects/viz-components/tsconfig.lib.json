@@ -6,8 +6,7 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "strictPropertyInitialization": false
+    "types": []
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
