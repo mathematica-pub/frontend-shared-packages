@@ -5,8 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build viz-components",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "test:lib": "ng test viz-components --browsers=Chrome",
+    "test:lib:ci": "ng test viz-components --no-watch --browsers=ChromeHeadlessNoSandbox",
+    "lint:lib": "ng lint viz-components"
   },
   "private": true,
   "dependencies": {
