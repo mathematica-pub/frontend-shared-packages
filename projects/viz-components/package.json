@@ -1,16 +1,30 @@
 {
   "name": "viz-components",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "publishConfig": {
     "registry": "http://localhost:4873"
   },
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "copyfiles schematics/collection.json ../../dist/viz-components"
+    "postbuild": "npm-run-all --parallel copy:*",
+    "copy:bars": "copyfiles -f src/lib/bars/bars.component.html ../../dist/viz-components/raw-html",
+    "copy:chart": "copyfiles -f src/lib/chart/chart.component.html ../../dist/viz-components/raw-html",
+    "copy:html-tooltip": "copyfiles -f src/lib/html-tooltip/html-tooltip.component.html ../../dist/viz-components/raw-html",
+    "copy:lines": "copyfiles -f src/lib/lines/lines.component.html ../../dist/viz-components/raw-html",
+    "copy:map": "copyfiles -f src/lib/map/map.component.html ../../dist/viz-components/raw-html",
+    "copy:x-axis": "copyfiles -f src/lib/x-axis/x-axis.component.html ../../dist/viz-components/raw-html",
+    "copy:xy-chart-background": "copyfiles -f src/lib/xy-chart-background/xy-chart-background.component.html ../../dist/viz-components/raw-html",
+    "copy:xy-chart-space": "copyfiles -f src/lib/xy-chart-space/xy-chart-space.component.html ../../dist/viz-components/raw-html",
+    "copy:y-axis": "copyfiles -f src/lib/y-axis/y-axis.component.html ../../dist/viz-components/raw-html",
+    "copy:schematics": "copyfiles schematics/collection.json schematics/*/schema.json ../../dist/viz-components"
   },
   "ng-add": {
     "save": "true"
   },
+  "files": [
+    "*",
+    "raw-html/*"
+  ],
   "schematics": "./schematics/collection.json",
   "peerDependencies": {
     "@angular/common": "^14.0.0",

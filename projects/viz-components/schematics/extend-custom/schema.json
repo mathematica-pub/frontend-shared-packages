@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SchematicsExtendCustom",
+  "title": "Extend Custom Viz Component",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Name of this component",
+      "type": "string",
+      "pattern": "^(?:@[a-zA-Z0-9-*~][a-zA-Z0-9-*._~]*/)?[a-zA-Z0-9-~][a-zA-Z0-9-._~]*$",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What should this component be named?"
+    },
+    "extends": {
+      "description": "Name of the component to extend",
+      "x-prompt": "What component would you like to extend?",
+      "type": "string",
+      "enum": [
+        "bars",
+        "chart",
+        "html-tooltip",
+        "lines",
+        "map",
+        "x-axis",
+        "xy-chart-background",
+        "xy-chart-space",
+        "y-axis"
+      ],
+      "items": [
+        { "value": "bars", "label": "bars" },
+        { "value": "chart", "label": "chart" },
+        { "value": "html-tooltip", "label": "html tooltip" },
+        { "value": "lines", "label": "lines" },
+        { "value": "map", "label": "map" },
+        { "value": "x-axis", "label": "x axis" },
+        { "value": "xy-chart-background", "label": "xy chart background" },
+        { "value": "xy-chart-space", "label": "xy chart space" },
+        { "value": "y-axis", "label": "y axis" }
+      ]
+    }
+  },
+  "required": ["name", "extends"]
+}

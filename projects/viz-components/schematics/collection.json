@@ -5,6 +5,11 @@
     "ng-add": {
       "description": "Add Super UI Library to the project",
       "factory": "./ng-add/index#ngAdd"
+    },
+    "extend-custom": {
+      "description": "Create a custom version of a component in the viz library",
+      "factory": "./extend-custom/index#extendCustom",
+      "schema": "./extend-custom/schema.json"
     }
   }
 }
