@@ -8,11 +8,10 @@ import {
 import { ResizeChartHeightPipe } from '../shared/resize-chart-height.pipe';
 import { ChartComponent } from './chart.component';
 
-fdescribe('ChartComponent', () => {
+describe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
   let renderer: Renderer2;
-  let renderListenSpy: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
