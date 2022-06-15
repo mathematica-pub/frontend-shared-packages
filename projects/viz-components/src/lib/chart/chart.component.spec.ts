@@ -1,3 +1,4 @@
+import { Renderer2, Type } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -10,6 +11,8 @@ import { ChartComponent } from './chart.component';
 describe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
+  let renderer: Renderer2;
+  let renderListenSpy: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -19,7 +22,15 @@ describe('ChartComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChartComponent);
+    renderer = fixture.componentRef.injector.get<Renderer2>(
+      Renderer2 as Type<Renderer2>
+    );
     component = fixture.componentInstance;
+    component.unlistenMouseWheel = () => {};
+    component.unlistenPointerEnter = () => {};
+    component.unlistenPointerLeave = () => {};
+    component.unlistenPointerMove = () => {};
+    component.unlistenTouchStart = () => {};
   });
 
   describe('onResize()', () => {
@@ -44,18 +55,26 @@ describe('ChartComponent', () => {
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
-      spyOn(component, 'setAspectRatio');
-      spyOn(component, 'subscribeToSizeChange');
+      spyOn(component as any, 'setAspectRatio');
+      spyOn(component as any, 'setPointerEventListeners');
+      spyOn(component as any, 'subscribeToSizeChange');
     });
 
     it('calls setAspectRatio', () => {
       component.ngOnInit();
-      expect(component.setAspectRatio).toHaveBeenCalledTimes(1);
+      expect((component as any).setAspectRatio).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setPointerEventListeners', () => {
+      component.ngOnInit();
+      expect((component as any).setPointerEventListeners).toHaveBeenCalledTimes(
+        1
+      );
     });
 
     it('calls subscribeToSizeChange', () => {
       component.ngOnInit();
-      expect(component.subscribeToSizeChange).toHaveBeenCalledTimes(1);
+      expect((component as any).subscribeToSizeChange).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -248,74 +267,29 @@ describe('ChartComponent', () => {
     });
   });
 
-  describe('onTouchStart()', () => {
-    let event: TouchEvent;
-    let preventDefaultSpy: jasmine.Spy;
+  describe('setPointerEventListeners()', () => {
+    let setTouchStartSpy: jasmine.Spy;
+    let setPointerEnterSpy: jasmine.Spy;
+    let setMouseWheelSpy: jasmine.Spy;
     beforeEach(() => {
-      event = new TouchEvent('touchstart');
-      preventDefaultSpy = spyOn(event, 'preventDefault');
-    });
-    it('calls preventDefault on touchStart event', () => {
-      component.onTouchStart(event);
-      expect(preventDefaultSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('onPointerEnter()', () => {
-    let pointerEnterSpy: jasmine.Spy;
-    beforeEach(() => {
-      pointerEnterSpy = jasmine.createSpy('onPointerEnter');
-      component.dataMarksComponent = {
-        onPointerEnter: pointerEnterSpy,
+      setTouchStartSpy = spyOn(component as any, 'setTouchStartListener');
+      setPointerEnterSpy = spyOn(component as any, 'setPointerEnterListener');
+      setMouseWheelSpy = spyOn(component as any, 'setMouseWheelListener');
+      component.svgRef = {
+        nativeElement: 'svg',
       } as any;
     });
-    it('calls onPointerEnter on each chartMark component with the input argument', () => {
-      component.onPointerEnter('event' as any);
-      expect(pointerEnterSpy).toHaveBeenCalledOnceWith('event');
+    it('should call setTouchStartListener once with the correct value', () => {
+      (component as any).setPointerEventListeners();
+      expect(setTouchStartSpy).toHaveBeenCalledOnceWith('svg');
     });
-  });
-
-  describe('onPointerLeave()', () => {
-    let pointerLeaveSpy: jasmine.Spy;
-    beforeEach(() => {
-      pointerLeaveSpy = jasmine.createSpy('onPointerLeave');
-      component.dataMarksComponent = {
-        onPointerLeave: pointerLeaveSpy,
-      } as any;
+    it('should call setPointerEnterListener once with the correct value', () => {
+      (component as any).setPointerEventListeners();
+      expect(setPointerEnterSpy).toHaveBeenCalledOnceWith('svg');
     });
-    it('calls onPointerLeave on each chartMark component with the input argument', () => {
-      component.onPointerLeave('event' as any);
-      expect(pointerLeaveSpy).toHaveBeenCalledOnceWith('event');
-    });
-  });
-
-  describe('onPointerMove()', () => {
-    let pointerMoveSpy: jasmine.Spy;
-    beforeEach(() => {
-      pointerMoveSpy = jasmine.createSpy('onPointerMove');
-      component.dataMarksComponent = {
-        onPointerMove: pointerMoveSpy,
-      } as any;
-    });
-    it('calls onPointerMove on each chartMark component with the input argument', () => {
-      component.onPointerMove('event' as any);
-      expect(pointerMoveSpy).toHaveBeenCalledOnceWith('event');
-    });
-  });
-
-  describe('onWheel()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setTooltipPosition');
-      component.htmlTooltip.exists = true;
-    });
-    it('calls setTooltipPosition once if htmlTooltip exists', () => {
-      component.onWheel();
-      expect(component.setTooltipPosition).toHaveBeenCalledTimes(1);
-    });
-    it('does not call setTooltipPosition if htmlTooltip does not exist', () => {
-      component.htmlTooltip.exists = false;
-      component.onWheel();
-      expect(component.setTooltipPosition).not.toHaveBeenCalled();
+    it('should call setMouseWheelListener once with the correct value', () => {
+      (component as any).setPointerEventListeners();
+      expect(setMouseWheelSpy).toHaveBeenCalledOnceWith('svg');
     });
   });
 
