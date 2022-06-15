@@ -8,7 +8,7 @@ import {
 import { ResizeChartHeightPipe } from '../shared/resize-chart-height.pipe';
 import { ChartComponent } from './chart.component';
 
-describe('ChartComponent', () => {
+fdescribe('ChartComponent', () => {
   let component: ChartComponent;
   let fixture: ComponentFixture<ChartComponent>;
   let renderer: Renderer2;
@@ -56,20 +56,12 @@ describe('ChartComponent', () => {
   describe('ngOnInit()', () => {
     beforeEach(() => {
       spyOn(component as any, 'setAspectRatio');
-      spyOn(component as any, 'setPointerEventListeners');
       spyOn(component as any, 'subscribeToSizeChange');
     });
 
     it('calls setAspectRatio', () => {
       component.ngOnInit();
       expect((component as any).setAspectRatio).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setPointerEventListeners', () => {
-      component.ngOnInit();
-      expect((component as any).setPointerEventListeners).toHaveBeenCalledTimes(
-        1
-      );
     });
 
     it('calls subscribeToSizeChange', () => {
@@ -99,6 +91,9 @@ describe('ChartComponent', () => {
   });
 
   describe('ngAfterContentInit()', () => {
+    beforeEach(() => {
+      spyOn(component as any, 'setPointerEventListeners');
+    });
     it('should throw an error if no dataMarks component exists', () => {
       component.dataMarksComponent = undefined;
       expect(() => {
@@ -106,11 +101,31 @@ describe('ChartComponent', () => {
       }).toThrowError('DataMarksComponent not found.');
     });
 
-    it('should not throw an error if dataMarks component exists', () => {
-      component.dataMarksComponent = {} as any;
-      expect(() => {
+    describe('dataMarksComponent is defined', () => {
+      beforeEach(() => {
+        component.dataMarksComponent = { config: {} } as any;
+      });
+      it('should not throw an error', () => {
+        expect(() => {
+          component.ngAfterContentInit();
+        }).not.toThrow();
+      });
+
+      it('calls setPointerEventListeners if dataMarks.config.showTooltip is true', () => {
+        component.dataMarksComponent.config = { showTooltip: true } as any;
         component.ngAfterContentInit();
-      }).not.toThrow();
+        expect(
+          (component as any).setPointerEventListeners
+        ).toHaveBeenCalledTimes(1);
+      });
+
+      it('does not call setPointerEventListeners if dataMarks.config.showTooltip is false', () => {
+        component.dataMarksComponent.config = { showTooltip: false } as any;
+        component.ngAfterContentInit();
+        expect(
+          (component as any).setPointerEventListeners
+        ).not.toHaveBeenCalled();
+      });
     });
   });
 
