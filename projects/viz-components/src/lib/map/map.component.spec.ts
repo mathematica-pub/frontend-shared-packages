@@ -28,5 +28,12 @@ describe('MapComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
+    component.chart.dataMarksComponent = {
+      config: { showTooltip: false },
+    } as any;
+  });
+
+  it('should create component', () => {
+    expect(component).toBeTruthy();
   });
 });

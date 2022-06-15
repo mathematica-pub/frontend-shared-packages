@@ -8,9 +8,12 @@ import {
   EventEmitter,
   HostListener,
   Input,
+  NgZone,
   OnChanges,
+  OnDestroy,
   OnInit,
   Output,
+  Renderer2,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -32,8 +35,13 @@ import { ElementSpacing } from '../xy-chart-space/xy-chart-space.model';
 })
 export class ChartComponent
   extends Unsubscribe
-  implements OnInit, OnChanges, AfterViewInit, AfterContentInit
+  implements OnInit, OnChanges, AfterViewInit, AfterContentInit, OnDestroy
 {
+  unlistenPointerEnter: () => void;
+  unlistenPointerMove: () => void;
+  unlistenPointerLeave: () => void;
+  unlistenTouchStart: () => void;
+  unlistenMouseWheel: () => void;
   @ContentChild(XYChartSpaceComponent) xySpace: XYChartSpaceComponent;
   @ContentChild(DATA_MARKS_COMPONENT) dataMarksComponent: DataMarksComponent;
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
@@ -51,6 +59,10 @@ export class ChartComponent
   sizeChange: BehaviorSubject<void> = new BehaviorSubject<void>(null);
   aspectRatio: number;
   htmlTooltip: HtmlTooltipConfig = new HtmlTooltipConfig();
+
+  constructor(private renderer: Renderer2, private zone: NgZone) {
+    super();
+  }
 
   @HostListener('window:resize', ['$event.target'])
   onResize() {
@@ -73,12 +85,24 @@ export class ChartComponent
   ngAfterContentInit(): void {
     if (!this.dataMarksComponent) {
       throw new Error('DataMarksComponent not found.');
+    } else if (this.dataMarksComponent.config.showTooltip) {
+      this.setPointerEventListeners();
     }
   }
 
   ngAfterViewInit(): void {
     if (this.htmlTooltip.exists) {
       this.setTooltipPosition();
+    }
+  }
+
+  override ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+    if (this.dataMarksComponent?.config.showTooltip) {
+      this.unlistenTouchStart();
+      this.unlistenPointerEnter();
+      this.unlistenMouseWheel();
     }
   }
 
@@ -134,26 +158,74 @@ export class ChartComponent
     return [this.getScaledHeight() - this.margin.bottom, this.margin.top];
   }
 
-  onTouchStart(event: TouchEvent): void {
+  private setPointerEventListeners(): void {
+    const el = this.svgRef.nativeElement;
+    this.setTouchStartListener(el);
+    this.setPointerEnterListener(el);
+    this.setMouseWheelListener(el);
+  }
+
+  private setTouchStartListener(el: Element) {
+    this.unlistenTouchStart = this.renderer.listen(
+      el,
+      'touchstart',
+      (event) => {
+        this.onTouchStart(event);
+      }
+    );
+  }
+
+  private onTouchStart(event: TouchEvent): void {
     event.preventDefault();
   }
 
-  onPointerEnter(event: PointerEvent): void {
+  private setPointerEnterListener(el: Element) {
+    this.unlistenPointerEnter = this.renderer.listen(
+      el,
+      'pointerenter',
+      (event) => {
+        this.onPointerEnter(event, el);
+      }
+    );
+  }
+
+  private onPointerEnter(event: PointerEvent, el: Element): void {
     this.dataMarksComponent.onPointerEnter(event);
+    this.setPointerMoveListener(el);
+    this.setPointerLeaveListener(el);
   }
 
-  onPointerLeave(event: PointerEvent): void {
-    this.dataMarksComponent.onPointerLeave(event);
+  private setPointerMoveListener(el) {
+    this.zone.runOutsideAngular(() => {
+      // run outside angular to prevent CD on every mousemove
+      this.unlistenPointerMove = this.renderer.listen(
+        el,
+        'pointermove',
+        (event) => {
+          this.dataMarksComponent.onPointerMove(event);
+        }
+      );
+    });
   }
 
-  onPointerMove(event: PointerEvent): void {
-    this.dataMarksComponent.onPointerMove(event);
+  private setPointerLeaveListener(el: Element) {
+    this.unlistenPointerLeave = this.renderer.listen(
+      el,
+      'pointerleave',
+      (event) => {
+        this.dataMarksComponent.onPointerLeave(event);
+        this.unlistenPointerMove();
+        this.unlistenPointerLeave();
+      }
+    );
   }
 
-  onWheel(): void {
-    if (this.htmlTooltip.exists) {
-      this.setTooltipPosition();
-    }
+  private setMouseWheelListener(el: Element) {
+    this.unlistenMouseWheel = this.renderer.listen(el, 'mousewheel', () => {
+      if (this.htmlTooltip.exists) {
+        this.setTooltipPosition();
+      }
+    });
   }
 
   setTooltipPosition(): void {

@@ -33,6 +33,9 @@ describe('BarsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BarsComponent);
     component = fixture.componentInstance;
+    component.chart.dataMarksComponent = {
+      config: { showTooltip: false },
+    } as any;
   });
 
   describe('ngOnChanges()', () => {
@@ -46,6 +49,8 @@ describe('BarsComponent', () => {
 
     it('should call objectChangedNotFirstTime once and with the correct parameters', () => {
       component.ngOnChanges(configChange);
+      console.log(component);
+      console.log(configChange);
       expect(
         mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');

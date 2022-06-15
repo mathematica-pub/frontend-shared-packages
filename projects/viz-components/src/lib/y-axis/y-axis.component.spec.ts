@@ -18,6 +18,9 @@ describe('YAxisComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(YAxisComponent);
     component = fixture.componentInstance;
+    component.chart.dataMarksComponent = {
+      config: { showTooltip: false },
+    } as any;
   });
 
   describe('ngOnInit', () => {
