@@ -254,13 +254,13 @@ export class LinesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const markerValues = this.values.indicies.map(
+    const markerValues: string[] = this.values.indicies.map(
       (i) => `${this.values.category[i] - this.values.x[i]}`
     );
 
     this.markers = select(this.markersRef.nativeElement)
       .selectAll('circle')
-      .data(markerValues, (d) => d)
+      .data(markerValues, (d) => d as any)
       .join(
         (enter) =>
           enter
