@@ -40,6 +40,22 @@
         { "value": "xy-chart-space", "label": "xy chart space" },
         { "value": "y-axis", "label": "y axis" }
       ]
+    },
+    "path": {
+      "type": "string",
+      "format": "path",
+      "$default": {
+        "$source": "workingDirectory"
+      },
+      "description": "The path at which to create the component file, relative to the current workspace. Default is a folder with the same name as the component in the project root.",
+      "visible": false
+    },
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
     }
   },
   "required": ["name", "extends"]
