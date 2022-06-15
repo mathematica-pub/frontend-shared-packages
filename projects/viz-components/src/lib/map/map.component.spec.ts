@@ -29,4 +29,8 @@ describe('MapComponent', () => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
   });
+
+  it('should create component', () => {
+    expect(component).toBeTruthy();
+  });
 });
