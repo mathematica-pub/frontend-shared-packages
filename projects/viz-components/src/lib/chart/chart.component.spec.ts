@@ -30,6 +30,9 @@ describe('ChartComponent', () => {
     component.unlistenPointerLeave = () => {};
     component.unlistenPointerMove = () => {};
     component.unlistenTouchStart = () => {};
+    component.dataMarksComponent = {
+      config: { showTooltip: false },
+    } as any;
   });
 
   describe('onResize()', () => {
@@ -163,7 +166,7 @@ describe('ChartComponent', () => {
     let resizeSpy: jasmine.Spy;
     beforeEach(() => {
       resizeSpy = jasmine.createSpy('resizeMarks');
-      component.dataMarksComponent = { resizeMarks: resizeSpy } as any;
+      component.dataMarksComponent.resizeMarks = resizeSpy;
     });
 
     it('calls resizeMarks on each dataMark component if dataMark components exits', () => {

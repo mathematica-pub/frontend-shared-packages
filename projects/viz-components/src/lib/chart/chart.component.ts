@@ -99,9 +99,11 @@ export class ChartComponent
   override ngOnDestroy(): void {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-    this.unlistenTouchStart();
-    this.unlistenPointerEnter();
-    this.unlistenMouseWheel();
+    if (this.dataMarksComponent?.config.showTooltip) {
+      this.unlistenTouchStart();
+      this.unlistenPointerEnter();
+      this.unlistenMouseWheel();
+    }
   }
 
   subscribeToSizeChange() {
