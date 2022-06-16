@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "SchematicsExtendCustom",
-  "title": "Extend Custom Viz Component",
+  "$id": "SchematicsExtend",
+  "title": "Extend Viz Component",
   "type": "object",
   "properties": {
     "name": {
@@ -14,7 +14,7 @@
       },
       "x-prompt": "What should this component be named?"
     },
-    "extends": {
+    "extend": {
       "description": "Name of the component to extend",
       "x-prompt": "What component would you like to extend?",
       "type": "string",
@@ -58,5 +58,5 @@
       }
     }
   },
-  "required": ["name", "extends"]
+  "required": ["name", "extend"]
 }

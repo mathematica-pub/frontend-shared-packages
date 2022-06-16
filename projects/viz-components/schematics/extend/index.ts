@@ -5,8 +5,7 @@ import {
   mergeWith,
   SchematicsException,
   chain,
-  forEach,
-  FileEntry,
+  applyTemplates,
   url,
   apply,
   move,
@@ -23,9 +22,9 @@ import {
 
 import { Schema as ExtendSchema } from './schema';
 
-export function extendCustom(options: ExtendSchema): Rule {
-  return async (tree: Tree, context: SchematicContext) => {
-    if (!options.name || !options.extends) {
+export function extend(options: ExtendSchema): Rule {
+  return async (tree: Tree, _context: SchematicContext) => {
+    if (!options.name || !options.extend) {
       throw new SchematicsException(
         'Options name and extends are both required.'
       );
@@ -47,11 +46,10 @@ export function extendCustom(options: ExtendSchema): Rule {
       options.path = `${project.sourceRoot}/${projectType}`;
     }
 
-    const htmlSource = apply(url('./raw-html'), [
-      forEach((fileEntry: FileEntry) => {
-        if (fileEntry.path == normalize(`/${options.extends}.component.html`))
-          return fileEntry;
-        return null;
+    const htmlSource = apply(url(`./raw-html/${options.extend}`), [
+      applyTemplates({
+        name: options.name,
+        dasherize: strings.dasherize,
       }),
       move(normalize(`${options.path}/${strings.dasherize(options.name)}`)),
     ]);

@@ -2,7 +2,7 @@ import { VizComponentOption } from './schema.enums';
 
 export interface Schema {
   name: string;
-  extends: VizComponentOption;
+  extend: VizComponentOption;
   path?: string;
   project?: string;
 }
