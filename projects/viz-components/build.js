@@ -19,7 +19,7 @@ for(let component of components) {
                 });
 }
 
-copyfiles(['schematics/collection.json', 'schematics/*/schema.json', '../../dist/viz-components'], (e) =>
+copyfiles(['schematics/collection.json', 'schematics/*/schema.json', 'schematics/*/files/**', '../../dist/viz-components'], (e) =>
     { if (e) console.log(e) });
 
 

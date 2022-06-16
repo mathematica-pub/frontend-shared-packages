@@ -54,12 +54,23 @@ export function extend(options: ExtendSchema): Rule {
       move(normalize(`${options.path}/${strings.dasherize(options.name)}`)),
     ]);
 
+    const tsSource = apply(url('./files'), [
+      applyTemplates({
+        name: options.name,
+        extend: options.extend,
+        dasherize: strings.dasherize,
+        classify: strings.classify,
+      }),
+      move(normalize(`${options.path}/${strings.dasherize(options.name)}`)),
+    ]);
+
     return chain([
       externalSchematic('@schematics/angular', 'component', {
         name: strings.dasherize(options.name),
         path: options.path,
       }),
       mergeWith(htmlSource, MergeStrategy.Overwrite),
+      mergeWith(tsSource, MergeStrategy.Overwrite),
     ]);
   };
 }
