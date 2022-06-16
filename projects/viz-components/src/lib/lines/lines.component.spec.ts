@@ -33,6 +33,9 @@ describe('LineChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LinesComponent);
     component = fixture.componentInstance;
+    component.chart.dataMarksComponent = {
+      config: { showTooltip: false },
+    } as any;
   });
 
   describe('ngOnChanges()', () => {

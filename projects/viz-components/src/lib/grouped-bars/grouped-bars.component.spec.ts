@@ -17,6 +17,9 @@ describe('GroupedBarsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupedBarsComponent);
     component = fixture.componentInstance;
+    component.chart.dataMarksComponent = {
+      config: { showTooltip: false },
+    } as any;
   });
 
   describe('setMethodsFromConfigAndDraw()', () => {

@@ -5,8 +5,13 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build viz-components",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "watch:lib": "ng build viz-components --watch",
+    "test": "ng test",
+    "test:lib": "ng test viz-components --browsers=Chrome",
+    "test:lib:ci": "ng test viz-components --no-watch --browsers=ChromeHeadlessNoSandbox",
+    "lint:lib": "ng lint viz-components"
   },
   "private": true,
   "dependencies": {
@@ -19,6 +24,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@types/d3": "^7.4.0",
     "d3": "^7.4.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
