@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { XYChartSpaceComponent } from './xy-chart-space.component';
+import { XyChartSpaceComponent } from './xy-chart-space.component';
 
 @NgModule({
-  declarations: [XYChartSpaceComponent],
+  declarations: [XyChartSpaceComponent],
   imports: [CommonModule],
-  exports: [XYChartSpaceComponent],
+  exports: [XyChartSpaceComponent],
 })
-export class MChartsXYChartSpaceModule {}
+export class MChartsXyChartSpaceModule {}

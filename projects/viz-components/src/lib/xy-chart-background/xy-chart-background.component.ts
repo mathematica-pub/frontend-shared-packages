@@ -7,7 +7,7 @@ import { ChartComponent } from '../chart/chart.component';
   templateUrl: './xy-chart-background.component.html',
   styleUrls: ['./xy-chart-background.component.scss'],
 })
-export class XYChartBackgroundComponent {
+export class XyChartBackgroundComponent {
   @Input() color = 'whitesmoke';
 
   constructor(public chart: ChartComponent) {}

@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { BarsComponent } from './bars.component';
 import { BarsConfig } from './bars.model';
 
@@ -20,7 +20,7 @@ describe('BarsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [BarsComponent],
       providers: [
-        XYChartSpaceComponent,
+        XyChartSpaceComponent,
         ChartComponent,
         {
           provide: UtilitiesService,

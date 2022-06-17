@@ -4,12 +4,12 @@ export class XyDataMarks extends DataMarks {
   setValueArrays: () => void;
   subscribeToScales: () => void;
   subscribeToRanges: () => void;
-  values: XYDataMarksValues;
+  values: XyDataMarksValues;
   xScale: (d: any) => any;
   yScale: (d: any) => any;
 }
 
-export class XYDataMarksValues {
+export class XyDataMarksValues {
   x: any[];
   y: any[];
   category: any[];

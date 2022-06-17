@@ -6,7 +6,7 @@ import { Unsubscribe } from '../shared/unsubscribe.class';
 import { AxisConfig, TickWrap } from './axis-config.model';
 
 @Directive()
-export abstract class XYAxisElement extends Unsubscribe implements OnInit {
+export abstract class XyAxisElement extends Unsubscribe implements OnInit {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   @Input() config: AxisConfig;
   axisFunction: any;

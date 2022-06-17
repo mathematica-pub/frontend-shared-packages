@@ -30,7 +30,7 @@ import { DataMarks } from '../data-marks/data-marks.model';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { ValueUtilities } from '../shared/value-utilities.class';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { ElementSpacing } from '../xy-chart-space/xy-chart-space.model';
 import { Dimensions, Ranges } from './chart.model';
 
@@ -48,7 +48,7 @@ export class ChartComponent
   unlistenPointerLeave: () => void;
   unlistenTouchStart: () => void;
   unlistenMouseWheel: () => void;
-  @ContentChild(XYChartSpaceComponent) xySpace: XYChartSpaceComponent;
+  @ContentChild(XyChartSpaceComponent) xySpace: XyChartSpaceComponent;
   @ContentChild(DATA_MARKS)
   dataMarksComponent: DataMarks;
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;

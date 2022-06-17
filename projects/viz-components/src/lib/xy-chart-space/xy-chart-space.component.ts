@@ -9,7 +9,7 @@ import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
   templateUrl: './xy-chart-space.component.html',
   styleUrls: ['./xy-chart-space.component.scss'],
 })
-export class XYChartSpaceComponent {
+export class XyChartSpaceComponent {
   @ContentChild(XY_DATA_MARKS)
   xyDataMarksComponent: XyDataMarks;
   private xScale: BehaviorSubject<any> = new BehaviorSubject(null);

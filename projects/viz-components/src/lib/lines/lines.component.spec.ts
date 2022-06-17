@@ -5,7 +5,7 @@ import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { LinesComponent } from './lines.component';
 import { LinesConfig } from './lines.model';
 
@@ -21,7 +21,7 @@ describe('LineChartComponent', () => {
       declarations: [LinesComponent],
       providers: [
         ChartComponent,
-        XYChartSpaceComponent,
+        XyChartSpaceComponent,
         {
           provide: UtilitiesService,
           useValue: mainServiceStub.utilitiesServiceStub,
