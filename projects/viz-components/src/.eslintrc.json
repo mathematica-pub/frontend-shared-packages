@@ -5,8 +5,8 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "projects/charts/tsconfig.lib.json",
-          "projects/charts/tsconfig.spec.json"
+          "projects/viz-components/tsconfig.lib.json",
+          "projects/viz-components/tsconfig.spec.json"
         ],
         "createDefaultProgram": true
       },
