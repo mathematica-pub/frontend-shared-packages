@@ -1,6 +1,6 @@
 import { UnsubscribeStub } from '../testing/stubs/unsubscribe.class.stub';
 
-describe('the Subscription abstract class', () => {
+describe('the Subscription directive', () => {
   let abstractClass: UnsubscribeStub;
 
   beforeEach(() => {

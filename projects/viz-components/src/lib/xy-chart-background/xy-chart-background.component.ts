@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { ChartComponent } from '../chart/chart.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -7,8 +7,8 @@ import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.componen
   templateUrl: './xy-chart-background.component.html',
   styleUrls: ['./xy-chart-background.component.scss'],
 })
-export class XYChartBackgroundComponent {
+export class XyChartBackgroundComponent {
   @Input() color = 'whitesmoke';
 
-  constructor(public xySpace: XYChartSpaceComponent) {}
+  constructor(public chart: ChartComponent) {}
 }

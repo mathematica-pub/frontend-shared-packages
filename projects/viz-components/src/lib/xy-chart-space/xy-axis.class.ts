@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, ViewChild } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { format, select, timeFormat, TimeInterval } from 'd3';
 import { SvgUtilities } from '../shared/svg-utilities.class';
 import { SvgWrapOptions } from '../shared/svg-utilities.model';
@@ -6,18 +6,26 @@ import { Unsubscribe } from '../shared/unsubscribe.class';
 import { AxisConfig, TickWrap } from './axis-config.model';
 
 @Directive()
-export abstract class XYAxisElement extends Unsubscribe {
+export abstract class XyAxisElement extends Unsubscribe implements OnInit {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   @Input() config: AxisConfig;
+  axisFunction: any;
   axis: any;
   scale: any;
 
   abstract subscribeToScale(): void;
+  abstract setAxisFunction(): any;
+  abstract initNumTicks(): number;
+  abstract setTranslate(): void;
+
+  ngOnInit(): void {
+    this.setTranslate();
+    this.subscribeToScale();
+    this.setAxisFunction();
+  }
 
   updateAxis(): void {
-    const axisFunction = this.getAxisFunction();
-    this.setAxis(axisFunction);
-    this.setTranslate();
+    this.setAxis(this.axisFunction);
     this.drawAxis();
     this.processAxisFeatures();
   }
@@ -28,7 +36,7 @@ export abstract class XYAxisElement extends Unsubscribe {
         this.config.tickSizeOuter
       );
     } else {
-      const numTicks = this.config.numTicks || this.initNumTicks();
+      let numTicks = this.config.numTicks || this.initNumTicks();
       this.axis = axisFunction(this.scale);
       if (this.config.tickValues) {
         this.axis.tickValues(this.config.tickValues).tickFormat((d) => {
@@ -36,7 +44,7 @@ export abstract class XYAxisElement extends Unsubscribe {
           return formatter(this.config.tickFormat)(d);
         });
       } else {
-        const numTicks = this.getValidatedNumTicks();
+        numTicks = this.getValidatedNumTicks();
         this.axis.ticks(numTicks, this.config.tickFormat);
       }
     }
@@ -59,10 +67,6 @@ export abstract class XYAxisElement extends Unsubscribe {
   ticksAreIntegers(): boolean {
     return this.config.tickFormat.includes('0f');
   }
-
-  abstract getAxisFunction(): any;
-  abstract initNumTicks(): number;
-  abstract setTranslate(): void;
 
   drawAxis(): void {
     select(this.axisRef.nativeElement).call(this.axis);

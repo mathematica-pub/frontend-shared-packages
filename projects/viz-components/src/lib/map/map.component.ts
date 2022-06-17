@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   SimpleChanges,
@@ -22,10 +23,12 @@ import {
   select,
   Transition,
 } from 'd3';
+import { takeUntil } from 'rxjs/operators';
 import { ChartComponent } from '../chart/chart.component';
+import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { DataMarksComponent } from '../data-marks/data-marks.model';
-import { DATA_MARKS_COMPONENT } from '../data-marks/data-marks.token';
+import { DataMarks } from '../data-marks/data-marks.model';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import {
   DataGeography,
@@ -41,11 +44,11 @@ import {
   styleUrls: ['./map.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS_COMPONENT, useExisting: MapComponent }],
+  providers: [{ provide: DATA_MARKS, useExisting: MapComponent }],
 })
 export class MapComponent
   extends Unsubscribe
-  implements DataMarksComponent, OnChanges, OnInit
+  implements DataMarks, OnChanges, OnInit
 {
   @ViewChild('map', { static: true }) mapRef: ElementRef<SVGSVGElement>;
   @Input() config: MapConfig;
@@ -54,14 +57,15 @@ export class MapComponent
   path: any;
   values: MapDataValues = new MapDataValues();
   dataScale: any;
+  ranges: Ranges;
 
   constructor(
     private utilities: UtilitiesService,
-    public chart: ChartComponent
+    public chart: ChartComponent,
+    private zone: NgZone
   ) {
     super();
   }
-  subscribeToScales: () => void;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
@@ -70,7 +74,20 @@ export class MapComponent
   }
 
   ngOnInit(): void {
+    this.subscribeToRanges();
     this.setMethodsFromConfigAndDraw();
+  }
+
+  subscribeToRanges(): void {
+    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
+      this.ranges.x = ranges.x;
+      this.ranges.y = ranges.y;
+      if (this.values.dataValues) {
+        this.zone.run(() => {
+          this.resizeMarks();
+        });
+      }
+    });
   }
 
   resizeMarks(): void {
@@ -91,7 +108,7 @@ export class MapComponent
 
   setProjection(): void {
     this.projection = this.config.projection.fitSize(
-      [this.chart.getXRange()[1], this.chart.getYRange()[0]],
+      [this.ranges.x[1], this.ranges.y[0]],
       this.config.boundary
     );
   }

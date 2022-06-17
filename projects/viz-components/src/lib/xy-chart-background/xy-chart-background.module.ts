@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { XYChartBackgroundComponent } from './xy-chart-background.component';
+import { XyChartBackgroundComponent } from './xy-chart-background.component';
 
 @NgModule({
-  declarations: [XYChartBackgroundComponent],
+  declarations: [XyChartBackgroundComponent],
   imports: [CommonModule],
-  exports: [XYChartBackgroundComponent],
+  exports: [XyChartBackgroundComponent],
 })
 export class MChartsXYChartBackgroundModule {}

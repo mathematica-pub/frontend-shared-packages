@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from '../chart/chart.component';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
-import { XYChartBackgroundComponent } from './xy-chart-background.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartBackgroundComponent } from './xy-chart-background.component';
 
 describe('ChartBackgroundComponent', () => {
-  let component: XYChartBackgroundComponent;
-  let fixture: ComponentFixture<XYChartBackgroundComponent>;
+  let component: XyChartBackgroundComponent;
+  let fixture: ComponentFixture<XyChartBackgroundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [XYChartBackgroundComponent],
-      providers: [XYChartSpaceComponent, ChartComponent],
+      declarations: [XyChartBackgroundComponent],
+      providers: [XyChartSpaceComponent, ChartComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(XYChartBackgroundComponent);
+    fixture = TestBed.createComponent(XyChartBackgroundComponent);
     component = fixture.componentInstance;
   });
 

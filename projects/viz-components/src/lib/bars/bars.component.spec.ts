@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { BarsComponent } from './bars.component';
 import { BarsConfig } from './bars.model';
 
@@ -20,7 +20,7 @@ describe('BarsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [BarsComponent],
       providers: [
-        XYChartSpaceComponent,
+        XyChartSpaceComponent,
         ChartComponent,
         {
           provide: UtilitiesService,
@@ -73,11 +73,49 @@ describe('BarsComponent', () => {
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
+      spyOn(component, 'subscribeToRanges');
       spyOn(component, 'subscribeToScales');
+      spyOn(component, 'setMethodsFromConfigAndDraw');
     });
-    it('should call subscribeToScales once', () => {
+    it('calls subscribeToRanges once', () => {
+      component.ngOnInit();
+      expect(component.subscribeToRanges).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls subscribeToScales once', () => {
       component.ngOnInit();
       expect(component.subscribeToScales).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setMethodsFromConfigAndDraw once', () => {
+      component.ngOnInit();
+      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setRanges()', () => {
+    beforeEach(() => {
+      component.config = {
+        dimensions: {
+          x: 'quantitative',
+          y: 'ordinal',
+        },
+        quantitative: {
+          range: null,
+        },
+        ordinal: {
+          range: null,
+        },
+      } as any;
+    });
+    it('sets range for x dimension', () => {
+      component.setRanges({ x: 'test x', y: 'test y' } as any);
+      expect(component.config.quantitative.range).toEqual('test x');
+    });
+
+    it('sets range for y dimension', () => {
+      component.setRanges({ x: 'test x', y: 'test y' } as any);
+      expect(component.config.ordinal.range).toEqual('test y');
     });
   });
 
@@ -87,82 +125,25 @@ describe('BarsComponent', () => {
         xScale: new BehaviorSubject<string>(null),
         yScale: new BehaviorSubject<string>(null),
       } as any;
-      component.xySpace.xScale$ = component.xySpace.xScale.asObservable();
-      component.xySpace.yScale$ = component.xySpace.yScale.asObservable();
+      component.xySpace.xScale$ = (
+        component.xySpace as any
+      ).xScale.asObservable();
+      component.xySpace.yScale$ = (
+        component.xySpace as any
+      ).yScale.asObservable();
     });
     it('sets xScale to a new value when a new value is emitted from subscription', () => {
       component.subscribeToScales();
       expect(component.xScale).toBeNull();
-      component.xySpace.xScale.next('test x');
+      (component.xySpace as any).xScale.next('test x');
       expect(component.xScale).toEqual('test x');
     });
 
     it('sets yScale to a new value when a new value is emitted from subscription', () => {
       component.subscribeToScales();
       expect(component.yScale).toBeNull();
-      component.xySpace.yScale.next('test y');
+      (component.xySpace as any).yScale.next('test y');
       expect(component.yScale).toEqual('test y');
-    });
-  });
-
-  describe('resizeMarks()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setRanges');
-      spyOn(component, 'setScaledSpaceProperties');
-      spyOn(component, 'drawMarks');
-    });
-    describe('if values.x and values.y are truthy', () => {
-      beforeEach(() => {
-        component.values = { x: 1, y: 2 } as any;
-        component.resizeMarks();
-      });
-      it('calls setRanges once', () => {
-        expect(component.setRanges).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls setScaledSpaceProperties once', () => {
-        expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls drawMarks once with zero as the argument', () => {
-        expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
-      });
-    });
-
-    describe('if values.x is falsy', () => {
-      beforeEach(() => {
-        component.values = { y: 2 } as any;
-        component.resizeMarks();
-      });
-      it('does not call setRanges once', () => {
-        expect(component.setRanges).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call setScaledSpaceProperties once', () => {
-        expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call drawMarks', () => {
-        expect(component.drawMarks).toHaveBeenCalledTimes(0);
-      });
-    });
-
-    describe('if values.y is falsy', () => {
-      beforeEach(() => {
-        component.values = { x: 1 } as any;
-        component.resizeMarks();
-      });
-      it('does not call setRanges once', () => {
-        expect(component.setRanges).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call setScaledSpaceProperties once', () => {
-        expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call drawMarks', () => {
-        expect(component.drawMarks).toHaveBeenCalledTimes(0);
-      });
     });
   });
 
@@ -174,7 +155,6 @@ describe('BarsComponent', () => {
       spyOn(component, 'setHasBarsWithNegativeValues');
       spyOn(component, 'initQuantitativeDomain');
       spyOn(component, 'initCategoryScale');
-      spyOn(component, 'initRanges');
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'drawMarks');
       component.config = { transitionDuration: 200 } as any;
@@ -201,16 +181,27 @@ describe('BarsComponent', () => {
       expect(component.initQuantitativeDomain).toHaveBeenCalledTimes(1);
     });
 
-    it('calls initRanges once', () => {
-      expect(component.initRanges).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setScaledSpaceProperties once', () => {
       expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
     });
 
     it('calls drawMarks once with the correct argument', () => {
       expect(component.drawMarks).toHaveBeenCalledOnceWith(200);
+    });
+  });
+
+  describe('resizeMarks()', () => {
+    beforeEach(() => {
+      spyOn(component, 'setScaledSpaceProperties');
+      spyOn(component, 'drawMarks');
+      component.resizeMarks();
+    });
+    it('calls setScaledSpaceProperties once', () => {
+      expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls drawMarks once with zero as the argument', () => {
+      expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
     });
   });
 
@@ -433,148 +424,6 @@ describe('BarsComponent', () => {
       component.values.x = [1, 2, 3, 4, 5];
       component.setHasBarsWithNegativeValues();
       expect(component.hasBarsWithNegativeValues).toBe(false);
-    });
-  });
-
-  describe('initRanges()', () => {
-    beforeEach(() => {
-      component.config = {
-        ordinal: { range: [0, 1] },
-        quantitative: { range: [0, 1] },
-      } as any;
-      spyOn(component, 'setOrdinalRange');
-      spyOn(component, 'setQuantitativeRange');
-    });
-    it('calls setOrdinalRange once if config.ordinal.range is undefined', () => {
-      component.config.ordinal.range = undefined;
-      component.initRanges();
-      expect(component.setOrdinalRange).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not call setOrdinalRange if config.ordinal.range is defined', () => {
-      component.initRanges();
-      expect(component.setOrdinalRange).not.toHaveBeenCalled();
-    });
-
-    it('calls setQuantitativeRange once if config.quantitative.range is undefined', () => {
-      component.config.quantitative.range = undefined;
-      component.initRanges();
-      expect(component.setQuantitativeRange).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not call setQuantitativeRange if config.quantitative.range is defined', () => {
-      component.initRanges();
-      expect(component.setQuantitativeRange).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('setRanges()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setOrdinalRange');
-      spyOn(component, 'setQuantitativeRange');
-    });
-    it('calls setOrdinalRange once', () => {
-      component.setRanges();
-      expect(component.setOrdinalRange).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setQuantitativeRange once', () => {
-      component.setRanges();
-      expect(component.setQuantitativeRange).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setOrdinalRange()', () => {
-    beforeEach(() => {
-      spyOn(component.chart, 'getXRange').and.returnValue([0, 1]);
-      spyOn(component.chart, 'getYRange').and.returnValue([2, 3]);
-      component.config = {
-        dimensions: { ordinal: 'x' },
-        ordinal: { range: ['test'] },
-      } as any;
-    });
-    describe('if ordinal is x', () => {
-      it('calls getXRange on chart once', () => {
-        component.setOrdinalRange();
-        expect(component.chart.getXRange).toHaveBeenCalledTimes(1);
-      });
-
-      it('sets config.ordinal.range to the correct value', () => {
-        component.setOrdinalRange();
-        expect(component.config.ordinal.range).toEqual([0, 1]);
-      });
-
-      it('does not call getYRange on chart', () => {
-        component.setOrdinalRange();
-        expect(component.chart.getYRange).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('if ordinal is not x', () => {
-      beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
-      });
-      it('calls getYRange on chart once', () => {
-        component.setOrdinalRange();
-        expect(component.chart.getYRange).toHaveBeenCalledTimes(1);
-      });
-
-      it('sets config.ordinal.range to the correct value', () => {
-        component.setOrdinalRange();
-        expect(component.config.ordinal.range).toEqual([2, 3]);
-      });
-
-      it('does not call getXRange on chart', () => {
-        component.setOrdinalRange();
-        expect(component.chart.getXRange).not.toHaveBeenCalled();
-      });
-    });
-  });
-
-  describe('setQuantitativeRange()', () => {
-    beforeEach(() => {
-      spyOn(component.chart, 'getXRange').and.returnValue([0, 1]);
-      spyOn(component.chart, 'getYRange').and.returnValue([2, 3]);
-      component.config = {
-        dimensions: { ordinal: 'x' },
-        quantitative: { range: undefined },
-      } as any;
-    });
-    describe('if ordinal is x', () => {
-      it('calls getYRange on chart once', () => {
-        component.setQuantitativeRange();
-        expect(component.chart.getYRange).toHaveBeenCalledTimes(1);
-      });
-
-      it('sets config.quantitative.range to the correct value', () => {
-        component.setQuantitativeRange();
-        expect(component.config.quantitative.range).toEqual([2, 3]);
-      });
-
-      it('does not call getXRange on chart', () => {
-        component.setQuantitativeRange();
-        expect(component.chart.getXRange).not.toHaveBeenCalled();
-      });
-    });
-
-    describe('if ordinal is not x', () => {
-      beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
-      });
-      it('calls getXRange on chart once', () => {
-        component.setQuantitativeRange();
-        expect(component.chart.getXRange).toHaveBeenCalledTimes(1);
-      });
-
-      it('sets config.quantitative.range to the correct value', () => {
-        component.setQuantitativeRange();
-        expect(component.config.quantitative.range).toEqual([0, 1]);
-      });
-
-      it('does not call getYRange on chart', () => {
-        component.setQuantitativeRange();
-        expect(component.chart.getYRange).not.toHaveBeenCalled();
-      });
     });
   });
 

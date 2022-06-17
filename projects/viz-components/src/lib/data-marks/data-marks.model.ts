@@ -1,4 +1,4 @@
-export class DataMarksComponent {
+export class DataMarks {
   config: DataMarksConfig;
   setMethodsFromConfigAndDraw: () => void;
   resizeMarks: () => void;
@@ -18,16 +18,4 @@ export class DataMarksConfig {
     this.transitionDuration = 250;
     this.mixBlendMode = 'normal';
   }
-}
-
-export class XYDataMarksComponent extends DataMarksComponent {
-  subscribeToScales: () => void;
-  setValueArrays: () => void;
-}
-
-export class XYDataMarksValues {
-  x: any[];
-  y: any[];
-  category: any[];
-  indicies: any[];
 }

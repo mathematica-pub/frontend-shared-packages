@@ -4,3 +4,13 @@ export class ChartConfig {
   scaleChartWithContainer: boolean;
   hasHoverEvents: boolean;
 }
+
+export class Dimensions {
+  width: number;
+  height: number;
+}
+
+export interface Ranges {
+  x: [number, number];
+  y: [number, number];
+}
