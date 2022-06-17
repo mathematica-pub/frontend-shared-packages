@@ -35,7 +35,7 @@ import { ElementSpacing } from '../xy-chart-space/xy-chart-space.model';
 import { Dimensions, Ranges } from './chart.model';
 
 @Component({
-  selector: 'm-charts-chart',
+  selector: 'vzc-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

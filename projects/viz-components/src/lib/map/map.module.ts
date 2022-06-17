@@ -7,4 +7,4 @@ import { MapComponent } from './map.component';
   imports: [CommonModule],
   exports: [MapComponent],
 })
-export class MChartsMapModule {}
+export class VzcMapModule {}

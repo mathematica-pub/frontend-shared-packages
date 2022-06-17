@@ -7,4 +7,4 @@ import { BarsComponent } from './bars.component';
   imports: [CommonModule],
   exports: [BarsComponent],
 })
-export class MChartsBarsModule {}
+export class VzcBarsModule {}

@@ -15,7 +15,7 @@
     <ng-content select="[svg-elements]"></ng-content>
   </svg>
   <ng-content select="[html-elements-after]"></ng-content>
-  <m-charts-html-tooltip
+  <vzc-html-tooltip
     class="html-tooltip-component"
     *ngIf="htmlTooltip.exists"
     [ngStyle]="{
@@ -29,5 +29,5 @@
     [left]="htmlTooltip.offset.left"
   >
     <ng-content select="[tooltip-content]"></ng-content>
-  </m-charts-html-tooltip>
+  </vzc-html-tooltip>
 </div>

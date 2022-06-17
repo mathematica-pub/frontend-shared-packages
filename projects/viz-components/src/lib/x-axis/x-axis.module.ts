@@ -7,4 +7,4 @@ import { XAxisComponent } from './x-axis.component';
   imports: [CommonModule],
   exports: [XAxisComponent],
 })
-export class MChartsXAxisModule {}
+export class VzcXAxisModule {}

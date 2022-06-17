@@ -39,7 +39,7 @@ import {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-data-marks-map]',
+  selector: '[vzc-data-marks-map]',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
   encapsulation: ViewEncapsulation.None,

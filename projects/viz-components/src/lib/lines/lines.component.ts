@@ -45,7 +45,7 @@ import { LinesConfig, LinesTooltipData } from './lines.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-data-marks-lines]',
+  selector: '[vzc-data-marks-lines]',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,

@@ -7,4 +7,4 @@ import { HtmlTooltipComponent } from './html-tooltip.component';
   imports: [CommonModule],
   exports: [HtmlTooltipComponent],
 })
-export class MChartsHtmlTooltipModule {}
+export class VzcHtmlTooltipModule {}

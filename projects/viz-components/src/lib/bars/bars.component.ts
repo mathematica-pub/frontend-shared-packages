@@ -38,7 +38,7 @@ import { BarsConfig, BarsTooltipData } from './bars.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-data-marks-bars]',
+  selector: '[vzc-data-marks-bars]',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
