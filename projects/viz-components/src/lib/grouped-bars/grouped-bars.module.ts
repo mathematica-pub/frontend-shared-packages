@@ -7,4 +7,4 @@ import { GroupedBarsComponent } from './grouped-bars.component';
   imports: [CommonModule],
   exports: [GroupedBarsComponent],
 })
-export class MChartsGroupedBarsModule {}
+export class VzcGroupedBarsModule {}

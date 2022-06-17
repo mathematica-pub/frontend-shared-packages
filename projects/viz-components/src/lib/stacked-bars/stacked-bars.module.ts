@@ -7,4 +7,4 @@ import { StackedBarsComponent } from './stacked-bars.component';
   imports: [CommonModule],
   exports: [StackedBarsComponent],
 })
-export class MChartsStackedBarsModule {}
+export class VzcStackedBarsModule {}

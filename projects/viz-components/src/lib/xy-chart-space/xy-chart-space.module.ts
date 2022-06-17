@@ -7,4 +7,4 @@ import { XyChartSpaceComponent } from './xy-chart-space.component';
   imports: [CommonModule],
   exports: [XyChartSpaceComponent],
 })
-export class MChartsXyChartSpaceModule {}
+export class VzcXyChartSpaceModule {}

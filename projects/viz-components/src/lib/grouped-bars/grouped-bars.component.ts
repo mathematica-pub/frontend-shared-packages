@@ -11,7 +11,7 @@ import { GroupedBarsConfig } from './grouped-bars.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-data-marks-grouped-bars]',
+  selector: '[vzc-data-marks-grouped-bars]',
   templateUrl: '../bars/bars.component.html',
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,

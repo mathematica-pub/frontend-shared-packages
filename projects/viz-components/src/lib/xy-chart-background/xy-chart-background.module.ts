@@ -7,4 +7,4 @@ import { XyChartBackgroundComponent } from './xy-chart-background.component';
   imports: [CommonModule],
   exports: [XyChartBackgroundComponent],
 })
-export class MChartsXYChartBackgroundModule {}
+export class VzcXyChartBackgroundModule {}

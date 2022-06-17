@@ -7,7 +7,7 @@ import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.componen
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-y-axis]',
+  selector: '[vzc-y-axis]',
   templateUrl: './y-axis.component.html',
   styleUrls: ['./y-axis.component.scss'],
 })
