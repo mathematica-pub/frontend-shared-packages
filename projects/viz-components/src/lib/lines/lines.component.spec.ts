@@ -71,11 +71,45 @@ describe('LineChartComponent', () => {
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
+      spyOn(component, 'subscribeToRanges');
       spyOn(component, 'subscribeToScales');
+      spyOn(component, 'setMethodsFromConfigAndDraw');
     });
-    it('should call subscribeToScales once', () => {
+    it('calls subscribeToRanges once', () => {
+      component.ngOnInit();
+      expect(component.subscribeToRanges).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls subscribeToScales once', () => {
       component.ngOnInit();
       expect(component.subscribeToScales).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setMethodsFromConfigAndDraw once', () => {
+      component.ngOnInit();
+      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setRanges()', () => {
+    beforeEach(() => {
+      component.config = {
+        x: {
+          range: null,
+        },
+        y: {
+          range: null,
+        },
+      } as any;
+    });
+    it('sets config.x.range', () => {
+      component.setRanges({ x: 'test x', y: 'test y' } as any);
+      expect(component.config.x.range).toEqual('test x');
+    });
+
+    it('sets config.y.range', () => {
+      component.setRanges({ x: 'test x', y: 'test y' } as any);
+      expect(component.config.y.range).toEqual('test y');
     });
   });
 
@@ -85,110 +119,43 @@ describe('LineChartComponent', () => {
         xScale: new BehaviorSubject<string>(null),
         yScale: new BehaviorSubject<string>(null),
       } as any;
-      component.xySpace.xScale$ = component.xySpace.xScale.asObservable();
-      component.xySpace.yScale$ = component.xySpace.yScale.asObservable();
+      component.xySpace.xScale$ = (
+        component.xySpace as any
+      ).xScale.asObservable();
+      component.xySpace.yScale$ = (
+        component.xySpace as any
+      ).yScale.asObservable();
     });
     it('sets xScale to a new value when a new value is emitted from subscription', () => {
       component.subscribeToScales();
       expect(component.xScale).toBeNull();
-      component.xySpace.xScale.next('test x');
+      (component.xySpace as any).xScale.next('test x');
       expect(component.xScale).toEqual('test x');
     });
 
     it('sets yScale to a new value when a new value is emitted from subscription', () => {
       component.subscribeToScales();
       expect(component.yScale).toBeNull();
-      component.xySpace.yScale.next('test y');
+      (component.xySpace as any).yScale.next('test y');
       expect(component.yScale).toEqual('test y');
-    });
-  });
-
-  describe('resizeMarks()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setRanges');
-      spyOn(component, 'setScaledSpaceProperties');
-      spyOn(component, 'setLine');
-      spyOn(component, 'drawMarks');
-    });
-    describe('if values.x and values.y are truthy', () => {
-      beforeEach(() => {
-        component.values = { x: 1, y: 2 } as any;
-        component.resizeMarks();
-      });
-      it('calls setRanges once', () => {
-        expect(component.setRanges).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls setScaledSpaceProperties once', () => {
-        expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls setLine once', () => {
-        expect(component.setLine).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls drawMarks once with zero as the argument', () => {
-        expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
-      });
-    });
-
-    describe('if values.x is falsy', () => {
-      beforeEach(() => {
-        component.values = { y: 2 } as any;
-        component.resizeMarks();
-      });
-      it('does not call setRanges once', () => {
-        expect(component.setRanges).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call setScaledSpaceProperties once', () => {
-        expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call setLine once', () => {
-        expect(component.setLine).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call drawMarks', () => {
-        expect(component.drawMarks).toHaveBeenCalledTimes(0);
-      });
-    });
-
-    describe('if values.y is falsy', () => {
-      beforeEach(() => {
-        component.values = { x: 1 } as any;
-        component.resizeMarks();
-      });
-      it('does not call setRanges once', () => {
-        expect(component.setRanges).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call setScaledSpaceProperties once', () => {
-        expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call setLine once', () => {
-        expect(component.setLine).toHaveBeenCalledTimes(0);
-      });
-
-      it('does not call drawMarks', () => {
-        expect(component.drawMarks).toHaveBeenCalledTimes(0);
-      });
     });
   });
 
   describe('setMethodsFromConfigAndDraw()', () => {
     beforeEach(() => {
+      spyOn(component, 'setChartTooltipProperty');
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initDomains');
       spyOn(component, 'setValueIndicies');
-      spyOn(component, 'initRanges');
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'initCategoryScale');
       spyOn(component, 'setLine');
       spyOn(component, 'drawMarks');
       component.config = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
+    });
+    it('calls setChartTooltipProperty once', () => {
+      expect(component.setChartTooltipProperty).toHaveBeenCalledTimes(1);
     });
 
     it('calls setValueArrays once', () => {
@@ -201,10 +168,6 @@ describe('LineChartComponent', () => {
 
     it('calls setValueIndicies once', () => {
       expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initRanges once', () => {
-      expect(component.initRanges).toHaveBeenCalledTimes(1);
     });
 
     it('calls setScaledSpaceProperties once', () => {
@@ -224,85 +187,24 @@ describe('LineChartComponent', () => {
     });
   });
 
-  describe('initRanges()', () => {
+  describe('resizeMarks()', () => {
     beforeEach(() => {
-      spyOn(component.chart, 'getXRange').and.returnValue('x range' as any);
-      spyOn(component.chart, 'getYRange').and.returnValue('y range' as any);
-      component.config = {
-        x: { range: [0, 100] } as any,
-        y: { range: [0, 100] } as any,
-      } as any;
+      spyOn(component, 'setScaledSpaceProperties');
+      spyOn(component, 'setLine');
+      spyOn(component, 'drawMarks');
+      component.resizeMarks();
     });
 
-    describe('if config.x.range is undefined', () => {
-      beforeEach(() => {
-        component.config.x.range = undefined;
-      });
-      it('calls getXRange once if config.x.range is undefined', () => {
-        component.initRanges();
-        expect(component.chart.getXRange).toHaveBeenCalledTimes(1);
-      });
-
-      it('sets config.x.range to the correct value', () => {
-        component.initRanges();
-        expect(component.config.x.range).toEqual('x range' as any);
-      });
+    it('calls setScaledSpaceProperties once', () => {
+      expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
     });
 
-    it('does not call getXRange if config.x.range is defined', () => {
-      component.initRanges();
-      expect(component.chart.getXRange).not.toHaveBeenCalled();
+    it('calls setLine once', () => {
+      expect(component.setLine).toHaveBeenCalledTimes(1);
     });
 
-    describe('if config.y.range is undefined', () => {
-      beforeEach(() => {
-        component.config.y.range = undefined;
-      });
-      it('calls getYRange once if config.y.range is undefined', () => {
-        component.initRanges();
-        expect(component.chart.getYRange).toHaveBeenCalledTimes(1);
-      });
-
-      it('sets config.y.range to the correct value', () => {
-        component.initRanges();
-        expect(component.config.y.range).toEqual('y range' as any);
-      });
-    });
-
-    it('does not call getYRange if config.y.range is defined', () => {
-      component.initRanges();
-      expect(component.chart.getYRange).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('setRanges()', () => {
-    beforeEach(() => {
-      component.config = {
-        x: { range: undefined } as any,
-        y: { range: undefined } as any,
-      } as any;
-      spyOn(component.chart, 'getXRange').and.returnValue('x range' as any);
-      spyOn(component.chart, 'getYRange').and.returnValue('y range' as any);
-    });
-
-    it('calls getXRange once', () => {
-      component.setRanges();
-      expect(component.chart.getXRange).toHaveBeenCalledTimes(1);
-    });
-
-    it('sets config.x.range to the correct value', () => {
-      component.setRanges();
-      expect(component.config.x.range).toEqual('x range' as any);
-    });
-
-    it('calls getYRange once', () => {
-      component.setRanges();
-      expect(component.chart.getYRange).toHaveBeenCalledTimes(1);
-    });
-
-    it('sets config.y.range to the correct value', () => {
-      component.setRanges();
-      expect(component.config.y.range).toEqual('y range' as any);
+    it('calls drawMarks once with zero as the argument', () => {
+      expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
     });
   });
 

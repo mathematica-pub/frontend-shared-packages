@@ -1,5 +1,1 @@
-<svg:g
-  #axis
-  class="y axis-g"
-  [attr.transform]="'translate(' + translate + ', 0)'"
-></svg:g>
+<svg:g #axis class="y axis-g" [attr.transform]="translate$ | async"></svg:g>

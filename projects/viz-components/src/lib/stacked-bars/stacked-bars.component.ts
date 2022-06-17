@@ -15,10 +15,7 @@ import {
   Transition,
 } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { ChartComponent } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { DATA_MARKS_COMPONENT } from '../data-marks/data-marks.token';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { StackDatum, StackedBarsConfig } from './stacked-bars.model';
 
 @Component({
@@ -28,21 +25,11 @@ import { StackDatum, StackedBarsConfig } from './stacked-bars.model';
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: DATA_MARKS_COMPONENT, useExisting: StackedBarsComponent },
-  ],
+  providers: [{ provide: XY_DATA_MARKS, useExisting: StackedBarsComponent }],
 })
 export class StackedBarsComponent extends BarsComponent {
   @Input() override config: StackedBarsConfig;
   stackedData: any;
-
-  constructor(
-    utilities: UtilitiesService,
-    chart: ChartComponent,
-    xySpace: XYChartSpaceComponent
-  ) {
-    super(utilities, chart, xySpace);
-  }
 
   override setMethodsFromConfigAndDraw(): void {
     this.setValueArrays();
@@ -52,7 +39,6 @@ export class StackedBarsComponent extends BarsComponent {
     this.constructStackedData();
     this.initQuantitativeDomain();
     this.initCategoryScale();
-    this.initRanges();
     this.setScaledSpaceProperties();
     this.drawMarks(this.config.transitionDuration);
   }
