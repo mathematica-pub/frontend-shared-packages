@@ -12,7 +12,10 @@
     "test:lib": "ng test viz-components --browsers=Chrome",
     "test:lib:ci": "ng test viz-components --no-watch --browsers=ChromeHeadlessNoSandbox",
     "lint:lib": "ng lint viz-components",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "compodoc:build": "npx compodoc -p tsconfig.doc.json",
+    "compodoc:build-and-serve": "npx compodoc -p tsconfig.doc.json -s",
+    "compodoc:serve": "npx compodoc -s"
   },
   "private": true,
   "dependencies": {
@@ -24,6 +27,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@compodoc/compodoc": "^1.1.19",
     "@types/d3": "^7.4.0",
     "d3": "^7.4.4",
     "rxjs": "~7.5.0",
