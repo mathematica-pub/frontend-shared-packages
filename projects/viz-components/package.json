@@ -1,6 +1,6 @@
 {
   "name": "viz-components",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "publishConfig": {
     "registry": "http://localhost:4873"
   },
