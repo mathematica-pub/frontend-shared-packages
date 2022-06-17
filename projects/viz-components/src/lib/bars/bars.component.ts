@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -24,12 +25,13 @@ import {
 } from 'd3';
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
+import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
 import {
-  XYDataMarksComponent,
+  XyDataMarks,
   XYDataMarksValues,
-} from '../data-marks/data-marks.model';
-import { DATA_MARKS_COMPONENT } from '../data-marks/data-marks.token';
+} from '../data-marks/xy-data-marks.model';
+import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { BarsConfig, BarsTooltipData } from './bars.model';
@@ -41,11 +43,11 @@ import { BarsConfig, BarsTooltipData } from './bars.model';
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS_COMPONENT, useExisting: BarsComponent }],
+  providers: [{ provide: XY_DATA_MARKS, useExisting: BarsComponent }],
 })
 export class BarsComponent
   extends Unsubscribe
-  implements XYDataMarksComponent, OnChanges, OnInit
+  implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Input() config: BarsConfig;
@@ -53,13 +55,14 @@ export class BarsComponent
   values: XYDataMarksValues = new XYDataMarksValues();
   hasBarsWithNegativeValues: boolean;
   bars: any;
-  xScale: (x: any) => number;
-  yScale: (x: any) => number;
+  xScale: (d: any) => any;
+  yScale: (d: any) => any;
 
   constructor(
-    private utilities: UtilitiesService,
     public chart: ChartComponent,
-    public xySpace: XYChartSpaceComponent
+    public xySpace: XYChartSpaceComponent,
+    private utilities: UtilitiesService,
+    private zone: NgZone
   ) {
     super();
   }
@@ -71,25 +74,35 @@ export class BarsComponent
   }
 
   ngOnInit(): void {
+    this.subscribeToRanges();
     this.subscribeToScales();
+    this.setMethodsFromConfigAndDraw();
+  }
+
+  subscribeToRanges(): void {
+    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
+      this.setRanges(ranges);
+      if (this.xScale && this.yScale) {
+        this.zone.run(() => {
+          this.resizeMarks();
+        });
+      }
+    });
+  }
+
+  setRanges(ranges: Ranges): void {
+    this.config[this.config.dimensions.x].range = ranges.x;
+    this.config[this.config.dimensions.y].range = ranges.y;
   }
 
   subscribeToScales(): void {
-    const subscriptions = [this.xySpace.xScale, this.xySpace.yScale];
+    const subscriptions = [this.xySpace.xScale$, this.xySpace.yScale$];
     combineLatest(subscriptions)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(([xScale, yScale]): void => {
         this.xScale = xScale;
         this.yScale = yScale;
       });
-  }
-
-  resizeMarks(): void {
-    if (this.values.x && this.values.y) {
-      this.setRanges();
-      this.setScaledSpaceProperties();
-      this.drawMarks(0);
-    }
   }
 
   setMethodsFromConfigAndDraw(): void {
@@ -99,9 +112,13 @@ export class BarsComponent
     this.setHasBarsWithNegativeValues();
     this.initQuantitativeDomain();
     this.initCategoryScale();
-    this.initRanges();
     this.setScaledSpaceProperties();
     this.drawMarks(this.config.transitionDuration);
+  }
+
+  resizeMarks(): void {
+    this.setScaledSpaceProperties();
+    this.drawMarks(0);
   }
 
   setValueArrays(): void {
@@ -206,36 +223,6 @@ export class BarsComponent
         new InternSet(this.config.category.domain),
         this.config.category.colors
       );
-    }
-  }
-
-  initRanges(): void {
-    if (this.config.ordinal.range === undefined) {
-      this.setOrdinalRange();
-    }
-    if (this.config.quantitative.range === undefined) {
-      this.setQuantitativeRange();
-    }
-  }
-
-  setRanges(): void {
-    this.setOrdinalRange();
-    this.setQuantitativeRange();
-  }
-
-  setOrdinalRange(): void {
-    if (this.config.dimensions.ordinal === 'x') {
-      this.config.ordinal.range = this.chart.getXRange();
-    } else {
-      this.config.ordinal.range = this.chart.getYRange();
-    }
-  }
-
-  setQuantitativeRange(): void {
-    if (this.config.dimensions.ordinal === 'x') {
-      this.config.quantitative.range = this.chart.getYRange();
-    } else {
-      this.config.quantitative.range = this.chart.getXRange();
     }
   }
 
@@ -452,12 +439,7 @@ export class BarsComponent
     return Math.abs(this.yScale(origin - this.values.y[i]));
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPointerEnter(event: PointerEvent) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPointerLeave(event: PointerEvent) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onPointerMove(event: PointerEvent) {}
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onWheel(event: Event) {}
+  onPointerEnter: (event: PointerEvent) => void;
+  onPointerLeave: (event: PointerEvent) => void;
+  onPointerMove: (event: PointerEvent) => void;
 }

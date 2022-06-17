@@ -16,33 +16,19 @@ describe('XYChartSpaceComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('ngAfterContentInit()', () => {
-    let setAndDrawSpy: jasmine.Spy;
-    beforeEach(() => {
-      setAndDrawSpy = jasmine.createSpy('setMethodsFromConfigAndDraw');
-      component.dataMarksComponent = {
-        setMethodsFromConfigAndDraw: setAndDrawSpy,
-      } as any;
-    });
-    it('calls setMethodsFromConfigAndDraw on each chartMark component if chartMark components exits', () => {
-      component.ngAfterContentInit();
-      expect(setAndDrawSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
   describe('updateXScale', () => {
     it('calls next on updateXScale', () => {
-      spyOn(component.xScale, 'next');
+      spyOn((component as any).xScale, 'next');
       component.updateXScale({});
-      expect(component.xScale.next).toHaveBeenCalledOnceWith({});
+      expect((component as any).xScale.next).toHaveBeenCalledOnceWith({});
     });
   });
 
   describe('updateYScale', () => {
     it('calls next on updateYScale', () => {
-      spyOn(component.yScale, 'next');
+      spyOn((component as any).yScale, 'next');
       component.updateYScale({});
-      expect(component.yScale.next).toHaveBeenCalledOnceWith({});
+      expect((component as any).yScale.next).toHaveBeenCalledOnceWith({});
     });
   });
 });

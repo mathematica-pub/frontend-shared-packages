@@ -6,10 +6,7 @@ import {
 } from '@angular/core';
 import { InternSet, range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { ChartComponent } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { DATA_MARKS_COMPONENT } from '../data-marks/data-marks.token';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { GroupedBarsConfig } from './grouped-bars.model';
 
 @Component({
@@ -19,21 +16,11 @@ import { GroupedBarsConfig } from './grouped-bars.model';
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: DATA_MARKS_COMPONENT, useExisting: GroupedBarsComponent },
-  ],
+  providers: [{ provide: XY_DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
 export class GroupedBarsComponent extends BarsComponent {
   @Input() override config: GroupedBarsConfig;
   groupScale: any;
-
-  constructor(
-    utilities: UtilitiesService,
-    chart: ChartComponent,
-    xySpace: XYChartSpaceComponent
-  ) {
-    super(utilities, chart, xySpace);
-  }
 
   override setMethodsFromConfigAndDraw(): void {
     this.setValueArrays();
@@ -42,7 +29,6 @@ export class GroupedBarsComponent extends BarsComponent {
     this.setHasBarsWithNegativeValues();
     this.initQuantitativeDomain();
     this.initCategoryScale();
-    this.initRanges();
     this.setScaledSpaceProperties();
     this.setGroupScale();
     this.drawMarks(this.config.transitionDuration);

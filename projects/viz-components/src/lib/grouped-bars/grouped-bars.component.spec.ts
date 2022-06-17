@@ -30,7 +30,6 @@ describe('GroupedBarsComponent', () => {
       spyOn(component, 'setHasBarsWithNegativeValues');
       spyOn(component, 'initQuantitativeDomain');
       spyOn(component, 'initCategoryScale');
-      spyOn(component, 'initRanges');
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'setGroupScale');
       spyOn(component, 'drawMarks');
@@ -56,10 +55,6 @@ describe('GroupedBarsComponent', () => {
 
     it('calls initQuantitativeDomain once', () => {
       expect(component.initQuantitativeDomain).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initRanges once', () => {
-      expect(component.initRanges).toHaveBeenCalledTimes(1);
     });
 
     it('calls setScaledSpaceProperties once', () => {

@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -30,12 +31,13 @@ import {
 } from 'd3';
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
+import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
 import {
-  XYDataMarksComponent,
+  XyDataMarks,
   XYDataMarksValues,
-} from '../data-marks/data-marks.model';
-import { DATA_MARKS_COMPONENT } from '../data-marks/data-marks.token';
+} from '../data-marks/xy-data-marks.model';
+import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { LinesConfig, LinesTooltipData } from './lines.model';
@@ -47,11 +49,11 @@ import { LinesConfig, LinesTooltipData } from './lines.model';
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS_COMPONENT, useExisting: LinesComponent }],
+  providers: [{ provide: XY_DATA_MARKS, useExisting: LinesComponent }],
 })
 export class LinesComponent
   extends Unsubscribe
-  implements XYDataMarksComponent, OnChanges, OnInit
+  implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
@@ -60,19 +62,20 @@ export class LinesComponent
   lineLabelsRef: ElementRef<SVGSVGElement>;
   @Input() config: LinesConfig;
   @Output() tooltipData = new EventEmitter<LinesTooltipData>();
-  line: (x: any[]) => any;
   values: XYDataMarksValues = new XYDataMarksValues();
+  line: (x: any[]) => any;
   lines: any;
   markers: any;
   hoverDot: any;
   tooltipCurrentlyShown = false;
-  xScale: (x: any) => number;
-  yScale: (x: any) => number;
+  xScale: (d: any) => any;
+  yScale: (d: any) => any;
 
   constructor(
-    private utilities: UtilitiesService,
     public chart: ChartComponent,
-    public xySpace: XYChartSpaceComponent
+    public xySpace: XYChartSpaceComponent,
+    private utilities: UtilitiesService,
+    private zone: NgZone
   ) {
     super();
   }
@@ -84,11 +87,29 @@ export class LinesComponent
   }
 
   ngOnInit(): void {
+    this.subscribeToRanges();
     this.subscribeToScales();
+    this.setMethodsFromConfigAndDraw();
+  }
+
+  subscribeToRanges(): void {
+    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
+      this.setRanges(ranges);
+      if (this.xScale && this.yScale) {
+        this.zone.run(() => {
+          this.resizeMarks();
+        });
+      }
+    });
+  }
+
+  setRanges(ranges: Ranges): void {
+    this.config.x.range = ranges.x;
+    this.config.y.range = ranges.y;
   }
 
   subscribeToScales(): void {
-    const subscriptions = [this.xySpace.xScale, this.xySpace.yScale];
+    const subscriptions = [this.xySpace.xScale$, this.xySpace.yScale$];
     combineLatest(subscriptions)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(([xScale, yScale]): void => {
@@ -97,25 +118,21 @@ export class LinesComponent
       });
   }
 
-  resizeMarks(): void {
-    if (this.values.x && this.values.y) {
-      this.setRanges();
-      this.setScaledSpaceProperties();
-      this.setLine();
-      this.drawMarks(0);
-    }
-  }
-
   setMethodsFromConfigAndDraw(): void {
     this.setChartTooltipProperty();
     this.setValueArrays();
     this.initDomains();
     this.setValueIndicies();
-    this.initRanges();
     this.setScaledSpaceProperties();
     this.initCategoryScale();
     this.setLine();
     this.drawMarks(this.config.transitionDuration);
+  }
+
+  resizeMarks(): void {
+    this.setScaledSpaceProperties();
+    this.setLine();
+    this.drawMarks(0);
   }
 
   setChartTooltipProperty(): void {
@@ -148,20 +165,6 @@ export class LinesComponent
     this.values.indicies = range(this.values.x.length).filter((i) =>
       new InternSet(this.config.category.domain).has(this.values.category[i])
     );
-  }
-
-  initRanges(): void {
-    if (this.config.x.range === undefined) {
-      this.config.x.range = this.chart.getXRange();
-    }
-    if (this.config.y.range === undefined) {
-      this.config.y.range = this.chart.getYRange();
-    }
-  }
-
-  setRanges(): void {
-    this.config.x.range = this.chart.getXRange();
-    this.config.y.range = this.chart.getYRange();
   }
 
   setScaledSpaceProperties(): void {
@@ -254,9 +257,10 @@ export class LinesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const markerValues: string[] = this.values.indicies.map(
-      (i) => `${this.values.category[i] - this.values.x[i]}`
-    );
+    const markerValues = this.values.indicies.map((i) => [
+      this.getMarkerKey(i),
+      i,
+    ]);
 
     this.markers = select(this.markersRef.nativeElement)
       .selectAll('circle')
@@ -267,25 +271,30 @@ export class LinesComponent
             .append('circle')
             .attr('class', 'marker')
             .style('mix-blend-mode', this.config.mixBlendMode)
-            .attr('cx', (i) => this.xScale(this.values.x[i]))
-            .attr('cy', (i) => this.yScale(this.values.y[i]))
+            .attr('cx', (d) => this.xScale(this.values.x[d[1]]))
+            .attr('cy', (d) => this.yScale(this.values.y[d[1]]))
             .attr('r', this.config.pointMarker.radius)
-            .attr('fill', (i) =>
-              this.config.category.colorScale(this.values.category[i])
+            .attr('fill', (d) =>
+              this.config.category.colorScale(this.values.category[d[1]])
             ),
         (update) =>
           update
-            .attr('fill', (i) =>
-              this.config.category.colorScale(this.values.category[i])
+            .attr('fill', (d) =>
+              this.config.category.colorScale(this.values.category[d[1]])
             )
             .call((update) =>
               update
+                .filter(this.config.valueIsDefined)
                 .transition(t as any)
-                .attr('cx', (i) => this.xScale(this.values.x[i]))
-                .attr('cy', (i) => this.yScale(this.values.y[i]))
+                .attr('cx', (d) => this.xScale(this.values.x[d[1]]))
+                .attr('cy', (d) => this.yScale(this.values.y[d[1]]))
             ),
         (exit) => exit.remove()
       );
+  }
+
+  getMarkerKey(i: number): string {
+    return `${this.values.category[i]}-${this.values.x[i]}`;
   }
 
   drawLineLabels(): void {

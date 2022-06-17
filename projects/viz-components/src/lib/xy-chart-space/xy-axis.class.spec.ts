@@ -7,24 +7,38 @@ describe('the XYAxis abstract class', () => {
     abstractClass = new XYAxisElementStub();
   });
 
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      spyOn(abstractClass, 'setTranslate');
+      spyOn(abstractClass, 'subscribeToScale');
+      spyOn(abstractClass, 'setAxisFunction');
+    });
+    it('calls subscribeToAxis once', () => {
+      abstractClass.ngOnInit();
+      expect(abstractClass.subscribeToScale).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setTranslate once', () => {
+      abstractClass.ngOnInit();
+      expect(abstractClass.setTranslate).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setAxisFunction once', () => {
+      abstractClass.ngOnInit();
+      expect(abstractClass.setAxisFunction).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('updateAxis()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'getAxisFunction').and.returnValue('func');
+      abstractClass.axisFunction = 'func' as any;
       spyOn(abstractClass, 'setAxis');
-      spyOn(abstractClass, 'setTranslate');
       spyOn(abstractClass, 'drawAxis');
       spyOn(abstractClass, 'processAxisFeatures');
       abstractClass.updateAxis();
     });
-    it('calls getAxisFunction once', () => {
-      expect(abstractClass.getAxisFunction).toHaveBeenCalledTimes(1);
-    });
     it('calls setAxis once with the correct value', () => {
       expect(abstractClass.setAxis).toHaveBeenCalledOnceWith('func');
-    });
-
-    it('calls setTranslate once', () => {
-      expect(abstractClass.setTranslate).toHaveBeenCalledTimes(1);
     });
 
     it('calls drawAxis once', () => {

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
-import { takeUntil } from 'rxjs';
+import { map, Observable, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { XYAxisElement } from '../xy-chart-space/xy-axis.class';
 import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
@@ -13,7 +13,7 @@ import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.componen
 })
 export class XAxisComponent extends XYAxisElement implements OnInit {
   @Input() side: 'top' | 'bottom' = 'top';
-  translate: number;
+  translate$: Observable<string>;
 
   constructor(
     public chart: ChartComponent,
@@ -22,32 +22,36 @@ export class XAxisComponent extends XYAxisElement implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-    this.subscribeToScale();
+  setTranslate(): void {
+    this.translate$ = this.chart.ranges$.pipe(
+      map((ranges) => {
+        let translate;
+        if (this.side === 'top') {
+          translate = ranges.y[1];
+        } else {
+          translate = ranges.y[0] - ranges.y[1] + this.chart.margin.bottom;
+        }
+        return `translate(0, ${translate})`;
+      })
+    );
   }
 
   subscribeToScale(): void {
-    this.xySpace.xScale.pipe(takeUntil(this.unsubscribe)).subscribe((scale) => {
-      if (scale) {
-        this.scale = scale;
-        this.updateAxis();
-      }
-    });
+    this.xySpace.xScale$
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((scale) => {
+        if (scale) {
+          this.scale = scale;
+          this.updateAxis();
+        }
+      });
   }
 
-  getAxisFunction(): any {
-    return this.side === 'top' ? axisTop : axisBottom;
+  setAxisFunction(): void {
+    this.axisFunction = this.side === 'top' ? axisTop : axisBottom;
   }
 
   initNumTicks(): number {
     return this.chart.width / 40; // default in D3 example
-  }
-
-  setTranslate(): void {
-    if (this.side === 'top') {
-      this.translate = this.chart.margin.top;
-    } else {
-      this.translate = this.chart.getScaledHeight() - this.chart.margin.bottom;
-    }
   }
 }
