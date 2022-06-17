@@ -3,8 +3,8 @@
 The Data Marks library is a collection of Angular components that are designed to work together.
 
 - Chart
-- XY Chart Space
-- XY Chart Background
+- Xy Chart Space
+- Xy Chart Background
 - X Axis
 - Y Axis
 - Bars

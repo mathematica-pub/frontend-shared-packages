@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { XAxisComponent } from './x-axis.component';
 
 describe('XAxisComponent', () => {
@@ -11,7 +11,7 @@ describe('XAxisComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [XAxisComponent],
-      providers: [ChartComponent, XYChartSpaceComponent],
+      providers: [ChartComponent, XyChartSpaceComponent],
     }).compileComponents();
   });
 

@@ -1,10 +1,10 @@
-import { XYAxisElementStub } from '../testing/stubs/xy-axis.class.stub';
+import { XyAxisElementStub } from '../testing/stubs/xy-axis.class.stub';
 
-describe('the XYAxis abstract class', () => {
-  let abstractClass: XYAxisElementStub;
+describe('the XyAxis abstract class', () => {
+  let abstractClass: XyAxisElementStub;
 
   beforeEach(() => {
-    abstractClass = new XYAxisElementStub();
+    abstractClass = new XyAxisElementStub();
   });
 
   describe('ngOnInit', () => {

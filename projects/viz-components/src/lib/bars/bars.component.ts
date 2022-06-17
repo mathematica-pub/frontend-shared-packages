@@ -29,11 +29,11 @@ import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
 import {
   XyDataMarks,
-  XYDataMarksValues,
+  XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
 import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { BarsConfig, BarsTooltipData } from './bars.model';
 
 @Component({
@@ -52,7 +52,7 @@ export class BarsComponent
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Input() config: BarsConfig;
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
-  values: XYDataMarksValues = new XYDataMarksValues();
+  values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
   bars: any;
   xScale: (d: any) => any;
@@ -60,7 +60,7 @@ export class BarsComponent
 
   constructor(
     public chart: ChartComponent,
-    public xySpace: XYChartSpaceComponent,
+    public xySpace: XyChartSpaceComponent,
     private utilities: UtilitiesService,
     private zone: NgZone
   ) {

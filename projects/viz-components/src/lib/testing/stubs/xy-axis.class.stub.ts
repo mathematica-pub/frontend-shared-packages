@@ -1,6 +1,6 @@
-import { XYAxisElement } from '../../xy-chart-space/xy-axis.class';
+import { XyAxisElement } from '../../xy-chart-space/xy-axis.class';
 
-export class XYAxisElementStub extends XYAxisElement {
+export class XyAxisElementStub extends XyAxisElement {
   setAxisFunction() {
     return;
   }

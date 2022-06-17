@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from '../chart/chart.component';
-import { XYChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { GroupedBarsComponent } from './grouped-bars.component';
 
 describe('GroupedBarsComponent', () => {
@@ -10,7 +10,7 @@ describe('GroupedBarsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GroupedBarsComponent],
-      providers: [XYChartSpaceComponent, ChartComponent],
+      providers: [XyChartSpaceComponent, ChartComponent],
     }).compileComponents();
   });
 
