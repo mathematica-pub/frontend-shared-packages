@@ -1,5 +1,8 @@
+import { Ranges } from '../chart/chart.model';
+
 export class DataMarks {
   config: DataMarksConfig = new DataMarksConfig();
+  ranges: Ranges;
   setMethodsFromConfigAndDraw: () => void;
   resizeMarks: () => void;
   drawMarks: (transitionDuration: number) => void;

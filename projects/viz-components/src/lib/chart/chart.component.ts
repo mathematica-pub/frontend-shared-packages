@@ -31,8 +31,7 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { ValueUtilities } from '../shared/value-utilities.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
-import { ElementSpacing } from '../xy-chart-space/xy-chart-space.model';
-import { Dimensions, Ranges } from './chart.model';
+import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 
 @Component({
   selector: 'vzc-chart',

@@ -53,10 +53,11 @@ export class BarsComponent
   @Input() config: BarsConfig;
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
-  hasBarsWithNegativeValues: boolean;
-  bars: any;
+  ranges: Ranges;
   xScale: (d: any) => any;
   yScale: (d: any) => any;
+  hasBarsWithNegativeValues: boolean;
+  bars: any;
 
   constructor(
     public chart: ChartComponent,
@@ -91,8 +92,8 @@ export class BarsComponent
   }
 
   setRanges(ranges: Ranges): void {
-    this.config[this.config.dimensions.x].range = ranges.x;
-    this.config[this.config.dimensions.y].range = ranges.y;
+    this.ranges.x = ranges.x;
+    this.ranges.y = ranges.y;
   }
 
   subscribeToScales(): void {
@@ -238,7 +239,10 @@ export class BarsComponent
 
   getOrdinalScale(): any {
     return this.config.ordinal
-      .scaleType(this.config.ordinal.domain, this.config.ordinal.range)
+      .scaleType(
+        this.config.ordinal.domain,
+        this.ranges[this.config.dimensions.ordinal]
+      )
       .paddingInner(this.config.ordinal.paddingInner)
       .paddingOuter(this.config.ordinal.paddingOuter)
       .align(this.config.ordinal.align);
@@ -247,7 +251,7 @@ export class BarsComponent
   getQuantitativeScale(): any {
     return this.config.quantitative.scaleType(
       this.config.quantitative.domain,
-      this.config.quantitative.range
+      this.ranges[this.config.dimensions.quantitative]
     );
   }
 

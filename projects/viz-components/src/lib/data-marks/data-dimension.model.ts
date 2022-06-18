@@ -3,7 +3,6 @@ import { InternSet, scaleBand } from 'd3';
 export class DataDimension {
   valueAccessor: (...args: any) => any;
   domain?: any;
-  range?: any;
   valueFormat?: string;
 }
 
