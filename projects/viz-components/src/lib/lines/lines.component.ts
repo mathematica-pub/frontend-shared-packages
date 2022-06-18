@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -78,8 +77,7 @@ export class LinesComponent
   constructor(
     public chart: ChartComponent,
     public xySpace: XyChartSpaceComponent,
-    private utilities: UtilitiesService,
-    private zone: NgZone
+    private utilities: UtilitiesService
   ) {
     super();
   }

@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -26,6 +25,7 @@ import {
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { Ranges } from '../chart/chart.model';
+import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import {
   XyDataMarks,
@@ -63,7 +63,7 @@ export class BarsComponent
     public chart: ChartComponent,
     public xySpace: XyChartSpaceComponent,
     private utilities: UtilitiesService,
-    private zone: NgZone
+    private dataDomainService: DataDomainService
   ) {
     super();
   }
@@ -84,9 +84,7 @@ export class BarsComponent
     this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
       this.setRanges(ranges);
       if (this.xScale && this.yScale) {
-        this.zone.run(() => {
-          this.resizeMarks();
-        });
+        this.resizeMarks();
       }
     });
   }
@@ -192,7 +190,7 @@ export class BarsComponent
 
   getDomainMinFromDataMin(minValue: number): number {
     return minValue < 0
-      ? this.chart.getPaddedDomainValue(
+      ? this.dataDomainService.getPaddedDomainValue(
           minValue,
           this.config.quantitative.domainPadding
         )
@@ -201,7 +199,7 @@ export class BarsComponent
 
   getDomainMaxFromValueExtents(maxValue: number, minValue: number): number {
     return maxValue > 0
-      ? this.chart.getPaddedDomainValue(
+      ? this.dataDomainService.getPaddedDomainValue(
           maxValue,
           this.config.quantitative.domainPadding
         )
@@ -211,10 +209,11 @@ export class BarsComponent
   getDomainMaxForNegativeMax(dataMin: number): number {
     const positiveValue =
       this.config.positivePaddingForAllNegativeValues * dataMin * -1;
-    const roundedValue = this.chart.getQuantitativeDomainMaxRoundedUp(
-      positiveValue,
-      this.config.quantitative.domainPadding.sigDigits
-    );
+    const roundedValue =
+      this.dataDomainService.getQuantitativeDomainMaxRoundedUp(
+        positiveValue,
+        this.config.quantitative.domainPadding.sigDigits
+      );
     return roundedValue;
   }
 
