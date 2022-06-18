@@ -1,3 +1,4 @@
+import { Ranges } from '../chart/chart.model';
 import { DataMarks } from './data-marks.model';
 
 export class XyDataMarks extends DataMarks {
@@ -7,6 +8,7 @@ export class XyDataMarks extends DataMarks {
   values: XyDataMarksValues;
   xScale: (d: any) => any;
   yScale: (d: any) => any;
+  ranges: Ranges;
 }
 
 export class XyDataMarksValues {
