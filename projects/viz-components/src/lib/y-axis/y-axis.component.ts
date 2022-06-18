@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { axisLeft, axisRight } from 'd3';
 import { map, Observable, takeUntil } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
 import { XyAxisElement } from '../xy-chart-space/xy-axis.class';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -14,13 +12,6 @@ import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.componen
 export class YAxisComponent extends XyAxisElement implements OnInit {
   @Input() side: 'left' | 'right' = 'left';
   translate$: Observable<string>;
-
-  constructor(
-    public chart: ChartComponent,
-    public xySpace: XyChartSpaceComponent
-  ) {
-    super();
-  }
 
   setTranslate(): void {
     this.translate$ = this.chart.ranges$.pipe(
