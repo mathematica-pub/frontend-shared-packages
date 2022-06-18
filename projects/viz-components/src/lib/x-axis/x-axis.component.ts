@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
-import { map, Observable, takeUntil } from 'rxjs';
+import { map, Observable, pairwise, takeUntil } from 'rxjs';
 import { XyAxisElement } from '../xy-chart-space/xy-axis.class';
 
 @Component({
@@ -29,13 +29,8 @@ export class XAxisComponent extends XyAxisElement implements OnInit {
 
   subscribeToScale(): void {
     this.xySpace.xScale$
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((scale) => {
-        if (scale) {
-          this.scale = scale;
-          this.updateAxis();
-        }
-      });
+      .pipe(takeUntil(this.unsubscribe), pairwise())
+      .subscribe(([prev, curr]) => this.onScaleUpdate(prev, curr));
   }
 
   setAxisFunction(): void {
