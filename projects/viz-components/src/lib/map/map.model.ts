@@ -56,6 +56,7 @@ export class GeoDataDimension extends DataDimension {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
+  range: any[];
 }
 
 export type MapBinType =

@@ -100,22 +100,20 @@ describe('BarsComponent', () => {
           x: 'quantitative',
           y: 'ordinal',
         },
-        quantitative: {
-          range: null,
-        },
-        ordinal: {
-          range: null,
-        },
       } as any;
+      component.ranges = {
+        x: undefined,
+        y: undefined,
+      };
     });
     it('sets range for x dimension', () => {
       component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.config.quantitative.range).toEqual('test x');
+      expect(component.ranges.x).toEqual('test x' as any);
     });
 
     it('sets range for y dimension', () => {
       component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.config.ordinal.range).toEqual('test y');
+      expect(component.ranges.y).toEqual('test y' as any);
     });
   });
 

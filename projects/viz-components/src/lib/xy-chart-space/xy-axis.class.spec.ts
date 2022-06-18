@@ -1,10 +1,16 @@
+import { ChartComponentStub } from '../testing/stubs/components/chart.component.stub';
 import { XyAxisElementStub } from '../testing/stubs/xy-axis.class.stub';
+import { XyChartSpaceComponent } from './xy-chart-space.component';
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisElementStub;
+  let chart: ChartComponentStub;
+  let xySpace: XyChartSpaceComponent;
 
   beforeEach(() => {
-    abstractClass = new XyAxisElementStub();
+    chart = new ChartComponentStub();
+    xySpace = new XyChartSpaceComponent();
+    abstractClass = new XyAxisElementStub(chart as any, xySpace);
   });
 
   describe('ngOnInit', () => {

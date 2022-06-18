@@ -52,12 +52,12 @@ export class MapComponent
 {
   @ViewChild('map', { static: true }) mapRef: ElementRef<SVGSVGElement>;
   @Input() config: MapConfig;
+  ranges: Ranges;
   map: any;
   projection: any;
   path: any;
   values: MapDataValues = new MapDataValues();
   dataScale: any;
-  ranges: Ranges;
 
   constructor(
     private utilities: UtilitiesService,
@@ -80,8 +80,7 @@ export class MapComponent
 
   subscribeToRanges(): void {
     this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.ranges.x = ranges.x;
-      this.ranges.y = ranges.y;
+      this.ranges = ranges;
       if (this.values.dataValues) {
         this.zone.run(() => {
           this.resizeMarks();
