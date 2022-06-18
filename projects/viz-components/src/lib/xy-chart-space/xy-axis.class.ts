@@ -53,9 +53,27 @@ export abstract class XyAxisElement
       this.chart.dataMarksComponent.config.transitionDuration;
   }
 
-  updateAxis(): void {
+  onScaleUpdate(prev: any, curr: any): void {
+    if (curr) {
+      let transitionDuration;
+      if (prev) {
+        const currRange = curr.range();
+        const prevRange = prev.range();
+        transitionDuration =
+          currRange[0] === prevRange[0] && currRange[1] === prevRange[1]
+            ? this.transitionDuration
+            : 0;
+      } else {
+        transitionDuration = 0;
+      }
+      this.scale = curr;
+      this.updateAxis(transitionDuration);
+    }
+  }
+
+  updateAxis(transitionDuration: number): void {
     this.setAxis(this.axisFunction);
-    this.drawAxis();
+    this.drawAxis(transitionDuration);
     this.processAxisFeatures();
   }
 
@@ -97,7 +115,7 @@ export abstract class XyAxisElement
     return this.config.tickFormat.includes('0f');
   }
 
-  drawAxis(): void {
+  drawAxis(transitionDuration: number): void {
     const t = select(this.axisRef.nativeElement)
       .transition()
       .duration(this.transitionDuration);

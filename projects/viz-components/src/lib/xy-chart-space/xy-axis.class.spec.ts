@@ -36,12 +36,14 @@ describe('the XyAxis abstract class', () => {
   });
 
   describe('updateAxis()', () => {
+    let transition: number;
     beforeEach(() => {
       abstractClass.axisFunction = 'func' as any;
       spyOn(abstractClass, 'setAxis');
       spyOn(abstractClass, 'drawAxis');
       spyOn(abstractClass, 'processAxisFeatures');
-      abstractClass.updateAxis();
+      transition = 200;
+      abstractClass.updateAxis(transition);
     });
     it('calls setAxis once with the correct value', () => {
       expect(abstractClass.setAxis).toHaveBeenCalledOnceWith('func');
