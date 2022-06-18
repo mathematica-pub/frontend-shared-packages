@@ -17,8 +17,6 @@ export class XyChartSpaceComponent {
   private yScale: BehaviorSubject<any> = new BehaviorSubject(null);
   yScale$ = this.yScale.asObservable();
 
-  constructor() {}
-
   updateXScale(scale: any): void {
     this.xScale.next(scale);
   }
