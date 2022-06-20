@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'm-charts-html-tooltip',
+  selector: 'vzc-html-tooltip',
   templateUrl: './html-tooltip.component.html',
   styleUrls: ['./html-tooltip.component.scss'],
 })

@@ -25,17 +25,14 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs';
-import { DomainPadding } from '../data-marks/data-dimension.model';
 import { DataMarks } from '../data-marks/data-marks.model';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
-import { ValueUtilities } from '../shared/value-utilities.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
-import { ElementSpacing } from '../xy-chart-space/xy-chart-space.model';
-import { Dimensions, Ranges } from './chart.model';
+import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 
 @Component({
-  selector: 'm-charts-chart',
+  selector: 'vzc-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -248,38 +245,5 @@ export class ChartComponent
 
   emitTooltipData<T>(data: T): void {
     this.tooltipData.emit(data);
-  }
-
-  getPaddedDomainValue(value: number, padding: DomainPadding) {
-    let paddedValue = value;
-    if (padding.type === 'round') {
-      paddedValue = this.getQuantitativeDomainMaxRoundedUp(
-        value,
-        padding.sigDigits
-      );
-    } else if (padding.type === 'percent') {
-      paddedValue = this.getQuantitativeDomainMaxPercentOver(
-        value,
-        padding.sigDigits,
-        padding.percent
-      );
-    }
-    return paddedValue;
-  }
-
-  getQuantitativeDomainMaxRoundedUp(value: number, sigDigits: number) {
-    return ValueUtilities.getValueRoundedUpNSignificantDigits(value, sigDigits);
-  }
-
-  getQuantitativeDomainMaxPercentOver(
-    value: number,
-    sigDigits: number,
-    percent: number
-  ) {
-    const overValue = value * (1 + percent);
-    return ValueUtilities.getValueRoundedUpNSignificantDigits(
-      overValue,
-      sigDigits
-    );
   }
 }

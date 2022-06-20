@@ -5,7 +5,7 @@ import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-xy-chart-space]',
+  selector: '[vzc-xy-chart-space]',
   templateUrl: './xy-chart-space.component.html',
   styleUrls: ['./xy-chart-space.component.scss'],
 })
@@ -16,8 +16,6 @@ export class XyChartSpaceComponent {
   xScale$ = this.xScale.asObservable();
   private yScale: BehaviorSubject<any> = new BehaviorSubject(null);
   yScale$ = this.yScale.asObservable();
-
-  constructor() {}
 
   updateXScale(scale: any): void {
     this.xScale.next(scale);

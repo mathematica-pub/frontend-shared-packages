@@ -7,4 +7,4 @@ import { YAxisComponent } from './y-axis.component';
   imports: [CommonModule],
   exports: [YAxisComponent],
 })
-export class MChartsYAxisModule {}
+export class VzcYAxisModule {}

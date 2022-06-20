@@ -1,5 +1,8 @@
+import { Ranges } from '../chart/chart.model';
+
 export class DataMarks {
-  config: DataMarksConfig;
+  config: DataMarksConfig = new DataMarksConfig();
+  ranges: Ranges;
   setMethodsFromConfigAndDraw: () => void;
   resizeMarks: () => void;
   drawMarks: (transitionDuration: number) => void;
@@ -17,5 +20,6 @@ export class DataMarksConfig {
   constructor() {
     this.transitionDuration = 250;
     this.mixBlendMode = 'normal';
+    this.showTooltip = false;
   }
 }

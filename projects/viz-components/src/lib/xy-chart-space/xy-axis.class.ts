@@ -1,17 +1,37 @@
-import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentInit,
+  Directive,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { format, select, timeFormat, TimeInterval } from 'd3';
+import { ChartComponent } from '../chart/chart.component';
 import { SvgUtilities } from '../shared/svg-utilities.class';
 import { SvgWrapOptions } from '../shared/svg-utilities.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { AxisConfig, TickWrap } from './axis-config.model';
+import { XyChartSpaceComponent } from './xy-chart-space.component';
 
 @Directive()
-export abstract class XyAxisElement extends Unsubscribe implements OnInit {
+export abstract class XyAxisElement
+  extends Unsubscribe
+  implements OnInit, AfterContentInit
+{
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   @Input() config: AxisConfig;
+  transitionDuration: number;
   axisFunction: any;
   axis: any;
   scale: any;
+
+  constructor(
+    public chart: ChartComponent,
+    public xySpace: XyChartSpaceComponent
+  ) {
+    super();
+  }
 
   abstract subscribeToScale(): void;
   abstract setAxisFunction(): any;
@@ -19,14 +39,41 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
   abstract setTranslate(): void;
 
   ngOnInit(): void {
+    this.setAxisFunction();
     this.setTranslate();
     this.subscribeToScale();
-    this.setAxisFunction();
   }
 
-  updateAxis(): void {
+  ngAfterContentInit(): void {
+    this.setTransitionDuration();
+  }
+
+  setTransitionDuration(): void {
+    this.transitionDuration =
+      this.chart.dataMarksComponent.config.transitionDuration;
+  }
+
+  onScaleUpdate(prev: any, curr: any): void {
+    if (curr) {
+      let transitionDuration;
+      if (prev) {
+        const currRange = curr.range();
+        const prevRange = prev.range();
+        transitionDuration =
+          currRange[0] === prevRange[0] && currRange[1] === prevRange[1]
+            ? this.transitionDuration
+            : 0;
+      } else {
+        transitionDuration = 0;
+      }
+      this.scale = curr;
+      this.updateAxis(transitionDuration);
+    }
+  }
+
+  updateAxis(transitionDuration: number): void {
     this.setAxis(this.axisFunction);
-    this.drawAxis();
+    this.drawAxis(transitionDuration);
     this.processAxisFeatures();
   }
 
@@ -68,8 +115,14 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
     return this.config.tickFormat.includes('0f');
   }
 
-  drawAxis(): void {
-    select(this.axisRef.nativeElement).call(this.axis);
+  drawAxis(transitionDuration: number): void {
+    const t = select(this.axisRef.nativeElement)
+      .transition()
+      .duration(this.transitionDuration);
+
+    select(this.axisRef.nativeElement)
+      .transition(t as any)
+      .call(this.axis);
 
     if (this.config.tickLabelFontSize) {
       select(this.axisRef.nativeElement)

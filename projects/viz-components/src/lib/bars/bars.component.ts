@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -26,6 +25,7 @@ import {
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { Ranges } from '../chart/chart.model';
+import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import {
   XyDataMarks,
@@ -38,7 +38,7 @@ import { BarsConfig, BarsTooltipData } from './bars.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[m-charts-data-marks-bars]',
+  selector: '[vzc-data-marks-bars]',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -53,16 +53,17 @@ export class BarsComponent
   @Input() config: BarsConfig;
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
-  hasBarsWithNegativeValues: boolean;
-  bars: any;
+  ranges: Ranges;
   xScale: (d: any) => any;
   yScale: (d: any) => any;
+  hasBarsWithNegativeValues: boolean;
+  bars: any;
 
   constructor(
     public chart: ChartComponent,
     public xySpace: XyChartSpaceComponent,
     private utilities: UtilitiesService,
-    private zone: NgZone
+    private dataDomainService: DataDomainService
   ) {
     super();
   }
@@ -83,16 +84,14 @@ export class BarsComponent
     this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
       this.setRanges(ranges);
       if (this.xScale && this.yScale) {
-        this.zone.run(() => {
-          this.resizeMarks();
-        });
+        this.resizeMarks();
       }
     });
   }
 
   setRanges(ranges: Ranges): void {
-    this.config[this.config.dimensions.x].range = ranges.x;
-    this.config[this.config.dimensions.y].range = ranges.y;
+    this.ranges.x = ranges.x;
+    this.ranges.y = ranges.y;
   }
 
   subscribeToScales(): void {
@@ -191,7 +190,7 @@ export class BarsComponent
 
   getDomainMinFromDataMin(minValue: number): number {
     return minValue < 0
-      ? this.chart.getPaddedDomainValue(
+      ? this.dataDomainService.getPaddedDomainValue(
           minValue,
           this.config.quantitative.domainPadding
         )
@@ -200,7 +199,7 @@ export class BarsComponent
 
   getDomainMaxFromValueExtents(maxValue: number, minValue: number): number {
     return maxValue > 0
-      ? this.chart.getPaddedDomainValue(
+      ? this.dataDomainService.getPaddedDomainValue(
           maxValue,
           this.config.quantitative.domainPadding
         )
@@ -210,10 +209,11 @@ export class BarsComponent
   getDomainMaxForNegativeMax(dataMin: number): number {
     const positiveValue =
       this.config.positivePaddingForAllNegativeValues * dataMin * -1;
-    const roundedValue = this.chart.getQuantitativeDomainMaxRoundedUp(
-      positiveValue,
-      this.config.quantitative.domainPadding.sigDigits
-    );
+    const roundedValue =
+      this.dataDomainService.getQuantitativeDomainMaxRoundedUp(
+        positiveValue,
+        this.config.quantitative.domainPadding.sigDigits
+      );
     return roundedValue;
   }
 
@@ -238,7 +238,10 @@ export class BarsComponent
 
   getOrdinalScale(): any {
     return this.config.ordinal
-      .scaleType(this.config.ordinal.domain, this.config.ordinal.range)
+      .scaleType(
+        this.config.ordinal.domain,
+        this.ranges[this.config.dimensions.ordinal]
+      )
       .paddingInner(this.config.ordinal.paddingInner)
       .paddingOuter(this.config.ordinal.paddingOuter)
       .align(this.config.ordinal.align);
@@ -247,7 +250,7 @@ export class BarsComponent
   getQuantitativeScale(): any {
     return this.config.quantitative.scaleType(
       this.config.quantitative.domain,
-      this.config.quantitative.range
+      this.ranges[this.config.dimensions.quantitative]
     );
   }
 

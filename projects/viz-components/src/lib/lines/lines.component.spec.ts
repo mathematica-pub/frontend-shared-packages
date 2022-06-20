@@ -91,28 +91,6 @@ describe('LineChartComponent', () => {
     });
   });
 
-  describe('setRanges()', () => {
-    beforeEach(() => {
-      component.config = {
-        x: {
-          range: null,
-        },
-        y: {
-          range: null,
-        },
-      } as any;
-    });
-    it('sets config.x.range', () => {
-      component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.config.x.range).toEqual('test x');
-    });
-
-    it('sets config.y.range', () => {
-      component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.config.y.range).toEqual('test y');
-    });
-  });
-
   describe('subscribeToScales()', () => {
     beforeEach(() => {
       component.xySpace = {
@@ -362,10 +340,10 @@ describe('LineChartComponent', () => {
 
   describe('pointerIsInChartArea()', () => {
     beforeEach(() => {
-      component.config = {
-        x: { range: [0, 100] } as any,
-        y: { range: [400, 200] } as any,
-      } as any;
+      component.ranges = {
+        x: [0, 100],
+        y: [400, 200],
+      };
     });
     it('returns true if x is within x range and y is within y range', () => {
       expect(component.pointerIsInChartArea(50, 300)).toEqual(true);
