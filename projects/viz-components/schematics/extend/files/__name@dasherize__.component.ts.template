@@ -1,0 +1,11 @@
+import { Component } from '@angular/core';
+import { <%= classify(extend) %>Component } from 'viz-components'
+
+@Component({
+  selector: '<%= dasherize(name) %>',
+  templateUrl: './<%= dasherize(name) %>.component.html',
+  styleUrls: ['./<%= dasherize(name) %>.component.css']
+})
+export class <%= classify(name) %>Component extends <%= classify(extend) %>Component {
+
+}
