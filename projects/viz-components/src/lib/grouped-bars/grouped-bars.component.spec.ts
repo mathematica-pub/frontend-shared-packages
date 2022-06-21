@@ -33,7 +33,7 @@ describe('GroupedBarsComponent', () => {
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'setGroupScale');
       spyOn(component, 'drawMarks');
-      component.config = { transitionDuration: 200 } as any;
+      component.chart = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
     });
 

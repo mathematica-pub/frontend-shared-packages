@@ -32,20 +32,14 @@ import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
   XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
-
-import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
-import { LinesConfig, LinesTooltipData } from './lines.model';
-
-interface Marker {
-  key: string;
-  index: number;
-}
+import { LinesConfig, LinesTooltipData, Marker } from './lines.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -54,7 +48,7 @@ interface Marker {
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: XY_DATA_MARKS, useExisting: LinesComponent }],
+  providers: [{ provide: DATA_MARKS, useExisting: LinesComponent }],
 })
 export class LinesComponent
   extends Unsubscribe
@@ -133,7 +127,7 @@ export class LinesComponent
     this.setScaledSpaceProperties();
     this.initCategoryScale();
     this.setLine();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(this.chart.transitionDuration);
   }
 
   resizeMarks(): void {
@@ -213,7 +207,7 @@ export class LinesComponent
 
   drawMarks(transitionDuration: number): void {
     this.drawLines(transitionDuration);
-    if (this.config.pointMarker.radius) {
+    if (this.config.pointMarker.display) {
       this.drawPointMarkers(transitionDuration);
     } else if (this.config.showTooltip) {
       this.drawHoverDot();
@@ -392,7 +386,7 @@ export class LinesComponent
 
   applyHoverStyles(closestPointIndex: number): void {
     this.styleLinesForHover(closestPointIndex);
-    if (this.config.pointMarker) {
+    if (this.config.pointMarker.display) {
       this.styleMarkersForHover(closestPointIndex);
     } else {
       this.styleHoverDotForHover(closestPointIndex);
@@ -457,9 +451,13 @@ export class LinesComponent
           : '#ddd'
       )
       .attr('r', (d): number => {
-        return closestPointIndex === d.index
-          ? this.config.pointMarker.radius + 1
-          : this.config.pointMarker.radius;
+        let r = this.config.pointMarker.radius;
+        if (closestPointIndex === d.index) {
+          r =
+            this.config.pointMarker.radius +
+            this.config.pointMarker.growByOnHover;
+        }
+        return r;
       })
       .filter(
         (d): boolean =>
@@ -486,7 +484,7 @@ export class LinesComponent
     this.lines
       .style('mix-blend-mode', this.config.mixBlendMode)
       .style('stroke', null);
-    if (this.config.pointMarker) {
+    if (this.config.pointMarker.display) {
       this.markers
         .style('mix-blend-mode', this.config.mixBlendMode)
         .style('fill', null);

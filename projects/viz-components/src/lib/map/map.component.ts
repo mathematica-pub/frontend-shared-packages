@@ -92,7 +92,7 @@ export class MapComponent
   resizeMarks(): void {
     this.setProjection();
     this.setPath();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(0);
   }
 
   setMethodsFromConfigAndDraw(): void {
@@ -102,7 +102,7 @@ export class MapComponent
     this.initDataScaleDomain();
     this.initDataScaleRange();
     this.initDataScale();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(this.chart.transitionDuration);
   }
 
   setProjection(): void {

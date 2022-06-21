@@ -10,7 +10,6 @@ export class AxisConfig {
   removeTicks?: boolean;
   removeTickMarks?: boolean;
   showGridLines?: boolean;
-  axisOnBothSides?: boolean; //not yet implemented
   wrap?: TickWrap;
   tickSizeOuter?: number;
   tickLabelFontSize?: number;

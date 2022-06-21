@@ -49,8 +49,6 @@ describe('BarsComponent', () => {
 
     it('should call objectChangedNotFirstTime once and with the correct parameters', () => {
       component.ngOnChanges(configChange);
-      console.log(component);
-      console.log(configChange);
       expect(
         mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');
@@ -93,30 +91,6 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('setRanges()', () => {
-    beforeEach(() => {
-      component.config = {
-        dimensions: {
-          x: 'quantitative',
-          y: 'ordinal',
-        },
-      } as any;
-      component.ranges = {
-        x: undefined,
-        y: undefined,
-      };
-    });
-    it('sets range for x dimension', () => {
-      component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.ranges.x).toEqual('test x' as any);
-    });
-
-    it('sets range for y dimension', () => {
-      component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.ranges.y).toEqual('test y' as any);
-    });
-  });
-
   describe('subscribeToScales()', () => {
     beforeEach(() => {
       component.xySpace = {
@@ -155,7 +129,7 @@ describe('BarsComponent', () => {
       spyOn(component, 'initCategoryScale');
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'drawMarks');
-      component.config = { transitionDuration: 200 } as any;
+      component.chart = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
     });
 

@@ -1,29 +1,8 @@
 import { Ranges } from '../../chart/chart.model';
-import { XyDataMarksComponent } from '../../data-marks/xy-data-marks/xy-data-marks.component';
+import { XyDataMarks } from '../../data-marks/xy-data-marks.model';
 
-export class XyDataMarksComponentStub extends XyDataMarksComponent {
+export class XyDataMarksStub extends XyDataMarks {
   setRanges(ranges: Ranges): void {
-    return;
-  }
-  setMethodsFromConfigAndDraw(): void {
-    return;
-  }
-  setValueArrays(): void {
-    return;
-  }
-  drawMarks(transitionDuration: number): void {
-    return;
-  }
-  resizeMarks(): void {
-    return;
-  }
-  onPointerEnter(event: PointerEvent): void {
-    return;
-  }
-  onPointerLeave(event: PointerEvent): void {
-    return;
-  }
-  onPointerMove(event: PointerEvent): void {
     return;
   }
 }

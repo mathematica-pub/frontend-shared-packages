@@ -1,27 +1,16 @@
-import {
-  AfterContentInit,
-  Directive,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { format, select, timeFormat, TimeInterval } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { SvgUtilities } from '../shared/svg-utilities.class';
 import { SvgWrapOptions } from '../shared/svg-utilities.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
-import { AxisConfig, TickWrap } from './axis-config.model';
+import { AxisConfig } from './axis-config.model';
 import { XyChartSpaceComponent } from './xy-chart-space.component';
 
 @Directive()
-export abstract class XyAxisElement
-  extends Unsubscribe
-  implements OnInit, AfterContentInit
-{
+export abstract class XyAxisElement extends Unsubscribe implements OnInit {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   @Input() config: AxisConfig;
-  transitionDuration: number;
   axisFunction: any;
   axis: any;
   scale: any;
@@ -44,15 +33,6 @@ export abstract class XyAxisElement
     this.subscribeToScale();
   }
 
-  ngAfterContentInit(): void {
-    this.setTransitionDuration();
-  }
-
-  setTransitionDuration(): void {
-    this.transitionDuration =
-      this.chart.dataMarksComponent.config.transitionDuration;
-  }
-
   onScaleUpdate(prev: any, curr: any): void {
     if (curr) {
       let transitionDuration;
@@ -61,7 +41,7 @@ export abstract class XyAxisElement
         const prevRange = prev.range();
         transitionDuration =
           currRange[0] === prevRange[0] && currRange[1] === prevRange[1]
-            ? this.transitionDuration
+            ? this.chart.transitionDuration
             : 0;
       } else {
         transitionDuration = 0;
@@ -118,21 +98,38 @@ export abstract class XyAxisElement
   drawAxis(transitionDuration: number): void {
     const t = select(this.axisRef.nativeElement)
       .transition()
-      .duration(this.transitionDuration);
+      .duration(transitionDuration);
 
     select(this.axisRef.nativeElement)
       .transition(t as any)
-      .call(this.axis);
+      .call(this.axis)
+      .on('end', (d, i, nodes) => {
+        const tickText = select(nodes[i]).selectAll('.tick text');
+        if (this.config.tickLabelFontSize) {
+          this.setTickFontSize(tickText);
+        }
+        if (this.config.wrap) {
+          this.wrapAxisTickText(tickText);
+        }
+      });
+  }
 
-    if (this.config.tickLabelFontSize) {
-      select(this.axisRef.nativeElement)
-        .selectAll('.tick text')
-        .attr('font-size', this.config.tickLabelFontSize);
-    }
+  setTickFontSize(tickTextSelection: any): void {
+    tickTextSelection.attr('font-size', this.config.tickLabelFontSize);
+  }
 
-    if (this.config.wrap) {
-      this.wrapAxisTickText(this.config.wrap);
-    }
+  wrapAxisTickText(tickTextSelection: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { wrapWidth, ...properties } = this.config.wrap;
+    const config = Object.assign(
+      new SvgWrapOptions(),
+      properties
+    ) as SvgWrapOptions;
+    config.width =
+      this.config.wrap.wrapWidth === 'bandwidth'
+        ? this.scale.bandwidth()
+        : this.config.wrap.wrapWidth;
+    tickTextSelection.call(SvgUtilities.textWrap, config);
   }
 
   processAxisFeatures(): void {
@@ -151,21 +148,5 @@ export abstract class XyAxisElement
         g.selectAll('.tick line').remove()
       );
     }
-  }
-
-  wrapAxisTickText(options: TickWrap): void {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { wrapWidth, ...properties } = options;
-    const config = Object.assign(
-      new SvgWrapOptions(),
-      properties
-    ) as SvgWrapOptions;
-    config.width =
-      options.wrapWidth === 'bandwidth'
-        ? this.scale.bandwidth()
-        : options.wrapWidth;
-    select(this.axisRef.nativeElement)
-      .selectAll('.tick text')
-      .call(SvgUtilities.textWrap, config);
   }
 }
