@@ -20,7 +20,7 @@ export class XAxisComponent extends XyAxisElement implements OnInit {
         if (this.side === 'top') {
           translate = ranges.y[1];
         } else {
-          translate = ranges.y[0] - ranges.y[1] + this.chart.margin.bottom;
+          translate = ranges.y[0] - ranges.y[1] + this.chart.margin.top;
         }
         return `translate(0, ${translate})`;
       })

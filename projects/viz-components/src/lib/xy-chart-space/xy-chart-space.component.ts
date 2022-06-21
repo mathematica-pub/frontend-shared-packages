@@ -1,7 +1,5 @@
-import { Component, ContentChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { XyDataMarks } from '../data-marks/xy-data-marks.model';
-import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,8 +8,6 @@ import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
   styleUrls: ['./xy-chart-space.component.scss'],
 })
 export class XyChartSpaceComponent {
-  @ContentChild(XY_DATA_MARKS)
-  xyDataMarksComponent: XyDataMarks;
   private xScale: BehaviorSubject<any> = new BehaviorSubject(null);
   xScale$ = this.xScale.asObservable();
   private yScale: BehaviorSubject<any> = new BehaviorSubject(null);

@@ -27,11 +27,11 @@ import { ChartComponent } from '../chart/chart.component';
 import { Ranges } from '../chart/chart.model';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
   XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
-import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { BarsConfig, BarsTooltipData } from './bars.model';
@@ -43,7 +43,7 @@ import { BarsConfig, BarsTooltipData } from './bars.model';
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: XY_DATA_MARKS, useExisting: BarsComponent }],
+  providers: [{ provide: DATA_MARKS, useExisting: BarsComponent }],
 })
 export class BarsComponent
   extends Unsubscribe
@@ -82,16 +82,11 @@ export class BarsComponent
 
   subscribeToRanges(): void {
     this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.setRanges(ranges);
+      this.ranges = ranges;
       if (this.xScale && this.yScale) {
         this.resizeMarks();
       }
     });
-  }
-
-  setRanges(ranges: Ranges): void {
-    this.ranges.x = ranges.x;
-    this.ranges.y = ranges.y;
   }
 
   subscribeToScales(): void {
@@ -112,7 +107,7 @@ export class BarsComponent
     this.initQuantitativeDomain();
     this.initCategoryScale();
     this.setScaledSpaceProperties();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(this.chart.transitionDuration);
   }
 
   resizeMarks(): void {

@@ -1,6 +1,5 @@
 import { Renderer2, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ResizeChartHeightPipe } from '../shared/resize-chart-height.pipe';
 import { ChartComponent } from './chart.component';
 
 describe('ChartComponent', () => {
@@ -10,7 +9,7 @@ describe('ChartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ChartComponent, ResizeChartHeightPipe],
+      declarations: [ChartComponent],
     }).compileComponents();
   });
 

@@ -7,7 +7,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -40,11 +39,6 @@ import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 export class ChartComponent
   implements OnInit, OnChanges, AfterViewInit, AfterContentInit, OnDestroy
 {
-  unlistenPointerEnter: () => void;
-  unlistenPointerMove: () => void;
-  unlistenPointerLeave: () => void;
-  unlistenTouchStart: () => void;
-  unlistenMouseWheel: () => void;
   @ContentChild(XyChartSpaceComponent) xySpace: XyChartSpaceComponent;
   @ContentChild(DATA_MARKS)
   dataMarksComponent: DataMarks;
@@ -59,13 +53,19 @@ export class ChartComponent
     left: 36,
   };
   @Input() scaleChartWithContainer = true;
+  @Input() transitionDuration?: number = 250;
   @Output() tooltipData = new EventEmitter<any>();
+  unlistenPointerEnter: () => void;
+  unlistenPointerMove: () => void;
+  unlistenPointerLeave: () => void;
+  unlistenTouchStart: () => void;
+  unlistenMouseWheel: () => void;
   aspectRatio: number;
   htmlTooltip: HtmlTooltipConfig = new HtmlTooltipConfig();
-  ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
+  ranges$: Observable<Ranges>;
 
-  constructor(private renderer: Renderer2, private zone: NgZone) {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['width'] || changes['height']) {
@@ -204,16 +204,13 @@ export class ChartComponent
   }
 
   private setPointerMoveListener(el) {
-    this.zone.runOutsideAngular(() => {
-      // run outside angular to prevent CD on every mousemove
-      this.unlistenPointerMove = this.renderer.listen(
-        el,
-        'pointermove',
-        (event) => {
-          this.dataMarksComponent.onPointerMove(event);
-        }
-      );
-    });
+    this.unlistenPointerMove = this.renderer.listen(
+      el,
+      'pointermove',
+      (event) => {
+        this.dataMarksComponent.onPointerMove(event);
+      }
+    );
   }
 
   private setPointerLeaveListener(el: Element) {

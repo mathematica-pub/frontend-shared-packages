@@ -29,7 +29,6 @@ export class YAxisComponent extends XyAxisElement implements OnInit {
 
   subscribeToScale(): void {
     this.xySpace.yScale$
-      .pipe(takeUntil(this.unsubscribe))
       .pipe(takeUntil(this.unsubscribe), pairwise())
       .subscribe(([prev, curr]) => this.onScaleUpdate(prev, curr));
   }

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { InternSet, range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { GroupedBarsConfig } from './grouped-bars.model';
 
 @Component({
@@ -16,7 +16,7 @@ import { GroupedBarsConfig } from './grouped-bars.model';
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: XY_DATA_MARKS, useExisting: GroupedBarsComponent }],
+  providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
 export class GroupedBarsComponent extends BarsComponent {
   @Input() override config: GroupedBarsConfig;
@@ -31,7 +31,7 @@ export class GroupedBarsComponent extends BarsComponent {
     this.initCategoryScale();
     this.setScaledSpaceProperties();
     this.setGroupScale();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(this.chart.transitionDuration);
   }
 
   override setValueIndicies(): void {

@@ -13,12 +13,10 @@ export class DataMarks {
 
 export class DataMarksConfig {
   data: any[];
-  transitionDuration: number;
   mixBlendMode: string;
   showTooltip?: boolean;
 
   constructor() {
-    this.transitionDuration = 250;
     this.mixBlendMode = 'normal';
     this.showTooltip = false;
   }

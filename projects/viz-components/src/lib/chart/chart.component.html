@@ -8,8 +8,8 @@
   <ng-content select="[html-elements-before]"></ng-content>
   <svg
     #svg
-    [attr.width]="div.offsetWidth"
-    [attr.height]="div.offsetWidth | resizeChartHeight: height:width"
+    [attr.width]="(svgDimensions$ | async).width"
+    [attr.height]="(svgDimensions$ | async).height"
     attr.style="'max-width: 100%; height: auto; height: intrinsic;'"
   >
     <ng-content select="[svg-elements]"></ng-content>
