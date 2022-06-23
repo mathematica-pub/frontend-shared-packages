@@ -1,0 +1,8 @@
+# QUESTION: is this the yml version?
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Hello world
