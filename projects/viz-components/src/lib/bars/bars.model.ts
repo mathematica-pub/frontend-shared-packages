@@ -43,6 +43,7 @@ export class LabelsConfig {
     this.noValueString = 'N/A';
   }
 }
+
 export interface BarsDimensionsConfig {
   direction: 'vertical' | 'horizontal';
   x: 'ordinal' | 'quantitative';

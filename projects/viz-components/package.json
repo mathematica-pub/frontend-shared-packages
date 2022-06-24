@@ -1,6 +1,18 @@
 {
   "name": "viz-components",
-  "version": "0.0.1",
+  "version": "0.0.31",
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.schematics.json",
+    "postbuild": "node build.js"
+  },
+  "files": [
+    "*",
+    "raw-html/*"
+  ],
+  "schematics": "./schematics/collection.json",
   "peerDependencies": {
     "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0"

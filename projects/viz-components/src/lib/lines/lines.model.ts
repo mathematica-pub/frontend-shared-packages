@@ -11,7 +11,7 @@ export class LinesConfig extends DataMarksConfig {
   category: CategoricalColorDimension = new CategoricalColorDimension();
   valueIsDefined?: (...args: any) => any;
   curve: (x: any) => any;
-  pointMarker?: PointMarker = new PointMarker();
+  pointMarker: PointMarker = new PointMarker();
   stroke?: LinesStroke = new LinesStroke();
   labelLines?: boolean;
   tooltipDetectionRadius?: number;
@@ -39,7 +39,15 @@ export class LinesStroke {
 }
 
 export class PointMarker {
+  display: boolean;
   radius: number;
+  growByOnHover: number;
+
+  constructor() {
+    this.display = true;
+    this.radius = 3;
+    this.growByOnHover = 1;
+  }
 }
 
 export class LinesTooltipData {
@@ -48,4 +56,9 @@ export class LinesTooltipData {
   x: string;
   y: string;
   category: string;
+}
+
+export interface Marker {
+  key: string;
+  index: number;
 }

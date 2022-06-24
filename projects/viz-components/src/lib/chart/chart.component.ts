@@ -7,7 +7,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -25,14 +24,11 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs';
-import { DomainPadding } from '../data-marks/data-dimension.model';
 import { DataMarks } from '../data-marks/data-marks.model';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
-import { ValueUtilities } from '../shared/value-utilities.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
-import { ElementSpacing } from '../xy-chart-space/xy-chart-space.model';
-import { Dimensions, Ranges } from './chart.model';
+import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 
 @Component({
   selector: 'vzc-chart',
@@ -43,11 +39,6 @@ import { Dimensions, Ranges } from './chart.model';
 export class ChartComponent
   implements OnInit, OnChanges, AfterViewInit, AfterContentInit, OnDestroy
 {
-  unlistenPointerEnter: () => void;
-  unlistenPointerMove: () => void;
-  unlistenPointerLeave: () => void;
-  unlistenTouchStart: () => void;
-  unlistenMouseWheel: () => void;
   @ContentChild(XyChartSpaceComponent) xySpace: XyChartSpaceComponent;
   @ContentChild(DATA_MARKS)
   dataMarksComponent: DataMarks;
@@ -62,13 +53,19 @@ export class ChartComponent
     left: 36,
   };
   @Input() scaleChartWithContainer = true;
+  @Input() transitionDuration?: number = 250;
   @Output() tooltipData = new EventEmitter<any>();
+  unlistenPointerEnter: () => void;
+  unlistenPointerMove: () => void;
+  unlistenPointerLeave: () => void;
+  unlistenTouchStart: () => void;
+  unlistenMouseWheel: () => void;
   aspectRatio: number;
   htmlTooltip: HtmlTooltipConfig = new HtmlTooltipConfig();
-  ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
+  ranges$: Observable<Ranges>;
 
-  constructor(private renderer: Renderer2, private zone: NgZone) {}
+  constructor(private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['width'] || changes['height']) {
@@ -207,16 +204,13 @@ export class ChartComponent
   }
 
   private setPointerMoveListener(el) {
-    this.zone.runOutsideAngular(() => {
-      // run outside angular to prevent CD on every mousemove
-      this.unlistenPointerMove = this.renderer.listen(
-        el,
-        'pointermove',
-        (event) => {
-          this.dataMarksComponent.onPointerMove(event);
-        }
-      );
-    });
+    this.unlistenPointerMove = this.renderer.listen(
+      el,
+      'pointermove',
+      (event) => {
+        this.dataMarksComponent.onPointerMove(event);
+      }
+    );
   }
 
   private setPointerLeaveListener(el: Element) {
@@ -248,38 +242,5 @@ export class ChartComponent
 
   emitTooltipData<T>(data: T): void {
     this.tooltipData.emit(data);
-  }
-
-  getPaddedDomainValue(value: number, padding: DomainPadding) {
-    let paddedValue = value;
-    if (padding.type === 'round') {
-      paddedValue = this.getQuantitativeDomainMaxRoundedUp(
-        value,
-        padding.sigDigits
-      );
-    } else if (padding.type === 'percent') {
-      paddedValue = this.getQuantitativeDomainMaxPercentOver(
-        value,
-        padding.sigDigits,
-        padding.percent
-      );
-    }
-    return paddedValue;
-  }
-
-  getQuantitativeDomainMaxRoundedUp(value: number, sigDigits: number) {
-    return ValueUtilities.getValueRoundedUpNSignificantDigits(value, sigDigits);
-  }
-
-  getQuantitativeDomainMaxPercentOver(
-    value: number,
-    sigDigits: number,
-    percent: number
-  ) {
-    const overValue = value * (1 + percent);
-    return ValueUtilities.getValueRoundedUpNSignificantDigits(
-      overValue,
-      sigDigits
-    );
   }
 }

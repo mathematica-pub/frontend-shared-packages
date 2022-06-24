@@ -7,7 +7,7 @@ import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { LinesComponent } from './lines.component';
-import { LinesConfig } from './lines.model';
+import { LinesConfig, PointMarker } from './lines.model';
 
 describe('LineChartComponent', () => {
   let component: LinesComponent;
@@ -91,28 +91,6 @@ describe('LineChartComponent', () => {
     });
   });
 
-  describe('setRanges()', () => {
-    beforeEach(() => {
-      component.config = {
-        x: {
-          range: null,
-        },
-        y: {
-          range: null,
-        },
-      } as any;
-    });
-    it('sets config.x.range', () => {
-      component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.config.x.range).toEqual('test x');
-    });
-
-    it('sets config.y.range', () => {
-      component.setRanges({ x: 'test x', y: 'test y' } as any);
-      expect(component.config.y.range).toEqual('test y');
-    });
-  });
-
   describe('subscribeToScales()', () => {
     beforeEach(() => {
       component.xySpace = {
@@ -151,7 +129,7 @@ describe('LineChartComponent', () => {
       spyOn(component, 'initCategoryScale');
       spyOn(component, 'setLine');
       spyOn(component, 'drawMarks');
-      component.config = { transitionDuration: 200 } as any;
+      component.chart = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
     });
     it('calls setChartTooltipProperty once', () => {
@@ -255,13 +233,14 @@ describe('LineChartComponent', () => {
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
 
-    it('calls drawPointMarkers once with the correct argument if config.pointMarker.radius is truthy', () => {
-      component.config.pointMarker = { radius: 2 };
+    it('calls drawPointMarkers once with the correct argument if config.pointMarker.display is truthy', () => {
+      component.config.pointMarker.display = true;
       component.drawMarks(duration);
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
 
-    it('does not call drawPointMarkers once if config.pointMarker.radius is falsy', () => {
+    it('does not call drawPointMarkers once if config.pointMarker.displau is falsy', () => {
+      component.config.pointMarker.display = false;
       component.drawMarks(duration);
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
@@ -362,10 +341,10 @@ describe('LineChartComponent', () => {
 
   describe('pointerIsInChartArea()', () => {
     beforeEach(() => {
-      component.config = {
-        x: { range: [0, 100] } as any,
-        y: { range: [400, 200] } as any,
-      } as any;
+      component.ranges = {
+        x: [0, 100],
+        y: [400, 200],
+      };
     });
     it('returns true if x is within x range and y is within y range', () => {
       expect(component.pointerIsInChartArea(50, 300)).toEqual(true);
@@ -445,31 +424,33 @@ describe('LineChartComponent', () => {
       component.chart = { htmlTooltip: new HtmlTooltipConfig() } as any;
       component.chart.htmlTooltip.display = 'none';
       component.tooltipCurrentlyShown = false;
-      component.config = { pointMarker: 8 } as any;
+      component.config = { pointMarker: new PointMarker() } as any;
     });
     it('calls styleLinesForHover once with the correct argument', () => {
       component.applyHoverStyles(10);
       expect(component.styleLinesForHover).toHaveBeenCalledOnceWith(10);
     });
 
-    it('calls styleMarkersForHover once with the correct argument if config.pointMarker is truthy', () => {
+    it('calls styleMarkersForHover once with the correct argument if config.pointMarker.display is true', () => {
+      component.config.pointMarker.display = true;
       component.applyHoverStyles(10);
       expect(component.styleMarkersForHover).toHaveBeenCalledOnceWith(10);
     });
 
-    it('does not call styleMarkersForHover if config.pointMarker is falsy', () => {
-      component.config.pointMarker = null;
+    it('does not call styleMarkersForHover if config.pointMarker.display is false', () => {
+      component.config.pointMarker.display = false;
       component.applyHoverStyles(10);
       expect(component.styleMarkersForHover).toHaveBeenCalledTimes(0);
     });
 
-    it('calls styleHoverDotForHover once with the correct argument if config.pointMarker is falsy', () => {
-      component.config.pointMarker = null;
+    it('calls styleHoverDotForHover once with the correct argument if config.pointMarker.display is false', () => {
+      component.config.pointMarker.display = false;
       component.applyHoverStyles(10);
       expect(component.styleHoverDotForHover).toHaveBeenCalledOnceWith(10);
     });
 
-    it('does not call styleHoverDotForHover is config.pointMarker is truthy', () => {
+    it('does not call styleHoverDotForHover is config.pointMarker is true', () => {
+      component.config.pointMarker.display = true;
       component.applyHoverStyles(10);
       expect(component.styleHoverDotForHover).toHaveBeenCalledTimes(0);
     });

@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -33,15 +32,14 @@ import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
   XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
-
-import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
-import { LinesConfig, LinesTooltipData } from './lines.model';
+import { LinesConfig, LinesTooltipData, Marker } from './lines.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -50,7 +48,7 @@ import { LinesConfig, LinesTooltipData } from './lines.model';
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: XY_DATA_MARKS, useExisting: LinesComponent }],
+  providers: [{ provide: DATA_MARKS, useExisting: LinesComponent }],
 })
 export class LinesComponent
   extends Unsubscribe
@@ -64,21 +62,30 @@ export class LinesComponent
   @Input() config: LinesConfig;
   @Output() tooltipData = new EventEmitter<LinesTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
-  line: (x: any[]) => any;
-  lines: any;
-  markers: any;
-  hoverDot: any;
-  tooltipCurrentlyShown = false;
+  ranges: Ranges;
   xScale: (d: any) => any;
   yScale: (d: any) => any;
+  line: (x: any[]) => any;
+  tooltipCurrentlyShown = false;
 
   constructor(
     public chart: ChartComponent,
     public xySpace: XyChartSpaceComponent,
-    private utilities: UtilitiesService,
-    private zone: NgZone
+    private utilities: UtilitiesService
   ) {
     super();
+  }
+
+  get markers(): any {
+    return select(this.markersRef.nativeElement).selectAll('circle');
+  }
+
+  get lines(): any {
+    return select(this.linesRef.nativeElement).selectAll('path');
+  }
+
+  get hoverDot(): any {
+    return select(this.dotRef.nativeElement).selectAll('circle');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -95,18 +102,11 @@ export class LinesComponent
 
   subscribeToRanges(): void {
     this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.setRanges(ranges);
+      this.ranges = ranges;
       if (this.xScale && this.yScale) {
-        this.zone.run(() => {
-          this.resizeMarks();
-        });
+        this.resizeMarks();
       }
     });
-  }
-
-  setRanges(ranges: Ranges): void {
-    this.config.x.range = ranges.x;
-    this.config.y.range = ranges.y;
   }
 
   subscribeToScales(): void {
@@ -127,7 +127,7 @@ export class LinesComponent
     this.setScaledSpaceProperties();
     this.initCategoryScale();
     this.setLine();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(this.chart.transitionDuration);
   }
 
   resizeMarks(): void {
@@ -170,10 +170,10 @@ export class LinesComponent
 
   setScaledSpaceProperties(): void {
     this.xySpace.updateXScale(
-      this.config.x.scaleType(this.config.x.domain, this.config.x.range)
+      this.config.x.scaleType(this.config.x.domain, this.ranges.x)
     );
     this.xySpace.updateYScale(
-      this.config.y.scaleType(this.config.y.domain, this.config.y.range)
+      this.config.y.scaleType(this.config.y.domain, this.ranges.y)
     );
   }
 
@@ -207,7 +207,7 @@ export class LinesComponent
 
   drawMarks(transitionDuration: number): void {
     this.drawLines(transitionDuration);
-    if (this.config.pointMarker.radius) {
+    if (this.config.pointMarker.display) {
       this.drawPointMarkers(transitionDuration);
     } else if (this.config.showTooltip) {
       this.drawHoverDot();
@@ -223,29 +223,36 @@ export class LinesComponent
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     const data = group(this.values.indicies, (i) => this.values.category[i]);
-    this.lines = select(this.linesRef.nativeElement)
+
+    select(this.linesRef.nativeElement)
       .selectAll('path')
-      .data(data)
+      .data(data, (d): string => d[0])
       .join(
         (enter) =>
           enter
             .append('path')
-            .property('key', ([z]) => z)
+            .property('key', ([category]) => category)
             .attr('class', 'line')
-            .attr('stroke', ([z]) => this.config.category.colorScale(z))
-            .attr('d', ([, I]) => this.line(I)),
+            .attr('stroke', ([category]) =>
+              this.config.category.colorScale(category)
+            )
+            .attr('d', ([, lineData]) => this.line(lineData)),
         (update) =>
           update
-            .attr('stroke', ([z]) => this.config.category.colorScale(z))
+            .attr('stroke', ([category]) =>
+              this.config.category.colorScale(category)
+            )
             .call((update) =>
-              update.transition(t as any).attr('d', ([, I]) => this.line(I))
+              update
+                .transition(t as any)
+                .attr('d', ([, lineData]) => this.line(lineData))
             ),
         (exit) => exit.remove()
       );
   }
 
   drawHoverDot(): void {
-    this.hoverDot = select(this.dotRef.nativeElement)
+    select(this.dotRef.nativeElement)
       .append('circle')
       .attr('class', 'tooltip-dot')
       .attr('r', 4)
@@ -258,37 +265,38 @@ export class LinesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const markerValues = this.values.indicies.map((i) => [
-      this.getMarkerKey(i),
-      i,
-    ]);
+    const markerValues: Marker[] = this.values.indicies.map((i) => {
+      return { key: this.getMarkerKey(i), index: i };
+    });
 
-    this.markers = select(this.markersRef.nativeElement)
+    select(this.markersRef.nativeElement)
       .selectAll('circle')
-      .data(markerValues, (d) => d as any)
+      .data(markerValues, (d): string => (d as Marker).key)
       .join(
         (enter) =>
           enter
             .append('circle')
+            .filter(this.config.valueIsDefined)
             .attr('class', 'marker')
+            .attr('key', (d) => d.key)
             .style('mix-blend-mode', this.config.mixBlendMode)
-            .attr('cx', (d) => this.xScale(this.values.x[d[1]]))
-            .attr('cy', (d) => this.yScale(this.values.y[d[1]]))
+            .attr('cx', (d) => this.xScale(this.values.x[d.index]))
+            .attr('cy', (d) => this.yScale(this.values.y[d.index]))
             .attr('r', this.config.pointMarker.radius)
             .attr('fill', (d) =>
-              this.config.category.colorScale(this.values.category[d[1]])
+              this.config.category.colorScale(this.values.category[d.index])
             ),
         (update) =>
           update
             .attr('fill', (d) =>
-              this.config.category.colorScale(this.values.category[d[1]])
+              this.config.category.colorScale(this.values.category[d.index])
             )
             .call((update) =>
               update
                 .filter(this.config.valueIsDefined)
                 .transition(t as any)
-                .attr('cx', (d) => this.xScale(this.values.x[d[1]]))
-                .attr('cy', (d) => this.yScale(this.values.y[d[1]]))
+                .attr('cx', (d) => this.xScale(this.values.x[d.index]))
+                .attr('cy', (d) => this.yScale(this.values.y[d.index]))
             ),
         (exit) => exit.remove()
       );
@@ -342,10 +350,10 @@ export class LinesComponent
 
   pointerIsInChartArea(pointerX: number, pointerY: number): boolean {
     return (
-      pointerX > this.config.x.range[0] &&
-      pointerX < this.config.x.range[1] &&
-      pointerY > this.config.y.range[1] &&
-      pointerY < this.config.y.range[0]
+      pointerX > this.ranges.x[0] &&
+      pointerX < this.ranges.x[1] &&
+      pointerY > this.ranges.y[1] &&
+      pointerY < this.ranges.y[0]
     );
   }
 
@@ -378,7 +386,7 @@ export class LinesComponent
 
   applyHoverStyles(closestPointIndex: number): void {
     this.styleLinesForHover(closestPointIndex);
-    if (this.config.pointMarker) {
+    if (this.config.pointMarker.display) {
       this.styleMarkersForHover(closestPointIndex);
     } else {
       this.styleHoverDotForHover(closestPointIndex);
@@ -424,30 +432,37 @@ export class LinesComponent
 
   styleLinesForHover(closestPointIndex: number): void {
     this.lines
-      .style('stroke', ([categoryValue]) =>
-        this.values.category[closestPointIndex] === categoryValue
-          ? null
-          : '#ddd'
+      .style('stroke', ([category]): string =>
+        this.values.category[closestPointIndex] === category ? null : '#ddd'
       )
       .filter(
-        ([categoryValue]) =>
-          this.values.category[closestPointIndex] === categoryValue
+        ([category]): boolean =>
+          this.values.category[closestPointIndex] === category
       )
       .raise();
   }
 
   styleMarkersForHover(closestPointIndex: number): void {
     this.markers
-      .style('fill', (valueIndex) =>
+      .style('fill', (d): string =>
         this.values.category[closestPointIndex] ===
-        this.values.category[valueIndex]
+        this.values.category[d.index]
           ? null
           : '#ddd'
       )
+      .attr('r', (d): number => {
+        let r = this.config.pointMarker.radius;
+        if (closestPointIndex === d.index) {
+          r =
+            this.config.pointMarker.radius +
+            this.config.pointMarker.growByOnHover;
+        }
+        return r;
+      })
       .filter(
-        (valueIndex) =>
+        (d): boolean =>
           this.values.category[closestPointIndex] ===
-          this.values.category[valueIndex]
+          this.values.category[d.index]
       )
       .raise();
   }
@@ -469,7 +484,7 @@ export class LinesComponent
     this.lines
       .style('mix-blend-mode', this.config.mixBlendMode)
       .style('stroke', null);
-    if (this.config.pointMarker) {
+    if (this.config.pointMarker.display) {
       this.markers
         .style('mix-blend-mode', this.config.mixBlendMode)
         .style('fill', null);

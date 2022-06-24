@@ -1,9 +1,11 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { format, select, timeFormat, TimeInterval } from 'd3';
+import { ChartComponent } from '../chart/chart.component';
 import { SvgUtilities } from '../shared/svg-utilities.class';
 import { SvgWrapOptions } from '../shared/svg-utilities.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
-import { AxisConfig, TickWrap } from './axis-config.model';
+import { AxisConfig } from './axis-config.model';
+import { XyChartSpaceComponent } from './xy-chart-space.component';
 
 @Directive()
 export abstract class XyAxisElement extends Unsubscribe implements OnInit {
@@ -13,20 +15,45 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
   axis: any;
   scale: any;
 
+  constructor(
+    public chart: ChartComponent,
+    public xySpace: XyChartSpaceComponent
+  ) {
+    super();
+  }
+
   abstract subscribeToScale(): void;
   abstract setAxisFunction(): any;
   abstract initNumTicks(): number;
   abstract setTranslate(): void;
 
   ngOnInit(): void {
+    this.setAxisFunction();
     this.setTranslate();
     this.subscribeToScale();
-    this.setAxisFunction();
   }
 
-  updateAxis(): void {
+  onScaleUpdate(prev: any, curr: any): void {
+    if (curr) {
+      let transitionDuration;
+      if (prev) {
+        const currRange = curr.range();
+        const prevRange = prev.range();
+        transitionDuration =
+          currRange[0] === prevRange[0] && currRange[1] === prevRange[1]
+            ? this.chart.transitionDuration
+            : 0;
+      } else {
+        transitionDuration = 0;
+      }
+      this.scale = curr;
+      this.updateAxis(transitionDuration);
+    }
+  }
+
+  updateAxis(transitionDuration: number): void {
     this.setAxis(this.axisFunction);
-    this.drawAxis();
+    this.drawAxis(transitionDuration);
     this.processAxisFeatures();
   }
 
@@ -68,18 +95,41 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
     return this.config.tickFormat.includes('0f');
   }
 
-  drawAxis(): void {
-    select(this.axisRef.nativeElement).call(this.axis);
+  drawAxis(transitionDuration: number): void {
+    const t = select(this.axisRef.nativeElement)
+      .transition()
+      .duration(transitionDuration);
 
-    if (this.config.tickLabelFontSize) {
-      select(this.axisRef.nativeElement)
-        .selectAll('.tick text')
-        .attr('font-size', this.config.tickLabelFontSize);
-    }
+    select(this.axisRef.nativeElement)
+      .transition(t as any)
+      .call(this.axis)
+      .on('end', (d, i, nodes) => {
+        const tickText = select(nodes[i]).selectAll('.tick text');
+        if (this.config.tickLabelFontSize) {
+          this.setTickFontSize(tickText);
+        }
+        if (this.config.wrap) {
+          this.wrapAxisTickText(tickText);
+        }
+      });
+  }
 
-    if (this.config.wrap) {
-      this.wrapAxisTickText(this.config.wrap);
-    }
+  setTickFontSize(tickTextSelection: any): void {
+    tickTextSelection.attr('font-size', this.config.tickLabelFontSize);
+  }
+
+  wrapAxisTickText(tickTextSelection: any): void {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { wrapWidth, ...properties } = this.config.wrap;
+    const config = Object.assign(
+      new SvgWrapOptions(),
+      properties
+    ) as SvgWrapOptions;
+    config.width =
+      this.config.wrap.wrapWidth === 'bandwidth'
+        ? this.scale.bandwidth()
+        : this.config.wrap.wrapWidth;
+    tickTextSelection.call(SvgUtilities.textWrap, config);
   }
 
   processAxisFeatures(): void {
@@ -98,21 +148,5 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
         g.selectAll('.tick line').remove()
       );
     }
-  }
-
-  wrapAxisTickText(options: TickWrap): void {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { wrapWidth, ...properties } = options;
-    const config = Object.assign(
-      new SvgWrapOptions(),
-      properties
-    ) as SvgWrapOptions;
-    config.width =
-      options.wrapWidth === 'bandwidth'
-        ? this.scale.bandwidth()
-        : options.wrapWidth;
-    select(this.axisRef.nativeElement)
-      .selectAll('.tick text')
-      .call(SvgUtilities.textWrap, config);
   }
 }

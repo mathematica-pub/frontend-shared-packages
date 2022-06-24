@@ -15,7 +15,7 @@ import {
   Transition,
 } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { XY_DATA_MARKS } from '../data-marks/xy-data-marks.token';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { StackDatum, StackedBarsConfig } from './stacked-bars.model';
 
 @Component({
@@ -25,7 +25,7 @@ import { StackDatum, StackedBarsConfig } from './stacked-bars.model';
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: XY_DATA_MARKS, useExisting: StackedBarsComponent }],
+  providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
 export class StackedBarsComponent extends BarsComponent {
   @Input() override config: StackedBarsConfig;
@@ -40,7 +40,7 @@ export class StackedBarsComponent extends BarsComponent {
     this.initQuantitativeDomain();
     this.initCategoryScale();
     this.setScaledSpaceProperties();
-    this.drawMarks(this.config.transitionDuration);
+    this.drawMarks(this.chart.transitionDuration);
   }
 
   override setValueIndicies(): void {
