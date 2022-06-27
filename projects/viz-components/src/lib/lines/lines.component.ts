@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -71,7 +72,8 @@ export class LinesComponent
   constructor(
     public chart: ChartComponent,
     public xySpace: XyChartSpaceComponent,
-    private utilities: UtilitiesService
+    private utilities: UtilitiesService,
+    private zone: NgZone
   ) {
     super();
   }
@@ -169,12 +171,14 @@ export class LinesComponent
   }
 
   setScaledSpaceProperties(): void {
-    this.xySpace.updateXScale(
-      this.config.x.scaleType(this.config.x.domain, this.ranges.x)
-    );
-    this.xySpace.updateYScale(
-      this.config.y.scaleType(this.config.y.domain, this.ranges.y)
-    );
+    this.zone.run(() => {
+      this.xySpace.updateXScale(
+        this.config.x.scaleType(this.config.x.domain, this.ranges.x)
+      );
+      this.xySpace.updateYScale(
+        this.config.y.scaleType(this.config.y.domain, this.ranges.y)
+      );
+    });
   }
 
   initCategoryScale(): void {
@@ -224,9 +228,11 @@ export class LinesComponent
 
     const data = group(this.values.indicies, (i) => this.values.category[i]);
 
+    const keyFunction = this.getLinesKeyFunction();
+
     select(this.linesRef.nativeElement)
       .selectAll('path')
-      .data(data, (d): string => d[0])
+      .data(data, keyFunction)
       .join(
         (enter) =>
           enter
@@ -251,6 +257,10 @@ export class LinesComponent
       );
   }
 
+  getLinesKeyFunction(): (d: any) => string {
+    return (d): string => d[0];
+  }
+
   drawHoverDot(): void {
     select(this.dotRef.nativeElement)
       .append('circle')
@@ -269,9 +279,11 @@ export class LinesComponent
       return { key: this.getMarkerKey(i), index: i };
     });
 
+    const keyFunction = this.getMarkersKeyFunction();
+
     select(this.markersRef.nativeElement)
       .selectAll('circle')
-      .data(markerValues, (d): string => (d as Marker).key)
+      .data(markerValues, keyFunction)
       .join(
         (enter) =>
           enter
@@ -304,6 +316,10 @@ export class LinesComponent
 
   getMarkerKey(i: number): string {
     return `${this.values.category[i]}-${this.values.x[i]}`;
+  }
+
+  getMarkersKeyFunction(): (d: Marker) => string {
+    return (d): string => (d as Marker).key;
   }
 
   drawLineLabels(): void {

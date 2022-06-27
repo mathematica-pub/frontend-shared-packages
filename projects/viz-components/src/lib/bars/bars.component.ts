@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  NgZone,
   OnChanges,
   OnInit,
   Output,
@@ -63,7 +64,8 @@ export class BarsComponent
     public chart: ChartComponent,
     public xySpace: XyChartSpaceComponent,
     private utilities: UtilitiesService,
-    private dataDomainService: DataDomainService
+    private dataDomainService: DataDomainService,
+    private zone: NgZone
   ) {
     super();
   }
@@ -222,13 +224,15 @@ export class BarsComponent
   }
 
   setScaledSpaceProperties(): void {
-    if (this.config.dimensions.ordinal === 'x') {
-      this.xySpace.updateXScale(this.getOrdinalScale());
-      this.xySpace.updateYScale(this.getQuantitativeScale());
-    } else {
-      this.xySpace.updateXScale(this.getQuantitativeScale());
-      this.xySpace.updateYScale(this.getOrdinalScale());
-    }
+    this.zone.run(() => {
+      if (this.config.dimensions.ordinal === 'x') {
+        this.xySpace.updateXScale(this.getOrdinalScale());
+        this.xySpace.updateYScale(this.getQuantitativeScale());
+      } else {
+        this.xySpace.updateXScale(this.getQuantitativeScale());
+        this.xySpace.updateYScale(this.getOrdinalScale());
+      }
+    });
   }
 
   getOrdinalScale(): any {
@@ -261,12 +265,11 @@ export class BarsComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
+    const keyFunction = this.getBarKeyFunction();
+
     this.bars = select(this.barsRef.nativeElement)
       .selectAll('.bar-group')
-      .data(
-        this.values.indicies,
-        (i: number) => this.values[this.config.dimensions.ordinal][i]
-      )
+      .data(this.values.indicies, keyFunction)
       .join(
         (enter) =>
           enter
@@ -313,6 +316,10 @@ export class BarsComponent
           ),
         (exit) => exit.remove()
       );
+  }
+
+  getBarKeyFunction(): (i: number) => string {
+    return (i: number) => this.values[this.config.dimensions.ordinal][i];
   }
 
   drawBarLabels(): void {
