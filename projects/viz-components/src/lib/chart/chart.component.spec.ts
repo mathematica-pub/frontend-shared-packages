@@ -1,4 +1,4 @@
-import { Renderer2, Type } from '@angular/core';
+import { Renderer2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ChartComponent } from './chart.component';
 
@@ -15,15 +15,22 @@ describe('ChartComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ChartComponent);
-    renderer = fixture.componentRef.injector.get<Renderer2>(
-      Renderer2 as Type<Renderer2>
-    );
     component = fixture.componentInstance;
-    component.unlistenMouseWheel = () => {};
-    component.unlistenPointerEnter = () => {};
-    component.unlistenPointerLeave = () => {};
-    component.unlistenPointerMove = () => {};
-    component.unlistenTouchStart = () => {};
+    component.unlistenMouseWheel = () => {
+      return;
+    };
+    component.unlistenPointerEnter = () => {
+      return;
+    };
+    component.unlistenPointerLeave = () => {
+      return;
+    };
+    component.unlistenPointerMove = () => {
+      return;
+    };
+    component.unlistenTouchStart = () => {
+      return;
+    };
     component.dataMarksComponent = {
       config: { showTooltip: false },
     } as any;
