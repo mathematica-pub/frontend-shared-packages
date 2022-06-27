@@ -17,11 +17,13 @@ import {
 } from '@angular/core';
 import { min } from 'd3';
 import {
+  combineLatest,
   distinctUntilChanged,
   map,
   Observable,
   shareReplay,
   startWith,
+  Subject,
   throttleTime,
 } from 'rxjs';
 import { DataMarks } from '../data-marks/data-marks.model';
@@ -64,12 +66,17 @@ export class ChartComponent
   htmlTooltip: HtmlTooltipConfig = new HtmlTooltipConfig();
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
+  heightSubject = new Subject<number>();
+  height$ = this.heightSubject.asObservable();
 
   constructor(private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['width'] || changes['height']) {
       this.setAspectRatio();
+    }
+    if (changes['height']) {
+      this.heightSubject.next(this.height);
     }
   }
 
@@ -105,12 +112,16 @@ export class ChartComponent
   }
 
   createDimensionObservables() {
-    this.svgDimensions$ = this.getDivWidthResizeObservable().pipe(
+    const divWidth$ = this.getDivWidthResizeObservable().pipe(
       throttleTime(100),
       startWith(min([this.divRef.nativeElement.offsetWidth, this.width])),
-      distinctUntilChanged(),
-      map((divWidth) => this.getSvgDimensionsFromDivWidth(divWidth)),
-      shareReplay()
+      distinctUntilChanged()
+    );
+
+    const height$ = this.height$.pipe(startWith(this.height));
+
+    this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
+      map(([divWidth, height]) => this.getSvgDimensionsFromDivWidth(divWidth))
     );
 
     this.ranges$ = this.svgDimensions$.pipe(
