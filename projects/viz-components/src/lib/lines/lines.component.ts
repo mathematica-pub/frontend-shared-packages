@@ -257,7 +257,7 @@ export class LinesComponent
       );
   }
 
-  getLinesKeyFunction(): (d: any) => string {
+  getLinesKeyFunction(): (d) => string {
     return (d): string => d[0];
   }
 
@@ -275,9 +275,7 @@ export class LinesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const markerValues: Marker[] = this.values.indicies.map((i) => {
-      return { key: this.getMarkerKey(i), index: i };
-    });
+    const markerValues: Marker[] = this.getMarkerValues();
 
     const keyFunction = this.getMarkersKeyFunction();
 
@@ -314,12 +312,24 @@ export class LinesComponent
       );
   }
 
+  getMarkerValues(): Marker[] {
+    return this.values.indicies
+      .map((i) => {
+        return { key: this.getMarkerKey(i), index: i };
+      })
+      .filter(
+        (marker: Marker) =>
+          this.canBeDrawnByPath(this.values.x[marker.index]) &&
+          this.canBeDrawnByPath(this.values.y[marker.index])
+      );
+  }
+
   getMarkerKey(i: number): string {
     return `${this.values.category[i]}-${this.values.x[i]}`;
   }
 
-  getMarkersKeyFunction(): (d: Marker) => string {
-    return (d): string => (d as Marker).key;
+  getMarkersKeyFunction(): (d) => string {
+    return (d) => (d as Marker).key;
   }
 
   drawLineLabels(): void {
