@@ -1,14 +1,15 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { format, select, timeFormat, TimeInterval } from 'd3';
+import { select } from 'd3';
+import { Observable, pairwise, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { SvgUtilities } from '../shared/svg-utilities.class';
 import { SvgWrapOptions } from '../shared/svg-utilities.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
+import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { AxisConfig } from './axis-config.model';
-import { XyChartSpaceComponent } from './xy-chart-space.component';
 
 @Directive()
-export abstract class XyAxisElement extends Unsubscribe implements OnInit {
+export abstract class XyAxis extends Unsubscribe implements OnInit {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   @Input() config: AxisConfig;
   axisFunction: any;
@@ -22,15 +23,22 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
     super();
   }
 
-  abstract subscribeToScale(): void;
+  abstract setScale(): void;
   abstract setAxisFunction(): any;
   abstract initNumTicks(): number;
   abstract setTranslate(): void;
+  abstract setAxis(axisFunction: any): void;
 
   ngOnInit(): void {
     this.setAxisFunction();
     this.setTranslate();
-    this.subscribeToScale();
+    this.setScale();
+  }
+
+  subscribeToScale(scale$: Observable<any>): void {
+    scale$
+      .pipe(takeUntil(this.unsubscribe), pairwise())
+      .subscribe(([prev, curr]) => this.onScaleUpdate(prev, curr));
   }
 
   onScaleUpdate(prev: any, curr: any): void {
@@ -55,44 +63,6 @@ export abstract class XyAxisElement extends Unsubscribe implements OnInit {
     this.setAxis(this.axisFunction);
     this.drawAxis(transitionDuration);
     this.processAxisFeatures();
-  }
-
-  setAxis(axisFunction: any): void {
-    if (this.config.dimensionType === 'ordinal') {
-      this.axis = axisFunction(this.scale).tickSizeOuter(
-        this.config.tickSizeOuter
-      );
-    } else {
-      let numTicks = this.config.numTicks || this.initNumTicks();
-      this.axis = axisFunction(this.scale);
-      if (this.config.tickValues) {
-        this.axis.tickValues(this.config.tickValues).tickFormat((d) => {
-          const formatter = d instanceof Date ? timeFormat : format;
-          return formatter(this.config.tickFormat)(d);
-        });
-      } else {
-        numTicks = this.getValidatedNumTicks();
-        this.axis.ticks(numTicks, this.config.tickFormat);
-      }
-    }
-  }
-
-  getValidatedNumTicks(): number | TimeInterval {
-    let numTicks = this.config.numTicks;
-    if (!this.config.numTicks) {
-      numTicks = this.initNumTicks();
-    }
-    if (typeof numTicks === 'number' && this.ticksAreIntegers()) {
-      const [start, end] = this.scale.domain();
-      if (numTicks > end - start) {
-        numTicks = end - start;
-      }
-    }
-    return numTicks;
-  }
-
-  ticksAreIntegers(): boolean {
-    return this.config.tickFormat.includes('0f');
   }
 
   drawAxis(transitionDuration: number): void {

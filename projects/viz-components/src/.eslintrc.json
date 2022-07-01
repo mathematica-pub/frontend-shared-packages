@@ -26,7 +26,8 @@
             "prefix": "vzc",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@angular-eslint/no-inputs-metadata-property": "warn"
       }
     }
   ]
