@@ -3,8 +3,8 @@ import { SvgWrapOptions } from '../shared/svg-utilities.model';
 
 export class AxisConfig {
   dimensionType: 'quantitative' | 'ordinal';
-  tickFormat?: string;
   numTicks?: number | TimeInterval;
+  tickFormat?: string;
   tickValues?: any[];
   removeDomain?: boolean;
   removeTicks?: boolean;
@@ -19,6 +19,7 @@ export class QuantitativeAxisConfig extends AxisConfig {
   constructor() {
     super();
     this.dimensionType = 'quantitative';
+    this.tickFormat = ',.1f';
   }
 }
 
@@ -26,7 +27,6 @@ export class OrdinalAxisConfig extends AxisConfig {
   constructor() {
     super();
     this.dimensionType = 'ordinal';
-    this.tickSizeOuter = 0;
   }
 }
 
