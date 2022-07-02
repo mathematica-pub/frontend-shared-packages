@@ -67,6 +67,10 @@ export class LinesComponent
   xScale: (d: any) => any;
   yScale: (d: any) => any;
   line: (x: any[]) => any;
+  linesD3Data;
+  linesKeyFunction;
+  markersD3Data;
+  markersKeyFunction;
   tooltipCurrentlyShown = false;
 
   constructor(
@@ -78,16 +82,16 @@ export class LinesComponent
     super();
   }
 
-  get markers(): any {
-    return select(this.markersRef.nativeElement).selectAll('circle');
-  }
-
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
   }
 
   get hoverDot(): any {
     return select(this.dotRef.nativeElement).selectAll('circle');
+  }
+
+  get markers(): any {
+    return select(this.markersRef.nativeElement).selectAll('circle');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -129,6 +133,10 @@ export class LinesComponent
     this.setScaledSpaceProperties();
     this.initCategoryScale();
     this.setLine();
+    this.setLinesD3Data();
+    this.setLinesKeyFunction();
+    this.setMarkersD3Data();
+    this.setMarkersKeyFunction();
     this.drawMarks(this.chart.transitionDuration);
   }
 
@@ -209,6 +217,37 @@ export class LinesComponent
     return !(isNaN(x) || x === null || typeof x === 'boolean');
   }
 
+  setLinesD3Data(): void {
+    this.linesD3Data = group(
+      this.values.indicies,
+      (i) => this.values.category[i]
+    );
+  }
+
+  setLinesKeyFunction(): void {
+    this.linesKeyFunction = (d): string => d[0];
+  }
+
+  setMarkersD3Data(): void {
+    this.markersD3Data = this.values.indicies
+      .map((i) => {
+        return { key: this.getMarkerKey(i), index: i };
+      })
+      .filter(
+        (marker: Marker) =>
+          this.canBeDrawnByPath(this.values.x[marker.index]) &&
+          this.canBeDrawnByPath(this.values.y[marker.index])
+      );
+  }
+
+  getMarkerKey(i: number): string {
+    return `${this.values.category[i]}-${this.values.x[i]}`;
+  }
+
+  setMarkersKeyFunction(): void {
+    this.markersKeyFunction = (d) => (d as Marker).key;
+  }
+
   drawMarks(transitionDuration: number): void {
     this.drawLines(transitionDuration);
     if (this.config.pointMarker.display) {
@@ -226,39 +265,28 @@ export class LinesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const data = group(this.values.indicies, (i) => this.values.category[i]);
-
-    const keyFunction = this.getLinesKeyFunction();
-
-    select(this.linesRef.nativeElement)
-      .selectAll('path')
-      .data(data, keyFunction)
-      .join(
-        (enter) =>
-          enter
-            .append('path')
-            .property('key', ([category]) => category)
-            .attr('class', 'line')
-            .attr('stroke', ([category]) =>
-              this.config.category.colorScale(category)
-            )
-            .attr('d', ([, lineData]) => this.line(lineData)),
-        (update) =>
-          update
-            .attr('stroke', ([category]) =>
-              this.config.category.colorScale(category)
-            )
-            .call((update) =>
-              update
-                .transition(t as any)
-                .attr('d', ([, lineData]) => this.line(lineData))
-            ),
-        (exit) => exit.remove()
-      );
-  }
-
-  getLinesKeyFunction(): (d) => string {
-    return (d): string => d[0];
+    this.lines.data(this.linesD3Data, this.linesKeyFunction).join(
+      (enter) =>
+        enter
+          .append('path')
+          .property('key', ([category]) => category)
+          .attr('class', 'line')
+          .attr('stroke', ([category]) =>
+            this.config.category.colorScale(category)
+          )
+          .attr('d', ([, lineData]) => this.line(lineData)),
+      (update) =>
+        update
+          .attr('stroke', ([category]) =>
+            this.config.category.colorScale(category)
+          )
+          .call((update) =>
+            update
+              .transition(t as any)
+              .attr('d', ([, lineData]) => this.line(lineData))
+          ),
+      (exit) => exit.remove()
+    );
   }
 
   drawHoverDot(): void {
@@ -275,41 +303,32 @@ export class LinesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const markerValues: Marker[] = this.getMarkerValues();
-
-    const keyFunction = this.getMarkersKeyFunction();
-
-    select(this.markersRef.nativeElement)
-      .selectAll('circle')
-      .data(markerValues, keyFunction)
-      .join(
-        (enter) =>
-          enter
-            .append('circle')
-            .filter(this.config.valueIsDefined)
-            .attr('class', 'marker')
-            .attr('key', (d) => d.key)
-            .style('mix-blend-mode', this.config.mixBlendMode)
-            .attr('cx', (d) => this.xScale(this.values.x[d.index]))
-            .attr('cy', (d) => this.yScale(this.values.y[d.index]))
-            .attr('r', this.config.pointMarker.radius)
-            .attr('fill', (d) =>
-              this.config.category.colorScale(this.values.category[d.index])
-            ),
-        (update) =>
-          update
-            .attr('fill', (d) =>
-              this.config.category.colorScale(this.values.category[d.index])
-            )
-            .call((update) =>
-              update
-                .filter(this.config.valueIsDefined)
-                .transition(t as any)
-                .attr('cx', (d) => this.xScale(this.values.x[d.index]))
-                .attr('cy', (d) => this.yScale(this.values.y[d.index]))
-            ),
-        (exit) => exit.remove()
-      );
+    this.markers.data(this.markersD3Data, this.markersKeyFunction).join(
+      (enter) =>
+        enter
+          .append('circle')
+          .attr('class', 'marker')
+          .attr('key', (d) => d.key)
+          .style('mix-blend-mode', this.config.mixBlendMode)
+          .attr('cx', (d) => this.xScale(this.values.x[d.index]))
+          .attr('cy', (d) => this.yScale(this.values.y[d.index]))
+          .attr('r', this.config.pointMarker.radius)
+          .attr('fill', (d) =>
+            this.config.category.colorScale(this.values.category[d.index])
+          ),
+      (update) =>
+        update
+          .attr('fill', (d) =>
+            this.config.category.colorScale(this.values.category[d.index])
+          )
+          .call((update) =>
+            update
+              .transition(t as any)
+              .attr('cx', (d) => this.xScale(this.values.x[d.index]))
+              .attr('cy', (d) => this.yScale(this.values.y[d.index]))
+          ),
+      (exit) => exit.remove()
+    );
   }
 
   getMarkerValues(): Marker[] {
@@ -322,14 +341,6 @@ export class LinesComponent
           this.canBeDrawnByPath(this.values.x[marker.index]) &&
           this.canBeDrawnByPath(this.values.y[marker.index])
       );
-  }
-
-  getMarkerKey(i: number): string {
-    return `${this.values.category[i]}-${this.values.x[i]}`;
-  }
-
-  getMarkersKeyFunction(): (d) => string {
-    return (d) => (d as Marker).key;
   }
 
   drawLineLabels(): void {
