@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   format,
@@ -21,7 +21,7 @@ import {
   range,
   scaleOrdinal,
   select,
-  Transition,
+  Transition
 } from 'd3';
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -31,7 +31,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
-  XyDataMarksValues,
+  XyDataMarksValues
 } from '../data-marks/xy-data-marks.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
@@ -59,6 +59,7 @@ export class BarsComponent
   yScale: (d: any) => any;
   hasBarsWithNegativeValues: boolean;
   bars: any;
+  barsKeyFunction: (i: number) => string;
 
   constructor(
     public chart: ChartComponent,
@@ -109,6 +110,7 @@ export class BarsComponent
     this.initQuantitativeDomain();
     this.initCategoryScale();
     this.setScaledSpaceProperties();
+    this.setBarsKeyFunction();
     this.drawMarks(this.chart.transitionDuration);
   }
 
@@ -253,10 +255,15 @@ export class BarsComponent
     );
   }
 
+  setBarsKeyFunction(): void {
+    this.barsKeyFunction = (i: number): string =>
+      `${this.values[this.config.dimensions.ordinal][i]}`;
+  }
+
   drawMarks(transitionDuration: number): void {
     this.drawBars(transitionDuration);
     if (this.config.labels.show) {
-      this.drawBarLabels();
+      this.drawBarLabels(transitionDuration);
     }
   }
 
@@ -265,11 +272,9 @@ export class BarsComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    const keyFunction = this.getBarKeyFunction();
-
     this.bars = select(this.barsRef.nativeElement)
       .selectAll('.bar-group')
-      .data(this.values.indicies, keyFunction)
+      .data(this.values.indicies, this.barsKeyFunction)
       .join(
         (enter) =>
           enter
@@ -282,11 +287,11 @@ export class BarsComponent
             }),
         (update) =>
           update.call((update) =>
-            update
-              .selectAll('.bar-group')
-              .transition(t as any)
-              .attr('x', (i) => this.getBarX(i as number))
-              .attr('y', (i) => this.getBarY(i as number))
+            update.transition(t as any).attr('transform', (i) => {
+              const x = this.getBarX(i);
+              const y = this.getBarY(i);
+              return `translate(${x},${y})`;
+            })
           ),
         (exit) => exit.remove()
       );
@@ -309,7 +314,6 @@ export class BarsComponent
         (update) =>
           update.call((update) =>
             update
-              .selectAll('.bar')
               .transition(t as any)
               .attr('width', (i) => this.getBarWidth(i as number))
               .attr('height', (i) => this.getBarHeight(i as number))
@@ -318,21 +322,34 @@ export class BarsComponent
       );
   }
 
-  getBarKeyFunction(): (i: number) => string {
-    return (i: number) => this.values[this.config.dimensions.ordinal][i];
-  }
-
-  drawBarLabels(): void {
-    // TODO: incorporate into transition
-    this.bars.selectAll('.bar-label').remove();
+  drawBarLabels(transitionDuration): void {
+    const t = select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.bars
-      .append('text')
-      .attr('class', 'bar-label')
-      .text((i) => this.getBarLabelText(i))
-      .style('fill', (i) => this.getBarLabelColor(i))
-      .attr('x', (i) => this.getBarLabelX(i))
-      .attr('y', (i) => this.getBarLabelY(i));
+      .selectAll('text')
+      .data((i: number) => [i])
+      .join(
+        (enter) =>
+          enter
+            .append('text')
+            .attr('class', 'bar-label')
+            .text((i) => this.getBarLabelText(i))
+            .style('fill', (i) => this.getBarLabelColor(i))
+            .attr('x', (i) => this.getBarLabelX(i))
+            .attr('y', (i) => this.getBarLabelY(i)),
+        (update) =>
+          update.call((update) =>
+            update
+              .text((i) => this.getBarLabelText(i))
+              .style('fill', (i) => this.getBarLabelColor(i))
+              .transition(t as any)
+              .attr('x', (i) => this.getBarLabelX(i))
+              .attr('y', (i) => this.getBarLabelY(i))
+          ),
+        (exit) => exit.remove()
+      );
   }
 
   getBarLabelText(i: number): string {
