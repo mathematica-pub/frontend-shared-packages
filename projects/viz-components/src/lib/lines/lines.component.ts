@@ -331,18 +331,6 @@ export class LinesComponent
     );
   }
 
-  getMarkerValues(): Marker[] {
-    return this.values.indicies
-      .map((i) => {
-        return { key: this.getMarkerKey(i), index: i };
-      })
-      .filter(
-        (marker: Marker) =>
-          this.canBeDrawnByPath(this.values.x[marker.index]) &&
-          this.canBeDrawnByPath(this.values.y[marker.index])
-      );
-  }
-
   drawLineLabels(): void {
     // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
     select(this.lineLabelsRef.nativeElement)
