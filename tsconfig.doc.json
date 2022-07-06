@@ -1,0 +1,4 @@
+{
+    "include": ["projects/viz-components/src/**/*.ts"],
+    "exclude": ["projects/viz-components/src/**/*.spec.ts"]
+}

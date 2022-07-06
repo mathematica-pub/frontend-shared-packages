@@ -128,6 +128,10 @@ describe('LineChartComponent', () => {
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'initCategoryScale');
       spyOn(component, 'setLine');
+      spyOn(component, 'setLinesD3Data');
+      spyOn(component, 'setLinesKeyFunction');
+      spyOn(component, 'setMarkersD3Data');
+      spyOn(component, 'setMarkersKeyFunction');
       spyOn(component, 'drawMarks');
       component.chart = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
@@ -158,6 +162,22 @@ describe('LineChartComponent', () => {
 
     it('calls setLine once', () => {
       expect(component.setLine).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setLinesD3Data once', () => {
+      expect(component.setLinesD3Data).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setLinesKeyFunction once', () => {
+      expect(component.setLinesKeyFunction).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setMarkersD3Data once', () => {
+      expect(component.setMarkersD3Data).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setMarkersKeyFunction once', () => {
+      expect(component.setMarkersKeyFunction).toHaveBeenCalledTimes(1);
     });
 
     it('calls drawMarks once with the correct argument', () => {
