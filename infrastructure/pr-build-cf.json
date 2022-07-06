@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "mathematica.org"
+  },
+  {
+    "ParameterKey": "RepositoryName",
+    "ParameterValue": "viz-components"
+  },
+  {
+    "ParameterKey": "GitHubAccessCredentialSecret",
+    "ParameterValue": "viz-lib/github/token"
+  }
+]

@@ -1,0 +1,82 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Runs buildspec.yml on pull request creation or update, branch agnostic
+
+Parameters:
+  AppName:
+    Type: String
+  GitHubOwner:
+    Type: String
+  RepositoryName:
+    Type: String
+  Env:
+    Type: String
+  GitHubAccessCredentialSecret:
+    Type: String
+  BuildImage:
+    Default: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+    Type: String
+
+Resources:
+  CodeBuildSourceCredential:
+    Type: AWS::CodeBuild::SourceCredential
+    Properties:
+      AuthType: PERSONAL_ACCESS_TOKEN
+      ServerType: GITHUB
+      Token: !Sub "{{resolve:secretsmanager:${GitHubAccessCredentialSecret}:SecretString:token}}"
+
+  LogStreamsPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: LogStreams
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: "*"
+          Action:
+            - "logs:CreateLogStream"
+            - "logs:GetLogEvents"
+            - "logs:CreateLogGroup"
+            - "logs:PutLogEvents"
+      Roles:
+        - !Ref CodeBuildRole
+
+  CodeBuildRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: "sts:AssumeRole"
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+
+  CodeBuild:
+    Type: "AWS::CodeBuild::Project"
+    Properties:
+      Name: !Ref "AWS::StackName"
+      # Question: is it best practice to store artifacts in S3 bucket?
+      # or for PR stuff, to have no artifacts?
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        Type: LINUX_CONTAINER
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: GITHUB
+        BuildSpec: practice-app/buildspec.yml
+        Location: !Sub https://github.com/${GitHubOwner}/${RepositoryName}.git
+        Auth:
+          Type: OAUTH
+          Resource: !Ref CodeBuildSourceCredential
+      Triggers:
+        Webhook: true
+        BuildType: BUILD
+        FilterGroups:
+          - - Pattern: PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED
+              Type: EVENT

@@ -1,0 +1,48 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: <-
+  serve files from bucket behind a cloudfront distribution
+
+Parameters:
+  AppName:
+    Type: String
+  BucketName:
+    Type: String
+  UseMathIPs:
+    Description: "Add WAF to restrict to Mathematica IPs"
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+
+Conditions:
+  UseWAF: !Equals [true, !Ref UseMathIPs]
+
+Resources:
+  S3SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ["-", [!Ref AppName, !Ref BucketName]]
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+
+  CloudfrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig: required
+      Tags: wtf do these do?
+
+Outputs:
+  BucketName:
+    Description: Name of Bucket
+    Value: !Ref S3SiteBucket
+  CloudFrontDomain:
+    Description: Name of CloudFront Domain
+    Value: !GetAtt CloudFrontDistribution.DomainName
+  CloudFrontDistributionId:
+    Description: CloudFront Distribution Id
+    Value: !Ref CloudFrontDistribution
