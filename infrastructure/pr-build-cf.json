@@ -1,7 +1,7 @@
 [
   {
     "ParameterKey": "GitHubOwner",
-    "ParameterValue": "mathematica.org"
+    "ParameterValue": "mathematica-org"
   },
   {
     "ParameterKey": "RepositoryName",
@@ -10,5 +10,13 @@
   {
     "ParameterKey": "GitHubAccessCredentialSecret",
     "ParameterValue": "viz-lib/github/token"
+  },
+  {
+    "ParameterKey": "AppName",
+    "ParameterValue": "viz-library"
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "dev"
   }
 ]

@@ -5,11 +5,11 @@ Description: >-
 Parameters:
   AppName:
     Type: String
+  Env:
+    Type: String
   GitHubOwner:
     Type: String
   RepositoryName:
-    Type: String
-  Env:
     Type: String
   GitHubAccessCredentialSecret:
     Type: String
@@ -18,12 +18,13 @@ Parameters:
     Type: String
 
 Resources:
-  CodeBuildSourceCredential:
-    Type: AWS::CodeBuild::SourceCredential
-    Properties:
-      AuthType: PERSONAL_ACCESS_TOKEN
-      ServerType: GITHUB
-      Token: !Sub "{{resolve:secretsmanager:${GitHubAccessCredentialSecret}:SecretString:token}}"
+  # Commenting out because only needs to be done 1x per account
+  # CodeBuildSourceCredential:
+  #   Type: AWS::CodeBuild::SourceCredential
+  #   Properties:
+  #     AuthType: PERSONAL_ACCESS_TOKEN
+  #     ServerType: GITHUB
+  #     Token: !Sub "{{resolve:secretsmanager:${GitHubAccessCredentialSecret}:SecretString:token}}"
 
   LogStreamsPolicy:
     Type: "AWS::IAM::Policy"
@@ -45,6 +46,8 @@ Resources:
   CodeBuildRole:
     Type: "AWS::IAM::Role"
     Properties:
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+      RoleName: !Join ["-", ["MathRole", "CodeBuild", !Ref AppName, !Ref Env]]
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -52,7 +55,6 @@ Resources:
             Principal:
               Service: codebuild.amazonaws.com
             Action: "sts:AssumeRole"
-      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
 
   CodeBuild:
     Type: "AWS::CodeBuild::Project"
@@ -64,16 +66,17 @@ Resources:
         Type: NO_ARTIFACTS
       Environment:
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+        Image: !Ref BuildImage
         Type: LINUX_CONTAINER
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
         Type: GITHUB
-        BuildSpec: practice-app/buildspec.yml
+        BuildSpec: buildspec.yml
         Location: !Sub https://github.com/${GitHubOwner}/${RepositoryName}.git
-        Auth:
-          Type: OAUTH
-          Resource: !Ref CodeBuildSourceCredential
+        # Commented out because only needs to be done 1x per account
+        # Auth:
+        #   Type: OAUTH
+        #   Resource: !Ref CodeBuildSourceCredential
       Triggers:
         Webhook: true
         BuildType: BUILD
