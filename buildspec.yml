@@ -16,7 +16,7 @@ phases:
       - echo Building library
       - ./build.sh
       - echo Building demo app
-      - npm run build
+      - npm run build demo-app
 
 artifacts:
   files:
