@@ -1,2 +1,6 @@
-<h1>Viz Components Demo App</h1>
-<div>{{ data$ | async | json }}</div>
+<div class="app-container">
+  <app-navbar></app-navbar>
+  <main class="main-container">
+    <router-outlet></router-outlet>
+  </main>
+</div>
