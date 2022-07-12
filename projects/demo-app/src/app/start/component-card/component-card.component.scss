@@ -1,0 +1,17 @@
+@import 'vars', 'placeholders';
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5%;
+}
+
+.card-image {
+  height: 80%;
+}
+
+.card-title {
+  @extend %typography-headline-5;
+}

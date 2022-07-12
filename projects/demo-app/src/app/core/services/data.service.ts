@@ -2,12 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface EmploymentDatum {
-  division: string;
-  data: Date;
-  value: number;
-}
+import { EmploymentDatum } from '../models/employement-data';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +10,7 @@ export interface EmploymentDatum {
 export class DataService {
   constructor(private http: HttpClient) {}
 
-  getEmploymentData(): Observable<any> {
+  getEmploymentData(): Observable<EmploymentDatum[]> {
     return this.http
       .get('assets/metro_unemployment.json', { responseType: 'json' })
       .pipe(
