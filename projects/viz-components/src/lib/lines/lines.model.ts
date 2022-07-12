@@ -14,7 +14,7 @@ export class LinesConfig extends DataMarksConfig {
   pointMarker: PointMarker = new PointMarker();
   stroke?: LinesStroke = new LinesStroke();
   labelLines?: boolean;
-  tooltipDetectionRadius?: number;
+  tooltipDetectionRadius: number;
   lineLabelsFormat?: (d: string) => string;
 
   constructor() {
@@ -28,6 +28,7 @@ export class LinesConfig extends DataMarksConfig {
     this.curve = curveLinear;
     this.stroke.width = 2;
     this.lineLabelsFormat = (d: string) => d;
+    this.tooltipDetectionRadius = 80;
   }
 }
 

@@ -393,34 +393,25 @@ describe('LineChartComponent', () => {
       expect(component.getClosestPointIndex).toHaveBeenCalledOnceWith(1, 2);
     });
 
-    describe('if tooltipDetectionRadius is truthy', () => {
+    describe('if pointerIsInsideShowTooltipRadius is truthy', () => {
+      beforeEach(() => {
+        radiusSpy.and.returnValue(true);
+      });
+
       it('calls pointerIsInsideShowTooltipRadius once and with the correct values', () => {
         component.determineHoverStyles(1, 2);
         expect(radiusSpy).toHaveBeenCalledOnceWith(10, 1, 2);
       });
 
       it('calls applyHoverStyles once with the correct value if pointerIsInsideShowTooltipRadius returns true', () => {
-        radiusSpy.and.returnValue(true);
         component.determineHoverStyles(1, 2);
         expect(component.applyHoverStyles).toHaveBeenCalledOnceWith(10);
       });
-
-      it('does not call applyHoverStyles if pointerIsInsideShowTooltipRadius returns false', () => {
-        radiusSpy.and.returnValue(false);
-        component.determineHoverStyles(1, 2);
-        expect(component.applyHoverStyles).toHaveBeenCalledTimes(0);
-      });
-
-      it('calls removeHoverStyles once if pointerIsInsideShowTooltipRadius returns true', () => {
-        radiusSpy.and.returnValue(false);
-        component.determineHoverStyles(1, 2);
-        expect(component.removeHoverStyles).toHaveBeenCalledTimes(1);
-      });
     });
 
-    describe('if tooltipDetectionRadius is falsy', () => {
+    describe('if pointerIsInsideShowTooltipRadius is falsy', () => {
       beforeEach(() => {
-        component.config.tooltipDetectionRadius = null;
+        radiusSpy.and.returnValue(false);
       });
       it('calls removeHoverStyles', () => {
         component.determineHoverStyles(1, 2);
