@@ -28,7 +28,7 @@ export class DataService {
   }): EmploymentDatum {
     return {
       division: datum.division,
-      data: new Date(datum.date),
+      date: new Date(datum.date),
       value: datum.unemployment,
     };
   }
