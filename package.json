@@ -14,6 +14,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:demo": "ng serve demo-app",
     "build": "ng build",
     "build:lib": "ng build viz-components",
     "watch": "ng build --watch --configuration development",
@@ -21,8 +22,8 @@
     "test": "ng test",
     "test:lib": "ng test viz-components --browsers=Chrome",
     "test:lib:ci": "ng test viz-components --no-watch --browsers=ChromeHeadlessNoSandbox",
-    "lint:lib": "ng lint viz-components",
     "lint": "ng lint",
+    "lint:lib": "ng lint viz-components",
     "compodoc:build": "npx compodoc -p tsconfig.doc.json",
     "compodoc:build-and-serve": "npx compodoc -p tsconfig.doc.json -s",
     "compodoc:serve": "npx compodoc -s"
