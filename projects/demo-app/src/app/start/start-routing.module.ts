@@ -7,6 +7,15 @@ const routes: Routes = [
     path: '',
     component: StartComponent,
   },
+  {
+    path: 'bars',
+    loadChildren: () => import('../bars/bars.module').then((m) => m.BarsModule),
+  },
+  {
+    path: 'line',
+    loadChildren: () =>
+      import('../lines/lines.module').then((m) => m.LinesModule),
+  },
 ];
 
 @NgModule({
