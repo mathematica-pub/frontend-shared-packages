@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   extent,
@@ -27,7 +27,7 @@ import {
   scaleOrdinal,
   select,
   timeFormat,
-  Transition,
+  Transition
 } from 'd3';
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -36,7 +36,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
-  XyDataMarksValues,
+  XyDataMarksValues
 } from '../data-marks/xy-data-marks.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
@@ -385,7 +385,6 @@ export class LinesComponent
   determineHoverStyles(pointerX: number, pointerY: number): void {
     const closestPointIndex = this.getClosestPointIndex(pointerX, pointerY);
     if (
-      this.config.tooltipDetectionRadius &&
       this.pointerIsInsideShowTooltipRadius(
         closestPointIndex,
         pointerX,

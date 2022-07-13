@@ -1,0 +1,21 @@
+@import 'vars', 'placeholders';
+
+.nav-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1 1 0%;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  padding: $grid-2 $grid-4;
+  font-size: 16px;
+  z-index: 3;
+  position: sticky;
+  top: 0px;
+  background: $color-white;
+  border-bottom: 1px solid $color-primary-7;
+}
+
+.title {
+  @extend %typography-headline-2;
+}

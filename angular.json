@@ -76,7 +76,13 @@
               "projects/demo-app/src/favicon.ico",
               "projects/demo-app/src/assets"
             ],
-            "styles": ["projects/demo-app/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/demo-app/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/demo-app/src/styles"]
+            },
             "scripts": []
           },
           "configurations": {
@@ -142,7 +148,13 @@
               "projects/demo-app/src/favicon.ico",
               "projects/demo-app/src/assets"
             ],
-            "styles": ["projects/demo-app/src/styles.scss"],
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "projects/demo-app/src/styles/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["projects/demo-app/src/styles"]
+            },
             "scripts": []
           }
         },

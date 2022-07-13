@@ -1,0 +1,181 @@
+@import 'functions';
+
+/* ----- FONTS ----- */
+$sans-font: 'Fira Sans', sans-serif;
+$serif-font: 'PT Serif', monospace;
+
+$font-properties: (
+  'weights': (
+    'light': 300,
+    'regular': 400,
+    'medium': 500,
+    'semibold': 600,
+    'bold': 700,
+  ),
+  'line-heights': (
+    'ht-0': 1,
+    'ht-1': 1.125,
+    'ht-2': 1.25,
+    'ht-3': 1.5,
+    'ht-4': 1.75,
+    'ht-5': 2,
+  ),
+);
+
+$colors: (
+  'primary': (
+    '0': #2f374c,
+    '1': #4b5264,
+    '2': #666c7d,
+    '3': #828795,
+    '4': #9da2ad,
+    '5': #b9bdc5,
+    '6': #d4d7de,
+    '7': #f0f2f6,
+    '8': #f8f8fb,
+    'base': #20283c,
+    'white': #ffffff,
+  ),
+  'highlight': (
+    'dark': #0c369e,
+    'default': #1650e1,
+    'light': #4578f6,
+  ),
+  'hover': #ffeb3b,
+);
+
+$color-text: get($colors, 'primary.base');
+$color-white: get($colors, 'primary.white');
+$color-highlight-dark: get($colors, 'highlight.dark');
+$color-highlight: get($colors, 'highlight.default');
+$color-highlight-light: get($colors, 'highlight.light');
+$color-hover: rgba(get($colors, 'hover'), 0.8);
+$color-focus-ring: get($colors, 'primary.2');
+$color-primary-1: get($colors, 'primary.1');
+$color-primary-2: get($colors, 'primary.2');
+$color-primary-3: get($colors, 'primary.3');
+$color-primary-4: get($colors, 'primary.4');
+$color-primary-5: get($colors, 'primary.5');
+$color-primary-6: get($colors, 'primary.6');
+$color-primary-7: get($colors, 'primary.7');
+$color-primary-8: get($colors, 'primary.8');
+
+$font-weight-light: get($font-properties, 'weights.light');
+$font-weight-regular: get($font-properties, 'weights.regular');
+$font-weight-medium: get($font-properties, 'weights.medium');
+$font-weight-semibold: get($font-properties, 'weights.semibold');
+$font-weight-bold: get($font-properties, 'weights.bold');
+
+$transition-default: all 0.2s ease-in-out;
+$transition-quick: all 0.125s ease-in-out;
+
+$drop-shadow-light: 0 1px 3px rgba($color-text, 0.12),
+  0 1px 2px rgba($color-text, 0.24);
+$drop-shadow-lightest: 0 1px 3px rgba($color-text, 0.06),
+  0 1px 2px rgba($color-text, 0.12);
+$drop-shadow-bottom-light: 0 1px 3px -1px rgba($color-text, 0.12),
+  0 1px 2px -1px rgba($color-text, 0.24);
+$drop-shadow-bottom-lightest: 0 1px 3px -1px rgba($color-text, 0.06),
+  0 1px 2px -1px rgba($color-text, 0.12);
+
+/* ----- GRID UNITS ----- */
+$grid-1: 0.25rem;
+$grid-2: 0.5rem;
+$grid-3: 0.75rem;
+$grid-4: 1rem;
+$grid-5: 1.25rem;
+$grid-6: 1.5rem;
+$grid-7: 1.75rem;
+$grid-8: 2rem;
+$grid-9: 2.25rem;
+$grid-10: 2.5rem;
+$grid-11: 2.75rem;
+$grid-12: 3rem;
+$grid-13: 3.25rem;
+$grid-14: 3.5rem;
+$grid-15: 3.75rem;
+$grid-16: 4rem;
+$grid-17: 4.25rem;
+$grid-18: 4.5rem;
+$grid-19: 4.75rem;
+$grid-20: 5rem;
+$grid-21: 5.25rem;
+$grid-22: 5.5rem;
+$grid-23: 5.75rem;
+$grid-24: 6rem;
+$grid-25: 6.25rem;
+$grid-26: 6.5rem;
+$grid-27: 6.75rem;
+$grid-28: 7rem;
+$grid-29: 7.25rem;
+$grid-30: 7.5rem;
+$grid-31: 7.75rem;
+$grid-32: 8rem;
+$grid-33: 8.25rem;
+$grid-34: 8.5rem;
+$grid-35: 8.75rem;
+$grid-36: 9rem;
+$grid-37: 9.25rem;
+$grid-38: 9.5rem;
+$grid-39: 9.75rem;
+$grid-40: 10rem;
+$grid-41: 10.25rem;
+$grid-42: 10.5rem;
+$grid-43: 10.75rem;
+$grid-44: 11rem;
+$grid-45: 11.25rem;
+$grid-46: 11.5rem;
+$grid-47: 11.75rem;
+$grid-48: 12rem;
+$grid-49: 12.25rem;
+$grid-50: 12.5rem;
+$grid-51: 12.75rem;
+$grid-52: 13rem;
+$grid-53: 13.25rem;
+$grid-54: 13.5rem;
+$grid-55: 13.75rem;
+$grid-56: 14rem;
+$grid-57: 14.25rem;
+$grid-58: 14.5rem;
+$grid-59: 14.75rem;
+$grid-60: 15rem;
+$grid-61: 15.25rem;
+$grid-62: 15.5rem;
+$grid-63: 15.75rem;
+$grid-64: 16rem;
+$grid-65: 16.25rem;
+$grid-66: 16.5rem;
+$grid-67: 16.75rem;
+$grid-68: 17rem;
+$grid-69: 17.25rem;
+$grid-70: 17.5rem;
+$grid-71: 17.75rem;
+$grid-72: 18rem;
+$grid-73: 18.25rem;
+$grid-74: 18.5rem;
+$grid-75: 18.75rem;
+$grid-76: 19rem;
+$grid-77: 19.25rem;
+$grid-78: 19.5rem;
+$grid-79: 19.75rem;
+$grid-80: 20rem;
+$grid-81: 20.25rem;
+$grid-82: 20.5rem;
+$grid-83: 20.75rem;
+$grid-84: 21rem;
+$grid-85: 21.25rem;
+$grid-86: 21.5rem;
+$grid-87: 21.75rem;
+$grid-88: 22rem;
+$grid-89: 22.25rem;
+$grid-90: 22.5rem;
+$grid-91: 22.75rem;
+$grid-92: 23rem;
+$grid-93: 23.25rem;
+$grid-94: 23.5rem;
+$grid-95: 23.75rem;
+$grid-96: 24rem;
+$grid-97: 24.25rem;
+$grid-98: 24.5rem;
+$grid-99: 24.75rem;
+$grid-100: 25rem;
