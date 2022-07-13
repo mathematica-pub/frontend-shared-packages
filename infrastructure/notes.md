@@ -2,12 +2,8 @@
 
 1. Run PR template
 
-2. Run demo app, documentation dev buckets and cloudfronts template
+2. Run buckets and cloudfronts template for demo app, documentation
 
-3. Potentially same as ^^ create code artifact stack
+3. Potentially similar, but not exactly the same? as ^^ for the deployment of the library
 
 4. Run pipeline creation template
-
-## Questions (high level)
-
-- how to avoid duplication of code for codebuild sections (they do...essentially the same things, and roles are similar.)

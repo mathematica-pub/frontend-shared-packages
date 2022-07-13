@@ -60,8 +60,6 @@ Resources:
     Type: "AWS::CodeBuild::Project"
     Properties:
       Name: !Ref "AWS::StackName"
-      # Question: is it best practice to store artifacts in S3 bucket?
-      # or for PR stuff, to have no artifacts?
       Artifacts:
         Type: NO_ARTIFACTS
       Environment:

@@ -1,3 +1,72 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  Pipeline stuff eventually goes here
+  Cloudformation for CI pipeline in AWS using Codepipeline and CodeBuild
+  Includes a couple deployment S3 buckets
+
+Parameters:
+  AppName:
+    Type: String
+  BranchName:
+    Description: GitHub branch name
+    Type: String
+  S3DemoAppBucket:
+    Type: String
+  S3DocumentationBucket:
+    Type: String
+  BuildImage:
+    Default: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+    Type: String
+  Env:
+    Type: String
+
+Resources:
+  # codebuild and codepipeline have to be able to list buckets?
+  ListBucketsPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: "*"
+          Action:
+            - "s3:ListAllMyBuckets"
+            - "s3:ListStorageLensConfigurations"
+      PolicyName: ListBuckets
+      Roles:
+        - !Ref CodeBuildRole
+        - !Ref CodePipelineRole
+
+  GetPutSourceBucketPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource:
+            - !Sub "arn:aws:s3:::${S3DemoAppBucket}"
+            - !Sub "arn:aws:s3:::${S3DemoAppBucket}/*"
+            - !Sub "arn:aws:s3:::${S3DocumentationBucket}"
+            - !Sub "arn:aws:s3:::${S3DocumentationBucket}/*"
+          Action:
+            - "s3:PutObject"
+            - "s3:GetObject"
+            - "s3:DeleteObject"
+            - "s3:List*"
+            - "s3:PutObjectAcl"
+      PolicyName: GetPutSourceBucket
+      Roles:
+        - !Ref CodeBuildRole
+        - !Ref CodePipelineRole
+
+  CodeBuild:
+    Type: "AWS::CodeBuild::Project"
+    Properties:
+      Artifacts:
+        Type: CODEPIPELINE
+      SecondaryArtifacts:
+        - ArtifactIdentifier:
+
+  CodePipeline:
+    Type: "AWS::CodePipeline::Pipeline"

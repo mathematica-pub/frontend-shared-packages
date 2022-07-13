@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "AppName",
+    "ParameterValue": "viz-components"
+  },
+  {
+    "ParameterKey": "BucketName",
+    "ParameterValue": "demo-app"
+  },
+  {
+    "ParameterKey": "UseMathIPs",
+    "ParameterValue": true
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "dev"
+  }
+]
