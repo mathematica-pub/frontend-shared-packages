@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "DomainName",
+    "ParameterValue": "frontend"
+  },
+  {
+    "ParameterKey": "ExternalConnectionSource",
+    "ParameterValue": "public:npmjs"
+  },
+  {
+    "ParameterKey": "StoreRepositoryName",
+    "ParameterValue": "npm"
+  }
+]
