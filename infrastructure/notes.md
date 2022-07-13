@@ -5,21 +5,13 @@
 1. Set up PR workflow
 
 aws cloudformation create-stack \
- --stack-name vizcolib-npm-source-repo \
- --template-body file://codeartifact-source-bucket.yml \
- --parameters file://codeartifact-source-bucket.json
+ --stack-name viz-library-pr \
+ --template-body file://pr-build-cf.yml \
+ --parameters file://pr-build-cf.json
 
 2. Set up S3 buckets with cloudfront distribution for demo app, documentation
 
-aws cloudformation create-stack \
- --stack-name vizcolib-npm-source-repo \
- --template-body file://codeartifact-source-bucket.yml \
- --parameters file://codeartifact-source-bucket.json
-
-aws cloudformation create-stack \
- --stack-name vizcolib-npm-source-repo \
- --template-body file://codeartifact-source-bucket.yml \
- --parameters file://codeartifact-source-bucket.json
+TODO: test to see if this works, add commands here
 
 3. Set up library:
 
@@ -39,10 +31,7 @@ aws cloudformation create-stack \
 
 4. Set up CI/CD pipeline
 
-aws cloudformation create-stack \
- --stack-name vizcolib-repo \
- --template-body file://codeartifact-repository.yml \
- --parameters file://codeartifact-repository.json
+TODO: test to see if this works, add commands here
 
 ## Some personal notes
 

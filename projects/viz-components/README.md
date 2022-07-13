@@ -14,17 +14,24 @@ Run `./build.sh` to build the project. The build artifacts will be stored in the
 
 ## Publishing
 
-1. run `verdaccio` from the main folder `viz-components` (not in `projects/viz-components`)
+1. run `npm run prepare` from the viz-components folder
 
-2. In the same folder run `./build.sh`
+2. in the root folder, run ./build.sh
 
 3. Go to the dist folder `cd dist/viz-components` and run `npm publish`.
 
-The `package.json` for this project has set the npm registry as being `localhost:4873` -- this is currently verdaccio, once we get AWS hosting support set up, we'll port over to that (I think the commands will remain the same).
+## Using the library
 
-To test if custom schematics worked, create a blank angular project (anywhere; I haven't set up the demo app to do this). Either just run `npm install viz-components --registry=http://localhost:4873` or create an .npmrc file (in the top-level folder) and add `registry="http://localhost:4873"` to it.
+1.  add the below to the "scripts" section of the package.json
 
-Finally, run `ng g viz-components:extend` and follow the instructions from there.
+        "preinstall": "npm run codeartifact:login",
+        "codeartifact:login": "aws codeartifact login --tool npm --repository vizcolib --domain frontend"
+
+2.  run `npm install @web-ast/viz-components`. If it can't be found, it's probably because the preinstall script didn't actually run (it's supposed to but doesn't always, at least not for me, and haven't successfully debugged yet). Manually run the preinstall script, `npm run preinstall`, then run `npm install @web-ast/viz-components` again.
+
+## Custom Schematics
+
+After installing the library, run `ng g viz-components:extend` and follow the instructions from there.
 
 ## Running unit tests
 

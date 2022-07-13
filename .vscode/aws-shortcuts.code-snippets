@@ -1,0 +1,12 @@
+{
+	"Param": {
+		"scope": "json",
+		"prefix": ["param"],
+		"body": [
+			"{",
+			"\t\"ParameterKey\": \"${1:key}\",",
+			"\t\"ParameterValue\": \"${2:value}\"",
+			"}"
+		]
+	}
+}
