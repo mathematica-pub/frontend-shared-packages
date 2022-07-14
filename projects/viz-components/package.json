@@ -1,10 +1,9 @@
 {
-  "name": "viz-components",
-  "version": "0.0.31",
-  "publishConfig": {
-    "registry": "http://localhost:4873"
-  },
+  "name": "@web-ast/viz-components",
+  "version": "0.0.0",
   "scripts": {
+    "prepare": "npm run co:login",
+    "co:login": "aws codeartifact login --tool npm --repository vizcolib --domain frontend",
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "node build.js"
   },

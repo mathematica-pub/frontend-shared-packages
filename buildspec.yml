@@ -1,0 +1,32 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo codebuild start time $CODEBUILD_START_TIME
+      - npm install -g npm@latest
+      - n 16.15.1
+      - npm --version
+      - node --version
+  pre_build:
+    commands:
+      - npm install
+  build:
+    commands:
+      - echo Building library
+      - ./build.sh
+      - echo Building demo app
+      - npm run build demo-app
+
+artifacts:
+  files:
+    - "**/*"
+  name: viz-library-$CODEBUILD_BUILD_NUMBER-$(date +%Y-%m-%d)-$CODEBUILD_START_TIME
+  base-directory: dist
+  secondary-artifacts:
+    library:
+      files:
+        - viz-components/*
+    demo-app:
+      files:
+        - demo-app/*

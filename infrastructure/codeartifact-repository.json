@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "DomainName",
+    "ParameterValue": "frontend"
+  },
+  {
+    "ParameterKey": "UpstreamConnection",
+    "ParameterValue": "npm-store"
+  },
+  {
+    "ParameterKey": "RepositoryName",
+    "ParameterValue": "vizcolib"
+  }
+]
