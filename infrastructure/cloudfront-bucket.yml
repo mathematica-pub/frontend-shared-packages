@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: <-
+Description: >-
   Serve files from bucket behind a cloudfront distribution
 
 Parameters:
@@ -22,7 +22,7 @@ Resources:
   S3SiteBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env]]
+      BucketName: !Join ["-", [!Ref AppName, !Ref BucketName]]
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -44,7 +44,7 @@ Resources:
             Effect: Allow
             Resource: !Sub "arn:aws:s3:::${S3SiteBucket}/*"
             Principal:
-              CanonicalUser: !GetAtt GloudFrontOriginAccessIdentity.S3CanonicalUserId
+              CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
 
   # Note: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html
   #   Says you only need one of these per account; but this is creating one per bucket
@@ -55,11 +55,11 @@ Resources:
       CloudFrontOriginAccessIdentityConfig:
         Comment: !Ref S3SiteBucket
 
-  CloudfrontDistribution:
+  CloudFrontDistribution:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
-        Comment: !Sub "${AppName} ${BucketName} ${Env} Distribution"
+        Comment: !Sub "${AppName} ${BucketName} Distribution"
         DefaultCacheBehavior:
           AllowedMethods:
             - GET
@@ -117,13 +117,12 @@ Resources:
       DefaultAction:
         Block: {}
       Description: "This WAF restricts access to an IP set"
-      Name: !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env, "web", "acl"]]
+      Name: !Join ["-", [!Ref AppName, !Ref BucketName, "web", "acl"]]
       Scope: CLOUDFRONT
       VisibilityConfig:
         SampledRequestsEnabled: true
         CloudWatchMetricsEnabled: true
-        MetricName:
-          !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env, "web", "acl"]]
+        MetricName: !Join ["-", [!Ref AppName, !Ref BucketName, "web", "acl"]]
       Rules:
         - Action:
             Allow: {}
@@ -141,7 +140,6 @@ Resources:
                 [
                   !Ref AppName,
                   !Ref BucketName,
-                  !Ref Env,
                   "web",
                   "acl",
                   "RuleAllowingIps",
@@ -153,7 +151,7 @@ Resources:
     Condition: UseWAF
     Properties:
       Description: "Mathematica IPs and some CMS" # seems like we should comment which ones are CMS?
-      Name: !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env, "AllowedIps"]]
+      Name: !Join ["-", [!Ref AppName, !Ref BucketName, "AllowedIps"]]
       Scope: CLOUDFRONT
       IPAddressVersion: IPV4
       Addresses:

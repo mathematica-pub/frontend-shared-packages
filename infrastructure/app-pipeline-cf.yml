@@ -3,15 +3,30 @@ Description: >-
   Cloudformation for CI pipeline in AWS using Codepipeline and CodeBuild
   Includes a couple deployment S3 buckets
 
+# Yet to do: add lambda invalidate function (singular, hopefully!)
+# Add invalidate and deploy steps 
+
 Parameters:
   AppName:
     Type: String
   BranchName:
     Description: GitHub branch name
     Type: String
+    Default: main
+  GitHubOwner:
+    Type: String
+    Default: mathematica-org
+  RepositoryName:
+    Type: String
+  GitHubAccessCredentialSecret:
+    Type: String
   S3DemoAppBucket:
     Type: String
+  DemoAppDistributionId:
+    Type: String
   S3DocumentationBucket:
+    Type: String
+  DocumentationDistributionId:
     Type: String
   BuildImage:
     Default: aws/codebuild/amazonlinux2-x86_64-standard:3.0
@@ -20,7 +35,192 @@ Parameters:
     Type: String
 
 Resources:
-  # codebuild and codepipeline have to be able to list buckets?
+  # Resource constants -- any string that's used more than once gets put here 
+  define: &SourceStage !Sub 'source-repo-${AppName}'
+  define: &CodeBuildStage !Sub 'CodeBuild-CodePipeline-App-${AppName}'
+  define: &SourceOuputArtifactName !Sub 'source-repo-artifacts-${AppName}'
+  define: &CodeBuildArtifactName !Sub 'output-artifacts-${AppName}'
+  define: &GitHubCredentials !Sub '{{resolve:secretsmanager:${GitHubAccessCredentialSecret}}:SecretString:token'
+  
+  # Resources
+  S3ArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ['-', [!Ref AppName, 'artifact', !Ref Env]]
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+    DeletionPolicy: Delete
+
+  CodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Artifacts:
+        Type: CODEPIPELINE
+      SecondaryArtifacts:
+        - ArtifactIdentifier: demo_app
+          EncryptionDisabled: true
+          Location: !Ref S3ArtifactBucket
+          Name: demo_app
+          Type: S3
+        - ArtifactIdentifier: documentation
+          EncryptionDisabled: true
+          Location: !Ref S3ArtifactBucket
+          Name: documentation
+      Description: !Sub 'CodeBuild for CodePipeline for app ${AppName}'
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: !Ref BuildImage
+        Type: LINUX_CONTAINER
+      Name: *CodeBuildStage
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+  
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+        Type: S3
+        Location: !Ref S3ArtifactBucket
+      DisableInboundStageTransitions: []
+      Name: !Sub "CodePipeline-${AppName}"
+      RestartExecutionOnUpdate: false
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: '1'
+                Provider: GitHub
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref RepositoryName
+                Branch: !Ref BranchName
+                OAuthToken: *GitHubCredentials
+                PollForSourceChanges: false 
+              Name: *SourceStage
+              OutputArtifacts:
+                - Name: *SourceOuputArtifactName
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration: 
+                ProjectName: *CodeBuildStage 
+                PrimarySource: *SourceOuputArtifactName 
+              InputArtifacts: 
+                - Name: *SourceOuputArtifactName
+              Name: !Sub 'build-${AppName}'
+              OutputArtifacts:
+                - Name: *CodeBuildArtifactName
+              RunOrder: 1 
+        # DeployDemoApp -> invalidate, then deploy
+        # DeployDocumentation -> invalidate, then deploy
+
+  AppPipelineWebhook:
+    Type: AWS::CodePipeline::Webhook
+    Properties:
+      Authentication: GITHUB_HMAC
+      AuthenticationConfiguration: 
+        SecretToken: *GitHubCredentials 
+      Filters:
+        - JsonPath: $.ref
+          MatchEquals: !Sub 'refs/heads/${BranchName}'
+      TargetPipeline: !Ref CodePipeline
+      TargetAction: *SourceStage
+      Name: !Sub 'AppPipelineWebhook-${AppName}'
+      TargetPipelineVersion: !GetAtt CodePipeline.Version
+      RegisterWithThirdParty: true 
+
+  # Roles and Policies Constants
+  define: &MathBoundary !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+
+  # Roles
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow 
+            Principal: 
+              Service: 
+                - codepipeline.amazonaws.com
+              Action:
+                - sts:AssumeRole
+          - Effect: Allow
+            Principal: 
+              Service: 
+                - codebuild.amazonaws.com
+              Action:
+                - sts:AssumeRole 
+      PermissionsBoundary: *MathBoundary
+      RoleName: !Join ['-', ['MathRole', 'CodeBuild', !Ref AppName]]
+
+  CodePipelineRole: 
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      PermissionsBoundary: *MathBoundary
+      RoleName: !Join ['-', ['MathRole', 'CodePipeline', !Ref AppName]]
+  
+  # Policies
+  LogStreamsPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: LogStreams
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: "*"
+          Action:
+            - "logs:CreateLogStream"
+            - "logs:GetLogEvents"
+            - "logs:CreateLogGroup"
+            - "logs:PutLogEvents"
+      Roles:
+        - !Ref CodeBuildRole
+
+  StartBuildPolicy: 
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: StartBuild
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: !GetAtt CodeBuild.Arn
+          Action: 
+            - 'codebuild:StartBuild'
+            - 'codebuild:BatchGetBuilds'
+      Roles: 
+       - !Ref CodePipelineRole
+
   ListBucketsPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -60,13 +260,7 @@ Resources:
         - !Ref CodeBuildRole
         - !Ref CodePipelineRole
 
-  CodeBuild:
-    Type: "AWS::CodeBuild::Project"
-    Properties:
-      Artifacts:
-        Type: CODEPIPELINE
-      SecondaryArtifacts:
-        - ArtifactIdentifier:
 
-  CodePipeline:
-    Type: "AWS::CodePipeline::Pipeline"
+Outputs: 
+  CodePipeline: 
+    Value: !Ref CodePipeline

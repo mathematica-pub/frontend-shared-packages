@@ -11,7 +11,15 @@ aws cloudformation create-stack \
 
 2. Set up S3 buckets with cloudfront distribution for demo app, documentation
 
-TODO: test to see if this works, add commands here
+aws cloudformation create-stack \
+ --stack-name vizcolib-demo-app-bucket-dist \
+ --template-body file://cloudfront-bucket.yml \
+ --parameters file://cloudfront-bucket-demo-app.json
+
+aws cloudformation create-stack \
+ --stack-name vizcolib-documentation-bucket-dist \
+ --template-body file://cloudfront-bucket.yml \
+ --parameters file://cloudfront-bucket-documentation.json
 
 3. Set up library:
 
@@ -31,7 +39,10 @@ aws cloudformation create-stack \
 
 4. Set up CI/CD pipeline
 
-TODO: test to see if this works, add commands here
+aws cloudformation create-stack \
+ --stack-name vizcolib-pipeline \
+ --template-body file://app-pipeline-cf.yml \
+ --parameters file://app-pipeline-cf.json
 
 ## Some personal notes
 

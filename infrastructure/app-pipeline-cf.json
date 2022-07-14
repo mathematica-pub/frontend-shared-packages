@@ -1,0 +1,42 @@
+[
+  {
+    "ParameterKey": "AppName",
+    "ParameterValue": "vizcolib"
+  },
+  {
+    "ParameterKey": "BranchName",
+    "ParameterValue": "main"
+  },
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "mathematica-org"
+  },
+  {
+    "ParameterKey": "RepositoryName",
+    "ParameterValue": "viz-components"
+  },
+  {
+    "ParameterKey": "GitHubAccessCredentialSecret",
+    "ParameterValue": "viz-lib/github/token"
+  },
+  {
+    "ParameterKey": "S3DemoAppBucket",
+    "ParameterValue": "vizcolib-demo-app"
+  },
+  {
+    "ParameterKey": "DemoAppDistributionId",
+    "ParameterValue": "????"
+  },
+  {
+    "ParameterKey": "S3DocumentationBucket",
+    "ParameterValue": "vizcolib-documentation"
+  },
+  {
+    "ParameterKey": "DocumentationDistributionId",
+    "ParameterValue": "????"
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "dev"
+  }
+]

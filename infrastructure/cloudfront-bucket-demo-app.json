@@ -1,15 +1,15 @@
 [
   {
     "ParameterKey": "AppName",
-    "ParameterValue": "viz-components"
+    "ParameterValue": "vizcolib"
   },
   {
     "ParameterKey": "BucketName",
-    "ParameterValue": "documentation"
+    "ParameterValue": "demo-app"
   },
   {
     "ParameterKey": "UseMathIPs",
-    "ParameterValue": true
+    "ParameterValue": "true"
   },
   {
     "ParameterKey": "Env",
