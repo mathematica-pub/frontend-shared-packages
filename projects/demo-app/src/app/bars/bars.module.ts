@@ -3,15 +3,22 @@ import { CommonModule } from '@angular/common';
 
 import { BarsRoutingModule } from './bars-routing.module';
 import { BarsComponent } from './bars.component';
-
+import {
+  VzcBarsModule,
+  VzcChartModule,
+  VzcXQuantitativeAxisModule,
+  VzcYOrdinalAxisModule,
+} from 'viz-components';
 
 @NgModule({
-  declarations: [
-    BarsComponent
-  ],
+  declarations: [BarsComponent],
   imports: [
     CommonModule,
-    BarsRoutingModule
-  ]
+    BarsRoutingModule,
+    VzcBarsModule,
+    VzcChartModule,
+    VzcXQuantitativeAxisModule,
+    VzcYOrdinalAxisModule,
+  ],
 })
-export class BarsModule { }
+export class BarsModule {}
