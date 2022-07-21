@@ -14,10 +14,20 @@ export class DataMarks {
 export class DataMarksConfig {
   data: any[];
   mixBlendMode: string;
-  showTooltip?: boolean;
+  tooltip: TooltipConfig;
 
   constructor() {
     this.mixBlendMode = 'normal';
-    this.showTooltip = false;
+    this.tooltip = new TooltipConfig();
+  }
+}
+
+export class TooltipConfig {
+  show: boolean;
+  type: 'svg' | 'html';
+
+  constructor() {
+    this.show = false;
+    this.type = 'svg';
   }
 }
