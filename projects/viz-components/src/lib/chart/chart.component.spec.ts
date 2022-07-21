@@ -32,7 +32,7 @@ describe('ChartComponent', () => {
       return;
     };
     component.dataMarksComponent = {
-      config: { showTooltip: false },
+      config: { tooltip: { show: false } },
     } as any;
   });
 
@@ -87,9 +87,6 @@ describe('ChartComponent', () => {
     });
 
     describe('dataMarksComponent is defined', () => {
-      beforeEach(() => {
-        component.dataMarksComponent = { config: {} } as any;
-      });
       it('should not throw an error', () => {
         expect(() => {
           component.ngAfterContentInit();
@@ -97,7 +94,9 @@ describe('ChartComponent', () => {
       });
 
       it('calls setPointerEventListeners if dataMarks.config.showTooltip is true', () => {
-        component.dataMarksComponent.config = { showTooltip: true } as any;
+        component.dataMarksComponent.config = {
+          tooltip: { show: true },
+        } as any;
         component.ngAfterContentInit();
         expect(
           (component as any).setPointerEventListeners
@@ -105,7 +104,9 @@ describe('ChartComponent', () => {
       });
 
       it('does not call setPointerEventListeners if dataMarks.config.showTooltip is false', () => {
-        component.dataMarksComponent.config = { showTooltip: false } as any;
+        component.dataMarksComponent.config = {
+          tooltip: { show: false },
+        } as any;
         component.ngAfterContentInit();
         expect(
           (component as any).setPointerEventListeners
@@ -199,14 +200,33 @@ describe('ChartComponent', () => {
             .and.returnValue({ x: 100, y: 200 }) as any,
         } as any,
       } as any;
-      component.setTooltipPosition();
-    });
-    it('correctly sets position.top on htmlTooltip', () => {
-      expect(component.htmlTooltip.position.top).toEqual(200);
     });
 
-    it('correctly sets position.left on htmlTooltip', () => {
-      expect(component.htmlTooltip.position.left).toEqual(100);
+    describe('if htmlTooltip.exists', () => {
+      beforeEach(() => {
+        component.htmlTooltip.exists = true;
+        component.setTooltipPosition();
+      });
+      it('correctly sets position.top on htmlTooltip', () => {
+        expect(component.htmlTooltip.position.top).toEqual(200);
+      });
+
+      it('correctly sets position.left on htmlTooltip', () => {
+        expect(component.htmlTooltip.position.left).toEqual(100);
+      });
+    });
+
+    describe('if htmlTooltip.exists is falsy', () => {
+      beforeEach(() => {
+        component.htmlTooltip.exists = false;
+        component.setTooltipPosition();
+      });
+      it('does not set position.top on htmlTooltip', () => {
+        expect(component.htmlTooltip.position.top).toEqual(0);
+      });
+      it('does not set position.left on htmlTooltip', () => {
+        expect(component.htmlTooltip.position.left).toEqual(0);
+      });
     });
   });
 
