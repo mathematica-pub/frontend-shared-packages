@@ -10,10 +10,10 @@ import { DataService } from '../core/services/data.service';
 })
 export class LinesDemoComponent implements OnInit {
   data$: Observable<EmploymentDatum[]>;
-  
+
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.data$ = this.dataService.getEmploymentData();
+    this.data$ = this.dataService.employmentData$;
   }
 }
