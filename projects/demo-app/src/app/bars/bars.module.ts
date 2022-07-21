@@ -7,8 +7,9 @@ import {
   VzcBarsModule,
   VzcChartModule,
   VzcXQuantitativeAxisModule,
+  VzcXyChartBackgroundModule,
   VzcYOrdinalAxisModule,
-} from 'viz-components';
+} from 'projects/viz-components/src/public-api';
 
 @NgModule({
   declarations: [BarsComponent],
@@ -16,9 +17,10 @@ import {
     CommonModule,
     BarsRoutingModule,
     VzcBarsModule,
-    VzcChartModule,
     VzcXQuantitativeAxisModule,
     VzcYOrdinalAxisModule,
+    VzcChartModule,
+    VzcXyChartBackgroundModule,
   ],
 })
 export class BarsModule {}

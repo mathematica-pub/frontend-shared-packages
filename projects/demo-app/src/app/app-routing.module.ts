@@ -12,8 +12,15 @@ const routes: Routes = [
     loadChildren: () =>
       import('./start/start.module').then((m) => m.StartModule),
   },
-  { path: 'bars', loadChildren: () => import('./bars/bars.module').then(m => m.BarsModule) },
-  { path: 'lines', loadChildren: () => import('./lines/lines.module').then(m => m.LinesModule) },
+  {
+    path: 'bars',
+    loadChildren: () => import('./bars/bars.module').then((m) => m.BarsModule),
+  },
+  {
+    path: 'lines',
+    loadChildren: () =>
+      import('./lines/lines.module').then((m) => m.LinesModule),
+  },
 ];
 
 @NgModule({

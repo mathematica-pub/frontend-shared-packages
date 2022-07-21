@@ -9,7 +9,7 @@ import {
   AxisConfig,
   BarsConfig,
   horizontalBarChartDimensionsConfig,
-} from 'viz-components';
+} from 'projects/viz-components/src/public-api';
 
 @Component({
   selector: 'app-bars',

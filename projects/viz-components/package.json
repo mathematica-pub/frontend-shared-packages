@@ -1,5 +1,5 @@
 {
-  "name": "viz-components",
+  "name": "@web-ast/viz-components",
   "version": "0.0.0",
   "scripts": {
     "prepare": "npm run co:login",
