@@ -25,7 +25,7 @@
   },
   {
     "ParameterKey": "DemoAppDistributionId",
-    "ParameterValue": "????"
+    "ParameterValue": "E1YIZF6MD1XNZG"
   },
   {
     "ParameterKey": "S3DocumentationBucket",
@@ -33,7 +33,7 @@
   },
   {
     "ParameterKey": "DocumentationDistributionId",
-    "ParameterValue": "????"
+    "ParameterValue": "ELXTU477VL9M"
   },
   {
     "ParameterKey": "Env",
