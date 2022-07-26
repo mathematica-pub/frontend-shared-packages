@@ -29,7 +29,6 @@ export class BarsComponent {
       error: (error) => console.log(error),
     });
   }
-
   setChartProperties(): void {
     if (!this.data) return;
     const filteredData = this.data.filter(
