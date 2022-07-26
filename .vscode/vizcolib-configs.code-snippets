@@ -1,0 +1,27 @@
+{
+	"FullSampleConfig": {
+		"scope": "typescript, javascript",
+		"prefix": ["FullSampleConfig"],
+		"body": [
+            "{",
+			"\tfieldA: 3.1,",
+            "\tnestedConfig: new NestedConfig(),",
+            "\tnestedConfig2: new NestedConfig()",
+            "}"
+		]
+	},
+
+    "FullNestedConfig": {
+		"scope": "typescript, javascript",
+		"prefix": ["FullNestedConfig"],
+		"body": [
+            "{",
+            "\t // comment about field A",
+			"\tnestedFieldA: 'hello I am a nested field',",
+            "\tnestedFieldB: 'some more stuff exists here',",
+            "\tnestedFieldC: ${1:optional any},",
+            "\t//nestedFieldD: string",
+            "}"
+		]
+	}
+}
