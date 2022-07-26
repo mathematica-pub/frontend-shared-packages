@@ -1,37 +1,33 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import {
   AxisConfig,
   BarsConfig,
   horizontalBarChartDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
+import { DataService } from '../core/services/data.service';
 
 @Component({
   selector: 'app-bars',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
 })
-export class BarsComponent implements OnInit, OnChanges {
-  @Input() data: any;
+export class BarsComponent {
+  data: any;
   xAxisConfig: any;
   yAxisConfig: any;
   dataConfig: any;
   width = 1000;
   height = 1000;
 
-  constructor() {}
-
-  ngOnInit(): void {
-    this.setChartProperties();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    this.setChartProperties();
+  constructor(dataService: DataService) {
+    dataService.getEmploymentData().subscribe({
+      next: (value) => {
+        console.log(value);
+        this.data = value;
+        this.setChartProperties();
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   setChartProperties(): void {
