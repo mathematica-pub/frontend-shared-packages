@@ -32,14 +32,14 @@ BarsConfig:
   - paddingOuter: 0.1
   - align: 0.5
   - valueAccessor: **(d, i) => i**
-  - valueFormat: unset, type string
+  - valueFormat: unset, type string, gets passed into d3 format function ([options](https://github.com/d3/d3-format))
 
 - quantitative: `new QuantitativeDimension()`
 
   - domain: unset, type [any, any]
   - scaleType: **scaleLinear** ([options](https://github.com/d3/d3-scale))
   - valueAccessor: **(d) => d**
-  - valueFormat: unset
+  - valueFormat: unset ([options](https://github.com/d3/d3-format))
   - domainPadding: `new DomainPadding()`
     - type: round; options (round, percent, none)
     - sigDigits: 2
