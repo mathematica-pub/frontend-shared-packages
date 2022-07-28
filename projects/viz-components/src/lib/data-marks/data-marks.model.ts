@@ -9,6 +9,7 @@ export class DataMarks {
   onPointerEnter: (event: PointerEvent) => void;
   onPointerLeave: (event: PointerEvent) => void;
   onPointerMove: (event: PointerEvent) => void;
+  constructor() {}
 }
 
 export class DataMarksConfig {
