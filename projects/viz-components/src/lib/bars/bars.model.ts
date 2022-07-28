@@ -26,10 +26,6 @@ export class BarsConfig extends DataMarksConfig {
     this.positivePaddingForAllNegativeValues = 0.2;
   }
 }
-export class BarsTooltipData {
-  datum: any;
-  value: string;
-}
 
 export class LabelsConfig {
   show: boolean;
@@ -43,6 +39,11 @@ export class LabelsConfig {
     this.noValueString = 'N/A';
     Object.assign(this, init);
   }
+}
+
+export class BarsTooltipData {
+  datum: any;
+  value: string;
 }
 
 export interface BarsDimensionsConfig {
