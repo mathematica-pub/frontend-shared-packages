@@ -17,7 +17,7 @@ export class LinesConfig extends DataMarksConfig {
   override tooltip: LinesTooltipConfig;
   lineLabelsFormat?: (d: string) => string;
 
-  constructor() {
+  constructor(init?: Partial<LinesConfig>) {
     super();
     this.x.valueAccessor = ([x]) => x;
     this.x.scaleType = scaleUtc;
@@ -29,15 +29,17 @@ export class LinesConfig extends DataMarksConfig {
     this.stroke.width = 2;
     this.lineLabelsFormat = (d: string) => d;
     this.tooltip = new LinesTooltipConfig();
+    Object.assign(this, init);
   }
 }
 
 export class LinesTooltipConfig extends TooltipConfig {
   detectionRadius: number;
 
-  constructor() {
+  constructor(init?: Partial<LinesTooltipConfig>) {
     super();
     this.detectionRadius = 80;
+    Object.assign(this, init);
   }
 }
 
@@ -46,6 +48,9 @@ export class LinesStroke {
   linejoin?: string;
   width?: number;
   opacity?: number;
+  constructor(init?: Partial<LinesStroke>) {
+    Object.assign(this, init);
+  }
 }
 
 export class PointMarker {
@@ -53,10 +58,11 @@ export class PointMarker {
   radius: number;
   growByOnHover: number;
 
-  constructor() {
+  constructor(init?: Partial<PointMarker>) {
     this.display = true;
     this.radius = 3;
     this.growByOnHover = 1;
+    Object.assign(this, init);
   }
 }
 
@@ -66,6 +72,9 @@ export class LinesTooltipData {
   x: string;
   y: string;
   category: string;
+  constructor(init?: Partial<LinesTooltipData>) {
+    Object.assign(this, init);
+  }
 }
 
 export interface Marker {

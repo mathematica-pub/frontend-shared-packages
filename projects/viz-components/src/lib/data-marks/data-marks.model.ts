@@ -9,7 +9,9 @@ export class DataMarks {
   onPointerEnter: (event: PointerEvent) => void;
   onPointerLeave: (event: PointerEvent) => void;
   onPointerMove: (event: PointerEvent) => void;
-  constructor() {}
+  constructor(init?: Partial<DataMarks>) {
+    Object.assign(this, init);
+  }
 }
 
 export class DataMarksConfig {
@@ -17,9 +19,10 @@ export class DataMarksConfig {
   mixBlendMode: string;
   tooltip: TooltipConfig;
 
-  constructor() {
+  constructor(init?: Partial<DataMarksConfig>) {
     this.mixBlendMode = 'normal';
     this.tooltip = new TooltipConfig();
+    Object.assign(this, init);
   }
 }
 
@@ -27,8 +30,9 @@ export class TooltipConfig {
   show: boolean;
   type: 'svg' | 'html';
 
-  constructor() {
+  constructor(init?: Partial<TooltipConfig>) {
     this.show = false;
     this.type = 'svg';
+    Object.assign(this, init);
   }
 }

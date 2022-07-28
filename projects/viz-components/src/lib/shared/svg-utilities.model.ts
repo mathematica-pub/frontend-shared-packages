@@ -4,9 +4,10 @@ export class SvgWrapOptions {
   maintainYPosition: boolean;
   lineHeight: number;
 
-  constructor() {
+  constructor(init?: Partial<SvgWrapOptions>) {
     this.maintainXPosition = false;
     this.maintainYPosition = false;
     this.lineHeight = 1.1;
+    Object.assign(this, init);
   }
 }
