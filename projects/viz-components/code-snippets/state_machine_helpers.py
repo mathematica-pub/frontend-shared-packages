@@ -1,5 +1,4 @@
 import re
-from typing import Dict
 from type_definitions import *
 
 
@@ -31,29 +30,30 @@ def line_is_comment(line: str) -> bool:
 def add_key_value_pair(dictionary: dict, line: str):
     # split based on regex
     splitLine = line.strip()
-    splitLine = re.split("[=:]", splitLine)
+    nameSplitLine = re.split("[=:](?!>)", splitLine, 1)
+    colonSplitLine = re.split("[:](?!>)", splitLine, 1)
+    equalsSplitLine = re.split("[=](?!>)", splitLine, 1)
+    firstOccurenceColon = line.find(":")
+    firstOccurenceEquals = line.find("=")
 
     # check for valid KVP
-    if len(splitLine) == 1:
+    if len(nameSplitLine) == 1:
         return
 
     # for first thing, just remove any "this."
-    name: str = splitLine[0]
-    if name.startswith("this."):
-        name = re.split("[.]", name)[1]
+    name: str = nameSplitLine[0]
+    name = name.replace("this.", "", 1)
 
     type = ""
     value = ""
-    if len(splitLine) == 2:
-        if line.find(":") != -1:
-            type = splitLine[1]
-        else:
-            value = splitLine[1]
+    if (firstOccurenceColon != -1 and
+        (firstOccurenceEquals == -1 or firstOccurenceColon < firstOccurenceEquals) and
+            len(colonSplitLine) == 2):
+        type = re.split("[=](?!>)", colonSplitLine[1], 1)[0]
+    if len(equalsSplitLine) == 2:
+        value = equalsSplitLine[1]
 
-    if len(splitLine) == 3:
-        type = splitLine[1]
-        value = splitLine[2]
-
+    name = name.strip()
     dictionary[name] = Field(type, value)
     return
 

@@ -9,7 +9,7 @@ from json_generator_helpers import generate_single_code_snippet
 
 # 1. load in all config files
 fileList = []
-for root, dirs, files in os.walk('projects/viz-components/src/lib'):
+for root, dirs, files in os.walk('../src/lib'):
     for file in files:
         if file.endswith(".model.ts"):
             fileName = os.path.join(root, file).replace("\\", "/")
@@ -36,4 +36,5 @@ for config in configs:
     finalJson[f'Full{currentConfig.name}'] = generate_single_code_snippet(
         currentConfig)
 
-json.dump(finalJson, stdout)
+with open('../../../.vscode/vizcolib-configs.code-snippets', 'w', encoding='utf-8') as file:
+    json.dump(finalJson, file, ensure_ascii=False, indent=4)

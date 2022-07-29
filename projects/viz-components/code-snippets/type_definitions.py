@@ -23,6 +23,7 @@ class State(Enum):
     EXTENDS = 2
     VALUES = 3
     INITIALIZATIONS = 4
+    COMMENTS = 5
 
 
 startBrace = '{'

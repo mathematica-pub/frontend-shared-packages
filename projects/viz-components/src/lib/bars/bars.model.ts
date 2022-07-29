@@ -24,6 +24,7 @@ export class BarsConfig extends DataMarksConfig {
     this.category.colors = ['lightslategray'];
     this.labels = new LabelsConfig();
     this.positivePaddingForAllNegativeValues = 0.2;
+    Object.assign(this.category, init);
   }
 }
 
