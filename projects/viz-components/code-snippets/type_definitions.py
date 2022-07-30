@@ -12,9 +12,10 @@ class Config:
 
 
 class Field:
-    def __init__(self, type="", value=""):
+    def __init__(self, type="", value="", comments=None):
         self.type = type
         self.value = value
+        self.comments = comments if comments is not None else []
 
 
 class State(Enum):

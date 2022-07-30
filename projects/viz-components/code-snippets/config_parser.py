@@ -40,5 +40,10 @@ def config_skip_parse(configs: 'dict[str, Config]', config: str) -> bool:
 def copy_over_fields(fromDict: 'dict[str, Field]', toDict: 'dict[str, Field]', overwrite: bool):
     for field in fromDict:
         if field in toDict and not overwrite:
+            toDict[field].comments = toDict[field].comments + \
+                fromDict[field].comments
             continue
+        if field in toDict:
+            fromDict[field].comments = fromDict[field].comments + \
+                toDict[field].comments
         toDict[field] = copy(fromDict[field])

@@ -21,13 +21,14 @@ def get_extends_name(line: str) -> str:
 
 
 def line_is_comment(line: str) -> bool:
+    line = line.strip()
     return (line.startswith("//") or
             line.startswith("/*") or
             line.startswith("*") or
             line.startswith("*/"))
 
 
-def add_key_value_pair(dictionary: dict, line: str):
+def add_key_value_pair(dictionary: dict, line: str) -> str:
     # split based on regex
     splitLine = line.strip()
     nameSplitLine = re.split("[=:](?!>)", splitLine, 1)
@@ -55,7 +56,7 @@ def add_key_value_pair(dictionary: dict, line: str):
 
     name = name.strip()
     dictionary[name] = Field(type, value)
-    return
+    return name
 
 
 def merge(dict1: dict, dict2: dict):
@@ -65,6 +66,8 @@ def merge(dict1: dict, dict2: dict):
 def generate_configs_from_lines(lines) -> dict:
     # classic state machine - read files one at a time & parse
     state = State.NOT_PARSING
+    stateBeforeComments = State.NOT_PARSING
+    fieldComment = []
     configs = {}
     currentConfig = None
     for line in lines:
@@ -87,18 +90,44 @@ def generate_configs_from_lines(lines) -> dict:
                 state = State.VALUES
         elif state == State.VALUES:
             if line_is_comment(line):
-                # TODO: add comment handling!
-                continue
-            if line.find("constructor") != -1:
+                stateBeforeComments = State.VALUES
+                state = State.COMMENTS
+            elif line.find("constructor") != -1:
                 state = State.INITIALIZATIONS
                 continue
-            add_key_value_pair(currentConfig.values, line)
+            else:
+                add_key_value_pair(currentConfig.values, line)
         elif state == State.INITIALIZATIONS:
             if line_is_comment(line):
-                continue
-            if line.find(endBrace) != -1:
+                stateBeforeComments = state.INITIALIZATIONS
+                state = State.COMMENTS
+            elif line.find(endBrace) != -1:
                 configs[currentConfig.name] = currentConfig
                 state = State.NOT_PARSING
                 continue
-            add_key_value_pair(currentConfig.initializations, line)
+            else:
+                add_key_value_pair(currentConfig.initializations, line)
+        if state == State.COMMENTS:
+            if line_is_whitespace(line):
+                continue
+            if not line_is_comment(line):
+                if stateBeforeComments == State.VALUES:
+                    key = add_key_value_pair(currentConfig.values, line)
+                    currentField: Field = currentConfig.values[key]
+                    currentField.comments = fieldComment
+                    fieldComment = []
+                    state = stateBeforeComments
+                else:
+                    key = add_key_value_pair(
+                        currentConfig.initializations, line)
+                    currentField: Field = currentConfig.initializations[key]
+                    currentField.comments = fieldComment
+                    fieldComment = []
+                    state = stateBeforeComments
+            else:
+                fieldComment.append(line.strip())
     return configs
+
+
+def line_is_whitespace(line: str) -> bool:
+    return len(line.strip()) == 0
