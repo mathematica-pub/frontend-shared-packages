@@ -3,4 +3,8 @@
   <pre>{{ data | json}}</pre>
 </ng-container>
 <ng-template #loading>Loading...</ng-template>
-<vzc-chart></vzc-chart>
+<vzc-chart>
+  <svg:g vzc-xy-chart-space svg-elements>
+    <svg:g vzc-data-marks-lines [config]="config$ | async"></svg:g>
+  </svg:g>
+</vzc-chart>
