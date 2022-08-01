@@ -26,20 +26,20 @@ BarsConfig:
 
 - ordinal: `new OrdinalDimension()`
 
-  - domain: unset; type any[] | InternSet
+  - domain: undefined; type any[] | InternSet
   - scaleType: scaleBand ([options](https://github.com/d3/d3-scale))
   - paddingInner: 0.1
   - paddingOuter: 0.1
   - align: 0.5
   - valueAccessor: **(d, i) => i**
-  - valueFormat: unset, type string, gets passed into d3 format function ([options](https://github.com/d3/d3-format))
+  - valueFormat: undefined, type string, gets passed into d3 format function ([options](https://github.com/d3/d3-format))
 
 - quantitative: `new QuantitativeDimension()`
 
-  - domain: unset, type [any, any]
+  - domain: undefined, type [any, any]
   - scaleType: **scaleLinear** ([options](https://github.com/d3/d3-scale))
   - valueAccessor: **(d) => d**
-  - valueFormat: unset ([options](https://github.com/d3/d3-format))
+  - valueFormat: undefined ([options](https://github.com/d3/d3-format))
   - domainPadding: `new DomainPadding()`
     - type: round; options (round, percent, none)
     - sigDigits: 2
@@ -48,9 +48,9 @@ BarsConfig:
 - category: `new CategoricalColorDimension()`
 
   - valueAccessor: **(d) => d**
-  - valueFormat: unset
-  - domain: unset; type any[] | InternSet
-  - colorScale: unset, random function
+  - valueFormat: undefined
+  - domain: undefined; type any[] | InternSet
+  - colorScale: undefined, random function
   - colors: **['lightslategray']**; type string[]
 
 - dimensions: `verticalBarChartDimensionsConfig`
@@ -66,9 +66,7 @@ BarsConfig:
 
   - show: false
   - offset: 4
-  - color: unset, type string
+  - color: undefined, type string
   - noValueString: 'N/A'
 
 - positivePaddingForAllNegativeValues: **0.2**
-
-### Axis Config, unravelled
