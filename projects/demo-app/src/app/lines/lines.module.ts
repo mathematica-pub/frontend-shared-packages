@@ -3,10 +3,13 @@ import { NgModule } from '@angular/core';
 import {
   VzcChartModule,
   VzcLinesModule,
-  VzcXOrdinalAxisModule,
+  VzcXQuantitativeAxisModule,
+  VzcXyChartBackgroundModule,
   VzcXyChartSpaceModule,
-  VzcYOrdinalAxisModule,
+  VzcYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
+import { SharedModule } from '../shared/shared.module';
+import { LinesRoutingModule } from './lines-routing.module';
 
 import { LinesComponent } from './lines.component';
 
@@ -14,11 +17,14 @@ import { LinesComponent } from './lines.component';
   declarations: [LinesComponent],
   imports: [
     CommonModule,
+    LinesRoutingModule,
     VzcChartModule,
     VzcLinesModule,
     VzcXyChartSpaceModule,
-    VzcXOrdinalAxisModule,
-    VzcYOrdinalAxisModule,
+    VzcXyChartBackgroundModule,
+    VzcYQuantitativeAxisModule,
+    VzcXQuantitativeAxisModule,
+    SharedModule,
   ],
 })
 export class LinesModule {}
