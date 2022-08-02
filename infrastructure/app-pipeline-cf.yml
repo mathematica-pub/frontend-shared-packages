@@ -3,9 +3,6 @@ Description: >-
   Cloudformation for CI pipeline in AWS using Codepipeline and CodeBuild
   Includes a couple deployment S3 buckets
 
-# Yet to do: add lambda invalidate function (singular, hopefully!)
-# Add invalidate and deploy steps 
-
 Parameters:
   AppName:
     Type: String
