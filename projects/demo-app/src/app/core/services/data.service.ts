@@ -10,12 +10,10 @@ import { EmploymentDatum } from '../models/employement-data';
 export class DataService {
   employmentData$: Observable<EmploymentDatum[]>;
 
-  constructor(private http: HttpClient) {
-    this.employmentData$ = this.getEmploymentData();
-  }
+  constructor(private http: HttpClient) {}
 
-  private getEmploymentData(): Observable<EmploymentDatum[]> {
-    return this.http
+  setEmploymentData(): void {
+    this.employmentData$ = this.http
       .get('assets/metro_unemployment.json', { responseType: 'json' })
       .pipe(
         map((data) =>
