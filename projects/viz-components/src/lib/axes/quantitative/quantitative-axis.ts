@@ -16,7 +16,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       this.setTicks(tickFormat);
     }
 
-    private setTicks(tickFormat: string): void {
+    setTicks(tickFormat: string): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
@@ -24,19 +24,19 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       }
     }
 
-    private setSpecifiedTickValues(tickFormat: string): void {
+    setSpecifiedTickValues(tickFormat: string): void {
       this.axis.tickValues(this.config.tickValues).tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;
         return formatter(tickFormat)(d);
       });
     }
 
-    private setUnspecifiedTickValues(tickFormat: string): void {
+    setUnspecifiedTickValues(tickFormat: string): void {
       const validatedNumTicks = this.getValidatedNumTicks(tickFormat);
       this.axis.ticks(validatedNumTicks, tickFormat);
     }
 
-    private getValidatedNumTicks(tickFormat: string): number | TimeInterval {
+    getValidatedNumTicks(tickFormat: string): number | TimeInterval {
       let numTicks = this.config.numTicks || this.initNumTicks();
 
       if (this.ticksAreIntegers(tickFormat)) {
@@ -49,7 +49,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       return numTicks;
     }
 
-    private ticksAreIntegers(tickFormat: string): boolean {
+    ticksAreIntegers(tickFormat: string): boolean {
       return tickFormat.includes('0f');
     }
   }
