@@ -2,19 +2,20 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions: 
+      nodejs: 16
     commands:
-      - echo codebuild start time $CODEBUILD_START_TIME
+      - echo CODEBUILD_START_TIME $CODEBUILD_START_TIME
       - npm install -g npm@latest
-      - n 16.15.1
       - npm --version
       - node --version
+      - echo "Installing Angular CLI"
+      - npm install -g @angular/cli
   pre_build:
     commands:
-      - npm install
+      - npm ci
   build:
     commands:
-      - echo Building library
-      - ./build.sh
       - echo Building demo app
       - npm run build demo-app
 
@@ -22,11 +23,7 @@ artifacts:
   files:
     - "**/*"
   name: viz-library-$CODEBUILD_BUILD_NUMBER-$(date +%Y-%m-%d)-$CODEBUILD_START_TIME
-  base-directory: dist
-  secondary-artifacts:
-    library:
-      files:
-        - viz-components/*
-    demo-app:
-      files:
-        - demo-app/*
+  files: 
+    - 'dist/viz-components/**/*'
+    - '_deploy_buildspec.yml'
+  discard-paths: no

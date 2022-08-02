@@ -1,0 +1,113 @@
+[
+  {
+    "ParameterKey": "ApplicationName",
+    "ParameterValue": "vizcolib"
+  },
+  {
+    "ParameterKey": "ArchiveAssetsBuildSpec",
+    "ParameterValue": "./_archive-assets.yml"
+  },
+  {
+    "ParameterKey": "ArchiveInstanceSize",
+    "ParameterValue": "BUILD_GENERAL1_SMALL"
+  },
+  {
+    "ParameterKey": "BackendBuildSpecLoc",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "BuildInstanceSize",
+    "ParameterValue": "BUILD_GENERAL1_SMALL"
+  },
+  {
+    "ParameterKey": "ConfigureForVpc",
+    "ParameterValue": "false"
+  },
+  {
+    "ParameterKey": "DatabaseSubnets",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "DeployBuildSpecLoc",
+    "ParameterValue": "./_deploy_buildspec.yml"
+  },
+  {
+    "ParameterKey": "DeployImage",
+    "ParameterValue": "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  },
+  {
+    "ParameterKey": "DeployInstanceSize",
+    "ParameterValue": "BUILD_GENERAL1_SMALL"
+  },
+  {
+    "ParameterKey": "DevCloudFrontDistributionId",
+    "ParameterValue": "E1YIZF6MD1XNZG"
+  },
+  {
+    "ParameterKey": "DevS3WebsiteDeployBucket",
+    "ParameterValue": "vizcolib-demo-app-dev-frontend-app"
+  },
+  { "ParameterKey": "Environment", "ParameterValue": "dev" },
+  {
+    "ParameterKey": "GitHubRepository",
+    "ParameterValue": "mathematica-org/viz-components/main"
+  },
+  {
+    "ParameterKey": "KmsKeyArn",
+    "ParameterValue": "<<HOLD>>"
+  },
+  { "ParameterKey": "ManualApprovalForDeploy", "ParameterValue": "true" },
+  { "ParameterKey": "MprVpnSecurityGroup", "ParameterValue": "sg-123" },
+  {
+    "ParameterKey": "OperatorEmail",
+    "ParameterValue": "tcoile@mathematica-mpr.com"
+  },
+  {
+    "ParameterKey": "PermissionBoundarPolicyName",
+    "ParameterValue": "Math-Boundary-Policy"
+  },
+  {
+    "ParameterKey": "PermissionBoundaryRequired",
+    "ParameterValue": "true"
+  },
+  {
+    "ParameterKey": "ProdDeploymentRoleArn",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "ReleaseCloudFrontDistributionId",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "ReleaseS3WebsiteDeployBucket",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "SecretName",
+    "ParameterValue": "GitHub-Service-Account-Creds"
+  },
+  {
+    "ParameterKey": "ServerlessConfig",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "StgDeploymentRoleArn",
+    "ParameterValue": "<<HOLD>>"
+  },
+  {
+    "ParameterKey": "TestAndBuildBuildSpecLoc",
+    "ParameterValue": "_viz_components_buildspec.yml"
+  },
+  {
+    "ParameterKey": "TestAndBuildImage",
+    "ParameterValue": "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  },
+  {
+    "ParameterKey": "UseKmsEncryption",
+    "ParameterValue": "false"
+  },
+  {
+    "ParameterKey": "VpcId",
+    "ParameterValue": "vpc-123"
+  }
+]
