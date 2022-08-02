@@ -1,5 +1,5 @@
 export interface EmploymentDatum {
   division: string;
-  data: Date;
+  date: Date;
   value: number;
 }

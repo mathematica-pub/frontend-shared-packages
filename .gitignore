@@ -8,10 +8,8 @@
 
 # Node
 /node_modules
-/projects/viz-components/node_modules
 npm-debug.log
 yarn-error.log
-
 /documentation
 
 # IDEs and editors

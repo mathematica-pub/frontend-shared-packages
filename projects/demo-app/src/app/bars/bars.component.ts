@@ -1,46 +1,58 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AxisConfig,
   BarsConfig,
+  ElementSpacing,
   horizontalBarChartDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
+import { filter, map, Observable } from 'rxjs';
+import { EmploymentDatum } from '../core/models/employement-data';
 import { DataService } from '../core/services/data.service';
 
+interface ViewModel {
+  dataConfig: BarsConfig;
+  xAxisConfig: AxisConfig;
+  yAxisConfig: AxisConfig;
+}
 @Component({
   selector: 'app-bars',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
 })
-export class BarsComponent {
-  data: any;
-  xAxisConfig: any;
-  yAxisConfig: any;
-  dataConfig: any;
-  width = 1000;
-  height = 1000;
+export class BarsComponent implements OnInit {
+  vm$: Observable<ViewModel>;
+  margin: ElementSpacing = {
+    top: 36,
+    right: 0,
+    bottom: 8,
+    left: 300,
+  };
 
-  constructor(dataService: DataService) {
-    dataService.getEmploymentData().subscribe({
-      next: (value) => {
-        this.data = value;
-        this.setChartProperties();
-      },
-      error: (error) => console.log(error),
-    });
+  constructor(private dataService: DataService) {}
+
+  ngOnInit(): void {
+    this.vm$ = this.dataService.employmentData$.pipe(
+      filter((x) => !!x),
+      map((x) => this.getViewModel(x))
+    );
   }
 
-  setChartProperties(): void {
-    if (!this.data) return;
-    const filteredData = this.data.filter(
-      (d) => d.data.getFullYear() === 2008 && d.data.getMonth() === 3
+  getViewModel(data: EmploymentDatum[]): ViewModel {
+    const filteredData = data.filter(
+      (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
-    this.xAxisConfig = new AxisConfig();
-    this.xAxisConfig.tickFormat = '.1f';
-    this.yAxisConfig = new AxisConfig();
-    this.dataConfig = new BarsConfig();
-    this.dataConfig.data = filteredData;
-    this.dataConfig.dimensions = horizontalBarChartDimensionsConfig;
-    this.dataConfig.ordinal.valueAccessor = (d) => d.division;
-    this.dataConfig.quantitative.valueAccessor = (d) => d.value;
+    const xAxisConfig = new AxisConfig();
+    xAxisConfig.tickFormat = '.1f';
+    const yAxisConfig = new AxisConfig();
+    const dataConfig = new BarsConfig();
+    dataConfig.data = filteredData;
+    dataConfig.dimensions = horizontalBarChartDimensionsConfig;
+    dataConfig.ordinal.valueAccessor = (d) => d.division;
+    dataConfig.quantitative.valueAccessor = (d) => d.value;
+    return {
+      dataConfig,
+      xAxisConfig,
+      yAxisConfig,
+    };
   }
 }

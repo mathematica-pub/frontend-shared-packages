@@ -16,6 +16,13 @@
   border-bottom: 1px solid $color-primary-7;
 }
 
+.link-container:hover {
+  .title {
+    color: $color-highlight;
+  }
+}
+
 .title {
   @extend %typography-headline-2;
+  transition: all 200ms;
 }
