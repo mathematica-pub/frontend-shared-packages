@@ -14,13 +14,12 @@ const routes: Routes = [
   },
   {
     path: 'bars',
-    loadChildren: () =>
-      import('./bars-demo/bars-demo.module').then((m) => m.BarsDemoModule),
+    loadChildren: () => import('./bars/bars.module').then((m) => m.BarsModule),
   },
   {
     path: 'lines',
     loadChildren: () =>
-      import('./lines-demo/lines-demo.module').then((m) => m.LinesDemoModule),
+      import('./lines/lines.module').then((m) => m.LinesModule),
   },
 ];
 

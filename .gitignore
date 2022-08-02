@@ -8,6 +8,7 @@
 
 # Node
 /node_modules
+/projects/viz-components/node_modules
 npm-debug.log
 yarn-error.log
 /projects/viz-components/node_modules
@@ -28,6 +29,7 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/aws-shortcuts.code-snippets
 .history/*
 
 # Miscellaneous

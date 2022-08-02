@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Runs buildspec.yml on pull request creation or update, branch agnostic
+
+Parameters:
+  AppName:
+    Type: String
+  Env:
+    Type: String
+  GitHubOwner:
+    Type: String
+  RepositoryName:
+    Type: String
+  GitHubAccessCredentialSecret:
+    Type: String
+  BuildImage:
+    Default: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+    Type: String
+
+Resources:
+  # Commenting out because only needs to be done 1x per account
+  # CodeBuildSourceCredential:
+  #   Type: AWS::CodeBuild::SourceCredential
+  #   Properties:
+  #     AuthType: PERSONAL_ACCESS_TOKEN
+  #     ServerType: GITHUB
+  #     Token: !Sub "{{resolve:secretsmanager:${GitHubAccessCredentialSecret}:SecretString:token}}"
+
+  LogStreamsPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: LogStreams
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: "*"
+          Action:
+            - "logs:CreateLogStream"
+            - "logs:GetLogEvents"
+            - "logs:CreateLogGroup"
+            - "logs:PutLogEvents"
+      Roles:
+        - !Ref CodeBuildRole
+
+  CodeBuildRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+      RoleName: !Join ["-", ["MathRole", "CodeBuild", !Ref AppName, !Ref Env]]
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action: "sts:AssumeRole"
+
+  CodeBuild:
+    Type: "AWS::CodeBuild::Project"
+    Properties:
+      Name: !Ref "AWS::StackName"
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: !Ref BuildImage
+        Type: LINUX_CONTAINER
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: GITHUB
+        BuildSpec: buildspec.yml
+        Location: !Sub https://github.com/${GitHubOwner}/${RepositoryName}.git
+        # Commented out because only needs to be done 1x per account
+        # Auth:
+        #   Type: OAUTH
+        #   Resource: !Ref CodeBuildSourceCredential
+      Triggers:
+        Webhook: true
+        BuildType: BUILD
+        FilterGroups:
+          - - Pattern: PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED
+              Type: EVENT

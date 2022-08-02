@@ -1,0 +1,181 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: <-
+  Serve files from bucket behind a cloudfront distribution
+
+Parameters:
+  AppName:
+    Type: String
+  BucketName:
+    Type: String
+  UseMathIPs:
+    Description: "Add WAF to restrict to Mathematica IPs"
+    Type: String
+    Default: false
+    AllowedValues: [true, false]
+  Env:
+    Type: String
+
+Conditions:
+  UseWAF: !Equals [true, !Ref UseMathIPs]
+
+Resources:
+  S3SiteBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env]]
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+
+  S3SiteBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3SiteBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - s3:GetObject
+            Effect: Allow
+            Resource: !Sub "arn:aws:s3:::${S3SiteBucket}/*"
+            Principal:
+              CanonicalUser: !GetAtt GloudFrontOriginAccessIdentity.S3CanonicalUserId
+
+  # Note: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html
+  #   Says you only need one of these per account; but this is creating one per bucket
+  #   Why don't we create one per account?
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Ref S3SiteBucket
+
+  CloudfrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Comment: !Sub "${AppName} ${BucketName} ${Env} Distribution"
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          DefaultTTL: 3600 # Deprecated, want to use in cache policy or use managed cache policy
+          MaxTTL: 3600 # Deprecated
+          MinTTL: 60 # Deprecated
+          # seems like we want to use one of these https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html
+          # for prod env, and use a custom caching policy for dev environments
+          ForwardedValues: # Deprecated
+            Cookies:
+              Forward: none
+            QueryString: false
+          TargetOriginId: s3origin
+          ViewerProtocolPolicy: "redirect-to-https"
+        DefaultRootObject: index.html
+        Enabled: true # QUESTION: when would you EVER set this to false
+        IPV6Enabled: true
+        Origins:
+          - Id: s3origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
+            DomainName: !GetAtt S3SiteBucket.DomainName
+        PriceClass: "PriceClass_100"
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: /index.html
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: true
+        Restrictions:
+          GeoRestriction:
+            RestrictionType: whitelist
+            Locations:
+              - US
+        WebACLId: !If [UseWAF, !GetAtt WAFWebACL.Arn, !Ref AWS::NoValue]
+      Tags:
+        - Key: app
+          Value: !Ref AppName
+        - Key: bucket-name
+          Value: !Ref BucketName
+        - Key: environment
+          Value: !Ref Env
+
+  WAFWebACL:
+    Type: AWS::WAFv2::WebACL
+    Condition: UseWAF
+    Properties:
+      DefaultAction:
+        Block: {}
+      Description: "This WAF restricts access to an IP set"
+      Name: !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env, "web", "acl"]]
+      Scope: CLOUDFRONT
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName:
+          !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env, "web", "acl"]]
+      Rules:
+        - Action:
+            Allow: {}
+          Name: AllowIPSet
+          Priority: 0
+          Statement:
+            IPSetReferenceStatement:
+              Arn: !GetAtt IPSet.Arn
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName:
+              !Join [
+                "-",
+                [
+                  !Ref AppName,
+                  !Ref BucketName,
+                  !Ref Env,
+                  "web",
+                  "acl",
+                  "RuleAllowingIps",
+                ],
+              ]
+
+  IPSet:
+    Type: "AWS::WAFv2::IPSet"
+    Condition: UseWAF
+    Properties:
+      Description: "Mathematica IPs and some CMS" # seems like we should comment which ones are CMS?
+      Name: !Join ["-", [!Ref AppName, !Ref BucketName, !Ref Env, "AllowedIps"]]
+      Scope: CLOUDFRONT
+      IPAddressVersion: IPV4
+      Addresses:
+        - "50.78.29.53/32"
+        - "74.123.120.0/21"
+        - "96.74.73.85/32"
+        - "96.85.96.121/32"
+        - "96.74.4.17/32"
+        - "50.77.130.65/32"
+        - "96.86.41.33/32"
+        - "198.179.4.248/29"
+        - "52.20.26.200/32"
+        - "34.196.35.156/32"
+        - "52.5.212.71/32"
+
+Outputs:
+  BucketName:
+    Description: Name of Bucket
+    Value: !Ref S3SiteBucket
+  CloudFrontDomain:
+    Description: Name of CloudFront Domain
+    Value: !GetAtt CloudFrontDistribution.DomainName
+  CloudFrontDistributionId:
+    Description: CloudFront Distribution Id
+    Value: !Ref CloudFrontDistribution

@@ -3,7 +3,7 @@ import {
   CategoricalColorDimension,
   QuantitativeDimension,
 } from '../data-marks/data-dimension.model';
-import { DataMarksConfig } from '../data-marks/data-marks.model';
+import { DataMarksConfig, TooltipConfig } from '../data-marks/data-marks.model';
 
 export class LinesConfig extends DataMarksConfig {
   x: QuantitativeDimension = new QuantitativeDimension();
@@ -14,7 +14,7 @@ export class LinesConfig extends DataMarksConfig {
   pointMarker: PointMarker = new PointMarker();
   stroke?: LinesStroke = new LinesStroke();
   labelLines?: boolean;
-  tooltipDetectionRadius: number;
+  override tooltip: LinesTooltipConfig;
   lineLabelsFormat?: (d: string) => string;
 
   constructor() {
@@ -28,7 +28,16 @@ export class LinesConfig extends DataMarksConfig {
     this.curve = curveLinear;
     this.stroke.width = 2;
     this.lineLabelsFormat = (d: string) => d;
-    this.tooltipDetectionRadius = 80;
+    this.tooltip = new LinesTooltipConfig();
+  }
+}
+
+export class LinesTooltipConfig extends TooltipConfig {
+  detectionRadius: number;
+
+  constructor() {
+    super();
+    this.detectionRadius = 80;
   }
 }
 

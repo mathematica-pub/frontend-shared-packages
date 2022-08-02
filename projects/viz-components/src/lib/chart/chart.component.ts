@@ -21,6 +21,7 @@ import {
   distinctUntilChanged,
   map,
   Observable,
+  of,
   shareReplay,
   startWith,
   Subject,
@@ -88,7 +89,7 @@ export class ChartComponent
   ngAfterContentInit(): void {
     if (!this.dataMarksComponent) {
       throw new Error('DataMarksComponent not found.');
-    } else if (this.dataMarksComponent.config.showTooltip) {
+    } else if (this.dataMarksComponent.config.tooltip.show) {
       this.setPointerEventListeners();
     }
   }
@@ -100,7 +101,7 @@ export class ChartComponent
   }
 
   ngOnDestroy(): void {
-    if (this.dataMarksComponent?.config.showTooltip) {
+    if (this.dataMarksComponent?.config.tooltip.show) {
       this.unlistenTouchStart();
       this.unlistenPointerEnter();
       this.unlistenMouseWheel();
@@ -112,11 +113,17 @@ export class ChartComponent
   }
 
   createDimensionObservables() {
-    const divWidth$ = this.getDivWidthResizeObservable().pipe(
-      throttleTime(100),
-      startWith(min([this.divRef.nativeElement.offsetWidth, this.width])),
-      distinctUntilChanged()
-    );
+    let divWidth$: Observable<number>;
+
+    if (this.scaleChartWithContainer) {
+      divWidth$ = this.getDivWidthResizeObservable().pipe(
+        throttleTime(100),
+        startWith(min([this.divRef.nativeElement.offsetWidth, this.width])),
+        distinctUntilChanged()
+      );
+    } else {
+      divWidth$ = of(this.width);
+    }
 
     const height$ = this.height$.pipe(startWith(this.height));
 
@@ -245,10 +252,12 @@ export class ChartComponent
   }
 
   setTooltipPosition(): void {
-    this.htmlTooltip.position.top =
-      this.divRef.nativeElement.getBoundingClientRect().y;
-    this.htmlTooltip.position.left =
-      this.divRef.nativeElement.getBoundingClientRect().x;
+    if (this.htmlTooltip.exists) {
+      this.htmlTooltip.position.top =
+        this.divRef.nativeElement.getBoundingClientRect().y;
+      this.htmlTooltip.position.left =
+        this.divRef.nativeElement.getBoundingClientRect().x;
+    }
   }
 
   emitTooltipData<T>(data: T): void {

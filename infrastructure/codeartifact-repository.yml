@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Creates a repo, sets upstream connection to some source (npm, nuget, python)
+
+Parameters:
+  DomainName:
+    Type: String
+  UseUpstreamConnection:
+    Description: "Add an upstream connection (must specify which)"
+    Type: String
+    Default: true
+    AllowedValues: [true, false]
+  UpstreamConnection:
+    Type: String
+    AllowedValues: ["npm-store", "python-store", "nuget-store"]
+    Default: "npm-store" # just to make this an optional param
+  RepositoryName:
+    Type: String
+
+Conditions:
+  UseUpstreamConnection: !Equals [true, !Ref UseUpstreamConnection]
+
+Resources:
+  # By default, packages are private to an account, so no need to create a policy
+  # (unless we want other accounts to be able to access this repository)
+  CodeArtifactRepository:
+    Type: AWS::CodeArtifact::Repository
+    Properties:
+      Description: !Sub "Repo for ${DomainName}/${RepositoryName}"
+      DomainName: !Ref DomainName
+      Upstreams:
+        - !If [
+            UseUpstreamConnection,
+            !Ref UpstreamConnection,
+            !Ref AWS::NoValue,
+          ]
+      RepositoryName: !Ref RepositoryName
+
+Outputs:
+  RepositoryName:
+    Value: !GetAtt CodeArtifactRepository.Name
