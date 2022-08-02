@@ -22,7 +22,6 @@ export class BarsComponent {
   constructor(dataService: DataService) {
     dataService.getEmploymentData().subscribe({
       next: (value) => {
-        console.log(value);
         this.data = value;
         this.setChartProperties();
       },
