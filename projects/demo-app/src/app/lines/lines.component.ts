@@ -6,11 +6,11 @@ import { EmploymentDatum } from '../core/models/employement-data';
 import { DataService } from '../core/services/data.service';
 
 @Component({
-  selector: 'app-lines-demo',
-  templateUrl: './lines-demo.component.html',
-  styleUrls: ['./lines-demo.component.scss'],
+  selector: 'app-lines',
+  templateUrl: './lines.component.html',
+  styleUrls: ['./lines.component.scss'],
 })
-export class LinesDemoComponent implements OnInit {
+export class LinesComponent implements OnInit {
   data$: Observable<EmploymentDatum[]>;
   config$: Observable<LinesConfig>;
 

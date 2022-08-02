@@ -9,7 +9,7 @@ import { DataService } from '../core/services/data.service';
 @Component({
   selector: 'app-bars',
   templateUrl: './bars.component.html',
-  styleUrls: ['./bars.component.scss'],
+  styleUrls: [],
 })
 export class BarsComponent {
   data: any;
@@ -20,7 +20,7 @@ export class BarsComponent {
   height = 1000;
 
   constructor(dataService: DataService) {
-    dataService.getEmploymentData().subscribe({
+    dataService.employmentData$.subscribe({
       next: (value) => {
         this.data = value;
         this.setChartProperties();

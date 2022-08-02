@@ -1,8 +1,6 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import { BarsRoutingModule } from './bars-routing.module';
-import { BarsComponent } from './bars.component';
 import {
   VzcBarsModule,
   VzcChartModule,
@@ -11,12 +9,12 @@ import {
   VzcXyChartSpaceModule,
   VzcYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
+import { BarsComponent } from './bars.component';
 
 @NgModule({
   declarations: [BarsComponent],
   imports: [
     CommonModule,
-    BarsRoutingModule,
     VzcBarsModule,
     VzcXQuantitativeAxisModule,
     VzcYOrdinalAxisModule,

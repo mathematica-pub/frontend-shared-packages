@@ -6,15 +6,14 @@ import {
   VzcXOrdinalAxisModule,
   VzcXyChartSpaceModule,
   VzcYOrdinalAxisModule,
-} from 'viz-components';
-import { LinesDemoRoutingModule } from './lines-demo-routing.module';
-import { LinesDemoComponent } from './lines-demo.component';
+} from 'projects/viz-components/src/public-api';
+
+import { LinesComponent } from './lines.component';
 
 @NgModule({
-  declarations: [LinesDemoComponent],
+  declarations: [LinesComponent],
   imports: [
     CommonModule,
-    LinesDemoRoutingModule,
     VzcChartModule,
     VzcLinesModule,
     VzcXyChartSpaceModule,
@@ -22,4 +21,4 @@ import { LinesDemoComponent } from './lines-demo.component';
     VzcYOrdinalAxisModule,
   ],
 })
-export class LinesDemoModule {}
+export class LinesModule {}
