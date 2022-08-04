@@ -1,83 +1,419 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  Runs buildspec.yml on pull request creation or update, branch agnostic
-
+  Cloudformation for CI pipeline in AWS using Codepipeline and Code Build:
+  Includes deployment S3 bucket and artifacts bucket
 Parameters:
-  AppName:
-    Type: String
-  Env:
+  ApplicationName:
     Type: String
   GitHubOwner:
     Type: String
-  RepositoryName:
+  GitHubRepository:
     Type: String
-  GitHubAccessCredentialSecret:
+  Environment:
     Type: String
+  ServerlessConfig:
+    Type: String
+  # KmsKeyArn:
+  #   Type: String
   BuildImage:
-    Default: aws/codebuild/amazonlinux2-x86_64-standard:3.0
+    Type: String
+  FrntBuildSpec:
     Type: String
 
 Resources:
-  # Commenting out because only needs to be done 1x per account
-  # CodeBuildSourceCredential:
-  #   Type: AWS::CodeBuild::SourceCredential
-  #   Properties:
-  #     AuthType: PERSONAL_ACCESS_TOKEN
-  #     ServerType: GITHUB
-  #     Token: !Sub "{{resolve:secretsmanager:${GitHubAccessCredentialSecret}:SecretString:token}}"
-
-  LogStreamsPolicy:
-    Type: "AWS::IAM::Policy"
+  DeployedSourceVersionParameter:
+    Type: AWS::SSM::Parameter
     Properties:
-      PolicyName: LogStreams
+      DataType: text
+      Description: "Last sucessful deploy source"
+      Type: String
+      Value: "<null>"
+      Name: !Sub "/${ApplicationName}/${Environment}/latest-success-build/source-version"
+
+  S3PRArtifactBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub "${ApplicationName}-${Environment}-build-artifacts"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      AccessControl: "Private"
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LifecycleConfiguration:
+        Rules:
+          - Id: GlacierRule
+            Status: Enabled
+            ExpirationInDays: "180"
+            Transitions:
+              - TransitionInDays: "90"
+                StorageClass: GLACIER
+    DeletionPolicy: Delete
+
+  S3PRArtifactBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3PRArtifactBucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Principal: "*"
+            Sid: AllowSSLRequestsOnly
+            Action: s3:*
+            Effect: Deny
+            Resource: !Sub "${S3PRArtifactBucket.Arn}/*"
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+
+  GetPutSourceBucketPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource:
+            - !Sub "${S3PRArtifactBucket.Arn}/*"
+          Action:
+            - s3:PutObject
+            - s3:GetObject
+      PolicyName: GetPutSourceBucket
+      Roles:
+        - !Ref CodeBuildRole
+
+  CreateSecretPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
       PolicyDocument:
         Version: 2012-10-17
         Statement:
           Effect: Allow
           Resource: "*"
           Action:
-            - "logs:CreateLogStream"
-            - "logs:GetLogEvents"
-            - "logs:CreateLogGroup"
-            - "logs:PutLogEvents"
+            - secretsmanager:CreateSecret
+            - secretsmanager:TagResource
+      PolicyName: CreateSecret
+      Roles:
+        - !Ref CodeBuildRole
+
+  # EncryptDecryptWithKmsPolicy:
+  #   Type: AWS::IAM::Policy
+  #   Properties:
+  #     PolicyName: !Sub "MathPolicy-EncryptDecryptWithKms-${ApplicationName}-e2e-runner-${Environment}"
+  #     PolicyDocument:
+  #       Version: "2012-10-17"
+  #       Statement:
+  #         Effect: Allow
+  #         Action:
+  #           - kms:RetireGrant
+  #           - kms:CreateGrant
+  #           - kms:ReEncrypt*
+  #           - kms:GenerateDataKey*
+  #           - kms:Encrypt
+  #           - kms:DescribeKey
+  #           - kms:Decrypt
+  #         Resource: !Ref KmsKeyArn
+  #     Roles:
+  #       - !Ref CodeBuildRole
+
+  VpcAccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub "MathPolicy-VPCAccess-${ApplicationName}-vpc-runner-${Environment}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Action:
+            - ec2:DescribeDhcpOptions
+            - ec2:CreateNetworkInterface
+            - ec2:CreateNetworkInterfacePermission
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DeleteNetworkInterface
+            - ec2:DescribeSubnets
+            - ec2:DescribeSecurityGroups
+            - ec2:DescribeVpcs
+          Resource: "*"
+      Roles:
+        - !Ref CodeBuildRole
+
+  CloudformationPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub "MathPolicy-Cloudformation-${ApplicationName}-runner-${Environment}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Action:
+            - cloudformation:List*
+            - cloudformation:Get*
+            - cloudformation:PreviewStackUpdate
+            - cloudformation:ValidateTemplate
+            - cloudformation:CreateStack
+            - cloudformation:CreateUploadBucket
+            - cloudformation:CreateChangeSet
+            - cloudformation:ExecuteChangeSet
+            - cloudformation:DeleteChangeSet
+            - cloudformation:DeleteStack
+            - cloudformation:Describe*
+            - cloudformation:UpdateStack
+          Resource: "*"
+      Roles:
+        - !Ref CodeBuildRole
+
+  S3Policy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub "MathPolicy-S3-${ApplicationName}-runner-${Environment}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Action:
+            - s3:*
+          Resource: "*"
+      Roles:
+        - !Ref CodeBuildRole
+
+  CloudfrontPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub "MathPolicy-Cloudfront-${ApplicationName}-runner-${Environment}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Action:
+            - cloudfront:*
+          Resource: "*"
+      Roles:
+        - !Ref CodeBuildRole
+
+  # APIGatewayPolicy:
+  #   Type: AWS::IAM::Policy
+  #   Properties:
+  #     PolicyName: !Sub 'MathPolicy-APIGateway-${ApplicationName}-runner-${Environment}'
+  #     PolicyDocument:
+  #       Version: '2012-10-17'
+  #       Statement:
+  #         Effect: Allow
+  #         Action:
+  #           - apigateway:GET
+  #           - apigateway:POST
+  #           - apigateway:PUT
+  #           - apigateway:DELETE
+  #           - apigateway:TagResource
+  #         Resource: '*'
+  #     Roles:
+  #       - !Ref CodeBuildRole
+
+  LambdaPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub "MathPolicy-Lambda-${ApplicationName}-runner-${Environment}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Action:
+            - lambda:Get*
+            - lambda:List*
+            - lambda:CreateFunction
+            - lambda:AddPermission
+            - lambda:CreateAlias
+            - lambda:DeleteFunction
+            - lambda:InvokeFunction
+            - lambda:PublishVersion
+            - lambda:RemovePermission
+            - lambda:Update*
+          Resource: "*"
+      Roles:
+        - !Ref CodeBuildRole
+
+  IAMAccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub "MathPolicy-IAMAccess-${ApplicationName}-runner-${Environment}"
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          Effect: Allow
+          Action:
+            - iam:PassRole
+            - iam:GetRole
+            - iam:CreateRole
+            - iam:PutRolePolicy
+            - iam:AttachRolePolicy
+            - iam:DetachRolePolicy
+            - iam:DeleteRolePolicy
+            - iam:DeleteRole
+            - iam:DetachRolePolicy
+            - iam:UpdateAssumeRolePolicy
+            - iam:UpdateAssumeRolePolicyDocument
+            - iam:ListAttachedRolePolicies
+            - iam:DeleteRole
+          Resource: "*"
       Roles:
         - !Ref CodeBuildRole
 
   CodeBuildRole:
-    Type: "AWS::IAM::Role"
+    Type: AWS::IAM::Role
     Properties:
-      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
-      RoleName: !Join ["-", ["MathRole", "CodeBuild", !Ref AppName, !Ref Env]]
       AssumeRolePolicyDocument:
         Version: 2012-10-17
         Statement:
           - Effect: Allow
             Principal:
-              Service: codebuild.amazonaws.com
-            Action: "sts:AssumeRole"
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - "sts:AssumeRole"
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+      Policies:
+        - PolicyName: UseBearerToken
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              Effect: Allow
+              Resource: "*"
+              Action:
+                - sts:GetServiceBearerToken
+                - ssm:GetParameter
+                - ssm:DescribeParameters
+                - ssm:PutParameter
+                - ssm:GetParameters
+                - ssm:AddTagsToResource
+                - ssm:RemoveTagsFromResource
+        - PolicyName: logStreams
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              Effect: Allow
+              Resource: "*"
+              Action:
+                - logs:CreateLogStream
+                - logs:GetLogEvents
+                - logs:DescribeLogGroups
+                - logs:DescribeLogStreams
+                - logs:CreateLogGroup
+                - logs:PutLogEvents
+        - PolicyName: Reporter
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              Effect: Allow
+              Resource: "*"
+              Action:
+                - codebuild:CreateReportGroup
+                - codebuild:CreateReport
+                - codebuild:UpdateReport
+                - codebuild:BatchPutTestCases
+                - codebuild:BatchPutCodeCoverages
+      RoleName: !Sub "MathRole-CodeBuild-${ApplicationName}-runner-${Environment}"
 
-  CodeBuild:
-    Type: "AWS::CodeBuild::Project"
+  # CodeBuildBackend:
+  #   Type: AWS::CodeBuild::Project
+  #   DependsOn:
+  #     - VpcAccessPolicy
+  #   Properties:
+  #     Artifacts:
+  #       Type: S3
+  #       NamespaceType: BUILD_ID
+  #       Location: !Ref S3PRArtifactBucket
+  #       Name: !Sub 'Backend-${ApplicationName}-${Environment}'
+  #       EncryptionDisabled: True
+  #     Description: !Sub 'pull request code build for ${ApplicationName} ${Environment}'
+  #     Environment:
+  #       Type: LINUX_CONTAINER
+  #       ComputeType: BUILD_GENERAL1_SMALL
+  #       Image: !Ref BuildImage
+  #       EnvironmentVariables:
+  #         - Name: ENVTYPE
+  #           Type: PLAINTEXT
+  #           Value: pr-build
+  #         - Name: SERVERLESS_CONFIG
+  #           Type: PLAINTEXT
+  #           Value: !Ref ServerlessConfig
+  #         - Name: DeployedSourceVersionParameter
+  #           Type: PLAINTEXT
+  #           Value: !Ref DeployedSourceVersionParameter
+  #     Name: !Sub 'codebuild-backend-${ApplicationName}-${Environment}'
+  #     ServiceRole: !GetAtt CodeBuildRole.Arn
+  #     Source:
+  #       Type: GITHUB
+  #       BuildSpec: _backend_buildspec.yml
+  #       Location: !Sub 'https://github.com/${GitHubOwner}/${GitHubRepository}'
+  #     TimeoutInMinutes: 30
+  #     Triggers:
+  #       Webhook: true
+  #       FilterGroups:
+  #         - - Type: EVENT
+  #             Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+
+  CodeBuildFrntBuild:
+    Type: AWS::CodeBuild::Project
+    DependsOn:
+      - VpcAccessPolicy
     Properties:
-      Name: !Ref "AWS::StackName"
       Artifacts:
-        Type: NO_ARTIFACTS
+        Type: S3
+        NamespaceType: BUILD_ID
+        Location: !Ref S3PRArtifactBucket
+        Name: Frontend
+        EncryptionDisabled: True
+      Description:
+        !Join [
+          " ",
+          [
+            "pull request code build for ",
+            !Ref ApplicationName,
+            !Ref Environment,
+          ],
+        ]
       Environment:
-        ComputeType: BUILD_GENERAL1_SMALL
-        Image: !Ref BuildImage
         Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        ImagePullCredentialsType: CODEBUILD
+        Image: !Ref BuildImage
+        EnvironmentVariables:
+          - Name: ENVTYPE
+            Type: PLAINTEXT
+            Value: pr-build
+          - Name: SERVERLESS_CONFIG
+            Type: PLAINTEXT
+            Value: !Ref ServerlessConfig
+      Name: !Sub "codebuild-front-build-${ApplicationName}-${Environment}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
         Type: GITHUB
-        BuildSpec: buildspec.yml
-        Location: !Sub https://github.com/${GitHubOwner}/${RepositoryName}.git
-        # Commented out because only needs to be done 1x per account
-        # Auth:
-        #   Type: OAUTH
-        #   Resource: !Ref CodeBuildSourceCredential
+        BuildSpec: !Ref FrntBuildSpec
+        Location: !Sub "https://github.com/${GitHubOwner}/${GitHubRepository}"
+      TimeoutInMinutes: 30
       Triggers:
         Webhook: true
-        BuildType: BUILD
         FilterGroups:
-          - - Pattern: PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED
-              Type: EVENT
+          - - Type: EVENT
+              Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
+Outputs:
+  Environment:
+    Value: !Ref Environment
+  S3PRArtifactBucket:
+    Value: !Ref S3PRArtifactBucket
+  CodeBuildRole:
+    Value: !Ref CodeBuildRole
+  # CodeBuildBackend:
+  #   Value: !Ref CodeBuildBackend
+  CodeBuildFrntBuild:
+    Value: !Ref CodeBuildFrntBuild
+  DeployedSourceVersionParameter:
+    Value: !Ref DeployedSourceVersionParameter

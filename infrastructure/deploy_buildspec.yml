@@ -50,13 +50,13 @@ phases:
 
 artifacts:
   files:
-    - "_archive-assets.yml"
-    # - '_deploy_buildspec.yml'
+    - "infrastructure/archive-assets.yml"
+    - "infrastructure/deploy_buildspec.yml"
     - "deploy-package.zip"
     - "package-lock.json"
     - "package.json"
-    # - 'serverless.yml'
-    - "_app-config.yml"
+    - "infrastructure/serverless.yml"
+    - "infrastructure/serverless-config.yml"
     - "frontend.zip"
     # - 'dotnet-error.txt'
     # - 'dotnet-output.txt'
