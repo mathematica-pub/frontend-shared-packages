@@ -1,17 +1,30 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { NgModule } from '@angular/core';
+import {
+  VzcChartModule,
+  VzcLinesModule,
+  VzcXQuantitativeAxisModule,
+  VzcXyChartBackgroundModule,
+  VzcXyChartSpaceModule,
+  VzcYQuantitativeAxisModule,
+} from 'projects/viz-components/src/public-api';
+import { SharedModule } from '../shared/shared.module';
 import { LinesRoutingModule } from './lines-routing.module';
+
 import { LinesComponent } from './lines.component';
 
-
 @NgModule({
-  declarations: [
-    LinesComponent
-  ],
+  declarations: [LinesComponent],
   imports: [
     CommonModule,
-    LinesRoutingModule
-  ]
+    LinesRoutingModule,
+    VzcChartModule,
+    VzcLinesModule,
+    VzcXyChartSpaceModule,
+    VzcXyChartBackgroundModule,
+    VzcYQuantitativeAxisModule,
+    VzcXQuantitativeAxisModule,
+    SharedModule,
+  ],
 })
-export class LinesModule { }
+export class LinesModule {}

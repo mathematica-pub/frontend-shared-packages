@@ -8,10 +8,12 @@ import { EmploymentDatum } from '../models/employement-data';
   providedIn: 'root',
 })
 export class DataService {
+  employmentData$: Observable<EmploymentDatum[]>;
+
   constructor(private http: HttpClient) {}
 
-  getEmploymentData(): Observable<EmploymentDatum[]> {
-    return this.http
+  setEmploymentData(): void {
+    this.employmentData$ = this.http
       .get('assets/metro_unemployment.json', { responseType: 'json' })
       .pipe(
         map((data) =>
@@ -21,14 +23,14 @@ export class DataService {
       );
   }
 
-  employmentDatumTransform(datum: {
+  private employmentDatumTransform(datum: {
     division: string;
     date: string;
     unemployment: number;
   }): EmploymentDatum {
     return {
       division: datum.division,
-      data: new Date(datum.date),
+      date: new Date(datum.date),
       value: datum.unemployment,
     };
   }

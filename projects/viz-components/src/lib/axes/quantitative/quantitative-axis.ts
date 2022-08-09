@@ -9,7 +9,6 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     defaultTickFormat = ',.1f';
 
     setAxis(axisFunction: any): void {
-      console.log('set axis function quant');
       const tickFormat = this.config.tickFormat || this.defaultTickFormat;
 
       this.axis = axisFunction(this.scale);
