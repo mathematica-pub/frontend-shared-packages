@@ -19,7 +19,6 @@ def generate_single_code_snippet(config: Config):
 
 
 def construct_string_from_field(fieldName: str, fieldInfo: Field) -> str:
-    # remove any ? from fieldname
     fieldName = fieldName.replace("?", "")
     if fieldInfo.value:
         commentedOut = fieldName.find(".") != -1

@@ -29,7 +29,6 @@ def line_is_comment(line: str) -> bool:
 
 
 def add_key_value_pair(dictionary: dict, line: str) -> str:
-    # split based on regex
     splitLine = line.strip()
     nameSplitLine = re.split("[=:](?!>)", splitLine, 1)
     colonSplitLine = re.split("[:](?!>)", splitLine, 1)
@@ -41,7 +40,6 @@ def add_key_value_pair(dictionary: dict, line: str) -> str:
     if len(nameSplitLine) == 1:
         return
 
-    # for first thing, just remove any "this."
     name: str = nameSplitLine[0]
     name = name.replace("this.", "", 1)
 
@@ -62,9 +60,8 @@ def add_key_value_pair(dictionary: dict, line: str) -> str:
 def merge(dict1: dict, dict2: dict):
     return {**dict1, **dict2}
 
-
+# classic state machine - parses single file
 def generate_configs_from_lines(lines) -> dict:
-    # classic state machine - read files one at a time & parse
     state = State.NOT_PARSING
     stateBeforeComments = State.NOT_PARSING
     fieldComment = []
