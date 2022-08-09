@@ -94,11 +94,11 @@ custom:
 
 resources:
   Description: ${self:custom.appConfig.config.stack-description} for ${opt:stage}
-  extensions:
-    IamRoleLambdaExecution:
-      Properties:
-        PermissionsBoundary: ${self:custom.permissionBoundaryArn}
-        RoleName: !Sub MathRole-LambdaExecution-${self:custom.appConfig.config.appName}-${opt:stage}
+  # extensions:
+  #   IamRoleLambdaExecution:
+  #     Properties:
+  #       PermissionsBoundary: ${self:custom.permissionBoundaryArn}
+  #       RoleName: !Sub MathRole-LambdaExecution-${self:custom.appConfig.config.appName}-${opt:stage}
 
   Resources:
     ############################################
@@ -369,7 +369,7 @@ resources:
     CloudFrontDomain:
       Description: CloudFront Domain
       Value: !GetAtt CloudFrontDistribution.DomainName
-    IamRoleLambdaExecution:
-      Value: !Ref IamRoleLambdaExecution
-    ApplicationUserDatabaseCredentialsSecret:
-      Value: !Ref ApplicationUserDatabaseCredentialsSecret
+    # IamRoleLambdaExecution:
+    #   Value: !Ref IamRoleLambdaExecution
+    # ApplicationUserDatabaseCredentialsSecret:
+    #   Value: !Ref ApplicationUserDatabaseCredentialsSecret

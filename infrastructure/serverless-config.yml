@@ -2,91 +2,33 @@ config:
   appName: vizcolib-demo-app
   stack-description: vizcolib demo application stack
   logging-format: '{ "requestId":"$context.requestId", "extendedRequestId":"$context.extendedRequestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime",  "httpMethod":"$context.httpMethod",  "path": "$context.path", "status":"$context.status",  "protocol":"$context.protocol",  "responseLength":"$context.responseLength"}'
-
-  #               .__              .___
-  # _____  ______ |__|           __| _/_______  __
-  # \__  \ \____ \|  |  ______  / __ |/ __ \  \/ /
-  #  / __ \|  |_> >  | /_____/ / /_/ \  ___/\   /
-  # (____  /   __/|__|         \____ |\___  >\_/
-  #      \/|__|                     \/    \/
-
-  # api-dev:
-  #   ASPNETCORE_ENVIRONMENT: Development
-  #   region: us-east-1
-  #   operatorEmail: bhunscher@mathematica-mpr.com
-  #   kmsKeyArn: arn:aws:kms:us-east-1:130116285580:key/71c742a6-e24a-4d88-83c3-37b53766ffd8
-  #   api-gateway:
-  #     stage: api-dev
-  #     disableDefaultEndpoint: false
-  #     logFullExecutionData: true
-  #     loggingLevel: INFO
-  #   vpc:
-  #     vpcId: vpc-07bede87aaf0938ad
-  #     subnet1: subnet-085d09b25dc0993e0
-  #     subnet2: subnet-08e2dcce0b709bd1d
-  # data:
-  #   referenceDatabase:
-  #     securityGroupId:
-  # cloudfront:
-  #   frontend-cname: api-dev.roimc-tracker.com
-  #   frontend-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/d42b1ec8-d0b9-4efc-91a1-caa73965339a
-  #   api-domain: services.api-dev.roimc-tracker.com
-  #   api-domain-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/3f96d57c-e388-4712-a1a6-cbfeb4d7fbea
-  # lambda:
-  #   warm:
-  #     schedule: "cron(0/15 13-22 ? * MON-FRI *)"
-  #     concurrency: 1
-
   dev:
-    # ASPNETCORE_ENVIRONMENT: Development
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
-    # where do we get this from?
     # kmsKeyArn: arn:aws:kms:us-east-1:130116285580:key/71c742a6-e24a-4d88-83c3-37b53766ffd8
-    # api-gateway:
-    #   stage: api-dev
-    #   disableDefaultEndpoint: false
-    #   logFullExecutionData: true
-    #   loggingLevel: INFO
     vpc:
-      vpcId: vpc-07bede87aaf0938ad
-      subnet1: subnet-085d09b25dc0993e0
-      subnet2: subnet-08e2dcce0b709bd1d
-    # data:
-    #   referenceDatabase:
-    #     securityGroupId:
+      vpcId: vpc-023a4e725eea45604
+      subnet1: subnet-04676be1fbfb7ce70
+      subnet2: subnet-051a68cecc8c597ae
     # cloudfront:
     #   frontend-cname: api-dev.roimc-tracker.com
     #   frontend-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/d42b1ec8-d0b9-4efc-91a1-caa73965339a
-    #   api-domain: services.api-dev.roimc-tracker.com
-    #   api-domain-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/3f96d57c-e388-4712-a1a6-cbfeb4d7fbea
     lambda:
       warm:
         schedule: "cron(0/15 13-22 ? * MON-FRI *)"
         concurrency: 1
 
   release:
-    # ASPNETCORE_ENVIRONMENT: Development
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
     # kmsKeyArn: arn:aws:kms:us-east-1:130116285580:key/71c742a6-e24a-4d88-83c3-37b53766ffd8
-    # api-gateway:
-    #   stage: api-dev
-    #   disableDefaultEndpoint: false
-    #   logFullExecutionData: true
-    #   loggingLevel: INFO
     vpc:
       vpcId: vpc-07bede87aaf0938ad
       subnet1: subnet-085d09b25dc0993e0
       subnet2: subnet-08e2dcce0b709bd1d
-    # data:
-    #   referenceDatabase:
-    #     securityGroupId:
     # cloudfront:
     #   frontend-cname: api-dev.roimc-tracker.com
     #   frontend-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/d42b1ec8-d0b9-4efc-91a1-caa73965339a
-    #   api-domain: services.api-dev.roimc-tracker.com
-    #   api-domain-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/3f96d57c-e388-4712-a1a6-cbfeb4d7fbea
     lambda:
       warm:
         schedule: "cron(0/15 13-22 ? * MON-FRI *)"
