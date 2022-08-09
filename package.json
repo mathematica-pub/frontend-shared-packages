@@ -28,7 +28,7 @@
     "compodoc:build-and-serve": "npx compodoc -p tsconfig.doc.json -s",
     "compodoc:serve": "npx compodoc -s",
     "cypress:open": "cypress open --project projects/demo-app",
-    "cypress:run": "cypress run --project projects/demo-app"
+    "cypress:run": "percy exec -- cypress run --project projects/demo-app"
   },
   "private": true,
   "dependencies": {
@@ -48,6 +48,7 @@
     "d3": "^7.4.4",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "xmldoc": "^1.2.0",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -60,6 +61,8 @@
     "@angular/cli": "~14.0.0",
     "@angular/compiler-cli": "^14.0.0",
     "@compodoc/compodoc": "^1.1.19",
+    "@percy/cli": "^1.8.1",
+    "@percy/cypress": "^3.1.2",
     "@types/jasmine": "~4.0.0",
     "@typescript-eslint/eslint-plugin": "5.27.1",
     "@typescript-eslint/parser": "5.27.1",
