@@ -30,7 +30,6 @@ import {
 import { DataMarks } from '../data-marks/data-marks.model';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
 import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 
 @Component({
@@ -42,7 +41,6 @@ import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 export class ChartComponent
   implements OnInit, OnChanges, AfterViewInit, AfterContentInit, OnDestroy
 {
-  @ContentChild(XyChartSpaceComponent) xySpace: XyChartSpaceComponent;
   @ContentChild(DATA_MARKS)
   dataMarksComponent: DataMarks;
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;

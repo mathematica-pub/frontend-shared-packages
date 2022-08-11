@@ -1,11 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
-import { BehaviorSubject } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
 import { BarsConfig } from './bars.model';
 
@@ -20,8 +18,7 @@ describe('BarsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [BarsComponent],
       providers: [
-        XyChartSpaceComponent,
-        ChartComponent,
+        XyChartComponent,
         {
           provide: UtilitiesService,
           useValue: mainServiceStub.utilitiesServiceStub,
@@ -34,7 +31,7 @@ describe('BarsComponent', () => {
     fixture = TestBed.createComponent(BarsComponent);
     component = fixture.componentInstance;
     component.chart.dataMarksComponent = {
-      config: { showTooltip: false },
+      config: { tooltip: { show: false, type: 'html' } },
     } as any;
   });
 
@@ -88,34 +85,6 @@ describe('BarsComponent', () => {
     it('calls setMethodsFromConfigAndDraw once', () => {
       component.ngOnInit();
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('subscribeToScales()', () => {
-    beforeEach(() => {
-      component.xySpace = {
-        xScale: new BehaviorSubject<string>(null),
-        yScale: new BehaviorSubject<string>(null),
-      } as any;
-      component.xySpace.xScale$ = (
-        component.xySpace as any
-      ).xScale.asObservable();
-      component.xySpace.yScale$ = (
-        component.xySpace as any
-      ).yScale.asObservable();
-    });
-    it('sets xScale to a new value when a new value is emitted from subscription', () => {
-      component.subscribeToScales();
-      expect(component.xScale).toBeNull();
-      (component.xySpace as any).xScale.next('test x');
-      expect(component.xScale).toEqual('test x');
-    });
-
-    it('sets yScale to a new value when a new value is emitted from subscription', () => {
-      component.subscribeToScales();
-      expect(component.yScale).toBeNull();
-      (component.xySpace as any).yScale.next('test y');
-      expect(component.yScale).toEqual('test y');
     });
   });
 
@@ -404,7 +373,7 @@ describe('BarsComponent', () => {
       component.config = {
         dimensions: { ordinal: 'x' },
       } as any;
-      component.xySpace = {
+      component.chart = {
         updateXScale: jasmine.createSpy('updateXScale'),
         updateYScale: jasmine.createSpy('updateYScale'),
       } as any;
@@ -424,14 +393,14 @@ describe('BarsComponent', () => {
     describe('if ordinal is x', () => {
       it('calls updateXScale once with the correct value', () => {
         component.setScaledSpaceProperties();
-        expect(component.xySpace.updateXScale).toHaveBeenCalledOnceWith(
+        expect(component.chart.updateXScale).toHaveBeenCalledOnceWith(
           'ord scale' as any
         );
       });
 
       it('calls updateYScale once with the correct value', () => {
         component.setScaledSpaceProperties();
-        expect(component.xySpace.updateYScale).toHaveBeenCalledOnceWith(
+        expect(component.chart.updateYScale).toHaveBeenCalledOnceWith(
           'quant scale' as any
         );
       });
@@ -443,14 +412,14 @@ describe('BarsComponent', () => {
       });
       it('calls updateXScale once with the correct value', () => {
         component.setScaledSpaceProperties();
-        expect(component.xySpace.updateXScale).toHaveBeenCalledOnceWith(
+        expect(component.chart.updateXScale).toHaveBeenCalledOnceWith(
           'quant scale' as any
         );
       });
 
       it('calls updateYScale once with the correct value', () => {
         component.setScaledSpaceProperties();
-        expect(component.xySpace.updateYScale).toHaveBeenCalledOnceWith(
+        expect(component.chart.updateYScale).toHaveBeenCalledOnceWith(
           'ord scale' as any
         );
       });

@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   format,
@@ -21,20 +21,17 @@ import {
   range,
   scaleOrdinal,
   select,
-  Transition
+  Transition,
 } from 'd3';
-import { combineLatest, takeUntil } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
-import { Ranges } from '../chart/chart.model';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
-  XyDataMarksValues
+  XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
-import { Unsubscribe } from '../shared/unsubscribe.class';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.model';
 
 @Component({
@@ -47,28 +44,24 @@ import { BarsConfig, BarsTooltipData } from './bars.model';
   providers: [{ provide: DATA_MARKS, useExisting: BarsComponent }],
 })
 export class BarsComponent
-  extends Unsubscribe
+  extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Input() config: BarsConfig;
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
-  ranges: Ranges;
-  xScale: (d: any) => any;
-  yScale: (d: any) => any;
   hasBarsWithNegativeValues: boolean;
   bars: any;
   barsKeyFunction: (i: number) => string;
 
   constructor(
-    public chart: ChartComponent,
-    public xySpace: XyChartSpaceComponent,
     private utilities: UtilitiesService,
     private dataDomainService: DataDomainService,
-    private zone: NgZone
+    private zone: NgZone,
+    chart: XyChartComponent
   ) {
-    super();
+    super(chart);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -81,25 +74,6 @@ export class BarsComponent
     this.subscribeToRanges();
     this.subscribeToScales();
     this.setMethodsFromConfigAndDraw();
-  }
-
-  subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (this.xScale && this.yScale) {
-        this.resizeMarks();
-      }
-    });
-  }
-
-  subscribeToScales(): void {
-    const subscriptions = [this.xySpace.xScale$, this.xySpace.yScale$];
-    combineLatest(subscriptions)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(([xScale, yScale]): void => {
-        this.xScale = xScale;
-        this.yScale = yScale;
-      });
   }
 
   setMethodsFromConfigAndDraw(): void {
@@ -228,11 +202,11 @@ export class BarsComponent
   setScaledSpaceProperties(): void {
     this.zone.run(() => {
       if (this.config.dimensions.ordinal === 'x') {
-        this.xySpace.updateXScale(this.getOrdinalScale());
-        this.xySpace.updateYScale(this.getQuantitativeScale());
+        this.chart.updateXScale(this.getOrdinalScale());
+        this.chart.updateYScale(this.getQuantitativeScale());
       } else {
-        this.xySpace.updateXScale(this.getQuantitativeScale());
-        this.xySpace.updateYScale(this.getOrdinalScale());
+        this.chart.updateXScale(this.getQuantitativeScale());
+        this.chart.updateYScale(this.getOrdinalScale());
       }
     });
   }

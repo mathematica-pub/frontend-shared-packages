@@ -10,13 +10,13 @@ import {
 import { DataDimension } from '../data-marks/data-dimension.model';
 import { DataMarksConfig } from '../data-marks/data-marks.model';
 
-export class MapConfig extends DataMarksConfig {
+export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
   projection: any;
-  simpleGeographies?: SimpleGeography[];
+  noDataGeographies?: NoDataGeography[];
   dataGeography?: DataGeography;
 
-  constructor(init?: Partial<MapConfig>) {
+  constructor(init?: Partial<GeographiesConfig>) {
     super();
     this.data = [];
     this.projection = geoAlbersUsa();
@@ -24,13 +24,13 @@ export class MapConfig extends DataMarksConfig {
   }
 }
 
-export class SimpleGeography {
+export class NoDataGeography {
   geographies: any[];
   strokeColor: string;
   strokeWidth: string;
   fill: string;
 
-  constructor(init?: Partial<SimpleGeography>) {
+  constructor(init?: Partial<NoDataGeography>) {
     this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
     this.fill = 'none';
@@ -38,9 +38,9 @@ export class SimpleGeography {
   }
 }
 
-export class DataGeography extends SimpleGeography {
+export class DataGeography extends NoDataGeography {
   valueAccessor?: (d: any) => any;
-  dataConfig: GeoDataDimension;
+  attributeDataConfig: AttributeDataDimension;
   nullColor: string;
 
   constructor(init?: Partial<DataGeography>) {
@@ -50,17 +50,17 @@ export class DataGeography extends SimpleGeography {
   }
 }
 
-export class GeoDataDimension extends DataDimension {
+export class AttributeDataDimension extends DataDimension {
   geoAccessor: (d: any) => any;
   valueType: string;
   binType: MapBinType;
+  range: any[];
   colorScale: (...args: any) => any;
   colors?: string[];
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
-  range: any[];
-  constructor(init?: Partial<GeoDataDimension>) {
+  constructor(init?: Partial<AttributeDataDimension>) {
     super();
     Object.assign(this, init);
   }
@@ -72,10 +72,10 @@ export type MapBinType =
   | 'equal num observations'
   | 'custom breaks';
 
-export class GeoCategoricalDataDimension extends GeoDataDimension {
+export class CategoricalAttributeDataDimension extends AttributeDataDimension {
   override interpolator: never;
 
-  constructor(init?: Partial<GeoCategoricalDataDimension>) {
+  constructor(init?: Partial<CategoricalAttributeDataDimension>) {
     super();
     this.valueType = 'categorical';
     this.binType = 'none';
@@ -83,9 +83,8 @@ export class GeoCategoricalDataDimension extends GeoDataDimension {
     Object.assign(this, init);
   }
 }
-
-export class GeoNoBinsQuantitativeDataDimension extends GeoDataDimension {
-  constructor(init?: Partial<GeoNoBinsQuantitativeDataDimension>) {
+export class NoBinsQuantitativeAttributeDataDimension extends AttributeDataDimension {
+  constructor(init?: Partial<NoBinsQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'none';
@@ -95,8 +94,8 @@ export class GeoNoBinsQuantitativeDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoEqualValuesQuantitativeDataDimension extends GeoDataDimension {
-  constructor(init?: Partial<GeoEqualValuesQuantitativeDataDimension>) {
+export class EqualValuesQuantitativeAttributeDataDimension extends AttributeDataDimension {
+  constructor(init?: Partial<EqualValuesQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'equal value ranges';
@@ -107,8 +106,8 @@ export class GeoEqualValuesQuantitativeDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoEqualNumbersQuantitativeDataDimension extends GeoDataDimension {
-  constructor(init?: Partial<GeoEqualNumbersQuantitativeDataDimension>) {
+export class EqualNumbersQuantitativeAttributeDataDimension extends AttributeDataDimension {
+  constructor(init?: Partial<EqualNumbersQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'equal num observations';
@@ -119,8 +118,8 @@ export class GeoEqualNumbersQuantitativeDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoCustomBreaksQuantitativeDataDimension extends GeoDataDimension {
-  constructor(init?: Partial<GeoCustomBreaksQuantitativeDataDimension>) {
+export class CustomBreaksQuantitativeAttributeDataDimension extends AttributeDataDimension {
+  constructor(init?: Partial<CustomBreaksQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'custom breaks';
@@ -131,10 +130,11 @@ export class GeoCustomBreaksQuantitativeDataDimension extends GeoDataDimension {
 }
 
 export class MapDataValues {
-  dataGeographies: any[];
-  dataValues: any[];
+  attributeDataGeographies: any[];
+  attributeDataValues: any[];
   indexMap: InternMap;
-  geoGeographies: any[];
+  geoJsonGeographies: any[];
+
   constructor(init?: Partial<MapDataValues>) {
     Object.assign(this, init);
   }

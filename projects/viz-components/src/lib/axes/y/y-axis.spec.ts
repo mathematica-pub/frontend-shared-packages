@@ -1,20 +1,17 @@
 import { axisLeft, axisRight } from 'd3';
 import { BehaviorSubject } from 'rxjs';
 import { Ranges } from '../../chart/chart.model';
-import { ChartComponentStub } from '../../testing/stubs/components/chart.component.stub';
+import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
-import { XyChartSpaceComponent } from '../../xy-chart-space/xy-chart-space.component';
 
 describe('the XAxis mixin', () => {
   let abstractClass: YAxisStub;
-  let chart: ChartComponentStub;
-  let xySpace: XyChartSpaceComponent;
+  let chart: XyChartComponentStub;
   let testRanges: Ranges;
 
   beforeEach(() => {
-    chart = new ChartComponentStub();
-    xySpace = new XyChartSpaceComponent();
-    abstractClass = new YAxisStub(chart as any, xySpace);
+    chart = new XyChartComponentStub();
+    abstractClass = new YAxisStub(chart as any);
     testRanges = { x: [0, 10], y: [20, 50] } as Ranges;
   });
 
@@ -81,7 +78,7 @@ describe('the XAxis mixin', () => {
   describe('setScale', () => {
     it('calls subscribeToScale with the correct scale', () => {
       spyOn(abstractClass, 'subscribeToScale');
-      abstractClass.xySpace.yScale$ = 'hello there' as any;
+      abstractClass.chart.yScale$ = 'hello there' as any;
       abstractClass.setScale();
       expect(abstractClass.subscribeToScale).toHaveBeenCalledWith(
         'hello there' as any

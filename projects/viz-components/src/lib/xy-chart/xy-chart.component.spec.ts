@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XyChartSpaceComponent } from './xy-chart-space.component';
 
-describe('XyChartSpaceComponent', () => {
-  let component: XyChartSpaceComponent;
-  let fixture: ComponentFixture<XyChartSpaceComponent>;
+import { XyChartComponent } from './xy-chart.component';
+
+describe('XyChartComponent', () => {
+  let component: XyChartComponent;
+  let fixture: ComponentFixture<XyChartComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [XyChartSpaceComponent],
+      declarations: [XyChartComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(XyChartSpaceComponent);
+    fixture = TestBed.createComponent(XyChartComponent);
     component = fixture.componentInstance;
   });
 
@@ -29,6 +30,16 @@ describe('XyChartSpaceComponent', () => {
       spyOn((component as any).yScale, 'next');
       component.updateYScale({});
       expect((component as any).yScale.next).toHaveBeenCalledOnceWith({});
+    });
+  });
+
+  describe('updateCategoryScale', () => {
+    it('calls next on updateCategoryScale', () => {
+      spyOn((component as any).categoryScale, 'next');
+      component.updateCategoryScale({});
+      expect((component as any).categoryScale.next).toHaveBeenCalledOnceWith(
+        {}
+      );
     });
   });
 });

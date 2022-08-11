@@ -1,0 +1,141 @@
+@use 'sass:math';
+@use '../../core/styles/spacing';
+
+.color-scale.horizontal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .colors-container {
+    display: grid;
+    grid-template-columns:
+      minmax(var(--value-space), 0.5fr) repeat(
+        var(--num-colors),
+        minmax(calc(#{var(--value-space)} * 2), 1fr)
+      )
+      minmax(var(--value-space), 0.5fr);
+    max-width: var(--width);
+    height: var(--height);
+
+    .legend-color {
+      height: 100%;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      border-left: 1px solid var(--border-color);
+
+      &:last-child {
+        border-right: 1px solid var(--border-color);
+      }
+    }
+  }
+
+  .values-container {
+    padding-top: spacing.$grid-1;
+    display: grid;
+    grid-template-columns: repeat(
+      calc(var(--num-colors) + 1),
+      minmax(calc(var(--value-space) * 2), 1fr)
+    );
+    max-width: var(--width);
+    justify-items: center;
+  }
+
+  &.top {
+    .values-container {
+      padding-top: 0;
+      padding-bottom: spacing.$grid-1;
+    }
+  }
+
+  &.categorical {
+    .colors-container {
+      column-gap: spacing.$grid-2;
+      grid-template-columns: repeat(calc(var(--num-colors)), 1fr);
+    }
+
+    .values-container {
+      column-gap: spacing.$grid-2;
+      grid-template-columns: repeat(calc(var(--num-colors)), 1fr);
+    }
+
+    .value {
+      text-align: center;
+    }
+  }
+}
+
+.color-scale.categorical {
+  .legend-color {
+    border: 1px solid var(--border-color);
+  }
+}
+
+.color-scale.vertical {
+  display: flex;
+  height: var(--height);
+
+  .colors-container {
+    display: grid;
+    grid-template-columns: var(--width);
+    grid-template-rows:
+      0.5fr repeat(var(--num-colors), 1fr)
+      0.5fr;
+    height: 100%;
+
+    .legend-color {
+      width: 100%;
+      border-top: 1px solid var(--border-color);
+      border-left: 1px solid var(--border-color);
+      border-right: 1px solid var(--border-color);
+
+      &:last-child {
+        border-bottom: 1px solid var(--border-color);
+      }
+    }
+  }
+
+  .values-container {
+    padding-right: spacing.$grid-1;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(calc(var(--num-colors) + 1), 1fr);
+    align-items: center;
+    justify-items: end;
+    height: 100%;
+  }
+
+  &.right {
+    .values-container {
+      padding-right: 0;
+      padding-left: spacing.$grid-1;
+      justify-items: start;
+    }
+  }
+
+  &.categorical {
+    .colors-container {
+      grid-template-rows: repeat(var(--num-colors), 1fr);
+      row-gap: spacing.$grid-2;
+    }
+
+    .values-container {
+      grid-template-rows: repeat(var(--num-colors), 1fr);
+      row-gap: spacing.$grid-2;
+    }
+
+    .value {
+      text-align: right;
+    }
+
+    &.right {
+      .value {
+        text-align: left;
+      }
+    }
+  }
+}
+
+.value {
+  font-size: 12px;
+  line-height: 1;
+}

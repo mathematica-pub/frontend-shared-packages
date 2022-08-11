@@ -1,11 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BehaviorSubject } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
 import { LinesConfig, PointMarker } from './lines.model';
 
@@ -20,8 +18,7 @@ describe('LineChartComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [LinesComponent],
       providers: [
-        ChartComponent,
-        XyChartSpaceComponent,
+        XyChartComponent,
         {
           provide: UtilitiesService,
           useValue: mainServiceStub.utilitiesServiceStub,
@@ -34,7 +31,7 @@ describe('LineChartComponent', () => {
     fixture = TestBed.createComponent(LinesComponent);
     component = fixture.componentInstance;
     component.chart.dataMarksComponent = {
-      config: { showTooltip: false },
+      config: { tooltip: { show: false, type: 'html' } },
     } as any;
     component.config = new LinesConfig();
   });
@@ -89,34 +86,6 @@ describe('LineChartComponent', () => {
     it('calls setMethodsFromConfigAndDraw once', () => {
       component.ngOnInit();
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('subscribeToScales()', () => {
-    beforeEach(() => {
-      component.xySpace = {
-        xScale: new BehaviorSubject<string>(null),
-        yScale: new BehaviorSubject<string>(null),
-      } as any;
-      component.xySpace.xScale$ = (
-        component.xySpace as any
-      ).xScale.asObservable();
-      component.xySpace.yScale$ = (
-        component.xySpace as any
-      ).yScale.asObservable();
-    });
-    it('sets xScale to a new value when a new value is emitted from subscription', () => {
-      component.subscribeToScales();
-      expect(component.xScale).toBeNull();
-      (component.xySpace as any).xScale.next('test x');
-      expect(component.xScale).toEqual('test x');
-    });
-
-    it('sets yScale to a new value when a new value is emitted from subscription', () => {
-      component.subscribeToScales();
-      expect(component.yScale).toBeNull();
-      (component.xySpace as any).yScale.next('test y');
-      expect(component.yScale).toEqual('test y');
     });
   });
 

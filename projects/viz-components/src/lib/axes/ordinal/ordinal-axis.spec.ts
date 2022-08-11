@@ -1,16 +1,13 @@
-import { ChartComponentStub } from '../../testing/stubs/components/chart.component.stub';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
-import { XyChartSpaceComponent } from '../../xy-chart-space/xy-chart-space.component';
+import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
 describe('the OrdinalAxis mixin', () => {
   let abstractClass: OrdinalAxisStub;
-  let chart: ChartComponentStub;
-  let xySpace: XyChartSpaceComponent;
+  let chart: XyChartComponentStub;
 
   beforeEach(() => {
-    chart = new ChartComponentStub();
-    xySpace = new XyChartSpaceComponent();
-    abstractClass = new OrdinalAxisStub(chart as any, xySpace);
+    chart = new XyChartComponentStub();
+    abstractClass = new OrdinalAxisStub(chart as any);
   });
 
   describe('setAxis()', () => {
