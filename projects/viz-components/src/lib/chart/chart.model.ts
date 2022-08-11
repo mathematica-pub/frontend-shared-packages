@@ -7,6 +7,9 @@ export class ChartConfig {
   height: number;
   scaleChartWithContainer: boolean;
   hasHoverEvents: boolean;
+  constructor(init?: Partial<ChartConfig>) {
+    Object.assign(this, init);
+  }
 }
 
 /**
@@ -15,6 +18,9 @@ export class ChartConfig {
 export class Dimensions {
   width: number;
   height: number;
+  constructor(init?: Partial<Dimensions>) {
+    Object.assign(this, init);
+  }
 }
 
 /**
@@ -31,4 +37,7 @@ export class ElementSpacing {
   right: number;
   bottom: number;
   left: number;
+  constructor(init?: Partial<ElementSpacing>) {
+    Object.assign(this, init);
+  }
 }

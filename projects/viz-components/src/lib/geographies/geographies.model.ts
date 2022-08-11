@@ -16,10 +16,11 @@ export class GeographiesConfig extends DataMarksConfig {
   noDataGeographies?: NoDataGeography[];
   dataGeography?: DataGeography;
 
-  constructor() {
+  constructor(init?: Partial<GeographiesConfig>) {
     super();
     this.data = [];
     this.projection = geoAlbersUsa();
+    Object.assign(this, init);
   }
 }
 
@@ -29,10 +30,11 @@ export class NoDataGeography {
   strokeWidth: string;
   fill: string;
 
-  constructor() {
+  constructor(init?: Partial<NoDataGeography>) {
     this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
     this.fill = 'none';
+    Object.assign(this, init);
   }
 }
 
@@ -41,9 +43,10 @@ export class DataGeography extends NoDataGeography {
   attributeDataConfig: AttributeDataDimension;
   nullColor: string;
 
-  constructor() {
+  constructor(init?: Partial<DataGeography>) {
     super();
     this.nullColor = '#dcdcdc';
+    Object.assign(this, init);
   }
 }
 
@@ -57,6 +60,10 @@ export class AttributeDataDimension extends DataDimension {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
+  constructor(init?: Partial<AttributeDataDimension>) {
+    super();
+    Object.assign(this, init);
+  }
 }
 
 export type MapBinType =
@@ -68,53 +75,57 @@ export type MapBinType =
 export class CategoricalAttributeDataDimension extends AttributeDataDimension {
   override interpolator: never;
 
-  constructor() {
+  constructor(init?: Partial<CategoricalAttributeDataDimension>) {
     super();
     this.valueType = 'categorical';
     this.binType = 'none';
     this.colors = ['white', 'lightslategray'];
+    Object.assign(this, init);
   }
 }
-
 export class NoBinsQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor() {
+  constructor(init?: Partial<NoBinsQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'none';
     this.colorScale = scaleLinear;
     this.interpolator = interpolateLab;
+    Object.assign(this, init);
   }
 }
 
 export class EqualValuesQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor() {
+  constructor(init?: Partial<EqualValuesQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'equal value ranges';
     this.colorScale = scaleQuantize;
     this.interpolator = interpolateLab;
     this.numBins = 5;
+    Object.assign(this, init);
   }
 }
 
 export class EqualNumbersQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor() {
+  constructor(init?: Partial<EqualNumbersQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'equal num observations';
     this.colorScale = scaleQuantile;
     this.interpolator = interpolateLab;
     this.numBins = 5;
+    Object.assign(this, init);
   }
 }
 
 export class CustomBreaksQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor() {
+  constructor(init?: Partial<CustomBreaksQuantitativeAttributeDataDimension>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'custom breaks';
     this.colorScale = scaleThreshold;
     this.interpolator = interpolateLab;
+    Object.assign(this, init);
   }
 }
 
@@ -123,4 +134,8 @@ export class MapDataValues {
   attributeDataValues: any[];
   indexMap: InternMap;
   geoJsonGeographies: any[];
+
+  constructor(init?: Partial<MapDataValues>) {
+    Object.assign(this, init);
+  }
 }
