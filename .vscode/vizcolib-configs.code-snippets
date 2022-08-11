@@ -1,0 +1,685 @@
+{
+    "FullAxisConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullAxisConfig"
+        ],
+        "body": [
+            "{",
+            "\t// numTicks: number | TimeInterval,",
+            "\t// tickFormat: string,",
+            "\t// tickValues: any[],",
+            "\t// removeDomain: boolean,",
+            "\t// removeTicks: boolean,",
+            "\t// removeTickMarks: boolean,",
+            "\t// showGridLines: boolean,",
+            "\t// wrap: TickWrap,",
+            "\t// tickSizeOuter: number,",
+            "\t// tickLabelFontSize: number,",
+            "}"
+        ]
+    },
+    "FullTickWrap": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullTickWrap"
+        ],
+        "body": [
+            "{",
+            "\t// wrapWidth: 'bandwidth' | number,",
+            "\t// override width: never,",
+            "\t// test comment",
+            "\t// width: number,",
+            "\tmaintainXPosition: false,",
+            "\t// another test comment",
+            "\tmaintainYPosition: false,",
+            "\t/**",
+            "\t* multiline test comment",
+            "\t*/",
+            "\tlineHeight: 1.1,",
+            "}"
+        ]
+    },
+    "FullBarsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullBarsConfig"
+        ],
+        "body": [
+            "{",
+            "\tordinal: new OrdinalDimension(),",
+            "\tquantitative: new QuantitativeDimension(),",
+            "\tcategory: new CategoricalColorDimension(),",
+            "\tdimensions: verticalBarChartDimensionsConfig,",
+            "\tlabels: new LabelsConfig(),",
+            "\tpositivePaddingForAllNegativeValues: 0.2,",
+            "\t// data: any[],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "\t//ordinal.valueAccessor: (d, i) => i,",
+            "\t//quantitative.valueAccessor: (d) => d,",
+            "\t//quantitative.scaleType: scaleLinear,",
+            "\t//category.valueAccessor: (d) => d,",
+            "\t//category.colors: ['lightslategray'],",
+            "}"
+        ]
+    },
+    "FullLabelsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullLabelsConfig"
+        ],
+        "body": [
+            "{",
+            "\tshow: false,",
+            "\toffset: 4,",
+            "\t// color: string,",
+            "\tnoValueString: 'N/A',",
+            "}"
+        ]
+    },
+    "FullChartConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullChartConfig"
+        ],
+        "body": [
+            "{",
+            "\t// width: number,",
+            "\t// height: number,",
+            "\t// scaleChartWithContainer: boolean,",
+            "\t// hasHoverEvents: boolean,",
+            "}"
+        ]
+    },
+    "FullDimensions": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDimensions"
+        ],
+        "body": [
+            "{",
+            "\t// width: number,",
+            "\t// height: number,",
+            "}"
+        ]
+    },
+    "FullElementSpacing": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullElementSpacing"
+        ],
+        "body": [
+            "{",
+            "\t// top: number,",
+            "\t// right: number,",
+            "\t// bottom: number,",
+            "\t// left: number,",
+            "}"
+        ]
+    },
+    "FullDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullQuantitativeDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullQuantitativeDimension"
+        ],
+        "body": [
+            "{",
+            "\t// override domain: [any, any],",
+            "\t// scaleType: (d: any, r: any) => any,",
+            "\tdomainPadding: new DomainPadding(),",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullDomainPadding": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDomainPadding"
+        ],
+        "body": [
+            "{",
+            "\ttype: 'round',",
+            "\tsigDigits: 2,",
+            "\tpercent: 0.1,",
+            "}"
+        ]
+    },
+    "FullCategoricalColorDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullCategoricalColorDimension"
+        ],
+        "body": [
+            "{",
+            "\t// override domain: any[] | InternSet,",
+            "\t// colorScale: (...args: any) => any,",
+            "\t// colors: string[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullOrdinalDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullOrdinalDimension"
+        ],
+        "body": [
+            "{",
+            "\t// override domain: any[] | InternSet,",
+            "\tscaleType: scaleBand,",
+            "\tpaddingInner: 0.1,",
+            "\tpaddingOuter: 0.1,",
+            "\talign: 0.5,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullDataMarks": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDataMarks"
+        ],
+        "body": [
+            "{",
+            "\tconfig: new DataMarksConfig(),",
+            "\t// ranges: Ranges,",
+            "\t// setMethodsFromConfigAndDraw: () => void,",
+            "\t// resizeMarks: () => void,",
+            "\t// drawMarks: (transitionDuration: number) => void,",
+            "\t// onPointerEnter: (event: PointerEvent) => void,",
+            "\t// onPointerLeave: (event: PointerEvent) => void,",
+            "\t// onPointerMove: (event: PointerEvent) => void,",
+            "}"
+        ]
+    },
+    "FullDataMarksConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDataMarksConfig"
+        ],
+        "body": [
+            "{",
+            "\t// data: any[],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "}"
+        ]
+    },
+    "FullTooltipConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullTooltipConfig"
+        ],
+        "body": [
+            "{",
+            "\tshow: false,",
+            "\ttype: 'svg',",
+            "}"
+        ]
+    },
+    "FullXyDataMarks": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullXyDataMarks"
+        ],
+        "body": [
+            "{",
+            "\t// setValueArrays: () => void,",
+            "\t// subscribeToScales: () => void,",
+            "\t// subscribeToRanges: () => void,",
+            "\t// values: XyDataMarksValues,",
+            "\t// xScale: (d: any) => any,",
+            "\t// yScale: (d: any) => any,",
+            "\tconfig: new DataMarksConfig(),",
+            "\t// ranges: Ranges,",
+            "\t// setMethodsFromConfigAndDraw: () => void,",
+            "\t// resizeMarks: () => void,",
+            "\t// drawMarks: (transitionDuration: number) => void,",
+            "\t// onPointerEnter: (event: PointerEvent) => void,",
+            "\t// onPointerLeave: (event: PointerEvent) => void,",
+            "\t// onPointerMove: (event: PointerEvent) => void,",
+            "}"
+        ]
+    },
+    "FullXyDataMarksValues": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullXyDataMarksValues"
+        ],
+        "body": [
+            "{",
+            "\t// x: any[],",
+            "\t// y: any[],",
+            "\t// category: any[],",
+            "\t// indicies: any[],",
+            "}"
+        ]
+    },
+    "FullGroupedBarsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGroupedBarsConfig"
+        ],
+        "body": [
+            "{",
+            "\tintraGroupPadding: 0.05,",
+            "\tordinal: new OrdinalDimension(),",
+            "\tquantitative: new QuantitativeDimension(),",
+            "\tcategory: new CategoricalColorDimension(),",
+            "\tdimensions: verticalBarChartDimensionsConfig,",
+            "\tlabels: new LabelsConfig(),",
+            "\tpositivePaddingForAllNegativeValues: 0.2,",
+            "\t// data: any[],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "\t//ordinal.valueAccessor: (d, i) => i,",
+            "\t//quantitative.valueAccessor: (d) => d,",
+            "\t//quantitative.scaleType: scaleLinear,",
+            "\t//category.valueAccessor: (d) => d,",
+            "\t//category.colors: ['lightslategray'],",
+            "}"
+        ]
+    },
+    "FullHtmlTooltipConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullHtmlTooltipConfig"
+        ],
+        "body": [
+            "{",
+            "\texists: false,",
+            "\tdisplay: 'none',",
+            "\toffset: new HtmlTooltipOffset(),",
+            "\tposition: new HtmlTooltipPosition(),",
+            "}"
+        ]
+    },
+    "FullHtmlTooltipOffset": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullHtmlTooltipOffset"
+        ],
+        "body": [
+            "{",
+            "\ttop: 0,",
+            "\tright: 0,",
+            "\tbottom: 0,",
+            "\tleft: 0,",
+            "}"
+        ]
+    },
+    "FullHtmlTooltipPosition": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullHtmlTooltipPosition"
+        ],
+        "body": [
+            "{",
+            "\ttop: 0,",
+            "\tleft: 0,",
+            "}"
+        ]
+    },
+    "FullLinesConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullLinesConfig"
+        ],
+        "body": [
+            "{",
+            "\tx: new QuantitativeDimension(),",
+            "\ty: new QuantitativeDimension(),",
+            "\tcategory: new CategoricalColorDimension(),",
+            "\t// valueIsDefined: (...args: any) => any,",
+            "\tcurve: curveLinear,",
+            "\tpointMarker: new PointMarker(),",
+            "\tstroke: new LinesStroke(),",
+            "\t// labelLines: boolean,",
+            "\t// override tooltip: LinesTooltipConfig,",
+            "\t// lineLabelsFormat: (d: string) => string,",
+            "\t// data: any[],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new LinesTooltipConfig(),",
+            "\t//x.valueAccessor: ([x]) => x,",
+            "\t//x.scaleType: scaleUtc,",
+            "\t//y.valueAccessor: ([, y]) => y,",
+            "\t//y.scaleType: scaleLinear,",
+            "\t//category.valueAccessor: () => 1,",
+            "\t//category.colors: schemeTableau10 as string[],",
+            "\t//stroke.width: 2,",
+            "\tlineLabelsFormat: (d: string) => d,",
+            "}"
+        ]
+    },
+    "FullLinesTooltipConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullLinesTooltipConfig"
+        ],
+        "body": [
+            "{",
+            "\tdetectionRadius: 80,",
+            "\tshow: false,",
+            "\ttype: 'svg',",
+            "}"
+        ]
+    },
+    "FullLinesStroke": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullLinesStroke"
+        ],
+        "body": [
+            "{",
+            "\t// linecap: string,",
+            "\t// linejoin: string,",
+            "\t// width: number,",
+            "\t// opacity: number,",
+            "}"
+        ]
+    },
+    "FullPointMarker": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullPointMarker"
+        ],
+        "body": [
+            "{",
+            "\tdisplay: true,",
+            "\tradius: 3,",
+            "\tgrowByOnHover: 1,",
+            "}"
+        ]
+    },
+    "FullLinesTooltipData": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullLinesTooltipData"
+        ],
+        "body": [
+            "{",
+            "\t// datum: any,",
+            "\t// color: string,",
+            "\t// x: string,",
+            "\t// y: string,",
+            "\t// category: string,",
+            "}"
+        ]
+    },
+    "FullMapConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullMapConfig"
+        ],
+        "body": [
+            "{",
+            "\t// boundary: any,",
+            "\tprojection: geoAlbersUsa(),",
+            "\t// simpleGeographies: SimpleGeography[],",
+            "\t// dataGeography: DataGeography,",
+            "\tdata: [],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "}"
+        ]
+    },
+    "FullSimpleGeography": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullSimpleGeography"
+        ],
+        "body": [
+            "{",
+            "\t// geographies: any[],",
+            "\tstrokeColor: 'dimgray',",
+            "\tstrokeWidth: '1',",
+            "\tfill: 'none',",
+            "}"
+        ]
+    },
+    "FullDataGeography": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDataGeography"
+        ],
+        "body": [
+            "{",
+            "\t// valueAccessor: (d: any) => any,",
+            "\t// dataConfig: GeoDataDimension,",
+            "\tnullColor: '#dcdcdc',",
+            "\t// geographies: any[],",
+            "\tstrokeColor: 'dimgray',",
+            "\tstrokeWidth: '1',",
+            "\tfill: 'none',",
+            "}"
+        ]
+    },
+    "FullGeoDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeoDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\t// valueType: string,",
+            "\t// binType: MapBinType,",
+            "\t// colorScale: (...args: any) => any,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\t// interpolator: (...args: any) => any,",
+            "\t// range: any[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullGeoCategoricalDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeoCategoricalDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// override interpolator: never,",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'categorical',",
+            "\tbinType: 'none',",
+            "\t// colorScale: (...args: any) => any,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\t// interpolator: (...args: any) => any,",
+            "\t// range: any[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "\tcolors: ['white', 'lightslategray'],",
+            "}"
+        ]
+    },
+    "FullGeoNoBinsQuantitativeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeoNoBinsQuantitativeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'none',",
+            "\tcolorScale: scaleLinear,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// range: any[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullGeoEqualValuesQuantitativeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeoEqualValuesQuantitativeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'equal value ranges',",
+            "\tcolorScale: scaleQuantize,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// range: any[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "\tnumBins: 5,",
+            "}"
+        ]
+    },
+    "FullGeoEqualNumbersQuantitativeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeoEqualNumbersQuantitativeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'equal num observations',",
+            "\tcolorScale: scaleQuantile,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// range: any[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "\tnumBins: 5,",
+            "}"
+        ]
+    },
+    "FullGeoCustomBreaksQuantitativeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeoCustomBreaksQuantitativeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'custom breaks',",
+            "\tcolorScale: scaleThreshold,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// range: any[],",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullMapDataValues": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullMapDataValues"
+        ],
+        "body": [
+            "{",
+            "\t// dataGeographies: any[],",
+            "\t// dataValues: any[],",
+            "\t// indexMap: InternMap,",
+            "\t// geoGeographies: any[],",
+            "}"
+        ]
+    },
+    "FullSvgWrapOptions": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullSvgWrapOptions"
+        ],
+        "body": [
+            "{",
+            "\t// test comment",
+            "\t// width: number,",
+            "\tmaintainXPosition: false,",
+            "\t// another test comment",
+            "\tmaintainYPosition: false,",
+            "\t/**",
+            "\t* multiline test comment",
+            "\t*/",
+            "\tlineHeight: 1.1,",
+            "}"
+        ]
+    },
+    "FullStackedBarsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullStackedBarsConfig"
+        ],
+        "body": [
+            "{",
+            "\torder: stackOrderNone,",
+            "\toffset: stackOffsetDiverging,",
+            "\tordinal: new OrdinalDimension(),",
+            "\tquantitative: new QuantitativeDimension(),",
+            "\tcategory: new CategoricalColorDimension(),",
+            "\tdimensions: verticalBarChartDimensionsConfig,",
+            "\tlabels: new LabelsConfig(),",
+            "\tpositivePaddingForAllNegativeValues: 0.2,",
+            "\t// data: any[],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "\t//ordinal.valueAccessor: (d, i) => i,",
+            "\t//quantitative.valueAccessor: (d) => d,",
+            "\t//quantitative.scaleType: scaleLinear,",
+            "\t//category.valueAccessor: (d) => d,",
+            "\t//category.colors: ['lightslategray'],",
+            "}"
+        ]
+    },
+    "FullDimensionProperties": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDimensionProperties"
+        ],
+        "body": [
+            "{",
+            "\t// scale: any,",
+            "\t// axis: any,",
+            "\t// axisConfig: AxisConfig,",
+            "}"
+        ]
+    }
+}

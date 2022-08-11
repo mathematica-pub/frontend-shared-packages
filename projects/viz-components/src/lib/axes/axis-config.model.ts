@@ -12,8 +12,15 @@ export class AxisConfig {
   wrap?: TickWrap;
   tickSizeOuter?: number;
   tickLabelFontSize?: number;
+  constructor(init?: Partial<AxisConfig>) {
+    Object.assign(this, init);
+  }
 }
 export class TickWrap extends SvgWrapOptions {
   wrapWidth: 'bandwidth' | number;
   override width: never;
+  constructor(init?: Partial<TickWrap>) {
+    super();
+    Object.assign(this, init);
+  }
 }

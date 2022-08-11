@@ -4,4 +4,7 @@ export class DimensionProperties {
   scale?: any;
   axis?: any;
   axisConfig?: AxisConfig;
+  constructor(init?: Partial<DimensionProperties>) {
+    Object.assign(this, init);
+  }
 }

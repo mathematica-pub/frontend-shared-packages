@@ -14,7 +14,7 @@ export class BarsConfig extends DataMarksConfig {
   labels: LabelsConfig;
   positivePaddingForAllNegativeValues: number;
 
-  constructor() {
+  constructor(init?: Partial<BarsConfig>) {
     super();
     this.dimensions = verticalBarChartDimensionsConfig;
     this.ordinal.valueAccessor = (d, i) => i;
@@ -24,11 +24,8 @@ export class BarsConfig extends DataMarksConfig {
     this.category.colors = ['lightslategray'];
     this.labels = new LabelsConfig();
     this.positivePaddingForAllNegativeValues = 0.2;
+    Object.assign(this.category, init);
   }
-}
-export class BarsTooltipData {
-  datum: any;
-  value: string;
 }
 
 export class LabelsConfig {
@@ -37,11 +34,17 @@ export class LabelsConfig {
   color?: string;
   noValueString: string;
 
-  constructor() {
+  constructor(init?: Partial<LabelsConfig>) {
     this.show = false;
     this.offset = 4;
     this.noValueString = 'N/A';
+    Object.assign(this, init);
   }
+}
+
+export class BarsTooltipData {
+  datum: any;
+  value: string;
 }
 
 export interface BarsDimensionsConfig {

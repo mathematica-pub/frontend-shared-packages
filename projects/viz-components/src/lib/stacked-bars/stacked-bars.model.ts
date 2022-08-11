@@ -5,10 +5,11 @@ export class StackedBarsConfig extends BarsConfig {
   order: any;
   offset: any;
 
-  constructor() {
+  constructor(init?: Partial<StackedBarsConfig>) {
     super();
     this.order = stackOrderNone;
     this.offset = stackOffsetDiverging;
+    Object.assign(this, init);
   }
 }
 
