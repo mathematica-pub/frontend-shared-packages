@@ -1,3 +1,4 @@
+<ng-content select="[html-elements-before]"></ng-content>
 <div
   #div
   class="chart-container"
@@ -5,29 +6,27 @@
   [style.maxHeight.px]="height"
   [style.display]="'flex'"
 >
-  <ng-content select="[html-elements-before]"></ng-content>
   <svg
     #svg
     [attr.width]="(svgDimensions$ | async).width"
     [attr.height]="(svgDimensions$ | async).height"
-    attr.style="'max-width: 100%; height: auto; height: intrinsic;'"
   >
     <ng-content select="[svg-elements]"></ng-content>
   </svg>
-  <ng-content select="[html-elements-after]"></ng-content>
   <vzc-html-tooltip
     class="html-tooltip-component"
     *ngIf="htmlTooltip.exists"
     [ngStyle]="{
-      display: htmlTooltip.display,
-      'top.px': htmlTooltip.position.top,
-      'left.px': htmlTooltip.position.left,
-      'height.px': div.offsetHeight,
-      'width.px': div.offsetWidth
-    }"
+    display: htmlTooltip.display,
+    'top.px': htmlTooltip.position.top,
+    'left.px': htmlTooltip.position.left,
+    'height.px': div.offsetHeight,
+    'width.px':div.offsetWidth
+  }"
     [bottom]="htmlTooltip.offset.bottom"
     [left]="htmlTooltip.offset.left"
   >
     <ng-content select="[tooltip-content]"></ng-content>
   </vzc-html-tooltip>
 </div>
+<ng-content select="[html-elements-after]"></ng-content>

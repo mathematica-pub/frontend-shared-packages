@@ -1,11 +1,15 @@
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
-export function mixinOrdinalAxis<T extends AbstractConstructor<XyAxis>>(
+export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
   Base: T
 ) {
   abstract class Mixin extends Base {
     defaultTickSizeOuter = 0;
+
+    constructor(...args: any[]) {
+      super(...args);
+    }
 
     setAxis(axisFunction: any): void {
       const tickSizeOuter =

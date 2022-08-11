@@ -1,8 +1,8 @@
 <app-component-demo>
   <span title>Lines</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
-    <vzc-chart [margin]="margin">
-      <svg:g vzc-xy-chart-space svg-elements>
+    <vzc-xy-chart [margin]="margin">
+      <ng-container svg-elements>
         <svg:g vzc-xy-chart-background></svg:g>
         <svg:g
           vzc-x-quantitative-axis
@@ -15,8 +15,8 @@
           side="left"
         ></svg:g>
         <svg:g vzc-data-marks-lines [config]="vm.dataConfig"></svg:g>
-      </svg:g>
-    </vzc-chart>
+      </ng-container>
+    </vzc-xy-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
 </app-component-demo>

@@ -10,10 +10,10 @@ import {
 import { DataDimension } from '../data-marks/data-dimension.model';
 import { DataMarksConfig } from '../data-marks/data-marks.model';
 
-export class MapConfig extends DataMarksConfig {
+export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
   projection: any;
-  simpleGeographies?: SimpleGeography[];
+  noDataGeographies?: NoDataGeography[];
   dataGeography?: DataGeography;
 
   constructor() {
@@ -23,7 +23,7 @@ export class MapConfig extends DataMarksConfig {
   }
 }
 
-export class SimpleGeography {
+export class NoDataGeography {
   geographies: any[];
   strokeColor: string;
   strokeWidth: string;
@@ -36,9 +36,9 @@ export class SimpleGeography {
   }
 }
 
-export class DataGeography extends SimpleGeography {
+export class DataGeography extends NoDataGeography {
   valueAccessor?: (d: any) => any;
-  dataConfig: GeoDataDimension;
+  attributeDataConfig: AttributeDataDimension;
   nullColor: string;
 
   constructor() {
@@ -47,16 +47,16 @@ export class DataGeography extends SimpleGeography {
   }
 }
 
-export class GeoDataDimension extends DataDimension {
+export class AttributeDataDimension extends DataDimension {
   geoAccessor: (d: any) => any;
   valueType: string;
   binType: MapBinType;
+  range: any[];
   colorScale: (...args: any) => any;
   colors?: string[];
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
-  range: any[];
 }
 
 export type MapBinType =
@@ -65,7 +65,7 @@ export type MapBinType =
   | 'equal num observations'
   | 'custom breaks';
 
-export class GeoCategoricalDataDimension extends GeoDataDimension {
+export class CategoricalAttributeDataDimension extends AttributeDataDimension {
   override interpolator: never;
 
   constructor() {
@@ -76,7 +76,7 @@ export class GeoCategoricalDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoNoBinsQuantitativeDataDimension extends GeoDataDimension {
+export class NoBinsQuantitativeAttributeDataDimension extends AttributeDataDimension {
   constructor() {
     super();
     this.valueType = 'quantitative';
@@ -86,7 +86,7 @@ export class GeoNoBinsQuantitativeDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoEqualValuesQuantitativeDataDimension extends GeoDataDimension {
+export class EqualValuesQuantitativeAttributeDataDimension extends AttributeDataDimension {
   constructor() {
     super();
     this.valueType = 'quantitative';
@@ -97,7 +97,7 @@ export class GeoEqualValuesQuantitativeDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoEqualNumbersQuantitativeDataDimension extends GeoDataDimension {
+export class EqualNumbersQuantitativeAttributeDataDimension extends AttributeDataDimension {
   constructor() {
     super();
     this.valueType = 'quantitative';
@@ -108,7 +108,7 @@ export class GeoEqualNumbersQuantitativeDataDimension extends GeoDataDimension {
   }
 }
 
-export class GeoCustomBreaksQuantitativeDataDimension extends GeoDataDimension {
+export class CustomBreaksQuantitativeAttributeDataDimension extends AttributeDataDimension {
   constructor() {
     super();
     this.valueType = 'quantitative';
@@ -119,8 +119,8 @@ export class GeoCustomBreaksQuantitativeDataDimension extends GeoDataDimension {
 }
 
 export class MapDataValues {
-  dataGeographies: any[];
-  dataValues: any[];
+  attributeDataGeographies: any[];
+  attributeDataValues: any[];
   indexMap: InternMap;
-  geoGeographies: any[];
+  geoJsonGeographies: any[];
 }

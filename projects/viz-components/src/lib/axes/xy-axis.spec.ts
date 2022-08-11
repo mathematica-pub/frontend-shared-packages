@@ -1,17 +1,14 @@
 import { BehaviorSubject } from 'rxjs';
-import { ChartComponentStub } from '../testing/stubs/components/chart.component.stub';
 import { XyAxisStub } from '../testing/stubs/xy-axis.stub';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisStub;
-  let chart: ChartComponentStub;
-  let xySpace: XyChartSpaceComponent;
+  let chart: XyChartComponentStub;
 
   beforeEach(() => {
-    chart = new ChartComponentStub();
-    xySpace = new XyChartSpaceComponent();
-    abstractClass = new XyAxisStub(chart as any, xySpace);
+    chart = new XyChartComponentStub();
+    abstractClass = new XyAxisStub(chart as any);
   });
 
   describe('ngOnInit', () => {

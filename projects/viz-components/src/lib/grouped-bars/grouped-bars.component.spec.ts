@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { GroupedBarsComponent } from './grouped-bars.component';
 
 describe('GroupedBarsComponent', () => {
@@ -10,7 +9,7 @@ describe('GroupedBarsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GroupedBarsComponent],
-      providers: [XyChartSpaceComponent, ChartComponent],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
@@ -18,7 +17,7 @@ describe('GroupedBarsComponent', () => {
     fixture = TestBed.createComponent(GroupedBarsComponent);
     component = fixture.componentInstance;
     component.chart.dataMarksComponent = {
-      config: { showTooltip: false },
+      config: { tooltip: { show: false, type: 'html' } },
     } as any;
   });
 

@@ -29,17 +29,14 @@ import {
   timeFormat,
   Transition,
 } from 'd3';
-import { combineLatest, takeUntil } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
-import { Ranges } from '../chart/chart.model';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
   XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
-import { Unsubscribe } from '../shared/unsubscribe.class';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyContent } from '../xy-chart/xy-content';
 import { LinesConfig, LinesTooltipData, Marker } from './lines.model';
 
 @Component({
@@ -52,7 +49,7 @@ import { LinesConfig, LinesTooltipData, Marker } from './lines.model';
   providers: [{ provide: DATA_MARKS, useExisting: LinesComponent }],
 })
 export class LinesComponent
-  extends Unsubscribe
+  extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
@@ -63,9 +60,6 @@ export class LinesComponent
   @Input() config: LinesConfig;
   @Output() tooltipData = new EventEmitter<LinesTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
-  ranges: Ranges;
-  xScale: (d: any) => any;
-  yScale: (d: any) => any;
   line: (x: any[]) => any;
   linesD3Data;
   linesKeyFunction;
@@ -74,12 +68,11 @@ export class LinesComponent
   tooltipCurrentlyShown = false;
 
   constructor(
-    public chart: ChartComponent,
-    public xySpace: XyChartSpaceComponent,
     private utilities: UtilitiesService,
-    private zone: NgZone
+    private zone: NgZone,
+    chart: XyChartComponent
   ) {
-    super();
+    super(chart);
   }
 
   get lines(): any {
@@ -104,25 +97,6 @@ export class LinesComponent
     this.subscribeToRanges();
     this.subscribeToScales();
     this.setMethodsFromConfigAndDraw();
-  }
-
-  subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (this.xScale && this.yScale) {
-        this.resizeMarks();
-      }
-    });
-  }
-
-  subscribeToScales(): void {
-    const subscriptions = [this.xySpace.xScale$, this.xySpace.yScale$];
-    combineLatest(subscriptions)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(([xScale, yScale]): void => {
-        this.xScale = xScale;
-        this.yScale = yScale;
-      });
   }
 
   setMethodsFromConfigAndDraw(): void {
@@ -181,10 +155,10 @@ export class LinesComponent
 
   setScaledSpaceProperties(): void {
     this.zone.run(() => {
-      this.xySpace.updateXScale(
+      this.chart.updateXScale(
         this.config.x.scaleType(this.config.x.domain, this.ranges.x)
       );
-      this.xySpace.updateYScale(
+      this.chart.updateYScale(
         this.config.y.scaleType(this.config.y.domain, this.ranges.y)
       );
     });
