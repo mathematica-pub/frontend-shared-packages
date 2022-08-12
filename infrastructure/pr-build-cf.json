@@ -24,10 +24,6 @@
     "ParameterValue": "viz-components"
   },
   {
-    "ParameterKey": "KmsKeyArn",
-    "ParameterValue": "arn:aws:kms:us-east-1:130116285580:key/71c742a6-e24a-4d88-83c3-37b53766ffd8"
-  },
-  {
     "ParameterKey": "ServerlessConfig",
     "ParameterValue": "infrastructure/serverless-config.yml"
   }
