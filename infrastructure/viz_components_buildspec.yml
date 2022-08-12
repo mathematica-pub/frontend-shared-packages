@@ -27,7 +27,7 @@ artifacts:
     - 'infrastructure/deploy_buildspec.yml'
     - 'infrastructure/archive_assets.yml'
     - 'infrastructure/serverless.yml'
-    - 'infrastructures/serverless-config.yml'
+    - 'infrastructure/serverless-config.yml'
     - 'package-lock.json'
     - 'package.json'
   discard-paths: no
