@@ -21,6 +21,7 @@ Metadata:
         Parameters:
           - GitHubRepository
           - SecretName
+          - PercyToken
 
       - Label:
           default: 'Permission Boundary'
@@ -228,6 +229,10 @@ Parameters:
 
   ServerlessConfig:
     Description: name of config to be used in the serverless process
+    Type: String
+  
+  PercyToken: 
+    Description: percy token
     Type: String
 
 ###############################################################################
@@ -956,7 +961,8 @@ Resources:
                       - '{ "name":"REPO_NAME", "type":"PLAINTEXT", "value":"#{SourceActionVariables.RepositoryName}" },'
                       - '{ "name":"BRANCH", "type":"PLAINTEXT", "value":"#{SourceActionVariables.BranchName}" },'
                       - '{ "name":"COMMIT_AUTHOR_DATE", "type":"PLAINTEXT", "value":"#{SourceActionVariables.AuthorDate}" },'
-                      - '{ "name":"COMMIT_DATE", "type":"PLAINTEXT", "value":"#{SourceActionVariables.CommitterDate}" }'
+                      - '{ "name":"COMMIT_DATE", "type":"PLAINTEXT", "value":"#{SourceActionVariables.CommitterDate}" },'
+                      - !Sub '{ "name":"PERCY_TOKEN", "type": "PLAINTEXT", "value": "${PercyToken}" }'
                       - ']'
               OutputArtifacts:
                 - Name: TestAndBuildArtifacts
