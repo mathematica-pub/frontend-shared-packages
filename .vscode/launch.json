@@ -1,6 +1,7 @@
 {
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
+  "cwd": "${fileDirname}",
   "configurations": [
     {
       "name": "ng serve",
@@ -15,6 +16,17 @@
       "request": "launch",
       "preLaunchTask": "npm: test",
       "url": "http://localhost:9876/debug.html"
-    }
+    },
+    {
+      "name": "Python: Current File",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+          "PYTHONPATH": "${cwd}"
+      }
+  }
   ]
 }

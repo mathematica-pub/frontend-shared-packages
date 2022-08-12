@@ -3,7 +3,7 @@ import {
   CategoricalColorDimension,
   QuantitativeDimension,
 } from '../data-marks/data-dimension.model';
-import { DataMarksConfig } from '../data-marks/data-marks.model';
+import { DataMarksConfig, TooltipConfig } from '../data-marks/data-marks.model';
 
 export class LinesConfig extends DataMarksConfig {
   x: QuantitativeDimension = new QuantitativeDimension();
@@ -14,10 +14,10 @@ export class LinesConfig extends DataMarksConfig {
   pointMarker: PointMarker = new PointMarker();
   stroke?: LinesStroke = new LinesStroke();
   labelLines?: boolean;
-  tooltipDetectionRadius: number;
+  override tooltip: LinesTooltipConfig;
   lineLabelsFormat?: (d: string) => string;
 
-  constructor() {
+  constructor(init?: Partial<LinesConfig>) {
     super();
     this.x.valueAccessor = ([x]) => x;
     this.x.scaleType = scaleUtc;
@@ -28,7 +28,18 @@ export class LinesConfig extends DataMarksConfig {
     this.curve = curveLinear;
     this.stroke.width = 2;
     this.lineLabelsFormat = (d: string) => d;
-    this.tooltipDetectionRadius = 80;
+    this.tooltip = new LinesTooltipConfig();
+    Object.assign(this, init);
+  }
+}
+
+export class LinesTooltipConfig extends TooltipConfig {
+  detectionRadius: number;
+
+  constructor(init?: Partial<LinesTooltipConfig>) {
+    super();
+    this.detectionRadius = 80;
+    Object.assign(this, init);
   }
 }
 
@@ -37,6 +48,9 @@ export class LinesStroke {
   linejoin?: string;
   width?: number;
   opacity?: number;
+  constructor(init?: Partial<LinesStroke>) {
+    Object.assign(this, init);
+  }
 }
 
 export class PointMarker {
@@ -44,10 +58,11 @@ export class PointMarker {
   radius: number;
   growByOnHover: number;
 
-  constructor() {
+  constructor(init?: Partial<PointMarker>) {
     this.display = true;
     this.radius = 3;
     this.growByOnHover = 1;
+    Object.assign(this, init);
   }
 }
 
@@ -57,6 +72,9 @@ export class LinesTooltipData {
   x: string;
   y: string;
   category: string;
+  constructor(init?: Partial<LinesTooltipData>) {
+    Object.assign(this, init);
+  }
 }
 
 export interface Marker {

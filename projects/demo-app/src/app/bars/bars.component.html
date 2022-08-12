@@ -1,1 +1,18 @@
-<p>bars works!</p>
+<app-component-demo>
+  <span title>Bars</span>
+  <ng-container demo *ngIf="vm$ | async as vm; else loading">
+    <vzc-chart [margin]="margin">
+      <svg:g vzc-xy-chart-space svg-elements>
+        <svg:g vzc-xy-chart-background></svg:g>
+        <svg:g
+          vzc-x-quantitative-axis
+          [config]="vm.xAxisConfig"
+          side="top"
+        ></svg:g>
+        <svg:g vzc-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
+        <svg:g vzc-data-marks-bars [config]="vm.dataConfig"></svg:g>
+      </svg:g>
+    </vzc-chart>
+  </ng-container>
+  <ng-template #loading>Loading...</ng-template>
+</app-component-demo>

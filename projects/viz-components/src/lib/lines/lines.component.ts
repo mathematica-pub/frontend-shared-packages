@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   extent,
@@ -27,7 +27,7 @@ import {
   scaleOrdinal,
   select,
   timeFormat,
-  Transition
+  Transition,
 } from 'd3';
 import { combineLatest, takeUntil } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -36,7 +36,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
-  XyDataMarksValues
+  XyDataMarksValues,
 } from '../data-marks/xy-data-marks.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
@@ -147,7 +147,8 @@ export class LinesComponent
   }
 
   setChartTooltipProperty(): void {
-    this.chart.htmlTooltip.exists = this.config.showTooltip;
+    this.chart.htmlTooltip.exists =
+      this.config.tooltip.show && this.config.tooltip.type === 'html';
   }
 
   setValueArrays(): void {
@@ -252,7 +253,7 @@ export class LinesComponent
     this.drawLines(transitionDuration);
     if (this.config.pointMarker.display) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.showTooltip) {
+    } else if (this.config.tooltip.show) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -332,29 +333,34 @@ export class LinesComponent
   }
 
   drawLineLabels(): void {
+    const lastPoints = [];
+    this.linesD3Data.forEach((values, key) => {
+      const lastPoint = values[values.length - 1];
+      lastPoints.push({ category: key, index: lastPoint });
+    });
     // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
     select(this.lineLabelsRef.nativeElement)
       .selectAll('text')
-      .data(
-        this.values.indicies.filter(
-          (i) => this.values.x[i] === this.config.x.domain[1]
-        )
-      )
+      .data(lastPoints)
       .join('text')
       .attr('class', 'line-label')
-      .attr('x', (i) => `${this.xScale(this.values.x[i]) + 4}px`)
-      .attr('y', (i) => `${this.yScale(this.values.y[i]) - 12}px`)
-      .text((i) => this.config.lineLabelsFormat(this.values.category[i]));
+      .attr('text-anchor', 'end')
+      .attr('fill', (d) =>
+        this.config.category.colorScale(this.values.category[d.index])
+      )
+      .attr('x', (d) => `${this.xScale(this.values.x[d.index]) - 4}px`)
+      .attr('y', (d) => `${this.yScale(this.values.y[d.index]) - 12}px`)
+      .text((d) => this.config.lineLabelsFormat(d.category));
   }
 
   onPointerEnter(): void {
-    if (this.config.showTooltip) {
+    if (this.config.tooltip.show) {
       this.chart.setTooltipPosition();
     }
   }
 
   onPointerLeave(): void {
-    if (this.config.showTooltip) {
+    if (this.config.tooltip.show) {
       this.resetChartStylesAfterHover();
     }
   }
@@ -362,7 +368,7 @@ export class LinesComponent
   onPointerMove(event: PointerEvent): void {
     const [pointerX, pointerY] = this.getPointerValuesArray(event);
     if (
-      this.config.showTooltip &&
+      this.config.tooltip.show &&
       this.pointerIsInChartArea(pointerX, pointerY)
     ) {
       this.determineHoverStyles(pointerX, pointerY);
@@ -451,7 +457,7 @@ export class LinesComponent
       pointerX,
       pointerY
     );
-    return cursorDistanceFromPoint < this.config.tooltipDetectionRadius;
+    return cursorDistanceFromPoint < this.config.tooltip.detectionRadius;
   }
 
   styleLinesForHover(closestPointIndex: number): void {

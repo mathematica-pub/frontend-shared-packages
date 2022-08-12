@@ -36,6 +36,7 @@ describe('LineChartComponent', () => {
     component.chart.dataMarksComponent = {
       config: { showTooltip: false },
     } as any;
+    component.config = new LinesConfig();
   });
 
   describe('ngOnChanges()', () => {
@@ -206,37 +207,59 @@ describe('LineChartComponent', () => {
     });
   });
 
+  describe('setChartTooltipProperty()', () => {
+    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is false', () => {
+      component.config.tooltip.show = false;
+      component.setChartTooltipProperty();
+      expect(component.chart.htmlTooltip.exists).toEqual(false);
+    });
+
+    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is true and type is not svg', () => {
+      component.config.tooltip.show = true;
+      component.config.tooltip.type = 'svg';
+      component.setChartTooltipProperty();
+      expect(component.chart.htmlTooltip.exists).toEqual(false);
+    });
+
+    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is true and type is svg', () => {
+      component.config.tooltip.show = true;
+      component.config.tooltip.type = 'html';
+      component.setChartTooltipProperty();
+      expect(component.chart.htmlTooltip.exists).toEqual(true);
+    });
+  });
+
   describe('canBeDrawnByPath()', () => {
     it('integration: returns true if value is a number', () => {
-      expect(component.canBeDrawnByPath(1)).toBe(true);
+      expect(component.canBeDrawnByPath(1)).toEqual(true);
     });
 
     it('integration: returns true if value is a Date', () => {
-      expect(component.canBeDrawnByPath(new Date())).toBe(true);
+      expect(component.canBeDrawnByPath(new Date())).toEqual(true);
     });
 
     it('integration: returns false if value is undefined', () => {
-      expect(component.canBeDrawnByPath(undefined)).toBe(false);
+      expect(component.canBeDrawnByPath(undefined)).toEqual(false);
     });
 
     it('integration: returns false if value is a string', () => {
-      expect(component.canBeDrawnByPath('string')).toBe(false);
+      expect(component.canBeDrawnByPath('string')).toEqual(false);
     });
 
     it('integration: returns false if value is null', () => {
-      expect(component.canBeDrawnByPath(null)).toBe(false);
+      expect(component.canBeDrawnByPath(null)).toEqual(false);
     });
 
     it('integration: returns false if value is an object', () => {
-      expect(component.canBeDrawnByPath({ oops: 'not a num' })).toBe(false);
+      expect(component.canBeDrawnByPath({ oops: 'not a num' })).toEqual(false);
     });
 
     it('integration: returns false if value is an array', () => {
-      expect(component.canBeDrawnByPath(['not a num'])).toBe(false);
+      expect(component.canBeDrawnByPath(['not a num'])).toEqual(false);
     });
 
     it('integration: returns false if value is boolean', () => {
-      expect(component.canBeDrawnByPath(true)).toBe(false);
+      expect(component.canBeDrawnByPath(true)).toEqual(false);
     });
   });
 
@@ -284,7 +307,7 @@ describe('LineChartComponent', () => {
       component.chart = {
         setTooltipPosition: setTooltipPositionSpy,
       } as any;
-      component.config = { showTooltip: true } as any;
+      component.config.tooltip.show = true;
     });
     it('calls setTooltipPosition on chart if config.showTooltip is true', () => {
       component.onPointerEnter();
@@ -292,7 +315,7 @@ describe('LineChartComponent', () => {
     });
 
     it('does not call setTooltipPosition on chart if config.showTooltip is false', () => {
-      component.config.showTooltip = false;
+      component.config.tooltip.show = false;
       component.onPointerEnter();
       expect(component.chart.setTooltipPosition).toHaveBeenCalledTimes(0);
     });
@@ -301,7 +324,7 @@ describe('LineChartComponent', () => {
   describe('onPointerLeave()', () => {
     beforeEach(() => {
       spyOn(component, 'resetChartStylesAfterHover');
-      component.config = { showTooltip: true } as any;
+      component.config.tooltip.show = true;
     });
     it('calls resetChartStylesAfterHover if config.showTooltip is true', () => {
       component.onPointerLeave();
@@ -309,7 +332,7 @@ describe('LineChartComponent', () => {
     });
 
     it('does not call resetChartStylesAfterHover if config.showTooltip is false', () => {
-      component.config.showTooltip = false;
+      component.config.tooltip.show = false;
       component.onPointerLeave();
       expect(component.resetChartStylesAfterHover).toHaveBeenCalledTimes(0);
     });
@@ -323,7 +346,6 @@ describe('LineChartComponent', () => {
         true
       );
       spyOn(component, 'determineHoverStyles');
-      component.config = { showTooltip: true } as any;
     });
     it('calls getPointerValuesArray once with the correct argument', () => {
       component.onPointerMove('event' as any);
@@ -333,6 +355,9 @@ describe('LineChartComponent', () => {
     });
 
     describe('if config.showTooltip is true', () => {
+      beforeEach(() => {
+        component.config.tooltip.show = true;
+      });
       it('calls pointerIsInChartArea once with the correct argument', () => {
         component.onPointerMove('event' as any);
         expect(component.pointerIsInChartArea).toHaveBeenCalledOnceWith(1, 2);
@@ -352,7 +377,7 @@ describe('LineChartComponent', () => {
 
     describe('if config.showTooltip is false', () => {
       it('does not call determineHoverStyles', () => {
-        component.config.showTooltip = false;
+        component.config.tooltip.show = false;
         component.onPointerMove('event' as any);
         expect(component.determineHoverStyles).toHaveBeenCalledTimes(0);
       });
@@ -523,7 +548,9 @@ describe('LineChartComponent', () => {
         x: [0, 1, 2, 3],
         y: [4, 5, 6, 7],
       } as any;
-      component.config = { tooltipDetectionRadius: 10 } as any;
+      component.config = {
+        tooltip: { show: true, type: 'html', detectionRadius: 10 },
+      } as any;
     });
     it('calls getPointerDistanceFromPoint once and with the correct values', () => {
       component.pointerIsInsideShowTooltipRadius(1, 10, 20);

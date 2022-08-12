@@ -1,17 +1,30 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import {
+  VzcBarsModule,
+  VzcChartModule,
+  VzcXQuantitativeAxisModule,
+  VzcXyChartBackgroundModule,
+  VzcXyChartSpaceModule,
+  VzcYOrdinalAxisModule,
+} from 'projects/viz-components/src/public-api';
+import { SharedModule } from '../shared/shared.module';
 import { BarsRoutingModule } from './bars-routing.module';
 import { BarsComponent } from './bars.component';
 
-
 @NgModule({
-  declarations: [
-    BarsComponent
-  ],
+  declarations: [BarsComponent],
   imports: [
     CommonModule,
-    BarsRoutingModule
-  ]
+    BarsRoutingModule,
+    VzcBarsModule,
+    VzcXQuantitativeAxisModule,
+    VzcYOrdinalAxisModule,
+    VzcChartModule,
+    VzcXyChartBackgroundModule,
+    VzcXyChartSpaceModule,
+    SharedModule,
+  ],
 })
-export class BarsModule { }
+export class BarsModule {}

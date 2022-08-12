@@ -109,5 +109,9 @@
   {
     "ParameterKey": "VpcId",
     "ParameterValue": "vpc-123"
+  },
+  {
+    "ParameterKey": "PercyToken",
+    "ParameterValue": "7be58f01fd275ba162675417c2f5d04445ab6cb98a9555b31c6a4a9da054f2ec"
   }
 ]

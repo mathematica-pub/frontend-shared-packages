@@ -11,7 +11,6 @@
 /node_modules
 npm-debug.log
 yarn-error.log
-
 /documentation
 
 # IDEs and editors
@@ -23,10 +22,14 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
-videos/
+# Cypress
 screenshots/
+videos/
 downloads/
+
+# Serverless
 .serverless/
+
 # Visual Studio Code
 .vscode/*
 !.vscode/settings.json
@@ -34,6 +37,7 @@ downloads/
 !.vscode/launch.json
 !.vscode/extensions.json
 !.vscode/aws-shortcuts.code-snippets
+!.vscode/vizcolib-configs.code-snippets
 .history/*
 
 # Miscellaneous
@@ -44,6 +48,8 @@ downloads/
 /libpeerconnection.log
 testem.log
 /typings
+
+__pycache__/
 
 # System files
 .DS_Store
