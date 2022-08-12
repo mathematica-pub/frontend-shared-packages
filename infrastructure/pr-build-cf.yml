@@ -103,26 +103,6 @@ Resources:
       Roles:
         - !Ref CodeBuildRole
 
-  # EncryptDecryptWithKmsPolicy:
-  #   Type: AWS::IAM::Policy
-  #   Properties:
-  #     PolicyName: !Sub "MathPolicy-EncryptDecryptWithKms-${ApplicationName}-e2e-runner-${Environment}"
-  #     PolicyDocument:
-  #       Version: "2012-10-17"
-  #       Statement:
-  #         Effect: Allow
-  #         Action:
-  #           - kms:RetireGrant
-  #           - kms:CreateGrant
-  #           - kms:ReEncrypt*
-  #           - kms:GenerateDataKey*
-  #           - kms:Encrypt
-  #           - kms:DescribeKey
-  #           - kms:Decrypt
-  #         Resource: !Ref KmsKeyArn
-  #     Roles:
-  #       - !Ref CodeBuildRole
-
   VpcAccessPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -196,24 +176,6 @@ Resources:
           Resource: "*"
       Roles:
         - !Ref CodeBuildRole
-
-  # APIGatewayPolicy:
-  #   Type: AWS::IAM::Policy
-  #   Properties:
-  #     PolicyName: !Sub 'MathPolicy-APIGateway-${ApplicationName}-runner-${Environment}'
-  #     PolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         Effect: Allow
-  #         Action:
-  #           - apigateway:GET
-  #           - apigateway:POST
-  #           - apigateway:PUT
-  #           - apigateway:DELETE
-  #           - apigateway:TagResource
-  #         Resource: '*'
-  #     Roles:
-  #       - !Ref CodeBuildRole
 
   LambdaPolicy:
     Type: AWS::IAM::Policy
@@ -321,45 +283,6 @@ Resources:
                 - codebuild:BatchPutCodeCoverages
       RoleName: !Sub "MathRole-CodeBuild-${ApplicationName}-runner-${Environment}"
 
-  # CodeBuildBackend:
-  #   Type: AWS::CodeBuild::Project
-  #   DependsOn:
-  #     - VpcAccessPolicy
-  #   Properties:
-  #     Artifacts:
-  #       Type: S3
-  #       NamespaceType: BUILD_ID
-  #       Location: !Ref S3PRArtifactBucket
-  #       Name: !Sub 'Backend-${ApplicationName}-${Environment}'
-  #       EncryptionDisabled: True
-  #     Description: !Sub 'pull request code build for ${ApplicationName} ${Environment}'
-  #     Environment:
-  #       Type: LINUX_CONTAINER
-  #       ComputeType: BUILD_GENERAL1_SMALL
-  #       Image: !Ref BuildImage
-  #       EnvironmentVariables:
-  #         - Name: ENVTYPE
-  #           Type: PLAINTEXT
-  #           Value: pr-build
-  #         - Name: SERVERLESS_CONFIG
-  #           Type: PLAINTEXT
-  #           Value: !Ref ServerlessConfig
-  #         - Name: DeployedSourceVersionParameter
-  #           Type: PLAINTEXT
-  #           Value: !Ref DeployedSourceVersionParameter
-  #     Name: !Sub 'codebuild-backend-${ApplicationName}-${Environment}'
-  #     ServiceRole: !GetAtt CodeBuildRole.Arn
-  #     Source:
-  #       Type: GITHUB
-  #       BuildSpec: _backend_buildspec.yml
-  #       Location: !Sub 'https://github.com/${GitHubOwner}/${GitHubRepository}'
-  #     TimeoutInMinutes: 30
-  #     Triggers:
-  #       Webhook: true
-  #       FilterGroups:
-  #         - - Type: EVENT
-  #             Pattern: PULL_REQUEST_CREATED,PULL_REQUEST_UPDATED
-
   CodeBuildFrntBuild:
     Type: AWS::CodeBuild::Project
     DependsOn:
@@ -411,8 +334,6 @@ Outputs:
     Value: !Ref S3PRArtifactBucket
   CodeBuildRole:
     Value: !Ref CodeBuildRole
-  # CodeBuildBackend:
-  #   Value: !Ref CodeBuildBackend
   CodeBuildFrntBuild:
     Value: !Ref CodeBuildFrntBuild
   DeployedSourceVersionParameter:

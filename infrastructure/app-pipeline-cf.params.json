@@ -5,7 +5,7 @@
   },
   {
     "ParameterKey": "ArchiveAssetsBuildSpec",
-    "ParameterValue": "./_archive-assets.yml"
+    "ParameterValue": "./infrastructure/archive-assets.yml"
   },
   {
     "ParameterKey": "ArchiveInstanceSize",
@@ -29,7 +29,7 @@
   },
   {
     "ParameterKey": "DeployBuildSpecLoc",
-    "ParameterValue": "./_deploy_buildspec.yml"
+    "ParameterValue": "./infrastructure/deploy_buildspec.yml"
   },
   {
     "ParameterKey": "DeployImage",
@@ -41,7 +41,7 @@
   },
   {
     "ParameterKey": "DevCloudFrontDistributionId",
-    "ParameterValue": "E1YIZF6MD1XNZG"
+    "ParameterValue": "E2SWAIUP2FQSL3"
   },
   {
     "ParameterKey": "DevS3WebsiteDeployBucket",
@@ -50,7 +50,7 @@
   { "ParameterKey": "Environment", "ParameterValue": "dev" },
   {
     "ParameterKey": "GitHubRepository",
-    "ParameterValue": "mathematica-org/viz-components/main"
+    "ParameterValue": "mathematica-org/viz-components/test-main"
   },
   {
     "ParameterKey": "KmsKeyArn",
@@ -84,7 +84,7 @@
   },
   {
     "ParameterKey": "SecretName",
-    "ParameterValue": "GitHub-Service-Account-Creds"
+    "ParameterValue": "viz-lib/github/token"
   },
   {
     "ParameterKey": "ServerlessConfig",
@@ -96,7 +96,7 @@
   },
   {
     "ParameterKey": "TestAndBuildBuildSpecLoc",
-    "ParameterValue": "_viz_components_buildspec.yml"
+    "ParameterValue": "./infrastructure/viz_components_buildspec.yml"
   },
   {
     "ParameterKey": "TestAndBuildImage",

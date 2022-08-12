@@ -5,7 +5,7 @@ config:
   dev:
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
-    # kmsKeyArn: arn:aws:kms:us-east-1:130116285580:key/71c742a6-e24a-4d88-83c3-37b53766ffd8
+    kmsKeyArn: arn:aws:kms:us-east-1:838494257041:key/15cd3869-0eda-44ef-aa2c-1d9d66dc6a84
     vpc:
       vpcId: vpc-023a4e725eea45604
       subnet1: subnet-04676be1fbfb7ce70
@@ -21,7 +21,7 @@ config:
   release:
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
-    # kmsKeyArn: arn:aws:kms:us-east-1:130116285580:key/71c742a6-e24a-4d88-83c3-37b53766ffd8
+    kmsKeyArn: arn:aws:kms:us-east-1:838494257041:key/15cd3869-0eda-44ef-aa2c-1d9d66dc6a84
     vpc:
       vpcId: vpc-07bede87aaf0938ad
       subnet1: subnet-085d09b25dc0993e0

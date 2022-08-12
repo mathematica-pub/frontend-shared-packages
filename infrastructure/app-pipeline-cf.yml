@@ -464,7 +464,7 @@ Resources:
             - 'FAILED'
           project-name:
             - !Ref TestAndBuild
-            - !Ref BackendBuild
+            # - !Ref BackendBuild
             - !Ref DevDeploy
             - !Ref ReleaseDeploy
             - !Ref ArchiveArtifacts
@@ -795,31 +795,6 @@ Resources:
       Artifacts:
         Type: CODEPIPELINE
 
-  # BackendBuild:
-  #   Type: AWS::CodeBuild::Project
-  #   Properties:
-  #     Name: !Sub '${ApplicationName}-${Environment}-backend-build'
-  #     Description:  build w/ CodeBuild within CodePipeline for
-  #     ServiceRole: !Ref CodeBuildRole
-  #     EncryptionKey: !If [UseKmsEncryptionForArtifacts, !Ref KmsKeyArn, !Ref AWS::NoValue]
-  #     TimeoutInMinutes: 20
-  #     Source:
-  #       Type: CODEPIPELINE
-  #       BuildSpec: !Ref BackendBuildSpecLoc
-  #     Environment:
-  #       Type: LINUX_CONTAINER
-  #       ComputeType: !Ref BuildInstanceSize
-  #       Image: !Ref DeployImage
-  #       EnvironmentVariables:
-  #         - Name: ENVTYPE
-  #           Type: PLAINTEXT
-  #           Value: dry-run
-  #         - Name: SERVERLESS_CONFIG
-  #           Type: PLAINTEXT
-  #           Value: !Ref ServerlessConfig
-  #     Artifacts:
-  #       Type: CODEPIPELINE
-
   DevDeploy:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -986,33 +961,8 @@ Resources:
               OutputArtifacts:
                 - Name: TestAndBuildArtifacts
               Namespace: TestAndBuildVariables
-            # - Name: BackendBuild
-            #   RunOrder: 1
-            #   InputArtifacts:
-            #     - Name: SourceCodeFromGitHub
-            #   ActionTypeId:
-            #     Category: Build
-            #     Owner: AWS
-            #     Provider: CodeBuild
-            #     Version: 1
-            #   Configuration:
-            #     ProjectName: !Ref BackendBuild
-            #     EnvironmentVariables:
-            #       Fn::Join:
-            #         - ''
-            #         - - '['
-            #           - '{ "name":"COMMIT_ID", "type":"PLAINTEXT", "value":"#{SourceActionVariables.CommitId}" },'
-            #           - '{ "name":"COMMIT_URL", "type":"PLAINTEXT", "value":"#{SourceActionVariables.CommitUrl}" },'
-            #           - '{ "name":"REPO_NAME", "type":"PLAINTEXT", "value":"#{SourceActionVariables.RepositoryName}" },'
-            #           - '{ "name":"BRANCH", "type":"PLAINTEXT", "value":"#{SourceActionVariables.BranchName}" },'
-            #           - '{ "name":"COMMIT_AUTHOR_DATE", "type":"PLAINTEXT", "value":"#{SourceActionVariables.AuthorDate}" },'
-            #           - '{ "name":"COMMIT_DATE", "type":"PLAINTEXT", "value":"#{SourceActionVariables.CommitterDate}" }'
-            #           - ']'
-            #   OutputArtifacts:
-            #     - Name: BackendBuildArtifacts
-            #   Namespace: BackendBuildVariables
 
-        # Stage 3: dev Deploy
+        # # Stage 3: dev Deploy
         - Name: DevDeploy
           Actions:
             - Name: Deploy
@@ -1040,8 +990,6 @@ Resources:
               OutputArtifacts:
                 - Name: DevDeployArtifacts
               Namespace: DevDeployVariables
-
-
 
         - Name: ReleaseDeploy
           Actions:
@@ -1088,7 +1036,7 @@ Resources:
                 - Name: DummyOutputArtifacts
               Namespace: DeployVariables
 
-        #Stage 4: Archive
+        # #Stage 4: Archive
         - Name: ArchiveAndTest
           Actions:
             - Name: ArchiveArtifacts

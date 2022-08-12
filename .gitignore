@@ -23,6 +23,10 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
+videos/
+screenshots/
+downloads/
+.serverless/
 # Visual Studio Code
 .vscode/*
 !.vscode/settings.json

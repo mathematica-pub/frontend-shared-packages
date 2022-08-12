@@ -2,144 +2,21 @@ service: ${self:custom.appConfig.config.appName}
 frameworkVersion: "3"
 provider:
   name: aws
-  # kmsKeyArn: ${self:custom.appConfig.config.${self:provider.stage}.kmsKeyArn}
+  kmsKeyArn: ${self:custom.appConfig.config.${self:provider.stage}.kmsKeyArn}
   stackName: ${self:custom.appConfig.config.appName}-${opt:stage}-stack
-  # apiName: ${self:custom.appConfig.config.appName}-${opt:stage}-api
-  # runtime: dotnet6
   stage: ${opt:stage}
   region: ${self:custom.appConfig.config.${self:provider.stage}.region}
   deploymentBucket:
     blockPublicAccess: true
     skipPolicySetup: false
     serverSideEncryption: AES256
-  tracing:
-    apiGateway: false
-    lambda: true
-  # apiGateway:
-  #   description: ${self:custom.appConfig.config.appName}-${opt:stage}-apigateway
-  #   metrics: true
-  #   disableDefaultEndpoint: ${self:custom.appConfig.config.${self:provider.stage}.api-gateway.disableDefaultEndpoint}
-  # logs:
-  # restApi:
-  #   accessLogging: true
-  #   executionLogging: true
-  #   format: ${self:custom.appConfig.config.logging-format}
-  #   fullExecutionData: ${self:custom.appConfig.config.${self:provider.stage}.api-gateway.logFullExecutionData}
-  #   level: ${self:custom.appConfig.config.${self:provider.stage}.api-gateway.loggingLevel}
-  #   role: !GetAtt ApiGatewayLoggingRole.Arn
-  #   roleManagedExternally: true
-  vpc:
-    securityGroupIds:
-      - !Ref LambdaSecurityGroup
-    subnetIds:
-      - ${self:custom.appConfig.config.${self:provider.stage}.vpc.subnet1}
-      - ${self:custom.appConfig.config.${self:provider.stage}.vpc.subnet2}
-  environment:
-    Stage: ${self:provider.stage}
-    RegionName: ${self:custom.appConfig.config.${self:provider.stage}.region}
-    # ASPNETCORE_ENVIRONMENT: ${self:custom.appConfig.config.${self:provider.stage}.ASPNETCORE_ENVIRONMENT}
-    AppErrorTopic: !Ref AppErrorTopic
-    LambdaUserConnectionSecret: !Ref ApplicationUserDatabaseCredentialsSecret
-    # FrontEndDomain: ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.frontend-cname}
-  iam:
-    role:
-      statements:
-        - Effect: Allow
-          Action:
-            - cloudwatch:*
-            - lambda:InvokeFunction
-            - ec2:CreateNetworkInterface
-            - ec2:DescribeNetworkInterfaces
-            - ec2:DeleteNetworkInterface
-          Resource: "*"
-        - Effect: Allow
-          Action:
-            - xray:PutTraceSegments
-            - xray:PutTelemetryRecords
-          Resource: "*"
-        - Effect: Allow
-          Action:
-            - sns:Publish
-          Resource: !Ref AppErrorTopic
-        - Effect: Allow
-          Action:
-            - secretsmanager:GetSecretValue
-          Resource:
-            - !Ref ApplicationUserDatabaseCredentialsSecret
-        - Effect: Allow
-          Action:
-            - lambda:InvokeFunction
-          Resource:
-            - !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${self:service}-${opt:stage, self:provider.stage}-*
-
-package:
-  artifact: deploy-package.zip
-
 custom:
   appConfig: ${file('./serverless-config.yml')}
   permissionBoundaryArn: !Sub "arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy"
-
-# functions:
-#   api:
-#     handler: api
-#     # handler: ROIMC-Tracker.Api::ROIMC_Tracker.Api.LambdaEntryPoint::FunctionHandlerAsync
-#     description: '${self:custom.appConfig.config.appName} ${opt:stage} API'
-#     memorySize: 1024
-#     tracing: Active
-#     timeout: 30
-#     events:
-#       - http:
-#           path: '/{proxy+}'
-#           method: 'ANY'
-
 resources:
   Description: ${self:custom.appConfig.config.stack-description} for ${opt:stage}
-  # extensions:
-  #   IamRoleLambdaExecution:
-  #     Properties:
-  #       PermissionsBoundary: ${self:custom.permissionBoundaryArn}
-  #       RoleName: !Sub MathRole-LambdaExecution-${self:custom.appConfig.config.appName}-${opt:stage}
-
+  
   Resources:
-    ############################################
-    # Configuration - Secrets Manager Secrets #
-    ############################################
-
-    # ApplicationUserDatabaseCredentialsSecret:
-    #   Type: AWS::SecretsManager::Secret
-    #   Properties:
-    #     Description: ${self:custom.appConfig.config.appName} ${self:provider.stage} Lambda application user database credentials
-    #     Name: ${self:custom.appConfig.config.appName}/${self:provider.stage}/lambda-app-user/database/credentials
-    #     SecretString: <null> #Don't change value in template or it will overwrite the current/updated Secret's value on Stack Update
-
-    ############################################
-    ############################################
-    ############################################
-
-    # ApiGatewayDomainName:
-    #   Type: AWS::ApiGateway::DomainName
-    #   DependsOn:
-    #     - ApiGatewayRestApi
-    #   Properties:
-    #     CertificateArn: ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.api-domain-cert-arn}
-    #     DomainName: ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.api-domain}
-    #     SecurityPolicy: TLS_1_2
-    #     EndpointConfiguration:
-    #       Types:
-    #         - EDGE
-
-    # ApiGatewayApiBasePathMapping:
-    #   Type: AWS::ApiGateway::BasePathMapping
-    #   DependsOn:
-    #     # - ApiGatewayDomainName
-    #     - ApiGatewayRestApi
-    #     - ApiLambdaFunction
-    #     - ApiGatewayDeployment${sls:instanceId}
-    #   Properties:
-    #     DomainName: !Ref ApiGatewayDomainName
-    #     RestApiId: !Ref ApiGatewayRestApi
-    #     Stage: ${self:custom.appConfig.config.${self:provider.stage}.api-gateway.stage}
-
     ServerlessDeploymentBucketPolicy:
       Type: AWS::S3::BucketPolicy
       DependsOn:
@@ -330,36 +207,6 @@ resources:
         Subscription:
           - Endpoint: ${self:custom.appConfig.config.${self:provider.stage}.operatorEmail}
             Protocol: "email"
-
-    LambdaSecurityGroup:
-      Type: AWS::EC2::SecurityGroup
-      Properties:
-        GroupName: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-backend-sg
-        GroupDescription: "Lambda SG"
-        VpcId: ${self:custom.appConfig.config.${self:provider.stage}.vpc.vpcId}
-
-    # ApiGatewayLoggingRole:
-    #   Type: AWS::IAM::Role
-    #   Properties:
-    #     RoleName: !Sub MathRole-ApiGatewayLogging-${self:custom.appConfig.config.appName}-${opt:stage}
-    #     Path: /
-    #     PermissionsBoundary: ${self:custom.permissionBoundaryArn}
-    #     AssumeRolePolicyDocument:
-    #       Version: '2012-10-17'
-    #       Statement:
-    #         - Effect: Allow
-    #           Principal:
-    #             Service:
-    #               - apigateway.amazonaws.com
-    #           Action:
-    #             - sts:AssumeRole
-    #     ManagedPolicyArns:
-    #       - arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
-
-    #####################################
-    # External Resource File References:
-    #####################################
-
   Outputs:
     FrontEndWebsiteBucket:
       Value: !Ref FrontEndWebsiteBucket
@@ -369,7 +216,3 @@ resources:
     CloudFrontDomain:
       Description: CloudFront Domain
       Value: !GetAtt CloudFrontDistribution.DomainName
-    # IamRoleLambdaExecution:
-    #   Value: !Ref IamRoleLambdaExecution
-    # ApplicationUserDatabaseCredentialsSecret:
-    #   Value: !Ref ApplicationUserDatabaseCredentialsSecret

@@ -40,9 +40,10 @@ aws cloudformation create-stack \
 4. Set up CI/CD pipeline
 
 aws cloudformation create-stack \
- --stack-name vizcolib-pipeline \
+ --stack-name vizcolib-demo-app-build-pipeline \
  --template-body file://app-pipeline-cf.yml \
- --parameters file://app-pipeline-cf.json
+ --capabilities CAPABILITY_NAMED_IAM \
+ --parameters file://app-pipeline-cf.params.json
 
 ## Some personal notes
 
