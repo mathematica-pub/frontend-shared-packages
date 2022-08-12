@@ -13,10 +13,10 @@ phases:
       - npm install -g @angular/cli
   pre_build:
     commands:
-      - cd ..
       - npm ci
   build:
     commands:
+      - echo Running Percy tests
       - echo Building demo app
       - npm run build demo-app
 
