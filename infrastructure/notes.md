@@ -4,9 +4,10 @@
 
 1. Set up PR workflow
 
-aws cloudformation create-stack \
+aws cloudformation update-stack \
  --stack-name viz-library-pr \
  --template-body file://pr-build-cf.yml \
+ --capabilities CAPABILITY_NAMED_IAM \
  --parameters file://pr-build-cf.json
 
 2. Set up S3 buckets with cloudfront distribution for demo app, documentation

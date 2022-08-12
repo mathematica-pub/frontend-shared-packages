@@ -13,8 +13,6 @@ Parameters:
     Type: String
   ServerlessConfig:
     Type: String
-  # KmsKeyArn:
-  #   Type: String
   BuildImage:
     Type: String
   FrntBuildSpec:
@@ -100,27 +98,6 @@ Resources:
             - secretsmanager:CreateSecret
             - secretsmanager:TagResource
       PolicyName: CreateSecret
-      Roles:
-        - !Ref CodeBuildRole
-
-  VpcAccessPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: !Sub "MathPolicy-VPCAccess-${ApplicationName}-vpc-runner-${Environment}"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          Effect: Allow
-          Action:
-            - ec2:DescribeDhcpOptions
-            - ec2:CreateNetworkInterface
-            - ec2:CreateNetworkInterfacePermission
-            - ec2:DescribeNetworkInterfaces
-            - ec2:DeleteNetworkInterface
-            - ec2:DescribeSubnets
-            - ec2:DescribeSecurityGroups
-            - ec2:DescribeVpcs
-          Resource: "*"
       Roles:
         - !Ref CodeBuildRole
 
@@ -285,8 +262,6 @@ Resources:
 
   CodeBuildFrntBuild:
     Type: AWS::CodeBuild::Project
-    DependsOn:
-      - VpcAccessPolicy
     Properties:
       Artifacts:
         Type: S3

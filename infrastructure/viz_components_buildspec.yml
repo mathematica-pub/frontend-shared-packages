@@ -26,4 +26,7 @@ artifacts:
   files: 
     - 'dist/demo-app/**/*'
     - 'infrastructure/deploy_buildspec.yml'
+    - 'infrastructure/archive_assets.yml'
+    - 'package-lock.json'
+    - 'package.json'
   discard-paths: no
