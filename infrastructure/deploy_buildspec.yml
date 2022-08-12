@@ -30,7 +30,7 @@ phases:
     commands:
       - echo "Starting Deploy Process"
       - pwd
-      - ls
+      - cd infrastructure
       - npx serverless deploy --verbose --stage $ENVTYPE
       - unzip ./frontend.zip -d ./frontend
       - aws s3 rm s3://$S3WebsiteDeployBucket --recursive
@@ -58,6 +58,4 @@ artifacts:
     - "infrastructure/serverless.yml"
     - "infrastructure/serverless-config.yml"
     - "frontend.zip"
-    # - 'dotnet-error.txt'
-    # - 'dotnet-output.txt'
   discard-paths: no

@@ -10,19 +10,7 @@ aws cloudformation update-stack \
  --capabilities CAPABILITY_NAMED_IAM \
  --parameters file://pr-build-cf.json
 
-2. Set up S3 buckets with cloudfront distribution for demo app, documentation
-
-aws cloudformation create-stack \
- --stack-name vizcolib-demo-app-bucket-dist \
- --template-body file://cloudfront-bucket.yml \
- --parameters file://cloudfront-bucket-demo-app.json
-
-aws cloudformation create-stack \
- --stack-name vizcolib-documentation-bucket-dist \
- --template-body file://cloudfront-bucket.yml \
- --parameters file://cloudfront-bucket-documentation.json
-
-3. Set up library:
+2. Set up library:
 
 Create npm-store repo for the domain (if not already created)
 
