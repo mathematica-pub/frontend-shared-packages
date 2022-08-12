@@ -13,7 +13,6 @@ phases:
       - npm install -g @angular/cli
   pre_build:
     commands:
-      - ls
       - npm ci
   build:
     commands:
@@ -27,6 +26,8 @@ artifacts:
     - 'dist/demo-app/**/*'
     - 'infrastructure/deploy_buildspec.yml'
     - 'infrastructure/archive_assets.yml'
+    - 'infrastructure/serverless.yml'
+    - 'infrastructures/serverless-config.yml'
     - 'package-lock.json'
     - 'package.json'
   discard-paths: no

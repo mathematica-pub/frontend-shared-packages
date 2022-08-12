@@ -11,7 +11,6 @@ phases:
       - aws --version
       - echo "Installing Severless Framework for deployment"
       - export SLS_DEBUG=*
-      - ls 
       - npm ci
 
   pre_build:
