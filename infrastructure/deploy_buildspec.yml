@@ -31,6 +31,7 @@ phases:
       - echo "Starting Deploy Process"
       - pwd
       - cd infrastructure
+      - ls 
       - npx serverless deploy --verbose --stage $ENVTYPE
       - unzip ./frontend.zip -d ./frontend
       - aws s3 rm s3://$S3WebsiteDeployBucket --recursive
