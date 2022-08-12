@@ -13,11 +13,11 @@ phases:
       - npm install -g @angular/cli
   pre_build:
     commands:
+      - ls
       - npm ci
   build:
     commands:
       - echo Running Percy tests
-      - npm run cypress:run
       - echo Building demo app
       - npm run build demo-app
 
