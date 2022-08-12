@@ -14,7 +14,7 @@ phases:
   pre_build:
     commands:
       - ls
-      - npm ci
+      - npm install
   build:
     commands:
       - echo Running Percy tests
