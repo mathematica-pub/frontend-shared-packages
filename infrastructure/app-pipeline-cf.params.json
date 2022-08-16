@@ -54,7 +54,7 @@
   },
   {
     "ParameterKey": "KmsKeyArn",
-    "ParameterValue": "<<HOLD>>"
+    "ParameterValue": "arn:aws:kms:us-east-1:838494257041:key/15cd3869-0eda-44ef-aa2c-1d9d66dc6a84"
   },
   { "ParameterKey": "ManualApprovalForDeploy", "ParameterValue": "true" },
   { "ParameterKey": "MprVpnSecurityGroup", "ParameterValue": "sg-123" },
@@ -104,7 +104,7 @@
   },
   {
     "ParameterKey": "UseKmsEncryption",
-    "ParameterValue": "false"
+    "ParameterValue": "true"
   },
   {
     "ParameterKey": "VpcId",

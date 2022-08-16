@@ -469,7 +469,6 @@ Resources:
             - 'FAILED'
           project-name:
             - !Ref TestAndBuild
-            # - !Ref BackendBuild
             - !Ref DevDeploy
             - !Ref ReleaseDeploy
             - !Ref ArchiveArtifacts
