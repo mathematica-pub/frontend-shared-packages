@@ -58,5 +58,4 @@ artifacts:
     - "package.json"
     - "infrastructure/serverless.yml"
     - "infrastructure/serverless-config.yml"
-    - "frontend.zip"
   discard-paths: no
