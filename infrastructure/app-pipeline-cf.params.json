@@ -50,7 +50,7 @@
   { "ParameterKey": "Environment", "ParameterValue": "dev" },
   {
     "ParameterKey": "GitHubRepository",
-    "ParameterValue": "mathematica-org/viz-components/VIZCOLIB-25-code-pipeline-basics"
+    "ParameterValue": "mathematica-org/viz-components/main"
   },
   {
     "ParameterKey": "KmsKeyArn",
