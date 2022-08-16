@@ -1,0 +1,79 @@
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { scaleLinear } from 'd3';
+import { MapLegendContent } from '../map-legend-content';
+
+@Component({
+  selector: 'vzc-continuous-legend',
+  templateUrl: './continuous-legend.component.html',
+  styleUrls: ['./continuous-legend.component.scss'],
+})
+export class ContinuousLegendComponent
+  extends MapLegendContent
+  implements OnInit
+{
+  @ViewChild('canvas', { static: true })
+  canvasRef: ElementRef<HTMLCanvasElement>;
+
+  ngOnInit(): void {
+    this.setValues();
+    this.setColors();
+    this.drawLinearGradient();
+  }
+
+  getValuesFromScale(): any[] {
+    return this.scale.domain();
+  }
+
+  getLeftOffset(): number {
+    if (this.orientation === 'horizontal') {
+      return (this.largerValueSpace - this.startValueSpace) * -1;
+    } else {
+      return 0;
+    }
+  }
+
+  setColors(): void {
+    this.colors = this.scale.domain();
+    if (this.orientation === 'vertical') {
+      this.colors = this.colors.reverse();
+    }
+  }
+
+  drawLinearGradient(): void {
+    const canvas = this.canvasRef.nativeElement;
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    const ctx = canvas.getContext('2d');
+    if (this.orientation === 'horizontal') {
+      this.drawHorizontalGradient(canvas, ctx);
+    } else {
+      this.drawVerticalGradient(canvas, ctx);
+    }
+  }
+
+  drawHorizontalGradient(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  ): void {
+    canvas.height = 1;
+    canvas.width = this.width - this.startValueSpace - this.endValueSpace - 2;
+    const rectScale = scaleLinear([0, canvas.width], this.colors);
+    for (let i = 0; i < canvas.width; ++i) {
+      ctx.fillStyle = this.scale(rectScale(i));
+      ctx.fillRect(i, 0, 1, 1);
+    }
+  }
+
+  drawVerticalGradient(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  ): void {
+    canvas.height = this.height - 16;
+    canvas.width = 1;
+    const rectScale = scaleLinear([0, canvas.height], this.colors);
+    for (let i = 0; i < canvas.height; ++i) {
+      ctx.fillStyle = this.scale(rectScale(i));
+      ctx.fillRect(0, i, 1, 1);
+    }
+  }
+}

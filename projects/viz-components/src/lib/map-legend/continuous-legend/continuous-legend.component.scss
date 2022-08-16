@@ -1,0 +1,80 @@
+@use '../../core/styles/spacing';
+
+:host {
+  display: flex;
+}
+
+.canvas {
+  display: block;
+}
+
+.color-scale.horizontal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: var(--width);
+
+  .canvas-container {
+    display: flex;
+    flex-direction: column;
+    width: calc(var(--width) - calc(var(--value-space) * 2));
+    height: var(--height);
+    margin-right: var(--value-space);
+    margin-left: var(--value-space);
+  }
+
+  .values-container {
+    padding-top: spacing.$grid-1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .value {
+    width: calc(var(--value-space) * 2);
+    text-align: center;
+  }
+
+  &.top {
+    .values-container {
+      padding-top: 0;
+      padding-bottom: spacing.$grid-1;
+    }
+  }
+}
+
+.color-scale.vertical {
+  display: flex;
+  max-height: var(--height);
+
+  .canvas-container {
+    width: var(--width);
+    height: calc(var(--height) - calc(#{grid-2} * 2));
+    margin-top: spacing.$grid-2;
+    margin-bottom: spacing.$grid-2;
+  }
+
+  .values-container {
+    padding-right: spacing.$grid-1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  &.right {
+    .values-container {
+      padding-right: 0;
+      padding-left: spacing.$grid-1;
+      align-items: flex-start;
+    }
+  }
+}
+
+.canvas-container {
+  border: 1px solid var(--border-color);
+}
+
+.value {
+  font-size: 12px;
+}

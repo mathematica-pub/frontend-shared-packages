@@ -1,0 +1,30 @@
+<div
+  class="color-scale"
+  [ngClass]="[orientation, valuesSide]"
+  [style.--width]="width + 'px'"
+  [style.--height]="height + 'px'"
+  [style.--border-color]="outlineColor"
+  [style.--value-space]="largerValueSpace + 'px'"
+  [style.left.px]="leftOffset"
+>
+  <ng-container
+    *ngIf="(orientation === 'vertical' && valuesSide === 'left') || (orientation === 'horizontal' && valuesSide === 'top')"
+  >
+    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  </ng-container>
+  <div class="canvas-container">
+    <canvas class="canvas" #canvas></canvas>
+  </div>
+  <ng-container
+    *ngIf="(orientation === 'vertical' && valuesSide === 'right') || (orientation === 'horizontal' && valuesSide === 'bottom')"
+  >
+    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #valuesDisplay>
+  <div class="values-container">
+    <p class="value low">{{ values[0] }}</p>
+    <p class="value high">{{ values[values.length - 1] }}</p>
+  </div>
+</ng-template>

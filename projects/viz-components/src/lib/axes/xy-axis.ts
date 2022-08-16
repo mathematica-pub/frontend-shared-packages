@@ -1,11 +1,10 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable, pairwise, takeUntil } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
 import { SvgUtilities } from '../shared/svg-utilities.class';
 import { SvgWrapOptions } from '../shared/svg-utilities.model';
 import { Unsubscribe } from '../shared/unsubscribe.class';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { AxisConfig } from './axis-config.model';
 
 @Directive()
@@ -16,10 +15,7 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
   axis: any;
   scale: any;
 
-  constructor(
-    public chart: ChartComponent,
-    public xySpace: XyChartSpaceComponent
-  ) {
+  constructor(public chart: XyChartComponent) {
     super();
   }
 

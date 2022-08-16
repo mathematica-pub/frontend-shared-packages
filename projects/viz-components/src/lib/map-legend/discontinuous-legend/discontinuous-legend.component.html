@@ -1,0 +1,38 @@
+<div
+  class="color-scale"
+  [ngClass]="[orientation, valuesSide]"
+  [class.categorical]="isCategorical"
+  [style.--border-color]="outlineColor"
+  [style.--width]="width + 'px'"
+  [style.--height]="height + 'px'"
+  [style.--num-colors]="colors.length"
+  [style.--value-space]="largerValueSpace + 'px'"
+  [style.left.px]="leftOffset"
+>
+  <ng-container
+    *ngIf="(orientation === 'vertical' && valuesSide === 'left') || (orientation === 'horizontal' && valuesSide === 'top')"
+  >
+    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  </ng-container>
+  <div class="colors-container">
+    <div class="padding" *ngIf="!isCategorical"></div>
+    <div
+      *ngFor="let color of colors"
+      class="legend-color"
+      [style.background-color]="color"
+      [style.--border-color]="outlineColor"
+    >
+    </div>
+  </div>
+  <ng-container
+    *ngIf="(orientation === 'vertical' && valuesSide === 'right') || (orientation === 'horizontal' && valuesSide === 'bottom')"
+  >
+    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #valuesDisplay>
+  <div class="values-container">
+    <p class="value" *ngFor="let value of values; let i = index"> {{value}} </p>
+  </div>
+</ng-template>

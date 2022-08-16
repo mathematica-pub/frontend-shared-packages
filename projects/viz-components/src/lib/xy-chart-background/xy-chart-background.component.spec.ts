@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
-import { XyChartSpaceComponent } from '../xy-chart-space/xy-chart-space.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyChartBackgroundComponent } from './xy-chart-background.component';
 
 describe('ChartBackgroundComponent', () => {
@@ -10,7 +9,7 @@ describe('ChartBackgroundComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [XyChartBackgroundComponent],
-      providers: [XyChartSpaceComponent, ChartComponent],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
