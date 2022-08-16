@@ -30,6 +30,7 @@ phases:
     commands:
       - echo "Starting Deploy Process"
       - pwd
+      - ls 
       - cd infrastructure
       - ls 
       - npx serverless deploy --verbose --stage $ENVTYPE
