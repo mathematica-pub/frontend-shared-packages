@@ -34,17 +34,16 @@ phases:
       - cd infrastructure
       - ls 
       - npx serverless deploy --verbose --stage $ENVTYPE
-      - unzip ./frontend.zip -d ./frontend
       - aws s3 rm s3://$S3WebsiteDeployBucket --recursive
-      - aws s3 cp ./frontend/dist/covid-cohort s3://$S3WebsiteDeployBucket --recursive
-      - aws s3 cp ./frontend/dist/covid-cohort/index.html s3://$S3WebsiteDeployBucket/index.html --metadata-directive REPLACE --cache-control no-cache --content-type "text/html"
+      - aws s3 cp ../dist/demo-app s3://$S3WebsiteDeployBucket --recursive
+      - aws s3 cp ../dist/demo-app/index.html s3://$S3WebsiteDeployBucket/index.html --metadata-directive REPLACE --cache-control no-cache --content-type "text/html"
       - aws cloudfront create-invalidation --distribution-id=$CloudFrontDistributionId --paths "/*"
 
   post_build:
     commands:
       - echo '$CODEBUILD_BUILD_SUCCEEDING' $CODEBUILD_BUILD_SUCCEEDING
       - bash -c "if [ /"$CODEBUILD_BUILD_SUCCEEDING/" == /"0/" ]; then exit 1; fi" #Don't write to parameter store if its not successful!
-      - echo "Backend Deployment Complete!"
+      - echo "Front end Deployment Complete!"
       - echo "Parameter Name" $DeployedSourceVersionParameter
       - echo "CODEBUILD_SOURCE_VERSION" $CODEBUILD_SOURCE_VERSION
       - aws ssm put-parameter --name $DeployedSourceVersionParameter --value $CODEBUILD_SOURCE_VERSION --type String --overwrite
