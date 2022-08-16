@@ -19,6 +19,10 @@ phases:
       - echo Running Percy tests
       - echo Building demo app
       - npm run build demo-app
+  post_build:
+    commands:
+      - echo Zipping frontend files together
+      - zip -r frontend.zip dist/demo-app
 
 artifacts:
   name: viz-library-$CODEBUILD_BUILD_NUMBER-$(date +%Y-%m-%d)-$CODEBUILD_START_TIME
@@ -30,4 +34,5 @@ artifacts:
     - 'infrastructure/serverless-config.yml'
     - 'package-lock.json'
     - 'package.json'
+    - 'frontend.zip'
   discard-paths: no
