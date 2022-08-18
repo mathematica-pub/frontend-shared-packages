@@ -55,4 +55,7 @@ export class BarsComponent implements OnInit {
       yAxisConfig,
     };
   }
+  scroll(el: HTMLElement) {
+    el.scrollIntoView({behavior: 'smooth'});
+  }
 }
