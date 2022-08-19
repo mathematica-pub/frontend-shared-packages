@@ -1,0 +1,12 @@
+<ng-container *ngIf="documentation$ | async as documentation; else loading">
+    <div [innerHtml]="documentation"></div>
+</ng-container>
+
+<pre class="line-numbers"><code class="language-typescript">
+    let x = 0; 
+    function addMe(str: string) {{'{'}}
+        // do things here 
+    {{'}'}}
+</code></pre>
+<ng-template #loading>Loading...</ng-template>
+<button (click)="highlightMe()">click to try highlighting</button>

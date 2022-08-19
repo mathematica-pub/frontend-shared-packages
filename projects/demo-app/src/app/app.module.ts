@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { DocumentationService } from './core/services/documentation.service';
+import { HighlightService } from './core/services/highlight.service';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -25,6 +27,15 @@ import { NavbarComponent } from './navbar/navbar.component';
       deps: [DataService],
       multi: true,
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (ds: DocumentationService) => () => {
+        return ds.setDocumentationData();
+      },
+      deps: [DocumentationService],
+      multi: true,
+    },
+    HighlightService
   ],
   bootstrap: [AppComponent],
 })
