@@ -4,7 +4,7 @@ import {
   VzcChartModule,
   VzcLinesModule,
   VzcXQuantitativeAxisModule,
-  VzcXyChartBackgroundModule,
+  VzcXyBackgroundModule,
   VzcXyChartModule,
   VzcYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
@@ -21,7 +21,7 @@ import { LinesComponent } from './lines.component';
     VzcChartModule,
     VzcLinesModule,
     VzcXyChartModule,
-    VzcXyChartBackgroundModule,
+    VzcXyBackgroundModule,
     VzcYQuantitativeAxisModule,
     VzcXQuantitativeAxisModule,
     SharedModule,

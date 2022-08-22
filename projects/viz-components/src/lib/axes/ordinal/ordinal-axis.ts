@@ -7,10 +7,6 @@ export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
   abstract class Mixin extends Base {
     defaultTickSizeOuter = 0;
 
-    constructor(...args: any[]) {
-      super(...args);
-    }
-
     setAxis(axisFunction: any): void {
       const tickSizeOuter =
         this.config.tickSizeOuter || this.defaultTickSizeOuter;

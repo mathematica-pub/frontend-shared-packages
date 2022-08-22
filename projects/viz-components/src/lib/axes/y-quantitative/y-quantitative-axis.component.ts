@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { QuantitativeAxisMixin } from '../quantitative/quantitative-axis';
+import { mixinQuantitativeAxis } from '../quantitative/quantitative-axis';
 import { XyAxis } from '../xy-axis';
-import { YAxisMixin } from '../y/y-axis';
+import { mixinYAxis } from '../y/y-axis';
 
-const YQuantitativeAxis = YAxisMixin(QuantitativeAxisMixin(XyAxis));
+const YQuantitativeAxis = mixinYAxis(mixinQuantitativeAxis(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

@@ -10,7 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   extent,
@@ -27,13 +27,13 @@ import {
   scaleOrdinal,
   select,
   timeFormat,
-  Transition,
+  Transition
 } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyDataMarks,
-  XyDataMarksValues,
+  XyDataMarksValues
 } from '../data-marks/xy-data-marks.model';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
@@ -148,8 +148,9 @@ export class LinesComponent
   }
 
   setValueIndicies(): void {
+    const domainInternSet = new InternSet(this.config.category.domain);
     this.values.indicies = range(this.values.x.length).filter((i) =>
-      new InternSet(this.config.category.domain).has(this.values.category[i])
+      domainInternSet.has(this.values.category[i])
     );
   }
 

@@ -1,7 +1,7 @@
-import { YAxisMixin } from '../../axes/y/y-axis';
+import { mixinYAxis } from '../../axes/y/y-axis';
 import { XyAxisStub } from './xy-axis.stub';
 
-export class YAxisStub extends YAxisMixin(XyAxisStub) {
+export class YAxisStub extends mixinYAxis(XyAxisStub) {
   setAxis(axisFunction: any): void {
     return;
   }

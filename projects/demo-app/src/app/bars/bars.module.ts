@@ -5,7 +5,7 @@ import {
   VzcBarsModule,
   VzcChartModule,
   VzcXQuantitativeAxisModule,
-  VzcXyChartBackgroundModule,
+  VzcXyBackgroundModule,
   VzcXyChartModule,
   VzcYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
@@ -22,7 +22,7 @@ import { BarsComponent } from './bars.component';
     VzcXQuantitativeAxisModule,
     VzcYOrdinalAxisModule,
     VzcChartModule,
-    VzcXyChartBackgroundModule,
+    VzcXyBackgroundModule,
     VzcXyChartModule,
     SharedModule,
   ],

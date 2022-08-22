@@ -2,15 +2,11 @@ import { format, timeFormat, TimeInterval } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
-export function QuantitativeAxisMixin<T extends AbstractConstructor<XyAxis>>(
+export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
   Base: T
 ) {
   abstract class Mixin extends Base {
     defaultTickFormat = ',.1f';
-
-    constructor(...args: any[]) {
-      super(...args);
-    }
 
     setAxis(axisFunction: any): void {
       const tickFormat = this.config.tickFormat || this.defaultTickFormat;
