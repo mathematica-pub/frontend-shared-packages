@@ -1,4 +1,4 @@
-import { AfterViewChecked, ApplicationRef, Component, ElementRef, Input, OnInit, SecurityContext, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, map } from 'rxjs';
 import { DocumentationTypeOption } from '../../core/enums/documentation.enums';
@@ -24,14 +24,33 @@ export class ComponentDocumentationComponent implements OnInit {
   @Input() documentation: DocumentationTypeOption;
   sanitizedDocumentation: SafeHtml;
 
-  constructor(private highlightService: HighlightService, private documentationService: DocumentationService, private sanitizer: DomSanitizer) { }
+  constructor(
+    private highlightService: HighlightService, 
+    private documentationService: DocumentationService, 
+    private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
     this.documentationService.getDocumentationByName(this.documentation).subscribe((data: string) => {
       this.sanitizedDocumentation = this.sanitizer.bypassSecurityTrustHtml(data);
       setTimeout(() => {
         this.highlightService.highlightAll();
+        this.addClickListenersToTabs();
       }, 100);
     });
+  }
+
+  addClickListenersToTabs(): void {
+    document.querySelectorAll("[role=tab]").forEach((element) => element.addEventListener("click", this.activateTab))
+  }
+
+  activateTab(element): void {
+    document.querySelectorAll("[role=tab]").forEach((element) => 
+      element.parentElement.classList.remove("active"));
+    document.querySelectorAll(".tab-pane").forEach((element) => 
+      element.classList.remove("active", "in"));
+    element.target.parentElement.classList.add("active"); // activate current tab! 
+    var id: string = element.target.id;
+    id = "c-" + id.replace("-tab", "");
+    document.getElementById(id).classList.add("active", "in");
   }
 }
