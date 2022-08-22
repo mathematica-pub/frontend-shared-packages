@@ -6,6 +6,7 @@ import {
   horizontalBarChartDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
+import { DocumentationType, DocumentationTypeOption } from '../core/enums/documentation.enums';
 import { EmploymentDatum } from '../core/models/employement-data';
 import { DataService } from '../core/services/data.service';
 
@@ -20,6 +21,7 @@ interface ViewModel {
   styleUrls: ['./bars.component.scss'],
 })
 export class BarsComponent implements OnInit {
+  documentation = DocumentationType.Bars;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 36,

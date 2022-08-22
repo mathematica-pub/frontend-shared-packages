@@ -1,6 +1,7 @@
-import { AfterViewChecked, Component, ElementRef, OnInit, SecurityContext, ViewEncapsulation } from '@angular/core';
+import { AfterViewChecked, ApplicationRef, Component, ElementRef, Input, OnInit, SecurityContext, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, map } from 'rxjs';
+import { DocumentationTypeOption } from '../../core/enums/documentation.enums';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -19,27 +20,18 @@ import { HighlightService } from '../../core/services/highlight.service';
   ],
   encapsulation: ViewEncapsulation.None
 })
-export class ComponentDocumentationComponent implements OnInit, AfterViewChecked {
-  documentation$: Observable<SafeHtml>;
-  highlighted = false;
+export class ComponentDocumentationComponent implements OnInit {
+  @Input() documentation: DocumentationTypeOption;
+  sanitizedDocumentation: SafeHtml;
 
   constructor(private highlightService: HighlightService, private documentationService: DocumentationService, private sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
-    this.documentation$ = this.documentationService.documentationData$.pipe(
-      map((x) => this.sanitizer.bypassSecurityTrustHtml(x))
-    );
-  }
-
-  ngAfterViewChecked() {
-    if (this.documentation$ && !this.highlighted) {
-      this.highlightService.highlightAll();
-      this.highlighted = true;
-    }
-  }
-
-  highlightMe() {
-    console.log("yep i been clicked");
-    this.highlightService.highlightAll();
+    this.documentationService.getDocumentationByName(this.documentation).subscribe((data: string) => {
+      this.sanitizedDocumentation = this.sanitizer.bypassSecurityTrustHtml(data);
+      setTimeout(() => {
+        this.highlightService.highlightAll();
+      }, 100);
+    });
   }
 }
