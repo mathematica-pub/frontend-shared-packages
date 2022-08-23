@@ -97,9 +97,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 import { OrdinalAxisMixin } from &#x27;../ordinal/ordinal-axis&#x27;;
 import { XyAxis } from &#x27;../xy-axis&#x27;;
-import { YAxisMixin } from &#x27;../y/y-axis&#x27;;
+import { mixinYAxis } from &#x27;../y/y-axis&#x27;;
 
-const YOrdinalAxis &#x3D; YAxisMixin(OrdinalAxisMixin(XyAxis));
+const YOrdinalAxis &#x3D; mixinYAxis(OrdinalAxisMixin(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

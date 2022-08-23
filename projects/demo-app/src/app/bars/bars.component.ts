@@ -7,7 +7,7 @@ import {
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
-import { DocumentationType, DocumentationTypeOption } from '../core/enums/documentation.enums';
+import { DocumentationType } from '../core/enums/documentation.enums';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
@@ -21,7 +21,7 @@ interface ViewModel {
   styleUrls: ['./bars.component.scss'],
 })
 export class BarsComponent implements OnInit {
-  documentation = DocumentationType.Bars;
+  barsDocumentation = DocumentationType.Bars;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 36,

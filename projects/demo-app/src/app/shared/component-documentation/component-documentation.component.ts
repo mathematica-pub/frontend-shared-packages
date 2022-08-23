@@ -34,22 +34,36 @@ export class ComponentDocumentationComponent implements OnInit {
       setTimeout(() => {
         this.highlightService.highlightAll();
         this.addClickListenersToTabs();
+        this.addClickListenersToCodeLinks();
       }, 100);
     });
   }
 
   addClickListenersToTabs(): void {
-    document.querySelectorAll("[role=tab]").forEach((element) => element.addEventListener("click", this.activateTab))
+    document.querySelectorAll("[role=tab]").forEach((element) => element.addEventListener("click", this.activateTab.bind(this)))
   }
 
-  activateTab(element): void {
+  addClickListenersToCodeLinks(): void {
+    document.querySelectorAll(".link-to-prism").forEach((element) => element.addEventListener("click", this.activateCodeTab.bind(this)))
+  }
+
+  activateTab(event): void {
+    this.activateTabUsingElement(event.target);
+  }
+
+  activateTabUsingElement(element): void {
     document.querySelectorAll("[role=tab]").forEach((element) => 
       element.parentElement.classList.remove("active"));
     document.querySelectorAll(".tab-pane").forEach((element) => 
       element.classList.remove("active", "in"));
-    element.target.parentElement.classList.add("active"); // activate current tab! 
-    var id: string = element.target.id;
+    element.parentElement.classList.add("active"); // activate current tab! 
+    var id: string = element.id;
     id = "c-" + id.replace("-tab", "");
     document.getElementById(id).classList.add("active", "in");
+  }
+
+  activateCodeTab(event): void {
+    event.preventDefault();
+    this.activateTabUsingElement(document.getElementById('source-tab'));
   }
 }

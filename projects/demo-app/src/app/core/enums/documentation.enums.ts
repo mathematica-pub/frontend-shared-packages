@@ -19,5 +19,6 @@ export const enum DocumentationType {
     XyChart = 'XyChart',
     XyChartSpace = 'XyChartSpace',
     YOrdinalAxis = 'YOrdinalAxis',
-    YQuantitativeAxis = 'YQuantitativeAxis'
+    YQuantitativeAxis = 'YQuantitativeAxis',
+    StackedArea = 'StackedArea',
 }

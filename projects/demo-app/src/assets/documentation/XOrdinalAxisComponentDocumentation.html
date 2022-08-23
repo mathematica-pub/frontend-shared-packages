@@ -96,10 +96,10 @@
     <div class="tab-pane fade active in  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
 import { OrdinalAxisMixin } from &#x27;../ordinal/ordinal-axis&#x27;;
-import { XAxisMixin } from &#x27;../x/x-axis&#x27;;
+import { mixinXAxis } from &#x27;../x/x-axis&#x27;;
 import { XyAxis } from &#x27;../xy-axis&#x27;;
 
-const XOrdinalAxis &#x3D; XAxisMixin(OrdinalAxisMixin(XyAxis));
+const XOrdinalAxis &#x3D; mixinXAxis(OrdinalAxisMixin(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
