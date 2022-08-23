@@ -2,23 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import {
   AxisConfig,
   ElementSpacing,
-  LinesConfig,
+  StackedAreaConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
+import { IndustryUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: LinesConfig;
+  dataConfig: StackedAreaConfig;
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
 }
+
 @Component({
-  selector: 'app-lines',
-  templateUrl: './lines.component.html',
-  styleUrls: ['./lines.component.scss'],
+  selector: 'app-stacked-area',
+  templateUrl: './stacked-area.component.html',
+  styleUrls: ['./stacked-area.component.scss'],
 })
-export class LinesComponent implements OnInit {
+export class StackedAreaComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
@@ -30,21 +31,21 @@ export class LinesComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.vm$ = this.dataService.metroUnemploymentData$.pipe(
+    this.vm$ = this.dataService.industryUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
     );
   }
 
-  getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
+  getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
     const xAxisConfig = new AxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new AxisConfig();
-    const dataConfig = new LinesConfig();
+    const dataConfig = new StackedAreaConfig();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.division;
+    dataConfig.category.valueAccessor = (d) => d.industry;
     return {
       dataConfig,
       xAxisConfig,

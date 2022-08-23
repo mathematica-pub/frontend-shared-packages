@@ -20,7 +20,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     {
       provide: APP_INITIALIZER,
       useFactory: (ds: DataService) => () => {
-        return ds.setEmploymentData();
+        return ds.initData();
       },
       deps: [DataService],
       multi: true,
