@@ -21,6 +21,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./lines/lines.module').then((m) => m.LinesModule),
   },
+  {
+    path: 'stacked-area',
+    loadChildren: () =>
+      import('./stacked-area/stacked-area.module').then(
+        (m) => m.StackedAreaModule
+      ),
+  },
 ];
 
 @NgModule({

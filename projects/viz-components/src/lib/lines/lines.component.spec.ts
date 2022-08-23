@@ -232,6 +232,77 @@ describe('LineChartComponent', () => {
     });
   });
 
+  describe('initCategoryScale', () => {
+    beforeEach(() => {
+      component.config = {
+        category: {
+          colorScale: 'color',
+        },
+      } as any;
+      component.chart = {
+        updateCategoryScale: jasmine.createSpy('updateCategoryScale'),
+      } as any;
+    });
+    it('calls updateCategoryScale on chart once with the correct value', () => {
+      component.initCategoryScale();
+      expect(component.chart.updateCategoryScale).toHaveBeenCalledOnceWith(
+        'color' as any
+      );
+    });
+  });
+
+  describe('setScaledSpaceProperties', () => {
+    let xScaleTypeSpy: jasmine.Spy;
+    let yScaleTypeSpy: jasmine.Spy;
+    beforeEach(() => {
+      xScaleTypeSpy = jasmine.createSpy('scaleType');
+      yScaleTypeSpy = jasmine.createSpy('scaleType');
+      component.config = {
+        x: {
+          scaleType: xScaleTypeSpy,
+          domain: [0, 1],
+        },
+        y: {
+          scaleType: yScaleTypeSpy,
+          domain: [0, 2],
+        },
+      } as any;
+      component.ranges = {
+        x: [0, 5],
+        y: [0, 10],
+      } as any;
+      component.chart = {
+        updateXScale: jasmine.createSpy('updateXScale'),
+        updateYScale: jasmine.createSpy('updateYScale'),
+      } as any;
+    });
+    it('calls updateXScale on chart once', () => {
+      component.setScaledSpaceProperties();
+      expect(component.chart.updateXScale).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls x.scaleType once with the correct values', () => {
+      component.setScaledSpaceProperties();
+      expect(xScaleTypeSpy).toHaveBeenCalledOnceWith(
+        component.config.x.domain,
+        component.ranges.x
+      );
+    });
+
+    it('calls updateYScale on chart once', () => {
+      component.setScaledSpaceProperties();
+      expect(component.chart.updateYScale).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls y.scaleType once with the correct values', () => {
+      component.setScaledSpaceProperties();
+      expect(yScaleTypeSpy).toHaveBeenCalledOnceWith(
+        component.config.y.domain,
+        component.ranges.y
+      );
+    });
+  });
+
   describe('drawMarks()', () => {
     const duration = 50;
     beforeEach(() => {

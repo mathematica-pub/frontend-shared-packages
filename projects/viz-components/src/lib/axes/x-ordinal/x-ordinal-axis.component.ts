@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
-import { XAxisMixin } from '../x/x-axis';
+import { mixinXAxis } from '../x/x-axis';
 import { XyAxis } from '../xy-axis';
 
-const XOrdinalAxis = XAxisMixin(OrdinalAxisMixin(XyAxis));
+const XOrdinalAxis = mixinXAxis(OrdinalAxisMixin(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

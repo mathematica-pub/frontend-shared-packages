@@ -2,28 +2,28 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   VzcChartModule,
-  VzcLinesModule,
+  VzcStackedAreaModule,
   VzcXQuantitativeAxisModule,
   VzcXyBackgroundModule,
   VzcXyChartModule,
   VzcYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
-import { LinesRoutingModule } from './lines-routing.module';
-import { LinesComponent } from './lines.component';
+import { StackedAreaRoutingModule } from './stacked-area-routing.module';
+import { StackedAreaComponent } from './stacked-area.component';
 
 @NgModule({
-  declarations: [LinesComponent],
+  declarations: [StackedAreaComponent],
   imports: [
     CommonModule,
-    LinesRoutingModule,
+    StackedAreaRoutingModule,
     VzcChartModule,
-    VzcLinesModule,
     VzcXyChartModule,
+    VzcStackedAreaModule,
     VzcXyBackgroundModule,
-    VzcYQuantitativeAxisModule,
     VzcXQuantitativeAxisModule,
+    VzcYQuantitativeAxisModule,
     SharedModule,
   ],
 })
-export class LinesModule {}
+export class StackedAreaModule {}

@@ -148,8 +148,9 @@ export class LinesComponent
   }
 
   setValueIndicies(): void {
+    const domainInternSet = new InternSet(this.config.category.domain);
     this.values.indicies = range(this.values.x.length).filter((i) =>
-      new InternSet(this.config.category.domain).has(this.values.category[i])
+      domainInternSet.has(this.values.category[i])
     );
   }
 
@@ -171,6 +172,7 @@ export class LinesComponent
         this.config.category.colors
       );
     }
+    this.chart.updateCategoryScale(this.config.category.colorScale);
   }
 
   setLine(): void {
@@ -246,15 +248,11 @@ export class LinesComponent
           .append('path')
           .property('key', ([category]) => category)
           .attr('class', 'line')
-          .attr('stroke', ([category]) =>
-            this.config.category.colorScale(category)
-          )
+          .attr('stroke', ([category]) => this.categoryScale(category))
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
         update
-          .attr('stroke', ([category]) =>
-            this.config.category.colorScale(category)
-          )
+          .attr('stroke', ([category]) => this.categoryScale(category))
           .call((update) =>
             update
               .transition(t as any)
@@ -289,15 +287,16 @@ export class LinesComponent
           .attr('cy', (d) => this.yScale(this.values.y[d.index]))
           .attr('r', this.config.pointMarker.radius)
           .attr('fill', (d) =>
-            this.config.category.colorScale(this.values.category[d.index])
+            this.categoryScale(this.values.category[d.index])
           ),
       (update) =>
         update
           .attr('fill', (d) =>
-            this.config.category.colorScale(this.values.category[d.index])
+            this.categoryScale(this.values.category[d.index])
           )
           .call((update) =>
             update
+              .filter(this.config.valueIsDefined)
               .transition(t as any)
               .attr('cx', (d) => this.xScale(this.values.x[d.index]))
               .attr('cy', (d) => this.yScale(this.values.y[d.index]))
@@ -319,9 +318,7 @@ export class LinesComponent
       .join('text')
       .attr('class', 'line-label')
       .attr('text-anchor', 'end')
-      .attr('fill', (d) =>
-        this.config.category.colorScale(this.values.category[d.index])
-      )
+      .attr('fill', (d) => this.categoryScale(this.values.category[d.index]))
       .attr('x', (d) => `${this.xScale(this.values.x[d.index]) - 4}px`)
       .attr('y', (d) => `${this.yScale(this.values.y[d.index]) - 12}px`)
       .text((d) => this.config.lineLabelsFormat(d.category));
@@ -474,10 +471,7 @@ export class LinesComponent
   styleHoverDotForHover(closestPointIndex: number): void {
     this.hoverDot
       .style('display', null)
-      .attr(
-        'fill',
-        this.config.category.colorScale(this.values.category[closestPointIndex])
-      )
+      .attr('fill', this.categoryScale(this.values.category[closestPointIndex]))
       .attr('cx', this.xScale(this.values.x[closestPointIndex]))
       .attr('cy', this.yScale(this.values.y[closestPointIndex]));
   }
@@ -515,9 +509,7 @@ export class LinesComponent
         this.config.y.valueFormat
       ),
       category: this.config.category.valueAccessor(datum),
-      color: this.config.category.colorScale(
-        this.values.category[closestPointIndex]
-      ),
+      color: this.categoryScale(this.values.category[closestPointIndex]),
     };
     this.chart.emitTooltipData(tooltipData);
   }

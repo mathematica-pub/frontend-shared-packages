@@ -5,15 +5,11 @@ import { Ranges } from '../../chart/chart.model';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
-export function XAxisMixin<T extends AbstractConstructor<XyAxis>>(Base: T) {
+export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
     @Input() side: 'top' | 'bottom' = 'top';
     translate$: Observable<string>;
-
-    constructor(...args: any[]) {
-      super(...args);
-    }
 
     setTranslate(): void {
       this.translate$ = this.chart.ranges$.pipe(

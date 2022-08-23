@@ -22,7 +22,7 @@ import { HighlightService } from './core/services/highlight.service';
     {
       provide: APP_INITIALIZER,
       useFactory: (ds: DataService) => () => {
-        return ds.setEmploymentData();
+        return ds.initData();
       },
       deps: [DataService],
       multi: true,
