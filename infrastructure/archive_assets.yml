@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo PipelineBucket $PipelineBucket
+      - echo ArtifactPrefix $ArtifactPrefix
+      - echo DeployedSourceVersionParameter $DeployedSourceVersionParameter
+
+  build:
+    commands:
+      - echo "Copy Front End Assets to S3"
+      - export frontEndParamValueArn=`aws ssm get-parameter --name ${DeployedSourceVersionParameter} --output text --query Parameter.Value`
+      - echo frontEndParamValueArn $frontEndParamValueArn
+
+      - export frontEndParamValue=${frontEndParamValueArn/arn:aws:s3:::} #remove arn prefix
+      - echo frontEndParamValue $frontEndParamValue
+
+      - export frontEndParamValueStripped=s3://${frontEndParamValue}
+      - echo frontEndParamValueStripped $frontEndParamValueStripped
+
+      - export frontEndOutputS3Loc=s3://${PipelineBucket}/${ArtifactPrefix}/$(date +%Y-%m-%d)/${CODEBUILD_BUILD_NUMBER}/frontend.zip
+      - echo frontEndOutputS3Loc $frontEndOutputS3Loc
+      - aws s3 cp ${frontEndParamValueStripped} ${frontEndOutputS3Loc} --sse AES256
+
+      - aws s3 cp ${frontEndParamValueStripped} ./combined-assets.zip
+
+      - export zipFileName=combined-assets.zip
+
+      - export zipOutputLoc=s3://${PipelineBucket}/${ArtifactPrefix}/$(date +%Y-%m-%d)/${CODEBUILD_BUILD_NUMBER}/${zipFileName}
+
+      - aws s3 cp ${zipFileName} ${zipOutputLoc}
+      - aws ssm put-parameter --name $LatestDeployAssetsParameter --value $zipOutputLoc --type String --overwrite

@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Web ACL
+Parameters:
+  AppName:
+    Type: String
+  Env:
+    Type: String
+
+Resources:
+  WAFWebACL:
+    Type: AWS::WAFv2::WebACL
+    Properties:
+      DefaultAction:
+        Block: {}
+      Description: "Web ACL resticting access to specific IP set"
+      Name: !Sub ${AppName}-${Env}-ACL
+      Rules:
+        - Action:
+            Allow: {}
+          Name: IP-WhiteList
+          Priority: 0
+          Statement:
+            IPSetReferenceStatement:
+              Arn: !GetAtt IPSet.Arn
+          VisibilityConfig:
+            SampledRequestsEnabled: true
+            CloudWatchMetricsEnabled: true
+            MetricName:
+              !Join [
+                "-",
+                [!Ref AppName, !Ref Env, "web", "acl", "RuleAllowingIps"],
+              ]
+      Scope: CLOUDFRONT
+      VisibilityConfig:
+        SampledRequestsEnabled: true
+        CloudWatchMetricsEnabled: true
+        MetricName: !Join ["-", [!Ref AppName, !Ref Env, "web", "acl"]]
+
+  IPSet:
+    Type: AWS::WAFv2::IPSet
+    Properties:
+      Name: !Join ["-", [!Ref AppName, !Ref Env, "AllowedIps"]]
+      Description: Mathematica IPs
+      Scope: CLOUDFRONT
+      IPAddressVersion: IPV4
+      Addresses:
+        - 50.77.130.65/32 # Access from Chicago
+        - 74.123.120.0/21 # Access from DC/NJ/VPN
+        - 96.74.73.85/32 # Access from Oakland
+        - 50.78.29.53/32 # Access from Cambridge
+        - 96.85.96.121/32 # Access from Ann Arbor
+        - 96.86.41.33/32 # Access from Woodlawn
+        - 96.74.4.17/32 # Access from Seattle
