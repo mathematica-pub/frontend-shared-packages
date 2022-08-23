@@ -4,16 +4,13 @@
 
 1. Set up PR workflow
 
-aws cloudformation create-stack \
+aws cloudformation update-stack \
  --stack-name viz-library-pr \
  --template-body file://pr-build-cf.yml \
+ --capabilities CAPABILITY_NAMED_IAM \
  --parameters file://pr-build-cf.json
 
-2. Set up S3 buckets with cloudfront distribution for demo app, documentation
-
-TODO: test to see if this works, add commands here
-
-3. Set up library:
+2. Set up library:
 
 Create npm-store repo for the domain (if not already created)
 
@@ -31,8 +28,16 @@ aws cloudformation create-stack \
 
 4. Set up CI/CD pipeline
 
-TODO: test to see if this works, add commands here
+aws cloudformation update-stack \
+ --stack-name vizcolib-demo-app-build-pipeline \
+ --template-body file://app-pipeline-cf.yml \
+ --capabilities CAPABILITY_NAMED_IAM \
+ --parameters file://app-pipeline-cf.params.json
 
-## Some personal notes
+## Package deployment
 
-In `viz-components/package.json`, include a prepare script that connects to codeartifact. This _should_ automatically run every time npm publish is called, but will not necessarily (gotta figure out how to fix this...) -- so prior to running npm publish, do run `npm run prepare`.
+1. In `viz-components/package.json`, include a prepare script that connects to codeartifact. This _should_ automatically run every time npm publish is called, but will not necessarily -- prior to running npm publish, run `npm run prepare`.
+
+2. `npm publish`
+
+3. Log out of private npm repo (edit `.npmrc` file)
