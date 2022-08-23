@@ -1,6 +1,6 @@
 {
   "name": "viz-components",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "compodoc": {
     "name": "Viz Component Library Documentation",
     "watch": true,
