@@ -34,6 +34,10 @@ aws cloudformation update-stack \
  --capabilities CAPABILITY_NAMED_IAM \
  --parameters file://app-pipeline-cf.params.json
 
-## Some personal notes
+## Package deployment
 
-In `viz-components/package.json`, include a prepare script that connects to codeartifact. This _should_ automatically run every time npm publish is called, but will not necessarily (gotta figure out how to fix this...) -- so prior to running npm publish, do run `npm run prepare`.
+1. In `viz-components/package.json`, include a prepare script that connects to codeartifact. This _should_ automatically run every time npm publish is called, but will not necessarily -- prior to running npm publish, run `npm run prepare`.
+
+2. `npm publish`
+
+3. Log out of private npm repo (edit `.npmrc` file)
