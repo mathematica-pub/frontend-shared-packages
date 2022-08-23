@@ -8,13 +8,11 @@ describe('StackedAreaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StackedAreaComponent ]
-    })
-    .compileComponents();
+      declarations: [StackedAreaComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(StackedAreaComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
