@@ -1,0 +1,218 @@
+service: ${self:custom.appConfig.config.appName}
+frameworkVersion: "3"
+provider:
+  name: aws
+  kmsKeyArn: ${self:custom.appConfig.config.${self:provider.stage}.kmsKeyArn}
+  stackName: ${self:custom.appConfig.config.appName}-${opt:stage}-stack
+  stage: ${opt:stage}
+  region: ${self:custom.appConfig.config.${self:provider.stage}.region}
+  deploymentBucket:
+    blockPublicAccess: true
+    skipPolicySetup: false
+    serverSideEncryption: AES256
+custom:
+  appConfig: ${file('./serverless-config.yml')}
+  permissionBoundaryArn: !Sub "arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy"
+resources:
+  Description: ${self:custom.appConfig.config.stack-description} for ${opt:stage}
+  
+  Resources:
+    ServerlessDeploymentBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      DependsOn:
+        - ServerlessDeploymentBucket
+      Properties:
+        Bucket: !Ref ServerlessDeploymentBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Principal: "*"
+              Sid: DenyNonSSLRequests
+              Action: s3:*
+              Effect: Deny
+              Resource: !Sub ${ServerlessDeploymentBucket.Arn}/*
+              Condition:
+                Bool:
+                  aws:SecureTransport: false
+
+    LoggingBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: LogDeliveryWrite
+        BucketName: ${self:custom.appConfig.config.appName}-${opt:stage}-logging
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+
+    LoggingBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      DependsOn:
+        - LoggingBucket
+      Properties:
+        Bucket: !Ref LoggingBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Principal: "*"
+              Sid: "AllowSSLRequestsOnly"
+              Action: s3:*
+              Effect: Deny
+              Resource: !Sub ${LoggingBucket.Arn}/*
+              Condition:
+                Bool:
+                  aws:SecureTransport: false
+
+    FrontEndWebsiteBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.appConfig.config.appName}-${opt:stage}-frontend-app
+        LoggingConfiguration:
+          DestinationBucketName: !Ref LoggingBucket
+          LogFilePrefix: "frontend-logs"
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: true
+          BlockPublicPolicy: true
+          IgnorePublicAcls: true
+          RestrictPublicBuckets: true
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+
+    FrontEndWebsiteBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      DependsOn:
+        - FrontEndWebsiteBucket
+      Properties:
+        Bucket: !Ref FrontEndWebsiteBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Sid: "AllowSSLRequestsOnly"
+              Principal: "*"
+              Action: s3:*
+              Effect: Deny
+              Resource: !Sub "${FrontEndWebsiteBucket.Arn}/*"
+              Condition:
+                Bool:
+                  aws:SecureTransport: false
+            - Sid: "CloudFrontOriginAccessIdentityRead"
+              Principal:
+                CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
+              Action: s3:GetObject
+              Effect: Allow
+              Resource: !Sub "${FrontEndWebsiteBucket.Arn}/*"
+
+    CloudFrontOriginAccessIdentity:
+      Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: !Ref FrontEndWebsiteBucket
+
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      DependsOn:
+        - CloudFrontHttpHeaderResponseFunction
+      Properties:
+        DistributionConfig:
+          Comment: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-cloudfront-distribution
+          #   Aliases:
+          #     - ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.frontend-cname}
+          CustomErrorResponses:
+            - ErrorCode: 404
+              ResponseCode: 200
+              ResponsePagePath: "/index.html"
+            - ErrorCode: 403
+              ResponseCode: 200
+              ResponsePagePath: "/index.html"
+          DefaultCacheBehavior:
+            FunctionAssociations:
+              - EventType: viewer-response
+                FunctionARN: !GetAtt CloudFrontHttpHeaderResponseFunction.FunctionMetadata.FunctionARN
+            AllowedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+            CachedMethods:
+              - GET
+              - HEAD
+              - OPTIONS
+            Compress: true
+            DefaultTTL: 3600
+            ForwardedValues:
+              Cookies:
+                Forward: none
+              QueryString: false
+            MaxTTL: 86400
+            MinTTL: 60
+            TargetOriginId: s3origin
+            ViewerProtocolPolicy: redirect-to-https
+          DefaultRootObject: "index.html"
+          Enabled: true
+          HttpVersion: http2
+          IPV6Enabled: true
+          Origins:
+            - DomainName: !GetAtt FrontEndWebsiteBucket.DomainName
+              Id: s3origin
+              S3OriginConfig:
+                OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}"
+          PriceClass: PriceClass_All
+          Logging:
+            Bucket: !Join ["", [!Ref LoggingBucket, ".s3.amazonaws.com"]]
+            IncludeCookies: true
+            Prefix: cloudfront-distribution
+          # ViewerCertificate:
+          # AcmCertificateArn: ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.frontend-cert-arn}
+          #   MinimumProtocolVersion: TLSv1.2_2019
+          #   SslSupportMethod: sni-only
+          Restrictions:
+            GeoRestriction:
+              RestrictionType: whitelist
+              Locations:
+                - US
+
+    CloudFrontHttpHeaderResponseFunction:
+      Type: AWS::CloudFront::Function
+      Properties:
+        Name: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-spa-headers
+        AutoPublish: True
+        FunctionCode: |
+          function handler(event) {
+          var response = event.response;
+          var headers = response.headers;
+          headers['strict-transport-security'] = { value: 'max-age=63072000; includeSubdomains; preload'}; 
+          headers['x-content-type-options'] = { value: 'nosniff'}; 
+          headers['x-frame-options'] = {value: 'DENY'}; 
+          headers['x-xss-protection'] = {value: '1; mode=block'};
+          headers['referrer-policy'] = {value: 'strict-origin-when-cross-origin'};
+          headers['content-security-policy'] = {value: 'upgrade-insecure-requests'};
+          return response; }
+        FunctionConfig:
+          Comment: "Append security headers to response"
+          Runtime: cloudfront-js-1.0
+
+    AppErrorTopic:
+      Type: AWS::SNS::Topic
+      Properties:
+        TopicName: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-onErrorTopic
+        Subscription:
+          - Endpoint: ${self:custom.appConfig.config.${self:provider.stage}.operatorEmail}
+            Protocol: "email"
+  Outputs:
+    FrontEndWebsiteBucket:
+      Value: !Ref FrontEndWebsiteBucket
+    CloudFrontDistributionId:
+      Description: CloudFront Distribution ID
+      Value: !Ref CloudFrontDistribution
+    CloudFrontDomain:
+      Description: CloudFront Domain
+      Value: !GetAtt CloudFrontDistribution.DomainName

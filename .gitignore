@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+**/.serverless
 
 # Node
 /node_modules
@@ -20,6 +21,14 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+
+# Cypress
+screenshots/
+videos/
+downloads/
+
+# Serverless
+.serverless/
 
 # Visual Studio Code
 .vscode/*
