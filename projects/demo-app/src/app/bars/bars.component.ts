@@ -6,7 +6,7 @@ import {
   horizontalBarChartDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { EmploymentDatum } from '../core/models/employement-data';
+import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
@@ -31,13 +31,13 @@ export class BarsComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.vm$ = this.dataService.employmentData$.pipe(
+    this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
     );
   }
 
-  getViewModel(data: EmploymentDatum[]): ViewModel {
+  getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
