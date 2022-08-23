@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyChartBackgroundComponent } from './xy-chart-background.component';
+import { XyBackgroundComponent } from './xy-background.component';
 
-describe('ChartBackgroundComponent', () => {
-  let component: XyChartBackgroundComponent;
-  let fixture: ComponentFixture<XyChartBackgroundComponent>;
+describe('XyBackgroundComponent', () => {
+  let component: XyBackgroundComponent;
+  let fixture: ComponentFixture<XyBackgroundComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [XyChartBackgroundComponent],
+      declarations: [XyBackgroundComponent],
       providers: [XyChartComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(XyChartBackgroundComponent);
+    fixture = TestBed.createComponent(XyBackgroundComponent);
     component = fixture.componentInstance;
   });
 

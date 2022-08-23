@@ -24,10 +24,7 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "viz-components": ["dist/viz-components"]
-    },
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
-    "noImplicitAny": false
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

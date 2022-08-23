@@ -1,7 +1,7 @@
-import { QuantitativeAxisMixin } from '../../axes/quantitative/quantitative-axis';
+import { mixinQuantitativeAxis } from '../../axes/quantitative/quantitative-axis';
 import { XyAxisStub } from './xy-axis.stub';
 
-export class QuantitativeAxisStub extends QuantitativeAxisMixin(XyAxisStub) {
+export class QuantitativeAxisStub extends mixinQuantitativeAxis(XyAxisStub) {
   setScale(): void {
     return;
   }
