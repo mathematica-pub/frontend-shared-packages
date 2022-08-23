@@ -28,6 +28,5 @@ for file in outputFileList:
     text = text.replace("href=\"#", f"href=\"{componentName}#")
     text = re.sub(r"(href=\"../classes/)(.*)(.html)", handleMatch, text)
     text = re.sub(r"(href=\"../components/)(.*)(.html)", handleMatch, text)
-    text = text.replace("class=\"tab-pane fade", "class=\"tab-pane fade active in")
     openFileForWriting = open(file, "w")
     openFileForWriting.write(text)
