@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DocumentationTypeOption } from '../../core/enums/documentation.enums';
 import { DocumentationService } from '../../core/services/documentation.service';
@@ -26,7 +26,8 @@ export class ComponentDocumentationComponent implements OnInit {
   constructor(
     private highlightService: HighlightService, 
     private documentationService: DocumentationService, 
-    private sanitizer: DomSanitizer) { }
+    private sanitizer: DomSanitizer,
+    private zone: NgZone) { }
 
   ngOnInit(): void {
     this.documentationService.getDocumentationByName(this.documentation).subscribe((data: string) => {
@@ -35,7 +36,8 @@ export class ComponentDocumentationComponent implements OnInit {
         this.highlightService.highlightAll();
         this.addClickListenersToTabs();
         this.addClickListenersToCodeLinks();
-      }, 100);
+      }, 0);
+      
     });
   }
 
