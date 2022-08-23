@@ -1,6 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, map } from 'rxjs';
 import { DocumentationTypeOption } from '../../core/enums/documentation.enums';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
@@ -11,9 +10,9 @@ import { HighlightService } from '../../core/services/highlight.service';
   styleUrls: ['./component-documentation.component.scss', 
     './styles/bootstrap-card.css', 
     './styles/bootstrap.min.css', 
-    './styles/compodoc.css', 
+    './styles/compodoc.scss', 
     './styles/ionicons.min.css', 
-    './styles/laravel.css', 
+    './styles/laravel.scss', 
     './styles/reset.css', 
     // './styles/style.css', 
     './styles/tablesort.css', 
