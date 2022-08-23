@@ -149,6 +149,10 @@ describe('StackedAreaComponent', () => {
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'setArea');
       spyOn(component, 'drawMarks');
+      component.values = {
+        x: 'x',
+        y: 'y',
+      } as any;
       component.resizeMarks();
     });
 
