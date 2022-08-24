@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MapLegendContent } from '../map-legend-content';
 
+/**
+ * @ignore
+ */
 @Component({
   selector: 'vzc-discontinuous-legend',
   templateUrl: './discontinuous-legend.component.html',

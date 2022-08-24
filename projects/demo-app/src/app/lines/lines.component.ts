@@ -5,7 +5,7 @@ import {
   LinesConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { DocumentationType } from '../core/enums/documentation.enums';
+import { Documentation } from '../core/enums/documentation.enums';
 import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
 
@@ -20,7 +20,7 @@ interface ViewModel {
   styleUrls: ['./lines.component.scss'],
 })
 export class LinesComponent implements OnInit {
-  linesDocumentation = DocumentationType.Lines;
+  linesDocumentation = Documentation.Lines;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

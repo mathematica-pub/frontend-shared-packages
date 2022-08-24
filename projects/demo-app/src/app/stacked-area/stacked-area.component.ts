@@ -5,7 +5,7 @@ import {
   StackedAreaConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { DocumentationType } from '../core/enums/documentation.enums';
+import { Documentation } from '../core/enums/documentation.enums';
 import { IndustryUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
 
@@ -21,7 +21,7 @@ interface ViewModel {
   styleUrls: ['./stacked-area.component.scss'],
 })
 export class StackedAreaComponent implements OnInit {
-  stackedAreaDocumentation = DocumentationType.StackedArea;
+  stackedAreaDocumentation = Documentation.StackedArea;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

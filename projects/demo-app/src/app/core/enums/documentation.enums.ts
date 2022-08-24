@@ -1,10 +1,8 @@
-export type DocumentationTypeOption = keyof typeof DocumentationType;
+export type DocumentationType = keyof typeof Documentation;
 
-export const enum DocumentationType {
+export const enum Documentation {
     Bars = 'Bars',
     Chart = 'Chart',
-    ContinuousLegend = 'ContinuousLegend',
-    DiscontinuousLegend = 'DiscontinuousLegend',
     Geographies = 'Geographies',
     GroupedBars = 'GroupedBars',
     HtmlTooltip = 'HtmlTooltip',

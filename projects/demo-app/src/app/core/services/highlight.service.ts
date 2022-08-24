@@ -12,7 +12,9 @@ import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-scss';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class HighlightService {
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) { }

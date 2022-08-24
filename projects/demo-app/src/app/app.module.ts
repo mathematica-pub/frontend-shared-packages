@@ -27,15 +27,6 @@ import { HighlightService } from './core/services/highlight.service';
       deps: [DataService],
       multi: true,
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (ds: DocumentationService) => () => {
-        return ds.setDocumentationData();
-      },
-      deps: [DocumentationService],
-      multi: true,
-    },
-    HighlightService
   ],
   bootstrap: [AppComponent],
 })

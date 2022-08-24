@@ -1,6 +1,6 @@
-import { Component, Input, NgZone, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { DocumentationTypeOption } from '../../core/enums/documentation.enums';
+import { DocumentationType } from '../../core/enums/documentation.enums';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -8,19 +8,17 @@ import { HighlightService } from '../../core/services/highlight.service';
   selector: 'app-component-documentation',
   templateUrl: './component-documentation.component.html',
   styleUrls: ['./component-documentation.component.scss', 
-    './styles/bootstrap-card.css', 
-    './styles/bootstrap.min.css', 
+    './styles/bootstrap-card.scss', 
+    './styles/bootstrap.scss', 
     './styles/compodoc.scss', 
-    './styles/ionicons.min.css', 
-    './styles/laravel.scss', 
-    './styles/reset.css', 
-    // './styles/style.css', 
-    './styles/tablesort.css', 
+    './styles/reset.scss',  
   ],
   encapsulation: ViewEncapsulation.None
 })
 export class ComponentDocumentationComponent implements OnInit {
-  @Input() documentation: DocumentationTypeOption;
+  @Input() documentation: DocumentationType;
+  @ViewChild('docsDiv', {static: true}) docsDiv: ElementRef<HTMLDivElement>;
+
   sanitizedDocumentation: SafeHtml;
 
   constructor(
@@ -30,7 +28,7 @@ export class ComponentDocumentationComponent implements OnInit {
     private zone: NgZone) { }
 
   ngOnInit(): void {
-    this.documentationService.getDocumentationByName(this.documentation).subscribe((data: string) => {
+    this.documentationService.getDocumentation(this.documentation).subscribe((data: string) => {
       this.sanitizedDocumentation = this.sanitizer.bypassSecurityTrustHtml(data);
       setTimeout(() => {
         this.highlightService.highlightAll();
@@ -42,11 +40,11 @@ export class ComponentDocumentationComponent implements OnInit {
   }
 
   addClickListenersToTabs(): void {
-    document.querySelectorAll("[role=tab]").forEach((element) => element.addEventListener("click", this.activateTab.bind(this)))
+    this.docsDiv.nativeElement.querySelectorAll("[role=tab]").forEach((element) => element.addEventListener("click", this.activateTab.bind(this)))
   }
 
   addClickListenersToCodeLinks(): void {
-    document.querySelectorAll(".link-to-prism").forEach((element) => element.addEventListener("click", this.activateCodeTab.bind(this)))
+    this.docsDiv.nativeElement.querySelectorAll(".link-to-prism").forEach((element) => element.addEventListener("click", this.activateCodeTab.bind(this)))
   }
 
   activateTab(event): void {
@@ -54,11 +52,11 @@ export class ComponentDocumentationComponent implements OnInit {
   }
 
   activateTabUsingElement(element): void {
-    document.querySelectorAll("[role=tab]").forEach((element) => 
+    this.docsDiv.nativeElement.querySelectorAll("[role=tab]").forEach((element) => 
       element.parentElement.classList.remove("active"));
-    document.querySelectorAll(".tab-pane").forEach((element) => 
+    this.docsDiv.nativeElement.querySelectorAll(".tab-pane").forEach((element) => 
       element.classList.remove("active", "in"));
-    element.parentElement.classList.add("active"); // activate current tab! 
+    element.parentElement.classList.add("active");
     var id: string = element.id;
     id = "c-" + id.replace("-tab", "");
     document.getElementById(id).classList.add("active", "in");
