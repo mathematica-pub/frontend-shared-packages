@@ -275,6 +275,204 @@
             "}"
         ]
     },
+    "FullGeographiesConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullGeographiesConfig"
+        ],
+        "body": [
+            "{",
+            "\t// boundary: any,",
+            "\tprojection: geoAlbersUsa(),",
+            "\t// noDataGeographies: NoDataGeography[],",
+            "\t// dataGeography: DataGeography,",
+            "\tdata: [],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "}"
+        ]
+    },
+    "FullNoDataGeography": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullNoDataGeography"
+        ],
+        "body": [
+            "{",
+            "\t// geographies: any[],",
+            "\tstrokeColor: 'dimgray',",
+            "\tstrokeWidth: '1',",
+            "\tfill: 'none',",
+            "}"
+        ]
+    },
+    "FullDataGeography": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullDataGeography"
+        ],
+        "body": [
+            "{",
+            "\t// valueAccessor: (d: any) => any,",
+            "\t// attributeDataConfig: AttributeDataDimension,",
+            "\tnullColor: '#dcdcdc',",
+            "\t// geographies: any[],",
+            "\tstrokeColor: 'dimgray',",
+            "\tstrokeWidth: '1',",
+            "\tfill: 'none',",
+            "}"
+        ]
+    },
+    "FullAttributeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullAttributeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\t// valueType: string,",
+            "\t// binType: MapBinType,",
+            "\t// range: any[],",
+            "\t// colorScale: (...args: any) => any,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\t// interpolator: (...args: any) => any,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullCategoricalAttributeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullCategoricalAttributeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// override interpolator: never,",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'categorical',",
+            "\tbinType: 'none',",
+            "\t// range: any[],",
+            "\t// colorScale: (...args: any) => any,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\t// interpolator: (...args: any) => any,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "\tcolors: ['white', 'lightslategray'],",
+            "}"
+        ]
+    },
+    "FullNoBinsQuantitativeAttributeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullNoBinsQuantitativeAttributeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'none',",
+            "\t// range: any[],",
+            "\tcolorScale: scaleLinear,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullEqualValuesQuantitativeAttributeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullEqualValuesQuantitativeAttributeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'equal value ranges',",
+            "\t// range: any[],",
+            "\tcolorScale: scaleQuantize,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "\tnumBins: 5,",
+            "}"
+        ]
+    },
+    "FullEqualNumbersQuantitativeAttributeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullEqualNumbersQuantitativeAttributeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'equal num observations',",
+            "\t// range: any[],",
+            "\tcolorScale: scaleQuantile,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "\tnumBins: 5,",
+            "}"
+        ]
+    },
+    "FullCustomBreaksQuantitativeAttributeDataDimension": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullCustomBreaksQuantitativeAttributeDataDimension"
+        ],
+        "body": [
+            "{",
+            "\t// geoAccessor: (d: any) => any,",
+            "\tvalueType: 'quantitative',",
+            "\tbinType: 'custom breaks',",
+            "\t// range: any[],",
+            "\tcolorScale: scaleThreshold,",
+            "\t// colors: string[],",
+            "\t// numBins: number,",
+            "\t// breakValues: number[],",
+            "\tinterpolator: interpolateLab,",
+            "\t// valueAccessor: (...args: any) => any,",
+            "\t// domain: any,",
+            "\t// valueFormat: string,",
+            "}"
+        ]
+    },
+    "FullMapDataValues": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullMapDataValues"
+        ],
+        "body": [
+            "{",
+            "\t// attributeDataGeographies: any[],",
+            "\t// attributeDataValues: any[],",
+            "\t// indexMap: InternMap,",
+            "\t// geoJsonGeographies: any[],",
+            "}"
+        ]
+    },
     "FullGroupedBarsConfig": {
         "scope": "typescript, javascript",
         "prefix": [
@@ -426,204 +624,6 @@
             "}"
         ]
     },
-    "FullMapConfig": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullMapConfig"
-        ],
-        "body": [
-            "{",
-            "\t// boundary: any,",
-            "\tprojection: geoAlbersUsa(),",
-            "\t// simpleGeographies: SimpleGeography[],",
-            "\t// dataGeography: DataGeography,",
-            "\tdata: [],",
-            "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
-            "}"
-        ]
-    },
-    "FullSimpleGeography": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullSimpleGeography"
-        ],
-        "body": [
-            "{",
-            "\t// geographies: any[],",
-            "\tstrokeColor: 'dimgray',",
-            "\tstrokeWidth: '1',",
-            "\tfill: 'none',",
-            "}"
-        ]
-    },
-    "FullDataGeography": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullDataGeography"
-        ],
-        "body": [
-            "{",
-            "\t// valueAccessor: (d: any) => any,",
-            "\t// dataConfig: GeoDataDimension,",
-            "\tnullColor: '#dcdcdc',",
-            "\t// geographies: any[],",
-            "\tstrokeColor: 'dimgray',",
-            "\tstrokeWidth: '1',",
-            "\tfill: 'none',",
-            "}"
-        ]
-    },
-    "FullGeoDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullGeoDataDimension"
-        ],
-        "body": [
-            "{",
-            "\t// geoAccessor: (d: any) => any,",
-            "\t// valueType: string,",
-            "\t// binType: MapBinType,",
-            "\t// colorScale: (...args: any) => any,",
-            "\t// colors: string[],",
-            "\t// numBins: number,",
-            "\t// breakValues: number[],",
-            "\t// interpolator: (...args: any) => any,",
-            "\t// range: any[],",
-            "\t// valueAccessor: (...args: any) => any,",
-            "\t// domain: any,",
-            "\t// valueFormat: string,",
-            "}"
-        ]
-    },
-    "FullGeoCategoricalDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullGeoCategoricalDataDimension"
-        ],
-        "body": [
-            "{",
-            "\t// override interpolator: never,",
-            "\t// geoAccessor: (d: any) => any,",
-            "\tvalueType: 'categorical',",
-            "\tbinType: 'none',",
-            "\t// colorScale: (...args: any) => any,",
-            "\t// colors: string[],",
-            "\t// numBins: number,",
-            "\t// breakValues: number[],",
-            "\t// interpolator: (...args: any) => any,",
-            "\t// range: any[],",
-            "\t// valueAccessor: (...args: any) => any,",
-            "\t// domain: any,",
-            "\t// valueFormat: string,",
-            "\tcolors: ['white', 'lightslategray'],",
-            "}"
-        ]
-    },
-    "FullGeoNoBinsQuantitativeDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullGeoNoBinsQuantitativeDataDimension"
-        ],
-        "body": [
-            "{",
-            "\t// geoAccessor: (d: any) => any,",
-            "\tvalueType: 'quantitative',",
-            "\tbinType: 'none',",
-            "\tcolorScale: scaleLinear,",
-            "\t// colors: string[],",
-            "\t// numBins: number,",
-            "\t// breakValues: number[],",
-            "\tinterpolator: interpolateLab,",
-            "\t// range: any[],",
-            "\t// valueAccessor: (...args: any) => any,",
-            "\t// domain: any,",
-            "\t// valueFormat: string,",
-            "}"
-        ]
-    },
-    "FullGeoEqualValuesQuantitativeDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullGeoEqualValuesQuantitativeDataDimension"
-        ],
-        "body": [
-            "{",
-            "\t// geoAccessor: (d: any) => any,",
-            "\tvalueType: 'quantitative',",
-            "\tbinType: 'equal value ranges',",
-            "\tcolorScale: scaleQuantize,",
-            "\t// colors: string[],",
-            "\t// numBins: number,",
-            "\t// breakValues: number[],",
-            "\tinterpolator: interpolateLab,",
-            "\t// range: any[],",
-            "\t// valueAccessor: (...args: any) => any,",
-            "\t// domain: any,",
-            "\t// valueFormat: string,",
-            "\tnumBins: 5,",
-            "}"
-        ]
-    },
-    "FullGeoEqualNumbersQuantitativeDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullGeoEqualNumbersQuantitativeDataDimension"
-        ],
-        "body": [
-            "{",
-            "\t// geoAccessor: (d: any) => any,",
-            "\tvalueType: 'quantitative',",
-            "\tbinType: 'equal num observations',",
-            "\tcolorScale: scaleQuantile,",
-            "\t// colors: string[],",
-            "\t// numBins: number,",
-            "\t// breakValues: number[],",
-            "\tinterpolator: interpolateLab,",
-            "\t// range: any[],",
-            "\t// valueAccessor: (...args: any) => any,",
-            "\t// domain: any,",
-            "\t// valueFormat: string,",
-            "\tnumBins: 5,",
-            "}"
-        ]
-    },
-    "FullGeoCustomBreaksQuantitativeDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullGeoCustomBreaksQuantitativeDataDimension"
-        ],
-        "body": [
-            "{",
-            "\t// geoAccessor: (d: any) => any,",
-            "\tvalueType: 'quantitative',",
-            "\tbinType: 'custom breaks',",
-            "\tcolorScale: scaleThreshold,",
-            "\t// colors: string[],",
-            "\t// numBins: number,",
-            "\t// breakValues: number[],",
-            "\tinterpolator: interpolateLab,",
-            "\t// range: any[],",
-            "\t// valueAccessor: (...args: any) => any,",
-            "\t// domain: any,",
-            "\t// valueFormat: string,",
-            "}"
-        ]
-    },
-    "FullMapDataValues": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullMapDataValues"
-        ],
-        "body": [
-            "{",
-            "\t// dataGeographies: any[],",
-            "\t// dataValues: any[],",
-            "\t// indexMap: InternMap,",
-            "\t// geoGeographies: any[],",
-            "}"
-        ]
-    },
     "FullSvgWrapOptions": {
         "scope": "typescript, javascript",
         "prefix": [
@@ -640,6 +640,35 @@
             "\t* multiline test comment",
             "\t*/",
             "\tlineHeight: 1.1,",
+            "}"
+        ]
+    },
+    "FullStackedAreaConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullStackedAreaConfig"
+        ],
+        "body": [
+            "{",
+            "\tx: new QuantitativeDimension(),",
+            "\ty: new QuantitativeDimension(),",
+            "\tcategory: new CategoricalColorDimension(),",
+            "\t// valueIsDefined: (...args: any) => any,",
+            "\tcurve: curveLinear,",
+            "\tstackOffsetFunction: stackOffsetNone,",
+            "\t// series: Series<any, any>,",
+            "\t// order: Iterable<number>",
+            "\tstackOrderFunction: stackOrderNone,",
+            "\t// categoryOrder: string[],",
+            "\t// data: any[],",
+            "\tmixBlendMode: 'normal',",
+            "\ttooltip: new TooltipConfig(),",
+            "\t//x.valueAccessor: ([x]) => x,",
+            "\t//x.scaleType: scaleUtc,",
+            "\t//y.valueAccessor: ([, y]) => y,",
+            "\t//y.scaleType: scaleLinear,",
+            "\t//category.valueAccessor: () => 1,",
+            "\t//category.colors: schemeTableau10 as string[],",
             "}"
         ]
     },
@@ -666,19 +695,6 @@
             "\t//quantitative.scaleType: scaleLinear,",
             "\t//category.valueAccessor: (d) => d,",
             "\t//category.colors: ['lightslategray'],",
-            "}"
-        ]
-    },
-    "FullDimensionProperties": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullDimensionProperties"
-        ],
-        "body": [
-            "{",
-            "\t// scale: any,",
-            "\t// axis: any,",
-            "\t// axisConfig: AxisConfig,",
             "}"
         ]
     }
