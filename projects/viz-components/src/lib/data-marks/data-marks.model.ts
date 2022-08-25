@@ -9,9 +9,9 @@ export class DataMarks {
   onPointerEnter: (event: PointerEvent) => void;
   onPointerLeave: (event: PointerEvent) => void;
   onPointerMove: (event: PointerEvent) => void;
-  constructor(init?: Partial<DataMarks>) {
-    Object.assign(this, init);
-  }
+  // constructor(init?: Partial<DataMarks>) {
+  //   Object.assign(this, init);
+  // }
 }
 
 export class DataMarksConfig {

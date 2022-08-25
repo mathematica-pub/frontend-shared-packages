@@ -7,10 +7,10 @@ export class XyDataMarks extends DataMarks {
   values: XyDataMarksValues;
   xScale: (d: any) => any;
   yScale: (d: any) => any;
-  constructor(init?: Partial<XyDataMarks>) {
-    super();
-    Object.assign(this, init);
-  }
+  // constructor(init?: Partial<XyDataMarks>) {
+  //   super();
+  //   Object.assign(this, init);
+  // }
 }
 
 export class XyDataMarksValues {
@@ -18,7 +18,7 @@ export class XyDataMarksValues {
   y: any[];
   category: any[];
   indicies: any[];
-  constructor(init?: Partial<XyDataMarksValues>) {
-    Object.assign(this, init);
-  }
+  // constructor(init?: Partial<XyDataMarksValues>) {
+  //   Object.assign(this, init);
+  // }
 }
