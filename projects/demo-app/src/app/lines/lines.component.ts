@@ -2,18 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import {
   AxisConfig,
   ElementSpacing,
+  EmitLinesTooltipData,
   LinesConfig,
-  LinesTooltipData,
+  LinesEffect,
+  LinesEmittedData,
+  LinesHoverEffectDefaultStyles,
+  LinesHoverEffectDefaultStylesConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
+import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
   dataConfig: LinesConfig;
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
   labels: string[];
+  hoverEffects: LinesEffect[];
 }
 @Component({
   selector: 'app-lines',
@@ -28,9 +34,12 @@ export class LinesComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-  tooltipData: BehaviorSubject<LinesTooltipData> =
-    new BehaviorSubject<LinesTooltipData>(null);
+  tooltipData: BehaviorSubject<LinesEmittedData> =
+    new BehaviorSubject<LinesEmittedData>(null);
   tooltipData$ = this.tooltipData.asObservable();
+  chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  chartInputEvent$ = this.chartInputEvent.asObservable();
+  highlightLineForLabelEffect = new HighlightLineForLabel();
 
   constructor(private dataService: DataService) {}
 
@@ -51,18 +60,26 @@ export class LinesComponent implements OnInit {
     dataConfig.y.valueAccessor = (d) => d.value;
     dataConfig.category.valueAccessor = (d) => d.division;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
+    const hoverEffects = [
+      new LinesHoverEffectDefaultStyles(
+        new LinesHoverEffectDefaultStylesConfig()
+      ),
+      new EmitLinesTooltipData(),
+    ];
     return {
       dataConfig,
       xAxisConfig,
       yAxisConfig,
       labels,
+      hoverEffects,
     };
   }
 
-  processTooltipData(data: LinesTooltipData): void {
-    console.log(data);
+  processHoverData(data: LinesEmittedData): void {
     this.tooltipData.next(data);
   }
 
-  highlightLine(label: string): void {}
+  highlightLine(label: string): void {
+    this.chartInputEvent.next(label);
+  }
 }

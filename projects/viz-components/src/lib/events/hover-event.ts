@@ -7,12 +7,10 @@ export abstract class HoverEvent
   implements AfterViewInit, OnDestroy
 {
   unlistenPointerEnter: () => void;
-  unlistenPointerMove: () => void;
   unlistenPointerLeave: () => void;
   unlistenTouchStart: () => void;
 
   abstract chartPointerEnter(event: PointerEvent): void;
-  abstract chartPointerMove(event: PointerEvent): void;
   abstract chartPointerLeave(event: PointerEvent): void;
 
   ngOnDestroy(): void {
@@ -25,7 +23,7 @@ export abstract class HoverEvent
     this.setPointerEnterListener(this.el);
   }
 
-  private setTouchStartListener(el: Element) {
+  setTouchStartListener(el: Element) {
     this.unlistenTouchStart = this.renderer.listen(
       el,
       'touchstart',
@@ -35,12 +33,11 @@ export abstract class HoverEvent
     );
   }
 
-  private onTouchStart(event: TouchEvent): void {
+  onTouchStart(event: TouchEvent): void {
     event.preventDefault();
   }
 
-  private setPointerEnterListener(el: Element) {
-    console.log('setPointerEnter');
+  setPointerEnterListener(el: Element) {
     this.unlistenPointerEnter = this.renderer.listen(
       el,
       'pointerenter',
@@ -50,29 +47,17 @@ export abstract class HoverEvent
     );
   }
 
-  private onPointerEnter(event: PointerEvent, el: Element): void {
+  onPointerEnter(event: PointerEvent, el: Element): void {
     this.chartPointerEnter(event);
-    this.setPointerMoveListener(el);
     this.setPointerLeaveListener(el);
   }
 
-  private setPointerMoveListener(el) {
-    this.unlistenPointerMove = this.renderer.listen(
-      el,
-      'pointermove',
-      (event) => {
-        this.chartPointerMove(event);
-      }
-    );
-  }
-
-  private setPointerLeaveListener(el: Element) {
+  setPointerLeaveListener(el: Element) {
     this.unlistenPointerLeave = this.renderer.listen(
       el,
       'pointerleave',
       (event) => {
         this.chartPointerLeave(event);
-        this.unlistenPointerMove();
         this.unlistenPointerLeave();
       }
     );

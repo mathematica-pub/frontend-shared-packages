@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 export abstract class InputEvent implements OnInit {
   @Input() inputEvent$: Observable<any>;
 
-  abstract handleNewEvent: (event: any) => void;
+  abstract handleNewEvent(event: any): void;
 
   ngOnInit(): void {
     this.inputEvent$.subscribe((event) => this.handleNewEvent(event));

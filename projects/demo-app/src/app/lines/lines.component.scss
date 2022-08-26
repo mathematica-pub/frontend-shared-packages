@@ -1,0 +1,9 @@
+@import 'vars';
+
+.line-label {
+  cursor: pointer;
+
+  &:hover {
+    font-weight: $font-weight-bold;
+  }
+}

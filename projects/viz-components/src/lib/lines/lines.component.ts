@@ -37,7 +37,7 @@ import {
 } from '../data-marks/xy-data-marks.model';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { LinesConfig, LinesTooltipData, Marker } from './lines.model';
+import { LinesConfig, LinesEmittedData, Marker } from './lines.model';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -58,7 +58,7 @@ export class LinesComponent
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
   @Input() config: LinesConfig;
-  @Output() tooltipData = new EventEmitter<LinesTooltipData>();
+  @Output() tooltipData = new EventEmitter<LinesEmittedData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   line: (x: any[]) => any;
   linesD3Data;
@@ -498,7 +498,7 @@ export class LinesComponent
         this.values.category[closestPointIndex] ===
           this.config.category.valueAccessor(d)
     );
-    const tooltipData: LinesTooltipData = {
+    const tooltipData: LinesEmittedData = {
       datum,
       x: this.formatValue(
         this.config.x.valueAccessor(datum),

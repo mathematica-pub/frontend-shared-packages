@@ -1,28 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  EmitLinesTooltipData,
-  StyleLineForHover,
-  StyleMarkersForHover,
-} from './lines-effects.directive';
-import { LinesHoverEvent } from './lines-hover.directive';
+import { LinesHoverAndMoveEvent } from './lines-hover-move-event.directive';
+import { LinesInputEvent } from './lines-input-event.directive';
 import { LinesComponent } from './lines.component';
 
 @NgModule({
-  declarations: [
-    LinesComponent,
-    LinesHoverEvent,
-    StyleLineForHover,
-    StyleMarkersForHover,
-    EmitLinesTooltipData,
-  ],
+  declarations: [LinesComponent, LinesHoverAndMoveEvent, LinesInputEvent],
   imports: [CommonModule],
-  exports: [
-    LinesComponent,
-    LinesHoverEvent,
-    StyleLineForHover,
-    StyleMarkersForHover,
-    EmitLinesTooltipData,
-  ],
+  exports: [LinesComponent, LinesHoverAndMoveEvent, LinesInputEvent],
 })
 export class VzcLinesModule {}

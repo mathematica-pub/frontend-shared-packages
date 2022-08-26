@@ -1,14 +1,14 @@
-import { ContentChildren, Directive, QueryList } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { least, pointer } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { HoverEvent } from '../events/hover-event';
+import { HoverAndMoveEvent } from '../events/hover-move-event';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesEffect } from './lines-effect';
-import { LINES_EFFECT } from './lines-effect.token';
 import { LinesComponent } from './lines.component';
+import { LinesEmittedData } from './lines.model';
 
 @Directive({
-  selector: 'vzc-lines-on-hover',
+  selector: '[vzc-data-marks-lines][vzcLinesHoverAndMoveEffects]',
   providers: [
     {
       provide: ChartComponent,
@@ -16,8 +16,10 @@ import { LinesComponent } from './lines.component';
     },
   ],
 })
-export class LinesHoverEvent extends HoverEvent {
-  @ContentChildren(LINES_EFFECT) effects!: QueryList<LinesEffect>;
+export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
+  @Input('vzcLinesHoverAndMoveEffects') effects: ReadonlyArray<LinesEffect>;
+  @Output('hoverAndMoveData') emittedData =
+    new EventEmitter<LinesEmittedData>();
 
   constructor(public lines: LinesComponent) {
     super();
@@ -35,7 +37,9 @@ export class LinesHoverEvent extends HoverEvent {
   }
 
   chartPointerLeave(event: PointerEvent) {
-    this.effects.forEach((effect) => effect.removeEffect());
+    this.effects.forEach((effect) =>
+      effect.removeEffect(this.lines, this.emittedData)
+    );
   }
 
   getPointerValuesArray(event: PointerEvent): [number, number] {
@@ -60,9 +64,13 @@ export class LinesHoverEvent extends HoverEvent {
         pointerY
       )
     ) {
-      this.effects.forEach((effect) => effect.applyEffect(closestPointIndex));
+      this.effects.forEach((effect) =>
+        effect.applyEffect(this.lines, closestPointIndex, this.emittedData)
+      );
     } else {
-      this.effects.forEach((effect) => effect.removeEffect());
+      this.effects.forEach((effect) =>
+        effect.removeEffect(this.lines, this.emittedData)
+      );
     }
   }
 
@@ -101,5 +109,9 @@ export class LinesHoverEvent extends HoverEvent {
       pointerY
     );
     return cursorDistanceFromPoint < this.lines.config.tooltip.detectionRadius;
+  }
+
+  emitTooltip(tooltip: LinesEmittedData): void {
+    this.emittedData.emit;
   }
 }

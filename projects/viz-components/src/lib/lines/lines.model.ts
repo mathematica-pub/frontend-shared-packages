@@ -66,13 +66,13 @@ export class PointMarker {
   }
 }
 
-export class LinesTooltipData {
+export class LinesEmittedData {
   datum: any;
   color: string;
   x: string;
   y: string;
   category: string;
-  constructor(init?: Partial<LinesTooltipData>) {
+  constructor(init?: Partial<LinesEmittedData>) {
     Object.assign(this, init);
   }
 }
