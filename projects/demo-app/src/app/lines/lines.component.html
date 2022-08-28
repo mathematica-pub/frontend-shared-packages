@@ -8,9 +8,9 @@
       (mouseleave)="highlightLine(null)"
       >{{ label }}</span
     >
-    <vzc-xy-chart [margin]="margin">
+    <vzc-xy-chart [margin]="margin" #tooltipOrigin>
       <ng-container svg-elements>
-        <svg:g vzc-xy-background></svg:g>
+        <svg:g vzc-xy-background #tooltipOrigin></svg:g>
         <svg:g
           vzc-x-quantitative-axis
           [config]="vm.xAxisConfig"
@@ -28,10 +28,36 @@
           (hoverAndMoveData)="processHoverData($event)"
           [vzcLinesInputEffects]="[highlightLineForLabelEffect]"
           [inputEvent$]="chartInputEvent$"
-        ></svg:g>
+        >
+          <vzc-html-tooltip
+            [showTooltip]="(tooltipConfig$ | async).show"
+            [position]="(tooltipConfig$ | async).position"
+            [template]="htmlTooltip"
+          ></vzc-html-tooltip>
+        </svg:g>
       </ng-container>
     </vzc-xy-chart>
-    <pre>{{ tooltipData$ | async | json }}</pre>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
 </app-component-demo>
+
+<ng-template #htmlTooltip>
+  <div
+    [style.--color]="(tooltipConfig$ | async).color"
+    class="tooltip-container"
+  >
+    <p class="tooltip-label category">
+      {{ (tooltipConfig$ | async).category }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label x">
+        <span class="value-label">Date</span>
+        {{ (tooltipConfig$ | async).x }}
+      </p>
+      <p class="tooltip-label y">
+        <span class="value-label">Value</span>
+        {{ (tooltipConfig$ | async).y }}
+      </p>
+    </div>
+  </div>
+</ng-template>

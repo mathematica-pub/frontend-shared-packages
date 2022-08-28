@@ -1,9 +1,30 @@
-@import 'vars';
+@import 'vars', 'placeholders';
 
 .line-label {
   cursor: pointer;
 
   &:hover {
     font-weight: $font-weight-bold;
+  }
+}
+
+.tooltip-container {
+  background: rgba($color-white, 0.9);
+  padding: $grid-2;
+  border: 1px solid $color-primary-6;
+  width: 300px;
+
+  .tooltip-label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .category {
+    color: var(--color);
+    font-weight: $font-weight-bold;
+  }
+
+  .value-label {
+    @extend %typography-overline-large;
   }
 }

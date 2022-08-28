@@ -72,7 +72,6 @@ export class StackedAreaComponent
   }
 
   setMethodsFromConfigAndDraw(): void {
-    this.setChartTooltipProperty();
     this.setValueArrays();
     this.initXAndCategoryDomains();
     this.setValueIndicies();
@@ -90,11 +89,6 @@ export class StackedAreaComponent
       this.setArea();
       this.drawMarks(0);
     }
-  }
-
-  setChartTooltipProperty(): void {
-    this.chart.htmlTooltip.exists =
-      this.config.tooltip.show && this.config.tooltip.type === 'html';
   }
 
   setValueArrays(): void {

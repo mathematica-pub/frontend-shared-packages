@@ -1,16 +1,13 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
   ElementRef,
-  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
-  Output,
   Renderer2,
   SimpleChanges,
   ViewChild,
@@ -29,7 +26,6 @@ import {
 } from 'rxjs';
 import { DataMarks } from '../data-marks/data-marks.model';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 
 @Component({
@@ -39,7 +35,7 @@ import { Dimensions, ElementSpacing, Ranges } from './chart.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChartComponent
-  implements OnInit, OnChanges, AfterViewInit, AfterContentInit, OnDestroy
+  implements OnInit, OnChanges, AfterContentInit, OnDestroy
 {
   @ContentChild(DATA_MARKS)
   dataMarksComponent: DataMarks;
@@ -55,14 +51,9 @@ export class ChartComponent
   };
   @Input() scaleChartWithContainer = true;
   @Input() transitionDuration?: number = 250;
-  @Output() tooltipData = new EventEmitter<any>();
-  unlistenPointerEnter: () => void;
-  unlistenPointerMove: () => void;
-  unlistenPointerLeave: () => void;
   unlistenTouchStart: () => void;
   unlistenMouseWheel: () => void;
   aspectRatio: number;
-  htmlTooltip: HtmlTooltipConfig = new HtmlTooltipConfig();
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
   heightSubject = new Subject<number>();
@@ -92,16 +83,9 @@ export class ChartComponent
     }
   }
 
-  ngAfterViewInit(): void {
-    if (this.htmlTooltip.exists) {
-      this.setTooltipPosition();
-    }
-  }
-
   ngOnDestroy(): void {
     if (this.dataMarksComponent?.config.tooltip.show) {
       this.unlistenTouchStart();
-      this.unlistenPointerEnter();
       this.unlistenMouseWheel();
     }
   }
@@ -185,7 +169,6 @@ export class ChartComponent
   private setPointerEventListeners(): void {
     const el = this.svgRef.nativeElement;
     this.setTouchStartListener(el);
-    this.setPointerEnterListener(el);
     this.setMouseWheelListener(el);
   }
 
@@ -203,62 +186,20 @@ export class ChartComponent
     event.preventDefault();
   }
 
-  private setPointerEnterListener(el: Element) {
-    this.unlistenPointerEnter = this.renderer.listen(
-      el,
-      'pointerenter',
-      (event) => {
-        this.onPointerEnter(event, el);
-      }
-    );
-  }
-
-  private onPointerEnter(event: PointerEvent, el: Element): void {
-    this.dataMarksComponent.onPointerEnter(event);
-    this.setPointerMoveListener(el);
-    this.setPointerLeaveListener(el);
-  }
-
-  private setPointerMoveListener(el) {
-    this.unlistenPointerMove = this.renderer.listen(
-      el,
-      'pointermove',
-      (event) => {
-        this.dataMarksComponent.onPointerMove(event);
-      }
-    );
-  }
-
-  private setPointerLeaveListener(el: Element) {
-    this.unlistenPointerLeave = this.renderer.listen(
-      el,
-      'pointerleave',
-      (event) => {
-        this.dataMarksComponent.onPointerLeave(event);
-        this.unlistenPointerMove();
-        this.unlistenPointerLeave();
-      }
-    );
-  }
-
   private setMouseWheelListener(el: Element) {
     this.unlistenMouseWheel = this.renderer.listen(el, 'mousewheel', () => {
-      if (this.htmlTooltip.exists) {
-        this.setTooltipPosition();
-      }
+      // if (this.htmlTooltip.exists) {
+      //   // this.setTooltipPosition();
+      // }
     });
   }
 
-  setTooltipPosition(): void {
-    if (this.htmlTooltip.exists) {
-      this.htmlTooltip.position.top =
-        this.divRef.nativeElement.getBoundingClientRect().y;
-      this.htmlTooltip.position.left =
-        this.divRef.nativeElement.getBoundingClientRect().x;
-    }
-  }
-
-  emitTooltipData<T>(data: T): void {
-    this.tooltipData.emit(data);
-  }
+  // setTooltipPosition(): void {
+  //   if (this.htmlTooltip.exists) {
+  //     this.htmlTooltip.position.top =
+  //       this.divRef.nativeElement.getBoundingClientRect().y;
+  //     this.htmlTooltip.position.left =
+  //       this.divRef.nativeElement.getBoundingClientRect().x;
+  //   }
+  // }
 }

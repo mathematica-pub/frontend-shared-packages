@@ -72,6 +72,8 @@ export class LinesEmittedData {
   x: string;
   y: string;
   category: string;
+  positionX?: number;
+  positionY?: number;
   constructor(init?: Partial<LinesEmittedData>) {
     Object.assign(this, init);
   }

@@ -1,33 +1,12 @@
-import { EventEmitter } from '@angular/core';
-import { LinesComponent } from './lines.component';
-import { LinesEmittedData } from './lines.model';
-
-export interface LinesEffect {
-  applyEffect: (lines: LinesComponent, ...args) => void;
-  removeEffect: (lines: LinesComponent, ...args) => void;
-}
+import { LinesHoverAndMoveEvent } from './lines-hover-move-event.directive';
+import { LinesInputEvent } from './lines-input-event.directive';
 
 export interface LinesHoverAndMoveEffect {
-  applyEffect: (
-    lines: LinesComponent,
-    closestPointIndex: number,
-    dataEmitter: EventEmitter<LinesEmittedData>
-  ) => void;
-  removeEffect: (
-    lines: LinesComponent,
-    dataEmitter: EventEmitter<LinesEmittedData>
-  ) => void;
+  applyEffect: (event: LinesHoverAndMoveEvent) => void;
+  removeEffect: (event: LinesHoverAndMoveEvent) => void;
 }
 
 export interface LinesInputEffect {
-  applyEffect: (
-    lines: LinesComponent,
-    input: any,
-    dataEmitter: EventEmitter<any>
-  ) => void;
-  removeEffect: (
-    lines: LinesComponent,
-    input: any,
-    dataEmitter: EventEmitter<any>
-  ) => void;
+  applyEffect: (event: LinesInputEvent, ...args) => void;
+  removeEffect: (event: LinesInputEvent, ...args) => void;
 }

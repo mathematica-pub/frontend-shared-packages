@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ConnectedPosition } from '@angular/cdk/overlay';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
   AxisConfig,
   ElementSpacing,
   EmitLinesTooltipData,
   LinesConfig,
-  LinesEffect,
   LinesEmittedData,
+  LinesHoverAndMoveEffect,
   LinesHoverEffectDefaultStyles,
   LinesHoverEffectDefaultStylesConfig,
 } from 'projects/viz-components/src/public-api';
@@ -19,14 +20,20 @@ interface ViewModel {
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
   labels: string[];
-  hoverEffects: LinesEffect[];
+  hoverEffects: LinesHoverAndMoveEffect[];
 }
+type DemoLinesTooltip = LinesEmittedData & {
+  position: ConnectedPosition;
+  show: boolean;
+};
 @Component({
   selector: 'app-lines',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.scss'],
 })
 export class LinesComponent implements OnInit {
+  @ViewChild('tooltipOrigin', { read: ElementRef })
+  tooltipOriginRef: ElementRef;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
@@ -34,9 +41,17 @@ export class LinesComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-  tooltipData: BehaviorSubject<LinesEmittedData> =
-    new BehaviorSubject<LinesEmittedData>(null);
-  tooltipData$ = this.tooltipData.asObservable();
+  tooltipConfig: BehaviorSubject<DemoLinesTooltip> =
+    new BehaviorSubject<DemoLinesTooltip>({
+      show: false,
+      position: {
+        originX: 'start',
+        originY: 'top',
+        overlayX: 'center',
+        overlayY: 'bottom',
+      },
+    } as DemoLinesTooltip);
+  tooltipConfig$ = this.tooltipConfig.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
@@ -57,12 +72,14 @@ export class LinesComponent implements OnInit {
     const dataConfig = new LinesConfig();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
+    dataConfig.x.valueFormat = '%a %B %d %Y';
     dataConfig.y.valueAccessor = (d) => d.value;
     dataConfig.category.valueAccessor = (d) => d.division;
+    dataConfig.pointMarker.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     const hoverEffects = [
       new LinesHoverEffectDefaultStyles(
-        new LinesHoverEffectDefaultStylesConfig()
+        new LinesHoverEffectDefaultStylesConfig({ growMarkerDimension: 3 })
       ),
       new EmitLinesTooltipData(),
     ];
@@ -76,7 +93,23 @@ export class LinesComponent implements OnInit {
   }
 
   processHoverData(data: LinesEmittedData): void {
-    this.tooltipData.next(data);
+    let config = {} as DemoLinesTooltip;
+    const position: ConnectedPosition = {
+      originX: 'start',
+      originY: 'top',
+      overlayX: 'center',
+      overlayY: 'bottom',
+    };
+    if (data) {
+      position.offsetX = data.positionX;
+      position.offsetY = data.positionY - 16;
+      config = { ...config, ...data };
+      config.show = true;
+    } else {
+      config.show = false;
+    }
+    config.position = position;
+    this.tooltipConfig.next(config);
   }
 
   highlightLine(label: string): void {

@@ -1,26 +1,27 @@
-import { EventEmitter } from '@angular/core';
-import { LinesEffect, LinesHoverAndMoveEffect } from './lines-effect';
+import { LinesHoverAndMoveEffect } from './lines-effect';
 import { LinesHoverEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
-import { LinesComponent } from './lines.component';
+import { LinesHoverAndMoveEvent } from './lines-hover-move-event.directive';
 import { LinesEmittedData } from './lines.model';
 
 export class LinesHoverEffectDefaultLinesStyles
   implements LinesHoverAndMoveEffect
 {
-  applyEffect(lines: LinesComponent, closestPointIndex: number): void {
-    lines.lines
+  applyEffect(event: LinesHoverAndMoveEvent): void {
+    event.lines.lines
       .style('stroke', ([category]): string =>
-        lines.values.category[closestPointIndex] === category ? null : '#ddd'
+        event.lines.values.category[event.closestPointIndex] === category
+          ? null
+          : '#ddd'
       )
       .filter(
         ([category]): boolean =>
-          lines.values.category[closestPointIndex] === category
+          event.lines.values.category[event.closestPointIndex] === category
       )
       .raise();
   }
 
-  removeEffect(lines: LinesComponent): void {
-    lines.lines.style('stroke', null);
+  removeEffect(event: LinesHoverAndMoveEvent): void {
+    event.lines.lines.style('stroke', null);
   }
 }
 
@@ -29,86 +30,90 @@ export class LinesHoverEffectDefaultMarkersStyles
 {
   constructor(private config: LinesHoverEffectDefaultStylesConfig) {}
 
-  applyEffect(lines: LinesComponent, closestPointIndex: number): void {
-    lines.markers
+  applyEffect(event: LinesHoverAndMoveEvent): void {
+    event.lines.markers
       .style('fill', (d): string =>
-        lines.values.category[closestPointIndex] ===
-        lines.values.category[d.index]
+        event.lines.values.category[event.closestPointIndex] ===
+        event.lines.values.category[d.index]
           ? null
           : 'transparent'
       )
       .attr('r', (d): number => {
-        let r = lines.config.pointMarker.radius;
-        if (closestPointIndex === d.index) {
-          r = lines.config.pointMarker.radius + this.config.growMarkerDimension;
+        let r = event.lines.config.pointMarker.radius;
+        if (event.closestPointIndex === d.index) {
+          r =
+            event.lines.config.pointMarker.radius +
+            this.config.growMarkerDimension;
         }
         return r;
       })
       .filter(
         (d): boolean =>
-          lines.values.category[closestPointIndex] ===
-          lines.values.category[d.index]
+          event.lines.values.category[event.closestPointIndex] ===
+          event.lines.values.category[d.index]
       )
       .raise();
   }
 
-  removeEffect(lines: LinesComponent): void {
-    lines.markers.style('fill', null);
+  removeEffect(linesEvent: LinesHoverAndMoveEvent): void {
+    linesEvent.lines.markers.style('fill', null);
   }
 }
 
 export class LinesHoverEffectDefaultStyles implements LinesHoverAndMoveEffect {
-  linesStyles: LinesEffect;
-  markersStyles: LinesEffect;
+  linesStyles: LinesHoverAndMoveEffect;
+  markersStyles: LinesHoverAndMoveEffect;
 
   constructor(config: LinesHoverEffectDefaultStylesConfig) {
     this.linesStyles = new LinesHoverEffectDefaultLinesStyles();
     this.markersStyles = new LinesHoverEffectDefaultMarkersStyles(config);
   }
 
-  applyEffect(lines: LinesComponent, closestPointIndex: number) {
-    this.linesStyles.applyEffect(lines, closestPointIndex);
-    this.markersStyles.applyEffect(lines, closestPointIndex);
+  applyEffect(event: LinesHoverAndMoveEvent) {
+    this.linesStyles.applyEffect(event);
+    this.markersStyles.applyEffect(event);
   }
 
-  removeEffect(lines: LinesComponent) {
-    this.linesStyles.removeEffect(lines);
-    this.markersStyles.removeEffect(lines);
+  removeEffect(event: LinesHoverAndMoveEvent) {
+    this.linesStyles.removeEffect(event);
+    this.markersStyles.removeEffect(event);
   }
 }
 
 export class EmitLinesTooltipData implements LinesHoverAndMoveEffect {
-  applyEffect(
-    lines: LinesComponent,
-    closestPointIndex: number,
-    emittedData: EventEmitter<LinesEmittedData>
-  ): void {
-    const datum = lines.config.data.find(
+  applyEffect(event: LinesHoverAndMoveEvent): void {
+    const datum = event.lines.config.data.find(
       (d) =>
-        lines.values.x[closestPointIndex] === lines.config.x.valueAccessor(d) &&
-        lines.values.category[closestPointIndex] ===
-          lines.config.category.valueAccessor(d)
+        event.lines.values.x[event.closestPointIndex] ===
+          event.lines.config.x.valueAccessor(d) &&
+        event.lines.values.category[event.closestPointIndex] ===
+          event.lines.config.category.valueAccessor(d)
     );
     const tooltipData: LinesEmittedData = {
       datum,
-      x: lines.formatValue(
-        lines.config.x.valueAccessor(datum),
-        lines.config.x.valueFormat
+      x: event.lines.formatValue(
+        event.lines.config.x.valueAccessor(datum),
+        event.lines.config.x.valueFormat
       ),
-      y: lines.formatValue(
-        lines.config.y.valueAccessor(datum),
-        lines.config.y.valueFormat
+      y: event.lines.formatValue(
+        event.lines.config.y.valueAccessor(datum),
+        event.lines.config.y.valueFormat
       ),
-      category: lines.config.category.valueAccessor(datum),
-      color: lines.categoryScale(lines.values.category[closestPointIndex]),
+      category: event.lines.config.category.valueAccessor(datum),
+      color: event.lines.categoryScale(
+        event.lines.values.category[event.closestPointIndex]
+      ),
+      positionX: event.lines.xScale(
+        event.lines.values.x[event.closestPointIndex]
+      ),
+      positionY: event.lines.yScale(
+        event.lines.values.y[event.closestPointIndex]
+      ),
     };
-    emittedData.emit(tooltipData);
+    event.emittedData.emit(tooltipData);
   }
 
-  removeEffect(
-    lines: LinesComponent,
-    emittedData: EventEmitter<LinesEmittedData>
-  ): void {
-    emittedData.emit(null);
+  removeEffect(event: LinesHoverAndMoveEvent): void {
+    event.emittedData.emit(null);
   }
 }

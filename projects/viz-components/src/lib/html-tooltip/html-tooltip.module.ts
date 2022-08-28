@@ -1,10 +1,11 @@
+import { OverlayModule } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HtmlTooltipComponent } from './html-tooltip.component';
+import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 @NgModule({
-  declarations: [HtmlTooltipComponent],
-  imports: [CommonModule],
-  exports: [HtmlTooltipComponent],
+  declarations: [HtmlTooltipDirective],
+  imports: [CommonModule, OverlayModule],
+  exports: [HtmlTooltipDirective],
 })
 export class VzcHtmlTooltipModule {}

@@ -1,27 +1,25 @@
-import {
-  LinesComponent,
-  LinesInputEffect,
-} from 'projects/viz-components/src/public-api';
+import { LinesInputEvent } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
+import { LinesInputEffect } from 'projects/viz-components/src/public-api';
 
 export class HighlightLineForLabel implements LinesInputEffect {
-  applyEffect(lines: LinesComponent, label: string): void {
-    lines.lines
+  applyEffect(event: LinesInputEvent, label: string): void {
+    event.lines.lines
       .style('stroke', ([category]): string =>
         label === category ? null : '#ddd'
       )
       .filter(([category]): boolean => label === category)
       .raise();
 
-    lines.markers
+    event.lines.markers
       .style('fill', (d): string =>
-        label === lines.values.category[d.index] ? null : 'transparent'
+        label === event.lines.values.category[d.index] ? null : 'transparent'
       )
-      .filter((d): boolean => label === lines.values.category[d.index])
+      .filter((d): boolean => label === event.lines.values.category[d.index])
       .raise();
   }
 
-  removeEffect(lines: LinesComponent): void {
-    lines.lines.style('stroke', null);
-    lines.markers.style('fill', null);
+  removeEffect(event: LinesInputEvent): void {
+    event.lines.lines.style('stroke', null);
+    event.lines.markers.style('fill', null);
   }
 }

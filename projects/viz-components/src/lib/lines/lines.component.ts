@@ -65,7 +65,6 @@ export class LinesComponent
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
-  tooltipCurrentlyShown = false;
 
   constructor(
     private utilities: UtilitiesService,
@@ -100,7 +99,6 @@ export class LinesComponent
   }
 
   setMethodsFromConfigAndDraw(): void {
-    this.setChartTooltipProperty();
     this.setValueArrays();
     this.initDomains();
     this.setValueIndicies();
@@ -118,11 +116,6 @@ export class LinesComponent
     this.setScaledSpaceProperties();
     this.setLine();
     this.drawMarks(0);
-  }
-
-  setChartTooltipProperty(): void {
-    this.chart.htmlTooltip.exists =
-      this.config.tooltip.show && this.config.tooltip.type === 'html';
   }
 
   setValueArrays(): void {
@@ -326,7 +319,7 @@ export class LinesComponent
 
   onPointerEnter(): void {
     if (this.config.tooltip.show) {
-      this.chart.setTooltipPosition();
+      // this.chart.setTooltipPosition();
     }
   }
 
@@ -392,17 +385,10 @@ export class LinesComponent
     } else {
       this.styleHoverDotForHover(closestPointIndex);
     }
-    this.setTooltipData(closestPointIndex);
-    this.setTooltipOffsetValues(closestPointIndex);
-    this.chart.htmlTooltip.display = 'block';
-    this.tooltipCurrentlyShown = true;
   }
 
   removeHoverStyles(): void {
-    if (this.tooltipCurrentlyShown) {
-      this.resetChartStylesAfterHover();
-      this.tooltipCurrentlyShown = false;
-    }
+    this.resetChartStylesAfterHover();
   }
 
   getPointerDistanceFromPoint(
@@ -477,8 +463,6 @@ export class LinesComponent
   }
 
   resetChartStylesAfterHover(): void {
-    this.chart.htmlTooltip.display = 'none';
-    this.chart.emitTooltipData(null);
     this.lines
       .style('mix-blend-mode', this.config.mixBlendMode)
       .style('stroke', null);
@@ -489,41 +473,6 @@ export class LinesComponent
     } else {
       this.hoverDot.style('display', 'none');
     }
-  }
-
-  setTooltipData(closestPointIndex: number): void {
-    const datum = this.config.data.find(
-      (d) =>
-        this.values.x[closestPointIndex] === this.config.x.valueAccessor(d) &&
-        this.values.category[closestPointIndex] ===
-          this.config.category.valueAccessor(d)
-    );
-    const tooltipData: LinesEmittedData = {
-      datum,
-      x: this.formatValue(
-        this.config.x.valueAccessor(datum),
-        this.config.x.valueFormat
-      ),
-      y: this.formatValue(
-        this.config.y.valueAccessor(datum),
-        this.config.y.valueFormat
-      ),
-      category: this.config.category.valueAccessor(datum),
-      color: this.categoryScale(this.values.category[closestPointIndex]),
-    };
-    this.chart.emitTooltipData(tooltipData);
-  }
-
-  setTooltipOffsetValues(closestPointIndex): void {
-    const yPosition = this.yScale(this.values.y[closestPointIndex]);
-    const tooltipSpacing = 16;
-    this.chart.htmlTooltip.offset.bottom =
-      this.chart.divRef.nativeElement.getBoundingClientRect().height -
-      yPosition +
-      tooltipSpacing;
-    this.chart.htmlTooltip.offset.left = this.xScale(
-      this.values.x[closestPointIndex]
-    );
   }
 
   formatValue(value: any, formatSpecifier: string): string {
