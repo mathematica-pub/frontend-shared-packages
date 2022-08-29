@@ -1,13 +1,20 @@
 export type VizComponentType = keyof typeof VizComponent;
 
 export const enum VizComponent {
+  xOrdinalAxis = 'x-ordinal-axis',
+  xQuantitativeAxis = 'x-quantitative-axis',
+  yOrdinalAxis = 'y-ordinal-axis',
+  yQuantitativeAxis = 'y-quantitative-axis',
   bars = 'bars',
   chart = 'chart',
+  geographies = 'geographies',
+  groupedBars = 'grouped-bars',
   htmlTooltip = 'html-tooltip',
   lines = 'lines',
-  map = 'map',
-  xAxis = 'x-axis',
-  xyChartBackground = 'xy-chart-background',
-  xyChartSpace = 'xy-chart-space',
-  yAxis = 'y-axis',
+  mapChart = 'map-chart',
+  mapLegend = 'map-legend',
+  stackedArea = 'stacked-area',
+  stackedBars = 'stacked-bars',
+  xyBackground = 'xy-background',
+  xyChart = 'xy-chart',
 }
