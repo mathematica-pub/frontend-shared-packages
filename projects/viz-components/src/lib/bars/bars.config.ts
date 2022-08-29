@@ -1,17 +1,18 @@
 import { scaleLinear } from 'd3';
 import {
-  CategoricalColorDimension,
-  OrdinalDimension,
-  QuantitativeDimension,
-} from '../data-marks/data-dimension.model';
-import { DataMarksConfig } from '../data-marks/data-marks.model';
+  CategoricalColorDimensionConfig,
+  OrdinalDimensionConfig,
+  QuantitativeDimensionConfig,
+} from '../data-marks/data-dimension.config';
+import { DataMarksConfig } from '../data-marks/data-marks.config';
 
 export class BarsConfig extends DataMarksConfig {
-  ordinal: OrdinalDimension = new OrdinalDimension();
-  quantitative: QuantitativeDimension = new QuantitativeDimension();
-  category: CategoricalColorDimension = new CategoricalColorDimension();
+  ordinal: OrdinalDimensionConfig = new OrdinalDimensionConfig();
+  quantitative: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
+  category: CategoricalColorDimensionConfig =
+    new CategoricalColorDimensionConfig();
   dimensions: BarsDimensionsConfig;
-  labels: LabelsConfig;
+  labels: BarsLabelsConfig;
   positivePaddingForAllNegativeValues: number;
 
   constructor(init?: Partial<BarsConfig>) {
@@ -22,19 +23,19 @@ export class BarsConfig extends DataMarksConfig {
     this.quantitative.scaleType = scaleLinear;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];
-    this.labels = new LabelsConfig();
+    this.labels = new BarsLabelsConfig();
     this.positivePaddingForAllNegativeValues = 0.2;
     Object.assign(this.category, init);
   }
 }
 
-export class LabelsConfig {
+export class BarsLabelsConfig {
   show: boolean;
   offset: number;
   color?: string;
   noValueString: string;
 
-  constructor(init?: Partial<LabelsConfig>) {
+  constructor(init?: Partial<BarsLabelsConfig>) {
     this.show = false;
     this.offset = 4;
     this.noValueString = 'N/A';

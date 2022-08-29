@@ -16,7 +16,7 @@ import {
 } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { StackDatum, StackedBarsConfig } from './stacked-bars.model';
+import { StackDatum, StackedBarsConfig } from './stacked-bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

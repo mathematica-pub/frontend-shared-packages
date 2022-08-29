@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { AttributeDataDimension } from '../geographies/geographies.model';
+import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
 
 @Component({
   selector: 'vzc-map-chart',
@@ -9,7 +9,7 @@ import { AttributeDataDimension } from '../geographies/geographies.model';
   styleUrls: ['../chart/chart.component.scss'],
 })
 export class MapChartComponent extends ChartComponent {
-  attributeDataConfig: BehaviorSubject<AttributeDataDimension> =
+  attributeDataConfig: BehaviorSubject<AttributeDataDimensionConfig> =
     new BehaviorSubject(null);
   attributeDataConfig$ = this.attributeDataConfig.asObservable();
   private attributeDataScale: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -19,7 +19,7 @@ export class MapChartComponent extends ChartComponent {
     this.attributeDataScale.next(dataScale);
   }
 
-  updateAttributeDataConfig(dataConfig: AttributeDataDimension): void {
+  updateAttributeDataConfig(dataConfig: AttributeDataDimensionConfig): void {
     this.attributeDataConfig.next(dataConfig);
   }
 }

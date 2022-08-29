@@ -27,11 +27,26 @@ import {
   Subject,
   throttleTime,
 } from 'rxjs';
-import { DataMarks } from '../data-marks/data-marks.model';
+import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
-import { Dimensions, ElementSpacing, Ranges } from './chart.model';
 
+export interface Ranges {
+  x: [number, number];
+  y: [number, number];
+}
+
+export interface ElementSpacing {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+export interface Dimensions {
+  width: number;
+  height: number;
+}
 @Component({
   selector: 'vzc-chart',
   templateUrl: './chart.component.html',

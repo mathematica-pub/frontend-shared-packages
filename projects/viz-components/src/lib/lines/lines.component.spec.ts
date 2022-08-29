@@ -5,7 +5,7 @@ import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
-import { LinesConfig, PointMarker } from './lines.model';
+import { LinesConfig, PointMarkerConfig } from './lines.config';
 
 describe('LineChartComponent', () => {
   let component: LinesComponent;
@@ -500,7 +500,7 @@ describe('LineChartComponent', () => {
       component.chart = { htmlTooltip: new HtmlTooltipConfig() } as any;
       component.chart.htmlTooltip.display = 'none';
       component.tooltipCurrentlyShown = false;
-      component.config = { pointMarker: new PointMarker() } as any;
+      component.config = { pointMarker: new PointMarkerConfig() } as any;
     });
     it('calls styleLinesForHover once with the correct argument', () => {
       component.applyHoverStyles(10);

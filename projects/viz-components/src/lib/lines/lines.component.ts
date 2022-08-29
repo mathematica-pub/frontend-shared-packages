@@ -31,13 +31,23 @@ import {
 } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import {
-  XyDataMarks,
-  XyDataMarksValues,
-} from '../data-marks/xy-data-marks.model';
+import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { LinesConfig, LinesTooltipData, Marker } from './lines.model';
+import { LinesConfig } from './lines.config';
+
+export interface Marker {
+  key: string;
+  index: number;
+}
+
+export class LinesTooltipData {
+  datum: any;
+  color: string;
+  x: string;
+  y: string;
+  category: string;
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

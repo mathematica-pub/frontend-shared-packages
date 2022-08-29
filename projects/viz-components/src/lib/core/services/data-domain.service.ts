@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { DomainPadding } from '../../data-marks/data-dimension.model';
+import { DomainPaddingConfig } from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataDomainService {
-  getPaddedDomainValue(value: number, padding: DomainPadding) {
+  getPaddedDomainValue(value: number, padding: DomainPaddingConfig) {
     let paddedValue = value;
     if (padding.type === 'round') {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(

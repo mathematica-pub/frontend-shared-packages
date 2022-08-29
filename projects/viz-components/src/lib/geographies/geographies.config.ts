@@ -1,20 +1,19 @@
 import {
   geoAlbersUsa,
-  InternMap,
   interpolateLab,
   scaleLinear,
   scaleQuantile,
   scaleQuantize,
   scaleThreshold,
 } from 'd3';
-import { DataDimension } from '../data-marks/data-dimension.model';
-import { DataMarksConfig } from '../data-marks/data-marks.model';
+import { DataDimensionConfig } from '../data-marks/data-dimension.config';
+import { DataMarksConfig } from '../data-marks/data-marks.config';
 
 export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
   projection: any;
-  noDataGeographies?: NoDataGeography[];
-  dataGeography?: DataGeography;
+  noDataGeographies?: NoDataGeographyConfig[];
+  dataGeography?: DataGeographyConfig;
 
   constructor(init?: Partial<GeographiesConfig>) {
     super();
@@ -24,13 +23,13 @@ export class GeographiesConfig extends DataMarksConfig {
   }
 }
 
-export class NoDataGeography {
+export class NoDataGeographyConfig {
   geographies: any[];
   strokeColor: string;
   strokeWidth: string;
   fill: string;
 
-  constructor(init?: Partial<NoDataGeography>) {
+  constructor(init?: Partial<NoDataGeographyConfig>) {
     this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
     this.fill = 'none';
@@ -38,19 +37,19 @@ export class NoDataGeography {
   }
 }
 
-export class DataGeography extends NoDataGeography {
+export class DataGeographyConfig extends NoDataGeographyConfig {
   valueAccessor?: (d: any) => any;
-  attributeDataConfig: AttributeDataDimension;
+  attributeDataConfig: AttributeDataDimensionConfig;
   nullColor: string;
 
-  constructor(init?: Partial<DataGeography>) {
+  constructor(init?: Partial<DataGeographyConfig>) {
     super();
     this.nullColor = '#dcdcdc';
     Object.assign(this, init);
   }
 }
 
-export class AttributeDataDimension extends DataDimension {
+export class AttributeDataDimensionConfig extends DataDimensionConfig {
   geoAccessor: (d: any) => any;
   valueType: string;
   binType: MapBinType;
@@ -60,7 +59,7 @@ export class AttributeDataDimension extends DataDimension {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
-  constructor(init?: Partial<AttributeDataDimension>) {
+  constructor(init?: Partial<AttributeDataDimensionConfig>) {
     super();
     Object.assign(this, init);
   }
@@ -72,10 +71,10 @@ export type MapBinType =
   | 'equal num observations'
   | 'custom breaks';
 
-export class CategoricalAttributeDataDimension extends AttributeDataDimension {
+export class CategoricalAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
   override interpolator: never;
 
-  constructor(init?: Partial<CategoricalAttributeDataDimension>) {
+  constructor(init?: Partial<CategoricalAttributeDataDimensionConfig>) {
     super();
     this.valueType = 'categorical';
     this.binType = 'none';
@@ -83,8 +82,8 @@ export class CategoricalAttributeDataDimension extends AttributeDataDimension {
     Object.assign(this, init);
   }
 }
-export class NoBinsQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor(init?: Partial<NoBinsQuantitativeAttributeDataDimension>) {
+export class NoBinsQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
+  constructor(init?: Partial<NoBinsQuantitativeAttributeDataDimensionConfig>) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'none';
@@ -94,8 +93,10 @@ export class NoBinsQuantitativeAttributeDataDimension extends AttributeDataDimen
   }
 }
 
-export class EqualValuesQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor(init?: Partial<EqualValuesQuantitativeAttributeDataDimension>) {
+export class EqualValuesQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
+  constructor(
+    init?: Partial<EqualValuesQuantitativeAttributeDataDimensionConfig>
+  ) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'equal value ranges';
@@ -106,8 +107,10 @@ export class EqualValuesQuantitativeAttributeDataDimension extends AttributeData
   }
 }
 
-export class EqualNumbersQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor(init?: Partial<EqualNumbersQuantitativeAttributeDataDimension>) {
+export class EqualNumbersQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
+  constructor(
+    init?: Partial<EqualNumbersQuantitativeAttributeDataDimensionConfig>
+  ) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'equal num observations';
@@ -118,24 +121,15 @@ export class EqualNumbersQuantitativeAttributeDataDimension extends AttributeDat
   }
 }
 
-export class CustomBreaksQuantitativeAttributeDataDimension extends AttributeDataDimension {
-  constructor(init?: Partial<CustomBreaksQuantitativeAttributeDataDimension>) {
+export class CustomBreaksQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
+  constructor(
+    init?: Partial<CustomBreaksQuantitativeAttributeDataDimensionConfig>
+  ) {
     super();
     this.valueType = 'quantitative';
     this.binType = 'custom breaks';
     this.colorScale = scaleThreshold;
     this.interpolator = interpolateLab;
-    Object.assign(this, init);
-  }
-}
-
-export class MapDataValues {
-  attributeDataGeographies: any[];
-  attributeDataValues: any[];
-  indexMap: InternMap;
-  geoJsonGeographies: any[];
-
-  constructor(init?: Partial<MapDataValues>) {
     Object.assign(this, init);
   }
 }

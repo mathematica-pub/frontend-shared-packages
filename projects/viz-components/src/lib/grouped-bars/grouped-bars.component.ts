@@ -2,12 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { InternSet, range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { GroupedBarsConfig } from './grouped-bars.model';
+import { GroupedBarsConfig } from './grouped-bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

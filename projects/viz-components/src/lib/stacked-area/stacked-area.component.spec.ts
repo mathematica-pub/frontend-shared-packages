@@ -5,7 +5,7 @@ import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 import { StackedAreaComponent } from './stacked-area.component';
-import { StackedAreaConfig } from './stacked-area.model';
+import { StackedAreaConfig } from './stacked-area.config';
 
 describe('StackedAreaComponent', () => {
   let component: StackedAreaComponent;

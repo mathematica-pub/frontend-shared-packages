@@ -4,7 +4,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { GeographiesComponent } from './geographies.component';
-import { GeographiesConfig } from './geographies.model';
+import { GeographiesConfig } from './geographies.config';
 
 describe('GeographiesComponent', () => {
   let component: GeographiesComponent;

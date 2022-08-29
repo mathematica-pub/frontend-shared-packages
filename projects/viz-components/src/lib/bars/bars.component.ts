@@ -26,13 +26,10 @@ import {
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import {
-  XyDataMarks,
-  XyDataMarksValues,
-} from '../data-marks/xy-data-marks.model';
+import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { BarsConfig, BarsTooltipData } from './bars.model';
+import { BarsConfig, BarsTooltipData } from './bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
