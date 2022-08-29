@@ -2,16 +2,17 @@
 import json
 import os
 from sys import stdout
-from type_definitions import *
-from state_machine_helpers import generate_configs_from_lines, merge
-from config_parser import some_configs_unprocessed, parse_configs
+
+from config_parser import parse_configs, some_configs_unprocessed
 from json_generator_helpers import generate_single_code_snippet
+from state_machine_helpers import generate_configs_from_lines, merge
+from type_definitions import *
 
 # 1. load in all config files
 fileList = []
 for root, dirs, files in os.walk('../src/lib'):
     for file in files:
-        if file.endswith(".model.ts"):
+        if file.endswith(".config.ts"):
             fileName = os.path.join(root, file).replace("\\", "/")
             fileList.append(fileName)
             print(fileName)

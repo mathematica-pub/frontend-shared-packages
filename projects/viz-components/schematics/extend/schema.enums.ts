@@ -1,4 +1,4 @@
-export type VizComponentOption = keyof typeof VizComponent;
+export type VizComponentType = keyof typeof VizComponent;
 
 export const enum VizComponent {
   bars = 'bars',
