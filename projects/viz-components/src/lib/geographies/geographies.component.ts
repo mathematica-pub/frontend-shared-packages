@@ -25,22 +25,28 @@ import {
   Transition,
 } from 'd3';
 import { takeUntil } from 'rxjs';
-import { Ranges } from '../chart/chart.model';
+import { Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { DataMarks } from '../data-marks/data-marks.model';
+import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
 import {
-  DataGeography,
+  DataGeographyConfig,
   GeographiesConfig,
-  MapDataValues,
-  NoDataGeography,
-} from './geographies.model';
+  NoDataGeographyConfig,
+} from './geographies.config';
+
+export class MapDataValues {
+  attributeDataGeographies: any[];
+  attributeDataValues: any[];
+  indexMap: InternMap;
+  geoJsonGeographies: any[];
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-geographies]',
+  selector: '[vic-data-marks-geographies]',
   templateUrl: './geographies.component.html',
   styleUrls: ['./geographies.component.scss'],
   encapsulation: ViewEncapsulation.None,
@@ -286,7 +292,7 @@ export class GeographiesComponent
 
     this.map
       .selectAll('path')
-      .data((layer: DataGeography) => layer.geographies)
+      .data((layer: DataGeographyConfig) => layer.geographies)
       .join(
         (enter) =>
           enter
@@ -312,7 +318,7 @@ export class GeographiesComponent
 
     noDataLayers
       .selectAll('path')
-      .data((layer: NoDataGeography) => layer.geographies)
+      .data((layer: NoDataGeographyConfig) => layer.geographies)
       .join(
         (enter) =>
           enter

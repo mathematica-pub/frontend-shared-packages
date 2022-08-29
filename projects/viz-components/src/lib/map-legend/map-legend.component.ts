@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { AttributeDataDimension } from '../geographies/geographies.model';
+import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
 
 @Component({
-  selector: 'vzc-map-legend',
+  selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
 })
@@ -56,7 +56,7 @@ export class MapLegendComponent extends MapContent implements OnInit {
     }
   }
 
-  setScaleAndConfig(scale: any, config: AttributeDataDimension): void {
+  setScaleAndConfig(scale: any, config: AttributeDataDimensionConfig): void {
     if (scale && config) {
       this.attributeDataScale = scale;
       this.attributeDataConfig = config;

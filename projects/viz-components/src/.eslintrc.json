@@ -15,7 +15,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "vzc",
+            "prefix": "vic",
             "style": "camelCase"
           }
         ],
@@ -23,7 +23,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "vzc",
+            "prefix": "vic",
             "style": "kebab-case"
           }
         ],

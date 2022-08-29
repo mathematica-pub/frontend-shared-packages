@@ -7,4 +7,4 @@ import { XyBackgroundComponent } from './xy-background.component';
   imports: [CommonModule],
   exports: [XyBackgroundComponent],
 })
-export class VzcXyBackgroundModule {}
+export class VicXyBackgroundModule {}

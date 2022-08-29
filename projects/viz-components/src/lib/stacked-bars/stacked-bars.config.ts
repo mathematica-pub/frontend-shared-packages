@@ -1,5 +1,5 @@
 import { InternMap, stackOffsetDiverging, stackOrderNone } from 'd3';
-import { BarsConfig } from '../bars/bars.model';
+import { BarsConfig } from '../bars/bars.config';
 
 export class StackedBarsConfig extends BarsConfig {
   order: any;

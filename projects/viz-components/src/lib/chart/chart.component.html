@@ -13,7 +13,7 @@
   >
     <ng-content select="[svg-elements]"></ng-content>
   </svg>
-  <vzc-html-tooltip
+  <vic-html-tooltip
     class="html-tooltip-component"
     *ngIf="htmlTooltip.exists"
     [ngStyle]="{
@@ -27,6 +27,6 @@
     [left]="htmlTooltip.offset.left"
   >
     <ng-content select="[tooltip-content]"></ng-content>
-  </vzc-html-tooltip>
+  </vic-html-tooltip>
 </div>
 <ng-content select="[html-elements-after]"></ng-content>

@@ -7,7 +7,7 @@ const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-y-ordinal-axis]',
+  selector: '[vic-y-ordinal-axis]',
   templateUrl: '../y/y-axis.html',
   inputs: ['side', 'config'],
 })

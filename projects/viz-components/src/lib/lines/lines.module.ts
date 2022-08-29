@@ -7,4 +7,4 @@ import { LinesComponent } from './lines.component';
   imports: [CommonModule],
   exports: [LinesComponent],
 })
-export class VzcLinesModule {}
+export class VicLinesModule {}

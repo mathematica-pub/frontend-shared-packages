@@ -1,4 +1,4 @@
-import { BarsConfig } from '../bars/bars.model';
+import { BarsConfig } from '../bars/bars.config';
 
 export class GroupedBarsConfig extends BarsConfig {
   intraGroupPadding: number;

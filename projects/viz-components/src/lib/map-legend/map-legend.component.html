@@ -1,6 +1,6 @@
 <ng-content select="[title]"></ng-content>
 <ng-container [ngSwitch]="legendType">
-  <vzc-continuous-legend
+  <vic-continuous-legend
     *ngSwitchCase="'continuous'"
     [width]="width"
     [height]="height"
@@ -9,8 +9,8 @@
     [formatter]="attributeDataConfig.valueFormat"
     [outlineColor]="outlineColor"
     [orientation]="orientation"
-  ></vzc-continuous-legend>
-  <vzc-discontinuous-legend
+  ></vic-continuous-legend>
+  <vic-discontinuous-legend
     *ngSwitchDefault
     [width]="width"
     [height]="height"
@@ -20,5 +20,5 @@
     [outlineColor]="outlineColor"
     [orientation]="orientation"
     [isCategorical]="legendType === 'categorical'"
-  ></vzc-discontinuous-legend>
+  ></vic-discontinuous-legend>
 </ng-container>

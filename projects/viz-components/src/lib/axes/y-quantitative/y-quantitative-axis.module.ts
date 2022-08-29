@@ -7,4 +7,4 @@ import { YQuantitativeAxisComponent } from './y-quantitative-axis.component';
   imports: [CommonModule],
   exports: [YQuantitativeAxisComponent],
 })
-export class VzcYQuantitativeAxisModule {}
+export class VicYQuantitativeAxisModule {}

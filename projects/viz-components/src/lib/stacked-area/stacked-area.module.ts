@@ -7,4 +7,4 @@ import { StackedAreaComponent } from './stacked-area.component';
   imports: [CommonModule],
   exports: [StackedAreaComponent],
 })
-export class VzcStackedAreaModule {}
+export class VicStackedAreaModule {}
