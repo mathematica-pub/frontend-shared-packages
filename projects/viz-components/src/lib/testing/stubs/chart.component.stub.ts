@@ -1,4 +1,4 @@
-import { DataMarks } from '../../data-marks/data-marks.config';
+import { DataMarks } from '../../data-marks/data-marks';
 
 export class ChartComponentStub {
   dataMarksComponent: DataMarks = new DataMarks();
