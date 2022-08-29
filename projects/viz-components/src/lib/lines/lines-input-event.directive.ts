@@ -6,7 +6,7 @@ import { LinesInputEffect } from './lines-effect';
 import { LinesComponent } from './lines.component';
 
 @Directive({
-  selector: '[vzc-data-marks-lines][vzcLinesInputEffects]',
+  selector: '[vic-data-marks-lines][vicLinesInputEffects]',
   providers: [
     {
       provide: ChartComponent,
@@ -15,7 +15,7 @@ import { LinesComponent } from './lines.component';
   ],
 })
 export class LinesInputEvent extends InputEvent {
-  @Input('vzcLinesInputEffects') effects: ReadonlyArray<LinesInputEffect>;
+  @Input('vicLinesInputEffects') effects: ReadonlyArray<LinesInputEffect>;
   @Output('inputData') emittedData = new EventEmitter<any>();
 
   constructor(public lines: LinesComponent) {

@@ -27,10 +27,10 @@ const defaultPosition: ConnectedPosition = {
   overlayY: 'bottom',
 };
 
-const defaultPanelClass = 'vzc-html-tooltip-overlay';
+const defaultPanelClass = 'vic-html-tooltip-overlay';
 
 @Directive({
-  selector: 'vzc-html-tooltip',
+  selector: 'vic-html-tooltip',
 })
 export class HtmlTooltipDirective implements OnInit, OnChanges {
   @Input() template: TemplateRef<unknown>;

@@ -5,10 +5,19 @@ import { HoverAndMoveEvent } from '../events/hover-move-event';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesHoverAndMoveEffect } from './lines-effect';
 import { LinesComponent } from './lines.component';
-import { LinesEmittedData } from './lines.model';
+
+export class LinesEmittedData {
+  datum: any;
+  color: string;
+  x: string;
+  y: string;
+  category: string;
+  positionX?: number;
+  positionY?: number;
+}
 
 @Directive({
-  selector: '[vzc-data-marks-lines][vzcLinesHoverAndMoveEffects]',
+  selector: '[vic-data-marks-lines][vicLinesHoverAndMoveEffects]',
   providers: [
     {
       provide: ChartComponent,
@@ -17,7 +26,7 @@ import { LinesEmittedData } from './lines.model';
   ],
 })
 export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
-  @Input('vzcLinesHoverAndMoveEffects')
+  @Input('vicLinesHoverAndMoveEffects')
   effects: ReadonlyArray<LinesHoverAndMoveEffect>;
   @Input() pointerDetectionRadius = 80;
   @Output('hoverAndMoveData') emittedData =

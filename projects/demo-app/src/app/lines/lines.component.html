@@ -22,11 +22,11 @@
           side="left"
         ></svg:g>
         <svg:g
-          vzc-data-marks-lines
+          vic-data-marks-lines
           [config]="vm.dataConfig"
-          [vzcLinesHoverAndMoveEffects]="vm.hoverEffects"
+          [vicLinesHoverAndMoveEffects]="vm.hoverEffects"
           (hoverAndMoveData)="processHoverData($event)"
-          [vzcLinesInputEffects]="[highlightLineForLabelEffect]"
+          [vicLinesInputEffects]="[highlightLineForLabelEffect]"
           [inputEvent$]="chartInputEvent$"
         >
           <vic-html-tooltip

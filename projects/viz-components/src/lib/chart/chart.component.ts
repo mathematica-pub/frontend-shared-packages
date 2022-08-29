@@ -208,13 +208,4 @@ export class ChartComponent
       // }
     });
   }
-
-  // setTooltipPosition(): void {
-  //   if (this.htmlTooltip.exists) {
-  //     this.htmlTooltip.position.top =
-  //       this.divRef.nativeElement.getBoundingClientRect().y;
-  //     this.htmlTooltip.position.left =
-  //       this.divRef.nativeElement.getBoundingClientRect().x;
-  //   }
-  // }
 }

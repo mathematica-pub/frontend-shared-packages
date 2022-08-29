@@ -2,12 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   NgZone,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
@@ -34,7 +32,7 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { LinesConfig, LinesEmittedData } from './lines.config';
+import { LinesConfig } from './lines.config';
 
 export interface Marker {
   key: string;
@@ -68,7 +66,6 @@ export class LinesComponent
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
   @Input() config: LinesConfig;
-  @Output() tooltipData = new EventEmitter<LinesEmittedData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   line: (x: any[]) => any;
   linesD3Data;

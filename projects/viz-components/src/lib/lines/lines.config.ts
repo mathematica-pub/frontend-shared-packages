@@ -69,12 +69,3 @@ export class PointMarkerConfig {
     Object.assign(this, init);
   }
 }
-export class LinesEmittedData {
-  datum: any;
-  color: string;
-  x: string;
-  y: string;
-  category: string;
-  positionX?: number;
-  positionY?: number;
-}

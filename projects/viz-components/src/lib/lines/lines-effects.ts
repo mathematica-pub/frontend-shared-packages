@@ -1,7 +1,9 @@
 import { LinesHoverAndMoveEffect } from './lines-effect';
 import { LinesHoverEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
-import { LinesHoverAndMoveEvent } from './lines-hover-move-event.directive';
-import { LinesEmittedData } from './lines.model';
+import {
+  LinesEmittedData,
+  LinesHoverAndMoveEvent,
+} from './lines-hover-move-event.directive';
 
 export class LinesHoverEffectDefaultLinesStyles
   implements LinesHoverAndMoveEffect
