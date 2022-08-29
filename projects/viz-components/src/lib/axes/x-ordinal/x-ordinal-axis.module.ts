@@ -7,4 +7,4 @@ import { XOrdinalAxisComponent } from './x-ordinal-axis.component';
   imports: [CommonModule],
   exports: [XOrdinalAxisComponent],
 })
-export class VzcXOrdinalAxisModule {}
+export class VicXOrdinalAxisModule {}

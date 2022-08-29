@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 
 @Component({
-  selector: 'vzc-xy-chart',
+  selector: 'vic-xy-chart',
   templateUrl: '../chart/chart.component.html',
   styleUrls: ['../chart/chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -8,16 +8,16 @@
       (mouseleave)="highlightLine(null)"
       >{{ label }}</span
     >
-    <vzc-xy-chart [margin]="margin" #tooltipOrigin>
+    <vic-xy-chart [margin]="margin" #tooltipOrigin>
       <ng-container svg-elements>
-        <svg:g vzc-xy-background #tooltipOrigin></svg:g>
+        <svg:g vic-xy-background></svg:g>
         <svg:g
-          vzc-x-quantitative-axis
+          vic-x-quantitative-axis
           [config]="vm.xAxisConfig"
           side="bottom"
         ></svg:g>
         <svg:g
-          vzc-y-quantitative-axis
+          vic-y-quantitative-axis
           [config]="vm.yAxisConfig"
           side="left"
         ></svg:g>
@@ -29,14 +29,14 @@
           [vzcLinesInputEffects]="[highlightLineForLabelEffect]"
           [inputEvent$]="chartInputEvent$"
         >
-          <vzc-html-tooltip
+          <vic-html-tooltip
             [showTooltip]="(tooltipConfig$ | async).show"
             [position]="(tooltipConfig$ | async).position"
             [template]="htmlTooltip"
-          ></vzc-html-tooltip>
+          ></vic-html-tooltip>
         </svg:g>
       </ng-container>
-    </vzc-xy-chart>
+    </vic-xy-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
 </app-component-demo>

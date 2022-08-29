@@ -1,11 +1,11 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable, pairwise, takeUntil } from 'rxjs';
-import { SvgUtilities } from '../shared/svg-utilities.class';
-import { SvgWrapOptions } from '../shared/svg-utilities.model';
+import { SvgWrap } from '../shared/svg-wrap.class';
+import { SvgWrapConfig } from '../shared/svg-wrap.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { AxisConfig } from './axis-config.model';
+import { AxisConfig } from './axis.config';
 
 @Directive()
 export abstract class XyAxis extends Unsubscribe implements OnInit {
@@ -88,14 +88,14 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { wrapWidth, ...properties } = this.config.wrap;
     const config = Object.assign(
-      new SvgWrapOptions(),
+      new SvgWrapConfig(),
       properties
-    ) as SvgWrapOptions;
+    ) as SvgWrapConfig;
     config.width =
       this.config.wrap.wrapWidth === 'bandwidth'
         ? this.scale.bandwidth()
         : this.config.wrap.wrapWidth;
-    tickTextSelection.call(SvgUtilities.textWrap, config);
+    tickTextSelection.call(SvgWrap.textWrap, config);
   }
 
   processAxisFeatures(): void {

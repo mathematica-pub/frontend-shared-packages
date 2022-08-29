@@ -8,4 +8,4 @@ import { HtmlTooltipDirective } from './html-tooltip.directive';
   imports: [CommonModule, OverlayModule],
   exports: [HtmlTooltipDirective],
 })
-export class VzcHtmlTooltipModule {}
+export class VicHtmlTooltipModule {}

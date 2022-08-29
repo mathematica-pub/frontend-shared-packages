@@ -3,7 +3,7 @@ import { scaleLinear } from 'd3';
 import { MapLegendContent } from '../map-legend-content';
 
 @Component({
-  selector: 'vzc-continuous-legend',
+  selector: 'vic-continuous-legend',
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
 })

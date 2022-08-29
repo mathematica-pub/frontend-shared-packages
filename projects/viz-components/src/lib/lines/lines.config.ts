@@ -1,18 +1,22 @@
 import { curveLinear, scaleLinear, scaleUtc, schemeTableau10 } from 'd3';
 import {
-  CategoricalColorDimension,
-  QuantitativeDimension,
-} from '../data-marks/data-dimension.model';
-import { DataMarksConfig, TooltipConfig } from '../data-marks/data-marks.model';
+  CategoricalColorDimensionConfig,
+  QuantitativeDimensionConfig,
+} from '../data-marks/data-dimension.config';
+import {
+  DataMarksConfig,
+  TooltipConfig,
+} from '../data-marks/data-marks.config';
 
 export class LinesConfig extends DataMarksConfig {
-  x: QuantitativeDimension = new QuantitativeDimension();
-  y: QuantitativeDimension = new QuantitativeDimension();
-  category: CategoricalColorDimension = new CategoricalColorDimension();
+  x: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
+  y: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
+  category: CategoricalColorDimensionConfig =
+    new CategoricalColorDimensionConfig();
   valueIsDefined?: (...args: any) => any;
   curve: (x: any) => any;
-  pointMarker: PointMarker = new PointMarker();
-  stroke?: LinesStroke = new LinesStroke();
+  pointMarker: PointMarkerConfig = new PointMarkerConfig();
+  stroke?: LinesStrokeConfig = new LinesStrokeConfig();
   labelLines?: boolean;
   override tooltip: LinesTooltipConfig;
   lineLabelsFormat?: (d: string) => string;
@@ -43,29 +47,28 @@ export class LinesTooltipConfig extends TooltipConfig {
   }
 }
 
-export class LinesStroke {
+export class LinesStrokeConfig {
   linecap?: string;
   linejoin?: string;
   width?: number;
   opacity?: number;
-  constructor(init?: Partial<LinesStroke>) {
+  constructor(init?: Partial<LinesStrokeConfig>) {
     Object.assign(this, init);
   }
 }
 
-export class PointMarker {
+export class PointMarkerConfig {
   display: boolean;
   radius: number;
   growByOnHover: number;
 
-  constructor(init?: Partial<PointMarker>) {
+  constructor(init?: Partial<PointMarkerConfig>) {
     this.display = true;
     this.radius = 3;
     this.growByOnHover = 1;
     Object.assign(this, init);
   }
 }
-
 export class LinesEmittedData {
   datum: any;
   color: string;
@@ -74,12 +77,4 @@ export class LinesEmittedData {
   category: string;
   positionX?: number;
   positionY?: number;
-  constructor(init?: Partial<LinesEmittedData>) {
-    Object.assign(this, init);
-  }
-}
-
-export interface Marker {
-  key: string;
-  index: number;
 }

@@ -1,5 +1,5 @@
 import { TimeInterval } from 'd3';
-import { SvgWrapOptions } from '../shared/svg-utilities.model';
+import { TickWrapConfig } from '../shared/svg-wrap.config';
 
 export class AxisConfig {
   numTicks?: number | TimeInterval;
@@ -9,18 +9,10 @@ export class AxisConfig {
   removeTicks?: boolean;
   removeTickMarks?: boolean;
   showGridLines?: boolean;
-  wrap?: TickWrap;
+  wrap?: TickWrapConfig;
   tickSizeOuter?: number;
   tickLabelFontSize?: number;
   constructor(init?: Partial<AxisConfig>) {
-    Object.assign(this, init);
-  }
-}
-export class TickWrap extends SvgWrapOptions {
-  wrapWidth: 'bandwidth' | number;
-  override width: never;
-  constructor(init?: Partial<TickWrap>) {
-    super();
     Object.assign(this, init);
   }
 }

@@ -1,6 +1,6 @@
 import { axisBottom, axisTop } from 'd3';
 import { BehaviorSubject } from 'rxjs';
-import { Ranges } from '../../chart/chart.model';
+import { Ranges } from '../../chart/chart.component';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 

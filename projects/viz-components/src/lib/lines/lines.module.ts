@@ -9,4 +9,4 @@ import { LinesComponent } from './lines.component';
   imports: [CommonModule],
   exports: [LinesComponent, LinesHoverAndMoveEvent, LinesInputEvent],
 })
-export class VzcLinesModule {}
+export class VicLinesModule {}
