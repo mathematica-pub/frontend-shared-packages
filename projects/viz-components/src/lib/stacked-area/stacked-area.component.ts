@@ -24,17 +24,14 @@ import {
 } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import {
-  XyDataMarks,
-  XyDataMarksValues,
-} from '../data-marks/xy-data-marks.model';
+import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { StackedAreaConfig } from './stacked-area.model';
+import { StackedAreaConfig } from './stacked-area.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-stacked-area]',
+  selector: '[vic-data-marks-stacked-area]',
   templateUrl: './stacked-area.component.html',
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

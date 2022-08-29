@@ -1,5 +1,5 @@
 import { combineLatest, takeUntil } from 'rxjs';
-import { Ranges } from '../chart/chart.model';
+import { Ranges } from '../chart/chart.component';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartComponent } from './xy-chart.component';
 

@@ -8,15 +8,16 @@ import {
   stackOrderNone,
 } from 'd3';
 import {
-  CategoricalColorDimension,
-  QuantitativeDimension,
-} from '../data-marks/data-dimension.model';
-import { DataMarksConfig } from '../data-marks/data-marks.model';
+  CategoricalColorDimensionConfig,
+  QuantitativeDimensionConfig,
+} from '../data-marks/data-dimension.config';
+import { DataMarksConfig } from '../data-marks/data-marks.config';
 
 export class StackedAreaConfig extends DataMarksConfig {
-  x: QuantitativeDimension = new QuantitativeDimension();
-  y: QuantitativeDimension = new QuantitativeDimension();
-  category: CategoricalColorDimension = new CategoricalColorDimension();
+  x: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
+  y: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
+  category: CategoricalColorDimensionConfig =
+    new CategoricalColorDimensionConfig();
   valueIsDefined?: (...args: any) => any;
   curve: (x: any) => any;
   stackOffsetFunction: (

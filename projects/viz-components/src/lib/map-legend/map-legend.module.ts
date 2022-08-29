@@ -13,4 +13,4 @@ import { MapLegendComponent } from './map-legend.component';
   imports: [CommonModule],
   exports: [MapLegendComponent],
 })
-export class VzcMapLegendModule {}
+export class VicMapLegendModule {}

@@ -1,17 +1,13 @@
 import {
   AxisConfig,
-  BarsComponent,
   BarsConfig,
-  CategoricalColorDimension,
-  DimensionProperties,
-  LabelsConfig,
-  LinesConfig,
-  OrdinalDimension,
-  QuantitativeDimension,
+  BarsLabelsConfig,
+  CategoricalColorDimensionConfig,
+  OrdinalDimensionConfig,
+  QuantitativeDimensionConfig,
   TooltipConfig,
   verticalBarChartDimensionsConfig,
 } from '../src/public-api';
-import { NestedConfig, SampleConfig } from './sampleConfig.model';
 
 var config = new AxisConfig({
   // numTicks: number | TimeInterval,
@@ -27,11 +23,11 @@ var config = new AxisConfig({
 });
 
 var configother = new BarsConfig({
-  ordinal: new OrdinalDimension(),
-  quantitative: new QuantitativeDimension(),
-  category: new CategoricalColorDimension(),
+  ordinal: new OrdinalDimensionConfig(),
+  quantitative: new QuantitativeDimensionConfig(),
+  category: new CategoricalColorDimensionConfig(),
   dimensions: verticalBarChartDimensionsConfig,
-  labels: new LabelsConfig(),
+  labels: new BarsLabelsConfig(),
   // whoa hello there testing
   positivePaddingForAllNegativeValues: 0.2,
   // data: any[],

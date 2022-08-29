@@ -7,7 +7,7 @@ const YQuantitativeAxis = mixinYAxis(mixinQuantitativeAxis(XyAxis));
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-y-quantitative-axis]',
+  selector: '[vic-y-quantitative-axis]',
   templateUrl: '../y/y-axis.html',
   inputs: ['side', 'config'],
 })

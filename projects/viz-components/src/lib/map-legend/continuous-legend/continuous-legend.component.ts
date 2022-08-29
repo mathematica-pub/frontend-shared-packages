@@ -6,7 +6,7 @@ import { MapLegendContent } from '../map-legend-content';
  * @ignore
  */
 @Component({
-  selector: 'vzc-continuous-legend',
+  selector: 'vic-continuous-legend',
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
 })

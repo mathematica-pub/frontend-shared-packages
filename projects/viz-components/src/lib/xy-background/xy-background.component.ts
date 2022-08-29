@@ -3,7 +3,7 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-xy-background]',
+  selector: '[vic-xy-background]',
   templateUrl: './xy-background.component.html',
   styleUrls: ['./xy-background.component.scss'],
 })
