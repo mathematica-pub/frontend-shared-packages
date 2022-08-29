@@ -4,7 +4,7 @@ import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
 
 @Component({
-  selector: 'vzc-map-legend',
+  selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
 })

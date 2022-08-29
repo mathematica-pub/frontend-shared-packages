@@ -7,4 +7,4 @@ import { YOrdinalAxisComponent } from './y-ordinal-axis.component';
   imports: [CommonModule],
   exports: [YOrdinalAxisComponent],
 })
-export class VzcYOrdinalAxisModule {}
+export class VicYOrdinalAxisModule {}

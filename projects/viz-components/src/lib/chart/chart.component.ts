@@ -48,7 +48,7 @@ export interface Dimensions {
   height: number;
 }
 @Component({
-  selector: 'vzc-chart',
+  selector: 'vic-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -46,7 +46,7 @@ export class MapDataValues {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-geographies]',
+  selector: '[vic-data-marks-geographies]',
   templateUrl: './geographies.component.html',
   styleUrls: ['./geographies.component.scss'],
   encapsulation: ViewEncapsulation.None,

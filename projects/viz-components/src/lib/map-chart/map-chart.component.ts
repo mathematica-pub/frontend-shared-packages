@@ -4,7 +4,7 @@ import { ChartComponent } from '../chart/chart.component';
 import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
 
 @Component({
-  selector: 'vzc-map-chart',
+  selector: 'vic-map-chart',
   templateUrl: '../chart/chart.component.html',
   styleUrls: ['../chart/chart.component.scss'],
 })

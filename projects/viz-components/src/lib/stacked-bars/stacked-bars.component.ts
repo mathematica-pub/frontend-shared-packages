@@ -20,7 +20,7 @@ import { StackDatum, StackedBarsConfig } from './stacked-bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-stacked-bars]',
+  selector: '[vic-data-marks-stacked-bars]',
   templateUrl: '../bars/bars.component.html',
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,

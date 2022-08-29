@@ -51,7 +51,7 @@ export class LinesTooltipData {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-lines]',
+  selector: '[vic-data-marks-lines]',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,

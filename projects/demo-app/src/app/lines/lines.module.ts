@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  VzcChartModule,
-  VzcLinesModule,
-  VzcXQuantitativeAxisModule,
-  VzcXyBackgroundModule,
-  VzcXyChartModule,
-  VzcYQuantitativeAxisModule,
+  VicChartModule,
+  VicLinesModule,
+  VicXQuantitativeAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
 import { LinesRoutingModule } from './lines-routing.module';
@@ -17,12 +17,12 @@ import { LinesComponent } from './lines.component';
   imports: [
     CommonModule,
     LinesRoutingModule,
-    VzcChartModule,
-    VzcLinesModule,
-    VzcXyChartModule,
-    VzcXyBackgroundModule,
-    VzcYQuantitativeAxisModule,
-    VzcXQuantitativeAxisModule,
+    VicChartModule,
+    VicLinesModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYQuantitativeAxisModule,
+    VicXQuantitativeAxisModule,
     SharedModule,
   ],
 })

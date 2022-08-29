@@ -31,7 +31,7 @@ import { StackedAreaConfig } from './stacked-area.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-stacked-area]',
+  selector: '[vic-data-marks-stacked-area]',
   templateUrl: './stacked-area.component.html',
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

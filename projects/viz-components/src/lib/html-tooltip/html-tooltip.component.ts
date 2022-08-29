@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'vzc-html-tooltip',
+  selector: 'vic-html-tooltip',
   templateUrl: './html-tooltip.component.html',
   styleUrls: ['./html-tooltip.component.scss'],
 })

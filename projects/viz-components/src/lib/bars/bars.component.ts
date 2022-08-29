@@ -33,7 +33,7 @@ import { BarsConfig, BarsTooltipData } from './bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vzc-data-marks-bars]',
+  selector: '[vic-data-marks-bars]',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
