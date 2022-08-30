@@ -14,7 +14,7 @@ export class DataService {
   metroUnemploymentData$: Observable<MetroUnemploymentDatum[]>;
   industryUnemploymentData$: Observable<IndustryUnemploymentDatum[]>;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   initData(): void {
     this.setMetroUnemploymentData();

@@ -2,6 +2,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { MapLegendContent } from '../map-legend-content';
 
+/**
+ * @ignore
+ */
 @Component({
   selector: 'vic-continuous-legend',
   templateUrl: './continuous-legend.component.html',

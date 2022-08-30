@@ -1,0 +1,1457 @@
+<!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ContinuousLegendComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="continuous-legend#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="continuous-legend#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="continuous-legend#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="continuous-legend#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>vzc-continuous-legend</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./continuous-legend.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./continuous-legend.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="continuous-legend#canvasRef" >canvasRef</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#colors" >colors</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#endValueSpace" >endValueSpace</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#largerValueSpace" >largerValueSpace</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#leftOffset" >leftOffset</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#startValueSpace" >startValueSpace</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#values" >values</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="continuous-legend#drawHorizontalGradient" >drawHorizontalGradient</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#drawLinearGradient" >drawLinearGradient</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#drawVerticalGradient" >drawVerticalGradient</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#getLeftOffset" >getLeftOffset</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#getValuesFromScale" >getValuesFromScale</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#setColors" >setColors</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#getFormattedValues" >getFormattedValues</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#setValues" >setValues</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#setValueSpaces" >setValueSpaces</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="continuous-legend#formatter" >formatter</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#height" >height</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#orientation" >orientation</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#outlineColor" >outlineColor</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#scale" >scale</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#valuesSide" >valuesSide</a>
+                            </li>
+                            <li>
+                                <a href="continuous-legend#width" >width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formatter"></a>
+                        <b>formatter</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:11</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="height"></a>
+                        <b>height</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:7</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="orientation"></a>
+                        <b>orientation</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;horizontal&quot; | &quot;vertical&quot;</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:8</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="outlineColor"></a>
+                        <b>outlineColor</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:12</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="scale"></a>
+                        <b>scale</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:10</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="valuesSide"></a>
+                        <b>valuesSide</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>&quot;left&quot; | &quot;right&quot; | &quot;top&quot; | &quot;bottom&quot;</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:9</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="width"></a>
+                        <b>width</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:6</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawHorizontalGradient"></a>
+                    <span class="name">
+                        <span ><b>drawHorizontalGradient</b></span>
+                        <a href="continuous-legend#drawHorizontalGradient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawHorizontalGradient(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts:54</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>canvas</td>
+                                    <td>
+                                            <code>HTMLCanvasElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>ctx</td>
+                                    <td>
+                                            <code>CanvasRenderingContext2D</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawLinearGradient"></a>
+                    <span class="name">
+                        <span ><b>drawLinearGradient</b></span>
+                        <a href="continuous-legend#drawLinearGradient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawLinearGradient()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts:42</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawVerticalGradient"></a>
+                    <span class="name">
+                        <span ><b>drawVerticalGradient</b></span>
+                        <a href="continuous-legend#drawVerticalGradient"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawVerticalGradient(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts:67</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>canvas</td>
+                                    <td>
+                                            <code>HTMLCanvasElement</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>ctx</td>
+                                    <td>
+                                            <code>CanvasRenderingContext2D</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getLeftOffset"></a>
+                    <span class="name">
+                        <span ><b>getLeftOffset</b></span>
+                        <a href="continuous-legend#getLeftOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getLeftOffset()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:27</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getValuesFromScale"></a>
+                    <span class="name">
+                        <span ><b>getValuesFromScale</b></span>
+                        <a href="continuous-legend#getValuesFromScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getValuesFromScale()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:23</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>any[]</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="continuous-legend#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts:17</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setColors"></a>
+                    <span class="name">
+                        <span ><b>setColors</b></span>
+                        <a href="continuous-legend#setColors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setColors()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFormattedValues"></a>
+                    <span class="name">
+                        <span ><b>getFormattedValues</b></span>
+                        <a href="continuous-legend#getFormattedValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFormattedValues(values: number[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:33</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>values</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>string[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValues"></a>
+                    <span class="name">
+                        <span ><b>setValues</b></span>
+                        <a href="continuous-legend#setValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValues()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:20</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueSpaces"></a>
+                    <span class="name">
+                        <span ><b>setValueSpaces</b></span>
+                        <a href="continuous-legend#setValueSpaces"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValueSpaces(values: number[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:39</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>values</td>
+                                    <td>
+                                            <code>number[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canvasRef"></a>
+                    <span class="name">
+                        <span ><b>canvasRef</b></span>
+                        <a href="continuous-legend#canvasRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLCanvasElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;canvas&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/viz-components/src/lib/map-legend/continuous-legend/continuous-legend.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="colors"></a>
+                    <span class="name">
+                        <span ><b>colors</b></span>
+                        <a href="continuous-legend#colors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>string[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:14</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="endValueSpace"></a>
+                    <span class="name">
+                        <span ><b>endValueSpace</b></span>
+                        <a href="continuous-legend#endValueSpace"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:16</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="largerValueSpace"></a>
+                    <span class="name">
+                        <span ><b>largerValueSpace</b></span>
+                        <a href="continuous-legend#largerValueSpace"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:17</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="leftOffset"></a>
+                    <span class="name">
+                        <span ><b>leftOffset</b></span>
+                        <a href="continuous-legend#leftOffset"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:18</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="startValueSpace"></a>
+                    <span class="name">
+                        <span ><b>startValueSpace</b></span>
+                        <a href="continuous-legend#startValueSpace"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:15</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="values"></a>
+                    <span class="name">
+                        <span ><b>values</b></span>
+                        <a href="continuous-legend#values"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>any[]</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="../directives/MapLegendContent.html" target="_self" >MapLegendContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="../directives/MapLegendContent.html#source" target="_self" >MapLegendContent:13</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
+import { scaleLinear } from &#x27;d3&#x27;;
+import { MapLegendContent } from &#x27;../map-legend-content&#x27;;
+
+@Component({
+  selector: &#x27;vzc-continuous-legend&#x27;,
+  templateUrl: &#x27;./continuous-legend.component.html&#x27;,
+  styleUrls: [&#x27;./continuous-legend.component.scss&#x27;],
+})
+export class ContinuousLegendComponent
+  extends MapLegendContent
+  implements OnInit
+{
+  @ViewChild(&#x27;canvas&#x27;, { static: true })
+  canvasRef: ElementRef&lt;HTMLCanvasElement&gt;;
+
+  ngOnInit(): void {
+    this.setValues();
+    this.setColors();
+    this.drawLinearGradient();
+  }
+
+  getValuesFromScale(): any[] {
+    return this.scale.domain();
+  }
+
+  getLeftOffset(): number {
+    if (this.orientation &#x3D;&#x3D;&#x3D; &#x27;horizontal&#x27;) {
+      return (this.largerValueSpace - this.startValueSpace) * -1;
+    } else {
+      return 0;
+    }
+  }
+
+  setColors(): void {
+    this.colors &#x3D; this.scale.domain();
+    if (this.orientation &#x3D;&#x3D;&#x3D; &#x27;vertical&#x27;) {
+      this.colors &#x3D; this.colors.reverse();
+    }
+  }
+
+  drawLinearGradient(): void {
+    const canvas &#x3D; this.canvasRef.nativeElement;
+    canvas.style.width &#x3D; &#x27;100%&#x27;;
+    canvas.style.height &#x3D; &#x27;100%&#x27;;
+    const ctx &#x3D; canvas.getContext(&#x27;2d&#x27;);
+    if (this.orientation &#x3D;&#x3D;&#x3D; &#x27;horizontal&#x27;) {
+      this.drawHorizontalGradient(canvas, ctx);
+    } else {
+      this.drawVerticalGradient(canvas, ctx);
+    }
+  }
+
+  drawHorizontalGradient(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  ): void {
+    canvas.height &#x3D; 1;
+    canvas.width &#x3D; this.width - this.startValueSpace - this.endValueSpace - 2;
+    const rectScale &#x3D; scaleLinear([0, canvas.width], this.colors);
+    for (let i &#x3D; 0; i &lt; canvas.width; ++i) {
+      ctx.fillStyle &#x3D; this.scale(rectScale(i));
+      ctx.fillRect(i, 0, 1, 1);
+    }
+  }
+
+  drawVerticalGradient(
+    canvas: HTMLCanvasElement,
+    ctx: CanvasRenderingContext2D
+  ): void {
+    canvas.height &#x3D; this.height - 16;
+    canvas.width &#x3D; 1;
+    const rectScale &#x3D; scaleLinear([0, canvas.height], this.colors);
+    for (let i &#x3D; 0; i &lt; canvas.height; ++i) {
+      ctx.fillStyle &#x3D; this.scale(rectScale(i));
+      ctx.fillRect(0, i, 1, 1);
+    }
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div
+  class&#x3D;&quot;color-scale&quot;
+  [ngClass]&#x3D;&quot;[orientation, valuesSide]&quot;
+  [style.--width]&#x3D;&quot;width + &#x27;px&#x27;&quot;
+  [style.--height]&#x3D;&quot;height + &#x27;px&#x27;&quot;
+  [style.--border-color]&#x3D;&quot;outlineColor&quot;
+  [style.--value-space]&#x3D;&quot;largerValueSpace + &#x27;px&#x27;&quot;
+  [style.left.px]&#x3D;&quot;leftOffset&quot;
+&gt;
+  &lt;ng-container
+    *ngIf&#x3D;&quot;(orientation &#x3D;&#x3D;&#x3D; &#x27;vertical&#x27; &amp;&amp; valuesSide &#x3D;&#x3D;&#x3D; &#x27;left&#x27;) || (orientation &#x3D;&#x3D;&#x3D; &#x27;horizontal&#x27; &amp;&amp; valuesSide &#x3D;&#x3D;&#x3D; &#x27;top&#x27;)&quot;
+  &gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;valuesDisplay&quot;&gt;&lt;/ng-container&gt;
+  &lt;/ng-container&gt;
+  &lt;div class&#x3D;&quot;canvas-container&quot;&gt;
+    &lt;canvas class&#x3D;&quot;canvas&quot; #canvas&gt;&lt;/canvas&gt;
+  &lt;/div&gt;
+  &lt;ng-container
+    *ngIf&#x3D;&quot;(orientation &#x3D;&#x3D;&#x3D; &#x27;vertical&#x27; &amp;&amp; valuesSide &#x3D;&#x3D;&#x3D; &#x27;right&#x27;) || (orientation &#x3D;&#x3D;&#x3D; &#x27;horizontal&#x27; &amp;&amp; valuesSide &#x3D;&#x3D;&#x3D; &#x27;bottom&#x27;)&quot;
+  &gt;
+    &lt;ng-container *ngTemplateOutlet&#x3D;&quot;valuesDisplay&quot;&gt;&lt;/ng-container&gt;
+  &lt;/ng-container&gt;
+&lt;/div&gt;
+
+&lt;ng-template #valuesDisplay&gt;
+  &lt;div class&#x3D;&quot;values-container&quot;&gt;
+    &lt;p class&#x3D;&quot;value low&quot;&gt;{{ values[0] }}&lt;/p&gt;
+    &lt;p class&#x3D;&quot;value high&quot;&gt;{{ values[values.length - 1] }}&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/ng-template&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./continuous-legend.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@use &#x27;../../core/styles/spacing&#x27;;
+
+:host {
+  display: flex;
+}
+
+.canvas {
+  display: block;
+}
+
+.color-scale.horizontal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: var(--width);
+
+  .canvas-container {
+    display: flex;
+    flex-direction: column;
+    width: calc(var(--width) - calc(var(--value-space) * 2));
+    height: var(--height);
+    margin-right: var(--value-space);
+    margin-left: var(--value-space);
+  }
+
+  .values-container {
+    padding-top: spacing.$grid-1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .value {
+    width: calc(var(--value-space) * 2);
+    text-align: center;
+  }
+
+  &amp;.top {
+    .values-container {
+      padding-top: 0;
+      padding-bottom: spacing.$grid-1;
+    }
+  }
+}
+
+.color-scale.vertical {
+  display: flex;
+  max-height: var(--height);
+
+  .canvas-container {
+    width: var(--width);
+    height: calc(var(--height) - calc(#{grid-2} * 2));
+    margin-top: spacing.$grid-2;
+    margin-bottom: spacing.$grid-2;
+  }
+
+  .values-container {
+    padding-right: spacing.$grid-1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  &amp;.right {
+    .values-container {
+      padding-right: 0;
+      padding-left: spacing.$grid-1;
+      align-items: flex-start;
+    }
+  }
+}
+
+.canvas-container {
+  border: 1px solid var(--border-color);
+}
+
+.value {
+  font-size: 12px;
+}
+</code></pre>
+    </div>
+
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
