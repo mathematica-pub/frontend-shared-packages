@@ -11,6 +11,7 @@ import {
   LinesSvgEventEffect,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
+import { Documentation } from '../core/enums/documentation.enums';
 import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
@@ -32,6 +33,7 @@ type DemoLinesTooltip = LinesEmittedOutput & {
   styleUrls: ['./lines.component.scss'],
 })
 export class LinesComponent implements OnInit {
+  linesDocumentation = Documentation.Lines;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

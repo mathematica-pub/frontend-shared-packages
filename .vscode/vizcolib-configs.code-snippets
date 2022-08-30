@@ -13,30 +13,9 @@
             "\t// removeTicks: boolean,",
             "\t// removeTickMarks: boolean,",
             "\t// showGridLines: boolean,",
-            "\t// wrap: TickWrap,",
+            "\t// wrap: TickWrapConfig,",
             "\t// tickSizeOuter: number,",
             "\t// tickLabelFontSize: number,",
-            "}"
-        ]
-    },
-    "FullTickWrap": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullTickWrap"
-        ],
-        "body": [
-            "{",
-            "\t// wrapWidth: 'bandwidth' | number,",
-            "\t// override width: never,",
-            "\t// test comment",
-            "\t// width: number,",
-            "\tmaintainXPosition: false,",
-            "\t// another test comment",
-            "\tmaintainYPosition: false,",
-            "\t/**",
-            "\t* multiline test comment",
-            "\t*/",
-            "\tlineHeight: 1.1,",
             "}"
         ]
     },
@@ -47,11 +26,11 @@
         ],
         "body": [
             "{",
-            "\tordinal: new OrdinalDimension(),",
-            "\tquantitative: new QuantitativeDimension(),",
-            "\tcategory: new CategoricalColorDimension(),",
+            "\tordinal: new OrdinalDimensionConfig(),",
+            "\tquantitative: new QuantitativeDimensionConfig(),",
+            "\t// category: CategoricalColorDimensionConfig ",
             "\tdimensions: verticalBarChartDimensionsConfig,",
-            "\tlabels: new LabelsConfig(),",
+            "\tlabels: new BarsLabelsConfig(),",
             "\tpositivePaddingForAllNegativeValues: 0.2,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
@@ -64,10 +43,10 @@
             "}"
         ]
     },
-    "FullLabelsConfig": {
+    "FullBarsLabelsConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullLabelsConfig"
+            "FullBarsLabelsConfig"
         ],
         "body": [
             "{",
@@ -92,36 +71,10 @@
             "}"
         ]
     },
-    "FullDimensions": {
+    "FullDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullDimensions"
-        ],
-        "body": [
-            "{",
-            "\t// width: number,",
-            "\t// height: number,",
-            "}"
-        ]
-    },
-    "FullElementSpacing": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullElementSpacing"
-        ],
-        "body": [
-            "{",
-            "\t// top: number,",
-            "\t// right: number,",
-            "\t// bottom: number,",
-            "\t// left: number,",
-            "}"
-        ]
-    },
-    "FullDataDimension": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullDataDimension"
+            "FullDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -131,26 +84,26 @@
             "}"
         ]
     },
-    "FullQuantitativeDimension": {
+    "FullQuantitativeDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullQuantitativeDimension"
+            "FullQuantitativeDimensionConfig"
         ],
         "body": [
             "{",
             "\t// override domain: [any, any],",
             "\t// scaleType: (d: any, r: any) => any,",
-            "\tdomainPadding: new DomainPadding(),",
+            "\tdomainPadding: new DomainPaddingConfig(),",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
             "\t// valueFormat: string,",
             "}"
         ]
     },
-    "FullDomainPadding": {
+    "FullDomainPaddingConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullDomainPadding"
+            "FullDomainPaddingConfig"
         ],
         "body": [
             "{",
@@ -160,10 +113,10 @@
             "}"
         ]
     },
-    "FullCategoricalColorDimension": {
+    "FullCategoricalColorDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullCategoricalColorDimension"
+            "FullCategoricalColorDimensionConfig"
         ],
         "body": [
             "{",
@@ -176,10 +129,10 @@
             "}"
         ]
     },
-    "FullOrdinalDimension": {
+    "FullOrdinalDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullOrdinalDimension"
+            "FullOrdinalDimensionConfig"
         ],
         "body": [
             "{",
@@ -191,24 +144,6 @@
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
             "\t// valueFormat: string,",
-            "}"
-        ]
-    },
-    "FullDataMarks": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullDataMarks"
-        ],
-        "body": [
-            "{",
-            "\tconfig: new DataMarksConfig(),",
-            "\t// ranges: Ranges,",
-            "\t// setMethodsFromConfigAndDraw: () => void,",
-            "\t// resizeMarks: () => void,",
-            "\t// drawMarks: (transitionDuration: number) => void,",
-            "\t// onPointerEnter: (event: PointerEvent) => void,",
-            "\t// onPointerLeave: (event: PointerEvent) => void,",
-            "\t// onPointerMove: (event: PointerEvent) => void,",
             "}"
         ]
     },
@@ -237,44 +172,6 @@
             "}"
         ]
     },
-    "FullXyDataMarks": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullXyDataMarks"
-        ],
-        "body": [
-            "{",
-            "\t// setValueArrays: () => void,",
-            "\t// subscribeToScales: () => void,",
-            "\t// subscribeToRanges: () => void,",
-            "\t// values: XyDataMarksValues,",
-            "\t// xScale: (d: any) => any,",
-            "\t// yScale: (d: any) => any,",
-            "\tconfig: new DataMarksConfig(),",
-            "\t// ranges: Ranges,",
-            "\t// setMethodsFromConfigAndDraw: () => void,",
-            "\t// resizeMarks: () => void,",
-            "\t// drawMarks: (transitionDuration: number) => void,",
-            "\t// onPointerEnter: (event: PointerEvent) => void,",
-            "\t// onPointerLeave: (event: PointerEvent) => void,",
-            "\t// onPointerMove: (event: PointerEvent) => void,",
-            "}"
-        ]
-    },
-    "FullXyDataMarksValues": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullXyDataMarksValues"
-        ],
-        "body": [
-            "{",
-            "\t// x: any[],",
-            "\t// y: any[],",
-            "\t// category: any[],",
-            "\t// indicies: any[],",
-            "}"
-        ]
-    },
     "FullGeographiesConfig": {
         "scope": "typescript, javascript",
         "prefix": [
@@ -284,18 +181,18 @@
             "{",
             "\t// boundary: any,",
             "\tprojection: geoAlbersUsa(),",
-            "\t// noDataGeographies: NoDataGeography[],",
-            "\t// dataGeography: DataGeography,",
+            "\t// noDataGeographies: NoDataGeographyConfig[],",
+            "\t// dataGeography: DataGeographyConfig,",
             "\tdata: [],",
             "\tmixBlendMode: 'normal',",
             "\ttooltip: new TooltipConfig(),",
             "}"
         ]
     },
-    "FullNoDataGeography": {
+    "FullNoDataGeographyConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullNoDataGeography"
+            "FullNoDataGeographyConfig"
         ],
         "body": [
             "{",
@@ -306,15 +203,15 @@
             "}"
         ]
     },
-    "FullDataGeography": {
+    "FullDataGeographyConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullDataGeography"
+            "FullDataGeographyConfig"
         ],
         "body": [
             "{",
             "\t// valueAccessor: (d: any) => any,",
-            "\t// attributeDataConfig: AttributeDataDimension,",
+            "\t// attributeDataConfig: AttributeDataDimensionConfig,",
             "\tnullColor: '#dcdcdc',",
             "\t// geographies: any[],",
             "\tstrokeColor: 'dimgray',",
@@ -323,10 +220,10 @@
             "}"
         ]
     },
-    "FullAttributeDataDimension": {
+    "FullAttributeDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullAttributeDataDimension"
+            "FullAttributeDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -345,10 +242,10 @@
             "}"
         ]
     },
-    "FullCategoricalAttributeDataDimension": {
+    "FullCategoricalAttributeDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullCategoricalAttributeDataDimension"
+            "FullCategoricalAttributeDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -369,10 +266,10 @@
             "}"
         ]
     },
-    "FullNoBinsQuantitativeAttributeDataDimension": {
+    "FullNoBinsQuantitativeAttributeDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullNoBinsQuantitativeAttributeDataDimension"
+            "FullNoBinsQuantitativeAttributeDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -391,10 +288,10 @@
             "}"
         ]
     },
-    "FullEqualValuesQuantitativeAttributeDataDimension": {
+    "FullEqualValuesQuantitativeAttributeDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullEqualValuesQuantitativeAttributeDataDimension"
+            "FullEqualValuesQuantitativeAttributeDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -410,14 +307,15 @@
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
             "\t// valueFormat: string,",
+            "\t// init: Partial<EqualValuesQuantitativeAttributeDataDimensionConfig>",
             "\tnumBins: 5,",
             "}"
         ]
     },
-    "FullEqualNumbersQuantitativeAttributeDataDimension": {
+    "FullEqualNumbersQuantitativeAttributeDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullEqualNumbersQuantitativeAttributeDataDimension"
+            "FullEqualNumbersQuantitativeAttributeDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -433,14 +331,15 @@
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
             "\t// valueFormat: string,",
+            "\t// init: Partial<EqualNumbersQuantitativeAttributeDataDimensionConfig>",
             "\tnumBins: 5,",
             "}"
         ]
     },
-    "FullCustomBreaksQuantitativeAttributeDataDimension": {
+    "FullCustomBreaksQuantitativeAttributeDataDimensionConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullCustomBreaksQuantitativeAttributeDataDimension"
+            "FullCustomBreaksQuantitativeAttributeDataDimensionConfig"
         ],
         "body": [
             "{",
@@ -456,20 +355,7 @@
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
             "\t// valueFormat: string,",
-            "}"
-        ]
-    },
-    "FullMapDataValues": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullMapDataValues"
-        ],
-        "body": [
-            "{",
-            "\t// attributeDataGeographies: any[],",
-            "\t// attributeDataValues: any[],",
-            "\t// indexMap: InternMap,",
-            "\t// geoJsonGeographies: any[],",
+            "\t// init: Partial<CustomBreaksQuantitativeAttributeDataDimensionConfig>",
             "}"
         ]
     },
@@ -481,11 +367,11 @@
         "body": [
             "{",
             "\tintraGroupPadding: 0.05,",
-            "\tordinal: new OrdinalDimension(),",
-            "\tquantitative: new QuantitativeDimension(),",
-            "\tcategory: new CategoricalColorDimension(),",
+            "\tordinal: new OrdinalDimensionConfig(),",
+            "\tquantitative: new QuantitativeDimensionConfig(),",
+            "\t// category: CategoricalColorDimensionConfig ",
             "\tdimensions: verticalBarChartDimensionsConfig,",
-            "\tlabels: new LabelsConfig(),",
+            "\tlabels: new BarsLabelsConfig(),",
             "\tpositivePaddingForAllNegativeValues: 0.2,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
@@ -498,46 +384,6 @@
             "}"
         ]
     },
-    "FullHtmlTooltipConfig": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullHtmlTooltipConfig"
-        ],
-        "body": [
-            "{",
-            "\texists: false,",
-            "\tdisplay: 'none',",
-            "\toffset: new HtmlTooltipOffset(),",
-            "\tposition: new HtmlTooltipPosition(),",
-            "}"
-        ]
-    },
-    "FullHtmlTooltipOffset": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullHtmlTooltipOffset"
-        ],
-        "body": [
-            "{",
-            "\ttop: 0,",
-            "\tright: 0,",
-            "\tbottom: 0,",
-            "\tleft: 0,",
-            "}"
-        ]
-    },
-    "FullHtmlTooltipPosition": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullHtmlTooltipPosition"
-        ],
-        "body": [
-            "{",
-            "\ttop: 0,",
-            "\tleft: 0,",
-            "}"
-        ]
-    },
     "FullLinesConfig": {
         "scope": "typescript, javascript",
         "prefix": [
@@ -545,13 +391,13 @@
         ],
         "body": [
             "{",
-            "\tx: new QuantitativeDimension(),",
-            "\ty: new QuantitativeDimension(),",
-            "\tcategory: new CategoricalColorDimension(),",
+            "\tx: new QuantitativeDimensionConfig(),",
+            "\ty: new QuantitativeDimensionConfig(),",
+            "\t// category: CategoricalColorDimensionConfig ",
             "\t// valueIsDefined: (...args: any) => any,",
             "\tcurve: curveLinear,",
-            "\tpointMarker: new PointMarker(),",
-            "\tstroke: new LinesStroke(),",
+            "\tpointMarker: new PointMarkerConfig(),",
+            "\tstroke: new LinesStrokeConfig(),",
             "\t// labelLines: boolean,",
             "\t// override tooltip: LinesTooltipConfig,",
             "\t// lineLabelsFormat: (d: string) => string,",
@@ -582,10 +428,10 @@
             "}"
         ]
     },
-    "FullLinesStroke": {
+    "FullLinesStrokeConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullLinesStroke"
+            "FullLinesStrokeConfig"
         ],
         "body": [
             "{",
@@ -596,10 +442,10 @@
             "}"
         ]
     },
-    "FullPointMarker": {
+    "FullPointMarkerConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullPointMarker"
+            "FullPointMarkerConfig"
         ],
         "body": [
             "{",
@@ -609,28 +455,34 @@
             "}"
         ]
     },
-    "FullLinesTooltipData": {
+    "FullSvgWrapConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullLinesTooltipData"
+            "FullSvgWrapConfig"
         ],
         "body": [
             "{",
-            "\t// datum: any,",
-            "\t// color: string,",
-            "\t// x: string,",
-            "\t// y: string,",
-            "\t// category: string,",
+            "\t// test comment",
+            "\t// width: number,",
+            "\tmaintainXPosition: false,",
+            "\t// another test comment",
+            "\tmaintainYPosition: false,",
+            "\t/**",
+            "\t* multiline test comment",
+            "\t*/",
+            "\tlineHeight: 1.1,",
             "}"
         ]
     },
-    "FullSvgWrapOptions": {
+    "FullTickWrapConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullSvgWrapOptions"
+            "FullTickWrapConfig"
         ],
         "body": [
             "{",
+            "\t// wrapWidth: 'bandwidth' | number,",
+            "\t// override width: never,",
             "\t// test comment",
             "\t// width: number,",
             "\tmaintainXPosition: false,",
@@ -650,9 +502,9 @@
         ],
         "body": [
             "{",
-            "\tx: new QuantitativeDimension(),",
-            "\ty: new QuantitativeDimension(),",
-            "\tcategory: new CategoricalColorDimension(),",
+            "\tx: new QuantitativeDimensionConfig(),",
+            "\ty: new QuantitativeDimensionConfig(),",
+            "\t// category: CategoricalColorDimensionConfig ",
             "\t// valueIsDefined: (...args: any) => any,",
             "\tcurve: curveLinear,",
             "\tstackOffsetFunction: stackOffsetNone,",
@@ -681,11 +533,11 @@
             "{",
             "\torder: stackOrderNone,",
             "\toffset: stackOffsetDiverging,",
-            "\tordinal: new OrdinalDimension(),",
-            "\tquantitative: new QuantitativeDimension(),",
-            "\tcategory: new CategoricalColorDimension(),",
+            "\tordinal: new OrdinalDimensionConfig(),",
+            "\tquantitative: new QuantitativeDimensionConfig(),",
+            "\t// category: CategoricalColorDimensionConfig ",
             "\tdimensions: verticalBarChartDimensionsConfig,",
-            "\tlabels: new LabelsConfig(),",
+            "\tlabels: new BarsLabelsConfig(),",
             "\tpositivePaddingForAllNegativeValues: 0.2,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
