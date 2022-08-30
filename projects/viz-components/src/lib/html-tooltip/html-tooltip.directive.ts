@@ -74,14 +74,23 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
   setPositionStrategy(): void {
     const origin = this.origin ?? this.chart.svgRef;
     const position = this.position ?? defaultPosition;
-    const classes = [defaultPanelClass];
-    if (this.disableEventsOnTooltip) {
-      classes.push('events-disabled');
-    }
-    position.panelClass = classes;
+    position.panelClass = this.getOverlayClasses();
     this.positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(origin)
       .withPositions([position]);
+  }
+
+  getOverlayClasses(): string[] {
+    const positionClasses = this.position.panelClass
+      ? Array.isArray(this.position.panelClass)
+        ? this.position.panelClass
+        : [this.position.panelClass]
+      : [];
+    const classes = [defaultPanelClass, ...positionClasses];
+    if (this.disableEventsOnTooltip) {
+      classes.push('events-disabled');
+    }
+    return classes;
   }
 
   setScrollStrategy(): void {
