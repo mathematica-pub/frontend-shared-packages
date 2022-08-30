@@ -1,8 +1,8 @@
-import { LinesInputEvent } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
+import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
 import { LinesInputEffect } from 'projects/viz-components/src/public-api';
 
 export class HighlightLineForLabel implements LinesInputEffect {
-  applyEffect(event: LinesInputEvent, label: string): void {
+  applyEffect(event: LinesInputEventDirective, label: string): void {
     event.lines.lines
       .style('stroke', ([category]): string =>
         label === category ? null : '#ddd'
@@ -18,7 +18,7 @@ export class HighlightLineForLabel implements LinesInputEffect {
       .raise();
   }
 
-  removeEffect(event: LinesInputEvent): void {
+  removeEffect(event: LinesInputEventDirective): void {
     event.lines.lines.style('stroke', null);
     event.lines.markers.style('fill', null);
   }

@@ -25,7 +25,7 @@
           vic-data-marks-lines
           [config]="vm.dataConfig"
           [vicLinesHoverAndMoveEffects]="vm.hoverEffects"
-          (hoverAndMoveData)="processHoverData($event)"
+          (hoverAndMoveEventOutput)="processHoverData($event)"
           [vicLinesInputEffects]="[highlightLineForLabelEffect]"
           [inputEvent$]="chartInputEvent$"
         >

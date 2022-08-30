@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   Input,
   NgZone,
   OnChanges,
@@ -12,25 +13,20 @@ import {
 } from '@angular/core';
 import {
   extent,
-  format,
   group,
   InternSet,
-  least,
   line,
   map,
   max,
   min,
-  pointer,
   range,
   scaleOrdinal,
   select,
-  timeFormat,
   Transition,
 } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { LinesConfig } from './lines.config';
 
@@ -72,14 +68,8 @@ export class LinesComponent
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
-
-  constructor(
-    private utilities: UtilitiesService,
-    private zone: NgZone,
-    chart: XyChartComponent
-  ) {
-    super(chart);
-  }
+  private utilities = inject(UtilitiesService);
+  private zone = inject(NgZone);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
@@ -229,7 +219,7 @@ export class LinesComponent
     this.drawLines(transitionDuration);
     if (this.config.pointMarker.display) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.tooltip.show) {
+    } else {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -322,172 +312,5 @@ export class LinesComponent
       .attr('x', (d) => `${this.xScale(this.values.x[d.index]) - 4}px`)
       .attr('y', (d) => `${this.yScale(this.values.y[d.index]) - 12}px`)
       .text((d) => this.config.lineLabelsFormat(d.category));
-  }
-
-  onPointerEnter(): void {
-    if (this.config.tooltip.show) {
-      // this.chart.setTooltipPosition();
-    }
-  }
-
-  onPointerLeave(): void {
-    if (this.config.tooltip.show) {
-      this.resetChartStylesAfterHover();
-    }
-  }
-
-  onPointerMove(event: PointerEvent): void {
-    const [pointerX, pointerY] = this.getPointerValuesArray(event);
-    if (
-      this.config.tooltip.show &&
-      this.pointerIsInChartArea(pointerX, pointerY)
-    ) {
-      this.determineHoverStyles(pointerX, pointerY);
-    }
-  }
-
-  getPointerValuesArray(event: PointerEvent): [number, number] {
-    return pointer(event);
-  }
-
-  pointerIsInChartArea(pointerX: number, pointerY: number): boolean {
-    return (
-      pointerX > this.ranges.x[0] &&
-      pointerX < this.ranges.x[1] &&
-      pointerY > this.ranges.y[1] &&
-      pointerY < this.ranges.y[0]
-    );
-  }
-
-  determineHoverStyles(pointerX: number, pointerY: number): void {
-    const closestPointIndex = this.getClosestPointIndex(pointerX, pointerY);
-    if (
-      this.pointerIsInsideShowTooltipRadius(
-        closestPointIndex,
-        pointerX,
-        pointerY
-      )
-    ) {
-      this.applyHoverStyles(closestPointIndex);
-    } else {
-      this.removeHoverStyles();
-    }
-  }
-
-  getClosestPointIndex(pointerX: number, pointerY: number): number {
-    return least(this.values.indicies, (i) =>
-      this.getPointerDistanceFromPoint(
-        this.values.x[i],
-        this.values.y[i],
-        pointerX,
-        pointerY
-      )
-    );
-  }
-
-  applyHoverStyles(closestPointIndex: number): void {
-    this.styleLinesForHover(closestPointIndex);
-    if (this.config.pointMarker.display) {
-      this.styleMarkersForHover(closestPointIndex);
-    } else {
-      this.styleHoverDotForHover(closestPointIndex);
-    }
-  }
-
-  removeHoverStyles(): void {
-    this.resetChartStylesAfterHover();
-  }
-
-  getPointerDistanceFromPoint(
-    pointX: number,
-    pointY: number,
-    pointerX: number,
-    pointerY: number
-  ): number {
-    return Math.hypot(
-      this.xScale(pointX) - pointerX,
-      this.yScale(pointY) - pointerY
-    );
-  }
-
-  pointerIsInsideShowTooltipRadius(
-    closestPointIndex: number,
-    pointerX: number,
-    pointerY: number
-  ): boolean {
-    const cursorDistanceFromPoint = this.getPointerDistanceFromPoint(
-      this.values.x[closestPointIndex],
-      this.values.y[closestPointIndex],
-      pointerX,
-      pointerY
-    );
-    return cursorDistanceFromPoint < this.config.tooltip.detectionRadius;
-  }
-
-  styleLinesForHover(closestPointIndex: number): void {
-    this.lines
-      .style('stroke', ([category]): string =>
-        this.values.category[closestPointIndex] === category ? null : '#ddd'
-      )
-      .filter(
-        ([category]): boolean =>
-          this.values.category[closestPointIndex] === category
-      )
-      .raise();
-  }
-
-  styleMarkersForHover(closestPointIndex: number): void {
-    this.markers
-      .style('fill', (d): string =>
-        this.values.category[closestPointIndex] ===
-        this.values.category[d.index]
-          ? null
-          : '#ddd'
-      )
-      .attr('r', (d): number => {
-        let r = this.config.pointMarker.radius;
-        if (closestPointIndex === d.index) {
-          r =
-            this.config.pointMarker.radius +
-            this.config.pointMarker.growByOnHover;
-        }
-        return r;
-      })
-      .filter(
-        (d): boolean =>
-          this.values.category[closestPointIndex] ===
-          this.values.category[d.index]
-      )
-      .raise();
-  }
-
-  styleHoverDotForHover(closestPointIndex: number): void {
-    this.hoverDot
-      .style('display', null)
-      .attr('fill', this.categoryScale(this.values.category[closestPointIndex]))
-      .attr('cx', this.xScale(this.values.x[closestPointIndex]))
-      .attr('cy', this.yScale(this.values.y[closestPointIndex]));
-  }
-
-  resetChartStylesAfterHover(): void {
-    this.lines
-      .style('mix-blend-mode', this.config.mixBlendMode)
-      .style('stroke', null);
-    if (this.config.pointMarker.display) {
-      this.markers
-        .style('mix-blend-mode', this.config.mixBlendMode)
-        .style('fill', null);
-    } else {
-      this.hoverDot.style('display', 'none');
-    }
-  }
-
-  formatValue(value: any, formatSpecifier: string): string {
-    const formatter = value instanceof Date ? timeFormat : format;
-    if (formatSpecifier) {
-      return formatter(formatSpecifier)(value);
-    } else {
-      return value.toString();
-    }
   }
 }

@@ -1,8 +1,8 @@
 import { Directive } from '@angular/core';
-import { HoverEvent } from './hover-event';
+import { HoverEventDirective } from './hover-event';
 
 @Directive()
-export abstract class HoverAndMoveEvent extends HoverEvent {
+export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
   unlistenPointerMove: () => void;
 
   abstract chartPointerMove(event: PointerEvent): void;

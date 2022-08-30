@@ -6,7 +6,6 @@ import {
   ElementRef,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   Renderer2,
   SimpleChanges,
@@ -49,9 +48,7 @@ export interface Dimensions {
   styleUrls: ['./chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ChartComponent
-  implements OnInit, OnChanges, AfterContentInit, OnDestroy
-{
+export class ChartComponent implements OnInit, OnChanges, AfterContentInit {
   @ContentChild(DATA_MARKS)
   dataMarksComponent: DataMarks;
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
@@ -66,8 +63,6 @@ export class ChartComponent
   };
   @Input() scaleChartWithContainer = true;
   @Input() transitionDuration?: number = 250;
-  unlistenTouchStart: () => void;
-  unlistenMouseWheel: () => void;
   aspectRatio: number;
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
@@ -93,15 +88,6 @@ export class ChartComponent
   ngAfterContentInit(): void {
     if (!this.dataMarksComponent) {
       throw new Error('DataMarksComponent not found.');
-    } else if (this.dataMarksComponent.config.tooltip.show) {
-      this.setPointerEventListeners();
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (this.dataMarksComponent?.config.tooltip.show) {
-      this.unlistenTouchStart();
-      this.unlistenMouseWheel();
     }
   }
 
@@ -179,33 +165,5 @@ export class ChartComponent
       this.scaleChartWithContainer &&
       this.divRef.nativeElement.offsetWidth <= this.width
     );
-  }
-
-  private setPointerEventListeners(): void {
-    const el = this.svgRef.nativeElement;
-    this.setTouchStartListener(el);
-    this.setMouseWheelListener(el);
-  }
-
-  private setTouchStartListener(el: Element) {
-    this.unlistenTouchStart = this.renderer.listen(
-      el,
-      'touchstart',
-      (event) => {
-        this.onTouchStart(event);
-      }
-    );
-  }
-
-  private onTouchStart(event: TouchEvent): void {
-    event.preventDefault();
-  }
-
-  private setMouseWheelListener(el: Element) {
-    this.unlistenMouseWheel = this.renderer.listen(el, 'mousewheel', () => {
-      // if (this.htmlTooltip.exists) {
-      //   // this.setTooltipPosition();
-      // }
-    });
   }
 }

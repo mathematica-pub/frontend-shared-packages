@@ -1,12 +1,14 @@
-import { LinesHoverAndMoveEvent } from './lines-hover-move-event.directive';
-import { LinesInputEvent } from './lines-input-event.directive';
+import { LinesHoverAndMoveEventDirective } from './lines-hover-move-event.directive';
+import { LinesInputEventDirective } from './lines-input-event.directive';
 
-export interface LinesHoverAndMoveEffect {
-  applyEffect: (event: LinesHoverAndMoveEvent) => void;
-  removeEffect: (event: LinesHoverAndMoveEvent) => void;
+type LinesEvent = LinesHoverAndMoveEventDirective; // add other events as they are developed -- for example, click, etc.
+
+export interface LinesSvgEventEffect {
+  applyEffect: (event: LinesEvent) => void;
+  removeEffect: (event: LinesEvent) => void;
 }
 
 export interface LinesInputEffect {
-  applyEffect: (event: LinesInputEvent, ...args) => void;
-  removeEffect: (event: LinesInputEvent, ...args) => void;
+  applyEffect: (event: LinesInputEventDirective, ...args) => void;
+  removeEffect: (event: LinesInputEventDirective, ...args) => void;
 }

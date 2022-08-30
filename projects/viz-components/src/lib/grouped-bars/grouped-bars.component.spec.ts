@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { GroupedBarsComponent } from './grouped-bars.component';
@@ -16,9 +17,6 @@ describe('GroupedBarsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GroupedBarsComponent);
     component = fixture.componentInstance;
-    component.chart.dataMarksComponent = {
-      config: { tooltip: { show: false, type: 'html' } },
-    } as any;
   });
 
   describe('setMethodsFromConfigAndDraw()', () => {

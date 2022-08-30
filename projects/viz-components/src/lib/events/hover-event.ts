@@ -1,9 +1,9 @@
 import { AfterViewInit, Directive, OnDestroy } from '@angular/core';
-import { ChartSvgEvent } from './chart-svg-event';
+import { ChartSvgEventDirective } from './chart-svg-event';
 
 @Directive()
-export abstract class HoverEvent
-  extends ChartSvgEvent
+export abstract class HoverEventDirective
+  extends ChartSvgEventDirective
   implements AfterViewInit, OnDestroy
 {
   unlistenPointerEnter: () => void;

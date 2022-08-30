@@ -1,14 +1,13 @@
-import { LinesHoverAndMoveEffect } from './lines-effect';
+import { format, timeFormat } from 'd3';
+import { LinesSvgEventEffect } from './lines-effect';
 import { LinesHoverEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
 import {
-  LinesEmittedData,
-  LinesHoverAndMoveEvent,
+  LinesEmittedOutput,
+  LinesHoverAndMoveEventDirective,
 } from './lines-hover-move-event.directive';
 
-export class LinesHoverEffectDefaultLinesStyles
-  implements LinesHoverAndMoveEffect
-{
-  applyEffect(event: LinesHoverAndMoveEvent): void {
+export class LinesHoverEffectDefaultLinesStyles implements LinesSvgEventEffect {
+  applyEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.lines
       .style('stroke', ([category]): string =>
         event.lines.values.category[event.closestPointIndex] === category
@@ -22,17 +21,17 @@ export class LinesHoverEffectDefaultLinesStyles
       .raise();
   }
 
-  removeEffect(event: LinesHoverAndMoveEvent): void {
+  removeEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.lines.style('stroke', null);
   }
 }
 
 export class LinesHoverEffectDefaultMarkersStyles
-  implements LinesHoverAndMoveEffect
+  implements LinesSvgEventEffect
 {
   constructor(private config: LinesHoverEffectDefaultStylesConfig) {}
 
-  applyEffect(event: LinesHoverAndMoveEvent): void {
+  applyEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.markers
       .style('fill', (d): string =>
         event.lines.values.category[event.closestPointIndex] ===
@@ -57,33 +56,70 @@ export class LinesHoverEffectDefaultMarkersStyles
       .raise();
   }
 
-  removeEffect(linesEvent: LinesHoverAndMoveEvent): void {
+  removeEffect(linesEvent: LinesHoverAndMoveEventDirective): void {
     linesEvent.lines.markers.style('fill', null);
   }
 }
 
-export class LinesHoverEffectDefaultStyles implements LinesHoverAndMoveEffect {
-  linesStyles: LinesHoverAndMoveEffect;
-  markersStyles: LinesHoverAndMoveEffect;
+export class LinesHoverEffectDefaultHoverDotStyles
+  implements LinesSvgEventEffect
+{
+  applyEffect(event: LinesHoverAndMoveEventDirective) {
+    event.lines.hoverDot
+      .style('display', null)
+      .attr(
+        'fill',
+        event.lines.categoryScale(
+          event.lines.values.category[event.closestPointIndex]
+        )
+      )
+      .attr(
+        'cx',
+        event.lines.xScale(event.lines.values.x[event.closestPointIndex])
+      )
+      .attr(
+        'cy',
+        event.lines.yScale(event.lines.values.y[event.closestPointIndex])
+      );
+  }
+
+  removeEffect(event: LinesHoverAndMoveEventDirective) {
+    event.lines.hoverDot.style('display', 'none');
+  }
+}
+
+export class LinesHoverEffectDefaultStyles implements LinesSvgEventEffect {
+  linesStyles: LinesSvgEventEffect;
+  markersStyles: LinesSvgEventEffect;
+  hoverDotStyles: LinesSvgEventEffect;
 
   constructor(config: LinesHoverEffectDefaultStylesConfig) {
     this.linesStyles = new LinesHoverEffectDefaultLinesStyles();
     this.markersStyles = new LinesHoverEffectDefaultMarkersStyles(config);
+    this.hoverDotStyles = new LinesHoverEffectDefaultHoverDotStyles();
   }
 
-  applyEffect(event: LinesHoverAndMoveEvent) {
+  applyEffect(event: LinesHoverAndMoveEventDirective) {
     this.linesStyles.applyEffect(event);
-    this.markersStyles.applyEffect(event);
+    if (event.lines.config.pointMarker.display) {
+      this.markersStyles.applyEffect(event);
+    } else {
+      this.hoverDotStyles.applyEffect(event);
+    }
   }
 
-  removeEffect(event: LinesHoverAndMoveEvent) {
+  removeEffect(event: LinesHoverAndMoveEventDirective) {
     this.linesStyles.removeEffect(event);
-    this.markersStyles.removeEffect(event);
+    if (event.lines.config.pointMarker.display) {
+      this.markersStyles.removeEffect(event);
+    } else {
+      this.hoverDotStyles.removeEffect(event);
+    }
   }
 }
 
-export class EmitLinesTooltipData implements LinesHoverAndMoveEffect {
-  applyEffect(event: LinesHoverAndMoveEvent): void {
+export class EmitLinesTooltipData implements LinesSvgEventEffect {
+  applyEffect(event: LinesHoverAndMoveEventDirective): void {
     const datum = event.lines.config.data.find(
       (d) =>
         event.lines.values.x[event.closestPointIndex] ===
@@ -91,13 +127,13 @@ export class EmitLinesTooltipData implements LinesHoverAndMoveEffect {
         event.lines.values.category[event.closestPointIndex] ===
           event.lines.config.category.valueAccessor(d)
     );
-    const tooltipData: LinesEmittedData = {
+    const tooltipData: LinesEmittedOutput = {
       datum,
-      x: event.lines.formatValue(
+      x: this.formatValue(
         event.lines.config.x.valueAccessor(datum),
         event.lines.config.x.valueFormat
       ),
-      y: event.lines.formatValue(
+      y: this.formatValue(
         event.lines.config.y.valueAccessor(datum),
         event.lines.config.y.valueFormat
       ),
@@ -112,10 +148,19 @@ export class EmitLinesTooltipData implements LinesHoverAndMoveEffect {
         event.lines.values.y[event.closestPointIndex]
       ),
     };
-    event.emittedData.emit(tooltipData);
+    event.hoverAndMoveEventOutput.emit(tooltipData);
   }
 
-  removeEffect(event: LinesHoverAndMoveEvent): void {
-    event.emittedData.emit(null);
+  removeEffect(event: LinesHoverAndMoveEventDirective): void {
+    event.hoverAndMoveEventOutput.emit(null);
+  }
+
+  formatValue(value: any, formatSpecifier: string): string {
+    const formatter = value instanceof Date ? timeFormat : format;
+    if (formatSpecifier) {
+      return formatter(formatSpecifier)(value);
+    } else {
+      return value.toString();
+    }
   }
 }

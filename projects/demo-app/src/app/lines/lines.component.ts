@@ -5,10 +5,10 @@ import {
   ElementSpacing,
   EmitLinesTooltipData,
   LinesConfig,
-  LinesEmittedData,
-  LinesHoverAndMoveEffect,
+  LinesEmittedOutput,
   LinesHoverEffectDefaultStyles,
   LinesHoverEffectDefaultStylesConfig,
+  LinesSvgEventEffect,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
@@ -20,9 +20,9 @@ interface ViewModel {
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
   labels: string[];
-  hoverEffects: LinesHoverAndMoveEffect[];
+  hoverEffects: LinesSvgEventEffect[];
 }
-type DemoLinesTooltip = LinesEmittedData & {
+type DemoLinesTooltip = LinesEmittedOutput & {
   position: ConnectedPosition;
   show: boolean;
 };
@@ -92,7 +92,7 @@ export class LinesComponent implements OnInit {
     };
   }
 
-  processHoverData(data: LinesEmittedData): void {
+  processHoverData(data: LinesEmittedOutput): void {
     let config = {} as DemoLinesTooltip;
     const position: ConnectedPosition = {
       originX: 'start',

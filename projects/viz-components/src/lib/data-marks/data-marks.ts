@@ -7,7 +7,4 @@ export class DataMarks {
   setMethodsFromConfigAndDraw: () => void;
   resizeMarks: () => void;
   drawMarks: (transitionDuration: number) => void;
-  onPointerEnter: (event: PointerEvent) => void;
-  onPointerLeave: (event: PointerEvent) => void;
-  onPointerMove: (event: PointerEvent) => void;
 }

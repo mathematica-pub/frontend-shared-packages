@@ -1,12 +1,14 @@
-import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
 import { least, pointer } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { HoverAndMoveEvent } from '../events/hover-move-event';
+import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
+import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { LinesHoverAndMoveEffect } from './lines-effect';
+import { LinesSvgEventEffect } from './lines-effect';
 import { LinesComponent } from './lines.component';
 
-export class LinesEmittedData {
+export class LinesEmittedOutput {
   datum: any;
   color: string;
   x: string;
@@ -21,24 +23,23 @@ export class LinesEmittedData {
   providers: [
     {
       provide: ChartComponent,
-      useExisting: XyChartComponent,
+      useExisting: ChartComponentStub,
+    },
+    {
+      provide: XyChartComponent,
+      useExisting: XyChartComponentStub,
     },
   ],
 })
-export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
-  @Input('vicLinesHoverAndMoveEffects')
-  effects: ReadonlyArray<LinesHoverAndMoveEffect>;
-  @Input() pointerDetectionRadius = 80;
-  @Output('hoverAndMoveData') emittedData =
-    new EventEmitter<LinesEmittedData>();
-
+export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
+  @Input()
+  vicLinesHoverAndMoveEffects: LinesSvgEventEffect[];
+  @Input() pointerDetectionRadius: number | null = 80;
+  @Output() hoverAndMoveEventOutput = new EventEmitter<LinesEmittedOutput>();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
-
-  constructor(public lines: LinesComponent) {
-    super();
-  }
+  public lines = inject(LinesComponent);
 
   chartPointerEnter(event: PointerEvent): void {
     return;
@@ -52,7 +53,9 @@ export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
   }
 
   chartPointerLeave() {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    this.vicLinesHoverAndMoveEffects.forEach((effect) =>
+      effect.removeEffect(this)
+    );
   }
 
   getPointerValuesArray(event: PointerEvent): [number, number] {
@@ -77,9 +80,13 @@ export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
         this.pointerY
       )
     ) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
+      this.vicLinesHoverAndMoveEffects.forEach((effect) =>
+        effect.applyEffect(this)
+      );
     } else {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+      this.vicLinesHoverAndMoveEffects.forEach((effect) =>
+        effect.removeEffect(this)
+      );
     }
   }
 
@@ -111,10 +118,7 @@ export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
     pointerX: number,
     pointerY: number
   ): boolean {
-    if (
-      this.pointerDetectionRadius === null ||
-      typeof this.pointerDetectionRadius === 'undefined'
-    ) {
+    if (this.pointerDetectionRadius === null) {
       return true;
     } else {
       const cursorDistanceFromPoint = this.getPointerDistanceFromPoint(
@@ -125,9 +129,5 @@ export class LinesHoverAndMoveEvent extends HoverAndMoveEvent {
       );
       return cursorDistanceFromPoint < this.pointerDetectionRadius;
     }
-  }
-
-  emitTooltip(tooltip: LinesEmittedData): void {
-    this.emittedData.emit;
   }
 }

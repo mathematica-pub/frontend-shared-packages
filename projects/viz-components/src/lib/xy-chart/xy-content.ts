@@ -1,3 +1,4 @@
+import { inject } from '@angular/core';
 import { combineLatest, takeUntil } from 'rxjs';
 import { Ranges } from '../chart/chart.component';
 import { Unsubscribe } from '../shared/unsubscribe.class';
@@ -8,10 +9,7 @@ export abstract class XyContent extends Unsubscribe {
   yScale: any;
   categoryScale: any;
   ranges: Ranges;
-
-  constructor(public chart: XyChartComponent) {
-    super();
-  }
+  public chart = inject(XyChartComponent);
 
   subscribeToRanges(): void {
     this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {

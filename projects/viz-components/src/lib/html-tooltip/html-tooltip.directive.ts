@@ -4,6 +4,7 @@ import {
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
+  ScrollStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
@@ -30,13 +31,15 @@ const defaultPosition: ConnectedPosition = {
 const defaultPanelClass = 'vic-html-tooltip-overlay';
 
 @Directive({
+  // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
 export class HtmlTooltipDirective implements OnInit, OnChanges {
   @Input() template: TemplateRef<unknown>;
   @Input() showTooltip: boolean;
   @Input() position: ConnectedPosition;
-  @Input() origin: ElementRef;
+  @Input() scrollStrategy?: ScrollStrategy;
+  @Input() origin?: ElementRef;
   @Input() disableEventsOnTooltip = true;
   overlayRef: OverlayRef;
   positionStrategy: FlexibleConnectedPositionStrategy;
@@ -50,9 +53,8 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setPositionStrategy();
-    this.overlayRef = this.overlay.create({
-      positionStrategy: this.positionStrategy,
-    });
+    this.setScrollStrategy();
+    this.createOverlay();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -80,6 +82,19 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
     this.positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(origin)
       .withPositions([position]);
+  }
+
+  setScrollStrategy(): void {
+    if (!this.scrollStrategy) {
+      this.scrollStrategy = this.overlay.scrollStrategies.close();
+    }
+  }
+
+  createOverlay(): void {
+    this.overlayRef = this.overlay.create({
+      positionStrategy: this.positionStrategy,
+      scrollStrategy: this.scrollStrategy,
+    });
   }
 
   updatePosition(): void {

@@ -1,9 +1,11 @@
-import { Directive } from '@angular/core';
-import { Chart } from -SvgEvent;
-} from './chart-svg-event';
+import { Directive, OnDestroy } from '@angular/core';
+import { ChartSvgEventDirective } from './chart-svg-event';
 
 @Directive()
-export abstract class ClickEffect extends Chart-SvgEvent implements OnDestroy {
+export abstract class ClickEventDirective
+  extends ChartSvgEventDirective
+  implements OnDestroy
+{
   unlistenClick: () => void;
 
   abstract chartClick(event: Event): void;
