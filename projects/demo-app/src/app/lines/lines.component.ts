@@ -1,5 +1,5 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AxisConfig,
   ElementSpacing,
@@ -32,8 +32,6 @@ type DemoLinesTooltip = LinesEmittedOutput & {
   styleUrls: ['./lines.component.scss'],
 })
 export class LinesComponent implements OnInit {
-  @ViewChild('tooltipOrigin', { read: ElementRef })
-  tooltipOriginRef: ElementRef;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
