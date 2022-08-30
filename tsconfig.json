@@ -19,6 +19,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
+    "typeRoots": ["node_modules/@types"],
     "target": "es2020",
     "module": "es2020",
     "lib": ["es2020", "dom"],
@@ -32,5 +33,6 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "strictPropertyInitialization": false
-  }
+  },
+  "exclude": ["./projects/demo-app/cypress.config.ts"]
 }
