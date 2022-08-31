@@ -9,7 +9,7 @@ import {
   verticalBarChartDimensionsConfig,
 } from '../src/public-api';
 
-var config = new AxisConfig({
+const config = new AxisConfig({
   // numTicks: number | TimeInterval,
   // tickFormat: string,
   // tickValues: any[],
@@ -22,7 +22,7 @@ var config = new AxisConfig({
   // tickLabelFontSize: number,
 });
 
-var configother = new BarsConfig({
+const configother = new BarsConfig({
   ordinal: new OrdinalDimensionConfig(),
   quantitative: new QuantitativeDimensionConfig(),
   category: new CategoricalColorDimensionConfig(),

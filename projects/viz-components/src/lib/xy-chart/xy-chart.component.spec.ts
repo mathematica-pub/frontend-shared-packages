@@ -1,5 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { XyChartComponent } from './xy-chart.component';
 
 describe('XyChartComponent', () => {

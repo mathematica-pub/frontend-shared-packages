@@ -1,11 +1,9 @@
 export class DataMarksConfig {
   data: any[];
   mixBlendMode: string;
-  tooltip: TooltipConfig;
 
   constructor(init?: Partial<DataMarksConfig>) {
     this.mixBlendMode = 'normal';
-    this.tooltip = new TooltipConfig();
     Object.assign(this, init);
   }
 }

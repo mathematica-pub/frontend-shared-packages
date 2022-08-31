@@ -25,7 +25,6 @@ import {
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { StackedAreaConfig } from './stacked-area.config';
 
@@ -50,10 +49,9 @@ export class StackedAreaComponent
   constructor(
     private areasRef: ElementRef<SVGSVGElement>,
     private utilities: UtilitiesService,
-    private zone: NgZone,
-    chart: XyChartComponent
+    private zone: NgZone
   ) {
-    super(chart);
+    super();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -69,7 +67,6 @@ export class StackedAreaComponent
   }
 
   setMethodsFromConfigAndDraw(): void {
-    this.setChartTooltipProperty();
     this.setValueArrays();
     this.initXAndCategoryDomains();
     this.setValueIndicies();
@@ -87,11 +84,6 @@ export class StackedAreaComponent
       this.setArea();
       this.drawMarks(0);
     }
-  }
-
-  setChartTooltipProperty(): void {
-    this.chart.htmlTooltip.exists =
-      this.config.tooltip.show && this.config.tooltip.type === 'html';
   }
 
   setValueArrays(): void {
