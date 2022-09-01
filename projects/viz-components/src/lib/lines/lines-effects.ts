@@ -31,7 +31,9 @@ export class LinesHoverAndMoveEffectDefaultLinesStyles
 export class LinesHoverAndMoveEffectDefaultMarkersStyles
   implements LinesHoverAndMoveEffect
 {
-  constructor(private config: LinesHoverAndMoveEffectDefaultStylesConfig) {}
+  constructor(private config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
+    this.config = config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
+  }
 
   applyEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.markers
@@ -97,10 +99,12 @@ export class LinesHoverAndMoveEffectDefaultStyles
   markersStyles: LinesHoverAndMoveEffect;
   hoverDotStyles: LinesHoverAndMoveEffect;
 
-  constructor(config: LinesHoverAndMoveEffectDefaultStylesConfig) {
+  constructor(config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
+    const markersStylesConfig =
+      config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
     this.linesStyles = new LinesHoverAndMoveEffectDefaultLinesStyles();
     this.markersStyles = new LinesHoverAndMoveEffectDefaultMarkersStyles(
-      config
+      markersStylesConfig
     );
     this.hoverDotStyles = new LinesHoverAndMoveEffectDefaultHoverDotStyles();
   }

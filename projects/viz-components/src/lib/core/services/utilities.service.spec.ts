@@ -12,6 +12,48 @@ describe('UtilitiesService', () => {
   });
 
   describe('objectChangedNotFirstTime()', () => {
+    let objectChangedSpy: jasmine.Spy;
+    let changes: any;
+    let objectName: string;
+    beforeEach(() => {
+      objectChangedSpy = spyOn(service, 'objectChanged').and.returnValue(true);
+      objectName = 'test';
+      changes = {
+        [objectName]: new SimpleChange('', '', false),
+      };
+    });
+
+    describe('if testObject has changes', () => {
+      describe('if it is not the first change', () => {
+        it('returns true if objectChanges returns true', () => {
+          const result = service.objectChangedNotFirstTime(changes, objectName);
+          expect(result).toEqual(true);
+        });
+
+        it('returns false if objectChanged returns false', () => {
+          objectChangedSpy.and.returnValue(false);
+          const result = service.objectChangedNotFirstTime(changes, objectName);
+          expect(result).toEqual(false);
+        });
+      });
+
+      it('returns false if it is the first change', () => {
+        changes = {
+          [objectName]: new SimpleChange('', '', true),
+        };
+        const result = service.objectChangedNotFirstTime(changes, objectName);
+        expect(result).toEqual(false);
+      });
+    });
+
+    it('returns false if changes does not have property for input string', () => {
+      changes = { wrong: new SimpleChange('', '', false) };
+      const result = service.objectChangedNotFirstTime(changes, objectName);
+      expect(result).toEqual(false);
+    });
+  });
+
+  describe('objectChanged()', () => {
     let isEqualSpy: jasmine.Spy;
     let changes: any;
     let objectName: string;
@@ -36,14 +78,6 @@ describe('UtilitiesService', () => {
           const result = service.objectChangedNotFirstTime(changes, objectName);
           expect(result).toEqual(false);
         });
-      });
-
-      it('returns false if it is the first change', () => {
-        changes = {
-          [objectName]: new SimpleChange('', '', true),
-        };
-        const result = service.objectChangedNotFirstTime(changes, objectName);
-        expect(result).toEqual(false);
       });
     });
 

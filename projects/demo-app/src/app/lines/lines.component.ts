@@ -23,10 +23,12 @@ interface ViewModel {
   labels: string[];
   hoverEffects: LinesHoverAndMoveEffect[];
 }
+
 type DemoLinesTooltip = LinesEmittedOutput & {
   position: ConnectedPosition;
   show: boolean;
 };
+
 @Component({
   selector: 'app-lines',
   templateUrl: './lines.component.html',
