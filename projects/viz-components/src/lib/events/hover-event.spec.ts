@@ -1,8 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
-import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
 import { HoverEventDirectiveStub } from '../testing/stubs/hover-event-stub';
 
 describe('HoverEvent', () => {
@@ -10,14 +8,7 @@ describe('HoverEvent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        HoverEventDirectiveStub,
-        Renderer2,
-        {
-          provide: ChartComponent,
-          useValue: ChartComponentStub,
-        },
-      ],
+      providers: [HoverEventDirectiveStub, Renderer2],
     });
     directive = TestBed.inject(HoverEventDirectiveStub);
     directive.unlistenTouchStart = () => {

@@ -1,39 +1,51 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
-import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
-import { SvgChartEventDirectiveStub } from '../testing/stubs/svg-chart-event.stub';
+import { DataMarks } from '../data-marks/data-marks';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { ChartSvgEventDirectiveStub } from '../testing/stubs/svg-chart-event.stub';
 
 describe('SvgChartEvent', () => {
-  let directive: SvgChartEventDirectiveStub;
+  let directive: ChartSvgEventDirectiveStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        SvgChartEventDirectiveStub,
+        ChartSvgEventDirectiveStub,
         Renderer2,
         {
-          provide: ChartComponent,
-          useValue: ChartComponentStub,
+          provide: DATA_MARKS,
+          useClass: DataMarks,
         },
       ],
     });
-    directive = TestBed.inject(SvgChartEventDirectiveStub);
+    directive = TestBed.inject(ChartSvgEventDirectiveStub);
   });
 
   describe('ngAfterViewInit()', () => {
     beforeEach(() => {
       spyOn(directive, 'setListeners');
-      (directive as any).chart.svgRef = { nativeElement: 'element' };
+      spyOn(directive, 'setEl');
     });
-    it('sets el to the correct value', () => {
+    it('calls setEl', () => {
       directive.ngAfterViewInit();
-      expect(directive.el).toEqual('element' as any);
+      expect(directive.setEl).toHaveBeenCalledTimes(1);
     });
     it('calls setListeners()', () => {
       directive.ngAfterViewInit();
       expect(directive.setListeners).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setEl()', () => {
+    it('sets el to the correct value', () => {
+      (directive as any).dataMarks = {
+        chart: {
+          svgRef: { nativeElement: 'element' },
+        },
+      } as any;
+      directive.setEl();
+      expect(directive.el).toEqual('element' as any);
     });
   });
 });

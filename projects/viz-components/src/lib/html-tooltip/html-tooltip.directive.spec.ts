@@ -1,22 +1,32 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
-import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
+import { UtilitiesService } from '../core/services/utilities.service';
+import { DataMarks } from '../data-marks/data-marks';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
+import { HtmlTooltipConfig } from './html-tooltip.config';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
   let directive: HtmlTooltipDirective;
+  let mainServiceStub: MainServiceStub;
 
   beforeEach(() => {
+    mainServiceStub = new MainServiceStub();
     TestBed.configureTestingModule({
       providers: [
         ViewContainerRef,
         Overlay,
         OverlayPositionBuilder,
+        HtmlTooltipDirective,
         {
-          provide: ChartComponent,
-          useValue: ChartComponentStub,
+          provide: DATA_MARKS,
+          useClass: DataMarks,
+        },
+        {
+          provide: UtilitiesService,
+          useValue: mainServiceStub.utilitiesServiceStub,
         },
       ],
     });
@@ -47,35 +57,40 @@ describe('HtmlTooltipDirective', () => {
 
   describe('ngOnChanges', () => {
     let changes: any;
+    let objChangedSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(directive, 'show');
       spyOn(directive, 'hide');
+      spyOn(directive, 'updatePosition');
+      objChangedSpy = mainServiceStub.utilitiesServiceStub.objectChanged;
+      directive.config = new HtmlTooltipConfig();
     });
-    describe('if there are tooltip changes', () => {
+    describe('if there are config.show changes', () => {
       beforeEach(() => {
-        changes = { tooltip: { currentValue: 'new tooltip' } };
+        changes = {};
+        objChangedSpy.and.returnValue(true);
       });
       describe('if overlayRef is truthy', () => {
         beforeEach(() => {
           directive.overlayRef = 'overlay' as any;
         });
         it('calls show if showTooltip is true', () => {
-          directive.showTooltip = true;
+          directive.config.show = true;
           directive.ngOnChanges(changes);
           expect(directive.show).toHaveBeenCalledTimes(1);
         });
         it('does not call show if showTooltip is false', () => {
-          directive.showTooltip = false;
+          directive.config.show = false;
           directive.ngOnChanges(changes);
           expect(directive.show).not.toHaveBeenCalled();
         });
         it('calls hide if showTooltip is false', () => {
-          directive.showTooltip = false;
+          directive.config.show = false;
           directive.ngOnChanges(changes);
           expect(directive.hide).toHaveBeenCalledTimes(1);
         });
         it('does not call hide if showTooltip is true', () => {
-          directive.showTooltip = true;
+          directive.config.show = true;
           directive.ngOnChanges(changes);
           expect(directive.hide).not.toHaveBeenCalled();
         });
@@ -85,28 +100,29 @@ describe('HtmlTooltipDirective', () => {
           directive.overlayRef = null;
         });
         it('does not call show', () => {
-          directive.showTooltip = true;
+          directive.config.show = true;
           directive.ngOnChanges(changes);
           expect(directive.show).not.toHaveBeenCalled();
         });
         it('does not call hide', () => {
-          directive.showTooltip = false;
+          directive.config.show = false;
           directive.ngOnChanges(changes);
           expect(directive.hide).not.toHaveBeenCalled();
         });
       });
     });
-    describe('if there are no tooltip changes', () => {
+    describe('if there are no showTooltip changes', () => {
       beforeEach(() => {
         changes = {};
+        objChangedSpy.and.returnValue(false);
       });
       it('does not call show', () => {
-        directive.showTooltip = true;
+        directive.config.show = true;
         directive.ngOnChanges(changes);
         expect(directive.show).not.toHaveBeenCalled();
       });
       it('does not call hide', () => {
-        directive.showTooltip = false;
+        directive.config.show = false;
         directive.ngOnChanges(changes);
         expect(directive.hide).not.toHaveBeenCalled();
       });
@@ -114,27 +130,29 @@ describe('HtmlTooltipDirective', () => {
 
     describe('if there are position changes', () => {
       beforeEach(() => {
-        changes = { position: { currentValue: 'new position' } };
+        changes = {};
+        objChangedSpy.and.returnValue(true);
       });
-      it('calls setPositionStrategy if overlayRef is truthy', () => {
+      it('calls updatePosition if overlayRef is truthy', () => {
         directive.overlayRef = 'overlay' as any;
         directive.ngOnChanges(changes);
-        expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
+        expect(directive.updatePosition).toHaveBeenCalledTimes(1);
       });
-      it('does not call setPositionStrategy if overlayRef is falsy', () => {
+      it('does not call updatePosition if overlayRef is falsy', () => {
         directive.overlayRef = null;
         directive.ngOnChanges(changes);
-        expect(directive.setPositionStrategy).not.toHaveBeenCalled();
+        expect(directive.updatePosition).not.toHaveBeenCalled();
       });
     });
   });
 
   describe('getOverlayClasses', () => {
     beforeEach(() => {
-      directive.disableEventsOnTooltip = false;
+      directive.config = new HtmlTooltipConfig();
+      directive.config.disableEventsOnTooltip = false;
     });
     it('integration: returns the correct classes: has multiple classes on position', () => {
-      directive.position = {
+      directive.config.position = {
         panelClass: ['one', 'two'],
       } as any;
       expect(directive.getOverlayClasses()).toEqual([
@@ -144,7 +162,7 @@ describe('HtmlTooltipDirective', () => {
       ]);
     });
     it('integration: returns the correct classes: has one class on position', () => {
-      directive.position = {
+      directive.config.position = {
         panelClass: 'one',
       } as any;
       expect(directive.getOverlayClasses()).toEqual([
@@ -153,13 +171,13 @@ describe('HtmlTooltipDirective', () => {
       ]);
     });
     it('integration: returns the correct classes: has no classes on position', () => {
-      directive.position = {} as any;
+      directive.config.position = {} as any;
       expect(directive.getOverlayClasses()).toEqual([
         'vic-html-tooltip-overlay',
       ]);
     });
     it('integration: returns the correct classes: disableEvents is true', () => {
-      directive.disableEventsOnTooltip = true;
+      directive.config.disableEventsOnTooltip = true;
       expect(directive.getOverlayClasses()).toEqual([
         'vic-html-tooltip-overlay',
         'events-disabled',

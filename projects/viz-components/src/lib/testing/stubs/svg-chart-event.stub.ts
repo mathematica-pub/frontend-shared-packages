@@ -1,6 +1,6 @@
 import { ChartSvgEventDirective } from '../../events/chart-svg-event';
 
-export class SvgChartEventDirectiveStub extends ChartSvgEventDirective {
+export class ChartSvgEventDirectiveStub extends ChartSvgEventDirective {
   setListeners(): void {
     return;
   }

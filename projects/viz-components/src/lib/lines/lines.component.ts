@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   inject,
+  InjectionToken,
   Input,
   NgZone,
   OnChanges,
@@ -24,9 +25,11 @@ import {
   select,
   Transition,
 } from 'd3';
+import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { LinesConfig } from './lines.config';
 
@@ -43,6 +46,8 @@ export class LinesTooltipData {
   category: string;
 }
 
+export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-lines]',
@@ -50,7 +55,11 @@ export class LinesTooltipData {
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: LinesComponent }],
+  providers: [
+    { provide: DATA_MARKS, useExisting: LinesComponent },
+    { provide: LINES, useExisting: LinesComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
 })
 export class LinesComponent
   extends XyContent

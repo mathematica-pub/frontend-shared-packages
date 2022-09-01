@@ -1,12 +1,14 @@
 import { format, timeFormat } from 'd3';
-import { LinesSvgEventEffect } from './lines-effect';
-import { LinesHoverEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
+import { LinesHoverAndMoveEffect } from './lines-effect';
+import { LinesHoverAndMoveEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
 import {
   LinesEmittedOutput,
   LinesHoverAndMoveEventDirective,
 } from './lines-hover-move-event.directive';
 
-export class LinesHoverEffectDefaultLinesStyles implements LinesSvgEventEffect {
+export class LinesHoverAndMoveEffectDefaultLinesStyles
+  implements LinesHoverAndMoveEffect
+{
   applyEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.lines
       .style('stroke', ([category]): string =>
@@ -26,10 +28,12 @@ export class LinesHoverEffectDefaultLinesStyles implements LinesSvgEventEffect {
   }
 }
 
-export class LinesHoverEffectDefaultMarkersStyles
-  implements LinesSvgEventEffect
+export class LinesHoverAndMoveEffectDefaultMarkersStyles
+  implements LinesHoverAndMoveEffect
 {
-  constructor(private config: LinesHoverEffectDefaultStylesConfig) {}
+  constructor(private config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
+    this.config = config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
+  }
 
   applyEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.markers
@@ -61,8 +65,8 @@ export class LinesHoverEffectDefaultMarkersStyles
   }
 }
 
-export class LinesHoverEffectDefaultHoverDotStyles
-  implements LinesSvgEventEffect
+export class LinesHoverAndMoveEffectDefaultHoverDotStyles
+  implements LinesHoverAndMoveEffect
 {
   applyEffect(event: LinesHoverAndMoveEventDirective) {
     event.lines.hoverDot
@@ -88,15 +92,21 @@ export class LinesHoverEffectDefaultHoverDotStyles
   }
 }
 
-export class LinesHoverEffectDefaultStyles implements LinesSvgEventEffect {
-  linesStyles: LinesSvgEventEffect;
-  markersStyles: LinesSvgEventEffect;
-  hoverDotStyles: LinesSvgEventEffect;
+export class LinesHoverAndMoveEffectDefaultStyles
+  implements LinesHoverAndMoveEffect
+{
+  linesStyles: LinesHoverAndMoveEffect;
+  markersStyles: LinesHoverAndMoveEffect;
+  hoverDotStyles: LinesHoverAndMoveEffect;
 
-  constructor(config: LinesHoverEffectDefaultStylesConfig) {
-    this.linesStyles = new LinesHoverEffectDefaultLinesStyles();
-    this.markersStyles = new LinesHoverEffectDefaultMarkersStyles(config);
-    this.hoverDotStyles = new LinesHoverEffectDefaultHoverDotStyles();
+  constructor(config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
+    const markersStylesConfig =
+      config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
+    this.linesStyles = new LinesHoverAndMoveEffectDefaultLinesStyles();
+    this.markersStyles = new LinesHoverAndMoveEffectDefaultMarkersStyles(
+      markersStylesConfig
+    );
+    this.hoverDotStyles = new LinesHoverAndMoveEffectDefaultHoverDotStyles();
   }
 
   applyEffect(event: LinesHoverAndMoveEventDirective) {
@@ -118,7 +128,7 @@ export class LinesHoverEffectDefaultStyles implements LinesSvgEventEffect {
   }
 }
 
-export class EmitLinesTooltipData implements LinesSvgEventEffect {
+export class EmitLinesTooltipData implements LinesHoverAndMoveEffect {
   applyEffect(event: LinesHoverAndMoveEventDirective): void {
     const datum = event.lines.config.data.find(
       (d) =>

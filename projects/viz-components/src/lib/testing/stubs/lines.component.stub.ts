@@ -1,3 +1,4 @@
+import { Chart } from '../../chart/chart';
 import { XyDataMarksValues } from '../../data-marks/xy-data-marks';
 
 export class LinesComponentStub {
@@ -11,4 +12,5 @@ export class LinesComponentStub {
   markers;
   lines;
   hoverDot;
+  chart = new Chart();
 }

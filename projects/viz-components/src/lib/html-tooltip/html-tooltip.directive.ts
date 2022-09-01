@@ -1,32 +1,24 @@
 import {
-  ConnectedPosition,
   FlexibleConnectedPositionStrategy,
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
-  ScrollStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
   Directive,
-  ElementRef,
+  Inject,
   Input,
   OnChanges,
   OnInit,
-  Optional,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { ChartComponent } from '../chart/chart.component';
-
-/** Default position for the overlay. Follows the behavior of a tooltip. */
-const defaultPosition: ConnectedPosition = {
-  originX: 'start',
-  originY: 'top',
-  overlayX: 'center',
-  overlayY: 'bottom',
-};
+import { UtilitiesService } from '../core/services/utilities.service';
+import { DataMarks } from '../data-marks/data-marks';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { HtmlTooltipConfig } from './html-tooltip.config';
 
 const defaultPanelClass = 'vic-html-tooltip-overlay';
 
@@ -36,11 +28,7 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
 })
 export class HtmlTooltipDirective implements OnInit, OnChanges {
   @Input() template: TemplateRef<unknown>;
-  @Input() showTooltip: boolean;
-  @Input() position: ConnectedPosition;
-  @Input() scrollStrategy?: ScrollStrategy;
-  @Input() origin?: ElementRef;
-  @Input() disableEventsOnTooltip = true;
+  @Input() config: HtmlTooltipConfig;
   overlayRef: OverlayRef;
   positionStrategy: FlexibleConnectedPositionStrategy;
 
@@ -48,7 +36,8 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    @Optional() private chart: ChartComponent
+    private utilities: UtilitiesService,
+    @Inject(DATA_MARKS) private dataMarks: DataMarks
   ) {}
 
   ngOnInit(): void {
@@ -58,22 +47,28 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['showTooltip'] && this.overlayRef) {
-      if (this.showTooltip) {
+    if (
+      this.utilities.objectChanged(changes, 'config', 'show') &&
+      this.overlayRef
+    ) {
+      if (this.config.show) {
         this.show();
       } else {
         this.hide();
       }
     }
 
-    if (changes['position'] && this.overlayRef) {
+    if (
+      this.utilities.objectChanged(changes, 'config', 'position') &&
+      this.overlayRef
+    ) {
       this.updatePosition();
     }
   }
 
   setPositionStrategy(): void {
-    const origin = this.origin ?? this.chart.svgRef;
-    const position = this.position ?? defaultPosition;
+    const origin = this.config.origin ?? this.dataMarks.chart.svgRef;
+    const position = this.config.position;
     position.panelClass = this.getOverlayClasses();
     this.positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(origin)
@@ -81,28 +76,28 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
   }
 
   getOverlayClasses(): string[] {
-    const positionClasses = this.position.panelClass
-      ? Array.isArray(this.position.panelClass)
-        ? this.position.panelClass
-        : [this.position.panelClass]
+    const positionClasses = this.config.position.panelClass
+      ? Array.isArray(this.config.position.panelClass)
+        ? this.config.position.panelClass
+        : [this.config.position.panelClass]
       : [];
     const classes = [defaultPanelClass, ...positionClasses];
-    if (this.disableEventsOnTooltip) {
+    if (this.config.disableEventsOnTooltip) {
       classes.push('events-disabled');
     }
     return classes;
   }
 
   setScrollStrategy(): void {
-    if (!this.scrollStrategy) {
-      this.scrollStrategy = this.overlay.scrollStrategies.close();
+    if (!this.config.scrollStrategy) {
+      this.config.scrollStrategy = this.overlay.scrollStrategies.close();
     }
   }
 
   createOverlay(): void {
     this.overlayRef = this.overlay.create({
       positionStrategy: this.positionStrategy,
-      scrollStrategy: this.scrollStrategy,
+      scrollStrategy: this.config.scrollStrategy,
     });
   }
 

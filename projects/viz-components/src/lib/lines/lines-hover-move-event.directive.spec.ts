@@ -1,11 +1,9 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
-import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { LinesHoverAndMoveEventDirective } from './lines-hover-move-event.directive';
-import { LinesComponent } from './lines.component';
+import { LINES } from './lines.component';
 
 describe('LinesHoverAndMoveDirective', () => {
   let directive: LinesHoverAndMoveEventDirective;
@@ -16,11 +14,7 @@ describe('LinesHoverAndMoveDirective', () => {
         LinesHoverAndMoveEventDirective,
         Renderer2,
         {
-          provide: ChartComponent,
-          useValue: XyChartComponentStub,
-        },
-        {
-          provide: LinesComponent,
+          provide: LINES,
           useValue: LinesComponentStub,
         },
       ],
@@ -97,7 +91,7 @@ describe('LinesHoverAndMoveDirective', () => {
         applyEffect: applyBSpy,
         removeEffect: removeBSpy,
       };
-      directive.vicLinesHoverAndMoveEffects = [effectA, effectB];
+      directive.effects = [effectA, effectB];
     });
     it('calls remove effect on each effect in effects array', () => {
       directive.chartPointerLeave();
@@ -161,7 +155,7 @@ describe('LinesHoverAndMoveDirective', () => {
         applyEffect: applyBSpy,
         removeEffect: removeBSpy,
       };
-      directive.vicLinesHoverAndMoveEffects = [effectA, effectB];
+      directive.effects = [effectA, effectB];
     });
     it('calls getClosestPointIndex once', () => {
       directive.determineHoverStyles();

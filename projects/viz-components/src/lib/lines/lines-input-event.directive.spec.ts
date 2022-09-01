@@ -2,7 +2,7 @@
 import { TestBed } from '@angular/core/testing';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
 import { LinesInputEventDirective } from './lines-input-event.directive';
-import { LinesComponent } from './lines.component';
+import { LINES } from './lines.component';
 
 describe('LinesInputDirective', () => {
   let directive: LinesInputEventDirective;
@@ -12,7 +12,7 @@ describe('LinesInputDirective', () => {
       providers: [
         LinesInputEventDirective,
         {
-          provide: LinesComponent,
+          provide: LINES,
           useValue: LinesComponentStub,
         },
       ],
@@ -40,7 +40,7 @@ describe('LinesInputDirective', () => {
         applyEffect: applyBSpy,
         removeEffect: removeBSpy,
       };
-      directive.vicLinesInputEffects = [effectA, effectB];
+      directive.effects = [effectA, effectB];
     });
     it('calls apply effect with the correct values if inputEvent is truthy', () => {
       directive.handleNewEvent('hello');

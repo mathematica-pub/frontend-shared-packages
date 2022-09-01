@@ -24,14 +24,13 @@
         <svg:g
           vic-data-marks-lines
           [config]="vm.dataConfig"
-          [vicLinesHoverAndMoveEffects]="vm.hoverEffects"
-          (hoverAndMoveEventOutput)="processHoverData($event)"
+          [vicLinesHoverAndMoveEffects]="hoverEffects"
+          (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
           [vicLinesInputEffects]="[highlightLineForLabelEffect]"
           [inputEvent$]="chartInputEvent$"
         >
           <vic-html-tooltip
-            [showTooltip]="(tooltipConfig$ | async).show"
-            [position]="(tooltipConfig$ | async).position"
+            [config]="(tooltipConfig$ | async)"
             [template]="htmlTooltip"
           ></vic-html-tooltip>
         </svg:g>
@@ -44,21 +43,18 @@
 </app-component-demo>
 
 <ng-template #htmlTooltip>
-  <div
-    [style.--color]="(tooltipConfig$ | async).color"
-    class="tooltip-container"
-  >
+  <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">
     <p class="tooltip-label category">
-      {{ (tooltipConfig$ | async).category }}
+      {{ (tooltipData$ | async).category }}
     </p>
     <div class="values-container">
       <p class="tooltip-label x">
         <span class="value-label">Date</span>
-        {{ (tooltipConfig$ | async).x }}
+        {{ (tooltipData$ | async).x }}
       </p>
       <p class="tooltip-label y">
         <span class="value-label">Value</span>
-        {{ (tooltipConfig$ | async).y }}
+        {{ (tooltipData$ | async).y }}
       </p>
     </div>
   </div>

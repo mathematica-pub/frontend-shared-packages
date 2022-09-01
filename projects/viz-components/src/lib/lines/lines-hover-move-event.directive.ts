@@ -1,12 +1,8 @@
-import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least, pointer } from 'd3';
-import { ChartComponent } from '../chart/chart.component';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
-import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
-import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { LinesSvgEventEffect } from './lines-effect';
-import { LinesComponent } from './lines.component';
+import { LinesHoverAndMoveEffect } from './lines-effect';
+import { LINES, LinesComponent } from './lines.component';
 
 export class LinesEmittedOutput {
   datum: any;
@@ -19,27 +15,20 @@ export class LinesEmittedOutput {
 }
 
 @Directive({
-  selector: '[vic-data-marks-lines][vicLinesHoverAndMoveEffects]',
-  providers: [
-    {
-      provide: ChartComponent,
-      useExisting: ChartComponentStub,
-    },
-    {
-      provide: XyChartComponent,
-      useExisting: XyChartComponentStub,
-    },
-  ],
+  selector: '[vicLinesHoverAndMoveEffects]',
 })
 export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  @Input()
-  vicLinesHoverAndMoveEffects: LinesSvgEventEffect[];
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('vicLinesHoverAndMoveEffects') effects: LinesHoverAndMoveEffect[];
   @Input() pointerDetectionRadius: number | null = 80;
   @Output() hoverAndMoveEventOutput = new EventEmitter<LinesEmittedOutput>();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
-  public lines = inject(LinesComponent);
+
+  constructor(@Inject(LINES) public lines: LinesComponent) {
+    super(lines);
+  }
 
   chartPointerEnter(event: PointerEvent): void {
     return;
@@ -53,9 +42,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
   }
 
   chartPointerLeave() {
-    this.vicLinesHoverAndMoveEffects.forEach((effect) =>
-      effect.removeEffect(this)
-    );
+    this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
   getPointerValuesArray(event: PointerEvent): [number, number] {
@@ -80,13 +67,9 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
         this.pointerY
       )
     ) {
-      this.vicLinesHoverAndMoveEffects.forEach((effect) =>
-        effect.applyEffect(this)
-      );
+      this.effects.forEach((effect) => effect.applyEffect(this));
     } else {
-      this.vicLinesHoverAndMoveEffects.forEach((effect) =>
-        effect.removeEffect(this)
-      );
+      this.effects.forEach((effect) => effect.removeEffect(this));
     }
   }
 
