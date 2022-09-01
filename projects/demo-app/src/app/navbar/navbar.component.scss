@@ -2,7 +2,7 @@
 
 .nav-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1 1 0%;
   -webkit-box-align: center;
   align-items: center;
@@ -12,8 +12,7 @@
   z-index: 3;
   position: sticky;
   top: 0px;
-  background: $color-white;
-  border-bottom: 1px solid $color-primary-7;
+  border-right: 1px solid $color-primary-7;
 }
 
 .link-container:hover {
