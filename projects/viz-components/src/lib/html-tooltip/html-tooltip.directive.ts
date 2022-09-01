@@ -10,15 +10,16 @@ import { TemplatePortal } from '@angular/cdk/portal';
 import {
   Directive,
   ElementRef,
+  Inject,
   Input,
   OnChanges,
   OnInit,
-  Optional,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { ChartComponent } from '../chart/chart.component';
+import { DataMarks } from '../data-marks/data-marks';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 
 /** Default position for the overlay. Follows the behavior of a tooltip. */
 const defaultPosition: ConnectedPosition = {
@@ -48,7 +49,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    @Optional() private chart: ChartComponent
+    @Inject(DATA_MARKS) private dataMarks: DataMarks
   ) {}
 
   ngOnInit(): void {
@@ -72,7 +73,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
   }
 
   setPositionStrategy(): void {
-    const origin = this.origin ?? this.chart.svgRef;
+    const origin = this.origin ?? this.dataMarks.chart.svgRef;
     const position = this.position ?? defaultPosition;
     position.panelClass = this.getOverlayClasses();
     this.positionStrategy = this.overlayPositionBuilder

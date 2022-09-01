@@ -6,9 +6,9 @@ import {
   EmitLinesTooltipData,
   LinesConfig,
   LinesEmittedOutput,
-  LinesHoverEffectDefaultStyles,
-  LinesHoverEffectDefaultStylesConfig,
-  LinesSvgEventEffect,
+  LinesHoverAndMoveEffect,
+  LinesHoverAndMoveEffectDefaultStyles,
+  LinesHoverAndMoveEffectDefaultStylesConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { Documentation } from '../core/enums/documentation.enums';
@@ -21,7 +21,7 @@ interface ViewModel {
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
   labels: string[];
-  hoverEffects: LinesSvgEventEffect[];
+  hoverEffects: LinesHoverAndMoveEffect[];
 }
 type DemoLinesTooltip = LinesEmittedOutput & {
   position: ConnectedPosition;
@@ -78,8 +78,10 @@ export class LinesComponent implements OnInit {
     dataConfig.pointMarker.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     const hoverEffects = [
-      new LinesHoverEffectDefaultStyles(
-        new LinesHoverEffectDefaultStylesConfig({ growMarkerDimension: 3 })
+      new LinesHoverAndMoveEffectDefaultStyles(
+        new LinesHoverAndMoveEffectDefaultStylesConfig({
+          growMarkerDimension: 3,
+        })
       ),
       new EmitLinesTooltipData(),
     ];

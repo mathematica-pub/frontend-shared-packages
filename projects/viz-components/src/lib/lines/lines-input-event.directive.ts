@@ -1,23 +1,18 @@
-import { Directive, EventEmitter, inject, Input, Output } from '@angular/core';
-import { ChartComponent } from '../chart/chart.component';
+import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InputEventDirective } from '../events/input-event';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesInputEffect } from './lines-effect';
-import { LinesComponent } from './lines.component';
+import { LINES, LinesComponent } from './lines.component';
 
 @Directive({
-  selector: '[vic-data-marks-lines][vicLinesInputEffects]',
-  providers: [
-    {
-      provide: ChartComponent,
-      useExisting: XyChartComponent,
-    },
-  ],
+  selector: '[vicLinesInputEffects]',
 })
 export class LinesInputEventDirective extends InputEventDirective {
   @Input() vicLinesInputEffects: LinesInputEffect[];
   @Output() inputEventOutput = new EventEmitter<any>();
-  public lines = inject(LinesComponent);
+
+  constructor(@Inject(LINES) public lines: LinesComponent) {
+    super();
+  }
 
   handleNewEvent(inputEvent: any): void {
     if (inputEvent) {
