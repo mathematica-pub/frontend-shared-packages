@@ -7,18 +7,18 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesHoverEffects]',
 })
 export class LinesHoverEventDirective extends HoverEventDirective {
-  @Input()
-  vicLinesHoverEffects: LinesHoverEffect[];
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('vicLinesHoverEffects') effects: LinesHoverEffect[];
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
     super(lines);
   }
 
   chartPointerEnter(event: PointerEvent): void {
-    this.vicLinesHoverEffects.forEach((effect) => effect.applyEffect(this));
+    this.effects.forEach((effect) => effect.applyEffect(this));
   }
 
   chartPointerLeave(event: PointerEvent): void {
-    this.vicLinesHoverEffects.forEach((effect) => effect.removeEffect(this));
+    this.effects.forEach((effect) => effect.removeEffect(this));
   }
 }

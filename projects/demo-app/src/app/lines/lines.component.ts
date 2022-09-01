@@ -1,5 +1,5 @@
-import { ConnectedPosition } from '@angular/cdk/overlay';
 import { Component, OnInit } from '@angular/core';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
@@ -21,13 +21,7 @@ interface ViewModel {
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
   labels: string[];
-  hoverEffects: LinesHoverAndMoveEffect[];
 }
-
-type DemoLinesTooltip = LinesEmittedOutput & {
-  position: ConnectedPosition;
-  show: boolean;
-};
 
 @Component({
   selector: 'app-lines',
@@ -43,20 +37,25 @@ export class LinesComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-  tooltipConfig: BehaviorSubject<DemoLinesTooltip> =
-    new BehaviorSubject<DemoLinesTooltip>({
-      show: false,
-      position: {
-        originX: 'start',
-        originY: 'top',
-        overlayX: 'center',
-        overlayY: 'bottom',
-      },
-    } as DemoLinesTooltip);
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(
+      new HtmlTooltipConfig({ show: false })
+    );
   tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<LinesEmittedOutput> =
+    new BehaviorSubject<LinesEmittedOutput>(null);
+  tooltipData$ = this.tooltipData.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
+  hoverEffects: LinesHoverAndMoveEffect[] = [
+    new LinesHoverAndMoveEffectDefaultStyles(
+      new LinesHoverAndMoveEffectDefaultStylesConfig({
+        growMarkerDimension: 3,
+      })
+    ),
+    new EmitLinesTooltipData(),
+  ];
 
   constructor(private dataService: DataService) {}
 
@@ -79,40 +78,34 @@ export class LinesComponent implements OnInit {
     dataConfig.category.valueAccessor = (d) => d.division;
     dataConfig.pointMarker.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    const hoverEffects = [
-      new LinesHoverAndMoveEffectDefaultStyles(
-        new LinesHoverAndMoveEffectDefaultStylesConfig({
-          growMarkerDimension: 3,
-        })
-      ),
-      new EmitLinesTooltipData(),
-    ];
+
     return {
       dataConfig,
       xAxisConfig,
       yAxisConfig,
       labels,
-      hoverEffects,
     };
   }
 
-  processHoverData(data: LinesEmittedOutput): void {
-    let config = {} as DemoLinesTooltip;
-    const position: ConnectedPosition = {
-      originX: 'start',
-      originY: 'top',
-      overlayX: 'center',
-      overlayY: 'bottom',
-    };
+  updateTooltipForNewOutput(data: LinesEmittedOutput): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: LinesEmittedOutput): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: LinesEmittedOutput): void {
+    const config = new HtmlTooltipConfig();
+    config.position.panelClass = 'time-range-tooltip';
     if (data) {
-      position.offsetX = data.positionX;
-      position.offsetY = data.positionY - 16;
-      config = { ...config, ...data };
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 16;
       config.show = true;
     } else {
       config.show = false;
     }
-    config.position = position;
     this.tooltipConfig.next(config);
   }
 

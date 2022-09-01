@@ -43,7 +43,7 @@ describe('LinesHoverEventDirective', () => {
       effectB = {
         applyEffect: applyBSpy,
       };
-      directive.vicLinesHoverEffects = [effectA, effectB] as any;
+      directive.effects = [effectA, effectB] as any;
     });
     it('calls apply effect with the correct value', () => {
       directive.chartPointerEnter(event);
@@ -68,7 +68,7 @@ describe('LinesHoverEventDirective', () => {
       effectB = {
         removeEffect: removeBSpy,
       };
-      directive.vicLinesHoverEffects = [effectA, effectB] as any;
+      directive.effects = [effectA, effectB] as any;
     });
     it('calls remove effect with the correct value', () => {
       directive.chartPointerLeave(event);

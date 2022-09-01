@@ -40,7 +40,7 @@ describe('LinesInputDirective', () => {
         applyEffect: applyBSpy,
         removeEffect: removeBSpy,
       };
-      directive.vicLinesInputEffects = [effectA, effectB];
+      directive.effects = [effectA, effectB];
     });
     it('calls apply effect with the correct values if inputEvent is truthy', () => {
       directive.handleNewEvent('hello');

@@ -7,7 +7,8 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesInputEffects]',
 })
 export class LinesInputEventDirective extends InputEventDirective {
-  @Input() vicLinesInputEffects: LinesInputEffect[];
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('vicLinesInputEffects') effects: LinesInputEffect[];
   @Output() inputEventOutput = new EventEmitter<any>();
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
@@ -16,13 +17,9 @@ export class LinesInputEventDirective extends InputEventDirective {
 
   handleNewEvent(inputEvent: any): void {
     if (inputEvent) {
-      this.vicLinesInputEffects.forEach((effect) =>
-        effect.applyEffect(this, inputEvent)
-      );
+      this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
     } else {
-      this.vicLinesInputEffects.forEach((effect) =>
-        effect.removeEffect(this, inputEvent)
-      );
+      this.effects.forEach((effect) => effect.removeEffect(this, inputEvent));
     }
   }
 }

@@ -91,7 +91,7 @@ describe('LinesHoverAndMoveDirective', () => {
         applyEffect: applyBSpy,
         removeEffect: removeBSpy,
       };
-      directive.vicLinesHoverAndMoveEffects = [effectA, effectB];
+      directive.effects = [effectA, effectB];
     });
     it('calls remove effect on each effect in effects array', () => {
       directive.chartPointerLeave();
@@ -155,7 +155,7 @@ describe('LinesHoverAndMoveDirective', () => {
         applyEffect: applyBSpy,
         removeEffect: removeBSpy,
       };
-      directive.vicLinesHoverAndMoveEffects = [effectA, effectB];
+      directive.effects = [effectA, effectB];
     });
     it('calls getClosestPointIndex once', () => {
       directive.determineHoverStyles();

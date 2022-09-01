@@ -1,16 +1,34 @@
 /* eslint-disable no-var */
 import { Injectable, SimpleChanges } from '@angular/core';
-import { isEqual } from 'lodash';
+import { get, isEqual } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilitiesService {
-  objectChangedNotFirstTime(changes: SimpleChanges, object: string): boolean {
+  objectChangedNotFirstTime(
+    changes: SimpleChanges,
+    object: string,
+    property?: string
+  ): boolean {
     return (
       changes[object] !== undefined &&
       !changes[object].firstChange &&
-      !isEqual(changes[object].previousValue, changes[object].currentValue)
+      this.objectChanged(changes, object, property)
+    );
+  }
+
+  objectChanged(
+    changes: SimpleChanges,
+    object: string,
+    property?: string
+  ): boolean {
+    return (
+      changes[object] !== undefined &&
+      !isEqual(
+        get(changes[object].previousValue, property),
+        get(changes[object].currentValue, property)
+      )
     );
   }
 }
