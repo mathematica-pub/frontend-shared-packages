@@ -1,8 +1,8 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ChartComponent } from '../chart/chart.component';
-import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
+import { DataMarks } from '../data-marks/data-marks';
+import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
@@ -14,9 +14,10 @@ describe('HtmlTooltipDirective', () => {
         ViewContainerRef,
         Overlay,
         OverlayPositionBuilder,
+        HtmlTooltipDirective,
         {
-          provide: ChartComponent,
-          useValue: ChartComponentStub,
+          provide: DATA_MARKS,
+          useClass: DataMarks,
         },
       ],
     });
@@ -50,10 +51,11 @@ describe('HtmlTooltipDirective', () => {
     beforeEach(() => {
       spyOn(directive, 'show');
       spyOn(directive, 'hide');
+      spyOn(directive, 'updatePosition');
     });
-    describe('if there are tooltip changes', () => {
+    describe('if there are showTooltip changes', () => {
       beforeEach(() => {
-        changes = { tooltip: { currentValue: 'new tooltip' } };
+        changes = { showTooltip: { currentValue: 'new tooltip' } };
       });
       describe('if overlayRef is truthy', () => {
         beforeEach(() => {
@@ -96,7 +98,7 @@ describe('HtmlTooltipDirective', () => {
         });
       });
     });
-    describe('if there are no tooltip changes', () => {
+    describe('if there are no showTooltip changes', () => {
       beforeEach(() => {
         changes = {};
       });
@@ -116,15 +118,15 @@ describe('HtmlTooltipDirective', () => {
       beforeEach(() => {
         changes = { position: { currentValue: 'new position' } };
       });
-      it('calls setPositionStrategy if overlayRef is truthy', () => {
+      it('calls updatePosition if overlayRef is truthy', () => {
         directive.overlayRef = 'overlay' as any;
         directive.ngOnChanges(changes);
-        expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
+        expect(directive.updatePosition).toHaveBeenCalledTimes(1);
       });
-      it('does not call setPositionStrategy if overlayRef is falsy', () => {
+      it('does not call updatePosition if overlayRef is falsy', () => {
         directive.overlayRef = null;
         directive.ngOnChanges(changes);
-        expect(directive.setPositionStrategy).not.toHaveBeenCalled();
+        expect(directive.updatePosition).not.toHaveBeenCalled();
       });
     });
   });
@@ -132,6 +134,7 @@ describe('HtmlTooltipDirective', () => {
   describe('getOverlayClasses', () => {
     beforeEach(() => {
       directive.disableEventsOnTooltip = false;
+      directive.position = {} as any;
     });
     it('integration: returns the correct classes: has multiple classes on position', () => {
       directive.position = {
