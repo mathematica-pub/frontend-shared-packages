@@ -1,13 +1,21 @@
 import {
   Component,
   ElementRef,
+  inject,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { DocumentationType } from '../../core/enums/documentation.enums';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UtilitiesService } from 'dist/viz-components/lib/core/services/utilities.service';
+import {
+  Documentation,
+  DocumentationType,
+} from '../../core/enums/documentation.enums';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -24,20 +32,20 @@ import { HighlightService } from '../../core/services/highlight.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ComponentDocumentationComponent implements OnInit {
-  @Input() documentation: DocumentationType;
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
 
   sanitizedDocumentation: SafeHtml;
-
-  constructor(
-    private highlightService: HighlightService,
-    private documentationService: DocumentationService,
-    private sanitizer: DomSanitizer
-  ) {}
+  private highlightService = inject(HighlightService);
+  private documentationService = inject(DocumentationService);
+  private sanitizer = inject(DomSanitizer);
+  router = inject(Router);
+  route: string;
 
   ngOnInit(): void {
+    this.route = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.documentationService
-      .getDocumentation(this.documentation)
+      .getDocumentation(Documentation.Bars)
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);

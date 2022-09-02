@@ -21,7 +21,6 @@ interface ViewModel {
   styleUrls: ['./stacked-area.component.scss'],
 })
 export class StackedAreaComponent implements OnInit {
-  stackedAreaDocumentation = Documentation.StackedArea;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

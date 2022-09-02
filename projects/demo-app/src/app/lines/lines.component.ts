@@ -20,7 +20,6 @@ interface ViewModel {
   styleUrls: ['./lines.component.scss'],
 })
 export class LinesComponent implements OnInit {
-  linesDocumentation = Documentation.Lines;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

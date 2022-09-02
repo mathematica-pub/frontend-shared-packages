@@ -21,7 +21,6 @@ interface ViewModel {
   styleUrls: ['./bars.component.scss'],
 })
 export class BarsComponent implements OnInit {
-  barsDocumentation = Documentation.Bars;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 36,
