@@ -4,7 +4,7 @@
   margin: 0px;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 5fr;
   grid-template-rows: 1fr 7fr;
   overflow: hidden;
 }
@@ -33,6 +33,7 @@
 .title {
   grid-column: 1 / span 2;
   grid-row: 1;
+  padding-left: $grid-2;
   @extend %typography-headline-2;
   border-bottom: 1px solid $color-primary-7;
 }
