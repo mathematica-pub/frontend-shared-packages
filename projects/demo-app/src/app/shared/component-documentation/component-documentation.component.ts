@@ -10,12 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UtilitiesService } from 'dist/viz-components/lib/core/services/utilities.service';
-import {
-  Documentation,
-  DocumentationType,
-} from '../../core/enums/documentation.enums';
+import { Router } from '@angular/router';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
