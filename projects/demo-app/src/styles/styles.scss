@@ -119,3 +119,7 @@ html,
 body {
   height: 100%;
 }
+
+.vic-html-tooltip-overlay.events-disabled {
+  pointer-events: none;
+}

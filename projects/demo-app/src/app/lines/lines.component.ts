@@ -1,19 +1,28 @@
 import { Component, OnInit } from '@angular/core';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
+  EmitLinesTooltipData,
   LinesConfig,
+  LinesEmittedOutput,
+  LinesHoverAndMoveEffect,
+  LinesHoverAndMoveEffectDefaultStyles,
+  LinesHoverAndMoveEffectDefaultStylesConfig,
 } from 'projects/viz-components/src/public-api';
-import { filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { Documentation } from '../core/enums/documentation.enums';
 import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
 import { DataService } from '../core/services/data.service';
+import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
   dataConfig: LinesConfig;
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
+  labels: string[];
 }
+
 @Component({
   selector: 'app-lines',
   templateUrl: './lines.component.html',
@@ -27,6 +36,25 @@ export class LinesComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(
+      new HtmlTooltipConfig({ show: false })
+    );
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<LinesEmittedOutput> =
+    new BehaviorSubject<LinesEmittedOutput>(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
+  chartInputEvent$ = this.chartInputEvent.asObservable();
+  highlightLineForLabelEffect = new HighlightLineForLabel();
+  hoverEffects: LinesHoverAndMoveEffect[] = [
+    new LinesHoverAndMoveEffectDefaultStyles(
+      new LinesHoverAndMoveEffectDefaultStylesConfig({
+        growMarkerDimension: 3,
+      })
+    ),
+    new EmitLinesTooltipData(),
+  ];
 
   constructor(private dataService: DataService) {}
 
@@ -44,12 +72,43 @@ export class LinesComponent implements OnInit {
     const dataConfig = new LinesConfig();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
+    dataConfig.x.valueFormat = '%a %B %d %Y';
     dataConfig.y.valueAccessor = (d) => d.value;
     dataConfig.category.valueAccessor = (d) => d.division;
+    dataConfig.pointMarker.radius = 2;
+    const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
+
     return {
       dataConfig,
       xAxisConfig,
       yAxisConfig,
+      labels,
     };
+  }
+
+  updateTooltipForNewOutput(data: LinesEmittedOutput): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: LinesEmittedOutput): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: LinesEmittedOutput): void {
+    const config = new HtmlTooltipConfig();
+    config.position.panelClass = 'time-range-tooltip';
+    if (data) {
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 16;
+      config.show = true;
+    } else {
+      config.show = false;
+    }
+    this.tooltipConfig.next(config);
+  }
+
+  highlightLine(label: string): void {
+    this.chartInputEvent.next(label);
   }
 }

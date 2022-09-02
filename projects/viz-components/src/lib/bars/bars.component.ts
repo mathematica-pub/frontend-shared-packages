@@ -3,6 +3,7 @@ import {
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   NgZone,
   OnChanges,
@@ -27,7 +28,6 @@ import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 
@@ -51,15 +51,9 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   bars: any;
   barsKeyFunction: (i: number) => string;
-
-  constructor(
-    private utilities: UtilitiesService,
-    private dataDomainService: DataDomainService,
-    private zone: NgZone,
-    chart: XyChartComponent
-  ) {
-    super(chart);
-  }
+  private utilities = inject(UtilitiesService);
+  private dataDomainService = inject(DataDomainService);
+  private zone = inject(NgZone);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {

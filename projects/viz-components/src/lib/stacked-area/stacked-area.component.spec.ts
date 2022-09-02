@@ -90,7 +90,6 @@ describe('StackedAreaComponent', () => {
 
   describe('setMethodsFromConfigAndDraw()', () => {
     beforeEach(() => {
-      spyOn(component, 'setChartTooltipProperty');
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initXAndCategoryDomains');
       spyOn(component, 'setValueIndicies');
@@ -103,10 +102,6 @@ describe('StackedAreaComponent', () => {
       component.chart = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
     });
-    it('calls setChartTooltipProperty once', () => {
-      expect(component.setChartTooltipProperty).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setValueArrays once', () => {
       expect(component.setValueArrays).toHaveBeenCalledTimes(1);
     });
@@ -166,28 +161,6 @@ describe('StackedAreaComponent', () => {
 
     it('calls drawMarks once with zero as the argument', () => {
       expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
-    });
-  });
-
-  describe('setChartTooltipProperty()', () => {
-    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is false', () => {
-      component.config.tooltip.show = false;
-      component.setChartTooltipProperty();
-      expect(component.chart.htmlTooltip.exists).toEqual(false);
-    });
-
-    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is true and type is not svg', () => {
-      component.config.tooltip.show = true;
-      component.config.tooltip.type = 'svg';
-      component.setChartTooltipProperty();
-      expect(component.chart.htmlTooltip.exists).toEqual(false);
-    });
-
-    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is true and type is svg', () => {
-      component.config.tooltip.show = true;
-      component.config.tooltip.type = 'html';
-      component.setChartTooltipProperty();
-      expect(component.chart.htmlTooltip.exists).toEqual(true);
     });
   });
 });

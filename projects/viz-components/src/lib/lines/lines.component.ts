@@ -2,33 +2,30 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
+  inject,
+  InjectionToken,
   Input,
   NgZone,
   OnChanges,
   OnInit,
-  Output,
   SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
   extent,
-  format,
   group,
   InternSet,
-  least,
   line,
   map,
   max,
   min,
-  pointer,
   range,
   scaleOrdinal,
   select,
-  timeFormat,
   Transition,
 } from 'd3';
+import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
@@ -49,6 +46,8 @@ export class LinesTooltipData {
   category: string;
 }
 
+export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-lines]',
@@ -56,7 +55,11 @@ export class LinesTooltipData {
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: LinesComponent }],
+  providers: [
+    { provide: DATA_MARKS, useExisting: LinesComponent },
+    { provide: LINES, useExisting: LinesComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
 })
 export class LinesComponent
   extends XyContent
@@ -68,22 +71,14 @@ export class LinesComponent
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
   @Input() config: LinesConfig;
-  @Output() tooltipData = new EventEmitter<LinesTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   line: (x: any[]) => any;
   linesD3Data;
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
-  tooltipCurrentlyShown = false;
-
-  constructor(
-    private utilities: UtilitiesService,
-    private zone: NgZone,
-    chart: XyChartComponent
-  ) {
-    super(chart);
-  }
+  private utilities = inject(UtilitiesService);
+  private zone = inject(NgZone);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
@@ -110,7 +105,6 @@ export class LinesComponent
   }
 
   setMethodsFromConfigAndDraw(): void {
-    this.setChartTooltipProperty();
     this.setValueArrays();
     this.initDomains();
     this.setValueIndicies();
@@ -128,11 +122,6 @@ export class LinesComponent
     this.setScaledSpaceProperties();
     this.setLine();
     this.drawMarks(0);
-  }
-
-  setChartTooltipProperty(): void {
-    this.chart.htmlTooltip.exists =
-      this.config.tooltip.show && this.config.tooltip.type === 'html';
   }
 
   setValueArrays(): void {
@@ -239,7 +228,7 @@ export class LinesComponent
     this.drawLines(transitionDuration);
     if (this.config.pointMarker.display) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.tooltip.show) {
+    } else {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -332,216 +321,5 @@ export class LinesComponent
       .attr('x', (d) => `${this.xScale(this.values.x[d.index]) - 4}px`)
       .attr('y', (d) => `${this.yScale(this.values.y[d.index]) - 12}px`)
       .text((d) => this.config.lineLabelsFormat(d.category));
-  }
-
-  onPointerEnter(): void {
-    if (this.config.tooltip.show) {
-      this.chart.setTooltipPosition();
-    }
-  }
-
-  onPointerLeave(): void {
-    if (this.config.tooltip.show) {
-      this.resetChartStylesAfterHover();
-    }
-  }
-
-  onPointerMove(event: PointerEvent): void {
-    const [pointerX, pointerY] = this.getPointerValuesArray(event);
-    if (
-      this.config.tooltip.show &&
-      this.pointerIsInChartArea(pointerX, pointerY)
-    ) {
-      this.determineHoverStyles(pointerX, pointerY);
-    }
-  }
-
-  getPointerValuesArray(event: PointerEvent): [number, number] {
-    return pointer(event);
-  }
-
-  pointerIsInChartArea(pointerX: number, pointerY: number): boolean {
-    return (
-      pointerX > this.ranges.x[0] &&
-      pointerX < this.ranges.x[1] &&
-      pointerY > this.ranges.y[1] &&
-      pointerY < this.ranges.y[0]
-    );
-  }
-
-  determineHoverStyles(pointerX: number, pointerY: number): void {
-    const closestPointIndex = this.getClosestPointIndex(pointerX, pointerY);
-    if (
-      this.pointerIsInsideShowTooltipRadius(
-        closestPointIndex,
-        pointerX,
-        pointerY
-      )
-    ) {
-      this.applyHoverStyles(closestPointIndex);
-    } else {
-      this.removeHoverStyles();
-    }
-  }
-
-  getClosestPointIndex(pointerX: number, pointerY: number): number {
-    return least(this.values.indicies, (i) =>
-      this.getPointerDistanceFromPoint(
-        this.values.x[i],
-        this.values.y[i],
-        pointerX,
-        pointerY
-      )
-    );
-  }
-
-  applyHoverStyles(closestPointIndex: number): void {
-    this.styleLinesForHover(closestPointIndex);
-    if (this.config.pointMarker.display) {
-      this.styleMarkersForHover(closestPointIndex);
-    } else {
-      this.styleHoverDotForHover(closestPointIndex);
-    }
-    this.setTooltipData(closestPointIndex);
-    this.setTooltipOffsetValues(closestPointIndex);
-    this.chart.htmlTooltip.display = 'block';
-    this.tooltipCurrentlyShown = true;
-  }
-
-  removeHoverStyles(): void {
-    if (this.tooltipCurrentlyShown) {
-      this.resetChartStylesAfterHover();
-      this.tooltipCurrentlyShown = false;
-    }
-  }
-
-  getPointerDistanceFromPoint(
-    pointX: number,
-    pointY: number,
-    pointerX: number,
-    pointerY: number
-  ): number {
-    return Math.hypot(
-      this.xScale(pointX) - pointerX,
-      this.yScale(pointY) - pointerY
-    );
-  }
-
-  pointerIsInsideShowTooltipRadius(
-    closestPointIndex: number,
-    pointerX: number,
-    pointerY: number
-  ): boolean {
-    const cursorDistanceFromPoint = this.getPointerDistanceFromPoint(
-      this.values.x[closestPointIndex],
-      this.values.y[closestPointIndex],
-      pointerX,
-      pointerY
-    );
-    return cursorDistanceFromPoint < this.config.tooltip.detectionRadius;
-  }
-
-  styleLinesForHover(closestPointIndex: number): void {
-    this.lines
-      .style('stroke', ([category]): string =>
-        this.values.category[closestPointIndex] === category ? null : '#ddd'
-      )
-      .filter(
-        ([category]): boolean =>
-          this.values.category[closestPointIndex] === category
-      )
-      .raise();
-  }
-
-  styleMarkersForHover(closestPointIndex: number): void {
-    this.markers
-      .style('fill', (d): string =>
-        this.values.category[closestPointIndex] ===
-        this.values.category[d.index]
-          ? null
-          : '#ddd'
-      )
-      .attr('r', (d): number => {
-        let r = this.config.pointMarker.radius;
-        if (closestPointIndex === d.index) {
-          r =
-            this.config.pointMarker.radius +
-            this.config.pointMarker.growByOnHover;
-        }
-        return r;
-      })
-      .filter(
-        (d): boolean =>
-          this.values.category[closestPointIndex] ===
-          this.values.category[d.index]
-      )
-      .raise();
-  }
-
-  styleHoverDotForHover(closestPointIndex: number): void {
-    this.hoverDot
-      .style('display', null)
-      .attr('fill', this.categoryScale(this.values.category[closestPointIndex]))
-      .attr('cx', this.xScale(this.values.x[closestPointIndex]))
-      .attr('cy', this.yScale(this.values.y[closestPointIndex]));
-  }
-
-  resetChartStylesAfterHover(): void {
-    this.chart.htmlTooltip.display = 'none';
-    this.chart.emitTooltipData(null);
-    this.lines
-      .style('mix-blend-mode', this.config.mixBlendMode)
-      .style('stroke', null);
-    if (this.config.pointMarker.display) {
-      this.markers
-        .style('mix-blend-mode', this.config.mixBlendMode)
-        .style('fill', null);
-    } else {
-      this.hoverDot.style('display', 'none');
-    }
-  }
-
-  setTooltipData(closestPointIndex: number): void {
-    const datum = this.config.data.find(
-      (d) =>
-        this.values.x[closestPointIndex] === this.config.x.valueAccessor(d) &&
-        this.values.category[closestPointIndex] ===
-          this.config.category.valueAccessor(d)
-    );
-    const tooltipData: LinesTooltipData = {
-      datum,
-      x: this.formatValue(
-        this.config.x.valueAccessor(datum),
-        this.config.x.valueFormat
-      ),
-      y: this.formatValue(
-        this.config.y.valueAccessor(datum),
-        this.config.y.valueFormat
-      ),
-      category: this.config.category.valueAccessor(datum),
-      color: this.categoryScale(this.values.category[closestPointIndex]),
-    };
-    this.chart.emitTooltipData(tooltipData);
-  }
-
-  setTooltipOffsetValues(closestPointIndex): void {
-    const yPosition = this.yScale(this.values.y[closestPointIndex]);
-    const tooltipSpacing = 16;
-    this.chart.htmlTooltip.offset.bottom =
-      this.chart.divRef.nativeElement.getBoundingClientRect().height -
-      yPosition +
-      tooltipSpacing;
-    this.chart.htmlTooltip.offset.left = this.xScale(
-      this.values.x[closestPointIndex]
-    );
-  }
-
-  formatValue(value: any, formatSpecifier: string): string {
-    const formatter = value instanceof Date ? timeFormat : format;
-    if (formatSpecifier) {
-      return formatter(formatSpecifier)(value);
-    } else {
-      return value.toString();
-    }
   }
 }

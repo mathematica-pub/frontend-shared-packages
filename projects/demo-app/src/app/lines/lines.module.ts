@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   VicChartModule,
+  VicHtmlTooltipModule,
   VicLinesModule,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
@@ -24,6 +25,7 @@ import { LinesComponent } from './lines.component';
     VicYQuantitativeAxisModule,
     VicXQuantitativeAxisModule,
     SharedModule,
+    VicHtmlTooltipModule,
   ],
 })
 export class LinesModule {}

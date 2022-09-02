@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
+import { CHART } from '../chart/chart.token';
 
 @Component({
   selector: 'vic-xy-chart',
   templateUrl: '../chart/chart.component.html',
   styleUrls: ['../chart/chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class XyChartComponent extends ChartComponent implements OnInit {
+export class XyChartComponent extends ChartComponent implements Chart, OnInit {
   private xScale: BehaviorSubject<any> = new BehaviorSubject(null);
   xScale$ = this.xScale.asObservable();
   private yScale: BehaviorSubject<any> = new BehaviorSubject(null);

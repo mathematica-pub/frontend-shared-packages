@@ -18,7 +18,6 @@ export class LinesConfig extends DataMarksConfig {
   pointMarker: PointMarkerConfig = new PointMarkerConfig();
   stroke?: LinesStrokeConfig = new LinesStrokeConfig();
   labelLines?: boolean;
-  override tooltip: LinesTooltipConfig;
   lineLabelsFormat?: (d: string) => string;
 
   constructor(init?: Partial<LinesConfig>) {
@@ -32,7 +31,6 @@ export class LinesConfig extends DataMarksConfig {
     this.curve = curveLinear;
     this.stroke.width = 2;
     this.lineLabelsFormat = (d: string) => d;
-    this.tooltip = new LinesTooltipConfig();
     Object.assign(this, init);
   }
 }

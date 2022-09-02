@@ -1,11 +1,11 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { HtmlTooltipConfig } from '../html-tooltip/html-tooltip.model';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
-import { LinesConfig, PointMarkerConfig } from './lines.config';
+import { LinesConfig } from './lines.config';
 
 describe('LineChartComponent', () => {
   let component: LinesComponent;
@@ -91,7 +91,6 @@ describe('LineChartComponent', () => {
 
   describe('setMethodsFromConfigAndDraw()', () => {
     beforeEach(() => {
-      spyOn(component, 'setChartTooltipProperty');
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initDomains');
       spyOn(component, 'setValueIndicies');
@@ -106,10 +105,6 @@ describe('LineChartComponent', () => {
       component.chart = { transitionDuration: 200 } as any;
       component.setMethodsFromConfigAndDraw();
     });
-    it('calls setChartTooltipProperty once', () => {
-      expect(component.setChartTooltipProperty).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setValueArrays once', () => {
       expect(component.setValueArrays).toHaveBeenCalledTimes(1);
     });
@@ -173,28 +168,6 @@ describe('LineChartComponent', () => {
 
     it('calls drawMarks once with zero as the argument', () => {
       expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
-    });
-  });
-
-  describe('setChartTooltipProperty()', () => {
-    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is false', () => {
-      component.config.tooltip.show = false;
-      component.setChartTooltipProperty();
-      expect(component.chart.htmlTooltip.exists).toEqual(false);
-    });
-
-    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is true and type is not svg', () => {
-      component.config.tooltip.show = true;
-      component.config.tooltip.type = 'svg';
-      component.setChartTooltipProperty();
-      expect(component.chart.htmlTooltip.exists).toEqual(false);
-    });
-
-    it('sets chart.htmlTooltip.exists to the correct value if tooltip.show is true and type is svg', () => {
-      component.config.tooltip.show = true;
-      component.config.tooltip.type = 'html';
-      component.setChartTooltipProperty();
-      expect(component.chart.htmlTooltip.exists).toEqual(true);
     });
   });
 
@@ -337,283 +310,6 @@ describe('LineChartComponent', () => {
     it('does not call drawLineLabels once if config.labelLines is false', () => {
       component.drawMarks(duration);
       expect(component.drawLineLabels).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('onPointerEnter()', () => {
-    let setTooltipPositionSpy: jasmine.Spy;
-    beforeEach(() => {
-      setTooltipPositionSpy = jasmine.createSpy('setTooltipPosition');
-      component.chart = {
-        setTooltipPosition: setTooltipPositionSpy,
-      } as any;
-      component.config.tooltip.show = true;
-    });
-    it('calls setTooltipPosition on chart if config.showTooltip is true', () => {
-      component.onPointerEnter();
-      expect(component.chart.setTooltipPosition).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not call setTooltipPosition on chart if config.showTooltip is false', () => {
-      component.config.tooltip.show = false;
-      component.onPointerEnter();
-      expect(component.chart.setTooltipPosition).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('onPointerLeave()', () => {
-    beforeEach(() => {
-      spyOn(component, 'resetChartStylesAfterHover');
-      component.config.tooltip.show = true;
-    });
-    it('calls resetChartStylesAfterHover if config.showTooltip is true', () => {
-      component.onPointerLeave();
-      expect(component.resetChartStylesAfterHover).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not call resetChartStylesAfterHover if config.showTooltip is false', () => {
-      component.config.tooltip.show = false;
-      component.onPointerLeave();
-      expect(component.resetChartStylesAfterHover).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('onPointerMove()', () => {
-    let chartAreaSpy: jasmine.Spy;
-    beforeEach(() => {
-      spyOn(component, 'getPointerValuesArray').and.returnValue([1, 2]);
-      chartAreaSpy = spyOn(component, 'pointerIsInChartArea').and.returnValue(
-        true
-      );
-      spyOn(component, 'determineHoverStyles');
-    });
-    it('calls getPointerValuesArray once with the correct argument', () => {
-      component.onPointerMove('event' as any);
-      expect(component.getPointerValuesArray).toHaveBeenCalledOnceWith(
-        'event' as any
-      );
-    });
-
-    describe('if config.showTooltip is true', () => {
-      beforeEach(() => {
-        component.config.tooltip.show = true;
-      });
-      it('calls pointerIsInChartArea once with the correct argument', () => {
-        component.onPointerMove('event' as any);
-        expect(component.pointerIsInChartArea).toHaveBeenCalledOnceWith(1, 2);
-      });
-
-      it('calls determineHoverStyles once with the correct arguments if pointerIsInChartArea returns true', () => {
-        component.onPointerMove('event' as any);
-        expect(component.determineHoverStyles).toHaveBeenCalledOnceWith(1, 2);
-      });
-
-      it('does not call determineHoverStyles once if pointerIsInChartArea returns false', () => {
-        chartAreaSpy.and.returnValue(false);
-        component.onPointerMove('event' as any);
-        expect(component.determineHoverStyles).toHaveBeenCalledTimes(0);
-      });
-    });
-
-    describe('if config.showTooltip is false', () => {
-      it('does not call determineHoverStyles', () => {
-        component.config.tooltip.show = false;
-        component.onPointerMove('event' as any);
-        expect(component.determineHoverStyles).toHaveBeenCalledTimes(0);
-      });
-    });
-  });
-
-  describe('pointerIsInChartArea()', () => {
-    beforeEach(() => {
-      component.ranges = {
-        x: [0, 100],
-        y: [400, 200],
-      };
-    });
-    it('returns true if x is within x range and y is within y range', () => {
-      expect(component.pointerIsInChartArea(50, 300)).toEqual(true);
-    });
-
-    it('returns false if x is not within x range', () => {
-      expect(component.pointerIsInChartArea(150, 300)).toEqual(false);
-    });
-
-    it('returns false if y is not within y range', () => {
-      expect(component.pointerIsInChartArea(50, 500)).toEqual(false);
-    });
-  });
-
-  describe('determineHoverStyles()', () => {
-    let radiusSpy: jasmine.Spy;
-    beforeEach(() => {
-      spyOn(component, 'getClosestPointIndex').and.returnValue(10);
-      radiusSpy = spyOn(component, 'pointerIsInsideShowTooltipRadius');
-      spyOn(component, 'applyHoverStyles');
-      spyOn(component, 'removeHoverStyles');
-      component.config = { tooltipDetectionRadius: 10 } as any;
-    });
-    it('calls getClosestPointIndex once with the correct argument', () => {
-      component.determineHoverStyles(1, 2);
-      expect(component.getClosestPointIndex).toHaveBeenCalledOnceWith(1, 2);
-    });
-
-    describe('if pointerIsInsideShowTooltipRadius is truthy', () => {
-      beforeEach(() => {
-        radiusSpy.and.returnValue(true);
-      });
-
-      it('calls pointerIsInsideShowTooltipRadius once and with the correct values', () => {
-        component.determineHoverStyles(1, 2);
-        expect(radiusSpy).toHaveBeenCalledOnceWith(10, 1, 2);
-      });
-
-      it('calls applyHoverStyles once with the correct value if pointerIsInsideShowTooltipRadius returns true', () => {
-        component.determineHoverStyles(1, 2);
-        expect(component.applyHoverStyles).toHaveBeenCalledOnceWith(10);
-      });
-    });
-
-    describe('if pointerIsInsideShowTooltipRadius is falsy', () => {
-      beforeEach(() => {
-        radiusSpy.and.returnValue(false);
-      });
-      it('calls removeHoverStyles', () => {
-        component.determineHoverStyles(1, 2);
-        expect(component.removeHoverStyles).toHaveBeenCalledTimes(1);
-      });
-
-      it('does not call applyHoverStyles', () => {
-        component.determineHoverStyles(1, 2);
-        expect(component.applyHoverStyles).toHaveBeenCalledTimes(0);
-      });
-    });
-  });
-
-  describe('applyHoverStyles', () => {
-    beforeEach(() => {
-      spyOn(component, 'styleLinesForHover');
-      spyOn(component, 'styleMarkersForHover');
-      spyOn(component, 'styleHoverDotForHover');
-      spyOn(component, 'setTooltipData');
-      spyOn(component, 'setTooltipOffsetValues');
-      component.chart = { htmlTooltip: new HtmlTooltipConfig() } as any;
-      component.chart.htmlTooltip.display = 'none';
-      component.tooltipCurrentlyShown = false;
-      component.config = { pointMarker: new PointMarkerConfig() } as any;
-    });
-    it('calls styleLinesForHover once with the correct argument', () => {
-      component.applyHoverStyles(10);
-      expect(component.styleLinesForHover).toHaveBeenCalledOnceWith(10);
-    });
-
-    it('calls styleMarkersForHover once with the correct argument if config.pointMarker.display is true', () => {
-      component.config.pointMarker.display = true;
-      component.applyHoverStyles(10);
-      expect(component.styleMarkersForHover).toHaveBeenCalledOnceWith(10);
-    });
-
-    it('does not call styleMarkersForHover if config.pointMarker.display is false', () => {
-      component.config.pointMarker.display = false;
-      component.applyHoverStyles(10);
-      expect(component.styleMarkersForHover).toHaveBeenCalledTimes(0);
-    });
-
-    it('calls styleHoverDotForHover once with the correct argument if config.pointMarker.display is false', () => {
-      component.config.pointMarker.display = false;
-      component.applyHoverStyles(10);
-      expect(component.styleHoverDotForHover).toHaveBeenCalledOnceWith(10);
-    });
-
-    it('does not call styleHoverDotForHover is config.pointMarker is true', () => {
-      component.config.pointMarker.display = true;
-      component.applyHoverStyles(10);
-      expect(component.styleHoverDotForHover).toHaveBeenCalledTimes(0);
-    });
-
-    it('calls setTooltipData once with the correct argument', () => {
-      component.applyHoverStyles(10);
-      expect(component.setTooltipData).toHaveBeenCalledOnceWith(10);
-    });
-
-    it('calls setTooltipOffsetValues once with the correct argument', () => {
-      component.applyHoverStyles(10);
-      expect(component.setTooltipOffsetValues).toHaveBeenCalledOnceWith(10);
-    });
-
-    it('sets chart.htmlTooltip.display to block', () => {
-      component.applyHoverStyles(10);
-      expect(component.chart.htmlTooltip.display).toBe('block');
-    });
-
-    it('sets tooltipCurrentlyShown to true', () => {
-      component.applyHoverStyles(10);
-      expect(component.tooltipCurrentlyShown).toBe(true);
-    });
-  });
-
-  describe('removeHoverStyles()', () => {
-    beforeEach(() => {
-      component.tooltipCurrentlyShown = true;
-      spyOn(component, 'resetChartStylesAfterHover');
-    });
-    it('calls resetChartStylesAfterHover once if tooltipIsCurrentlyShown is true', () => {
-      component.removeHoverStyles();
-      expect(component.resetChartStylesAfterHover).toHaveBeenCalledTimes(1);
-    });
-
-    it('sets tooltipIsCurrentlyShown to false if tooltipIsCurrentlyShown is true', () => {
-      component.removeHoverStyles();
-      expect(component.tooltipCurrentlyShown).toEqual(false);
-    });
-
-    it('does not call resetChartStylesAfterHover if tooltipIsCurrentlyShown is false', () => {
-      component.tooltipCurrentlyShown = false;
-      component.removeHoverStyles();
-      expect(component.resetChartStylesAfterHover).toHaveBeenCalledTimes(0);
-    });
-
-    it('does not modify tooltipIsCurrentlyShown if tooltipIsCurrentlyShown is false', () => {
-      component.tooltipCurrentlyShown = false;
-      component.removeHoverStyles();
-      expect(component.tooltipCurrentlyShown).toEqual(false);
-    });
-  });
-
-  describe('pointerIsInsideShowTooltipRadius', () => {
-    let distanceSpy: jasmine.Spy;
-    beforeEach(() => {
-      distanceSpy = spyOn(component, 'getPointerDistanceFromPoint');
-      component.values = {
-        x: [0, 1, 2, 3],
-        y: [4, 5, 6, 7],
-      } as any;
-      component.config = {
-        tooltip: { show: true, type: 'html', detectionRadius: 10 },
-      } as any;
-    });
-    it('calls getPointerDistanceFromPoint once and with the correct values', () => {
-      component.pointerIsInsideShowTooltipRadius(1, 10, 20);
-      expect(component.getPointerDistanceFromPoint).toHaveBeenCalledOnceWith(
-        1,
-        5,
-        10,
-        20
-      );
-    });
-
-    it('returns true is the return value from getPointerDistanceFromPoint is less tan tooltipDetectionRadius', () => {
-      distanceSpy.and.returnValue(9);
-      expect(component.pointerIsInsideShowTooltipRadius(1, 10, 20)).toEqual(
-        true
-      );
-    });
-
-    it('returns false is the return value from getPointerDistanceFromPoint is greater than tooltipDetectionRadius', () => {
-      distanceSpy.and.returnValue(11);
-      expect(component.pointerIsInsideShowTooltipRadius(1, 10, 20)).toEqual(
-        false
-      );
     });
   });
 });

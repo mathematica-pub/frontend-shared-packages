@@ -1,14 +1,24 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyContentStub } from '../testing/stubs/xy-content.stub';
+import { XyChartComponent } from './xy-chart.component';
 
 describe('XyContent abstract class', () => {
   let abstractClass: XyContentStub;
-  let chart: XyChartComponentStub;
 
   beforeEach(() => {
-    chart = new XyChartComponentStub();
-    abstractClass = new XyContentStub(chart as any);
+    TestBed.configureTestingModule({
+      providers: [
+        XyContentStub,
+        {
+          provide: XyChartComponent,
+          useValue: XyChartComponentStub,
+        },
+      ],
+    });
+    abstractClass = TestBed.inject(XyContentStub);
   });
 
   describe('subscribeToRanges', () => {
