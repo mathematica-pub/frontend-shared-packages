@@ -2,16 +2,12 @@ import {
   Component,
   ElementRef,
   inject,
-  Input,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UtilitiesService } from 'dist/viz-components/lib/core/services/utilities.service';
+import { Router } from '@angular/router';
 import {
   Documentation,
   DocumentationType,
