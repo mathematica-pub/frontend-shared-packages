@@ -22,7 +22,6 @@ import { HighlightService } from '../../core/services/highlight.service';
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
     './styles/compodoc.scss',
-    './styles/reset.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })
