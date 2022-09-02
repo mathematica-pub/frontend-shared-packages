@@ -1,0 +1,17 @@
+---
+data-marks-components:
+  bars: 'components/BarsComponent.html'
+  stacked-bars: 'components/StackedBarsComponent.html'
+  lines: 'components/LinesComponent.html'
+chart-components:
+  chart: 'components/ChartComponent.html'
+  map-chart: 'components/MapChartComponent.html'
+auxilliary-components:
+  continuous-legend: 'components/ContinuousLegendComponent.html'
+  map-legend: 'components/MapLegendComponent.html'
+element-directives:
+  map-content: 'directives/MapContent.html'
+  xy-axis: 'directives/XyAxis.html'
+attribute-directives:
+  click-event: 'directives/ClickEventDirective.html'
+  hover-and-move: 'directives/HoverAndMoveEventDirective.html'

@@ -45,14 +45,16 @@ export class ComponentDocumentationComponent implements OnInit {
     this.route = this.router.url;
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.documentationService
-      .getDocumentation(Documentation.Bars)
+      .getDocumentation(this.route)
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);
         setTimeout(() => {
           this.highlightService.highlightAll();
-          this.addClickListenersToTabs();
-          this.addClickListenersToCodeLinks();
+          if (this.route.startsWith('/documentation')) {
+            this.addClickListenersToTabs();
+            this.addClickListenersToCodeLinks();
+          }
         }, 0);
       });
   }

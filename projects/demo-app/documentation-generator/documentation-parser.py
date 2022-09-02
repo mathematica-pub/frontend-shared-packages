@@ -1,32 +1,57 @@
 from os import walk, popen, path, write
 import re
+import yaml
+from bidict import bidict
 
-documentationInputDirectory = '../../../documentation/components'
-documentationOutputDirectory = '../src/assets/documentation'
-fileList = next(walk(documentationInputDirectory), (None, None, []))[2] 
 
-outputFileList = []
-for file in fileList: 
-    newFileName = path.join(documentationOutputDirectory, file.replace(".html", "Documentation.html")).replace("\\", "/")
-    popen(f'cp {path.join(documentationInputDirectory, file)} {newFileName}')
-    outputFileList.append(newFileName)
-
-print(*outputFileList, sep = "\n")
-
-def handleMatch(match: re.Match): 
-    dasherizedName = re.sub(r'(?<!^)(?=[A-Z])', '-', match.group(2)).lower()
+def handleMatch(match: re.Match):
+    dasherizedName = re.sub(
+        r'(?<!^)(?=[A-Z])', '-', match.group(2)).lower()
     return f"href=\"{dasherizedName}"
 
-for file in outputFileList: 
-    openedFile = open(file, "r")
+
+def parse_file(fileName, outputDirectory):
+    fullFilePath = path.join(outputDirectory, fileName)
+    openedFile = open(fullFilePath, "r")
     text = openedFile.read()
     openedFile.close()
-    componentName = file.replace(documentationOutputDirectory, "").replace("/", "").replace("ComponentDocumentation.html", "")
-    componentName = re.sub(r'(?<!^)(?=[A-Z])', '-', componentName).lower()
-    text = re.search(r"(<!-- START CONTENT -->)(.|\n)*(<!-- END CONTENT -->)", text).group()
+    text = re.search(
+        r"(<!-- START CONTENT -->)(.|\n)*(<!-- END CONTENT -->)", text).group()
     text = re.sub(r"(<script)(.|\n)*(</script>)", "", text)
-    text = text.replace("href=\"#", f"href=\"{componentName}#")
+    text = text.replace("href=\"#", f"href=\"documentation/{fileName}#")
     text = re.sub(r"(href=\"../classes/)(.*)(.html)", handleMatch, text)
     text = re.sub(r"(href=\"../components/)(.*)(.html)", handleMatch, text)
-    openFileForWriting = open(file, "w")
+    openFileForWriting = open(fullFilePath, "w")
     openFileForWriting.write(text)
+
+
+def runner(inputDirectory, outputDirectory):
+    with open("documentation-structure.yaml", "r") as stream:
+        try:
+            documentationStructure = yaml.safe_load(stream)
+        except yaml.YAMLError as err:
+            print(err)
+    inputFileMap = bidict()
+    for directory in documentationStructure.keys():
+        fullOutputDirectory = path.join(
+            outputDirectory, directory).replace("/", "\\")
+        popen(f'mkdir {fullOutputDirectory}').read()
+        for file in documentationStructure[directory].keys():
+            outputFileName = path.join(
+                fullOutputDirectory, f'{file}.html').replace("\\", "/")
+            inputFileName = path.join(
+                inputDirectory, documentationStructure[directory][file]).replace("\\", "/")
+            popen(f'cp {inputFileName} {outputFileName}')
+            # will be some sort of mapper necessary to pass into parser; this isn't quite right
+            inputFileMap[documentationStructure[directory]
+                         [file]] = f'{directory}/{file}.html'
+
+    print(*inputFileMap.inverse.keys(), sep="\n")
+
+    for file in inputFileMap.inverse.keys():
+        parse_file(file, outputDirectory)
+
+
+if __name__ == "__main__":
+    runner(inputDirectory='../../../documentation',
+           outputDirectory='../src/assets/documentation')
