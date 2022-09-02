@@ -46,12 +46,13 @@
     "copyfiles": "^2.4.1",
     "cypress": "^10.4.0",
     "d3": "^7.4.4",
-    "prismjs": "^1.28.0",
     "pend": "^1.2.0",
+    "prismjs": "^1.28.0",
     "rxjs": "~7.5.0",
     "serverless": "^3.21.0",
     "tslib": "^2.3.0",
     "xmldoc": "^1.2.0",
+    "yaml": "^2.1.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

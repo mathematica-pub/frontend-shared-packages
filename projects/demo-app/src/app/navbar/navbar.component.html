@@ -29,69 +29,16 @@
     <p>Lines</p>
   </a>
   <h2>DOCUMENTATION</h2>
-  <h3>DATA MARKS COMPONENTS</h3>
-  <a
-    class="link-container"
-    routerLink="/documentation/data-marks-components/bars"
-    routerLinkActive="active-link"
-  >
-    <p>Bars</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/documentation/data-marks-components/stacked-bars"
-    routerLinkActive="active-link"
-  >
-    <p>Stacked Bars</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/documentation/data-marks-components/lines"
-    routerLinkActive="active-link"
-  >
-    <p>Lines</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/documentation/data-marks-components/geographies"
-    routerLinkActive="active-link"
-  >
-    <p>Geographies</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/documentation/data-marks-components/stacked-area"
-    routerLinkActive="active-link"
-  >
-    <p>Stacked Area</p>
-  </a>
-
-  <h3>CHART COMPONENTS</h3>
-  <a
-    class="link-container"
-    routerLink="/documentation/chart-components/chart"
-    routerLinkActive="active-link"
-  >
-    <p>Chart</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/documentation/chart-components/map-chart"
-    routerLinkActive="active-link"
-  >
-    <p>Map Chart</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/documentation/chart-components/xy-chart"
-    routerLinkActive="active-link"
-  >
-    <p>XyChart</p>
-  </a>
-
-  <h3>AUXILLIARY COMPONENTS</h3>
-
-  <h3>ELEMENT DIRECTIVES</h3>
-
-  <h3>ATTRIBUTE DIRECTIVES</h3>
+  <ng-container *ngFor="let category of navbarConfig$ | async">
+    <h3>{{category.name | undasherize | uppercase}}</h3>
+    <ng-container *ngFor="let file of category.files">
+      <a
+        class="link-container"
+        [routerLink]="'/documentation/' + category.name + '/' + file"
+        routerLinkActive="active-link"
+      >
+        <p>{{file | undasherize | titlecase}}</p>
+      </a>
+    </ng-container>
+  </ng-container>
 </header>

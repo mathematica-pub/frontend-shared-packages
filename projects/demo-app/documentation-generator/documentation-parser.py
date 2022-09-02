@@ -27,7 +27,8 @@ def parse_file(fileName, outputDirectory):
 
 
 def runner(inputDirectory, outputDirectory):
-    with open("documentation-structure.yaml", "r") as stream:
+    yamlLocation = path.join(outputDirectory, "documentation-structure.yaml")
+    with open(yamlLocation, "r") as stream:
         try:
             documentationStructure = yaml.safe_load(stream)
         except yaml.YAMLError as err:

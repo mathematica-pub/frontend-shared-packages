@@ -9,9 +9,10 @@ import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
+import { UndasherizePipe } from './core/pipes/undasherize.pipe';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent],
+  declarations: [AppComponent, NavbarComponent, UndasherizePipe],
   imports: [
     BrowserModule,
     HttpClientModule,
