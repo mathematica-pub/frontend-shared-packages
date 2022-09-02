@@ -43,7 +43,6 @@ export class ComponentDocumentationComponent implements OnInit {
 
   ngOnInit(): void {
     this.route = this.router.url;
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.documentationService
       .getDocumentation(this.route)
       .subscribe((data: string) => {

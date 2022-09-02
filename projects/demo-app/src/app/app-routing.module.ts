@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 import { ComponentDocumentationComponent } from './shared/component-documentation/component-documentation.component';
 
 const routes: Routes = [
@@ -52,5 +53,11 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
   exports: [RouterModule],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: CustomRouteReuseStrategy,
+    },
+  ],
 })
 export class AppRoutingModule {}

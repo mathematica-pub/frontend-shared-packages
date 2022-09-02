@@ -18,7 +18,8 @@ def parse_file(fileName, outputDirectory):
     text = re.search(
         r"(<!-- START CONTENT -->)(.|\n)*(<!-- END CONTENT -->)", text).group()
     text = re.sub(r"(<script)(.|\n)*(</script>)", "", text)
-    text = text.replace("href=\"#", f"href=\"documentation/{fileName}#")
+    text = text.replace(
+        "href=\"#", f"href=\"documentation/{fileName.replace('.html', '')}#")
     text = re.sub(r"(href=\"../classes/)(.*)(.html)", handleMatch, text)
     text = re.sub(r"(href=\"../components/)(.*)(.html)", handleMatch, text)
     openFileForWriting = open(fullFilePath, "w")

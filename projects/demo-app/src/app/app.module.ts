@@ -7,8 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { DocumentationService } from './core/services/documentation.service';
-import { HighlightService } from './core/services/highlight.service';
+import { RouteReuseStrategy } from '@angular/router';
+import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
