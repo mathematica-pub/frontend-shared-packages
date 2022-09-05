@@ -1,5 +1,5 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { InputEventDirective } from '../events/input-event';
+import { InputEventDirective } from '../chart-svg-events/input-event';
 import { LinesInputEffect } from './lines-effect';
 import { LINES, LinesComponent } from './lines.component';
 

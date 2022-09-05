@@ -1,4 +1,4 @@
-import { HoverEventDirective } from '../../events/hover-event';
+import { HoverEventDirective } from '../../chart-svg-events/hover-event';
 
 export class HoverEventDirectiveStub extends HoverEventDirective {
   chartPointerEnter(event: PointerEvent): void {

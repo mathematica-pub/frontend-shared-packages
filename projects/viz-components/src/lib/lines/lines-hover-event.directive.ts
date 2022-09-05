@@ -1,5 +1,5 @@
 import { Directive, Inject, Input } from '@angular/core';
-import { HoverEventDirective } from '../events/hover-event';
+import { HoverEventDirective } from '../chart-svg-events/hover-event';
 import { LinesHoverEffect } from './lines-effect';
 import { LINES, LinesComponent } from './lines.component';
 

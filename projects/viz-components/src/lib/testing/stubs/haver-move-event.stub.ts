@@ -1,4 +1,4 @@
-import { HoverAndMoveEventDirective } from '../../events/hover-move-event';
+import { HoverAndMoveEventDirective } from '../../chart-svg-events/hover-move-event';
 
 export class HoverAndMoveEventDirectiveStub extends HoverAndMoveEventDirective {
   chartPointerMove(event: PointerEvent): void {
