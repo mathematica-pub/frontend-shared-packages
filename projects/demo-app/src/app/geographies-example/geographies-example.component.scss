@@ -1,0 +1,17 @@
+@import 'vars', 'placeholders';
+
+.tooltip-container {
+  background: rgba($color-white, 0.9);
+  padding: $grid-2;
+  border: 1px solid $color-primary-6;
+  width: 150px;
+
+  .tooltip-label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .value-label {
+    @extend %typography-overline-large;
+  }
+}

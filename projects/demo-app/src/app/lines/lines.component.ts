@@ -98,7 +98,7 @@ export class LinesComponent implements OnInit {
 
   updateTooltipConfig(data: LinesEmittedOutput): void {
     const config = new HtmlTooltipConfig();
-    config.position.panelClass = 'time-range-tooltip';
+    config.position.panelClass = 'lines-tooltip';
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;

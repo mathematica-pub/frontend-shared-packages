@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MapExampleComponent } from './map-example.component';
+import { GeographiesExampleComponent } from './geographies-example.component';
 
 describe('MapExampleComponent', () => {
-  let component: MapExampleComponent;
-  let fixture: ComponentFixture<MapExampleComponent>;
+  let component: GeographiesExampleComponent;
+  let fixture: ComponentFixture<GeographiesExampleComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapExampleComponent ]
-    })
-    .compileComponents();
+      declarations: [GeographiesExampleComponent],
+    }).compileComponents();
 
-    fixture = TestBed.createComponent(MapExampleComponent);
+    fixture = TestBed.createComponent(GeographiesExampleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

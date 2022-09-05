@@ -22,10 +22,10 @@ const routes: Routes = [
       import('./lines/lines.module').then((m) => m.LinesModule),
   },
   {
-    path: 'map',
+    path: 'geographies',
     loadChildren: () =>
-      import('./map-example/map-example.module').then(
-        (m) => m.MapExampleModule
+      import('./geographies-example/geographies-example.module').then(
+        (m) => m.GeographiesExampleModule
       ),
   },
   {

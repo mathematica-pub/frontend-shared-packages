@@ -87,6 +87,18 @@ export class GeographiesComponent
     super(chart);
   }
 
+  get dataGeographies(): any {
+    return select(this.mapRef.nativeElement)
+      .selectAll('.map-layer.data')
+      .selectAll('path');
+  }
+
+  get noDataGeographies(): any {
+    return select(this.mapRef.nativeElement)
+      .selectAll('map-layer.no-data')
+      .selectAll('path');
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
       this.setMethodsFromConfigAndDraw();
@@ -143,7 +155,9 @@ export class GeographiesComponent
     this.values.attributeDataGeographies = map(
       this.config.data,
       this.config.dataGeographyConfig.attributeDataConfig.geoAccessor
-    );
+    ).map((x) => {
+      return typeof x === 'string' ? x.toLowerCase() : x;
+    });
     this.values.attributeDataValues = map(
       this.config.data,
       this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
@@ -154,7 +168,9 @@ export class GeographiesComponent
     this.values.geoJsonGeographies = map(
       this.config.dataGeographyConfig.geographies,
       this.config.dataGeographyConfig.valueAccessor
-    );
+    ).map((x) => {
+      return typeof x === 'string' ? x.toLowerCase() : x;
+    });
   }
 
   initAttributeDataScaleDomain(): void {

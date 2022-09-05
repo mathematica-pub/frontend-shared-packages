@@ -3,23 +3,25 @@ import { NgModule } from '@angular/core';
 import { MatSelectModule } from '@angular/material/select';
 import { VicGeographiesModule } from 'projects/viz-components/src/lib/geographies/geographies.module';
 import {
+  VicHtmlTooltipModule,
   VicMapChartModule,
   VicMapLegendModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
-import { MapExampleRoutingModule } from './map-example-routing.module';
-import { MapExampleComponent } from './map-example.component';
+import { GeographiesExampleRoutingModule } from './geographies-example-routing.module';
+import { GeographiesExampleComponent } from './geographies-example.component';
 
 @NgModule({
-  declarations: [MapExampleComponent],
+  declarations: [GeographiesExampleComponent],
   imports: [
     CommonModule,
-    MapExampleRoutingModule,
+    GeographiesExampleRoutingModule,
     VicMapChartModule,
     VicGeographiesModule,
     VicMapLegendModule,
     SharedModule,
     MatSelectModule,
+    VicHtmlTooltipModule,
   ],
 })
-export class MapExampleModule {}
+export class GeographiesExampleModule {}

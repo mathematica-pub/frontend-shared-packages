@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { valueFormat } from 'projects/viz-components/src/lib/core/constants/formatters.constants';
+import { GeographiesHoverAndMoveEffect } from 'projects/viz-components/src/lib/geographies/geographies-effect';
+import { EmitGeographiesTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
+import { GeographiesEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   DataGeographyConfig,
   ElementSpacing,
   EqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesConfig,
 } from 'projects/viz-components/src/public-api';
-import { combineLatest, filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
 import { colors } from '../core/constants/colors.constants';
@@ -22,11 +26,11 @@ type ScaleType =
   | 'categorical';
 
 @Component({
-  selector: 'app-map-example',
-  templateUrl: './map-example.component.html',
-  styleUrls: ['./map-example.component.scss'],
+  selector: 'app-geographies-example',
+  templateUrl: './geographies-example.component.html',
+  styleUrls: ['./geographies-example.component.scss'],
 })
-export class MapExampleComponent implements OnInit {
+export class GeographiesExampleComponent implements OnInit {
   scaleType: ScaleType;
   scaleTypes: ScaleType[] = [
     'none',
@@ -40,6 +44,17 @@ export class MapExampleComponent implements OnInit {
   height = 400;
   margin: ElementSpacing = { top: 36, right: 36, bottom: 36, left: 200 };
   outlineColor = colors.base;
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(
+      new HtmlTooltipConfig({ show: false })
+    );
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<GeographiesEmittedOutput> =
+    new BehaviorSubject<GeographiesEmittedOutput>(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverEffects: GeographiesHoverAndMoveEffect[] = [
+    new EmitGeographiesTooltipData(),
+  ];
 
   constructor(
     private dataService: DataService,
@@ -71,10 +86,10 @@ export class MapExampleComponent implements OnInit {
   getDataGeographyConfig(map: Topology): DataGeographyConfig {
     const config = new DataGeographyConfig();
     config.geographies = this.getDataGeographyFeatures(map);
-    config.valueAccessor = (d) => d.properties['NAME'].toLowerCase();
+    config.valueAccessor = (d) => d.properties['NAME'];
     config.attributeDataConfig =
       new EqualValuesQuantitativeAttributeDataDimensionConfig();
-    config.attributeDataConfig.geoAccessor = (d) => d.state.toLowerCase();
+    config.attributeDataConfig.geoAccessor = (d) => d.state;
     config.attributeDataConfig.valueAccessor = (d) => d.income;
     config.attributeDataConfig.valueFormat = `$${valueFormat.integer()}`;
     config.attributeDataConfig.colors = [
@@ -87,5 +102,27 @@ export class MapExampleComponent implements OnInit {
 
   getDataGeographyFeatures(map: Topology): any {
     return topojson.feature(map, map.objects['states'])['features'];
+  }
+
+  updateTooltipForNewOutput(data: GeographiesEmittedOutput): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: GeographiesEmittedOutput): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: GeographiesEmittedOutput): void {
+    const config = new HtmlTooltipConfig();
+    config.position.panelClass = 'map-tooltip';
+    if (data) {
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 16;
+      config.show = true;
+    } else {
+      config.show = false;
+    }
+    this.tooltipConfig.next(config);
   }
 }

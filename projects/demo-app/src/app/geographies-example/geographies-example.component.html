@@ -23,8 +23,29 @@
         vic-data-marks-geographies
         svg-elements
         [config]="dataMarksConfig"
-      ></svg:g>
+        [vicGeographiesHoverAndMoveEffects]="hoverEffects"
+        (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
+      >
+        <vic-html-tooltip
+          [config]="(tooltipConfig$ | async)"
+          [template]="htmlTooltip"
+        ></vic-html-tooltip>
+      </svg:g>
     </vic-map-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
 </app-component-demo>
+
+<ng-template #htmlTooltip>
+  <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">
+    <p class="tooltip-label geography">
+      {{ (tooltipData$ | async).geography }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label x">
+        <span class="value-label">Income</span>
+        {{ (tooltipData$ | async).attributeValue }}
+      </p>
+    </div>
+  </div>
+</ng-template>

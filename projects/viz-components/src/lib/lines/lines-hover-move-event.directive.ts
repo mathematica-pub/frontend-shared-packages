@@ -42,7 +42,9 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
   }
 
   chartPointerLeave() {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.effects) {
+      this.effects.forEach((effect) => effect.removeEffect(this));
+    }
   }
 
   getPointerValuesArray(event: PointerEvent): [number, number] {
@@ -61,6 +63,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
   determineHoverStyles(): void {
     this.closestPointIndex = this.getClosestPointIndex();
     if (
+      this.effects &&
       this.pointerIsInsideShowTooltipRadius(
         this.closestPointIndex,
         this.pointerX,
