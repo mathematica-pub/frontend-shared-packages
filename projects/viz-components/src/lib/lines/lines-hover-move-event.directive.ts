@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least, pointer } from 'd3';
-import { HoverAndMoveEventDirective } from '../chart-svg-events/hover-move-event';
+import { HoverAndMoveEventDirective } from '../events/hover-move-event';
 import { LinesHoverAndMoveEffect } from './lines-effect';
 import { LINES, LinesComponent } from './lines.component';
 
