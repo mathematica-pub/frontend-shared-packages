@@ -12,8 +12,8 @@ import { DataMarksConfig } from '../data-marks/data-marks.config';
 export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
   projection: any;
-  noDataGeographies?: NoDataGeographyConfig[];
-  dataGeography?: DataGeographyConfig;
+  noDataGeographiesConfigs?: NoDataGeographyConfig[];
+  dataGeographyConfig?: DataGeographyConfig;
 
   constructor(init?: Partial<GeographiesConfig>) {
     super();
@@ -108,6 +108,7 @@ export class EqualValuesQuantitativeAttributeDataDimensionConfig extends Attribu
 }
 
 export class EqualNumbersQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
+  override domain: never;
   constructor(
     init?: Partial<EqualNumbersQuantitativeAttributeDataDimensionConfig>
   ) {

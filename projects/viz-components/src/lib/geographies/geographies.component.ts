@@ -3,6 +3,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  InjectionToken,
   Input,
   NgZone,
   OnChanges,
@@ -17,15 +18,13 @@ import {
   InternMap,
   InternSet,
   map,
-  max,
-  min,
   range,
   scaleLinear,
   select,
   Transition,
 } from 'd3';
 import { takeUntil } from 'rxjs';
-import { Ranges } from '../chart/chart.component';
+import { ChartComponent, Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -44,6 +43,10 @@ export class MapDataValues {
   geoJsonGeographies: any[];
 }
 
+export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
+  'GeographiesComponent'
+);
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-geographies]',
@@ -51,7 +54,17 @@ export class MapDataValues {
   styleUrls: ['./geographies.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: GeographiesComponent }],
+  providers: [
+    { provide: DATA_MARKS, useExisting: GeographiesComponent },
+    {
+      provide: GEOGRAPHIES,
+      useExisting: GeographiesComponent,
+    },
+    {
+      provide: ChartComponent,
+      useExisting: MapChartComponent,
+    },
+  ],
 })
 export class GeographiesComponent
   extends MapContent
@@ -129,108 +142,127 @@ export class GeographiesComponent
   setValueArrays(): void {
     this.values.attributeDataGeographies = map(
       this.config.data,
-      this.config.dataGeography.attributeDataConfig.geoAccessor
+      this.config.dataGeographyConfig.attributeDataConfig.geoAccessor
     );
     this.values.attributeDataValues = map(
       this.config.data,
-      this.config.dataGeography.attributeDataConfig.valueAccessor
-    ).map((d) => (d == null ? NaN : +d));
+      this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
+    ).map((d) => (d == null ? NaN : +d)); //double equals to catch undefined
     this.values.indexMap = new InternMap(
       this.values.attributeDataGeographies.map((name, i) => [name, i])
     );
     this.values.geoJsonGeographies = map(
-      this.config.dataGeography.geographies,
-      this.config.dataGeography.valueAccessor
+      this.config.dataGeographyConfig.geographies,
+      this.config.dataGeographyConfig.valueAccessor
     );
   }
 
   initAttributeDataScaleDomain(): void {
-    let valuesDomain: any[];
-    if (this.config.dataGeography.attributeDataConfig.domain === undefined) {
-      valuesDomain = extent(this.values.attributeDataValues);
-    } else {
-      valuesDomain = [
-        ...new Set([
-          ...this.config.dataGeography.attributeDataConfig.domain,
-          ...this.values.attributeDataValues,
-        ]),
-      ];
-    }
     if (
-      this.config.dataGeography.attributeDataConfig.valueType === 'quantitative'
+      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
+      'quantitative'
     ) {
-      this.setQuantitativeDomainAndBins(valuesDomain);
+      this.setQuantitativeDomainAndBins();
     }
     if (
-      this.config.dataGeography.attributeDataConfig.valueType === 'categorical'
+      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
+      'categorical'
     ) {
       this.setCategoricalDomain();
     }
   }
 
-  setQuantitativeDomainAndBins(valuesDomain: any[]): void {
+  setQuantitativeDomainAndBins(): void {
     if (
-      this.config.dataGeography.attributeDataConfig.binType ===
-      'equal num observations'
+      this.config.dataGeographyConfig.attributeDataConfig.binType ===
+      'equal num observations' // all data values
     ) {
-      this.config.dataGeography.attributeDataConfig.domain = valuesDomain;
+      this.config.dataGeographyConfig.attributeDataConfig.domain =
+        this.values.attributeDataValues;
     } else if (
-      this.config.dataGeography.attributeDataConfig.binType === 'custom breaks'
+      this.config.dataGeographyConfig.attributeDataConfig.binType ===
+      'custom breaks'
     ) {
-      this.config.dataGeography.attributeDataConfig.domain =
-        this.config.dataGeography.attributeDataConfig.breakValues;
-      this.config.dataGeography.attributeDataConfig.numBins =
-        this.config.dataGeography.attributeDataConfig.breakValues.length + 1;
+      this.config.dataGeographyConfig.attributeDataConfig.domain =
+        this.config.dataGeographyConfig.attributeDataConfig.breakValues;
+      this.config.dataGeographyConfig.attributeDataConfig.numBins =
+        this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
+        1;
     } else {
-      const dataMin = min([min(valuesDomain), 0]);
-      this.config.dataGeography.attributeDataConfig.domain = [
-        dataMin,
-        max(valuesDomain),
-      ];
+      //nobins, equal interval
+      let domainValues: any[];
+      if (
+        this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
+      ) {
+        domainValues = extent(this.values.attributeDataValues);
+      } else {
+        domainValues =
+          this.config.dataGeographyConfig.attributeDataConfig.domain;
+      }
+      this.config.dataGeographyConfig.attributeDataConfig.domain =
+        extent(domainValues);
+      //else {
+      //domainValues = this.config.dataGeographyConfig.attributeDataConfig.domain;
+      // domainValues = [
+      //   ...new Set([
+      //     ...this.config.dataGeographyConfig.attributeDataConfig.domain,
+      //     // ...this.values.attributeDataValues, //why did i put this here?
+      //   ]),
+      // ];
+      //}
+      // const dataMin = min(domainValues); //this was min of min + 0; why?
+      // this.config.dataGeographyConfig.attributeDataConfig.domain = [
+      //   dataMin,
+      //   max(domainValues),
+      // ];
     }
   }
 
   setCategoricalDomain(): void {
-    this.config.dataGeography.attributeDataConfig.domain = new InternSet(
-      this.values.attributeDataValues
+    const domainValues =
+      this.config.dataGeographyConfig.attributeDataConfig.domain ??
+      this.values.attributeDataValues;
+    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
+      domainValues
     );
   }
 
   initAttributeDataScaleRange(): void {
     if (this.shouldCalculateBinColors()) {
       const binIndicies = range(
-        this.config.dataGeography.attributeDataConfig.numBins
+        this.config.dataGeographyConfig.attributeDataConfig.numBins
       );
       const colorGenerator = scaleLinear()
         .domain(extent(binIndicies))
-        .range(this.config.dataGeography.attributeDataConfig.colors as any)
+        .range(
+          this.config.dataGeographyConfig.attributeDataConfig.colors as any
+        )
         .interpolate(
-          this.config.dataGeography.attributeDataConfig.interpolator
+          this.config.dataGeographyConfig.attributeDataConfig.interpolator
         );
-      this.config.dataGeography.attributeDataConfig.range = binIndicies.map(
-        (i) => colorGenerator(i)
-      );
+      this.config.dataGeographyConfig.attributeDataConfig.range =
+        binIndicies.map((i) => colorGenerator(i));
     } else {
-      this.config.dataGeography.attributeDataConfig.range =
-        this.config.dataGeography.attributeDataConfig.colors;
+      this.config.dataGeographyConfig.attributeDataConfig.range =
+        this.config.dataGeographyConfig.attributeDataConfig.colors;
     }
   }
 
   shouldCalculateBinColors(): boolean {
     return (
-      this.config.dataGeography.attributeDataConfig.numBins &&
-      this.config.dataGeography.attributeDataConfig.numBins > 1 &&
-      this.config.dataGeography.attributeDataConfig.colors.length !==
-        this.config.dataGeography.attributeDataConfig.numBins
+      this.config.dataGeographyConfig.attributeDataConfig.numBins &&
+      this.config.dataGeographyConfig.attributeDataConfig.numBins > 1 &&
+      this.config.dataGeographyConfig.attributeDataConfig.colors.length !==
+        this.config.dataGeographyConfig.attributeDataConfig.numBins
     );
   }
 
   initAttributeDataScaleAndUpdateChart(): void {
     let scale;
     if (
-      this.config.dataGeography.attributeDataConfig.valueType ===
+      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
         'quantitative' &&
-      this.config.dataGeography.attributeDataConfig.binType === 'none'
+      this.config.dataGeographyConfig.attributeDataConfig.binType === 'none'
     ) {
       scale = this.setColorScaleWithColorInterpolator();
     } else {
@@ -239,26 +271,28 @@ export class GeographiesComponent
     this.zone.run(() => {
       this.chart.updateAttributeDataScale(scale);
       this.chart.updateAttributeDataConfig(
-        this.config.dataGeography.attributeDataConfig
+        this.config.dataGeographyConfig.attributeDataConfig
       );
     });
   }
 
   setColorScaleWithColorInterpolator(): any {
-    return this.config.dataGeography.attributeDataConfig
+    return this.config.dataGeographyConfig.attributeDataConfig
       .colorScale()
-      .domain(this.config.dataGeography.attributeDataConfig.domain)
-      .range(this.config.dataGeography.attributeDataConfig.range)
-      .unknown(this.config.dataGeography.nullColor)
-      .interpolate(this.config.dataGeography.attributeDataConfig.interpolator);
+      .domain(this.config.dataGeographyConfig.attributeDataConfig.domain)
+      .range(this.config.dataGeographyConfig.attributeDataConfig.range)
+      .unknown(this.config.dataGeographyConfig.nullColor)
+      .interpolate(
+        this.config.dataGeographyConfig.attributeDataConfig.interpolator
+      );
   }
 
   setColorScaleWithoutColorInterpolator(): any {
-    return this.config.dataGeography.attributeDataConfig
+    return this.config.dataGeographyConfig.attributeDataConfig
       .colorScale()
-      .domain(this.config.dataGeography.attributeDataConfig.domain)
-      .range(this.config.dataGeography.attributeDataConfig.range)
-      .unknown(this.config.dataGeography.nullColor);
+      .domain(this.config.dataGeographyConfig.attributeDataConfig.domain)
+      .range(this.config.dataGeographyConfig.attributeDataConfig.range)
+      .unknown(this.config.dataGeographyConfig.nullColor);
   }
 
   drawMarks(transitionDuration: number): void {
@@ -272,10 +306,10 @@ export class GeographiesComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    if (this.config.dataGeography) {
+    if (this.config.dataGeographyConfig) {
       this.drawDataLayer(t);
     }
-    if (this.config.noDataGeographies) {
+    if (this.config.noDataGeographiesConfigs) {
       this.drawNoDataLayers(t);
     }
   }
@@ -283,7 +317,7 @@ export class GeographiesComponent
   drawDataLayer(t: any): void {
     this.map = select(this.mapRef.nativeElement)
       .selectAll('.map-layer.data')
-      .data([this.config.dataGeography])
+      .data([this.config.dataGeographyConfig])
       .join(
         (enter) => enter.append('g').attr('class', 'map-layer data'),
         (update) => update,
@@ -299,8 +333,8 @@ export class GeographiesComponent
             .append('path')
             .attr('d', this.path)
             .attr('fill', (d, i) => this.getFill(i))
-            .attr('stroke', this.config.dataGeography.strokeColor)
-            .attr('stroke-width', this.config.dataGeography.strokeWidth),
+            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
         (update) => update.attr('d', this.path),
         (exit) => exit.remove()
       );
@@ -309,7 +343,7 @@ export class GeographiesComponent
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.mapRef.nativeElement)
       .selectAll('.map-layer.no-data')
-      .data(this.config.noDataGeographies)
+      .data(this.config.noDataGeographiesConfigs)
       .join(
         (enter) => enter.append('g').attr('class', 'map-layer no-data'),
         (update) => update,

@@ -1,0 +1,30 @@
+<app-component-demo>
+  <span title>Geographies</span>
+  <ng-container
+    demo
+    *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
+  >
+    <p>Equal values scale</p>
+    <vic-map-chart
+      class="chart-component"
+      [margin]="margin"
+      [height]="height"
+      [width]="width"
+    >
+      <ng-container html-elements-after>
+        <vic-map-legend
+          class="legend-component"
+          [width]="400"
+          [height]="20"
+          [outlineColor]="outlineColor"
+        ></vic-map-legend>
+      </ng-container>
+      <svg:g
+        vic-data-marks-geographies
+        svg-elements
+        [config]="dataMarksConfig"
+      ></svg:g>
+    </vic-map-chart>
+  </ng-container>
+  <ng-template #loading>Loading...</ng-template>
+</app-component-demo>

@@ -7,4 +7,4 @@ import { GeographiesComponent } from './geographies.component';
   imports: [CommonModule],
   exports: [GeographiesComponent],
 })
-export class GeographiesModule {}
+export class VicGeographiesModule {}

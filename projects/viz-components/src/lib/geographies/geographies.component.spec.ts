@@ -4,10 +4,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { GeographiesComponent } from './geographies.component';
-import { GeographiesConfig } from './geographies.config';
+import { GeographiesComponent, MapDataValues } from './geographies.component';
+import {
+  CategoricalAttributeDataDimensionConfig,
+  CustomBreaksQuantitativeAttributeDataDimensionConfig,
+  DataGeographyConfig,
+  EqualNumbersQuantitativeAttributeDataDimensionConfig,
+  EqualValuesQuantitativeAttributeDataDimensionConfig,
+  GeographiesConfig,
+  NoBinsQuantitativeAttributeDataDimensionConfig,
+} from './geographies.config';
 
-describe('GeographiesComponent', () => {
+fdescribe('GeographiesComponent', () => {
   let component: GeographiesComponent;
   let fixture: ComponentFixture<GeographiesComponent>;
   let mainServiceStub: MainServiceStub;
@@ -30,9 +38,6 @@ describe('GeographiesComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(GeographiesComponent);
     component = fixture.componentInstance;
-    component.chart.dataMarksComponent = {
-      config: { tooltip: { show: false, type: 'html' } },
-    } as any;
     component.config = new GeographiesConfig();
   });
 
@@ -83,97 +88,6 @@ describe('GeographiesComponent', () => {
     it('calls setMethodsFromConfigAndDraw once', () => {
       component.ngOnInit();
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('initAttributeDataScaleAndUpdateChart', () => {
-    beforeEach(() => {
-      component.chart = {
-        updateAttributeDataConfig: jasmine.createSpy(
-          'updateAttributeDataConfig'
-        ),
-        updateAttributeDataScale: jasmine.createSpy('updateAttributeDataScale'),
-      } as any;
-      component.config = {
-        dataGeography: {
-          attributeDataConfig: {
-            valueType: 'quantitative',
-            binType: 'none',
-          },
-        },
-      } as any;
-      spyOn(component, 'setColorScaleWithColorInterpolator').and.returnValue(
-        'interpolated scale' as any
-      );
-      spyOn(component, 'setColorScaleWithoutColorInterpolator').and.returnValue(
-        'non-interpolated scale' as any
-      );
-    });
-
-    describe('if valueType is quantitative and binType is none', () => {
-      it('calls setColorScaleWithColorInterpolator once', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.setColorScaleWithColorInterpolator
-        ).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls updateAttributeDataScale once with the correct value if scale has color interpolation', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.chart.updateAttributeDataScale
-        ).toHaveBeenCalledOnceWith('interpolated scale' as any);
-      });
-    });
-
-    describe('if valueType is not quantitative', () => {
-      beforeEach(() => {
-        component.config.dataGeography.attributeDataConfig.valueType =
-          'categorical';
-      });
-      it('calls setColorScaleWithoutColorInterpolator once', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.setColorScaleWithoutColorInterpolator
-        ).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls updateAttributeDataScale once with the correct value if valueType is not quantitative', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.chart.updateAttributeDataScale
-        ).toHaveBeenCalledOnceWith('non-interpolated scale' as any);
-      });
-    });
-
-    describe('if binType is not none', () => {
-      beforeEach(() => {
-        component.config.dataGeography.attributeDataConfig.binType =
-          'auto' as any;
-      });
-      it('calls setColorScaleWithoutColorInterpolator once', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.setColorScaleWithoutColorInterpolator
-        ).toHaveBeenCalledTimes(1);
-      });
-
-      it('calls updateAttributeDataScale once with the correct value if binType is not none', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.chart.updateAttributeDataScale
-        ).toHaveBeenCalledOnceWith('non-interpolated scale' as any);
-      });
-    });
-
-    it('calls updateAttributeDataConfig on chart once with the correct value', () => {
-      component.initAttributeDataScaleAndUpdateChart();
-      expect(
-        component.chart.updateAttributeDataConfig
-      ).toHaveBeenCalledOnceWith({
-        valueType: 'quantitative',
-        binType: 'none',
-      } as any);
     });
   });
 
@@ -238,6 +152,216 @@ describe('GeographiesComponent', () => {
 
     it('calls drawMarks once', () => {
       expect(component.drawMarks).toHaveBeenCalledOnceWith(200);
+    });
+  });
+
+  describe('integration: setting attribute data scale domain', () => {
+    beforeEach(() => {
+      component.config = new GeographiesConfig();
+      component.config.dataGeographyConfig = new DataGeographyConfig();
+      component.values = new MapDataValues();
+    });
+    describe('categorical attribute data', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig =
+          new CategoricalAttributeDataDimensionConfig();
+        component.values.attributeDataValues = ['a', 'a', 'b', 'b', 'c', 'c'];
+      });
+      it('sets the domain to the correct value, user did not specify domain', () => {
+        component.initAttributeDataScaleDomain();
+        const values = [];
+        for (const item of component.config.dataGeographyConfig.attributeDataConfig.domain.values()) {
+          values.push(item);
+        }
+        expect(values).toEqual(['a', 'b', 'c']);
+      });
+      it('sets the domain to the correct value, user specified domain', () => {
+        component.config.dataGeographyConfig.attributeDataConfig.domain = [
+          'c',
+          'd',
+          'b',
+          'a',
+        ];
+        component.initAttributeDataScaleDomain();
+        const values = [];
+        for (const item of component.config.dataGeographyConfig.attributeDataConfig.domain.values()) {
+          values.push(item);
+        }
+        expect(values).toEqual(['c', 'd', 'b', 'a']);
+      });
+    });
+    describe('quantitative attribute data: no bins', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig =
+          new NoBinsQuantitativeAttributeDataDimensionConfig();
+        component.values.attributeDataValues = [1, 3, 5, 9, 10, 11];
+      });
+      it('sets the domain to the correct value, user did not specify domain', () => {
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([1, 11]);
+      });
+      it('sets the domain to the correct value, user specified domain', () => {
+        component.config.dataGeographyConfig.attributeDataConfig.domain = [
+          0, 15,
+        ];
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([0, 15]);
+      });
+    });
+    describe('quantitative attribute data: equal num observations', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig =
+          new EqualNumbersQuantitativeAttributeDataDimensionConfig();
+        component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
+        component.values.attributeDataValues = [1, 3, 5, 9, 10, 11];
+      });
+      it('sets the domain to the correct value', () => {
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([1, 3, 5, 9, 10, 11]);
+      });
+    });
+    describe('quantitative attribute data: equal values', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig =
+          new EqualValuesQuantitativeAttributeDataDimensionConfig();
+        component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
+        component.values.attributeDataValues = [1, 3, 5, 9, 10, 12];
+      });
+      it('sets the domain to the correct value, user did not specify domain', () => {
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([1, 12]);
+      });
+      it('sets the domain to the correct value, user specified domain', () => {
+        component.config.dataGeographyConfig.attributeDataConfig.domain = [
+          0, 15,
+        ];
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([0, 15]);
+      });
+    });
+    describe('quantitative attribute data: custom breaks', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig =
+          new CustomBreaksQuantitativeAttributeDataDimensionConfig();
+        component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
+        component.config.dataGeographyConfig.attributeDataConfig.breakValues = [
+          0, 2, 4, 6, 8,
+        ];
+        component.values.attributeDataValues = [1, 3, 5, 9, 10, 12];
+      });
+      it('sets the domain to the correct value', () => {
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([0, 2, 4, 6, 8]);
+      });
+      it('sets the numBins to the correct value', () => {
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.numBins
+        ).toEqual(4);
+      });
+    });
+  });
+
+  describe('initAttributeDataScaleAndUpdateChart', () => {
+    beforeEach(() => {
+      component.chart = {
+        updateAttributeDataConfig: jasmine.createSpy(
+          'updateAttributeDataConfig'
+        ),
+        updateAttributeDataScale: jasmine.createSpy('updateAttributeDataScale'),
+      } as any;
+      component.config = {
+        dataGeographyConfig: {
+          attributeDataConfig: {
+            valueType: 'quantitative',
+            binType: 'none',
+          },
+        },
+      } as any;
+      spyOn(component, 'setColorScaleWithColorInterpolator').and.returnValue(
+        'interpolated scale' as any
+      );
+      spyOn(component, 'setColorScaleWithoutColorInterpolator').and.returnValue(
+        'non-interpolated scale' as any
+      );
+    });
+
+    describe('if valueType is quantitative and binType is none', () => {
+      it('calls setColorScaleWithColorInterpolator once', () => {
+        component.initAttributeDataScaleAndUpdateChart();
+        expect(
+          component.setColorScaleWithColorInterpolator
+        ).toHaveBeenCalledTimes(1);
+      });
+
+      it('calls updateAttributeDataScale once with the correct value if scale has color interpolation', () => {
+        component.initAttributeDataScaleAndUpdateChart();
+        expect(
+          component.chart.updateAttributeDataScale
+        ).toHaveBeenCalledOnceWith('interpolated scale' as any);
+      });
+    });
+
+    describe('if valueType is not quantitative', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig.valueType =
+          'categorical';
+      });
+      it('calls setColorScaleWithoutColorInterpolator once', () => {
+        component.initAttributeDataScaleAndUpdateChart();
+        expect(
+          component.setColorScaleWithoutColorInterpolator
+        ).toHaveBeenCalledTimes(1);
+      });
+
+      it('calls updateAttributeDataScale once with the correct value if valueType is not quantitative', () => {
+        component.initAttributeDataScaleAndUpdateChart();
+        expect(
+          component.chart.updateAttributeDataScale
+        ).toHaveBeenCalledOnceWith('non-interpolated scale' as any);
+      });
+    });
+
+    describe('if binType is not none', () => {
+      beforeEach(() => {
+        component.config.dataGeographyConfig.attributeDataConfig.binType =
+          'auto' as any;
+      });
+      it('calls setColorScaleWithoutColorInterpolator once', () => {
+        component.initAttributeDataScaleAndUpdateChart();
+        expect(
+          component.setColorScaleWithoutColorInterpolator
+        ).toHaveBeenCalledTimes(1);
+      });
+
+      it('calls updateAttributeDataScale once with the correct value if binType is not none', () => {
+        component.initAttributeDataScaleAndUpdateChart();
+        expect(
+          component.chart.updateAttributeDataScale
+        ).toHaveBeenCalledOnceWith('non-interpolated scale' as any);
+      });
+    });
+
+    it('calls updateAttributeDataConfig on chart once with the correct value', () => {
+      component.initAttributeDataScaleAndUpdateChart();
+      expect(
+        component.chart.updateAttributeDataConfig
+      ).toHaveBeenCalledOnceWith({
+        valueType: 'quantitative',
+        binType: 'none',
+      } as any);
     });
   });
 

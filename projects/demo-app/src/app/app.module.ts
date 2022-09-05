@@ -5,10 +5,9 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+import { BasemapService } from './core/services/basemap.service';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { DocumentationService } from './core/services/documentation.service';
-import { HighlightService } from './core/services/highlight.service';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -25,6 +24,14 @@ import { HighlightService } from './core/services/highlight.service';
         return ds.initData();
       },
       deps: [DataService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (ms: BasemapService) => () => {
+        return ms.initMap();
+      },
+      deps: [BasemapService],
       multi: true,
     },
   ],

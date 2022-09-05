@@ -19,6 +19,7 @@ export * from './lib/chart/chart.component';
 export * from './lib/chart/chart.config';
 export * from './lib/chart/chart.module';
 export * from './lib/chart/chart.token';
+export * from './lib/core/constants/formatters.constants';
 export * from './lib/data-marks/data-dimension.config';
 export * from './lib/data-marks/data-marks.config';
 export * from './lib/data-marks/data-marks.token';

@@ -12,7 +12,7 @@ import {
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { Documentation } from '../core/enums/documentation.enums';
-import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
+import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
 

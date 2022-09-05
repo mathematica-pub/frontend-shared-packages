@@ -22,6 +22,13 @@ const routes: Routes = [
       import('./lines/lines.module').then((m) => m.LinesModule),
   },
   {
+    path: 'map',
+    loadChildren: () =>
+      import('./map-example/map-example.module').then(
+        (m) => m.MapExampleModule
+      ),
+  },
+  {
     path: 'stacked-area',
     loadChildren: () =>
       import('./stacked-area/stacked-area.module').then(
@@ -31,7 +38,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {anchorScrolling: 'enabled'})],
+  imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
