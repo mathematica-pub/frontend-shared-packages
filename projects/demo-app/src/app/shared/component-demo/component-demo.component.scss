@@ -9,6 +9,7 @@
 
 .title {
   @extend %typography-headline-5;
+  padding-bottom: $grid-4;
 }
 
 .demo-container {

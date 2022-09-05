@@ -15,7 +15,7 @@ import {
   NoBinsQuantitativeAttributeDataDimensionConfig,
 } from './geographies.config';
 
-fdescribe('GeographiesComponent', () => {
+describe('GeographiesComponent', () => {
   let component: GeographiesComponent;
   let fixture: ComponentFixture<GeographiesComponent>;
   let mainServiceStub: MainServiceStub;

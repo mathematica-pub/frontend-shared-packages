@@ -1,22 +1,22 @@
 import { Directive, OnDestroy } from '@angular/core';
-import { ChartSvgEventDirective } from './chart-svg-event';
+import { EventDirective, UnlistenFunction } from './event';
 
 @Directive()
 export abstract class ClickEventDirective
-  extends ChartSvgEventDirective
+  extends EventDirective
   implements OnDestroy
 {
-  unlistenClick: () => void;
+  unlistenClick: UnlistenFunction[];
 
-  abstract chartClick(event: Event): void;
+  abstract chartClick(event: Event, el: Element): void;
 
   ngOnDestroy(): void {
-    this.unlistenClick();
+    this.unlistenClick.forEach((func) => func());
   }
 
   setListeners(): void {
-    this.unlistenClick = this.renderer.listen(this.el, 'click', (event) =>
-      this.chartClick(event)
+    this.unlistenClick = this.elements.map((el) =>
+      this.renderer.listen(el, 'click', (event) => this.chartClick(event, el))
     );
   }
 }

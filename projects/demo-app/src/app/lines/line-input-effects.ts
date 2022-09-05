@@ -1,7 +1,9 @@
+import { InputEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
-import { LinesInputEffect } from 'projects/viz-components/src/public-api';
 
-export class HighlightLineForLabel implements LinesInputEffect {
+export class HighlightLineForLabel
+  implements InputEventEffect<LinesInputEventDirective>
+{
   applyEffect(event: LinesInputEventDirective, label: string): void {
     event.lines.lines
       .style('stroke', ([category]): string =>

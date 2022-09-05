@@ -23,8 +23,8 @@
         vic-data-marks-geographies
         svg-elements
         [config]="dataMarksConfig"
-        [vicGeographiesHoverAndMoveEffects]="hoverEffects"
-        (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
+        [vicGeographiesHoverEffects]="hoverEffects"
+        (hoverEventOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="(tooltipConfig$ | async)"

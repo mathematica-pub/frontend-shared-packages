@@ -1,49 +1,89 @@
-import { format, timeFormat } from 'd3';
-import { GeographiesHoverAndMoveEffect } from './geographies-effect';
+import { EventEffect } from '../events/effect';
+import { formatValue } from '../format/format';
 import {
-  GeographiesEmittedOutput,
+  GeographiesHoverEmittedOutput,
+  GeographiesHoverEventDirective,
+} from './geographies-hover-event.directive';
+import {
+  GeographiesHoverAndMoveEmittedOutput,
   GeographiesHoverAndMoveEventDirective,
 } from './geographies-hover-move-event.directive';
 
-export class EmitGeographiesTooltipData
-  implements GeographiesHoverAndMoveEffect
+export class EmitGeographiesHoverAndMoveTooltipData
+  implements EventEffect<GeographiesHoverAndMoveEventDirective>
 {
-  applyEffect(event: GeographiesHoverAndMoveEventDirective): void {
-    const datum = event.geographies.config.data.find(
+  applyEffect(directive: GeographiesHoverAndMoveEventDirective): void {
+    const datum = directive.geographies.config.data.find(
       (d) =>
-        event.geographies.config.dataGeographyConfig.attributeDataConfig
+        directive.geographies.config.dataGeographyConfig.attributeDataConfig
           .geoAccessor(d)
           .toLowerCase() ===
-        event.geographies.values.attributeDataGeographies[event.geographyIndex]
+        directive.geographies.values.attributeDataGeographies[
+          directive.geographyIndex
+        ]
     );
-    const tooltipData: GeographiesEmittedOutput = {
+
+    const tooltipData: GeographiesHoverAndMoveEmittedOutput = {
       datum,
       geography:
-        event.geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(
+        directive.geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(
           datum
         ),
-      attributeValue: this.formatValue(
-        event.geographies.values.attributeDataValues[event.geographyIndex],
-        event.geographies.config.dataGeographyConfig.attributeDataConfig
+      attributeValue: formatValue(
+        directive.geographies.values.attributeDataValues[
+          directive.geographyIndex
+        ],
+        directive.geographies.config.dataGeographyConfig.attributeDataConfig
           .valueFormat
       ),
-      color: event.geographies.getFill(event.geographyIndex),
-      positionX: event.pointerX,
-      positionY: event.pointerY,
+      color: directive.geographies.getFill(directive.geographyIndex),
+      positionX: directive.pointerX,
+      positionY: directive.pointerY,
     };
-    event.hoverAndMoveEventOutput.emit(tooltipData);
+
+    directive.hoverAndMoveEventOutput.emit(tooltipData);
   }
 
-  removeEffect(event: GeographiesHoverAndMoveEventDirective): void {
-    event.hoverAndMoveEventOutput.emit(null);
+  removeEffect(directive: GeographiesHoverAndMoveEventDirective): void {
+    directive.hoverAndMoveEventOutput.emit(null);
+  }
+}
+
+export class EmitGeographiesHoverTooltipData
+  implements EventEffect<GeographiesHoverEventDirective>
+{
+  applyEffect(directive: GeographiesHoverEventDirective): void {
+    const datum = directive.geographies.config.data.find(
+      (d) =>
+        directive.geographies.config.dataGeographyConfig.attributeDataConfig
+          .geoAccessor(d)
+          .toLowerCase() ===
+        directive.geographies.values.attributeDataGeographies[
+          directive.geographyIndex
+        ]
+    );
+
+    const tooltipData: GeographiesHoverEmittedOutput = {
+      datum,
+      geography:
+        directive.geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(
+          datum
+        ),
+      attributeValue: formatValue(
+        directive.geographies.values.attributeDataValues[
+          directive.geographyIndex
+        ],
+        directive.geographies.config.dataGeographyConfig.attributeDataConfig
+          .valueFormat
+      ),
+      color: directive.geographies.getFill(directive.geographyIndex),
+      bounds: directive.bounds,
+    };
+
+    directive.hoverEventOutput.emit(tooltipData);
   }
 
-  formatValue(value: any, formatSpecifier: string): string {
-    const formatter = value instanceof Date ? timeFormat : format;
-    if (formatSpecifier) {
-      return formatter(formatSpecifier)(value);
-    } else {
-      return value.toString();
-    }
+  removeEffect(directive: GeographiesHoverEventDirective): void {
+    directive.hoverEventOutput.emit(null);
   }
 }

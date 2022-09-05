@@ -1,13 +1,16 @@
 import { HoverAndMoveEventDirective } from '../../events/hover-move-event';
 
 export class HoverAndMoveEventDirectiveStub extends HoverAndMoveEventDirective {
-  chartPointerMove(event: PointerEvent): void {
+  setElements(): void {
     return;
   }
-  chartPointerEnter(event: PointerEvent): void {
+  elementPointerMove(event: PointerEvent): void {
     return;
   }
-  chartPointerLeave(event: PointerEvent): void {
+  elementPointerEnter(event: PointerEvent): void {
+    return;
+  }
+  elementPointerLeave(event: PointerEvent): void {
     return;
   }
 }

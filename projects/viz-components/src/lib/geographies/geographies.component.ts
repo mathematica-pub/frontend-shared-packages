@@ -407,14 +407,4 @@ export class GeographiesComponent
     const dataIndex = this.values.indexMap.get(geoName);
     return this.values.attributeDataValues[dataIndex];
   }
-
-  onPointerEnter(event: PointerEvent) {
-    return;
-  }
-  onPointerLeave(event: PointerEvent) {
-    return;
-  }
-  onPointerMove(event: PointerEvent) {
-    return;
-  }
 }

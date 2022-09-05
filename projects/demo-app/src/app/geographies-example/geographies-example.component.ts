@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { valueFormat } from 'projects/viz-components/src/lib/core/constants/formatters.constants';
-import { GeographiesHoverAndMoveEffect } from 'projects/viz-components/src/lib/geographies/geographies-effect';
-import { EmitGeographiesTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
-import { GeographiesEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
+import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { valueFormat } from 'projects/viz-components/src/lib/format/format';
+import { EmitGeographiesHoverTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
+import {
+  GeographiesHoverEmittedOutput,
+  GeographiesHoverEventDirective,
+} from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
+import { GeographiesHoverAndMoveEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   DataGeographyConfig,
@@ -49,11 +53,11 @@ export class GeographiesExampleComponent implements OnInit {
       new HtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEmittedOutput> =
-    new BehaviorSubject<GeographiesEmittedOutput>(null);
+  tooltipData: BehaviorSubject<GeographiesHoverAndMoveEmittedOutput> =
+    new BehaviorSubject<GeographiesHoverAndMoveEmittedOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: GeographiesHoverAndMoveEffect[] = [
-    new EmitGeographiesTooltipData(),
+  hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
+    new EmitGeographiesHoverTooltipData(),
   ];
 
   constructor(
@@ -104,21 +108,22 @@ export class GeographiesExampleComponent implements OnInit {
     return topojson.feature(map, map.objects['states'])['features'];
   }
 
-  updateTooltipForNewOutput(data: GeographiesEmittedOutput): void {
+  updateTooltipForNewOutput(data: GeographiesHoverEmittedOutput): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: GeographiesEmittedOutput): void {
+  updateTooltipData(data: GeographiesHoverEmittedOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: GeographiesEmittedOutput): void {
+  updateTooltipConfig(data: GeographiesHoverEmittedOutput): void {
     const config = new HtmlTooltipConfig();
-    config.position.panelClass = 'map-tooltip';
+    config.position.panelClass = 'map-tooltip'; // not used
+    config.size.minWidth = 130;
     if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY - 16;
+      config.position.offsetX = (data.bounds[1][0] + data.bounds[0][0]) / 2;
+      config.position.offsetY = (data.bounds[1][1] + data.bounds[0][1] * 2) / 3;
       config.show = true;
     } else {
       config.show = false;

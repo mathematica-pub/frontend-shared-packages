@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
@@ -6,9 +7,9 @@ import {
   EmitLinesTooltipData,
   LinesConfig,
   LinesEmittedOutput,
-  LinesHoverAndMoveEffect,
   LinesHoverAndMoveEffectDefaultStyles,
   LinesHoverAndMoveEffectDefaultStylesConfig,
+  LinesHoverAndMoveEventDirective,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { Documentation } from '../core/enums/documentation.enums';
@@ -48,7 +49,7 @@ export class LinesComponent implements OnInit {
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
-  hoverEffects: LinesHoverAndMoveEffect[] = [
+  hoverEffects: EventEffect<LinesHoverAndMoveEventDirective>[] = [
     new LinesHoverAndMoveEffectDefaultStyles(
       new LinesHoverAndMoveEffectDefaultStylesConfig({
         growMarkerDimension: 3,
@@ -98,7 +99,8 @@ export class LinesComponent implements OnInit {
 
   updateTooltipConfig(data: LinesEmittedOutput): void {
     const config = new HtmlTooltipConfig();
-    config.position.panelClass = 'lines-tooltip';
+    config.panelClass = 'lines-tooltip';
+    config.size.minWidth = 340;
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;

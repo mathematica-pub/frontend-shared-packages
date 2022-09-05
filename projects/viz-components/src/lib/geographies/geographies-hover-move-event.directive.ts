@@ -1,19 +1,10 @@
-import {
-  AfterViewInit,
-  Directive,
-  EventEmitter,
-  Inject,
-  Input,
-  OnDestroy,
-  Output,
-  Renderer2,
-} from '@angular/core';
-import { pointer, select } from 'd3';
-import { GeographiesHoverAndMoveEffect } from './geographies-effect';
+import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { select } from 'd3';
+import { EventEffect } from '../events/effect';
+import { HoverAndMoveEventDirective } from '../events/hover-move-event';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
-type UnlistenFunction = () => void;
-export class GeographiesEmittedOutput {
+export class GeographiesHoverAndMoveEmittedOutput {
   datum?: any;
   color: string;
   geography: string;
@@ -24,102 +15,42 @@ export class GeographiesEmittedOutput {
 @Directive({
   selector: '[vicGeographiesHoverAndMoveEffects]',
 })
-export class GeographiesHoverAndMoveEventDirective
-  implements OnDestroy, AfterViewInit
-{
+export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesHoverAndMoveEffects')
-  effects: GeographiesHoverAndMoveEffect[];
-  @Input() pointerDetectionRadius: number | null = 80;
+  effects: EventEffect<GeographiesHoverAndMoveEventDirective>[];
   @Output() hoverAndMoveEventOutput =
-    new EventEmitter<GeographiesEmittedOutput>();
+    new EventEmitter<GeographiesHoverAndMoveEmittedOutput>();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
-  unlistenPointerEnter: UnlistenFunction[];
-  unlistenPointerLeave: UnlistenFunction[];
-  unlistenTouchStart: UnlistenFunction[];
 
-  constructor(
-    @Inject(GEOGRAPHIES) public geographies: GeographiesComponent,
-    private renderer: Renderer2
-  ) {}
-
-  ngOnDestroy(): void {
-    this.unlistenTouchStart.forEach((func) => func());
-    this.unlistenPointerEnter.forEach((func) => func());
+  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
+    super();
   }
 
-  ngAfterViewInit(): void {
-    this.setListeners();
+  setElements(): void {
+    this.elements = this.geographies.dataGeographies.nodes();
   }
 
-  setListeners(): void {
-    const elements = this.geographies.dataGeographies.nodes();
-    this.setTouchStartListener(elements);
-    this.setPointerEnterListener(elements);
-    // this.geographies.dataGeographies
-    // .on('touchstart', (event, d) => {
-    //   event.preventDefault();
-    // })
-    // .on('pointermove', (event, d) => this.geographyPointerMove(event, d))
-    // .on('pointerleave', () => this.geographyPointerLeave());
+  elementPointerEnter(): void {
+    return;
   }
 
-  setTouchStartListener(elements: Element[]) {
-    this.unlistenTouchStart = elements.map((el) =>
-      this.renderer.listen(el, 'touchstart', (event) => {
-        this.onTouchStart(event);
-      })
-    );
-  }
-
-  onTouchStart(event: TouchEvent): void {
-    event.preventDefault();
-  }
-
-  setPointerEnterListener(elements: Element[]) {
-    this.unlistenPointerEnter = elements.map((el) =>
-      this.renderer.listen(el, 'pointerenter', (event) => {
-        this.onPointerEnter(event, el);
-      })
-    );
-  }
-
-  onPointerEnter(event: PointerEvent, el: Element): void {
-    const datum = select(el).datum();
-    this.geographyPointerMove(event, datum);
-    this.setPointerLeaveListener(el);
-  }
-
-  setPointerLeaveListener(el: Element) {
-    const unlistenPointerLeave = this.renderer.listen(
-      el,
-      'pointerleave',
-      () => {
-        this.geographyPointerLeave();
-        unlistenPointerLeave();
-      }
-    );
-  }
-
-  geographyPointerMove(event: PointerEvent, d: any): void {
+  elementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
+    const d = select(event.target as Element).datum();
+    console.log(d);
     this.geographyIndex = this.getGeographyIndex(d);
-    console.log(this.geographyIndex);
     if (this.effects) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
   }
 
-  geographyPointerLeave() {
+  elementPointerLeave(): void {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
-  }
-
-  getPointerValuesArray(event: PointerEvent): [number, number] {
-    return pointer(event);
   }
 
   getGeographyIndex(d: any): number {

@@ -11,26 +11,37 @@ describe('HoverEvent', () => {
       providers: [HoverEventDirectiveStub, Renderer2],
     });
     directive = TestBed.inject(HoverEventDirectiveStub);
-    directive.unlistenTouchStart = () => {
-      return;
-    };
-    directive.unlistenPointerEnter = () => {
+    directive.unlistenTouchStart = [
+      () => {
+        return;
+      },
+    ];
+    directive.unlistenPointerEnter = [
+      () => {
+        return;
+      },
+    ];
+    directive.unlistenPointerLeave = () => {
       return;
     };
   });
 
   describe('ngOnDestroy()', () => {
+    let unlistenStartSpy: jasmine.Spy;
+    let unlistenEnterSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(directive, 'unlistenTouchStart');
-      spyOn(directive, 'unlistenPointerEnter');
+      unlistenStartSpy = jasmine.createSpy();
+      unlistenEnterSpy = jasmine.createSpy();
+      directive.unlistenTouchStart = [unlistenStartSpy];
+      directive.unlistenPointerEnter = [unlistenEnterSpy];
     });
     it('calls unlistenTouchStart()', () => {
       directive.ngOnDestroy();
-      expect(directive.unlistenTouchStart).toHaveBeenCalledTimes(1);
+      expect(unlistenStartSpy).toHaveBeenCalledTimes(1);
     });
     it('calls unlistenPointerEnter()', () => {
       directive.ngOnDestroy();
-      expect(directive.unlistenPointerEnter).toHaveBeenCalledTimes(1);
+      expect(unlistenEnterSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -38,17 +49,17 @@ describe('HoverEvent', () => {
     let el: any;
     beforeEach(() => {
       el = 'element';
-      directive.el = el;
+      directive.elements = [el];
       spyOn(directive, 'setTouchStartListener');
       spyOn(directive, 'setPointerEnterListener');
     });
     it('calls setTouchStartListener()', () => {
       directive.setListeners();
-      expect(directive.setTouchStartListener).toHaveBeenCalledOnceWith(el);
+      expect(directive.setTouchStartListener).toHaveBeenCalledTimes(1);
     });
     it('calls setPointerEnterListener()', () => {
       directive.setListeners();
-      expect(directive.setPointerEnterListener).toHaveBeenCalledOnceWith(el);
+      expect(directive.setPointerEnterListener).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -70,12 +81,12 @@ describe('HoverEvent', () => {
     beforeEach(() => {
       event = 'event';
       element = 'element';
-      spyOn(directive, 'chartPointerEnter');
+      spyOn(directive, 'elementPointerEnter');
       spyOn(directive, 'setPointerLeaveListener');
     });
-    it('calls chartPointerEnter()', () => {
+    it('calls elementPointerEnter()', () => {
       directive.onPointerEnter(event as any, element as any);
-      expect(directive.chartPointerEnter).toHaveBeenCalledOnceWith(event);
+      expect(directive.elementPointerEnter).toHaveBeenCalledOnceWith(event);
     });
     it('calls setPointerLeaveListener()', () => {
       directive.onPointerEnter(event as any, element as any);

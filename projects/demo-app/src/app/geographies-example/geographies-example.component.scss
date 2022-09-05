@@ -4,11 +4,21 @@
   background: rgba($color-white, 0.9);
   padding: $grid-2;
   border: 1px solid $color-primary-6;
-  width: 150px;
+  width: 100%;
+
+  .geography {
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    padding-bottom: $grid-1;
+  }
 
   .tooltip-label {
     display: flex;
     flex-direction: column;
+  }
+
+  .tooltip-label:not(.geography) {
+    padding-top: $grid-1;
   }
 
   .value-label {

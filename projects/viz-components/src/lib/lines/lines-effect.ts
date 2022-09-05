@@ -1,18 +1,17 @@
-import { LinesHoverEventDirective } from './lines-hover-event.directive';
-import { LinesHoverAndMoveEventDirective } from './lines-hover-move-event.directive';
-import { LinesInputEventDirective } from './lines-input-event.directive';
+// export interface LinesHoverAndMoveEffect
+//   extends EventEffect<LinesHoverAndMoveEventDirective> {
+//   applyEffect: (directive: LinesHoverAndMoveEventDirective) => void;
+//   removeEffect: (directive: LinesHoverAndMoveEventDirective) => void;
+// }
 
-export interface LinesHoverAndMoveEffect {
-  applyEffect: (event: LinesHoverAndMoveEventDirective) => void;
-  removeEffect: (event: LinesHoverAndMoveEventDirective) => void;
-}
+// export interface LinesHoverEffect
+//   extends EventEffect<LinesHoverEventDirective> {
+//   applyEffect: (directive: LinesHoverEventDirective) => void;
+//   removeEffect: (directive: LinesHoverEventDirective) => void;
+// }
 
-export interface LinesHoverEffect {
-  applyEffect: (event: LinesHoverEventDirective) => void;
-  removeEffect: (event: LinesHoverEventDirective) => void;
-}
-
-export interface LinesInputEffect {
-  applyEffect: (event: LinesInputEventDirective, ...args) => void;
-  removeEffect: (event: LinesInputEventDirective, ...args) => void;
-}
+// export interface LinesInputEffect
+//   extends EventEffect<LinesInputEventDirective> {
+//   applyEffect: (directive: LinesInputEventDirective, ...args) => void;
+//   removeEffect: (directive: LinesInputEventDirective, ...args) => void;
+// }

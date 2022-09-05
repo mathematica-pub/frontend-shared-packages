@@ -1,3 +1,5 @@
+import { format, timeFormat } from 'd3';
+
 export interface Formats {
   integer: () => string;
   integerNoComma: (digits: number) => string;
@@ -19,3 +21,12 @@ export const valueFormat: Formats = {
   monthYear: () => '%b %Y',
   monthFullYear: () => '%B %Y',
 };
+
+export function formatValue(value: any, formatSpecifier: string): string {
+  const formatter = value instanceof Date ? timeFormat : format;
+  if (formatSpecifier) {
+    return formatter(formatSpecifier)(value);
+  } else {
+    return value.toString();
+  }
+}
