@@ -40,7 +40,6 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
   elementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     const d = select(event.target as Element).datum();
-    console.log(d);
     this.geographyIndex = this.getGeographyIndex(d);
     if (this.effects) {
       this.effects.forEach((effect) => effect.applyEffect(this));
