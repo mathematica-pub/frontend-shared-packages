@@ -1,35 +1,33 @@
 import { AfterViewInit, Directive, OnDestroy } from '@angular/core';
-import { ChartSvgEventDirective } from './chart-svg-event';
+import { EventDirective, UnlistenFunction } from './event';
 
 @Directive()
 export abstract class HoverEventDirective
-  extends ChartSvgEventDirective
+  extends EventDirective
   implements AfterViewInit, OnDestroy
 {
-  unlistenPointerEnter: () => void;
-  unlistenPointerLeave: () => void;
-  unlistenTouchStart: () => void;
+  unlistenTouchStart: UnlistenFunction[];
+  unlistenPointerEnter: UnlistenFunction[];
+  unlistenPointerLeave: UnlistenFunction;
 
-  abstract chartPointerEnter(event: PointerEvent): void;
-  abstract chartPointerLeave(event: PointerEvent): void;
+  abstract elementPointerEnter(event: PointerEvent): void;
+  abstract elementPointerLeave(event: PointerEvent): void;
 
   ngOnDestroy(): void {
-    this.unlistenTouchStart();
-    this.unlistenPointerEnter();
+    this.unlistenTouchStart.forEach((func) => func());
+    this.unlistenPointerEnter.forEach((func) => func());
   }
 
   setListeners(): void {
-    this.setTouchStartListener(this.el);
-    this.setPointerEnterListener(this.el);
+    this.setTouchStartListener();
+    this.setPointerEnterListener();
   }
 
-  setTouchStartListener(el: Element) {
-    this.unlistenTouchStart = this.renderer.listen(
-      el,
-      'touchstart',
-      (event) => {
+  setTouchStartListener() {
+    this.unlistenTouchStart = this.elements.map((el) =>
+      this.renderer.listen(el, 'touchstart', (event) => {
         this.onTouchStart(event);
-      }
+      })
     );
   }
 
@@ -37,18 +35,16 @@ export abstract class HoverEventDirective
     event.preventDefault();
   }
 
-  setPointerEnterListener(el: Element) {
-    this.unlistenPointerEnter = this.renderer.listen(
-      el,
-      'pointerenter',
-      (event) => {
+  setPointerEnterListener() {
+    this.unlistenPointerEnter = this.elements.map((el) =>
+      this.renderer.listen(el, 'pointerenter', (event) => {
         this.onPointerEnter(event, el);
-      }
+      })
     );
   }
 
   onPointerEnter(event: PointerEvent, el: Element): void {
-    this.chartPointerEnter(event);
+    this.elementPointerEnter(event);
     this.setPointerLeaveListener(el);
   }
 
@@ -57,7 +53,7 @@ export abstract class HoverEventDirective
       el,
       'pointerleave',
       (event) => {
-        this.chartPointerLeave(event);
+        this.elementPointerLeave(event);
         this.unlistenPointerLeave();
       }
     );

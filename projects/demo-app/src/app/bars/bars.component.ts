@@ -6,8 +6,8 @@ import {
   horizontalBarChartDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { MetroUnemploymentDatum } from '../core/models/unemployement-data';
 import { Documentation } from '../core/enums/documentation.enums';
+import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {

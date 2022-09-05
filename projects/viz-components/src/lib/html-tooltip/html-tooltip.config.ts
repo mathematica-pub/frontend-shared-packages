@@ -1,16 +1,22 @@
-import { ConnectedPosition, ScrollStrategy } from '@angular/cdk/overlay';
+import {
+  ConnectedPosition,
+  OverlayConfig,
+  OverlaySizeConfig,
+} from '@angular/cdk/overlay';
 import { ElementRef } from '@angular/core';
 
 export class HtmlTooltipConfig {
   show: boolean;
   position: ConnectedPosition;
+  size: OverlaySizeConfig;
   disableEventsOnTooltip: boolean;
-  scrollStrategy?: ScrollStrategy;
+  panelClass: string | string[];
   origin?: ElementRef;
 
   constructor(init?: Partial<HtmlTooltipConfig>) {
     this.disableEventsOnTooltip = true;
     this.position = new HtmlTooltipDefaultPosition();
+    this.size = new HtmlTooltipSize();
     Object.assign(this, init);
   }
 }
@@ -24,7 +30,7 @@ export class HtmlTooltipDefaultPosition {
   weight?: number;
   offsetX?: number;
   offsetY?: number;
-  panelClass?: string | string[];
+  panelClass: string | string[];
 
   constructor(init?: Partial<ConnectedPosition>) {
     this.originX = 'start';
@@ -34,3 +40,8 @@ export class HtmlTooltipDefaultPosition {
     Object.assign(this, init);
   }
 }
+export class HtmlTooltipOverlayConfig extends OverlayConfig {
+  override positionStrategy: never;
+}
+
+export class HtmlTooltipSize implements OverlaySizeConfig {}

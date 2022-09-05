@@ -1,5 +1,5 @@
 import { format, timeFormat } from 'd3';
-import { LinesHoverAndMoveEffect } from './lines-effect';
+import { EventEffect } from '../events/effect';
 import { LinesHoverAndMoveEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
 import {
   LinesEmittedOutput,
@@ -7,7 +7,7 @@ import {
 } from './lines-hover-move-event.directive';
 
 export class LinesHoverAndMoveEffectDefaultLinesStyles
-  implements LinesHoverAndMoveEffect
+  implements EventEffect<LinesHoverAndMoveEventDirective>
 {
   applyEffect(event: LinesHoverAndMoveEventDirective): void {
     event.lines.lines
@@ -29,7 +29,7 @@ export class LinesHoverAndMoveEffectDefaultLinesStyles
 }
 
 export class LinesHoverAndMoveEffectDefaultMarkersStyles
-  implements LinesHoverAndMoveEffect
+  implements EventEffect<LinesHoverAndMoveEventDirective>
 {
   constructor(private config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
     this.config = config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
@@ -66,7 +66,7 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
 }
 
 export class LinesHoverAndMoveEffectDefaultHoverDotStyles
-  implements LinesHoverAndMoveEffect
+  implements EventEffect<LinesHoverAndMoveEventDirective>
 {
   applyEffect(event: LinesHoverAndMoveEventDirective) {
     event.lines.hoverDot
@@ -93,11 +93,11 @@ export class LinesHoverAndMoveEffectDefaultHoverDotStyles
 }
 
 export class LinesHoverAndMoveEffectDefaultStyles
-  implements LinesHoverAndMoveEffect
+  implements EventEffect<LinesHoverAndMoveEventDirective>
 {
-  linesStyles: LinesHoverAndMoveEffect;
-  markersStyles: LinesHoverAndMoveEffect;
-  hoverDotStyles: LinesHoverAndMoveEffect;
+  linesStyles: EventEffect<LinesHoverAndMoveEventDirective>;
+  markersStyles: EventEffect<LinesHoverAndMoveEventDirective>;
+  hoverDotStyles: EventEffect<LinesHoverAndMoveEventDirective>;
 
   constructor(config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
     const markersStylesConfig =
@@ -128,7 +128,9 @@ export class LinesHoverAndMoveEffectDefaultStyles
   }
 }
 
-export class EmitLinesTooltipData implements LinesHoverAndMoveEffect {
+export class EmitLinesTooltipData
+  implements EventEffect<LinesHoverAndMoveEventDirective>
+{
   applyEffect(event: LinesHoverAndMoveEventDirective): void {
     const datum = event.lines.config.data.find(
       (d) =>

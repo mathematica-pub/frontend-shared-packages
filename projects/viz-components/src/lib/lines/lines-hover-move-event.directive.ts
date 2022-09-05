@@ -1,7 +1,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { least, pointer } from 'd3';
+import { least } from 'd3';
+import { EventEffect } from '../events/effect';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
-import { LinesHoverAndMoveEffect } from './lines-effect';
 import { LINES, LinesComponent } from './lines.component';
 
 export class LinesEmittedOutput {
@@ -19,7 +19,8 @@ export class LinesEmittedOutput {
 })
 export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicLinesHoverAndMoveEffects') effects: LinesHoverAndMoveEffect[];
+  @Input('vicLinesHoverAndMoveEffects')
+  effects: EventEffect<LinesHoverAndMoveEventDirective>[];
   @Input() pointerDetectionRadius: number | null = 80;
   @Output() hoverAndMoveEventOutput = new EventEmitter<LinesEmittedOutput>();
   pointerX: number;
@@ -27,26 +28,28 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
   closestPointIndex: number;
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
-    super(lines);
+    super();
   }
 
-  chartPointerEnter(event: PointerEvent): void {
+  setElements(): void {
+    this.elements = [this.lines.chart.svgRef.nativeElement];
+  }
+
+  elementPointerEnter(): void {
     return;
   }
 
-  chartPointerMove(event: PointerEvent) {
+  elementPointerMove(event: PointerEvent) {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.pointerIsInChartArea()) {
       this.determineHoverStyles();
     }
   }
 
-  chartPointerLeave() {
-    this.effects.forEach((effect) => effect.removeEffect(this));
-  }
-
-  getPointerValuesArray(event: PointerEvent): [number, number] {
-    return pointer(event);
+  elementPointerLeave() {
+    if (this.effects) {
+      this.effects.forEach((effect) => effect.removeEffect(this));
+    }
   }
 
   pointerIsInChartArea(): boolean {
@@ -61,6 +64,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
   determineHoverStyles(): void {
     this.closestPointIndex = this.getClosestPointIndex();
     if (
+      this.effects &&
       this.pointerIsInsideShowTooltipRadius(
         this.closestPointIndex,
         this.pointerX,

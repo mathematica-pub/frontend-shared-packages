@@ -20,15 +20,25 @@ describe('LinesHoverAndMoveDirective', () => {
       ],
     });
     directive = TestBed.inject(LinesHoverAndMoveEventDirective);
-    directive.unlistenTouchStart = () => {
+    directive.unlistenTouchStart = [
+      () => {
+        return;
+      },
+    ];
+    directive.unlistenPointerEnter = [
+      () => {
+        return;
+      },
+    ];
+    directive.unlistenPointerMove = () => {
       return;
     };
-    directive.unlistenPointerEnter = () => {
+    directive.unlistenPointerLeave = () => {
       return;
     };
   });
 
-  describe('chartPointerMove()', () => {
+  describe('elementPointerMove()', () => {
     let valuesSpy: jasmine.Spy;
     let chartAreaSpy: jasmine.Spy;
     let event: any;
@@ -43,35 +53,35 @@ describe('LinesHoverAndMoveDirective', () => {
       spyOn(directive, 'determineHoverStyles');
     });
     it('calls getPointerValuesArray once', () => {
-      directive.chartPointerMove(event as any);
+      directive.elementPointerMove(event as any);
       expect(directive.getPointerValuesArray).toHaveBeenCalledOnceWith(
         event as any
       );
     });
     it('sets pointerX to the correct value', () => {
-      directive.chartPointerMove(event as any);
+      directive.elementPointerMove(event as any);
       expect(directive.pointerX).toEqual(1);
     });
     it('sets pointerY to the correct value', () => {
-      directive.chartPointerMove(event as any);
+      directive.elementPointerMove(event as any);
       expect(directive.pointerY).toEqual(2);
     });
     it('calls pointerIsInChartArea once', () => {
-      directive.chartPointerMove(event as any);
+      directive.elementPointerMove(event as any);
       expect(directive.pointerIsInChartArea).toHaveBeenCalledTimes(1);
     });
     it('calls determineHoverStyles once if pointerIsInChartArea returns true', () => {
-      directive.chartPointerMove(event as any);
+      directive.elementPointerMove(event as any);
       expect(directive.determineHoverStyles).toHaveBeenCalledTimes(1);
     });
     it('does not call determineHoverStyles if pointerIsInChartArea returns false', () => {
       chartAreaSpy.and.returnValue(false);
-      directive.chartPointerMove(event as any);
+      directive.elementPointerMove(event as any);
       expect(directive.determineHoverStyles).not.toHaveBeenCalled();
     });
   });
 
-  describe('chartPointerLeave', () => {
+  describe('elementPointerLeave', () => {
     let effectA: any;
     let applyASpy: jasmine.Spy;
     let removeASpy: jasmine.Spy;
@@ -94,7 +104,7 @@ describe('LinesHoverAndMoveDirective', () => {
       directive.effects = [effectA, effectB];
     });
     it('calls remove effect on each effect in effects array', () => {
-      directive.chartPointerLeave();
+      directive.elementPointerLeave();
       expect(removeASpy).toHaveBeenCalledOnceWith(directive);
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
     });
