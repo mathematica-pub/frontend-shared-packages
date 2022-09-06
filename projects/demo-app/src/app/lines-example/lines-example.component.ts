@@ -12,7 +12,6 @@ import {
   LinesHoverAndMoveEventDirective,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
-import { Documentation } from '../core/enums/documentation.enums';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
@@ -25,11 +24,11 @@ interface ViewModel {
 }
 
 @Component({
-  selector: 'app-lines',
-  templateUrl: './lines.component.html',
-  styleUrls: ['./lines.component.scss'],
+  selector: 'app-lines-example',
+  templateUrl: './lines-example.component.html',
+  styleUrls: ['./lines-example.component.scss'],
 })
-export class LinesComponent implements OnInit {
+export class LinesExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

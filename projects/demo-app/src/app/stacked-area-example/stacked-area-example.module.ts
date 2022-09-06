@@ -2,30 +2,28 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   VicChartModule,
-  VicHtmlTooltipModule,
-  VicLinesModule,
+  VicStackedAreaModule,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
-import { LinesRoutingModule } from './lines-routing.module';
-import { LinesComponent } from './lines.component';
+import { StackedAreaRoutingModule } from './stacked-area-example-routing.module';
+import { StackedAreaExampleComponent } from './stacked-area-example.component';
 
 @NgModule({
-  declarations: [LinesComponent],
+  declarations: [StackedAreaExampleComponent],
   imports: [
     CommonModule,
-    LinesRoutingModule,
+    StackedAreaRoutingModule,
     VicChartModule,
-    VicLinesModule,
     VicXyChartModule,
+    VicStackedAreaModule,
     VicXyBackgroundModule,
-    VicYQuantitativeAxisModule,
     VicXQuantitativeAxisModule,
+    VicYQuantitativeAxisModule,
     SharedModule,
-    VicHtmlTooltipModule,
   ],
 })
-export class LinesModule {}
+export class StackedAreaModule {}

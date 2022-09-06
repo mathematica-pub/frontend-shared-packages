@@ -17,8 +17,8 @@ export class ComponentDemoComponent implements OnInit {
 
   ngOnInit(): void {
     const baseString = this.router.url.replace('/examples/', '');
-    this.baseName = `${baseString}.component.`;
-    this.baseSourceUrl = `app/${baseString}/${this.baseName}`;
+    this.baseName = `${baseString}-example.component.`;
+    this.baseSourceUrl = `app/${baseString}-example/${this.baseName}`;
     this.controlPanel = new FormGroup({
       selectedFile: new FormControl('ts'),
     });

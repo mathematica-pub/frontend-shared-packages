@@ -16,11 +16,11 @@ interface ViewModel {
 }
 
 @Component({
-  selector: 'app-stacked-area',
-  templateUrl: './stacked-area.component.html',
-  styleUrls: ['./stacked-area.component.scss'],
+  selector: 'app-stacked-area-example',
+  templateUrl: './stacked-area-example.component.html',
+  styleUrls: ['./stacked-area-example.component.scss'],
 })
-export class StackedAreaComponent implements OnInit {
+export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,

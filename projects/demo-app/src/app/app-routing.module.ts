@@ -20,17 +20,21 @@ const routes: Routes = [
       {
         path: 'bars',
         loadChildren: () =>
-          import('./bars/bars.module').then((m) => m.BarsModule),
+          import('./bars-example/bars-example.module').then(
+            (m) => m.BarsModule
+          ),
       },
       {
         path: 'lines',
         loadChildren: () =>
-          import('./lines/lines.module').then((m) => m.LinesModule),
+          import('./lines-example/lines-example.module').then(
+            (m) => m.LinesModule
+          ),
       },
       {
         path: 'stacked-area',
         loadChildren: () =>
-          import('./stacked-area/stacked-area.module').then(
+          import('./stacked-area-example/stacked-area-example.module').then(
             (m) => m.StackedAreaModule
           ),
       },

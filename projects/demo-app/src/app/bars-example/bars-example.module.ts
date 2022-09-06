@@ -10,11 +10,11 @@ import {
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
-import { BarsRoutingModule } from './bars-routing.module';
-import { BarsComponent } from './bars.component';
+import { BarsRoutingModule } from './bars-example-routing.module';
+import { BarsExampleComponent } from './bars-example.component';
 
 @NgModule({
-  declarations: [BarsComponent],
+  declarations: [BarsExampleComponent],
   imports: [
     CommonModule,
     BarsRoutingModule,

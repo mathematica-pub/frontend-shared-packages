@@ -16,11 +16,11 @@ interface ViewModel {
   yAxisConfig: AxisConfig;
 }
 @Component({
-  selector: 'app-bars',
-  templateUrl: './bars.component.html',
-  styleUrls: ['./bars.component.scss'],
+  selector: 'app-bars-example',
+  templateUrl: './bars-example.component.html',
+  styleUrls: ['./bars-example.component.scss'],
 })
-export class BarsComponent implements OnInit {
+export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 36,
