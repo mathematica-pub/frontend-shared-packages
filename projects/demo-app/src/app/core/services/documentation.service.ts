@@ -14,12 +14,31 @@ export class DocumentationService {
     if (!this.docs[name]) {
       if (name.startsWith('/documentation')) {
         this.docs[name] = this.getHttpDocumentation(name);
-      } else if (name === '/overview') {
+      } else if (name === 'Overview.md') {
         this.docs[name] = this.http
-          .get('Overview.md', {
+          .get(name, {
             responseType: 'text',
           })
           .pipe(map((text) => parse(text)));
+      } else {
+        this.docs[name] = this.http
+          .get(name, {
+            responseType: 'text',
+          })
+          .pipe(
+            map((text) => {
+              let selectedClass = 'language-typescript';
+              if (name.endsWith('html')) {
+                selectedClass = 'language-markup';
+                text = '<script type="prism-html-markup">' + text + '</script>';
+              } else if (name.endsWith('scss')) selectedClass = 'language-scss';
+              return (
+                `<pre class="line-numbers"><code class="${selectedClass}">` +
+                text +
+                '</code></pre>'
+              );
+            })
+          );
       }
     }
     return this.docs[name];

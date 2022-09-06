@@ -4,3 +4,7 @@
 <div class="demo-container">
   <ng-content select="[demo]"></ng-content>
 </div>
+
+<app-render-file [filePath]="baseSourceUrl + 'ts'"></app-render-file>
+<app-render-file [filePath]="baseSourceUrl + 'html'"></app-render-file>
+<app-render-file [filePath]="baseSourceUrl + 'scss'"></app-render-file>

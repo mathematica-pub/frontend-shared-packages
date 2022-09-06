@@ -22,6 +22,7 @@ import { HighlightService } from '../../core/services/highlight.service';
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
     './styles/compodoc.scss',
+    './styles/reset.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })
@@ -44,10 +45,8 @@ export class ComponentDocumentationComponent implements OnInit {
           this.sanitizer.bypassSecurityTrustHtml(data);
         setTimeout(() => {
           this.highlightService.highlightAll();
-          if (this.route.startsWith('/documentation')) {
-            this.addClickListenersToTabs();
-            this.addClickListenersToCodeLinks();
-          }
+          this.addClickListenersToTabs();
+          this.addClickListenersToCodeLinks();
         }, 0);
       });
   }
