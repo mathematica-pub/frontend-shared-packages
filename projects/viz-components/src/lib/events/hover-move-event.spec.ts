@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HoverAndMoveEventDirectiveStub } from '../testing/stubs/haver-move-event.stub';
+import { HoverAndMoveEventDirectiveStub } from '../testing/stubs/hover-move-event.stub';
 
 describe('HoverAndMoveEvent', () => {
   let directive: HoverAndMoveEventDirectiveStub;
@@ -11,12 +11,16 @@ describe('HoverAndMoveEvent', () => {
       providers: [HoverAndMoveEventDirectiveStub, Renderer2],
     });
     directive = TestBed.inject(HoverAndMoveEventDirectiveStub);
-    directive.unlistenTouchStart = () => {
-      return;
-    };
-    directive.unlistenPointerEnter = () => {
-      return;
-    };
+    directive.unlistenTouchStart = [
+      () => {
+        return;
+      },
+    ];
+    directive.unlistenPointerEnter = [
+      () => {
+        return;
+      },
+    ];
   });
 
   describe('onPointerEnter()', () => {
@@ -25,13 +29,13 @@ describe('HoverAndMoveEvent', () => {
     beforeEach(() => {
       event = 'event';
       element = 'element';
-      spyOn(directive, 'chartPointerEnter');
+      spyOn(directive, 'elementPointerEnter');
       spyOn(directive, 'setPointerMoveListener');
       spyOn(directive, 'setPointerLeaveListener');
     });
-    it('calls chartPointerEnter()', () => {
+    it('calls elementPointerEnter()', () => {
       directive.onPointerEnter(event as any, element as any);
-      expect(directive.chartPointerEnter).toHaveBeenCalledOnceWith(
+      expect(directive.elementPointerEnter).toHaveBeenCalledOnceWith(
         event as any
       );
     });

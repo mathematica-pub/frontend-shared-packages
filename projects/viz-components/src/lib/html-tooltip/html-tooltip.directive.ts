@@ -3,6 +3,8 @@ import {
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
+  OverlaySizeConfig,
+  ScrollStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
@@ -31,6 +33,9 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
   @Input() config: HtmlTooltipConfig;
   overlayRef: OverlayRef;
   positionStrategy: FlexibleConnectedPositionStrategy;
+  scrollStrategy: ScrollStrategy;
+  size: OverlaySizeConfig;
+  panelClass: string[];
 
   constructor(
     private viewContainerRef: ViewContainerRef,
@@ -41,8 +46,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
   ) {}
 
   ngOnInit(): void {
-    this.setPositionStrategy();
-    this.setScrollStrategy();
+    this.setOverlayParameters();
     this.createOverlay();
   }
 
@@ -64,46 +68,72 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
     ) {
       this.updatePosition();
     }
+
+    if (
+      this.utilities.objectChanged(changes, 'config', 'size') &&
+      this.overlayRef
+    ) {
+      this.updateSize();
+    }
+
+    if (
+      this.utilities.objectChanged(changes, 'config', 'panelClass') &&
+      this.overlayRef
+    ) {
+      this.updateClasses();
+    }
+  }
+
+  setOverlayParameters(): void {
+    this.setPositionStrategy();
+    this.setPanelClasses();
+    this.setScrollStrategy();
   }
 
   setPositionStrategy(): void {
     const origin = this.config.origin ?? this.dataMarks.chart.svgRef;
     const position = this.config.position;
-    position.panelClass = this.getOverlayClasses();
     this.positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(origin)
       .withPositions([position]);
   }
 
-  getOverlayClasses(): string[] {
-    const positionClasses = this.config.position.panelClass
-      ? Array.isArray(this.config.position.panelClass)
-        ? this.config.position.panelClass
-        : [this.config.position.panelClass]
+  setPanelClasses(): void {
+    const userClasses = this.config.panelClass
+      ? [this.config.panelClass].flat()
       : [];
-    const classes = [defaultPanelClass, ...positionClasses];
+    this.panelClass = [defaultPanelClass, ...userClasses].flat();
     if (this.config.disableEventsOnTooltip) {
-      classes.push('events-disabled');
+      this.panelClass.push('events-disabled');
     }
-    return classes;
   }
 
   setScrollStrategy(): void {
-    if (!this.config.scrollStrategy) {
-      this.config.scrollStrategy = this.overlay.scrollStrategies.close();
-    }
+    this.scrollStrategy = this.overlay.scrollStrategies.close();
   }
 
   createOverlay(): void {
     this.overlayRef = this.overlay.create({
+      ...this.size,
+      panelClass: this.panelClass,
+      scrollStrategy: this.scrollStrategy,
       positionStrategy: this.positionStrategy,
-      scrollStrategy: this.config.scrollStrategy,
     });
   }
 
   updatePosition(): void {
     this.setPositionStrategy();
     this.overlayRef.updatePositionStrategy(this.positionStrategy);
+  }
+
+  updateSize(): void {
+    this.overlayRef.updateSize(this.config.size);
+  }
+
+  updateClasses(): void {
+    this.overlayRef.removePanelClass(this.panelClass);
+    this.setPanelClasses();
+    this.overlayRef.addPanelClass(this.panelClass);
   }
 
   show(): void {

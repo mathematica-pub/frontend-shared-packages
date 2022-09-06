@@ -34,6 +34,13 @@ const routes: Routes = [
             (m) => m.StackedAreaModule
           ),
       },
+      {
+        path: 'geographies',
+        loadChildren: () =>
+          import('./geographies-example/geographies-example.module').then(
+            (m) => m.GeographiesExampleModule
+          ),
+      },
     ],
   },
   {

@@ -1,7 +1,25 @@
 @import 'vars', 'placeholders';
 
+.effect-container {
+  .effect-title {
+    @extend %typography-subtitle-2;
+  }
+
+  .effect-instruction {
+    @extend %typography-caption;
+    padding-bottom: $grid-2;
+  }
+}
+
+.line-labels-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 800px; // match chart width
+}
+
 .line-label {
   cursor: pointer;
+  @extend %typography-body-2;
 
   &:hover {
     font-weight: $font-weight-bold;
@@ -12,16 +30,22 @@
   background: rgba($color-white, 0.9);
   padding: $grid-2;
   border: 1px solid $color-primary-6;
-  width: 300px;
+  width: 100%;
 
   .tooltip-label {
     display: flex;
     flex-direction: column;
   }
 
+  .tooltip-label:not(.category) {
+    padding-top: $grid-1;
+  }
+
   .category {
     color: var(--color);
     font-weight: $font-weight-bold;
+    line-height: 1.2;
+    padding-bottom: $grid-1;
   }
 
   .value-label {

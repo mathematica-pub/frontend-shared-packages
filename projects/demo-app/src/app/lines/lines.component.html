@@ -1,13 +1,20 @@
 <app-component-demo>
-  <span title>Lines</span>
+  <span title class="title">Lines</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
-    <span
-      class="line-label"
-      *ngFor="let label of vm.labels"
-      (mouseenter)="highlightLine(label)"
-      (mouseleave)="highlightLine(null)"
-      >{{ label }}</span
-    >
+    <div class="effect-container">
+      <p class="effect-title">Lines Input Event example</p>
+      <p class="effect-instruction">Hover any name to see effect in chart</p>
+      <div class="line-labels-container">
+        <p
+          class="line-label"
+          *ngFor="let label of vm.labels"
+          [style.paddingLeft.px]="margin.left"
+          (mouseenter)="highlightLine(label)"
+          (mouseleave)="highlightLine(null)"
+          >{{ label }}</p
+        >
+      </div>
+    </div>
     <vic-xy-chart [margin]="margin" #tooltipOrigin>
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>

@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
+import { BasemapService } from './core/services/basemap.service';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouteReuseStrategy } from '@angular/router';
@@ -26,6 +27,14 @@ import { UndasherizePipe } from './core/pipes/undasherize.pipe';
         return ds.initData();
       },
       deps: [DataService],
+      multi: true,
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (ms: BasemapService) => () => {
+        return ms.initMap();
+      },
+      deps: [BasemapService],
       multi: true,
     },
   ],

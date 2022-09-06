@@ -11,18 +11,22 @@ describe('ClickEvent', () => {
       providers: [ClickEventDirectiveStub, Renderer2],
     });
     directive = TestBed.inject(ClickEventDirectiveStub);
-    directive.unlistenClick = () => {
-      return;
-    };
+    directive.unlistenClick = [
+      () => {
+        return;
+      },
+    ];
   });
 
   describe('ngOnDestroy()', () => {
+    let unlistenClickSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(directive, 'unlistenClick');
+      unlistenClickSpy = jasmine.createSpy();
+      directive.unlistenClick = [unlistenClickSpy];
     });
     it('calls unlistenClick()', () => {
       directive.ngOnDestroy();
-      expect(directive.unlistenClick).toHaveBeenCalledTimes(1);
+      expect(unlistenClickSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

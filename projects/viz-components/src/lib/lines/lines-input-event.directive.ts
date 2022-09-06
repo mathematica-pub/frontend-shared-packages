@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event';
-import { LinesInputEffect } from './lines-effect';
 import { LINES, LinesComponent } from './lines.component';
 
 @Directive({
@@ -8,7 +8,8 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesInputEventDirective extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicLinesInputEffects') effects: LinesInputEffect[];
+  @Input('vicLinesInputEffects')
+  effects: InputEventEffect<LinesInputEventDirective>[];
   @Output() inputEventOutput = new EventEmitter<any>();
 
   constructor(@Inject(LINES) public lines: LinesComponent) {

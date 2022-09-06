@@ -1,14 +1,16 @@
 import { Directive } from '@angular/core';
+import { pointer } from 'd3';
+import { UnlistenFunction } from './event';
 import { HoverEventDirective } from './hover-event';
 
 @Directive()
 export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
-  unlistenPointerMove: () => void;
+  unlistenPointerMove: UnlistenFunction;
 
-  abstract chartPointerMove(event: PointerEvent): void;
+  abstract elementPointerMove(event: PointerEvent): void;
 
   override onPointerEnter(event: PointerEvent, el: Element): void {
-    this.chartPointerEnter(event);
+    this.elementPointerEnter(event);
     this.setPointerMoveListener(el);
     this.setPointerLeaveListener(el);
   }
@@ -18,7 +20,7 @@ export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
       el,
       'pointermove',
       (event) => {
-        this.chartPointerMove(event);
+        this.elementPointerMove(event);
       }
     );
   }
@@ -28,10 +30,14 @@ export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
       el,
       'pointerleave',
       (event) => {
-        this.chartPointerLeave(event);
+        this.elementPointerLeave(event);
         this.unlistenPointerMove();
         this.unlistenPointerLeave();
       }
     );
+  }
+
+  getPointerValuesArray(event: PointerEvent): [number, number] {
+    return pointer(event);
   }
 }

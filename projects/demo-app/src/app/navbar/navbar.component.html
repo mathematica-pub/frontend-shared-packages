@@ -28,6 +28,13 @@
   >
     <p>Lines</p>
   </a>
+  <a
+    class="link-container"
+    routerLink="/examples/geographies"
+    routerLinkActive="active-link"
+  >
+    <p>Geographies</p>
+  </a>
   <h2>DOCUMENTATION</h2>
   <ng-container *ngFor="let category of navbarConfig$ | async">
     <h3>{{category.name | undasherize | uppercase}}</h3>
