@@ -4,12 +4,16 @@ import {
   ElementRef,
   inject,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -19,29 +23,33 @@ import { HighlightService } from '../../core/services/highlight.service';
   styleUrls: ['./render-file.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RenderFileComponent implements AfterViewInit {
+export class RenderFileComponent implements OnChanges {
   @Input('filePath') filePath: string;
   @ViewChild('fileDiv', { static: true }) fileDiv: ElementRef<HTMLDivElement>;
   private highlightService = inject(HighlightService);
   private documentationService = inject(DocumentationService);
   private sanitizer = inject(DomSanitizer);
   sanitizedDocumentation: SafeHtml;
-  // if filePath is null, grab the overview
-  // else we expect parent to give us a path like:
-  // src/bars/bars.component.ts
-  ngAfterViewInit(): void {
-    let path = this.filePath;
-    if (this.filePath === undefined) {
-      path = 'Overview.md';
+  currentSubscription$: Subscription;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['filePath']) {
+      let path = this.filePath;
+      if (this.filePath === undefined) {
+        path = 'Overview.md';
+      }
+      if (this.currentSubscription$ !== undefined) {
+        this.currentSubscription$.unsubscribe();
+      }
+      this.currentSubscription$ = this.documentationService
+        .getDocumentation(path)
+        .subscribe((data: string) => {
+          this.sanitizedDocumentation =
+            this.sanitizer.bypassSecurityTrustHtml(data);
+          setTimeout(() => {
+            this.highlightService.highlightAll();
+          }, 0);
+        });
     }
-    this.documentationService
-      .getDocumentation(path)
-      .subscribe((data: string) => {
-        this.sanitizedDocumentation =
-          this.sanitizer.bypassSecurityTrustHtml(data);
-        setTimeout(() => {
-          this.highlightService.highlightAll();
-        }, 0);
-      });
   }
 }

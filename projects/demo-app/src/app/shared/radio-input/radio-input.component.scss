@@ -1,0 +1,40 @@
+@import 'vars', 'placeholders';
+
+$icon-dimension: 16px;
+
+.radio-input-container {
+  overflow-y: hidden;
+
+  .radio-input {
+    @extend %hidden-input-element !optional;
+  }
+
+  .radio-input:disabled + .radio-input-label {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .radio-input-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .icon {
+    cursor: pointer;
+    margin-right: 0.3rem;
+    height: $icon-dimension;
+
+    svg {
+      display: block;
+      height: $icon-dimension;
+      width: $icon-dimension;
+
+      path {
+        stroke: $color-text;
+        fill: $color-text;
+        stroke-width: 0.1;
+      }
+    }
+  }
+}

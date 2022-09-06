@@ -1,0 +1,26 @@
+<div class="radio-input-container">
+  <input
+    class="radio-input"
+    [ngClass]="{'hidden-input': isStyledRadio}"
+    [id]="uniqueId"
+    type="radio"
+    [value]="value"
+    [formControlName]="formControlName"
+    [attr.aria-labelledby]="'label-' + uniqueId"
+  />
+  <label
+    class="radio-input-label"
+    [ngClass]="{'selected': selected, 'temp-disabled': option.disabled}"
+    title="{{option.disabled ? disabledMessage : ''}}"
+    [for]="uniqueId"
+    [id]="'label-' + uniqueId"
+  >
+    <!-- <app-svg-icon
+      *ngIf="isStyledRadio"
+      class="icon"
+      [ngClass]="{'radio-selected-icon': selected, 'radio-unselected-icon': !selected}"
+      [name]="getIconName()"
+    ></app-svg-icon> -->
+    <span class="label-text">{{ label }}</span>
+  </label>
+</div>

@@ -102,3 +102,29 @@
   letter-spacing: 1.5px;
   text-transform: uppercase;
 }
+
+
+/*------ HIDDEN ELEMENTS -----*/
+%visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+%focus-ring-style {
+  outline: $focus-ring-style;
+  outline-offset: 1px;
+}
+
+%hidden-input-element {
+  @extend %visuallyhidden;
+
+  &.focus-visible + label {
+    @extend %focus-ring-style;
+  }
+}

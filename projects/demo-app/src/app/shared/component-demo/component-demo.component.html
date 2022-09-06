@@ -5,6 +5,20 @@
   <ng-content select="[demo]"></ng-content>
 </div>
 
-<app-render-file [filePath]="baseSourceUrl + 'ts'"></app-render-file>
-<app-render-file [filePath]="baseSourceUrl + 'html'"></app-render-file>
-<app-render-file [filePath]="baseSourceUrl + 'scss'"></app-render-file>
+<div [formGroup]="controlPanel">
+  <app-radio-input
+    [option]="{label: 'typescript', value: 'ts'}"
+    formControlName="selectedFile"
+  ></app-radio-input>
+  <app-radio-input
+    [option]="{label: 'html', value: 'html'}"
+    formControlName="selectedFile"
+  ></app-radio-input>
+  <app-radio-input
+    [option]="{label: 'scss', value: 'scss'}"
+    formControlName="selectedFile"
+  ></app-radio-input>
+</div>
+<app-render-file
+  [filePath]="baseSourceUrl + controlPanel.controls['selectedFile'].value"
+></app-render-file>
