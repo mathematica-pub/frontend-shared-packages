@@ -1,24 +1,23 @@
-<h3 class="title"
-  ><ng-content select="[title]"></ng-content> Data Marks component</h3
->
-<div class="demo-container">
-  <ng-content select="[demo]"></ng-content>
-</div>
+<div class="component-demo">
+  <h3 class="title"
+    ><ng-content select="[title]"></ng-content> Data Marks component</h3
+  >
+  <div class="demo-container">
+    <ng-content select="[demo]"></ng-content>
+  </div>
 
-<div [formGroup]="controlPanel">
-  <app-radio-input
-    [option]="{label: 'typescript', value: 'ts'}"
-    formControlName="selectedFile"
-  ></app-radio-input>
-  <app-radio-input
-    [option]="{label: 'html', value: 'html'}"
-    formControlName="selectedFile"
-  ></app-radio-input>
-  <app-radio-input
-    [option]="{label: 'scss', value: 'scss'}"
-    formControlName="selectedFile"
-  ></app-radio-input>
+  <div [formGroup]="controlPanel" class="file-select-bar">
+    <app-radio-input value="ts" formControlName="selectedFile"
+      >{{baseName}}ts</app-radio-input
+    >
+    <app-radio-input value="html" formControlName="selectedFile"
+      >{{baseName}}html</app-radio-input
+    >
+    <app-radio-input value="scss" formControlName="selectedFile"
+      >{{baseName}}scss</app-radio-input
+    >
+  </div>
+  <app-render-file
+    [filePath]="baseSourceUrl + controlPanel.controls['selectedFile'].value"
+  ></app-render-file>
 </div>
-<app-render-file
-  [filePath]="baseSourceUrl + controlPanel.controls['selectedFile'].value"
-></app-render-file>

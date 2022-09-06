@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,15 +7,18 @@ import { Router } from '@angular/router';
   templateUrl: './component-demo.component.html',
   styleUrls: ['./component-demo.component.scss'],
   providers: [FormGroupDirective],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ComponentDemoComponent implements OnInit {
   private router = inject(Router);
   baseSourceUrl: string;
+  baseName: string;
   controlPanel: FormGroup;
 
   ngOnInit(): void {
     const baseString = this.router.url.replace('/examples/', '');
-    this.baseSourceUrl = `app/${baseString}/${baseString}.component.`;
+    this.baseName = `${baseString}.component.`;
+    this.baseSourceUrl = `app/${baseString}/${this.baseName}`;
     this.controlPanel = new FormGroup({
       selectedFile: new FormControl('ts'),
     });

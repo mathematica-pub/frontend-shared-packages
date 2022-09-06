@@ -1,7 +1,6 @@
 <div class="radio-input-container">
   <input
-    class="radio-input"
-    [ngClass]="{'hidden-input': isStyledRadio}"
+    class="radio-input cdk-visually-hidden"
     [id]="uniqueId"
     type="radio"
     [value]="value"
@@ -10,17 +9,11 @@
   />
   <label
     class="radio-input-label"
-    [ngClass]="{'selected': selected, 'temp-disabled': option.disabled}"
-    title="{{option.disabled ? disabledMessage : ''}}"
+    [ngClass]="{'selected': (selected$ | async), 'disabled': disabled}"
+    title="{{disabled && disabledMessage ? disabledMessage : ''}}"
     [for]="uniqueId"
     [id]="'label-' + uniqueId"
   >
-    <!-- <app-svg-icon
-      *ngIf="isStyledRadio"
-      class="icon"
-      [ngClass]="{'radio-selected-icon': selected, 'radio-unselected-icon': !selected}"
-      [name]="getIconName()"
-    ></app-svg-icon> -->
-    <span class="label-text">{{ label }}</span>
+    <ng-content></ng-content>
   </label>
 </div>

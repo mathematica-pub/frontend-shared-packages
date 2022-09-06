@@ -23,7 +23,7 @@ import { HighlightService } from '../../core/services/highlight.service';
   styleUrls: ['./render-file.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RenderFileComponent implements OnChanges {
+export class RenderFileComponent implements OnChanges, OnInit {
   @Input('filePath') filePath: string;
   @ViewChild('fileDiv', { static: true }) fileDiv: ElementRef<HTMLDivElement>;
   private highlightService = inject(HighlightService);
@@ -32,24 +32,31 @@ export class RenderFileComponent implements OnChanges {
   sanitizedDocumentation: SafeHtml;
   currentSubscription$: Subscription;
 
+  ngOnInit(): void {
+    this.createOrUpdateSubscription();
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['filePath']) {
-      let path = this.filePath;
-      if (this.filePath === undefined) {
-        path = 'Overview.md';
-      }
-      if (this.currentSubscription$ !== undefined) {
-        this.currentSubscription$.unsubscribe();
-      }
-      this.currentSubscription$ = this.documentationService
-        .getDocumentation(path)
-        .subscribe((data: string) => {
-          this.sanitizedDocumentation =
-            this.sanitizer.bypassSecurityTrustHtml(data);
-          setTimeout(() => {
-            this.highlightService.highlightAll();
-          }, 0);
-        });
+      this.createOrUpdateSubscription();
     }
+  }
+
+  createOrUpdateSubscription(): void {
+    let path = this.filePath;
+    if (this.filePath === undefined) {
+      path = 'Overview.md';
+    }
+    if (this.currentSubscription$ !== undefined) {
+      this.currentSubscription$.unsubscribe();
+    }
+    this.currentSubscription$ = this.documentationService
+      .getDocumentation(path)
+      .subscribe((data: string) => {
+        this.sanitizedDocumentation =
+          this.sanitizer.bypassSecurityTrustHtml(data);
+        setTimeout(() => {
+          this.highlightService.highlightAll();
+        }, 0);
+      });
   }
 }

@@ -1,19 +1,10 @@
-import {
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Self,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnInit, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
   NgControl,
 } from '@angular/forms';
-import { Subject, takeUntil } from 'rxjs';
-import { SelectionOption } from './radio-input.model';
+import { map, merge, Observable, of } from 'rxjs';
 
 let nextUniqueId = 0;
 
@@ -21,7 +12,6 @@ let nextUniqueId = 0;
   selector: 'app-radio-input',
   templateUrl: './radio-input.component.html',
   styleUrls: ['./radio-input.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   viewProviders: [
     {
       provide: ControlContainer,
@@ -29,18 +19,16 @@ let nextUniqueId = 0;
     },
   ],
 })
-export class RadioInputComponent implements OnInit, OnDestroy {
+export class RadioInputComponent implements OnInit {
   _uniqueId = ++nextUniqueId;
   @Input() formControlName: string;
-  @Input() option: SelectionOption;
+  @Input() value: string | number;
+  @Input() styleAsRadio = false;
+  @Input() disabled = false;
+  @Input() disabledMessage?: string;
   @Input() id?: string;
-  @Input() isStyledRadio?: boolean = false;
   uniqueId: string;
-  label: string;
-  value: string | number;
-  selected: boolean;
-  unsubscribe: Subject<void> = new Subject();
-  disabledMessage: string = 'disabled';
+  selected$: Observable<boolean>;
 
   constructor(@Self() @Optional() public ngControl: NgControl) {
     this.ngControl.valueAccessor = {
@@ -52,40 +40,17 @@ export class RadioInputComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setUniqueId();
-    this.parseOption();
     this.setSelected();
-    this.setFormListener();
-  }
-
-  setFormListener(): void {
-    this.ngControl.control.valueChanges
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe(() => {
-        this.setSelected();
-      });
-  }
-
-  setUniqueId(): void {
-    this.uniqueId = this.id || `nc-dash-radio-input-${this._uniqueId}`;
-  }
-
-  parseOption(): void {
-    this.label = this.option.label;
-    this.value = this.option.value ?? this.option.label;
   }
 
   setSelected(): void {
-    this.selected = this.ngControl.control.value === this.value;
+    this.selected$ = merge(
+      of(this.ngControl.control.value),
+      this.ngControl.control.valueChanges
+    ).pipe(map((value) => value === this.value));
   }
 
-  getIconName(): string {
-    return this.isStyledRadio && this.selected
-      ? 'radio-selected'
-      : 'radio-unselected';
-  }
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+  setUniqueId(): void {
+    this.uniqueId = this.id || `covid-cohort-radio-input-${this._uniqueId}`;
   }
 }

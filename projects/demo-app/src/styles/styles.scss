@@ -3,6 +3,7 @@
 @import "~prismjs/plugins/toolbar/prism-toolbar.css";
 @import "~prismjs/plugins/line-numbers/prism-line-numbers.css";
 @import "~prismjs/themes/prism-okaidia";
+// @include cdk.a11y-visually-hidden();
 
 *,
 *::before,
@@ -115,8 +116,13 @@ legend {
   }
 }
 
-html,
 body {
+  overflow: auto;
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
   height: 100%;
 }
 
