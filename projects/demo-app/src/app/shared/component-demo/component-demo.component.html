@@ -7,17 +7,14 @@
   </div>
 
   <div [formGroup]="controlPanel" class="file-select-bar">
-    <app-radio-input value="ts" formControlName="selectedFile"
-      >{{baseName}}ts</app-radio-input
-    >
-    <app-radio-input value="html" formControlName="selectedFile"
-      >{{baseName}}html</app-radio-input
-    >
-    <app-radio-input value="scss" formControlName="selectedFile"
-      >{{baseName}}scss</app-radio-input
+    <app-radio-input
+      *ngFor="let file of fileList"
+      [value]="file"
+      formControlName="selectedFile"
+      >{{getFileDisplayName(file)}}</app-radio-input
     >
   </div>
   <app-render-file
-    [filePath]="baseSourceUrl + controlPanel.controls['selectedFile'].value"
+    [filePath]="controlPanel.controls['selectedFile'].value"
   ></app-render-file>
 </div>

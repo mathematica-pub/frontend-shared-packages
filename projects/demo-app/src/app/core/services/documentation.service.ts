@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { parse } from 'marked';
 @Injectable({
@@ -7,8 +7,7 @@ import { parse } from 'marked';
 })
 export class DocumentationService {
   docs: { [name: string]: Observable<string> } = {};
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getDocumentation(name: string): Observable<string> {
     if (!this.docs[name]) {
