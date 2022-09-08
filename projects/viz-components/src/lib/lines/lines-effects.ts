@@ -1,5 +1,5 @@
-import { format, timeFormat } from 'd3';
 import { EventEffect } from '../events/effect';
+import { formatValue } from '../format/format';
 import { LinesHoverAndMoveEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
 import {
   LinesEmittedOutput,
@@ -9,22 +9,24 @@ import {
 export class LinesHoverAndMoveEffectDefaultLinesStyles
   implements EventEffect<LinesHoverAndMoveEventDirective>
 {
-  applyEffect(event: LinesHoverAndMoveEventDirective): void {
-    event.lines.lines
+  applyEffect(directive: LinesHoverAndMoveEventDirective): void {
+    directive.lines.lines
       .style('stroke', ([category]): string =>
-        event.lines.values.category[event.closestPointIndex] === category
+        directive.lines.values.category[directive.closestPointIndex] ===
+        category
           ? null
           : '#ddd'
       )
       .filter(
         ([category]): boolean =>
-          event.lines.values.category[event.closestPointIndex] === category
+          directive.lines.values.category[directive.closestPointIndex] ===
+          category
       )
       .raise();
   }
 
-  removeEffect(event: LinesHoverAndMoveEventDirective): void {
-    event.lines.lines.style('stroke', null);
+  removeEffect(directive: LinesHoverAndMoveEventDirective): void {
+    directive.lines.lines.style('stroke', null);
   }
 }
 
@@ -35,60 +37,68 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
     this.config = config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
   }
 
-  applyEffect(event: LinesHoverAndMoveEventDirective): void {
-    event.lines.markers
+  applyEffect(directive: LinesHoverAndMoveEventDirective): void {
+    directive.lines.markers
       .style('fill', (d): string =>
-        event.lines.values.category[event.closestPointIndex] ===
-        event.lines.values.category[d.index]
+        directive.lines.values.category[directive.closestPointIndex] ===
+        directive.lines.values.category[d.index]
           ? null
           : 'transparent'
       )
       .attr('r', (d): number => {
-        let r = event.lines.config.pointMarker.radius;
-        if (event.closestPointIndex === d.index) {
+        let r = directive.lines.config.pointMarker.radius;
+        if (directive.closestPointIndex === d.index) {
           r =
-            event.lines.config.pointMarker.radius +
+            directive.lines.config.pointMarker.radius +
             this.config.growMarkerDimension;
         }
         return r;
       })
       .filter(
         (d): boolean =>
-          event.lines.values.category[event.closestPointIndex] ===
-          event.lines.values.category[d.index]
+          directive.lines.values.category[directive.closestPointIndex] ===
+          directive.lines.values.category[d.index]
       )
       .raise();
   }
 
-  removeEffect(linesEvent: LinesHoverAndMoveEventDirective): void {
-    linesEvent.lines.markers.style('fill', null);
+  removeEffect(directive: LinesHoverAndMoveEventDirective): void {
+    directive.lines.markers.style('fill', null);
+    directive.lines.markers.attr(
+      'r',
+      (d) => directive.lines.config.pointMarker.radius
+    );
   }
 }
 
 export class LinesHoverAndMoveEffectDefaultHoverDotStyles
   implements EventEffect<LinesHoverAndMoveEventDirective>
 {
-  applyEffect(event: LinesHoverAndMoveEventDirective) {
-    event.lines.hoverDot
+  applyEffect(directive: LinesHoverAndMoveEventDirective) {
+    directive.lines.hoverDot
       .style('display', null)
       .attr(
         'fill',
-        event.lines.categoryScale(
-          event.lines.values.category[event.closestPointIndex]
+        directive.lines.categoryScale(
+          directive.lines.values.category[directive.closestPointIndex]
         )
       )
       .attr(
         'cx',
-        event.lines.xScale(event.lines.values.x[event.closestPointIndex])
+        directive.lines.xScale(
+          directive.lines.values.x[directive.closestPointIndex]
+        )
       )
       .attr(
         'cy',
-        event.lines.yScale(event.lines.values.y[event.closestPointIndex])
+        directive.lines.yScale(
+          directive.lines.values.y[directive.closestPointIndex]
+        )
       );
   }
 
-  removeEffect(event: LinesHoverAndMoveEventDirective) {
-    event.lines.hoverDot.style('display', 'none');
+  removeEffect(directive: LinesHoverAndMoveEventDirective) {
+    directive.lines.hoverDot.style('display', 'none');
   }
 }
 
@@ -109,21 +119,21 @@ export class LinesHoverAndMoveEffectDefaultStyles
     this.hoverDotStyles = new LinesHoverAndMoveEffectDefaultHoverDotStyles();
   }
 
-  applyEffect(event: LinesHoverAndMoveEventDirective) {
-    this.linesStyles.applyEffect(event);
-    if (event.lines.config.pointMarker.display) {
-      this.markersStyles.applyEffect(event);
+  applyEffect(directive: LinesHoverAndMoveEventDirective) {
+    this.linesStyles.applyEffect(directive);
+    if (directive.lines.config.pointMarker.display) {
+      this.markersStyles.applyEffect(directive);
     } else {
-      this.hoverDotStyles.applyEffect(event);
+      this.hoverDotStyles.applyEffect(directive);
     }
   }
 
-  removeEffect(event: LinesHoverAndMoveEventDirective) {
-    this.linesStyles.removeEffect(event);
-    if (event.lines.config.pointMarker.display) {
-      this.markersStyles.removeEffect(event);
+  removeEffect(directive: LinesHoverAndMoveEventDirective) {
+    this.linesStyles.removeEffect(directive);
+    if (directive.lines.config.pointMarker.display) {
+      this.markersStyles.removeEffect(directive);
     } else {
-      this.hoverDotStyles.removeEffect(event);
+      this.hoverDotStyles.removeEffect(directive);
     }
   }
 }
@@ -131,48 +141,39 @@ export class LinesHoverAndMoveEffectDefaultStyles
 export class EmitLinesTooltipData
   implements EventEffect<LinesHoverAndMoveEventDirective>
 {
-  applyEffect(event: LinesHoverAndMoveEventDirective): void {
-    const datum = event.lines.config.data.find(
+  applyEffect(directive: LinesHoverAndMoveEventDirective): void {
+    const datum = directive.lines.config.data.find(
       (d) =>
-        event.lines.values.x[event.closestPointIndex] ===
-          event.lines.config.x.valueAccessor(d) &&
-        event.lines.values.category[event.closestPointIndex] ===
-          event.lines.config.category.valueAccessor(d)
+        directive.lines.values.x[directive.closestPointIndex] ===
+          directive.lines.config.x.valueAccessor(d) &&
+        directive.lines.values.category[directive.closestPointIndex] ===
+          directive.lines.config.category.valueAccessor(d)
     );
     const tooltipData: LinesEmittedOutput = {
       datum,
-      x: this.formatValue(
-        event.lines.config.x.valueAccessor(datum),
-        event.lines.config.x.valueFormat
+      x: formatValue(
+        directive.lines.config.x.valueAccessor(datum),
+        directive.lines.config.x.valueFormat
       ),
-      y: this.formatValue(
-        event.lines.config.y.valueAccessor(datum),
-        event.lines.config.y.valueFormat
+      y: formatValue(
+        directive.lines.config.y.valueAccessor(datum),
+        directive.lines.config.y.valueFormat
       ),
-      category: event.lines.config.category.valueAccessor(datum),
-      color: event.lines.categoryScale(
-        event.lines.values.category[event.closestPointIndex]
+      category: directive.lines.config.category.valueAccessor(datum),
+      color: directive.lines.categoryScale(
+        directive.lines.values.category[directive.closestPointIndex]
       ),
-      positionX: event.lines.xScale(
-        event.lines.values.x[event.closestPointIndex]
+      positionX: directive.lines.xScale(
+        directive.lines.values.x[directive.closestPointIndex]
       ),
-      positionY: event.lines.yScale(
-        event.lines.values.y[event.closestPointIndex]
+      positionY: directive.lines.yScale(
+        directive.lines.values.y[directive.closestPointIndex]
       ),
     };
-    event.hoverAndMoveEventOutput.emit(tooltipData);
+    directive.hoverAndMoveEventOutput.emit(tooltipData);
   }
 
-  removeEffect(event: LinesHoverAndMoveEventDirective): void {
-    event.hoverAndMoveEventOutput.emit(null);
-  }
-
-  formatValue(value: any, formatSpecifier: string): string {
-    const formatter = value instanceof Date ? timeFormat : format;
-    if (formatSpecifier) {
-      return formatter(formatSpecifier)(value);
-    } else {
-      return value.toString();
-    }
+  removeEffect(directive: LinesHoverAndMoveEventDirective): void {
+    directive.hoverAndMoveEventOutput.emit(null);
   }
 }
