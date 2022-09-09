@@ -1,21 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+// import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StackedAreaComponent } from './stacked-area.component';
+// import { StackedAreaComponent } from './stacked-area.component';
 
-describe('StackedAreaComponent', () => {
-  let component: StackedAreaComponent;
-  let fixture: ComponentFixture<StackedAreaComponent>;
+// describe('StackedAreaComponent', () => {
+//   let component: StackedAreaComponent;
+//   let fixture: ComponentFixture<StackedAreaComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [StackedAreaComponent],
-    }).compileComponents();
+//   beforeEach(async () => {
+//     await TestBed.configureTestingModule({
+//       declarations: [StackedAreaComponent],
+//     }).compileComponents();
 
-    fixture = TestBed.createComponent(StackedAreaComponent);
-    component = fixture.componentInstance;
-  });
+//     fixture = TestBed.createComponent(StackedAreaComponent);
+//     component = fixture.componentInstance;
+//   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+//   it('should create', () => {
+//     expect(component).toBeTruthy();
+//   });
+// });
