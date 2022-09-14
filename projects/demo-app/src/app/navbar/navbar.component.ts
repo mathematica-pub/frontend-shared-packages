@@ -9,7 +9,9 @@ import { parse } from 'yaml';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navbarConfig$: Observable<any>;
+  examples = ['bars', 'stacked-area', 'lines', 'geographies'];
 
   private http = inject(HttpClient);
 
@@ -20,8 +22,9 @@ export class NavbarComponent implements OnInit {
       })
       .pipe(
         map((text) => {
-          let yamlObject: Object = parse(text);
-          let categories = Object.keys(yamlObject);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const yamlObject: any = parse(text);
+          const categories = Object.keys(yamlObject);
           return categories.map((category) => {
             return {
               name: category,
@@ -30,6 +33,5 @@ export class NavbarComponent implements OnInit {
           });
         })
       );
-    this.navbarConfig$.subscribe((x) => console.log(x));
   }
 }

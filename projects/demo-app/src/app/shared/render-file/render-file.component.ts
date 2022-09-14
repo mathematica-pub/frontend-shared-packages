@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   inject,
@@ -11,9 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Observable } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -24,7 +21,7 @@ import { HighlightService } from '../../core/services/highlight.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class RenderFileComponent implements OnChanges, OnInit {
-  @Input('filePath') filePath: string;
+  @Input() filePath: string;
   @ViewChild('fileDiv', { static: true }) fileDiv: ElementRef<HTMLDivElement>;
   private highlightService = inject(HighlightService);
   private documentationService = inject(DocumentationService);

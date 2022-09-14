@@ -1,5 +1,9 @@
 @import 'vars', 'placeholders';
 
+:host {
+  min-width: 200px;
+}
+
 .nav-container {
   display: flex;
   flex-direction: column;

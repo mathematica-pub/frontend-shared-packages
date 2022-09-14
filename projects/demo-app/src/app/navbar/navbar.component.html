@@ -7,34 +7,15 @@
     <p>Overview</p>
   </a>
   <h2>EXAMPLES</h2>
-  <a
-    class="link-container"
-    routerLink="/examples/bars"
-    routerLinkActive="active-link"
-  >
-    <p>Bars</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/examples/stacked-area"
-    routerLinkActive="active-link"
-  >
-    <p>Stacked Area</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/examples/lines"
-    routerLinkActive="active-link"
-  >
-    <p>Lines</p>
-  </a>
-  <a
-    class="link-container"
-    routerLink="/examples/geographies"
-    routerLinkActive="active-link"
-  >
-    <p>Geographies</p>
-  </a>
+  <ng-container *ngFor="let example of examples">
+    <a
+      class="link-container"
+      [routerLink]="'/examples/' + example"
+      routerLinkActive="active-link"
+    >
+      <p>{{example | undasherize | titlecase}}</p>
+    </a>
+  </ng-container>
   <h2>DOCUMENTATION</h2>
   <ng-container *ngFor="let category of navbarConfig$ | async">
     <h3>{{category.name | undasherize | uppercase}}</h3>

@@ -1,6 +1,6 @@
 <app-component-demo>
   <span title>Bars</span>
-  <ng-container demo *ngIf="vm$ | async as vm">
+  <ng-container demo *ngIf="vm$ | async as vm; else loading">
     <vic-xy-chart [margin]="margin">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>

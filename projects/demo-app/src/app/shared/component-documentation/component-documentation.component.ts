@@ -2,15 +2,14 @@ import {
   Component,
   ElementRef,
   inject,
-  Input,
-  OnChanges,
   OnInit,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
+import { takeUntil } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -26,7 +25,10 @@ import { HighlightService } from '../../core/services/highlight.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDocumentationComponent implements OnInit {
+export class ComponentDocumentationComponent
+  extends Unsubscribe
+  implements OnInit
+{
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
 
   sanitizedDocumentation: SafeHtml;
@@ -40,6 +42,7 @@ export class ComponentDocumentationComponent implements OnInit {
     this.route = this.router.url;
     this.documentationService
       .getDocumentation(this.route)
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);

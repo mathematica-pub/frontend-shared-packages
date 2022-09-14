@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-component-demo',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDemoComponent implements OnInit {
+export class ComponentDemoComponent extends Unsubscribe implements OnInit {
   private router = inject(Router);
   private http = inject(HttpClient);
   controlPanel: FormGroup;
@@ -36,6 +38,7 @@ export class ComponentDemoComponent implements OnInit {
       .get(`${baseName}/include-files.txt`, {
         responseType: 'text',
       })
+      .pipe(takeUntil(this.unsubscribe))
       .subscribe((text) => {
         const lines = text.split('\n');
         lines.forEach((line) => this.fileList.push(`${baseName}/${line}`));
@@ -43,6 +46,6 @@ export class ComponentDemoComponent implements OnInit {
   }
 
   getFileDisplayName(fullFilePath: string): string {
-    return fullFilePath.match(/([^\/]+)$/)[0];
+    return fullFilePath.match(/([^/]+)$/)[0];
   }
 }
