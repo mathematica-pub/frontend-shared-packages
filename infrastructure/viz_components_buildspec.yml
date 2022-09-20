@@ -21,7 +21,7 @@ phases:
       - echo Linting
       - npm run lint
       - echo Running unit tests
-      # - npm run test:demo:ci
+      - npm run test:demo:ci
       - npm run test:lib:ci
       - echo Building demo app
       - npm run build demo-app

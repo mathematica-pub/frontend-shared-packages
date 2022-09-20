@@ -1,22 +1,24 @@
-// import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-// import { GeographiesExampleComponent } from './geographies-example.component';
+import { GeographiesExampleComponent } from './geographies-example.component';
 
-// describe('MapExampleComponent', () => {
-//   let component: GeographiesExampleComponent;
-//   let fixture: ComponentFixture<GeographiesExampleComponent>;
+describe('MapExampleComponent', () => {
+  let component: GeographiesExampleComponent;
+  let fixture: ComponentFixture<GeographiesExampleComponent>;
 
-//   beforeEach(async () => {
-//     await TestBed.configureTestingModule({
-//       declarations: [GeographiesExampleComponent],
-//     }).compileComponents();
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [GeographiesExampleComponent],
+      imports: [HttpClientModule],
+    }).compileComponents();
 
-//     fixture = TestBed.createComponent(GeographiesExampleComponent);
-//     component = fixture.componentInstance;
-//     fixture.detectChanges();
-//   });
+    fixture = TestBed.createComponent(GeographiesExampleComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-//   it('should create', () => {
-//     expect(component).toBeTruthy();
-//   });
-// });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

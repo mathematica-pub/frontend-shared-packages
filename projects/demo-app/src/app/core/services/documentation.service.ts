@@ -13,12 +13,12 @@ export class DocumentationService {
 
   getDocumentation(name: DocumentationType): Observable<string> {
     if (!this.docs[name]) {
-      this.docs[name] = this.getHttp(name);
+      this.docs[name] = this.getHtml(name);
     }
     return this.docs[name];
   }
 
-  private getHttp(input: string): Observable<string> {
+  private getHtml(input: string): Observable<string> {
     return this.http.get(
       `assets/documentation/${input}ComponentDocumentation.html`,
       { responseType: 'text' }
