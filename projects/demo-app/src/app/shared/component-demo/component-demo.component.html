@@ -14,7 +14,5 @@
       >{{getFileDisplayName(file)}}</app-radio-input
     >
   </div>
-  <app-render-file
-    [filePath]="controlPanel.controls['selectedFile'].value"
-  ></app-render-file>
+  <app-render-file [fileData]="fileData$ | async"></app-render-file>
 </div>

@@ -1,9 +1,17 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  NgZone,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { takeUntil } from 'rxjs';
+import { Observable, switchMap, takeUntil } from 'rxjs';
+import { DocumentationService } from '../../core/services/documentation.service';
 
 @Component({
   selector: 'app-component-demo',
@@ -12,17 +20,34 @@ import { takeUntil } from 'rxjs';
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDemoComponent extends Unsubscribe implements OnInit {
+export class ComponentDemoComponent
+  extends Unsubscribe
+  implements OnInit, AfterViewInit
+{
   private router = inject(Router);
   private http = inject(HttpClient);
+  private documentationService = inject(DocumentationService);
+  private zone = inject(NgZone);
   controlPanel: FormGroup;
   fileList: string[];
+  fileData$: Observable<string>;
 
   ngOnInit(): void {
     this.setFileList(this.router.url.replace('/examples/', ''));
     this.controlPanel = new FormGroup({
-      selectedFile: new FormControl(this.fileList[0]),
+      selectedFile: new FormControl(),
     });
+    this.fileData$ = this.controlPanel.controls[
+      'selectedFile'
+    ].valueChanges.pipe(
+      switchMap((fileName) =>
+        this.documentationService.getDocumentation(fileName)
+      )
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.controlPanel.controls['selectedFile'].setValue(this.fileList[0]);
   }
 
   setFileList(baseString: string): void {
