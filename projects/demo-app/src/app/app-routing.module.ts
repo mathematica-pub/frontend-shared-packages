@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DownloadPlaygroundComponent } from './download-playground/download-playground.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,10 @@ const routes: Routes = [
       import('./stacked-area/stacked-area.module').then(
         (m) => m.StackedAreaModule
       ),
+  },
+  {
+    path: 'download-playground',
+    component: DownloadPlaygroundComponent,
   },
 ];
 
