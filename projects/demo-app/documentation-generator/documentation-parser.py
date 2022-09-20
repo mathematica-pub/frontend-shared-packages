@@ -44,7 +44,6 @@ def runner(inputDirectory, outputDirectory):
             inputFileName = path.join(
                 inputDirectory, documentationStructure[directory][file]).replace("\\", "/")
             popen(f'cp {inputFileName} {outputFileName}')
-            # will be some sort of mapper necessary to pass into parser; this isn't quite right
             inputFileMap[documentationStructure[directory]
                          [file]] = f'{directory}/{file}.html'
 
