@@ -161,7 +161,7 @@ export class GeographiesComponent
     this.values.attributeDataValues = map(
       this.config.data,
       this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
-    ).map((d) => (d == null ? NaN : +d)); //double equals to catch undefined
+    ).map((d) => (d == null ? NaN : +d));
     this.values.indexMap = new InternMap(
       this.values.attributeDataGeographies.map((name, i) => [name, i])
     );
@@ -191,7 +191,7 @@ export class GeographiesComponent
   setQuantitativeDomainAndBins(): void {
     if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      'equal num observations' // all data values
+      'equal num observations'
     ) {
       this.config.dataGeographyConfig.attributeDataConfig.domain =
         this.values.attributeDataValues;
@@ -217,20 +217,6 @@ export class GeographiesComponent
       }
       this.config.dataGeographyConfig.attributeDataConfig.domain =
         extent(domainValues);
-      //else {
-      //domainValues = this.config.dataGeographyConfig.attributeDataConfig.domain;
-      // domainValues = [
-      //   ...new Set([
-      //     ...this.config.dataGeographyConfig.attributeDataConfig.domain,
-      //     // ...this.values.attributeDataValues, //why did i put this here?
-      //   ]),
-      // ];
-      //}
-      // const dataMin = min(domainValues); //this was min of min + 0; why?
-      // this.config.dataGeographyConfig.attributeDataConfig.domain = [
-      //   dataMin,
-      //   max(domainValues),
-      // ];
     }
   }
 
