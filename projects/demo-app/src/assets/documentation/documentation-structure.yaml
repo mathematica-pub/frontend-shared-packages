@@ -1,17 +1,55 @@
 ---
-data-marks-components:
-  bars: 'components/BarsComponent.html'
-  stacked-bars: 'components/StackedBarsComponent.html'
-  lines: 'components/LinesComponent.html'
 chart-components:
   chart: 'components/ChartComponent.html'
   map-chart: 'components/MapChartComponent.html'
-auxilliary-components:
-  continuous-legend: 'components/ContinuousLegendComponent.html'
-  map-legend: 'components/MapLegendComponent.html'
-element-directives:
-  map-content: 'directives/MapContent.html'
-  xy-axis: 'directives/XyAxis.html'
-attribute-directives:
-  click-event: 'directives/ClickEventDirective.html'
-  hover-and-move: 'directives/HoverAndMoveEventDirective.html'
+  xy-chart: 'components/XyChartComponent.html'
+data-marks-components:
+  bars: 'components/BarsComponent.html'
+  geographies: 'components/GeographiesComponent.html'
+  grouped-bars: 'components/GroupedBarsComponent.html'
+  lines: 'components/LinesComponent.html'
+  stacked-area: 'components/StackedAreaComponent.html'
+  stacked-bars: 'components/StackedBarsComponent.html'
+add-ons:
+  chart-components:
+    xy-chart:
+      xy-background: 'addOns/XyBackgroundComponent.html'
+      x-ordinal-axis: 'addOns/XOrdinalAxisComponent.html'
+      x-quantitative-axis: 'addOns/XQuantitativeAxisComponent.html'
+      y-ordinal-axis: 'addOns/YOrdinalAxisComponent.html'
+      y-quantitative-axis: 'addOns/YQuantitativeAxisComponent.html'
+  data-marks-components:
+    all:
+      html-tooltip: 'addOns/HtmlTooltip.html'
+    geographies:
+      geographies-hover-event: 'addOns/GeographiesHoverEvent.html'
+      geographies-hover-and-move-event: 'addOns/GeographiesHoverAndMoveEvent.html'
+      map-legend: 'addOns/MapLegendComponent.html'
+    lines:
+      lines-hover-event: 'addOns/LinesHoverEvent.html'
+      lines-hover-and-move-event: 'addOns/LinesHoverAndMoveEvent.html'
+      lines-input-event: 'addOns/LinesInputEvent.html'
+      lines-effects: 'functions/LinesEffects.html'
+utilities:
+  format-value: 'utilities/FormatValue.html',
+  svg-wrap: 'utilities/SvgWrap.html',
+  unsubscribe: 'utilities/Unsubscribe.html'
+library-internals:
+  events:
+    event: 'internals/Event.html',
+    click-event: 'internals/ClickEvent.html',
+    hover-event: 'internals/HoverEvent.html',
+    hover-and-move-event: 'internals/HoverAndMoveEvent.html',
+    input-event: 'internals/InputEvent.html',
+  xy-chart:
+    ordinal-axis: 'internals/OrdinalAxis.html'
+    quantitative-axis: 'internals/QuantitativeAxis.html'
+    x-axis: 'internals/XAxis.html'
+    y-axis: 'internals/YAxis.html'
+    xy-axis: 'internals/XyAxis.html'
+  geographies:
+    continuous-legend: 'internals/ContinuousLegendComponent.html'
+    discontinuous-legend: 'internals/DiscontinuousLegendComponent.html'
+    map-content: 'internals/MapContent.html'
+
+    
