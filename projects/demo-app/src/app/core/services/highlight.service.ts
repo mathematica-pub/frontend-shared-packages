@@ -13,15 +13,15 @@ import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-scss';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HighlightService {
-
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   highlightAll() {
     if (isPlatformBrowser(this.platformId)) {
-        Prism.highlightAll();
+      Prism.highlightAll();
     }
   }
 }
