@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { GeographiesExampleComponent } from './geographies-example.component';
@@ -9,6 +10,7 @@ describe('MapExampleComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GeographiesExampleComponent],
+      imports: [HttpClientModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(GeographiesExampleComponent);
