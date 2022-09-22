@@ -8,34 +8,45 @@ from json_generator_helpers import generate_single_code_snippet
 from state_machine_helpers import generate_configs_from_lines, merge
 from type_definitions import *
 
-# 1. load in all config files
-fileList = []
-for root, dirs, files in os.walk('../src/lib'):
-    for file in files:
-        if file.endswith(".config.ts"):
-            fileName = os.path.join(root, file).replace("\\", "/")
-            fileList.append(fileName)
-            print(fileName)
 
-configs = {}
+def runner(event, context):
+    fileList = load_files()
+    configs = create_configs(fileList)
+    create_code_snippets_from_configs(configs)
 
-# 2. perform parsing of each file via a state machine
-for file in fileList:
-    openedFile = open(file)
-    lines = openedFile.readlines()
-    configs = merge(configs, generate_configs_from_lines(lines))
 
-# 3. Calculate output (parse initializations & extends)
-# At the end of this step, values field in each config object is ready for dumping
-while(some_configs_unprocessed(configs)):
-    parse_configs(configs)
+def load_files():
+    fileList = []
+    for root, dirs, files in os.walk('../src/lib'):
+        for file in files:
+            if file.endswith(".config.ts"):
+                fileName = os.path.join(root, file).replace("\\", "/")
+                fileList.append(fileName)
+                print(fileName)
+    return fileList
 
-# 4. Dump output to a code snippet json file
-finalJson = {}
-for config in configs:
-    currentConfig = configs[config]
-    finalJson[f'Full{currentConfig.name}'] = generate_single_code_snippet(
-        currentConfig)
 
-with open('../../../.vscode/vizcolib-configs.code-snippets', 'w', encoding='utf-8') as file:
-    json.dump(finalJson, file, ensure_ascii=False, indent=4)
+def create_configs(fileList):
+    configs = {}
+    for file in fileList:
+        openedFile = open(file)
+        lines = openedFile.readlines()
+        configs = merge(configs, generate_configs_from_lines(lines))
+    while(some_configs_unprocessed(configs)):
+        parse_configs(configs)
+    return configs
+
+
+def create_code_snippets_from_configs(configs):
+    finalJson = {}
+    for config in configs:
+        currentConfig = configs[config]
+        finalJson[f'Full{currentConfig.name}'] = generate_single_code_snippet(
+            currentConfig)
+
+    with open('../../../.vscode/vizcolib-configs.code-snippets', 'w', encoding='utf-8') as file:
+        json.dump(finalJson, file, ensure_ascii=False, indent=4)
+
+
+if __name__ == "__main__":
+    runner({}, {})
