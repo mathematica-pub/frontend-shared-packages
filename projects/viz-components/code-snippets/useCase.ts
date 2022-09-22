@@ -2,10 +2,8 @@ import {
   AxisConfig,
   BarsConfig,
   BarsLabelsConfig,
-  CategoricalColorDimensionConfig,
   OrdinalDimensionConfig,
   QuantitativeDimensionConfig,
-  TooltipConfig,
   verticalBarChartDimensionsConfig,
 } from '../src/public-api';
 
