@@ -3,36 +3,31 @@
 :host {
   margin: 0px;
   height: 100%;
-  display: grid;
-  grid-template-columns: 1fr 5fr;
-  grid-template-rows: 1fr 7fr;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
 }
 
-.sidebar {
-  grid-column: 1;
-  grid-row: 2;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
 .content {
-  grid-column: 2;
-  grid-row: 2;
-  overflow-y: auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 0;
 }
 
-.column {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
+$title-height: 12vh;
+$content-height: 100vh - $title-height;
+
+.content-element {
+  overflow-y: scroll;
+  flex: 1 1 auto;
+  height: $content-height;
 }
 
 .title {
-  grid-column: 1 / span 2;
-  grid-row: 1;
   padding-left: $grid-2;
   @extend %typography-headline-2;
   border-bottom: 1px solid $color-primary-7;
+  flex: 0 0 auto;
+  height: $title-height;
 }
