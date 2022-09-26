@@ -8,10 +8,8 @@ import { AppComponent } from './app.component';
 import { BasemapService } from './core/services/basemap.service';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { DownloadPlaygroundComponent } from './download-playground/download-playground.component';
-
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, DownloadPlaygroundComponent],
+  declarations: [AppComponent, NavbarComponent],
   imports: [
     BrowserModule,
     HttpClientModule,

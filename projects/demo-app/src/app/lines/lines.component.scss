@@ -11,6 +11,14 @@
   }
 }
 
+.download-button {
+  @extend %typography-body-2;
+  display: flex;
+  &:hover {
+    font-weight: $font-weight-bold;
+  }
+}
+
 .line-labels-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

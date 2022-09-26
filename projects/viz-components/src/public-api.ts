@@ -58,3 +58,5 @@ export * from './lib/xy-background/xy-background.module';
 export * from './lib/xy-chart/xy-chart.component';
 export * from './lib/xy-chart/xy-chart.module';
 export * from './lib/core/services/image.service';
+export * from './lib/core/services/image.config';
+export * from './lib/core/services/image.enums';

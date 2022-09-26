@@ -1,10 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
   EmitLinesTooltipData,
+  ImageService,
+  JpegImageConfig,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
@@ -30,6 +38,7 @@ interface ViewModel {
   styleUrls: ['./lines.component.scss'],
 })
 export class LinesComponent implements OnInit {
+  @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   linesDocumentation = Documentation.Lines;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
@@ -58,8 +67,9 @@ export class LinesComponent implements OnInit {
     new EmitLinesTooltipData(),
   ];
 
-  constructor(private dataService: DataService) {}
+  private imageService = inject(ImageService);
 
+  constructor(private dataService: DataService) {}
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
@@ -113,5 +123,13 @@ export class LinesComponent implements OnInit {
 
   highlightLine(label: string): void {
     this.chartInputEvent.next(label);
+  }
+
+  downloadImage(): void {
+    const imageConfig = new JpegImageConfig({
+      containerNode: this.imageNode.nativeElement,
+      fileName: 'testfile',
+    });
+    this.imageService.downloadNode(imageConfig);
   }
 }
