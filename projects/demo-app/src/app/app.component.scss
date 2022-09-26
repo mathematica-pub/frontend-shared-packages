@@ -12,7 +12,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 0;
+  overflow: auto;
 }
 
 $title-height: 12vh;
