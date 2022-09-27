@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RenderFileComponent } from './render-file.component';
@@ -9,7 +9,8 @@ describe('RenderFileComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RenderFileComponent, HttpClient],
+      declarations: [RenderFileComponent],
+      imports: [HttpClientModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(RenderFileComponent);
