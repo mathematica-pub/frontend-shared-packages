@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MapLegendContent } from '../map-legend-content';
 
 /**
- * @ignore
+ * @internal
  */
 @Component({
   selector: 'vic-discontinuous-legend',
