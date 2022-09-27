@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Component, Input, OnInit, Optional, Self } from '@angular/core';
 import {
   ControlContainer,

@@ -9,7 +9,7 @@ describe('StackedAreaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StackedAreaComponent],
+      declarations: [StackedAreaExampleComponent],
       imports: [HttpClientModule],
     }).compileComponents();
 

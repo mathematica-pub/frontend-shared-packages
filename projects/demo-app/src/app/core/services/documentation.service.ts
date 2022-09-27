@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DocumentationType } from '../enums/documentation.enums';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +10,7 @@ export class DocumentationService {
 
   constructor(private http: HttpClient) {}
 
-  getDocumentation(name: DocumentationType): Observable<string> {
+  getDocumentation(name: string): Observable<string> {
     if (!this.docs[name]) {
       this.docs[name] = this.getHtml(name);
     }
