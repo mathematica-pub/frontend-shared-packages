@@ -11,7 +11,7 @@ export class DocumentationService {
 
   constructor(private http: HttpClient) {}
 
-  getDocumentation(name: DocumentationType): Observable<string> {
+  getDocumentation(name: string): Observable<string> {
     if (!this.docs[name]) {
       this.docs[name] = this.getHtml(name);
     }

@@ -5,7 +5,6 @@ import {
   StackedAreaConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { Documentation } from '../core/enums/documentation.enums';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 

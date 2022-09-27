@@ -5,14 +5,15 @@ import {
 } from '@angular/router';
 
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
-  shouldDetach(route: ActivatedRouteSnapshot): boolean {
+  shouldDetach(): boolean {
     return false;
   }
-  store(route: ActivatedRouteSnapshot, handle: DetachedRouteHandle): void {}
-  shouldAttach(route: ActivatedRouteSnapshot): boolean {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  store(): void {}
+  shouldAttach(): boolean {
     return false;
   }
-  retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
+  retrieve(): DetachedRouteHandle {
     return null;
   }
   shouldReuseRoute(
