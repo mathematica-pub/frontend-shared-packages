@@ -1,4 +1,34 @@
-<!-- START CONTENT -->
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Viz Component Library Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+        <link rel="stylesheet" href="../styles/laravel.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">Viz Component Library Documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
                <div class="content directive">
                    <div class="content-data">
 
@@ -15,10 +45,10 @@
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="active">
-            <a href="documentation/attribute-directives/click-event#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
         <li >
-            <a href="documentation/attribute-directives/click-event#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
@@ -37,7 +67,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="chart" target="_self" >ChartSvgEventDirective</a></code>
+                        <code><a href="../directives/EventDirective.html" target="_self" >EventDirective</a></code>
             </p>
 
             <p class="comment">
@@ -62,14 +92,14 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/attribute-directives/click-event#unlistenClick" >unlistenClick</a>
+                                <a href="#unlistenClick" >unlistenClick</a>
                             </li>
                             <li>
-                                <a href="documentation/attribute-directives/click-event#el" >el</a>
+                                <a href="#elements" >elements</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="documentation/attribute-directives/click-event#renderer" >renderer</a>
+                                <a href="#renderer" >renderer</a>
                             </li>
                         </ul>
                     </td>
@@ -85,19 +115,20 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Abstract</span>
-                                <a href="documentation/attribute-directives/click-event#chartClick" >chartClick</a>
+                                <a href="#chartClick" >chartClick</a>
                             </li>
                             <li>
-                                <a href="documentation/attribute-directives/click-event#ngOnDestroy" >ngOnDestroy</a>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
-                                <a href="documentation/attribute-directives/click-event#setListeners" >setListeners</a>
+                                <a href="#setListeners" >setListeners</a>
                             </li>
                             <li>
-                                <a href="documentation/attribute-directives/click-event#ngAfterViewInit" >ngAfterViewInit</a>
+                                <a href="#ngAfterViewInit" >ngAfterViewInit</a>
                             </li>
                             <li>
-                                <a href="documentation/attribute-directives/click-event#setEl" >setEl</a>
+                                    <span class="modifier">Abstract</span>
+                                <a href="#setElements" >setElements</a>
                             </li>
                         </ul>
                     </td>
@@ -129,14 +160,14 @@
                     <span class="name">
                         <span class="modifier">Abstract</span>
                         <span ><b>chartClick</b></span>
-                        <a href="documentation/attribute-directives/click-event#chartClick"><span class="icon ion-ios-link"></span></a>
+                        <a href="#chartClick"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>chartClick(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    <code>chartClick(event: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>, el: Element)</code>
                 </td>
             </tr>
 
@@ -176,6 +207,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>el</td>
+                                    <td>
+                                            <code>Element</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -199,7 +242,7 @@
                     <a name="ngOnDestroy"></a>
                     <span class="name">
                         <span ><b>ngOnDestroy</b></span>
-                        <a href="documentation/attribute-directives/click-event#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -236,7 +279,7 @@
                     <a name="setListeners"></a>
                     <span class="name">
                         <span ><b>setListeners</b></span>
-                        <a href="documentation/attribute-directives/click-event#setListeners"><span class="icon ion-ios-link"></span></a>
+                        <a href="#setListeners"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -249,13 +292,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="chart" target="_self" >ChartSvgEventDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../directives/EventDirective.html" target="_self" >EventDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="chart#source" target="_self" >ChartSvgEventDirective:17</a></code>
+                        <div class="io-line">Defined in         <code><a href="../directives/EventDirective.html#source" target="_self" >EventDirective:17</a></code>
 </div>
                 </td>
             </tr>
@@ -279,7 +322,7 @@
                     <a name="ngAfterViewInit"></a>
                     <span class="name">
                         <span ><b>ngAfterViewInit</b></span>
-                        <a href="documentation/attribute-directives/click-event#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                        <a href="#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -292,13 +335,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="chart" target="_self" >ChartSvgEventDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../directives/EventDirective.html" target="_self" >EventDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="chart#source" target="_self" >ChartSvgEventDirective:20</a></code>
+                        <div class="io-line">Defined in         <code><a href="../directives/EventDirective.html#source" target="_self" >EventDirective:13</a></code>
 </div>
                 </td>
             </tr>
@@ -319,29 +362,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setEl"></a>
+                    <a name="setElements"></a>
                     <span class="name">
-                        <span ><b>setEl</b></span>
-                        <a href="documentation/attribute-directives/click-event#setEl"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Abstract</span>
+                        <span ><b>setElements</b></span>
+                        <a href="#setElements"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setEl()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setElements()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="chart" target="_self" >ChartSvgEventDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a href="../directives/EventDirective.html" target="_self" >EventDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="chart#source" target="_self" >ChartSvgEventDirective:25</a></code>
+                        <div class="io-line">Defined in         <code><a href="../directives/EventDirective.html#source" target="_self" >EventDirective:11</a></code>
 </div>
                 </td>
             </tr>
@@ -371,13 +416,13 @@
                     <a name="unlistenClick"></a>
                     <span class="name">
                         <span ><b>unlistenClick</b></span>
-                        <a href="documentation/attribute-directives/click-event#unlistenClick"><span class="icon ion-ios-link"></span></a>
+                        <a href="#unlistenClick"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UnlistenFunction" target="_self" >UnlistenFunction[]</a></code>
 
                     </td>
                 </tr>
@@ -394,28 +439,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="el"></a>
+                    <a name="elements"></a>
                     <span class="name">
-                        <span ><b>el</b></span>
-                        <a href="documentation/attribute-directives/click-event#el"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>elements</b></span>
+                        <a href="#elements"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>SVGSVGElement</code>
+                        <i>Type : </i>    <code>Element[]</code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="chart" target="_self" >ChartSvgEventDirective</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../directives/EventDirective.html" target="_self" >EventDirective</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="chart#source" target="_self" >ChartSvgEventDirective:13</a></code>
+                                <div class="io-line">Defined in         <code><a href="../directives/EventDirective.html#source" target="_self" >EventDirective:7</a></code>
 </div>
                         </td>
                     </tr>
@@ -431,7 +476,7 @@
                     <span class="name">
                             <span class="modifier">Protected</span>
                         <span ><b>renderer</b></span>
-                        <a href="documentation/attribute-directives/click-event#renderer"><span class="icon ion-ios-link"></span></a>
+                        <a href="#renderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -442,13 +487,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a href="chart" target="_self" >ChartSvgEventDirective</a></code>
+                                <div class="io-line">Inherited from         <code><a href="../directives/EventDirective.html" target="_self" >EventDirective</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="chart#source" target="_self" >ChartSvgEventDirective:14</a></code>
+                                <div class="io-line">Defined in         <code><a href="../directives/EventDirective.html#source" target="_self" >EventDirective:8</a></code>
 </div>
                         </td>
                     </tr>
@@ -464,24 +509,24 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, OnDestroy } from &#x27;@angular/core&#x27;;
-import { ChartSvgEventDirective } from &#x27;./chart-svg-event&#x27;;
+import { EventDirective, UnlistenFunction } from &#x27;./event&#x27;;
 
 @Directive()
 export abstract class ClickEventDirective
-  extends ChartSvgEventDirective
+  extends EventDirective
   implements OnDestroy
 {
-  unlistenClick: () &#x3D;&gt; void;
+  unlistenClick: UnlistenFunction[];
 
-  abstract chartClick(event: Event): void;
+  abstract chartClick(event: Event, el: Element): void;
 
   ngOnDestroy(): void {
-    this.unlistenClick();
+    this.unlistenClick.forEach((func) &#x3D;&gt; func());
   }
 
   setListeners(): void {
-    this.unlistenClick &#x3D; this.renderer.listen(this.el, &#x27;click&#x27;, (event) &#x3D;&gt;
-      this.chartClick(event)
+    this.unlistenClick &#x3D; this.elements.map((el) &#x3D;&gt;
+      this.renderer.listen(el, &#x27;click&#x27;, (event) &#x3D;&gt; this.chartClick(event, el))
     );
   }
 }
@@ -514,3 +559,51 @@ export abstract class ClickEventDirective
 </div>
 </div>
                <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'directive';
+            var COMPODOC_CURRENT_PAGE_URL = 'ClickEventDirective.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

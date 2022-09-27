@@ -35,16 +35,16 @@ add-ons:
       lines-hover-and-move-effect-default-styles: 'classes/LinesHoverAndMoveEffectDefaultStyles.html'
       lines-hover-and-move-effect-default-styles-config: 'classes/LinesHoverAndMoveEffectDefaultStylesConfig.html'
 utilities:
-  format-value: 'interfaces/Formats.html',
-  svg-wrap: 'classes/SvgWrap.html',
+  format-value: 'interfaces/Formats.html'
+  svg-wrap: 'classes/SvgWrap.html'
   unsubscribe: 'directives/Unsubscribe.html'
 library-internals:
   events:
-    event: 'directives/EventDirective.html',
-    click-event: 'directives/ClickEventDirective.html',
-    hover-event: 'directives/HoverEventDirective.html',
-    hover-and-move-event: 'directives/HoverAndMoveEventDirective.html',
-    input-event: 'directives/InputEventDirective.html',
+    event: 'directives/EventDirective.html'
+    click-event: 'directives/ClickEventDirective.html'
+    hover-event: 'directives/HoverEventDirective.html'
+    hover-and-move-event: 'directives/HoverAndMoveEventDirective.html'
+    input-event: 'directives/InputEventDirective.html'
   xy-chart:
     # mixins are not supported :( what to do?
     # ordinal-axis: 'internals/OrdinalAxis.html'
@@ -57,4 +57,3 @@ library-internals:
     discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
     map-content: 'directives/MapContent.html' # abstract class
 
-    

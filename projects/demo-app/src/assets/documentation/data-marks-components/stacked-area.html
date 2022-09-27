@@ -39,7 +39,7 @@
   <li>Components</li>
   <li
   >
-  LinesComponent</li>
+  StackedAreaComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,7 +62,7 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/viz-components/src/lib/lines/lines.component.ts</code>
+    <code>projects/viz-components/src/lib/stacked-area/stacked-area.component.ts</code>
 </p>
 
 
@@ -94,10 +94,6 @@
                 <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
             </tr>
 
-            <tr>
-                <td class="col-md-3">encapsulation</td>
-                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
-            </tr>
 
 
 
@@ -108,28 +104,26 @@
             <tr>
                 <td class="col-md-3">providers</td>
                 <td class="col-md-9">
-                                <code><a href="../components/LinesComponent.html" target="_self" >{ provide: DATA_MARKS, useExisting: LinesComponent }</a></code>
-                                <code><a href="../components/LinesComponent.html" target="_self" >{ provide: LINES, useExisting: LinesComponent }</a></code>
-                                <code><a href="../classes/Chart.html" target="_self" >{ provide: ChartComponent, useExisting: XyChartComponent }</a></code>
+                                <code><a href="../components/StackedAreaComponent.html" target="_self" >{ provide: DATA_MARKS, useExisting: StackedAreaComponent }</a></code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-3">selector</td>
-                <td class="col-md-9"><code>[vic-data-marks-lines]</code></td>
+                <td class="col-md-9"><code>[vic-data-marks-stacked-area]</code></td>
             </tr>
 
             <tr>
                 <td class="col-md-3">styleUrls</td>
-                <td class="col-md-9"><code>./lines.component.scss</code></td>
+                <td class="col-md-9"><code>./stacked-area.component.scss</code></td>
             </tr>
 
 
 
             <tr>
                 <td class="col-md-3">templateUrl</td>
-                <td class="col-md-9"><code>./lines.component.html</code></td>
+                <td class="col-md-9"><code>./stacked-area.component.html</code></td>
             </tr>
 
 
@@ -156,42 +150,25 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#dotRef" >dotRef</a>
+                                <a href="#area" >area</a>
                             </li>
                             <li>
-                                <a href="#line" >line</a>
+                                <a href="#areas" >areas</a>
                             </li>
                             <li>
-                                <a href="#lineLabelsRef" >lineLabelsRef</a>
+                                <a href="#onPointerEnter" >onPointerEnter</a>
                             </li>
                             <li>
-                                <a href="#linesD3Data" >linesD3Data</a>
+                                <a href="#onPointerLeave" >onPointerLeave</a>
                             </li>
                             <li>
-                                <a href="#linesKeyFunction" >linesKeyFunction</a>
+                                <a href="#onPointerMove" >onPointerMove</a>
                             </li>
                             <li>
-                                <a href="#linesRef" >linesRef</a>
-                            </li>
-                            <li>
-                                <a href="#markersD3Data" >markersD3Data</a>
-                            </li>
-                            <li>
-                                <a href="#markersKeyFunction" >markersKeyFunction</a>
-                            </li>
-                            <li>
-                                <a href="#markersRef" >markersRef</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#utilities" >utilities</a>
+                                <a href="#series" >series</a>
                             </li>
                             <li>
                                 <a href="#values" >values</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#zone" >zone</a>
                             </li>
                             <li>
                                 <a href="#categoryScale" >categoryScale</a>
@@ -225,31 +202,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#canBeDrawnByPath" >canBeDrawnByPath</a>
-                            </li>
-                            <li>
-                                <a href="#drawHoverDot" >drawHoverDot</a>
-                            </li>
-                            <li>
-                                <a href="#drawLineLabels" >drawLineLabels</a>
-                            </li>
-                            <li>
-                                <a href="#drawLines" >drawLines</a>
+                                <a href="#drawAreas" >drawAreas</a>
                             </li>
                             <li>
                                 <a href="#drawMarks" >drawMarks</a>
                             </li>
                             <li>
-                                <a href="#drawPointMarkers" >drawPointMarkers</a>
-                            </li>
-                            <li>
-                                <a href="#getMarkerKey" >getMarkerKey</a>
-                            </li>
-                            <li>
                                 <a href="#initCategoryScale" >initCategoryScale</a>
                             </li>
                             <li>
-                                <a href="#initDomains" >initDomains</a>
+                                <a href="#initXAndCategoryDomains" >initXAndCategoryDomains</a>
+                            </li>
+                            <li>
+                                <a href="#initYDomain" >initYDomain</a>
                             </li>
                             <li>
                                 <a href="#ngOnChanges" >ngOnChanges</a>
@@ -261,25 +226,16 @@
                                 <a href="#resizeMarks" >resizeMarks</a>
                             </li>
                             <li>
-                                <a href="#setLine" >setLine</a>
-                            </li>
-                            <li>
-                                <a href="#setLinesD3Data" >setLinesD3Data</a>
-                            </li>
-                            <li>
-                                <a href="#setLinesKeyFunction" >setLinesKeyFunction</a>
-                            </li>
-                            <li>
-                                <a href="#setMarkersD3Data" >setMarkersD3Data</a>
-                            </li>
-                            <li>
-                                <a href="#setMarkersKeyFunction" >setMarkersKeyFunction</a>
+                                <a href="#setArea" >setArea</a>
                             </li>
                             <li>
                                 <a href="#setMethodsFromConfigAndDraw" >setMethodsFromConfigAndDraw</a>
                             </li>
                             <li>
                                 <a href="#setScaledSpaceProperties" >setScaledSpaceProperties</a>
+                            </li>
+                            <li>
+                                <a href="#setSeries" >setSeries</a>
                             </li>
                             <li>
                                 <a href="#setValueArrays" >setValueArrays</a>
@@ -318,30 +274,82 @@
 
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Accessors</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#lines" >lines</a>
-                                </li>
-                                <li>
-                                    <a href="#hoverDot" >hoverDot</a>
-                                </li>
-                                <li>
-                                    <a href="#markers" >markers</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
         </tbody>
     </table>
 </section>
 
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(areasRef: ElementRef<SVGSVGElement>, utilities: <a href="../injectables/UtilitiesService.html" target="_self">UtilitiesService</a>, zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:47</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>areasRef</td>
+                                                  
+                                                        <td>
+                                                                    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>utilities</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/UtilitiesService.html" target="_self" >UtilitiesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>zone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
 
     <section>
     <h3 id="inputs">Inputs</h3>
@@ -355,13 +363,13 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../classes/LinesConfig.html" target="_self" >LinesConfig</a></code>
+                        <i>Type : </i>        <code><a href="../classes/StackedAreaConfig.html" target="_self" >StackedAreaConfig</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:73</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:43</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -379,167 +387,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="canBeDrawnByPath"></a>
+                    <a name="drawAreas"></a>
                     <span class="name">
-                        <span ><b>canBeDrawnByPath</b></span>
-                        <a href="#canBeDrawnByPath"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>drawAreas</b></span>
+                        <a href="#drawAreas"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>canBeDrawnByPath(x: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>drawAreas(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:192</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>x</td>
-                                    <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="drawHoverDot"></a>
-                    <span class="name">
-                        <span ><b>drawHoverDot</b></span>
-                        <a href="#drawHoverDot"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>drawHoverDot()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="264"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:264</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="drawLineLabels"></a>
-                    <span class="name">
-                        <span ><b>drawLineLabels</b></span>
-                        <a href="#drawLineLabels"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>drawLineLabels()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="307"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:307</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="drawLines"></a>
-                    <span class="name">
-                        <span ><b>drawLines</b></span>
-                        <a href="#drawLines"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>drawLines(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="239"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:239</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:181</a></div>
                 </td>
             </tr>
 
@@ -607,8 +472,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="227"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:227</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:177</a></div>
                 </td>
             </tr>
 
@@ -647,144 +512,6 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="drawPointMarkers"></a>
-                    <span class="name">
-                        <span ><b>drawPointMarkers</b></span>
-                        <a href="#drawPointMarkers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>drawPointMarkers(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="273"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:273</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>transitionDuration</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getMarkerKey"></a>
-                    <span class="name">
-                        <span ><b>getMarkerKey</b></span>
-                        <a href="#getMarkerKey"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getMarkerKey(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="219"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:219</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>i</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
 
                     </div>
                     <div class="io-description">
@@ -814,8 +541,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:159</a></div>
                 </td>
             </tr>
 
@@ -835,24 +562,61 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="initDomains"></a>
+                    <a name="initXAndCategoryDomains"></a>
                     <span class="name">
-                        <span ><b>initDomains</b></span>
-                        <a href="#initDomains"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>initXAndCategoryDomains</b></span>
+                        <a href="#initXAndCategoryDomains"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>initDomains()</code>
+<code>initXAndCategoryDomains()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="98"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:98</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initYDomain"></a>
+                    <span class="name">
+                        <span ><b>initYDomain</b></span>
+                        <a href="#initYDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initYDomain()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:140</a></div>
                 </td>
             </tr>
 
@@ -888,8 +652,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:57</a></div>
                 </td>
             </tr>
 
@@ -957,8 +721,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:63</a></div>
                 </td>
             </tr>
 
@@ -1000,7 +764,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/XyContent.html#source" target="_self" >XyContent:121</a></code>
+                        <div class="io-line">Defined in         <code><a href="../classes/XyContent.html#source" target="_self" >XyContent:81</a></code>
 </div>
                 </td>
             </tr>
@@ -1021,172 +785,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setLine"></a>
+                    <a name="setArea"></a>
                     <span class="name">
-                        <span ><b>setLine</b></span>
-                        <a href="#setLine"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setArea</b></span>
+                        <a href="#setArea"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setLine()</code>
+<code>setArea()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="177"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:177</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setLinesD3Data"></a>
-                    <span class="name">
-                        <span ><b>setLinesD3Data</b></span>
-                        <a href="#setLinesD3Data"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setLinesD3Data()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="196"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:196</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setLinesKeyFunction"></a>
-                    <span class="name">
-                        <span ><b>setLinesKeyFunction</b></span>
-                        <a href="#setLinesKeyFunction"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setLinesKeyFunction()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="203"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:203</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setMarkersD3Data"></a>
-                    <span class="name">
-                        <span ><b>setMarkersD3Data</b></span>
-                        <a href="#setMarkersD3Data"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setMarkersD3Data()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="207"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:207</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setMarkersKeyFunction"></a>
-                    <span class="name">
-                        <span ><b>setMarkersKeyFunction</b></span>
-                        <a href="#setMarkersKeyFunction"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setMarkersKeyFunction()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="223"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:223</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:169</a></div>
                 </td>
             </tr>
 
@@ -1222,8 +838,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:69</a></div>
                 </td>
             </tr>
 
@@ -1259,8 +875,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:156</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="148"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:148</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setSeries"></a>
+                    <span class="name">
+                        <span ><b>setSeries</b></span>
+                        <a href="#setSeries"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setSeries()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:114</a></div>
                 </td>
             </tr>
 
@@ -1296,8 +949,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:127</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:89</a></div>
                 </td>
             </tr>
 
@@ -1333,8 +986,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:108</a></div>
                 </td>
             </tr>
 
@@ -1489,31 +1142,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="dotRef"></a>
+                    <a name="area"></a>
                     <span class="name">
-                        <span ><b>dotRef</b></span>
-                        <a href="#dotRef"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>area</b></span>
+                        <a href="#area"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;dot&#x27;, {static: true})<br />
-                        </code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -1524,10 +1162,30 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="line"></a>
+                    <a name="areas"></a>
                     <span class="name">
-                        <span ><b>line</b></span>
-                        <a href="#line"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>areas</b></span>
+                        <a href="#areas"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:47</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPointerEnter"></a>
+                    <span class="name">
+                        <span ><b>onPointerEnter</b></span>
+                        <a href="#onPointerEnter"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1539,7 +1197,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="211" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:211</a></div>
                         </td>
                     </tr>
 
@@ -1550,31 +1208,22 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="lineLabelsRef"></a>
+                    <a name="onPointerLeave"></a>
                     <span class="name">
-                        <span ><b>lineLabelsRef</b></span>
-                        <a href="#lineLabelsRef"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onPointerLeave</b></span>
+                        <a href="#onPointerLeave"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 
                     </td>
                 </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;lineLabels&#x27;, {static: true})<br />
-                        </code>
-                    </td>
-                </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:212</a></div>
                         </td>
                     </tr>
 
@@ -1585,71 +1234,22 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="linesD3Data"></a>
+                    <a name="onPointerMove"></a>
                     <span class="name">
-                        <span ><b>linesD3Data</b></span>
-                        <a href="#linesD3Data"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:76</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="linesKeyFunction"></a>
-                    <span class="name">
-                        <span ><b>linesKeyFunction</b></span>
-                        <a href="#linesKeyFunction"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:77</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="linesRef"></a>
-                    <span class="name">
-                        <span ><b>linesRef</b></span>
-                        <a href="#linesRef"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onPointerMove</b></span>
+                        <a href="#onPointerMove"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;lines&#x27;, {static: true})<br />
-                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:68</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="213" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:213</a></div>
                         </td>
                     </tr>
 
@@ -1660,97 +1260,22 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="markersD3Data"></a>
+                    <a name="series"></a>
                     <span class="name">
-                        <span ><b>markersD3Data</b></span>
-                        <a href="#markersD3Data"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:78</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="markersKeyFunction"></a>
-                    <span class="name">
-                        <span ><b>markersKeyFunction</b></span>
-                        <a href="#markersKeyFunction"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:79</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="markersRef"></a>
-                    <span class="name">
-                        <span ><b>markersRef</b></span>
-                        <a href="#markersRef"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>series</b></span>
+                        <a href="#series"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+                        <i>Type : </i>    <code>[][]</code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <b>Decorators : </b>
-                        <br />
-                        <code>
-                            @ViewChild(&#x27;markers&#x27;, {static: true})<br />
-                        </code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:70</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="utilities"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>utilities</b></span>
-                        <a href="#utilities"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>inject(UtilitiesService)</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:80</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1781,33 +1306,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:74</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="zone"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>zone</b></span>
-                        <a href="#zone"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>inject(NgZone)</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:81</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/viz-components/src/lib/stacked-area/stacked-area.component.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -2019,77 +1518,6 @@
     </table>
 </section>
 
-    <section>
-    <h3 id="accessors">
-        Accessors
-    </h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="lines"></a>
-                        <span class="name"><b>lines</b><a href="#lines"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>lines()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:83</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="hoverDot"></a>
-                        <span class="name"><b>hoverDot</b><a href="#hoverDot"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>hoverDot()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:87</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="markers"></a>
-                        <span class="name"><b>markers</b><a href="#markers"><span class="icon ion-ios-link"></span></a></span>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <span class="accessor"><b>get</b><code>markers()</code></span>
-                    </td>
-                </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:91</a></div>
-                                </td>
-                            </tr>
-
-            </tbody>
-        </table>
-</section>
 </div>
 
 
@@ -2098,94 +1526,56 @@
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  inject,
-  InjectionToken,
   Input,
   NgZone,
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
-  ViewEncapsulation,
 } from &#x27;@angular/core&#x27;;
 import {
+  area,
   extent,
-  group,
+  InternMap,
   InternSet,
-  line,
   map,
-  max,
-  min,
   range,
+  rollup,
   scaleOrdinal,
   select,
+  SeriesPoint,
+  stack,
   Transition,
 } from &#x27;d3&#x27;;
-import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
 import { UtilitiesService } from &#x27;../core/services/utilities.service&#x27;;
 import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
 import { XyDataMarks, XyDataMarksValues } from &#x27;../data-marks/xy-data-marks&#x27;;
-import { XyChartComponent } from &#x27;../xy-chart/xy-chart.component&#x27;;
 import { XyContent } from &#x27;../xy-chart/xy-content&#x27;;
-import { LinesConfig } from &#x27;./lines.config&#x27;;
-
-export interface Marker {
-  key: string;
-  index: number;
-}
-
-export class LinesTooltipData {
-  datum: any;
-  color: string;
-  x: string;
-  y: string;
-  category: string;
-}
-
-export const LINES &#x3D; new InjectionToken&lt;LinesComponent&gt;(&#x27;LinesComponent&#x27;);
+import { StackedAreaConfig } from &#x27;./stacked-area.config&#x27;;
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: &#x27;[vic-data-marks-lines]&#x27;,
-  templateUrl: &#x27;./lines.component.html&#x27;,
-  styleUrls: [&#x27;./lines.component.scss&#x27;],
-  encapsulation: ViewEncapsulation.None,
+  selector: &#x27;[vic-data-marks-stacked-area]&#x27;,
+  templateUrl: &#x27;./stacked-area.component.html&#x27;,
+  styleUrls: [&#x27;./stacked-area.component.scss&#x27;],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: DATA_MARKS, useExisting: LinesComponent },
-    { provide: LINES, useExisting: LinesComponent },
-    { provide: ChartComponent, useExisting: XyChartComponent },
-  ],
+  providers: [{ provide: DATA_MARKS, useExisting: StackedAreaComponent }],
 })
-export class LinesComponent
+export class StackedAreaComponent
   extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
-  @ViewChild(&#x27;lines&#x27;, { static: true }) linesRef: ElementRef&lt;SVGSVGElement&gt;;
-  @ViewChild(&#x27;dot&#x27;, { static: true }) dotRef: ElementRef&lt;SVGSVGElement&gt;;
-  @ViewChild(&#x27;markers&#x27;, { static: true }) markersRef: ElementRef&lt;SVGSVGElement&gt;;
-  @ViewChild(&#x27;lineLabels&#x27;, { static: true })
-  lineLabelsRef: ElementRef&lt;SVGSVGElement&gt;;
-  @Input() config: LinesConfig;
+  @Input() config: StackedAreaConfig;
   values: XyDataMarksValues &#x3D; new XyDataMarksValues();
-  line: (x: any[]) &#x3D;&gt; any;
-  linesD3Data;
-  linesKeyFunction;
-  markersD3Data;
-  markersKeyFunction;
-  private utilities &#x3D; inject(UtilitiesService);
-  private zone &#x3D; inject(NgZone);
+  series: (SeriesPoint&lt;InternMap&lt;any, number&gt;&gt; &amp; { i: number })[][];
+  area;
+  areas;
 
-  get lines(): any {
-    return select(this.linesRef.nativeElement).selectAll(&#x27;path&#x27;);
-  }
-
-  get hoverDot(): any {
-    return select(this.dotRef.nativeElement).selectAll(&#x27;circle&#x27;);
-  }
-
-  get markers(): any {
-    return select(this.markersRef.nativeElement).selectAll(&#x27;circle&#x27;);
+  constructor(
+    private areasRef: ElementRef&lt;SVGSVGElement&gt;,
+    private utilities: UtilitiesService,
+    private zone: NgZone
+  ) {
+    super();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -2202,22 +1592,22 @@ export class LinesComponent
 
   setMethodsFromConfigAndDraw(): void {
     this.setValueArrays();
-    this.initDomains();
+    this.initXAndCategoryDomains();
     this.setValueIndicies();
+    this.setSeries();
+    this.initYDomain();
     this.setScaledSpaceProperties();
     this.initCategoryScale();
-    this.setLine();
-    this.setLinesD3Data();
-    this.setLinesKeyFunction();
-    this.setMarkersD3Data();
-    this.setMarkersKeyFunction();
+    this.setArea();
     this.drawMarks(this.chart.transitionDuration);
   }
 
   resizeMarks(): void {
-    this.setScaledSpaceProperties();
-    this.setLine();
-    this.drawMarks(0);
+    if (this.values.x &amp;&amp; this.values.y) {
+      this.setScaledSpaceProperties();
+      this.setArea();
+      this.drawMarks(0);
+    }
   }
 
   setValueArrays(): void {
@@ -2229,24 +1619,54 @@ export class LinesComponent
     );
   }
 
-  initDomains(): void {
+  initXAndCategoryDomains(): void {
     if (this.config.x.domain &#x3D;&#x3D;&#x3D; undefined) {
       this.config.x.domain &#x3D; extent(this.values.x);
-    }
-    if (this.config.y.domain &#x3D;&#x3D;&#x3D; undefined) {
-      const dataMin &#x3D; min([min(this.values.y), 0]);
-      this.config.y.domain &#x3D; [dataMin, max(this.values.y)];
     }
     if (this.config.category.domain &#x3D;&#x3D;&#x3D; undefined) {
       this.config.category.domain &#x3D; this.values.category;
     }
+    this.config.category.domain &#x3D; new InternSet(this.config.category.domain);
   }
 
   setValueIndicies(): void {
-    const domainInternSet &#x3D; new InternSet(this.config.category.domain);
     this.values.indicies &#x3D; range(this.values.x.length).filter((i) &#x3D;&gt;
-      domainInternSet.has(this.values.category[i])
+      (this.config.category.domain as InternSet).has(this.values.category[i])
     );
+  }
+
+  setSeries(): void {
+    const rolledUpData: InternMap&lt;any, InternMap&lt;any, number&gt;&gt; &#x3D; rollup(
+      this.values.indicies,
+      ([i]) &#x3D;&gt; i,
+      (i) &#x3D;&gt; this.values.x[i],
+      (i) &#x3D;&gt; this.values.category[i]
+    );
+
+    const keys &#x3D; this.config.categoryOrder
+      ? this.config.categoryOrder.slice().reverse()
+      : this.config.category.domain;
+
+    this.series &#x3D; stack&lt;any, InternMap&lt;any, number&gt;, any&gt;()
+      .keys(keys)
+      .value(([x, I]: any, category) &#x3D;&gt; this.values.y[I.get(category)])
+      .order(this.config.stackOrderFunction)
+      .offset(this.config.stackOffsetFunction)(rolledUpData as any)
+      .map((s) &#x3D;&gt;
+        s.map((d) &#x3D;&gt;
+          Object.assign(d, {
+            i: d.data[1].get(s.key),
+          })
+        )
+      );
+  }
+
+  initYDomain(): void {
+    if (this.config.y.domain &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.y.domain &#x3D; extent(this.series.flat(2));
+      this.config.y.domain[0] &#x3D; Math.floor(this.config.y.domain[0]);
+      this.config.y.domain[1] &#x3D; Math.ceil(this.config.y.domain[1]);
+    }
   }
 
   setScaledSpaceProperties(): void {
@@ -2270,178 +1690,63 @@ export class LinesComponent
     this.chart.updateCategoryScale(this.config.category.colorScale);
   }
 
-  setLine(): void {
-    if (this.config.valueIsDefined &#x3D;&#x3D;&#x3D; undefined) {
-      this.config.valueIsDefined &#x3D; (d, i) &#x3D;&gt;
-        this.canBeDrawnByPath(this.values.x[i]) &amp;&amp;
-        this.canBeDrawnByPath(this.values.y[i]);
-    }
-    const isDefinedValues &#x3D; map(this.config.data, this.config.valueIsDefined);
-
-    this.line &#x3D; line()
-      .defined((i: any) &#x3D;&gt; isDefinedValues[i] as boolean)
-      .curve(this.config.curve)
-      .x((i: any) &#x3D;&gt; this.xScale(this.values.x[i]))
-      .y((i: any) &#x3D;&gt; this.yScale(this.values.y[i]));
-  }
-
-  canBeDrawnByPath(x: any): boolean {
-    return !(isNaN(x) || x &#x3D;&#x3D;&#x3D; null || typeof x &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;);
-  }
-
-  setLinesD3Data(): void {
-    this.linesD3Data &#x3D; group(
-      this.values.indicies,
-      (i) &#x3D;&gt; this.values.category[i]
-    );
-  }
-
-  setLinesKeyFunction(): void {
-    this.linesKeyFunction &#x3D; (d): string &#x3D;&gt; d[0];
-  }
-
-  setMarkersD3Data(): void {
-    this.markersD3Data &#x3D; this.values.indicies
-      .map((i) &#x3D;&gt; {
-        return { key: this.getMarkerKey(i), index: i };
-      })
-      .filter(
-        (marker: Marker) &#x3D;&gt;
-          this.canBeDrawnByPath(this.values.x[marker.index]) &amp;&amp;
-          this.canBeDrawnByPath(this.values.y[marker.index])
-      );
-  }
-
-  getMarkerKey(i: number): string {
-    return &#x60;${this.values.category[i]}-${this.values.x[i]}&#x60;;
-  }
-
-  setMarkersKeyFunction(): void {
-    this.markersKeyFunction &#x3D; (d) &#x3D;&gt; (d as Marker).key;
+  setArea(): void {
+    this.area &#x3D; area()
+      .x(({ i }: any) &#x3D;&gt; this.xScale(this.values.x[i]))
+      .y0(([y1]) &#x3D;&gt; this.yScale(y1))
+      .y1(([, y2]) &#x3D;&gt; this.yScale(y2))
+      .curve(this.config.curve);
   }
 
   drawMarks(transitionDuration: number): void {
-    this.drawLines(transitionDuration);
-    if (this.config.pointMarker.display) {
-      this.drawPointMarkers(transitionDuration);
-    } else {
-      this.drawHoverDot();
-    }
-    if (this.config.labelLines) {
-      this.drawLineLabels();
-    }
+    this.drawAreas(transitionDuration);
   }
 
-  drawLines(transitionDuration: number): void {
+  drawAreas(transitionDuration: number): void {
     const t &#x3D; select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
 
-    this.lines.data(this.linesD3Data, this.linesKeyFunction).join(
-      (enter) &#x3D;&gt;
-        enter
-          .append(&#x27;path&#x27;)
-          .property(&#x27;key&#x27;, ([category]) &#x3D;&gt; category)
-          .attr(&#x27;class&#x27;, &#x27;line&#x27;)
-          .attr(&#x27;stroke&#x27;, ([category]) &#x3D;&gt; this.categoryScale(category))
-          .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.line(lineData)),
-      (update) &#x3D;&gt;
-        update
-          .attr(&#x27;stroke&#x27;, ([category]) &#x3D;&gt; this.categoryScale(category))
-          .call((update) &#x3D;&gt;
+    this.areas &#x3D; select(this.areasRef.nativeElement)
+      .selectAll(&#x27;path&#x27;)
+      .data(this.series)
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;path&#x27;)
+            .property(&#x27;key&#x27;, ([{ i }]) &#x3D;&gt; this.values.category[i])
+            .attr(&#x27;fill&#x27;, ([{ i }]) &#x3D;&gt;
+              this.categoryScale(this.values.category[i])
+            )
+            .attr(&#x27;d&#x27;, this.area),
+        (update) &#x3D;&gt;
+          update.call((update) &#x3D;&gt;
             update
               .transition(t as any)
-              .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.line(lineData))
+              .attr(&#x27;d&#x27;, this.area)
+              .attr(&#x27;fill&#x27;, ([{ i }]) &#x3D;&gt;
+                this.categoryScale(this.values.category[i])
+              )
           ),
-      (exit) &#x3D;&gt; exit.remove()
-    );
+        (exit) &#x3D;&gt; exit.remove()
+      );
   }
 
-  drawHoverDot(): void {
-    select(this.dotRef.nativeElement)
-      .append(&#x27;circle&#x27;)
-      .attr(&#x27;class&#x27;, &#x27;tooltip-dot&#x27;)
-      .attr(&#x27;r&#x27;, 4)
-      .attr(&#x27;fill&#x27;, &#x27;#222&#x27;)
-      .attr(&#x27;display&#x27;, null);
-  }
-
-  drawPointMarkers(transitionDuration: number): void {
-    const t &#x3D; select(this.chart.svgRef.nativeElement)
-      .transition()
-      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
-
-    this.markers.data(this.markersD3Data, this.markersKeyFunction).join(
-      (enter) &#x3D;&gt;
-        enter
-          .append(&#x27;circle&#x27;)
-          .attr(&#x27;class&#x27;, &#x27;marker&#x27;)
-          .attr(&#x27;key&#x27;, (d) &#x3D;&gt; d.key)
-          .style(&#x27;mix-blend-mode&#x27;, this.config.mixBlendMode)
-          .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.xScale(this.values.x[d.index]))
-          .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.yScale(this.values.y[d.index]))
-          .attr(&#x27;r&#x27;, this.config.pointMarker.radius)
-          .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
-            this.categoryScale(this.values.category[d.index])
-          ),
-      (update) &#x3D;&gt;
-        update
-          .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
-            this.categoryScale(this.values.category[d.index])
-          )
-          .call((update) &#x3D;&gt;
-            update
-              .filter(this.config.valueIsDefined)
-              .transition(t as any)
-              .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.xScale(this.values.x[d.index]))
-              .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.yScale(this.values.y[d.index]))
-          ),
-      (exit) &#x3D;&gt; exit.remove()
-    );
-  }
-
-  drawLineLabels(): void {
-    const lastPoints &#x3D; [];
-    this.linesD3Data.forEach((values, key) &#x3D;&gt; {
-      const lastPoint &#x3D; values[values.length - 1];
-      lastPoints.push({ category: key, index: lastPoint });
-    });
-    // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
-    select(this.lineLabelsRef.nativeElement)
-      .selectAll(&#x27;text&#x27;)
-      .data(lastPoints)
-      .join(&#x27;text&#x27;)
-      .attr(&#x27;class&#x27;, &#x27;line-label&#x27;)
-      .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
-      .attr(&#x27;fill&#x27;, (d) &#x3D;&gt; this.categoryScale(this.values.category[d.index]))
-      .attr(&#x27;x&#x27;, (d) &#x3D;&gt; &#x60;${this.xScale(this.values.x[d.index]) - 4}px&#x60;)
-      .attr(&#x27;y&#x27;, (d) &#x3D;&gt; &#x60;${this.yScale(this.values.y[d.index]) - 12}px&#x60;)
-      .text((d) &#x3D;&gt; this.config.lineLabelsFormat(d.category));
-  }
+  onPointerEnter: (event: PointerEvent) &#x3D;&gt; void;
+  onPointerLeave: (event: PointerEvent) &#x3D;&gt; void;
+  onPointerMove: (event: PointerEvent) &#x3D;&gt; void;
 }
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-templateData">
-        <pre class="line-numbers"><code class="language-html">&lt;svg:g
-  #lines
-  class&#x3D;&quot;lines-g&quot;
-  fill&#x3D;&quot;none&quot;
-  [attr.stroke-linecap]&#x3D;&quot;config.stroke.linecap&quot;
-  [attr.stroke-linejoin]&#x3D;&quot;config.stroke.linejoin&quot;
-  [attr.stroke-width]&#x3D;&quot;config.stroke.width&quot;
-  [attr.stroke-opacity]&#x3D;&quot;config.stroke.opacity&quot;
-  [style.mix-blend-mode]&#x3D;&quot;config.mixBlendMode&quot;
-&gt;&lt;/svg:g&gt;
-&lt;svg:g #dot class&#x3D;&quot;dot-g&quot;&gt;&lt;/svg:g&gt;
-&lt;svg:g #markers class&#x3D;&quot;markers-g&quot;&gt;&lt;/svg:g&gt;
-&lt;svg:g #lineLabels class&#x3D;&quot;line-labels-g&quot;&gt;&lt;/svg:g&gt;
+        <pre class="line-numbers"><code class="language-html">
 </code></pre>
     </div>
 
     <div class="tab-pane fade " id="c-styleData">
                 <p class="comment">
-                    <code>./lines.component.scss</code>
+                    <code>./stacked-area.component.scss</code>
                 </p>
                 <pre class="line-numbers"><code class="language-scss"></code></pre>
     </div>
@@ -2454,10 +1759,10 @@ export class LinesComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><svg:g  #lines  class="lines-g"  fill="none"  [attr.stroke-linecap]="config.stroke.linecap"  [attr.stroke-linejoin]="config.stroke.linejoin"  [attr.stroke-width]="config.stroke.width"  [attr.stroke-opacity]="config.stroke.opacity"  [style.mix-blend-mode]="config.mixBlendMode"></svg:g><svg:g #dot class="dot-g"></svg:g><svg:g #markers class="markers-g"></svg:g><svg:g #lineLabels class="line-labels-g"></svg:g></div>'
+        var COMPONENT_TEMPLATE = '<div></div>'
     var COMPONENTS = [{'name': 'BarsComponent', 'selector': '[vic-data-marks-bars]'},{'name': 'ChartComponent', 'selector': 'vic-chart'},{'name': 'ContinuousLegendComponent', 'selector': 'vic-continuous-legend'},{'name': 'DiscontinuousLegendComponent', 'selector': 'vic-discontinuous-legend'},{'name': 'GeographiesComponent', 'selector': '[vic-data-marks-geographies]'},{'name': 'GroupedBarsComponent', 'selector': '[vic-data-marks-grouped-bars]'},{'name': 'LinesComponent', 'selector': '[vic-data-marks-lines]'},{'name': 'MapChartComponent', 'selector': 'vic-map-chart'},{'name': 'MapLegendComponent', 'selector': 'vic-map-legend'},{'name': 'StackedAreaComponent', 'selector': '[vic-data-marks-stacked-area]'},{'name': 'StackedBarsComponent', 'selector': '[vic-data-marks-stacked-bars]'},{'name': 'XOrdinalAxisComponent', 'selector': '[vic-x-ordinal-axis]'},{'name': 'XQuantitativeAxisComponent', 'selector': '[vic-x-quantitative-axis]'},{'name': 'XyBackgroundComponent', 'selector': '[vic-xy-background]'},{'name': 'XyChartComponent', 'selector': 'vic-xy-chart'},{'name': 'YOrdinalAxisComponent', 'selector': '[vic-y-ordinal-axis]'},{'name': 'YQuantitativeAxisComponent', 'selector': '[vic-y-quantitative-axis]'}];
     var DIRECTIVES = [{'name': 'ClickEventDirective', 'selector': ''},{'name': 'EventDirective', 'selector': ''},{'name': 'GeographiesHoverAndMoveEventDirective', 'selector': '[vicGeographiesHoverAndMoveEffects]'},{'name': 'GeographiesHoverEventDirective', 'selector': '[vicGeographiesHoverEffects]'},{'name': 'HoverAndMoveEventDirective', 'selector': ''},{'name': 'HoverEventDirective', 'selector': ''},{'name': 'HtmlTooltipDirective', 'selector': 'vic-html-tooltip'},{'name': 'InputEventDirective', 'selector': ''},{'name': 'LinesHoverAndMoveEventDirective', 'selector': '[vicLinesHoverAndMoveEffects]'},{'name': 'LinesHoverEventDirective', 'selector': '[vicLinesHoverEffects]'},{'name': 'LinesInputEventDirective', 'selector': '[vicLinesInputEffects]'},{'name': 'MapContent', 'selector': ''},{'name': 'MapLegendContent', 'selector': ''},{'name': 'Unsubscribe', 'selector': ''},{'name': 'XyAxis', 'selector': ''}];
-    var ACTUAL_COMPONENT = {'name': 'LinesComponent'};
+    var ACTUAL_COMPONENT = {'name': 'StackedAreaComponent'};
 </script>
 <script src="../js/tree.js"></script>
 
@@ -2503,7 +1808,7 @@ export class LinesComponent
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
-            var COMPODOC_CURRENT_PAGE_URL = 'LinesComponent.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'StackedAreaComponent.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

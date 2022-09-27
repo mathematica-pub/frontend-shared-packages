@@ -1,7 +1,7 @@
-from os import walk, popen, path, write
+from os import popen, path
 import re
 import yaml
-from bidict import bidict
+from typing import List
 
 
 def handleMatch(match: re.Match):
@@ -33,24 +33,36 @@ def runner(inputDirectory, outputDirectory):
             documentationStructure = yaml.safe_load(stream)
         except yaml.YAMLError as err:
             print(err)
-    inputFileMap = bidict()
-    for directory in documentationStructure.keys():
-        fullOutputDirectory = path.join(
-            outputDirectory, directory).replace("/", "\\")
-        popen(f'mkdir {fullOutputDirectory}').read()
-        for file in documentationStructure[directory].keys():
-            outputFileName = path.join(
-                fullOutputDirectory, f'{file}.html').replace("\\", "/")
-            inputFileName = path.join(
-                inputDirectory, documentationStructure[directory][file]).replace("\\", "/")
-            popen(f'cp {inputFileName} {outputFileName}')
-            inputFileMap[documentationStructure[directory]
-                         [file]] = f'{directory}/{file}.html'
 
-    print(*inputFileMap.inverse.keys(), sep="\n")
+    filesToParse = copy_files_from_dict(
+        outputDirectory, documentationStructure, inputDirectory, [])
+    print(*filesToParse, sep="\n")
 
-    for file in inputFileMap.inverse.keys():
+    for file in filesToParse:
         parse_file(file, outputDirectory)
+
+
+def copy_files_from_dict(partialPath: str, dict: dict, inputDirectory: str, filesToParse: List[str]):
+    """
+    Recursive fxn:
+    Base case: dict is a single key value pair, value is of type string
+        - copy over path + value from input string to output path + key
+    Otherwise: build up path 
+    """
+    for key in dict.keys():
+        if isinstance(dict[key], str):
+            outputFileName = path.join(
+                partialPath, f'{key}.html').replace("\\", "/")
+            inputFileName = path.join(
+                inputDirectory, dict[key]).replace("\\", "/")
+            popen(f'cp {inputFileName} {outputFileName}')
+            filesToParse.append(outputFileName)
+        else:
+            newPath = path.join(partialPath, key).replace("/", "\\")
+            popen(f'mkdir {newPath}').read()
+            filesToParse = copy_files_from_dict(
+                newPath, dict[key], inputDirectory, filesToParse)
+    return filesToParse
 
 
 if __name__ == "__main__":
