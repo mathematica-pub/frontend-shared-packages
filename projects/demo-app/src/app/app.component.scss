@@ -11,7 +11,7 @@
 .content {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   overflow: auto;
 }
 
@@ -21,6 +21,12 @@ $content-height: 100vh - $title-height;
 .content-element {
   overflow-y: scroll;
   flex: 1 1 auto;
+  height: $content-height;
+}
+
+.content-fixed-element {
+  overflow-y: scroll;
+  flex: 0 0 auto;
   height: $content-height;
 }
 

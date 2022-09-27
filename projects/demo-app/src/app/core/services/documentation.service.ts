@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { DocumentationType } from '../enums/documentation.enums';
+import { map, Observable } from 'rxjs';
+import { parse } from 'marked';
 
 @Injectable({
   providedIn: 'root',
@@ -13,15 +13,41 @@ export class DocumentationService {
 
   getDocumentation(name: string): Observable<string> {
     if (!this.docs[name]) {
-      this.docs[name] = this.getHtml(name);
+      if (name.startsWith('/documentation')) {
+        this.docs[name] = this.getFileText(name + '.html');
+      } else if (name === 'Overview.md') {
+        this.docs[name] = this.http
+          .get(name, {
+            responseType: 'text',
+          })
+          .pipe(map((text) => parse(text)));
+      } else {
+        this.docs[name] = this.http
+          .get(name, {
+            responseType: 'text',
+          })
+          .pipe(
+            map((text) => {
+              let selectedClass = 'language-typescript';
+              if (name.endsWith('html')) {
+                selectedClass = 'language-markup';
+                text = '<script type="prism-html-markup">' + text + '</script>';
+              } else if (name.endsWith('scss')) selectedClass = 'language-scss';
+              return (
+                `<pre class="line-numbers"><code class="${selectedClass}">` +
+                text +
+                '</code></pre>'
+              );
+            })
+          );
+      }
     }
     return this.docs[name];
   }
 
-  private getHtml(input: string): Observable<string> {
-    return this.http.get(
-      `assets/documentation/${input}ComponentDocumentation.html`,
-      { responseType: 'text' }
-    );
+  private getFileText(input: string): Observable<string> {
+    return this.http.get(`assets${input}`, {
+      responseType: 'text',
+    });
   }
 }
