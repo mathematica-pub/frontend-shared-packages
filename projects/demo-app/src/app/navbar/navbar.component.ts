@@ -25,12 +25,20 @@ export class NavbarComponent implements OnInit {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const yamlObject: any = parse(text);
           const categories = Object.keys(yamlObject);
-          return categories.map((category) => {
-            return {
-              name: category,
-              files: Object.keys(yamlObject[category]),
-            };
+          const selectedCategories = categories
+            .filter((category) => category != 'add-ons')
+            .map((category) => {
+              return {
+                name: category,
+                files: Object.keys(yamlObject[category]),
+              };
+            });
+          // add in add-ons
+          const addOns = categories['add-ons'];
+          addOns.array.forEach((element) => {
+            console.log(element);
           });
+          return selectedCategories;
         })
       );
   }
