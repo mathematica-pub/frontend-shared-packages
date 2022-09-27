@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StackedAreaExampleComponent } from './stacked-area-example.component';
@@ -8,7 +9,8 @@ describe('StackedAreaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [StackedAreaExampleComponent],
+      declarations: [StackedAreaComponent],
+      imports: [HttpClientModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(StackedAreaExampleComponent);
