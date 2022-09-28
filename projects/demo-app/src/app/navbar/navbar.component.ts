@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { IsActiveMatchOptions, Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { parse } from 'yaml';
 
@@ -14,7 +15,14 @@ export class NavbarComponent implements OnInit {
   examples = ['bars', 'stacked-area', 'lines', 'geographies'];
 
   private http = inject(HttpClient);
+  router = inject(Router);
 
+  matchOptions: IsActiveMatchOptions = {
+    paths: 'subset',
+    matrixParams: 'exact',
+    queryParams: 'ignored',
+    fragment: 'ignored',
+  };
   ngOnInit(): void {
     this.navbarConfig$ = this.http
       .get('assets/documentation/documentation-structure.yaml', {
@@ -24,21 +32,40 @@ export class NavbarComponent implements OnInit {
         map((text) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const yamlObject: any = parse(text);
-          const categories = Object.keys(yamlObject);
-          const selectedCategories = categories
-            .filter((category) => category != 'add-ons')
-            .map((category) => {
-              return {
-                name: category,
-                files: Object.keys(yamlObject[category]),
+          const addOns = Object.assign({}, yamlObject['add-ons']);
+          delete yamlObject['add-ons'];
+          delete yamlObject['library-internals'];
+          for (const category in yamlObject) {
+            // if (category == 'library-internals') continue;
+            for (const subcategory in yamlObject[category]) {
+              yamlObject[category][subcategory] = {
+                addOns: [],
               };
-            });
-          // add in add-ons
-          const addOns = categories['add-ons'];
-          addOns.array.forEach((element) => {
-            console.log(element);
-          });
-          return selectedCategories;
+            }
+          }
+          for (const category in addOns) {
+            for (const subcategory in addOns[category]) {
+              console.log(subcategory);
+              if (subcategory == 'all') {
+                for (const yamlSubcategory in yamlObject[category]) {
+                  const currentSubcategory =
+                    yamlObject[category][yamlSubcategory];
+                  yamlObject[category][yamlSubcategory].addOns = [
+                    ...currentSubcategory.addOns,
+                    ...Object.keys(addOns[category][subcategory]),
+                  ];
+                  console.log(yamlObject[category][yamlSubcategory]);
+                }
+              } else {
+                const currentSubcategory = yamlObject[category][subcategory];
+                yamlObject[category][subcategory].addOns = [
+                  ...currentSubcategory.addOns,
+                  ...Object.keys(addOns[category][subcategory]),
+                ];
+              }
+            }
+          }
+          return yamlObject;
         })
       );
   }
