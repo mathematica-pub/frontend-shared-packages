@@ -27,17 +27,14 @@
       >
         <p>{{$any(file.key) | undasherize | titlecase }}</p>
       </a>
-      <!-- more stuff goes here -->
-      <ng-container
-        *ngIf="router.isActive('/documentation/' + category.key + '/' + file.key, matchOptions)"
-      >
+      <ng-container *ngIf="expandLinks($any(category.key), $any(file.key))">
         <ng-container *ngFor=" let nestedFile of $any(file.value).addOns">
           <a
-            class="link-container"
-            [routerLink]="'/documentation/' + category.key + '/' + file.key + '/' + nestedFile"
+            class="nested-link-container"
+            [routerLink]="getLink($any(category.key), $any(file.key), $any(nestedFile))"
             routerLinkActive="active-link"
           >
-            <p>{{$any(nestedFile) | undasherize | titlecase}}</p>
+            <p>{{getFileName($any(nestedFile)) | undasherize | titlecase}}</p>
           </a>
         </ng-container>
       </ng-container>
