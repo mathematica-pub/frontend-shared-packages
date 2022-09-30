@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "AppName",
+    "ParameterValue": "vizcolib-package"
+  },
+  {
+    "ParameterKey": "GitHubOwner",
+    "ParameterValue": "tcoile"
+  }
+]

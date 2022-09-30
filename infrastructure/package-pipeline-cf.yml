@@ -1,0 +1,267 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Cloudformation for CI pipeline in AWS using Codepipeline and Code Build for viz components library
+
+Parameters:
+  AppName: 
+    Type: String
+  BranchName:
+    Description: GitHub branch name
+    Type: String
+    Default: main
+  GitHubOwner:
+    Type: String
+  RepositoryName:
+    Type: String
+    Default: shared-package-repository
+  ArtifactBucketName:
+    Type: String
+    Default: ""
+
+Conditions: 
+  NoArtifactBucketNameProvided: !Equals [!Ref ArtifactBucketName, ""]
+
+Resources:
+  GetPutArtifactBucketPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: !GetAtt ArtifactBucket.Arn
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+      PolicyName: GetPutSourceBucket
+      Roles:
+        - !Ref CodeBuildRole
+        - !Ref CodePipelineRole
+
+  ListBucketsPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: '*'
+          Action: 
+            - 's3:ListAllMyBuckets'
+            - 's3:ListStorageLensConfigurations'
+      PolicyName: ListBuckets
+      Roles:
+        - !Ref CodeBuildRole
+        - !Ref CodePipelineRole
+
+  WriteToCodeArtifactRepositoryPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: 
+            - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
+          Action: 
+            - "codeartifact:DescribeDomain"
+            - "codeartifact:DescribePackageVersion"
+            - "codeartifact:DescribeRepository"
+            - "codeartifact:GetAuthorizationToken"
+            - "codeartifact:GetDomainPermissionsPolicy"
+            - "codeartifact:GetPackageVersionAsset"
+            - "codeartifact:GetPackageVersionReadme"
+            - "codeartifact:GetRepositoryEndpoint"
+            - "codeartifact:GetRepositoryPermissionsPolicy"
+            - "codeartifact:ListPackageVersionAssets"
+            - "codeartifact:ListPackageVersionDependencies"
+            - "codeartifact:ListPackageVersions"
+            - "codeartifact:ListPackages"
+            - "codeartifact:ListRepositoriesInDomain"
+            - "codeartifact:ListTagsForResource"
+            - "codeartifact:PublishPackageVersion"
+            - "codeartifact:PutPackageMetadata"
+            - "codeartifact:ReadFromRepository"
+            - "codeartifact:TagResource"
+            - "codeartifact:UntagResource"
+      PolicyName: WriteToRepository
+      Roles:
+        - !Ref CodePipelineRole
+
+  LogStreamsPolicy: 
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: '*'
+          Action:
+            - 'logs:CreateLogGroup'
+            - 'logs:CreateLogStream'
+            - 'logs:GetLogEvents'
+            - 'logs:PutLogEvents'
+      PolicyName: LogStreams
+      Roles:
+        - !Ref CodeBuildRole
+
+  StartCodeBuildPolicy: 
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement: 
+          Effect: Allow
+          Resource: !Sub 
+                    - arn:aws:codebuild:${Region}:${AccountId}:project/${CodeBuild}
+                    - Region: !Ref 'AWS::Region'
+                      AccountId: !Ref 'AWS::AccountId'
+                      CodeBuild: !Ref CodeBuild
+          Action:
+            - 'codebuild:StartBuild'
+            - 'codebuild:BatchGetBuilds' 
+      PolicyName: StartCodeBuild
+      Roles: 
+        - !Ref CodePipelineRole
+
+  UseBearerTokenPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: '*'
+          Action: 
+            - "sts:GetServiceBearerToken"
+      PolicyName: UseBearerToken
+      Roles:
+        - !Ref CodeBuildRole
+
+  CodeBuildRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+      RoleName: !Join ["-", [ "MathRole", "CodeBuild", !Ref AppName ] ]
+
+  CodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codepipeline.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+      RoleName: !Join ["-", [ "MathRole", "CodePipeline", !Ref AppName ] ]
+
+  ArtifactBucket: 
+    Type: AWS::S3::Bucket
+    Properties: 
+      BucketName: !If [NoArtifactBucketNameProvided, !Join ["-", [!Ref AppName, "artifact-bucket"]], 
+        !Ref ArtifactBucketName]
+      AccessControl: Private
+      VersioningConfiguration:
+        Status: Enabled
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+    DeletionPolicy: Delete 
+
+  CodeBuild:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Cache:
+        Type: LOCAL
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+      Artifacts:
+        Type: CODEPIPELINE
+      Description: !Join [" ", ["code build for ", !Ref AppName] ] 
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+      Name: !Join ["-", ["codebuild", !Ref AppName ] ]
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      ArtifactStore:
+        Type: S3
+        Location: !If [NoArtifactBucketNameProvided, !Join ["-", [!Ref AppName, "artifact-bucket"]], 
+          !Ref ArtifactBucketName]
+      Name: !Join ["-", [ "pipeline", !Ref AppName] ]
+      RestartExecutionOnUpdate: false
+      RoleArn: !GetAtt CodePipelineRole.Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - ActionTypeId:
+                Category: Source
+                Owner: ThirdParty
+                Version: '1'
+                Provider: GitHub
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref RepositoryName
+                Branch: !Ref BranchName
+                OAuthToken: '{{resolve:secretsmanager:GithubWebHookSecret-YaPrYyldRYvJ:SecretString:githubToken}}' # check me 
+                PollForSourceChanges: false
+              Name: !Join ["-", ["source", "repo", !Ref AppName] ] 
+              OutputArtifacts:
+                - Name: !Join ["-", [ "source", "repo", "artifacts", !Ref AppName ] ]
+              RunOrder: 1
+        - Name: Build
+          Actions:
+            - ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Join ["-", ["codebuild", !Ref AppName ] ]
+                PrimarySource:  !Join ["-", [ "source", "repo", "artifacts", !Ref AppName ] ]
+              InputArtifacts:
+                - Name:  !Join ["-", [ "source", "repo", "artifacts", !Ref AppName ] ]
+              Name:  !Join ["-", [ "build", !Ref AppName ] ]
+              OutputArtifacts:
+                - Name:  !Join ["-", [ "output", "artifacts", !Ref AppName ] ]
+              RunOrder: 2
+  
+  # AppPipelineWebhook:
+  #   Type: AWS::CodePipeline::Webhook
+  #   Properties:
+  #     Authentication: GITHUB_HMAC
+  #     AuthenticationConfiguration:
+  #       SecretToken: '{{resolve:secretsmanager:GithubWebHookSecret-YaPrYyldRYvJ:SecretString:githubToken}}' # check me 
+  #     Filters:
+  #       - JsonPath: $.ref
+  #         MatchEquals: 'refs/heads/{Branch}'
+  #     TargetPipeline: !Ref CodePipeline
+  #     TargetAction: !Join ["-", ["source", "repo", !Ref AppName] ] 
+  #     Name: !Join ["-",  [AppPipelineWebhook, !Ref AppName]]
+  #     TargetPipelineVersion: !GetAtt CodePipeline.Version
+  #     RegisterWithThirdParty: true
