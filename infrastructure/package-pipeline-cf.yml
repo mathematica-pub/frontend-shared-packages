@@ -8,7 +8,7 @@ Parameters:
   BranchName:
     Description: GitHub branch name
     Type: String
-    Default: VIZCOLIB-87-package-codepipeline
+    Default: main
   GithubOwner:
     Type: String
   RepositoryName:
@@ -91,12 +91,17 @@ Resources:
               - "codeartifact:ListPackageVersionDependencies"
               - "codeartifact:ListPackageVersions"
               - "codeartifact:ListPackages"
-              - "codeartifact:PublishPackageVersion"
+              - "codeartifact:ListTagsForResource"
               - "codeartifact:PutPackageMetadata"
               - "codeartifact:ReadFromRepository"
-              - "codeartifact:ListTagsForResource"
               - "codeartifact:TagResource"
               - "codeartifact:UntagResource"
+          - Effect: Allow 
+            Resource: 
+              - arn:aws:codeartifact:us-east-1:922539530544:package/shared-package-domain/shared-package-repository/*/*/*
+            Action: 
+              - "codeartifact:PublishPackageVersion"
+
       PolicyName: WriteToRepository
       Roles:
         - !Ref CodeBuildRole
