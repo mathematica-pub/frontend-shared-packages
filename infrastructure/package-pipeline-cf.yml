@@ -164,7 +164,7 @@ Resources:
               Service:
                 - codebuild.amazonaws.com
             Action:
-              - 'sts:AssumeRole'
+              - sts:AssumeRole
       PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
       RoleName: !Join ["-", [ "MathRole", "CodeBuild", !Ref AppName ] ]
 
@@ -225,7 +225,7 @@ Resources:
   Release: 
     Type: AWS::CodeBuild::Project 
     Properties:
-      Cache: # look this up
+      Cache:
         Type: LOCAL
         Modes:
           - LOCAL_CUSTOM_CACHE
@@ -279,7 +279,6 @@ Resources:
                 Provider: CodeBuild
               Configuration:
                 ProjectName: !Ref TestAndBuild
-                PrimarySource:  !Sub "source-repo-artifacts-${AppName}"
               InputArtifacts:
                 - Name: !Sub "source-repo-artifacts-${AppName}"
               Name:  !Join ["-", [ "build", !Ref AppName ] ]
@@ -295,7 +294,6 @@ Resources:
                 Provider: CodeBuild
               Configuration:
                 ProjectName: !Ref Release
-                PrimarySource: !Sub "test-and-build-artifacts-${AppName}"
               InputArtifacts:
                 - Name: !Sub "test-and-build-artifacts-${AppName}"
               Name:  !Join ["-", [ "build", !Ref AppName ] ]

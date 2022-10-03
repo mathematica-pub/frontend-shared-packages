@@ -2,7 +2,7 @@ version: 0.2
 
 phases: 
   build: 
-    on-failure: ABORT
+    # on-failure: ABORT
     commands:
       - echo setting up npm with codeartifact
       # - npm run prepare --prefix projects/viz-components
