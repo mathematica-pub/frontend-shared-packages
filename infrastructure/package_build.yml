@@ -22,7 +22,6 @@ phases:
       - npm run test:lib:ci 
   build: 
     commands: 
-      - pwd
       - echo building library 
       - npm run build viz-components
       - echo building custom schematics 

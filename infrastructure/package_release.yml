@@ -8,6 +8,6 @@ phases:
       - aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @web-ast
       - echo publishing
       - unzip package.zip -d ./package 
-      - cd package 
+      - cd package/dist/viz-components
       - npm publish
       - echo Package Release Succeeded!

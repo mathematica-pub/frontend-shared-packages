@@ -69,33 +69,37 @@ Resources:
       PolicyDocument:
         Version: 2012-10-17
         Statement:
-          Effect: Allow
-          Resource: 
-            - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
-          Action: 
-            - "codeartifact:DescribeDomain"
-            - "codeartifact:DescribePackageVersion"
-            - "codeartifact:DescribeRepository"
-            - "codeartifact:GetAuthorizationToken"
-            - "codeartifact:GetDomainPermissionsPolicy"
-            - "codeartifact:GetPackageVersionAsset"
-            - "codeartifact:GetPackageVersionReadme"
-            - "codeartifact:GetRepositoryEndpoint"
-            - "codeartifact:GetRepositoryPermissionsPolicy"
-            - "codeartifact:ListPackageVersionAssets"
-            - "codeartifact:ListPackageVersionDependencies"
-            - "codeartifact:ListPackageVersions"
-            - "codeartifact:ListPackages"
-            - "codeartifact:ListRepositoriesInDomain"
-            - "codeartifact:ListTagsForResource"
-            - "codeartifact:PublishPackageVersion"
-            - "codeartifact:PutPackageMetadata"
-            - "codeartifact:ReadFromRepository"
-            - "codeartifact:TagResource"
-            - "codeartifact:UntagResource"
+          - Effect: Allow
+            Resource: 
+              - arn:aws:codeartifact:us-east-1:922539530544:domain/shared-package-domain
+            Action: 
+              - "codeartifact:DescribeDomain"
+              - "codeartifact:DescribePackageVersion"
+              - "codeartifact:GetAuthorizationToken"
+              - "codeartifact:GetDomainPermissionsPolicy"
+              - "codeartifact:ListRepositoriesInDomain"
+          - Effect: Allow
+            Resource: 
+              - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
+            Action: 
+              - "codeartifact:DescribeRepository"
+              - "codeartifact:GetPackageVersionAsset"
+              - "codeartifact:GetPackageVersionReadme"
+              - "codeartifact:GetRepositoryEndpoint"
+              - "codeartifact:GetRepositoryPermissionsPolicy"
+              - "codeartifact:ListPackageVersionAssets"
+              - "codeartifact:ListPackageVersionDependencies"
+              - "codeartifact:ListPackageVersions"
+              - "codeartifact:ListPackages"
+              - "codeartifact:PublishPackageVersion"
+              - "codeartifact:PutPackageMetadata"
+              - "codeartifact:ReadFromRepository"
+              - "codeartifact:ListTagsForResource"
+              - "codeartifact:TagResource"
+              - "codeartifact:UntagResource"
       PolicyName: WriteToRepository
       Roles:
-        - !Ref CodePipelineRole
+        - !Ref CodeBuildRole
 
   LogStreamsPolicy: 
     Type: AWS::IAM::Policy
@@ -215,7 +219,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
       Name: !Join ["-", ["test-and-build", !Ref AppName ] ]
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
@@ -235,7 +239,7 @@ Resources:
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
-        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
       Name: !Join ["-", ["codebuild-release", !Ref AppName ] ]
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
