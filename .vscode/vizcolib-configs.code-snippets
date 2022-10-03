@@ -34,7 +34,6 @@
             "\tpositivePaddingForAllNegativeValues: 0.2,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
             "\t//ordinal.valueAccessor: (d, i) => i,",
             "\t//quantitative.valueAccessor: (d) => d,",
             "\t//quantitative.scaleType: scaleLinear,",
@@ -156,7 +155,6 @@
             "{",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
             "}"
         ]
     },
@@ -181,11 +179,10 @@
             "{",
             "\t// boundary: any,",
             "\tprojection: geoAlbersUsa(),",
-            "\t// noDataGeographies: NoDataGeographyConfig[],",
-            "\t// dataGeography: DataGeographyConfig,",
+            "\t// noDataGeographiesConfigs: NoDataGeographyConfig[],",
+            "\t// dataGeographyConfig: DataGeographyConfig,",
             "\tdata: [],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
             "}"
         ]
     },
@@ -319,6 +316,7 @@
         ],
         "body": [
             "{",
+            "\t// override domain: never,",
             "\t// geoAccessor: (d: any) => any,",
             "\tvalueType: 'quantitative',",
             "\tbinType: 'equal num observations',",
@@ -375,12 +373,56 @@
             "\tpositivePaddingForAllNegativeValues: 0.2,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
             "\t//ordinal.valueAccessor: (d, i) => i,",
             "\t//quantitative.valueAccessor: (d) => d,",
             "\t//quantitative.scaleType: scaleLinear,",
             "\t//category.valueAccessor: (d) => d,",
             "\t//category.colors: ['lightslategray'],",
+            "}"
+        ]
+    },
+    "FullHtmlTooltipConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullHtmlTooltipConfig"
+        ],
+        "body": [
+            "{",
+            "\t// show: boolean,",
+            "\tposition: new HtmlTooltipDefaultPosition(),",
+            "\tsize: new HtmlTooltipSize(),",
+            "\tdisableEventsOnTooltip: true,",
+            "\t// panelClass: string | string[],",
+            "\t// origin: ElementRef,",
+            "}"
+        ]
+    },
+    "FullHtmlTooltipDefaultPosition": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullHtmlTooltipDefaultPosition"
+        ],
+        "body": [
+            "{",
+            "\toriginX: 'start',",
+            "\toriginY: 'top',",
+            "\toverlayX: 'center',",
+            "\toverlayY: 'bottom',",
+            "\t// weight: number,",
+            "\t// offsetX: number,",
+            "\t// offsetY: number,",
+            "\t// panelClass: string | string[],",
+            "}"
+        ]
+    },
+    "FullLinesHoverAndMoveEffectDefaultStylesConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullLinesHoverAndMoveEffectDefaultStylesConfig"
+        ],
+        "body": [
+            "{",
+            "\tgrowMarkerDimension: 2,",
             "}"
         ]
     },
@@ -399,11 +441,9 @@
             "\tpointMarker: new PointMarkerConfig(),",
             "\tstroke: new LinesStrokeConfig(),",
             "\t// labelLines: boolean,",
-            "\t// override tooltip: LinesTooltipConfig,",
             "\t// lineLabelsFormat: (d: string) => string,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new LinesTooltipConfig(),",
             "\t//x.valueAccessor: ([x]) => x,",
             "\t//x.scaleType: scaleUtc,",
             "\t//y.valueAccessor: ([, y]) => y,",
@@ -514,7 +554,6 @@
             "\t// categoryOrder: string[],",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
             "\t//x.valueAccessor: ([x]) => x,",
             "\t//x.scaleType: scaleUtc,",
             "\t//y.valueAccessor: ([, y]) => y,",
@@ -541,7 +580,6 @@
             "\tpositivePaddingForAllNegativeValues: 0.2,",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
-            "\ttooltip: new TooltipConfig(),",
             "\t//ordinal.valueAccessor: (d, i) => i,",
             "\t//quantitative.valueAccessor: (d) => d,",
             "\t//quantitative.scaleType: scaleLinear,",
