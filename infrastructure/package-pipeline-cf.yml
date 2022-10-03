@@ -8,15 +8,22 @@ Parameters:
   BranchName:
     Description: GitHub branch name
     Type: String
-    Default: main
-  GitHubOwner:
+    Default: VIZCOLIB-87-package-codepipeline
+  GithubOwner:
     Type: String
   RepositoryName:
     Type: String
-    Default: shared-package-repository
+  GithubSecret:
+    Type: String
   ArtifactBucketName:
     Type: String
     Default: ""
+  TestAndBuildSpecLocation: 
+    Type: String 
+    Default: infrastructure/package_build.yml
+  ReleaseSpecLocation:
+    Type: String 
+    Default: infrastructure/package_release.yml
 
 Conditions: 
   NoArtifactBucketNameProvided: !Equals [!Ref ArtifactBucketName, ""]
@@ -29,7 +36,9 @@ Resources:
         Version: 2012-10-17
         Statement:
           Effect: Allow
-          Resource: !GetAtt ArtifactBucket.Arn
+          Resource: !Sub 
+            - '${ArtifactArn}/*'
+            - ArtifactArn: !GetAtt ArtifactBucket.Arn
           Action:
             - 's3:GetObject'
             - 's3:PutObject'
@@ -112,11 +121,17 @@ Resources:
         Version: 2012-10-17
         Statement: 
           Effect: Allow
-          Resource: !Sub 
-                    - arn:aws:codebuild:${Region}:${AccountId}:project/${CodeBuild}
-                    - Region: !Ref 'AWS::Region'
-                      AccountId: !Ref 'AWS::AccountId'
-                      CodeBuild: !Ref CodeBuild
+          Resource: 
+            - !Sub 
+              - arn:aws:codebuild:${Region}:${AccountId}:project/${CodeBuild}
+              - Region: !Ref 'AWS::Region'
+                AccountId: !Ref 'AWS::AccountId'
+                CodeBuild: !Ref TestAndBuild
+            - !Sub 
+              - arn:aws:codebuild:${Region}:${AccountId}:project/${CodeBuild}
+              - Region: !Ref 'AWS::Region'
+                AccountId: !Ref 'AWS::AccountId'
+                CodeBuild: !Ref Release
           Action:
             - 'codebuild:StartBuild'
             - 'codebuild:BatchGetBuilds' 
@@ -187,7 +202,7 @@ Resources:
         RestrictPublicBuckets: true
     DeletionPolicy: Delete 
 
-  CodeBuild:
+  TestAndBuild:
     Type: AWS::CodeBuild::Project
     Properties:
       Cache:
@@ -196,16 +211,37 @@ Resources:
           - LOCAL_CUSTOM_CACHE
       Artifacts:
         Type: CODEPIPELINE
-      Description: !Join [" ", ["code build for ", !Ref AppName] ] 
+      Description: !Join [" ", ["code build and test for ", !Ref AppName] ] 
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
-      Name: !Join ["-", ["codebuild", !Ref AppName ] ]
+      Name: !Join ["-", ["test-and-build", !Ref AppName ] ]
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
         Type: CODEPIPELINE
-        
+        BuildSpec: !Ref TestAndBuildSpecLocation
+  
+  Release: 
+    Type: AWS::CodeBuild::Project 
+    Properties:
+      Cache: # look this up
+        Type: LOCAL
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+      Artifacts:
+        Type: CODEPIPELINE 
+      Description: !Join [" ", ["package release for ", !Ref AppName] ] 
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:3.0'
+      Name: !Join ["-", ["codebuild-release", !Ref AppName ] ]
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: !Ref ReleaseSpecLocation 
+   
   CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -214,7 +250,7 @@ Resources:
         Location: !If [NoArtifactBucketNameProvided, !Join ["-", [!Ref AppName, "artifact-bucket"]], 
           !Ref ArtifactBucketName]
       Name: !Join ["-", [ "pipeline", !Ref AppName] ]
-      RestartExecutionOnUpdate: false
+      RestartExecutionOnUpdate: true
       RoleArn: !GetAtt CodePipelineRole.Arn
       Stages:
         - Name: Source
@@ -225,16 +261,16 @@ Resources:
                 Version: '1'
                 Provider: GitHub
               Configuration:
-                Owner: !Ref GitHubOwner
+                Owner: !Ref GithubOwner
                 Repo: !Ref RepositoryName
                 Branch: !Ref BranchName
-                OAuthToken: '{{resolve:secretsmanager:GithubWebHookSecret-YaPrYyldRYvJ:SecretString:githubToken}}' # check me 
+                OAuthToken: !Sub '{{resolve:secretsmanager:${GithubSecret}:SecretString:token}}'
                 PollForSourceChanges: false
               Name: !Join ["-", ["source", "repo", !Ref AppName] ] 
               OutputArtifacts:
-                - Name: !Join ["-", [ "source", "repo", "artifacts", !Ref AppName ] ]
+                - Name: !Sub "source-repo-artifacts-${AppName}"
               RunOrder: 1
-        - Name: Build
+        - Name: TestAndBuild
           Actions:
             - ActionTypeId:
                 Category: Build
@@ -242,26 +278,42 @@ Resources:
                 Version: '1'
                 Provider: CodeBuild
               Configuration:
-                ProjectName: !Join ["-", ["codebuild", !Ref AppName ] ]
-                PrimarySource:  !Join ["-", [ "source", "repo", "artifacts", !Ref AppName ] ]
+                ProjectName: !Ref TestAndBuild
+                PrimarySource:  !Sub "source-repo-artifacts-${AppName}"
               InputArtifacts:
-                - Name:  !Join ["-", [ "source", "repo", "artifacts", !Ref AppName ] ]
+                - Name: !Sub "source-repo-artifacts-${AppName}"
               Name:  !Join ["-", [ "build", !Ref AppName ] ]
               OutputArtifacts:
-                - Name:  !Join ["-", [ "output", "artifacts", !Ref AppName ] ]
+                - Name:  !Sub "test-and-build-artifacts-${AppName}"
               RunOrder: 2
-  
-  # AppPipelineWebhook:
-  #   Type: AWS::CodePipeline::Webhook
-  #   Properties:
-  #     Authentication: GITHUB_HMAC
-  #     AuthenticationConfiguration:
-  #       SecretToken: '{{resolve:secretsmanager:GithubWebHookSecret-YaPrYyldRYvJ:SecretString:githubToken}}' # check me 
-  #     Filters:
-  #       - JsonPath: $.ref
-  #         MatchEquals: 'refs/heads/{Branch}'
-  #     TargetPipeline: !Ref CodePipeline
-  #     TargetAction: !Join ["-", ["source", "repo", !Ref AppName] ] 
-  #     Name: !Join ["-",  [AppPipelineWebhook, !Ref AppName]]
-  #     TargetPipelineVersion: !GetAtt CodePipeline.Version
-  #     RegisterWithThirdParty: true
+        - Name: Release
+          Actions:
+            - ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref Release
+                PrimarySource: !Sub "test-and-build-artifacts-${AppName}"
+              InputArtifacts:
+                - Name: !Sub "test-and-build-artifacts-${AppName}"
+              Name:  !Join ["-", [ "build", !Ref AppName ] ]
+              OutputArtifacts:
+                - Name:   !Sub "release-artifacts-${AppName}"
+              RunOrder: 3
+
+  AppPipelineWebhook:
+    Type: AWS::CodePipeline::Webhook
+    Properties:
+      Authentication: GITHUB_HMAC
+      AuthenticationConfiguration:
+        SecretToken: !Sub '{{resolve:secretsmanager:${GithubSecret}:SecretString:token}}'
+      Filters:
+        - JsonPath: $.ref
+          MatchEquals: 'refs/heads/{Branch}'
+      TargetPipeline: !Ref CodePipeline
+      TargetAction: !Join ["-", ["source", "repo", !Ref AppName] ] 
+      Name: !Join ["-",  [AppPipelineWebhook, !Ref AppName]]
+      TargetPipelineVersion: !GetAtt CodePipeline.Version
+      RegisterWithThirdParty: true

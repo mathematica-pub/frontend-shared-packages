@@ -1,0 +1,13 @@
+version: 0.2 
+
+phases: 
+  build: 
+    on-failure: ABORT
+    commands:
+      - echo setting up npm with codeartifact
+      # - npm run prepare --prefix projects/viz-components
+      # - echo publishing
+      # - unzip package.zip -d ./package 
+      # - cd package 
+      # - npm publish
+      - echo Package Release Succeeded!
