@@ -293,10 +293,21 @@ Resources:
               Name:  !Join ["-", [ "build", !Ref AppName ] ]
               OutputArtifacts:
                 - Name:  !Sub "test-and-build-artifacts-${AppName}"
-              RunOrder: 2
+              RunOrder: 1
         - Name: Release
           Actions:
-            - ActionTypeId:
+            - Name: Approval To Publish
+              RunOrder: 1 
+              InputArtifacts: []
+              OutputArtifacts: []
+              ActionTypeId: 
+                Category: Approval
+                Owner: AWS
+                Version: 1
+                Provider: Manual 
+              
+            - Name: Publish 
+              ActionTypeId:
                 Category: Build
                 Owner: AWS
                 Version: '1'
@@ -305,10 +316,9 @@ Resources:
                 ProjectName: !Ref Release
               InputArtifacts:
                 - Name: !Sub "test-and-build-artifacts-${AppName}"
-              Name:  !Join ["-", [ "build", !Ref AppName ] ]
               OutputArtifacts:
                 - Name:   !Sub "release-artifacts-${AppName}"
-              RunOrder: 3
+              RunOrder: 2
 
   AppPipelineWebhook:
     Type: AWS::CodePipeline::Webhook
