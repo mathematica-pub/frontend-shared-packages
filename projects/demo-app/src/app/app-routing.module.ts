@@ -1,44 +1,75 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
+import { ComponentDocumentationComponent } from './shared/component-documentation/component-documentation.component';
+import { RenderFileComponent } from './shared/render-file/render-file.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/start',
+    redirectTo: '/overview',
     pathMatch: 'full',
   },
   {
-    path: 'start',
-    loadChildren: () =>
-      import('./start/start.module').then((m) => m.StartModule),
+    path: 'overview',
+    component: RenderFileComponent,
   },
   {
-    path: 'bars',
-    loadChildren: () => import('./bars/bars.module').then((m) => m.BarsModule),
+    path: 'examples',
+    children: [
+      {
+        path: 'bars',
+        loadChildren: () =>
+          import('./bars-example/bars-example.module').then(
+            (m) => m.BarsModule
+          ),
+      },
+      {
+        path: 'lines',
+        loadChildren: () =>
+          import('./lines-example/lines-example.module').then(
+            (m) => m.LinesModule
+          ),
+      },
+      {
+        path: 'stacked-area',
+        loadChildren: () =>
+          import('./stacked-area-example/stacked-area-example.module').then(
+            (m) => m.StackedAreaModule
+          ),
+      },
+      {
+        path: 'geographies',
+        loadChildren: () =>
+          import('./geographies-example/geographies-example.module').then(
+            (m) => m.GeographiesExampleModule
+          ),
+      },
+    ],
   },
   {
-    path: 'lines',
-    loadChildren: () =>
-      import('./lines/lines.module').then((m) => m.LinesModule),
+    path: 'documentation',
+    children: [
+      {
+        path: '**',
+        component: ComponentDocumentationComponent,
+      },
+    ],
   },
   {
-    path: 'geographies',
-    loadChildren: () =>
-      import('./geographies-example/geographies-example.module').then(
-        (m) => m.GeographiesExampleModule
-      ),
-  },
-  {
-    path: 'stacked-area',
-    loadChildren: () =>
-      import('./stacked-area/stacked-area.module').then(
-        (m) => m.StackedAreaModule
-      ),
+    path: '**',
+    redirectTo: '/overview',
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
   exports: [RouterModule],
+  providers: [
+    {
+      provide: RouteReuseStrategy,
+      useClass: CustomRouteReuseStrategy,
+    },
+  ],
 })
 export class AppRoutingModule {}

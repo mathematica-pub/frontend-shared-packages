@@ -1,19 +1,41 @@
 @import 'vars', 'placeholders';
 
-:host {
+.component-demo {
   display: flex;
   flex-direction: column;
   width: 100%;
   padding: $grid-8 $grid-8 0 $grid-8;
-}
 
-.title {
-  @extend %typography-headline-5;
-  padding-bottom: $grid-4;
-}
+  .file-select-bar {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    
+  }
 
-.demo-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  .title {
+    @extend %typography-headline-5;
+    padding-bottom: $grid-4;
+  }
+
+  .demo-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .selected {
+    background-color: $color-primary-6;
+  }
+
+  .radio-input-label {
+    padding: $grid-2 $grid-10 $grid-1 $grid-2;
+    border-bottom: $grid-1 solid $color-primary-6;
+  }
+
+  .radio-input-label:hover {
+    color: $color-highlight;
+    transition: all 200ms;
+  }
 }
