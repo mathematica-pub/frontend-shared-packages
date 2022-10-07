@@ -57,3 +57,4 @@ export * from './lib/xy-background/xy-background.component';
 export * from './lib/xy-background/xy-background.module';
 export * from './lib/xy-chart/xy-chart.component';
 export * from './lib/xy-chart/xy-chart.module';
+export * from './lib/core/services/export-data.service';
