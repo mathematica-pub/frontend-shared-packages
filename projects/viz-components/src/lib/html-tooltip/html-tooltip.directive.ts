@@ -12,6 +12,7 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
   TemplateRef,
@@ -28,7 +29,7 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class HtmlTooltipDirective implements OnInit, OnChanges {
+export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   @Input() template: TemplateRef<unknown>;
   @Input() config: HtmlTooltipConfig;
   overlayRef: OverlayRef;
@@ -82,6 +83,10 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
     ) {
       this.updateClasses();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroyOverlay();
   }
 
   setOverlayParameters(): void {
@@ -146,5 +151,9 @@ export class HtmlTooltipDirective implements OnInit, OnChanges {
 
   hide(): void {
     this.overlayRef.detach();
+  }
+
+  destroyOverlay(): void {
+    this.overlayRef.dispose();
   }
 }
