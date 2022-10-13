@@ -1,28 +1,44 @@
 @import 'vars', 'placeholders';
 
+:host {
+  width: 250px;
+}
+
 .nav-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex: 1 1 0%;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
   padding: $grid-2 $grid-4;
   font-size: 16px;
   z-index: 3;
   position: sticky;
   top: 0px;
-  background: $color-white;
-  border-bottom: 1px solid $color-primary-7;
+  border-right: 1px solid $color-primary-7;
+}
+
+.link-container {
+  padding-left: $grid-2;
+}
+
+.active-link {
+  background-color: $color-primary-6;
 }
 
 .link-container:hover {
-  .title {
-    color: $color-highlight;
-  }
+  color: $color-highlight;
+  transition: all 200ms;
 }
 
-.title {
-  @extend %typography-headline-2;
-  transition: all 200ms;
+h2 {
+  margin-top: $grid-3;
+  margin-bottom: $grid-1;
+  font-weight: $font-weight-medium;
+  font-size: 17px;
+}
+
+h3 {
+  margin-top: $grid-1;
+  margin-bottom: $grid-1;
+  font-weight: $font-weight-medium;
+  font-size: 14px;
 }

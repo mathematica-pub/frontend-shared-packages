@@ -74,7 +74,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/demo-app/src/favicon.ico",
-              "projects/demo-app/src/assets"
+              "projects/demo-app/src/assets",
+              "projects/demo-app/src"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
@@ -91,7 +92,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
