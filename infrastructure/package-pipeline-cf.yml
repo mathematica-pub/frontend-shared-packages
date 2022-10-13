@@ -8,7 +8,7 @@ Parameters:
   BranchName:
     Description: GitHub branch name
     Type: String
-    Default: main
+    Default: VIZCOLIB-87-package-codepipeline
   GithubOwner:
     Type: String
   RepositoryName:
@@ -20,10 +20,10 @@ Parameters:
     Default: ""
   TestAndBuildSpecLocation: 
     Type: String 
-    Default: infrastructure/package_build.yml
+    Default: buildspecs/package_build.yml
   ReleaseSpecLocation:
     Type: String 
-    Default: infrastructure/package_release.yml
+    Default: buildspecs/package_release.yml
 
 Conditions: 
   NoArtifactBucketNameProvided: !Equals [!Ref ArtifactBucketName, ""]

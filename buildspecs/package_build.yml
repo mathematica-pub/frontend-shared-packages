@@ -9,10 +9,6 @@ phases:
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm  > /dev/null 2>&1
       - yum install ./google-chrome-stable_current_x86_64.rpm -y  > /dev/null 2>&1
       - npm install -g npm@latest
-      - npm --version
-      - node --version
-      - echo "Installing Angular CLI"
-      - npm install -g @angular/cli
   pre_build:
     commands:
       - npm ci 
@@ -20,6 +16,8 @@ phases:
       - npm run lint 
       - echo unit tests 
       - npm run test:lib:ci 
+      - mkdir test-artifacts
+      - cp test-results.xml ./test-artifacts/test-results.xml
   build: 
     commands: 
       - echo building library 
@@ -41,4 +39,5 @@ artifacts:
   files: 
     - 'package.zip'
     - 'package.json'
-    - 'infrastructure/package_release.yml'
+    - 'buildspecs/package_release.yml'
+    - 'test-artifacts/test-results.xml'
