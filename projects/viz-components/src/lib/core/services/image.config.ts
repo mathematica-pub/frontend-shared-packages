@@ -5,6 +5,12 @@ export class ImageServiceConfig {
   containerNode: HTMLElement;
   fileName: string;
   imageType: string;
+  /**
+   * Disables external fonts from being read in
+   * Supply with custom css fallback; or set to undefined to read external fonts
+   * (will oftentimes get security errors)
+   */
+  fontEmbedCSS = '';
   backgroundColor = '#fff';
   quality = 1;
 }
