@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import {
-  AfterViewInit,
   Component,
   inject,
   NgZone,
@@ -12,6 +11,7 @@ import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { Observable, switchMap, takeUntil } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
+import { ComponentDemoResource } from './component-demo.resource';
 
 @Component({
   selector: 'app-component-demo',
@@ -20,17 +20,15 @@ import { DocumentationService } from '../../core/services/documentation.service'
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDemoComponent
-  extends Unsubscribe
-  implements OnInit, AfterViewInit
-{
-  private router = inject(Router);
-  private http = inject(HttpClient);
-  private documentationService = inject(DocumentationService);
-  private zone = inject(NgZone);
+export class ComponentDemoComponent extends Unsubscribe implements OnInit {
   controlPanel: FormGroup;
   fileList: string[];
   fileData$: Observable<string>;
+  private documentationService = inject(DocumentationService);
+  private router = inject(Router);
+  private http = inject(HttpClient);
+  private zone = inject(NgZone);
+  private resource = inject(ComponentDemoResource);
 
   ngOnInit(): void {
     this.setFileList(this.router.url.replace('/examples/', ''));
@@ -46,10 +44,6 @@ export class ComponentDemoComponent
     );
   }
 
-  ngAfterViewInit(): void {
-    this.controlPanel.controls['selectedFile'].setValue(this.fileList[0]);
-  }
-
   setFileList(baseString: string): void {
     const baseName = `app/${baseString}-example`;
     const baseSourceUrl = `${baseName}/${baseString}-example.component`;
@@ -59,15 +53,22 @@ export class ComponentDemoComponent
       `${baseSourceUrl}.scss`,
     ];
 
-    this.http
-      .get(`${baseName}/include-files.txt`, {
-        responseType: 'text',
-      })
+    this.resource
+      .getDemoText(baseName)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((text) => {
-        const lines = text.split('\n');
-        lines.forEach((line) => this.fileList.push(`${baseName}/${line}`));
+        this.parseText(text, baseName);
+        this.initFormValue();
       });
+  }
+
+  parseText(text: string, baseName: string): void {
+    const lines = text.split('\n');
+    lines.forEach((line) => this.fileList.push(`${baseName}/${line}`));
+  }
+
+  initFormValue(): void {
+    this.controlPanel.controls['selectedFile'].setValue(this.fileList[0]);
   }
 
   getFileDisplayName(fullFilePath: string): string {
