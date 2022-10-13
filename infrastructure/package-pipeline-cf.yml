@@ -296,7 +296,7 @@ Resources:
               RunOrder: 1
         - Name: Release
           Actions:
-            - Name: Approval To Publish
+            - Name: Approval_to_publish
               RunOrder: 1 
               InputArtifacts: []
               OutputArtifacts: []
