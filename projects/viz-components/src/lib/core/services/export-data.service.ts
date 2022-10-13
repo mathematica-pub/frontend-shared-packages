@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { unparse } from 'papaparse';
 import { saveAs } from 'file-saver';
-import { timeFormat } from 'd3-time-format';
-import { DateFormat } from '../constants/date-formatting.constants';
+import {
+  valueFormat,
+  formatValue,
+} from '../constants/string-formatting.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +14,12 @@ export class ExportDataService {
     data: unknown[],
     name: string,
     dateFields: string[] = [],
-    dateFormat = DateFormat.day
+    dateFormat = valueFormat.monthYear()
   ): void {
     if (dateFields.length > 0) {
       data = data.map((element) => {
         dateFields.forEach((field) => {
-          element[field] = timeFormat(dateFormat)(element[field]);
+          element[field] = formatValue(element[field], dateFormat);
         });
         return element;
       });

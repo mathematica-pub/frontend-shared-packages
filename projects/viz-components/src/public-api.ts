@@ -27,7 +27,7 @@ export * from './lib/events/event';
 export * from './lib/events/hover-event';
 export * from './lib/events/hover-move-event';
 export * from './lib/events/input-event';
-export * from './lib/format/format';
+export * from './lib/core/constants/string-formatting.constants';
 export * from './lib/geographies/geographies.component';
 export * from './lib/geographies/geographies.config';
 export * from './lib/geographies/geographies.module';
