@@ -1,17 +1,15 @@
-import { HttpClient } from '@angular/common/http';
 import {
   Component,
   inject,
-  NgZone,
+  Input,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { Observable, switchMap, takeUntil } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
-import { ComponentDemoResource } from './component-demo.resource';
 
 @Component({
   selector: 'app-component-demo',
@@ -21,14 +19,12 @@ import { ComponentDemoResource } from './component-demo.resource';
   encapsulation: ViewEncapsulation.None,
 })
 export class ComponentDemoComponent extends Unsubscribe implements OnInit {
+  @Input() includeFiles: string[];
   controlPanel: FormGroup;
   fileList: string[];
   fileData$: Observable<string>;
   private documentationService = inject(DocumentationService);
   private router = inject(Router);
-  private http = inject(HttpClient);
-  private zone = inject(NgZone);
-  private resource = inject(ComponentDemoResource);
 
   ngOnInit(): void {
     this.setFileList(this.router.url.replace('/examples/', ''));
@@ -42,6 +38,9 @@ export class ComponentDemoComponent extends Unsubscribe implements OnInit {
         this.documentationService.getDocumentation(fileName)
       )
     );
+    setTimeout(() => {
+      this.initFormValue();
+    });
   }
 
   setFileList(baseString: string): void {
@@ -52,19 +51,11 @@ export class ComponentDemoComponent extends Unsubscribe implements OnInit {
       `${baseSourceUrl}.html`,
       `${baseSourceUrl}.scss`,
     ];
-
-    this.resource
-      .getDemoText(baseName)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((text) => {
-        this.parseText(text, baseName);
-        this.initFormValue();
-      });
-  }
-
-  parseText(text: string, baseName: string): void {
-    const lines = text.split('\n');
-    lines.forEach((line) => this.fileList.push(`${baseName}/${line}`));
+    if (this.includeFiles !== undefined) {
+      this.includeFiles.forEach((fileName) =>
+        this.fileList.push(`${baseName}/${fileName}`)
+      );
+    }
   }
 
   initFormValue(): void {
