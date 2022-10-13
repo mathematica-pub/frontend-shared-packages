@@ -248,6 +248,36 @@ describe('GeographiesComponent', () => {
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([0, 15]);
       });
+      it('sets the number of bins to the correct number if value formatter indicates integer values and user numBins is greater than number of values in domain', () => {
+        component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
+        component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
+          '.0f';
+        component.values.attributeDataValues = [0, 0, 1.2, 3.2];
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.numBins
+        ).toEqual(4);
+      });
+      it('sets the domains to the correct values if value formatter indicates integer values and user numBins is greater than number of values in domain', () => {
+        component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
+        component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
+          '.0f';
+        component.values.attributeDataValues = [0, 0, 1.2, 3.2];
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.domain
+        ).toEqual([0, 4]);
+      });
+      it('does not change user numBins if value format is not integer type', () => {
+        component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
+        component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
+          '.0%';
+        component.values.attributeDataValues = [0, 1, 2, 3, 4];
+        component.initAttributeDataScaleDomain();
+        expect(
+          component.config.dataGeographyConfig.attributeDataConfig.numBins
+        ).toEqual(10);
+      });
     });
     describe('quantitative attribute data: custom breaks', () => {
       beforeEach(() => {
