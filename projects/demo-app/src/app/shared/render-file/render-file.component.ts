@@ -60,23 +60,4 @@ export class RenderFileComponent
       this.highlightService.highlightAll();
     }, 0);
   }
-
-  // createOrUpdateSubscription(): void {
-  //   let path = this.filePath;
-  //   if (this.filePath === undefined) {
-  //     path = 'Overview.md';
-  //   }
-  //   if (this.currentSubscription$ !== undefined) {
-  //     this.currentSubscription$.unsubscribe();
-  //   }
-  //   this.currentSubscription$ = this.documentationService
-  //     .getDocumentation(path)
-  //     .subscribe((data: string) => {
-  //       this.sanitizedDocumentation =
-  //         this.sanitizer.bypassSecurityTrustHtml(data);
-  //       setTimeout(() => {
-  //         this.highlightService.highlightAll();
-  //       }, 0);
-  //     });
-  // }
 }

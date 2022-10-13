@@ -1,17 +1,59 @@
 ---
-data-marks-components:
-  bars: 'components/BarsComponent.html'
-  stacked-bars: 'components/StackedBarsComponent.html'
-  lines: 'components/LinesComponent.html'
 chart-components:
   chart: 'components/ChartComponent.html'
   map-chart: 'components/MapChartComponent.html'
-auxilliary-components:
-  continuous-legend: 'components/ContinuousLegendComponent.html'
-  map-legend: 'components/MapLegendComponent.html'
-element-directives:
-  map-content: 'directives/MapContent.html'
-  xy-axis: 'directives/XyAxis.html'
-attribute-directives:
-  click-event: 'directives/ClickEventDirective.html'
-  hover-and-move: 'directives/HoverAndMoveEventDirective.html'
+  xy-chart: 'components/XyChartComponent.html'
+data-marks-components:
+  bars: 'components/BarsComponent.html'
+  geographies: 'components/GeographiesComponent.html'
+  grouped-bars: 'components/GroupedBarsComponent.html'
+  lines: 'components/LinesComponent.html'
+  stacked-area: 'components/StackedAreaComponent.html'
+  stacked-bars: 'components/StackedBarsComponent.html'
+add-ons:
+  chart-components:
+    xy-chart:
+      xy-background: 'components/XyBackgroundComponent.html'
+      x-ordinal-axis: 'components/XOrdinalAxisComponent.html'
+      x-quantitative-axis: 'components/XQuantitativeAxisComponent.html'
+      y-ordinal-axis: 'components/YOrdinalAxisComponent.html'
+      y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
+  data-marks-components:
+    all:
+      html-tooltip: 'components/HtmlTooltipComponent.html'
+    geographies:
+      geographies-hover-event: 'directives/GeographiesHoverEventDirective.html'
+      geographies-hover-and-move-event: 'directives/GeographiesHoverAndMoveEventDirective.html'
+      map-legend: 'components/MapLegendComponent.html'
+    lines:
+      lines-hover-event: 'directives/LinesHoverEventDirective.html'
+      lines-hover-and-move-event: 'directives/LinesHoverAndMoveEventDirective.html'
+      lines-input-event: 'directives/LinesInputEventDirective.html'
+      lines-hover-and-move-effect-default-hover-dot-styles: 'classes/LinesHoverAndMoveEffectDefaultHoverDotStyles.html'
+      lines-hover-and-move-effect-default-lines-styles: 'classes/LinesHoverAndMoveEffectDefaultLinesStyles.html'
+      lines-hover-and-move-effect-default-markers-styles: 'classes/LinesHoverAndMoveEffectDefaultMarkersStyles.html'
+      lines-hover-and-move-effect-default-styles: 'classes/LinesHoverAndMoveEffectDefaultStyles.html'
+      lines-hover-and-move-effect-default-styles-config: 'classes/LinesHoverAndMoveEffectDefaultStylesConfig.html'
+utilities:
+  format-value: 'interfaces/Formats.html'
+  svg-wrap: 'classes/SvgWrap.html'
+  unsubscribe: 'directives/Unsubscribe.html'
+library-internals:
+  events:
+    event: 'directives/EventDirective.html'
+    click-event: 'directives/ClickEventDirective.html'
+    hover-event: 'directives/HoverEventDirective.html'
+    hover-and-move-event: 'directives/HoverAndMoveEventDirective.html'
+    input-event: 'directives/InputEventDirective.html'
+  xy-chart:
+    # mixins are not supported :( what to do?
+    # ordinal-axis: 'internals/OrdinalAxis.html'
+    # quantitative-axis: 'internals/QuantitativeAxis.html'
+    # x-axis: 'internals/XAxis.html'
+    # y-axis: 'internals/YAxis.html'
+    xy-axis: 'directives/XyAxis.html'
+  geographies:
+    continuous-legend: 'components/ContinuousLegendComponent.html'
+    discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
+    map-content: 'directives/MapContent.html' # abstract class
+

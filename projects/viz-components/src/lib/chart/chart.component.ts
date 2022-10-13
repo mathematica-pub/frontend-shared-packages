@@ -11,16 +11,14 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
-import { min } from 'd3';
 import {
+  BehaviorSubject,
   combineLatest,
   distinctUntilChanged,
   map,
   Observable,
-  of,
   shareReplay,
   startWith,
-  Subject,
   throttleTime,
 } from 'rxjs';
 import { DataMarks } from '../data-marks/data-marks';
@@ -71,17 +69,22 @@ export class ChartComponent
   aspectRatio: number;
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
-  heightSubject = new Subject<number>();
-  height$ = this.heightSubject.asObservable();
+  inputHeight: BehaviorSubject<number> = new BehaviorSubject(this.height);
+  inputHeight$ = this.inputHeight.asObservable();
+  inputWidth: BehaviorSubject<number> = new BehaviorSubject(this.width);
+  inputWidth$ = this.inputWidth.asObservable();
+  resizeThrottleTime = 100;
 
   constructor(private renderer: Renderer2) {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['width'] || changes['height']) {
-      this.setAspectRatio();
-    }
     if (changes['height']) {
-      this.heightSubject.next(this.height);
+      this.setAspectRatio();
+      this.inputHeight.next(this.height);
+    }
+    if (changes['width']) {
+      this.setAspectRatio();
+      this.inputWidth.next(this.width);
     }
   }
 
@@ -104,18 +107,19 @@ export class ChartComponent
     let divWidth$: Observable<number>;
 
     if (this.scaleChartWithContainer) {
-      divWidth$ = this.getDivWidthResizeObservable().pipe(
-        throttleTime(100),
-        startWith(min([this.divRef.nativeElement.offsetWidth, this.width])),
-        distinctUntilChanged()
+      divWidth$ = combineLatest([
+        this.getResizedDivWidthObservable(),
+        this.inputWidth$,
+      ]).pipe(
+        map(([resizeWidth, inputWidth]) => {
+          return resizeWidth > inputWidth ? inputWidth : resizeWidth;
+        })
       );
     } else {
-      divWidth$ = of(this.width);
+      divWidth$ = this.inputWidth$;
     }
 
-    const height$ = this.height$.pipe(startWith(this.height));
-
-    this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
+    this.svgDimensions$ = combineLatest([divWidth$, this.inputHeight$]).pipe(
       map(([divWidth, height]) => this.getSvgDimensionsFromDivWidth(divWidth))
     );
 
@@ -125,11 +129,23 @@ export class ChartComponent
     );
   }
 
-  getDivWidthResizeObservable(): Observable<number> {
+  getResizedDivWidthObservable(): Observable<number> {
+    return this.getResizedDivDimensionsObservable().pipe(
+      map((dimensions) => dimensions.width),
+      startWith(this.divRef.nativeElement.offsetWidth),
+      throttleTime(this.resizeThrottleTime),
+      distinctUntilChanged()
+    );
+  }
+
+  getResizedDivDimensionsObservable(): Observable<Dimensions> {
     const el = this.divRef.nativeElement;
     return new Observable((subscriber) => {
       const observer = new ResizeObserver((entries) => {
-        subscriber.next(entries[0].contentRect.width);
+        subscriber.next({
+          width: entries[0].contentRect.width,
+          height: entries[0].contentRect.height,
+        });
       });
       observer.observe(el);
       return function unsubscribe() {
