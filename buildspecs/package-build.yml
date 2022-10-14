@@ -5,6 +5,7 @@ phases:
     commands: 
       - n lts
       - npm install -g npm@latest
+      - npm ci
   build: 
     commands: 
       - echo building library 
