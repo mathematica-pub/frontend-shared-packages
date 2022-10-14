@@ -18,12 +18,18 @@ Parameters:
   ArtifactBucketName:
     Type: String
     Default: ""
-  TestAndBuildSpecLocation: 
+  LintSpecLocation: 
     Type: String 
-    Default: buildspecs/package_build.yml
+    Default: buildspecs/package-lint.yml
+  TestSpecLocation: 
+    Type: String 
+    Default: buildspecs/package-test.yml
+  PackageBuildSpecLocation: 
+    Type: String 
+    Default: buildspecs/package-build.yml
   ReleaseSpecLocation:
     Type: String 
-    Default: buildspecs/package_release.yml
+    Default: buildspecs/package-release.yml
 
 Conditions: 
   NoArtifactBucketNameProvided: !Equals [!Ref ArtifactBucketName, ""]
@@ -131,16 +137,10 @@ Resources:
         Statement: 
           Effect: Allow
           Resource: 
-            - !Sub 
-              - arn:aws:codebuild:${Region}:${AccountId}:project/${CodeBuild}
-              - Region: !Ref 'AWS::Region'
-                AccountId: !Ref 'AWS::AccountId'
-                CodeBuild: !Ref TestAndBuild
-            - !Sub 
-              - arn:aws:codebuild:${Region}:${AccountId}:project/${CodeBuild}
-              - Region: !Ref 'AWS::Region'
-                AccountId: !Ref 'AWS::AccountId'
-                CodeBuild: !Ref Release
+           - !GetAtt CodeBuildLint.Arn
+           - !GetAtt CodeBuildPackage.Arn
+           - !GetAtt CodeBuildRelease.Arn
+           - !GetAtt CodeBuildTest.Arn
           Action:
             - 'codebuild:StartBuild'
             - 'codebuild:BatchGetBuilds' 
@@ -211,7 +211,7 @@ Resources:
         RestrictPublicBuckets: true
     DeletionPolicy: Delete 
 
-  TestAndBuild:
+  CodeBuildLint:
     Type: AWS::CodeBuild::Project
     Properties:
       Cache:
@@ -220,18 +220,58 @@ Resources:
           - LOCAL_CUSTOM_CACHE
       Artifacts:
         Type: CODEPIPELINE
-      Description: !Join [" ", ["code build and test for ", !Ref AppName] ] 
+      Description: !Sub "lint for ${AppName}"
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
-      Name: !Join ["-", ["test-and-build", !Ref AppName ] ]
+      Name: !Sub "lint-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
         Type: CODEPIPELINE
-        BuildSpec: !Ref TestAndBuildSpecLocation
+        BuildSpec: !Ref LintSpecLocation
+        
+  CodeBuildTest:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Cache:
+        Type: LOCAL
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+      Artifacts:
+        Type: CODEPIPELINE
+      Description: !Sub "test for ${AppName}"
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+      Name: !Sub "test-${AppName}"
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: !Ref TestSpecLocation
+
+  CodeBuildPackage:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Cache:
+        Type: LOCAL
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+      Artifacts:
+        Type: CODEPIPELINE
+      Description: !Sub "package build for ${AppName}"
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+      Name: !Sub "package-build-${AppName}"
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: !Ref PackageBuildSpecLocation
   
-  Release: 
+  CodeBuildRelease: 
     Type: AWS::CodeBuild::Project 
     Properties:
       Cache:
@@ -275,11 +315,11 @@ Resources:
                 Branch: !Ref BranchName
                 OAuthToken: !Sub '{{resolve:secretsmanager:${GithubSecret}:SecretString:token}}'
                 PollForSourceChanges: false
-              Name: !Join ["-", ["source", "repo", !Ref AppName] ] 
+              Name: !Sub "source-repo-${AppName}" 
               OutputArtifacts:
                 - Name: !Sub "source-repo-artifacts-${AppName}"
               RunOrder: 1
-        - Name: TestAndBuild
+        - Name: Build
           Actions:
             - ActionTypeId:
                 Category: Build
@@ -287,16 +327,42 @@ Resources:
                 Version: '1'
                 Provider: CodeBuild
               Configuration:
-                ProjectName: !Ref TestAndBuild
+                ProjectName: !Ref CodeBuildLint
               InputArtifacts:
                 - Name: !Sub "source-repo-artifacts-${AppName}"
-              Name:  !Join ["-", [ "build", !Ref AppName ] ]
+              Name:  !Sub "lint-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "test-and-build-artifacts-${AppName}"
+                - Name:  !Sub "lint-artifacts-${AppName}"
               RunOrder: 1
+            - ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref CodeBuildTest
+              InputArtifacts:
+                - Name: !Sub "source-repo-artifacts-${AppName}"
+              Name:  !Sub "test-${AppName}"
+              OutputArtifacts:
+                - Name:  !Sub "test-artifacts-${AppName}"
+              RunOrder: 1 
+            - ActionTypeId:
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration:
+                ProjectName: !Ref CodeBuildPackage
+              InputArtifacts:
+                - Name: !Sub "source-repo-artifacts-${AppName}"
+              Name:  !Sub "build-${AppName}"
+              OutputArtifacts:
+                - Name:  !Sub "build-artifacts-${AppName}"
+              RunOrder: 1 
         - Name: Release
           Actions:
-            - Name: Approval_to_publish
+            - Name: ApprovalToPublish
               RunOrder: 1 
               InputArtifacts: []
               OutputArtifacts: []
@@ -313,11 +379,13 @@ Resources:
                 Version: '1'
                 Provider: CodeBuild
               Configuration:
-                ProjectName: !Ref Release
+                ProjectName: !Ref CodeBuildRelease
+                PrimarySource: !Sub "source-repo-artifacts-${AppName}"
               InputArtifacts:
-                - Name: !Sub "test-and-build-artifacts-${AppName}"
+                - Name: !Sub "source-repo-artifacts-${AppName}"
+                - Name: !Sub "build-artifacts-${AppName}"
               OutputArtifacts:
-                - Name:   !Sub "release-artifacts-${AppName}"
+                - Name: !Sub "release-artifacts-${AppName}"
               RunOrder: 2
 
   AppPipelineWebhook:

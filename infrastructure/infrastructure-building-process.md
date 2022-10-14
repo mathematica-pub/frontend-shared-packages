@@ -12,7 +12,7 @@ aws cloudformation update-stack \
 
 2. Set up package CI/CD pipeline
 
-aws cloudformation create-stack \
+aws cloudformation update-stack \
  --stack-name vizcolib-package-pipeline \
  --template-body file://package-pipeline-cf.yml \
  --capabilities CAPABILITY_NAMED_IAM \

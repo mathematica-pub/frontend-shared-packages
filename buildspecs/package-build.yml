@@ -2,22 +2,9 @@ version: 0.2
 
 phases: 
   install: 
-    runtime-versions:
-      nodejs: 16
     commands: 
-      - echo CODEBUILD_START_TIME $CODEBUILD_START_TIME
-      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm  > /dev/null 2>&1
-      - yum install ./google-chrome-stable_current_x86_64.rpm -y  > /dev/null 2>&1
+      - n lts
       - npm install -g npm@latest
-  pre_build:
-    commands:
-      - npm ci 
-      - echo linting
-      - npm run lint 
-      - echo unit tests 
-      - npm run test:lib:ci 
-      - mkdir test-artifacts
-      - cp test-results.xml ./test-artifacts/test-results.xml
   build: 
     commands: 
       - echo building library 
@@ -38,6 +25,3 @@ artifacts:
   name: viz-library-$CODEBUILD_BUILD_NUMBER-$(date +%Y-%m-%d)-$CODEBUILD_START_TIME
   files: 
     - 'package.zip'
-    - 'package.json'
-    - 'buildspecs/package_release.yml'
-    - 'test-artifacts/test-results.xml'
