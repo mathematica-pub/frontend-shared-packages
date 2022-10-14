@@ -280,12 +280,12 @@ Resources:
           - LOCAL_CUSTOM_CACHE
       Artifacts:
         Type: CODEPIPELINE 
-      Description: !Join [" ", ["package release for ", !Ref AppName] ] 
+      Description: !Sub "package release for ${AppName}"
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
-      Name: !Join ["-", ["codebuild-release", !Ref AppName ] ]
+      Name: !Sub "codebuild-release-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
         Type: CODEPIPELINE
@@ -317,7 +317,7 @@ Resources:
                 PollForSourceChanges: false
               Name: !Sub "source-repo-${AppName}" 
               OutputArtifacts:
-                - Name: !Sub "source-repo-artifacts-${AppName}"
+                - Name: !Sub "source_repo_artifacts_${AppName}"
               RunOrder: 1
         - Name: Build
           Actions:
@@ -329,10 +329,10 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildLint
               InputArtifacts:
-                - Name: !Sub "source-repo-artifacts-${AppName}"
+                - Name: !Sub "source_repo_artifacts_${AppName}"
               Name:  !Sub "lint-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "lint-artifacts-${AppName}"
+                - Name:  !Sub "lint_artifacts_${AppName}"
               RunOrder: 1
             - ActionTypeId:
                 Category: Build
@@ -342,10 +342,10 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildTest
               InputArtifacts:
-                - Name: !Sub "source-repo-artifacts-${AppName}"
+                - Name: !Sub "source_repo_artifacts_${AppName}"
               Name:  !Sub "test-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "test-artifacts-${AppName}"
+                - Name:  !Sub "test_artifacts_${AppName}"
               RunOrder: 1 
             - ActionTypeId:
                 Category: Build
@@ -355,10 +355,10 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuildPackage
               InputArtifacts:
-                - Name: !Sub "source-repo-artifacts-${AppName}"
+                - Name: !Sub "source_repo_artifacts_${AppName}"
               Name:  !Sub "build-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "build-artifacts-${AppName}"
+                - Name:  !Sub "build_artifacts_${AppName}"
               RunOrder: 1 
         - Name: Release
           Actions:
@@ -380,12 +380,12 @@ Resources:
                 Provider: CodeBuild
               Configuration:
                 ProjectName: !Ref CodeBuildRelease
-                PrimarySource: !Sub "source-repo-artifacts-${AppName}"
+                PrimarySource: !Sub "source_repo_artifacts_${AppName}"
               InputArtifacts:
-                - Name: !Sub "source-repo-artifacts-${AppName}"
-                - Name: !Sub "build-artifacts-${AppName}"
+                - Name: !Sub "source_repo_artifacts_${AppName}"
+                - Name: !Sub "build_artifacts_${AppName}"
               OutputArtifacts:
-                - Name: !Sub "release-artifacts-${AppName}"
+                - Name: !Sub "release_artifacts_${AppName}"
               RunOrder: 2
 
   AppPipelineWebhook:
