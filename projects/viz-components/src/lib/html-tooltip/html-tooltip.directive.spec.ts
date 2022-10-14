@@ -11,6 +11,7 @@ import { HtmlTooltipDirective } from './html-tooltip.directive';
 describe('HtmlTooltipDirective', () => {
   let directive: HtmlTooltipDirective;
   let mainServiceStub: MainServiceStub;
+  let destroySpy: jasmine.Spy;
 
   beforeEach(() => {
     mainServiceStub = new MainServiceStub();
@@ -31,6 +32,7 @@ describe('HtmlTooltipDirective', () => {
       ],
     });
     directive = TestBed.inject(HtmlTooltipDirective);
+    destroySpy = spyOn(directive, 'ngOnDestroy');
   });
 
   describe('ngOnInit', () => {
@@ -172,6 +174,17 @@ describe('HtmlTooltipDirective', () => {
         directive.ngOnChanges(changes);
         expect(directive.updateClasses).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    beforeEach(() => {
+      spyOn(directive, 'destroyOverlay');
+      destroySpy.and.callThrough();
+    });
+    it('calls destroyOverlay', () => {
+      directive.ngOnDestroy();
+      expect(directive.destroyOverlay).toHaveBeenCalledTimes(1);
     });
   });
 
