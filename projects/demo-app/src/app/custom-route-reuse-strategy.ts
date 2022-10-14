@@ -20,7 +20,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
     future: ActivatedRouteSnapshot,
     curr: ActivatedRouteSnapshot
   ): boolean {
-    // if (future.fragment !== null) return true;
+    if (future.fragment !== null) return true;
     return false;
   }
 }
