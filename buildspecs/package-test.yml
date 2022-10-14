@@ -12,7 +12,7 @@ phases:
     commands:
       - npm run test:lib:ci
       - mkdir test-artifacts
-      - cp test-results.xml ./test-artifacts/test-results.xml
+      - cp projects/viz-components/test-results.xml ./test-artifacts/test-results.xml
 artifacts:
   files:
     - "*"
