@@ -332,7 +332,7 @@ Resources:
                 - Name: !Sub "source_repo_artifacts_${AppName}"
               Name:  !Sub "lint-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "lint_artifacts_${AppName}"
+                - Name:  "lint_artifacts"
               RunOrder: 1
             - ActionTypeId:
                 Category: Build
@@ -345,7 +345,7 @@ Resources:
                 - Name: !Sub "source_repo_artifacts_${AppName}"
               Name:  !Sub "test-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "test_artifacts_${AppName}"
+                - Name:  "test_artifacts"
               RunOrder: 1 
             - ActionTypeId:
                 Category: Build
@@ -358,20 +358,10 @@ Resources:
                 - Name: !Sub "source_repo_artifacts_${AppName}"
               Name:  !Sub "build-${AppName}"
               OutputArtifacts:
-                - Name:  !Sub "build_artifacts_${AppName}"
+                - Name:  "build_artifacts"
               RunOrder: 1 
         - Name: Release
           Actions:
-            - Name: ApprovalToPublish
-              RunOrder: 1 
-              InputArtifacts: []
-              OutputArtifacts: []
-              ActionTypeId: 
-                Category: Approval
-                Owner: AWS
-                Version: 1
-                Provider: Manual 
-              
             - Name: Publish 
               ActionTypeId:
                 Category: Build
@@ -383,10 +373,10 @@ Resources:
                 PrimarySource: !Sub "source_repo_artifacts_${AppName}"
               InputArtifacts:
                 - Name: !Sub "source_repo_artifacts_${AppName}"
-                - Name: !Sub "build_artifacts_${AppName}"
+                - Name: "build_artifacts"
               OutputArtifacts:
-                - Name: !Sub "release_artifacts_${AppName}"
-              RunOrder: 2
+                - Name: "release_artifacts"
+              RunOrder: 1
 
   AppPipelineWebhook:
     Type: AWS::CodePipeline::Webhook
