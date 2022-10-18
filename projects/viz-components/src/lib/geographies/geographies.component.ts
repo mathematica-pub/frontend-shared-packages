@@ -383,14 +383,23 @@ export class GeographiesComponent
   }
 
   getFill(i: number): string {
-    const dataValue = this.getValueFromDataGeographyIndex(i);
-    const color = this.attributeDataScale(dataValue);
+    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue = this.values.attributeDataValues[convertedIndex];
+    const rawValue = this.config.data[convertedIndex];
+    let color = this.attributeDataScale(dataValue);
+    const predicates = this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
+    if (predicates) {
+      predicates.forEach((predicate: (d: any) => boolean, patternId: string) => {
+        if (predicate(rawValue)) {
+          color = `url(#${patternId})`;
+        }
+      });
+    }
     return color;
   }
 
-  getValueFromDataGeographyIndex(i: number): any {
+  getValueIndexFromDataGeographyIndex(i: number): any {
     const geoName = this.values.geoJsonGeographies[i];
-    const dataIndex = this.values.indexMap.get(geoName);
-    return this.values.attributeDataValues[dataIndex];
+    return this.values.indexMap.get(geoName);
   }
 }

@@ -59,6 +59,7 @@ export class AttributeDataDimensionConfig extends DataDimensionConfig {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
+  patternPredicates?: Map<string, (d: any) => boolean>;
   constructor(init?: Partial<AttributeDataDimensionConfig>) {
     super();
     Object.assign(this, init);

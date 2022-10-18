@@ -14,6 +14,7 @@ export class BarsConfig extends DataMarksConfig {
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
   positivePaddingForAllNegativeValues: number;
+  patternPredicates?: Map<string, (d: any) => boolean>;
 
   constructor(init?: Partial<BarsConfig>) {
     super();

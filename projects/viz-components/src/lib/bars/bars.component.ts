@@ -331,9 +331,18 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    return this.config.category.colorScale(
+    let color = this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
+    const predicates = this.config.patternPredicates;
+    if (predicates) {
+      predicates.forEach((predicate: (d: any) => boolean, patternId: string) => {
+        if (predicate(this.config.data[i])) {
+          color = `url(#${patternId})`;
+        }
+      });
+    }
+    return color;
   }
 
   getBarX(i: number): number {
