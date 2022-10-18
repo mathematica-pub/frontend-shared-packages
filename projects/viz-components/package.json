@@ -2,8 +2,6 @@
   "name": "@web-ast/viz-components",
   "version": "0.0.1",
   "scripts": {
-    "prepare": "npm run co:login",
-    "co:login": "aws codeartifact login --tool npm --repository vizcolib --domain frontend --namespace @web-ast",
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "node build.js"
   },
