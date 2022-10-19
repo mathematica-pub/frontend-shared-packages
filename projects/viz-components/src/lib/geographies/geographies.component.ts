@@ -14,6 +14,7 @@ import {
 } from '@angular/core';
 import {
   extent,
+  format,
   geoPath,
   InternMap,
   InternSet,
@@ -178,7 +179,7 @@ export class GeographiesComponent
       this.config.dataGeographyConfig.attributeDataConfig.valueType ===
       'quantitative'
     ) {
-      this.setQuantitativeDomainAndBins();
+      this.setQuantitativeDomainAndBinsForBinType();
     }
     if (
       this.config.dataGeographyConfig.attributeDataConfig.valueType ===
@@ -188,7 +189,7 @@ export class GeographiesComponent
     }
   }
 
-  setQuantitativeDomainAndBins(): void {
+  setQuantitativeDomainAndBinsForBinType(): void {
     if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       'equal num observations'
@@ -205,7 +206,7 @@ export class GeographiesComponent
         this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
         1;
     } else {
-      //nobins, equal interval
+      // no bins, equal interval
       let domainValues: any[];
       if (
         this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
@@ -217,6 +218,45 @@ export class GeographiesComponent
       }
       this.config.dataGeographyConfig.attributeDataConfig.domain =
         extent(domainValues);
+    }
+
+    if (
+      // do we need to do this for equal num observations?
+      this.config.dataGeographyConfig.attributeDataConfig.binType ===
+      'equal value ranges'
+    ) {
+      if (this.attributeDataValueFormatIsInteger()) {
+        this.validateNumBinsAndDomainForIntegerValues();
+      }
+    }
+  }
+
+  attributeDataValueFormatIsInteger(): boolean {
+    const formatString =
+      this.config.dataGeographyConfig.attributeDataConfig.valueFormat;
+    return formatString && formatString.includes('0f');
+  }
+
+  validateNumBinsAndDomainForIntegerValues(): void {
+    const formatValue = (value: number) =>
+      format(this.config.dataGeographyConfig.attributeDataConfig.valueFormat)(
+        value
+      );
+    const domain = this.config.dataGeographyConfig.attributeDataConfig.domain;
+    const dataRange = [domain[0], domain[domain.length - 1]].map(
+      (x) => +formatValue(x)
+    );
+    const numDiscreteValues = Math.abs(dataRange[1] - dataRange[0]) + 1;
+    if (
+      numDiscreteValues <
+      this.config.dataGeographyConfig.attributeDataConfig.numBins
+    ) {
+      this.config.dataGeographyConfig.attributeDataConfig.numBins =
+        numDiscreteValues;
+      this.config.dataGeographyConfig.attributeDataConfig.domain = [
+        dataRange[0],
+        dataRange[1] + 1,
+      ];
     }
   }
 

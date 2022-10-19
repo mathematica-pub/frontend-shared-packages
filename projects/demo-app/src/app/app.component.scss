@@ -1,18 +1,39 @@
 @import 'vars', 'placeholders';
 
 :host {
-  position: relative;
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  max-width: 105rem;
+  margin: 0px;
   height: 100%;
-  margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
-.app-container {
-  width: 95vw;
-  margin: 0px auto;
+.content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+
+$title-height: 12vh;
+$content-height: 100vh - $title-height;
+
+.content-element {
+  overflow-y: scroll;
+  flex: 1 1 auto;
+  height: $content-height;
+}
+
+.content-fixed-element {
+  overflow-y: scroll;
+  flex: 0 0 auto;
+  height: $content-height;
+}
+
+.title {
+  padding-left: $grid-2;
+  @extend %typography-headline-2;
+  border-bottom: 1px solid $color-primary-7;
+  flex: 0 0 auto;
+  height: $title-height;
 }

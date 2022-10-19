@@ -1,32 +1,82 @@
-from os import walk, popen, path, write
+from os import popen, path
 import re
+import yaml
+from typing import Dict
 
-documentationInputDirectory = '../../../documentation/components'
-documentationOutputDirectory = '../src/assets/documentation'
-fileList = next(walk(documentationInputDirectory), (None, None, []))[2] 
 
-outputFileList = []
-for file in fileList: 
-    newFileName = path.join(documentationOutputDirectory, file.replace(".html", "Documentation.html")).replace("\\", "/")
-    popen(f'cp {path.join(documentationInputDirectory, file)} {newFileName}')
-    outputFileList.append(newFileName)
+class DocumentationParser():
+    def __init__(self, inputDirectory, outputDirectory):
+        self.inputDirectory = inputDirectory
+        self.outputDirectory = outputDirectory
+        self.missingKeys = []
 
-print(*outputFileList, sep = "\n")
+    def handleMatch(self, match: re.Match):
+        if match.group(2) in self.filesToParse:
+            routerLink = self.filesToParse[match.group(2)] \
+                .replace("all/", "") \
+                .replace(self.outputDirectory, "")
+            return f"href=\"{routerLink}"
+        else:
+            if match.group(2) not in self.missingKeys:
+                self.missingKeys.append(match.group(2))
+        return ""
 
-def handleMatch(match: re.Match): 
-    dasherizedName = re.sub(r'(?<!^)(?=[A-Z])', '-', match.group(2)).lower()
-    return f"href=\"{dasherizedName}"
+    def parse_file(self, fullFilePath: str):
+        openedFile = open(fullFilePath, "r")
+        text = openedFile.read()
+        openedFile.close()
+        text = re.search(
+            r"(<!-- START CONTENT -->)(.|\n)*(<!-- END CONTENT -->)", text).group()
+        text = re.sub(r"(<script)(.|\n)*(</script>)", "", text)
+        text = text.replace(
+            "href=\"#", f"href=\"documentation/{fullFilePath.replace(self.outputDirectory, '.').replace('.html', '')}#")
+        text = re.sub(
+            r"(href=\"../)(classes.*html|components.*html|directives.*html|interfaces.*html)", self.handleMatch, text)
+        openFileForWriting = open(fullFilePath, "w")
+        openFileForWriting.write(text)
 
-for file in outputFileList: 
-    openedFile = open(file, "r")
-    text = openedFile.read()
-    openedFile.close()
-    componentName = file.replace(documentationOutputDirectory, "").replace("/", "").replace("ComponentDocumentation.html", "")
-    componentName = re.sub(r'(?<!^)(?=[A-Z])', '-', componentName).lower()
-    text = re.search(r"(<!-- START CONTENT -->)(.|\n)*(<!-- END CONTENT -->)", text).group()
-    text = re.sub(r"(<script)(.|\n)*(</script>)", "", text)
-    text = text.replace("href=\"#", f"href=\"{componentName}#")
-    text = re.sub(r"(href=\"../classes/)(.*)(.html)", handleMatch, text)
-    text = re.sub(r"(href=\"../components/)(.*)(.html)", handleMatch, text)
-    openFileForWriting = open(file, "w")
-    openFileForWriting.write(text)
+    def parse_directory(self):
+        yamlLocation = path.join(self.outputDirectory,
+                                 "documentation-structure.yaml")
+        with open(yamlLocation, "r") as stream:
+            try:
+                documentationStructure = yaml.safe_load(stream)
+            except yaml.YAMLError as err:
+                print(err)
+
+        self.filesToParse = self.copy_files_from_dict(
+            self.outputDirectory, documentationStructure, self.inputDirectory, {})
+
+        for fileKey in self.filesToParse.keys():
+            print(self.filesToParse[fileKey])
+            self.parse_file(self.filesToParse[fileKey])
+        print("MISSING FILES - LINKED IN DOCUMENTATION")
+        print(*self.missingKeys, sep="\n")
+
+    def copy_files_from_dict(self, partialPath: str, dict: dict, inputDirectory: str, filesToParse: Dict[str, str]):
+        """
+        Recursive fxn:
+        Base case: dict is a single key value pair, value is of type string
+            - copy over path + value from input string to output path + key
+        Otherwise: build up path 
+        """
+        for key in dict.keys():
+            if isinstance(dict[key], str):
+                outputFileName = path.join(
+                    partialPath, f'{key}.html').replace("\\", "/")
+                inputFileName = path.join(
+                    inputDirectory, dict[key]).replace("\\", "/")
+                popen(f'cp {inputFileName} {outputFileName}')
+                filesToParse[dict[key]] = outputFileName
+            else:
+                newPath = path.join(partialPath, key).replace("/", "\\")
+                popen(f'mkdir {newPath}').read()
+                filesToParse = self.copy_files_from_dict(
+                    newPath, dict[key], inputDirectory, filesToParse)
+        return filesToParse
+
+
+if __name__ == "__main__":
+    parser = DocumentationParser(inputDirectory='../../../documentation',
+                                 outputDirectory='../src/assets/documentation')
+    parser.parse_directory()
