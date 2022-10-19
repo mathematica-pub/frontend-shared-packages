@@ -101,7 +101,10 @@ export class GeographiesExampleComponent implements OnInit {
       colors.highlight.default,
     ];
     config.attributeDataConfig.numBins = 6;
-    config.attributeDataConfig.patternPredicates = new Map<string, (d: any) => boolean>([["Pattern", (d) => !!d && d.population < 500000]]);
+    config.attributeDataConfig.patternPredicates = new Map<
+      string,
+      (d: any) => boolean
+    >([['Pattern', (d) => !!d && d.population < 500000]]);
     return config;
   }
 

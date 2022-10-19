@@ -336,11 +336,13 @@ export class BarsComponent
     );
     const predicates = this.config.patternPredicates;
     if (predicates) {
-      predicates.forEach((predicate: (d: any) => boolean, patternId: string) => {
-        if (predicate(this.config.data[i])) {
-          color = `url(#${patternId})`;
+      predicates.forEach(
+        (predicate: (d: any) => boolean, patternId: string) => {
+          if (predicate(this.config.data[i])) {
+            color = `url(#${patternId})`;
+          }
         }
-      });
+      );
     }
     return color;
   }

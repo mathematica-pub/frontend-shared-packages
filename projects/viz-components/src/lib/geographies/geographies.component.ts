@@ -387,13 +387,16 @@ export class GeographiesComponent
     const dataValue = this.values.attributeDataValues[convertedIndex];
     const rawValue = this.config.data[convertedIndex];
     let color = this.attributeDataScale(dataValue);
-    const predicates = this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
+    const predicates =
+      this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
     if (predicates) {
-      predicates.forEach((predicate: (d: any) => boolean, patternId: string) => {
-        if (predicate(rawValue)) {
-          color = `url(#${patternId})`;
+      predicates.forEach(
+        (predicate: (d: any) => boolean, patternId: string) => {
+          if (predicate(rawValue)) {
+            color = `url(#${patternId})`;
+          }
         }
-      });
+      );
     }
     return color;
   }
