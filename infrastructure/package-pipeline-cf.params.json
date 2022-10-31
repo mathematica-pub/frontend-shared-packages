@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "AppName",
+    "ParameterValue": "vizcolib-package"
+  },
+  {
+    "ParameterKey": "GithubOwner",
+    "ParameterValue": "mathematica-org"
+  },
+  {
+    "ParameterKey": "RepositoryName",
+    "ParameterValue": "viz-components"
+  },
+  {
+    "ParameterKey": "GithubSecret",
+    "ParameterValue": "vizcolib/github/token"
+  }
+]

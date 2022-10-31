@@ -115,8 +115,13 @@ legend {
   }
 }
 
-html,
 body {
+  overflow: auto;
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
   height: 100%;
 }
 

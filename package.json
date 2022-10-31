@@ -22,7 +22,7 @@
     "test:demo": "ng test demo-app",
     "test:demo:ci": "ng test demo-app --no-watch --browsers=ChromeHeadlessNoSandbox",
     "test:lib": "ng test viz-components --browsers=Chrome",
-    "test:lib:ci": "ng test viz-components --no-watch --browsers=ChromeHeadlessNoSandbox",
+    "test:lib:ci": "ng test viz-components --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox",
     "lint": "ng lint",
     "lint:lib": "ng lint viz-components",
     "compodoc:build": "npx compodoc -p tsconfig.doc.json",
@@ -48,6 +48,7 @@
     "cypress": "^10.4.0",
     "d3": "^7.4.4",
     "geo-albers-usa-territories": "^0.1.0",
+    "marked": "^4.1.0",
     "pend": "^1.2.0",
     "prismjs": "^1.28.0",
     "rxjs": "~7.5.0",
@@ -55,6 +56,7 @@
     "topojson-client": "^3.1.0",
     "tslib": "^2.3.0",
     "xmldoc": "^1.2.0",
+    "yaml": "^2.1.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
@@ -84,6 +86,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "karma-junit-reporter": "^2.0.1",
     "ng-packagr": "^14.0.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.7.1",
