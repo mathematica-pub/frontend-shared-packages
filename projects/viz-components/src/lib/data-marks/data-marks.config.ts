@@ -18,3 +18,5 @@ export class TooltipConfig {
     Object.assign(this, init);
   }
 }
+
+export type PatternPredicates = Map<string, (d: any) => boolean>;

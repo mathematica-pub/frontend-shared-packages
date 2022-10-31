@@ -31,6 +31,7 @@ import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
+import { mixinPatternFill } from '../shared/pattern-fill';
 import {
   DataGeographyConfig,
   GeographiesConfig,
@@ -47,6 +48,8 @@ export class MapDataValues {
 export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   'GeographiesComponent'
 );
+
+const MapWithPattern = mixinPatternFill(MapContent);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -68,7 +71,7 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   ],
 })
 export class GeographiesComponent
-  extends MapContent
+  extends MapWithPattern
   implements DataMarks, OnChanges, OnInit
 {
   @ViewChild('map', { static: true }) mapRef: ElementRef<SVGSVGElement>;
@@ -425,23 +428,14 @@ export class GeographiesComponent
   getFill(i: number): string {
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
-    const rawValue = this.config.data[convertedIndex];
+    const datum = this.config.data[convertedIndex];
     let color = this.attributeDataScale(dataValue);
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
-    if (predicates) {
-      predicates.forEach(
-        (predicate: (d: any) => boolean, patternId: string) => {
-          if (predicate(rawValue)) {
-            color = `url(#${patternId})`;
-          }
-        }
-      );
-    }
-    return color;
+    return this.getPatternFill(datum, color, predicates);
   }
 
-  getValueIndexFromDataGeographyIndex(i: number): any {
+  getValueIndexFromDataGeographyIndex(i: number): number {
     const geoName = this.values.geoJsonGeographies[i];
     return this.values.indexMap.get(geoName);
   }

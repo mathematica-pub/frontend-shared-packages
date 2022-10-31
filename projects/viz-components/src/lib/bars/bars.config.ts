@@ -4,7 +4,7 @@ import {
   OrdinalDimensionConfig,
   QuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
-import { DataMarksConfig } from '../data-marks/data-marks.config';
+import { DataMarksConfig, PatternPredicates } from '../data-marks/data-marks.config';
 
 export class BarsConfig extends DataMarksConfig {
   ordinal: OrdinalDimensionConfig = new OrdinalDimensionConfig();
@@ -14,7 +14,7 @@ export class BarsConfig extends DataMarksConfig {
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
   positivePaddingForAllNegativeValues: number;
-  patternPredicates?: Map<string, (d: any) => boolean>;
+  patternPredicates?: PatternPredicates;
 
   constructor(init?: Partial<BarsConfig>) {
     super();

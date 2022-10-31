@@ -59,6 +59,7 @@ export class GeographiesExampleComponent implements OnInit {
   hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
     new EmitGeographiesHoverTooltipData(),
   ];
+  patternName = 'dotPattern';
 
   constructor(
     private dataService: DataService,
@@ -104,7 +105,7 @@ export class GeographiesExampleComponent implements OnInit {
     config.attributeDataConfig.patternPredicates = new Map<
       string,
       (d: any) => boolean
-    >([['Pattern', (d) => !!d && d.population < 500000]]);
+    >([[this.patternName, (d) => !!d && d.population < 500000]]);
     return config;
   }
 

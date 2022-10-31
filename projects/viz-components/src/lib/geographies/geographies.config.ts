@@ -7,7 +7,7 @@ import {
   scaleThreshold,
 } from 'd3';
 import { DataDimensionConfig } from '../data-marks/data-dimension.config';
-import { DataMarksConfig } from '../data-marks/data-marks.config';
+import { DataMarksConfig, PatternPredicates } from '../data-marks/data-marks.config';
 
 export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
@@ -59,7 +59,7 @@ export class AttributeDataDimensionConfig extends DataDimensionConfig {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
-  patternPredicates?: Map<string, (d: any) => boolean>;
+  patternPredicates?: PatternPredicates;
   constructor(init?: Partial<AttributeDataDimensionConfig>) {
     super();
     Object.assign(this, init);
