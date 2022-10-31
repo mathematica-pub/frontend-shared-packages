@@ -20,7 +20,7 @@ export class ValueUtilities {
       const decimalIndex = absValueStr.indexOf('.');
       let firstNDigits;
       let numZeros = 0;
-      if (decimalIndex <= sigDigits && decimalIndex > -1) {
+      if (decimalIndex < sigDigits && decimalIndex > -1) {
         firstNDigits = absValueStr.substring(0, sigDigits + 1);
       } else {
         firstNDigits = absValueStr.substring(0, sigDigits);

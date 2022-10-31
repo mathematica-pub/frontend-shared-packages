@@ -10,29 +10,13 @@ aws cloudformation update-stack \
  --capabilities CAPABILITY_NAMED_IAM \
  --parameters file://pr-build-cf.json
 
-2. Set up library:
-
-Create npm-store repo for the domain (if not already created)
-
-aws cloudformation create-stack \
- --stack-name vizcolib-npm-store-repo \
- --template-body file://codeartifact-domain-store.yml \
- --parameters file://codeartifact-domain-store.json
-
-Create library repo
-
-aws cloudformation create-stack \
- --stack-name vizcolib-repo \
- --template-body file://codeartifact-repository.yml \
- --parameters file://codeartifact-repository.json
-
-4. Set up CI/CD pipeline
+2. Set up package CI/CD pipeline
 
 aws cloudformation update-stack \
- --stack-name vizcolib-demo-app-build-pipeline \
- --template-body file://app-pipeline-cf.yml \
+ --stack-name vizcolib-package-pipeline \
+ --template-body file://package-pipeline-cf.yml \
  --capabilities CAPABILITY_NAMED_IAM \
- --parameters file://app-pipeline-cf.params.json
+ --parameters file://package-pipeline-cf.params.json
 
 ## Package deployment
 
