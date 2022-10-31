@@ -334,7 +334,7 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    let color = this.config.category.colorScale(
+    const color = this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
     const predicates = this.config.patternPredicates;

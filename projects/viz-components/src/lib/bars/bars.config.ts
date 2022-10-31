@@ -4,7 +4,10 @@ import {
   OrdinalDimensionConfig,
   QuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
-import { DataMarksConfig, PatternPredicates } from '../data-marks/data-marks.config';
+import {
+  DataMarksConfig,
+  PatternPredicates,
+} from '../data-marks/data-marks.config';
 
 export class BarsConfig extends DataMarksConfig {
   ordinal: OrdinalDimensionConfig = new OrdinalDimensionConfig();

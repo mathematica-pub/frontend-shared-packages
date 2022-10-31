@@ -7,7 +7,10 @@ import {
   scaleThreshold,
 } from 'd3';
 import { DataDimensionConfig } from '../data-marks/data-dimension.config';
-import { DataMarksConfig, PatternPredicates } from '../data-marks/data-marks.config';
+import {
+  DataMarksConfig,
+  PatternPredicates,
+} from '../data-marks/data-marks.config';
 
 export class GeographiesConfig extends DataMarksConfig {
   boundary: any;

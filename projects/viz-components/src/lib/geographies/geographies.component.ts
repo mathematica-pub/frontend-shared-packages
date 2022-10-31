@@ -429,7 +429,7 @@ export class GeographiesComponent
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
     const datum = this.config.data[convertedIndex];
-    let color = this.attributeDataScale(dataValue);
+    const color = this.attributeDataScale(dataValue);
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
     return this.getPatternFill(datum, color, predicates);
