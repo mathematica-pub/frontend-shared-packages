@@ -28,7 +28,7 @@ import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { mixinPatternFill } from '../shared/pattern-fill';
+// import { mixinPatternFill } from '../shared/pattern-fill';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 

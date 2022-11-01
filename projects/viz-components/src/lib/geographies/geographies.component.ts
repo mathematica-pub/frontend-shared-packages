@@ -31,7 +31,7 @@ import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
-import { mixinPatternFill } from '../shared/pattern-fill';
+// import { mixinPatternFill } from '../shared/pattern-fill';
 import {
   DataGeographyConfig,
   GeographiesConfig,
