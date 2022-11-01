@@ -115,8 +115,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">projects/viz-components/src/lib/shared/unsubscribe.class.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">projects/viz-components/src/lib/shared/unsubscribe.class.ts:11</a></div>
                 </td>
             </tr>
 
@@ -162,7 +162,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/viz-components/src/lib/shared/unsubscribe.class.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/viz-components/src/lib/shared/unsubscribe.class.ts:9</a></div>
                         </td>
                     </tr>
 
@@ -179,6 +179,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, OnDestroy } from &#x27;@angular/core&#x27;;
 import { Subject } from &#x27;rxjs&#x27;;
 
+/**
+ * @internal
+ */
 @Directive()
 export abstract class Unsubscribe implements OnDestroy {
   unsubscribe: Subject&lt;void&gt; &#x3D; new Subject();

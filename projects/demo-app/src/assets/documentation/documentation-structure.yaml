@@ -13,19 +13,21 @@ data-marks-components:
 add-ons:
   chart-components:
     xy-chart:
+      axis-config: 'classes/AxisConfig.html'
       xy-background: 'components/XyBackgroundComponent.html'
       x-ordinal-axis: 'components/XOrdinalAxisComponent.html'
       x-quantitative-axis: 'components/XQuantitativeAxisComponent.html'
       y-ordinal-axis: 'components/YOrdinalAxisComponent.html'
       y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
   data-marks-components:
-    all:
-      html-tooltip: 'components/HtmlTooltipComponent.html'
     geographies:
+      geographies-config: 'classes/GeographiesConfig.html'
       geographies-hover-event: 'directives/GeographiesHoverEventDirective.html'
       geographies-hover-and-move-event: 'directives/GeographiesHoverAndMoveEventDirective.html'
       map-legend: 'components/MapLegendComponent.html'
+      html-tooltip: 'components/HtmlTooltipComponent.html'
     lines:
+      lines-config: 'classes/LinesConfig.html'
       lines-hover-event: 'directives/LinesHoverEventDirective.html'
       lines-hover-and-move-event: 'directives/LinesHoverAndMoveEventDirective.html'
       lines-input-event: 'directives/LinesInputEventDirective.html'
@@ -34,6 +36,20 @@ add-ons:
       lines-hover-and-move-effect-default-markers-styles: 'classes/LinesHoverAndMoveEffectDefaultMarkersStyles.html'
       lines-hover-and-move-effect-default-styles: 'classes/LinesHoverAndMoveEffectDefaultStyles.html'
       lines-hover-and-move-effect-default-styles-config: 'classes/LinesHoverAndMoveEffectDefaultStylesConfig.html'
+      html-tooltip: 'components/HtmlTooltipComponent.html'
+    bars: 
+      bars-config: 'classes/BarsConfig.html'
+      bars-labels-config: 'classes/BarsLabelsConfig.html'
+      html-tooltip: 'components/HtmlTooltipComponent.html'
+    grouped-bars:
+      grouped-bars-config: 'classes/GroupedBarsConfig.html'
+      html-tooltip: 'components/HtmlTooltipComponent.html'
+    stacked-area:
+      stacked-area: 'classes/StackedAreaConfig.html'
+      html-tooltip: 'components/HtmlTooltipComponent.html'
+    stacked-bars:
+      stacked-bars: 'classes/StackedBarsConfig.html'
+      html-tooltip: 'components/HtmlTooltipComponent.html'
 utilities:
   format-value: 'interfaces/Formats.html'
   svg-wrap: 'classes/SvgWrap.html'
@@ -46,14 +62,9 @@ library-internals:
     hover-and-move-event: 'directives/HoverAndMoveEventDirective.html'
     input-event: 'directives/InputEventDirective.html'
   xy-chart:
-    # mixins are not supported :( what to do?
-    # ordinal-axis: 'internals/OrdinalAxis.html'
-    # quantitative-axis: 'internals/QuantitativeAxis.html'
-    # x-axis: 'internals/XAxis.html'
-    # y-axis: 'internals/YAxis.html'
     xy-axis: 'directives/XyAxis.html'
   geographies:
     continuous-legend: 'components/ContinuousLegendComponent.html'
     discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
-    map-content: 'directives/MapContent.html' # abstract class
+    map-content: 'directives/MapContent.html' 
 
