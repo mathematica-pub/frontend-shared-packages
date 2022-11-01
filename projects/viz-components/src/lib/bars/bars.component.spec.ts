@@ -520,6 +520,7 @@ describe('BarsComponent', () => {
         category: {
           colorScale: colorScaleSpy,
         },
+        data: [1, 2, 3]
       } as any;
       component.values.x = [1, 2, 3];
     });
