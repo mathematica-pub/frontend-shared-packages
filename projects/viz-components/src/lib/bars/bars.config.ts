@@ -6,7 +6,7 @@ import {
 } from '../data-marks/data-dimension.config';
 import {
   DataMarksConfig,
-  // PatternPredicates,
+  PatternPredicates,
 } from '../data-marks/data-marks.config';
 
 export class BarsConfig extends DataMarksConfig {
@@ -17,8 +17,7 @@ export class BarsConfig extends DataMarksConfig {
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
   positivePaddingForAllNegativeValues: number;
-  patternPredicates?: Map<string, (d: any) => boolean>;
-  // PatternPredicates;
+  patternPredicates?: PatternPredicates;
 
   constructor(init?: Partial<BarsConfig>) {
     super();
