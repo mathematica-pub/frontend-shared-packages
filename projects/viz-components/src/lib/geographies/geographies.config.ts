@@ -9,7 +9,7 @@ import {
 import { DataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
   DataMarksConfig,
-  PatternPredicates,
+  // PatternPredicates,
 } from '../data-marks/data-marks.config';
 
 export class GeographiesConfig extends DataMarksConfig {
@@ -62,7 +62,8 @@ export class AttributeDataDimensionConfig extends DataDimensionConfig {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
-  patternPredicates?: PatternPredicates;
+  patternPredicates?: Map<string, (d: any) => boolean>;
+  // PatternPredicates;
   constructor(init?: Partial<AttributeDataDimensionConfig>) {
     super();
     Object.assign(this, init);
