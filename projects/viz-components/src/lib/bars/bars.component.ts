@@ -32,7 +32,7 @@ import { mixinPatternFill } from '../shared/pattern-fill';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 
-const XyContentWithPattern = mixinPatternFill(XyContent);
+// const XyContentWithPattern = mixinPatternFill(XyContent);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -44,7 +44,7 @@ const XyContentWithPattern = mixinPatternFill(XyContent);
   providers: [{ provide: DATA_MARKS, useExisting: BarsComponent }],
 })
 export class BarsComponent
-  extends XyContentWithPattern
+  extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
@@ -429,6 +429,23 @@ export class BarsComponent
       ? 0
       : this.config.quantitative.domain[0];
     return Math.abs(this.yScale(origin - this.values.y[i]));
+  }
+
+  getPatternFill(
+    datum: any,
+    defaultColor: string,
+    predicates: Map<string, (d: any) => boolean>
+  ): string {
+    if (predicates) {
+      predicates.forEach(
+        (predicate: (d: any) => boolean, patternId: string) => {
+          if (predicate(datum)) {
+            defaultColor = `url(#${patternId})`;
+          }
+        }
+      );
+    }
+    return defaultColor;
   }
 
   onPointerEnter: (event: PointerEvent) => void;

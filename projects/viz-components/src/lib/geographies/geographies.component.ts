@@ -49,7 +49,7 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   'GeographiesComponent'
 );
 
-const MapWithPattern = mixinPatternFill(MapContent);
+// const MapWithPattern = mixinPatternFill(MapContent);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -71,7 +71,7 @@ const MapWithPattern = mixinPatternFill(MapContent);
   ],
 })
 export class GeographiesComponent
-  extends MapWithPattern
+  extends MapContent
   implements DataMarks, OnChanges, OnInit
 {
   @ViewChild('map', { static: true }) mapRef: ElementRef<SVGSVGElement>;
@@ -438,5 +438,22 @@ export class GeographiesComponent
   getValueIndexFromDataGeographyIndex(i: number): number {
     const geoName = this.values.geoJsonGeographies[i];
     return this.values.indexMap.get(geoName);
+  }
+
+  getPatternFill(
+    datum: any,
+    defaultColor: string,
+    predicates: Map<string, (d: any) => boolean>
+  ): string {
+    if (predicates) {
+      predicates.forEach(
+        (predicate: (d: any) => boolean, patternId: string) => {
+          if (predicate(datum)) {
+            defaultColor = `url(#${patternId})`;
+          }
+        }
+      );
+    }
+    return defaultColor;
   }
 }
