@@ -17,16 +17,27 @@
     </a>
   </ng-container>
   <h2>DOCUMENTATION</h2>
-  <ng-container *ngFor="let category of navbarConfig$ | async">
-    <h3>{{category.name | undasherize | uppercase}}</h3>
-    <ng-container *ngFor="let file of category.files">
+  <ng-container *ngFor="let category of navbarConfig$ | async | keyvalue">
+    <h3>{{$any(category.key) | undasherize | uppercase}}</h3>
+    <ng-container *ngFor="let file of $any(category.value) | keyvalue">
       <a
         class="link-container"
-        [routerLink]="'/documentation/' + category.name + '/' + file"
+        [routerLink]="'/documentation/' + category.key + '/' + file.key"
         routerLinkActive="active-link"
       >
-        <p>{{file | undasherize | titlecase}}</p>
+        <p>{{$any(file.key) | undasherize | titlecase }}</p>
       </a>
+      <ng-container *ngIf="expandLinks($any(category.key), $any(file.key))">
+        <ng-container *ngFor=" let nestedFile of $any(file.value).addOns">
+          <a
+            class="nested-link-container"
+            [routerLink]="getLink($any(category.key), $any(file.key), $any(nestedFile))"
+            routerLinkActive="active-link"
+          >
+            <p>{{getFileName($any(nestedFile)) | undasherize | titlecase}}</p>
+          </a>
+        </ng-container>
+      </ng-container>
     </ng-container>
   </ng-container>
 </header>

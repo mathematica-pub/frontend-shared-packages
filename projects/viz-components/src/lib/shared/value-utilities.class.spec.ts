@@ -87,6 +87,29 @@ describe('ValueUtilities', () => {
       });
     });
 
+    describe('value is decimal, < 100 and > 10, test with different sigDigits', () => {
+      beforeEach(() => {
+        value = 15.678;
+      });
+      it('returns the correct value if sigDigits is 2', () => {
+        sigDigits = 2;
+        const result = ValueUtilities.getValueRoundedUpNSignificantDigits(
+          value,
+          sigDigits
+        );
+        expect(result).toEqual(16);
+      });
+
+      it('returns the correct value if sigDigits is 3', () => {
+        sigDigits = 3;
+        const result = ValueUtilities.getValueRoundedUpNSignificantDigits(
+          value,
+          sigDigits
+        );
+        expect(result).toEqual(15.7);
+      });
+    });
+
     describe('value is small decimal, < 10 and > 1, test with different sigDigits', () => {
       beforeEach(() => {
         value = 1.5678;
