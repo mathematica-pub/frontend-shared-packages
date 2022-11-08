@@ -1,6 +1,10 @@
 <app-component-demo>
   <span title class="title">Lines</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
+    <button
+      (click)="downloadService.saveCSV(vm.dataConfig.data, 'lines-example', ['date'])"
+      >download as csv</button
+    >
     <div class="effect-container">
       <p class="effect-title">Lines Input Event example</p>
       <p class="effect-instruction">Hover any name to see effect in chart</p>
