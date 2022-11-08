@@ -128,6 +128,10 @@ export class LinesExampleComponent implements OnInit {
       containerNode: this.imageNode.nativeElement,
       fileName: 'testfile',
     });
-    this.imageService.downloadNode(imageConfig);
+    // verification that this is indeed a promise
+    console.log('waiting true');
+    this.imageService
+      .downloadNode(imageConfig)
+      .then(() => console.log('waiting false'));
   }
 }
