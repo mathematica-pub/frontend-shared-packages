@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { valueFormat } from 'projects/viz-components/src/lib/format/format';
+import { valueFormat } from 'projects/viz-components/src/lib/core/constants/string-formatting.constants';
 import { EmitGeographiesHoverTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
 import {
   GeographiesHoverEmittedOutput,

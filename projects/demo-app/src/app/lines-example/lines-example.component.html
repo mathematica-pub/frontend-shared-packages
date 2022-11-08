@@ -4,6 +4,10 @@
     <button class="download-button" (click)="downloadImage()"
       >download image as jpeg</button
     >
+    <button
+      (click)="downloadService.saveCSV(vm.dataConfig.data, 'lines-example', ['date'])"
+      >download as csv</button
+    >
     <div #imageNode>
       <div class="effect-container">
         <p class="effect-title">Lines Input Event example</p>

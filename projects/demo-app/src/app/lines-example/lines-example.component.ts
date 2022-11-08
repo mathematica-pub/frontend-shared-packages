@@ -13,6 +13,7 @@ import {
   EmitLinesTooltipData,
   ImageService,
   JpegImageConfig,
+  ExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
@@ -66,8 +67,10 @@ export class LinesExampleComponent implements OnInit {
   ];
 
   private imageService = inject(ImageService);
-
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    public downloadService: ExportDataService
+  ) {}
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
@@ -123,15 +126,11 @@ export class LinesExampleComponent implements OnInit {
     this.chartInputEvent.next(label);
   }
 
-  downloadImage(): void {
+  async downloadImage(): Promise<void> {
     const imageConfig = new JpegImageConfig({
       containerNode: this.imageNode.nativeElement,
       fileName: 'testfile',
     });
-    // verification that this is indeed a promise
-    console.log('waiting true');
-    this.imageService
-      .downloadNode(imageConfig)
-      .then(() => console.log('waiting false'));
+    await this.imageService.downloadNode(imageConfig);
   }
 }

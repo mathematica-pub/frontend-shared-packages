@@ -36,7 +36,7 @@ export class RenderFileComponent
   currentSubscription$: Subscription;
 
   ngOnInit(): void {
-    if (this.router.url == '/overview') {
+    if (this.router.url === '/overview') {
       const path = 'Overview.md';
       this.currentSubscription$ = this.documentationService
         .getDocumentation(path)
