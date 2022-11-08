@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { parse } from 'yaml';
+import { Example } from '../core/models/example';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,7 @@ import { parse } from 'yaml';
 export class NavbarComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navbarConfig$: Observable<any>;
-  examples = ['bars', 'stacked-area', 'lines', 'geographies'];
+  examples: Example[] = ['bars', 'stacked-area', 'lines', 'geographies'];
 
   private http = inject(HttpClient);
   router = inject(Router);
