@@ -206,12 +206,10 @@ Parameters:
   DatabaseSubnets:
     Description: The subnets to place database instances in.
     Type: String
-    Description: subnet(s) with RDS instance
 
   VpcId:
     Description: VpcId
     Type: String
-    Description: VPC with RDS instance
 
   ConfigureForVpc:
     Type: String

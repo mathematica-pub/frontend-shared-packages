@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - n lts
+      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm  > /dev/null 2>&1
+      - yum install ./google-chrome-stable_current_x86_64.rpm -y  > /dev/null 2>&1
+      - npm install -g npm@latest
+      - npm ci
+  build:
+    commands:
+      - npm run test:lib:ci
+      - mkdir test-artifacts
+      - cp projects/viz-components/test-results.xml ./test-artifacts/test-results.xml
+artifacts:
+  files:
+    - "*"
+  base-directory: test-artifacts

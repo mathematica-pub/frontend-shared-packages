@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - n lts
+      - npm install -g npm@latest
+      - npm ci
+  build:
+    commands:
+      - npm run lint:lib
