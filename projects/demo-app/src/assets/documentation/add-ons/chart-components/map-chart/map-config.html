@@ -15,15 +15,15 @@
 
 <ol class="breadcrumb">
   <li>Classes</li>
-  <li >GeographiesConfig</li>
+  <li >MapConfig</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="active">
-            <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+            <a href="documentation/./add-ons/chart-components/map-chart/map-config#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
         <li >
-            <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+            <a href="documentation/./add-ons/chart-components/map-chart/map-config#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
@@ -33,7 +33,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/geographies/geographies.config.ts</code>
+            <code>projects/viz-components/src/lib/map/map.model.ts</code>
         </p>
 
 
@@ -60,24 +60,27 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#boundary" >boundary</a>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#boundary" >boundary</a>
                             </li>
                             <li>
                                     <span class="modifier">Optional</span>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#dataGeographyConfig" >dataGeographyConfig</a>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#dataGeography" >dataGeography</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#projection" >projection</a>
                             </li>
                             <li>
                                     <span class="modifier">Optional</span>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#noDataGeographiesConfigs" >noDataGeographiesConfigs</a>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#simpleGeographies" >simpleGeographies</a>
                             </li>
                             <li>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#projection" >projection</a>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#data" >data</a>
                             </li>
                             <li>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#data" >data</a>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#mixBlendMode" >mixBlendMode</a>
                             </li>
                             <li>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#mixBlendMode" >mixBlendMode</a>
+                                <a href="documentation/./add-ons/chart-components/map-chart/map-config#tooltip" >tooltip</a>
                             </li>
                         </ul>
                     </td>
@@ -98,12 +101,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(init?: <a href="documentation/add-ons/data-marks-components/geographies/geographies-config" target="_self">Partial&lt;GeographiesConfig&gt;</a>)</code>
+<code>constructor(init?: <a href="documentation/add-ons/chart-components/map-chart/map-config" target="_self">Partial&lt;MapConfig&gt;</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/viz-components/src/lib/map/map.model.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -124,7 +127,7 @@
                                                         <td>init</td>
                                                   
                                                         <td>
-                                                                        <code><a href="documentation/add-ons/data-marks-components/geographies/geographies-config" target="_self" >Partial&lt;GeographiesConfig&gt;</a></code>
+                                                                        <code><a href="documentation/add-ons/chart-components/map-chart/map-config" target="_self" >Partial&lt;MapConfig&gt;</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -153,7 +156,7 @@
                     <a name="boundary"></a>
                     <span class="name">
                         <span ><b>boundary</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#boundary"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#boundary"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -165,7 +168,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/viz-components/src/lib/map/map.model.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -176,50 +179,23 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="dataGeographyConfig"></a>
+                    <a name="dataGeography"></a>
                     <span class="name">
                             <span class="modifier">Optional</span>
-                        <span ><b>dataGeographyConfig</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#dataGeographyConfig"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>dataGeography</b></span>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#dataGeography"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="documentation/add-ons/data-marks-components/geographies/data-geography-config" target="_self" >DataGeographyConfig</a></code>
+                        <i>Type : </i>        <code><a " target="_self" >DataGeography</a></code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:16</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="noDataGeographiesConfigs"></a>
-                    <span class="name">
-                            <span class="modifier">Optional</span>
-                        <span ><b>noDataGeographiesConfigs</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#noDataGeographiesConfigs"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>NoDataGeographyConfig[]</code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/viz-components/src/lib/map/map.model.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -233,7 +209,7 @@
                     <a name="projection"></a>
                     <span class="name">
                         <span ><b>projection</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#projection"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#projection"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -245,7 +221,34 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/viz-components/src/lib/map/map.model.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="simpleGeographies"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>simpleGeographies</b></span>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#simpleGeographies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >SimpleGeography[]</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/map/map.model.ts:16</a></div>
                         </td>
                     </tr>
 
@@ -259,7 +262,7 @@
                     <a name="data"></a>
                     <span class="name">
                         <span ><b>data</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#data"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#data"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -277,7 +280,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:2</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:18</a></code>
 </div>
                         </td>
                     </tr>
@@ -292,7 +295,7 @@
                     <a name="mixBlendMode"></a>
                     <span class="name">
                         <span ><b>mixBlendMode</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-config#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#mixBlendMode"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -310,7 +313,40 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:3</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:19</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="tooltip"></a>
+                    <span class="name">
+                        <span ><b>tooltip</b></span>
+                        <a href="documentation/./add-ons/chart-components/map-chart/map-config#tooltip"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="documentation/add-ons/data-marks-components/tooltip-config" target="_self" >TooltipConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="documentation/add-ons/data-marks-components/data-marks" target="_self" >DataMarksConfig</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -332,22 +368,23 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   geoAlbersUsa,
+  InternMap,
   interpolateLab,
   scaleLinear,
   scaleQuantile,
   scaleQuantize,
   scaleThreshold,
 } from &#x27;d3&#x27;;
-import { DataDimensionConfig } from &#x27;../data-marks/data-dimension.config&#x27;;
-import { DataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
+import { DataDimension } from &#x27;../data-marks/data-dimension.model&#x27;;
+import { DataMarksConfig } from &#x27;../data-marks/data-marks.model&#x27;;
 
-export class GeographiesConfig extends DataMarksConfig {
+export class MapConfig extends DataMarksConfig {
   boundary: any;
   projection: any;
-  noDataGeographiesConfigs?: NoDataGeographyConfig[];
-  dataGeographyConfig?: DataGeographyConfig;
+  simpleGeographies?: SimpleGeography[];
+  dataGeography?: DataGeography;
 
-  constructor(init?: Partial&lt;GeographiesConfig&gt;) {
+  constructor(init?: Partial&lt;MapConfig&gt;) {
     super();
     this.data &#x3D; [];
     this.projection &#x3D; geoAlbersUsa();
@@ -355,13 +392,13 @@ export class GeographiesConfig extends DataMarksConfig {
   }
 }
 
-export class NoDataGeographyConfig {
+export class SimpleGeography {
   geographies: any[];
   strokeColor: string;
   strokeWidth: string;
   fill: string;
 
-  constructor(init?: Partial&lt;NoDataGeographyConfig&gt;) {
+  constructor(init?: Partial&lt;SimpleGeography&gt;) {
     this.strokeColor &#x3D; &#x27;dimgray&#x27;;
     this.strokeWidth &#x3D; &#x27;1&#x27;;
     this.fill &#x3D; &#x27;none&#x27;;
@@ -369,29 +406,29 @@ export class NoDataGeographyConfig {
   }
 }
 
-export class DataGeographyConfig extends NoDataGeographyConfig {
+export class DataGeography extends SimpleGeography {
   valueAccessor?: (d: any) &#x3D;&gt; any;
-  attributeDataConfig: AttributeDataDimensionConfig;
+  dataConfig: GeoDataDimension;
   nullColor: string;
 
-  constructor(init?: Partial&lt;DataGeographyConfig&gt;) {
+  constructor(init?: Partial&lt;DataGeography&gt;) {
     super();
     this.nullColor &#x3D; &#x27;#dcdcdc&#x27;;
     Object.assign(this, init);
   }
 }
 
-export class AttributeDataDimensionConfig extends DataDimensionConfig {
+export class GeoDataDimension extends DataDimension {
   geoAccessor: (d: any) &#x3D;&gt; any;
   valueType: string;
   binType: MapBinType;
-  range: any[];
   colorScale: (...args: any) &#x3D;&gt; any;
   colors?: string[];
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) &#x3D;&gt; any;
-  constructor(init?: Partial&lt;AttributeDataDimensionConfig&gt;) {
+  range: any[];
+  constructor(init?: Partial&lt;GeoDataDimension&gt;) {
     super();
     Object.assign(this, init);
   }
@@ -403,10 +440,10 @@ export type MapBinType &#x3D;
   | &#x27;equal num observations&#x27;
   | &#x27;custom breaks&#x27;;
 
-export class CategoricalAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
+export class GeoCategoricalDataDimension extends GeoDataDimension {
   override interpolator: never;
 
-  constructor(init?: Partial&lt;CategoricalAttributeDataDimensionConfig&gt;) {
+  constructor(init?: Partial&lt;GeoCategoricalDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;categorical&#x27;;
     this.binType &#x3D; &#x27;none&#x27;;
@@ -414,8 +451,9 @@ export class CategoricalAttributeDataDimensionConfig extends AttributeDataDimens
     Object.assign(this, init);
   }
 }
-export class NoBinsQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
-  constructor(init?: Partial&lt;NoBinsQuantitativeAttributeDataDimensionConfig&gt;) {
+
+export class GeoNoBinsQuantitativeDataDimension extends GeoDataDimension {
+  constructor(init?: Partial&lt;GeoNoBinsQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;none&#x27;;
@@ -425,10 +463,8 @@ export class NoBinsQuantitativeAttributeDataDimensionConfig extends AttributeDat
   }
 }
 
-export class EqualValuesQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
-  constructor(
-    init?: Partial&lt;EqualValuesQuantitativeAttributeDataDimensionConfig&gt;
-  ) {
+export class GeoEqualValuesQuantitativeDataDimension extends GeoDataDimension {
+  constructor(init?: Partial&lt;GeoEqualValuesQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;equal value ranges&#x27;;
@@ -439,11 +475,8 @@ export class EqualValuesQuantitativeAttributeDataDimensionConfig extends Attribu
   }
 }
 
-export class EqualNumbersQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
-  override domain: never;
-  constructor(
-    init?: Partial&lt;EqualNumbersQuantitativeAttributeDataDimensionConfig&gt;
-  ) {
+export class GeoEqualNumbersQuantitativeDataDimension extends GeoDataDimension {
+  constructor(init?: Partial&lt;GeoEqualNumbersQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;equal num observations&#x27;;
@@ -454,15 +487,23 @@ export class EqualNumbersQuantitativeAttributeDataDimensionConfig extends Attrib
   }
 }
 
-export class CustomBreaksQuantitativeAttributeDataDimensionConfig extends AttributeDataDimensionConfig {
-  constructor(
-    init?: Partial&lt;CustomBreaksQuantitativeAttributeDataDimensionConfig&gt;
-  ) {
+export class GeoCustomBreaksQuantitativeDataDimension extends GeoDataDimension {
+  constructor(init?: Partial&lt;GeoCustomBreaksQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;custom breaks&#x27;;
     this.colorScale &#x3D; scaleThreshold;
     this.interpolator &#x3D; interpolateLab;
+    Object.assign(this, init);
+  }
+}
+
+export class MapDataValues {
+  dataGeographies: any[];
+  dataValues: any[];
+  indexMap: InternMap;
+  geoGeographies: any[];
+  constructor(init?: Partial&lt;MapDataValues&gt;) {
     Object.assign(this, init);
   }
 }

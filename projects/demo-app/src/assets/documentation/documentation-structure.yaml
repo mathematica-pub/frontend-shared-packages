@@ -27,8 +27,12 @@ add-ons:
   data-marks-components:
     all: 
       html-tooltip: 'components/HtmlTooltipComponent.html'
+      html-tooltip-overlay-config: 'classes/HtmlTooltipOverlayConfig.html'
       tooltip-config: 'classes/TooltipConfig.html'
       data-marks: 'classes/DataMarksConfig.html'
+      categorical-color-dimension-config: 'classes/CategoricalColorDimensionConfig.html'
+      data-dimension-config: 'classes/DataDimensionConfig.html'
+      domain-padding-config: 'classes/DomainPaddingConfig.html'
     geographies:
       geographies-config: 'classes/GeographiesConfig.html'
       geographies-hover-event: 'directives/GeographiesHoverEventDirective.html'
@@ -36,9 +40,13 @@ add-ons:
       map-legend: 'components/MapLegendComponent.html'
       html-tooltip: 'components/HtmlTooltipComponent.html'
       no-data-geography-config: 'classes/NoDataGeographyConfig.html'
+      attribute-data-dimension-config: 'classes/AttributeDataDimensionConfig.html'
+      categorical-attribute-data-dimension-config: 'classes/CategoricalAttributeDataDimensionConfig.html'
       no-bins-quantitative-attribute-data-dimension-config: 'classes/NoBinsQuantitativeAttributeDataDimensionConfig.html'
       equal-numbers-quantitative-attribute-data-dimension-config: 'classes/EqualNumbersQuantitativeAttributeDataDimensionConfig.html'
       equal-values-quantitative-attribute-data-dimension-config: 'classes/EqualValuesQuantitativeAttributeDataDimensionConfig.html'
+      custom-breaks-quantitative-attribute-data-dimension-config: 'classes/CustomBreaksQuantitativeAttributeDataDimensionConfig.html'
+      data-geography-config: 'classes/DataGeographyConfig.html'
     lines:
       lines-config: 'classes/LinesConfig.html'
       lines-tooltip-config: 'classes/LinesTooltipConfig.html'
@@ -51,6 +59,7 @@ add-ons:
       lines-hover-and-move-effect-default-markers-styles: 'classes/LinesHoverAndMoveEffectDefaultMarkersStyles.html'
       lines-hover-and-move-effect-default-styles: 'classes/LinesHoverAndMoveEffectDefaultStyles.html'
       lines-hover-and-move-effect-default-styles-config: 'classes/LinesHoverAndMoveEffectDefaultStylesConfig.html'
+      point-marker-config: 'classes/PointMarkerConfig.html'
     bars: 
       bars-config: 'classes/BarsConfig.html'
       quantitative-dimension-config: 'classes/QuantitativeDimensionConfig.html'
