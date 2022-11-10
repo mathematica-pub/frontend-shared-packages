@@ -1,11 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import {
-  Component,
-  inject,
-  NgZone,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, inject, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
@@ -26,8 +19,6 @@ export class ComponentDemoComponent extends Unsubscribe implements OnInit {
   fileData$: Observable<string>;
   private documentationService = inject(DocumentationService);
   private router = inject(Router);
-  private http = inject(HttpClient);
-  private zone = inject(NgZone);
   private resource = inject(ComponentDemoResource);
 
   ngOnInit(): void {
@@ -56,9 +47,14 @@ export class ComponentDemoComponent extends Unsubscribe implements OnInit {
     this.resource
       .getDemoText(baseName)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((text) => {
-        this.parseText(text, baseName);
-        this.initFormValue();
+      .subscribe({
+        next: (text) => {
+          this.parseText(text, baseName);
+          this.initFormValue();
+        },
+        error: () => {
+          this.initFormValue();
+        },
       });
   }
 
