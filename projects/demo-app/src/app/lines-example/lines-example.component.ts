@@ -5,6 +5,7 @@ import {
   AxisConfig,
   ElementSpacing,
   EmitLinesTooltipData,
+  ExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
@@ -56,7 +57,10 @@ export class LinesExampleComponent implements OnInit {
     new EmitLinesTooltipData(),
   ];
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    public downloadService: ExportDataService
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
