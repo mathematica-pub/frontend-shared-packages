@@ -6,7 +6,6 @@ import {
   horizontalBarChartDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
-import { Documentation } from '../core/enums/documentation.enums';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
@@ -28,6 +27,7 @@ export class BarsExampleComponent implements OnInit {
     bottom: 8,
     left: 300,
   };
+  folderName = 'bars-example';
 
   constructor(private dataService: DataService) {}
 
