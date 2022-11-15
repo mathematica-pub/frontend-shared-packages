@@ -59,6 +59,7 @@ export class GeographiesExampleComponent implements OnInit {
   hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
     new EmitGeographiesHoverTooltipData(),
   ];
+  folderName = 'geographies-example';
 
   constructor(
     private dataService: DataService,

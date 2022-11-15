@@ -1,4 +1,4 @@
-<app-component-demo [includeFiles]="['line-input-effects.ts']">
+<app-component-demo [folderName]="folderName" [includeFiles]="includeFiles">
   <span title class="title">Lines</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
     <button

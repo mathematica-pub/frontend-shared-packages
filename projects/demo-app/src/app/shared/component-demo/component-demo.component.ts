@@ -6,9 +6,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, startWith, switchMap } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 
 @Component({
@@ -20,46 +19,43 @@ import { DocumentationService } from '../../core/services/documentation.service'
 })
 export class ComponentDemoComponent extends Unsubscribe implements OnInit {
   @Input() includeFiles: string[];
+  @Input() folderName: string;
   controlPanel: FormGroup;
   fileList: string[];
   fileData$: Observable<string>;
   private documentationService = inject(DocumentationService);
-  private router = inject(Router);
 
   ngOnInit(): void {
-    this.setFileList(this.router.url.replace('/examples/', ''));
+    this.fileList = this.createFileList();
+    const initialSelectedFile = this.fileList[0];
     this.controlPanel = new FormGroup({
-      selectedFile: new FormControl(),
+      selectedFile: new FormControl(initialSelectedFile),
     });
+    this.documentationService.getDocumentation(this.fileList[0]);
     this.fileData$ = this.controlPanel.controls[
       'selectedFile'
     ].valueChanges.pipe(
+      startWith(initialSelectedFile),
       switchMap((fileName) =>
         this.documentationService.getDocumentation(fileName)
       )
     );
-    setTimeout(() => {
-      this.initFormValue();
-    });
   }
 
-  setFileList(baseString: string): void {
-    const baseName = `app/${baseString}-example`;
-    const baseSourceUrl = `${baseName}/${baseString}-example.component`;
-    this.fileList = [
+  createFileList(): string[] {
+    const baseName = `app/${this.folderName}`;
+    const baseSourceUrl = `${baseName}/${this.folderName}.component`;
+    const fileList = [
       `${baseSourceUrl}.ts`,
       `${baseSourceUrl}.html`,
       `${baseSourceUrl}.scss`,
     ];
     if (this.includeFiles !== undefined) {
       this.includeFiles.forEach((fileName) =>
-        this.fileList.push(`${baseName}/${fileName}`)
+        fileList.push(`${baseName}/${fileName}`)
       );
     }
-  }
-
-  initFormValue(): void {
-    this.controlPanel.controls['selectedFile'].setValue(this.fileList[0]);
+    return fileList;
   }
 
   getFileDisplayName(fullFilePath: string): string {

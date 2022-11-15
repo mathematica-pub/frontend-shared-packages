@@ -23,6 +23,7 @@ interface ViewModel {
   yAxisConfig: AxisConfig;
   labels: string[];
 }
+const includeFiles = ['line-input-effects.ts'];
 
 @Component({
   selector: 'app-lines-example',
@@ -56,6 +57,8 @@ export class LinesExampleComponent implements OnInit {
     ),
     new EmitLinesTooltipData(),
   ];
+  includeFiles = includeFiles;
+  folderName = 'lines-example';
 
   constructor(
     private dataService: DataService,
