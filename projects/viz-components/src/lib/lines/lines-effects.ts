@@ -1,5 +1,5 @@
 import { EventEffect } from '../events/effect';
-import { formatValue } from '../format/format';
+import { formatValue } from '../core/constants/string-formatting.constants';
 import { LinesHoverAndMoveEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
 import {
   LinesEmittedOutput,
