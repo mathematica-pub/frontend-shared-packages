@@ -1,0 +1,27 @@
+<div *ngFor="let link of links">
+  <a
+    *ngIf="link.isFile; else nestedDisplay"
+    [routerLink]="addPartToBaseString(link.name)"
+    routerLinkActive="active-link"
+    class="link"
+  >
+    {{$any(link.name) | undasherize | titlecase }}
+  </a>
+  <ng-template #nestedDisplay>
+    <div
+      class="link-container"
+      (click)="toggleSelected($any(link.name))"
+      (mouseover)="setArrowUpIfSelected($any(link.name))"
+      (mouseout)="setArrowDown($any(link.name))"
+    >
+      <p>{{$any(link.name) | undasherize | titlecase}}</p>
+      <div [ngClass]="getArrow($any(link.name))"></div>
+    </div>
+    <app-navbar-folder
+      class="folder-elements"
+      *ngIf="selected[$any(link.name)]"
+      [baseString]="addPartToBaseString(link.name)"
+      [links]="link.contents"
+    ></app-navbar-folder>
+  </ng-template>
+</div>
