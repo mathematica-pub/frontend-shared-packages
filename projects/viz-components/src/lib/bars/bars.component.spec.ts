@@ -533,7 +533,9 @@ describe('BarsComponent', () => {
       expect(result).toEqual('blue');
     });
     it('returns correct value when pattern is used', () => {
-      component.config.patternPredicates = [{patternName: 'pattern', predicate: (d: any) => true}]
+      component.config.patternPredicates = [
+        { patternName: 'pattern', predicate: (d: any) => true },
+      ];
       const result = component.getBarColor(0);
       expect(result).toEqual(`url(#pattern)`);
     });

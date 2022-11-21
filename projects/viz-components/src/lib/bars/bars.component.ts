@@ -337,7 +337,11 @@ export class BarsComponent
       this.values[this.config.dimensions.ordinal][i]
     );
     const predicates = this.config.patternPredicates;
-    return PatternUtilities.getPatternFill(this.config.data[i], color, predicates);
+    return PatternUtilities.getPatternFill(
+      this.config.data[i],
+      color,
+      predicates
+    );
   }
 
   getBarX(i: number): number {
