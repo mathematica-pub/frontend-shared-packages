@@ -26,13 +26,11 @@ import {
 } from 'd3';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { mixinPatternFill } from '../shared/pattern-fill';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
-
-const XyContentWithPattern = mixinPatternFill(XyContent);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -44,7 +42,7 @@ const XyContentWithPattern = mixinPatternFill(XyContent);
   providers: [{ provide: DATA_MARKS, useExisting: BarsComponent }],
 })
 export class BarsComponent
-  extends XyContentWithPattern
+  extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
@@ -334,11 +332,18 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    const color = this.config.category.colorScale(
+    let color = this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
     const predicates = this.config.patternPredicates;
-    return this.getPatternFill(this.config.data[i], color, predicates);
+    if (predicates) {
+      predicates.forEach((predMapping: PatternPredicate) => {
+        if (predMapping.predicate(this.config.data[i])) {
+          color = `url(#${predMapping.patternName})`;
+        }
+      });
+    }
+    return color;
   }
 
   getBarX(i: number): number {

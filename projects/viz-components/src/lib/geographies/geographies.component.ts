@@ -28,10 +28,10 @@ import { takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
+import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
-import { mixinPatternFill } from '../shared/pattern-fill';
 import {
   DataGeographyConfig,
   GeographiesConfig,
@@ -48,8 +48,6 @@ export class MapDataValues {
 export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   'GeographiesComponent'
 );
-
-const MapWithPattern = mixinPatternFill(MapContent);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -71,7 +69,7 @@ const MapWithPattern = mixinPatternFill(MapContent);
   ],
 })
 export class GeographiesComponent
-  extends MapWithPattern
+  extends MapContent
   implements DataMarks, OnChanges, OnInit
 {
   @ViewChild('map', { static: true }) mapRef: ElementRef<SVGSVGElement>;
@@ -429,10 +427,17 @@ export class GeographiesComponent
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
     const datum = this.config.data[convertedIndex];
-    const color = this.attributeDataScale(dataValue);
+    let color = this.attributeDataScale(dataValue);
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
-    return this.getPatternFill(datum, color, predicates);
+    if (predicates) {
+      predicates.forEach((predMapping: PatternPredicate) => {
+        if (predMapping.predicate(datum)) {
+          color = `url(#${predMapping.patternName})`;
+        }
+      });
+    }
+    return color;
   }
 
   getValueIndexFromDataGeographyIndex(i: number): number {
