@@ -1,17 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import {
   Component,
   inject,
-  NgZone,
+  Input,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { Observable, switchMap, takeUntil } from 'rxjs';
+import { Observable, startWith, switchMap } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
-import { ComponentDemoResource } from './component-demo.resource';
 
 @Component({
   selector: 'app-component-demo',
@@ -21,54 +18,44 @@ import { ComponentDemoResource } from './component-demo.resource';
   encapsulation: ViewEncapsulation.None,
 })
 export class ComponentDemoComponent extends Unsubscribe implements OnInit {
+  @Input() includeFiles: string[];
+  @Input() folderName: string;
   controlPanel: FormGroup;
   fileList: string[];
   fileData$: Observable<string>;
   private documentationService = inject(DocumentationService);
-  private router = inject(Router);
-  private http = inject(HttpClient);
-  private zone = inject(NgZone);
-  private resource = inject(ComponentDemoResource);
 
   ngOnInit(): void {
-    this.setFileList(this.router.url.replace('/examples/', ''));
+    this.fileList = this.createFileList();
+    const initialSelectedFile = this.fileList[0];
     this.controlPanel = new FormGroup({
-      selectedFile: new FormControl(),
+      selectedFile: new FormControl(initialSelectedFile),
     });
+    this.documentationService.getDocumentation(this.fileList[0]);
     this.fileData$ = this.controlPanel.controls[
       'selectedFile'
     ].valueChanges.pipe(
+      startWith(initialSelectedFile),
       switchMap((fileName) =>
         this.documentationService.getDocumentation(fileName)
       )
     );
   }
 
-  setFileList(baseString: string): void {
-    const baseName = `app/${baseString}-example`;
-    const baseSourceUrl = `${baseName}/${baseString}-example.component`;
-    this.fileList = [
+  createFileList(): string[] {
+    const baseName = `app/${this.folderName}`;
+    const baseSourceUrl = `${baseName}/${this.folderName}.component`;
+    const fileList = [
       `${baseSourceUrl}.ts`,
       `${baseSourceUrl}.html`,
       `${baseSourceUrl}.scss`,
     ];
-
-    this.resource
-      .getDemoText(baseName)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((text) => {
-        this.parseText(text, baseName);
-        this.initFormValue();
-      });
-  }
-
-  parseText(text: string, baseName: string): void {
-    const lines = text.split('\n');
-    lines.forEach((line) => this.fileList.push(`${baseName}/${line}`));
-  }
-
-  initFormValue(): void {
-    this.controlPanel.controls['selectedFile'].setValue(this.fileList[0]);
+    if (this.includeFiles !== undefined) {
+      this.includeFiles.forEach((fileName) =>
+        fileList.push(`${baseName}/${fileName}`)
+      );
+    }
+    return fileList;
   }
 
   getFileDisplayName(fullFilePath: string): string {
