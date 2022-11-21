@@ -19,4 +19,7 @@ export class TooltipConfig {
   }
 }
 
-export type PatternPredicates = Map<string, (d: any) => boolean>;
+export interface PatternPredicate {
+  patternName: string;
+  predicate: (d: any) => boolean;
+}
