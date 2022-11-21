@@ -32,6 +32,7 @@ import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
+import { PatternUtilities } from '../shared/pattern-utilities.class';
 import {
   DataGeographyConfig,
   GeographiesConfig,
@@ -427,17 +428,10 @@ export class GeographiesComponent
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
     const datum = this.config.data[convertedIndex];
-    let color = this.attributeDataScale(dataValue);
+    const color = this.attributeDataScale(dataValue);
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
-    if (predicates) {
-      predicates.forEach((predMapping: PatternPredicate) => {
-        if (predMapping.predicate(datum)) {
-          color = `url(#${predMapping.patternName})`;
-        }
-      });
-    }
-    return color;
+    return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
   getValueIndexFromDataGeographyIndex(i: number): number {
