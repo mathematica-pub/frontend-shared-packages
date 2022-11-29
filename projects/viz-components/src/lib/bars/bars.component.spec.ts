@@ -520,6 +520,7 @@ describe('BarsComponent', () => {
         category: {
           colorScale: colorScaleSpy,
         },
+        data: [1, 2, 3],
       } as any;
       component.values.x = [1, 2, 3];
     });
@@ -530,6 +531,13 @@ describe('BarsComponent', () => {
     it('returns the correct value', () => {
       const result = component.getBarColor(0);
       expect(result).toEqual('blue');
+    });
+    it('returns correct value when pattern is used', () => {
+      component.config.patternPredicates = [
+        { patternName: 'pattern', predicate: (d: any) => true },
+      ];
+      const result = component.getBarColor(0);
+      expect(result).toEqual(`url(#pattern)`);
     });
   });
 
