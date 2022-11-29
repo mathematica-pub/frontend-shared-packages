@@ -28,9 +28,11 @@ import { takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
+import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
+import { PatternUtilities } from '../shared/pattern-utilities.class';
 import {
   DataGeographyConfig,
   GeographiesConfig,
@@ -423,14 +425,17 @@ export class GeographiesComponent
   }
 
   getFill(i: number): string {
-    const dataValue = this.getValueFromDataGeographyIndex(i);
+    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue = this.values.attributeDataValues[convertedIndex];
+    const datum = this.config.data[convertedIndex];
     const color = this.attributeDataScale(dataValue);
-    return color;
+    const predicates =
+      this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
+    return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
-  getValueFromDataGeographyIndex(i: number): any {
+  getValueIndexFromDataGeographyIndex(i: number): number {
     const geoName = this.values.geoJsonGeographies[i];
-    const dataIndex = this.values.indexMap.get(geoName);
-    return this.values.attributeDataValues[dataIndex];
+    return this.values.indexMap.get(geoName);
   }
 }
