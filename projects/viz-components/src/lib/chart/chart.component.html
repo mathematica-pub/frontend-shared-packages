@@ -11,6 +11,7 @@
     [attr.width]="(svgDimensions$ | async).width"
     [attr.height]="(svgDimensions$ | async).height"
   >
+    <ng-content select="[svg-defs]"></ng-content>
     <ng-content select="[svg-elements]"></ng-content>
   </svg>
 </div>
