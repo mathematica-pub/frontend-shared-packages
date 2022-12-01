@@ -27,6 +27,7 @@ export class StackedAreaExampleComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
+  folderName = 'stacked-area-example';
 
   constructor(private dataService: DataService) {}
 
