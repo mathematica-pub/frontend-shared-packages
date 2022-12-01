@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { parse } from 'yaml';
+import { Example } from '../core/models/example';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,7 @@ import { parse } from 'yaml';
 export class NavbarComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navbarConfig$: Observable<any>;
-  examples = ['bars', 'stacked-area', 'lines', 'geographies'];
+  examples: Example[] = ['bars', 'stacked-area', 'lines', 'geographies'];
 
   private http = inject(HttpClient);
   router = inject(Router);
@@ -44,16 +45,13 @@ export class NavbarComponent implements OnInit {
           for (const category in addOns) {
             for (const subcategory in addOns[category]) {
               if (subcategory == 'all') {
-                for (const yamlSubcategory in yamlObject[category]) {
-                  const currentSubcategory =
-                    yamlObject[category][yamlSubcategory];
-                  yamlObject[category][yamlSubcategory].addOns = [
-                    ...currentSubcategory.addOns,
+                yamlObject[category][subcategory] = {
+                  addOns: [
                     ...Object.keys(addOns[category][subcategory]).map(
                       (filePath) => `all/${filePath}`
                     ),
-                  ];
-                }
+                  ],
+                };
               } else {
                 const currentSubcategory = yamlObject[category][subcategory];
                 yamlObject[category][subcategory].addOns = [
@@ -81,9 +79,6 @@ export class NavbarComponent implements OnInit {
   }
   expandLinks(category: string, subcategory: string) {
     const url = this.router.url;
-    if (url.includes('all') && url.includes(category)) {
-      return true;
-    }
     return url.includes(category) && url.includes(subcategory);
   }
 }

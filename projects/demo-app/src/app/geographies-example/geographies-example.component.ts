@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { valueFormat } from 'projects/viz-components/src/lib/format/format';
+import { valueFormat } from 'projects/viz-components/src/lib/core/constants/string-formatting.constants';
 import { EmitGeographiesHoverTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
 import {
   GeographiesHoverEmittedOutput,
@@ -59,6 +59,8 @@ export class GeographiesExampleComponent implements OnInit {
   hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
     new EmitGeographiesHoverTooltipData(),
   ];
+  patternName = 'dotPattern';
+  folderName = 'geographies-example';
 
   constructor(
     private dataService: DataService,
@@ -101,6 +103,12 @@ export class GeographiesExampleComponent implements OnInit {
       colors.highlight.default,
     ];
     config.attributeDataConfig.numBins = 6;
+    config.attributeDataConfig.patternPredicates = [
+      {
+        patternName: this.patternName,
+        predicate: (d) => !!d && d.population < 500000,
+      },
+    ];
     return config;
   }
 

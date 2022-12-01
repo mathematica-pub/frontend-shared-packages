@@ -26,8 +26,10 @@ import {
 } from 'd3';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
+import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 
@@ -331,8 +333,14 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    return this.config.category.colorScale(
+    const color = this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
+    );
+    const predicates = this.config.patternPredicates;
+    return PatternUtilities.getPatternFill(
+      this.config.data[i],
+      color,
+      predicates
     );
   }
 
