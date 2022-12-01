@@ -31,3 +31,17 @@ There is no limit to what can be projected into the `Chart` component's content-
 At minimum, the user must supply the `DataMarks` component with a `DataMarksConfig` that provides `data` (any[]), and value accessor functions for each of the components' required dimensions that tell the component how to find values for each dimension from a `data` array element -- typically an object with properties. Note that properties that have no relation to the data visualization may remain on the object without consequence.
 
 The library provides minimal default styles for all components in the library, from `DataMarks` components to add-on components such as axis components. Users may overwrite these style properties with their own in each component's `config`.
+
+## Using the library
+
+### Installation
+
+1.  set your aws credentials (found in `~/.aws/credentials`)
+2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @web-ast`
+3.  `npm install @web-ast/viz-components`
+
+### Custom Schematics
+
+After installing the library, run `ng g viz-components:extend` and follow the instructions from there.
+
+### Code Snippets
