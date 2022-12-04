@@ -10,7 +10,7 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   extent,
@@ -22,7 +22,7 @@ import {
   range,
   scaleLinear,
   select,
-  Transition
+  Transition,
 } from 'd3';
 import { takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
@@ -35,7 +35,7 @@ import { PatternUtilities } from '../shared/pattern-utilities.class';
 import {
   DataGeographyConfig,
   GeographiesConfig,
-  NoDataGeographyConfig
+  NoDataGeographyConfig,
 } from './geographies.config';
 
 export class MapDataValues {

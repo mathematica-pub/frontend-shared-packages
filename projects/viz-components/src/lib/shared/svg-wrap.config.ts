@@ -1,4 +1,4 @@
-export class SvgWrapConfig {
+export class VicSvgWrapConfig {
   // test comment
   width: number;
   maintainXPosition: boolean;
@@ -8,7 +8,7 @@ export class SvgWrapConfig {
    */
   lineHeight: number;
 
-  constructor(init?: Partial<SvgWrapConfig>) {
+  constructor(init?: Partial<VicSvgWrapConfig>) {
     this.maintainXPosition = false;
     // another test comment
     this.maintainYPosition = false;
@@ -17,7 +17,7 @@ export class SvgWrapConfig {
   }
 }
 
-export class TickWrapConfig extends SvgWrapConfig {
+export class TickWrapConfig extends VicSvgWrapConfig {
   wrapWidth: 'bandwidth' | number;
   override width: never;
   constructor(init?: Partial<TickWrapConfig>) {
