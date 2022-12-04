@@ -4,17 +4,17 @@
   display: flex;
 }
 
-.canvas {
+.vic-legend-canvas {
   display: block;
 }
 
-.color-scale.horizontal {
+.vic-legend-color-scale.vic-horizontal {
   display: flex;
   flex-direction: column;
   position: relative;
   max-width: var(--width);
 
-  .canvas-container {
+  .vic-legend-canvas-container {
     display: flex;
     flex-direction: column;
     width: calc(var(--width) - calc(var(--value-space) * 2));
@@ -23,38 +23,38 @@
     margin-left: var(--value-space);
   }
 
-  .values-container {
+  .vic-legend-values-container {
     padding-top: spacing.$grid-1;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
   }
 
-  .value {
+  .vic-value {
     width: calc(var(--value-space) * 2);
     text-align: center;
   }
 
-  &.top {
-    .values-container {
+  &.vic-top {
+    .vic-legend-values-container {
       padding-top: 0;
       padding-bottom: spacing.$grid-1;
     }
   }
 }
 
-.color-scale.vertical {
+.vic-legend-color-scale.vic-vertical {
   display: flex;
   max-height: var(--height);
 
-  .canvas-container {
+  .vic-legend-canvas-container {
     width: var(--width);
     height: calc(var(--height) - calc(#{grid-2} * 2));
     margin-top: spacing.$grid-2;
     margin-bottom: spacing.$grid-2;
   }
 
-  .values-container {
+  .vic-legend-values-container {
     padding-right: spacing.$grid-1;
     display: flex;
     flex-direction: column;
@@ -62,8 +62,8 @@
     align-items: flex-end;
   }
 
-  &.right {
-    .values-container {
+  &.vic-right {
+    .vic-legend-values-container {
       padding-right: 0;
       padding-left: spacing.$grid-1;
       align-items: flex-start;
@@ -71,10 +71,10 @@
   }
 }
 
-.canvas-container {
+.vic-legend-canvas-container {
   border: 1px solid var(--border-color);
 }
 
-.value {
+.vic-value {
   font-size: 12px;
 }

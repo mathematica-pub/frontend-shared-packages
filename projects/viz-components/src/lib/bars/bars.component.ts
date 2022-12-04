@@ -26,7 +26,6 @@ import {
 } from 'd3';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
@@ -240,13 +239,13 @@ export class BarsComponent
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.bars = select(this.barsRef.nativeElement)
-      .selectAll('.bar-group')
+      .selectAll('.vic-bar-group')
       .data(this.values.indicies, this.barsKeyFunction)
       .join(
         (enter) =>
           enter
             .append('g')
-            .attr('class', 'bar-group')
+            .attr('class', 'vic-bar-group')
             .attr('transform', (i) => {
               const x = this.getBarX(i);
               const y = this.getBarY(i);
@@ -264,13 +263,13 @@ export class BarsComponent
       );
 
     this.bars
-      .selectAll('.bar')
+      .selectAll('.vic-bar')
       .data((i: number) => [i])
       .join(
         (enter) =>
           enter
             .append('rect')
-            .attr('class', 'bar')
+            .attr('class', 'vic-bar')
             .property(
               'key',
               (i) => this.values[this.config.dimensions.ordinal][i]
@@ -301,7 +300,7 @@ export class BarsComponent
         (enter) =>
           enter
             .append('text')
-            .attr('class', 'bar-label')
+            .attr('class', 'vic-bar-label')
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
             .attr('x', (i) => this.getBarLabelX(i))

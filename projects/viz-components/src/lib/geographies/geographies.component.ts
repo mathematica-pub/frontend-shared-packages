@@ -10,7 +10,7 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import {
   extent,
@@ -22,13 +22,12 @@ import {
   range,
   scaleLinear,
   select,
-  Transition,
+  Transition
 } from 'd3';
 import { takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
-import { PatternPredicate } from '../data-marks/data-marks.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
@@ -36,7 +35,7 @@ import { PatternUtilities } from '../shared/pattern-utilities.class';
 import {
   DataGeographyConfig,
   GeographiesConfig,
-  NoDataGeographyConfig,
+  NoDataGeographyConfig
 } from './geographies.config';
 
 export class MapDataValues {
@@ -92,13 +91,13 @@ export class GeographiesComponent
 
   get dataGeographies(): any {
     return select(this.mapRef.nativeElement)
-      .selectAll('.map-layer.data')
+      .selectAll('.vic-map-layer.vic-data')
       .selectAll('path');
   }
 
   get noDataGeographies(): any {
     return select(this.mapRef.nativeElement)
-      .selectAll('map-layer.no-data')
+      .selectAll('vic-map-layer.vic-no-data')
       .selectAll('path');
   }
 
@@ -360,10 +359,10 @@ export class GeographiesComponent
 
   drawDataLayer(t: any): void {
     this.map = select(this.mapRef.nativeElement)
-      .selectAll('.map-layer.data')
+      .selectAll('.vic-map-layer.vic-data')
       .data([this.config.dataGeographyConfig])
       .join(
-        (enter) => enter.append('g').attr('class', 'map-layer data'),
+        (enter) => enter.append('g').attr('class', 'vic-map-layer vic-data'),
         (update) => update,
         (exit) => exit.remove()
       );
@@ -386,10 +385,10 @@ export class GeographiesComponent
 
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.mapRef.nativeElement)
-      .selectAll('.map-layer.no-data')
+      .selectAll('.vic-map-layer.vic-no-data')
       .data(this.config.noDataGeographiesConfigs)
       .join(
-        (enter) => enter.append('g').attr('class', 'map-layer no-data'),
+        (enter) => enter.append('g').attr('class', 'vic-map-layer vic-no-data'),
         (update) => update,
         (exit) => exit.remove()
       );
