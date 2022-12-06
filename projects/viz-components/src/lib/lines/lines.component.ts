@@ -10,7 +10,7 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   extent,
@@ -23,7 +23,7 @@ import {
   range,
   scaleOrdinal,
   select,
-  Transition
+  Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
