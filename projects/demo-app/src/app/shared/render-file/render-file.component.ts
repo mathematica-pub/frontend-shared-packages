@@ -48,6 +48,7 @@ export class RenderFileComponent
       this.sanitizeAndHighlight(this.fileData);
     }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['fileData']) {
       this.sanitizeAndHighlight(this.fileData);
