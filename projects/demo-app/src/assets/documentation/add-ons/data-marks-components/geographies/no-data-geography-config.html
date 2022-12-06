@@ -89,7 +89,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -151,7 +151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -177,7 +177,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -203,7 +203,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -229,7 +229,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -257,7 +257,10 @@
   scaleThreshold,
 } from &#x27;d3&#x27;;
 import { DataDimensionConfig } from &#x27;../data-marks/data-dimension.config&#x27;;
-import { DataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
+import {
+  DataMarksConfig,
+  PatternPredicate,
+} from &#x27;../data-marks/data-marks.config&#x27;;
 
 export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
@@ -309,6 +312,7 @@ export class AttributeDataDimensionConfig extends DataDimensionConfig {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) &#x3D;&gt; any;
+  patternPredicates?: PatternPredicate[];
   constructor(init?: Partial&lt;AttributeDataDimensionConfig&gt;) {
     super();
     Object.assign(this, init);

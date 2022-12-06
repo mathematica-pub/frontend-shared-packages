@@ -1,13 +1,14 @@
 <ng-content select="[html-elements-before]"></ng-content>
 <div
   #div
-  class="chart-container"
+  class="vic-chart-container"
   [style.maxWidth.px]="width"
   [style.maxHeight.px]="height"
   [style.display]="'flex'"
 >
   <svg
     #svg
+    class="vic-chart-svg"
     [attr.width]="(svgDimensions$ | async).width"
     [attr.height]="(svgDimensions$ | async).height"
   >

@@ -210,6 +210,11 @@ export class TooltipConfig {
     Object.assign(this, init);
   }
 }
+
+export interface PatternPredicate {
+  patternName: string;
+  predicate: (d: any) &#x3D;&gt; boolean;
+}
 </code></pre>
     </div>
 </div>

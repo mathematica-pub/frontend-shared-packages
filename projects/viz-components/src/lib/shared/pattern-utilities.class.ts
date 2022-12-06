@@ -1,5 +1,8 @@
 import { PatternPredicate } from '../data-marks/data-marks.config';
 
+/**
+ * @internal
+ */
 export class PatternUtilities {
   static getPatternFill(
     datum: any,

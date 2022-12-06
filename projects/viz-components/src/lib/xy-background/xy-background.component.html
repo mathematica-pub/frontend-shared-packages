@@ -1,5 +1,6 @@
 <svg:rect
   *ngIf="(chart.xScale$ | async) && (chart.yScale$ | async)"
+  class="vic-xy-background"
   [attr.x]="(chart.xScale$ | async).range()[0]"
   [attr.y]="(chart.yScale$ | async).range()[1]"
   [attr.width]="(chart.xScale$ | async).range()[1] - (chart.xScale$ | async).range()[0]"
