@@ -1810,16 +1810,18 @@ export class MapChartComponent extends ChartComponent implements Chart {
         <pre class="line-numbers"><code class="language-html">&lt;ng-content select&#x3D;&quot;[html-elements-before]&quot;&gt;&lt;/ng-content&gt;
 &lt;div
   #div
-  class&#x3D;&quot;chart-container&quot;
+  class&#x3D;&quot;vic-chart-container&quot;
   [style.maxWidth.px]&#x3D;&quot;width&quot;
   [style.maxHeight.px]&#x3D;&quot;height&quot;
   [style.display]&#x3D;&quot;&#x27;flex&#x27;&quot;
 &gt;
   &lt;svg
     #svg
+    class&#x3D;&quot;vic-chart-svg&quot;
     [attr.width]&#x3D;&quot;(svgDimensions$ | async).width&quot;
     [attr.height]&#x3D;&quot;(svgDimensions$ | async).height&quot;
   &gt;
+    &lt;ng-content select&#x3D;&quot;[svg-defs]&quot;&gt;&lt;/ng-content&gt;
     &lt;ng-content select&#x3D;&quot;[svg-elements]&quot;&gt;&lt;/ng-content&gt;
   &lt;/svg&gt;
 &lt;/div&gt;

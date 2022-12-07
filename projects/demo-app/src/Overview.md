@@ -12,7 +12,7 @@ A very simple HTML implementation of a full chart could look like this
 
 ```html
 <vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements data-marks-bars [config]="dataMarksConfig"><svg:g>
+  <svg:g svg-elements vic-data-marks-bars [config]="dataMarksConfig"><svg:g>
 </vic-xy-chart>
 ```
 

@@ -1,8 +1,8 @@
 import { select } from 'd3';
-import { SvgWrapConfig } from './svg-wrap.config';
+import { VicSvgWrapConfig } from './svg-wrap.config';
 
-export class SvgWrap {
-  static textWrap(textSelection, options: SvgWrapConfig) {
+export class VicSvgWrap {
+  static textWrap(textSelection, options: VicSvgWrapConfig) {
     const { width, maintainXPosition, maintainYPosition, lineHeight } = options;
 
     textSelection.each((d, i, nodes) => {

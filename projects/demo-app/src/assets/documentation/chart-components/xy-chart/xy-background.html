@@ -266,6 +266,7 @@ export class XyBackgroundComponent {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;svg:rect
   *ngIf&#x3D;&quot;(chart.xScale$ | async) &amp;&amp; (chart.yScale$ | async)&quot;
+  class&#x3D;&quot;vic-xy-background&quot;
   [attr.x]&#x3D;&quot;(chart.xScale$ | async).range()[0]&quot;
   [attr.y]&#x3D;&quot;(chart.yScale$ | async).range()[1]&quot;
   [attr.width]&#x3D;&quot;(chart.xScale$ | async).range()[1] - (chart.xScale$ | async).range()[0]&quot;

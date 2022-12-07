@@ -105,7 +105,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -167,7 +167,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -193,7 +193,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:43</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -220,7 +220,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -252,7 +252,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:30</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:33</a></code>
 </div>
                         </td>
                     </tr>
@@ -285,7 +285,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:27</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:30</a></code>
 </div>
                         </td>
                     </tr>
@@ -318,7 +318,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:28</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:31</a></code>
 </div>
                         </td>
                     </tr>
@@ -351,7 +351,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:29</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/geographies/no-data-geography-config#source" target="_self" >NoDataGeographyConfig:32</a></code>
 </div>
                         </td>
                     </tr>
@@ -380,7 +380,10 @@
   scaleThreshold,
 } from &#x27;d3&#x27;;
 import { DataDimensionConfig } from &#x27;../data-marks/data-dimension.config&#x27;;
-import { DataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
+import {
+  DataMarksConfig,
+  PatternPredicate,
+} from &#x27;../data-marks/data-marks.config&#x27;;
 
 export class GeographiesConfig extends DataMarksConfig {
   boundary: any;
@@ -432,6 +435,7 @@ export class AttributeDataDimensionConfig extends DataDimensionConfig {
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) &#x3D;&gt; any;
+  patternPredicates?: PatternPredicate[];
   constructor(init?: Partial&lt;AttributeDataDimensionConfig&gt;) {
     super();
     Object.assign(this, init);
