@@ -51,18 +51,22 @@ export class ValueUtilities {
     valueStr: string,
     sigDigits: number
   ): number {
-    const newValue = [];
+    let newValue = [];
     let sigDigitsFound = 0;
     for (let i = 0; i < valueStr.length; i++) {
       const char = valueStr[i];
       if (char === '.' || (char === '0' && sigDigitsFound === 0)) {
         newValue.push(char);
       } else {
-        sigDigitsFound = sigDigitsFound + 1;
+        ++sigDigitsFound;
         if (sigDigitsFound <= sigDigits) {
           let newDigit = '0';
           if (sigDigitsFound === sigDigits || i === valueStr.length - 1) {
-            newDigit = `${Number(char) + 1}`;
+            if (char === '9') {
+              newValue = this.getNewValueForNine(newValue, valueStr, i);
+            } else {
+              newDigit = `${Number(char) + 1}`;
+            }
           } else if (sigDigitsFound < sigDigits) {
             newDigit = char;
           }
@@ -71,5 +75,22 @@ export class ValueUtilities {
       }
     }
     return parseFloat(newValue.join(''));
+  }
+
+  private static getNewValueForNine(
+    newValue: string[],
+    valueStr: string,
+    i: number
+  ): string[] {
+    const prevChar = valueStr[i - 1];
+    if (prevChar === '9') {
+      newValue[i - 1] = '0';
+      newValue = this.getNewValueForNine(newValue, valueStr, i - 1);
+    } else if (prevChar === '.') {
+      newValue = this.getNewValueForNine(newValue, valueStr, i - 1);
+    } else {
+      newValue[i - 1] = `${Number(prevChar) + 1}`;
+    }
+    return newValue;
   }
 }

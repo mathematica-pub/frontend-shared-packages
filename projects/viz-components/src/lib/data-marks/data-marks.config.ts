@@ -18,3 +18,8 @@ export class TooltipConfig {
     Object.assign(this, init);
   }
 }
+
+export interface PatternPredicate {
+  patternName: string;
+  predicate: (d: any) => boolean;
+}

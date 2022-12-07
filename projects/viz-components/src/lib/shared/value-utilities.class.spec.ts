@@ -154,6 +154,36 @@ describe('ValueUtilities', () => {
         );
         expect(result).toEqual(0.001068);
       });
+
+      it('returns the correct value if sigDigits is 1 and sig value ends with 9', () => {
+        sigDigits = 1;
+        value = 0.009;
+        const result = ValueUtilities.getValueRoundedUpNSignificantDigits(
+          value,
+          sigDigits
+        );
+        expect(result).toEqual(0.01);
+      });
+
+      it('returns the correct value if sigDigits is 2 and sig value ends with 99', () => {
+        sigDigits = 2;
+        value = 0.099;
+        const result = ValueUtilities.getValueRoundedUpNSignificantDigits(
+          value,
+          sigDigits
+        );
+        expect(result).toEqual(0.1);
+      });
+
+      it('returns the correct value if sigDigits is 2 and value is 0.9', () => {
+        sigDigits = 2;
+        value = 0.9;
+        const result = ValueUtilities.getValueRoundedUpNSignificantDigits(
+          value,
+          sigDigits
+        );
+        expect(result).toEqual(1);
+      });
     });
 
     describe('value is negative', () => {
