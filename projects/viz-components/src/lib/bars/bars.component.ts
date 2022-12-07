@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   inject,
+  InjectionToken,
   Input,
   NgZone,
   OnChanges,
@@ -32,6 +33,7 @@ import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 
+export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-bars]',
