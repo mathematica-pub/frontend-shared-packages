@@ -2,8 +2,9 @@ version: 0.2
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 16
     commands:
-      - n lts
       - wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm  > /dev/null 2>&1
       - yum install ./google-chrome-stable_current_x86_64.rpm -y  > /dev/null 2>&1
       - npm install -g npm@latest
