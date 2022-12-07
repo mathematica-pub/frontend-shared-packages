@@ -9,7 +9,6 @@ export class NavbarFolderComponent {
   @Input() links;
   @Input() baseString;
   selected = {};
-  arrow = {};
   linkIsString(link: any): boolean {
     return typeof link === 'string';
   }
@@ -23,16 +22,10 @@ export class NavbarFolderComponent {
   addPartToBaseString(key: any): string {
     return `${this.baseString}/${key}`;
   }
-  setArrowUpIfSelected(key: string): void {
-    if (this.selected[key] === true) this.arrow[key] = 'arrow-up';
-  }
-  setArrowDown(key: string): void {
-    this.arrow[key] = 'arrow-down';
-  }
   getArrow(key: string): string {
-    if (this.arrow[key] === undefined) {
-      this.arrow[key] = 'arrow-down';
+    if (this.selected[key] === undefined || this.selected[key] == false) {
+      return 'arrow-down';
     }
-    return this.arrow[key];
+    return 'arrow-up';
   }
 }

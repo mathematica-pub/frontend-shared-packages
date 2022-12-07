@@ -8,12 +8,7 @@
     {{$any(link.name) | undasherize | titlecase }}
   </a>
   <ng-template #nestedDisplay>
-    <div
-      class="link-container"
-      (click)="toggleSelected($any(link.name))"
-      (mouseover)="setArrowUpIfSelected($any(link.name))"
-      (mouseout)="setArrowDown($any(link.name))"
-    >
+    <div class="link-container" (click)="toggleSelected($any(link.name))">
       <p>{{$any(link.name) | undasherize | titlecase}}</p>
       <div [ngClass]="getArrow($any(link.name))"></div>
     </div>
