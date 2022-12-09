@@ -31,7 +31,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
     super();
   }
 
-  setListenedElements(): void {
+  setElements(): void {
     this.elements = [this.lines.chart.svgRef.nativeElement];
   }
 

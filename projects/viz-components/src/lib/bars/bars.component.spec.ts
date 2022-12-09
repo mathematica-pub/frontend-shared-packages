@@ -5,7 +5,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
-import { BarsConfig, BarsLabelsConfig } from './bars.config';
+import { BarsConfig } from './bars.config';
 
 describe('BarsComponent', () => {
   let component: BarsComponent;
@@ -431,20 +431,20 @@ describe('BarsComponent', () => {
       spyOn(component, 'drawBars');
       spyOn(component, 'drawBarLabels');
       component.config = new BarsConfig();
-      component.config.labels = new BarsLabelsConfig();
+      component.config.labels.show = true;
     });
     it('calls drawBars once with the correct parameter', () => {
       component.drawMarks(100);
       expect(component.drawBars).toHaveBeenCalledOnceWith(100);
     });
 
-    it('calls drawBarLabels if config.labels is truthy', () => {
+    it('calls drawBarLabels if config.labels.show is truthy', () => {
       component.drawMarks(100);
       expect(component.drawBarLabels).toHaveBeenCalledTimes(1);
     });
 
-    it('does not call drawBarLabels if config.labels is falsey', () => {
-      component.config.labels = undefined;
+    it('does not call drawBarLabels if config.labels.show is falsey', () => {
+      component.config.labels.show = false;
       component.drawMarks(100);
       expect(component.drawBarLabels).not.toHaveBeenCalled();
     });
@@ -464,7 +464,7 @@ describe('BarsComponent', () => {
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
     });
-    describe('integration: value is a number', () => {
+    describe('value is a number', () => {
       it('integration: returns the correct value correctly formatted as a string', () => {
         expect(component.getBarLabelText(1)).toEqual('20,000');
       });
@@ -482,15 +482,16 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('bar color');
       component.config = new BarsConfig();
-      component.config.labels = new BarsLabelsConfig();
     });
     describe('config.labels.color is defined', () => {
       beforeEach(() => {
-        component.config.labels.color = 'label color' as any;
+        component.config = { labels: { color: 'label color' } } as any;
       });
       it('returns the correct value', () => {
+        component.config.labels.color = 'label color';
         expect(component.getBarLabelColor(1)).toEqual('label color');
       });
+
       it('does not call getBarColor', () => {
         component.getBarLabelColor(1);
         expect(component.getBarColor).not.toHaveBeenCalled();

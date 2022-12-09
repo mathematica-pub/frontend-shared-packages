@@ -9,7 +9,7 @@ export abstract class InputEventDirective
 {
   @Input() inputEvent$: Observable<any>;
 
-  abstract handleNewEvent(event: Event): void;
+  abstract handleNewEvent(event: any): void;
 
   ngOnInit(): void {
     this.inputEvent$

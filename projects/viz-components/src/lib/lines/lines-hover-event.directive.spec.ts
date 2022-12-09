@@ -49,7 +49,7 @@ describe('LinesHoverEventDirective', () => {
           },
         },
       } as any;
-      directive.setListenedElements();
+      directive.setElements();
       expect(directive.elements).toEqual(['el' as any]);
     });
   });

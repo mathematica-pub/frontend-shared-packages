@@ -4,7 +4,6 @@ import {
   ElementRef,
   EventEmitter,
   inject,
-  InjectionToken,
   Input,
   NgZone,
   OnChanges,
@@ -25,17 +24,14 @@ import {
   select,
   Transition,
 } from 'd3';
-import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 
-export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-bars]',
@@ -43,11 +39,7 @@ export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    { provide: DATA_MARKS, useExisting: BarsComponent },
-    { provide: BARS, useExisting: BarsComponent },
-    { provide: ChartComponent, useExisting: XyChartComponent },
-  ],
+  providers: [{ provide: DATA_MARKS, useExisting: BarsComponent }],
 })
 export class BarsComponent
   extends XyContent
@@ -58,19 +50,11 @@ export class BarsComponent
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
-  barGroups: any;
+  bars: any;
   barsKeyFunction: (i: number) => string;
   private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
-
-  get bars(): any {
-    return select(this.barsRef.nativeElement).selectAll('rect');
-  }
-
-  get barLabels(): any {
-    return select(this.barsRef.nativeElement).selectAll('text');
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
@@ -244,7 +228,7 @@ export class BarsComponent
 
   drawMarks(transitionDuration: number): void {
     this.drawBars(transitionDuration);
-    if (this.config.labels) {
+    if (this.config.labels.show) {
       this.drawBarLabels(transitionDuration);
     }
   }
@@ -254,7 +238,7 @@ export class BarsComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.barsRef.nativeElement)
+    this.bars = select(this.barsRef.nativeElement)
       .selectAll('.vic-bar-group')
       .data(this.values.indicies, this.barsKeyFunction)
       .join(
@@ -278,7 +262,7 @@ export class BarsComponent
         (exit) => exit.remove()
       );
 
-    this.barGroups
+    this.bars
       .selectAll('.vic-bar')
       .data((i: number) => [i])
       .join(
@@ -309,7 +293,7 @@ export class BarsComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups
+    this.bars
       .selectAll('text')
       .data((i: number) => [i])
       .join(
@@ -319,7 +303,6 @@ export class BarsComponent
             .attr('class', 'vic-bar-label')
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
-            .style('display', this.config.labels.display ? null : 'none')
             .attr('x', (i) => this.getBarLabelX(i))
             .attr('y', (i) => this.getBarLabelY(i)),
         (update) =>

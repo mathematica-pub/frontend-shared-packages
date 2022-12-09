@@ -4,12 +4,12 @@ import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/
 import {
   AxisConfig,
   ElementSpacing,
+  EmitLinesTooltipData,
   ExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
   LinesHoverAndMoveEffectDefaultStylesConfig,
-  LinesHoverAndMoveEffectEmitTooltipData,
   LinesHoverAndMoveEventDirective,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
@@ -55,7 +55,7 @@ export class LinesExampleComponent implements OnInit {
         growMarkerDimension: 3,
       })
     ),
-    new LinesHoverAndMoveEffectEmitTooltipData(),
+    new EmitLinesTooltipData(),
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';

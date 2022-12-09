@@ -1,7 +1,3 @@
-/**
- * @internal
- */
-
 export class ValueUtilities {
   static getValueRoundedUpNSignificantDigits(
     value: number,

@@ -7,7 +7,7 @@ export class HoverEventDirectiveStub extends HoverEventDirective {
   elementPointerLeave(event: PointerEvent): void {
     return;
   }
-  setListenedElements(): void {
+  setElements(): void {
     return;
   }
 }

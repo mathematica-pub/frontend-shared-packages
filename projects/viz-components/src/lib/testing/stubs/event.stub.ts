@@ -1,7 +1,7 @@
 import { EventDirective } from '../../events/event';
 
 export class EventDirectiveStub extends EventDirective {
-  setListenedElements(): void {
+  setElements(): void {
     return;
   }
   setListeners(): void {

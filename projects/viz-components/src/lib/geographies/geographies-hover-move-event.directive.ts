@@ -29,7 +29,7 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
     super();
   }
 
-  setListenedElements(): void {
+  setElements(): void {
     this.elements = this.geographies.dataGeographies.nodes();
   }
 

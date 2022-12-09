@@ -1,9 +1,6 @@
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
-/**
- * @internal
- */
 export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
   Base: T
 ) {
