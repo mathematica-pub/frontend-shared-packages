@@ -137,7 +137,7 @@
                                 <a href="documentation/./add-ons/data-marks-components/lines/lines-hover-and-move-event#pointerIsInsideShowTooltipRadius" >pointerIsInsideShowTooltipRadius</a>
                             </li>
                             <li>
-                                <a href="documentation/./add-ons/data-marks-components/lines/lines-hover-and-move-event#setElements" >setElements</a>
+                                <a href="documentation/./add-ons/data-marks-components/lines/lines-hover-and-move-event#setListenedElements" >setListenedElements</a>
                             </li>
                             <li>
                                 <a href="documentation/./add-ons/data-marks-components/lines/lines-hover-and-move-event#getPointerValuesArray" >getPointerValuesArray</a>
@@ -818,16 +818,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setElements"></a>
+                    <a name="setListenedElements"></a>
                     <span class="name">
-                        <span ><b>setElements</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/lines/lines-hover-and-move-event#setElements"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setListenedElements</b></span>
+                        <a href="documentation/./add-ons/data-marks-components/lines/lines-hover-and-move-event#setListenedElements"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setElements()</code>
+<code>setListenedElements()</code>
                 </td>
             </tr>
 
@@ -1810,7 +1810,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
     super();
   }
 
-  setElements(): void {
+  setListenedElements(): void {
     this.elements &#x3D; [this.lines.chart.svgRef.nativeElement];
   }
 
