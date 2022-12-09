@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
-import {
-  EmitBarsHoverAndMoveTooltipData,
-  ShowBarsLabelsOnHover,
-} from 'projects/viz-components/src/lib/bars/bars-effects';
+import { BarsHoverEffectShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverEventDirective } from 'projects/viz-components/src/lib/bars/bars-hover-event.directive';
 import {
   BarsHoverAndMoveEmittedOutput,
@@ -17,6 +14,7 @@ import {
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { BarsHoverAndMoveEffectEmitTooltipData } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -50,10 +48,10 @@ export class BarsExampleComponent implements OnInit {
     new BehaviorSubject<BarsHoverAndMoveEmittedOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveEffects: EventEffect<BarsHoverAndMoveEventDirective>[] = [
-    new EmitBarsHoverAndMoveTooltipData(),
+    new BarsHoverAndMoveEffectEmitTooltipData(),
   ];
   hoverEffects: EventEffect<BarsHoverEventDirective>[] = [
-    new ShowBarsLabelsOnHover(),
+    new BarsHoverEffectShowLabels(),
   ];
 
   constructor(private dataService: DataService) {}

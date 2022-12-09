@@ -1,10 +1,10 @@
 import { EventEffect } from '../events/effect';
-import { BarsHoverEventDirective } from './bars-hover-event.directive';
 import {
   BarsHoverAndMoveEmittedOutput,
   BarsHoverAndMoveEventDirective,
 } from './bars-hover-move-event.directive';
-export class EmitBarsHoverAndMoveTooltipData
+
+export class BarsHoverAndMoveEffectEmitTooltipData
   implements EventEffect<BarsHoverAndMoveEventDirective>
 {
   applyEffect(directive: BarsHoverAndMoveEventDirective): void {
@@ -34,24 +34,5 @@ export class EmitBarsHoverAndMoveTooltipData
 
   removeEffect(directive: BarsHoverAndMoveEventDirective): void {
     directive.hoverAndMoveEventOutput.emit(null);
-    console.log('removeEffect');
-  }
-}
-
-export class ShowBarsLabelsOnHover
-  implements EventEffect<BarsHoverEventDirective>
-{
-  applyEffect(directive: BarsHoverEventDirective): void {
-    directive.bars.barGroups
-      .filter((d) => d === directive.barIndex)
-      .select('text')
-      .style('display', null);
-  }
-
-  removeEffect(directive: BarsHoverEventDirective): void {
-    directive.bars.barGroups
-      .filter((d) => d === directive.barIndex)
-      .select('text')
-      .style('display', 'none');
   }
 }
