@@ -95,7 +95,7 @@ export class StackedBarsComponent extends BarsComponent {
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.barGroups = select(this.barsRef.nativeElement)
+    this.bars = select(this.barsRef.nativeElement)
       .selectAll('g')
       .data(this.stackedData)
       .join('g')

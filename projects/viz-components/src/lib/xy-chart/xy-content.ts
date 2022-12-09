@@ -4,10 +4,6 @@ import { Ranges } from '../chart/chart.component';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartComponent } from './xy-chart.component';
 
-/**
- * @internal
- */
-
 export abstract class XyContent extends Unsubscribe {
   xScale: any;
   yScale: any;

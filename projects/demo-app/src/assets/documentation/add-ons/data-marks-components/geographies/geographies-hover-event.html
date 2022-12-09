@@ -116,7 +116,7 @@
                                 <a href="documentation/./add-ons/data-marks-components/geographies/geographies-hover-event#getGeographyIndex" >getGeographyIndex</a>
                             </li>
                             <li>
-                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-hover-event#setListenedElements" >setListenedElements</a>
+                                <a href="documentation/./add-ons/data-marks-components/geographies/geographies-hover-event#setElements" >setElements</a>
                             </li>
                             <li>
                                 <a href="documentation/./add-ons/data-marks-components/geographies/geographies-hover-event#ngOnDestroy" >ngOnDestroy</a>
@@ -477,16 +477,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setListenedElements"></a>
+                    <a name="setElements"></a>
                     <span class="name">
-                        <span ><b>setListenedElements</b></span>
-                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-hover-event#setListenedElements"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setElements</b></span>
+                        <a href="documentation/./add-ons/data-marks-components/geographies/geographies-hover-event#setElements"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setListenedElements()</code>
+<code>setElements()</code>
                 </td>
             </tr>
 
@@ -1264,7 +1264,7 @@ export class GeographiesHoverEventDirective extends HoverEventDirective {
     super();
   }
 
-  setListenedElements(): void {
+  setElements(): void {
     this.elements &#x3D; this.geographies.dataGeographies.nodes();
   }
 

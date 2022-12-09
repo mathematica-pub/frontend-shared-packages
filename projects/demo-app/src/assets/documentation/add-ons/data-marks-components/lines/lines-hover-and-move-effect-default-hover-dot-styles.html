@@ -33,7 +33,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/lines/lines-hover-move-effects.ts</code>
+            <code>projects/viz-components/src/lib/lines/lines-effects.ts</code>
         </p>
 
 
@@ -105,8 +105,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="85"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move-effects.ts:85</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="77"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-effects.ts:77</a></div>
                 </td>
             </tr>
 
@@ -174,8 +174,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move-effects.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-effects.ts:100</a></div>
                 </td>
             </tr>
 
@@ -233,21 +233,13 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { formatValue } from &#x27;../core/constants/string-formatting.constants&#x27;;
-import { EventEffect } from &#x27;../events/effect&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEffect } from &#x27;../events/effect&#x27;;
+import { formatValue } from &#x27;../core/constants/string-formatting.constants&#x27;;
+import { LinesHoverAndMoveEffectDefaultStylesConfig } from &#x27;./lines-effects-default-styles.config&#x27;;
 import {
   LinesEmittedOutput,
   LinesHoverAndMoveEventDirective,
 } from &#x27;./lines-hover-move-event.directive&#x27;;
-
-export class LinesHoverAndMoveEffectDefaultStylesConfig {
-  growMarkerDimension: number;
-
-  constructor(init?: Partial&lt;LinesHoverAndMoveEffectDefaultStylesConfig&gt;) {
-    this.growMarkerDimension &#x3D; 2;
-    Object.assign(this, init);
-  }
-}
 
 export class LinesHoverAndMoveEffectDefaultLinesStyles
   implements EventEffect&lt;LinesHoverAndMoveEventDirective&gt;
@@ -381,7 +373,7 @@ export class LinesHoverAndMoveEffectDefaultStyles
   }
 }
 
-export class LinesHoverAndMoveEffectEmitTooltipData
+export class EmitLinesTooltipData
   implements EventEffect&lt;LinesHoverAndMoveEventDirective&gt;
 {
   applyEffect(directive: LinesHoverAndMoveEventDirective): void {

@@ -5,9 +5,6 @@ import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
-/**
- * @internal
- */
 export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {

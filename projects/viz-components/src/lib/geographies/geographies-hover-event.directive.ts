@@ -28,7 +28,7 @@ export class GeographiesHoverEventDirective extends HoverEventDirective {
     super();
   }
 
-  setListenedElements(): void {
+  setElements(): void {
     this.elements = this.geographies.dataGeographies.nodes();
   }
 
