@@ -41,15 +41,17 @@ describe('BarsHoverEventDirective', () => {
   });
 
   describe('setElements()', () => {
-    it('sets elements to the correct value', () => {
+    let nodesSpy: jasmine.Spy;
+    beforeEach(() => {
+      nodesSpy = jasmine.createSpy('nodes').and.returnValue(['el' as any]);
       directive.bars = {
-        chart: {
-          svgRef: {
-            nativeElement: 'el',
-          },
+        bars: {
+          nodes: nodesSpy,
         },
       } as any;
-      directive.setElements();
+    });
+    it('sets elements to the correct value', () => {
+      directive.setListenedElements();
       expect(directive.elements).toEqual(['el' as any]);
     });
   });
@@ -59,7 +61,11 @@ describe('BarsHoverEventDirective', () => {
     let applyASpy: jasmine.Spy;
     let effectB: any;
     let applyBSpy: jasmine.Spy;
+    let event: any;
     beforeEach(() => {
+      event = {
+        target: document.createElement('div'),
+      };
       applyASpy = jasmine.createSpy('applyEffect');
       applyBSpy = jasmine.createSpy('applyEffect');
       effectA = {
@@ -70,10 +76,16 @@ describe('BarsHoverEventDirective', () => {
       };
       directive.effects = [effectA, effectB] as any;
     });
-    it('calls apply effect with the correct value', () => {
-      directive.elementPointerEnter();
+    it('calls apply effect with the correct value if there are effects', () => {
+      directive.elementPointerEnter(event as any);
       expect(applyASpy).toHaveBeenCalledWith(directive);
       expect(applyBSpy).toHaveBeenCalledWith(directive);
+    });
+    it('does not call apply effect with the correct value if there no effects', () => {
+      directive.effects = undefined;
+      directive.elementPointerEnter(event as any);
+      expect(applyASpy).toHaveBeenCalledTimes(0);
+      expect(applyBSpy).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -93,10 +105,17 @@ describe('BarsHoverEventDirective', () => {
       };
       directive.effects = [effectA, effectB] as any;
     });
-    it('calls remove effect with the correct value', () => {
+    it('calls remove effect with the correct value if effects exist', () => {
       directive.elementPointerLeave();
       expect(removeASpy).toHaveBeenCalledWith(directive);
       expect(removeBSpy).toHaveBeenCalledWith(directive);
+    });
+
+    it('calls does not call remove effect with the correct value if there are no effects', () => {
+      directive.effects = undefined;
+      directive.elementPointerLeave();
+      expect(removeASpy).toHaveBeenCalledTimes(0);
+      expect(removeBSpy).toHaveBeenCalledTimes(0);
     });
   });
 });

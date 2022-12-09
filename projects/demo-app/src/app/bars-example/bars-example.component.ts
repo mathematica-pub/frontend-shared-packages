@@ -1,12 +1,22 @@
-import { Component, OnInit } from '@angular/core';
-import { BarsHoverEmittedOutput } from 'projects/viz-components/src/lib/bars/bars-hover-event.directive';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import {
-  AxisConfig,
+  EmitBarsHoverAndMoveTooltipData,
+  ShowBarsLabelsOnHover,
+} from 'projects/viz-components/src/lib/bars/bars-effects';
+import { BarsHoverEventDirective } from 'projects/viz-components/src/lib/bars/bars-hover-event.directive';
+import {
+  BarsHoverAndMoveEmittedOutput,
+  BarsHoverAndMoveEventDirective,
+} from 'projects/viz-components/src/lib/bars/bars-hover-move-event.directive';
+import {
   BarsConfig,
-  ElementSpacing,
-  horizontalBarChartDimensionsConfig,
-} from 'projects/viz-components/src/public-api';
+  BarsLabelsConfig,
+  HorizontalBarsDimensionsConfig,
+} from 'projects/viz-components/src/lib/bars/bars.config';
+import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
+import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -20,6 +30,7 @@ interface ViewModel {
   selector: 'app-bars-example',
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -35,9 +46,15 @@ export class BarsExampleComponent implements OnInit {
       new HtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsHoverEmittedOutput> =
-    new BehaviorSubject<BarsHoverEmittedOutput>(null);
+  tooltipData: BehaviorSubject<BarsHoverAndMoveEmittedOutput> =
+    new BehaviorSubject<BarsHoverAndMoveEmittedOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
+  hoverAndMoveEffects: EventEffect<BarsHoverAndMoveEventDirective>[] = [
+    new EmitBarsHoverAndMoveTooltipData(),
+  ];
+  hoverEffects: EventEffect<BarsHoverEventDirective>[] = [
+    new ShowBarsLabelsOnHover(),
+  ];
 
   constructor(private dataService: DataService) {}
 
@@ -56,10 +73,13 @@ export class BarsExampleComponent implements OnInit {
     xAxisConfig.tickFormat = '.1f';
     const yAxisConfig = new AxisConfig();
     const dataConfig = new BarsConfig();
+    dataConfig.labels = new BarsLabelsConfig();
+    dataConfig.labels.display = false;
     dataConfig.data = filteredData;
-    dataConfig.dimensions = horizontalBarChartDimensionsConfig;
+    dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
+    dataConfig.quantitative.valueFormat = '.1f';
     return {
       dataConfig,
       xAxisConfig,
@@ -67,25 +87,27 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: BarsHoverEmittedOutput): void {
+  updateTooltipForNewOutput(data: BarsHoverAndMoveEmittedOutput): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsHoverEmittedOutput): void {
+  updateTooltipData(data: BarsHoverAndMoveEmittedOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsHoverEmittedOutput): void {
+  updateTooltipConfig(data: BarsHoverAndMoveEmittedOutput): void {
     const config = new HtmlTooltipConfig();
-    config.position.panelClass = 'map-tooltip'; // not used
+    config.position.panelClass = 'bar-tooltip'; // not used
     config.size.minWidth = 130;
     if (data) {
-      config.position.offsetX = (data.bounds[1][0] + data.bounds[0][0]) / 2;
-      config.position.offsetY = (data.bounds[1][1] + data.bounds[0][1] * 2) / 3;
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 16;
       config.show = true;
+      config.origin = data.elRef;
     } else {
       config.show = false;
+      config.origin = undefined;
     }
     this.tooltipConfig.next(config);
   }

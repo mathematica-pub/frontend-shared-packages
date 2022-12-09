@@ -1,18 +1,18 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event';
-import { BARS, BarsComponent } from './bars.component';
+import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 @Directive({
-  selector: '[vicBarsInputEffects]',
+  selector: '[vicGeographiesInputEffects]',
 })
-export class BarsInputEventDirective extends InputEventDirective {
+export class GeographiesInputEventDirective extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsInputEffects')
-  effects: InputEventEffect<BarsInputEventDirective>[];
+  @Input('vicGeographiesInputEffects')
+  effects: InputEventEffect<GeographiesInputEventDirective>[];
   @Output() inputEventOutput = new EventEmitter<any>();
 
-  constructor(@Inject(BARS) public bars: BarsComponent) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
     super();
   }
 

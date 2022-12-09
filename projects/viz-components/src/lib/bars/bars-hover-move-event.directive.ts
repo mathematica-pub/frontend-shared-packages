@@ -8,27 +8,33 @@ import {
 } from '@angular/core';
 import { select } from 'd3';
 import { EventEffect } from '../events/effect';
-import { HoverEventDirective } from '../events/hover-event';
+import { HoverAndMoveEventDirective } from '../events/hover-move-event';
 import { BARS, BarsComponent } from './bars.component';
 
-export class BarsHoverEmittedOutput {
+export class BarsHoverAndMoveEmittedOutput {
   datum: any;
   color: string;
   ordinal: string;
   quantitative: string;
   category: string;
-  barBounds: [[number, number], [number, number]];
+  elRef: ElementRef;
+  positionX?: number;
+  positionY?: number;
 }
 
 @Directive({
-  selector: '[vicBarsHoverEffects]',
+  selector: '[vicBarsHoverAndMoveEffects]',
 })
-export class BarsHoverEventDirective extends HoverEventDirective {
+export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverEventDirective>[];
-  @Output() hoverEventOutput = new EventEmitter<BarsHoverEmittedOutput>();
+  @Input('vicBarsHoverAndMoveEffects')
+  effects: EventEffect<BarsHoverAndMoveEventDirective>[];
+  @Output() hoverAndMoveEventOutput =
+    new EventEmitter<BarsHoverAndMoveEmittedOutput>();
   barIndex: number;
   elRef: ElementRef;
+  pointerX: number;
+  pointerY: number;
 
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();
@@ -39,16 +45,26 @@ export class BarsHoverEventDirective extends HoverEventDirective {
   }
 
   elementPointerEnter(event: PointerEvent): void {
-    this.barIndex = select(event.target as SVGRectElement).datum() as number;
+    this.barIndex = this.getBarIndex(event);
     this.elRef = new ElementRef(event.target);
+  }
+
+  getBarIndex(event: PointerEvent): number {
+    return select(event.target as SVGRectElement).datum() as number;
+  }
+
+  elementPointerMove(event: PointerEvent) {
+    [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.effects) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
   }
 
-  elementPointerLeave(): void {
+  elementPointerLeave() {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
+    this.barIndex = undefined;
+    this.elRef = undefined;
   }
 }

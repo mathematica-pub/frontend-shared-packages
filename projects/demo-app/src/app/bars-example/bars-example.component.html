@@ -1,7 +1,7 @@
-<app-component-demo [folderName]="folderName">
+<app-component-demo [folderName]="folderName" class="bars-example">
   <span title>Bars</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
-    <vic-xy-chart [margin]="margin">
+    <vic-xy-chart [margin]="margin" [height]="800">
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
@@ -10,12 +10,17 @@
           side="top"
         ></svg:g>
         <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
-        <svg:g vic-data-marks-bars [config]="vm.dataConfig" [vicBarsHoverEffects]="hoverEffects"
-        (hoverEventOutput)="updateTooltipForNewOutput($event)"
+        <svg:g
+          vic-data-marks-bars
+          [config]="vm.dataConfig"
+          [vicBarsHoverAndMoveEffects]="hoverAndMoveEffects"
+          [vicBarsHoverEffects]="hoverEffects"
+          (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
+        >
           <vic-html-tooltip
-          [config]="(tooltipConfig$ | async)"
-          [template]="htmlTooltip"
-        ></vic-html-tooltip>
+            [config]="(tooltipConfig$ | async)"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
         </svg:g>
       </ng-container>
     </vic-xy-chart>
@@ -25,17 +30,11 @@
 
 <ng-template #htmlTooltip>
   <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).category }}
-    </p>
+    <p class="tooltip-label category"> {{ (tooltipData$ | async).ordinal }} </p>
     <div class="values-container">
-      <p class="tooltip-label x">
-        <span class="value-label">Date</span>
-        {{ (tooltipData$ | async).x }}
-      </p>
       <p class="tooltip-label y">
         <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).y }}
+        {{ (tooltipData$ | async).quantitative }}
       </p>
     </div>
   </div>
