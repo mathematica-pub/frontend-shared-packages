@@ -1,12 +1,15 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable, pairwise, takeUntil } from 'rxjs';
-import { VicSvgWrap } from '../shared/svg-wrap.class';
+import { VicSvgWrap } from '../shared/svg-wrap';
 import { VicSvgWrapConfig } from '../shared/svg-wrap.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { AxisConfig } from './axis.config';
 
+/**
+ * @internal
+ */
 @Directive()
 export abstract class XyAxis extends Unsubscribe implements OnInit {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
