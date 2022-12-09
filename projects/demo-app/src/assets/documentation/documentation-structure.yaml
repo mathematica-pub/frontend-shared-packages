@@ -72,7 +72,7 @@ add-ons:
       bars-hover-event: 'directives/BarsHoverEventDirective.html'
       bars-hover-show-labels-effect: 'classes/BarsHoverEffectShowLabels.html'
       bars-hover-and-move-event: 'directives/BarsHoverAndMoveEventDirective.html'
-      bars-hover-and-move-effect-emit-tooltip-data: 'classes/BarsHoverAndMoveEmitTooltipData.html'
+      bars-hover-and-move-effect-emit-tooltip-data: 'classes/BarsHoverAndMoveEffectEmitTooltipData.html'
       bars-input-event: 'directives/BarsInputEventDirective.html'
     grouped-bars:
       grouped-bars-config: 'classes/GroupedBarsConfig.html'
