@@ -8,10 +8,10 @@ export abstract class EventDirective implements AfterViewInit {
   protected renderer = inject(Renderer2);
 
   abstract setListeners(): void;
-  abstract setElements(): void;
+  abstract setListenedElements(): void;
 
   ngAfterViewInit(): void {
-    this.setElements();
+    this.setListenedElements();
     this.setListeners();
   }
 }

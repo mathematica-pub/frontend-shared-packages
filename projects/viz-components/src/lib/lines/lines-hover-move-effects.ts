@@ -1,10 +1,18 @@
-import { EventEffect } from '../events/effect';
 import { formatValue } from '../core/constants/string-formatting.constants';
-import { LinesHoverAndMoveEffectDefaultStylesConfig } from './lines-effects-default-styles.config';
+import { EventEffect } from '../events/effect';
 import {
   LinesEmittedOutput,
   LinesHoverAndMoveEventDirective,
 } from './lines-hover-move-event.directive';
+
+export class LinesHoverAndMoveEffectDefaultStylesConfig {
+  growMarkerDimension: number;
+
+  constructor(init?: Partial<LinesHoverAndMoveEffectDefaultStylesConfig>) {
+    this.growMarkerDimension = 2;
+    Object.assign(this, init);
+  }
+}
 
 export class LinesHoverAndMoveEffectDefaultLinesStyles
   implements EventEffect<LinesHoverAndMoveEventDirective>
@@ -138,7 +146,7 @@ export class LinesHoverAndMoveEffectDefaultStyles
   }
 }
 
-export class EmitLinesTooltipData
+export class LinesHoverAndMoveEffectEmitTooltipData
   implements EventEffect<LinesHoverAndMoveEventDirective>
 {
   applyEffect(directive: LinesHoverAndMoveEventDirective): void {

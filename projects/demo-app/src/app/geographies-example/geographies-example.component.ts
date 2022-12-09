@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { valueFormat } from 'projects/viz-components/src/lib/core/constants/string-formatting.constants';
-import { EmitGeographiesHoverTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
+import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
   GeographiesHoverEmittedOutput,
   GeographiesHoverEventDirective,
@@ -13,6 +12,7 @@ import {
   ElementSpacing,
   EqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesConfig,
+  GeographiesHoverEffectEmitTooltipData,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 import * as topojson from 'topojson-client';
@@ -57,7 +57,7 @@ export class GeographiesExampleComponent implements OnInit {
     new BehaviorSubject<GeographiesHoverAndMoveEmittedOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
-    new EmitGeographiesHoverTooltipData(),
+    new GeographiesHoverEffectEmitTooltipData(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';

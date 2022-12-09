@@ -1,7 +1,7 @@
 import { HoverAndMoveEventDirective } from '../../events/hover-move-event';
 
 export class HoverAndMoveEventDirectiveStub extends HoverAndMoveEventDirective {
-  setElements(): void {
+  setListenedElements(): void {
     return;
   }
   elementPointerMove(event: PointerEvent): void {
