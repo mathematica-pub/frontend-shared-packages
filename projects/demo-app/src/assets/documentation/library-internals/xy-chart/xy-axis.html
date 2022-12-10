@@ -1210,9 +1210,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, ElementRef, Input, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
 import { select } from &#x27;d3&#x27;;
 import { Observable, pairwise, takeUntil } from &#x27;rxjs&#x27;;
-import { VicSvgWrap } from &#x27;../shared/svg-wrap&#x27;;
-import { VicSvgWrapConfig } from &#x27;../shared/svg-wrap.config&#x27;;
 import { Unsubscribe } from &#x27;../shared/unsubscribe.class&#x27;;
+import { svgTextWrap } from &#x27;../svg-text-wrap/svg-text-wrap&#x27;;
+import { SvgTextWrapConfig } from &#x27;../svg-text-wrap/svg-wrap.config&#x27;;
 import { XyChartComponent } from &#x27;../xy-chart/xy-chart.component&#x27;;
 import { AxisConfig } from &#x27;./axis.config&#x27;;
 
@@ -1300,14 +1300,14 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { wrapWidth, ...properties } &#x3D; this.config.wrap;
     const config &#x3D; Object.assign(
-      new VicSvgWrapConfig(),
+      new SvgTextWrapConfig(),
       properties
-    ) as VicSvgWrapConfig;
+    ) as SvgTextWrapConfig;
     config.width &#x3D;
       this.config.wrap.wrapWidth &#x3D;&#x3D;&#x3D; &#x27;bandwidth&#x27;
         ? this.scale.bandwidth()
         : this.config.wrap.wrapWidth;
-    tickTextSelection.call(VicSvgWrap.textWrap, config);
+    tickTextSelection.call(svgTextWrap, config);
   }
 
   processAxisFeatures(): void {
