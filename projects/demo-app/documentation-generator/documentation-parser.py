@@ -1,7 +1,8 @@
-from os import popen, path
 import re
-import yaml
+from os import path, popen
 from typing import Dict
+
+import yaml
 
 
 class DocumentationParser():

@@ -33,7 +33,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/shared/svg-wrap.config.ts</code>
+            <code>projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts</code>
         </p>
 
 
@@ -42,7 +42,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a " target="_self" >VicSvgWrapConfig</a></code>
+                        <code><a href="documentation/utilities/svg-text-wrap-config" target="_self" >SvgTextWrapConfig</a></code>
             </p>
 
 
@@ -99,7 +99,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/viz-components/src/lib/shared/svg-wrap.config.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts:5</a></div>
                             </td>
                         </tr>
 
@@ -162,13 +162,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >VicSvgWrapConfig</a></code>
+                                <div class="io-line">Inherited from         <code><a href="documentation/utilities/svg-text-wrap-config" target="_self" >SvgTextWrapConfig</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >VicSvgWrapConfig:22</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/svg-text-wrap-config#source" target="_self" >SvgTextWrapConfig:5</a></code>
 </div>
                         </td>
                     </tr>
@@ -195,7 +195,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/viz-components/src/lib/shared/svg-wrap.config.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts:4</a></div>
                         </td>
                     </tr>
 
@@ -221,13 +221,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >VicSvgWrapConfig</a></code>
+                                <div class="io-line">Inherited from         <code><a href="documentation/utilities/svg-text-wrap-config" target="_self" >SvgTextWrapConfig</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >VicSvgWrapConfig:9</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/svg-text-wrap-config#source" target="_self" >SvgTextWrapConfig:9</a></code>
 </div>
                         </td>
                     </tr>
@@ -260,13 +260,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >VicSvgWrapConfig</a></code>
+                                <div class="io-line">Inherited from         <code><a href="documentation/utilities/svg-text-wrap-config" target="_self" >SvgTextWrapConfig</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >VicSvgWrapConfig:4</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/svg-text-wrap-config#source" target="_self" >SvgTextWrapConfig:4</a></code>
 </div>
                         </td>
                     </tr>
@@ -293,13 +293,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >VicSvgWrapConfig</a></code>
+                                <div class="io-line">Inherited from         <code><a href="documentation/utilities/svg-text-wrap-config" target="_self" >SvgTextWrapConfig</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >VicSvgWrapConfig:5</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/svg-text-wrap-config#source" target="_self" >SvgTextWrapConfig:5</a></code>
 </div>
                         </td>
                     </tr>
@@ -319,26 +319,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class VicSvgWrapConfig {
-  // test comment
-  width: number;
-  maintainXPosition: boolean;
-  maintainYPosition: boolean;
-  /**
-   * multiline test comment
-   */
-  lineHeight: number;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SvgTextWrapConfig } from &#x27;./svg-wrap.config&#x27;;
 
-  constructor(init?: Partial&lt;VicSvgWrapConfig&gt;) {
-    this.maintainXPosition &#x3D; false;
-    // another test comment
-    this.maintainYPosition &#x3D; false;
-    this.lineHeight &#x3D; 1.1;
-    Object.assign(this, init);
-  }
-}
-
-export class TickWrapConfig extends VicSvgWrapConfig {
+export class TickWrapConfig extends SvgTextWrapConfig {
   wrapWidth: &#x27;bandwidth&#x27; | number;
   override width: never;
   constructor(init?: Partial&lt;TickWrapConfig&gt;) {

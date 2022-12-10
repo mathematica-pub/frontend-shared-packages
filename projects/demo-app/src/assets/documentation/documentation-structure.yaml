@@ -14,8 +14,6 @@ add-ons:
   chart-components:
     all:
       chart-config: 'classes/ChartConfig.html'
-    map-chart:
-      map-config: 'classes/MapConfig.html'
     xy-chart:
       xy-background: 'components/XyBackgroundComponent.html'
       tick-wrap-config: 'classes/TickWrapConfig.html'
@@ -26,9 +24,9 @@ add-ons:
       y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
   data-marks-components:
     all:
-      html-tooltip: 'components/HtmlTooltipComponent.html'
+      html-tooltip: 'directives/HtmlTooltipDirective.html'
+      html-tooltip-config: 'classes/HtmlTooltipConfig.html'
       html-tooltip-overlay-config: 'classes/HtmlTooltipOverlayConfig.html'
-      tooltip-config: 'classes/TooltipConfig.html'
       data-marks: 'classes/DataMarksConfig.html'
       categorical-color-dimension-config: 'classes/CategoricalColorDimensionConfig.html'
       data-dimension-config: 'classes/DataDimensionConfig.html'
@@ -41,7 +39,6 @@ add-ons:
       geographies-hover-and-move-effect-emit-tooltip-data: 'classes/GeographiesHoverAndMoveEffectEmitTooltipData.html'
       geographies-input-event: 'directives/GeographiesInputEventDirective.html'
       map-legend: 'components/MapLegendComponent.html'
-      html-tooltip: 'components/HtmlTooltipComponent.html'
       no-data-geography-config: 'classes/NoDataGeographyConfig.html'
       attribute-data-dimension-config: 'classes/AttributeDataDimensionConfig.html'
       categorical-attribute-data-dimension-config: 'classes/CategoricalAttributeDataDimensionConfig.html'
@@ -81,10 +78,7 @@ add-ons:
     stacked-bars:
       stacked-bars: 'classes/StackedBarsConfig.html'
 utilities:
-  format-value: 'interfaces/Formats.html'
-  svg-wrap: 'classes/SvgWrap.html'
-  svg-wrap-config: 'classes/SvgWrapConfig.html'
-  svg-wrap-options: 'classes/SvgWrapOptions.html'
+  svg-text-wrap-config: 'classes/SvgTextWrapConfig.html'
   unsubscribe: 'directives/Unsubscribe.html'
 library-internals:
   events:
@@ -95,7 +89,8 @@ library-internals:
     input-event: 'directives/InputEventDirective.html'
   xy-chart:
     xy-axis: 'directives/XyAxis.html'
+  map-chart:
+    map-content: 'directives/MapContent.html'
   geographies:
     continuous-legend: 'components/ContinuousLegendComponent.html'
     discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
-    map-content: 'directives/MapContent.html'

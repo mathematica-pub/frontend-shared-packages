@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { valueFormat } from 'projects/viz-components/src/lib/core/constants/string-formatting.constants';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
   GeographiesHoverEmittedOutput,
@@ -7,6 +6,7 @@ import {
 } from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
 import { GeographiesHoverAndMoveEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
   DataGeographyConfig,
   ElementSpacing,
@@ -97,7 +97,7 @@ export class GeographiesExampleComponent implements OnInit {
       new EqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
     config.attributeDataConfig.valueAccessor = (d) => d.income;
-    config.attributeDataConfig.valueFormat = `$${valueFormat.integer()}`;
+    config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
     config.attributeDataConfig.colors = [
       colors.white,
       colors.highlight.default,

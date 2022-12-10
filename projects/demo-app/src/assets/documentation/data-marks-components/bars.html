@@ -3222,7 +3222,6 @@
   ViewEncapsulation,
 } from &#x27;@angular/core&#x27;;
 import {
-  format,
   InternSet,
   map,
   max,
@@ -3238,6 +3237,7 @@ import { UtilitiesService } from &#x27;../core/services/utilities.service&#x27;;
 import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
 import { XyDataMarks, XyDataMarksValues } from &#x27;../data-marks/xy-data-marks&#x27;;
 import { PatternUtilities } from &#x27;../shared/pattern-utilities.class&#x27;;
+import { formatValue } from &#x27;../value-format/value-format&#x27;;
 import { XyChartComponent } from &#x27;../xy-chart/xy-chart.component&#x27;;
 import { XyContent } from &#x27;../xy-chart/xy-content&#x27;;
 import { BarsConfig, BarsTooltipData } from &#x27;./bars.config&#x27;;
@@ -3547,7 +3547,7 @@ export class BarsComponent
     if (value &#x3D;&#x3D;&#x3D; null || value &#x3D;&#x3D;&#x3D; undefined) {
       return this.config.labels.noValueString;
     } else {
-      return format(this.config.quantitative.valueFormat)(value);
+      return formatValue(value, this.config.quantitative.valueFormat);
     }
   }
 

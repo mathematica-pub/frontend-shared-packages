@@ -1,5 +1,5 @@
-import { formatValue } from '../core/constants/string-formatting.constants';
 import { EventEffect } from '../events/effect';
+import { formatValue } from '../value-format/value-format';
 import {
   LinesEmittedOutput,
   LinesHoverAndMoveEventDirective,
