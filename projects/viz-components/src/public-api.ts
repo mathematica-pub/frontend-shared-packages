@@ -46,6 +46,7 @@ export * from './lib/geographies/geographies.module';
 export * from './lib/grouped-bars/grouped-bars.component';
 export * from './lib/grouped-bars/grouped-bars.config';
 export * from './lib/grouped-bars/grouped-bars.module';
+export * from './lib/html-tooltip/html-tooltip.config';
 export * from './lib/html-tooltip/html-tooltip.directive';
 export * from './lib/html-tooltip/html-tooltip.module';
 export * from './lib/lines/lines-hover-event.directive';
