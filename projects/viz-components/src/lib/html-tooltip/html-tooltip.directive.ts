@@ -2,6 +2,7 @@ import {
   FlexibleConnectedPositionStrategy,
   Overlay,
   OverlayPositionBuilder,
+  OverlayRef,
   OverlaySizeConfig,
   ScrollStrategy,
 } from '@angular/cdk/overlay';
@@ -17,7 +18,6 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { OverlayService } from '../core/services/overlay.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -32,6 +32,7 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
 export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   @Input() template: TemplateRef<unknown>;
   @Input() config: HtmlTooltipConfig;
+  overlayRef: OverlayRef;
   positionStrategy: FlexibleConnectedPositionStrategy;
   scrollStrategy: ScrollStrategy;
   size: OverlaySizeConfig;
@@ -42,7 +43,6 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     private utilities: UtilitiesService,
-    private overlayService: OverlayService,
     @Inject(DATA_MARKS) private dataMarks: DataMarks
   ) {}
 
@@ -54,7 +54,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (
       this.utilities.objectChanged(changes, 'config', 'show') &&
-      this.overlayService.overlayRef
+      this.overlayRef
     ) {
       if (this.config.show) {
         this.show();
@@ -65,21 +65,21 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
 
     if (
       this.utilities.objectChanged(changes, 'config', 'position') &&
-      this.overlayService.overlayRef
+      this.overlayRef
     ) {
       this.updatePosition();
     }
 
     if (
       this.utilities.objectChanged(changes, 'config', 'size') &&
-      this.overlayService.overlayRef
+      this.overlayRef
     ) {
       this.updateSize();
     }
 
     if (
       this.utilities.objectChanged(changes, 'config', 'panelClass') &&
-      this.overlayService.overlayRef
+      this.overlayRef
     ) {
       this.updateClasses();
     }
@@ -118,7 +118,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   createOverlay(): void {
-    this.overlayService.createOverlay({
+    this.overlayRef = this.overlay.create({
       ...this.size,
       panelClass: this.panelClass,
       scrollStrategy: this.scrollStrategy,
@@ -128,19 +128,17 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
 
   updatePosition(): void {
     this.setPositionStrategy();
-    this.overlayService.overlayRef.updatePositionStrategy(
-      this.positionStrategy
-    );
+    this.overlayRef.updatePositionStrategy(this.positionStrategy);
   }
 
   updateSize(): void {
-    this.overlayService.overlayRef.updateSize(this.config.size);
+    this.overlayRef.updateSize(this.config.size);
   }
 
   updateClasses(): void {
-    this.overlayService.overlayRef.removePanelClass(this.panelClass);
+    this.overlayRef.removePanelClass(this.panelClass);
     this.setPanelClasses();
-    this.overlayService.overlayRef.addPanelClass(this.panelClass);
+    this.overlayRef.addPanelClass(this.panelClass);
   }
 
   show(): void {
@@ -148,14 +146,14 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
       this.template,
       this.viewContainerRef
     );
-    this.overlayService.overlayRef.attach(tooltipPortal);
+    this.overlayRef.attach(tooltipPortal);
   }
 
   hide(): void {
-    this.overlayService.overlayRef.detach();
+    this.overlayRef.detach();
   }
 
   destroyOverlay(): void {
-    this.overlayService.overlayRef.dispose();
+    this.overlayRef.dispose();
   }
 }
