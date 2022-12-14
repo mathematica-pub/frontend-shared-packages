@@ -1,7 +1,6 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OverlayService } from '../core/services/overlay.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -29,10 +28,6 @@ describe('HtmlTooltipDirective', () => {
         {
           provide: UtilitiesService,
           useValue: mainServiceStub.utilitiesServiceStub,
-        },
-        {
-          provide: OverlayService,
-          useValue: mainServiceStub.overlayServiceStub,
         },
       ],
     });
