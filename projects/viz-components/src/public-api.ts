@@ -25,7 +25,6 @@ export * from './lib/chart/chart.config';
 export * from './lib/chart/chart.module';
 export * from './lib/chart/chart.token';
 export * from './lib/core/services/export-data.service';
-export * from './lib/core/services/overlay.service';
 export * from './lib/data-marks/data-dimension.config';
 export * from './lib/data-marks/data-marks';
 export * from './lib/data-marks/data-marks.config';

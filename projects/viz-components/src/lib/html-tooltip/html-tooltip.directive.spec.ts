@@ -1,7 +1,6 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OverlayService } from '../core/services/overlay.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -29,10 +28,6 @@ describe('HtmlTooltipDirective', () => {
         {
           provide: UtilitiesService,
           useValue: mainServiceStub.utilitiesServiceStub,
-        },
-        {
-          provide: OverlayService,
-          useValue: mainServiceStub.overlayServiceStub,
         },
       ],
     });
@@ -74,7 +69,7 @@ describe('HtmlTooltipDirective', () => {
       });
       describe('if overlayRef is truthy', () => {
         beforeEach(() => {
-          mainServiceStub.overlayServiceStub.overlayRef = 'overlay' as any;
+          directive.overlayRef = 'overlay' as any;
         });
         it('calls show if showTooltip is true', () => {
           directive.config.show = true;
@@ -99,7 +94,7 @@ describe('HtmlTooltipDirective', () => {
       });
       describe('if overlayRef is falsy', () => {
         beforeEach(() => {
-          mainServiceStub.overlayServiceStub.overlayRef = null;
+          directive.overlayRef = null;
         });
         it('does not call show', () => {
           directive.config.show = true;
@@ -136,12 +131,12 @@ describe('HtmlTooltipDirective', () => {
         objChangedSpy.and.returnValue(true);
       });
       it('calls updatePosition if overlayRef is truthy', () => {
-        mainServiceStub.overlayServiceStub.overlayRef = 'overlay' as any;
+        directive.overlayRef = 'overlay' as any;
         directive.ngOnChanges(changes);
         expect(directive.updatePosition).toHaveBeenCalledTimes(1);
       });
       it('does not call updatePosition if overlayRef is falsy', () => {
-        mainServiceStub.overlayServiceStub.overlayRef = null;
+        directive.overlayRef = null;
         directive.ngOnChanges(changes);
         expect(directive.updatePosition).not.toHaveBeenCalled();
       });
@@ -153,12 +148,12 @@ describe('HtmlTooltipDirective', () => {
         objChangedSpy.and.returnValue(true);
       });
       it('calls updateSize if overlayRef is truthy', () => {
-        mainServiceStub.overlayServiceStub.overlayRef = 'overlay' as any;
+        directive.overlayRef = 'overlay' as any;
         directive.ngOnChanges(changes);
         expect(directive.updateSize).toHaveBeenCalledTimes(1);
       });
       it('does not call updateSize if overlayRef is falsy', () => {
-        mainServiceStub.overlayServiceStub.overlayRef = null;
+        directive.overlayRef = null;
         directive.ngOnChanges(changes);
         expect(directive.updateSize).not.toHaveBeenCalled();
       });
@@ -170,12 +165,12 @@ describe('HtmlTooltipDirective', () => {
         objChangedSpy.and.returnValue(true);
       });
       it('calls updateClasses if overlayRef is truthy', () => {
-        mainServiceStub.overlayServiceStub.overlayRef = 'overlay' as any;
+        directive.overlayRef = 'overlay' as any;
         directive.ngOnChanges(changes);
         expect(directive.updateClasses).toHaveBeenCalledTimes(1);
       });
       it('does not call updateClasses if overlayRef is falsy', () => {
-        mainServiceStub.overlayServiceStub.overlayRef = null;
+        directive.overlayRef = null;
         directive.ngOnChanges(changes);
         expect(directive.updateClasses).not.toHaveBeenCalled();
       });
