@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import {
+  OverlayService,
   VicBarsModule,
   VicChartModule,
   VicHtmlTooltipModule,
@@ -28,5 +29,6 @@ import { BarsExampleComponent } from './bars-example.component';
     SharedModule,
     VicHtmlTooltipModule,
   ],
+  providers: [OverlayService],
 })
 export class BarsModule {}
