@@ -379,7 +379,12 @@ export class GeographiesComponent
           enter
             .append('path')
             .attr('d', this.path)
-            .attr('fill', (d, i) => this.getFill(i))
+            .attr('fill', (d, i) =>
+              this.config.dataGeographyConfig.attributeDataConfig
+                .patternPredicates
+                ? this.getPatternFill(i)
+                : this.getFill(i)
+            )
             .attr('stroke', this.config.dataGeographyConfig.strokeColor)
             .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
         (update) => update.attr('d', this.path),
@@ -428,6 +433,12 @@ export class GeographiesComponent
   }
 
   getFill(i: number): string {
+    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue = this.values.attributeDataValues[convertedIndex];
+    return this.attributeDataScale(dataValue);
+  }
+
+  getPatternFill(i: number): string {
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
     const datum = this.config.data[convertedIndex];

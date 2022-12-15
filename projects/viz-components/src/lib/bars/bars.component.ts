@@ -290,7 +290,11 @@ export class BarsComponent
               'key',
               (i) => this.values[this.config.dimensions.ordinal][i]
             )
-            .attr('fill', (i) => this.getBarColor(i as number))
+            .attr('fill', (i) =>
+              this.config.patternPredicates
+                ? this.getBarPattern(i as number)
+                : this.getBarColor(i as number)
+            )
             .attr('width', (i) => this.getBarWidth(i as number))
             .attr('height', (i) => this.getBarHeight(i as number)),
         (update) =>
@@ -349,9 +353,13 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    const color = this.config.category.colorScale(
+    return this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
+  }
+
+  getBarPattern(i: number): string {
+    const color = this.getBarColor(i);
     const predicates = this.config.patternPredicates;
     return PatternUtilities.getPatternFill(
       this.config.data[i],
