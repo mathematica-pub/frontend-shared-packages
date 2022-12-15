@@ -1,6 +1,5 @@
 import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import * as lodash from 'lodash';
 import { UtilitiesService } from './utilities.service';
 
 describe('UtilitiesService', () => {
@@ -54,27 +53,37 @@ describe('UtilitiesService', () => {
   });
 
   describe('objectChanged()', () => {
-    let isEqualSpy: jasmine.Spy;
     let changes: any;
     let objectName: string;
+    let prevObj: any;
+    let currObj: any;
     beforeEach(() => {
-      isEqualSpy = spyOn(lodash, 'isEqual');
       objectName = 'test';
+      prevObj = { hello: 'world' };
+      currObj = { hello: 'earth' };
       changes = {
-        [objectName]: new SimpleChange('', '', false),
+        [objectName]: new SimpleChange(prevObj, currObj, false),
       };
     });
 
     describe('if testObject has changes', () => {
       describe('if it is not the first change', () => {
         it('returns true if previous testObject value does not equal current testObject value -- deep check', () => {
-          isEqualSpy.and.returnValue(false);
           const result = service.objectChangedNotFirstTime(changes, objectName);
           expect(result).toEqual(true);
         });
-
+        it('returns true if previous testObject value does not equal current testObject value -- deep check, with property name', () => {
+          const result = service.objectChangedNotFirstTime(
+            changes,
+            objectName,
+            'hello'
+          );
+          expect(result).toEqual(true);
+        });
         it('returns false if previous testObject equals current testObject value -- deep check', () => {
-          isEqualSpy.and.returnValue(true);
+          changes = {
+            [objectName]: new SimpleChange(prevObj, { hello: 'world' }, false),
+          };
           const result = service.objectChangedNotFirstTime(changes, objectName);
           expect(result).toEqual(false);
         });

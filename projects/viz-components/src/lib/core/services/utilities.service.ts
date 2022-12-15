@@ -23,12 +23,15 @@ export class UtilitiesService {
     object: string,
     property?: string
   ): boolean {
+    let prevString = `${object}.previousValue`;
+    let currString = `${object}.currentValue`;
+    if (property) {
+      prevString += `.${property}`;
+      currString += `.${property}`;
+    }
     return (
       changes[object] !== undefined &&
-      !isEqual(
-        get(changes[object].previousValue, property),
-        get(changes[object].currentValue, property)
-      )
+      !isEqual(get(changes, prevString), get(changes, currString))
     );
   }
 }
