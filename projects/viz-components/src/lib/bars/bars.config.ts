@@ -36,12 +36,12 @@ export class BarsLabelsConfig {
   display: boolean;
   offset: number;
   color?: string;
-  noValueString: string;
+  noValueFunction: (d) => string;
 
   constructor(init?: Partial<BarsLabelsConfig>) {
     this.display = true;
     this.offset = 4;
-    this.noValueString = 'N/A';
+    this.noValueFunction = (d) => 'N/A';
     Object.assign(this, init);
   }
 }

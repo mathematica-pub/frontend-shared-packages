@@ -24,6 +24,7 @@ import {
   select,
   Transition,
 } from 'd3';
+import { cloneDeep } from 'lodash';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
@@ -73,6 +74,9 @@ export class BarsComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
+      this.reverseData();
+    }
     if (
       this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
     ) {
@@ -84,6 +88,10 @@ export class BarsComponent
     this.subscribeToRanges();
     this.subscribeToScales();
     this.setMethodsFromConfigAndDraw();
+  }
+
+  reverseData(): void {
+    this.config.data = cloneDeep(this.config.data).reverse();
   }
 
   setMethodsFromConfigAndDraw(): void {
@@ -343,8 +351,9 @@ export class BarsComponent
 
   getBarLabelText(i: number): string {
     const value = this.values[this.config.dimensions.quantitative][i];
+    const datum = this.config.data[i];
     if (value === null || value === undefined) {
-      return this.config.labels.noValueString;
+      return this.config.labels.noValueFunction(datum);
     } else {
       return formatValue(value, this.config.quantitative.valueFormat);
     }

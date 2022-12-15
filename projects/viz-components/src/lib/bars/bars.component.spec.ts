@@ -460,10 +460,11 @@ describe('BarsComponent', () => {
           valueFormat: ',.0f',
         },
         labels: {
-          noValueString: 'no value',
+          noValueFunction: (d) => (d === 3 ? 3 : 'no value'),
         },
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
+      component.config.data = [1, 2, 3];
     });
     describe('integration: value is a number', () => {
       it('integration: returns the correct value correctly formatted as a string', () => {
@@ -472,9 +473,13 @@ describe('BarsComponent', () => {
     });
 
     describe('integration: value is falsey', () => {
-      it('returns the config.labels.noValueString', () => {
+      it('returns the correct value from the noValueFunction', () => {
         component.values.x = [null, null, null];
         expect(component.getBarLabelText(1)).toEqual('no value');
+      });
+      it('returns the correct value from the noValueFunction', () => {
+        component.values.x = [null, null, null];
+        expect(component.getBarLabelText(2)).toEqual(3 as any);
       });
     });
   });
