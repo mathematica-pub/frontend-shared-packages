@@ -10,12 +10,15 @@ describe('UtilitiesService', () => {
     service = TestBed.inject(UtilitiesService);
   });
 
-  describe('objectChangedNotFirstTime()', () => {
-    let objectChangedSpy: jasmine.Spy;
+  describe('objectOnNgChangesNotFirstTime()', () => {
+    let objectOnNgChangesSpy: jasmine.Spy;
     let changes: any;
     let objectName: string;
     beforeEach(() => {
-      objectChangedSpy = spyOn(service, 'objectChanged').and.returnValue(true);
+      objectOnNgChangesSpy = spyOn(
+        service,
+        'objectOnNgChangesChanged'
+      ).and.returnValue(true);
       objectName = 'test';
       changes = {
         [objectName]: new SimpleChange('', '', false),
@@ -25,13 +28,19 @@ describe('UtilitiesService', () => {
     describe('if testObject has changes', () => {
       describe('if it is not the first change', () => {
         it('returns true if objectChanges returns true', () => {
-          const result = service.objectChangedNotFirstTime(changes, objectName);
+          const result = service.objectOnNgChangesChangedNotFirstTime(
+            changes,
+            objectName
+          );
           expect(result).toEqual(true);
         });
 
-        it('returns false if objectChanged returns false', () => {
-          objectChangedSpy.and.returnValue(false);
-          const result = service.objectChangedNotFirstTime(changes, objectName);
+        it('returns false if objectOnNgChanges returns false', () => {
+          objectOnNgChangesSpy.and.returnValue(false);
+          const result = service.objectOnNgChangesChangedNotFirstTime(
+            changes,
+            objectName
+          );
           expect(result).toEqual(false);
         });
       });
@@ -40,19 +49,25 @@ describe('UtilitiesService', () => {
         changes = {
           [objectName]: new SimpleChange('', '', true),
         };
-        const result = service.objectChangedNotFirstTime(changes, objectName);
+        const result = service.objectOnNgChangesChangedNotFirstTime(
+          changes,
+          objectName
+        );
         expect(result).toEqual(false);
       });
     });
 
     it('returns false if changes does not have property for input string', () => {
       changes = { wrong: new SimpleChange('', '', false) };
-      const result = service.objectChangedNotFirstTime(changes, objectName);
+      const result = service.objectOnNgChangesChangedNotFirstTime(
+        changes,
+        objectName
+      );
       expect(result).toEqual(false);
     });
   });
 
-  describe('objectChanged()', () => {
+  describe('objectOnNgChanges()', () => {
     let changes: any;
     let objectName: string;
     let prevObj: any;
@@ -69,11 +84,14 @@ describe('UtilitiesService', () => {
     describe('if testObject has changes', () => {
       describe('if it is not the first change', () => {
         it('returns true if previous testObject value does not equal current testObject value -- deep check', () => {
-          const result = service.objectChangedNotFirstTime(changes, objectName);
+          const result = service.objectOnNgChangesChangedNotFirstTime(
+            changes,
+            objectName
+          );
           expect(result).toEqual(true);
         });
         it('returns true if previous testObject value does not equal current testObject value -- deep check, with property name', () => {
-          const result = service.objectChangedNotFirstTime(
+          const result = service.objectOnNgChangesChangedNotFirstTime(
             changes,
             objectName,
             'hello'
@@ -84,7 +102,10 @@ describe('UtilitiesService', () => {
           changes = {
             [objectName]: new SimpleChange(prevObj, { hello: 'world' }, false),
           };
-          const result = service.objectChangedNotFirstTime(changes, objectName);
+          const result = service.objectOnNgChangesChangedNotFirstTime(
+            changes,
+            objectName
+          );
           expect(result).toEqual(false);
         });
       });
@@ -92,7 +113,10 @@ describe('UtilitiesService', () => {
 
     it('returns false if changes does not have property for input string', () => {
       changes = { wrong: new SimpleChange('', '', false) };
-      const result = service.objectChangedNotFirstTime(changes, objectName);
+      const result = service.objectOnNgChangesChangedNotFirstTime(
+        changes,
+        objectName
+      );
       expect(result).toEqual(false);
     });
   });

@@ -6,7 +6,7 @@ import { get, isEqual } from 'lodash';
   providedIn: 'root',
 })
 export class UtilitiesService {
-  objectChangedNotFirstTime(
+  objectOnNgChangesChangedNotFirstTime(
     changes: SimpleChanges,
     object: string,
     property?: string
@@ -14,11 +14,11 @@ export class UtilitiesService {
     return (
       changes[object] !== undefined &&
       !changes[object].firstChange &&
-      this.objectChanged(changes, object, property)
+      this.objectOnNgChangesChanged(changes, object, property)
     );
   }
 
-  objectChanged(
+  objectOnNgChangesChanged(
     changes: SimpleChanges,
     object: string,
     property?: string

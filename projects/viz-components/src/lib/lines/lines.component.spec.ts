@@ -45,21 +45,22 @@ describe('LineChartComponent', () => {
       };
     });
 
-    it('should call objectChangedNotFirstTime once and with the correct parameters', () => {
+    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
       component.ngOnChanges(configChange);
       expect(
-        mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime
+        mainServiceStub.utilitiesServiceStub
+          .objectOnNgChangesChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');
     });
-    it('should call setMethodsFromConfigAndDraw once if objectChangedNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime.and.returnValue(
+    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
+      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
         true
       );
       component.ngOnChanges(configChange);
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
     });
-    it('should call setMethodsFromConfigAndDraw once if objectChangedNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime.and.returnValue(
+    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
+      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
         false
       );
       component.ngOnChanges(configChange);

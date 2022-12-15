@@ -102,7 +102,9 @@ export class GeographiesComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+    ) {
       this.setMethodsFromConfigAndDraw();
     }
   }
