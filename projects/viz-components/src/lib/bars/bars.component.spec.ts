@@ -531,11 +531,28 @@ describe('BarsComponent', () => {
       const result = component.getBarColor(0);
       expect(result).toEqual('blue');
     });
+  });
+
+  describe('getBarPattern', () => {
+    beforeEach(() => {
+      spyOn(component, 'getBarColor').and.returnValue('blue');
+      const colorScaleSpy = jasmine
+        .createSpy('colorScale')
+        .and.returnValue('blue');
+      component.config = {
+        dimensions: { ordinal: 'x' },
+        category: {
+          colorScale: colorScaleSpy,
+        },
+        data: [1, 2, 3],
+      } as any;
+      component.values.x = [1, 2, 3];
+    });
     it('returns correct value when pattern is used', () => {
       component.config.patternPredicates = [
         { patternName: 'pattern', predicate: (d: any) => true },
       ];
-      const result = component.getBarColor(0);
+      const result = component.getBarPattern(0);
       expect(result).toEqual(`url(#pattern)`);
     });
   });
