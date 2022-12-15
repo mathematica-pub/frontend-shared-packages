@@ -670,10 +670,12 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarWidth()', () => {
+    let ordinalSpy: jasmine.Spy;
+    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(component, 'getBarWidthOrdinal').and.returnValue('ordinal' as any);
-      spyOn(component, 'getBarWidthQuantitative').and.returnValue(
-        'quantitative' as any
+      ordinalSpy = spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
+      quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
+        200
       );
       component.config = { dimensions: { ordinal: 'x' } } as any;
     });
@@ -689,7 +691,17 @@ describe('BarsComponent', () => {
       });
 
       it('returns the correct value', () => {
-        expect(component.getBarWidth(100)).toEqual('ordinal' as any);
+        expect(component.getBarWidth(100)).toEqual(300);
+      });
+
+      it('returns 0 if getOrdinal returns undefined', () => {
+        ordinalSpy.and.returnValue(undefined);
+        expect(component.getBarWidth(100)).toEqual(0);
+      });
+
+      it('returns 0 if getOrdinal returns null', () => {
+        ordinalSpy.and.returnValue(null);
+        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
 
@@ -709,7 +721,17 @@ describe('BarsComponent', () => {
       });
 
       it('returns the correct value', () => {
-        expect(component.getBarWidth(100)).toEqual('quantitative' as any);
+        expect(component.getBarWidth(100)).toEqual(200);
+      });
+
+      it('returns 0 if getQuantitative returns undefined', () => {
+        quantSpy.and.returnValue(undefined);
+        expect(component.getBarWidth(100)).toEqual(0);
+      });
+
+      it('returns 0 if getQuantitative returns null', () => {
+        quantSpy.and.returnValue(null);
+        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
   });

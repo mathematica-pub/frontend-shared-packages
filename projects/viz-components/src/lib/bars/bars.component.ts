@@ -399,11 +399,16 @@ export class BarsComponent
   }
 
   getBarWidth(i: number): number {
+    let width;
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarWidthOrdinal(i);
+      width = this.getBarWidthOrdinal(i);
     } else {
-      return this.getBarWidthQuantitative(i);
+      width = this.getBarWidthQuantitative(i);
     }
+    if (!width || isNaN(width)) {
+      width = 0;
+    }
+    return width;
   }
 
   getBarLabelX(i: number): number {
