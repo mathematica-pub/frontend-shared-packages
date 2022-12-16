@@ -460,10 +460,11 @@ describe('BarsComponent', () => {
           valueFormat: ',.0f',
         },
         labels: {
-          noValueString: 'no value',
+          noValueFunction: (d) => (d === 3 ? 3 : 'no value'),
         },
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
+      component.config.data = [1, 2, 3];
     });
     describe('integration: value is a number', () => {
       it('integration: returns the correct value correctly formatted as a string', () => {
@@ -472,9 +473,13 @@ describe('BarsComponent', () => {
     });
 
     describe('integration: value is falsey', () => {
-      it('returns the config.labels.noValueString', () => {
+      it('returns the correct value from the noValueFunction', () => {
         component.values.x = [null, null, null];
         expect(component.getBarLabelText(1)).toEqual('no value');
+      });
+      it('returns the correct value from the noValueFunction', () => {
+        component.values.x = [null, null, null];
+        expect(component.getBarLabelText(2)).toEqual(3 as any);
       });
     });
   });
@@ -670,10 +675,12 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarWidth()', () => {
+    let ordinalSpy: jasmine.Spy;
+    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(component, 'getBarWidthOrdinal').and.returnValue('ordinal' as any);
-      spyOn(component, 'getBarWidthQuantitative').and.returnValue(
-        'quantitative' as any
+      ordinalSpy = spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
+      quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
+        200
       );
       component.config = { dimensions: { ordinal: 'x' } } as any;
     });
@@ -689,7 +696,17 @@ describe('BarsComponent', () => {
       });
 
       it('returns the correct value', () => {
-        expect(component.getBarWidth(100)).toEqual('ordinal' as any);
+        expect(component.getBarWidth(100)).toEqual(300);
+      });
+
+      it('returns 0 if getOrdinal returns undefined', () => {
+        ordinalSpy.and.returnValue(undefined);
+        expect(component.getBarWidth(100)).toEqual(0);
+      });
+
+      it('returns 0 if getOrdinal returns null', () => {
+        ordinalSpy.and.returnValue(null);
+        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
 
@@ -709,7 +726,17 @@ describe('BarsComponent', () => {
       });
 
       it('returns the correct value', () => {
-        expect(component.getBarWidth(100)).toEqual('quantitative' as any);
+        expect(component.getBarWidth(100)).toEqual(200);
+      });
+
+      it('returns 0 if getQuantitative returns undefined', () => {
+        quantSpy.and.returnValue(undefined);
+        expect(component.getBarWidth(100)).toEqual(0);
+      });
+
+      it('returns 0 if getQuantitative returns null', () => {
+        quantSpy.and.returnValue(null);
+        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
   });
