@@ -8,7 +8,6 @@ import { UndasherizePipe } from './core/pipes/undasherize.pipe';
 import { BasemapService } from './core/services/basemap.service';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
-import { UndasherizePipe } from './core/pipes/undasherize.pipe';
 import { NavbarFolderComponent } from './navbar-folder/navbar-folder.component';
 
 @NgModule({
