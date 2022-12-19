@@ -101,7 +101,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor()</code>
+<code>constructor(init?: <a href="documentation/chart-components/map-chart/map-config" target="_self">Partial&lt;MapConfig&gt;</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -110,6 +110,36 @@
                             </td>
                         </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>init</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="documentation/chart-components/map-chart/map-config" target="_self" >Partial&lt;MapConfig&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -250,7 +280,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:15</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:18</a></code>
 </div>
                         </td>
                     </tr>
@@ -283,7 +313,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:16</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -316,7 +346,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/add-ons/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:17</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/data-marks#source" target="_self" >DataMarksConfig:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -354,10 +384,11 @@ export class MapConfig extends DataMarksConfig {
   simpleGeographies?: SimpleGeography[];
   dataGeography?: DataGeography;
 
-  constructor() {
+  constructor(init?: Partial&lt;MapConfig&gt;) {
     super();
     this.data &#x3D; [];
     this.projection &#x3D; geoAlbersUsa();
+    Object.assign(this, init);
   }
 }
 
@@ -367,10 +398,11 @@ export class SimpleGeography {
   strokeWidth: string;
   fill: string;
 
-  constructor() {
+  constructor(init?: Partial&lt;SimpleGeography&gt;) {
     this.strokeColor &#x3D; &#x27;dimgray&#x27;;
     this.strokeWidth &#x3D; &#x27;1&#x27;;
     this.fill &#x3D; &#x27;none&#x27;;
+    Object.assign(this, init);
   }
 }
 
@@ -379,9 +411,10 @@ export class DataGeography extends SimpleGeography {
   dataConfig: GeoDataDimension;
   nullColor: string;
 
-  constructor() {
+  constructor(init?: Partial&lt;DataGeography&gt;) {
     super();
     this.nullColor &#x3D; &#x27;#dcdcdc&#x27;;
+    Object.assign(this, init);
   }
 }
 
@@ -395,6 +428,10 @@ export class GeoDataDimension extends DataDimension {
   breakValues?: number[];
   interpolator: (...args: any) &#x3D;&gt; any;
   range: any[];
+  constructor(init?: Partial&lt;GeoDataDimension&gt;) {
+    super();
+    Object.assign(this, init);
+  }
 }
 
 export type MapBinType &#x3D;
@@ -406,53 +443,58 @@ export type MapBinType &#x3D;
 export class GeoCategoricalDataDimension extends GeoDataDimension {
   override interpolator: never;
 
-  constructor() {
+  constructor(init?: Partial&lt;GeoCategoricalDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;categorical&#x27;;
     this.binType &#x3D; &#x27;none&#x27;;
     this.colors &#x3D; [&#x27;white&#x27;, &#x27;lightslategray&#x27;];
+    Object.assign(this, init);
   }
 }
 
 export class GeoNoBinsQuantitativeDataDimension extends GeoDataDimension {
-  constructor() {
+  constructor(init?: Partial&lt;GeoNoBinsQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;none&#x27;;
     this.colorScale &#x3D; scaleLinear;
     this.interpolator &#x3D; interpolateLab;
+    Object.assign(this, init);
   }
 }
 
 export class GeoEqualValuesQuantitativeDataDimension extends GeoDataDimension {
-  constructor() {
+  constructor(init?: Partial&lt;GeoEqualValuesQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;equal value ranges&#x27;;
     this.colorScale &#x3D; scaleQuantize;
     this.interpolator &#x3D; interpolateLab;
     this.numBins &#x3D; 5;
+    Object.assign(this, init);
   }
 }
 
 export class GeoEqualNumbersQuantitativeDataDimension extends GeoDataDimension {
-  constructor() {
+  constructor(init?: Partial&lt;GeoEqualNumbersQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;equal num observations&#x27;;
     this.colorScale &#x3D; scaleQuantile;
     this.interpolator &#x3D; interpolateLab;
     this.numBins &#x3D; 5;
+    Object.assign(this, init);
   }
 }
 
 export class GeoCustomBreaksQuantitativeDataDimension extends GeoDataDimension {
-  constructor() {
+  constructor(init?: Partial&lt;GeoCustomBreaksQuantitativeDataDimension&gt;) {
     super();
     this.valueType &#x3D; &#x27;quantitative&#x27;;
     this.binType &#x3D; &#x27;custom breaks&#x27;;
     this.colorScale &#x3D; scaleThreshold;
     this.interpolator &#x3D; interpolateLab;
+    Object.assign(this, init);
   }
 }
 
@@ -461,6 +503,9 @@ export class MapDataValues {
   dataValues: any[];
   indexMap: InternMap;
   geoGeographies: any[];
+  constructor(init?: Partial&lt;MapDataValues&gt;) {
+    Object.assign(this, init);
+  }
 }
 </code></pre>
     </div>

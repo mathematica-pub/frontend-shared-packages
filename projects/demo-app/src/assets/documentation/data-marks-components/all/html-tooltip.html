@@ -351,8 +351,8 @@ export class HtmlTooltipComponent {
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
         var COMPONENT_TEMPLATE = '<div><div  class="html-tooltip-container"  [ngStyle]="{ \'bottom.px\': bottom, \'left.px\': getLeftOffset(content.offsetWidth) }">  <div #content class="html-tooltip-content-container">    <ng-content></ng-content>  </div></div></div>'
-    var COMPONENTS = [{'name': 'BarsComponent', 'selector': '[vzc-data-marks-bars]'},{'name': 'ChartComponent', 'selector': 'vzc-chart'},{'name': 'GroupedBarsComponent', 'selector': '[vzc-data-marks-grouped-bars]'},{'name': 'HtmlTooltipComponent', 'selector': 'vzc-html-tooltip'},{'name': 'LinesComponent', 'selector': '[vzc-data-marks-lines]'},{'name': 'MapComponent', 'selector': '[vzc-data-marks-map]'},{'name': 'StackedBarsComponent', 'selector': '[vzc-data-marks-stacked-bars]'},{'name': 'XOrdinalAxisComponent', 'selector': '[vzc-x-ordinal-axis]'},{'name': 'XQuantitativeAxisComponent', 'selector': '[vzc-x-quantitative-axis]'},{'name': 'XyChartBackgroundComponent', 'selector': '[vzc-xy-chart-background]'},{'name': 'XyChartComponent', 'selector': 'vzc-xy-chart'},{'name': 'YOrdinalAxisComponent', 'selector': '[vzc-y-ordinal-axis]'},{'name': 'YQuantitativeAxisComponent', 'selector': '[vzc-y-quantitative-axis]'}];
-    var DIRECTIVES = [{'name': 'Unsubscribe', 'selector': ''},{'name': 'XyAxis', 'selector': ''}];
+    var COMPONENTS = [{'name': 'BarsComponent', 'selector': '[vzc-data-marks-bars]'},{'name': 'ChartComponent', 'selector': 'vzc-chart'},{'name': 'ContinuousLegendComponent', 'selector': 'vzc-continuous-legend'},{'name': 'DiscontinuousLegendComponent', 'selector': 'vzc-discontinuous-legend'},{'name': 'GeographiesComponent', 'selector': '[vzc-data-marks-geographies]'},{'name': 'GroupedBarsComponent', 'selector': '[vzc-data-marks-grouped-bars]'},{'name': 'HtmlTooltipComponent', 'selector': 'vzc-html-tooltip'},{'name': 'LinesComponent', 'selector': '[vzc-data-marks-lines]'},{'name': 'MapChartComponent', 'selector': 'vzc-map-chart'},{'name': 'MapLegendComponent', 'selector': 'vzc-map-legend'},{'name': 'StackedAreaComponent', 'selector': '[vzc-data-marks-stacked-area]'},{'name': 'StackedBarsComponent', 'selector': '[vzc-data-marks-stacked-bars]'},{'name': 'XOrdinalAxisComponent', 'selector': '[vzc-x-ordinal-axis]'},{'name': 'XQuantitativeAxisComponent', 'selector': '[vzc-x-quantitative-axis]'},{'name': 'XyBackgroundComponent', 'selector': '[vzc-xy-background]'},{'name': 'XyChartComponent', 'selector': 'vzc-xy-chart'},{'name': 'YOrdinalAxisComponent', 'selector': '[vzc-y-ordinal-axis]'},{'name': 'YQuantitativeAxisComponent', 'selector': '[vzc-y-quantitative-axis]'}];
+    var DIRECTIVES = [{'name': 'MapContent', 'selector': ''},{'name': 'MapLegendContent', 'selector': ''},{'name': 'Unsubscribe', 'selector': ''},{'name': 'XyAxis', 'selector': ''}];
     var ACTUAL_COMPONENT = {'name': 'HtmlTooltipComponent'};
 </script>
 <script src="../js/tree.js"></script>
@@ -399,7 +399,7 @@ export class HtmlTooltipComponent {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
-            var COMPODOC_CURRENT_PAGE_URL = 'api.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'HtmlTooltipComponent.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
