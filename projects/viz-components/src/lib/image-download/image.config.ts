@@ -1,6 +1,6 @@
-import { Image } from './image.enums';
+import { VicImage } from './image.enums';
 // (partial) config options from documentation: https://www.npmjs.com/package/html-to-image
-export class ImageServiceConfig {
+export class VicImageServiceConfig {
   filter: (domNode: HTMLElement) => boolean;
   containerNode: HTMLElement;
   fileName: string;
@@ -15,26 +15,26 @@ export class ImageServiceConfig {
   quality = 1;
 }
 
-export class JpegImageConfig extends ImageServiceConfig {
-  constructor(init?: Partial<ImageServiceConfig>) {
+export class VicJpegImageConfig extends VicImageServiceConfig {
+  constructor(init?: Partial<VicImageServiceConfig>) {
     super();
-    this.imageType = Image.jpeg;
+    this.imageType = VicImage.jpeg;
     Object.assign(this, init);
   }
 }
 
-export class PngImageConfig extends ImageServiceConfig {
-  constructor(init?: Partial<ImageServiceConfig>) {
+export class VicPngImageConfig extends VicImageServiceConfig {
+  constructor(init?: Partial<VicImageServiceConfig>) {
     super();
-    this.imageType = Image.png;
+    this.imageType = VicImage.png;
     Object.assign(this, init);
   }
 }
 
-export class SvgImageConfig extends ImageServiceConfig {
-  constructor(init?: Partial<ImageServiceConfig>) {
+export class VicSvgImageConfig extends VicImageServiceConfig {
+  constructor(init?: Partial<VicImageServiceConfig>) {
     super();
-    this.imageType = Image.svg;
+    this.imageType = VicImage.svg;
     Object.assign(this, init);
   }
 }
