@@ -1,7 +1,7 @@
 import { ClickEventDirective } from '../../events/click-event';
 
 export class ClickEventDirectiveStub extends ClickEventDirective {
-  setElements(): void {
+  setListenedElements(): void {
     return;
   }
   chartClick(event: Event): void {

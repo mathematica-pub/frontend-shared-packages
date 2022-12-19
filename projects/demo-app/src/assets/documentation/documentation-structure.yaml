@@ -12,31 +12,73 @@ data-marks-components:
   stacked-bars: 'components/StackedBarsComponent.html'
 add-ons:
   chart-components:
+    all:
+      chart-config: 'classes/ChartConfig.html'
     xy-chart:
       xy-background: 'components/XyBackgroundComponent.html'
+      tick-wrap-config: 'classes/TickWrapConfig.html'
+      axis-config: 'classes/AxisConfig.html'
       x-ordinal-axis: 'components/XOrdinalAxisComponent.html'
       x-quantitative-axis: 'components/XQuantitativeAxisComponent.html'
       y-ordinal-axis: 'components/YOrdinalAxisComponent.html'
       y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
   data-marks-components:
     all:
-      html-tooltip: 'components/HtmlTooltipComponent.html'
+      html-tooltip: 'directives/HtmlTooltipDirective.html'
+      html-tooltip-config: 'classes/HtmlTooltipConfig.html'
+      html-tooltip-overlay-config: 'classes/HtmlTooltipOverlayConfig.html'
+      data-marks: 'classes/DataMarksConfig.html'
+      categorical-color-dimension-config: 'classes/CategoricalColorDimensionConfig.html'
+      data-dimension-config: 'classes/DataDimensionConfig.html'
+      domain-padding-config: 'classes/DomainPaddingConfig.html'
     geographies:
+      geographies-config: 'classes/GeographiesConfig.html'
       geographies-hover-event: 'directives/GeographiesHoverEventDirective.html'
+      geographies-hover-effect-emit-tooltip-data: 'classes/GeographiesHoverEffectEmitTooltipData.html'
       geographies-hover-and-move-event: 'directives/GeographiesHoverAndMoveEventDirective.html'
+      geographies-hover-and-move-effect-emit-tooltip-data: 'classes/GeographiesHoverAndMoveEffectEmitTooltipData.html'
+      geographies-input-event: 'directives/GeographiesInputEventDirective.html'
       map-legend: 'components/MapLegendComponent.html'
+      no-data-geography-config: 'classes/NoDataGeographyConfig.html'
+      attribute-data-dimension-config: 'classes/AttributeDataDimensionConfig.html'
+      categorical-attribute-data-dimension-config: 'classes/CategoricalAttributeDataDimensionConfig.html'
+      no-bins-quantitative-attribute-data-dimension-config: 'classes/NoBinsQuantitativeAttributeDataDimensionConfig.html'
+      equal-numbers-quantitative-attribute-data-dimension-config: 'classes/EqualNumbersQuantitativeAttributeDataDimensionConfig.html'
+      equal-values-quantitative-attribute-data-dimension-config: 'classes/EqualValuesQuantitativeAttributeDataDimensionConfig.html'
+      custom-breaks-quantitative-attribute-data-dimension-config: 'classes/CustomBreaksQuantitativeAttributeDataDimensionConfig.html'
+      data-geography-config: 'classes/DataGeographyConfig.html'
     lines:
+      lines-config: 'classes/LinesConfig.html'
+      lines-tooltip-config: 'classes/LinesTooltipConfig.html'
+      lines-stroke-config: 'classes/LinesStrokeConfig.html'
       lines-hover-event: 'directives/LinesHoverEventDirective.html'
       lines-hover-and-move-event: 'directives/LinesHoverAndMoveEventDirective.html'
-      lines-input-event: 'directives/LinesInputEventDirective.html'
-      lines-hover-and-move-effect-default-hover-dot-styles: 'classes/LinesHoverAndMoveEffectDefaultHoverDotStyles.html'
       lines-hover-and-move-effect-default-lines-styles: 'classes/LinesHoverAndMoveEffectDefaultLinesStyles.html'
       lines-hover-and-move-effect-default-markers-styles: 'classes/LinesHoverAndMoveEffectDefaultMarkersStyles.html'
+      lines-hover-and-move-effect-default-hover-dot-styles: 'classes/LinesHoverAndMoveEffectDefaultHoverDotStyles.html'
       lines-hover-and-move-effect-default-styles: 'classes/LinesHoverAndMoveEffectDefaultStyles.html'
       lines-hover-and-move-effect-default-styles-config: 'classes/LinesHoverAndMoveEffectDefaultStylesConfig.html'
+      lines-hover-and-move-effect-emit-tooltip-data: 'classes/LinesHoverAndMoveEffectEmitTooltipData.html'
+      lines-input-event: 'directives/LinesInputEventDirective.html'
+      point-marker-config: 'classes/PointMarkerConfig.html'
+    bars:
+      bars-config: 'classes/BarsConfig.html'
+      quantitative-dimension-config: 'classes/QuantitativeDimensionConfig.html'
+      ordinal-dimension-config: 'classes/OrdinalDimensionConfig.html'
+      bars-labels-config: 'classes/BarsLabelsConfig.html'
+      bars-hover-event: 'directives/BarsHoverEventDirective.html'
+      bars-hover-show-labels-effect: 'classes/BarsHoverEffectShowLabels.html'
+      bars-hover-and-move-event: 'directives/BarsHoverAndMoveEventDirective.html'
+      bars-hover-and-move-effect-emit-tooltip-data: 'classes/BarsHoverAndMoveEffectEmitTooltipData.html'
+      bars-input-event: 'directives/BarsInputEventDirective.html'
+    grouped-bars:
+      grouped-bars-config: 'classes/GroupedBarsConfig.html'
+    stacked-area:
+      stacked-area: 'classes/StackedAreaConfig.html'
+    stacked-bars:
+      stacked-bars: 'classes/StackedBarsConfig.html'
 utilities:
-  format-value: 'interfaces/Formats.html'
-  svg-wrap: 'classes/SvgWrap.html'
+  svg-text-wrap-config: 'classes/SvgTextWrapConfig.html'
   unsubscribe: 'directives/Unsubscribe.html'
 library-internals:
   events:
@@ -46,14 +88,9 @@ library-internals:
     hover-and-move-event: 'directives/HoverAndMoveEventDirective.html'
     input-event: 'directives/InputEventDirective.html'
   xy-chart:
-    # mixins are not supported :( what to do?
-    # ordinal-axis: 'internals/OrdinalAxis.html'
-    # quantitative-axis: 'internals/QuantitativeAxis.html'
-    # x-axis: 'internals/XAxis.html'
-    # y-axis: 'internals/YAxis.html'
     xy-axis: 'directives/XyAxis.html'
+  map-chart:
+    map-content: 'directives/MapContent.html'
   geographies:
     continuous-legend: 'components/ContinuousLegendComponent.html'
     discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
-    map-content: 'directives/MapContent.html' # abstract class
-

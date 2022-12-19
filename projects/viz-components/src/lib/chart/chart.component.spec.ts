@@ -19,6 +19,8 @@ describe('ChartComponent', () => {
   describe('ngOnChanges()', () => {
     beforeEach(() => {
       spyOn(component, 'setAspectRatio');
+      spyOn(component.heightSubject, 'next');
+      component.height = 80;
     });
     it('calls setAspectRatio if changes has width property', () => {
       component.ngOnChanges({ width: 100 } as any);
@@ -33,6 +35,11 @@ describe('ChartComponent', () => {
     it('does not call setAspectRatio if changes has neither width nor height property', () => {
       component.ngOnChanges({} as any);
       expect(component.setAspectRatio).not.toHaveBeenCalled();
+    });
+
+    it('calls next on heightSubject if changes has height property', () => {
+      component.ngOnChanges({ height: 100 } as any);
+      expect(component.heightSubject.next).toHaveBeenCalledOnceWith(80);
     });
   });
 
@@ -79,29 +86,6 @@ describe('ChartComponent', () => {
       component.height = 50;
       component.setAspectRatio();
       expect(component.aspectRatio).toBe(2);
-    });
-  });
-
-  describe('chartShouldScale()', () => {
-    beforeEach(() => {
-      component.width = 100;
-      component.scaleChartWithContainer = true;
-      component.divRef = { nativeElement: { offsetWidth: 50 } } as any;
-    });
-    describe('if scaleChartContainer is true', () => {
-      it('returns true if divRef.nativeElement.offsetWidth is less than width', () => {
-        expect(component.chartShouldScale()).toBe(true);
-      });
-
-      it('returns false if divRef.nativeElement.offsetWidth is greater than or equal to width', () => {
-        component.divRef = { nativeElement: { offsetWidth: 200 } } as any;
-        expect(component.chartShouldScale()).toBe(false);
-      });
-    });
-
-    it('returns false if chartShouldScale is false', () => {
-      component.scaleChartWithContainer = false;
-      expect(component.chartShouldScale()).toBe(false);
     });
   });
 });

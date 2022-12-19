@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import {
   VicBarsModule,
   VicChartModule,
+  VicHtmlTooltipModule,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
@@ -18,13 +19,14 @@ import { BarsExampleComponent } from './bars-example.component';
   imports: [
     CommonModule,
     BarsRoutingModule,
-    VicBarsModule,
-    VicXQuantitativeAxisModule,
-    VicYOrdinalAxisModule,
     VicChartModule,
-    VicXyBackgroundModule,
+    VicBarsModule,
     VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYOrdinalAxisModule,
+    VicXQuantitativeAxisModule,
     SharedModule,
+    VicHtmlTooltipModule,
   ],
 })
 export class BarsModule {}

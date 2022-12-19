@@ -1,9 +1,10 @@
 import { InternSet, scaleBand } from 'd3';
+import { FormatSpecifier } from '../value-format/value-format';
 
 export class DataDimensionConfig {
   valueAccessor: (...args: any) => any;
   domain?: any;
-  valueFormat?: string;
+  valueFormat?: FormatSpecifier;
   constructor(init?: Partial<DataDimensionConfig>) {
     Object.assign(this, init);
   }

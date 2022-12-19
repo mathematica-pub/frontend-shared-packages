@@ -1,7 +1,8 @@
-from os import popen, path
 import re
-import yaml
+from os import path, popen
 from typing import Dict
+
+import yaml
 
 
 class DocumentationParser():
@@ -14,8 +15,9 @@ class DocumentationParser():
         if match.group(2) in self.filesToParse:
             routerLink = self.filesToParse[match.group(2)] \
                 .replace("all/", "") \
-                .replace(self.outputDirectory, "")
-            return f"href=\"{routerLink}"
+                .replace(self.outputDirectory, "") \
+                .replace(".html", "")
+            return f"href=\"documentation{routerLink}"
         else:
             if match.group(2) not in self.missingKeys:
                 self.missingKeys.append(match.group(2))

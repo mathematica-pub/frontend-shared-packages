@@ -10,14 +10,14 @@ import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/
 import {
   AxisConfig,
   ElementSpacing,
-  EmitLinesTooltipData,
-  ImageService,
-  JpegImageConfig,
+  VicImageService,
+  VicJpegImageConfig,
   ExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
   LinesHoverAndMoveEffectDefaultStylesConfig,
+  LinesHoverAndMoveEffectEmitTooltipData,
   LinesHoverAndMoveEventDirective,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
@@ -31,6 +31,7 @@ interface ViewModel {
   yAxisConfig: AxisConfig;
   labels: string[];
 }
+const includeFiles = ['line-input-effects.ts'];
 
 @Component({
   selector: 'app-lines-example',
@@ -63,10 +64,12 @@ export class LinesExampleComponent implements OnInit {
         growMarkerDimension: 3,
       })
     ),
-    new EmitLinesTooltipData(),
+    new LinesHoverAndMoveEffectEmitTooltipData(),
   ];
+  includeFiles = includeFiles;
+  folderName = 'lines-example';
 
-  private imageService = inject(ImageService);
+  private imageService = inject(VicImageService);
   constructor(
     private dataService: DataService,
     public downloadService: ExportDataService
@@ -127,7 +130,7 @@ export class LinesExampleComponent implements OnInit {
   }
 
   async downloadImage(): Promise<void> {
-    const imageConfig = new JpegImageConfig({
+    const imageConfig = new VicJpegImageConfig({
       containerNode: this.imageNode.nativeElement,
       fileName: 'testfile',
     });

@@ -2,6 +2,9 @@ import { format, timeFormat, TimeInterval } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
+/**
+ * @internal
+ */
 export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
   Base: T
 ) {

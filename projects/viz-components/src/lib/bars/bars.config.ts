@@ -4,7 +4,10 @@ import {
   OrdinalDimensionConfig,
   QuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
-import { DataMarksConfig } from '../data-marks/data-marks.config';
+import {
+  DataMarksConfig,
+  PatternPredicate,
+} from '../data-marks/data-marks.config';
 
 export class BarsConfig extends DataMarksConfig {
   ordinal: OrdinalDimensionConfig = new OrdinalDimensionConfig();
@@ -14,31 +17,31 @@ export class BarsConfig extends DataMarksConfig {
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
   positivePaddingForAllNegativeValues: number;
+  patternPredicates?: PatternPredicate[];
 
   constructor(init?: Partial<BarsConfig>) {
     super();
-    this.dimensions = verticalBarChartDimensionsConfig;
+    this.dimensions = new VerticalBarChartDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.valueAccessor = (d) => d;
     this.quantitative.scaleType = scaleLinear;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];
-    this.labels = new BarsLabelsConfig();
     this.positivePaddingForAllNegativeValues = 0.2;
     Object.assign(this, init);
   }
 }
 
 export class BarsLabelsConfig {
-  show: boolean;
+  display: boolean;
   offset: number;
   color?: string;
-  noValueString: string;
+  noValueFunction: (d) => string;
 
   constructor(init?: Partial<BarsLabelsConfig>) {
-    this.show = false;
+    this.display = true;
     this.offset = 4;
-    this.noValueString = 'N/A';
+    this.noValueFunction = (d) => 'N/A';
     Object.assign(this, init);
   }
 }
@@ -48,7 +51,7 @@ export class BarsTooltipData {
   value: string;
 }
 
-export interface BarsDimensionsConfig {
+export class BarsDimensionsConfig {
   direction: 'vertical' | 'horizontal';
   x: 'ordinal' | 'quantitative';
   y: 'ordinal' | 'quantitative';
@@ -57,20 +60,26 @@ export interface BarsDimensionsConfig {
   quantitativeDimension: 'width' | 'height';
 }
 
-export const horizontalBarChartDimensionsConfig: BarsDimensionsConfig = {
-  direction: 'horizontal',
-  x: 'quantitative',
-  y: 'ordinal',
-  ordinal: 'y',
-  quantitative: 'x',
-  quantitativeDimension: 'width',
-};
+export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
+  constructor() {
+    super();
+    this.direction = 'horizontal';
+    this.x = 'quantitative';
+    this.y = 'ordinal';
+    this.ordinal = 'y';
+    this.quantitative = 'x';
+    this.quantitativeDimension = 'width';
+  }
+}
 
-export const verticalBarChartDimensionsConfig: BarsDimensionsConfig = {
-  direction: 'vertical',
-  x: 'ordinal',
-  y: 'quantitative',
-  ordinal: 'x',
-  quantitative: 'y',
-  quantitativeDimension: 'height',
-};
+export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
+  constructor() {
+    super();
+    this.direction = 'vertical';
+    this.x = 'ordinal';
+    this.y = 'quantitative';
+    this.ordinal = 'x';
+    this.quantitative = 'y';
+    this.quantitativeDimension = 'height';
+  }
+}

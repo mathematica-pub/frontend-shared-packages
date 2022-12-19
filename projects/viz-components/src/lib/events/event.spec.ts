@@ -25,11 +25,11 @@ describe('EventDirective', () => {
   describe('ngAfterViewInit()', () => {
     beforeEach(() => {
       spyOn(directive, 'setListeners');
-      spyOn(directive, 'setElements');
+      spyOn(directive, 'setListenedElements');
     });
     it('calls setElements', () => {
       directive.ngAfterViewInit();
-      expect(directive.setElements).toHaveBeenCalledTimes(1);
+      expect(directive.setListenedElements).toHaveBeenCalledTimes(1);
     });
     it('calls setListeners()', () => {
       directive.ngAfterViewInit();

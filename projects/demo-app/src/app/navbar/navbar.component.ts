@@ -45,16 +45,13 @@ export class NavbarComponent implements OnInit {
           for (const category in addOns) {
             for (const subcategory in addOns[category]) {
               if (subcategory == 'all') {
-                for (const yamlSubcategory in yamlObject[category]) {
-                  const currentSubcategory =
-                    yamlObject[category][yamlSubcategory];
-                  yamlObject[category][yamlSubcategory].addOns = [
-                    ...currentSubcategory.addOns,
+                yamlObject[category][subcategory] = {
+                  addOns: [
                     ...Object.keys(addOns[category][subcategory]).map(
                       (filePath) => `all/${filePath}`
                     ),
-                  ];
-                }
+                  ],
+                };
               } else {
                 const currentSubcategory = yamlObject[category][subcategory];
                 yamlObject[category][subcategory].addOns = [
@@ -82,9 +79,6 @@ export class NavbarComponent implements OnInit {
   }
   expandLinks(category: string, subcategory: string) {
     const url = this.router.url;
-    if (url.includes('all') && url.includes(category)) {
-      return true;
-    }
     return url.includes(category) && url.includes(subcategory);
   }
 }

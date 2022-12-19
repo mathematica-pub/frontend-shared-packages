@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { valueFormat } from 'projects/viz-components/src/lib/core/constants/string-formatting.constants';
-import { EmitGeographiesHoverTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-effects';
 import {
   GeographiesHoverEmittedOutput,
   GeographiesHoverEventDirective,
 } from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
 import { GeographiesHoverAndMoveEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
   DataGeographyConfig,
   ElementSpacing,
   EqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesConfig,
+  GeographiesHoverEffectEmitTooltipData,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 import * as topojson from 'topojson-client';
@@ -57,8 +57,10 @@ export class GeographiesExampleComponent implements OnInit {
     new BehaviorSubject<GeographiesHoverAndMoveEmittedOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
-    new EmitGeographiesHoverTooltipData(),
+    new GeographiesHoverEffectEmitTooltipData(),
   ];
+  patternName = 'dotPattern';
+  folderName = 'geographies-example';
 
   constructor(
     private dataService: DataService,
@@ -95,12 +97,18 @@ export class GeographiesExampleComponent implements OnInit {
       new EqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
     config.attributeDataConfig.valueAccessor = (d) => d.income;
-    config.attributeDataConfig.valueFormat = `$${valueFormat.integer()}`;
+    config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
     config.attributeDataConfig.colors = [
       colors.white,
       colors.highlight.default,
     ];
     config.attributeDataConfig.numBins = 6;
+    config.attributeDataConfig.patternPredicates = [
+      {
+        patternName: this.patternName,
+        predicate: (d) => !!d && d.population < 500000,
+      },
+    ];
     return config;
   }
 

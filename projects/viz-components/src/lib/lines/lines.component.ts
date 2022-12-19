@@ -93,7 +93,9 @@ export class LinesComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+    ) {
       this.setMethodsFromConfigAndDraw();
     }
   }
@@ -246,7 +248,7 @@ export class LinesComponent
         enter
           .append('path')
           .property('key', ([category]) => category)
-          .attr('class', 'line')
+          .attr('class', 'vic-line')
           .attr('stroke', ([category]) => this.categoryScale(category))
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
@@ -264,7 +266,7 @@ export class LinesComponent
   drawHoverDot(): void {
     select(this.dotRef.nativeElement)
       .append('circle')
-      .attr('class', 'tooltip-dot')
+      .attr('class', 'vic-tooltip-dot')
       .attr('r', 4)
       .attr('fill', '#222')
       .attr('display', null);
@@ -279,7 +281,7 @@ export class LinesComponent
       (enter) =>
         enter
           .append('circle')
-          .attr('class', 'marker')
+          .attr('class', 'vic-marker')
           .attr('key', (d) => d.key)
           .style('mix-blend-mode', this.config.mixBlendMode)
           .attr('cx', (d) => this.xScale(this.values.x[d.index]))
@@ -315,7 +317,7 @@ export class LinesComponent
       .selectAll('text')
       .data(lastPoints)
       .join('text')
-      .attr('class', 'line-label')
+      .attr('class', 'vic-line-label')
       .attr('text-anchor', 'end')
       .attr('fill', (d) => this.categoryScale(this.values.category[d.index]))
       .attr('x', (d) => `${this.xScale(this.values.x[d.index]) - 4}px`)
