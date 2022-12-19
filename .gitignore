@@ -22,8 +22,6 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
-assets/documentation/*
-!assets/documentation/documentation-structure.yaml
 # unit test results
 test-results.xml
 

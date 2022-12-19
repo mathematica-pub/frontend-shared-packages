@@ -1,0 +1,3852 @@
+<!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  BarsComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="documentation/./data-marks-components/bars/bars#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/bars/bars#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/bars/bars#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/bars/bars#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/viz-components/src/lib/bars/bars.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a " target="_self" >XyContent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a " target="_self" >XyDataMarks</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="documentation/data-marks-components/bars/bars" target="_self" >{ provide: DATA_MARKS, useExisting: BarsComponent }</a></code>
+                                <code><a href="documentation/data-marks-components/bars/bars" target="_self" >{ provide: BARS, useExisting: BarsComponent }</a></code>
+                                <code><a " target="_self" >{ provide: ChartComponent, useExisting: XyChartComponent }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>[vic-data-marks-bars]</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./bars.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./bars.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#barGroups" >barGroups</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#barsKeyFunction" >barsKeyFunction</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#barsRef" >barsRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./data-marks-components/bars/bars#dataDomainService" >dataDomainService</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#hasBarsWithNegativeValues" >hasBarsWithNegativeValues</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#onPointerEnter" >onPointerEnter</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#onPointerLeave" >onPointerLeave</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#onPointerMove" >onPointerMove</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./data-marks-components/bars/bars#utilities" >utilities</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#values" >values</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./data-marks-components/bars/bars#zone" >zone</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#categoryScale" >categoryScale</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="documentation/./data-marks-components/bars/bars#chart" >chart</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#ranges" >ranges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#xScale" >xScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#yScale" >yScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#unsubscribe" >unsubscribe</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#drawBarLabels" >drawBarLabels</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#drawBars" >drawBars</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarColor" >getBarColor</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarHeight" >getBarHeight</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarHeightOrdinal" >getBarHeightOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarHeightQuantitative" >getBarHeightQuantitative</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarLabelColor" >getBarLabelColor</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarLabelText" >getBarLabelText</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarLabelX" >getBarLabelX</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarLabelY" >getBarLabelY</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarPattern" >getBarPattern</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarWidth" >getBarWidth</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarWidthOrdinal" >getBarWidthOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarWidthQuantitative" >getBarWidthQuantitative</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarX" >getBarX</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarXOrdinal" >getBarXOrdinal</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarXQuantitative" >getBarXQuantitative</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getBarY" >getBarY</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getDataMax" >getDataMax</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getDataMin" >getDataMin</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getDomainMaxForNegativeMax" >getDomainMaxForNegativeMax</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getDomainMaxFromValueExtents" >getDomainMaxFromValueExtents</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getDomainMinFromDataMin" >getDomainMinFromDataMin</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getOrdinalScale" >getOrdinalScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#getQuantitativeScale" >getQuantitativeScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#initCategoryScale" >initCategoryScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#initNonQuantitativeDomains" >initNonQuantitativeDomains</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#initQuantitativeDomain" >initQuantitativeDomain</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#resizeMarks" >resizeMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#reverseData" >reverseData</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#setBarsKeyFunction" >setBarsKeyFunction</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#setHasBarsWithNegativeValues" >setHasBarsWithNegativeValues</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#setMethodsFromConfigAndDraw" >setMethodsFromConfigAndDraw</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#setScaledSpaceProperties" >setScaledSpaceProperties</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#setValueArrays" >setValueArrays</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#setValueIndicies" >setValueIndicies</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#subscribeToRanges" >subscribeToRanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#subscribeToScales" >subscribeToScales</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Outputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/bars#tooltipData" >tooltipData</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="documentation/./data-marks-components/bars/bars#bars" >bars</a>
+                                </li>
+                                <li>
+                                    <a href="documentation/./data-marks-components/bars/bars#barLabels" >barLabels</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="documentation/data-marks-components/bars/bars-config" target="_self" >BarsConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:58</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <section>
+    <h3 id="outputs">Outputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="tooltipData"></a>
+                        <b>tooltipData</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:59</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawBarLabels"></a>
+                    <span class="name">
+                        <span ><b>drawBarLabels</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#drawBarLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawBarLabels(transitionDuration)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="321"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:321</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawBars"></a>
+                    <span class="name">
+                        <span ><b>drawBars</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#drawBars"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawBars(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:262</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMarks"></a>
+                    <span class="name">
+                        <span ><b>drawMarks</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#drawMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMarks(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="255"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:255</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarColor"></a>
+                    <span class="name">
+                        <span ><b>getBarColor</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarColor(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="366"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:366</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarHeight"></a>
+                    <span class="name">
+                        <span ><b>getBarHeight</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarHeight"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarHeight(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="446"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:446</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarHeightOrdinal"></a>
+                    <span class="name">
+                        <span ><b>getBarHeightOrdinal</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarHeightOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarHeightOrdinal(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="466"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:466</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarHeightQuantitative"></a>
+                    <span class="name">
+                        <span ><b>getBarHeightQuantitative</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarHeightQuantitative"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarHeightQuantitative(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="470"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:470</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarLabelColor"></a>
+                    <span class="name">
+                        <span ><b>getBarLabelColor</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarLabelColor"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarLabelColor(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="362"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:362</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarLabelText"></a>
+                    <span class="name">
+                        <span ><b>getBarLabelText</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarLabelText"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarLabelText(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="352"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:352</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarLabelX"></a>
+                    <span class="name">
+                        <span ><b>getBarLabelX</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarLabelX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarLabelX(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="423"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:423</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarLabelY"></a>
+                    <span class="name">
+                        <span ><b>getBarLabelY</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarLabelY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarLabelY(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="454"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:454</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarPattern"></a>
+                    <span class="name">
+                        <span ><b>getBarPattern</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarPattern"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarPattern(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="372"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:372</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarWidth"></a>
+                    <span class="name">
+                        <span ><b>getBarWidth</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarWidth(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="410"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:410</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarWidthOrdinal"></a>
+                    <span class="name">
+                        <span ><b>getBarWidthOrdinal</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarWidthOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarWidthOrdinal(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="435"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:435</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarWidthQuantitative"></a>
+                    <span class="name">
+                        <span ><b>getBarWidthQuantitative</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarWidthQuantitative"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarWidthQuantitative(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="439"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:439</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarX"></a>
+                    <span class="name">
+                        <span ><b>getBarX</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarX(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="382"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:382</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarXOrdinal"></a>
+                    <span class="name">
+                        <span ><b>getBarXOrdinal</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarXOrdinal"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarXOrdinal(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="390"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:390</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarXQuantitative"></a>
+                    <span class="name">
+                        <span ><b>getBarXQuantitative</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarXQuantitative"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarXQuantitative(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="394"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:394</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getBarY"></a>
+                    <span class="name">
+                        <span ><b>getBarY</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getBarY"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getBarY(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="406"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:406</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDataMax"></a>
+                    <span class="name">
+                        <span ><b>getDataMax</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getDataMax"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDataMax()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="178"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:178</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDataMin"></a>
+                    <span class="name">
+                        <span ><b>getDataMin</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getDataMin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDataMin()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="174"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:174</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDomainMaxForNegativeMax"></a>
+                    <span class="name">
+                        <span ><b>getDomainMaxForNegativeMax</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getDomainMaxForNegativeMax"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDomainMaxForNegativeMax(dataMin: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="200"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:200</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dataMin</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDomainMaxFromValueExtents"></a>
+                    <span class="name">
+                        <span ><b>getDomainMaxFromValueExtents</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getDomainMaxFromValueExtents"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDomainMaxFromValueExtents(maxValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, minValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:191</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>maxValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>minValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDomainMinFromDataMin"></a>
+                    <span class="name">
+                        <span ><b>getDomainMinFromDataMin</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getDomainMinFromDataMin"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDomainMinFromDataMin(minValue: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:182</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>minValue</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOrdinalScale"></a>
+                    <span class="name">
+                        <span ><b>getOrdinalScale</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getOrdinalScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOrdinalScale()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="232"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:232</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getQuantitativeScale"></a>
+                    <span class="name">
+                        <span ><b>getQuantitativeScale</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#getQuantitativeScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getQuantitativeScale()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="243"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:243</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initCategoryScale"></a>
+                    <span class="name">
+                        <span ><b>initCategoryScale</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#initCategoryScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initCategoryScale()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="211"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:211</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initNonQuantitativeDomains"></a>
+                    <span class="name">
+                        <span ><b>initNonQuantitativeDomains</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#initNonQuantitativeDomains"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initNonQuantitativeDomains()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:129</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initQuantitativeDomain"></a>
+                    <span class="name">
+                        <span ><b>initQuantitativeDomain</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#initQuantitativeDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initQuantitativeDomain()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="160"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:160</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:76</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="87"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:87</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resizeMarks"></a>
+                    <span class="name">
+                        <span ><b>resizeMarks</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#resizeMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resizeMarks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:109</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reverseData"></a>
+                    <span class="name">
+                        <span ><b>reverseData</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#reverseData"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>reverseData()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:93</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setBarsKeyFunction"></a>
+                    <span class="name">
+                        <span ><b>setBarsKeyFunction</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#setBarsKeyFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setBarsKeyFunction()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:250</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setHasBarsWithNegativeValues"></a>
+                    <span class="name">
+                        <span ><b>setHasBarsWithNegativeValues</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#setHasBarsWithNegativeValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setHasBarsWithNegativeValues()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:150</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMethodsFromConfigAndDraw"></a>
+                    <span class="name">
+                        <span ><b>setMethodsFromConfigAndDraw</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#setMethodsFromConfigAndDraw"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMethodsFromConfigAndDraw()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:97</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setScaledSpaceProperties"></a>
+                    <span class="name">
+                        <span ><b>setScaledSpaceProperties</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#setScaledSpaceProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setScaledSpaceProperties()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="220"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:220</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueArrays"></a>
+                    <span class="name">
+                        <span ><b>setValueArrays</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#setValueArrays"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValueArrays()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:114</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueIndicies"></a>
+                    <span class="name">
+                        <span ><b>setValueIndicies</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#setValueIndicies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValueIndicies()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:140</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:18</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToScales"></a>
+                    <span class="name">
+                        <span ><b>subscribeToScales</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#subscribeToScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToScales()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:27</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="documentation/utilities/unsubscribe" target="_self" >Unsubscribe</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="documentation/utilities/unsubscribe#source" target="_self" >Unsubscribe:11</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="barGroups"></a>
+                    <span class="name">
+                        <span ><b>barGroups</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#barGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:62</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="barsKeyFunction"></a>
+                    <span class="name">
+                        <span ><b>barsKeyFunction</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#barsKeyFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:63</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="barsRef"></a>
+                    <span class="name">
+                        <span ><b>barsRef</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#barsRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;bars&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:57</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataDomainService"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>dataDomainService</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#dataDomainService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DataDomainService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:65</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasBarsWithNegativeValues"></a>
+                    <span class="name">
+                        <span ><b>hasBarsWithNegativeValues</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#hasBarsWithNegativeValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:61</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPointerEnter"></a>
+                    <span class="name">
+                        <span ><b>onPointerEnter</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#onPointerEnter"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="477" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:477</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPointerLeave"></a>
+                    <span class="name">
+                        <span ><b>onPointerLeave</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#onPointerLeave"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="478" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:478</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onPointerMove"></a>
+                    <span class="name">
+                        <span ><b>onPointerMove</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#onPointerMove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="479" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:479</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="utilities"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>utilities</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#utilities"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UtilitiesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:64</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="values"></a>
+                    <span class="name">
+                        <span ><b>values</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#values"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >XyDataMarksValues</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new XyDataMarksValues()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:60</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zone</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:66</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="categoryScale"></a>
+                    <span class="name">
+                        <span ><b>categoryScale</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#categoryScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:14</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>chart</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(XyChartComponent)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:16</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:15</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xScale"></a>
+                    <span class="name">
+                        <span ><b>xScale</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#xScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:12</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yScale"></a>
+                    <span class="name">
+                        <span ><b>yScale</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#yScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:13</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribe"></a>
+                    <span class="name">
+                        <span ><b>unsubscribe</b></span>
+                        <a href="documentation/./data-marks-components/bars/bars#unsubscribe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subject&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="documentation/utilities/unsubscribe" target="_self" >Unsubscribe</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/unsubscribe#source" target="_self" >Unsubscribe:9</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bars"></a>
+                        <span class="name"><b>bars</b><a href="documentation/./data-marks-components/bars/bars#bars"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>bars()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:68</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="barLabels"></a>
+                        <span class="name"><b>barLabels</b><a href="documentation/./data-marks-components/bars/bars#barLabels"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>barLabels()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/viz-components/src/lib/bars/bars.component.ts:72</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  inject,
+  InjectionToken,
+  Input,
+  NgZone,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+  ViewEncapsulation,
+} from &#x27;@angular/core&#x27;;
+import {
+  InternSet,
+  map,
+  max,
+  min,
+  range,
+  scaleOrdinal,
+  select,
+  Transition,
+} from &#x27;d3&#x27;;
+import { cloneDeep } from &#x27;lodash&#x27;;
+import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
+import { DataDomainService } from &#x27;../core/services/data-domain.service&#x27;;
+import { UtilitiesService } from &#x27;../core/services/utilities.service&#x27;;
+import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
+import { XyDataMarks, XyDataMarksValues } from &#x27;../data-marks/xy-data-marks&#x27;;
+import { PatternUtilities } from &#x27;../shared/pattern-utilities.class&#x27;;
+import { formatValue } from &#x27;../value-format/value-format&#x27;;
+import { XyChartComponent } from &#x27;../xy-chart/xy-chart.component&#x27;;
+import { XyContent } from &#x27;../xy-chart/xy-content&#x27;;
+import { BarsConfig, BarsTooltipData } from &#x27;./bars.config&#x27;;
+
+export const BARS &#x3D; new InjectionToken&lt;BarsComponent&gt;(&#x27;BarsComponent&#x27;);
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-data-marks-bars]&#x27;,
+  templateUrl: &#x27;./bars.component.html&#x27;,
+  styleUrls: [&#x27;./bars.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: DATA_MARKS, useExisting: BarsComponent },
+    { provide: BARS, useExisting: BarsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
+})
+export class BarsComponent
+  extends XyContent
+  implements XyDataMarks, OnChanges, OnInit
+{
+  @ViewChild(&#x27;bars&#x27;, { static: true }) barsRef: ElementRef&lt;SVGSVGElement&gt;;
+  @Input() config: BarsConfig;
+  @Output() tooltipData &#x3D; new EventEmitter&lt;BarsTooltipData&gt;();
+  values: XyDataMarksValues &#x3D; new XyDataMarksValues();
+  hasBarsWithNegativeValues: boolean;
+  barGroups: any;
+  barsKeyFunction: (i: number) &#x3D;&gt; string;
+  private utilities &#x3D; inject(UtilitiesService);
+  private dataDomainService &#x3D; inject(DataDomainService);
+  private zone &#x3D; inject(NgZone);
+
+  get bars(): any {
+    return select(this.barsRef.nativeElement).selectAll(&#x27;rect&#x27;);
+  }
+
+  get barLabels(): any {
+    return select(this.barsRef.nativeElement).selectAll(&#x27;text&#x27;);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.utilities.objectOnNgChangesChanged(changes, &#x27;config&#x27;, &#x27;data&#x27;)) {
+      this.reverseData();
+    }
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, &#x27;config&#x27;)
+    ) {
+      this.setMethodsFromConfigAndDraw();
+    }
+  }
+
+  ngOnInit(): void {
+    this.subscribeToRanges();
+    this.subscribeToScales();
+    this.setMethodsFromConfigAndDraw();
+  }
+
+  reverseData(): void {
+    this.config.data &#x3D; cloneDeep(this.config.data).reverse();
+  }
+
+  setMethodsFromConfigAndDraw(): void {
+    this.setValueArrays();
+    this.initNonQuantitativeDomains();
+    this.setValueIndicies();
+    this.setHasBarsWithNegativeValues();
+    this.initQuantitativeDomain();
+    this.initCategoryScale();
+    this.setScaledSpaceProperties();
+    this.setBarsKeyFunction();
+    this.drawMarks(this.chart.transitionDuration);
+  }
+
+  resizeMarks(): void {
+    this.setScaledSpaceProperties();
+    this.drawMarks(0);
+  }
+
+  setValueArrays(): void {
+    this.values.x &#x3D; map(
+      this.config.data,
+      this.config[this.config.dimensions.x].valueAccessor
+    );
+    this.values.y &#x3D; map(
+      this.config.data,
+      this.config[this.config.dimensions.y].valueAccessor
+    );
+    this.values.category &#x3D; map(
+      this.config.data,
+      this.config.category.valueAccessor
+    );
+  }
+
+  initNonQuantitativeDomains(): void {
+    if (this.config.ordinal.domain &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.ordinal.domain &#x3D; this.values[this.config.dimensions.ordinal];
+    }
+    if (this.config.category.domain &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.category.domain &#x3D; this.values.category;
+    }
+    this.config.ordinal.domain &#x3D; new InternSet(this.config.ordinal.domain);
+    this.config.category.domain &#x3D; new InternSet(this.config.category.domain);
+  }
+
+  setValueIndicies(): void {
+    this.values.indicies &#x3D; range(
+      this.values[this.config.dimensions.ordinal].length
+    ).filter((i) &#x3D;&gt;
+      (this.config.ordinal.domain as InternSet).has(
+        this.values[this.config.dimensions.ordinal][i]
+      )
+    );
+  }
+
+  setHasBarsWithNegativeValues(): void {
+    let dataMin;
+    if (this.config.quantitative.domain &#x3D;&#x3D;&#x3D; undefined) {
+      dataMin &#x3D; min([min(this.values[this.config.dimensions.quantitative]), 0]);
+    } else {
+      dataMin &#x3D; this.config.quantitative.domain[0];
+    }
+    this.hasBarsWithNegativeValues &#x3D; dataMin &lt; 0;
+  }
+
+  initQuantitativeDomain(): void {
+    if (this.config.quantitative.domain &#x3D;&#x3D;&#x3D; undefined) {
+      const dataMin &#x3D; this.getDataMin();
+      const dataMax &#x3D; this.getDataMax();
+      const domainMin &#x3D; this.getDomainMinFromDataMin(dataMin);
+      const domainMax &#x3D; this.getDomainMaxFromValueExtents(dataMax, dataMin);
+      if (domainMin &#x3D;&#x3D;&#x3D; domainMax) {
+        this.config.quantitative.domain &#x3D; [domainMin, domainMin + 1];
+      } else {
+        this.config.quantitative.domain &#x3D; [domainMin, domainMax];
+      }
+    }
+  }
+
+  getDataMin(): number {
+    return min([min(this.values[this.config.dimensions.quantitative]), 0]);
+  }
+
+  getDataMax(): number {
+    return max(this.values[this.config.dimensions.quantitative]);
+  }
+
+  getDomainMinFromDataMin(minValue: number): number {
+    return minValue &lt; 0
+      ? this.dataDomainService.getPaddedDomainValue(
+          minValue,
+          this.config.quantitative.domainPadding
+        )
+      : minValue;
+  }
+
+  getDomainMaxFromValueExtents(maxValue: number, minValue: number): number {
+    return maxValue &gt; 0
+      ? this.dataDomainService.getPaddedDomainValue(
+          maxValue,
+          this.config.quantitative.domainPadding
+        )
+      : this.getDomainMaxForNegativeMax(minValue);
+  }
+
+  getDomainMaxForNegativeMax(dataMin: number): number {
+    const positiveValue &#x3D;
+      this.config.positivePaddingForAllNegativeValues * dataMin * -1;
+    const roundedValue &#x3D;
+      this.dataDomainService.getQuantitativeDomainMaxRoundedUp(
+        positiveValue,
+        this.config.quantitative.domainPadding.sigDigits
+      );
+    return roundedValue;
+  }
+
+  initCategoryScale(): void {
+    if (this.config.category.colorScale &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.category.colorScale &#x3D; scaleOrdinal(
+        new InternSet(this.config.category.domain),
+        this.config.category.colors
+      );
+    }
+  }
+
+  setScaledSpaceProperties(): void {
+    this.zone.run(() &#x3D;&gt; {
+      if (this.config.dimensions.ordinal &#x3D;&#x3D;&#x3D; &#x27;x&#x27;) {
+        this.chart.updateXScale(this.getOrdinalScale());
+        this.chart.updateYScale(this.getQuantitativeScale());
+      } else {
+        this.chart.updateXScale(this.getQuantitativeScale());
+        this.chart.updateYScale(this.getOrdinalScale());
+      }
+    });
+  }
+
+  getOrdinalScale(): any {
+    return this.config.ordinal
+      .scaleType(
+        this.config.ordinal.domain,
+        this.ranges[this.config.dimensions.ordinal]
+      )
+      .paddingInner(this.config.ordinal.paddingInner)
+      .paddingOuter(this.config.ordinal.paddingOuter)
+      .align(this.config.ordinal.align);
+  }
+
+  getQuantitativeScale(): any {
+    return this.config.quantitative.scaleType(
+      this.config.quantitative.domain,
+      this.ranges[this.config.dimensions.quantitative]
+    );
+  }
+
+  setBarsKeyFunction(): void {
+    this.barsKeyFunction &#x3D; (i: number): string &#x3D;&gt;
+      &#x60;${this.values[this.config.dimensions.ordinal][i]}&#x60;;
+  }
+
+  drawMarks(transitionDuration: number): void {
+    this.drawBars(transitionDuration);
+    if (this.config.labels) {
+      this.drawBarLabels(transitionDuration);
+    }
+  }
+
+  drawBars(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.barGroups &#x3D; select(this.barsRef.nativeElement)
+      .selectAll(&#x27;.vic-bar-group&#x27;)
+      .data(this.values.indicies, this.barsKeyFunction)
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;g&#x27;)
+            .attr(&#x27;class&#x27;, &#x27;vic-bar-group&#x27;)
+            .attr(&#x27;transform&#x27;, (i) &#x3D;&gt; {
+              const x &#x3D; this.getBarX(i);
+              const y &#x3D; this.getBarY(i);
+              return &#x60;translate(${x},${y})&#x60;;
+            }),
+        (update) &#x3D;&gt;
+          update.call((update) &#x3D;&gt;
+            update.transition(t as any).attr(&#x27;transform&#x27;, (i) &#x3D;&gt; {
+              const x &#x3D; this.getBarX(i);
+              const y &#x3D; this.getBarY(i);
+              return &#x60;translate(${x},${y})&#x60;;
+            })
+          ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+
+    this.barGroups
+      .selectAll(&#x27;.vic-bar&#x27;)
+      .data((i: number) &#x3D;&gt; [i])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;rect&#x27;)
+            .attr(&#x27;class&#x27;, &#x27;vic-bar&#x27;)
+            .property(
+              &#x27;key&#x27;,
+              (i) &#x3D;&gt; this.values[this.config.dimensions.ordinal][i]
+            )
+            .attr(&#x27;fill&#x27;, (i) &#x3D;&gt;
+              this.config.patternPredicates
+                ? this.getBarPattern(i as number)
+                : this.getBarColor(i as number)
+            )
+            .attr(&#x27;width&#x27;, (i) &#x3D;&gt; this.getBarWidth(i as number))
+            .attr(&#x27;height&#x27;, (i) &#x3D;&gt; this.getBarHeight(i as number)),
+        (update) &#x3D;&gt;
+          update.call((update) &#x3D;&gt;
+            update
+              .transition(t as any)
+              .attr(&#x27;width&#x27;, (i) &#x3D;&gt; this.getBarWidth(i as number))
+              .attr(&#x27;height&#x27;, (i) &#x3D;&gt; this.getBarHeight(i as number))
+          ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  drawBarLabels(transitionDuration): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.barGroups
+      .selectAll(&#x27;text&#x27;)
+      .data((i: number) &#x3D;&gt; [i])
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;text&#x27;)
+            .attr(&#x27;class&#x27;, &#x27;vic-bar-label&#x27;)
+            .text((i) &#x3D;&gt; this.getBarLabelText(i))
+            .style(&#x27;fill&#x27;, (i) &#x3D;&gt; this.getBarLabelColor(i))
+            .style(&#x27;display&#x27;, this.config.labels.display ? null : &#x27;none&#x27;)
+            .attr(&#x27;x&#x27;, (i) &#x3D;&gt; this.getBarLabelX(i))
+            .attr(&#x27;y&#x27;, (i) &#x3D;&gt; this.getBarLabelY(i)),
+        (update) &#x3D;&gt;
+          update.call((update) &#x3D;&gt;
+            update
+              .text((i) &#x3D;&gt; this.getBarLabelText(i))
+              .style(&#x27;fill&#x27;, (i) &#x3D;&gt; this.getBarLabelColor(i))
+              .transition(t as any)
+              .attr(&#x27;x&#x27;, (i) &#x3D;&gt; this.getBarLabelX(i))
+              .attr(&#x27;y&#x27;, (i) &#x3D;&gt; this.getBarLabelY(i))
+          ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  getBarLabelText(i: number): string {
+    const value &#x3D; this.values[this.config.dimensions.quantitative][i];
+    const datum &#x3D; this.config.data[i];
+    if (value &#x3D;&#x3D;&#x3D; null || value &#x3D;&#x3D;&#x3D; undefined) {
+      return this.config.labels.noValueFunction(datum);
+    } else {
+      return formatValue(value, this.config.quantitative.valueFormat);
+    }
+  }
+
+  getBarLabelColor(i: number): string {
+    return this.config.labels.color ?? this.getBarColor(i);
+  }
+
+  getBarColor(i: number): string {
+    return this.config.category.colorScale(
+      this.values[this.config.dimensions.ordinal][i]
+    );
+  }
+
+  getBarPattern(i: number): string {
+    const color &#x3D; this.getBarColor(i);
+    const predicates &#x3D; this.config.patternPredicates;
+    return PatternUtilities.getPatternFill(
+      this.config.data[i],
+      color,
+      predicates
+    );
+  }
+
+  getBarX(i: number): number {
+    if (this.config.dimensions.ordinal &#x3D;&#x3D;&#x3D; &#x27;x&#x27;) {
+      return this.getBarXOrdinal(i);
+    } else {
+      return this.getBarXQuantitative(i);
+    }
+  }
+
+  getBarXOrdinal(i: number): number {
+    return this.xScale(this.values.x[i]);
+  }
+
+  getBarXQuantitative(i: number): number {
+    if (this.hasBarsWithNegativeValues) {
+      if (this.values.x[i] &lt; 0) {
+        return this.xScale(this.values.x[i]);
+      } else {
+        return this.xScale(0);
+      }
+    } else {
+      return this.xScale(this.config.quantitative.domain[0]);
+    }
+  }
+
+  getBarY(i: number): number {
+    return this.yScale(this.values.y[i]);
+  }
+
+  getBarWidth(i: number): number {
+    let width;
+    if (this.config.dimensions.ordinal &#x3D;&#x3D;&#x3D; &#x27;x&#x27;) {
+      width &#x3D; this.getBarWidthOrdinal(i);
+    } else {
+      width &#x3D; this.getBarWidthQuantitative(i);
+    }
+    if (!width || isNaN(width)) {
+      width &#x3D; 0;
+    }
+    return width;
+  }
+
+  getBarLabelX(i: number): number {
+    if (this.config.dimensions.ordinal &#x3D;&#x3D;&#x3D; &#x27;x&#x27;) {
+      return this.getBarWidthOrdinal(i) / 2;
+    } else {
+      let barWidth &#x3D; this.getBarWidthQuantitative(i);
+      if (!barWidth || isNaN(barWidth)) {
+        barWidth &#x3D; 0;
+      }
+      return barWidth + this.config.labels.offset;
+    }
+  }
+
+  getBarWidthOrdinal(i: number): number {
+    return (this.xScale as any).bandwidth();
+  }
+
+  getBarWidthQuantitative(i: number): number {
+    const origin &#x3D; this.hasBarsWithNegativeValues
+      ? 0
+      : this.config.quantitative.domain[0];
+    return Math.abs(this.xScale(this.values.x[i]) - this.xScale(origin));
+  }
+
+  getBarHeight(i: number): number {
+    if (this.config.dimensions.ordinal &#x3D;&#x3D;&#x3D; &#x27;x&#x27;) {
+      return this.getBarHeightQuantitative(i);
+    } else {
+      return this.getBarHeightOrdinal(i);
+    }
+  }
+
+  getBarLabelY(i: number): number {
+    if (this.config.dimensions.ordinal &#x3D;&#x3D;&#x3D; &#x27;x&#x27;) {
+      let barHeight &#x3D; this.getBarHeightQuantitative(i);
+      if (isNaN(barHeight)) {
+        barHeight &#x3D; 0;
+      }
+      return barHeight + this.config.labels.offset;
+    } else {
+      return this.getBarHeightOrdinal(i) / 2;
+    }
+  }
+
+  getBarHeightOrdinal(i: number): number {
+    return (this.yScale as any).bandwidth();
+  }
+
+  getBarHeightQuantitative(i: number): number {
+    const origin &#x3D; this.hasBarsWithNegativeValues
+      ? 0
+      : this.config.quantitative.domain[0];
+    return Math.abs(this.yScale(origin - this.values.y[i]));
+  }
+
+  onPointerEnter: (event: PointerEvent) &#x3D;&gt; void;
+  onPointerLeave: (event: PointerEvent) &#x3D;&gt; void;
+  onPointerMove: (event: PointerEvent) &#x3D;&gt; void;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;svg:g
+  #bars
+  class&#x3D;&quot;vic-bars-g&quot;
+  [style.mix-blend-mode]&#x3D;&quot;config.mixBlendMode&quot;
+&gt;&lt;/svg:g&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./bars.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">
+</code></pre>
+    </div>
+
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
