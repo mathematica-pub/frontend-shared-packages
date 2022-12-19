@@ -61,7 +61,7 @@ The DATA_MARKS token is used as a type specifier and for Angular's dependency in
 
 - domain: any
 - range: any
-- valueFormat: string
+- valueFormat: string | (x: number) => string
 
 ## Quantitative Dimension
 

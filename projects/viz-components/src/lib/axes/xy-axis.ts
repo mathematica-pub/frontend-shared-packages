@@ -1,12 +1,15 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable, pairwise, takeUntil } from 'rxjs';
-import { VicSvgWrap } from '../shared/svg-wrap.class';
-import { VicSvgWrapConfig } from '../shared/svg-wrap.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
+import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
+import { SvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { AxisConfig } from './axis.config';
 
+/**
+ * @internal
+ */
 @Directive()
 export abstract class XyAxis extends Unsubscribe implements OnInit {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
@@ -88,14 +91,14 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { wrapWidth, ...properties } = this.config.wrap;
     const config = Object.assign(
-      new VicSvgWrapConfig(),
+      new SvgTextWrapConfig(),
       properties
-    ) as VicSvgWrapConfig;
+    ) as SvgTextWrapConfig;
     config.width =
       this.config.wrap.wrapWidth === 'bandwidth'
         ? this.scale.bandwidth()
         : this.config.wrap.wrapWidth;
-    tickTextSelection.call(VicSvgWrap.textWrap, config);
+    tickTextSelection.call(svgTextWrap, config);
   }
 
   processAxisFeatures(): void {

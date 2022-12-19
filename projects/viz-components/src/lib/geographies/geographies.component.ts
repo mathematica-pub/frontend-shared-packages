@@ -14,7 +14,6 @@ import {
 } from '@angular/core';
 import {
   extent,
-  format,
   geoPath,
   InternMap,
   InternSet,
@@ -32,6 +31,7 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
+import { formatValue } from '../value-format/value-format';
 import {
   DataGeographyConfig,
   GeographiesConfig,
@@ -102,7 +102,9 @@ export class GeographiesComponent
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+    ) {
       this.setMethodsFromConfigAndDraw();
     }
   }
@@ -235,17 +237,21 @@ export class GeographiesComponent
   attributeDataValueFormatIsInteger(): boolean {
     const formatString =
       this.config.dataGeographyConfig.attributeDataConfig.valueFormat;
-    return formatString && formatString.includes('0f');
+    return (
+      formatString &&
+      typeof formatString === 'string' &&
+      formatString.includes('0f')
+    );
   }
 
   validateNumBinsAndDomainForIntegerValues(): void {
-    const formatValue = (value: number) =>
-      format(this.config.dataGeographyConfig.attributeDataConfig.valueFormat)(
-        value
-      );
     const domain = this.config.dataGeographyConfig.attributeDataConfig.domain;
     const dataRange = [domain[0], domain[domain.length - 1]].map(
-      (x) => +formatValue(x)
+      (x) =>
+        +formatValue(
+          x,
+          this.config.dataGeographyConfig.attributeDataConfig.valueFormat
+        )
     );
     const numDiscreteValues = Math.abs(dataRange[1] - dataRange[0]) + 1;
     if (
@@ -375,7 +381,12 @@ export class GeographiesComponent
           enter
             .append('path')
             .attr('d', this.path)
-            .attr('fill', (d, i) => this.getFill(i))
+            .attr('fill', (d, i) =>
+              this.config.dataGeographyConfig.attributeDataConfig
+                .patternPredicates
+                ? this.getPatternFill(i)
+                : this.getFill(i)
+            )
             .attr('stroke', this.config.dataGeographyConfig.strokeColor)
             .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
         (update) => update.attr('d', this.path),
@@ -424,6 +435,12 @@ export class GeographiesComponent
   }
 
   getFill(i: number): string {
+    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue = this.values.attributeDataValues[convertedIndex];
+    return this.attributeDataScale(dataValue);
+  }
+
+  getPatternFill(i: number): string {
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
     const datum = this.config.data[convertedIndex];

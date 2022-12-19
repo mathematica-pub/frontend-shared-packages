@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import { unparse } from 'papaparse';
 import { saveAs } from 'file-saver';
-import {
-  valueFormat,
-  formatValue,
-} from '../constants/string-formatting.constants';
+import { unparse } from 'papaparse';
+import { formatValue, valueFormat } from '../../value-format/value-format';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +11,7 @@ export class ExportDataService {
     data: unknown[],
     name: string,
     dateFields: string[] = [],
-    dateFormat = valueFormat.monthYear()
+    dateFormat = valueFormat.monthYear
   ): void {
     if (dateFields.length > 0) {
       data = data.map((element) => {

@@ -59,7 +59,8 @@ describe('HtmlTooltipDirective', () => {
       spyOn(directive, 'updatePosition');
       spyOn(directive, 'updateSize');
       spyOn(directive, 'updateClasses');
-      objChangedSpy = mainServiceStub.utilitiesServiceStub.objectChanged;
+      objChangedSpy =
+        mainServiceStub.utilitiesServiceStub.objectOnNgChangesChanged;
       directive.config = new HtmlTooltipConfig();
     });
     describe('if there are config.show changes', () => {

@@ -4,6 +4,7 @@ import {
   ElementRef,
   EventEmitter,
   inject,
+  InjectionToken,
   Input,
   NgZone,
   OnChanges,
@@ -14,7 +15,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  format,
   InternSet,
   map,
   max,
@@ -24,14 +24,19 @@ import {
   select,
   Transition,
 } from 'd3';
+import { cloneDeep } from 'lodash';
+import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
+import { formatValue } from '../value-format/value-format';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
 
+export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-bars]',
@@ -39,7 +44,11 @@ import { BarsConfig, BarsTooltipData } from './bars.config';
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: BarsComponent }],
+  providers: [
+    { provide: DATA_MARKS, useExisting: BarsComponent },
+    { provide: BARS, useExisting: BarsComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
 })
 export class BarsComponent
   extends XyContent
@@ -50,14 +59,27 @@ export class BarsComponent
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
-  bars: any;
+  barGroups: any;
   barsKeyFunction: (i: number) => string;
   private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
 
+  get bars(): any {
+    return select(this.barsRef.nativeElement).selectAll('rect');
+  }
+
+  get barLabels(): any {
+    return select(this.barsRef.nativeElement).selectAll('text');
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.utilities.objectChangedNotFirstTime(changes, 'config')) {
+    if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
+      this.reverseData();
+    }
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+    ) {
       this.setMethodsFromConfigAndDraw();
     }
   }
@@ -66,6 +88,10 @@ export class BarsComponent
     this.subscribeToRanges();
     this.subscribeToScales();
     this.setMethodsFromConfigAndDraw();
+  }
+
+  reverseData(): void {
+    this.config.data = cloneDeep(this.config.data).reverse();
   }
 
   setMethodsFromConfigAndDraw(): void {
@@ -228,7 +254,7 @@ export class BarsComponent
 
   drawMarks(transitionDuration: number): void {
     this.drawBars(transitionDuration);
-    if (this.config.labels.show) {
+    if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
   }
@@ -238,7 +264,7 @@ export class BarsComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.bars = select(this.barsRef.nativeElement)
+    this.barGroups = select(this.barsRef.nativeElement)
       .selectAll('.vic-bar-group')
       .data(this.values.indicies, this.barsKeyFunction)
       .join(
@@ -262,7 +288,7 @@ export class BarsComponent
         (exit) => exit.remove()
       );
 
-    this.bars
+    this.barGroups
       .selectAll('.vic-bar')
       .data((i: number) => [i])
       .join(
@@ -274,7 +300,11 @@ export class BarsComponent
               'key',
               (i) => this.values[this.config.dimensions.ordinal][i]
             )
-            .attr('fill', (i) => this.getBarColor(i as number))
+            .attr('fill', (i) =>
+              this.config.patternPredicates
+                ? this.getBarPattern(i as number)
+                : this.getBarColor(i as number)
+            )
             .attr('width', (i) => this.getBarWidth(i as number))
             .attr('height', (i) => this.getBarHeight(i as number)),
         (update) =>
@@ -293,7 +323,7 @@ export class BarsComponent
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.bars
+    this.barGroups
       .selectAll('text')
       .data((i: number) => [i])
       .join(
@@ -303,6 +333,7 @@ export class BarsComponent
             .attr('class', 'vic-bar-label')
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
+            .style('display', this.config.labels.display ? null : 'none')
             .attr('x', (i) => this.getBarLabelX(i))
             .attr('y', (i) => this.getBarLabelY(i)),
         (update) =>
@@ -320,10 +351,11 @@ export class BarsComponent
 
   getBarLabelText(i: number): string {
     const value = this.values[this.config.dimensions.quantitative][i];
+    const datum = this.config.data[i];
     if (value === null || value === undefined) {
-      return this.config.labels.noValueString;
+      return this.config.labels.noValueFunction(datum);
     } else {
-      return format(this.config.quantitative.valueFormat)(value);
+      return formatValue(value, this.config.quantitative.valueFormat);
     }
   }
 
@@ -332,9 +364,13 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    const color = this.config.category.colorScale(
+    return this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
+  }
+
+  getBarPattern(i: number): string {
+    const color = this.getBarColor(i);
     const predicates = this.config.patternPredicates;
     return PatternUtilities.getPatternFill(
       this.config.data[i],
@@ -372,11 +408,16 @@ export class BarsComponent
   }
 
   getBarWidth(i: number): number {
+    let width;
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarWidthOrdinal(i);
+      width = this.getBarWidthOrdinal(i);
     } else {
-      return this.getBarWidthQuantitative(i);
+      width = this.getBarWidthQuantitative(i);
     }
+    if (!width || isNaN(width)) {
+      width = 0;
+    }
+    return width;
   }
 
   getBarLabelX(i: number): number {

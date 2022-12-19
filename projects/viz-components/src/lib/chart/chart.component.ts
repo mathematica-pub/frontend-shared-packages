@@ -11,12 +11,15 @@ import {
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
+import { min } from 'd3';
 import {
   BehaviorSubject,
   combineLatest,
   distinctUntilChanged,
   map,
+  merge,
   Observable,
+  of,
   shareReplay,
   startWith,
   throttleTime,
@@ -42,6 +45,11 @@ export interface Dimensions {
   width: number;
   height: number;
 }
+
+export interface ChartScaling {
+  width: boolean;
+  height: boolean;
+}
 @Component({
   selector: 'vic-chart',
   templateUrl: './chart.component.html',
@@ -64,15 +72,16 @@ export class ChartComponent
     bottom: 36,
     left: 36,
   };
-  @Input() scaleChartWithContainer = true;
+  @Input() scaleChartWithContainerWidth: ChartScaling = {
+    width: true,
+    height: true,
+  };
   @Input() transitionDuration?: number = 250;
   aspectRatio: number;
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
-  inputHeight: BehaviorSubject<number> = new BehaviorSubject(this.height);
-  inputHeight$ = this.inputHeight.asObservable();
-  inputWidth: BehaviorSubject<number> = new BehaviorSubject(this.width);
-  inputWidth$ = this.inputWidth.asObservable();
+  heightSubject: BehaviorSubject<number> = new BehaviorSubject(this.height);
+  height$ = this.heightSubject.asObservable();
   resizeThrottleTime = 100;
 
   constructor(private renderer: Renderer2) {}
@@ -80,11 +89,10 @@ export class ChartComponent
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['height']) {
       this.setAspectRatio();
-      this.inputHeight.next(this.height);
+      this.heightSubject.next(this.height);
     }
     if (changes['width']) {
       this.setAspectRatio();
-      this.inputWidth.next(this.width);
     }
   }
 
@@ -106,21 +114,21 @@ export class ChartComponent
   createDimensionObservables() {
     let divWidth$: Observable<number>;
 
-    if (this.scaleChartWithContainer) {
-      divWidth$ = combineLatest([
-        this.getResizedDivWidthObservable(),
-        this.inputWidth$,
-      ]).pipe(
-        map(([resizeWidth, inputWidth]) => {
-          return resizeWidth > inputWidth ? inputWidth : resizeWidth;
-        })
+    const width$ = of(min([this.divRef.nativeElement.offsetWidth, this.width]));
+
+    if (this.scaleChartWithContainerWidth.width) {
+      divWidth$ = merge(width$, this.getDivWidthResizeObservable()).pipe(
+        throttleTime(this.resizeThrottleTime),
+        distinctUntilChanged()
       );
     } else {
-      divWidth$ = this.inputWidth$;
+      divWidth$ = of(this.width);
     }
 
-    this.svgDimensions$ = combineLatest([divWidth$, this.inputHeight$]).pipe(
-      map(([divWidth, height]) => this.getSvgDimensionsFromDivWidth(divWidth))
+    const height$ = this.height$.pipe(startWith(this.height));
+
+    this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
+      map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth))
     );
 
     this.ranges$ = this.svgDimensions$.pipe(
@@ -129,23 +137,11 @@ export class ChartComponent
     );
   }
 
-  getResizedDivWidthObservable(): Observable<number> {
-    return this.getResizedDivDimensionsObservable().pipe(
-      map((dimensions) => dimensions.width),
-      startWith(this.divRef.nativeElement.offsetWidth),
-      throttleTime(this.resizeThrottleTime),
-      distinctUntilChanged()
-    );
-  }
-
-  getResizedDivDimensionsObservable(): Observable<Dimensions> {
+  getDivWidthResizeObservable(): Observable<number> {
     const el = this.divRef.nativeElement;
     return new Observable((subscriber) => {
       const observer = new ResizeObserver((entries) => {
-        subscriber.next({
-          width: entries[0].contentRect.width,
-          height: entries[0].contentRect.height,
-        });
+        subscriber.next(entries[0].contentRect.width);
       });
       observer.observe(el);
       return function unsubscribe() {
@@ -155,18 +151,21 @@ export class ChartComponent
     });
   }
 
-  getSvgDimensionsFromDivWidth(divWidth: any) {
+  getSvgDimensionsFromDivWidth(divWidth: number) {
     const width = this.getSvgWidthFromDivWidth(divWidth);
     const height = this.getSvgHeightFromWidth(width);
     return { width, height };
   }
 
-  getSvgWidthFromDivWidth(divWidth: number): any {
-    return !this.scaleChartWithContainer ? this.width : divWidth;
+  getSvgWidthFromDivWidth(divWidth: number): number {
+    return !this.scaleChartWithContainerWidth.width ? this.width : divWidth;
   }
 
   getSvgHeightFromWidth(width: number): number {
-    return !this.chartShouldScale() ? this.height : width / this.aspectRatio;
+    return this.scaleChartWithContainerWidth.height &&
+      this.divRef.nativeElement.offsetWidth <= this.width
+      ? width / this.aspectRatio
+      : this.height;
   }
 
   getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
@@ -179,12 +178,5 @@ export class ChartComponent
       this.margin.top,
     ];
     return { x: xRange, y: yRange };
-  }
-
-  chartShouldScale(): boolean {
-    return (
-      this.scaleChartWithContainer &&
-      this.divRef.nativeElement.offsetWidth <= this.width
-    );
   }
 }

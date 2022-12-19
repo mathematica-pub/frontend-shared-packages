@@ -5,7 +5,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
-import { BarsConfig } from './bars.config';
+import { BarsConfig, BarsLabelsConfig } from './bars.config';
 
 describe('BarsComponent', () => {
   let component: BarsComponent;
@@ -44,21 +44,22 @@ describe('BarsComponent', () => {
       };
     });
 
-    it('should call objectChangedNotFirstTime once and with the correct parameters', () => {
+    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
       component.ngOnChanges(configChange);
       expect(
-        mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime
+        mainServiceStub.utilitiesServiceStub
+          .objectOnNgChangesChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');
     });
-    it('should call setMethodsFromConfigAndDraw once if objectChangedNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime.and.returnValue(
+    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
+      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
         true
       );
       component.ngOnChanges(configChange);
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
     });
-    it('should call setMethodsFromConfigAndDraw once if objectChangedNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectChangedNotFirstTime.and.returnValue(
+    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
+      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
         false
       );
       component.ngOnChanges(configChange);
@@ -431,20 +432,20 @@ describe('BarsComponent', () => {
       spyOn(component, 'drawBars');
       spyOn(component, 'drawBarLabels');
       component.config = new BarsConfig();
-      component.config.labels.show = true;
+      component.config.labels = new BarsLabelsConfig();
     });
     it('calls drawBars once with the correct parameter', () => {
       component.drawMarks(100);
       expect(component.drawBars).toHaveBeenCalledOnceWith(100);
     });
 
-    it('calls drawBarLabels if config.labels.show is truthy', () => {
+    it('calls drawBarLabels if config.labels is truthy', () => {
       component.drawMarks(100);
       expect(component.drawBarLabels).toHaveBeenCalledTimes(1);
     });
 
-    it('does not call drawBarLabels if config.labels.show is falsey', () => {
-      component.config.labels.show = false;
+    it('does not call drawBarLabels if config.labels is falsey', () => {
+      component.config.labels = undefined;
       component.drawMarks(100);
       expect(component.drawBarLabels).not.toHaveBeenCalled();
     });
@@ -459,21 +460,26 @@ describe('BarsComponent', () => {
           valueFormat: ',.0f',
         },
         labels: {
-          noValueString: 'no value',
+          noValueFunction: (d) => (d === 3 ? 3 : 'no value'),
         },
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
+      component.config.data = [1, 2, 3];
     });
-    describe('value is a number', () => {
+    describe('integration: value is a number', () => {
       it('integration: returns the correct value correctly formatted as a string', () => {
         expect(component.getBarLabelText(1)).toEqual('20,000');
       });
     });
 
     describe('integration: value is falsey', () => {
-      it('returns the config.labels.noValueString', () => {
+      it('returns the correct value from the noValueFunction', () => {
         component.values.x = [null, null, null];
         expect(component.getBarLabelText(1)).toEqual('no value');
+      });
+      it('returns the correct value from the noValueFunction', () => {
+        component.values.x = [null, null, null];
+        expect(component.getBarLabelText(2)).toEqual(3 as any);
       });
     });
   });
@@ -482,16 +488,15 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('bar color');
       component.config = new BarsConfig();
+      component.config.labels = new BarsLabelsConfig();
     });
     describe('config.labels.color is defined', () => {
       beforeEach(() => {
-        component.config = { labels: { color: 'label color' } } as any;
+        component.config.labels.color = 'label color' as any;
       });
       it('returns the correct value', () => {
-        component.config.labels.color = 'label color';
         expect(component.getBarLabelColor(1)).toEqual('label color');
       });
-
       it('does not call getBarColor', () => {
         component.getBarLabelColor(1);
         expect(component.getBarColor).not.toHaveBeenCalled();
@@ -532,11 +537,28 @@ describe('BarsComponent', () => {
       const result = component.getBarColor(0);
       expect(result).toEqual('blue');
     });
+  });
+
+  describe('getBarPattern', () => {
+    beforeEach(() => {
+      spyOn(component, 'getBarColor').and.returnValue('blue');
+      const colorScaleSpy = jasmine
+        .createSpy('colorScale')
+        .and.returnValue('blue');
+      component.config = {
+        dimensions: { ordinal: 'x' },
+        category: {
+          colorScale: colorScaleSpy,
+        },
+        data: [1, 2, 3],
+      } as any;
+      component.values.x = [1, 2, 3];
+    });
     it('returns correct value when pattern is used', () => {
       component.config.patternPredicates = [
         { patternName: 'pattern', predicate: (d: any) => true },
       ];
-      const result = component.getBarColor(0);
+      const result = component.getBarPattern(0);
       expect(result).toEqual(`url(#pattern)`);
     });
   });
@@ -653,10 +675,12 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarWidth()', () => {
+    let ordinalSpy: jasmine.Spy;
+    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(component, 'getBarWidthOrdinal').and.returnValue('ordinal' as any);
-      spyOn(component, 'getBarWidthQuantitative').and.returnValue(
-        'quantitative' as any
+      ordinalSpy = spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
+      quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
+        200
       );
       component.config = { dimensions: { ordinal: 'x' } } as any;
     });
@@ -672,7 +696,17 @@ describe('BarsComponent', () => {
       });
 
       it('returns the correct value', () => {
-        expect(component.getBarWidth(100)).toEqual('ordinal' as any);
+        expect(component.getBarWidth(100)).toEqual(300);
+      });
+
+      it('returns 0 if getOrdinal returns undefined', () => {
+        ordinalSpy.and.returnValue(undefined);
+        expect(component.getBarWidth(100)).toEqual(0);
+      });
+
+      it('returns 0 if getOrdinal returns null', () => {
+        ordinalSpy.and.returnValue(null);
+        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
 
@@ -692,7 +726,17 @@ describe('BarsComponent', () => {
       });
 
       it('returns the correct value', () => {
-        expect(component.getBarWidth(100)).toEqual('quantitative' as any);
+        expect(component.getBarWidth(100)).toEqual(200);
+      });
+
+      it('returns 0 if getQuantitative returns undefined', () => {
+        quantSpy.and.returnValue(undefined);
+        expect(component.getBarWidth(100)).toEqual(0);
+      });
+
+      it('returns 0 if getQuantitative returns null', () => {
+        quantSpy.and.returnValue(null);
+        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
   });

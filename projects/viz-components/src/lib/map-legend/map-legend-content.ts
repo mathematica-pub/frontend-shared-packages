@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { format } from 'd3';
+import { FormatSpecifier, formatValue } from '../value-format/value-format';
 
 @Directive()
 export abstract class MapLegendContent {
@@ -8,7 +8,7 @@ export abstract class MapLegendContent {
   @Input() orientation: 'horizontal' | 'vertical';
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
   @Input() scale: any;
-  @Input() formatter: string;
+  @Input() formatter: FormatSpecifier;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];
@@ -31,7 +31,7 @@ export abstract class MapLegendContent {
   }
 
   getFormattedValues(values: number[]): string[] {
-    return values.map((d) => format(this.formatter)(d));
+    return values.map((d) => formatValue(d, this.formatter));
   }
 
   abstract getValuesFromScale(): number[];

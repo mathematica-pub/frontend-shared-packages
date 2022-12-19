@@ -1,7 +1,7 @@
 # Map
 
 **MapComponent**  
-**m-charts-data-marks-map**  
+**vic-charts-data-marks-map**  
 A MapComponent is a DataMarksComponent.
 
 ## Map Config
