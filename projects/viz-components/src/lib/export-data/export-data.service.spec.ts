@@ -6,7 +6,9 @@ describe('ExportDataService', () => {
   let service: VicExportDataService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [VicExportDataService],
+    });
     service = TestBed.inject(VicExportDataService);
   });
 
