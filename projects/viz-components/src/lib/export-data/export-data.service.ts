@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { unparse } from 'papaparse';
-import { formatValue, valueFormat } from '../../value-format/value-format';
+import { formatValue, valueFormat } from '../value-format/value-format';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class ExportDataService {
+@Injectable()
+export class VicExportDataService {
   saveCSV(
     data: unknown[],
     name: string,
