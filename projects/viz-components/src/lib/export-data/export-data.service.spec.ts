@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ExportDataService } from './export-data.service';
+import { VicExportDataService } from './export-data.service';
 
 describe('ExportDataService', () => {
-  let service: ExportDataService;
+  let service: VicExportDataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ExportDataService);
+    service = TestBed.inject(VicExportDataService);
   });
 
   it('should be created', () => {

@@ -12,7 +12,7 @@ import {
   ElementSpacing,
   VicImageService,
   VicJpegImageConfig,
-  ExportDataService,
+  VicExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
@@ -72,7 +72,7 @@ export class LinesExampleComponent implements OnInit {
   private imageService = inject(VicImageService);
   constructor(
     private dataService: DataService,
-    public downloadService: ExportDataService
+    public downloadService: VicExportDataService
   ) {}
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(

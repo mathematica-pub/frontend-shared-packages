@@ -3,9 +3,7 @@ import * as domToImage from 'html-to-image';
 import { VicImageServiceConfig } from './image.config';
 import { VicImage } from './image.enums';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class VicImageService {
   domToImage = domToImage;
   async downloadNode(
