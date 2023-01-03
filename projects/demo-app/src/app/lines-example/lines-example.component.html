@@ -1,52 +1,57 @@
 <app-component-demo [folderName]="folderName" [includeFiles]="includeFiles">
   <span title class="title">Lines</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
+    <button class="download-button" (click)="downloadImage()"
+      >download image as jpeg</button
+    >
     <button
       (click)="downloadService.saveCSV(vm.dataConfig.data, 'lines-example', ['date'])"
       >download as csv</button
     >
-    <div class="effect-container">
-      <p class="effect-title">Lines Input Event example</p>
-      <p class="effect-instruction">Hover any name to see effect in chart</p>
-      <div class="line-labels-container">
-        <p
-          class="line-label"
-          *ngFor="let label of vm.labels"
-          [style.paddingLeft.px]="margin.left"
-          (mouseenter)="highlightLine(label)"
-          (mouseleave)="highlightLine(null)"
-          >{{ label }}</p
-        >
+    <div #imageNode>
+      <div class="effect-container">
+        <p class="effect-title">Lines Input Event example</p>
+        <p class="effect-instruction">Hover any name to see effect in chart</p>
+        <div class="line-labels-container">
+          <p
+            class="line-label"
+            *ngFor="let label of vm.labels"
+            [style.paddingLeft.px]="margin.left"
+            (mouseenter)="highlightLine(label)"
+            (mouseleave)="highlightLine(null)"
+            >{{ label }}</p
+          >
+        </div>
       </div>
+      <vic-xy-chart [margin]="margin" #tooltipOrigin>
+        <ng-container svg-elements>
+          <svg:g vic-xy-background></svg:g>
+          <svg:g
+            vic-x-quantitative-axis
+            [config]="vm.xAxisConfig"
+            side="bottom"
+          ></svg:g>
+          <svg:g
+            vic-y-quantitative-axis
+            [config]="vm.yAxisConfig"
+            side="left"
+          ></svg:g>
+          <svg:g
+            vic-data-marks-lines
+            [config]="vm.dataConfig"
+            [vicLinesHoverAndMoveEffects]="hoverEffects"
+            (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
+            [vicLinesInputEffects]="[highlightLineForLabelEffect]"
+            [inputEvent$]="chartInputEvent$"
+          >
+            <vic-html-tooltip
+              [config]="(tooltipConfig$ | async)"
+              [template]="htmlTooltip"
+            ></vic-html-tooltip>
+          </svg:g>
+        </ng-container>
+      </vic-xy-chart>
     </div>
-    <vic-xy-chart [margin]="margin" #tooltipOrigin>
-      <ng-container svg-elements>
-        <svg:g vic-xy-background></svg:g>
-        <svg:g
-          vic-x-quantitative-axis
-          [config]="vm.xAxisConfig"
-          side="bottom"
-        ></svg:g>
-        <svg:g
-          vic-y-quantitative-axis
-          [config]="vm.yAxisConfig"
-          side="left"
-        ></svg:g>
-        <svg:g
-          vic-data-marks-lines
-          [config]="vm.dataConfig"
-          [vicLinesHoverAndMoveEffects]="hoverEffects"
-          (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
-          [vicLinesInputEffects]="[highlightLineForLabelEffect]"
-          [inputEvent$]="chartInputEvent$"
-        >
-          <vic-html-tooltip
-            [config]="(tooltipConfig$ | async)"
-            [template]="htmlTooltip"
-          ></vic-html-tooltip>
-        </svg:g>
-      </ng-container>
-    </vic-xy-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
 </app-component-demo>

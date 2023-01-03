@@ -1,10 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
-  ExportDataService,
+  VicImageService,
+  VicJpegImageConfig,
+  VicExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
@@ -31,6 +39,7 @@ const includeFiles = ['line-input-effects.ts'];
   styleUrls: ['./lines-example.component.scss'],
 })
 export class LinesExampleComponent implements OnInit {
+  @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
     top: 8,
@@ -60,11 +69,11 @@ export class LinesExampleComponent implements OnInit {
   includeFiles = includeFiles;
   folderName = 'lines-example';
 
+  private imageService = inject(VicImageService);
   constructor(
     private dataService: DataService,
-    public downloadService: ExportDataService
+    public downloadService: VicExportDataService
   ) {}
-
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
@@ -118,5 +127,13 @@ export class LinesExampleComponent implements OnInit {
 
   highlightLine(label: string): void {
     this.chartInputEvent.next(label);
+  }
+
+  async downloadImage(): Promise<void> {
+    const imageConfig = new VicJpegImageConfig({
+      containerNode: this.imageNode.nativeElement,
+      fileName: 'testfile',
+    });
+    await this.imageService.downloadNode(imageConfig);
   }
 }
