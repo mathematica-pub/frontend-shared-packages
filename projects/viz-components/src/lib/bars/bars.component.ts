@@ -313,6 +313,11 @@ export class BarsComponent
               .transition(t as any)
               .attr('width', (i) => this.getBarWidth(i as number))
               .attr('height', (i) => this.getBarHeight(i as number))
+              .attr('fill', (i) =>
+                this.config.patternPredicates
+                  ? this.getBarPattern(i as number)
+                  : this.getBarColor(i as number)
+              )
           ),
         (exit) => exit.remove()
       );
