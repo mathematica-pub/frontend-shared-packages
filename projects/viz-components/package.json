@@ -1,6 +1,6 @@
 {
   "name": "@web-ast/viz-components",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "node build.js"
@@ -12,8 +12,8 @@
   ],
   "schematics": "./schematics/collection.json",
   "peerDependencies": {
-    "@angular/common": "^14.0.0",
-    "@angular/core": "^14.0.0",
+    "@angular/common": ">=14.0.0",
+    "@angular/core": ">=14.0.0",
     "d3": "^7.6.1",
     "file-saver": "^2.0.5",
     "papaparse": "^5.3.2",
