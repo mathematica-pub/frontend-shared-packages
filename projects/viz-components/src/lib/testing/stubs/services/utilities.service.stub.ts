@@ -3,4 +3,5 @@ export class UtilitiesServiceStub {
     'objectOnNgChangesChangedNotFirstTime'
   );
   objectOnNgChangesChanged = jasmine.createSpy('objectOnNgChangesChanged');
+  isDate = jasmine.createSpy('isDate');
 }
