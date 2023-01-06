@@ -192,7 +192,11 @@ export class LinesComponent
   }
 
   canBeDrawnByPath(x: any): boolean {
-    return !(isNaN(x) || x === null || typeof x === 'boolean');
+    return (
+      (typeof x === 'number' || this.utilities.isDate(x)) &&
+      x !== null &&
+      x !== undefined
+    );
   }
 
   setLinesD3Data(): void {
@@ -297,7 +301,6 @@ export class LinesComponent
           )
           .call((update) =>
             update
-              .filter(this.config.valueIsDefined)
               .transition(t as any)
               .attr('cx', (d) => this.xScale(this.values.x[d.index]))
               .attr('cy', (d) => this.yScale(this.values.y[d.index]))
