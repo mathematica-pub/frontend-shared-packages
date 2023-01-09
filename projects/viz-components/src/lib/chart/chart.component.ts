@@ -77,12 +77,12 @@ export class ChartComponent
     height: true,
   };
   @Input() transitionDuration?: number = 250;
+  @Input() resizeThrottleTime = 100;
   aspectRatio: number;
   svgDimensions$: Observable<Dimensions>;
   ranges$: Observable<Ranges>;
   heightSubject: BehaviorSubject<number> = new BehaviorSubject(this.height);
   height$ = this.heightSubject.asObservable();
-  resizeThrottleTime = 100;
 
   constructor(private renderer: Renderer2) {}
 
