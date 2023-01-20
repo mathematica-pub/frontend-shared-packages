@@ -32,9 +32,7 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
 
   setListenedElements(): void {
     this.geographies.dataGeographies$
-      .pipe(
-        filter((geoSels) => !!geoSels)
-      )
+      .pipe(filter((geoSels) => !!geoSels))
       .subscribe((geoSels) => {
         this.elements = geoSels.nodes();
         this.setListeners();

@@ -43,9 +43,7 @@ export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
 
   setListenedElements(): void {
     this.bars.bars$
-      .pipe(
-        filter((barSels) => !!barSels)
-      )
+      .pipe(filter((barSels) => !!barSels))
       .subscribe((barSels) => {
         this.elements = barSels.nodes();
         this.setListeners();

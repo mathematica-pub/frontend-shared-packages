@@ -31,9 +31,7 @@ export class GeographiesHoverEventDirective extends HoverEventDirective {
 
   setListenedElements(): void {
     this.geographies.dataGeographies$
-      .pipe(
-        filter((geoSels) => !!geoSels)
-      )
+      .pipe(filter((geoSels) => !!geoSels))
       .subscribe((geoSels) => {
         this.elements = geoSels.nodes();
         this.setListeners();
