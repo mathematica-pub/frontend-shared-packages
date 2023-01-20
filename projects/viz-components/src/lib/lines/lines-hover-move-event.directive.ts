@@ -33,6 +33,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
 
   setListenedElements(): void {
     this.elements = [this.lines.chart.svgRef.nativeElement];
+    this.setListeners();
   }
 
   elementPointerEnter(): void {

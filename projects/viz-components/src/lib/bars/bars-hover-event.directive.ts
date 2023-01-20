@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { select } from 'd3';
+import { filter } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverEventDirective } from '../events/hover-event';
 import { BARS, BarsComponent } from './bars.component';
@@ -35,7 +36,14 @@ export class BarsHoverEventDirective extends HoverEventDirective {
   }
 
   setListenedElements(): void {
-    this.elements = this.bars.bars.nodes();
+    this.bars.bars$
+      .pipe(
+        filter((barSels) => !!barSels)
+      )
+      .subscribe((barSels) => {
+        this.elements = barSels.nodes();
+        this.setListeners();
+      });
   }
 
   elementPointerEnter(event: PointerEvent): void {

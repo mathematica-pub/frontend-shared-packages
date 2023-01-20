@@ -23,7 +23,7 @@ import {
   select,
   Transition,
 } from 'd3';
-import { takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
@@ -79,6 +79,10 @@ export class GeographiesComponent
   projection: any;
   path: any;
   values: MapDataValues = new MapDataValues();
+  dataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
+  dataGeographies$: Observable<any> = this.dataGeographies.asObservable();
+  noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
+  noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
   constructor(
     private utilities: UtilitiesService,
@@ -87,18 +91,6 @@ export class GeographiesComponent
     chart: MapChartComponent
   ) {
     super(chart);
-  }
-
-  get dataGeographies(): any {
-    return select(this.mapRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-data')
-      .selectAll('path');
-  }
-
-  get noDataGeographies(): any {
-    return select(this.mapRef.nativeElement)
-      .selectAll('vic-map-layer.vic-no-data')
-      .selectAll('path');
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -113,6 +105,17 @@ export class GeographiesComponent
     this.subscribeToRanges();
     this.subscribeToScalesAndConfig();
     this.setMethodsFromConfigAndDraw();
+  }
+
+  updateGeographyElements(): void {
+    const dataGeographies = select(this.mapRef.nativeElement)
+      .selectAll('.vic-map-layer.vic-data')
+      .selectAll('path');
+    const noDataGeographies = select(this.mapRef.nativeElement)
+      .selectAll('vic-map-layer.vic-no-data')
+      .selectAll('path');
+    this.dataGeographies.next(dataGeographies);
+    this.noDataGeographies.next(noDataGeographies);
   }
 
   subscribeToRanges(): void {
@@ -348,6 +351,7 @@ export class GeographiesComponent
     this.zone.run(() => {
       this.drawMap(transitionDuration);
     });
+    this.updateGeographyElements();
   }
 
   drawMap(transitionDuration): void {

@@ -12,6 +12,5 @@ export abstract class EventDirective implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.setListenedElements();
-    this.setListeners();
   }
 }
