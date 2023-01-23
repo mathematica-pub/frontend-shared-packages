@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
-import { filter } from 'rxjs';
+import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
@@ -32,7 +32,10 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
 
   setListenedElements(): void {
     this.geographies.dataGeographies$
-      .pipe(filter((geoSels) => !!geoSels))
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((geoSels) => !!geoSels)
+      )
       .subscribe((geoSels) => {
         this.elements = geoSels.nodes();
         this.setListeners();
