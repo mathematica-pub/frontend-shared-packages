@@ -25,6 +25,7 @@ import {
   Transition,
 } from 'd3';
 import { cloneDeep } from 'lodash';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
@@ -64,14 +65,10 @@ export class BarsComponent
   private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
-
-  get bars(): any {
-    return select(this.barsRef.nativeElement).selectAll('rect');
-  }
-
-  get barLabels(): any {
-    return select(this.barsRef.nativeElement).selectAll('text');
-  }
+  bars: BehaviorSubject<any> = new BehaviorSubject(null);
+  bars$: Observable<any> = this.bars.asObservable();
+  barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
+  barLabels$: Observable<any> = this.bars.asObservable();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
@@ -88,6 +85,13 @@ export class BarsComponent
     this.subscribeToRanges();
     this.subscribeToScales();
     this.setMethodsFromConfigAndDraw();
+  }
+
+  updateBarElements(): void {
+    const bars = select(this.barsRef.nativeElement).selectAll('rect');
+    const barLabels = select(this.barsRef.nativeElement).selectAll('text');
+    this.bars.next(bars);
+    this.barLabels.next(barLabels);
   }
 
   reverseData(): void {
@@ -257,6 +261,7 @@ export class BarsComponent
     if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
+    this.updateBarElements();
   }
 
   drawBars(transitionDuration: number): void {
