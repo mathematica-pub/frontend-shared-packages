@@ -364,6 +364,8 @@ export class BarsComponent
     const datum = this.config.data[i];
     if (value === null || value === undefined) {
       return this.config.labels.noValueFunction(datum);
+    } else if (typeof this.config.quantitative.valueFormat === 'function') {
+      return formatValue(datum, this.config.quantitative.valueFormat);
     } else {
       return formatValue(value, this.config.quantitative.valueFormat);
     }
