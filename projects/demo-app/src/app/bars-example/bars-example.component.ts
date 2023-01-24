@@ -75,7 +75,10 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.labels = new BarsLabelsConfig();
     dataConfig.labels.display = false;
     dataConfig.quantitative.valueFormat = (d: any) => {
-      const label = !!d.value ? format('.1f')(d.value) : 'N/A';
+      const label =
+        d.value === undefined || d.value === null
+          ? 'N/A'
+          : format('.1f')(d.value);
       return d.value > 8 ? `${label}*` : label;
     };
     dataConfig.data = filteredData;
