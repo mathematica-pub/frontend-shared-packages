@@ -257,7 +257,7 @@ describe('BarsComponent', () => {
         component.config.ordinal.domain = undefined;
         component.initNonQuantitativeDomains();
         expect(Array.from(component.config.ordinal.domain)).toEqual([
-          10, 20, 30, 40, 50,
+          50, 40, 30, 20, 10,
         ]);
       });
 
@@ -265,7 +265,7 @@ describe('BarsComponent', () => {
         component.config.ordinal.domain = [0, 10, 20, 30, 30, 110, 110, 120];
         component.initNonQuantitativeDomains();
         expect(Array.from(component.config.ordinal.domain)).toEqual([
-          0, 10, 20, 30, 110, 120,
+          120, 110, 30, 20, 10, 0,
         ]);
       });
     });

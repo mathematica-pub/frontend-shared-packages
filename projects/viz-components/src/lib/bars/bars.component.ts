@@ -24,7 +24,6 @@ import {
   select,
   Transition,
 } from 'd3';
-import { cloneDeep } from 'lodash';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
@@ -71,9 +70,9 @@ export class BarsComponent
   barLabels$: Observable<any> = this.bars.asObservable();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
-      this.reverseData();
-    }
+    // if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
+    //   this.reverseData();
+    // }
     if (
       this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
     ) {
@@ -94,9 +93,9 @@ export class BarsComponent
     this.barLabels.next(barLabels);
   }
 
-  reverseData(): void {
-    this.config.data = cloneDeep(this.config.data).reverse();
-  }
+  // reverseData(): void {
+  //   this.config.data = cloneDeep(this.config.data).reverse();
+  // }
 
   setMethodsFromConfigAndDraw(): void {
     this.setValueArrays();
@@ -137,7 +136,11 @@ export class BarsComponent
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
-    this.config.ordinal.domain = new InternSet(this.config.ordinal.domain);
+    const ordinalDomain =
+      this.config.dimensions.ordinal === 'x'
+        ? this.config.ordinal.domain
+        : (this.config.ordinal.domain as any[]).slice().reverse();
+    this.config.ordinal.domain = new InternSet(ordinalDomain);
     this.config.category.domain = new InternSet(this.config.category.domain);
   }
 
