@@ -1,6 +1,6 @@
 {
   "name": "@web-ast/viz-components",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "node build.js"
