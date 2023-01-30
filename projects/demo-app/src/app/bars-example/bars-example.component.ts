@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { format } from 'd3';
 import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { BarsHoverEffectShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverEventDirective } from 'projects/viz-components/src/lib/bars/bars-hover-event.directive';
@@ -73,11 +74,17 @@ export class BarsExampleComponent implements OnInit {
     const dataConfig = new BarsConfig();
     dataConfig.labels = new BarsLabelsConfig();
     dataConfig.labels.display = false;
+    dataConfig.quantitative.valueFormat = (d: any) => {
+      const label =
+        d.value === undefined || d.value === null
+          ? 'N/A'
+          : format('.1f')(d.value);
+      return d.value > 8 ? `${label}*` : label;
+    };
     dataConfig.data = filteredData;
     dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.quantitative.valueFormat = '.1f';
     return {
       dataConfig,
       xAxisConfig,
