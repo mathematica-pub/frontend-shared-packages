@@ -29,9 +29,10 @@
             "\tordinal: new OrdinalDimensionConfig(),",
             "\tquantitative: new QuantitativeDimensionConfig(),",
             "\t// category: CategoricalColorDimensionConfig ",
-            "\tdimensions: verticalBarChartDimensionsConfig,",
-            "\tlabels: new BarsLabelsConfig(),",
+            "\tdimensions: new VerticalBarChartDimensionsConfig(),",
+            "\t// labels: BarsLabelsConfig,",
             "\tpositivePaddingForAllNegativeValues: 0.2,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
             "\t//ordinal.valueAccessor: (d, i) => i,",
@@ -49,10 +50,58 @@
         ],
         "body": [
             "{",
-            "\tshow: false,",
+            "\tdisplay: true,",
             "\toffset: 4,",
             "\t// color: string,",
-            "\tnoValueString: 'N/A',",
+            "\tnoValueFunction: (d) => 'N/A',",
+            "}"
+        ]
+    },
+    "FullBarsDimensionsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullBarsDimensionsConfig"
+        ],
+        "body": [
+            "{",
+            "\t// direction: 'vertical' | 'horizontal',",
+            "\t// x: 'ordinal' | 'quantitative',",
+            "\t// y: 'ordinal' | 'quantitative',",
+            "\t// ordinal: 'x' | 'y',",
+            "\t// quantitative: 'x' | 'y',",
+            "\t// quantitativeDimension: 'width' | 'height',",
+            "}"
+        ]
+    },
+    "FullHorizontalBarsDimensionsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullHorizontalBarsDimensionsConfig"
+        ],
+        "body": [
+            "{",
+            "\tdirection: 'horizontal',",
+            "\tx: 'quantitative',",
+            "\ty: 'ordinal',",
+            "\tordinal: 'y',",
+            "\tquantitative: 'x',",
+            "\tquantitativeDimension: 'width',",
+            "}"
+        ]
+    },
+    "FullVerticalBarChartDimensionsConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullVerticalBarChartDimensionsConfig"
+        ],
+        "body": [
+            "{",
+            "\tdirection: 'vertical',",
+            "\tx: 'ordinal',",
+            "\ty: 'quantitative',",
+            "\tordinal: 'x',",
+            "\tquantitative: 'y',",
+            "\tquantitativeDimension: 'height',",
             "}"
         ]
     },
@@ -79,7 +128,7 @@
             "{",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "}"
         ]
     },
@@ -95,7 +144,7 @@
             "\tdomainPadding: new DomainPaddingConfig(),",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "}"
         ]
     },
@@ -124,7 +173,7 @@
             "\t// colors: string[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "}"
         ]
     },
@@ -142,7 +191,7 @@
             "\talign: 0.5,",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "}"
         ]
     },
@@ -233,9 +282,10 @@
             "\t// numBins: number,",
             "\t// breakValues: number[],",
             "\t// interpolator: (...args: any) => any,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "}"
         ]
     },
@@ -256,9 +306,10 @@
             "\t// numBins: number,",
             "\t// breakValues: number[],",
             "\t// interpolator: (...args: any) => any,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "\tcolors: ['white', 'lightslategray'],",
             "}"
         ]
@@ -279,9 +330,10 @@
             "\t// numBins: number,",
             "\t// breakValues: number[],",
             "\tinterpolator: interpolateLab,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "}"
         ]
     },
@@ -301,9 +353,10 @@
             "\t// numBins: number,",
             "\t// breakValues: number[],",
             "\tinterpolator: interpolateLab,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "\t// init: Partial<EqualValuesQuantitativeAttributeDataDimensionConfig>",
             "\tnumBins: 5,",
             "}"
@@ -326,9 +379,10 @@
             "\t// numBins: number,",
             "\t// breakValues: number[],",
             "\tinterpolator: interpolateLab,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "\t// init: Partial<EqualNumbersQuantitativeAttributeDataDimensionConfig>",
             "\tnumBins: 5,",
             "}"
@@ -350,9 +404,10 @@
             "\t// numBins: number,",
             "\t// breakValues: number[],",
             "\tinterpolator: interpolateLab,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// valueAccessor: (...args: any) => any,",
             "\t// domain: any,",
-            "\t// valueFormat: string,",
+            "\t// valueFormat: FormatSpecifier,",
             "\t// init: Partial<CustomBreaksQuantitativeAttributeDataDimensionConfig>",
             "}"
         ]
@@ -368,9 +423,10 @@
             "\tordinal: new OrdinalDimensionConfig(),",
             "\tquantitative: new QuantitativeDimensionConfig(),",
             "\t// category: CategoricalColorDimensionConfig ",
-            "\tdimensions: verticalBarChartDimensionsConfig,",
-            "\tlabels: new BarsLabelsConfig(),",
+            "\tdimensions: new VerticalBarChartDimensionsConfig(),",
+            "\t// labels: BarsLabelsConfig,",
             "\tpositivePaddingForAllNegativeValues: 0.2,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
             "\t//ordinal.valueAccessor: (d, i) => i,",
@@ -415,14 +471,69 @@
             "}"
         ]
     },
-    "FullLinesHoverAndMoveEffectDefaultStylesConfig": {
+    "FullVicImageServiceConfig": {
         "scope": "typescript, javascript",
         "prefix": [
-            "FullLinesHoverAndMoveEffectDefaultStylesConfig"
+            "FullVicImageServiceConfig"
         ],
         "body": [
             "{",
-            "\tgrowMarkerDimension: 2,",
+            "\t// filter: (domNode: HTMLElement) => boolean,",
+            "\t// containerNode: HTMLElement,",
+            "\t// fileName: string,",
+            "\timageType: VicImage.jpeg,",
+            "\t/**",
+            "\t* Disables external fonts from being read in",
+            "\t* Supply with custom css fallback; or set to undefined to read external fonts",
+            "\t* (will oftentimes get security errors)",
+            "\t*/",
+            "\tfontEmbedCSS: '',",
+            "\tbackgroundColor: '#fff',",
+            "\tquality: 1,",
+            "}"
+        ]
+    },
+    "FullVicPngImageConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullVicPngImageConfig"
+        ],
+        "body": [
+            "{",
+            "\t// filter: (domNode: HTMLElement) => boolean,",
+            "\t// containerNode: HTMLElement,",
+            "\t// fileName: string,",
+            "\timageType: VicImage.png,",
+            "\t/**",
+            "\t* Disables external fonts from being read in",
+            "\t* Supply with custom css fallback; or set to undefined to read external fonts",
+            "\t* (will oftentimes get security errors)",
+            "\t*/",
+            "\tfontEmbedCSS: '',",
+            "\tbackgroundColor: '#fff',",
+            "\tquality: 1,",
+            "}"
+        ]
+    },
+    "FullVicSvgImageConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullVicSvgImageConfig"
+        ],
+        "body": [
+            "{",
+            "\t// filter: (domNode: HTMLElement) => boolean,",
+            "\t// containerNode: HTMLElement,",
+            "\t// fileName: string,",
+            "\timageType: VicImage.svg,",
+            "\t/**",
+            "\t* Disables external fonts from being read in",
+            "\t* Supply with custom css fallback; or set to undefined to read external fonts",
+            "\t* (will oftentimes get security errors)",
+            "\t*/",
+            "\tfontEmbedCSS: '',",
+            "\tbackgroundColor: '#fff',",
+            "\tquality: 1,",
             "}"
         ]
     },
@@ -495,46 +606,6 @@
             "}"
         ]
     },
-    "FullSvgWrapConfig": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullSvgWrapConfig"
-        ],
-        "body": [
-            "{",
-            "\t// test comment",
-            "\t// width: number,",
-            "\tmaintainXPosition: false,",
-            "\t// another test comment",
-            "\tmaintainYPosition: false,",
-            "\t/**",
-            "\t* multiline test comment",
-            "\t*/",
-            "\tlineHeight: 1.1,",
-            "}"
-        ]
-    },
-    "FullTickWrapConfig": {
-        "scope": "typescript, javascript",
-        "prefix": [
-            "FullTickWrapConfig"
-        ],
-        "body": [
-            "{",
-            "\t// wrapWidth: 'bandwidth' | number,",
-            "\t// override width: never,",
-            "\t// test comment",
-            "\t// width: number,",
-            "\tmaintainXPosition: false,",
-            "\t// another test comment",
-            "\tmaintainYPosition: false,",
-            "\t/**",
-            "\t* multiline test comment",
-            "\t*/",
-            "\tlineHeight: 1.1,",
-            "}"
-        ]
-    },
     "FullStackedAreaConfig": {
         "scope": "typescript, javascript",
         "prefix": [
@@ -575,9 +646,10 @@
             "\tordinal: new OrdinalDimensionConfig(),",
             "\tquantitative: new QuantitativeDimensionConfig(),",
             "\t// category: CategoricalColorDimensionConfig ",
-            "\tdimensions: verticalBarChartDimensionsConfig,",
-            "\tlabels: new BarsLabelsConfig(),",
+            "\tdimensions: new VerticalBarChartDimensionsConfig(),",
+            "\t// labels: BarsLabelsConfig,",
             "\tpositivePaddingForAllNegativeValues: 0.2,",
+            "\t// patternPredicates: PatternPredicate[],",
             "\t// data: any[],",
             "\tmixBlendMode: 'normal',",
             "\t//ordinal.valueAccessor: (d, i) => i,",
@@ -585,6 +657,25 @@
             "\t//quantitative.scaleType: scaleLinear,",
             "\t//category.valueAccessor: (d) => d,",
             "\t//category.colors: ['lightslategray'],",
+            "}"
+        ]
+    },
+    "FullSvgTextWrapConfig": {
+        "scope": "typescript, javascript",
+        "prefix": [
+            "FullSvgTextWrapConfig"
+        ],
+        "body": [
+            "{",
+            "\t// test comment",
+            "\t// width: number,",
+            "\tmaintainXPosition: false,",
+            "\t// another test comment",
+            "\tmaintainYPosition: false,",
+            "\t/**",
+            "\t* multiline test comment",
+            "\t*/",
+            "\tlineHeight: 1.1,",
             "}"
         ]
     }

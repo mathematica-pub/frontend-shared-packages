@@ -13,11 +13,11 @@ phases:
       - npm run build viz-components
       - echo building custom schematics
       - npm run build --prefix projects/viz-components
-      # - echo building code snippets
-      # - cd projects/viz-components/code-snippets
-      # - python code_snippet_generator.py
-      # - cd ../../..
-      # - cp .vscode/vizcolib-configs.code-snippets dist/viz-components
+      - echo building code snippets
+      - cd projects/viz-components/code-snippets
+      - python code_snippet_generator.py
+      - cd ../../..
+      - cp .vscode/vizcolib-configs.code-snippets dist/viz-components
   post_build:
     commands:
       - echo Zipping package files together
