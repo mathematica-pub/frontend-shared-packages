@@ -12,9 +12,15 @@ import { UndasherizePipe } from './core/pipes/undasherize.pipe';
 import { BasemapService } from './core/services/basemap.service';
 import { DataService } from './core/services/data.service';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NavbarFolderComponent } from './navbar-folder/navbar-folder.component';
 
 @NgModule({
-  declarations: [AppComponent, NavbarComponent, UndasherizePipe],
+  declarations: [
+    AppComponent,
+    NavbarComponent,
+    UndasherizePipe,
+    NavbarFolderComponent,
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,

@@ -1,0 +1,2453 @@
+<!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  LinesComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="documentation/./data-marks-components/lines/lines#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/lines/lines#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/lines/lines#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/lines/lines#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/viz-components/src/lib/lines/lines.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a " target="_self" >XyContent</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a " target="_self" >XyDataMarks</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="documentation/data-marks-components/lines/lines" target="_self" >{ provide: DATA_MARKS, useExisting: LinesComponent }</a></code>
+                                <code><a href="documentation/data-marks-components/lines/lines" target="_self" >{ provide: LINES, useExisting: LinesComponent }</a></code>
+                                <code><a " target="_self" >{ provide: ChartComponent, useExisting: XyChartComponent }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>[vic-data-marks-lines]</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./lines.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./lines.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#dotRef" >dotRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#line" >line</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#lineLabelsRef" >lineLabelsRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#linesD3Data" >linesD3Data</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#linesKeyFunction" >linesKeyFunction</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#linesRef" >linesRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#markersD3Data" >markersD3Data</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#markersKeyFunction" >markersKeyFunction</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#markersRef" >markersRef</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./data-marks-components/lines/lines#utilities" >utilities</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#values" >values</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./data-marks-components/lines/lines#zone" >zone</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#categoryScale" >categoryScale</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="documentation/./data-marks-components/lines/lines#chart" >chart</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#ranges" >ranges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#xScale" >xScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#yScale" >yScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#unsubscribe" >unsubscribe</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#canBeDrawnByPath" >canBeDrawnByPath</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#drawHoverDot" >drawHoverDot</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#drawLineLabels" >drawLineLabels</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#drawLines" >drawLines</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#drawPointMarkers" >drawPointMarkers</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#getMarkerKey" >getMarkerKey</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#initCategoryScale" >initCategoryScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#initDomains" >initDomains</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#resizeMarks" >resizeMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setLine" >setLine</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setLinesD3Data" >setLinesD3Data</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setLinesKeyFunction" >setLinesKeyFunction</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setMarkersD3Data" >setMarkersD3Data</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setMarkersKeyFunction" >setMarkersKeyFunction</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setMethodsFromConfigAndDraw" >setMethodsFromConfigAndDraw</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setScaledSpaceProperties" >setScaledSpaceProperties</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setValueArrays" >setValueArrays</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setValueIndicies" >setValueIndicies</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#subscribeToRanges" >subscribeToRanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#subscribeToScales" >subscribeToScales</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="documentation/./data-marks-components/lines/lines#lines" >lines</a>
+                                </li>
+                                <li>
+                                    <a href="documentation/./data-marks-components/lines/lines#hoverDot" >hoverDot</a>
+                                </li>
+                                <li>
+                                    <a href="documentation/./data-marks-components/lines/lines#markers" >markers</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="documentation/data-marks-components/lines/lines-config" target="_self" >LinesConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:73</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="canBeDrawnByPath"></a>
+                    <span class="name">
+                        <span ><b>canBeDrawnByPath</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#canBeDrawnByPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>canBeDrawnByPath(x: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:194</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>x</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawHoverDot"></a>
+                    <span class="name">
+                        <span ><b>drawHoverDot</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#drawHoverDot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawHoverDot()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="266"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:266</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawLineLabels"></a>
+                    <span class="name">
+                        <span ><b>drawLineLabels</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#drawLineLabels"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawLineLabels()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="309"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:309</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawLines"></a>
+                    <span class="name">
+                        <span ><b>drawLines</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#drawLines"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawLines(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="241"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:241</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMarks"></a>
+                    <span class="name">
+                        <span ><b>drawMarks</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#drawMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMarks(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="229"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:229</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawPointMarkers"></a>
+                    <span class="name">
+                        <span ><b>drawPointMarkers</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#drawPointMarkers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawPointMarkers(transitionDuration: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="275"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:275</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getMarkerKey"></a>
+                    <span class="name">
+                        <span ><b>getMarkerKey</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#getMarkerKey"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getMarkerKey(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="221"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:221</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initCategoryScale"></a>
+                    <span class="name">
+                        <span ><b>initCategoryScale</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#initCategoryScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initCategoryScale()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:169</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initDomains"></a>
+                    <span class="name">
+                        <span ><b>initDomains</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#initDomains"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initDomains()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="138"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:138</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:95</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:103</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resizeMarks"></a>
+                    <span class="name">
+                        <span ><b>resizeMarks</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#resizeMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resizeMarks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:123</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLine"></a>
+                    <span class="name">
+                        <span ><b>setLine</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setLine"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLine()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:179</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLinesD3Data"></a>
+                    <span class="name">
+                        <span ><b>setLinesD3Data</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setLinesD3Data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLinesD3Data()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="198"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:198</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setLinesKeyFunction"></a>
+                    <span class="name">
+                        <span ><b>setLinesKeyFunction</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setLinesKeyFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setLinesKeyFunction()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:205</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMarkersD3Data"></a>
+                    <span class="name">
+                        <span ><b>setMarkersD3Data</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setMarkersD3Data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMarkersD3Data()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="209"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:209</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMarkersKeyFunction"></a>
+                    <span class="name">
+                        <span ><b>setMarkersKeyFunction</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setMarkersKeyFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMarkersKeyFunction()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="225"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:225</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setMethodsFromConfigAndDraw"></a>
+                    <span class="name">
+                        <span ><b>setMethodsFromConfigAndDraw</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setMethodsFromConfigAndDraw"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setMethodsFromConfigAndDraw()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="109"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:109</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setScaledSpaceProperties"></a>
+                    <span class="name">
+                        <span ><b>setScaledSpaceProperties</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setScaledSpaceProperties"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setScaledSpaceProperties()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:158</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueArrays"></a>
+                    <span class="name">
+                        <span ><b>setValueArrays</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setValueArrays"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValueArrays()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:129</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueIndicies"></a>
+                    <span class="name">
+                        <span ><b>setValueIndicies</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setValueIndicies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValueIndicies()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:151</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:18</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToScales"></a>
+                    <span class="name">
+                        <span ><b>subscribeToScales</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#subscribeToScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToScales()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:27</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a href="documentation/utilities/unsubscribe" target="_self" >Unsubscribe</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a href="documentation/utilities/unsubscribe#source" target="_self" >Unsubscribe:11</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dotRef"></a>
+                    <span class="name">
+                        <span ><b>dotRef</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#dotRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;dot&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="line"></a>
+                    <span class="name">
+                        <span ><b>line</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#line"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="lineLabelsRef"></a>
+                    <span class="name">
+                        <span ><b>lineLabelsRef</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#lineLabelsRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;lineLabels&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="linesD3Data"></a>
+                    <span class="name">
+                        <span ><b>linesD3Data</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#linesD3Data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="linesKeyFunction"></a>
+                    <span class="name">
+                        <span ><b>linesKeyFunction</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#linesKeyFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:77</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="linesRef"></a>
+                    <span class="name">
+                        <span ><b>linesRef</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#linesRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;lines&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:68</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="markersD3Data"></a>
+                    <span class="name">
+                        <span ><b>markersD3Data</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#markersD3Data"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="markersKeyFunction"></a>
+                    <span class="name">
+                        <span ><b>markersKeyFunction</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#markersKeyFunction"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:79</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="markersRef"></a>
+                    <span class="name">
+                        <span ><b>markersRef</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#markersRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;markers&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="utilities"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>utilities</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#utilities"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UtilitiesService)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:80</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="values"></a>
+                    <span class="name">
+                        <span ><b>values</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#values"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >XyDataMarksValues</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new XyDataMarksValues()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>zone</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(NgZone)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:81</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="categoryScale"></a>
+                    <span class="name">
+                        <span ><b>categoryScale</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#categoryScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:14</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>chart</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(XyChartComponent)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:16</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:15</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="xScale"></a>
+                    <span class="name">
+                        <span ><b>xScale</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#xScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:12</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="yScale"></a>
+                    <span class="name">
+                        <span ><b>yScale</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#yScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >XyContent</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:13</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribe"></a>
+                    <span class="name">
+                        <span ><b>unsubscribe</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#unsubscribe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subject&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="documentation/utilities/unsubscribe" target="_self" >Unsubscribe</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/unsubscribe#source" target="_self" >Unsubscribe:9</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lines"></a>
+                        <span class="name"><b>lines</b><a href="documentation/./data-marks-components/lines/lines#lines"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>lines()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:83</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="hoverDot"></a>
+                        <span class="name"><b>hoverDot</b><a href="documentation/./data-marks-components/lines/lines#hoverDot"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>hoverDot()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:87</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="markers"></a>
+                        <span class="name"><b>markers</b><a href="documentation/./data-marks-components/lines/lines#markers"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>markers()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:91</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  inject,
+  InjectionToken,
+  Input,
+  NgZone,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+  ViewEncapsulation,
+} from &#x27;@angular/core&#x27;;
+import {
+  extent,
+  group,
+  InternSet,
+  line,
+  map,
+  max,
+  min,
+  range,
+  scaleOrdinal,
+  select,
+  Transition,
+} from &#x27;d3&#x27;;
+import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
+import { UtilitiesService } from &#x27;../core/services/utilities.service&#x27;;
+import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
+import { XyDataMarks, XyDataMarksValues } from &#x27;../data-marks/xy-data-marks&#x27;;
+import { XyChartComponent } from &#x27;../xy-chart/xy-chart.component&#x27;;
+import { XyContent } from &#x27;../xy-chart/xy-content&#x27;;
+import { LinesConfig } from &#x27;./lines.config&#x27;;
+
+export interface Marker {
+  key: string;
+  index: number;
+}
+
+export class LinesTooltipData {
+  datum: any;
+  color: string;
+  x: string;
+  y: string;
+  category: string;
+}
+
+export const LINES &#x3D; new InjectionToken&lt;LinesComponent&gt;(&#x27;LinesComponent&#x27;);
+
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-data-marks-lines]&#x27;,
+  templateUrl: &#x27;./lines.component.html&#x27;,
+  styleUrls: [&#x27;./lines.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: DATA_MARKS, useExisting: LinesComponent },
+    { provide: LINES, useExisting: LinesComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
+  ],
+})
+export class LinesComponent
+  extends XyContent
+  implements XyDataMarks, OnChanges, OnInit
+{
+  @ViewChild(&#x27;lines&#x27;, { static: true }) linesRef: ElementRef&lt;SVGSVGElement&gt;;
+  @ViewChild(&#x27;dot&#x27;, { static: true }) dotRef: ElementRef&lt;SVGSVGElement&gt;;
+  @ViewChild(&#x27;markers&#x27;, { static: true }) markersRef: ElementRef&lt;SVGSVGElement&gt;;
+  @ViewChild(&#x27;lineLabels&#x27;, { static: true })
+  lineLabelsRef: ElementRef&lt;SVGSVGElement&gt;;
+  @Input() config: LinesConfig;
+  values: XyDataMarksValues &#x3D; new XyDataMarksValues();
+  line: (x: any[]) &#x3D;&gt; any;
+  linesD3Data;
+  linesKeyFunction;
+  markersD3Data;
+  markersKeyFunction;
+  private utilities &#x3D; inject(UtilitiesService);
+  private zone &#x3D; inject(NgZone);
+
+  get lines(): any {
+    return select(this.linesRef.nativeElement).selectAll(&#x27;path&#x27;);
+  }
+
+  get hoverDot(): any {
+    return select(this.dotRef.nativeElement).selectAll(&#x27;circle&#x27;);
+  }
+
+  get markers(): any {
+    return select(this.markersRef.nativeElement).selectAll(&#x27;circle&#x27;);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, &#x27;config&#x27;)
+    ) {
+      this.setMethodsFromConfigAndDraw();
+    }
+  }
+
+  ngOnInit(): void {
+    this.subscribeToRanges();
+    this.subscribeToScales();
+    this.setMethodsFromConfigAndDraw();
+  }
+
+  setMethodsFromConfigAndDraw(): void {
+    this.setValueArrays();
+    this.initDomains();
+    this.setValueIndicies();
+    this.setScaledSpaceProperties();
+    this.initCategoryScale();
+    this.setLine();
+    this.setLinesD3Data();
+    this.setLinesKeyFunction();
+    this.setMarkersD3Data();
+    this.setMarkersKeyFunction();
+    this.drawMarks(this.chart.transitionDuration);
+  }
+
+  resizeMarks(): void {
+    this.setScaledSpaceProperties();
+    this.setLine();
+    this.drawMarks(0);
+  }
+
+  setValueArrays(): void {
+    this.values.x &#x3D; map(this.config.data, this.config.x.valueAccessor);
+    this.values.y &#x3D; map(this.config.data, this.config.y.valueAccessor);
+    this.values.category &#x3D; map(
+      this.config.data,
+      this.config.category.valueAccessor
+    );
+  }
+
+  initDomains(): void {
+    if (this.config.x.domain &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.x.domain &#x3D; extent(this.values.x);
+    }
+    if (this.config.y.domain &#x3D;&#x3D;&#x3D; undefined) {
+      const dataMin &#x3D; min([min(this.values.y), 0]);
+      this.config.y.domain &#x3D; [dataMin, max(this.values.y)];
+    }
+    if (this.config.category.domain &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.category.domain &#x3D; this.values.category;
+    }
+  }
+
+  setValueIndicies(): void {
+    const domainInternSet &#x3D; new InternSet(this.config.category.domain);
+    this.values.indicies &#x3D; range(this.values.x.length).filter((i) &#x3D;&gt;
+      domainInternSet.has(this.values.category[i])
+    );
+  }
+
+  setScaledSpaceProperties(): void {
+    this.zone.run(() &#x3D;&gt; {
+      this.chart.updateXScale(
+        this.config.x.scaleType(this.config.x.domain, this.ranges.x)
+      );
+      this.chart.updateYScale(
+        this.config.y.scaleType(this.config.y.domain, this.ranges.y)
+      );
+    });
+  }
+
+  initCategoryScale(): void {
+    if (this.config.category.colorScale &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.category.colorScale &#x3D; scaleOrdinal(
+        new InternSet(this.config.category.domain),
+        this.config.category.colors
+      );
+    }
+    this.chart.updateCategoryScale(this.config.category.colorScale);
+  }
+
+  setLine(): void {
+    if (this.config.valueIsDefined &#x3D;&#x3D;&#x3D; undefined) {
+      this.config.valueIsDefined &#x3D; (d, i) &#x3D;&gt;
+        this.canBeDrawnByPath(this.values.x[i]) &amp;&amp;
+        this.canBeDrawnByPath(this.values.y[i]);
+    }
+    const isDefinedValues &#x3D; map(this.config.data, this.config.valueIsDefined);
+
+    this.line &#x3D; line()
+      .defined((i: any) &#x3D;&gt; isDefinedValues[i] as boolean)
+      .curve(this.config.curve)
+      .x((i: any) &#x3D;&gt; this.xScale(this.values.x[i]))
+      .y((i: any) &#x3D;&gt; this.yScale(this.values.y[i]));
+  }
+
+  canBeDrawnByPath(x: any): boolean {
+    return !(isNaN(x) || x &#x3D;&#x3D;&#x3D; null || typeof x &#x3D;&#x3D;&#x3D; &#x27;boolean&#x27;);
+  }
+
+  setLinesD3Data(): void {
+    this.linesD3Data &#x3D; group(
+      this.values.indicies,
+      (i) &#x3D;&gt; this.values.category[i]
+    );
+  }
+
+  setLinesKeyFunction(): void {
+    this.linesKeyFunction &#x3D; (d): string &#x3D;&gt; d[0];
+  }
+
+  setMarkersD3Data(): void {
+    this.markersD3Data &#x3D; this.values.indicies
+      .map((i) &#x3D;&gt; {
+        return { key: this.getMarkerKey(i), index: i };
+      })
+      .filter(
+        (marker: Marker) &#x3D;&gt;
+          this.canBeDrawnByPath(this.values.x[marker.index]) &amp;&amp;
+          this.canBeDrawnByPath(this.values.y[marker.index])
+      );
+  }
+
+  getMarkerKey(i: number): string {
+    return &#x60;${this.values.category[i]}-${this.values.x[i]}&#x60;;
+  }
+
+  setMarkersKeyFunction(): void {
+    this.markersKeyFunction &#x3D; (d) &#x3D;&gt; (d as Marker).key;
+  }
+
+  drawMarks(transitionDuration: number): void {
+    this.drawLines(transitionDuration);
+    if (this.config.pointMarker.display) {
+      this.drawPointMarkers(transitionDuration);
+    } else {
+      this.drawHoverDot();
+    }
+    if (this.config.labelLines) {
+      this.drawLineLabels();
+    }
+  }
+
+  drawLines(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.lines.data(this.linesD3Data, this.linesKeyFunction).join(
+      (enter) &#x3D;&gt;
+        enter
+          .append(&#x27;path&#x27;)
+          .property(&#x27;key&#x27;, ([category]) &#x3D;&gt; category)
+          .attr(&#x27;class&#x27;, &#x27;vic-line&#x27;)
+          .attr(&#x27;stroke&#x27;, ([category]) &#x3D;&gt; this.categoryScale(category))
+          .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.line(lineData)),
+      (update) &#x3D;&gt;
+        update
+          .attr(&#x27;stroke&#x27;, ([category]) &#x3D;&gt; this.categoryScale(category))
+          .call((update) &#x3D;&gt;
+            update
+              .transition(t as any)
+              .attr(&#x27;d&#x27;, ([, lineData]) &#x3D;&gt; this.line(lineData))
+          ),
+      (exit) &#x3D;&gt; exit.remove()
+    );
+  }
+
+  drawHoverDot(): void {
+    select(this.dotRef.nativeElement)
+      .append(&#x27;circle&#x27;)
+      .attr(&#x27;class&#x27;, &#x27;vic-tooltip-dot&#x27;)
+      .attr(&#x27;r&#x27;, 4)
+      .attr(&#x27;fill&#x27;, &#x27;#222&#x27;)
+      .attr(&#x27;display&#x27;, null);
+  }
+
+  drawPointMarkers(transitionDuration: number): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    this.markers.data(this.markersD3Data, this.markersKeyFunction).join(
+      (enter) &#x3D;&gt;
+        enter
+          .append(&#x27;circle&#x27;)
+          .attr(&#x27;class&#x27;, &#x27;vic-marker&#x27;)
+          .attr(&#x27;key&#x27;, (d) &#x3D;&gt; d.key)
+          .style(&#x27;mix-blend-mode&#x27;, this.config.mixBlendMode)
+          .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.xScale(this.values.x[d.index]))
+          .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.yScale(this.values.y[d.index]))
+          .attr(&#x27;r&#x27;, this.config.pointMarker.radius)
+          .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
+            this.categoryScale(this.values.category[d.index])
+          ),
+      (update) &#x3D;&gt;
+        update
+          .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
+            this.categoryScale(this.values.category[d.index])
+          )
+          .call((update) &#x3D;&gt;
+            update
+              .filter(this.config.valueIsDefined)
+              .transition(t as any)
+              .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.xScale(this.values.x[d.index]))
+              .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.yScale(this.values.y[d.index]))
+          ),
+      (exit) &#x3D;&gt; exit.remove()
+    );
+  }
+
+  drawLineLabels(): void {
+    const lastPoints &#x3D; [];
+    this.linesD3Data.forEach((values, key) &#x3D;&gt; {
+      const lastPoint &#x3D; values[values.length - 1];
+      lastPoints.push({ category: key, index: lastPoint });
+    });
+    // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
+    select(this.lineLabelsRef.nativeElement)
+      .selectAll(&#x27;text&#x27;)
+      .data(lastPoints)
+      .join(&#x27;text&#x27;)
+      .attr(&#x27;class&#x27;, &#x27;vic-line-label&#x27;)
+      .attr(&#x27;text-anchor&#x27;, &#x27;end&#x27;)
+      .attr(&#x27;fill&#x27;, (d) &#x3D;&gt; this.categoryScale(this.values.category[d.index]))
+      .attr(&#x27;x&#x27;, (d) &#x3D;&gt; &#x60;${this.xScale(this.values.x[d.index]) - 4}px&#x60;)
+      .attr(&#x27;y&#x27;, (d) &#x3D;&gt; &#x60;${this.yScale(this.values.y[d.index]) - 12}px&#x60;)
+      .text((d) &#x3D;&gt; this.config.lineLabelsFormat(d.category));
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;svg:g
+  #lines
+  class&#x3D;&quot;vic-lines-g&quot;
+  fill&#x3D;&quot;none&quot;
+  [attr.stroke-linecap]&#x3D;&quot;config.stroke.linecap&quot;
+  [attr.stroke-linejoin]&#x3D;&quot;config.stroke.linejoin&quot;
+  [attr.stroke-width]&#x3D;&quot;config.stroke.width&quot;
+  [attr.stroke-opacity]&#x3D;&quot;config.stroke.opacity&quot;
+  [style.mix-blend-mode]&#x3D;&quot;config.mixBlendMode&quot;
+&gt;&lt;/svg:g&gt;
+&lt;svg:g #dot class&#x3D;&quot;vic-dot-g&quot;&gt;&lt;/svg:g&gt;
+&lt;svg:g #markers class&#x3D;&quot;vic-markers-g&quot;&gt;&lt;/svg:g&gt;
+&lt;svg:g #lineLabels class&#x3D;&quot;vic-line-labels-g&quot;&gt;&lt;/svg:g&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./lines.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

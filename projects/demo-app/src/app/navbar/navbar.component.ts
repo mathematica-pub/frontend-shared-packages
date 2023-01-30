@@ -14,6 +14,7 @@ export class NavbarComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navbarConfig$: Observable<any>;
   examples: Example[] = ['bars', 'stacked-area', 'lines', 'geographies'];
+  baseFolder = '/documentation';
 
   private http = inject(HttpClient);
   router = inject(Router);
@@ -27,58 +28,29 @@ export class NavbarComponent implements OnInit {
         map((text) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const yamlObject: any = parse(text);
-          const addOns = Object.assign({}, yamlObject['add-ons']);
-          delete yamlObject['add-ons'];
-          for (const category in yamlObject) {
-            for (const subcategory in yamlObject[category]) {
-              if (category == 'library-internals') {
-                yamlObject[category][subcategory] = {
-                  addOns: [...Object.keys(yamlObject[category][subcategory])],
-                };
-              } else {
-                yamlObject[category][subcategory] = {
-                  addOns: [],
-                };
-              }
-            }
-          }
-          for (const category in addOns) {
-            for (const subcategory in addOns[category]) {
-              if (subcategory == 'all') {
-                yamlObject[category][subcategory] = {
-                  addOns: [
-                    ...Object.keys(addOns[category][subcategory]).map(
-                      (filePath) => `all/${filePath}`
-                    ),
-                  ],
-                };
-              } else {
-                const currentSubcategory = yamlObject[category][subcategory];
-                yamlObject[category][subcategory].addOns = [
-                  ...currentSubcategory.addOns,
-                  ...Object.keys(addOns[category][subcategory]),
-                ];
-              }
-            }
-          }
-          return yamlObject;
+          return this.sortYaml(yamlObject);
         })
       );
   }
-  getLink(category: string, subcategory: string, fileName: string): string {
-    if (category === 'library-internals') {
-      return `/documentation/${category}/${subcategory}/${fileName}`;
-    }
-    if (fileName.includes('all')) {
-      return `/documentation/add-ons/${category}/${fileName}`;
-    }
-    return `/documentation/add-ons/${category}/${subcategory}/${fileName}`;
-  }
-  getFileName(fileName: string): string {
-    return fileName.replace('all/', '');
-  }
-  expandLinks(category: string, subcategory: string) {
-    const url = this.router.url;
-    return url.includes(category) && url.includes(subcategory);
+
+  sortYaml(yaml: any): any {
+    const returnArray = Object.entries(yaml)
+      .map((entry) => {
+        return {
+          name: entry[0],
+          contents: entry[1],
+          isFile: typeof entry[1] === 'string',
+        };
+      })
+      .sort((a, b) => {
+        if (a.isFile && !b.isFile) return 1;
+        if (!a.isFile && b.isFile) return -1;
+        return a.name.localeCompare(b.name);
+      });
+
+    returnArray
+      .filter((entry) => !entry.isFile)
+      .forEach((entry) => (entry.contents = this.sortYaml(entry.contents)));
+    return returnArray;
   }
 }

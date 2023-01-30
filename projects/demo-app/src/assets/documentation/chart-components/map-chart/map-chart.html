@@ -9,21 +9,21 @@
   <li>Components</li>
   <li
   >
-  ChartComponent</li>
+  MapChartComponent</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="active">
-            <a href="documentation/./chart-components/chart#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+            <a href="documentation/./chart-components/map-chart/map-chart#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
         <li >
-            <a href="documentation/./chart-components/chart#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+            <a href="documentation/./chart-components/map-chart/map-chart#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
         <li >
-            <a href="documentation/./chart-components/chart#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+            <a href="documentation/./chart-components/map-chart/map-chart#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
         </li>
         <li >
-            <a href="documentation/./chart-components/chart#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+            <a href="documentation/./chart-components/map-chart/map-chart#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
         </li>
 </ul>
 
@@ -32,20 +32,23 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/viz-components/src/lib/chart/chart.component.ts</code>
+    <code>projects/viz-components/src/lib/map-chart/map-chart.component.ts</code>
 </p>
 
 
 
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a " target="_self" >ChartComponent</a></code>
+    </p>
 
     <p class="comment">
         <h3>Implements</h3>
     </p>
     <p class="comment">
                     <code><a " target="_self" >Chart</a></code>
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
-                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
-                    <code><a href="https://angular.io/api/core/AfterContentInit" target="_blank" >AfterContentInit</a></code>
     </p>
 
 
@@ -54,10 +57,6 @@
     <table class="table table-sm table-hover metadata">
         <tbody>
 
-            <tr>
-                <td class="col-md-3">changeDetection</td>
-                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
-            </tr>
 
 
 
@@ -76,19 +75,19 @@
 
             <tr>
                 <td class="col-md-3">selector</td>
-                <td class="col-md-9"><code>vic-chart</code></td>
+                <td class="col-md-9"><code>vic-map-chart</code></td>
             </tr>
 
             <tr>
                 <td class="col-md-3">styleUrls</td>
-                <td class="col-md-9"><code>./chart.component.scss</code></td>
+                <td class="col-md-9"><code>../chart/chart.component.scss</code></td>
             </tr>
 
 
 
             <tr>
                 <td class="col-md-3">templateUrl</td>
-                <td class="col-md-9"><code>./chart.component.html</code></td>
+                <td class="col-md-9"><code>../chart/chart.component.html</code></td>
             </tr>
 
 
@@ -115,31 +114,44 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./chart-components/chart#aspectRatio" >aspectRatio</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#attributeDataConfig" >attributeDataConfig</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#dataMarksComponent" >dataMarksComponent</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#attributeDataConfig$" >attributeDataConfig$</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#divRef" >divRef</a>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./chart-components/map-chart/map-chart#attributeDataScale" >attributeDataScale</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#height$" >height$</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#attributeDataScale$" >attributeDataScale$</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#heightSubject" >heightSubject</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#aspectRatio" >aspectRatio</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#ranges$" >ranges$</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#dataMarksComponent" >dataMarksComponent</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#resizeThrottleTime" >resizeThrottleTime</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#divRef" >divRef</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#svgDimensions$" >svgDimensions$</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#height$" >height$</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#svgRef" >svgRef</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#heightSubject" >heightSubject</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/map-chart#ranges$" >ranges$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/map-chart#resizeThrottleTime" >resizeThrottleTime</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/map-chart#svgDimensions$" >svgDimensions$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/map-chart#svgRef" >svgRef</a>
                             </li>
                         </ul>
                     </td>
@@ -154,34 +166,40 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./chart-components/chart#createDimensionObservables" >createDimensionObservables</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#updateAttributeDataConfig" >updateAttributeDataConfig</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#getDivWidthResizeObservable" >getDivWidthResizeObservable</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#updateAttributeDataScale" >updateAttributeDataScale</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#getRangesFromSvgDimensions" >getRangesFromSvgDimensions</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#createDimensionObservables" >createDimensionObservables</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#getSvgDimensionsFromDivWidth" >getSvgDimensionsFromDivWidth</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#getDivWidthResizeObservable" >getDivWidthResizeObservable</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#getSvgHeightFromWidth" >getSvgHeightFromWidth</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#getRangesFromSvgDimensions" >getRangesFromSvgDimensions</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#getSvgWidthFromDivWidth" >getSvgWidthFromDivWidth</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#getSvgDimensionsFromDivWidth" >getSvgDimensionsFromDivWidth</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#ngAfterContentInit" >ngAfterContentInit</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#getSvgHeightFromWidth" >getSvgHeightFromWidth</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#ngOnChanges" >ngOnChanges</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#getSvgWidthFromDivWidth" >getSvgWidthFromDivWidth</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#ngOnInit" >ngOnInit</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#ngAfterContentInit" >ngAfterContentInit</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#setAspectRatio" >setAspectRatio</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/map-chart#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/map-chart#setAspectRatio" >setAspectRatio</a>
                             </li>
                         </ul>
                     </td>
@@ -196,19 +214,19 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./chart-components/chart#height" >height</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#height" >height</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#margin" >margin</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#margin" >margin</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#scaleChartWithContainerWidth" >scaleChartWithContainerWidth</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#scaleChartWithContainerWidth" >scaleChartWithContainerWidth</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#transitionDuration" >transitionDuration</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#transitionDuration" >transitionDuration</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/chart#width" >width</a>
+                                <a href="documentation/./chart-components/map-chart/map-chart#width" >width</a>
                             </li>
                         </ul>
                     </td>
@@ -221,54 +239,6 @@
     </table>
 </section>
 
-    <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:85</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>renderer</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
 
     <section>
     <h3 id="inputs">Inputs</h3>
@@ -291,9 +261,16 @@
                         <i>Default value : </i><code>600</code>
                     </td>
                 </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                                </td>
+                            </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:68</a></div>
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:68</a></code>
+</div>
                             </td>
                         </tr>
             </tbody>
@@ -322,9 +299,16 @@
   }</code>
                     </td>
                 </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                                </td>
+                            </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:69</a></div>
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:69</a></code>
+</div>
                             </td>
                         </tr>
             </tbody>
@@ -351,9 +335,16 @@
   }</code>
                     </td>
                 </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                                </td>
+                            </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:75</a></div>
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:75</a></code>
+</div>
                             </td>
                         </tr>
             </tbody>
@@ -377,9 +368,16 @@
                         <i>Default value : </i><code>250</code>
                     </td>
                 </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                                </td>
+                            </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:79</a></div>
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:79</a></code>
+</div>
                             </td>
                         </tr>
             </tbody>
@@ -403,9 +401,16 @@
                         <i>Default value : </i><code>800</code>
                     </td>
                 </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                                </td>
+                            </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:67</a></div>
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:67</a></code>
+</div>
                             </td>
                         </tr>
             </tbody>
@@ -423,10 +428,148 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="updateAttributeDataConfig"></a>
+                    <span class="name">
+                        <span ><b>updateAttributeDataConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/map-chart#updateAttributeDataConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateAttributeDataConfig(dataConfig: <a href="documentation/data-marks-components/geographies/attribute-data-dimension-config" target="_self">AttributeDataDimensionConfig</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/viz-components/src/lib/map-chart/map-chart.component.ts:25</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dataConfig</td>
+                                    <td>
+                                                <code><a href="documentation/data-marks-components/geographies/attribute-data-dimension-config" target="_self" >AttributeDataDimensionConfig</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateAttributeDataScale"></a>
+                    <span class="name">
+                        <span ><b>updateAttributeDataScale</b></span>
+                        <a href="documentation/./chart-components/map-chart/map-chart#updateAttributeDataScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateAttributeDataScale(dataScale: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/viz-components/src/lib/map-chart/map-chart.component.ts:21</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dataScale</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="createDimensionObservables"></a>
                     <span class="name">
                         <span ><b>createDimensionObservables</b></span>
-                        <a href="documentation/./chart-components/chart#createDimensionObservables"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#createDimensionObservables"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -439,8 +582,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="114"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:114</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:114</a></code>
+</div>
                 </td>
             </tr>
 
@@ -463,7 +612,7 @@
                     <a name="getDivWidthResizeObservable"></a>
                     <span class="name">
                         <span ><b>getDivWidthResizeObservable</b></span>
-                        <a href="documentation/./chart-components/chart#getDivWidthResizeObservable"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#getDivWidthResizeObservable"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -476,8 +625,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:140</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:140</a></code>
+</div>
                 </td>
             </tr>
 
@@ -500,7 +655,7 @@
                     <a name="getRangesFromSvgDimensions"></a>
                     <span class="name">
                         <span ><b>getRangesFromSvgDimensions</b></span>
-                        <a href="documentation/./chart-components/chart#getRangesFromSvgDimensions"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#getRangesFromSvgDimensions"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -513,8 +668,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="171"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:171</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:171</a></code>
+</div>
                 </td>
             </tr>
 
@@ -569,7 +730,7 @@
                     <a name="getSvgDimensionsFromDivWidth"></a>
                     <span class="name">
                         <span ><b>getSvgDimensionsFromDivWidth</b></span>
-                        <a href="documentation/./chart-components/chart#getSvgDimensionsFromDivWidth"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#getSvgDimensionsFromDivWidth"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -582,8 +743,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="154"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:154</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:154</a></code>
+</div>
                 </td>
             </tr>
 
@@ -638,7 +805,7 @@
                     <a name="getSvgHeightFromWidth"></a>
                     <span class="name">
                         <span ><b>getSvgHeightFromWidth</b></span>
-                        <a href="documentation/./chart-components/chart#getSvgHeightFromWidth"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#getSvgHeightFromWidth"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -651,8 +818,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:164</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:164</a></code>
+</div>
                 </td>
             </tr>
 
@@ -707,7 +880,7 @@
                     <a name="getSvgWidthFromDivWidth"></a>
                     <span class="name">
                         <span ><b>getSvgWidthFromDivWidth</b></span>
-                        <a href="documentation/./chart-components/chart#getSvgWidthFromDivWidth"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#getSvgWidthFromDivWidth"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -720,8 +893,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:160</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:160</a></code>
+</div>
                 </td>
             </tr>
 
@@ -776,7 +955,7 @@
                     <a name="ngAfterContentInit"></a>
                     <span class="name">
                         <span ><b>ngAfterContentInit</b></span>
-                        <a href="documentation/./chart-components/chart#ngAfterContentInit"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#ngAfterContentInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -789,8 +968,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:104</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:104</a></code>
+</div>
                 </td>
             </tr>
 
@@ -813,7 +998,7 @@
                     <a name="ngOnChanges"></a>
                     <span class="name">
                         <span ><b>ngOnChanges</b></span>
-                        <a href="documentation/./chart-components/chart#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#ngOnChanges"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -826,8 +1011,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:89</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:89</a></code>
+</div>
                 </td>
             </tr>
 
@@ -882,7 +1073,7 @@
                     <a name="ngOnInit"></a>
                     <span class="name">
                         <span ><b>ngOnInit</b></span>
-                        <a href="documentation/./chart-components/chart#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -895,8 +1086,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="99"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:99</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:99</a></code>
+</div>
                 </td>
             </tr>
 
@@ -919,7 +1116,7 @@
                     <a name="setAspectRatio"></a>
                     <span class="name">
                         <span ><b>setAspectRatio</b></span>
-                        <a href="documentation/./chart-components/chart#setAspectRatio"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#setAspectRatio"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -932,8 +1129,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:110</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:110</a></code>
+</div>
                 </td>
             </tr>
 
@@ -959,10 +1162,123 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="attributeDataConfig"></a>
+                    <span class="name">
+                        <span ><b>attributeDataConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/map-chart#attributeDataConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;AttributeDataDimensionConfig&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/viz-components/src/lib/map-chart/map-chart.component.ts:15</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataConfig$"></a>
+                    <span class="name">
+                        <span ><b>attributeDataConfig$</b></span>
+                        <a href="documentation/./chart-components/map-chart/map-chart#attributeDataConfig$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.attributeDataConfig.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/viz-components/src/lib/map-chart/map-chart.component.ts:17</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataScale"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>attributeDataScale</b></span>
+                        <a href="documentation/./chart-components/map-chart/map-chart#attributeDataScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/viz-components/src/lib/map-chart/map-chart.component.ts:18</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataScale$"></a>
+                    <span class="name">
+                        <span ><b>attributeDataScale$</b></span>
+                        <a href="documentation/./chart-components/map-chart/map-chart#attributeDataScale$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.attributeDataScale.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/viz-components/src/lib/map-chart/map-chart.component.ts:19</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="aspectRatio"></a>
                     <span class="name">
                         <span ><b>aspectRatio</b></span>
-                        <a href="documentation/./chart-components/chart#aspectRatio"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#aspectRatio"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -972,9 +1288,16 @@
 
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:80</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:80</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -988,7 +1311,7 @@
                     <a name="dataMarksComponent"></a>
                     <span class="name">
                         <span ><b>dataMarksComponent</b></span>
-                        <a href="documentation/./chart-components/chart#dataMarksComponent"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#dataMarksComponent"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1007,9 +1330,16 @@
                         </code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:64</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:64</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1023,7 +1353,7 @@
                     <a name="divRef"></a>
                     <span class="name">
                         <span ><b>divRef</b></span>
-                        <a href="documentation/./chart-components/chart#divRef"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#divRef"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1042,9 +1372,16 @@
                         </code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:65</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:65</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1058,7 +1395,7 @@
                     <a name="height$"></a>
                     <span class="name">
                         <span ><b>height$</b></span>
-                        <a href="documentation/./chart-components/chart#height$"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#height$"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1067,9 +1404,16 @@
                         <i>Default value : </i><code>this.heightSubject.asObservable()</code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:84</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:84</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1083,7 +1427,7 @@
                     <a name="heightSubject"></a>
                     <span class="name">
                         <span ><b>heightSubject</b></span>
-                        <a href="documentation/./chart-components/chart#heightSubject"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#heightSubject"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1098,9 +1442,16 @@
                         <i>Default value : </i><code>new BehaviorSubject(this.height)</code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:83</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:83</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1114,7 +1465,7 @@
                     <a name="ranges$"></a>
                     <span class="name">
                         <span ><b>ranges$</b></span>
-                        <a href="documentation/./chart-components/chart#ranges$"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#ranges$"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1124,9 +1475,16 @@
 
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:82</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:82</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1140,7 +1498,7 @@
                     <a name="resizeThrottleTime"></a>
                     <span class="name">
                         <span ><b>resizeThrottleTime</b></span>
-                        <a href="documentation/./chart-components/chart#resizeThrottleTime"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#resizeThrottleTime"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1155,9 +1513,16 @@
                         <i>Default value : </i><code>100</code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:85</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:85</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1171,7 +1536,7 @@
                     <a name="svgDimensions$"></a>
                     <span class="name">
                         <span ><b>svgDimensions$</b></span>
-                        <a href="documentation/./chart-components/chart#svgDimensions$"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#svgDimensions$"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1181,9 +1546,16 @@
 
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:81</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:81</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1197,7 +1569,7 @@
                     <a name="svgRef"></a>
                     <span class="name">
                         <span ><b>svgRef</b></span>
-                        <a href="documentation/./chart-components/chart#svgRef"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./chart-components/map-chart/map-chart#svgRef"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1216,9 +1588,16 @@
                         </code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ChartComponent</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="66" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:66</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ChartComponent:66</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -1231,186 +1610,32 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  AfterContentInit,
-  ChangeDetectionStrategy,
-  Component,
-  ContentChild,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  Renderer2,
-  SimpleChanges,
-  ViewChild,
-} from &#x27;@angular/core&#x27;;
-import { min } from &#x27;d3&#x27;;
-import {
-  BehaviorSubject,
-  combineLatest,
-  distinctUntilChanged,
-  map,
-  merge,
-  Observable,
-  of,
-  shareReplay,
-  startWith,
-  throttleTime,
-} from &#x27;rxjs&#x27;;
-import { DataMarks } from &#x27;../data-marks/data-marks&#x27;;
-import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
-import { Chart } from &#x27;./chart&#x27;;
-import { CHART } from &#x27;./chart.token&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { BehaviorSubject } from &#x27;rxjs&#x27;;
+import { Chart } from &#x27;../chart/chart&#x27;;
+import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
+import { CHART } from &#x27;../chart/chart.token&#x27;;
+import { AttributeDataDimensionConfig } from &#x27;../geographies/geographies.config&#x27;;
 
-export interface Ranges {
-  x: [number, number];
-  y: [number, number];
-}
-
-export interface ElementSpacing {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-}
-
-export interface Dimensions {
-  width: number;
-  height: number;
-}
-
-export interface ChartScaling {
-  width: boolean;
-  height: boolean;
-}
 @Component({
-  selector: &#x27;vic-chart&#x27;,
-  templateUrl: &#x27;./chart.component.html&#x27;,
-  styleUrls: [&#x27;./chart.component.scss&#x27;],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: &#x27;vic-map-chart&#x27;,
+  templateUrl: &#x27;../chart/chart.component.html&#x27;,
+  styleUrls: [&#x27;../chart/chart.component.scss&#x27;],
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class ChartComponent
-  implements Chart, OnInit, OnChanges, AfterContentInit
-{
-  @ContentChild(DATA_MARKS)
-  dataMarksComponent: DataMarks;
-  @ViewChild(&#x27;div&#x27;, { static: true }) divRef: ElementRef&lt;HTMLDivElement&gt;;
-  @ViewChild(&#x27;svg&#x27;, { static: true }) svgRef: ElementRef&lt;SVGSVGElement&gt;;
-  @Input() width &#x3D; 800;
-  @Input() height &#x3D; 600;
-  @Input() margin: ElementSpacing &#x3D; {
-    top: 36,
-    right: 36,
-    bottom: 36,
-    left: 36,
-  };
-  @Input() scaleChartWithContainerWidth: ChartScaling &#x3D; {
-    width: true,
-    height: true,
-  };
-  @Input() transitionDuration?: number &#x3D; 250;
-  aspectRatio: number;
-  svgDimensions$: Observable&lt;Dimensions&gt;;
-  ranges$: Observable&lt;Ranges&gt;;
-  heightSubject: BehaviorSubject&lt;number&gt; &#x3D; new BehaviorSubject(this.height);
-  height$ &#x3D; this.heightSubject.asObservable();
-  resizeThrottleTime &#x3D; 100;
+export class MapChartComponent extends ChartComponent implements Chart {
+  attributeDataConfig: BehaviorSubject&lt;AttributeDataDimensionConfig&gt; &#x3D;
+    new BehaviorSubject(null);
+  attributeDataConfig$ &#x3D; this.attributeDataConfig.asObservable();
+  private attributeDataScale: BehaviorSubject&lt;any&gt; &#x3D; new BehaviorSubject(null);
+  attributeDataScale$ &#x3D; this.attributeDataScale.asObservable();
 
-  constructor(private renderer: Renderer2) {}
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes[&#x27;height&#x27;]) {
-      this.setAspectRatio();
-      this.heightSubject.next(this.height);
-    }
-    if (changes[&#x27;width&#x27;]) {
-      this.setAspectRatio();
-    }
+  updateAttributeDataScale(dataScale: any): void {
+    this.attributeDataScale.next(dataScale);
   }
 
-  ngOnInit(): void {
-    this.setAspectRatio();
-    this.createDimensionObservables();
-  }
-
-  ngAfterContentInit(): void {
-    if (!this.dataMarksComponent) {
-      throw new Error(&#x27;DataMarksComponent not found.&#x27;);
-    }
-  }
-
-  setAspectRatio(): void {
-    this.aspectRatio &#x3D; this.width / this.height;
-  }
-
-  createDimensionObservables() {
-    let divWidth$: Observable&lt;number&gt;;
-
-    const width$ &#x3D; of(min([this.divRef.nativeElement.offsetWidth, this.width]));
-
-    if (this.scaleChartWithContainerWidth.width) {
-      divWidth$ &#x3D; merge(width$, this.getDivWidthResizeObservable()).pipe(
-        throttleTime(this.resizeThrottleTime),
-        distinctUntilChanged()
-      );
-    } else {
-      divWidth$ &#x3D; of(this.width);
-    }
-
-    const height$ &#x3D; this.height$.pipe(startWith(this.height));
-
-    this.svgDimensions$ &#x3D; combineLatest([divWidth$, height$]).pipe(
-      map(([divWidth]) &#x3D;&gt; this.getSvgDimensionsFromDivWidth(divWidth))
-    );
-
-    this.ranges$ &#x3D; this.svgDimensions$.pipe(
-      map((dimensions) &#x3D;&gt; this.getRangesFromSvgDimensions(dimensions)),
-      shareReplay()
-    );
-  }
-
-  getDivWidthResizeObservable(): Observable&lt;number&gt; {
-    const el &#x3D; this.divRef.nativeElement;
-    return new Observable((subscriber) &#x3D;&gt; {
-      const observer &#x3D; new ResizeObserver((entries) &#x3D;&gt; {
-        subscriber.next(entries[0].contentRect.width);
-      });
-      observer.observe(el);
-      return function unsubscribe() {
-        observer.unobserve(el);
-        observer.disconnect();
-      };
-    });
-  }
-
-  getSvgDimensionsFromDivWidth(divWidth: number) {
-    const width &#x3D; this.getSvgWidthFromDivWidth(divWidth);
-    const height &#x3D; this.getSvgHeightFromWidth(width);
-    return { width, height };
-  }
-
-  getSvgWidthFromDivWidth(divWidth: number): number {
-    return !this.scaleChartWithContainerWidth.width ? this.width : divWidth;
-  }
-
-  getSvgHeightFromWidth(width: number): number {
-    return this.scaleChartWithContainerWidth.height &amp;&amp;
-      this.divRef.nativeElement.offsetWidth &lt;&#x3D; this.width
-      ? width / this.aspectRatio
-      : this.height;
-  }
-
-  getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
-    const xRange: [number, number] &#x3D; [
-      this.margin.left,
-      dimensions.width - this.margin.right,
-    ];
-    const yRange: [number, number] &#x3D; [
-      dimensions.height - this.margin.bottom,
-      this.margin.top,
-    ];
-    return { x: xRange, y: yRange };
+  updateAttributeDataConfig(dataConfig: AttributeDataDimensionConfig): void {
+    this.attributeDataConfig.next(dataConfig);
   }
 }
 </code></pre>
@@ -1441,7 +1666,7 @@ export class ChartComponent
 
     <div class="tab-pane fade " id="c-styleData">
                 <p class="comment">
-                    <code>./chart.component.scss</code>
+                    <code>../chart/chart.component.scss</code>
                 </p>
                 <pre class="line-numbers"><code class="language-scss">.vic-chart-svg {
   overflow: visible;
