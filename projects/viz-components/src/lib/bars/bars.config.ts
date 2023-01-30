@@ -46,11 +46,6 @@ export class BarsLabelsConfig {
   }
 }
 
-export class BarsTooltipData {
-  datum: any;
-  value: string;
-}
-
 export class BarsDimensionsConfig {
   direction: 'vertical' | 'horizontal';
   x: 'ordinal' | 'quantitative';
@@ -58,6 +53,10 @@ export class BarsDimensionsConfig {
   ordinal: 'x' | 'y';
   quantitative: 'x' | 'y';
   quantitativeDimension: 'width' | 'height';
+
+  constructor(init?: Partial<BarsDimensionsConfig>) {
+    Object.assign(this, init);
+  }
 }
 
 export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
@@ -82,4 +81,9 @@ export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
     this.quantitative = 'y';
     this.quantitativeDimension = 'height';
   }
+}
+
+export class BarsTooltipData {
+  datum: any;
+  value: string;
 }
