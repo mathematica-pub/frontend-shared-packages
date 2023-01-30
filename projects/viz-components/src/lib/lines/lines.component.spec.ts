@@ -173,11 +173,15 @@ describe('LineChartComponent', () => {
   });
 
   describe('canBeDrawnByPath()', () => {
+    beforeEach(() => {
+      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(false);
+    });
     it('integration: returns true if value is a number', () => {
       expect(component.canBeDrawnByPath(1)).toEqual(true);
     });
 
     it('integration: returns true if value is a Date', () => {
+      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(true);
       expect(component.canBeDrawnByPath(new Date())).toEqual(true);
     });
 

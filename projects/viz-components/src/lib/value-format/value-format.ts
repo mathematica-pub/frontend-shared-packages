@@ -28,11 +28,13 @@ export function formatValue(
   value: any,
   formatSpecifier: FormatSpecifier
 ): string {
-  if (formatSpecifier && typeof formatSpecifier === 'string') {
+  if (formatSpecifier && typeof formatSpecifier === 'function') {
+    return formatSpecifier(value);
+  } else if (value === null || value === undefined) {
+    return '';
+  } else if (formatSpecifier && typeof formatSpecifier === 'string') {
     const formatter = value instanceof Date ? timeFormat : format;
     return formatter(formatSpecifier)(value);
-  } else if (formatSpecifier && typeof formatSpecifier === 'function') {
-    return formatSpecifier(value);
   } else {
     return value.toString();
   }

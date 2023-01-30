@@ -40,22 +40,6 @@ describe('BarsHoverEventDirective', () => {
     };
   });
 
-  describe('setElements()', () => {
-    let nodesSpy: jasmine.Spy;
-    beforeEach(() => {
-      nodesSpy = jasmine.createSpy('nodes').and.returnValue(['el' as any]);
-      directive.bars = {
-        bars: {
-          nodes: nodesSpy,
-        },
-      } as any;
-    });
-    it('sets elements to the correct value', () => {
-      directive.setListenedElements();
-      expect(directive.elements).toEqual(['el' as any]);
-    });
-  });
-
   describe('elementPointerEnter()', () => {
     let effectA: any;
     let applyASpy: jasmine.Spy;

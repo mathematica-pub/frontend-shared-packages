@@ -42,6 +42,7 @@ describe('LinesHoverEventDirective', () => {
 
   describe('setElements()', () => {
     it('sets elements to the correct value', () => {
+      spyOn(directive, 'setListeners');
       directive.lines = {
         chart: {
           svgRef: {

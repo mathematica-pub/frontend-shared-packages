@@ -257,7 +257,7 @@ describe('BarsComponent', () => {
         component.config.ordinal.domain = undefined;
         component.initNonQuantitativeDomains();
         expect(Array.from(component.config.ordinal.domain)).toEqual([
-          10, 20, 30, 40, 50,
+          50, 40, 30, 20, 10,
         ]);
       });
 
@@ -265,7 +265,7 @@ describe('BarsComponent', () => {
         component.config.ordinal.domain = [0, 10, 20, 30, 30, 110, 110, 120];
         component.initNonQuantitativeDomains();
         expect(Array.from(component.config.ordinal.domain)).toEqual([
-          0, 10, 20, 30, 110, 120,
+          120, 110, 30, 20, 10, 0,
         ]);
       });
     });
@@ -457,29 +457,34 @@ describe('BarsComponent', () => {
       component.config = {
         dimensions: { quantitative: 'x' },
         quantitative: {
-          valueFormat: ',.0f',
+          valueFormat: ',.1f',
         },
         labels: {
-          noValueFunction: (d) => (d === 3 ? 3 : 'no value'),
+          noValueFunction: (d) => 'no value',
         },
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
       component.config.data = [1, 2, 3];
     });
-    describe('integration: value is a number', () => {
-      it('integration: returns the correct value correctly formatted as a string', () => {
-        expect(component.getBarLabelText(1)).toEqual('20,000');
+    describe('if user has provided a custom formatting function', () => {
+      beforeEach(() => {
+        component.config.quantitative.valueFormat = (value) => value + '!';
       });
-    });
-
-    describe('integration: value is falsey', () => {
-      it('returns the correct value from the noValueFunction', () => {
-        component.values.x = [null, null, null];
+      it('integration: returns the correct value correctly formatted as a string', () => {
+        expect(component.getBarLabelText(1)).toEqual('2!');
+      });
+      it('integration: returns the correct value correctly formatted as a string if value is null or undefined', () => {
+        component.values.x = [null, undefined, null];
         expect(component.getBarLabelText(1)).toEqual('no value');
       });
-      it('returns the correct value from the noValueFunction', () => {
-        component.values.x = [null, null, null];
-        expect(component.getBarLabelText(2)).toEqual(3 as any);
+    });
+    describe('integration: if user has not provided a custom formatting function', () => {
+      it('integration: returns the result of the noValueFunction if value null or undefined', () => {
+        component.values.x = [null, undefined, null];
+        expect(component.getBarLabelText(1)).toEqual('no value');
+      });
+      it('integration: returns the correct value correctly formatted as a string if value is not null or undefined', () => {
+        expect(component.getBarLabelText(1)).toEqual('20,000.2');
       });
     });
   });

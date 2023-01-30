@@ -24,7 +24,7 @@ import {
   select,
   Transition,
 } from 'd3';
-import { cloneDeep } from 'lodash';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
@@ -64,19 +64,15 @@ export class BarsComponent
   private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
-
-  get bars(): any {
-    return select(this.barsRef.nativeElement).selectAll('rect');
-  }
-
-  get barLabels(): any {
-    return select(this.barsRef.nativeElement).selectAll('text');
-  }
+  bars: BehaviorSubject<any> = new BehaviorSubject(null);
+  bars$: Observable<any> = this.bars.asObservable();
+  barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
+  barLabels$: Observable<any> = this.bars.asObservable();
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
-      this.reverseData();
-    }
+    // if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
+    //   this.reverseData();
+    // }
     if (
       this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
     ) {
@@ -90,9 +86,16 @@ export class BarsComponent
     this.setMethodsFromConfigAndDraw();
   }
 
-  reverseData(): void {
-    this.config.data = cloneDeep(this.config.data).reverse();
+  updateBarElements(): void {
+    const bars = select(this.barsRef.nativeElement).selectAll('rect');
+    const barLabels = select(this.barsRef.nativeElement).selectAll('text');
+    this.bars.next(bars);
+    this.barLabels.next(barLabels);
   }
+
+  // reverseData(): void {
+  //   this.config.data = cloneDeep(this.config.data).reverse();
+  // }
 
   setMethodsFromConfigAndDraw(): void {
     this.setValueArrays();
@@ -133,7 +136,11 @@ export class BarsComponent
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
-    this.config.ordinal.domain = new InternSet(this.config.ordinal.domain);
+    const ordinalDomain =
+      this.config.dimensions.ordinal === 'x'
+        ? this.config.ordinal.domain
+        : (this.config.ordinal.domain as any[]).slice().reverse();
+    this.config.ordinal.domain = new InternSet(ordinalDomain);
     this.config.category.domain = new InternSet(this.config.category.domain);
   }
 
@@ -257,6 +264,7 @@ export class BarsComponent
     if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
+    this.updateBarElements();
   }
 
   drawBars(transitionDuration: number): void {
@@ -359,6 +367,8 @@ export class BarsComponent
     const datum = this.config.data[i];
     if (value === null || value === undefined) {
       return this.config.labels.noValueFunction(datum);
+    } else if (typeof this.config.quantitative.valueFormat === 'function') {
+      return formatValue(datum, this.config.quantitative.valueFormat);
     } else {
       return formatValue(value, this.config.quantitative.valueFormat);
     }
