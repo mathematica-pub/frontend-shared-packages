@@ -10,23 +10,28 @@ export class VicImageService {
     imageConfig: VicImageServiceConfig
   ): Promise<string | void> {
     let dataUrl;
+    const sizedImageConfig = {
+      ...imageConfig,
+      width: imageConfig.containerNode.scrollWidth,
+      height: imageConfig.containerNode.scrollHeight,
+    };
     switch (imageConfig.imageType) {
       case VicImage.jpeg:
         dataUrl = await this.domToImage.toJpeg(
           imageConfig.containerNode,
-          imageConfig
+          sizedImageConfig
         );
         break;
       case VicImage.png:
         dataUrl = await this.domToImage.toPng(
           imageConfig.containerNode,
-          imageConfig
+          sizedImageConfig
         );
         break;
       case VicImage.svg:
         dataUrl = await this.domToImage.toSvg(
           imageConfig.containerNode,
-          imageConfig
+          sizedImageConfig
         );
         break;
       default:
