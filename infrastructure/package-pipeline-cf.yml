@@ -72,6 +72,81 @@ Resources:
         - !Ref CodeBuildRole
         - !Ref CodePipelineRole
 
+  ServerlessAgentPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub 'MathPolicy-ServerlessAgent-${AppName}'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action:
+            - secretsmanager:*
+            - apigateway:*
+            - lambda:*
+            - s3:*
+            - s3:PutBucketAcl
+            - ec2:*
+            - ssm:*
+            - cloudformation:CancelUpdateStack
+            - cloudformation:ContinueUpdateRollback
+            - cloudformation:CreateChangeSet
+            - cloudformation:CreateStack
+            - cloudformation:CreateUploadBucket
+            - cloudformation:DeleteStack
+            - cloudformation:DeleteChangeSet
+            - cloudformation:Describe*
+            - cloudformation:EstimateTemplateCost
+            - cloudformation:ExecuteChangeSet
+            - cloudformation:Get*
+            - cloudformation:List*
+            - cloudformation:PreviewStackUpdate
+            - cloudformation:UpdateStack
+            - cloudformation:UpdateTerminationProtection
+            - cloudformation:ValidateTemplate
+            - events:DeleteRule
+            - events:DescribeRule
+            - events:ListRuleNamesByTarget
+            - events:ListRules
+            - events:ListTargetsByRule
+            - events:PutRule
+            - events:PutTargets
+            - events:RemoveTargets
+            - iam:CreateServiceLinkedRole
+            - iam:CreateRole
+            - iam:DeleteRole
+            - iam:DeleteRolePolicy
+            - iam:GetRole
+            - iam:GetRolePolicy
+            - iam:PassRole
+            - iam:PutRolePolicy
+            - iam:AttachRolePolicy
+            - iam:DetachRolePolicy
+            - iam:UpdateAssumeRolePolicy
+            - iam:UpdateAssumeRolePolicyDocument
+            - iam:ListAttachedRolePolicies
+            - iam:DeleteRole
+            - logs:CreateLogGroup
+            - logs:DeleteLogGroup
+            - logs:DescribeLogGroups
+            - logs:DescribeLogStreams
+            - logs:FilterLogEvents
+            - logs:GetLogEvents
+            - sns:CreateTopic
+            - sns:DeleteTopic
+            - sns:GetSubscriptionAttributes
+            - sns:GetTopicAttributes
+            - sns:ListSubscriptions
+            - sns:ListSubscriptionsByTopic
+            - sns:ListTopics
+            - sns:SetSubscriptionAttributes
+            - sns:SetTopicAttributes
+            - sns:Subscribe
+            - sns:Unsubscribe
+          Resource: '*'
+      Roles:
+        - !Ref CodeBuildRole
+
   WriteToCodeArtifactRepositoryPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -231,9 +306,9 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
         EnvironmentVariables:
-          - Value: TESTERTEST
+          - Name: TESTERTEST
             Type: PLAINTEXT
-            Name: testerdweiornwefijafweoiwfeanoawfeno
+            Value: testerdweiornwefijafweoiwfeanoawfeno
       Name: !Sub "lint-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
@@ -255,9 +330,9 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
         EnvironmentVariables:
-          - Value: ENVTYPE
+          - Name: ENVTYPE
             Type: PLAINTEXT
-            Name: dev
+            Value: dev
       Name: !Sub "dev-deploy-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:

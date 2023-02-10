@@ -1,6 +1,6 @@
 config:
-  appName: vizcolib-demo-app
-  stack-description: vizcolib demo application stack
+  appName: viz-components-demo-app
+  stack-description: vizcolib demo application stack - in shared devops
   logging-format: '{ "requestId":"$context.requestId", "extendedRequestId":"$context.extendedRequestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime",  "httpMethod":"$context.httpMethod",  "path": "$context.path", "status":"$context.status",  "protocol":"$context.protocol",  "responseLength":"$context.responseLength"}'
   dev:
     region: us-east-1
