@@ -13,7 +13,7 @@ phases:
       - node --version
       - echo "Installing Angular CLI"
       - npm install -g @angular/cli
-  pre-build: 
+  pre_build: 
     commands: 
       - npm ci
   build:

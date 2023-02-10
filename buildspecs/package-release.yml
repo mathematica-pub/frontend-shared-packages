@@ -9,7 +9,8 @@ phases:
       - echo "Installing Severless Framework for deployment"
       - export SLS_DEBUG=*
       - npm ci
-  pre-build: 
+      
+  pre_build: 
     commands: 
       - echo setting up npm with codeartifact
       - aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @web-ast

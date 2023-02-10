@@ -8,7 +8,7 @@ Parameters:
   BranchName:
     Description: GitHub branch name
     Type: String
-    Default: main
+    Default: VIZCOLIB-86-website-in-package-pipeline
   GithubOwner:
     Type: String
   RepositoryName:
