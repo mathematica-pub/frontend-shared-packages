@@ -144,6 +144,7 @@ Resources:
            - !GetAtt CodeBuildPackage.Arn
            - !GetAtt CodeBuildRelease.Arn
            - !GetAtt CodeBuildTest.Arn
+           - !GetAtt CodeBuildDevDeploy.Arn
           Action:
             - 'codebuild:StartBuild'
             - 'codebuild:BatchGetBuilds' 
@@ -229,6 +230,10 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+        EnvironmentVariables:
+          - Value: TESTERTEST
+            Type: PLAINTEXT
+            Name: testerdweiornwefijafweoiwfeanoawfeno
       Name: !Sub "lint-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
@@ -249,6 +254,10 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+        EnvironmentVariables:
+          - Value: ENVTYPE
+            Type: PLAINTEXT
+            Name: dev
       Name: !Sub "dev-deploy-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
@@ -309,6 +318,10 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+        EnvironmentVariables:
+          - Value: ENVTYPE
+            Type: PLAINTEXT
+            Name: release
       Name: !Sub "codebuild-release-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:

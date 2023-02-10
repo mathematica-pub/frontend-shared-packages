@@ -14,6 +14,7 @@ phases:
     commands: 
       - echo serverless deployment 
       - pwd 
+      - printenv
       - ls 
       - cd infrastructure
       - npx serverless deploy --verbose --stage $ENVTYPE
