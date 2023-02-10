@@ -699,7 +699,6 @@ Resources:
             - sns:SetSubscriptionAttributes
             - sns:SetTopicAttributes
             - sns:Subscribe
-            - sns:TagResource
             - sns:Unsubscribe
           Resource: '*'
       Roles:

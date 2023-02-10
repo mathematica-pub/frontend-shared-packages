@@ -88,6 +88,7 @@ Resources:
             - s3:PutBucketAcl
             - ec2:*
             - ssm:*
+            - cloudfront:*
             - cloudformation:CancelUpdateStack
             - cloudformation:ContinueUpdateRollback
             - cloudformation:CreateChangeSet
@@ -143,6 +144,7 @@ Resources:
             - sns:SetTopicAttributes
             - sns:Subscribe
             - sns:Unsubscribe
+            - sns:TagResource
           Resource: '*'
       Roles:
         - !Ref CodeBuildRole

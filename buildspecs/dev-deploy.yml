@@ -13,12 +13,9 @@ phases:
     on-failure: ABORT 
     commands: 
       - echo serverless deployment 
-      - pwd 
-      - printenv
-      - ls 
       - cd infrastructure
       - npx serverless deploy --verbose --stage $ENVTYPE
-      - cd ../${CODEBUILD_SRC_DIR_build_artifacts}
+      - cd ${CODEBUILD_SRC_DIR_build_artifacts}
       - unzip frontend.zip -d ./frontend
       - aws s3 rm s3://$S3WebsiteDeployBucket --recursive
       - aws s3 cp ./frontend/dist/demo-app s3://$S3WebsiteDeployBucket --recursive

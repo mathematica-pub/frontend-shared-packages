@@ -9,7 +9,7 @@ phases:
       - echo "Installing Severless Framework for deployment"
       - export SLS_DEBUG=*
       - npm ci
-      
+
   pre_build: 
     commands: 
       - echo setting up npm with codeartifact
@@ -25,11 +25,12 @@ phases:
       - npm publish
       - echo Package Release Succeeded!
       - echo serverless deployment 
+      - cd ${CODEBUILD_SRC_DIR}
       - pwd 
       - ls 
       - cd infrastructure
       - npx serverless deploy --verbose --stage $ENVTYPE
-      - cd ../${CODEBUILD_SRC_DIR_build_artifacts}
+      - cd ${CODEBUILD_SRC_DIR_build_artifacts}
       - unzip frontend.zip -d ./frontend
       - aws s3 rm s3://$S3WebsiteDeployBucket --recursive
       - aws s3 cp ./frontend/dist/demo-app s3://$S3WebsiteDeployBucket --recursive
