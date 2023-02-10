@@ -1,4 +1,4 @@
-version: 0.2 
+version: 0.2
 
 phases: 
   install: 
@@ -9,20 +9,9 @@ phases:
       - echo "Installing Severless Framework for deployment"
       - export SLS_DEBUG=*
       - npm ci
-  pre-build: 
+  build:
+    on-failure: ABORT 
     commands: 
-      - echo setting up npm with codeartifact
-      - aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @web-ast
-
-  build: 
-    on-failure: ABORT
-    commands:
-      - echo publishing
-      - cd ${CODEBUILD_SRC_DIR_build_artifacts}
-      - unzip package.zip -d ./package 
-      - cd package/dist/viz-components
-      - npm publish
-      - echo Package Release Succeeded!
       - echo serverless deployment 
       - pwd 
       - ls 

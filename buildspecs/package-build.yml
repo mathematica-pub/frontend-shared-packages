@@ -5,7 +5,16 @@ phases:
     runtime-versions:
       nodejs: 16
     commands:
+      - echo CODEBUILD_START_TIME $CODEBUILD_START_TIME
+      - wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm  > /dev/null 2>&1
+      - yum install ./google-chrome-stable_current_x86_64.rpm -y  > /dev/null 2>&1
       - npm install -g npm@latest
+      - npm --version
+      - node --version
+      - echo "Installing Angular CLI"
+      - npm install -g @angular/cli
+  pre-build: 
+    commands: 
       - npm ci
   build:
     commands:
@@ -18,12 +27,17 @@ phases:
       - python code_snippet_generator.py
       - cd ../../..
       - cp .vscode/vizcolib-configs.code-snippets dist/viz-components
+      - echo building demo app
+      - npm run build demo-app
+
   post_build:
     commands:
       - echo Zipping package files together
       - zip -r package.zip dist/viz-components
+      - zip -r frontend.zip dist/demo-app
 
 artifacts:
   name: viz-library-$CODEBUILD_BUILD_NUMBER-$(date +%Y-%m-%d)-$CODEBUILD_START_TIME
   files:
     - 'package.zip'
+    - 'frontend.zip'
