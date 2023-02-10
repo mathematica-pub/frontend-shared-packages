@@ -7,7 +7,6 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Renderer2,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -84,8 +83,6 @@ export class ChartComponent
   heightSubject: BehaviorSubject<number> = new BehaviorSubject(this.height);
   height$ = this.heightSubject.asObservable();
 
-  constructor(private renderer: Renderer2) {}
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['height']) {
       this.setAspectRatio();
@@ -114,9 +111,10 @@ export class ChartComponent
   createDimensionObservables() {
     let divWidth$: Observable<number>;
 
-    const width$ = of(min([this.divRef.nativeElement.offsetWidth, this.width]));
-
     if (this.scaleChartWithContainerWidth.width) {
+      const width$ = of(
+        min([this.divRef.nativeElement.offsetWidth, this.width])
+      );
       divWidth$ = merge(width$, this.getDivWidthResizeObservable()).pipe(
         throttleTime(this.resizeThrottleTime),
         distinctUntilChanged()
