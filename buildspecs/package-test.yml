@@ -11,7 +11,10 @@ phases:
       - npm ci
   build:
     commands:
+      - echo testing library
       - npm run test:lib:ci
+      - echo testing demo app
+      - npm run test:demo:ci
       - mkdir test-artifacts
       - cp projects/viz-components/test-results.xml ./test-artifacts/test-results.xml
 artifacts:

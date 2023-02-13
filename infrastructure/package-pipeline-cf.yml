@@ -30,6 +30,9 @@ Parameters:
   ReleaseSpecLocation:
     Type: String 
     Default: buildspecs/package-release.yml
+  DevDeploySpecLocation:
+    Type: String
+    Default: buildspecs/dev-deploy.yml
 
 Conditions: 
   NoArtifactBucketNameProvided: !Equals [!Ref ArtifactBucketName, ""]
@@ -68,6 +71,83 @@ Resources:
       Roles:
         - !Ref CodeBuildRole
         - !Ref CodePipelineRole
+
+  ServerlessAgentPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub 'MathPolicy-ServerlessAgent-${AppName}'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action:
+            - secretsmanager:*
+            - apigateway:*
+            - lambda:*
+            - s3:*
+            - s3:PutBucketAcl
+            - ec2:*
+            - ssm:*
+            - cloudfront:*
+            - cloudformation:CancelUpdateStack
+            - cloudformation:ContinueUpdateRollback
+            - cloudformation:CreateChangeSet
+            - cloudformation:CreateStack
+            - cloudformation:CreateUploadBucket
+            - cloudformation:DeleteStack
+            - cloudformation:DeleteChangeSet
+            - cloudformation:Describe*
+            - cloudformation:EstimateTemplateCost
+            - cloudformation:ExecuteChangeSet
+            - cloudformation:Get*
+            - cloudformation:List*
+            - cloudformation:PreviewStackUpdate
+            - cloudformation:UpdateStack
+            - cloudformation:UpdateTerminationProtection
+            - cloudformation:ValidateTemplate
+            - events:DeleteRule
+            - events:DescribeRule
+            - events:ListRuleNamesByTarget
+            - events:ListRules
+            - events:ListTargetsByRule
+            - events:PutRule
+            - events:PutTargets
+            - events:RemoveTargets
+            - iam:CreateServiceLinkedRole
+            - iam:CreateRole
+            - iam:DeleteRole
+            - iam:DeleteRolePolicy
+            - iam:GetRole
+            - iam:GetRolePolicy
+            - iam:PassRole
+            - iam:PutRolePolicy
+            - iam:AttachRolePolicy
+            - iam:DetachRolePolicy
+            - iam:UpdateAssumeRolePolicy
+            - iam:UpdateAssumeRolePolicyDocument
+            - iam:ListAttachedRolePolicies
+            - iam:DeleteRole
+            - logs:CreateLogGroup
+            - logs:DeleteLogGroup
+            - logs:DescribeLogGroups
+            - logs:DescribeLogStreams
+            - logs:FilterLogEvents
+            - logs:GetLogEvents
+            - sns:CreateTopic
+            - sns:DeleteTopic
+            - sns:GetSubscriptionAttributes
+            - sns:GetTopicAttributes
+            - sns:ListSubscriptions
+            - sns:ListSubscriptionsByTopic
+            - sns:ListTopics
+            - sns:SetSubscriptionAttributes
+            - sns:SetTopicAttributes
+            - sns:Subscribe
+            - sns:Unsubscribe
+            - sns:TagResource
+          Resource: '*'
+      Roles:
+        - !Ref CodeBuildRole
 
   WriteToCodeArtifactRepositoryPolicy:
     Type: AWS::IAM::Policy
@@ -141,6 +221,7 @@ Resources:
            - !GetAtt CodeBuildPackage.Arn
            - !GetAtt CodeBuildRelease.Arn
            - !GetAtt CodeBuildTest.Arn
+           - !GetAtt CodeBuildDevDeploy.Arn
           Action:
             - 'codebuild:StartBuild'
             - 'codebuild:BatchGetBuilds' 
@@ -195,7 +276,8 @@ Resources:
   ArtifactBucket: 
     Type: AWS::S3::Bucket
     Properties: 
-      BucketName: !If [NoArtifactBucketNameProvided, !Join ["-", [!Ref AppName, "artifact-bucket"]], 
+      BucketName: !If [NoArtifactBucketNameProvided, 
+        !Join ["-", [!Ref AppName, "artifact-bucket"]], 
         !Ref ArtifactBucketName]
       AccessControl: Private
       VersioningConfiguration:
@@ -230,6 +312,36 @@ Resources:
       Source:
         Type: CODEPIPELINE
         BuildSpec: !Ref LintSpecLocation
+  
+  CodeBuildDevDeploy:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Cache:
+        Type: LOCAL
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+      Artifacts:
+        Type: CODEPIPELINE
+      Description: !Sub "dev deploy for ${AppName}"
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+        EnvironmentVariables:
+          - Name: ENVTYPE
+            Type: PLAINTEXT
+            Value: dev
+          - Name: S3WebsiteDeployBucket
+            Type: PLAINTEXT
+            Value: viz-components-demo-app-dev-frontend-app
+          - Name: CloudFrontDistributionId
+            Type: PLAINTEXT
+            Value: ESAQGKQBO7BYX
+      Name: !Sub "dev-deploy-${AppName}"
+      ServiceRole: !GetAtt CodeBuildRole.Arn
+      Source:
+        Type: CODEPIPELINE
+        BuildSpec: !Ref DevDeploySpecLocation
         
   CodeBuildTest:
     Type: AWS::CodeBuild::Project
@@ -285,6 +397,16 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
+        EnvironmentVariables:
+          - Name: ENVTYPE
+            Type: PLAINTEXT
+            Value: release
+          - Name: S3WebsiteDeployBucket
+            Type: PLAINTEXT
+            Value: viz-components-demo-app-release-frontend-app
+          - Name: CloudFrontDistributionId
+            Type: PLAINTEXT
+            Value: E1AON68T11GML9
       Name: !Sub "codebuild-release-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
@@ -360,6 +482,23 @@ Resources:
               OutputArtifacts:
                 - Name:  "build_artifacts"
               RunOrder: 1 
+        - Name: DevDeploy
+          Actions: 
+            - Name: DevDeploy
+              ActionTypeId: 
+                Category: Build
+                Owner: AWS
+                Version: '1'
+                Provider: CodeBuild
+              Configuration: 
+                ProjectName: !Ref CodeBuildDevDeploy
+                PrimarySource: !Sub "source_repo_artifacts_${AppName}"
+              InputArtifacts: 
+                - Name: !Sub "source_repo_artifacts_${AppName}"
+                - Name: "build_artifacts"
+              OutputArtifacts: 
+                - Name: dev_deploy_artifacts
+              RunOrder: 1
         - Name: Release
           Actions:
             - Name: Publish 

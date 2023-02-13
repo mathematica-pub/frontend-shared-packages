@@ -9,4 +9,7 @@ phases:
       - npm ci
   build:
     commands:
+      - echo linting package
       - npm run lint:lib
+      - echo linting demo-app
+      - npm run lint

@@ -1,6 +1,6 @@
 config:
-  appName: vizcolib-demo-app
-  stack-description: vizcolib demo application stack
+  appName: viz-components-demo-app
+  stack-description: vizcolib demo application stack - in shared devops
   logging-format: '{ "requestId":"$context.requestId", "extendedRequestId":"$context.extendedRequestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime",  "httpMethod":"$context.httpMethod",  "path": "$context.path", "status":"$context.status",  "protocol":"$context.protocol",  "responseLength":"$context.responseLength"}'
   dev:
     region: us-east-1
@@ -10,13 +10,6 @@ config:
       vpcId: vpc-023a4e725eea45604
       subnet1: subnet-04676be1fbfb7ce70
       subnet2: subnet-051a68cecc8c597ae
-    # cloudfront:
-    #   frontend-cname: api-dev.roimc-tracker.com
-    #   frontend-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/d42b1ec8-d0b9-4efc-91a1-caa73965339a
-    lambda:
-      warm:
-        schedule: "cron(0/15 13-22 ? * MON-FRI *)"
-        concurrency: 1
 
   release:
     region: us-east-1
@@ -26,10 +19,3 @@ config:
       vpcId: vpc-07bede87aaf0938ad
       subnet1: subnet-085d09b25dc0993e0
       subnet2: subnet-08e2dcce0b709bd1d
-    # cloudfront:
-    #   frontend-cname: api-dev.roimc-tracker.com
-    #   frontend-cert-arn: arn:aws:acm:us-east-1:510306863308:certificate/d42b1ec8-d0b9-4efc-91a1-caa73965339a
-    lambda:
-      warm:
-        schedule: "cron(0/15 13-22 ? * MON-FRI *)"
-        concurrency: 1

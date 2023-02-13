@@ -125,8 +125,6 @@ resources:
       Properties:
         DistributionConfig:
           Comment: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-cloudfront-distribution
-          #   Aliases:
-          #     - ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.frontend-cname}
           CustomErrorResponses:
             - ErrorCode: 404
               ResponseCode: 200
@@ -170,10 +168,6 @@ resources:
             Bucket: !Join ["", [!Ref LoggingBucket, ".s3.amazonaws.com"]]
             IncludeCookies: true
             Prefix: cloudfront-distribution
-          # ViewerCertificate:
-          # AcmCertificateArn: ${self:custom.appConfig.config.${self:provider.stage}.cloudfront.frontend-cert-arn}
-          #   MinimumProtocolVersion: TLSv1.2_2019
-          #   SslSupportMethod: sni-only
           Restrictions:
             GeoRestriction:
               RestrictionType: whitelist
