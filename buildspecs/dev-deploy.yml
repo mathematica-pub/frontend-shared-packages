@@ -4,7 +4,6 @@ phases:
   install: 
     commands: 
       - echo $CODEBUILD_START_TIME
-      - echo $ENVTYPE
       - aws --version
       - echo "Installing Severless Framework for deployment"
       - export SLS_DEBUG=*

@@ -20,11 +20,12 @@ phases:
     commands:
       - echo publishing
       - cd ${CODEBUILD_SRC_DIR_build_artifacts}
-      - unzip package.zip -d ./package 
-      - cd package/dist/viz-components
-      - npm publish
-      - echo Package Release Succeeded!
-      - echo serverless deployment 
+      # - unzip package.zip -d ./package 
+      # - cd package/dist/viz-components
+      # - npm publish
+      # - echo Package Release Succeeded!
+      # - echo serverless deployment 
+      - echo deploying frontend site
       - cd ${CODEBUILD_SRC_DIR}
       - pwd 
       - ls 

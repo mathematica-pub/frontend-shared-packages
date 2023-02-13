@@ -335,6 +335,12 @@ Resources:
           - Name: ENVTYPE
             Type: PLAINTEXT
             Value: dev
+          - Name: S3WebsiteDeployBucket
+            Type: PLAINTEXT
+            Value: viz-components-demo-app-dev-frontend-app
+          - Name: CloudFrontDistributionId
+            Type: PLAINTEXT
+            Value: ESAQGKQBO7BYX
       Name: !Sub "dev-deploy-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
