@@ -307,10 +307,6 @@ Resources:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
-        EnvironmentVariables:
-          - Name: TESTERTEST
-            Type: PLAINTEXT
-            Value: testerdweiornwefijafweoiwfeanoawfeno
       Name: !Sub "lint-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
@@ -402,9 +398,15 @@ Resources:
         ComputeType: BUILD_GENERAL1_SMALL
         Image: 'aws/codebuild/amazonlinux2-x86_64-standard:4.0'
         EnvironmentVariables:
-          - Value: ENVTYPE
+          - Name: ENVTYPE
             Type: PLAINTEXT
-            Name: release
+            Value: release
+          - Name: S3WebsiteDeployBucket
+            Type: PLAINTEXT
+            Value: viz-components-demo-app-release-frontend-app
+          - Name: CloudFrontDistributionId
+            Type: PLAINTEXT
+            Value: E1AON68T11GML9
       Name: !Sub "codebuild-release-${AppName}"
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Source:
