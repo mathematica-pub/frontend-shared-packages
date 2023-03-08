@@ -16,9 +16,6 @@ describe('StackedBarsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StackedBarsComponent);
     component = fixture.componentInstance;
-    component.chart.dataMarksComponent = {
-      config: { tooltip: { show: false, type: 'html' } },
-    } as any;
   });
 
   it('should create', () => {

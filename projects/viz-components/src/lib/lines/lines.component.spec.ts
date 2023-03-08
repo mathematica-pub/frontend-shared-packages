@@ -30,9 +30,6 @@ describe('LineChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LinesComponent);
     component = fixture.componentInstance;
-    component.chart.dataMarksComponent = {
-      config: { tooltip: { show: false, type: 'html' } },
-    } as any;
     component.config = new LinesConfig();
   });
 

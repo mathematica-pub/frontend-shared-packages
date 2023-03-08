@@ -29,9 +29,6 @@ describe('StackedAreaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StackedAreaComponent);
     component = fixture.componentInstance;
-    component.chart.dataMarksComponent = {
-      config: { tooltip: { show: false, type: 'html' } },
-    } as any;
     component.config = new StackedAreaConfig();
   });
 
