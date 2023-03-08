@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  InjectionToken,
   Input,
   NgZone,
   OnChanges,
@@ -28,13 +29,20 @@ import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyContent } from '../xy-chart/xy-content';
 import { StackedAreaConfig } from './stacked-area.config';
 
+export const STACKED_AREA = new InjectionToken<StackedAreaComponent>(
+  'StackedAreaComponent'
+);
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-stacked-area]',
   templateUrl: './stacked-area.component.html',
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: StackedAreaComponent }],
+  providers: [
+    { provide: DATA_MARKS, useExisting: StackedAreaComponent },
+    { provide: STACKED_AREA, useExisting: StackedAreaComponent },
+  ],
 })
 export class StackedAreaComponent
   extends XyContent
@@ -209,8 +217,4 @@ export class StackedAreaComponent
         (exit) => exit.remove()
       );
   }
-
-  onPointerEnter: (event: PointerEvent) => void;
-  onPointerLeave: (event: PointerEvent) => void;
-  onPointerMove: (event: PointerEvent) => void;
 }
