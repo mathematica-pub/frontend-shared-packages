@@ -1,8 +1,6 @@
 import {
-  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
-  ContentChild,
   ElementRef,
   Input,
   OnChanges,
@@ -23,8 +21,6 @@ import {
   startWith,
   throttleTime,
 } from 'rxjs';
-import { DataMarks } from '../data-marks/data-marks';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 
@@ -56,11 +52,7 @@ export interface ChartScaling {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class ChartComponent
-  implements Chart, OnInit, OnChanges, AfterContentInit
-{
-  @ContentChild(DATA_MARKS)
-  dataMarksComponent: DataMarks;
+export class ChartComponent implements Chart, OnInit, OnChanges {
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
   @Input() width = 800;
@@ -96,12 +88,6 @@ export class ChartComponent
   ngOnInit(): void {
     this.setAspectRatio();
     this.createDimensionObservables();
-  }
-
-  ngAfterContentInit(): void {
-    if (!this.dataMarksComponent) {
-      throw new Error('DataMarksComponent not found.');
-    }
   }
 
   setAspectRatio(): void {
