@@ -30,9 +30,6 @@ describe('BarsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BarsComponent);
     component = fixture.componentInstance;
-    component.chart.dataMarksComponent = {
-      config: { tooltip: { show: false, type: 'html' } },
-    } as any;
   });
 
   describe('ngOnChanges()', () => {

@@ -100,6 +100,7 @@ describe('the QuantitativeAxis mixin', () => {
     let domainSpy: jasmine.Spy;
     let initSpy: jasmine.Spy;
     let integersSpy: jasmine.Spy;
+    let percentageSpy: jasmine.Spy;
     beforeEach(() => {
       domainSpy = jasmine.createSpy('domain');
       abstractClass.scale = {
@@ -107,6 +108,7 @@ describe('the QuantitativeAxis mixin', () => {
       };
       initSpy = spyOn(abstractClass, 'initNumTicks').and.returnValue(8);
       integersSpy = spyOn(abstractClass as any, 'ticksAreIntegers');
+      percentageSpy = spyOn(abstractClass as any, 'ticksArePercentages');
       abstractClass.config = {
         numTicks: 1,
       } as any;
@@ -147,7 +149,52 @@ describe('the QuantitativeAxis mixin', () => {
       });
     });
 
-    describe('if ticksAreIntegers returns false', () => {
+    describe('if ticksArePercentages returns true', () => {
+      beforeEach(() => {
+        integersSpy.and.returnValue(false);
+        percentageSpy.and.returnValue(true);
+      });
+
+      describe('int: when numTicks is greater than number of possible ticks', () => {
+        it('number of possible ticks is >= 1', () => {
+          abstractClass.config.numTicks = 5;
+          domainSpy.and.returnValue([0, 0.000157]);
+          expect(
+            (abstractClass as any).getValidatedNumTicks('.2%')
+          ).toBeCloseTo(1.57);
+          expect(domainSpy).toHaveBeenCalledTimes(1);
+        });
+
+        describe('number of possible ticks is < 1', () => {
+          it('number of possible ticks is > 0', () => {
+            abstractClass.config.numTicks = 5;
+            domainSpy.and.returnValue([0, 0.000000004275]);
+            expect((abstractClass as any).getValidatedNumTicks('.2%')).toEqual(
+              1
+            );
+            expect(domainSpy).toHaveBeenCalledWith([0, 0.0001]);
+          });
+
+          it('number of possible ticks is equal to 0', () => {
+            abstractClass.config.numTicks = 5;
+            domainSpy.and.returnValue([0, 0]);
+            expect((abstractClass as any).getValidatedNumTicks('.1%')).toEqual(
+              1
+            );
+            expect(domainSpy).toHaveBeenCalledWith([0, 0.001]);
+          });
+        });
+      });
+
+      it('int: when numTicks is <= number of possible ticks', () => {
+        abstractClass.config.numTicks = 5;
+        domainSpy.and.returnValue([0, 0.08]);
+        expect((abstractClass as any).getValidatedNumTicks('.0%')).toBe(5);
+        expect(domainSpy).toHaveBeenCalledTimes(1);
+      });
+    });
+
+    describe('if ticksAreIntegers and ticksArePercentages returns false', () => {
       beforeEach(() => {
         integersSpy.and.returnValue(false);
       });
@@ -167,7 +214,7 @@ describe('the QuantitativeAxis mixin', () => {
       expect((abstractClass as any).ticksAreIntegers('.0f')).toEqual(true);
     });
 
-    it('returns true if tickFormat indicates ticks should not be integer values', () => {
+    it('returns false if tickFormat indicates ticks should not be integer values', () => {
       expect((abstractClass as any).ticksAreIntegers('.0%')).toEqual(false);
     });
   });

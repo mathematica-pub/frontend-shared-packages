@@ -460,7 +460,7 @@ export class BarsConfig extends DataMarksConfig {
     this.category.valueAccessor &#x3D; (d) &#x3D;&gt; d;
     this.category.colors &#x3D; [&#x27;lightslategray&#x27;];
     this.positivePaddingForAllNegativeValues &#x3D; 0.2;
-    Object.assign(this.category, init);
+    Object.assign(this, init);
   }
 }
 
@@ -478,11 +478,6 @@ export class BarsLabelsConfig {
   }
 }
 
-export class BarsTooltipData {
-  datum: any;
-  value: string;
-}
-
 export class BarsDimensionsConfig {
   direction: &#x27;vertical&#x27; | &#x27;horizontal&#x27;;
   x: &#x27;ordinal&#x27; | &#x27;quantitative&#x27;;
@@ -490,6 +485,10 @@ export class BarsDimensionsConfig {
   ordinal: &#x27;x&#x27; | &#x27;y&#x27;;
   quantitative: &#x27;x&#x27; | &#x27;y&#x27;;
   quantitativeDimension: &#x27;width&#x27; | &#x27;height&#x27;;
+
+  constructor(init?: Partial&lt;BarsDimensionsConfig&gt;) {
+    Object.assign(this, init);
+  }
 }
 
 export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
@@ -514,6 +513,11 @@ export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
     this.quantitative &#x3D; &#x27;y&#x27;;
     this.quantitativeDimension &#x3D; &#x27;height&#x27;;
   }
+}
+
+export class BarsTooltipData {
+  datum: any;
+  value: string;
 }
 </code></pre>
     </div>

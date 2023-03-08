@@ -62,24 +62,6 @@ describe('ChartComponent', () => {
     });
   });
 
-  describe('ngAfterContentInit()', () => {
-    it('should throw an error if no dataMarks component exists', () => {
-      component.dataMarksComponent = undefined;
-      expect(() => {
-        component.ngAfterContentInit();
-      }).toThrowError('DataMarksComponent not found.');
-    });
-
-    describe('dataMarksComponent is defined', () => {
-      it('should not throw an error', () => {
-        component.dataMarksComponent = {} as any;
-        expect(() => {
-          component.ngAfterContentInit();
-        }).not.toThrow();
-      });
-    });
-  });
-
   describe('setAspectRatio()', () => {
     it('sets aspectRatio to the correct value', () => {
       component.width = 100;

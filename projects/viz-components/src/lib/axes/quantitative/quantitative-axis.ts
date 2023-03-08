@@ -46,6 +46,35 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
         if (numTicks > end - start) {
           numTicks = end - start;
         }
+        if (numTicks < 1) {
+          this.scale.domain([start, start + 1]);
+          numTicks = 1;
+        }
+      }
+
+      if (this.ticksArePercentages(tickFormat)) {
+        const [start, end] = this.scale.domain();
+        const numDecimalPlaces =
+          this.getNumDecimalPlacesFromPercentFormat(tickFormat);
+        const numPossibleTicksByPrecision =
+          (end - start) * Math.pow(10, numDecimalPlaces + 2);
+        if (numTicks > numPossibleTicksByPrecision) {
+          numTicks = numPossibleTicksByPrecision;
+        }
+        if (numTicks < 1) {
+          if (numTicks === 0) {
+            this.scale.domain([
+              start,
+              start + Math.pow(10, -1 * (numDecimalPlaces + 2)),
+            ]);
+          } else {
+            this.scale.domain([
+              start,
+              this.ceilToPrecision(end, numDecimalPlaces + 2),
+            ]);
+          }
+          numTicks = 1;
+        }
       }
 
       return numTicks;
@@ -53,6 +82,24 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
 
     ticksAreIntegers(tickFormat: string): boolean {
       return tickFormat.includes('0f');
+    }
+
+    ticksArePercentages(tickFormat: string): boolean {
+      return /\d+%/.test(tickFormat);
+    }
+
+    getNumDecimalPlacesFromPercentFormat(formatString: string): number {
+      const decimalFormatString = formatString.replace(/[^0-9.]/g, '');
+      if (decimalFormatString === '' || decimalFormatString === '.') {
+        return 0;
+      }
+      return parseInt(decimalFormatString.split('.')[1] || '0');
+    }
+
+    ceilToPrecision(value: number, precision: number): number {
+      return (
+        Math.ceil(value * Math.pow(10, precision)) / Math.pow(10, precision)
+      );
     }
   }
 
