@@ -2,7 +2,9 @@ import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
 /**
- * @internal
+ * A mixin that extends `XyAxis` with the functionality needed for an ordinal axis.
+ *
+ * For internal library use only.
  */
 export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
   Base: T

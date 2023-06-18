@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { VicHtmlTooltipModule } from '../html-tooltip/html-tooltip.module';
+import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
 import { MapChartComponent } from './map-chart.component';
 
 @NgModule({

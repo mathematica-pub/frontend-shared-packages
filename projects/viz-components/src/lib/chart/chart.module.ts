@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { VicHtmlTooltipModule } from '../html-tooltip/html-tooltip.module';
 import { SharedModule } from '../shared/shared.module';
+import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
 import { ChartComponent } from './chart.component';
 
 @NgModule({

@@ -37,6 +37,13 @@
         </p>
 
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>A config that specifies how axis tick labels should wrap.</p>
+
+            </p>
 
             <p class="comment">
                 <h3>Extends</h3>
@@ -99,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -168,7 +175,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/utilities/svg-text-wrap-config#source" target="_self" >SvgTextWrapConfig:5</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/utilities/svg-text-wrap-config#source" target="_self" >SvgTextWrapConfig:16</a></code>
 </div>
                         </td>
                     </tr>
@@ -195,10 +202,19 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="4" class="link-to-prism">projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts:4</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/viz-components/src/lib/svg-text-wrap/tick-wrap-config.ts:15</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The max-width for the tick labels.</p>
+<p>If value is &#39;bandwidth&#39;, tick labels will wrap at the bandwidth
+ of the axis. This is for use with ordinal axes, most likely ordinal x-axes.</p>
+<p>If value is a number, tick labels will wrap at that value, in px.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -321,9 +337,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { SvgTextWrapConfig } from &#x27;./svg-wrap.config&#x27;;
 
+/**
+ * A config that specifies how axis tick labels should wrap.
+ */
 export class TickWrapConfig extends SvgTextWrapConfig {
+  /**
+   * The max-width for the tick labels.
+   *
+   * If value is &#x27;bandwidth&#x27;, tick labels will wrap at the bandwidth
+   *  of the axis. This is for use with ordinal axes, most likely ordinal x-axes.
+   *
+   * If value is a number, tick labels will wrap at that value, in px.
+   */
   wrapWidth: &#x27;bandwidth&#x27; | number;
   override width: never;
+
   constructor(init?: Partial&lt;TickWrapConfig&gt;) {
     super();
     Object.assign(this, init);

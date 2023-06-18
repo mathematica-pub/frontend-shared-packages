@@ -6,19 +6,19 @@ import {
   ViewChild,
 } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
-  VicImageService,
-  VicJpegImageConfig,
-  VicExportDataService,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
   LinesHoverAndMoveEffectDefaultStylesConfig,
   LinesHoverAndMoveEffectEmitTooltipData,
   LinesHoverAndMoveEventDirective,
+  VicExportDataService,
+  VicImageService,
+  VicJpegImageConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';

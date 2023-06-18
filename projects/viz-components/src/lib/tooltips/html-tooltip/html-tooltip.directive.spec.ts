@@ -1,10 +1,10 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { DataMarks } from '../data-marks/data-marks';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
+import { UtilitiesService } from '../../core/services/utilities.service';
+import { DataMarks } from '../../data-marks/data-marks';
+import { DATA_MARKS } from '../../data-marks/data-marks.token';
+import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { HtmlTooltipConfig } from './html-tooltip.config';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 

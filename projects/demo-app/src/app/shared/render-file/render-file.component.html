@@ -1,1 +1,5 @@
-<div #fileDiv [innerHtml]="sanitizedDocumentation"></div>
+<div
+  class="render-file-container"
+  [ngClass]="class"
+  [innerHtml]="sanitizedDocumentation"
+></div>

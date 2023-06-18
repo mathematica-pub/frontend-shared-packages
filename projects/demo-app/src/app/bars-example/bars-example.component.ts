@@ -14,7 +14,7 @@ import {
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { BarsHoverAndMoveEffectEmitTooltipData } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';

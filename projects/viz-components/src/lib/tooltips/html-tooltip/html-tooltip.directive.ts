@@ -18,9 +18,9 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { DataMarks } from '../data-marks/data-marks';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { UtilitiesService } from '../../core/services/utilities.service';
+import { DataMarks } from '../../data-marks/data-marks';
+import { DATA_MARKS } from '../../data-marks/data-marks.token';
 import { HtmlTooltipConfig } from './html-tooltip.config';
 
 const defaultPanelClass = 'vic-html-tooltip-overlay';

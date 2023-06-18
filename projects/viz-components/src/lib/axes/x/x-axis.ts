@@ -6,7 +6,9 @@ import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
 /**
- * @internal
+ * A mixin that extends `XyAxis` with the functionality needed for an x-axis.
+ *
+ * For internal library use only.
  */
 export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
   @Directive()

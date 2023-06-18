@@ -71,10 +71,6 @@
                             </li>
                             <li>
                                     <span class="modifier">Optional</span>
-                                <a href="documentation/./chart-components/xy-chart/axis-config#showGridLines" >showGridLines</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Optional</span>
                                 <a href="documentation/./chart-components/xy-chart/axis-config#tickFormat" >tickFormat</a>
                             </li>
                             <li>
@@ -117,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:80</a></div>
                             </td>
                         </tr>
 
@@ -180,10 +176,24 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="5" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:5</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:19</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Used only on quantitative axes.</p>
+<p>A value that will be sent to D3&#39;s <a href="https://github.com/d3/d3-axis#axis_ticks">ticks</a>
+ method.</p>
+<p>If ticks are formatted as integers and this value is greater than the domain,
+ this value will be replaced by the largest number
+ that fits the domain.</p>
+<p>If ticks are formatted as percentages and this value is greater than would
+ fit the domain given the precision of the percentage format, this value
+ will be replaced by the largest number that fits the domain.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -207,10 +217,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:24</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If true, the default line that D3 creates for the axis will be removed.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -234,10 +250,17 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:31</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>If true, all tick will be removed. Tick values will be retained.</p>
+<p>Note: likely to be used with Bars ordinal axis.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -261,37 +284,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:36</a></div>
                         </td>
                     </tr>
 
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="showGridLines"></a>
-                    <span class="name">
-                            <span class="modifier">Optional</span>
-                        <span ><b>showGridLines</b></span>
-                        <a href="documentation/./chart-components/xy-chart/axis-config#showGridLines"><span class="icon ion-ios-link"></span></a>
-                    </span>
+                    <div class="io-description"><p>If true, all ticks (lines and values) will be removed.</p>
+</div>
                 </td>
             </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:11</a></div>
-                        </td>
-                    </tr>
-
 
         </tbody>
     </table>
@@ -315,10 +317,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:6</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:45</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Used only on quantitative axes.</p>
+<p>A string to use for formatting tick labels.</p>
+<p>If not provided on Quantitative Axes, ticks will be formatter with &#39;,.1f&#39;.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -342,10 +352,16 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:50</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A font size to apply to the tick labels, in px. If not specified, D3&#39;s default font size will be used.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -369,10 +385,19 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:60</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Used only on ordinal axes.</p>
+<p>A value that is passed to D3&#39;s <a href="https://github.com/d3/d3-axis#axis_tickSizeOuter">tickSizeOuter</a>
+ method.</p>
+<p>If not provided, value will be set to 0.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -396,10 +421,21 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:73</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Used only on quantitative axes.</p>
+<p>An array of values to use for ticks. If specified, D3 will not generate its own ticks.</p>
+<p>Serves as a parameter for D3&#39;s <a href="https://github.com/d3/d3-axis#axis_tickValues">tickValues</a>
+ method.</p>
+<p>Values will be formatted with either the provided value for
+ <a href="AxisConfig.tickFormat">tickFormat</a> or the default format.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -423,10 +459,17 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="80" class="link-to-prism">projects/viz-components/src/lib/axes/axis.config.ts:80</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A config object to specify how tick labels should wrap.</p>
+<p>Note: In <code>Bars</code>, bar labels are tick labels.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -446,16 +489,83 @@
 import { TickWrapConfig } from &#x27;../svg-text-wrap/tick-wrap-config&#x27;;
 
 export class AxisConfig {
+  /**
+   * Used only on quantitative axes.
+   *
+   * A value that will be sent to D3&#x27;s [ticks]{@link https://github.com/d3/d3-axis#axis_ticks}
+   *  method.
+   *
+   * If ticks are formatted as integers and this value is greater than the domain,
+   *  this value will be replaced by the largest number
+   *  that fits the domain.
+   *
+   * If ticks are formatted as percentages and this value is greater than would
+   *  fit the domain given the precision of the percentage format, this value
+   *  will be replaced by the largest number that fits the domain.
+   */
   numTicks?: number | TimeInterval;
-  tickFormat?: string;
-  tickValues?: any[];
+
+  /**
+   * If true, the default line that D3 creates for the axis will be removed.
+   */
   removeDomain?: boolean;
-  removeTicks?: boolean;
+
+  /**
+   * If true, all tick will be removed. Tick values will be retained.
+   *
+   * Note: likely to be used with Bars ordinal axis.
+   */
   removeTickMarks?: boolean;
-  showGridLines?: boolean;
-  wrap?: TickWrapConfig;
-  tickSizeOuter?: number;
+
+  /**
+   * If true, all ticks (lines and values) will be removed.
+   */
+  removeTicks?: boolean;
+
+  /**
+   * Used only on quantitative axes.
+   *
+   * A string to use for formatting tick labels.
+   *
+   * If not provided on Quantitative Axes, ticks will be formatter with &#x27;,.1f&#x27;.
+   */
+  tickFormat?: string;
+
+  /**
+   * A font size to apply to the tick labels, in px. If not specified, D3&#x27;s default font size will be used.
+   */
   tickLabelFontSize?: number;
+
+  /**
+   * Used only on ordinal axes.
+   *
+   * A value that is passed to D3&#x27;s [tickSizeOuter]{@link https://github.com/d3/d3-axis#axis_tickSizeOuter}
+   *  method.
+   *
+   * If not provided, value will be set to 0.
+   */
+  tickSizeOuter?: number;
+
+  /**
+   * Used only on quantitative axes.
+   *
+   * An array of values to use for ticks. If specified, D3 will not generate its own ticks.
+   *
+   * Serves as a parameter for D3&#x27;s [tickValues]{@link https://github.com/d3/d3-axis#axis_tickValues}
+   *  method.
+   *
+   * Values will be formatted with either the provided value for
+   *  [tickFormat]{@link AxisConfig.tickFormat} or the default format.
+   */
+  tickValues?: any[];
+
+  /**
+   * A config object to specify how tick labels should wrap.
+   *
+   * Note: In &#x60;Bars&#x60;, bar labels are tick labels.
+   */
+  wrap?: TickWrapConfig;
+
   constructor(init?: Partial&lt;AxisConfig&gt;) {
     Object.assign(this, init);
   }

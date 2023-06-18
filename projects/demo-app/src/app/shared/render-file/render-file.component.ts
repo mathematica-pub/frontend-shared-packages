@@ -1,18 +1,16 @@
 import {
   Component,
-  ElementRef,
   inject,
   Input,
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { Subscription, takeUntil } from 'rxjs';
+import { takeUntil } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -27,18 +25,18 @@ export class RenderFileComponent
   implements OnChanges, OnInit
 {
   @Input() fileData: string;
-  @ViewChild('fileDiv', { static: true }) fileDiv: ElementRef<HTMLDivElement>;
   private highlightService = inject(HighlightService);
   private sanitizer = inject(DomSanitizer);
   private router = inject(Router);
   private documentationService = inject(DocumentationService);
   sanitizedDocumentation: SafeHtml;
-  currentSubscription$: Subscription;
+  class: string;
 
   ngOnInit(): void {
     if (this.router.url === '/overview') {
       const path = 'Overview.md';
-      this.currentSubscription$ = this.documentationService
+      this.class = 'overview';
+      this.documentationService
         .getDocumentation(path)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe((data: string) => {

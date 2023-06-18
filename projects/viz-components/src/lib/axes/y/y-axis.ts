@@ -6,11 +6,16 @@ import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
 
 /**
- * @internal
+ * A mixin that extends `XyAxis` with the functionality needed for a y-axis.
+ *
+ * For internal library use only.
  */
 export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
+    /**
+     * The side of the chart on which the axis will be rendered.
+     */
     @Input() side: 'left' | 'right' = 'left';
     translate$: Observable<string>;
 

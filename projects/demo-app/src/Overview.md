@@ -1,12 +1,16 @@
 ### A library of composable components for data visualization
 
-Viz Components is a library of Angular components built on top of D3 that can be composed by a user to create custom visualizations. Viz Components takes care of common data viz functionality under the hood, such as setting scales, creating axes, and responsively scaling svgs. At the same time Viz Compenents allows the user to fully customize the system of visual marks used to represent data.
+Viz Components is a library of Angular components built on top of D3 that can be composed by a user to create custom visualizations.
+
+Viz Components takes care of common data viz functionality under the hood, such as setting scales, creating axes, and responsively scaling svgs. At the same time Viz Compenents allows the user to fully customize the system of visual marks used to represent data.
 
 ## Library concepts
 
 ### Chart + DataMarks
 
 To create a visualization with Viz Components, a user needs to compose their own chart, created from a minimum of one `Chart` component and one `DataMarks` component.
+
+Conceptually, a `Chart` component is a shell that handles scaling the visualization, while a `DataMarks` component draws from a user-provided array of data to set scales and create svg elements in the DOM.
 
 A very simple HTML implementation of a full chart could look like this
 
@@ -16,7 +20,7 @@ A very simple HTML implementation of a full chart could look like this
 </vic-xy-chart>
 ```
 
-The library offers multiple components that are `Chart`s, such as `XyChartComponent` and `MapChartComponent` as well as multiple `DataMarks` components, such as `BarsComponent`, `LinesComponent`, and `GeographiesComponent`. Some `DataMarks` components must be used in conjunction with specific `Chart` components.
+The library offers multiple `Chart` components, such as `XyChartComponent` and `MapChartComponent` as well as multiple `DataMarks` components, such as `BarsComponent`, `LinesComponent`, and `GeographiesComponent`. Some `DataMarks` components must be used in conjunction with specific `Chart` components.
 
 A `Chart` component contains a single `<div>` that wraps a single `<svg>`, with content projection slots before and after the `<div>`, and between the opening and closing tags of the `<svg>`.
 
@@ -43,5 +47,3 @@ The library provides minimal default styles for all components in the library, f
 ### Custom Schematics
 
 After installing the library, run `ng g viz-components:extend` and follow the instructions from there.
-
-### Code Snippets

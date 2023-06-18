@@ -9,7 +9,6 @@ export const enum VizComponent {
   chart = 'chart',
   geographies = 'geographies',
   groupedBars = 'grouped-bars',
-  htmlTooltip = 'html-tooltip',
   lines = 'lines',
   mapChart = 'map-chart',
   mapLegend = 'map-legend',

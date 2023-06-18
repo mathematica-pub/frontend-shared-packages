@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   flex: 1 1 0%;
-  padding: $grid-2 $grid-4;
+  padding: $grid-2 $grid-2 $grid-2 $grid-4;
   font-size: 16px;
   z-index: 3;
   position: sticky;
@@ -16,7 +16,7 @@
   border-right: 1px solid $color-primary-7;
 }
 
-.link-container {
+.link-container:not(:first-child) {
   padding-left: $grid-2;
 }
 

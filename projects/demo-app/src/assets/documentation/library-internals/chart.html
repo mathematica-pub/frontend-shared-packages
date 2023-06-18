@@ -1,0 +1,1445 @@
+<!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  ChartComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="documentation/./library-internals/chart#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="documentation/./library-internals/chart#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="documentation/./library-internals/chart#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="documentation/./library-internals/chart#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/viz-components/src/lib/chart/chart.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>A base component that can be extended to create specific types of <code>Chart</code> components,
+ each of which can serve as a wrapper component for one <code>DataMarks</code> component and any
+ other content that is projected into its content projection slots.</p>
+<p class="comment-slots">Content projection slots</p>
+
+<p><code>html-elements-before</code>: Elements that will be projected before the chart&#39;s scaled div
+ and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.</p>
+<p><code>svg-defs</code>: Used to create any required defs for the chart&#39;s svg element. For example, patterns or gradients.</p>
+<p><code>svg-elements</code>: Used for all elements that should be children of the chart&#39;s scaled svg element.</p>
+<p><code>html-elements-after</code>: Elements that will be projected after the chart&#39;s scaled div
+ and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.</p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a " target="_self" >Chart</a></code>
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a " target="_self" >{ provide: CHART, useExisting: ChartComponent }</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>vic-chart</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./chart.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./chart.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="documentation/./library-internals/chart#_height" >_height</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#aspectRatio" >aspectRatio</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#divRef" >divRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#height$" >height$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#ranges$" >ranges$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#svgDimensions$" >svgDimensions$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#svgRef" >svgRef</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./library-internals/chart#createDimensionObservables" >createDimensionObservables</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#getDivWidthResizeObservable" >getDivWidthResizeObservable</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#getRangesFromSvgDimensions" >getRangesFromSvgDimensions</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#getSvgDimensionsFromDivWidth" >getSvgDimensionsFromDivWidth</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#getSvgHeightFromWidth" >getSvgHeightFromWidth</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#getSvgWidthFromDivWidth" >getSvgWidthFromDivWidth</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#setAspectRatio" >setAspectRatio</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./library-internals/chart#height" >height</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#margin" >margin</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#resizeThrottleTime" >resizeThrottleTime</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#scaleChartWithContainerWidth" >scaleChartWithContainerWidth</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#transitionDuration" >transitionDuration</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/chart#width" >width</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="height"></a>
+                        <b>height</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>600</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:83</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>If chart size is dynamic, the maximum height of the chart.</p>
+<p>In that case, this value is used to determine the aspect ratio of the chart which will be maintained on resizing</p>
+<p>If chart size is static, the fixed height of the chart.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="margin"></a>
+                        <b>margin</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >ElementSpacing</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    top: 36,
+    right: 36,
+    bottom: 36,
+    left: 36,
+  }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:87</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>The margin that will be established between the edges of the svg and the svg&#39;s contents.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="resizeThrottleTime"></a>
+                        <b>resizeThrottleTime</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>100</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:96</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Determines throttling of chart resizing, in ms.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="scaleChartWithContainerWidth"></a>
+                        <b>scaleChartWithContainerWidth</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >ChartScaling</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>{
+    width: true,
+    height: true,
+  }</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:102</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Determines whether the chart size is fixed or will scale with its container.</p>
+<p>Width and height properties can be set separately. If both are true, the aspect ratio determined by width and height values will be maintained.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="transitionDuration"></a>
+                        <b>transitionDuration</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>250</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:109</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A time duration for all transitions in the chart, in ms.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="width"></a>
+                        <b>width</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>800</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:117</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>If chart size is dynamic, the maximum width of the chart.</p>
+<p>In that case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing</p>
+<p>If chart size is static, the fixed width of the chart.</p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="createDimensionObservables"></a>
+                    <span class="name">
+                        <span ><b>createDimensionObservables</b></span>
+                        <a href="documentation/./library-internals/chart#createDimensionObservables"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createDimensionObservables()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="143"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:143</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDivWidthResizeObservable"></a>
+                    <span class="name">
+                        <span ><b>getDivWidthResizeObservable</b></span>
+                        <a href="documentation/./library-internals/chart#getDivWidthResizeObservable"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getDivWidthResizeObservable()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="170"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:170</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;number&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getRangesFromSvgDimensions"></a>
+                    <span class="name">
+                        <span ><b>getRangesFromSvgDimensions</b></span>
+                        <a href="documentation/./library-internals/chart#getRangesFromSvgDimensions"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getRangesFromSvgDimensions(dimensions: <a " target="_self">Dimensions</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="201"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:201</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>dimensions</td>
+                                    <td>
+                                                <code><a " target="_self" >Dimensions</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a " target="_self" >Ranges</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSvgDimensionsFromDivWidth"></a>
+                    <span class="name">
+                        <span ><b>getSvgDimensionsFromDivWidth</b></span>
+                        <a href="documentation/./library-internals/chart#getSvgDimensionsFromDivWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSvgDimensionsFromDivWidth(divWidth: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:184</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>divWidth</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>{ width: number; height: number; }</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSvgHeightFromWidth"></a>
+                    <span class="name">
+                        <span ><b>getSvgHeightFromWidth</b></span>
+                        <a href="documentation/./library-internals/chart#getSvgHeightFromWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSvgHeightFromWidth(width: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="194"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:194</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>width</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSvgWidthFromDivWidth"></a>
+                    <span class="name">
+                        <span ><b>getSvgWidthFromDivWidth</b></span>
+                        <a href="documentation/./library-internals/chart#getSvgWidthFromDivWidth"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getSvgWidthFromDivWidth(divWidth: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="190"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:190</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>divWidth</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="documentation/./library-internals/chart#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="124"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:124</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./library-internals/chart#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setAspectRatio"></a>
+                    <span class="name">
+                        <span ><b>setAspectRatio</b></span>
+                        <a href="documentation/./library-internals/chart#setAspectRatio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setAspectRatio()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:139</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="_height"></a>
+                    <span class="name">
+                            <span class="modifier">Private</span>
+                        <span ><b>_height</b></span>
+                        <a href="documentation/./library-internals/chart#_height"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;number&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(this.height)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:119</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="aspectRatio"></a>
+                    <span class="name">
+                        <span ><b>aspectRatio</b></span>
+                        <a href="documentation/./library-internals/chart#aspectRatio"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:118</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="divRef"></a>
+                    <span class="name">
+                        <span ><b>divRef</b></span>
+                        <a href="documentation/./library-internals/chart#divRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;HTMLDivElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;div&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="height$"></a>
+                    <span class="name">
+                        <span ><b>height$</b></span>
+                        <a href="documentation/./library-internals/chart#height$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this._height.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:120</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges$"></a>
+                    <span class="name">
+                        <span ><b>ranges$</b></span>
+                        <a href="documentation/./library-internals/chart#ranges$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Observable&lt;Ranges&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:121</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="svgDimensions$"></a>
+                    <span class="name">
+                        <span ><b>svgDimensions$</b></span>
+                        <a href="documentation/./library-internals/chart#svgDimensions$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Observable&lt;Dimensions&gt;</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:122</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="svgRef"></a>
+                    <span class="name">
+                        <span ><b>svgRef</b></span>
+                        <a href="documentation/./library-internals/chart#svgRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>ElementRef&lt;SVGSVGElement&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @ViewChild(&#x27;svg&#x27;, {static: true})<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/viz-components/src/lib/chart/chart.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from &#x27;@angular/core&#x27;;
+import { min } from &#x27;d3&#x27;;
+import {
+  BehaviorSubject,
+  combineLatest,
+  distinctUntilChanged,
+  map,
+  merge,
+  Observable,
+  of,
+  shareReplay,
+  startWith,
+  throttleTime,
+} from &#x27;rxjs&#x27;;
+import { Chart } from &#x27;./chart&#x27;;
+import { CHART } from &#x27;./chart.token&#x27;;
+
+export interface Ranges {
+  x: [number, number];
+  y: [number, number];
+}
+
+export interface ElementSpacing {
+  top: number;
+  right: number;
+  bottom: number;
+  left: number;
+}
+
+export interface Dimensions {
+  width: number;
+  height: number;
+}
+
+export interface ChartScaling {
+  width: boolean;
+  height: boolean;
+}
+
+/**
+ * A base component that can be extended to create specific types of &#x60;Chart&#x60; components,
+ *  each of which can serve as a wrapper component for one &#x60;DataMarks&#x60; component and any
+ *  other content that is projected into its content projection slots.
+ *
+ * &lt;p class&#x3D;&quot;comment-slots&quot;&gt;Content projection slots&lt;/p&gt;
+ *
+ * &#x60;html-elements-before&#x60;: Elements that will be projected before the chart&#x27;s scaled div
+ *  and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.
+ *
+ * &#x60;svg-defs&#x60;: Used to create any required defs for the chart&#x27;s svg element. For example, patterns or gradients.
+ *
+ * &#x60;svg-elements&#x60;: Used for all elements that should be children of the chart&#x27;s scaled svg element.
+ *
+ * &#x60;html-elements-after&#x60;: Elements that will be projected after the chart&#x27;s scaled div
+ *  and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.
+ */
+@Component({
+  selector: &#x27;vic-chart&#x27;,
+  templateUrl: &#x27;./chart.component.html&#x27;,
+  styleUrls: [&#x27;./chart.component.scss&#x27;],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [{ provide: CHART, useExisting: ChartComponent }],
+})
+export class ChartComponent implements Chart, OnInit, OnChanges {
+  @ViewChild(&#x27;div&#x27;, { static: true }) divRef: ElementRef&lt;HTMLDivElement&gt;;
+  @ViewChild(&#x27;svg&#x27;, { static: true }) svgRef: ElementRef&lt;SVGSVGElement&gt;;
+  /**
+   * If chart size is dynamic, the maximum height of the chart.
+   *
+   * In that case, this value is used to determine the aspect ratio of the chart which will be maintained on resizing
+   *
+   * If chart size is static, the fixed height of the chart.
+   */
+  @Input() height &#x3D; 600;
+  /**
+   * The margin that will be established between the edges of the svg and the svg&#x27;s contents.
+   */
+  @Input() margin: ElementSpacing &#x3D; {
+    top: 36,
+    right: 36,
+    bottom: 36,
+    left: 36,
+  };
+  /**
+   * Determines throttling of chart resizing, in ms.
+   */
+  @Input() resizeThrottleTime &#x3D; 100;
+  /**
+   * Determines whether the chart size is fixed or will scale with its container.
+   *
+   * Width and height properties can be set separately. If both are true, the aspect ratio determined by width and height values will be maintained.
+   */
+  @Input() scaleChartWithContainerWidth: ChartScaling &#x3D; {
+    width: true,
+    height: true,
+  };
+  /**
+   * A time duration for all transitions in the chart, in ms.
+   */
+  @Input() transitionDuration?: number &#x3D; 250;
+  /**
+   * If chart size is dynamic, the maximum width of the chart.
+   *
+   * In that case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing
+   *
+   * If chart size is static, the fixed width of the chart.
+   */
+  @Input() width &#x3D; 800;
+  aspectRatio: number;
+  private _height: BehaviorSubject&lt;number&gt; &#x3D; new BehaviorSubject(this.height);
+  height$ &#x3D; this._height.asObservable();
+  ranges$: Observable&lt;Ranges&gt;;
+  svgDimensions$: Observable&lt;Dimensions&gt;;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes[&#x27;height&#x27;]) {
+      this.setAspectRatio();
+      this._height.next(this.height);
+    }
+    if (changes[&#x27;width&#x27;]) {
+      this.setAspectRatio();
+    }
+  }
+
+  ngOnInit(): void {
+    this.setAspectRatio();
+    this.createDimensionObservables();
+  }
+
+  setAspectRatio(): void {
+    this.aspectRatio &#x3D; this.width / this.height;
+  }
+
+  createDimensionObservables() {
+    let divWidth$: Observable&lt;number&gt;;
+
+    if (this.scaleChartWithContainerWidth.width) {
+      const width$ &#x3D; of(
+        min([this.divRef.nativeElement.offsetWidth, this.width])
+      );
+      divWidth$ &#x3D; merge(width$, this.getDivWidthResizeObservable()).pipe(
+        throttleTime(this.resizeThrottleTime),
+        distinctUntilChanged()
+      );
+    } else {
+      divWidth$ &#x3D; of(this.width);
+    }
+
+    const height$ &#x3D; this.height$.pipe(startWith(this.height));
+
+    this.svgDimensions$ &#x3D; combineLatest([divWidth$, height$]).pipe(
+      map(([divWidth]) &#x3D;&gt; this.getSvgDimensionsFromDivWidth(divWidth))
+    );
+
+    this.ranges$ &#x3D; this.svgDimensions$.pipe(
+      map((dimensions) &#x3D;&gt; this.getRangesFromSvgDimensions(dimensions)),
+      shareReplay()
+    );
+  }
+
+  getDivWidthResizeObservable(): Observable&lt;number&gt; {
+    const el &#x3D; this.divRef.nativeElement;
+    return new Observable((subscriber) &#x3D;&gt; {
+      const observer &#x3D; new ResizeObserver((entries) &#x3D;&gt; {
+        subscriber.next(entries[0].contentRect.width);
+      });
+      observer.observe(el);
+      return function unsubscribe() {
+        observer.unobserve(el);
+        observer.disconnect();
+      };
+    });
+  }
+
+  getSvgDimensionsFromDivWidth(divWidth: number) {
+    const width &#x3D; this.getSvgWidthFromDivWidth(divWidth);
+    const height &#x3D; this.getSvgHeightFromWidth(width);
+    return { width, height };
+  }
+
+  getSvgWidthFromDivWidth(divWidth: number): number {
+    return !this.scaleChartWithContainerWidth.width ? this.width : divWidth;
+  }
+
+  getSvgHeightFromWidth(width: number): number {
+    return this.scaleChartWithContainerWidth.height &amp;&amp;
+      this.divRef.nativeElement.offsetWidth &lt;&#x3D; this.width
+      ? width / this.aspectRatio
+      : this.height;
+  }
+
+  getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
+    const xRange: [number, number] &#x3D; [
+      this.margin.left,
+      dimensions.width - this.margin.right,
+    ];
+    const yRange: [number, number] &#x3D; [
+      dimensions.height - this.margin.bottom,
+      this.margin.top,
+    ];
+    return { x: xRange, y: yRange };
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-content select&#x3D;&quot;[html-elements-before]&quot;&gt;&lt;/ng-content&gt;
+&lt;div
+  #div
+  class&#x3D;&quot;vic-chart-container&quot;
+  [style.maxWidth.px]&#x3D;&quot;width&quot;
+  [style.maxHeight.px]&#x3D;&quot;height&quot;
+&gt;
+  &lt;svg
+    #svg
+    class&#x3D;&quot;vic-chart-svg&quot;
+    [attr.width]&#x3D;&quot;(svgDimensions$ | async).width&quot;
+    [attr.height]&#x3D;&quot;(svgDimensions$ | async).height&quot;
+  &gt;
+    &lt;ng-content select&#x3D;&quot;[svg-defs]&quot;&gt;&lt;/ng-content&gt;
+    &lt;ng-content select&#x3D;&quot;[svg-elements]&quot;&gt;&lt;/ng-content&gt;
+  &lt;/svg&gt;
+&lt;/div&gt;
+&lt;ng-content select&#x3D;&quot;[html-elements-after]&quot;&gt;&lt;/ng-content&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./chart.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">.vic-chart-container {
+  display: flex;
+}
+
+.vic-chart-svg {
+  overflow: visible;
+}
+</code></pre>
+    </div>
+
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

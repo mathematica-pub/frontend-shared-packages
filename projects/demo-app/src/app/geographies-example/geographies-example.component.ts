@@ -5,7 +5,7 @@ import {
   GeographiesHoverEventDirective,
 } from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
 import { GeographiesHoverAndMoveEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
   DataGeographyConfig,
