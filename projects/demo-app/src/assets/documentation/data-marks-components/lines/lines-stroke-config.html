@@ -89,7 +89,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:141</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:133</a></div>
                             </td>
                         </tr>
 
@@ -151,7 +151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:117</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:109</a></div>
                         </td>
                     </tr>
 
@@ -185,7 +185,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:125</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:117</a></div>
                         </td>
                     </tr>
 
@@ -219,7 +219,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:133</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:125</a></div>
                         </td>
                     </tr>
 
@@ -253,7 +253,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="141" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:141</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:133</a></div>
                         </td>
                     </tr>
 
@@ -286,7 +286,6 @@ import {
   QuantitativeDimensionConfig,
 } from &#x27;../data-marks/data-dimension.config&#x27;;
 import { DataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
-import { TooltipConfig } from &#x27;../tooltips/tooltip.config&#x27;;
 
 export class LinesConfig extends DataMarksConfig {
   /**
@@ -356,6 +355,13 @@ export class LinesConfig extends DataMarksConfig {
    * Default is the identity function.
    */
   lineLabelsFormat?: (d: string) &#x3D;&gt; string;
+
+  /**
+   * The distance from a line in which a hover event will trigger a tooltip, in px.
+   *  Default is 80.
+   *
+   * This is used to ensure that a tooltip is triggered only when a user&#x27;s pointer is close to lines.
+   */
   pointerDetectionRadius: number;
 
   constructor(init?: Partial&lt;LinesConfig&gt;) {
@@ -370,22 +376,7 @@ export class LinesConfig extends DataMarksConfig {
     this.category.colors &#x3D; schemeTableau10 as string[];
     this.curve &#x3D; curveLinear;
     this.lineLabelsFormat &#x3D; (d: string) &#x3D;&gt; d;
-    Object.assign(this, init);
-  }
-}
-
-export class LinesTooltipConfig extends TooltipConfig {
-  /**
-   * The distance from a line in which a hover event will trigger a tooltip, in px.
-   *  Default is 80.
-   *
-   * This is used to ensure that a tooltip is triggered only when a user&#x27;s pointer is close to lines.
-   */
-  detectionRadius: number;
-
-  constructor(init?: Partial&lt;LinesTooltipConfig&gt;) {
-    super();
-    this.detectionRadius &#x3D; 80;
+    this.pointerDetectionRadius &#x3D; 80;
     Object.assign(this, init);
   }
 }
