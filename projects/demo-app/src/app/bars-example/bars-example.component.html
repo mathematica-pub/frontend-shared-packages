@@ -19,7 +19,7 @@
           [config]="vm.dataConfig"
           [vicBarsHoverAndMoveEffects]="hoverAndMoveEffects"
           [vicBarsHoverEffects]="hoverEffects"
-          (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
+          (vicBarsHoverAndMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="(tooltipConfig$ | async)"

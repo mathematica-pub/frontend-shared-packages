@@ -54,7 +54,14 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Optional</span>
+                                <a href="documentation/./data-marks-components/all/html-tooltip-config#closeOnBackdropClick" >closeOnBackdropClick</a>
+                            </li>
+                            <li>
                                 <a href="documentation/./data-marks-components/all/html-tooltip-config#disableEventsOnTooltip" >disableEventsOnTooltip</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/all/html-tooltip-config#hasBackdrop" >hasBackdrop</a>
                             </li>
                             <li>
                                     <span class="modifier">Optional</span>
@@ -96,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -143,6 +150,33 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="closeOnBackdropClick"></a>
+                    <span class="name">
+                            <span class="modifier">Optional</span>
+                        <span ><b>closeOnBackdropClick</b></span>
+                        <a href="documentation/./data-marks-components/all/html-tooltip-config#closeOnBackdropClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:16</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="disableEventsOnTooltip"></a>
                     <span class="name">
                         <span ><b>disableEventsOnTooltip</b></span>
@@ -159,6 +193,32 @@
                     <tr>
                         <td class="col-md-4">
                                 <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:12</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hasBackdrop"></a>
+                    <span class="name">
+                        <span ><b>hasBackdrop</b></span>
+                        <a href="documentation/./data-marks-components/all/html-tooltip-config#hasBackdrop"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:15</a></div>
                         </td>
                     </tr>
 
@@ -322,11 +382,14 @@ export class HtmlTooltipConfig {
   disableEventsOnTooltip: boolean;
   panelClass: string | string[];
   origin?: ElementRef;
+  hasBackdrop: boolean;
+  closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial&lt;HtmlTooltipConfig&gt;) {
     this.disableEventsOnTooltip &#x3D; true;
     this.position &#x3D; new HtmlTooltipDefaultPosition();
     this.size &#x3D; new HtmlTooltipSize();
+    this.hasBackdrop &#x3D; false;
     Object.assign(this, init);
   }
 }

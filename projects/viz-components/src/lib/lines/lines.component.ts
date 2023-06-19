@@ -77,6 +77,9 @@ export class LinesComponent
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
+  markerClass = 'vic-lines-datum-marker';
+  markerIndexAttr = 'index';
+
   private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
 
@@ -252,6 +255,7 @@ export class LinesComponent
         enter
           .append('path')
           .property('key', ([category]) => category)
+          .attr('key', ([category]) => category)
           .attr('class', 'vic-line')
           .attr('stroke', ([category]) => this.categoryScale(category))
           .attr('d', ([, lineData]) => this.line(lineData)),
@@ -285,8 +289,9 @@ export class LinesComponent
       (enter) =>
         enter
           .append('circle')
-          .attr('class', 'vic-marker')
+          .attr('class', this.markerClass)
           .attr('key', (d) => d.key)
+          .attr(this.markerIndexAttr, (d) => d.index)
           .style('mix-blend-mode', this.config.mixBlendMode)
           .attr('cx', (d) => this.xScale(this.values.x[d.index]))
           .attr('cy', (d) => this.yScale(this.values.y[d.index]))

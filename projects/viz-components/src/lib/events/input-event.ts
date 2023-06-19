@@ -7,7 +7,8 @@ export abstract class InputEventDirective
   extends Unsubscribe
   implements OnInit
 {
-  @Input() inputEvent$: Observable<any>;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('vicDataMarksInputEvent$') inputEvent$: Observable<any>;
 
   abstract handleNewEvent(event: Event): void;
 

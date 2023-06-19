@@ -86,7 +86,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -148,7 +148,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:59</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -174,7 +174,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:61</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:50</a></div>
                         </td>
                     </tr>
 
@@ -200,7 +200,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -224,10 +224,7 @@ import {
   CategoricalColorDimensionConfig,
   QuantitativeDimensionConfig,
 } from &#x27;../data-marks/data-dimension.config&#x27;;
-import {
-  DataMarksConfig,
-  TooltipConfig,
-} from &#x27;../data-marks/data-marks.config&#x27;;
+import { DataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
 
 export class LinesConfig extends DataMarksConfig {
   x: QuantitativeDimensionConfig &#x3D; new QuantitativeDimensionConfig();
@@ -240,6 +237,7 @@ export class LinesConfig extends DataMarksConfig {
   stroke?: LinesStrokeConfig &#x3D; new LinesStrokeConfig();
   labelLines?: boolean;
   lineLabelsFormat?: (d: string) &#x3D;&gt; string;
+  pointerDetectionRadius: number;
 
   constructor(init?: Partial&lt;LinesConfig&gt;) {
     super();
@@ -252,16 +250,7 @@ export class LinesConfig extends DataMarksConfig {
     this.curve &#x3D; curveLinear;
     this.stroke.width &#x3D; 2;
     this.lineLabelsFormat &#x3D; (d: string) &#x3D;&gt; d;
-    Object.assign(this, init);
-  }
-}
-
-export class LinesTooltipConfig extends TooltipConfig {
-  detectionRadius: number;
-
-  constructor(init?: Partial&lt;LinesTooltipConfig&gt;) {
-    super();
-    this.detectionRadius &#x3D; 80;
+    this.pointerDetectionRadius &#x3D; 80;
     Object.assign(this, init);
   }
 }

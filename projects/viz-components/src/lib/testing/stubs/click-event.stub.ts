@@ -1,10 +1,14 @@
 import { ClickEventDirective } from '../../events/click-event';
+import { ListenElement } from '../../events/event';
 
 export class ClickEventDirectiveStub extends ClickEventDirective {
-  setListenedElements(): void {
+  onElementClick(event: PointerEvent, el: ListenElement): void {
     return;
   }
-  chartClick(event: Event): void {
+  onClickRemove(): void {
+    return;
+  }
+  setListenedElements(): void {
     return;
   }
 }

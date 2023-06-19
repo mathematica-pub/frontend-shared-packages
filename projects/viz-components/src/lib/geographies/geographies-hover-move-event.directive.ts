@@ -1,27 +1,24 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+/* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import {
+  GeographiesEmittedOutput,
+  getGeographiesTooltipData,
+} from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
-export class GeographiesHoverAndMoveEmittedOutput {
-  datum?: any;
-  color: string;
-  geography: string;
-  attributeValue: string;
-  positionX?: number;
-  positionY?: number;
-}
 @Directive({
   selector: '[vicGeographiesHoverAndMoveEffects]',
 })
 export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesHoverAndMoveEffects')
   effects: EventEffect<GeographiesHoverAndMoveEventDirective>[];
-  @Output() hoverAndMoveEventOutput =
-    new EventEmitter<GeographiesHoverAndMoveEmittedOutput>();
+  @Output('vicGeographiesHoverAndMoveOutput') eventOutput =
+    new EventEmitter<GeographiesEmittedOutput>();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
@@ -42,11 +39,11 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
       });
   }
 
-  elementPointerEnter(): void {
+  onElementPointerEnter(): void {
     return;
   }
 
-  elementPointerMove(event: PointerEvent): void {
+  onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     const d = select(event.target as Element).datum();
     this.geographyIndex = this.getGeographyIndex(d);
@@ -55,7 +52,7 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
     }
   }
 
-  elementPointerLeave(): void {
+  onElementPointerLeave(): void {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
@@ -67,5 +64,15 @@ export class GeographiesHoverAndMoveEventDirective extends HoverAndMoveEventDire
       value = value.toLowerCase();
     }
     return this.geographies.values.indexMap.get(value);
+  }
+
+  getTooltipData(): GeographiesEmittedOutput {
+    const tooltipData = getGeographiesTooltipData(
+      this.geographyIndex,
+      this.geographies
+    );
+    tooltipData.positionX = this.pointerX;
+    tooltipData.positionY = this.pointerY;
+    return tooltipData;
   }
 }

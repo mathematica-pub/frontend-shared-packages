@@ -1,32 +1,23 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+/* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { EventEffect } from '../events/effect';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import {
+  getStackedAreaTooltipData,
+  StackedAreaEmittedOutput,
+} from './stacked-area-tooltip-data';
 import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
-
-export class StackedAreaEmittedOutput {
-  data: StackedAreaEmittedDatum[];
-  positionX?: number;
-  svgHeight: number;
-}
-
-export class StackedAreaEmittedDatum {
-  datum: any[];
-  color: string;
-  x: string;
-  y: string;
-  category: string;
-}
 
 @Directive({
   selector: '[vicStackedAreaHoverAndMoveEffects]',
 })
 export class StackedAreaHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('appStackedAreaHoverAndMoveEffects')
+  @Input('vicStackedAreaHoverAndMoveEffects')
   effects: EventEffect<StackedAreaHoverAndMoveEventDirective>[];
-  @Output() hoverAndMoveEventOutput =
+  @Output('vicStackedAreaHoverAndMoveOutput') eventOutput =
     new EventEmitter<StackedAreaEmittedOutput>();
   pointerX: number;
   pointerY: number;
@@ -44,11 +35,11 @@ export class StackedAreaHoverAndMoveEventDirective extends HoverAndMoveEventDire
     this.setListeners();
   }
 
-  elementPointerEnter(): void {
+  onElementPointerEnter(): void {
     return;
   }
 
-  elementPointerMove(event: PointerEvent) {
+  onElementPointerMove(event: PointerEvent) {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.pointerIsInChartArea()) {
       this.setClosestXIndicies();
@@ -56,7 +47,7 @@ export class StackedAreaHoverAndMoveEventDirective extends HoverAndMoveEventDire
     }
   }
 
-  elementPointerLeave() {
+  onElementPointerLeave() {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
@@ -98,5 +89,14 @@ export class StackedAreaHoverAndMoveEventDirective extends HoverAndMoveEventDire
         (i) => this.stackedArea.values.x[i] === closestXValue
       );
     }
+  }
+
+  getTooltipData(): StackedAreaEmittedOutput {
+    const tooltipData = getStackedAreaTooltipData(
+      this.closestXIndicies,
+      this.stackedArea
+    );
+    tooltipData.svgHeight = this.elements[0].clientHeight;
+    return tooltipData;
   }
 }

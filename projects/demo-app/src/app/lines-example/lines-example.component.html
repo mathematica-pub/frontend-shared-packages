@@ -5,10 +5,21 @@
       >download image as jpeg</button
     >
     <button
+      class="download-button"
       (click)="downloadService.saveCSV(vm.dataConfig.data, 'lines-example', ['date'])"
       >download as csv</button
     >
     <div #imageNode>
+      <p>Select a tooltip display event</p>
+      <mat-button-toggle-group
+        name="tooltipEvent"
+        aria-label="Tooltip Event"
+        [value]="tooltipEvent$ | async"
+        (change)="onEventToggleChange($event)"
+      >
+        <mat-button-toggle value="hover">On Hover</mat-button-toggle>
+        <mat-button-toggle value="click">On Click</mat-button-toggle>
+      </mat-button-toggle-group>
       <div class="effect-container">
         <p class="effect-title">Lines Input Event example</p>
         <p class="effect-instruction">Hover any name to see effect in chart</p>
@@ -23,34 +34,72 @@
           >
         </div>
       </div>
-      <vic-xy-chart [margin]="margin" #tooltipOrigin>
-        <ng-container svg-elements>
-          <svg:g vic-xy-background></svg:g>
-          <svg:g
-            vic-x-quantitative-axis
-            [config]="vm.xAxisConfig"
-            side="bottom"
-          ></svg:g>
-          <svg:g
-            vic-y-quantitative-axis
-            [config]="vm.yAxisConfig"
-            side="left"
-          ></svg:g>
-          <svg:g
-            vic-data-marks-lines
-            [config]="vm.dataConfig"
-            [vicLinesHoverAndMoveEffects]="hoverEffects"
-            (hoverAndMoveEventOutput)="updateTooltipForNewOutput($event)"
-            [vicLinesInputEffects]="[highlightLineForLabelEffect]"
-            [inputEvent$]="chartInputEvent$"
-          >
-            <vic-html-tooltip
-              [config]="(tooltipConfig$ | async)"
-              [template]="htmlTooltip"
-            ></vic-html-tooltip>
-          </svg:g>
-        </ng-container>
-      </vic-xy-chart>
+      <ng-container
+        *ngIf="(tooltipEvent$ | async) === 'hover'; else clickTooltipChart"
+      >
+        <vic-xy-chart [margin]="margin" #tooltipOrigin>
+          <ng-container svg-elements>
+            <svg:g vic-xy-background></svg:g>
+            <svg:g
+              vic-x-quantitative-axis
+              [config]="vm.xAxisConfig"
+              side="bottom"
+            ></svg:g>
+            <svg:g
+              vic-y-quantitative-axis
+              [config]="vm.yAxisConfig"
+              side="left"
+            ></svg:g>
+            <svg:g
+              vic-data-marks-lines
+              [config]="vm.dataConfig"
+              [vicLinesHoverAndMoveEffects]="hoverEffects"
+              (vicLinesHoverAndMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
+              [vicLinesInputEffects]="[highlightLineForLabelEffect]"
+              [vicLinesInputEvent$]="chartInputEvent$"
+            >
+              <vic-html-tooltip
+                [config]="(tooltipConfig$ | async)"
+                [template]="htmlTooltip"
+              ></vic-html-tooltip>
+            </svg:g>
+          </ng-container>
+        </vic-xy-chart>
+      </ng-container>
+
+      <ng-template #clickTooltipChart>
+        <vic-xy-chart [margin]="margin" #tooltipOrigin>
+          <ng-container svg-elements>
+            <svg:g vic-xy-background></svg:g>
+            <svg:g
+              vic-x-quantitative-axis
+              [config]="vm.xAxisConfig"
+              side="bottom"
+            ></svg:g>
+            <svg:g
+              vic-y-quantitative-axis
+              [config]="vm.yAxisConfig"
+              side="left"
+            ></svg:g>
+            <svg:g
+              vic-data-marks-lines
+              [config]="vm.dataConfig"
+              [vicLinesHoverAndMoveEffects]="hoverEffects"
+              [vicLinesMarkerClickEffects]="clickEffects"
+              [vicLinesMarkerClickRemoveEvent$]="removeTooltipEvent$"
+              [vicLinesInputEffects]="[highlightLineForLabelEffect]"
+              [vicLinesInputEvent$]="chartInputEvent$"
+              (vicLinesMarkerClickOutput)="updateTooltipForNewOutput($event, 'click')"
+            >
+              <vic-html-tooltip
+                [config]="(tooltipConfig$ | async)"
+                [template]="htmlTooltip"
+                (backdropClick)="onBackdropClick()"
+              ></vic-html-tooltip>
+            </svg:g>
+          </ng-container>
+        </vic-xy-chart>
+      </ng-template>
     </div>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>

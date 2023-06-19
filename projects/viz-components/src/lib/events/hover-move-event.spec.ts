@@ -29,13 +29,13 @@ describe('HoverAndMoveEvent', () => {
     beforeEach(() => {
       event = 'event';
       element = 'element';
-      spyOn(directive, 'elementPointerEnter');
+      spyOn(directive, 'onElementPointerEnter');
       spyOn(directive, 'setPointerMoveListener');
       spyOn(directive, 'setPointerLeaveListener');
     });
     it('calls elementPointerEnter()', () => {
       directive.onPointerEnter(event as any, element as any);
-      expect(directive.elementPointerEnter).toHaveBeenCalledOnceWith(
+      expect(directive.onElementPointerEnter).toHaveBeenCalledOnceWith(
         event as any
       );
     });

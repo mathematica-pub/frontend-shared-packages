@@ -61,13 +61,13 @@ describe('BarsHoverEventDirective', () => {
       directive.effects = [effectA, effectB] as any;
     });
     it('calls apply effect with the correct value if there are effects', () => {
-      directive.elementPointerEnter(event as any);
+      directive.onElementPointerEnter(event as any);
       expect(applyASpy).toHaveBeenCalledWith(directive);
       expect(applyBSpy).toHaveBeenCalledWith(directive);
     });
     it('does not call apply effect with the correct value if there no effects', () => {
       directive.effects = undefined;
-      directive.elementPointerEnter(event as any);
+      directive.onElementPointerEnter(event as any);
       expect(applyASpy).toHaveBeenCalledTimes(0);
       expect(applyBSpy).toHaveBeenCalledTimes(0);
     });
@@ -90,14 +90,14 @@ describe('BarsHoverEventDirective', () => {
       directive.effects = [effectA, effectB] as any;
     });
     it('calls remove effect with the correct value if effects exist', () => {
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledWith(directive);
       expect(removeBSpy).toHaveBeenCalledWith(directive);
     });
 
     it('calls does not call remove effect with the correct value if there are no effects', () => {
       directive.effects = undefined;
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledTimes(0);
       expect(removeBSpy).toHaveBeenCalledTimes(0);
     });

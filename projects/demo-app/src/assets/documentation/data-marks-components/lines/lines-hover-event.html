@@ -88,6 +88,9 @@
                                 <a href="documentation/./data-marks-components/lines/lines-hover-event#elements" >elements</a>
                             </li>
                             <li>
+                                <a href="documentation/./data-marks-components/lines/lines-hover-event#preventEffect" >preventEffect</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="documentation/./data-marks-components/lines/lines-hover-event#renderer" >renderer</a>
                             </li>
@@ -104,10 +107,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./data-marks-components/lines/lines-hover-event#elementPointerEnter" >elementPointerEnter</a>
+                                <a href="documentation/./data-marks-components/lines/lines-hover-event#onElementPointerEnter" >onElementPointerEnter</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/lines/lines-hover-event#elementPointerLeave" >elementPointerLeave</a>
+                                <a href="documentation/./data-marks-components/lines/lines-hover-event#onElementPointerLeave" >onElementPointerLeave</a>
                             </li>
                             <li>
                                 <a href="documentation/./data-marks-components/lines/lines-hover-event#setListenedElements" >setListenedElements</a>
@@ -247,16 +250,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="elementPointerEnter"></a>
+                    <a name="onElementPointerEnter"></a>
                     <span class="name">
-                        <span ><b>elementPointerEnter</b></span>
-                        <a href="documentation/./data-marks-components/lines/lines-hover-event#elementPointerEnter"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onElementPointerEnter</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines-hover-event#onElementPointerEnter"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>elementPointerEnter()</code>
+<code>onElementPointerEnter()</code>
                 </td>
             </tr>
 
@@ -290,16 +293,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="elementPointerLeave"></a>
+                    <a name="onElementPointerLeave"></a>
                     <span class="name">
-                        <span ><b>elementPointerLeave</b></span>
-                        <a href="documentation/./data-marks-components/lines/lines-hover-event#elementPointerLeave"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onElementPointerLeave</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines-hover-event#onElementPointerLeave"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>elementPointerLeave()</code>
+<code>onElementPointerLeave()</code>
                 </td>
             </tr>
 
@@ -807,7 +810,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:13</a></code>
+                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:16</a></code>
 </div>
                 </td>
             </tr>
@@ -1016,7 +1019,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Element[]</code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ListenElement" target="_self" >ListenElement[]</a></code>
 
                     </td>
                 </tr>
@@ -1028,7 +1031,39 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:7</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:8</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preventEffect"></a>
+                    <span class="name">
+                        <span ><b>preventEffect</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines-hover-event#preventEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="documentation/library-internals/events/event" target="_self" >EventDirective</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:9</a></code>
 </div>
                         </td>
                     </tr>
@@ -1061,7 +1096,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:8</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:11</a></code>
 </div>
                         </td>
                     </tr>
@@ -1098,11 +1133,11 @@ export class LinesHoverEventDirective extends HoverEventDirective {
     this.setListeners();
   }
 
-  elementPointerEnter(): void {
+  onElementPointerEnter(): void {
     this.effects.forEach((effect) &#x3D;&gt; effect.applyEffect(this));
   }
 
-  elementPointerLeave(): void {
+  onElementPointerLeave(): void {
     this.effects.forEach((effect) &#x3D;&gt; effect.removeEffect(this));
   }
 }

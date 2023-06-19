@@ -102,7 +102,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -135,11 +135,14 @@ export class HtmlTooltipConfig {
   disableEventsOnTooltip: boolean;
   panelClass: string | string[];
   origin?: ElementRef;
+  hasBackdrop: boolean;
+  closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial&lt;HtmlTooltipConfig&gt;) {
     this.disableEventsOnTooltip &#x3D; true;
     this.position &#x3D; new HtmlTooltipDefaultPosition();
     this.size &#x3D; new HtmlTooltipSize();
+    this.hasBackdrop &#x3D; false;
     Object.assign(this, init);
   }
 }

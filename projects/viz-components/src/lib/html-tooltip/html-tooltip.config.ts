@@ -12,11 +12,14 @@ export class HtmlTooltipConfig {
   disableEventsOnTooltip: boolean;
   panelClass: string | string[];
   origin?: ElementRef;
+  hasBackdrop: boolean;
+  closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial<HtmlTooltipConfig>) {
     this.disableEventsOnTooltip = true;
     this.position = new HtmlTooltipDefaultPosition();
     this.size = new HtmlTooltipSize();
+    this.hasBackdrop = false;
     Object.assign(this, init);
   }
 }

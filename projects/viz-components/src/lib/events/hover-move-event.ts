@@ -7,10 +7,10 @@ import { HoverEventDirective } from './hover-event';
 export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
   unlistenPointerMove: UnlistenFunction;
 
-  abstract elementPointerMove(event: PointerEvent): void;
+  abstract onElementPointerMove(event: PointerEvent): void;
 
   override onPointerEnter(event: PointerEvent, el: Element): void {
-    this.elementPointerEnter(event);
+    this.onElementPointerEnter(event);
     this.setPointerMoveListener(el);
     this.setPointerLeaveListener(el);
   }
@@ -20,7 +20,7 @@ export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
       el,
       'pointermove',
       (event) => {
-        this.elementPointerMove(event);
+        this.onElementPointerMove(event);
       }
     );
   }
@@ -30,7 +30,7 @@ export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
       el,
       'pointerleave',
       (event) => {
-        this.elementPointerLeave(event);
+        this.onElementPointerLeave(event);
         this.unlistenPointerMove();
         this.unlistenPointerLeave();
       }
