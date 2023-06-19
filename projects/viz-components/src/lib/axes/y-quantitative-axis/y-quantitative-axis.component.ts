@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
+import { mixinQuantitativeAxis } from '../quantitative/quantitative-axis';
 import { XyAxis } from '../xy-axis';
 import { mixinYAxis } from '../y/y-axis';
 
-const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
+const YQuantitativeAxis = mixinYAxis(mixinQuantitativeAxis(XyAxis));
 
 /**
- * A component that is used to create an ordinal y-axis.
+ * A component that is used to create a quantitative y-axis.
  *
  * Must be projected into the `svg-elements` content slot of an `XYChart` component.
  *
@@ -18,16 +18,16 @@ const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
  *
  * <p class="comment-example">Example usage</p>
  *
- * import { VicYOrdinalAxisModule } from '@web-ast/viz-components';
+ * import { VicYQuantitativeAxisModule } from '@web-ast/viz-components';
  *
- * imports: [VicYOrdinalAxisModule]
+ * imports: [VicYQuantitativeAxisModule]
  *
  * @example
  * <vic-xy-chart>
  *   <ng-container svg-elements>
- *     <svg:g vic-y-ordinal-axis [config]="xAxisConfig" side="left"></svg:g>
+ *     <svg:g vic-y-quantitative-axis [config]="xAxisConfig" side="left"></svg:g>
  *     <svg:g
- *        vic-x-quantitative-axis
+ *        vic-x-ordinal-axis
  *        [config]="xAxisConfig"
  *        side="top"
  *     ></svg:g>
@@ -40,9 +40,9 @@ const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
  */
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-y-ordinal-axis]',
+  selector: '[vic-y-quantitative-axis]',
   templateUrl: '../y/y-axis.html',
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['side', 'config'],
 })
-export class YOrdinalAxisComponent extends YOrdinalAxis {}
+export class YQuantitativeAxisComponent extends YQuantitativeAxis {}

@@ -45,6 +45,24 @@ export interface ChartScaling {
   width: boolean;
   height: boolean;
 }
+
+/**
+ * A base component that can be extended to create specific types of `Chart` components,
+ *  each of which can serve as a wrapper component for one `DataMarks` component and any
+ *  other content that is projected into its content projection slots.
+ *
+ * <p class="comment-slots">Content projection slots</p>
+ *
+ * `html-elements-before`: Elements that will be projected before the chart's scaled div
+ *  and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.
+ *
+ * `svg-defs`: Used to create any required defs for the chart's svg element. For example, patterns or gradients.
+ *
+ * `svg-elements`: Used for all elements that should be children of the chart's scaled svg element.
+ *
+ * `html-elements-after`: Elements that will be projected after the chart's scaled div
+ *  and scaled svg element in the DOM. USeful for adding elements that require access to chart scales.
+ */
 @Component({
   selector: 'vic-chart',
   templateUrl: './chart.component.html',
@@ -55,30 +73,58 @@ export interface ChartScaling {
 export class ChartComponent implements Chart, OnInit, OnChanges {
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
-  @Input() width = 800;
+  /**
+   * If chart size is dynamic, the maximum height of the chart.
+   *
+   * In that case, this value is used to determine the aspect ratio of the chart which will be maintained on resizing
+   *
+   * If chart size is static, the fixed height of the chart.
+   */
   @Input() height = 600;
+  /**
+   * The margin that will be established between the edges of the svg and the svg's contents.
+   */
   @Input() margin: ElementSpacing = {
     top: 36,
     right: 36,
     bottom: 36,
     left: 36,
   };
+  /**
+   * Determines throttling of chart resizing, in ms.
+   */
+  @Input() resizeThrottleTime = 100;
+  /**
+   * Determines whether the chart size is fixed or will scale with its container.
+   *
+   * Width and height properties can be set separately. If both are true, the aspect ratio determined by width and height values will be maintained.
+   */
   @Input() scaleChartWithContainerWidth: ChartScaling = {
     width: true,
     height: true,
   };
+  /**
+   * A time duration for all transitions in the chart, in ms.
+   */
   @Input() transitionDuration?: number = 250;
-  @Input() resizeThrottleTime = 100;
+  /**
+   * If chart size is dynamic, the maximum width of the chart.
+   *
+   * In that case, this value is also used to determine the aspect ratio of the chart which will be maintained on resizing
+   *
+   * If chart size is static, the fixed width of the chart.
+   */
+  @Input() width = 800;
   aspectRatio: number;
-  svgDimensions$: Observable<Dimensions>;
+  private _height: BehaviorSubject<number> = new BehaviorSubject(this.height);
+  height$ = this._height.asObservable();
   ranges$: Observable<Ranges>;
-  heightSubject: BehaviorSubject<number> = new BehaviorSubject(this.height);
-  height$ = this.heightSubject.asObservable();
+  svgDimensions$: Observable<Dimensions>;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['height']) {
       this.setAspectRatio();
-      this.heightSubject.next(this.height);
+      this._height.next(this.height);
     }
     if (changes['width']) {
       this.setAspectRatio();

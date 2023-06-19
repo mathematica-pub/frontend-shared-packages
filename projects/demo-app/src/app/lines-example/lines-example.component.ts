@@ -6,13 +6,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
 import { LinesMarkerClickEffectEmitTooltipData } from 'projects/viz-components/src/lib/lines/lines-marker-click-effects';
 import { LinesMarkerClickEventDirective } from 'projects/viz-components/src/lib/lines/lines-marker-click-event.directive';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
+  EventEffect,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,

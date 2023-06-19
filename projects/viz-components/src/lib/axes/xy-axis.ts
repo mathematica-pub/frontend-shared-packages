@@ -8,12 +8,15 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { AxisConfig } from './axis.config';
 
 /**
- * @internal
+ * A base directive for all axes.
  */
 @Directive()
 export abstract class XyAxis extends Unsubscribe implements OnInit {
-  @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
+  /**
+   * The configuration for the axis.
+   */
   @Input() config: AxisConfig;
+  @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   axisFunction: any;
   axis: any;
   scale: any;

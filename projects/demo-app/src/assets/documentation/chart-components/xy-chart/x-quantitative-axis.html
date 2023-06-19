@@ -33,6 +33,35 @@
 </p>
 
 
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>A component that is used to create a quantitative x-axis.</p>
+<p>Must be projected into the <code>svg-elements</code> content slot of an <code>XYChart</code> component.</p>
+<p class="comment-inputs">Inputs</p>
+
+<p><code>config</code>: AxisConfig. (Inherited from XYAxis)</p>
+<p><code>side</code>: &#39;top&#39; | &#39;bottom&#39;. Default is &#39;top&#39;. (Inherited from XAxis)</p>
+<p class="comment-example">Example usage</p>
+
+<p>import { VicXQuantitativeAxisModule } from &#39;@web-ast/viz-components&#39;;</p>
+<p>imports: [VicXQuantitativeAxisModule]</p>
+<div><pre class="line-numbers"><code class="language-html">&lt;vic-xy-chart&gt;
+  &lt;ng-container svg-elements&gt;
+    &lt;svg:g
+       vic-x-quantitative-axis
+       [config]=&quot;xAxisConfig&quot;
+       side=&quot;top&quot;
+    &gt;&lt;/svg:g&gt;
+    &lt;svg:g vic-y-ordinal-axis [config]=&quot;yAxisConfig&quot; side=&quot;left&quot;&gt;&lt;/svg:g&gt;
+    &lt;svg:g
+      vic-data-marks-bars
+      [config]=&quot;dataConfig&quot;
+    &gt;&lt;/svg:g&gt;
+  &lt;/ng-container&gt;
+&lt;/vic-xy-chart&gt;</code></pre></div>
+    </p>
 
     <p class="comment">
         <h3>Extends</h3>
@@ -101,10 +130,44 @@ import { XyAxis } from &#x27;../xy-axis&#x27;;
 
 const XQuantitativeAxis &#x3D; mixinXAxis(mixinQuantitativeAxis(XyAxis));
 
+/**
+ * A component that is used to create a quantitative x-axis.
+ *
+ * Must be projected into the &#x60;svg-elements&#x60; content slot of an &#x60;XYChart&#x60; component.
+ *
+ * &lt;p class&#x3D;&quot;comment-inputs&quot;&gt;Inputs&lt;/p&gt;
+ *
+ * &#x60;config&#x60;: AxisConfig. (Inherited from XYAxis)
+ *
+ * &#x60;side&#x60;: &#x27;top&#x27; | &#x27;bottom&#x27;. Default is &#x27;top&#x27;. (Inherited from XAxis)
+ *
+ * &lt;p class&#x3D;&quot;comment-example&quot;&gt;Example usage&lt;/p&gt;
+ *
+ * import { VicXQuantitativeAxisModule } from &#x27;@web-ast/viz-components&#x27;;
+ *
+ * imports: [VicXQuantitativeAxisModule]
+ *
+ * @example
+ * &lt;vic-xy-chart&gt;
+ *   &lt;ng-container svg-elements&gt;
+ *     &lt;svg:g
+ *        vic-x-quantitative-axis
+ *        [config]&#x3D;&quot;xAxisConfig&quot;
+ *        side&#x3D;&quot;top&quot;
+ *     &gt;&lt;/svg:g&gt;
+ *     &lt;svg:g vic-y-ordinal-axis [config]&#x3D;&quot;yAxisConfig&quot; side&#x3D;&quot;left&quot;&gt;&lt;/svg:g&gt;
+ *     &lt;svg:g
+ *       vic-data-marks-bars
+ *       [config]&#x3D;&quot;dataConfig&quot;
+ *     &gt;&lt;/svg:g&gt;
+ *   &lt;/ng-container&gt;
+ * &lt;/vic-xy-chart&gt;
+ */
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: &#x27;[vic-x-quantitative-axis]&#x27;,
   templateUrl: &#x27;../x/x-axis.html&#x27;,
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: [&#x27;side&#x27;, &#x27;config&#x27;],
 })
 export class XQuantitativeAxisComponent extends XQuantitativeAxis {}

@@ -1,11 +1,6 @@
 ---
 chart-components:
-  chart: 'components/ChartComponent.html'
-  all:
-    chart-config: 'classes/ChartConfig.html'
-  map-chart:
-    map-chart: 'components/MapChartComponent.html'
-    map-config: 'classes/MapConfig.html'
+  map-chart: 'components/MapChartComponent.html'
   xy-chart:
     xy-chart: 'components/XyChartComponent.html'
     xy-background: 'components/XyBackgroundComponent.html'
@@ -16,11 +11,11 @@ chart-components:
     y-ordinal-axis: 'components/YOrdinalAxisComponent.html'
     y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
 data-marks-components:
-  all:
+  shared:
     html-tooltip: 'directives/HtmlTooltipDirective.html'
     html-tooltip-config: 'classes/HtmlTooltipConfig.html'
     html-tooltip-overlay-config: 'classes/HtmlTooltipOverlayConfig.html'
-    data-marks: 'classes/DataMarksConfig.html'
+    data-marks-config: 'classes/DataMarksConfig.html'
     categorical-color-dimension-config: 'classes/CategoricalColorDimensionConfig.html'
     data-dimension-config: 'classes/DataDimensionConfig.html'
     domain-padding-config: 'classes/DomainPaddingConfig.html'
@@ -84,8 +79,8 @@ data-marks-components:
     stacked-bars-config: 'classes/StackedBarsConfig.html'
 utilities:
   svg-text-wrap-config: 'classes/SvgTextWrapConfig.html'
-  unsubscribe: 'directives/Unsubscribe.html'
 library-internals:
+  chart: 'components/ChartComponent.html'
   events:
     event: 'directives/EventDirective.html'
     click-event: 'directives/ClickEventDirective.html'

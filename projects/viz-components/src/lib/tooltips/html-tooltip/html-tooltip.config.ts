@@ -4,9 +4,10 @@ import {
   OverlaySizeConfig,
 } from '@angular/cdk/overlay';
 import { ElementRef } from '@angular/core';
+import { TooltipConfig } from '../tooltip.config';
 
-export class HtmlTooltipConfig {
-  show: boolean;
+export class HtmlTooltipConfig extends TooltipConfig {
+  override type: 'html';
   position: ConnectedPosition;
   size: OverlaySizeConfig;
   disableEventsOnTooltip: boolean;
@@ -16,6 +17,7 @@ export class HtmlTooltipConfig {
   closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial<HtmlTooltipConfig>) {
+    super();
     this.disableEventsOnTooltip = true;
     this.position = new HtmlTooltipDefaultPosition();
     this.size = new HtmlTooltipSize();

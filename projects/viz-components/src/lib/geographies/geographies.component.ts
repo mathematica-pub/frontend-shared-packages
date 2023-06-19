@@ -1,6 +1,5 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   InjectionToken,
@@ -87,7 +86,6 @@ export class GeographiesComponent
   constructor(
     private utilities: UtilitiesService,
     private zone: NgZone,
-    private cd: ChangeDetectorRef,
     chart: MapChartComponent
   ) {
     super(chart);

@@ -20,10 +20,10 @@
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="active">
-            <a href="documentation/./data-marks-components/all/html-tooltip-overlay-config#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+            <a href="documentation/./data-marks-components/shared/html-tooltip-overlay-config#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
         <li >
-            <a href="documentation/./data-marks-components/all/html-tooltip-overlay-config#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+            <a href="documentation/./data-marks-components/shared/html-tooltip-overlay-config#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
@@ -33,7 +33,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts</code>
+            <code>projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config.ts</code>
         </p>
 
 
@@ -61,7 +61,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier"></span>
-                                <a href="documentation/./data-marks-components/all/html-tooltip-overlay-config#positionStrategy" >positionStrategy</a>
+                                <a href="documentation/./data-marks-components/shared/html-tooltip-overlay-config#positionStrategy" >positionStrategy</a>
                             </li>
                         </ul>
                     </td>
@@ -90,7 +90,7 @@
                     <span class="name">
                             <span class="modifier"></span>
                         <span ><b>positionStrategy</b></span>
-                        <a href="documentation/./data-marks-components/all/html-tooltip-overlay-config#positionStrategy"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/shared/html-tooltip-overlay-config#positionStrategy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -102,7 +102,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -127,9 +127,10 @@
   OverlaySizeConfig,
 } from &#x27;@angular/cdk/overlay&#x27;;
 import { ElementRef } from &#x27;@angular/core&#x27;;
+import { TooltipConfig } from &#x27;../tooltip.config&#x27;;
 
-export class HtmlTooltipConfig {
-  show: boolean;
+export class HtmlTooltipConfig extends TooltipConfig {
+  override type: &#x27;html&#x27;;
   position: ConnectedPosition;
   size: OverlaySizeConfig;
   disableEventsOnTooltip: boolean;
@@ -139,6 +140,7 @@ export class HtmlTooltipConfig {
   closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial&lt;HtmlTooltipConfig&gt;) {
+    super();
     this.disableEventsOnTooltip &#x3D; true;
     this.position &#x3D; new HtmlTooltipDefaultPosition();
     this.size &#x3D; new HtmlTooltipSize();

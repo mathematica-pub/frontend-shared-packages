@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { GeoJSON } from 'geojson';
+import { FeatureCollection } from 'geojson';
 import { NoDataGeographyConfig } from 'projects/viz-components/src/public-api';
 import { Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
@@ -12,8 +12,8 @@ import { DataResource } from '../resources/data.resource';
 })
 export class BasemapService {
   map$: Observable<Topology>;
-  us: GeoJSON;
-  states: GeoJSON;
+  us: FeatureCollection;
+  states: FeatureCollection;
   usOutlineConfig: NoDataGeographyConfig;
 
   constructor(private data: DataResource) {}
@@ -27,21 +27,24 @@ export class BasemapService {
     this.map$.subscribe((map) => {
       this.setUsGeoJson(map);
       this.setStatesGeoJson(map);
-      this.setUsOutlineConfig(map);
+      this.setUsOutlineConfig();
     });
   }
 
   private setUsGeoJson(map: Topology): void {
-    this.us = topojson.feature(map, map.objects['us']);
+    this.us = topojson.feature(map, map.objects['us']) as FeatureCollection;
   }
 
   private setStatesGeoJson(map: Topology): void {
-    this.states = topojson.feature(map, map.objects['states']);
+    this.states = topojson.feature(
+      map,
+      map.objects['states']
+    ) as FeatureCollection;
   }
 
-  private setUsOutlineConfig(map: Topology): void {
+  private setUsOutlineConfig(): void {
     const outlineGeography = new NoDataGeographyConfig();
-    outlineGeography.geographies = this.us['features'];
+    outlineGeography.geographies = this.us.features;
     outlineGeography.strokeWidth = '1';
     outlineGeography.strokeColor = colors.base;
     this.usOutlineConfig = outlineGeography;

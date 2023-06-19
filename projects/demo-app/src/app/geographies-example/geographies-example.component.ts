@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { GeographiesHoverEventDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
 import { GeographiesEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/html-tooltip/html-tooltip.config';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
   DataGeographyConfig,

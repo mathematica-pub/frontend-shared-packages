@@ -20,10 +20,10 @@
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="active">
-            <a href="documentation/./data-marks-components/all/data-marks#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+            <a href="documentation/./data-marks-components/shared/data-marks-config#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
         <li >
-            <a href="documentation/./data-marks-components/all/data-marks#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+            <a href="documentation/./data-marks-components/shared/data-marks-config#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
@@ -54,10 +54,10 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./data-marks-components/all/data-marks#data" >data</a>
+                                <a href="documentation/./data-marks-components/shared/data-marks-config#data" >data</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/all/data-marks#mixBlendMode" >mixBlendMode</a>
+                                <a href="documentation/./data-marks-components/shared/data-marks-config#mixBlendMode" >mixBlendMode</a>
                             </li>
                         </ul>
                     </td>
@@ -83,7 +83,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-marks.config.ts:3</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-marks.config.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -133,7 +133,7 @@
                     <a name="data"></a>
                     <span class="name">
                         <span ><b>data</b></span>
-                        <a href="documentation/./data-marks-components/all/data-marks#data"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/shared/data-marks-config#data"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -145,10 +145,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="2" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-marks.config.ts:2</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-marks.config.ts:9</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>An array of data objects to be used to create marks.
+The objects can be of an type, and can contain any number of properties, including properties that are extraneous to the chart at hand.</p>
+<p>Default is []</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -159,7 +167,7 @@
                     <a name="mixBlendMode"></a>
                     <span class="name">
                         <span ><b>mixBlendMode</b></span>
-                        <a href="documentation/./data-marks-components/all/data-marks#mixBlendMode"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/shared/data-marks-config#mixBlendMode"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -171,10 +179,17 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="3" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-marks.config.ts:3</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-marks.config.ts:16</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>A blend mode applied to the primary svg g elements in various marks components.</p>
+<p>Default is &#39;normal&#39;</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -191,22 +206,25 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class DataMarksConfig {
+  /**
+   * An array of data objects to be used to create marks.
+   * The objects can be of an type, and can contain any number of properties, including properties that are extraneous to the chart at hand.
+   *
+   * @default: []
+   * Default is []
+   */
   data: any[];
+  /**
+   * A blend mode applied to the primary svg g elements in various marks components.
+   *
+   * @default: &#x27;normal&#x27;
+   * Default is &#x27;normal&#x27;
+   */
   mixBlendMode: string;
 
   constructor(init?: Partial&lt;DataMarksConfig&gt;) {
     this.mixBlendMode &#x3D; &#x27;normal&#x27;;
-    Object.assign(this, init);
-  }
-}
-
-export class TooltipConfig {
-  show: boolean;
-  type: &#x27;svg&#x27; | &#x27;html&#x27;;
-
-  constructor(init?: Partial&lt;TooltipConfig&gt;) {
-    this.show &#x3D; false;
-    this.type &#x3D; &#x27;svg&#x27;;
+    this.data &#x3D; [];
     Object.assign(this, init);
   }
 }
