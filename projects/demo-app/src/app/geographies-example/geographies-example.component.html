@@ -5,7 +5,10 @@
     *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
   >
     <p>Equal values scale</p>
-    <p>Patterned states = population less than 500,000 (visual legend to be added)</p>
+    <p
+      >Patterned states = population less than 500,000 (visual legend to be
+      added)</p
+    >
     <vic-map-chart
       class="chart-component"
       [margin]="margin"
@@ -21,7 +24,14 @@
         ></vic-map-legend>
       </ng-container>
       <svg:g svg-defs>
-        <pattern [id]="patternName" x="2" y="2" width="5" height="5" patternUnits="userSpaceOnUse">
+        <pattern
+          [id]="patternName"
+          x="2"
+          y="2"
+          width="5"
+          height="5"
+          patternUnits="userSpaceOnUse"
+        >
           <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
         </pattern>
       </svg:g>
@@ -30,7 +40,7 @@
         svg-elements
         [config]="dataMarksConfig"
         [vicGeographiesHoverEffects]="hoverEffects"
-        (hoverEventOutput)="updateTooltipForNewOutput($event)"
+        (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
           [config]="(tooltipConfig$ | async)"

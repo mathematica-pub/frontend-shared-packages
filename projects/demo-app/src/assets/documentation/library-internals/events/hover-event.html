@@ -44,7 +44,6 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="https://angular.io/api/core/AfterViewInit" target="_blank" >AfterViewInit</a></code>
                             <code><a href="https://angular.io/api/core/OnDestroy" target="_blank" >OnDestroy</a></code>
             </p>
 
@@ -78,6 +77,9 @@
                                 <a href="documentation/./library-internals/events/hover-event#elements" >elements</a>
                             </li>
                             <li>
+                                <a href="documentation/./library-internals/events/hover-event#preventEffect" >preventEffect</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="documentation/./library-internals/events/hover-event#renderer" >renderer</a>
                             </li>
@@ -94,15 +96,15 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="documentation/./library-internals/events/hover-event#elementPointerEnter" >elementPointerEnter</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="documentation/./library-internals/events/hover-event#elementPointerLeave" >elementPointerLeave</a>
-                            </li>
-                            <li>
                                 <a href="documentation/./library-internals/events/hover-event#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="documentation/./library-internals/events/hover-event#onElementPointerEnter" >onElementPointerEnter</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="documentation/./library-internals/events/hover-event#onElementPointerLeave" >onElementPointerLeave</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/events/hover-event#onPointerEnter" >onPointerEnter</a>
@@ -155,18 +157,55 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="elementPointerEnter"></a>
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="documentation/./library-internals/events/hover-event#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/viz-components/src/lib/events/hover-event.ts:18</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onElementPointerEnter"></a>
                     <span class="name">
                         <span class="modifier">Abstract</span>
-                        <span ><b>elementPointerEnter</b></span>
-                        <a href="documentation/./library-internals/events/hover-event#elementPointerEnter"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onElementPointerEnter</b></span>
+                        <a href="documentation/./library-internals/events/hover-event#onElementPointerEnter"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>elementPointerEnter(event: PointerEvent)</code>
+                    <code>onElementPointerEnter(event: PointerEvent)</code>
                 </td>
             </tr>
 
@@ -226,18 +265,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="elementPointerLeave"></a>
+                    <a name="onElementPointerLeave"></a>
                     <span class="name">
                         <span class="modifier">Abstract</span>
-                        <span ><b>elementPointerLeave</b></span>
-                        <a href="documentation/./library-internals/events/hover-event#elementPointerLeave"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onElementPointerLeave</b></span>
+                        <a href="documentation/./library-internals/events/hover-event#onElementPointerLeave"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>elementPointerLeave(event: PointerEvent)</code>
+                    <code>onElementPointerLeave(event: PointerEvent)</code>
                 </td>
             </tr>
 
@@ -288,43 +327,6 @@
                     </div>
                     <div class="io-description">
                         
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnDestroy"></a>
-                    <span class="name">
-                        <span ><b>ngOnDestroy</b></span>
-                        <a href="documentation/./library-internals/events/hover-event#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnDestroy()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">projects/viz-components/src/lib/events/hover-event.ts:18</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
                     </div>
                 </td>
             </tr>
@@ -692,7 +694,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:13</a></code>
+                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:16</a></code>
 </div>
                 </td>
             </tr>
@@ -737,7 +739,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:11</a></code>
+                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:14</a></code>
 </div>
                 </td>
             </tr>
@@ -882,7 +884,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Element[]</code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ListenElement" target="_self" >ListenElement[]</a></code>
 
                     </td>
                 </tr>
@@ -894,7 +896,39 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:7</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:8</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="preventEffect"></a>
+                    <span class="name">
+                        <span ><b>preventEffect</b></span>
+                        <a href="documentation/./library-internals/events/hover-event#preventEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>false</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a href="documentation/library-internals/events/event" target="_self" >EventDirective</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:9</a></code>
 </div>
                         </td>
                     </tr>
@@ -927,7 +961,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:8</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:11</a></code>
 </div>
                         </td>
                     </tr>
@@ -942,22 +976,22 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AfterViewInit, Directive, OnDestroy } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, OnDestroy } from &#x27;@angular/core&#x27;;
 import { Subject } from &#x27;rxjs&#x27;;
 import { EventDirective, UnlistenFunction } from &#x27;./event&#x27;;
 
 @Directive()
 export abstract class HoverEventDirective
   extends EventDirective
-  implements AfterViewInit, OnDestroy
+  implements OnDestroy
 {
   unsubscribe: Subject&lt;void&gt; &#x3D; new Subject();
   unlistenTouchStart: UnlistenFunction[];
   unlistenPointerEnter: UnlistenFunction[];
   unlistenPointerLeave: UnlistenFunction;
 
-  abstract elementPointerEnter(event: PointerEvent): void;
-  abstract elementPointerLeave(event: PointerEvent): void;
+  abstract onElementPointerEnter(event: PointerEvent): void;
+  abstract onElementPointerLeave(event: PointerEvent): void;
 
   ngOnDestroy(): void {
     this.unlistenTouchStart.forEach((func) &#x3D;&gt; func());
@@ -992,7 +1026,7 @@ export abstract class HoverEventDirective
   }
 
   onPointerEnter(event: PointerEvent, el: Element): void {
-    this.elementPointerEnter(event);
+    this.onElementPointerEnter(event);
     this.setPointerLeaveListener(el);
   }
 
@@ -1001,7 +1035,7 @@ export abstract class HoverEventDirective
       el,
       &#x27;pointerleave&#x27;,
       (event) &#x3D;&gt; {
-        this.elementPointerLeave(event);
+        this.onElementPointerLeave(event);
         this.unlistenPointerLeave();
       }
     );

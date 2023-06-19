@@ -1,4 +1,7 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+/* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event';
 import { BARS, BarsComponent } from './bars.component';
@@ -10,7 +13,8 @@ export class BarsInputEventDirective extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsInputEffects')
   effects: InputEventEffect<BarsInputEventDirective>[];
-  @Output() inputEventOutput = new EventEmitter<any>();
+  @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
+  @Output('vicBarsInputEventOutput') eventOutput = new EventEmitter<any>();
 
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();

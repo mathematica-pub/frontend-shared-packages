@@ -9,18 +9,22 @@ import {
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
   Directive,
+  EventEmitter,
   Inject,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
+import { takeUntil } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { Unsubscribe } from '../shared/unsubscribe.class';
 import { HtmlTooltipConfig } from './html-tooltip.config';
 
 const defaultPanelClass = 'vic-html-tooltip-overlay';
@@ -29,9 +33,13 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
+export class HtmlTooltipDirective
+  extends Unsubscribe
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() template: TemplateRef<unknown>;
   @Input() config: HtmlTooltipConfig;
+  @Output() backdropClick = new EventEmitter<void>();
   overlayRef: OverlayRef;
   positionStrategy: FlexibleConnectedPositionStrategy;
   scrollStrategy: ScrollStrategy;
@@ -44,7 +52,9 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     private overlayPositionBuilder: OverlayPositionBuilder,
     private utilities: UtilitiesService,
     @Inject(DATA_MARKS) private dataMarks: DataMarks
-  ) {}
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.setOverlayParameters();
@@ -89,7 +99,8 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.destroyOverlay();
   }
 
@@ -127,7 +138,18 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
       panelClass: this.panelClass,
       scrollStrategy: this.scrollStrategy,
       positionStrategy: this.positionStrategy,
+      hasBackdrop: this.config.hasBackdrop,
+      backdropClass: 'html-tooltip-backdrop',
     });
+
+    if (this.config.hasBackdrop && this.config.closeOnBackdropClick) {
+      this.overlayRef
+        .backdropClick()
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe(() => {
+          this.backdropClick.emit();
+        });
+    }
   }
 
   updatePosition(): void {

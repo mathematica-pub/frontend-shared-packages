@@ -72,7 +72,7 @@ describe('LinesHoverEventDirective', () => {
       directive.effects = [effectA, effectB] as any;
     });
     it('calls apply effect with the correct value', () => {
-      directive.elementPointerEnter();
+      directive.onElementPointerEnter();
       expect(applyASpy).toHaveBeenCalledWith(directive);
       expect(applyBSpy).toHaveBeenCalledWith(directive);
     });
@@ -95,7 +95,7 @@ describe('LinesHoverEventDirective', () => {
       directive.effects = [effectA, effectB] as any;
     });
     it('calls remove effect with the correct value', () => {
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledWith(directive);
       expect(removeBSpy).toHaveBeenCalledWith(directive);
     });

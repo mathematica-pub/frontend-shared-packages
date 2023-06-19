@@ -81,12 +81,12 @@ describe('HoverEvent', () => {
     beforeEach(() => {
       event = 'event';
       element = 'element';
-      spyOn(directive, 'elementPointerEnter');
+      spyOn(directive, 'onElementPointerEnter');
       spyOn(directive, 'setPointerLeaveListener');
     });
     it('calls elementPointerEnter()', () => {
       directive.onPointerEnter(event as any, element as any);
-      expect(directive.elementPointerEnter).toHaveBeenCalledOnceWith(event);
+      expect(directive.onElementPointerEnter).toHaveBeenCalledOnceWith(event);
     });
     it('calls setPointerLeaveListener()', () => {
       directive.onPointerEnter(event as any, element as any);

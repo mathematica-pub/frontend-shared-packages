@@ -92,7 +92,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:101</a></div>
                             </td>
                         </tr>
 
@@ -154,10 +154,18 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="101" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:101</a></div>
                         </td>
                     </tr>
 
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>The distance from a line in which a hover event will trigger a tooltip, in px.
+ Default is 80.</p>
+<p>This is used to ensure that a tooltip is triggered only when a user&#39;s pointer is close to lines.</p>
+</div>
+                </td>
+            </tr>
 
         </tbody>
     </table>
@@ -186,7 +194,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >TooltipConfig:12</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >TooltipConfig:2</a></code>
 </div>
                         </td>
                     </tr>
@@ -219,7 +227,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >TooltipConfig:13</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >TooltipConfig:3</a></code>
 </div>
                         </td>
                     </tr>
@@ -244,25 +252,82 @@ import {
   CategoricalColorDimensionConfig,
   QuantitativeDimensionConfig,
 } from &#x27;../data-marks/data-dimension.config&#x27;;
-import {
-  DataMarksConfig,
-  TooltipConfig,
-} from &#x27;../data-marks/data-marks.config&#x27;;
+import { DataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
+import { TooltipConfig } from &#x27;../tooltips/tooltip.config&#x27;;
 
 export class LinesConfig extends DataMarksConfig {
+  /**
+   * A config for the behavior of the chart&#x27;s x dimension
+   *
+   * Default valueAccessor method returns the datum.
+   *
+   * Default scaleType is D3&#x27;s [scaleUtc]{@link https://github.com/d3/d3-scale#scaleUtc}.
+   */
   x: QuantitativeDimensionConfig &#x3D; new QuantitativeDimensionConfig();
+
+  /**
+   * A config for the behavior of the chart&#x27;s y dimension
+   *
+   * Default valueAccessor method returns the datum.
+   *
+   * Default scaleType is D3&#x27;s [scaleLinear]{@link https://github.com/d3/d3-scale#scaleLinear}.
+   */
   y: QuantitativeDimensionConfig &#x3D; new QuantitativeDimensionConfig();
+
+  /**
+   * A config for the behavior of the chart&#x27;s category dimension.
+   *
+   * Default &#x60;valueAccessor&#x60; method returns 1.
+   *
+   * Default colors array is D3&#x27;s [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
+   */
   category: CategoricalColorDimensionConfig &#x3D;
     new CategoricalColorDimensionConfig();
+
+  /**
+   * A function that returns a boolean indicating whether a value in the data is defined.
+   *  If a value is not defined, it will not be plotted.
+   *
+   * Used, in conjunction with a check that the value is a number of a Date, with D3&#x27;s
+   *  [line.defined()]{@link https://github.com/d3/d3-shape#line_defined} method.
+   */
   valueIsDefined?: (...args: any) &#x3D;&gt; any;
+
+  /**
+   * A function passed to D3&#x27;s [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
+   *  method.
+   *
+   * Default is [curveLinear]{@link https://github.com/d3/d3-shape#curveLinear}.
+   */
   curve: (x: any) &#x3D;&gt; any;
-  pointMarker: PointMarkerConfig &#x3D; new PointMarkerConfig();
-  stroke?: LinesStrokeConfig &#x3D; new LinesStrokeConfig();
+
+  /**
+   * A config for the behavior of markers for each datum on the line.
+   */
+  pointMarker: PointMarkerConfig;
+
+  /**
+   * A config for the behavior of the line stroke.
+   */
+  stroke?: LinesStrokeConfig;
+
+  /**
+   * A boolean to determine if the line will be labeled.
+   */
   labelLines?: boolean;
+
+  /**
+   * A function that returns a string to be used as the label for a line. Can be used to modify the
+   * line label string as needed.
+   *
+   * Default is the identity function.
+   */
   lineLabelsFormat?: (d: string) &#x3D;&gt; string;
 
   constructor(init?: Partial&lt;LinesConfig&gt;) {
     super();
+    this.pointMarker &#x3D; new PointMarkerConfig();
+    this.stroke &#x3D; new LinesStrokeConfig();
     this.x.valueAccessor &#x3D; ([x]) &#x3D;&gt; x;
     this.x.scaleType &#x3D; scaleUtc;
     this.y.valueAccessor &#x3D; ([, y]) &#x3D;&gt; y;
@@ -270,13 +335,18 @@ export class LinesConfig extends DataMarksConfig {
     this.category.valueAccessor &#x3D; () &#x3D;&gt; 1;
     this.category.colors &#x3D; schemeTableau10 as string[];
     this.curve &#x3D; curveLinear;
-    this.stroke.width &#x3D; 2;
     this.lineLabelsFormat &#x3D; (d: string) &#x3D;&gt; d;
     Object.assign(this, init);
   }
 }
 
 export class LinesTooltipConfig extends TooltipConfig {
+  /**
+   * The distance from a line in which a hover event will trigger a tooltip, in px.
+   *  Default is 80.
+   *
+   * This is used to ensure that a tooltip is triggered only when a user&#x27;s pointer is close to lines.
+   */
   detectionRadius: number;
 
   constructor(init?: Partial&lt;LinesTooltipConfig&gt;) {
@@ -287,18 +357,67 @@ export class LinesTooltipConfig extends TooltipConfig {
 }
 
 export class LinesStrokeConfig {
-  linecap?: string;
-  linejoin?: string;
-  width?: number;
-  opacity?: number;
+  /**
+   * A value for the line&#x27;s [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
+   *  attribute.
+   *
+   * Default is &#x27;round&#x27;.
+   */
+  linecap: string;
+
+  /**
+   * A value for the line&#x27;s [stroke-linejoin]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin}
+   *  attribute.
+   *
+   * Default is &#x27;round&#x27;.
+   */
+  linejoin: string;
+
+  /**
+   * A value for the line&#x27;s [stroke-opacity]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity}
+   *  attribute.
+   *
+   * Default is 1.
+   */
+  opacity: number;
+
+  /**
+   * A value for the line&#x27;s [stroke-width]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width}
+   *  attribute.
+   *
+   * Default is 2.
+   */
+  width: number;
+
   constructor(init?: Partial&lt;LinesStrokeConfig&gt;) {
+    this.linecap &#x3D; &#x27;round&#x27;;
+    this.linejoin &#x3D; &#x27;round&#x27;;
+    this.opacity &#x3D; 1;
+    this.width &#x3D; 2;
     Object.assign(this, init);
   }
 }
 
 export class PointMarkerConfig {
+  /**
+   * A boolean to determine if point markers will be displayed.
+   *
+   * Default is true.
+   */
   display: boolean;
+
+  /**
+   * A value for the radius of the point marker, in px.
+   *
+   * Default is 3.
+   */
   radius: number;
+
+  /**
+   * A value by which the point marker will expand on hover, in px.
+   *
+   * Default is 1.
+   */
   growByOnHover: number;
 
   constructor(init?: Partial&lt;PointMarkerConfig&gt;) {

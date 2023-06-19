@@ -3,10 +3,7 @@ import {
   CategoricalColorDimensionConfig,
   QuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
-import {
-  DataMarksConfig,
-  TooltipConfig,
-} from '../data-marks/data-marks.config';
+import { DataMarksConfig } from '../data-marks/data-marks.config';
 
 export class LinesConfig extends DataMarksConfig {
   x: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
@@ -19,6 +16,7 @@ export class LinesConfig extends DataMarksConfig {
   stroke?: LinesStrokeConfig = new LinesStrokeConfig();
   labelLines?: boolean;
   lineLabelsFormat?: (d: string) => string;
+  pointerDetectionRadius: number;
 
   constructor(init?: Partial<LinesConfig>) {
     super();
@@ -31,16 +29,7 @@ export class LinesConfig extends DataMarksConfig {
     this.curve = curveLinear;
     this.stroke.width = 2;
     this.lineLabelsFormat = (d: string) => d;
-    Object.assign(this, init);
-  }
-}
-
-export class LinesTooltipConfig extends TooltipConfig {
-  detectionRadius: number;
-
-  constructor(init?: Partial<LinesTooltipConfig>) {
-    super();
-    this.detectionRadius = 80;
+    this.pointerDetectionRadius = 80;
     Object.assign(this, init);
   }
 }

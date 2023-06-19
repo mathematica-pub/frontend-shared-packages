@@ -7,6 +7,7 @@ import {
   BarsHoverAndMoveEmittedOutput,
   BarsHoverAndMoveEventDirective,
 } from 'projects/viz-components/src/lib/bars/bars-hover-move-event.directive';
+import { BarsEmittedOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import {
   BarsConfig,
   BarsLabelsConfig,
@@ -25,6 +26,14 @@ interface ViewModel {
   xAxisConfig: AxisConfig;
   yAxisConfig: AxisConfig;
 }
+
+class BarsExampleTooltipConfig extends HtmlTooltipConfig {
+  constructor(config: Partial<HtmlTooltipConfig> = {}) {
+    super();
+    this.size.minWidth = 130;
+    Object.assign(this, config);
+  }
+}
 @Component({
   selector: 'app-bars-example',
   templateUrl: './bars-example.component.html',
@@ -42,7 +51,7 @@ export class BarsExampleComponent implements OnInit {
   folderName = 'bars-example';
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(
-      new HtmlTooltipConfig({ show: false })
+      new HtmlTooltipConfig(new BarsExampleTooltipConfig())
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<BarsHoverAndMoveEmittedOutput> =
@@ -92,19 +101,17 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: BarsHoverAndMoveEmittedOutput): void {
+  updateTooltipForNewOutput(data: BarsEmittedOutput): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsHoverAndMoveEmittedOutput): void {
+  updateTooltipData(data: BarsEmittedOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsHoverAndMoveEmittedOutput): void {
-    const config = new HtmlTooltipConfig();
-    config.position.panelClass = 'bar-tooltip'; // not used
-    config.size.minWidth = 130;
+  updateTooltipConfig(data: BarsEmittedOutput): void {
+    const config = new BarsExampleTooltipConfig();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;

@@ -4,13 +4,13 @@ export class HoverAndMoveEventDirectiveStub extends HoverAndMoveEventDirective {
   setListenedElements(): void {
     return;
   }
-  elementPointerMove(event: PointerEvent): void {
+  onElementPointerMove(event: PointerEvent): void {
     return;
   }
-  elementPointerEnter(event: PointerEvent): void {
+  onElementPointerEnter(event: PointerEvent): void {
     return;
   }
-  elementPointerLeave(event: PointerEvent): void {
+  onElementPointerLeave(event: PointerEvent): void {
     return;
   }
 }

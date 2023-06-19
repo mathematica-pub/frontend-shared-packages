@@ -1,3 +1,5 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+/* eslint-disable @angular-eslint/no-output-rename */
 import {
   Directive,
   ElementRef,
@@ -10,6 +12,7 @@ import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import { BarsEmittedOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 export class BarsHoverAndMoveEmittedOutput {
@@ -27,11 +30,10 @@ export class BarsHoverAndMoveEmittedOutput {
   selector: '[vicBarsHoverAndMoveEffects]',
 })
 export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverAndMoveEffects')
   effects: EventEffect<BarsHoverAndMoveEventDirective>[];
-  @Output() hoverAndMoveEventOutput =
-    new EventEmitter<BarsHoverAndMoveEmittedOutput>();
+  @Output('vicBarsHoverAndMoveOutput') eventOutput =
+    new EventEmitter<BarsEmittedOutput>();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
@@ -53,7 +55,7 @@ export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
       });
   }
 
-  elementPointerEnter(event: PointerEvent): void {
+  onElementPointerEnter(event: PointerEvent): void {
     this.barIndex = this.getBarIndex(event);
     this.elRef = new ElementRef(event.target);
   }
@@ -62,18 +64,29 @@ export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
     return select(event.target as SVGRectElement).datum() as number;
   }
 
-  elementPointerMove(event: PointerEvent) {
+  onElementPointerMove(event: PointerEvent) {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.effects) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
   }
 
-  elementPointerLeave() {
+  onElementPointerLeave() {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
     this.barIndex = undefined;
     this.elRef = undefined;
+  }
+
+  getTooltipData(): BarsEmittedOutput {
+    const tooltipData = getBarsTooltipData(
+      this.barIndex,
+      this.elRef,
+      this.bars
+    );
+    tooltipData.positionX = this.pointerX;
+    tooltipData.positionY = this.pointerY;
+    return tooltipData;
   }
 }
