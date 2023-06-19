@@ -53,6 +53,7 @@
 
     .table-bordered > tbody > tr:first-of-type > td {
       font-weight: $font-weight-semibold;
+      background: $color-primary-7;
     }
 
     .table-bordered .io-description {
