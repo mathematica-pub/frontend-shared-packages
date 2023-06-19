@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import {
-  GeographiesHoverEmittedOutput,
-  GeographiesHoverEventDirective,
-} from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
-import { GeographiesHoverAndMoveEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-hover-move-event.directive';
+import { GeographiesHoverEventDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
+import { GeographiesEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
@@ -53,8 +50,8 @@ export class GeographiesExampleComponent implements OnInit {
       new HtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesHoverAndMoveEmittedOutput> =
-    new BehaviorSubject<GeographiesHoverAndMoveEmittedOutput>(null);
+  tooltipData: BehaviorSubject<GeographiesEmittedOutput> =
+    new BehaviorSubject<GeographiesEmittedOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
     new GeographiesHoverEffectEmitTooltipData(),
@@ -116,18 +113,17 @@ export class GeographiesExampleComponent implements OnInit {
     return topojson.feature(map, map.objects['states'])['features'];
   }
 
-  updateTooltipForNewOutput(data: GeographiesHoverEmittedOutput): void {
+  updateTooltipForNewOutput(data: GeographiesEmittedOutput): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: GeographiesHoverEmittedOutput): void {
+  updateTooltipData(data: GeographiesEmittedOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: GeographiesHoverEmittedOutput): void {
+  updateTooltipConfig(data: GeographiesEmittedOutput): void {
     const config = new HtmlTooltipConfig();
-    config.position.panelClass = 'map-tooltip'; // not used
     config.size.minWidth = 130;
     if (data) {
       config.position.offsetX = (data.bounds[1][0] + data.bounds[0][0]) / 2;

@@ -50,11 +50,11 @@ describe('BarsHoverAndMoveDirective', () => {
       spyOn(directive, 'getBarIndex').and.returnValue(4);
     });
     it('sets barIndex to the correct value', () => {
-      directive.elementPointerEnter(event);
+      directive.onElementPointerEnter(event);
       expect(directive.barIndex).toEqual(4);
     });
     it('sets elRef to the correct value', () => {
-      directive.elementPointerEnter(event);
+      directive.onElementPointerEnter(event);
       expect(directive.elRef.nativeElement).toEqual(el);
     });
   });
@@ -89,27 +89,27 @@ describe('BarsHoverAndMoveDirective', () => {
       directive.effects = [effectA, effectB];
     });
     it('calls getPointerValuesArray once', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.getPointerValuesArray).toHaveBeenCalledOnceWith(
         event as any
       );
     });
     it('sets pointerX to the correct value', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.pointerX).toEqual(1);
     });
     it('sets pointerY to the correct value', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.pointerY).toEqual(2);
     });
     it('calls apply effect on each effect in effects array if effects exist', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(applyASpy).toHaveBeenCalledOnceWith(directive);
       expect(applyBSpy).toHaveBeenCalledOnceWith(directive);
     });
     it('does not call apply effect on each effect in effects array if effects do not exist', () => {
       directive.effects = undefined;
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(applyASpy).not.toHaveBeenCalled();
       expect(applyBSpy).not.toHaveBeenCalled();
     });
@@ -138,24 +138,24 @@ describe('BarsHoverAndMoveDirective', () => {
       directive.effects = [effectA, effectB];
     });
     it('calls remove effect on each effect in effects array', () => {
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledOnceWith(directive);
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
     });
     it('does not call remove effect on each effect in effects array if effects do not exist', () => {
       directive.effects = undefined;
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(removeASpy).not.toHaveBeenCalled();
       expect(removeBSpy).not.toHaveBeenCalled();
     });
     it('sets barIndex to undefined', () => {
       directive.barIndex = 1;
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(directive.barIndex).toBeUndefined();
     });
     it('sets elRef to undefined', () => {
       directive.elRef = 'elRef' as any;
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(directive.elRef).toBeUndefined();
     });
   });

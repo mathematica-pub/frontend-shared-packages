@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import {
   VicChartModule,
   VicHtmlTooltipModule,
@@ -26,6 +27,7 @@ import { LinesExampleComponent } from './lines-example.component';
     VicXQuantitativeAxisModule,
     SharedModule,
     VicHtmlTooltipModule,
+    MatButtonToggleModule,
   ],
 })
 export class LinesModule {}

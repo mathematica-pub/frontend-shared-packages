@@ -1,19 +1,19 @@
-import { AfterViewInit, Directive, OnDestroy } from '@angular/core';
+import { Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { EventDirective, UnlistenFunction } from './event';
 
 @Directive()
 export abstract class HoverEventDirective
   extends EventDirective
-  implements AfterViewInit, OnDestroy
+  implements OnDestroy
 {
   unsubscribe: Subject<void> = new Subject();
   unlistenTouchStart: UnlistenFunction[];
   unlistenPointerEnter: UnlistenFunction[];
   unlistenPointerLeave: UnlistenFunction;
 
-  abstract elementPointerEnter(event: PointerEvent): void;
-  abstract elementPointerLeave(event: PointerEvent): void;
+  abstract onElementPointerEnter(event: PointerEvent): void;
+  abstract onElementPointerLeave(event: PointerEvent): void;
 
   ngOnDestroy(): void {
     this.unlistenTouchStart.forEach((func) => func());
@@ -48,7 +48,7 @@ export abstract class HoverEventDirective
   }
 
   onPointerEnter(event: PointerEvent, el: Element): void {
-    this.elementPointerEnter(event);
+    this.onElementPointerEnter(event);
     this.setPointerLeaveListener(el);
   }
 
@@ -57,7 +57,7 @@ export abstract class HoverEventDirective
       el,
       'pointerleave',
       (event) => {
-        this.elementPointerLeave(event);
+        this.onElementPointerLeave(event);
         this.unlistenPointerLeave();
       }
     );

@@ -5,11 +5,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { LinesMarkerClickEffectEmitTooltipData } from 'projects/viz-components/src/lib/lines/lines-marker-click-effects';
+import { LinesMarkerClickEventDirective } from 'projects/viz-components/src/lib/lines/lines-marker-click-event.directive';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   AxisConfig,
   ElementSpacing,
+  EventEffect,
   LinesConfig,
   LinesEmittedOutput,
   LinesHoverAndMoveEffectDefaultStyles,
@@ -20,7 +23,7 @@ import {
   VicImageService,
   VicJpegImageConfig,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
@@ -32,6 +35,18 @@ interface ViewModel {
   labels: string[];
 }
 const includeFiles = ['line-input-effects.ts'];
+
+class LinesExampleTooltipConfig extends HtmlTooltipConfig {
+  constructor(config: Partial<HtmlTooltipConfig> = {}) {
+    super();
+    this.size.minWidth = 340;
+    this.hasBackdrop = true;
+    this.closeOnBackdropClick = true;
+    Object.assign(this, config);
+  }
+}
+
+const initTooltipConfig = new HtmlTooltipConfig({ show: false });
 
 @Component({
   selector: 'app-lines-example',
@@ -49,7 +64,7 @@ export class LinesExampleComponent implements OnInit {
   };
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(
-      new HtmlTooltipConfig({ show: false })
+      new HtmlTooltipConfig(initTooltipConfig)
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<LinesEmittedOutput> =
@@ -57,6 +72,8 @@ export class LinesExampleComponent implements OnInit {
   tooltipData$ = this.tooltipData.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
+  removeTooltipEvent: Subject<void> = new Subject<void>();
+  removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
   hoverEffects: EventEffect<LinesHoverAndMoveEventDirective>[] = [
     new LinesHoverAndMoveEffectDefaultStyles(
@@ -66,19 +83,36 @@ export class LinesExampleComponent implements OnInit {
     ),
     new LinesHoverAndMoveEffectEmitTooltipData(),
   ];
+  clickEffects: EventEffect<LinesMarkerClickEventDirective>[] = [
+    new LinesMarkerClickEffectEmitTooltipData(),
+  ];
   includeFiles = includeFiles;
   folderName = 'lines-example';
+  tooltipEvent: BehaviorSubject<'hover' | 'click'> = new BehaviorSubject<
+    'hover' | 'click'
+  >('hover');
+  tooltipEvent$ = this.tooltipEvent.asObservable();
 
   private imageService = inject(VicImageService);
   constructor(
     private dataService: DataService,
     public downloadService: VicExportDataService
   ) {}
+
   ngOnInit(): void {
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
     );
+  }
+
+  onEventToggleChange(change: MatButtonToggleChange): void {
+    // need to provide correct tooltip config before tooltip direct inits
+    if (change.value === 'click') {
+      const clickTooltipConfig = new LinesExampleTooltipConfig({ show: false });
+      this.tooltipConfig.next(clickTooltipConfig);
+    }
+    this.tooltipEvent.next(change.value);
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
@@ -102,19 +136,37 @@ export class LinesExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: LinesEmittedOutput): void {
+  updateTooltipForNewOutput(
+    data: LinesEmittedOutput,
+    tooltipEvent: 'hover' | 'click'
+  ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+    if (tooltipEvent === 'hover') {
+      this.updateHoverTooltipConfig(data);
+    } else {
+      this.updateClickTooltipConfig(data);
+    }
   }
 
   updateTooltipData(data: LinesEmittedOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: LinesEmittedOutput): void {
+  updateHoverTooltipConfig(data: LinesEmittedOutput): void {
     const config = new HtmlTooltipConfig();
-    config.panelClass = 'lines-tooltip';
-    config.size.minWidth = 340;
+    config.hasBackdrop = false;
+    if (data) {
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 16;
+      config.show = true;
+    } else {
+      config.show = false;
+    }
+    this.tooltipConfig.next(config);
+  }
+
+  updateClickTooltipConfig(data: LinesEmittedOutput): void {
+    const config = new LinesExampleTooltipConfig();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;
@@ -127,6 +179,10 @@ export class LinesExampleComponent implements OnInit {
 
   highlightLine(label: string): void {
     this.chartInputEvent.next(label);
+  }
+
+  onBackdropClick(): void {
+    this.removeTooltipEvent.next();
   }
 
   async downloadImage(): Promise<void> {

@@ -20,11 +20,11 @@ export class LinesHoverEventDirective extends HoverEventDirective {
     this.setListeners();
   }
 
-  elementPointerEnter(): void {
+  onElementPointerEnter(): void {
     this.effects.forEach((effect) => effect.applyEffect(this));
   }
 
-  elementPointerLeave(): void {
+  onElementPointerLeave(): void {
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 }

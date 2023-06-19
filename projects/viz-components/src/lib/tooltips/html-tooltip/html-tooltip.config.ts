@@ -13,12 +13,15 @@ export class HtmlTooltipConfig extends TooltipConfig {
   disableEventsOnTooltip: boolean;
   panelClass: string | string[];
   origin?: ElementRef;
+  hasBackdrop: boolean;
+  closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial<HtmlTooltipConfig>) {
     super();
     this.disableEventsOnTooltip = true;
     this.position = new HtmlTooltipDefaultPosition();
     this.size = new HtmlTooltipSize();
+    this.hasBackdrop = false;
     Object.assign(this, init);
   }
 }

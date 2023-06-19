@@ -99,7 +99,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./library-internals/events/input-event#inputEvent$" >inputEvent$</a>
+                                <a href="documentation/./library-internals/events/input-event#vicDataMarksInputEvent$" >vicDataMarksInputEvent$</a>
                             </li>
                         </ul>
                     </td>
@@ -119,8 +119,8 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="inputEvent$"></a>
-                        <b>inputEvent$</b>
+                        <a name="vicDataMarksInputEvent$"></a>
+                        <b>vicDataMarksInputEvent$</b>
                     </td>
                 </tr>
                 <tr>
@@ -131,7 +131,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/viz-components/src/lib/events/input-event.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/viz-components/src/lib/events/input-event.ts:11</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -167,8 +167,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/viz-components/src/lib/events/input-event.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">projects/viz-components/src/lib/events/input-event.ts:13</a></div>
                 </td>
             </tr>
 
@@ -236,8 +236,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="14"
-                            class="link-to-prism">projects/viz-components/src/lib/events/input-event.ts:14</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/viz-components/src/lib/events/input-event.ts:15</a></div>
                 </td>
             </tr>
 
@@ -356,7 +356,8 @@ export abstract class InputEventDirective
   extends Unsubscribe
   implements OnInit
 {
-  @Input() inputEvent$: Observable&lt;any&gt;;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input(&#x27;vicDataMarksInputEvent$&#x27;) inputEvent$: Observable&lt;any&gt;;
 
   abstract handleNewEvent(event: Event): void;
 

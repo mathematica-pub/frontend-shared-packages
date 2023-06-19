@@ -1,3 +1,5 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+/* eslint-disable @angular-eslint/no-output-rename */
 import {
   Directive,
   ElementRef,
@@ -10,6 +12,7 @@ import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverEventDirective } from '../events/hover-event';
+import { BarsEmittedOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 export class BarsHoverEmittedOutput {
@@ -27,7 +30,8 @@ export class BarsHoverEmittedOutput {
 export class BarsHoverEventDirective extends HoverEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverEventDirective>[];
-  @Output() hoverEventOutput = new EventEmitter<BarsHoverEmittedOutput>();
+  @Output('vicBarsHoverOutput') eventOutput =
+    new EventEmitter<BarsHoverEmittedOutput>();
   barIndex: number;
   elRef: ElementRef;
 
@@ -47,7 +51,7 @@ export class BarsHoverEventDirective extends HoverEventDirective {
       });
   }
 
-  elementPointerEnter(event: PointerEvent): void {
+  onElementPointerEnter(event: PointerEvent): void {
     this.barIndex = select(event.target as SVGRectElement).datum() as number;
     this.elRef = new ElementRef(event.target);
     if (this.effects) {
@@ -55,9 +59,18 @@ export class BarsHoverEventDirective extends HoverEventDirective {
     }
   }
 
-  elementPointerLeave(): void {
+  onElementPointerLeave(): void {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
+  }
+
+  getTooltipData(): BarsEmittedOutput {
+    const tooltipData = getBarsTooltipData(
+      this.barIndex,
+      this.elRef,
+      this.bars
+    );
+    return tooltipData;
   }
 }

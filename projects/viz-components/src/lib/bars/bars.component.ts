@@ -70,9 +70,6 @@ export class BarsComponent
   barLabels$: Observable<any> = this.bars.asObservable();
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (this.utilities.objectOnNgChangesChanged(changes, 'config', 'data')) {
-    //   this.reverseData();
-    // }
     if (
       this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
     ) {
@@ -92,10 +89,6 @@ export class BarsComponent
     this.bars.next(bars);
     this.barLabels.next(barLabels);
   }
-
-  // reverseData(): void {
-  //   this.config.data = cloneDeep(this.config.data).reverse();
-  // }
 
   setMethodsFromConfigAndDraw(): void {
     this.setValueArrays();

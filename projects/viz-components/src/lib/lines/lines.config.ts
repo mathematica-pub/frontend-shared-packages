@@ -4,7 +4,6 @@ import {
   QuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
 import { DataMarksConfig } from '../data-marks/data-marks.config';
-import { TooltipConfig } from '../tooltips/tooltip.config';
 
 export class LinesConfig extends DataMarksConfig {
   /**
@@ -75,6 +74,14 @@ export class LinesConfig extends DataMarksConfig {
    */
   lineLabelsFormat?: (d: string) => string;
 
+  /**
+   * The distance from a line in which a hover event will trigger a tooltip, in px.
+   *  Default is 80.
+   *
+   * This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines.
+   */
+  pointerDetectionRadius: number;
+
   constructor(init?: Partial<LinesConfig>) {
     super();
     this.pointMarker = new PointMarkerConfig();
@@ -87,22 +94,7 @@ export class LinesConfig extends DataMarksConfig {
     this.category.colors = schemeTableau10 as string[];
     this.curve = curveLinear;
     this.lineLabelsFormat = (d: string) => d;
-    Object.assign(this, init);
-  }
-}
-
-export class LinesTooltipConfig extends TooltipConfig {
-  /**
-   * The distance from a line in which a hover event will trigger a tooltip, in px.
-   *  Default is 80.
-   *
-   * This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines.
-   */
-  detectionRadius: number;
-
-  constructor(init?: Partial<LinesTooltipConfig>) {
-    super();
-    this.detectionRadius = 80;
+    this.pointerDetectionRadius = 80;
     Object.assign(this, init);
   }
 }

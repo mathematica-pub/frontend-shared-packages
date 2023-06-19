@@ -1,28 +1,23 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+/* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { EventEffect } from '../events/effect';
 import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import {
+  getLinesTooltipDataFromDatum,
+  LinesEmittedOutput,
+} from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
-
-export class LinesEmittedOutput {
-  datum: any;
-  color: string;
-  x: string;
-  y: string;
-  category: string;
-  positionX?: number;
-  positionY?: number;
-}
 
 @Directive({
   selector: '[vicLinesHoverAndMoveEffects]',
 })
 export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicLinesHoverAndMoveEffects')
   effects: EventEffect<LinesHoverAndMoveEventDirective>[];
-  @Input() pointerDetectionRadius: number | null = 80;
-  @Output() hoverAndMoveEventOutput = new EventEmitter<LinesEmittedOutput>();
+  @Output('vicLinesHoverAndMoveOutput') eventOutput =
+    new EventEmitter<LinesEmittedOutput>();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
@@ -36,18 +31,18 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
     this.setListeners();
   }
 
-  elementPointerEnter(): void {
+  onElementPointerEnter(): void {
     return;
   }
 
-  elementPointerMove(event: PointerEvent) {
+  onElementPointerMove(event: PointerEvent) {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.pointerIsInChartArea()) {
       this.determineHoverStyles();
     }
   }
 
-  elementPointerLeave() {
+  onElementPointerLeave() {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
@@ -106,7 +101,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
     pointerX: number,
     pointerY: number
   ): boolean {
-    if (this.pointerDetectionRadius === null) {
+    if (!this.lines.config.pointerDetectionRadius) {
       return true;
     } else {
       const cursorDistanceFromPoint = this.getPointerDistanceFromPoint(
@@ -115,7 +110,15 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
         pointerX,
         pointerY
       );
-      return cursorDistanceFromPoint < this.pointerDetectionRadius;
+      return cursorDistanceFromPoint < this.lines.config.pointerDetectionRadius;
     }
+  }
+
+  getTooltipData(): LinesEmittedOutput {
+    const data = getLinesTooltipDataFromDatum(
+      this.closestPointIndex,
+      this.lines
+    );
+    return data;
   }
 }

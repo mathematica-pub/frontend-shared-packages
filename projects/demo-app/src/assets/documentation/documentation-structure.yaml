@@ -12,7 +12,7 @@ chart-components:
     y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
 data-marks-components:
   shared:
-    html-tooltip-directive: 'directives/HtmlTooltipDirective.html'
+    html-tooltip: 'directives/HtmlTooltipDirective.html'
     html-tooltip-config: 'classes/HtmlTooltipConfig.html'
     html-tooltip-overlay-config: 'classes/HtmlTooltipOverlayConfig.html'
     data-marks-config: 'classes/DataMarksConfig.html'
@@ -22,13 +22,13 @@ data-marks-components:
   geographies:
     geographies: 'components/GeographiesComponent.html'
     geographies-config: 'classes/GeographiesConfig.html'
+    geographies-emitted-output: 'interfaces/GeographiesEmittedOutput.html'
     geographies-hover-event: 'directives/GeographiesHoverEventDirective.html'
     geographies-hover-effect-emit-tooltip-data: 'classes/GeographiesHoverEffectEmitTooltipData.html'
     geographies-hover-and-move-event: 'directives/GeographiesHoverAndMoveEventDirective.html'
     geographies-hover-and-move-effect-emit-tooltip-data: 'classes/GeographiesHoverAndMoveEffectEmitTooltipData.html'
     geographies-input-event: 'directives/GeographiesInputEventDirective.html'
     map-legend: 'components/MapLegendComponent.html'
-    html-tooltip: 'components/HtmlTooltipComponent.html'
     no-data-geography-config: 'classes/NoDataGeographyConfig.html'
     attribute-data-dimension-config: 'classes/AttributeDataDimensionConfig.html'
     categorical-attribute-data-dimension-config: 'classes/CategoricalAttributeDataDimensionConfig.html'
@@ -40,8 +40,8 @@ data-marks-components:
   lines:
     lines: 'components/LinesComponent.html'
     lines-config: 'classes/LinesConfig.html'
-    lines-tooltip-config: 'classes/LinesTooltipConfig.html'
     lines-stroke-config: 'classes/LinesStrokeConfig.html'
+    lines-emitted-output: 'interfaces/LinesEmittedOutput.html'
     lines-hover-event: 'directives/LinesHoverEventDirective.html'
     lines-hover-and-move-event: 'directives/LinesHoverAndMoveEventDirective.html'
     lines-hover-and-move-effect-default-lines-styles: 'classes/LinesHoverAndMoveEffectDefaultLinesStyles.html'
@@ -51,10 +51,14 @@ data-marks-components:
     lines-hover-and-move-effect-default-styles-config: 'classes/LinesHoverAndMoveEffectDefaultStylesConfig.html'
     lines-hover-and-move-effect-emit-tooltip-data: 'classes/LinesHoverAndMoveEffectEmitTooltipData.html'
     lines-input-event: 'directives/LinesInputEventDirective.html'
+    lines-marker-click-event: 'directives/LinesMarkerClickEventDirective.html'
+    lines-marker-click-event-default-styles-config: 'classes/LinesMarkerClickEventDefaultStylesConfig.html'
+    lines-marker-click-effect-emit-tooltip-data: 'classes/LinesMarkerClickEffectEmitTooltipData.html'
     point-marker-config: 'classes/PointMarkerConfig.html'
   bars:
     bars: 'components/BarsComponent.html'
     bars-config: 'classes/BarsConfig.html'
+    bars-emitted-output: 'interfaces/BarsEmittedOutput.html'
     quantitative-dimension-config: 'classes/QuantitativeDimensionConfig.html'
     ordinal-dimension-config: 'classes/OrdinalDimensionConfig.html'
     bars-labels-config: 'classes/BarsLabelsConfig.html'
@@ -69,6 +73,7 @@ data-marks-components:
   stacked-area:
     stacked-area: 'components/StackedAreaComponent.html'
     stacked-area-config: 'classes/StackedAreaConfig.html'
+    stacked-area-emitted-output: 'interfaces/StackedAreaEmittedOutput.html'
   stacked-bars:
     stacked-bars: 'components/StackedBarsComponent.html'
     stacked-bars-config: 'classes/StackedBarsConfig.html'

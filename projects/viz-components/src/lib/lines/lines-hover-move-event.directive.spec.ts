@@ -53,30 +53,30 @@ describe('LinesHoverAndMoveDirective', () => {
       spyOn(directive, 'determineHoverStyles');
     });
     it('calls getPointerValuesArray once', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.getPointerValuesArray).toHaveBeenCalledOnceWith(
         event as any
       );
     });
     it('sets pointerX to the correct value', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.pointerX).toEqual(1);
     });
     it('sets pointerY to the correct value', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.pointerY).toEqual(2);
     });
     it('calls pointerIsInChartArea once', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.pointerIsInChartArea).toHaveBeenCalledTimes(1);
     });
     it('calls determineHoverStyles once if pointerIsInChartArea returns true', () => {
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.determineHoverStyles).toHaveBeenCalledTimes(1);
     });
     it('does not call determineHoverStyles if pointerIsInChartArea returns false', () => {
       chartAreaSpy.and.returnValue(false);
-      directive.elementPointerMove(event as any);
+      directive.onElementPointerMove(event as any);
       expect(directive.determineHoverStyles).not.toHaveBeenCalled();
     });
   });
@@ -104,7 +104,7 @@ describe('LinesHoverAndMoveDirective', () => {
       directive.effects = [effectA, effectB];
     });
     it('calls remove effect on each effect in effects array', () => {
-      directive.elementPointerLeave();
+      directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledOnceWith(directive);
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
     });
@@ -217,15 +217,20 @@ describe('LinesHoverAndMoveDirective', () => {
           x: [1, 10, 20],
           y: [1, 100, 1000],
         },
+        config: {
+          pointerDetectionRadius: undefined,
+        },
       } as any;
     });
-    it('returns true if pointerDetectionRadius is null', () => {
-      directive.pointerDetectionRadius = null;
+    it('returns true if pointerDetectionRadius is undefined', () => {
       expect(directive.pointerIsInsideShowTooltipRadius(8, 100, 200)).toEqual(
         true
       );
     });
     describe('pointerDetectionRadius is not null', () => {
+      beforeEach(() => {
+        directive.lines.config.pointerDetectionRadius = 80;
+      });
       it('calls getPointerDistanceFromPoint once', () => {
         directive.pointerIsInsideShowTooltipRadius(2, 100, 200);
         expect(directive.getPointerDistanceFromPoint).toHaveBeenCalledOnceWith(
