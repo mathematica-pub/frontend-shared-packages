@@ -1,14 +1,13 @@
 @import 'vars', 'placeholders';
 
-.effect-container {
-  .effect-title {
-    @extend %typography-subtitle-2;
-  }
+.effect-title {
+  @extend %typography-subtitle-2;
+  padding-top: $grid-2;
+}
 
-  .effect-instruction {
-    @extend %typography-caption;
-    padding-bottom: $grid-2;
-  }
+.effect-instruction {
+  @extend %typography-caption;
+  padding-bottom: $grid-2;
 }
 
 .download-button {
