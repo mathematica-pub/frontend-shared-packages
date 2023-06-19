@@ -295,7 +295,11 @@ export class LinesComponent
           .style('mix-blend-mode', this.config.mixBlendMode)
           .attr('cx', (d) => this.xScale(this.values.x[d.index]))
           .attr('cy', (d) => this.yScale(this.values.y[d.index]))
-          .attr('r', this.config.pointMarker.radius)
+          .attr('r', (d) =>
+            typeof this.config.pointMarker.radius === 'function'
+              ? this.config.pointMarker.radius(this.config.data[d.index])
+              : this.config.pointMarker.radius
+          )
           .attr('fill', (d) =>
             this.categoryScale(this.values.category[d.index])
           ),

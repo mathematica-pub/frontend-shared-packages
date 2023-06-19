@@ -154,7 +154,7 @@ export class PointMarkerConfig {
    *
    * Default is 3.
    */
-  radius: number;
+  radius: number | ((d: any) => number);
 
   /**
    * A value by which the point marker will expand on hover, in px.

@@ -68,11 +68,14 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
             : 'transparent'
         )
         .attr('r', (d): number => {
-          let r = directive.lines.config.pointMarker.radius;
+          let r =
+            typeof directive.lines.config.pointMarker.radius === 'function'
+              ? directive.lines.config.pointMarker.radius(
+                  directive.lines.config.data[d.index]
+                )
+              : directive.lines.config.pointMarker.radius;
           if (directive.closestPointIndex === d.index) {
-            r =
-              directive.lines.config.pointMarker.radius +
-              this.config.growMarkerDimension;
+            r += this.config.growMarkerDimension;
           }
           return r;
         })
@@ -88,10 +91,15 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
   removeEffect(directive: LinesHoverAndMoveEventDirective): void {
     if (!directive.preventEffect) {
       directive.lines.markers.style('fill', null);
-      directive.lines.markers.attr(
-        'r',
-        (d) => directive.lines.config.pointMarker.radius
-      );
+      directive.lines.markers.attr('r', (d) => {
+        const r =
+          typeof directive.lines.config.pointMarker.radius === 'function'
+            ? directive.lines.config.pointMarker.radius(
+                directive.lines.config.data[d.index]
+              )
+            : directive.lines.config.pointMarker.radius;
+        return r;
+      });
     }
   }
 }

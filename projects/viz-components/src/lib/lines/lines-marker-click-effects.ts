@@ -22,10 +22,14 @@ export class LinesMarkerClickEffectEmitTooltipData
     const tooltipData = directive.getTooltipData();
     directive.preventOtherEffects();
     select(directive.el)
-      .attr('r', (d): number => {
-        const r =
-          directive.lines.config.pointMarker.radius +
-          this.config.growMarkerDimension;
+      .attr('r', (d: any): number => {
+        let r =
+          typeof directive.lines.config.pointMarker.radius === 'function'
+            ? directive.lines.config.pointMarker.radius(
+                directive.lines.config.data[d.index]
+              )
+            : directive.lines.config.pointMarker.radius;
+        r += this.config.growMarkerDimension;
         return r;
       })
       .raise();
@@ -33,10 +37,15 @@ export class LinesMarkerClickEffectEmitTooltipData
   }
 
   removeEffect(directive: LinesMarkerClickEventDirective) {
-    select(directive.el).attr(
-      'r',
-      (d): number => directive.lines.config.pointMarker.radius
-    );
+    select(directive.el).attr('r', (d: any): number => {
+      const r =
+        typeof directive.lines.config.pointMarker.radius === 'function'
+          ? directive.lines.config.pointMarker.radius(
+              directive.lines.config.data[d.index]
+            )
+          : directive.lines.config.pointMarker.radius;
+      return r;
+    });
     directive.restartOtherEffects();
     directive.eventOutput.emit(null);
   }
