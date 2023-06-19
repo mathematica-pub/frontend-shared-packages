@@ -19,7 +19,7 @@ describe('ChartComponent', () => {
   describe('ngOnChanges()', () => {
     beforeEach(() => {
       spyOn(component, 'setAspectRatio');
-      spyOn(component._height, 'next');
+      spyOn((component as any)._height, 'next');
       component.height = 80;
     });
     it('calls setAspectRatio if changes has width property', () => {
@@ -39,7 +39,7 @@ describe('ChartComponent', () => {
 
     it('calls next on heightSubject if changes has height property', () => {
       component.ngOnChanges({ height: 100 } as any);
-      expect(component._height.next).toHaveBeenCalledOnceWith(80);
+      expect((component as any)._height.next).toHaveBeenCalledOnceWith(80);
     });
   });
 
