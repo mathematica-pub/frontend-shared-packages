@@ -43,7 +43,7 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a " target="_self" >EventEffect</a></code>
+                            <code><a href="documentation/data-marks-components/shared/event-effect" target="_self" >EventEffect</a></code>
             </p>
 
 
@@ -303,7 +303,7 @@ export class LinesMarkerClickEffectEmitTooltipData
 
   applyEffect(directive: LinesMarkerClickEventDirective) {
     const tooltipData &#x3D; directive.getTooltipData();
-    directive.preventOtherEffects();
+    directive.preventHoverEffects();
     select(directive.el)
       .attr(&#x27;r&#x27;, (d): number &#x3D;&gt; {
         const r &#x3D;
@@ -320,7 +320,7 @@ export class LinesMarkerClickEffectEmitTooltipData
       &#x27;r&#x27;,
       (d): number &#x3D;&gt; directive.lines.config.pointMarker.radius
     );
-    directive.restartOtherEffects();
+    directive.resumeHoverEffects();
     directive.eventOutput.emit(null);
   }
 }

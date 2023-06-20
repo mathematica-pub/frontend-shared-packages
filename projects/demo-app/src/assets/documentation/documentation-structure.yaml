@@ -19,6 +19,8 @@ data-marks-components:
     categorical-color-dimension-config: 'classes/CategoricalColorDimensionConfig.html'
     data-dimension-config: 'classes/DataDimensionConfig.html'
     domain-padding-config: 'classes/DomainPaddingConfig.html'
+    event-effect: 'interfaces/EventEffect.html'
+    input-event-effect: 'interfaces/InputEventEffect.html'
   geographies:
     geographies: 'components/GeographiesComponent.html'
     geographies-config: 'classes/GeographiesConfig.html'

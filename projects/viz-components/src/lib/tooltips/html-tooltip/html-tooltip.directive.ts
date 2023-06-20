@@ -4,7 +4,6 @@ import {
   OverlayPositionBuilder,
   OverlayRef,
   OverlaySizeConfig,
-  ScrollStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import {
@@ -20,11 +19,10 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { UtilitiesService } from '../../core/services/utilities.service';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
-import { Unsubscribe } from '../../shared/unsubscribe.class';
 import { HtmlTooltipConfig } from './html-tooltip.config';
 
 const defaultPanelClass = 'vic-html-tooltip-overlay';
@@ -33,18 +31,16 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class HtmlTooltipDirective
-  extends Unsubscribe
-  implements OnInit, OnChanges, OnDestroy
-{
+export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   @Input() template: TemplateRef<unknown>;
   @Input() config: HtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
   overlayRef: OverlayRef;
   positionStrategy: FlexibleConnectedPositionStrategy;
-  scrollStrategy: ScrollStrategy;
   size: OverlaySizeConfig;
   panelClass: string[];
+  backdropUnsubscribe: Subject<void> = new Subject<void>();
+  portalAttached = false;
 
   constructor(
     private viewContainerRef: ViewContainerRef,
@@ -52,9 +48,7 @@ export class HtmlTooltipDirective
     private overlayPositionBuilder: OverlayPositionBuilder,
     private utilities: UtilitiesService,
     @Inject(DATA_MARKS) private dataMarks: DataMarks
-  ) {
-    super();
-  }
+  ) {}
 
   ngOnInit(): void {
     this.setOverlayParameters();
@@ -62,52 +56,65 @@ export class HtmlTooltipDirective
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChanged(changes, 'config', 'show') &&
-      this.overlayRef
-    ) {
-      if (this.config.show) {
-        this.show();
-      } else {
-        this.hide();
-      }
+    if (this.overlayRef) {
+      this.checkBackdropChanges(changes);
+      this.checkShowChanges(changes);
+      this.checkPositionChanges(changes);
+      this.checkSizeChanges(changes);
+      this.checkPanelClassChanges(changes);
     }
+  }
 
+  configChanged(changes: SimpleChanges, property: string): boolean {
+    return this.utilities.objectOnNgChangesChanged(changes, 'config', property);
+  }
+
+  checkBackdropChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChanged(changes, 'config', 'position') &&
-      this.overlayRef
+      this.configChanged(changes, 'hasBackdrop') ||
+      this.configChanged(changes, 'closeOnBackdropClick')
     ) {
+      this.updateForNewBackdropProperties();
+    }
+  }
+
+  checkShowChanges(changes: SimpleChanges): void {
+    if (this.configChanged(changes, 'show')) {
+      this.updateVisibility();
+    }
+  }
+
+  checkPositionChanges(changes: SimpleChanges): void {
+    if (this.configChanged(changes, 'position')) {
       this.updatePosition();
     }
+  }
 
-    if (
-      this.utilities.objectOnNgChangesChanged(changes, 'config', 'size') &&
-      this.overlayRef
-    ) {
+  checkSizeChanges(changes: SimpleChanges): void {
+    if (this.configChanged(changes, 'size')) {
       this.updateSize();
     }
+  }
 
-    if (
-      this.utilities.objectOnNgChangesChanged(
-        changes,
-        'config',
-        'panelClass'
-      ) &&
-      this.overlayRef
-    ) {
+  checkPanelClassChanges(changes: SimpleChanges): void {
+    if (this.configChanged(changes, 'panelClass')) {
       this.updateClasses();
     }
   }
 
-  override ngOnDestroy(): void {
-    super.ngOnDestroy();
+  ngOnDestroy(): void {
+    this.destroyBackdropSubscription();
     this.destroyOverlay();
+  }
+
+  destroyBackdropSubscription(): void {
+    this.backdropUnsubscribe.next();
+    this.backdropUnsubscribe.complete();
   }
 
   setOverlayParameters(): void {
     this.setPositionStrategy();
     this.setPanelClasses();
-    this.setScrollStrategy();
   }
 
   setPositionStrategy(): void {
@@ -128,27 +135,37 @@ export class HtmlTooltipDirective
     }
   }
 
-  setScrollStrategy(): void {
-    this.scrollStrategy = this.overlay.scrollStrategies.close();
-  }
-
   createOverlay(): void {
     this.overlayRef = this.overlay.create({
       ...this.size,
       panelClass: this.panelClass,
-      scrollStrategy: this.scrollStrategy,
+      scrollStrategy: this.overlay.scrollStrategies.reposition(),
       positionStrategy: this.positionStrategy,
       hasBackdrop: this.config.hasBackdrop,
-      backdropClass: 'html-tooltip-backdrop',
+      backdropClass: 'vic-html-tooltip-backdrop',
     });
 
     if (this.config.hasBackdrop && this.config.closeOnBackdropClick) {
-      this.overlayRef
-        .backdropClick()
-        .pipe(takeUntil(this.unsubscribe))
-        .subscribe(() => {
-          this.backdropClick.emit();
-        });
+      this.listenForBackdropClicks();
+    }
+  }
+
+  listenForBackdropClicks(): void {
+    this.overlayRef
+      .backdropClick()
+      .pipe(takeUntil(this.backdropUnsubscribe))
+      .subscribe(() => {
+        this.backdropClick.emit();
+      });
+  }
+
+  updateVisibility(): void {
+    if (this.config.show) {
+      if (!this.portalAttached) {
+        this.show();
+      }
+    } else {
+      this.hide();
     }
   }
 
@@ -167,16 +184,28 @@ export class HtmlTooltipDirective
     this.overlayRef.addPanelClass(this.panelClass);
   }
 
+  updateForNewBackdropProperties(): void {
+    this.destroyBackdropSubscription();
+    this.hide();
+    this.destroyOverlay();
+    this.backdropUnsubscribe = new Subject<void>();
+    this.createOverlay();
+    this.updateVisibility();
+  }
+
   show(): void {
-    const tooltipPortal = new TemplatePortal(
-      this.template,
-      this.viewContainerRef
-    );
+    const tooltipPortal = this.getTemplatePortal();
     this.overlayRef.attach(tooltipPortal);
+    this.portalAttached = true;
+  }
+
+  getTemplatePortal(): TemplatePortal {
+    return new TemplatePortal(this.template, this.viewContainerRef);
   }
 
   hide(): void {
     this.overlayRef.detach();
+    this.portalAttached = false;
   }
 
   destroyOverlay(): void {

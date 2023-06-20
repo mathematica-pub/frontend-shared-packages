@@ -6,10 +6,9 @@ import { LINES, LinesComponent } from './lines.component';
 @Directive({
   selector: '[vicLinesHoverEffects]',
 })
-export class LinesHoverEventDirective extends HoverEventDirective {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
+export class LinesHoverDirective extends HoverEventDirective {
   @Input('vicLinesHoverEffects')
-  effects: EventEffect<LinesHoverEventDirective>[];
+  effects: EventEffect<LinesHoverDirective>[];
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
     super();

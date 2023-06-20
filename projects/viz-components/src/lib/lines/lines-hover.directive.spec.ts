@@ -3,16 +3,16 @@ import { TestBed } from '@angular/core/testing';
 import { HoverEventDirective } from '../events/hover-event';
 import { HoverEventDirectiveStub } from '../testing/stubs/hover-event-stub';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
-import { LinesHoverEventDirective } from './lines-hover-event.directive';
+import { LinesHoverDirective } from './lines-hover.directive';
 import { LINES } from './lines.component';
 
-describe('LinesHoverEventDirective', () => {
-  let directive: LinesHoverEventDirective;
+describe('LinesHoverDirective', () => {
+  let directive: LinesHoverDirective;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        LinesHoverEventDirective,
+        LinesHoverDirective,
         Renderer2,
         {
           provide: LINES,
@@ -24,7 +24,7 @@ describe('LinesHoverEventDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(LinesHoverEventDirective);
+    directive = TestBed.inject(LinesHoverDirective);
     directive.unlistenTouchStart = [
       () => {
         return;

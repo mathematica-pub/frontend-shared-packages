@@ -13,9 +13,9 @@ import { LINES, LinesComponent } from './lines.component';
 @Directive({
   selector: '[vicLinesHoverAndMoveEffects]',
 })
-export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
+export class LinesHoverAndMoveDirective extends HoverAndMoveEventDirective {
   @Input('vicLinesHoverAndMoveEffects')
-  effects: EventEffect<LinesHoverAndMoveEventDirective>[];
+  effects: EventEffect<LinesHoverAndMoveDirective>[];
   @Output('vicLinesHoverAndMoveOutput') eventOutput =
     new EventEmitter<LinesEmittedOutput>();
   pointerX: number;
@@ -43,7 +43,7 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
   }
 
   onElementPointerLeave() {
-    if (this.effects) {
+    if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
   }
@@ -59,17 +59,19 @@ export class LinesHoverAndMoveEventDirective extends HoverAndMoveEventDirective 
 
   determineHoverStyles(): void {
     this.closestPointIndex = this.getClosestPointIndex();
-    if (
-      this.effects &&
-      this.pointerIsInsideShowTooltipRadius(
-        this.closestPointIndex,
-        this.pointerX,
-        this.pointerY
-      )
-    ) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
-    } else {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.effects && !this.preventEffect) {
+      if (
+        this.pointerIsInsideShowTooltipRadius(
+          this.closestPointIndex,
+          this.pointerX,
+          this.pointerY
+        )
+      ) {
+        this.effects.forEach((effect) => effect.applyEffect(this));
+      } else {
+        this.closestPointIndex = null;
+        this.effects.forEach((effect) => effect.removeEffect(this));
+      }
     }
   }
 

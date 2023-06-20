@@ -254,7 +254,6 @@ export class LinesComponent
       (enter) =>
         enter
           .append('path')
-          .property('key', ([category]) => category)
           .attr('key', ([category]) => category)
           .attr('class', 'vic-line')
           .attr('stroke', ([category]) => this.categoryScale(category))

@@ -18,7 +18,7 @@
         (change)="onEventToggleChange($event)"
       >
         <mat-button-toggle value="hover">On Hover</mat-button-toggle>
-        <mat-button-toggle value="click">On Click</mat-button-toggle>
+        <mat-button-toggle value="click">On Hover and Click</mat-button-toggle>
       </mat-button-toggle-group>
       <div class="effect-container">
         <p class="effect-title">Lines Input Event example</p>
@@ -85,11 +85,12 @@
               vic-data-marks-lines
               [config]="vm.dataConfig"
               [vicLinesHoverAndMoveEffects]="hoverEffects"
-              [vicLinesMarkerClickEffects]="clickEffects"
-              [vicLinesMarkerClickRemoveEvent$]="removeTooltipEvent$"
+              (vicLinesHoverAndMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
+              [vicLinesChartClickEffects]="clickEffects"
+              [vicLinesChartClickRemoveEvent$]="removeTooltipEvent$"
+              (vicLinesChartClickOutput)="updateTooltipForNewOutput($event, 'click')"
               [vicLinesInputEffects]="[highlightLineForLabelEffect]"
               [vicLinesInputEvent$]="chartInputEvent$"
-              (vicLinesMarkerClickOutput)="updateTooltipForNewOutput($event, 'click')"
             >
               <vic-html-tooltip
                 [config]="(tooltipConfig$ | async)"
@@ -106,19 +107,19 @@
 </app-component-demo>
 
 <ng-template #htmlTooltip>
-  <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">
-    <p class="tooltip-label category">
-      {{ (tooltipData$ | async).category }}
-    </p>
-    <div class="values-container">
-      <p class="tooltip-label x">
-        <span class="value-label">Date</span>
-        {{ (tooltipData$ | async).x }}
-      </p>
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).y }}
-      </p>
+  <ng-container *ngIf="tooltipData$ | async as tooltipData">
+    <div [style.--color]="tooltipData.color" class="tooltip-container">
+      <p class="tooltip-label category"> {{ tooltipData.category }} </p>
+      <div class="values-container">
+        <p class="tooltip-label x">
+          <span class="value-label">Date</span>
+          {{ tooltipData.x }}
+        </p>
+        <p class="tooltip-label y">
+          <span class="value-label">Value</span>
+          {{ tooltipData.y }}
+        </p>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </ng-template>
