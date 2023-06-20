@@ -142,4 +142,18 @@ describe('UtilitiesService', () => {
       expect(result).toEqual(false);
     });
   });
+
+  describe('getValueFromConstantOrFunction', () => {
+    it('returns the value if the arg is a constant', () => {
+      const result = service.getValueFromConstantOrFunction(2, {});
+      expect(result).toEqual(2);
+    });
+    it('returns the value if the arg is a function', () => {
+      const result = service.getValueFromConstantOrFunction(
+        (d) => d.value / 2,
+        { value: 10 }
+      );
+      expect(result).toEqual(5);
+    });
+  });
 });
