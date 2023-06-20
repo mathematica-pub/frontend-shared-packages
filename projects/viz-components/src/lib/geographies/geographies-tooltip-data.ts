@@ -1,20 +1,17 @@
 import { formatValue } from '../value-format/value-format';
 import { GeographiesComponent } from './geographies.component';
 
-export interface GeographiesEmittedOutput {
+export interface GeographiesEventOutput {
   datum?: any;
   color: string;
   geography: string;
   attributeValue: string;
-  bounds?: [[number, number], [number, number]];
-  positionX?: number;
-  positionY?: number;
 }
 
 export function getGeographiesTooltipData(
   geographyIndex: number,
   geographies: GeographiesComponent
-): GeographiesEmittedOutput {
+): GeographiesEventOutput {
   const datum = geographies.config.data.find(
     (d) =>
       geographies.config.dataGeographyConfig.attributeDataConfig
@@ -23,7 +20,7 @@ export function getGeographiesTooltipData(
       geographies.values.attributeDataGeographies[geographyIndex]
   );
 
-  const tooltipData: GeographiesEmittedOutput = {
+  const tooltipData: GeographiesEventOutput = {
     datum,
     geography:
       geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(

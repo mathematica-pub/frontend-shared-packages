@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { StackedAreaHoverAndMoveEventDirective } from './stacked-area-hover-move-event.directive';
+import { StackedAreaHoverMoveDirective } from './stacked-area-hover-move-event.directive';
 import { StackedAreaInputEventDirective } from './stacked-area-input-event.directive';
 import { StackedAreaComponent } from './stacked-area.component';
 
 @NgModule({
   declarations: [
     StackedAreaComponent,
-    StackedAreaHoverAndMoveEventDirective,
+    StackedAreaHoverMoveDirective,
     StackedAreaInputEventDirective,
   ],
   imports: [CommonModule],
   exports: [
     StackedAreaComponent,
-    StackedAreaHoverAndMoveEventDirective,
+    StackedAreaHoverMoveDirective,
     StackedAreaInputEventDirective,
   ],
 })

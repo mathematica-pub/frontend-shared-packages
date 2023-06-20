@@ -1,15 +1,18 @@
+/* eslint-disable @angular-eslint/no-input-rename */
+// eslint-disable @angular-eslint/no-input-rename
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
-import { InputEventDirective } from '../events/input-event';
+import { InputEventDirective } from '../events/input-event.directive';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 @Directive({
   selector: '[vicGeographiesInputEffects]',
 })
 export class GeographiesInputEventDirective extends InputEventDirective {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicGeographiesInputEffects')
+  @Input('vicGeographiesInputEventEffects')
   effects: InputEventEffect<GeographiesInputEventDirective>[];
+  @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<any>;
   @Output() inputEventOutput = new EventEmitter<any>();
 
   constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {

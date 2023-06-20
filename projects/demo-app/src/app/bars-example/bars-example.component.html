@@ -17,9 +17,9 @@
         <svg:g
           vic-data-marks-bars
           [config]="vm.dataConfig"
-          [vicBarsHoverAndMoveEffects]="hoverAndMoveEffects"
+          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
           [vicBarsHoverEffects]="hoverEffects"
-          (vicBarsHoverAndMoveOutput)="updateTooltipForNewOutput($event)"
+          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="(tooltipConfig$ | async)"

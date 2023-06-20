@@ -1,15 +1,15 @@
 import { EventEffect } from '../events/effect';
-import { GeographiesHoverEventDirective } from './geographies-hover-event.directive';
+import { GeographiesHoverDirective } from './geographies-hover.directive';
 
-export class GeographiesHoverEffectEmitTooltipData
-  implements EventEffect<GeographiesHoverEventDirective>
+export class GeographiesHoverEmitTooltipData
+  implements EventEffect<GeographiesHoverDirective>
 {
-  applyEffect(directive: GeographiesHoverEventDirective): void {
+  applyEffect(directive: GeographiesHoverDirective): void {
     const tooltipData = directive.getTooltipData();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: GeographiesHoverEventDirective): void {
+  removeEffect(directive: GeographiesHoverDirective): void {
     directive.eventOutput.emit(null);
   }
 }

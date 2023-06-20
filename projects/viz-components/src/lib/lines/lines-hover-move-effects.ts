@@ -1,12 +1,12 @@
 import { inject } from '@angular/core';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { EventEffect } from '../events/effect';
-import { LinesHoverAndMoveEventDirective } from './lines-hover-move-event.directive';
+import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 
-export class LinesHoverAndMoveEffectDefaultStylesConfig {
+export class LinesHoverMoveDefaultStylesConfig {
   growMarkerDimension: number;
 
-  constructor(init?: Partial<LinesHoverAndMoveEffectDefaultStylesConfig>) {
+  constructor(init?: Partial<LinesHoverMoveDefaultStylesConfig>) {
     this.growMarkerDimension = 2;
     Object.assign(this, init);
   }
@@ -18,31 +18,27 @@ export class LinesHoverAndMoveEffectDefaultStylesConfig {
  * This effect changes the color of the non-closest-to-pointer lines
  *  to a light gray.
  */
-export class LinesHoverAndMoveEffectDefaultLinesStyles
-  implements EventEffect<LinesHoverAndMoveEventDirective>
+export class LinesHoverMoveDefaultLinesStyles
+  implements EventEffect<LinesHoverMoveDirective>
 {
-  applyEffect(directive: LinesHoverAndMoveEventDirective): void {
-    if (!directive.preventEffect) {
-      directive.lines.lines
-        .style('stroke', ([category]): string =>
+  applyEffect(directive: LinesHoverMoveDirective): void {
+    directive.lines.lines
+      .style('stroke', ([category]): string =>
+        directive.lines.values.category[directive.closestPointIndex] ===
+        category
+          ? null
+          : '#ddd'
+      )
+      .filter(
+        ([category]): boolean =>
           directive.lines.values.category[directive.closestPointIndex] ===
           category
-            ? null
-            : '#ddd'
-        )
-        .filter(
-          ([category]): boolean =>
-            directive.lines.values.category[directive.closestPointIndex] ===
-            category
-        )
-        .raise();
-    }
+      )
+      .raise();
   }
 
-  removeEffect(directive: LinesHoverAndMoveEventDirective): void {
-    if (!directive.preventEffect) {
-      directive.lines.lines.style('stroke', null);
-    }
+  removeEffect(directive: LinesHoverMoveDirective): void {
+    directive.lines.lines.style('stroke', null);
   }
 }
 
@@ -53,53 +49,49 @@ export class LinesHoverAndMoveEffectDefaultLinesStyles
  *  and at the same time enlarges the marker on the "selected" line that is
  *  closest to the pointer by a specified amount.
  */
-export class LinesHoverAndMoveEffectDefaultMarkersStyles
-  implements EventEffect<LinesHoverAndMoveEventDirective>
+export class LinesHoverMoveDefaultMarkersStyles
+  implements EventEffect<LinesHoverMoveDirective>
 {
-  constructor(private config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
-    this.config = config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
+  constructor(private config?: LinesHoverMoveDefaultStylesConfig) {
+    this.config = config ?? new LinesHoverMoveDefaultStylesConfig();
   }
   private utilities = inject(UtilitiesService);
 
-  applyEffect(directive: LinesHoverAndMoveEventDirective): void {
-    if (!directive.preventEffect) {
-      directive.lines.markers
-        .style('fill', (d): string =>
-          directive.lines.values.category[directive.closestPointIndex] ===
-          directive.lines.values.category[d.index]
-            ? null
-            : 'transparent'
-        )
-        .attr('r', (d): number => {
-          let r = this.utilities.getValueFromConstantOrFunction(
-            directive.lines.config.pointMarker.radius,
-            directive.lines.config.data[d.index]
-          );
-          if (directive.closestPointIndex === d.index) {
-            r += this.config.growMarkerDimension;
-          }
-          return r;
-        })
-        .filter(
-          (d): boolean =>
-            directive.lines.values.category[directive.closestPointIndex] ===
-            directive.lines.values.category[d.index]
-        )
-        .raise();
-    }
-  }
-
-  removeEffect(directive: LinesHoverAndMoveEventDirective): void {
-    if (!directive.preventEffect) {
-      directive.lines.markers.style('fill', null);
-      directive.lines.markers.attr('r', (d) => {
-        const r = this.utilities.getValueFromConstantOrFunction(
+  applyEffect(directive: LinesHoverMoveDirective): void {
+    directive.lines.markers
+      .style('fill', (d): string =>
+        directive.lines.values.category[directive.closestPointIndex] ===
+        directive.lines.values.category[d.index]
+          ? null
+          : 'transparent'
+      )
+      .attr('r', (d): number => {
+        let r = this.utilities.getValueFromConstantOrFunction(
           directive.lines.config.pointMarker.radius,
           directive.lines.config.data[d.index]
         );
+        if (directive.closestPointIndex === d.index) {
+          r += this.config.growMarkerDimension;
+        }
         return r;
-      });
-    }
+      })
+      .filter(
+        (d): boolean =>
+          directive.lines.values.category[directive.closestPointIndex] ===
+          directive.lines.values.category[d.index]
+      )
+      .raise();
+  }
+
+  removeEffect(directive: LinesHoverMoveDirective): void {
+    directive.lines.markers.style('fill', null);
+    directive.lines.markers.attr('r', (d) => {
+      const r = this.utilities.getValueFromConstantOrFunction(
+        directive.lines.config.pointMarker.radius,
+        directive.lines.config.data[d.index]
+      );
+      return r;
+    });
   }
 }
 
@@ -110,38 +102,34 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
  * This effect displays a circle marker at the closest datum to the pointer
  *  on the "selected" line.
  */
-export class LinesHoverAndMoveEffectDefaultHoverDotStyles
-  implements EventEffect<LinesHoverAndMoveEventDirective>
+export class LinesHoverMoveDefaultHoverDotStyles
+  implements EventEffect<LinesHoverMoveDirective>
 {
-  applyEffect(directive: LinesHoverAndMoveEventDirective) {
-    if (!directive.preventEffect) {
-      directive.lines.hoverDot
-        .style('display', null)
-        .attr(
-          'fill',
-          directive.lines.categoryScale(
-            directive.lines.values.category[directive.closestPointIndex]
-          )
+  applyEffect(directive: LinesHoverMoveDirective) {
+    directive.lines.hoverDot
+      .style('display', null)
+      .attr(
+        'fill',
+        directive.lines.categoryScale(
+          directive.lines.values.category[directive.closestPointIndex]
         )
-        .attr(
-          'cx',
-          directive.lines.xScale(
-            directive.lines.values.x[directive.closestPointIndex]
-          )
+      )
+      .attr(
+        'cx',
+        directive.lines.xScale(
+          directive.lines.values.x[directive.closestPointIndex]
         )
-        .attr(
-          'cy',
-          directive.lines.yScale(
-            directive.lines.values.y[directive.closestPointIndex]
-          )
-        );
-    }
+      )
+      .attr(
+        'cy',
+        directive.lines.yScale(
+          directive.lines.values.y[directive.closestPointIndex]
+        )
+      );
   }
 
-  removeEffect(directive: LinesHoverAndMoveEventDirective) {
-    if (!directive.preventEffect) {
-      directive.lines.hoverDot.style('display', 'none');
-    }
+  removeEffect(directive: LinesHoverMoveDirective) {
+    directive.lines.hoverDot.style('display', 'none');
   }
 }
 
@@ -152,24 +140,24 @@ export class LinesHoverAndMoveEffectDefaultHoverDotStyles
  * Applies either Line Markers effect or a Hover Dot effect depending on
  *  whether line markers are used.
  */
-export class LinesHoverAndMoveEffectDefaultStyles
-  implements EventEffect<LinesHoverAndMoveEventDirective>
+export class LinesHoverMoveDefaultStyles
+  implements EventEffect<LinesHoverMoveDirective>
 {
-  linesStyles: EventEffect<LinesHoverAndMoveEventDirective>;
-  markersStyles: EventEffect<LinesHoverAndMoveEventDirective>;
-  hoverDotStyles: EventEffect<LinesHoverAndMoveEventDirective>;
+  linesStyles: EventEffect<LinesHoverMoveDirective>;
+  markersStyles: EventEffect<LinesHoverMoveDirective>;
+  hoverDotStyles: EventEffect<LinesHoverMoveDirective>;
 
-  constructor(config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
+  constructor(config?: LinesHoverMoveDefaultStylesConfig) {
     const markersStylesConfig =
-      config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
-    this.linesStyles = new LinesHoverAndMoveEffectDefaultLinesStyles();
-    this.markersStyles = new LinesHoverAndMoveEffectDefaultMarkersStyles(
+      config ?? new LinesHoverMoveDefaultStylesConfig();
+    this.linesStyles = new LinesHoverMoveDefaultLinesStyles();
+    this.markersStyles = new LinesHoverMoveDefaultMarkersStyles(
       markersStylesConfig
     );
-    this.hoverDotStyles = new LinesHoverAndMoveEffectDefaultHoverDotStyles();
+    this.hoverDotStyles = new LinesHoverMoveDefaultHoverDotStyles();
   }
 
-  applyEffect(directive: LinesHoverAndMoveEventDirective) {
+  applyEffect(directive: LinesHoverMoveDirective) {
     this.linesStyles.applyEffect(directive);
     if (directive.lines.config.pointMarker.display) {
       this.markersStyles.applyEffect(directive);
@@ -178,7 +166,7 @@ export class LinesHoverAndMoveEffectDefaultStyles
     }
   }
 
-  removeEffect(directive: LinesHoverAndMoveEventDirective) {
+  removeEffect(directive: LinesHoverMoveDirective) {
     this.linesStyles.removeEffect(directive);
     if (directive.lines.config.pointMarker.display) {
       this.markersStyles.removeEffect(directive);
@@ -188,19 +176,15 @@ export class LinesHoverAndMoveEffectDefaultStyles
   }
 }
 
-export class LinesHoverAndMoveEffectEmitTooltipData
-  implements EventEffect<LinesHoverAndMoveEventDirective>
+export class LinesHoverMoveEmitTooltipData
+  implements EventEffect<LinesHoverMoveDirective>
 {
-  applyEffect(directive: LinesHoverAndMoveEventDirective): void {
-    if (!directive.preventEffect) {
-      const tooltipData = directive.getTooltipData();
-      directive.eventOutput.emit(tooltipData);
-    }
+  applyEffect(directive: LinesHoverMoveDirective): void {
+    const tooltipData = directive.getTooltipData();
+    directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesHoverAndMoveEventDirective): void {
-    if (!directive.preventEffect) {
-      directive.eventOutput.emit(null);
-    }
+  removeEffect(directive: LinesHoverMoveDirective): void {
+    directive.eventOutput.emit(null);
   }
 }

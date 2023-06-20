@@ -22,6 +22,7 @@ export class HtmlTooltipConfig extends TooltipConfig {
     this.position = new HtmlTooltipDefaultPosition();
     this.size = new HtmlTooltipSize();
     this.hasBackdrop = false;
+    this.closeOnBackdropClick = false;
     Object.assign(this, init);
   }
 }
