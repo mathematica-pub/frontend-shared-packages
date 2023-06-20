@@ -56,6 +56,7 @@ export * from './lib/lines/lines-hover-move.directive';
 export * from './lib/lines/lines-hover.directive';
 export * from './lib/lines/lines-input-event.directive';
 export * from './lib/lines/lines-marker-click-effects';
+export * from './lib/lines/lines-marker-click.directive';
 export * from './lib/lines/lines-tooltip-data';
 export * from './lib/lines/lines.component';
 export * from './lib/lines/lines.config';
