@@ -4,21 +4,21 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { EventEffect } from '../events/effect';
-import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getStackedAreaTooltipData,
-  StackedAreaEmittedOutput,
+  StackedAreaEventOutput,
 } from './stacked-area-tooltip-data';
 import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
 
 @Directive({
-  selector: '[vicStackedAreaHoverAndMoveEffects]',
+  selector: '[vicStackedAreaHoverMoveEffects]',
 })
-export class StackedAreaHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  @Input('vicStackedAreaHoverAndMoveEffects')
-  effects: EventEffect<StackedAreaHoverAndMoveEventDirective>[];
-  @Output('vicStackedAreaHoverAndMoveOutput') eventOutput =
-    new EventEmitter<StackedAreaEmittedOutput>();
+export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
+  @Input('vicStackedAreaHoverMoveEffects')
+  effects: EventEffect<StackedAreaHoverMoveDirective>[];
+  @Output('vicStackedAreaHoverMoveOutput') eventOutput =
+    new EventEmitter<StackedAreaEventOutput>();
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
@@ -91,7 +91,7 @@ export class StackedAreaHoverAndMoveEventDirective extends HoverAndMoveEventDire
     }
   }
 
-  getTooltipData(): StackedAreaEmittedOutput {
+  getTooltipData(): StackedAreaEventOutput {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
       this.stackedArea

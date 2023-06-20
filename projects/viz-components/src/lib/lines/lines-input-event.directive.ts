@@ -3,7 +3,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
-import { InputEventDirective } from '../events/input-event';
+import { InputEventDirective } from '../events/input-event.directive';
 import { LINES, LinesComponent } from './lines.component';
 
 @Directive({

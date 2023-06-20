@@ -1,26 +1,26 @@
 import { select } from 'd3';
 import { EventEffect } from '../events/effect';
-import { LinesMarkerClickEventDirective } from './lines-marker-click-event.directive';
+import { LinesMarkerClickDirective } from './lines-marker-click.directive';
 
-export class LinesMarkerClickEventDefaultStylesConfig {
+export class LinesMarkerClickDefaultStylesConfig {
   growMarkerDimension: number;
 
-  constructor(init?: Partial<LinesMarkerClickEventDefaultStylesConfig>) {
+  constructor(init?: Partial<LinesMarkerClickDefaultStylesConfig>) {
     this.growMarkerDimension = 2;
     Object.assign(this, init);
   }
 }
 
-export class LinesMarkerClickEffectEmitTooltipData
-  implements EventEffect<LinesMarkerClickEventDirective>
+export class LinesMarkerClickEmitTooltipData
+  implements EventEffect<LinesMarkerClickDirective>
 {
-  constructor(private config?: LinesMarkerClickEventDefaultStylesConfig) {
-    this.config = config ?? new LinesMarkerClickEventDefaultStylesConfig();
+  constructor(private config?: LinesMarkerClickDefaultStylesConfig) {
+    this.config = config ?? new LinesMarkerClickDefaultStylesConfig();
   }
 
-  applyEffect(directive: LinesMarkerClickEventDirective) {
+  applyEffect(directive: LinesMarkerClickDirective) {
     const tooltipData = directive.getTooltipData();
-    directive.preventOtherEffects();
+    directive.preventHoverEffects();
     select(directive.el)
       .attr('r', (d): number => {
         const r =
@@ -32,12 +32,12 @@ export class LinesMarkerClickEffectEmitTooltipData
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesMarkerClickEventDirective) {
+  removeEffect(directive: LinesMarkerClickDirective) {
     select(directive.el).attr(
       'r',
       (d): number => directive.lines.config.pointMarker.radius
     );
-    directive.restartOtherEffects();
+    directive.resumeHoverEffects();
     directive.eventOutput.emit(null);
   }
 }

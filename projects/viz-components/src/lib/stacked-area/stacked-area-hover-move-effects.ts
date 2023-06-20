@@ -1,15 +1,15 @@
 import { EventEffect } from '../events/effect';
-import { StackedAreaHoverAndMoveEventDirective } from './stacked-area-hover-move-event.directive';
+import { StackedAreaHoverMoveDirective } from './stacked-area-hover-move-event.directive';
 
-export class EmitStackedAreaTooltipData
-  implements EventEffect<StackedAreaHoverAndMoveEventDirective>
+export class StackedAreaEmitTooltipData
+  implements EventEffect<StackedAreaHoverMoveDirective>
 {
-  applyEffect(directive: StackedAreaHoverAndMoveEventDirective): void {
+  applyEffect(directive: StackedAreaHoverMoveDirective): void {
     const tooltipData = directive.getTooltipData();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(event: StackedAreaHoverAndMoveEventDirective): void {
+  removeEffect(event: StackedAreaHoverMoveDirective): void {
     event.eventOutput.emit(null);
   }
 }

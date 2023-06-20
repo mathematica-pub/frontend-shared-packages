@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InputEventEffect } from '../events/effect';
-import { InputEventDirective } from '../events/input-event';
+import { InputEventDirective } from '../events/input-event.directive';
 import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
 
 @Directive({

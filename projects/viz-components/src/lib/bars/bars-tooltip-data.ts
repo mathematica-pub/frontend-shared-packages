@@ -1,22 +1,20 @@
 import { ElementRef } from '@angular/core';
 import { BarsComponent } from './bars.component';
 
-export interface BarsEmittedOutput {
+export interface BarsEventOutput {
   datum: any;
   color: string;
   ordinal: string;
   quantitative: string;
   category: string;
   elRef: ElementRef;
-  positionX?: number;
-  positionY?: number;
 }
 
 export function getBarsTooltipData(
   barIndex: number,
   elRef: ElementRef,
   bars: BarsComponent
-): BarsEmittedOutput {
+): BarsEventOutput {
   const datum = bars.config.data.find(
     (d) =>
       bars.values[bars.config.dimensions.quantitative][barIndex] ===
@@ -25,7 +23,7 @@ export function getBarsTooltipData(
         bars.config.ordinal.valueAccessor(d)
   );
 
-  const tooltipData: BarsEmittedOutput = {
+  const tooltipData: BarsEventOutput = {
     datum,
     color: bars.getBarColor(barIndex),
     ordinal: bars.config.ordinal.valueAccessor(datum),

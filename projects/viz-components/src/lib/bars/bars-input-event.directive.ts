@@ -3,15 +3,15 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
-import { InputEventDirective } from '../events/input-event';
+import { InputEventDirective } from '../events/input-event.directive';
 import { BARS, BarsComponent } from './bars.component';
 
 @Directive({
-  selector: '[vicBarsInputEffects]',
+  selector: '[vicBarsInputEventEffects]',
 })
 export class BarsInputEventDirective extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsInputEffects')
+  @Input('vicBarsInputEventEffects')
   effects: InputEventEffect<BarsInputEventDirective>[];
   @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
   @Output('vicBarsInputEventOutput') eventOutput = new EventEmitter<any>();
