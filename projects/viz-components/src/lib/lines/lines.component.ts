@@ -258,10 +258,22 @@ export class LinesComponent
           .attr('key', ([category]) => category)
           .attr('class', 'vic-line')
           .attr('stroke', ([category]) => this.categoryScale(category))
+          .attr('stroke-dasharray', ([category]) =>
+            this.utilities.getValueFromConstantOrFunction(
+              this.config.stroke.dashArray,
+              category
+            )
+          )
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
         update
           .attr('stroke', ([category]) => this.categoryScale(category))
+          .attr('stroke-dasharray', ([category]) =>
+            this.utilities.getValueFromConstantOrFunction(
+              this.config.stroke.dashArray,
+              category
+            )
+          )
           .call((update) =>
             update
               .transition(t as any)
@@ -296,9 +308,10 @@ export class LinesComponent
           .attr('cx', (d) => this.xScale(this.values.x[d.index]))
           .attr('cy', (d) => this.yScale(this.values.y[d.index]))
           .attr('r', (d) =>
-            typeof this.config.pointMarker.radius === 'function'
-              ? this.config.pointMarker.radius(this.config.data[d.index])
-              : this.config.pointMarker.radius
+            this.utilities.getValueFromConstantOrFunction(
+              this.config.pointMarker.radius,
+              this.config.data[d.index]
+            )
           )
           .attr('fill', (d) =>
             this.categoryScale(this.values.category[d.index])
@@ -307,6 +320,12 @@ export class LinesComponent
         update
           .attr('fill', (d) =>
             this.categoryScale(this.values.category[d.index])
+          )
+          .attr('r', (d) =>
+            this.utilities.getValueFromConstantOrFunction(
+              this.config.pointMarker.radius,
+              this.config.data[d.index]
+            )
           )
           .call((update) =>
             update

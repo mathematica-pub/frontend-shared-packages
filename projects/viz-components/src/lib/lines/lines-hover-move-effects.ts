@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { UtilitiesService } from '../core/services/utilities.service';
 import { EventEffect } from '../events/effect';
 import { LinesHoverAndMoveEventDirective } from './lines-hover-move-event.directive';
 
@@ -57,6 +59,7 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
   constructor(private config?: LinesHoverAndMoveEffectDefaultStylesConfig) {
     this.config = config ?? new LinesHoverAndMoveEffectDefaultStylesConfig();
   }
+  private utilities = inject(UtilitiesService);
 
   applyEffect(directive: LinesHoverAndMoveEventDirective): void {
     if (!directive.preventEffect) {
@@ -68,12 +71,10 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
             : 'transparent'
         )
         .attr('r', (d): number => {
-          let r =
-            typeof directive.lines.config.pointMarker.radius === 'function'
-              ? directive.lines.config.pointMarker.radius(
-                  directive.lines.config.data[d.index]
-                )
-              : directive.lines.config.pointMarker.radius;
+          let r = this.utilities.getValueFromConstantOrFunction(
+            directive.lines.config.pointMarker.radius,
+            directive.lines.config.data[d.index]
+          );
           if (directive.closestPointIndex === d.index) {
             r += this.config.growMarkerDimension;
           }
@@ -92,12 +93,10 @@ export class LinesHoverAndMoveEffectDefaultMarkersStyles
     if (!directive.preventEffect) {
       directive.lines.markers.style('fill', null);
       directive.lines.markers.attr('r', (d) => {
-        const r =
-          typeof directive.lines.config.pointMarker.radius === 'function'
-            ? directive.lines.config.pointMarker.radius(
-                directive.lines.config.data[d.index]
-              )
-            : directive.lines.config.pointMarker.radius;
+        const r = this.utilities.getValueFromConstantOrFunction(
+          directive.lines.config.pointMarker.radius,
+          directive.lines.config.data[d.index]
+        );
         return r;
       });
     }

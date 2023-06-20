@@ -38,4 +38,12 @@ export class UtilitiesService {
   isDate(x: any): boolean {
     return Object.prototype.toString.call(x) === '[object Date]' && !isNaN(x);
   }
+
+  getValueFromConstantOrFunction<T, K>(
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    arg: T extends Function ? never : T | ((d: K) => T),
+    datum: K
+  ): T {
+    return typeof arg === 'function' ? arg(datum) : arg;
+  }
 }

@@ -132,11 +132,20 @@ export class LinesStrokeConfig {
    */
   width: number;
 
+  /**
+   * A value for the line's [stroke-dasharray]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray}
+   *  attribute.
+   *
+   * Default is '0'.
+   */
+  dashArray: string | ((d) => string);
+
   constructor(init?: Partial<LinesStrokeConfig>) {
     this.linecap = 'round';
     this.linejoin = 'round';
     this.opacity = 1;
     this.width = 2;
+    this.dashArray = '0';
     Object.assign(this, init);
   }
 }
@@ -154,7 +163,7 @@ export class PointMarkerConfig {
    *
    * Default is 3.
    */
-  radius: number | ((d: any) => number);
+  radius: number | ((d) => number);
 
   /**
    * A value by which the point marker will expand on hover, in px.
