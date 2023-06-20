@@ -264,6 +264,12 @@ export class LinesComponent
               category
             )
           )
+          .attr('stroke-width', ([category]) =>
+            this.utilities.getValueFromConstantOrFunction(
+              this.config.stroke.width,
+              category
+            )
+          )
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
         update
@@ -271,6 +277,12 @@ export class LinesComponent
           .attr('stroke-dasharray', ([category]) =>
             this.utilities.getValueFromConstantOrFunction(
               this.config.stroke.dashArray,
+              category
+            )
+          )
+          .attr('stroke-width', ([category]) =>
+            this.utilities.getValueFromConstantOrFunction(
+              this.config.stroke.width,
               category
             )
           )

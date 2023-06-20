@@ -130,7 +130,7 @@ export class LinesStrokeConfig {
    *
    * Default is 2.
    */
-  width: number;
+  width: number | ((d) => number);
 
   /**
    * A value for the line's [stroke-dasharray]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray}
