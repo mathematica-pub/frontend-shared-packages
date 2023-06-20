@@ -1,16 +1,16 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HoverAndMoveEventDirectiveStub } from '../testing/stubs/hover-move-event.stub';
+import { HoverMoveDirectiveStub } from '../testing/stubs/hover-move.directive.stub';
 
-describe('HoverAndMoveEvent', () => {
-  let directive: HoverAndMoveEventDirectiveStub;
+describe('HoverMoveDirective', () => {
+  let directive: HoverMoveDirectiveStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HoverAndMoveEventDirectiveStub, Renderer2],
+      providers: [HoverMoveDirectiveStub, Renderer2],
     });
-    directive = TestBed.inject(HoverAndMoveEventDirectiveStub);
+    directive = TestBed.inject(HoverMoveDirectiveStub);
     directive.unlistenTouchStart = [
       () => {
         return;

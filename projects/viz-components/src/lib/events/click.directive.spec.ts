@@ -2,16 +2,16 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { ClickEventDirectiveStub } from '../testing/stubs/click-event.stub';
+import { ClickDirectiveStub } from '../testing/stubs/click.directive.stub';
 
-describe('ClickEvent', () => {
-  let directive: ClickEventDirectiveStub;
+describe('ClickDirective', () => {
+  let directive: ClickDirectiveStub;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ClickEventDirectiveStub, Renderer2],
+      providers: [ClickDirectiveStub, Renderer2],
     });
-    directive = TestBed.inject(ClickEventDirectiveStub);
+    directive = TestBed.inject(ClickDirectiveStub);
     directive.unlistenClick = [
       () => {
         return;

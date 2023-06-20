@@ -1,17 +1,15 @@
 import { EventEffect } from '../events/effect';
-import { BarsHoverEventDirective } from './bars-hover-event.directive';
+import { BarsHoverDirective } from './bars-hover.directive';
 
-export class BarsHoverEffectShowLabels
-  implements EventEffect<BarsHoverEventDirective>
-{
-  applyEffect(directive: BarsHoverEventDirective): void {
+export class BarsHoverShowLabels implements EventEffect<BarsHoverDirective> {
+  applyEffect(directive: BarsHoverDirective): void {
     directive.bars.barGroups
       .filter((d) => d === directive.barIndex)
       .select('text')
       .style('display', null);
   }
 
-  removeEffect(directive: BarsHoverEventDirective): void {
+  removeEffect(directive: BarsHoverDirective): void {
     directive.bars.barGroups
       .filter((d) => d === directive.barIndex)
       .select('text')

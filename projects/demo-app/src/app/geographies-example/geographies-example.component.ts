@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { GeographiesHoverEventDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover-event.directive';
-import { GeographiesEmittedOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
+import {
+  GeographiesHoverDirective,
+  GeographiesHoverOutput,
+} from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
@@ -9,7 +11,7 @@ import {
   ElementSpacing,
   EqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesConfig,
-  GeographiesHoverEffectEmitTooltipData,
+  GeographiesHoverEmitTooltipData,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
 import * as topojson from 'topojson-client';
@@ -50,11 +52,11 @@ export class GeographiesExampleComponent implements OnInit {
       new HtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEmittedOutput> =
-    new BehaviorSubject<GeographiesEmittedOutput>(null);
+  tooltipData: BehaviorSubject<GeographiesHoverOutput> =
+    new BehaviorSubject<GeographiesHoverOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: EventEffect<GeographiesHoverEventDirective>[] = [
-    new GeographiesHoverEffectEmitTooltipData(),
+  hoverEffects: EventEffect<GeographiesHoverDirective>[] = [
+    new GeographiesHoverEmitTooltipData(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
@@ -113,16 +115,16 @@ export class GeographiesExampleComponent implements OnInit {
     return topojson.feature(map, map.objects['states'])['features'];
   }
 
-  updateTooltipForNewOutput(data: GeographiesEmittedOutput): void {
+  updateTooltipForNewOutput(data: GeographiesHoverOutput): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: GeographiesEmittedOutput): void {
+  updateTooltipData(data: GeographiesHoverOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: GeographiesEmittedOutput): void {
+  updateTooltipConfig(data: GeographiesHoverOutput): void {
     const config = new HtmlTooltipConfig();
     config.size.minWidth = 130;
     if (data) {

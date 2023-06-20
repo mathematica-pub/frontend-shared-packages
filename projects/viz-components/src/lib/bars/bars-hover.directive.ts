@@ -11,33 +11,26 @@ import {
 import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
-import { HoverAndMoveEventDirective } from '../events/hover-move-event';
-import { BarsEmittedOutput, getBarsTooltipData } from './bars-tooltip-data';
+import { HoverDirective } from '../events/hover.directive';
+import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
-export class BarsHoverAndMoveEmittedOutput {
-  datum: any;
-  color: string;
-  ordinal: string;
-  quantitative: string;
-  category: string;
-  elRef: ElementRef;
-  positionX?: number;
-  positionY?: number;
+interface BarsHoverExtras {
+  barBounds: [[number, number], [number, number]];
 }
 
+export type BarsHoverOutput = BarsEventOutput & BarsHoverExtras;
+
 @Directive({
-  selector: '[vicBarsHoverAndMoveEffects]',
+  selector: '[vicBarsHoverEffects]',
 })
-export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
-  @Input('vicBarsHoverAndMoveEffects')
-  effects: EventEffect<BarsHoverAndMoveEventDirective>[];
-  @Output('vicBarsHoverAndMoveOutput') eventOutput =
-    new EventEmitter<BarsEmittedOutput>();
+export class BarsHoverDirective extends HoverDirective {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverDirective>[];
+  @Output('vicBarsHoverOutput') eventOutput =
+    new EventEmitter<BarsHoverOutput>();
   barIndex: number;
   elRef: ElementRef;
-  pointerX: number;
-  pointerY: number;
 
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();
@@ -56,37 +49,25 @@ export class BarsHoverAndMoveEventDirective extends HoverAndMoveEventDirective {
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    this.barIndex = this.getBarIndex(event);
+    this.barIndex = select(event.target as SVGRectElement).datum() as number;
     this.elRef = new ElementRef(event.target);
-  }
-
-  getBarIndex(event: PointerEvent): number {
-    return select(event.target as SVGRectElement).datum() as number;
-  }
-
-  onElementPointerMove(event: PointerEvent) {
-    [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.effects) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
   }
 
-  onElementPointerLeave() {
+  onElementPointerLeave(): void {
     if (this.effects) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
-    this.barIndex = undefined;
-    this.elRef = undefined;
   }
 
-  getTooltipData(): BarsEmittedOutput {
+  getTooltipData(): BarsEventOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,
       this.bars
     );
-    tooltipData.positionX = this.pointerX;
-    tooltipData.positionY = this.pointerY;
     return tooltipData;
   }
 }

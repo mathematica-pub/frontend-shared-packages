@@ -1,7 +1,7 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HoverEventDirective } from '../events/hover-event';
-import { HoverEventDirectiveStub } from '../testing/stubs/hover-event-stub';
+import { HoverDirective } from '../events/hover.directive';
+import { HoverDirectiveStub } from '../testing/stubs/hover.directive.stub';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LINES } from './lines.component';
@@ -19,8 +19,8 @@ describe('LinesHoverDirective', () => {
           useValue: LinesComponentStub,
         },
         {
-          provide: HoverEventDirective,
-          useValue: HoverEventDirectiveStub,
+          provide: HoverDirective,
+          useValue: HoverDirectiveStub,
         },
       ],
     });

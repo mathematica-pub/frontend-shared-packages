@@ -53,8 +53,8 @@
             <svg:g
               vic-data-marks-lines
               [config]="vm.dataConfig"
-              [vicLinesHoverAndMoveEffects]="hoverEffects"
-              (vicLinesHoverAndMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
+              [vicLinesHoverMoveEffects]="hoverEffects"
+              (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
               [vicLinesInputEffects]="[highlightLineForLabelEffect]"
               [vicLinesInputEvent$]="chartInputEvent$"
             >
@@ -84,8 +84,8 @@
             <svg:g
               vic-data-marks-lines
               [config]="vm.dataConfig"
-              [vicLinesHoverAndMoveEffects]="hoverEffects"
-              (vicLinesHoverAndMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
+              [vicLinesHoverMoveEffects]="hoverEffects"
+              (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
               [vicLinesChartClickEffects]="clickEffects"
               [vicLinesChartClickRemoveEvent$]="removeTooltipEvent$"
               (vicLinesChartClickOutput)="updateTooltipForNewOutput($event, 'click')"

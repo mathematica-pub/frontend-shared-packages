@@ -1,6 +1,6 @@
-import { HoverAndMoveEventDirective } from '../../events/hover-move-event';
+import { HoverMoveDirective } from '../../events/hover-move.directive';
 
-export class HoverAndMoveEventDirectiveStub extends HoverAndMoveEventDirective {
+export class HoverMoveDirectiveStub extends HoverMoveDirective {
   setListenedElements(): void {
     return;
   }

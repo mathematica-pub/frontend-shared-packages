@@ -1,6 +1,6 @@
-import { HoverEventDirective } from '../../events/hover-event';
+import { HoverDirective } from '../../events/hover.directive';
 
-export class HoverEventDirectiveStub extends HoverEventDirective {
+export class HoverDirectiveStub extends HoverDirective {
   onElementPointerEnter(event: PointerEvent): void {
     return;
   }

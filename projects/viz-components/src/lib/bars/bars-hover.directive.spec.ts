@@ -1,30 +1,30 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HoverEventDirective } from '../events/hover-event';
+import { HoverDirective } from '../events/hover.directive';
 import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
-import { HoverEventDirectiveStub } from '../testing/stubs/hover-event-stub';
-import { BarsHoverEventDirective } from './bars-hover-event.directive';
+import { HoverDirectiveStub } from '../testing/stubs/hover.directive.stub';
+import { BarsHoverDirective } from './bars-hover.directive';
 import { BARS } from './bars.component';
 
 describe('BarsHoverEventDirective', () => {
-  let directive: BarsHoverEventDirective;
+  let directive: BarsHoverDirective;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        BarsHoverEventDirective,
+        BarsHoverDirective,
         Renderer2,
         {
           provide: BARS,
           useValue: BarsComponentStub,
         },
         {
-          provide: HoverEventDirective,
-          useValue: HoverEventDirectiveStub,
+          provide: HoverDirective,
+          useValue: HoverDirectiveStub,
         },
       ],
     });
-    directive = TestBed.inject(BarsHoverEventDirective);
+    directive = TestBed.inject(BarsHoverDirective);
     directive.unlistenTouchStart = [
       () => {
         return;

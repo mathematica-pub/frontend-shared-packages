@@ -1,7 +1,7 @@
 import { EventEffect } from '../events/effect';
 import { LinesClickDirective } from './lines-click.directive';
 
-export class LinesClickEffectEmitTooltipDataPauseHoverMoveEffects
+export class LinesClickEmitTooltipDataPauseHoverMoveEffects
   implements EventEffect<LinesClickDirective>
 {
   applyEffect(directive: LinesClickDirective) {

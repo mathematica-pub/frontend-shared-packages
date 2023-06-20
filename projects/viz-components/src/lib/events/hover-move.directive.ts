@@ -1,10 +1,10 @@
 import { Directive } from '@angular/core';
 import { pointer } from 'd3';
-import { UnlistenFunction } from './event';
-import { HoverEventDirective } from './hover-event';
+import { UnlistenFunction } from './event.directive';
+import { HoverDirective } from './hover.directive';
 
 @Directive()
-export abstract class HoverAndMoveEventDirective extends HoverEventDirective {
+export abstract class HoverMoveDirective extends HoverDirective {
   unlistenPointerMove: UnlistenFunction;
 
   abstract onElementPointerMove(event: PointerEvent): void;

@@ -1,9 +1,9 @@
 import { Directive, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
-import { EventDirective, UnlistenFunction } from './event';
+import { EventDirective, UnlistenFunction } from './event.directive';
 
 @Directive()
-export abstract class HoverEventDirective
+export abstract class HoverDirective
   extends EventDirective
   implements OnDestroy
 {

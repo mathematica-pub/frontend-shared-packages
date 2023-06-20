@@ -4,22 +4,31 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
-import { HoverEventDirective } from '../events/hover-event';
+import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
-  GeographiesEmittedOutput,
+  GeographiesEventOutput,
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
+interface GeographiesHoverMoveExtras {
+  positionX?: number;
+  positionY?: number;
+}
+
+export type GeographiesHoverMoveOutput = GeographiesEventOutput &
+  GeographiesHoverMoveExtras;
+
 @Directive({
-  selector: '[vicGeographiesHoverEffects]',
+  selector: '[vicGeographiesHoverMoveEffects]',
 })
-export class GeographiesHoverEventDirective extends HoverEventDirective {
-  @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<GeographiesHoverEventDirective>[];
-  @Output('vicGeographiesHoverOutput') eventOutput =
-    new EventEmitter<GeographiesEmittedOutput>();
-  bounds: [[number, number], [number, number]];
+export class GeographiesHoverMoveDirective extends HoverMoveDirective {
+  @Input('vicGeographiesHoverMoveEffects')
+  effects: EventEffect<GeographiesHoverMoveDirective>[];
+  @Output('vicGeographiesHoverMoveOutput') eventOutput =
+    new EventEmitter<GeographiesHoverMoveOutput>();
+  pointerX: number;
+  pointerY: number;
   geographyIndex: number;
 
   constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
@@ -38,18 +47,25 @@ export class GeographiesHoverEventDirective extends HoverEventDirective {
       });
   }
 
-  onElementPointerEnter(event: PointerEvent): void {
-    const d = select(event.target as SVGPathElement).datum();
-    this.bounds = this.geographies.path.bounds(d);
+  onElementPointerEnter(): void {
+    return;
+  }
+
+  onElementPointerMove(event: PointerEvent): void {
+    [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
+    const d = select(event.target as Element).datum();
     this.geographyIndex = this.getGeographyIndex(d);
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.effects) {
+      this.effects.forEach((effect) => effect.applyEffect(this));
+    }
   }
 
   onElementPointerLeave(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.effects) {
+      this.effects.forEach((effect) => effect.removeEffect(this));
+    }
   }
 
-  // consider making GeographiesEventMixin later to avoid duplicating this method
   getGeographyIndex(d: any): number {
     let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
     if (typeof value === 'string') {
@@ -58,12 +74,15 @@ export class GeographiesHoverEventDirective extends HoverEventDirective {
     return this.geographies.values.indexMap.get(value);
   }
 
-  getTooltipData(): GeographiesEmittedOutput {
+  getTooltipData(): GeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    tooltipData.bounds = this.bounds;
-    return tooltipData;
+    const extras = {
+      positionX: this.pointerX,
+      positionY: this.pointerY,
+    };
+    return { ...tooltipData, ...extras };
   }
 }

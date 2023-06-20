@@ -2,20 +2,20 @@ import { select } from 'd3';
 import { EventEffect } from '../events/effect';
 import { LinesMarkerClickDirective } from './lines-marker-click.directive';
 
-export class LinesMarkerClickEventDefaultStylesConfig {
+export class LinesMarkerClickDefaultStylesConfig {
   growMarkerDimension: number;
 
-  constructor(init?: Partial<LinesMarkerClickEventDefaultStylesConfig>) {
+  constructor(init?: Partial<LinesMarkerClickDefaultStylesConfig>) {
     this.growMarkerDimension = 2;
     Object.assign(this, init);
   }
 }
 
-export class LinesMarkerClickEffectEmitTooltipData
+export class LinesMarkerClickEmitTooltipData
   implements EventEffect<LinesMarkerClickDirective>
 {
-  constructor(private config?: LinesMarkerClickEventDefaultStylesConfig) {
-    this.config = config ?? new LinesMarkerClickEventDefaultStylesConfig();
+  constructor(private config?: LinesMarkerClickDefaultStylesConfig) {
+    this.config = config ?? new LinesMarkerClickDefaultStylesConfig();
   }
 
   applyEffect(directive: LinesMarkerClickDirective) {

@@ -3,7 +3,7 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { EventDirectiveStub } from '../testing/stubs/event.stub';
+import { EventDirectiveStub } from '../testing/stubs/event.directive.stub';
 
 describe('EventDirective', () => {
   let directive: EventDirectiveStub;

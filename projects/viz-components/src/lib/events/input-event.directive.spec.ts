@@ -2,7 +2,7 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { InputEventDirectiveStub } from '../testing/stubs/input-event.stub';
+import { InputEventDirectiveStub } from '../testing/stubs/input-event.directive.stub';
 
 describe('InputEvent', () => {
   let directive: InputEventDirectiveStub;

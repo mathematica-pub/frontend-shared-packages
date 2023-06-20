@@ -3,21 +3,21 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { EventEffect } from '../events/effect';
-import { HoverAndMoveEventDirective } from '../events/hover-move-event';
+import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getLinesTooltipDataFromDatum,
-  LinesEmittedOutput,
+  LinesEventOutput,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
 
 @Directive({
-  selector: '[vicLinesHoverAndMoveEffects]',
+  selector: '[vicLinesHoverMoveEffects]',
 })
-export class LinesHoverAndMoveDirective extends HoverAndMoveEventDirective {
-  @Input('vicLinesHoverAndMoveEffects')
-  effects: EventEffect<LinesHoverAndMoveDirective>[];
-  @Output('vicLinesHoverAndMoveOutput') eventOutput =
-    new EventEmitter<LinesEmittedOutput>();
+export class LinesHoverMoveDirective extends HoverMoveDirective {
+  @Input('vicLinesHoverMoveEffects')
+  effects: EventEffect<LinesHoverMoveDirective>[];
+  @Output('vicLinesHoverMoveOutput') eventOutput =
+    new EventEmitter<LinesEventOutput>();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
@@ -116,7 +116,7 @@ export class LinesHoverAndMoveDirective extends HoverAndMoveEventDirective {
     }
   }
 
-  getTooltipData(): LinesEmittedOutput {
+  getTooltipData(): LinesEventOutput {
     const data = getLinesTooltipDataFromDatum(
       this.closestPointIndex,
       this.lines

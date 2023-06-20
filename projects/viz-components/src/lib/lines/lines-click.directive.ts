@@ -10,33 +10,33 @@ import {
   Self,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ClickEventDirective } from '../events/click-event';
+import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
-import { ListenElement } from '../events/event';
-import { LinesHoverAndMoveDirective } from './lines-hover-move.directive';
+import { ListenElement } from '../events/event.directive';
+import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
 import {
   getLinesTooltipDataFromDatum,
-  LinesEmittedOutput,
+  LinesEventOutput,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
 
 type LinesEventDirective =
   | LinesHoverDirective
-  | LinesHoverAndMoveDirective
+  | LinesHoverMoveDirective
   | LinesInputEventDirective;
 
 @Directive({
   selector: '[vicLinesChartClickEffects]',
 })
-export class LinesClickDirective extends ClickEventDirective {
+export class LinesClickDirective extends ClickDirective {
   @Input('vicLinesChartClickEffects')
   effects: EventEffect<LinesClickDirective>[];
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicLinesChartClickOutput') eventOutput =
-    new EventEmitter<LinesEmittedOutput>();
+    new EventEmitter<LinesEventOutput>();
 
   constructor(
     @Inject(LINES) public lines: LinesComponent,
@@ -45,7 +45,7 @@ export class LinesClickDirective extends ClickEventDirective {
     public hoverDirective?: LinesHoverDirective,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverAndMoveDirective,
+    public hoverAndMoveDirective?: LinesHoverMoveDirective,
     @Self()
     @Optional()
     public inputEventDirective?: LinesInputEventDirective
@@ -66,10 +66,10 @@ export class LinesClickDirective extends ClickEventDirective {
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): LinesEmittedOutput {
+  getTooltipData(): LinesEventOutput {
     if (!this.hoverAndMoveDirective) {
       console.warn(
-        'Tooltip data can only re retrieved when a LinesHoverAndMoveEventDirective is implemented.'
+        'Tooltip data can only re retrieved when a LinesHoverMoveDirective is implemented.'
       );
     }
     if (this.hoverAndMoveDirective.closestPointIndex) {

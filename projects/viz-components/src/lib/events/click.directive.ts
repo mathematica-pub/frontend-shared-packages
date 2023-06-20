@@ -2,7 +2,11 @@
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
 import { pointer } from 'd3';
 import { Observable, Subject, takeUntil } from 'rxjs';
-import { EventDirective, ListenElement, UnlistenFunction } from './event';
+import {
+  EventDirective,
+  ListenElement,
+  UnlistenFunction,
+} from './event.directive';
 
 /**
  * A directive that listens for click events on a set of elements, intended to be used
@@ -12,7 +16,7 @@ import { EventDirective, ListenElement, UnlistenFunction } from './event';
  *  a user must supply an `Observable<void>` to the `clickRemoveEvent$` input.
  */
 @Directive()
-export abstract class ClickEventDirective
+export abstract class ClickDirective
   extends EventDirective
   implements OnInit, OnDestroy
 {

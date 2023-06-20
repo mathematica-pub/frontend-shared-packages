@@ -2,16 +2,16 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
-import { BarsHoverAndMoveEventDirective } from './bars-hover-move-event.directive';
+import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BARS } from './bars.component';
 
-describe('BarsHoverAndMoveDirective', () => {
-  let directive: BarsHoverAndMoveEventDirective;
+describe('BarsHoverMoveDirective', () => {
+  let directive: BarsHoverMoveDirective;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        BarsHoverAndMoveEventDirective,
+        BarsHoverMoveDirective,
         Renderer2,
         {
           provide: BARS,
@@ -19,7 +19,7 @@ describe('BarsHoverAndMoveDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(BarsHoverAndMoveEventDirective);
+    directive = TestBed.inject(BarsHoverMoveDirective);
     directive.unlistenTouchStart = [
       () => {
         return;
