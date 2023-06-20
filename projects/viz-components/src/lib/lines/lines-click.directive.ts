@@ -91,7 +91,7 @@ export class LinesClickDirective extends ClickDirective {
     hoverEventDirectives.forEach((directive) => this.disableEffect(directive));
   }
 
-  resumeHoverEffects(removeEffects: boolean): void {
+  resumeHoverEffects(removeEffects = true): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
@@ -105,7 +105,7 @@ export class LinesClickDirective extends ClickDirective {
     this.disableEffect(this.inputEventDirective);
   }
 
-  resumeInputEventEffects(removeEffects: boolean): void {
+  resumeInputEventEffects(removeEffects = true): void {
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 

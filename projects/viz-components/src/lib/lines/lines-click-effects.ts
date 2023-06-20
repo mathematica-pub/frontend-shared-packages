@@ -11,7 +11,7 @@ export class LinesClickEmitTooltipDataPauseHoverMoveEffects
   }
 
   removeEffect(directive: LinesClickDirective) {
-    directive.resumeHoverEffects(false);
+    directive.resumeHoverEffects();
     directive.eventOutput.emit(null);
   }
 }
