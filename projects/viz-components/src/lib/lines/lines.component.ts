@@ -274,7 +274,7 @@ export class LinesComponent
     select(this.dotRef.nativeElement)
       .append('circle')
       .attr('class', 'vic-tooltip-dot')
-      .attr('r', 4)
+      .attr('r', this.config.hoverDot.radius)
       .attr('fill', '#222')
       .attr('display', 'none');
   }

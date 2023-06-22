@@ -100,6 +100,7 @@ export class LinesConfig extends DataMarksConfig {
     this.curve = curveLinear;
     this.lineLabelsFormat = (d: string) => d;
     this.pointerDetectionRadius = 80;
+    this.hoverDot.radius = 4;
     Object.assign(this, init);
   }
 }
