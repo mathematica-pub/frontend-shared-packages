@@ -235,9 +235,9 @@ export class LinesComponent
 
   drawMarks(transitionDuration: number): void {
     this.drawLines(transitionDuration);
-    if (this.config.pointMarker.display) {
+    if (this.config.pointMarkers.display) {
       this.drawPointMarkers(transitionDuration);
-    } else {
+    } else if (this.config.hoverDot.display) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -276,7 +276,7 @@ export class LinesComponent
       .attr('class', 'vic-tooltip-dot')
       .attr('r', 4)
       .attr('fill', '#222')
-      .attr('display', null);
+      .attr('display', 'none');
   }
 
   drawPointMarkers(transitionDuration: number): void {
@@ -294,7 +294,7 @@ export class LinesComponent
           .style('mix-blend-mode', this.config.mixBlendMode)
           .attr('cx', (d) => this.xScale(this.values.x[d.index]))
           .attr('cy', (d) => this.yScale(this.values.y[d.index]))
-          .attr('r', this.config.pointMarker.radius)
+          .attr('r', this.config.pointMarkers.radius)
           .attr('fill', (d) =>
             this.categoryScale(this.values.category[d.index])
           ),

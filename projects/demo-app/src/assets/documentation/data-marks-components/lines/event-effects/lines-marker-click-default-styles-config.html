@@ -1,0 +1,229 @@
+<!-- START CONTENT -->
+               <div class="content class">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Classes</li>
+  <li >LinesMarkerClickDefaultStylesConfig</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="documentation/./data-marks-components/lines/event-effects/lines-marker-click-default-styles-config#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="documentation/./data-marks-components/lines/event-effects/lines-marker-click-default-styles-config#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/viz-components/src/lib/lines/lines-marker-click-effects.ts</code>
+        </p>
+
+
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/event-effects/lines-marker-click-default-styles-config#growMarkerDimension" >growMarkerDimension</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(init?: <a " target="_self">Partial&lt;LinesMarkerClickDefaultStylesConfig&gt;</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:6</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>init</td>
+                                                  
+                                                        <td>
+                                                                        <code><a " target="_self" >Partial&lt;LinesMarkerClickDefaultStylesConfig&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="growMarkerDimension"></a>
+                    <span class="name">
+                        <span ><b>growMarkerDimension</b></span>
+                        <a href="documentation/./data-marks-components/lines/event-effects/lines-marker-click-default-styles-config#growMarkerDimension"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="6" class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:6</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { select } from &#x27;d3&#x27;;
+import { EventEffect } from &#x27;../events/effect&#x27;;
+import { LinesMarkerClickDirective } from &#x27;./lines-marker-click.directive&#x27;;
+
+export class LinesMarkerClickDefaultStylesConfig {
+  growMarkerDimension: number;
+
+  constructor(init?: Partial&lt;LinesMarkerClickDefaultStylesConfig&gt;) {
+    this.growMarkerDimension &#x3D; 2;
+    Object.assign(this, init);
+  }
+}
+
+export class LinesMarkerClickEmitTooltipData
+  implements EventEffect&lt;LinesMarkerClickDirective&gt;
+{
+  constructor(private config?: LinesMarkerClickDefaultStylesConfig) {
+    this.config &#x3D; config ?? new LinesMarkerClickDefaultStylesConfig();
+  }
+
+  applyEffect(directive: LinesMarkerClickDirective) {
+    const tooltipData &#x3D; directive.getTooltipData();
+    directive.preventHoverEffects();
+    select(directive.el)
+      .attr(&#x27;r&#x27;, (d): number &#x3D;&gt; {
+        const r &#x3D;
+          directive.lines.config.pointMarkers.radius +
+          this.config.growMarkerDimension;
+        return r;
+      })
+      .raise();
+    directive.eventOutput.emit(tooltipData);
+  }
+
+  removeEffect(directive: LinesMarkerClickDirective) {
+    select(directive.el).attr(
+      &#x27;r&#x27;,
+      (d): number &#x3D;&gt; directive.lines.config.pointMarkers.radius
+    );
+    directive.resumeHoverEffects();
+    directive.eventOutput.emit(null);
+  }
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

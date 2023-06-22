@@ -54,12 +54,19 @@ export class LinesConfig extends DataMarksConfig {
   /**
    * A config for the behavior of markers for each datum on the line.
    */
-  pointMarker: PointMarkerConfig;
+  pointMarkers: PointMarkersConfig = new PointMarkersConfig();
+
+  /**
+   * A config for a dot that will appear on hover of a line. Intended to be used when there
+   *  are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
+   *  data will be displayed. Will not be displayed if pointMarkers.display is true.
+   */
+  hoverDot: PointMarkerConfig = new PointMarkerConfig();
 
   /**
    * A config for the behavior of the line stroke.
    */
-  stroke?: LinesStrokeConfig;
+  stroke?: LinesStrokeConfig = new LinesStrokeConfig();
 
   /**
    * A boolean to determine if the line will be labeled.
@@ -84,8 +91,6 @@ export class LinesConfig extends DataMarksConfig {
 
   constructor(init?: Partial<LinesConfig>) {
     super();
-    this.pointMarker = new PointMarkerConfig();
-    this.stroke = new LinesStrokeConfig();
     this.x.valueAccessor = ([x]) => x;
     this.x.scaleType = scaleUtc;
     this.y.valueAccessor = ([, y]) => y;
@@ -156,6 +161,14 @@ export class PointMarkerConfig {
    */
   radius: number;
 
+  constructor(init?: Partial<PointMarkerConfig>) {
+    this.display = false;
+    this.radius = 3;
+    Object.assign(this, init);
+  }
+}
+
+export class PointMarkersConfig extends PointMarkerConfig {
   /**
    * A value by which the point marker will expand on hover, in px.
    *
@@ -163,9 +176,9 @@ export class PointMarkerConfig {
    */
   growByOnHover: number;
 
-  constructor(init?: Partial<PointMarkerConfig>) {
+  constructor(init?: Partial<PointMarkersConfig>) {
+    super();
     this.display = true;
-    this.radius = 3;
     this.growByOnHover = 1;
     Object.assign(this, init);
   }

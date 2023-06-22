@@ -291,14 +291,14 @@ describe('LineChartComponent', () => {
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
 
-    it('calls drawPointMarkers once with the correct argument if config.pointMarker.display is truthy', () => {
-      component.config.pointMarker.display = true;
+    it('calls drawPointMarkers once with the correct argument if config.pointMarkers.display is truthy', () => {
+      component.config.pointMarkers.display = true;
       component.drawMarks(duration);
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
 
-    it('does not call drawPointMarkers once if config.pointMarker.displau is falsy', () => {
-      component.config.pointMarker.display = false;
+    it('does not call drawPointMarkers once if config.pointMarkers.display is falsy', () => {
+      component.config.pointMarkers.display = false;
       component.drawMarks(duration);
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });

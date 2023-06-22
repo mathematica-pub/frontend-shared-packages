@@ -1,7 +1,7 @@
 import { EventEffect } from '../events/effect';
 import { StackedAreaHoverMoveDirective } from './stacked-area-hover-move-event.directive';
 
-export class StackedAreaEmitTooltipData
+export class StackedAreaHoverMoveEmitTooltipData
   implements EventEffect<StackedAreaHoverMoveDirective>
 {
   applyEffect(directive: StackedAreaHoverMoveDirective): void {

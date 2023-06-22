@@ -24,7 +24,7 @@ export class LinesMarkerClickEmitTooltipData
     select(directive.el)
       .attr('r', (d): number => {
         const r =
-          directive.lines.config.pointMarker.radius +
+          directive.lines.config.pointMarkers.radius +
           this.config.growMarkerDimension;
         return r;
       })
@@ -35,7 +35,7 @@ export class LinesMarkerClickEmitTooltipData
   removeEffect(directive: LinesMarkerClickDirective) {
     select(directive.el).attr(
       'r',
-      (d): number => directive.lines.config.pointMarker.radius
+      (d): number => directive.lines.config.pointMarkers.radius
     );
     directive.resumeHoverEffects();
     directive.eventOutput.emit(null);

@@ -812,7 +812,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>resumeHoverEffects(removeEffects: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+<code>resumeHoverEffects(removeEffects)</code>
                 </td>
             </tr>
 
@@ -835,21 +835,21 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
-                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>removeEffects</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
+                                    <td>
+                                        <code>true</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -881,7 +881,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>resumeInputEventEffects(removeEffects: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+<code>resumeInputEventEffects(removeEffects)</code>
                 </td>
             </tr>
 
@@ -904,21 +904,21 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
-                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>removeEffects</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
 
                                     <td>
                                         No
                                     </td>
 
+                                    <td>
+                                        <code>true</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -1716,7 +1716,7 @@ export class LinesClickDirective extends ClickDirective {
     hoverEventDirectives.forEach((directive) &#x3D;&gt; this.disableEffect(directive));
   }
 
-  resumeHoverEffects(removeEffects: boolean): void {
+  resumeHoverEffects(removeEffects &#x3D; true): void {
     const hoverEventDirectives &#x3D; [
       this.hoverDirective,
       this.hoverAndMoveDirective,
@@ -1730,7 +1730,7 @@ export class LinesClickDirective extends ClickDirective {
     this.disableEffect(this.inputEventDirective);
   }
 
-  resumeInputEventEffects(removeEffects: boolean): void {
+  resumeInputEventEffects(removeEffects &#x3D; true): void {
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 

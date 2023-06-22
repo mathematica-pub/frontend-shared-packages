@@ -89,7 +89,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:133</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:138</a></div>
                             </td>
                         </tr>
 
@@ -151,7 +151,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="109" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:109</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="114" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:114</a></div>
                         </td>
                     </tr>
 
@@ -185,7 +185,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:117</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="122" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:122</a></div>
                         </td>
                     </tr>
 
@@ -219,7 +219,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="125" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:125</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:130</a></div>
                         </td>
                     </tr>
 
@@ -253,7 +253,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="133" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:133</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">projects/viz-components/src/lib/lines/lines.config.ts:138</a></div>
                         </td>
                     </tr>
 
@@ -336,12 +336,19 @@ export class LinesConfig extends DataMarksConfig {
   /**
    * A config for the behavior of markers for each datum on the line.
    */
-  pointMarker: PointMarkerConfig;
+  pointMarkers: PointMarkersConfig &#x3D; new PointMarkersConfig();
+
+  /**
+   * A config for a dot that will appear on hover of a line. Intended to be used when there
+   *  are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
+   *  data will be displayed. Will not be displayed if pointMarkers.display is true.
+   */
+  hoverDot: PointMarkerConfig &#x3D; new PointMarkerConfig();
 
   /**
    * A config for the behavior of the line stroke.
    */
-  stroke?: LinesStrokeConfig;
+  stroke?: LinesStrokeConfig &#x3D; new LinesStrokeConfig();
 
   /**
    * A boolean to determine if the line will be labeled.
@@ -366,8 +373,6 @@ export class LinesConfig extends DataMarksConfig {
 
   constructor(init?: Partial&lt;LinesConfig&gt;) {
     super();
-    this.pointMarker &#x3D; new PointMarkerConfig();
-    this.stroke &#x3D; new LinesStrokeConfig();
     this.x.valueAccessor &#x3D; ([x]) &#x3D;&gt; x;
     this.x.scaleType &#x3D; scaleUtc;
     this.y.valueAccessor &#x3D; ([, y]) &#x3D;&gt; y;
@@ -438,6 +443,14 @@ export class PointMarkerConfig {
    */
   radius: number;
 
+  constructor(init?: Partial&lt;PointMarkerConfig&gt;) {
+    this.display &#x3D; false;
+    this.radius &#x3D; 3;
+    Object.assign(this, init);
+  }
+}
+
+export class PointMarkersConfig extends PointMarkerConfig {
   /**
    * A value by which the point marker will expand on hover, in px.
    *
@@ -445,9 +458,9 @@ export class PointMarkerConfig {
    */
   growByOnHover: number;
 
-  constructor(init?: Partial&lt;PointMarkerConfig&gt;) {
+  constructor(init?: Partial&lt;PointMarkersConfig&gt;) {
+    super();
     this.display &#x3D; true;
-    this.radius &#x3D; 3;
     this.growByOnHover &#x3D; 1;
     Object.assign(this, init);
   }
