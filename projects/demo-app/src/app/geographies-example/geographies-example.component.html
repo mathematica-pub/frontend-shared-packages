@@ -4,9 +4,21 @@
     demo
     *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
   >
+    <p class="effect-title">Select a year</p>
+    <div class="toggle-container">
+      <mat-button-toggle-group
+        name="selectedYear"
+        aria-label="Selected Year"
+        [value]="selectedYear$ | async"
+        (change)="onYearChange($event)"
+      >
+        <mat-button-toggle value="2020">2020</mat-button-toggle>
+        <mat-button-toggle value="2010">2010</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
     <p>Equal values scale</p>
     <p
-      >Patterned states = population less than 500,000 (visual legend to be
+      >Patterned states = population less than 1,000,000 (visual legend to be
       added)</p
     >
     <vic-map-chart

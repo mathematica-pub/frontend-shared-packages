@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { VicGeographiesModule } from 'projects/viz-components/src/lib/geographies/geographies.module';
 import {
@@ -22,6 +23,7 @@ import { GeographiesExampleComponent } from './geographies-example.component';
     SharedModule,
     MatSelectModule,
     VicHtmlTooltipModule,
+    MatButtonToggleModule,
   ],
 })
 export class GeographiesExampleModule {}

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
   GeographiesHoverDirective,
@@ -60,6 +61,8 @@ export class GeographiesExampleComponent implements OnInit {
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
+  selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
+  selectedYear$ = this.selectedYear.asObservable();
 
   constructor(
     private dataService: DataService,
@@ -67,8 +70,16 @@ export class GeographiesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.dataMarksConfig$ = combineLatest([
+    const filteredData$ = combineLatest([
       this.dataService.stateIncomeData$,
+      this.selectedYear$,
+    ]).pipe(
+      filter(([data]) => !!data),
+      map(([data, year]) => data.filter((x) => x.year === +year))
+    );
+
+    this.dataMarksConfig$ = combineLatest([
+      filteredData$,
       this.basemap.map$,
     ]).pipe(
       filter(([data, map]) => !!data && !!map),
@@ -81,7 +92,7 @@ export class GeographiesExampleComponent implements OnInit {
     map: Topology
   ): GeographiesConfig {
     const config = new GeographiesConfig();
-    config.data = data.filter((x) => x.state.toLowerCase() !== 'puerto rico');
+    config.data = data;
     config.boundary = this.basemap.us;
     config.noDataGeographiesConfigs = [this.basemap.usOutlineConfig];
     config.dataGeographyConfig = this.getDataGeographyConfig(map);
@@ -105,7 +116,7 @@ export class GeographiesExampleComponent implements OnInit {
     config.attributeDataConfig.patternPredicates = [
       {
         patternName: this.patternName,
-        predicate: (d) => !!d && d.population < 500000,
+        predicate: (d) => !!d && d.population < 1000000,
       },
     ];
     return config;
@@ -135,5 +146,9 @@ export class GeographiesExampleComponent implements OnInit {
       config.show = false;
     }
     this.tooltipConfig.next(config);
+  }
+
+  onYearChange(change: MatButtonToggleChange): void {
+    this.selectedYear.next(change.value);
   }
 }

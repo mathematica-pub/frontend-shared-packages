@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { MapLegendContent } from '../map-legend-content';
 
@@ -12,12 +12,12 @@ import { MapLegendContent } from '../map-legend-content';
 })
 export class ContinuousLegendComponent
   extends MapLegendContent
-  implements OnInit
+  implements OnChanges
 {
   @ViewChild('canvas', { static: true })
   canvasRef: ElementRef<HTMLCanvasElement>;
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.setValues();
     this.setColors();
     this.drawLinearGradient();
