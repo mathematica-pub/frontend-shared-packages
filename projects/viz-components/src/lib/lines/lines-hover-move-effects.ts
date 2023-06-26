@@ -63,10 +63,10 @@ export class LinesHoverMoveDefaultMarkersStyles
           : 'transparent'
       )
       .attr('r', (d): number => {
-        let r = directive.lines.config.pointMarker.radius;
+        let r = directive.lines.config.pointMarkers.radius;
         if (directive.closestPointIndex === d.index) {
           r =
-            directive.lines.config.pointMarker.radius +
+            directive.lines.config.pointMarkers.radius +
             this.config.growMarkerDimension;
         }
         return r;
@@ -83,7 +83,7 @@ export class LinesHoverMoveDefaultMarkersStyles
     directive.lines.markers.style('fill', null);
     directive.lines.markers.attr(
       'r',
-      (d) => directive.lines.config.pointMarker.radius
+      (d) => directive.lines.config.pointMarkers.radius
     );
   }
 }
@@ -152,7 +152,7 @@ export class LinesHoverMoveDefaultStyles
 
   applyEffect(directive: LinesHoverMoveDirective) {
     this.linesStyles.applyEffect(directive);
-    if (directive.lines.config.pointMarker.display) {
+    if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.applyEffect(directive);
     } else {
       this.hoverDotStyles.applyEffect(directive);
@@ -161,7 +161,7 @@ export class LinesHoverMoveDefaultStyles
 
   removeEffect(directive: LinesHoverMoveDirective) {
     this.linesStyles.removeEffect(directive);
-    if (directive.lines.config.pointMarker.display) {
+    if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.removeEffect(directive);
     } else {
       this.hoverDotStyles.removeEffect(directive);

@@ -117,7 +117,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.x.valueFormat = '%a %B %d %Y';
     dataConfig.y.valueAccessor = (d) => d.value;
     dataConfig.category.valueAccessor = (d) => d.division;
-    dataConfig.pointMarker.radius = 2;
+    dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
 
     return {

@@ -37,6 +37,7 @@ data-marks-components:
       geographies-hover: 'directives/GeographiesHoverDirective.html'
       geographies-hover-and-move: 'directives/GeographiesHoverMoveDirective.html'
       geographies-input-event: 'directives/GeographiesInputEventDirective.html'
+    event-effects:
       geographies-hover-emit-tooltip-data: 'classes/GeographiesHoverEmitTooltipData.html'
       geographies-hover-move-emit-tooltip-data: 'classes/GeographiesHoverMoveEmitTooltipData.html'
   lines:
@@ -46,14 +47,15 @@ data-marks-components:
     point-marker-config: 'classes/PointMarkerConfig.html'
     events:
       lines-click: 'directives/LinesClickDirective.html'
-      lines-click-emit-tooltip-data-pause-hover-move-effects: classes/LinesClickEmitTooltipDataPauseHoverMoveEffects.html
-      lines-marker-click-emit-tooltip-data: 'classes/LinesMarkerClickEmitTooltipData.html'
-      lines-marker-click-default-styles-config: 'classes/LinesMarkerClickDefaultStylesConfig.html'
       lines-marker-click: 'directives/LinesMarkerClickDirective.html'
       lines-input-event: 'directives/LinesInputEventDirective.html'
       lines-event-output: 'interfaces/LinesEventOutput.html'
       lines-hover: 'directives/LinesHoverDirective.html'
       lines-hover-move: 'directives/LinesHoverMoveDirective.html'
+    event-effects:
+      lines-click-emit-tooltip-data-pause-hover-move-effects: classes/LinesClickEmitTooltipDataPauseHoverMoveEffects.html
+      lines-marker-click-emit-tooltip-data: 'classes/LinesMarkerClickEmitTooltipData.html'
+      lines-marker-click-default-styles-config: 'classes/LinesMarkerClickDefaultStylesConfig.html'
       lines-hover-move-default-lines-styles: 'classes/LinesHoverMoveDefaultLinesStyles.html'
       lines-hover-move-default-markers-styles: 'classes/LinesHoverMoveDefaultMarkersStyles.html'
       lines-hover-move-default-hover-dot-styles: 'classes/LinesHoverMoveDefaultHoverDotStyles.html'
@@ -68,11 +70,12 @@ data-marks-components:
     bars-labels-config: 'classes/BarsLabelsConfig.html'
     events:
       bars-hover-event: 'directives/BarsHoverEventDirective.html'
-      bars-hover-show-labels: 'classes/BarsHoverShowLabels.html'
       bars-hover: 'directives/BarsHoverDirective.html'
       bars-hover-move: 'directives/BarsHoverMoveDirective.html'
-      bars-hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
       bars-input-event: 'directives/BarsInputEventDirective.html'
+    event-effects:
+      bars-hover-show-labels: 'classes/BarsHoverShowLabels.html'
+      bars-hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
   grouped-bars:
     grouped-bars: 'components/GroupedBarsComponent.html'
     grouped-bars-config: 'classes/GroupedBarsConfig.html'
@@ -80,6 +83,11 @@ data-marks-components:
     stacked-area: 'components/StackedAreaComponent.html'
     stacked-area-config: 'classes/StackedAreaConfig.html'
     stacked-area-emitted-output: 'interfaces/StackedAreaEmittedOutput.html'
+    events:
+      stacked-area-hover-move: 'directives/StackedAreaHoverMoveDirective.html'
+      stacked-area-input-event: 'directives/StackedAreaInputEventDirective.html'
+    event-effects:
+      stacked-area-hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
   stacked-bars:
     stacked-bars: 'components/StackedBarsComponent.html'
     stacked-bars-config: 'classes/StackedBarsConfig.html'

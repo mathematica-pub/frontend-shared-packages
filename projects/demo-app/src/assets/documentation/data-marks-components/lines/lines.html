@@ -2369,9 +2369,9 @@ export class LinesComponent
 
   drawMarks(transitionDuration: number): void {
     this.drawLines(transitionDuration);
-    if (this.config.pointMarker.display) {
+    if (this.config.pointMarkers.display) {
       this.drawPointMarkers(transitionDuration);
-    } else {
+    } else if (this.config.hoverDot.display) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -2408,9 +2408,9 @@ export class LinesComponent
     select(this.dotRef.nativeElement)
       .append(&#x27;circle&#x27;)
       .attr(&#x27;class&#x27;, &#x27;vic-tooltip-dot&#x27;)
-      .attr(&#x27;r&#x27;, 4)
+      .attr(&#x27;r&#x27;, this.config.hoverDot.radius)
       .attr(&#x27;fill&#x27;, &#x27;#222&#x27;)
-      .attr(&#x27;display&#x27;, null);
+      .attr(&#x27;display&#x27;, &#x27;none&#x27;);
   }
 
   drawPointMarkers(transitionDuration: number): void {
@@ -2428,7 +2428,7 @@ export class LinesComponent
           .style(&#x27;mix-blend-mode&#x27;, this.config.mixBlendMode)
           .attr(&#x27;cx&#x27;, (d) &#x3D;&gt; this.xScale(this.values.x[d.index]))
           .attr(&#x27;cy&#x27;, (d) &#x3D;&gt; this.yScale(this.values.y[d.index]))
-          .attr(&#x27;r&#x27;, this.config.pointMarker.radius)
+          .attr(&#x27;r&#x27;, this.config.pointMarkers.radius)
           .attr(&#x27;fill&#x27;, (d) &#x3D;&gt;
             this.categoryScale(this.values.category[d.index])
           ),
