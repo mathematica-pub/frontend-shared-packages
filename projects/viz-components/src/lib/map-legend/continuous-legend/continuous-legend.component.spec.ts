@@ -17,7 +17,7 @@ describe('ContinuousLegendComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('ngOnInit', () => {
+  describe('ngOnChanges', () => {
     beforeEach(() => {
       spyOn(component, 'setValues');
       spyOn(component, 'setColors');
@@ -25,17 +25,17 @@ describe('ContinuousLegendComponent', () => {
     });
 
     it('calls setValues once', () => {
-      component.ngOnInit();
+      component.ngOnChanges();
       expect(component.setValues).toHaveBeenCalledTimes(1);
     });
 
     it('calls setColors once', () => {
-      component.ngOnInit();
+      component.ngOnChanges();
       expect(component.setColors).toHaveBeenCalledTimes(1);
     });
 
     it('calls drawLinearGradient once', () => {
-      component.ngOnInit();
+      component.ngOnChanges();
       expect(component.drawLinearGradient).toHaveBeenCalledTimes(1);
     });
   });

@@ -1,5 +1,14 @@
 @import 'vars', 'placeholders';
 
+.effect-title {
+  @extend %typography-subtitle-2;
+  padding-top: $grid-2;
+}
+
+.toggle-container {
+  padding-bottom: $grid-4;
+}
+
 .tooltip-container {
   background: rgba($color-white, 0.9);
   padding: $grid-2;

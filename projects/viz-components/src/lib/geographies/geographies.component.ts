@@ -391,7 +391,16 @@ export class GeographiesComponent
             )
             .attr('stroke', this.config.dataGeographyConfig.strokeColor)
             .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
-        (update) => update.attr('d', this.path),
+        (update) =>
+          update
+            .attr('fill', (d, i) =>
+              this.config.dataGeographyConfig.attributeDataConfig
+                .patternPredicates
+                ? this.getPatternFill(i)
+                : this.getFill(i)
+            )
+            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
         (exit) => exit.remove()
       );
   }

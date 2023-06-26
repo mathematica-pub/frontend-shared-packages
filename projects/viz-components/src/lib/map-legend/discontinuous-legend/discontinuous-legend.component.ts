@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { MapLegendContent } from '../map-legend-content';
 
 /**
@@ -11,11 +11,11 @@ import { MapLegendContent } from '../map-legend-content';
 })
 export class DiscontinuousLegendComponent
   extends MapLegendContent
-  implements OnInit
+  implements OnChanges
 {
   @Input() isCategorical: boolean;
 
-  ngOnInit(): void {
+  ngOnChanges() {
     if (this.isCategorical) {
       this.setCategoricalValues();
     } else {

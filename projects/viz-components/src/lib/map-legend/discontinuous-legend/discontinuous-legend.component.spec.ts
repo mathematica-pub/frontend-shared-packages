@@ -17,7 +17,7 @@ describe('DiscontinuousLegendComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('ngOnInit', () => {
+  describe('ngOnChanges', () => {
     beforeEach(() => {
       spyOn(component, 'setCategoricalValues');
       spyOn(component, 'setValues');
@@ -26,19 +26,19 @@ describe('DiscontinuousLegendComponent', () => {
 
     it('should call setCategoricalValues if isCategorical is true', () => {
       component.isCategorical = true;
-      component.ngOnInit();
+      component.ngOnChanges();
       expect(component.setCategoricalValues).toHaveBeenCalledTimes(1);
     });
 
     it('should call setValues if isCategorical is false', () => {
       component.isCategorical = false;
-      component.ngOnInit();
+      component.ngOnChanges();
       expect(component.setValues).toHaveBeenCalledTimes(1);
     });
 
     it('should call setColors if isCategorical is false', () => {
       component.isCategorical = false;
-      component.ngOnInit();
+      component.ngOnChanges();
       expect(component.setColors).toHaveBeenCalledTimes(1);
     });
   });

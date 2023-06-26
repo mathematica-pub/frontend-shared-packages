@@ -14,4 +14,5 @@ export interface StateIncomeDatum {
   state: string;
   population: number;
   income: number;
+  year: number;
 }
