@@ -108,10 +108,10 @@ export class GeographiesExampleComponent implements OnInit {
     config.attributeDataConfig.geoAccessor = (d) => d.state;
     config.attributeDataConfig.valueAccessor = (d) => d.income;
     config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
-    config.attributeDataConfig.colors =
-      this.selectedYear.value === '2020'
-        ? [colors.white, colors.highlight.default]
-        : [colors.white, '#ff5349'];
+    config.attributeDataConfig.colors = [
+      colors.white,
+      colors.highlight.default,
+    ];
     config.attributeDataConfig.numBins = 6;
     config.attributeDataConfig.patternPredicates = [
       {
