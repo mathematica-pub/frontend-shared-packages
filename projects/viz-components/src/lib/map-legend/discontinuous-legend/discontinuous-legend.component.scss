@@ -30,7 +30,7 @@
   }
 
   .vic-legend-values-container {
-    padding-top: spacing.$grid-1;
+    padding-top: spacing.grid(1);
     display: grid;
     grid-template-columns: repeat(
       calc(var(--num-colors) + 1),
@@ -43,18 +43,18 @@
   &.vic-top {
     .vic-legend-values-container {
       padding-top: 0;
-      padding-bottom: spacing.$grid-1;
+      padding-bottom: spacing.grid(1);
     }
   }
 
   &.vic-categorical {
     .vic-legend-colors-container {
-      column-gap: spacing.$grid-2;
+      column-gap: spacing.grid(2);
       grid-template-columns: repeat(calc(var(--num-colors)), 1fr);
     }
 
     .vic-legend-values-container {
-      column-gap: spacing.$grid-2;
+      column-gap: spacing.grid(2);
       grid-template-columns: repeat(calc(var(--num-colors)), 1fr);
     }
 
@@ -95,7 +95,7 @@
   }
 
   .vic-legend-values-container {
-    padding-right: spacing.$grid-1;
+    padding-right: spacing.grid(1);
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(calc(var(--num-colors) + 1), 1fr);
@@ -107,7 +107,7 @@
   &.vic-right {
     .vic-legend-values-container {
       padding-right: 0;
-      padding-left: spacing.$grid-1;
+      padding-left: spacing.grid(1);
       justify-items: start;
     }
   }
@@ -115,12 +115,12 @@
   &.vic-categorical {
     .vic-legend-colors-container {
       grid-template-rows: repeat(var(--num-colors), 1fr);
-      row-gap: spacing.$grid-2;
+      row-gap: spacing.grid(2);
     }
 
     .vic-legend-values-container {
       grid-template-rows: repeat(var(--num-colors), 1fr);
-      row-gap: spacing.$grid-2;
+      row-gap: spacing.grid(2);
     }
 
     .vic-value {
