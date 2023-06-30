@@ -8,7 +8,6 @@ import {
   OnChanges,
   OnInit,
   SimpleChanges,
-  ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -71,7 +70,6 @@ export class GeographiesComponent
   extends MapContent
   implements DataMarks, OnChanges, OnInit
 {
-  @ViewChild('map', { static: true }) mapRef: ElementRef<SVGSVGElement>;
   @Input() config: GeographiesConfig;
   ranges: Ranges;
   map: any;
@@ -86,6 +84,7 @@ export class GeographiesComponent
   constructor(
     private utilities: UtilitiesService,
     private zone: NgZone,
+    private elRef: ElementRef,
     chart: MapChartComponent
   ) {
     super(chart);
@@ -106,10 +105,10 @@ export class GeographiesComponent
   }
 
   updateGeographyElements(): void {
-    const dataGeographies = select(this.mapRef.nativeElement)
+    const dataGeographies = select(this.elRef.nativeElement)
       .selectAll('.vic-map-layer.vic-data')
       .selectAll('path');
-    const noDataGeographies = select(this.mapRef.nativeElement)
+    const noDataGeographies = select(this.elRef.nativeElement)
       .selectAll('vic-map-layer.vic-no-data')
       .selectAll('path');
     this.dataGeographies.next(dataGeographies);
@@ -366,7 +365,7 @@ export class GeographiesComponent
   }
 
   drawDataLayer(t: any): void {
-    this.map = select(this.mapRef.nativeElement)
+    this.map = select(this.elRef.nativeElement)
       .selectAll('.vic-map-layer.vic-data')
       .data([this.config.dataGeographyConfig])
       .join(
@@ -407,7 +406,7 @@ export class GeographiesComponent
   }
 
   drawNoDataLayers(t: any): void {
-    const noDataLayers = select(this.mapRef.nativeElement)
+    const noDataLayers = select(this.elRef.nativeElement)
       .selectAll('.vic-map-layer.vic-no-data')
       .data(this.config.noDataGeographiesConfigs)
       .join(

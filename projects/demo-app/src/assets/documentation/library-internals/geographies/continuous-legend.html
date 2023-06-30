@@ -48,7 +48,7 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
     </p>
 
 
@@ -156,7 +156,7 @@
                                 <a href="documentation/./library-internals/geographies/continuous-legend#getValuesFromScale" >getValuesFromScale</a>
                             </li>
                             <li>
-                                <a href="documentation/./library-internals/geographies/continuous-legend#ngOnInit" >ngOnInit</a>
+                                <a href="documentation/./library-internals/geographies/continuous-legend#ngOnChanges" >ngOnChanges</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/geographies/continuous-legend#setColors" >setColors</a>
@@ -711,16 +711,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ngOnInit"></a>
+                    <a name="ngOnChanges"></a>
                     <span class="name">
-                        <span ><b>ngOnInit</b></span>
-                        <a href="documentation/./library-internals/geographies/continuous-legend#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="documentation/./library-internals/geographies/continuous-legend#ngOnChanges"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnInit()</code>
+<code>ngOnChanges()</code>
                 </td>
             </tr>
 
@@ -1219,7 +1219,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, OnInit, ViewChild } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, ElementRef, OnChanges, ViewChild } from &#x27;@angular/core&#x27;;
 import { scaleLinear } from &#x27;d3&#x27;;
 import { MapLegendContent } from &#x27;../map-legend-content&#x27;;
 
@@ -1233,12 +1233,12 @@ import { MapLegendContent } from &#x27;../map-legend-content&#x27;;
 })
 export class ContinuousLegendComponent
   extends MapLegendContent
-  implements OnInit
+  implements OnChanges
 {
   @ViewChild(&#x27;canvas&#x27;, { static: true })
   canvasRef: ElementRef&lt;HTMLCanvasElement&gt;;
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.setValues();
     this.setColors();
     this.drawLinearGradient();
@@ -1368,7 +1368,7 @@ export class ContinuousLegendComponent
   }
 
   .vic-legend-values-container {
-    padding-top: spacing.$grid-1;
+    padding-top: spacing.grid(1);
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -1382,7 +1382,7 @@ export class ContinuousLegendComponent
   &amp;.vic-top {
     .vic-legend-values-container {
       padding-top: 0;
-      padding-bottom: spacing.$grid-1;
+      padding-bottom: spacing.grid(1);
     }
   }
 }
@@ -1394,12 +1394,12 @@ export class ContinuousLegendComponent
   .vic-legend-canvas-container {
     width: var(--width);
     height: calc(var(--height) - calc(#{grid-2} * 2));
-    margin-top: spacing.$grid-2;
-    margin-bottom: spacing.$grid-2;
+    margin-top: spacing.grid(2);
+    margin-bottom: spacing.grid(2);
   }
 
   .vic-legend-values-container {
-    padding-right: spacing.$grid-1;
+    padding-right: spacing.grid(1);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -1409,7 +1409,7 @@ export class ContinuousLegendComponent
   &amp;.vic-right {
     .vic-legend-values-container {
       padding-right: 0;
-      padding-left: spacing.$grid-1;
+      padding-left: spacing.grid(1);
       align-items: flex-start;
     }
   }
