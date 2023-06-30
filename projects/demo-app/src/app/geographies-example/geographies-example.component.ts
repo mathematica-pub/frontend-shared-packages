@@ -102,7 +102,7 @@ export class GeographiesExampleComponent implements OnInit {
   getDataGeographyConfig(map: Topology): DataGeographyConfig {
     const config = new DataGeographyConfig();
     config.geographies = this.getDataGeographyFeatures(map);
-    config.valueAccessor = (d) => d.properties['NAME'];
+    config.valueAccessor = (d) => d.properties['name'];
     config.attributeDataConfig =
       new EqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;

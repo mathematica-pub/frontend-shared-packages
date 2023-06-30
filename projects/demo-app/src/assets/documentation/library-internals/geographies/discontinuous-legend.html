@@ -48,7 +48,7 @@
         <h3>Implements</h3>
     </p>
     <p class="comment">
-                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+                    <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
     </p>
 
 
@@ -144,7 +144,7 @@
                                 <a href="documentation/./library-internals/geographies/discontinuous-legend#getValuesFromScale" >getValuesFromScale</a>
                             </li>
                             <li>
-                                <a href="documentation/./library-internals/geographies/discontinuous-legend#ngOnInit" >ngOnInit</a>
+                                <a href="documentation/./library-internals/geographies/discontinuous-legend#ngOnChanges" >ngOnChanges</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/geographies/discontinuous-legend#setCategoricalValues" >setCategoricalValues</a>
@@ -559,16 +559,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ngOnInit"></a>
+                    <a name="ngOnChanges"></a>
                     <span class="name">
-                        <span ><b>ngOnInit</b></span>
-                        <a href="documentation/./library-internals/geographies/discontinuous-legend#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="documentation/./library-internals/geographies/discontinuous-legend#ngOnChanges"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnInit()</code>
+<code>ngOnChanges()</code>
                 </td>
             </tr>
 
@@ -1069,7 +1069,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnInit } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnChanges } from &#x27;@angular/core&#x27;;
 import { MapLegendContent } from &#x27;../map-legend-content&#x27;;
 
 /**
@@ -1082,11 +1082,11 @@ import { MapLegendContent } from &#x27;../map-legend-content&#x27;;
 })
 export class DiscontinuousLegendComponent
   extends MapLegendContent
-  implements OnInit
+  implements OnChanges
 {
   @Input() isCategorical: boolean;
 
-  ngOnInit(): void {
+  ngOnChanges() {
     if (this.isCategorical) {
       this.setCategoricalValues();
     } else {
@@ -1214,7 +1214,7 @@ export class DiscontinuousLegendComponent
   }
 
   .vic-legend-values-container {
-    padding-top: spacing.$grid-1;
+    padding-top: spacing.grid(1);
     display: grid;
     grid-template-columns: repeat(
       calc(var(--num-colors) + 1),
@@ -1227,18 +1227,18 @@ export class DiscontinuousLegendComponent
   &amp;.vic-top {
     .vic-legend-values-container {
       padding-top: 0;
-      padding-bottom: spacing.$grid-1;
+      padding-bottom: spacing.grid(1);
     }
   }
 
   &amp;.vic-categorical {
     .vic-legend-colors-container {
-      column-gap: spacing.$grid-2;
+      column-gap: spacing.grid(2);
       grid-template-columns: repeat(calc(var(--num-colors)), 1fr);
     }
 
     .vic-legend-values-container {
-      column-gap: spacing.$grid-2;
+      column-gap: spacing.grid(2);
       grid-template-columns: repeat(calc(var(--num-colors)), 1fr);
     }
 
@@ -1279,7 +1279,7 @@ export class DiscontinuousLegendComponent
   }
 
   .vic-legend-values-container {
-    padding-right: spacing.$grid-1;
+    padding-right: spacing.grid(1);
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(calc(var(--num-colors) + 1), 1fr);
@@ -1291,7 +1291,7 @@ export class DiscontinuousLegendComponent
   &amp;.vic-right {
     .vic-legend-values-container {
       padding-right: 0;
-      padding-left: spacing.$grid-1;
+      padding-left: spacing.grid(1);
       justify-items: start;
     }
   }
@@ -1299,12 +1299,12 @@ export class DiscontinuousLegendComponent
   &amp;.vic-categorical {
     .vic-legend-colors-container {
       grid-template-rows: repeat(var(--num-colors), 1fr);
-      row-gap: spacing.$grid-2;
+      row-gap: spacing.grid(2);
     }
 
     .vic-legend-values-container {
       grid-template-rows: repeat(var(--num-colors), 1fr);
-      row-gap: spacing.$grid-2;
+      row-gap: spacing.grid(2);
     }
 
     .vic-value {

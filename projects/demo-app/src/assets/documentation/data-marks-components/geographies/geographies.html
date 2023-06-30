@@ -665,8 +665,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="399"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:399</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="409"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:409</a></div>
                 </td>
             </tr>
 
@@ -734,8 +734,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="434"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:434</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="444"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:444</a></div>
                 </td>
             </tr>
 
@@ -803,8 +803,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="439"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:439</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="449"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:449</a></div>
                 </td>
             </tr>
 
@@ -872,8 +872,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="445"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:445</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="455"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:455</a></div>
                 </td>
             </tr>
 
@@ -941,8 +941,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="455"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:455</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="465"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:465</a></div>
                 </td>
             </tr>
 
@@ -2686,7 +2686,17 @@ export class GeographiesComponent
             )
             .attr(&#x27;stroke&#x27;, this.config.dataGeographyConfig.strokeColor)
             .attr(&#x27;stroke-width&#x27;, this.config.dataGeographyConfig.strokeWidth),
-        (update) &#x3D;&gt; update.attr(&#x27;d&#x27;, this.path),
+        (update) &#x3D;&gt;
+          update
+            .attr(&#x27;d&#x27;, this.path)
+            .attr(&#x27;fill&#x27;, (d, i) &#x3D;&gt;
+              this.config.dataGeographyConfig.attributeDataConfig
+                .patternPredicates
+                ? this.getPatternFill(i)
+                : this.getFill(i)
+            )
+            .attr(&#x27;stroke&#x27;, this.config.dataGeographyConfig.strokeColor)
+            .attr(&#x27;stroke-width&#x27;, this.config.dataGeographyConfig.strokeWidth),
         (exit) &#x3D;&gt; exit.remove()
       );
   }

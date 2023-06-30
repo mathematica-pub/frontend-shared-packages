@@ -32,7 +32,10 @@ export class BasemapService {
   }
 
   private setUsGeoJson(map: Topology): void {
-    this.us = topojson.feature(map, map.objects['us']) as FeatureCollection;
+    this.us = topojson.feature(
+      map,
+      map.objects['country']
+    ) as FeatureCollection;
   }
 
   private setStatesGeoJson(map: Topology): void {
