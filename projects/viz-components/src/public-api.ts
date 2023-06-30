@@ -3,10 +3,13 @@
  */
 
 export * from './lib/axes/axis.config';
+export * from './lib/axes/ordinal/ordinal-axis';
+export * from './lib/axes/quantitative/quantitative-axis';
 export * from './lib/axes/x-ordinal/x-ordinal-axis.component';
 export * from './lib/axes/x-ordinal/x-ordinal-axis.module';
 export * from './lib/axes/x-quantitative/x-quantitative-axis.component';
 export * from './lib/axes/x-quantitative/x-quantitative-axis.module';
+export * from './lib/axes/xy-axis';
 export * from './lib/axes/y-ordinal/y-ordinal-axis.component';
 export * from './lib/axes/y-ordinal/y-ordinal-axis.module';
 export * from './lib/axes/y-quantitative-axis/y-quantitative-axis.component';
@@ -65,8 +68,8 @@ export * from './lib/lines/lines.config';
 export * from './lib/lines/lines.module';
 export * from './lib/map-chart/map-chart.component';
 export * from './lib/map-chart/map-chart.module';
+export * from './lib/map-chart/map-content';
 export * from './lib/map-legend/map-legend.component';
-export * from './lib/map-legend/map-legend.module';
 export * from './lib/stacked-area/stacked-area-hover-move-effects';
 export * from './lib/stacked-area/stacked-area-hover-move-event.directive';
 export * from './lib/stacked-area/stacked-area-input-event.directive';
@@ -89,3 +92,4 @@ export * from './lib/xy-background/xy-background.component';
 export * from './lib/xy-background/xy-background.module';
 export * from './lib/xy-chart/xy-chart.component';
 export * from './lib/xy-chart/xy-chart.module';
+export * from './lib/xy-chart/xy-content';
