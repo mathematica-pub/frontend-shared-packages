@@ -70,6 +70,7 @@ export * from './lib/map-chart/map-chart.component';
 export * from './lib/map-chart/map-chart.module';
 export * from './lib/map-chart/map-content';
 export * from './lib/map-legend/map-legend.component';
+export * from './lib/map-legend/map-legend.module';
 export * from './lib/stacked-area/stacked-area-hover-move-effects';
 export * from './lib/stacked-area/stacked-area-hover-move-event.directive';
 export * from './lib/stacked-area/stacked-area-input-event.directive';
