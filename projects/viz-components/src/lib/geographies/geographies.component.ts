@@ -393,6 +393,7 @@ export class GeographiesComponent
             .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
         (update) =>
           update
+            .attr('d', this.path)
             .attr('fill', (d, i) =>
               this.config.dataGeographyConfig.attributeDataConfig
                 .patternPredicates
