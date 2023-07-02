@@ -2,6 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
+import { Feature } from 'geojson';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
@@ -12,6 +13,7 @@ import {
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 interface GeographiesHoverExtras {
+  feature: Feature;
   bounds?: [[number, number], [number, number]];
 }
 
@@ -26,6 +28,7 @@ export class GeographiesHoverDirective extends HoverDirective {
   effects: EventEffect<GeographiesHoverDirective>[];
   @Output('vicGeographiesHoverOutput') eventOutput =
     new EventEmitter<GeographiesHoverOutput>();
+  feature: Feature;
   bounds: [[number, number], [number, number]];
   geographyIndex: number;
 
@@ -46,7 +49,8 @@ export class GeographiesHoverDirective extends HoverDirective {
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    const d = select(event.target as SVGPathElement).datum();
+    const d = select(event.target as SVGPathElement).datum() as Feature;
+    this.feature = d;
     this.bounds = this.geographies.path.bounds(d);
     this.geographyIndex = this.getGeographyIndex(d);
     this.effects.forEach((effect) => effect.applyEffect(this));
@@ -65,12 +69,12 @@ export class GeographiesHoverDirective extends HoverDirective {
     return this.geographies.values.indexMap.get(value);
   }
 
-  getTooltipData(): GeographiesEventOutput {
+  getTooltipData(): GeographiesHoverOutput {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const extras = { bounds: this.bounds };
+    const extras = { feature: this.feature, bounds: this.bounds };
     return { ...tooltipData, ...extras };
   }
 }
