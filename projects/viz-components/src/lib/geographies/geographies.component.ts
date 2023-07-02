@@ -82,9 +82,9 @@ export class GeographiesComponent
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
   constructor(
-    private utilities: UtilitiesService,
-    private zone: NgZone,
-    private elRef: ElementRef,
+    public utilities: UtilitiesService,
+    public zone: NgZone,
+    public elRef: ElementRef,
     chart: MapChartComponent
   ) {
     super(chart);
