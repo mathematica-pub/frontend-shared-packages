@@ -347,8 +347,8 @@ export class GeographiesComponent
   drawMarks(transitionDuration: number): void {
     this.zone.run(() => {
       this.drawMap(transitionDuration);
+      this.updateGeographyElements();
     });
-    this.updateGeographyElements();
   }
 
   drawMap(transitionDuration): void {
