@@ -46,7 +46,7 @@ export class GeographiesExampleComponent implements OnInit {
   dataMarksConfig$: Observable<GeographiesConfig>;
   width = 700;
   height = 400;
-  margin: ElementSpacing = { top: 36, right: 36, bottom: 36, left: 200 };
+  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(

@@ -1,5 +1,4 @@
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   Input,
@@ -19,7 +18,6 @@ import {
   of,
   shareReplay,
   startWith,
-  throttleTime,
 } from 'rxjs';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
@@ -67,7 +65,6 @@ export interface ChartScaling {
   selector: 'vic-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
 export class ChartComponent implements Chart, OnInit, OnChanges {
@@ -90,10 +87,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     bottom: 36,
     left: 36,
   };
-  /**
-   * Determines throttling of chart resizing, in ms.
-   */
-  @Input() resizeThrottleTime = 100;
+
   /**
    * Determines whether the chart size is fixed or will scale with its container.
    *
@@ -148,7 +142,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
         min([this.divRef.nativeElement.offsetWidth, this.width])
       );
       divWidth$ = merge(width$, this.getDivWidthResizeObservable()).pipe(
-        throttleTime(this.resizeThrottleTime),
         distinctUntilChanged()
       );
     } else {
@@ -158,12 +151,13 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     const height$ = this.height$.pipe(startWith(this.height));
 
     this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
-      map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth))
+      map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
+      shareReplay(1)
     );
 
     this.ranges$ = this.svgDimensions$.pipe(
       map((dimensions) => this.getRangesFromSvgDimensions(dimensions)),
-      shareReplay()
+      shareReplay(1)
     );
   }
 
