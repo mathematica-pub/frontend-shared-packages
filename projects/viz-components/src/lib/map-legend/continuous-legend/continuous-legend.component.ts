@@ -35,13 +35,6 @@ export class ContinuousLegendComponent
     }
   }
 
-  setColors(): void {
-    this.colors = this.scale.domain();
-    if (this.orientation === 'vertical') {
-      this.colors = this.colors.reverse();
-    }
-  }
-
   drawLinearGradient(): void {
     const canvas = this.canvasRef.nativeElement;
     canvas.style.width = '100%';

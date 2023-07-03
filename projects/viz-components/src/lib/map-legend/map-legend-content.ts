@@ -1,5 +1,6 @@
 import { Directive, Input } from '@angular/core';
-import { FormatSpecifier, formatValue } from '../value-format/value-format';
+import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { formatValue } from '../value-format/value-format';
 
 @Directive()
 export abstract class MapLegendContent {
@@ -8,7 +9,7 @@ export abstract class MapLegendContent {
   @Input() orientation: 'horizontal' | 'vertical';
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
   @Input() scale: any;
-  @Input() formatter: FormatSpecifier;
+  @Input() config: AttributeDataDimensionConfig;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];
@@ -17,6 +18,8 @@ export abstract class MapLegendContent {
   largerValueSpace: number;
   leftOffset: number;
 
+  constructor() {}
+
   setValues(): void {
     let values;
     values = this.getValuesFromScale();
@@ -24,14 +27,21 @@ export abstract class MapLegendContent {
       values = values.reverse();
     }
     this.setValueSpaces(values);
-    if (this.formatter) {
+    if (this.config.valueFormat) {
       values = this.getFormattedValues(values);
     }
     this.values = values;
   }
 
+  setColors(): void {
+    this.colors = this.config.range;
+    if (this.orientation === 'vertical') {
+      this.colors = this.colors.reverse();
+    }
+  }
+
   getFormattedValues(values: number[]): string[] {
-    return values.map((d) => formatValue(d, this.formatter));
+    return values.map((d) => formatValue(d, this.config.valueFormat));
   }
 
   abstract getValuesFromScale(): number[];

@@ -204,7 +204,9 @@ export class GeographiesComponent
       'custom breaks'
     ) {
       this.config.dataGeographyConfig.attributeDataConfig.domain =
-        this.config.dataGeographyConfig.attributeDataConfig.breakValues;
+        this.config.dataGeographyConfig.attributeDataConfig.breakValues.slice(
+          1
+        );
       this.config.dataGeographyConfig.attributeDataConfig.numBins =
         this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
         1;

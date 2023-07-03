@@ -294,7 +294,7 @@ describe('GeographiesComponent', () => {
         component.initAttributeDataScaleDomain();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
-        ).toEqual([0, 2, 4, 6, 8]);
+        ).toEqual([2, 4, 6, 8]);
       });
       it('sets the numBins to the correct value', () => {
         component.initAttributeDataScaleDomain();
