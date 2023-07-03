@@ -18,8 +18,6 @@ export abstract class MapLegendContent {
   largerValueSpace: number;
   leftOffset: number;
 
-  constructor() {}
-
   setValues(): void {
     let values;
     values = this.getValuesFromScale();
