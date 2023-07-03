@@ -165,7 +165,7 @@ export class GeographiesComponent
     this.values.attributeDataValues = map(
       this.config.data,
       this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
-    ).map((d) => (d == null ? NaN : +d));
+    ).map((d) => (d === null ? NaN : d));
     this.values.indexMap = new InternMap(
       this.values.attributeDataGeographies.map((name, i) => [name, i])
     );
@@ -292,8 +292,17 @@ export class GeographiesComponent
       this.config.dataGeographyConfig.attributeDataConfig.range =
         binIndicies.map((i) => colorGenerator(i));
     } else {
-      this.config.dataGeographyConfig.attributeDataConfig.range =
-        this.config.dataGeographyConfig.attributeDataConfig.colors;
+      let colors = this.config.dataGeographyConfig.attributeDataConfig.colors;
+      if (
+        this.config.dataGeographyConfig.attributeDataConfig.valueType ===
+        'categorical'
+      ) {
+        colors = colors.slice(
+          0,
+          this.config.dataGeographyConfig.attributeDataConfig.domain.length
+        );
+      }
+      this.config.dataGeographyConfig.attributeDataConfig.range = colors;
     }
   }
 

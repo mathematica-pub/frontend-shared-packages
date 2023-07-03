@@ -7,6 +7,7 @@ import {
   GeoProjection,
   interpolateLab,
   scaleLinear,
+  scaleOrdinal,
   scaleQuantile,
   scaleQuantize,
   scaleThreshold,
@@ -123,6 +124,7 @@ export class CategoricalAttributeDataDimensionConfig extends AttributeDataDimens
     super();
     this.valueType = 'categorical';
     this.binType = 'none';
+    this.colorScale = scaleOrdinal;
     this.colors = ['white', 'lightslategray'];
     Object.assign(this, init);
   }
