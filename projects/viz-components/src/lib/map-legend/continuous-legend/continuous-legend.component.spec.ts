@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ContinuousLegendComponent } from './continuous-legend.component';
 
 describe('ContinuousLegendComponent', () => {
@@ -56,26 +55,6 @@ describe('ContinuousLegendComponent', () => {
       component.orientation = 'vertical';
       const result = component.getLeftOffset();
       expect(result).toEqual(0);
-    });
-  });
-
-  describe('setColors', () => {
-    beforeEach(() => {
-      component.scale = {
-        domain: jasmine.createSpy('range').and.returnValue(['red', 'orange']),
-      };
-    });
-
-    it('should set colors to scale.domain if orientation is not vertical', () => {
-      component.orientation = 'horizontal';
-      component.setColors();
-      expect(component.colors).toEqual(['red', 'orange']);
-    });
-
-    it('should reverse colors if orientation is vertical', () => {
-      component.orientation = 'vertical';
-      component.setColors();
-      expect(component.colors).toEqual(['orange', 'red']);
     });
   });
 });

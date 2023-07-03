@@ -25,8 +25,8 @@ export class DiscontinuousLegendComponent
   }
 
   setCategoricalValues(): void {
-    this.colors = this.scale.range();
-    this.values = this.scale.domain();
+    this.colors = this.config.range;
+    this.values = this.config.domain;
     this.startValueSpace = 0;
     this.endValueSpace = 0;
     this.largerValueSpace = 0;
@@ -34,19 +34,13 @@ export class DiscontinuousLegendComponent
   }
 
   getValuesFromScale(): any[] {
-    const binColors = this.scale.range();
-    return [
+    const binColors = this.config.range;
+    const values = this.config.breakValues ?? [
       ...new Set(
         binColors.map((colors) => this.scale.invertExtent(colors)).flat()
       ),
     ];
-  }
-
-  setColors(): void {
-    this.colors = this.scale.range();
-    if (this.orientation === 'vertical') {
-      this.colors = this.colors.reverse();
-    }
+    return values;
   }
 
   getLeftOffset(values: number[]): number {

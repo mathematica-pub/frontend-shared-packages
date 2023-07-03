@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { CategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {
@@ -45,19 +45,18 @@ describe('DiscontinuousLegendComponent', () => {
 
   describe('setCategoricalValues', () => {
     beforeEach(() => {
-      component.scale = {
-        range: jasmine.createSpy('range').and.returnValue('range' as any),
-        domain: jasmine.createSpy('domain').and.returnValue('domain' as any),
-      };
+      component.config = new CategoricalAttributeDataDimensionConfig();
+      component.config.domain = ['a', 'b'];
+      component.config.range = ['red', 'blue'];
       component.setCategoricalValues();
     });
 
     it('should set colors to scale.range', () => {
-      expect(component.colors).toEqual('range' as any);
+      expect(component.colors).toEqual(['red', 'blue']);
     });
 
     it('should set values to scale.domain', () => {
-      expect(component.values).toEqual('domain' as any);
+      expect(component.values).toEqual(['a', 'b']);
     });
 
     it('should set startValueSpace to 0', () => {
@@ -74,26 +73,6 @@ describe('DiscontinuousLegendComponent', () => {
 
     it('should set leftOffset to 0', () => {
       expect(component.leftOffset).toEqual(0);
-    });
-  });
-
-  describe('setColors', () => {
-    beforeEach(() => {
-      component.scale = {
-        range: jasmine.createSpy('range').and.returnValue(['red', 'orange']),
-      };
-    });
-
-    it('should set colors to scale.range if orientation is not vertical', () => {
-      component.orientation = 'horizontal';
-      component.setColors();
-      expect(component.colors).toEqual(['red', 'orange']);
-    });
-
-    it('should reverse colors if orientation is vertical', () => {
-      component.orientation = 'vertical';
-      component.setColors();
-      expect(component.colors).toEqual(['orange', 'red']);
     });
   });
 
