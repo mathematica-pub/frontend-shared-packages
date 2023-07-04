@@ -22,7 +22,7 @@ export abstract class MapLegendContent {
     let values;
     values = this.getValuesFromScale();
     if (this.orientation === 'vertical') {
-      values = values.reverse();
+      values = values.slice().reverse();
     }
     this.setValueSpaces(values);
     if (this.config.valueFormat) {
@@ -34,7 +34,7 @@ export abstract class MapLegendContent {
   setColors(): void {
     this.colors = this.config.range;
     if (this.orientation === 'vertical') {
-      this.colors = this.colors.reverse();
+      this.colors = this.colors.slice().reverse();
     }
   }
 
