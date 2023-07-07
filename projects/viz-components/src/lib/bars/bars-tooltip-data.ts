@@ -27,7 +27,10 @@ export function getBarsTooltipData(
     datum,
     color: bars.getBarColor(barIndex),
     ordinal: bars.config.ordinal.valueAccessor(datum),
-    quantitative: bars.config.quantitative.valueAccessor(datum),
+    quantitative: formatValue(
+      bars.config.quantitative.valueAccessor(datum),
+      bars.config.quantitative.valueFormat
+    ),
     category: bars.config.category.valueAccessor(datum),
     elRef: elRef,
   };
