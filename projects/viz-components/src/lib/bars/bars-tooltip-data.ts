@@ -1,4 +1,5 @@
 import { ElementRef } from '@angular/core';
+import { formatValue } from '../value-format/value-format';
 import { BarsComponent } from './bars.component';
 
 export interface BarsEventOutput {
