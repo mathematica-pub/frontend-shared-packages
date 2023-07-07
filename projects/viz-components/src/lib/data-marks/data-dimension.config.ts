@@ -17,23 +17,54 @@ export class QuantitativeDimensionConfig extends DataDimensionConfig {
 
   constructor(init?: Partial<QuantitativeDimensionConfig>) {
     super();
-    this.domainPadding = new DomainPaddingConfig();
     Object.assign(this, init);
   }
 }
 
-export class DomainPaddingConfig {
-  type: 'round' | 'percent' | 'none';
-  sigDigits: number;
-  percent: number;
-
-  constructor(init?: Partial<DomainPaddingConfig>) {
-    this.type = 'round';
-    this.sigDigits = 2;
-    this.percent = 0.1;
+export class BaseDomainPaddingConfig {
+  sigDigits: (d: any) => number;
+  constructor(init?: Partial<BaseDomainPaddingConfig>) {
+    this.sigDigits = () => 1;
     Object.assign(this, init);
   }
 }
+
+export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: 'roundUp' = 'roundUp';
+
+  constructor(init?: Partial<RoundUpDomainPaddingConfig>) {
+    super();
+    Object.assign(this, init);
+  }
+}
+
+export class RoundUpToNearestDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: 'roundTo' = 'roundTo';
+  roundUpTo: number;
+
+  constructor(init?: Partial<RoundUpToNearestDomainPaddingConfig>) {
+    super();
+    this.roundUpTo = 1;
+    Object.assign(this, init);
+  }
+}
+
+export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: 'percentOver' = 'percentOver';
+  percentOver: number;
+
+  constructor(init?: Partial<PercentOverDomainPaddingConfig>) {
+    super();
+    this.percentOver = 0.1;
+    Object.assign(this, init);
+  }
+}
+
+export type DomainPaddingConfig =
+  | RoundUpDomainPaddingConfig
+  | RoundUpToNearestDomainPaddingConfig
+  | PercentOverDomainPaddingConfig;
+
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) => any;

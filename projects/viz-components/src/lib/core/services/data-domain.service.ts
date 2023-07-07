@@ -8,17 +8,19 @@ import { ValueUtilities } from '../../shared/value-utilities.class';
 export class DataDomainService {
   getPaddedDomainValue(value: number, padding: DomainPaddingConfig) {
     let paddedValue = value;
-    if (padding.type === 'round') {
+    if (padding.type === 'roundUp') {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(
         value,
-        padding.sigDigits
+        padding.sigDigits(value)
       );
-    } else if (padding.type === 'percent') {
+    } else if (padding.type === 'percentOver') {
       paddedValue = this.getQuantitativeDomainMaxPercentOver(
         value,
-        padding.sigDigits,
-        padding.percent
+        padding.sigDigits(value),
+        padding.percentOver
       );
+    } else if (padding.type === 'roundTo') {
+      paddedValue = ValueUtilities.getValueRoundedTo(value, padding.roundUpTo);
     }
     return paddedValue;
   }
