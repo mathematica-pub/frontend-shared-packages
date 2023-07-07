@@ -38,13 +38,13 @@ export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
   }
 }
 
-export class RoundUpToNearestDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: 'roundTo' = 'roundTo';
-  roundUpTo: number;
+export class RoundUpToIntervalDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: 'roundInterval' = 'roundInterval';
+  interval: (maxValue: number) => number;
 
-  constructor(init?: Partial<RoundUpToNearestDomainPaddingConfig>) {
+  constructor(init?: Partial<RoundUpToIntervalDomainPaddingConfig>) {
     super();
-    this.roundUpTo = 1;
+    this.interval = () => 1;
     Object.assign(this, init);
   }
 }
@@ -62,7 +62,7 @@ export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
 
 export type DomainPaddingConfig =
   | RoundUpDomainPaddingConfig
-  | RoundUpToNearestDomainPaddingConfig
+  | RoundUpToIntervalDomainPaddingConfig
   | PercentOverDomainPaddingConfig;
 
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {

@@ -17,7 +17,7 @@ import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
-  RoundUpToNearestDomainPaddingConfig,
+  RoundUpToIntervalDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
@@ -78,7 +78,7 @@ export class BarsExampleComponent implements OnInit {
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
     const xAxisConfig = new AxisConfig();
-    xAxisConfig.tickFormat = '.1f';
+    xAxisConfig.tickFormat = '.0f';
     const yAxisConfig = new AxisConfig();
     const dataConfig = new BarsConfig();
     dataConfig.labels = new BarsLabelsConfig();
@@ -95,8 +95,8 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
     dataConfig.quantitative.domainPadding =
-      new RoundUpToNearestDomainPaddingConfig();
-    dataConfig.quantitative.domainPadding.roundUpTo = 10;
+      new RoundUpToIntervalDomainPaddingConfig();
+    dataConfig.quantitative.domainPadding.interval = () => 4;
     return {
       dataConfig,
       xAxisConfig,
