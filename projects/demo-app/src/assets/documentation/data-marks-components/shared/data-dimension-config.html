@@ -242,23 +242,54 @@ export class QuantitativeDimensionConfig extends DataDimensionConfig {
 
   constructor(init?: Partial&lt;QuantitativeDimensionConfig&gt;) {
     super();
-    this.domainPadding &#x3D; new DomainPaddingConfig();
     Object.assign(this, init);
   }
 }
 
-export class DomainPaddingConfig {
-  type: &#x27;round&#x27; | &#x27;percent&#x27; | &#x27;none&#x27;;
-  sigDigits: number;
-  percent: number;
-
-  constructor(init?: Partial&lt;DomainPaddingConfig&gt;) {
-    this.type &#x3D; &#x27;round&#x27;;
-    this.sigDigits &#x3D; 2;
-    this.percent &#x3D; 0.1;
+export class BaseDomainPaddingConfig {
+  sigDigits: (d: any) &#x3D;&gt; number;
+  constructor(init?: Partial&lt;BaseDomainPaddingConfig&gt;) {
+    this.sigDigits &#x3D; () &#x3D;&gt; 1;
     Object.assign(this, init);
   }
 }
+
+export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: &#x27;roundUp&#x27; &#x3D; &#x27;roundUp&#x27;;
+
+  constructor(init?: Partial&lt;RoundUpDomainPaddingConfig&gt;) {
+    super();
+    Object.assign(this, init);
+  }
+}
+
+export class RoundUpToIntervalDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: &#x27;roundInterval&#x27; &#x3D; &#x27;roundInterval&#x27;;
+  interval: (maxValue: number) &#x3D;&gt; number;
+
+  constructor(init?: Partial&lt;RoundUpToIntervalDomainPaddingConfig&gt;) {
+    super();
+    this.interval &#x3D; () &#x3D;&gt; 1;
+    Object.assign(this, init);
+  }
+}
+
+export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: &#x27;percentOver&#x27; &#x3D; &#x27;percentOver&#x27;;
+  percentOver: number;
+
+  constructor(init?: Partial&lt;PercentOverDomainPaddingConfig&gt;) {
+    super();
+    this.percentOver &#x3D; 0.1;
+    Object.assign(this, init);
+  }
+}
+
+export type DomainPaddingConfig &#x3D;
+  | RoundUpDomainPaddingConfig
+  | RoundUpToIntervalDomainPaddingConfig
+  | PercentOverDomainPaddingConfig;
+
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) &#x3D;&gt; any;

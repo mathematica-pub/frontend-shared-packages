@@ -98,21 +98,15 @@ export class ValueUtilities {
     return newValue;
   }
 
-  static getValueRoundedTo(value: number, roundTo: number): number {
-    const isPositive = value >= 0;
-
-    value = Math.abs(value);
-    roundTo = Math.abs(roundTo);
-
-    const quotient = Math.floor(value / roundTo);
-    const remainder = value % roundTo;
-
-    const roundingDirection = isPositive ? 1 : -1;
-
-    if (remainder > 0) {
-      return (quotient + roundingDirection) * roundTo;
+  static getValueRoundedToInterval(value: number, interval: number): number {
+    if (interval === 0) {
+      return value;
     }
 
-    return value;
+    const sign = Math.sign(value);
+    const absoluteValue = Math.abs(value);
+    const roundedValue = Math.ceil(absoluteValue / interval) * interval;
+
+    return sign * roundedValue;
   }
 }

@@ -19,8 +19,11 @@ export class DataDomainService {
         padding.sigDigits(value),
         padding.percentOver
       );
-    } else if (padding.type === 'roundTo') {
-      paddedValue = ValueUtilities.getValueRoundedTo(value, padding.roundUpTo);
+    } else if (padding.type === 'roundInterval') {
+      paddedValue = ValueUtilities.getValueRoundedToInterval(
+        value,
+        padding.interval(value)
+      );
     }
     return paddedValue;
   }
