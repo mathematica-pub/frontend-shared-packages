@@ -111,7 +111,7 @@ outline of a geographic area, it is not intended to draw maps that have no attri
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -173,7 +173,7 @@ outline of a geographic area, it is not intended to draw maps that have no attri
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:30</a></div>
                         </td>
                     </tr>
 
@@ -206,7 +206,7 @@ Used for scaling the map.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:47</a></div>
                         </td>
                     </tr>
 
@@ -239,7 +239,7 @@ Used for scaling the map.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:42</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:43</a></div>
                         </td>
                     </tr>
 
@@ -271,7 +271,7 @@ Used for scaling the map.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:38</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.config.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -386,6 +386,7 @@ The objects can be of an type, and can contain any number of properties, includi
   GeoProjection,
   interpolateLab,
   scaleLinear,
+  scaleOrdinal,
   scaleQuantile,
   scaleQuantize,
   scaleThreshold,
@@ -502,6 +503,7 @@ export class CategoricalAttributeDataDimensionConfig extends AttributeDataDimens
     super();
     this.valueType &#x3D; &#x27;categorical&#x27;;
     this.binType &#x3D; &#x27;none&#x27;;
+    this.colorScale &#x3D; scaleOrdinal;
     this.colors &#x3D; [&#x27;white&#x27;, &#x27;lightslategray&#x27;];
     Object.assign(this, init);
   }
