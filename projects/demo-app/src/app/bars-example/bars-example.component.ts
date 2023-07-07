@@ -15,7 +15,10 @@ import {
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { BarsHoverMoveEmitTooltipData } from 'projects/viz-components/src/public-api';
+import {
+  BarsHoverMoveEmitTooltipData,
+  RoundUpToNearestDomainPaddingConfig,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -91,6 +94,9 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
+    dataConfig.quantitative.domainPadding =
+      new RoundUpToNearestDomainPaddingConfig();
+    dataConfig.quantitative.domainPadding.roundUpTo = 10;
     return {
       dataConfig,
       xAxisConfig,

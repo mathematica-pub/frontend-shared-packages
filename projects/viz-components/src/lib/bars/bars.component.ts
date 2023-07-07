@@ -161,8 +161,12 @@ export class BarsComponent
     if (this.config.quantitative.domain === undefined) {
       const dataMin = this.getDataMin();
       const dataMax = this.getDataMax();
-      const domainMin = this.getDomainMinFromDataMin(dataMin);
-      const domainMax = this.getDomainMaxFromValueExtents(dataMax, dataMin);
+      const domainMin = this.config.quantitative.domainPadding
+        ? this.getDomainMinFromDataMin(dataMin)
+        : dataMin;
+      const domainMax = this.config.quantitative.domainPadding
+        ? this.getDomainMaxFromValueExtents(dataMax, dataMin)
+        : dataMax;
       if (domainMin === domainMax) {
         this.config.quantitative.domain = [domainMin, domainMin + 1];
       } else {
@@ -203,7 +207,7 @@ export class BarsComponent
     const roundedValue =
       this.dataDomainService.getQuantitativeDomainMaxRoundedUp(
         positiveValue,
-        this.config.quantitative.domainPadding.sigDigits
+        this.config.quantitative.domainPadding.sigDigits(positiveValue)
       );
     return roundedValue;
   }

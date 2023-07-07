@@ -97,4 +97,22 @@ export class ValueUtilities {
     }
     return newValue;
   }
+
+  static getValueRoundedTo(value: number, roundTo: number): number {
+    const isPositive = value >= 0;
+
+    value = Math.abs(value);
+    roundTo = Math.abs(roundTo);
+
+    const quotient = Math.floor(value / roundTo);
+    const remainder = value % roundTo;
+
+    const roundingDirection = isPositive ? 1 : -1;
+
+    if (remainder > 0) {
+      return (quotient + roundingDirection) * roundTo;
+    }
+
+    return value;
+  }
 }
