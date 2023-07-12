@@ -1,5 +1,5 @@
 import { TimeInterval } from 'd3';
-import { TickWrapConfig } from '../svg-text-wrap/tick-wrap-config';
+import { TickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
 
 export class AxisConfig {
   /**
