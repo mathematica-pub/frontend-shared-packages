@@ -4,9 +4,7 @@
     <button class="download-button" (click)="downloadImage()"
       >download image as jpeg</button
     >
-    <button
-      class="download-button"
-      (click)="downloadService.saveCSV(vm.dataConfig.data, 'lines-example', ['date'])"
+    <button class="download-button" (click)="saveCsv(vm.dataConfig.data)"
       >download as csv</button
     >
     <div #imageNode>

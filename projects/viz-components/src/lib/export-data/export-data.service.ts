@@ -1,38 +1,87 @@
 import { Injectable } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { unparse } from 'papaparse';
-import { formatValue, valueFormat } from '../value-format/value-format';
+import { formatValue } from '../value-format/value-format';
+import { DataExportConfig } from './data-export.config';
 
 @Injectable()
 export class VicExportDataService {
-  saveCSV(
-    data: unknown[],
-    name: string,
-    dateFields: string[] = [],
-    dateFormat = valueFormat.monthYear,
-    convertHeadersFromCamelCaseToTitle = true
-  ): void {
-    if (dateFields.length > 0) {
-      data = data.map((element) => {
-        dateFields.forEach((field) => {
-          element[field] = formatValue(element[field], dateFormat);
+  saveCSV(name: string, dataConfigs: DataExportConfig[]): void {
+    const blobParts = [];
+    for (const dataConfig of dataConfigs) {
+      if (dataConfig.dateFields.length > 0) {
+        dataConfig.data = dataConfig.data.map((element) => {
+          dataConfig.dateFields.forEach((field) => {
+            element[field] = formatValue(element[field], dataConfig.dateFormat);
+          });
+          return element;
         });
-        return element;
-      });
-    }
-    if (convertHeadersFromCamelCaseToTitle) {
-      data = data.map((element) => {
-        const keys = Object.keys(element);
-        for (const key of keys) {
-          const newKey = this.convertToTitle(key);
-          element[newKey] = element[key];
-          delete element[key];
+      }
+      if (dataConfig.convertHeadersFromCamelCaseToTitle) {
+        dataConfig.data = dataConfig.data.map((element) => {
+          const keys = Object.keys(element);
+          for (const key of keys) {
+            const newKey = this.convertToTitle(key);
+            element[newKey] = element[key];
+            delete element[key];
+          }
+          return element;
+        });
+      }
+
+      let csv: string;
+
+      if (dataConfig.flipped) {
+        const data: any = dataConfig.data.reduce((acc: any, curr: any) => {
+          for (const key in curr) {
+            if (
+              dataConfig.flippedHeaderKey &&
+              key === dataConfig.flippedHeaderKey
+            )
+              continue;
+
+            const valueToAdd =
+              curr[key] instanceof String || typeof curr[key] === 'string'
+                ? `"${curr[key]}"`
+                : curr[key];
+            if (key in acc) {
+              acc[key] += `,${valueToAdd}`;
+            } else {
+              acc[key] = `${valueToAdd}`;
+            }
+          }
+          return acc;
+        }, {});
+
+        csv = '';
+        if (dataConfig.flippedHeaderKey) {
+          csv += ',';
+          csv += dataConfig.data.reduce((acc: any, curr: any) => {
+            if (acc !== '') {
+              acc += `,${curr[dataConfig.flippedHeaderKey]}`;
+            } else {
+              acc += `${curr[dataConfig.flippedHeaderKey]}`;
+            }
+            return acc;
+          }, '');
         }
-        return element;
-      });
+
+        for (const key of Object.keys(data)) {
+          if (csv !== '') {
+            csv += '\r\n';
+          }
+          csv += `${key},${data[key]}`;
+        }
+      } else {
+        csv = unparse(dataConfig.data);
+      }
+
+      for (let i = 0; i < dataConfig.marginBottom; i++) {
+        csv = `${csv}\r\n`;
+      }
+      blobParts.push(csv);
     }
-    const csv = unparse(data);
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const blob = new Blob(blobParts, { type: 'text/csv;charset=utf-8' });
     saveAs.saveAs(blob, `${name}.csv`);
   }
 
