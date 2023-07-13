@@ -203,10 +203,12 @@ export class LinesComponent
   }
 
   setLinesD3Data(): void {
-    this.linesD3Data = group(
-      this.values.indicies,
-      (i) => this.values.category[i]
+    const definedIndices = this.values.indicies.filter(
+      (i) =>
+        this.canBeDrawnByPath(this.values.x[i]) &&
+        this.canBeDrawnByPath(this.values.y[i])
     );
+    this.linesD3Data = group(definedIndices, (i) => this.values.category[i]);
   }
 
   setLinesKeyFunction(): void {

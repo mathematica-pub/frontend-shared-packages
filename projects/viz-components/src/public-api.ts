@@ -84,6 +84,7 @@ export * from './lib/stacked-bars/stacked-bars.config';
 export * from './lib/stacked-bars/stacked-bars.module';
 export * from './lib/svg-text-wrap/svg-text-wrap';
 export * from './lib/svg-text-wrap/svg-wrap.config';
+export * from './lib/svg-text-wrap/tick-wrap.config';
 export * from './lib/tooltips/html-tooltip/html-tooltip.config';
 export * from './lib/tooltips/html-tooltip/html-tooltip.directive';
 export * from './lib/tooltips/html-tooltip/html-tooltip.module';
