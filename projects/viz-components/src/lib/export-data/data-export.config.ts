@@ -51,7 +51,7 @@ export class DataExportConfig {
    */
   columns: ColumnConfig[] = [];
   marginBottom = 0;
-  constructor(config: Partial<DataExportConfig>) {
+  constructor(config?: Partial<DataExportConfig>) {
     Object.assign(this, config);
     if (this.includeAllKeysAsDefault) {
       this.defaultColumnList = Object.keys(this.data[0]);
