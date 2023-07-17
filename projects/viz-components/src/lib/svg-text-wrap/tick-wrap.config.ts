@@ -12,10 +12,13 @@ export class TickWrapConfig extends SvgTextWrapConfig {
    *
    * If value is a number, tick labels will wrap at that value, in px.
    *
-   * If value is a function with scale as an argument, tick labels will wrap
-   *  at the returned value, in px.
+   * If value is a function with chart width and number of ticks as arguments,
+   *  tick labels will wrap at the returned value, in px.
    */
-  wrapWidth: 'bandwidth' | number | ((axisScale: any) => number);
+  wrapWidth:
+    | 'bandwidth'
+    | number
+    | ((chartWidth: number, numOfTicks: number) => number);
   override width: never;
 
   constructor(init?: Partial<TickWrapConfig>) {
