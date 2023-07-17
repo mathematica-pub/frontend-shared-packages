@@ -100,6 +100,8 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
     config.width =
       this.config.wrap.wrapWidth === 'bandwidth'
         ? this.scale.bandwidth()
+        : typeof this.config.wrap.wrapWidth === 'function'
+        ? this.config.wrap.wrapWidth(this.scale)
         : this.config.wrap.wrapWidth;
     tickTextSelection.call(svgTextWrap, config);
   }

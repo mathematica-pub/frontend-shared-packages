@@ -11,8 +11,11 @@ export class TickWrapConfig extends SvgTextWrapConfig {
    *  of the axis. This is for use with ordinal axes, most likely ordinal x-axes.
    *
    * If value is a number, tick labels will wrap at that value, in px.
+   *
+   * If value is a function with scale as an argument, tick labels will wrap
+   *  at the returned value, in px.
    */
-  wrapWidth: 'bandwidth' | number;
+  wrapWidth: 'bandwidth' | number | ((axisScale: any) => number);
   override width: never;
 
   constructor(init?: Partial<TickWrapConfig>) {
