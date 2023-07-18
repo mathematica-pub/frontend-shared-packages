@@ -20,7 +20,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       this.setTicks(tickFormat);
     }
 
-    setTicks(tickFormat: string): void {
+    setTicks(tickFormat: string | ((value: any) => string)): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
@@ -28,22 +28,35 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       }
     }
 
-    setSpecifiedTickValues(tickFormat: string): void {
+    setSpecifiedTickValues(
+      tickFormat: string | ((value: any) => string)
+    ): void {
       this.axis.tickValues(this.config.tickValues).tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;
-        return formatter(tickFormat)(d);
+        return typeof tickFormat === 'function'
+          ? tickFormat(d)
+          : formatter(tickFormat)(d);
       });
     }
 
-    setUnspecifiedTickValues(tickFormat: string): void {
+    setUnspecifiedTickValues(
+      tickFormat: string | ((value: any) => string)
+    ): void {
       const validatedNumTicks = this.getValidatedNumTicks(tickFormat);
-      this.axis.ticks(validatedNumTicks, tickFormat);
+      this.axis.ticks(validatedNumTicks).tickFormat((d) => {
+        const formatter = d instanceof Date ? timeFormat : format;
+        return typeof tickFormat === 'function'
+          ? tickFormat(d)
+          : formatter(tickFormat)(d);
+      });
     }
 
-    getValidatedNumTicks(tickFormat: string): number | TimeInterval {
+    getValidatedNumTicks(
+      tickFormat: string | ((value: any) => string)
+    ): number | TimeInterval {
       let numTicks = this.config.numTicks || this.initNumTicks();
 
-      if (this.ticksAreIntegers(tickFormat)) {
+      if (typeof tickFormat === 'string' && this.ticksAreIntegers(tickFormat)) {
         const [start, end] = this.scale.domain();
         if (numTicks > end - start) {
           numTicks = end - start;
@@ -54,7 +67,10 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
         }
       }
 
-      if (this.ticksArePercentages(tickFormat)) {
+      if (
+        typeof tickFormat === 'string' &&
+        this.ticksArePercentages(tickFormat)
+      ) {
         const [start, end] = this.scale.domain();
         const numDecimalPlaces =
           this.getNumDecimalPlacesFromPercentFormat(tickFormat);

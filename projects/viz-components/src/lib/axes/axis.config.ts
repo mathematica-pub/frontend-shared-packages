@@ -38,11 +38,11 @@ export class AxisConfig {
   /**
    * Used only on quantitative axes.
    *
-   * A string to use for formatting tick labels.
+   * A string or function to use for formatting tick labels.
    *
    * If not provided on Quantitative Axes, ticks will be formatter with ',.1f'.
    */
-  tickFormat?: string;
+  tickFormat?: string | ((value: any) => string);
 
   /**
    * A font size to apply to the tick labels, in px. If not specified, D3's default font size will be used.

@@ -92,7 +92,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
 
     it('calls ticks on axis with the correct values', () => {
-      expect(ticksSpy).toHaveBeenCalledOnceWith(10, 'format');
+      expect(ticksSpy).toHaveBeenCalledOnceWith(10);
     });
   });
 
