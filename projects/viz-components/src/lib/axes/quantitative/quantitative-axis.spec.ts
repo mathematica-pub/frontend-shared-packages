@@ -75,24 +75,54 @@ describe('the QuantitativeAxis mixin', () => {
     });
   });
 
+  describe('setSpecifiedTickValues', () => {
+    let tickValuesSpy: jasmine.Spy;
+    let tickFormatSpy: jasmine.Spy;
+    const tickFormat = '%Y';
+    beforeEach(() => {
+      tickValuesSpy = jasmine.createSpy('tickValues');
+      tickFormatSpy = jasmine.createSpy('tickFormat');
+      abstractClass.axis = {
+        tickValues: tickValuesSpy,
+        tickFormat: tickFormatSpy,
+      };
+      abstractClass.config = { tickValues: [1, 2, 3] };
+      (abstractClass as any).setSpecifiedTickValues(tickFormat);
+    });
+    it('calls tickValues on axis with the correct values', () => {
+      expect(tickValuesSpy).toHaveBeenCalledOnceWith([1, 2, 3]);
+    });
+    it('calls tickFormat on axis with the correct values', () => {
+      expect(tickFormatSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('setUnspecifiedTickValues', () => {
     let ticksSpy: jasmine.Spy;
+    let tickFormatSpy: jasmine.Spy;
+    const tickFormat = '%Y';
     beforeEach(() => {
       spyOn(abstractClass as any, 'getValidatedNumTicks').and.returnValue(10);
       ticksSpy = jasmine.createSpy('ticks');
+      tickFormatSpy = jasmine.createSpy('tickFormat');
       abstractClass.axis = {
         ticks: ticksSpy,
+        tickFormat: tickFormatSpy,
       };
-      (abstractClass as any).setUnspecifiedTickValues('format');
+      (abstractClass as any).setUnspecifiedTickValues(tickFormat);
     });
     it('calls getValidatedNumTicks once', () => {
-      expect((abstractClass as any).getValidatedNumTicks).toHaveBeenCalledTimes(
-        1
-      );
+      expect(
+        (abstractClass as any).getValidatedNumTicks
+      ).toHaveBeenCalledOnceWith(tickFormat);
     });
-
     it('calls ticks on axis with the correct values', () => {
+      tickFormatSpy.calls.reset();
       expect(ticksSpy).toHaveBeenCalledOnceWith(10);
+    });
+    it('calls tickFormat on axis with the correct values', () => {
+      ticksSpy.calls.reset();
+      expect(tickFormatSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -101,6 +131,7 @@ describe('the QuantitativeAxis mixin', () => {
     let initSpy: jasmine.Spy;
     let integersSpy: jasmine.Spy;
     let percentageSpy: jasmine.Spy;
+    const tickFormat = '%Y';
     beforeEach(() => {
       domainSpy = jasmine.createSpy('domain');
       abstractClass.scale = {
@@ -116,15 +147,49 @@ describe('the QuantitativeAxis mixin', () => {
 
     it('calls initNumTicks if config.numTicks is falsey', () => {
       abstractClass.config.numTicks = undefined;
-      (abstractClass as any).getValidatedNumTicks();
+      (abstractClass as any).getValidatedNumTicks(tickFormat);
       expect(initSpy).toHaveBeenCalledTimes(1);
     });
 
-    it('calls ticksAreIntegers once with the correct value', () => {
-      (abstractClass as any).getValidatedNumTicks('hi');
-      expect((abstractClass as any).ticksAreIntegers).toHaveBeenCalledOnceWith(
-        'hi'
-      );
+    describe('if tickFormat is a string', () => {
+      beforeEach(() => {
+        (abstractClass as any).getValidatedNumTicks(tickFormat);
+      });
+      it('calls ticksAreIntegers once with the correct value', () => {
+        expect(
+          (abstractClass as any).ticksAreIntegers
+        ).toHaveBeenCalledOnceWith(tickFormat);
+      });
+      it('calls ticksArePercentages once with the correct value', () => {
+        expect(
+          (abstractClass as any).ticksArePercentages
+        ).toHaveBeenCalledOnceWith(tickFormat);
+      });
+    });
+
+    describe('if tickFormat is not a string', () => {
+      let numTicks: number;
+      beforeEach(() => {
+        integersSpy.and.returnValue(true);
+        percentageSpy.and.returnValue(true);
+      });
+      it('returns config.numTicks if config.numTicks is truthy', () => {
+        abstractClass.config = {
+          numTicks: 10,
+        } as any;
+        numTicks = (abstractClass as any).getValidatedNumTicks(
+          (value: any) => 2
+        );
+        expect(numTicks).toEqual(10);
+      });
+
+      it('returns result from initNumTicks if config.numTicks is falsey', () => {
+        abstractClass.config.numTicks = undefined;
+        numTicks = (abstractClass as any).getValidatedNumTicks(
+          (value: any) => 2
+        );
+        expect(numTicks).toEqual(8);
+      });
     });
 
     describe('if ticksAreIntegers returns true', () => {
@@ -132,20 +197,24 @@ describe('the QuantitativeAxis mixin', () => {
         integersSpy.and.returnValue(true);
       });
       it('calls domain on scale once', () => {
-        (abstractClass as any).getValidatedNumTicks();
+        (abstractClass as any).getValidatedNumTicks(tickFormat);
         expect(domainSpy).toHaveBeenCalledTimes(1);
       });
 
       it('returns the difference between first and last values of domain if numTicks is greater than that difference', () => {
         abstractClass.config.numTicks = 10;
         domainSpy.and.returnValue([1, 4]);
-        expect((abstractClass as any).getValidatedNumTicks()).toEqual(3);
+        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
+          3
+        );
       });
 
       it('returns config.numTicks if numTicks is less than that difference', () => {
         abstractClass.config.numTicks = 2;
         domainSpy.and.returnValue([1, 4]);
-        expect((abstractClass as any).getValidatedNumTicks()).toEqual(2);
+        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
+          2
+        );
       });
     });
 
@@ -199,12 +268,16 @@ describe('the QuantitativeAxis mixin', () => {
         integersSpy.and.returnValue(false);
       });
       it('returns config.numTicks if config.numTicks is truthy', () => {
-        expect((abstractClass as any).getValidatedNumTicks()).toEqual(1);
+        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
+          1
+        );
       });
 
       it('returns result from initNumTicks if config.numTicks is falsey', () => {
         abstractClass.config.numTicks = undefined;
-        expect((abstractClass as any).getValidatedNumTicks()).toEqual(8);
+        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
+          8
+        );
       });
     });
   });
