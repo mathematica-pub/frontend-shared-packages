@@ -20,7 +20,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       this.setTicks(tickFormat);
     }
 
-    setTicks(tickFormat: string): void {
+    setTicks(tickFormat: string | ((value: any) => string)): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
@@ -28,54 +28,71 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       }
     }
 
-    setSpecifiedTickValues(tickFormat: string): void {
-      this.axis.tickValues(this.config.tickValues).tickFormat((d) => {
+    setSpecifiedTickValues(
+      tickFormat: string | ((value: any) => string)
+    ): void {
+      this.axis.tickValues(this.config.tickValues);
+      this.axis.tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;
-        return formatter(tickFormat)(d);
+        return typeof tickFormat === 'function'
+          ? tickFormat(d)
+          : formatter(tickFormat)(d);
       });
     }
 
-    setUnspecifiedTickValues(tickFormat: string): void {
+    setUnspecifiedTickValues(
+      tickFormat: string | ((value: any) => string)
+    ): void {
       const validatedNumTicks = this.getValidatedNumTicks(tickFormat);
-      this.axis.ticks(validatedNumTicks, tickFormat);
+      this.axis.ticks(validatedNumTicks);
+      this.axis.tickFormat((d) => {
+        const formatter = d instanceof Date ? timeFormat : format;
+        return typeof tickFormat === 'function'
+          ? tickFormat(d)
+          : formatter(tickFormat)(d);
+      });
     }
 
-    getValidatedNumTicks(tickFormat: string): number | TimeInterval {
+    getValidatedNumTicks(
+      tickFormat: string | ((value: any) => string)
+    ): number | TimeInterval {
       let numTicks = this.config.numTicks || this.initNumTicks();
 
-      if (this.ticksAreIntegers(tickFormat)) {
-        const [start, end] = this.scale.domain();
-        if (numTicks > end - start) {
-          numTicks = end - start;
-        }
-        if (numTicks < 1) {
-          this.scale.domain([start, start + 1]);
-          numTicks = 1;
-        }
-      }
-
-      if (this.ticksArePercentages(tickFormat)) {
-        const [start, end] = this.scale.domain();
-        const numDecimalPlaces =
-          this.getNumDecimalPlacesFromPercentFormat(tickFormat);
-        const numPossibleTicksByPrecision =
-          (end - start) * Math.pow(10, numDecimalPlaces + 2);
-        if (numTicks > numPossibleTicksByPrecision) {
-          numTicks = numPossibleTicksByPrecision;
-        }
-        if (numTicks < 1) {
-          if (numTicks === 0) {
-            this.scale.domain([
-              start,
-              start + Math.pow(10, -1 * (numDecimalPlaces + 2)),
-            ]);
-          } else {
-            this.scale.domain([
-              start,
-              this.ceilToPrecision(end, numDecimalPlaces + 2),
-            ]);
+      if (typeof tickFormat === 'string') {
+        if (this.ticksAreIntegers(tickFormat)) {
+          const [start, end] = this.scale.domain();
+          if (numTicks > end - start) {
+            numTicks = end - start;
           }
-          numTicks = 1;
+          if (numTicks < 1) {
+            this.scale.domain([start, start + 1]);
+            numTicks = 1;
+          }
+        }
+
+        if (this.ticksArePercentages(tickFormat)) {
+          const [start, end] = this.scale.domain();
+          const numDecimalPlaces =
+            this.getNumDecimalPlacesFromPercentFormat(tickFormat);
+          const numPossibleTicksByPrecision =
+            (end - start) * Math.pow(10, numDecimalPlaces + 2);
+          if (numTicks > numPossibleTicksByPrecision) {
+            numTicks = numPossibleTicksByPrecision;
+          }
+          if (numTicks < 1) {
+            if (numTicks === 0) {
+              this.scale.domain([
+                start,
+                start + Math.pow(10, -1 * (numDecimalPlaces + 2)),
+              ]);
+            } else {
+              this.scale.domain([
+                start,
+                this.ceilToPrecision(end, numDecimalPlaces + 2),
+              ]);
+            }
+            numTicks = 1;
+          }
         }
       }
 

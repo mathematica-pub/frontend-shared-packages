@@ -28,7 +28,10 @@ import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
-import { DataExportConfig } from 'projects/viz-components/src/lib/export-data/data-export.config';
+import {
+  ColumnConfig,
+  DataExportConfig,
+} from 'projects/viz-components/src/lib/export-data/data-export.config';
 
 interface ViewModel {
   dataConfig: LinesConfig;
@@ -189,18 +192,25 @@ export class LinesExampleComponent implements OnInit {
         typesOfCoolThings: 'so many dope things',
       },
     ];
+
     const dataConfig = new DataExportConfig({
       data: data,
-      dateFields: ['date'],
-      convertHeadersFromCamelCaseToTitle: true,
+      includeAllKeysAsDefault: true,
     });
     const lineMetadataConfig = new DataExportConfig({
       data: lineMetadata,
-      convertHeadersFromCamelCaseToTitle: true,
       flipped: true,
-      flippedHeaderKey: 'File Type',
+      flippedHeaderKey: 'fileType',
       marginBottom: 2,
+      defaultColumnList: ['fileType', 'numFiles'],
+      columns: [
+        new ColumnConfig({
+          title: 'Types of Cool ThInGs',
+          valueAccessor: (x) => x.typesOfCoolThings,
+        }),
+      ],
     });
+
     this.downloadService.saveCSV('lines-example', [
       lineMetadataConfig,
       dataConfig,
