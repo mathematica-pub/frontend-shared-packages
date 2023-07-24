@@ -2,10 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
 import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
-import {
-  BarsHoverMoveDirective,
-  BarsHoverMoveOutput,
-} from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
+import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
 import {
   BarsConfig,
@@ -16,12 +13,15 @@ import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.comp
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
+  BarsClickDirective,
+  BarsClickEmitTooltipDataPauseHoverMoveEffects,
   BarsHoverMoveEmitTooltipData,
   RoundUpToIntervalDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 
 interface ViewModel {
   dataConfig: BarsConfig;
@@ -56,13 +56,19 @@ export class BarsExampleComponent implements OnInit {
       new HtmlTooltipConfig(new BarsExampleTooltipConfig())
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsHoverMoveOutput> =
-    new BehaviorSubject<BarsHoverMoveOutput>(null);
+  tooltipData: BehaviorSubject<BarsEventOutput> =
+    new BehaviorSubject<BarsEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveEffects: EventEffect<BarsHoverMoveDirective>[] = [
     new BarsHoverMoveEmitTooltipData(),
   ];
   hoverEffects: EventEffect<BarsHoverDirective>[] = [new BarsHoverShowLabels()];
+
+  clickEffects: EventEffect<BarsClickDirective>[] = [
+    new BarsClickEmitTooltipDataPauseHoverMoveEffects(),
+  ];
+  removeTooltipEvent: Subject<void> = new Subject<void>();
+  removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
 
   constructor(private dataService: DataService) {}
 
@@ -104,17 +110,25 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: BarsHoverMoveOutput): void {
+  updateTooltipForNewOutput(
+    data: BarsEventOutput,
+    tooltipEvent: 'hover' | 'click'
+  ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+    this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: BarsHoverMoveOutput): void {
+  updateTooltipData(data: BarsEventOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsHoverMoveOutput): void {
+  updateTooltipConfig(
+    data: BarsEventOutput,
+    eventContext: 'hover' | 'click'
+  ): void {
     const config = new BarsExampleTooltipConfig();
+    config.hasBackdrop = eventContext === 'click';
+    config.closeOnBackdropClick = eventContext === 'click';
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;
@@ -125,5 +139,9 @@ export class BarsExampleComponent implements OnInit {
       config.origin = undefined;
     }
     this.tooltipConfig.next(config);
+  }
+
+  onBackdropClick(): void {
+    this.removeTooltipEvent.next();
   }
 }

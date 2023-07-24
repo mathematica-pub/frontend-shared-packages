@@ -11,14 +11,6 @@ import {
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
-interface GeographiesHoverMoveExtras {
-  positionX?: number;
-  positionY?: number;
-}
-
-export type GeographiesHoverMoveOutput = GeographiesEventOutput &
-  GeographiesHoverMoveExtras;
-
 @Directive({
   selector: '[vicGeographiesHoverMoveEffects]',
 })
@@ -26,7 +18,7 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
   effects: EventEffect<GeographiesHoverMoveDirective>[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput =
-    new EventEmitter<GeographiesHoverMoveOutput>();
+    new EventEmitter<GeographiesEventOutput>();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
@@ -55,13 +47,13 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     const d = select(event.target as Element).datum();
     this.geographyIndex = this.getGeographyIndex(d);
-    if (this.effects) {
+    if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
   }
 
   onElementPointerLeave(): void {
-    if (this.effects) {
+    if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
   }
@@ -79,10 +71,11 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
       this.geographyIndex,
       this.geographies
     );
-    const extras = {
+    const output: GeographiesEventOutput = {
+      ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
     };
-    return { ...tooltipData, ...extras };
+    return output;
   }
 }

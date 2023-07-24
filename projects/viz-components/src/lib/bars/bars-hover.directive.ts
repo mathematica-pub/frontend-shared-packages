@@ -12,7 +12,11 @@ import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
-import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
+import {
+  BarsEventOutput,
+  BarsTooltipOutput,
+  getBarsTooltipData,
+} from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 interface BarsHoverExtras {
@@ -62,7 +66,7 @@ export class BarsHoverDirective extends HoverDirective {
     }
   }
 
-  getTooltipData(): BarsEventOutput {
+  getTooltipData(): BarsTooltipOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,

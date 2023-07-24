@@ -8,6 +8,7 @@ import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import {
   GeographiesEventOutput,
+  GeographiesTooltipOutput,
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
@@ -17,7 +18,7 @@ interface GeographiesHoverExtras {
   bounds?: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput = GeographiesEventOutput &
+export type GeographiesHoverOutput = GeographiesTooltipOutput &
   GeographiesHoverExtras;
 
 @Directive({
@@ -53,11 +54,15 @@ export class GeographiesHoverDirective extends HoverDirective {
     this.feature = d;
     this.bounds = this.geographies.path.bounds(d);
     this.geographyIndex = this.getGeographyIndex(d);
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => effect.applyEffect(this));
+    }
   }
 
   onElementPointerLeave(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => effect.removeEffect(this));
+    }
   }
 
   // consider making GeographiesEventMixin later to avoid duplicating this method

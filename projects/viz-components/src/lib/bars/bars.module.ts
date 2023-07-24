@@ -4,6 +4,7 @@ import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
 import { BarsComponent } from './bars.component';
+import { BarsClickDirective } from './bars-click.directive';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { BarsComponent } from './bars.component';
     BarsHoverDirective,
     BarsHoverMoveDirective,
     BarsInputEventDirective,
+    BarsClickDirective,
   ],
   imports: [CommonModule],
   exports: [
@@ -18,6 +20,7 @@ import { BarsComponent } from './bars.component';
     BarsHoverDirective,
     BarsHoverMoveDirective,
     BarsInputEventDirective,
+    BarsClickDirective,
   ],
 })
 export class VicBarsModule {}

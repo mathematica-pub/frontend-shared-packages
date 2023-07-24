@@ -13,48 +13,51 @@ import { Observable } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { ListenElement } from '../events/event.directive';
-import { LinesHoverMoveDirective } from './lines-hover-move.directive';
-import { LinesHoverDirective } from './lines-hover.directive';
-import { LinesInputEventDirective } from './lines-input-event.directive';
+import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import {
-  getLinesTooltipDataFromDatum,
-  LinesEventOutput,
-} from './lines-tooltip-data';
-import { LINES, LinesComponent } from './lines.component';
+  GeographiesHoverDirective,
+  GeographiesHoverOutput,
+} from './geographies-hover.directive';
+import { GeographiesInputEventDirective } from './geographies-input-event.directive';
+import {
+  getGeographiesTooltipData,
+  GeographiesEventOutput,
+} from './geographies-tooltip-data';
+import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
-type LinesEventDirective =
-  | LinesHoverDirective
-  | LinesHoverMoveDirective
-  | LinesInputEventDirective;
+type GeographiesEventDirective =
+  | GeographiesHoverDirective
+  | GeographiesHoverMoveDirective
+  | GeographiesInputEventDirective;
 
 @Directive({
-  selector: '[vicLinesChartClickEffects]',
+  selector: '[vicGeographiesClickEffects]',
 })
-export class LinesClickDirective extends ClickDirective {
-  @Input('vicLinesChartClickEffects')
-  effects: EventEffect<LinesClickDirective>[];
-  @Input('vicLinesChartClickRemoveEvent$')
+export class GeographiesClickDirective extends ClickDirective {
+  @Input('vicGeographiesClickEffects')
+  effects: EventEffect<GeographiesClickDirective>[];
+  @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
-  @Output('vicLinesChartClickOutput') eventOutput =
-    new EventEmitter<LinesEventOutput>();
+  @Output('vicGeographiesClickOutput') eventOutput =
+    new EventEmitter<GeographiesHoverOutput>();
 
   constructor(
-    @Inject(LINES) public lines: LinesComponent,
+    @Inject(GEOGRAPHIES) public geographies: GeographiesComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective,
+    public hoverDirective?: GeographiesHoverDirective,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverMoveDirective,
+    public hoverAndMoveDirective?: GeographiesHoverMoveDirective,
     @Self()
     @Optional()
-    public inputEventDirective?: LinesInputEventDirective
+    public inputEventDirective?: GeographiesInputEventDirective
   ) {
     super();
   }
 
   setListenedElements(): void {
-    this.elements = [this.lines.chart.svgRef.nativeElement];
+    this.elements = [this.geographies.chart.svgRef.nativeElement];
     this.setListeners();
   }
 
@@ -66,18 +69,22 @@ export class LinesClickDirective extends ClickDirective {
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): LinesEventOutput {
-    if (!this.hoverAndMoveDirective) {
+  getTooltipData(): GeographiesHoverOutput {
+    if (!this.hoverDirective) {
       console.warn(
-        'Tooltip data can only be retrieved when a LinesHoverMoveDirective is implemented.'
+        'Tooltip data can only be retrieved when a GeographiesHoverMoveDirective and a GeographiesHoverDirective are implemented.'
       );
     }
-    if (this.hoverAndMoveDirective.closestPointIndex) {
-      const data = getLinesTooltipDataFromDatum(
-        this.hoverAndMoveDirective.closestPointIndex,
-        this.lines
+    if (this.hoverDirective) {
+      const data = getGeographiesTooltipData(
+        this.hoverDirective.geographyIndex,
+        this.geographies
       );
-      return data;
+      const extras = {
+        feature: this.hoverDirective.feature,
+        bounds: this.hoverDirective.bounds,
+      };
+      return { ...data, ...extras };
     } else {
       return null;
     }
@@ -109,13 +116,16 @@ export class LinesClickDirective extends ClickDirective {
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: LinesEventDirective): void {
+  disableEffect(directive: GeographiesEventDirective): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
-  enableEffect(directive: LinesEventDirective, removeEffects: boolean): void {
+  enableEffect(
+    directive: GeographiesEventDirective,
+    removeEffects: boolean
+  ): void {
     if (directive) {
       directive.preventEffect = false;
       if (removeEffects) {

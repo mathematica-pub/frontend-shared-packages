@@ -4,6 +4,7 @@ import { GeographiesHoverMoveDirective } from './geographies-hover-move.directiv
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
 import { GeographiesComponent } from './geographies.component';
+import { GeographiesClickDirective } from './geographies-click.directive';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { GeographiesComponent } from './geographies.component';
     GeographiesHoverMoveDirective,
     GeographiesHoverDirective,
     GeographiesInputEventDirective,
+    GeographiesClickDirective,
   ],
   imports: [CommonModule],
   exports: [
@@ -18,6 +20,7 @@ import { GeographiesComponent } from './geographies.component';
     GeographiesHoverMoveDirective,
     GeographiesHoverDirective,
     GeographiesInputEventDirective,
+    GeographiesClickDirective,
   ],
 })
 export class VicGeographiesModule {}
