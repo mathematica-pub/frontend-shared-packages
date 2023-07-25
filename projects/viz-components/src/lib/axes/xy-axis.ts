@@ -97,10 +97,17 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
       new SvgTextWrapConfig(),
       properties
     ) as SvgTextWrapConfig;
-    config.width =
-      this.config.wrap.wrapWidth === 'bandwidth'
-        ? this.scale.bandwidth()
-        : this.config.wrap.wrapWidth;
+    let width: number;
+    if (this.config.wrap.wrapWidth === 'bandwidth') {
+      width = this.scale.bandwidth();
+    } else if (typeof this.config.wrap.wrapWidth === 'function') {
+      const chartWidth = this.scale.range()[1] - this.scale.range()[0];
+      const numOfTicks = this.scale.ticks().length;
+      width = this.config.wrap.wrapWidth(chartWidth, numOfTicks);
+    } else {
+      width = this.config.wrap.wrapWidth;
+    }
+    config.width = width;
     tickTextSelection.call(svgTextWrap, config);
   }
 
