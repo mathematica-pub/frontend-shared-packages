@@ -505,8 +505,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">projects/viz-components/src/lib/axes/xy-axis.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/viz-components/src/lib/axes/xy-axis.ts:114</a></div>
                 </td>
             </tr>
 
@@ -1319,10 +1319,17 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
       new SvgTextWrapConfig(),
       properties
     ) as SvgTextWrapConfig;
-    config.width &#x3D;
-      this.config.wrap.wrapWidth &#x3D;&#x3D;&#x3D; &#x27;bandwidth&#x27;
-        ? this.scale.bandwidth()
-        : this.config.wrap.wrapWidth;
+    let width: number;
+    if (this.config.wrap.wrapWidth &#x3D;&#x3D;&#x3D; &#x27;bandwidth&#x27;) {
+      width &#x3D; this.scale.bandwidth();
+    } else if (typeof this.config.wrap.wrapWidth &#x3D;&#x3D;&#x3D; &#x27;function&#x27;) {
+      const chartWidth &#x3D; this.scale.range()[1] - this.scale.range()[0];
+      const numOfTicks &#x3D; this.scale.ticks().length;
+      width &#x3D; this.config.wrap.wrapWidth(chartWidth, numOfTicks);
+    } else {
+      width &#x3D; this.config.wrap.wrapWidth;
+    }
+    config.width &#x3D; width;
     tickTextSelection.call(svgTextWrap, config);
   }
 
