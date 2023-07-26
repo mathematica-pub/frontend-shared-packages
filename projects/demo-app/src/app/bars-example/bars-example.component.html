@@ -19,15 +19,11 @@
           [config]="vm.dataConfig"
           [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
           [vicBarsHoverEffects]="hoverEffects"
-          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
-          [vicBarsClickEffects]="clickEffects"
-          [vicBarsClickRemoveEvent$]="removeTooltipEvent$"
-          (vicBarsClickOutput)="updateTooltipForNewOutput($event, 'click')"
+          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="(tooltipConfig$ | async)"
             [template]="htmlTooltip"
-            (backdropClick)="onBackdropClick()"
           ></vic-html-tooltip>
         </svg:g>
       </ng-container>

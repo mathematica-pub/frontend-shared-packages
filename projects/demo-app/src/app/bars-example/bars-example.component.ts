@@ -64,12 +64,6 @@ export class BarsExampleComponent implements OnInit {
   ];
   hoverEffects: EventEffect<BarsHoverDirective>[] = [new BarsHoverShowLabels()];
 
-  clickEffects: EventEffect<BarsClickDirective>[] = [
-    new BarsClickEmitTooltipDataPauseHoverMoveEffects(),
-  ];
-  removeTooltipEvent: Subject<void> = new Subject<void>();
-  removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
@@ -110,25 +104,17 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(
-    data: BarsEventOutput,
-    tooltipEvent: 'hover' | 'click'
-  ): void {
+  updateTooltipForNewOutput(data: BarsEventOutput): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data, tooltipEvent);
+    this.updateTooltipConfig(data);
   }
 
   updateTooltipData(data: BarsEventOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(
-    data: BarsEventOutput,
-    eventContext: 'hover' | 'click'
-  ): void {
+  updateTooltipConfig(data: BarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
-    config.hasBackdrop = eventContext === 'click';
-    config.closeOnBackdropClick = eventContext === 'click';
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;
@@ -139,9 +125,5 @@ export class BarsExampleComponent implements OnInit {
       config.origin = undefined;
     }
     this.tooltipConfig.next(config);
-  }
-
-  onBackdropClick(): void {
-    this.removeTooltipEvent.next();
   }
 }
