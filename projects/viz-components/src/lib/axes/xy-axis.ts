@@ -102,7 +102,9 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
       width = this.scale.bandwidth();
     } else if (typeof this.config.wrap.wrapWidth === 'function') {
       const chartWidth = this.scale.range()[1] - this.scale.range()[0];
-      const numOfTicks = this.scale.ticks().length;
+      const numOfTicks = select(this.axisRef.nativeElement)
+        .selectAll('.tick')
+        .size();
       width = this.config.wrap.wrapWidth(chartWidth, numOfTicks);
     } else {
       width = this.config.wrap.wrapWidth;
