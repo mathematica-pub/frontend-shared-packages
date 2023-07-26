@@ -39,7 +39,7 @@ export class GeographiesClickDirective extends ClickDirective {
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicGeographiesClickOutput') eventOutput =
-    new EventEmitter<GeographiesHoverOutput>();
+    new EventEmitter<GeographiesEventOutput>();
 
   constructor(
     @Inject(GEOGRAPHIES) public geographies: GeographiesComponent,
@@ -69,7 +69,7 @@ export class GeographiesClickDirective extends ClickDirective {
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): GeographiesHoverOutput {
+  getTooltipData(): GeographiesEventOutput {
     if (!this.hoverDirective) {
       console.warn(
         'Tooltip data can only be retrieved when a GeographiesHoverMoveDirective and a GeographiesHoverDirective are implemented.'
@@ -81,8 +81,8 @@ export class GeographiesClickDirective extends ClickDirective {
         this.geographies
       );
       const extras = {
-        feature: this.hoverDirective.feature,
-        bounds: this.hoverDirective.bounds,
+        positionX: this.hoverDirective.positionX,
+        positionY: this.hoverDirective.positionY,
       };
       return { ...data, ...extras };
     } else {

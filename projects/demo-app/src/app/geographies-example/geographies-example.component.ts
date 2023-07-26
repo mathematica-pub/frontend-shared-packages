@@ -14,6 +14,7 @@ import {
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
   GeographiesConfig,
+  GeographiesEventOutput,
   GeographiesHoverEmitTooltipData,
 } from 'projects/viz-components/src/public-api';
 import {
@@ -62,8 +63,8 @@ export class GeographiesExampleComponent implements OnInit {
       new HtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesHoverOutput> =
-    new BehaviorSubject<GeographiesHoverOutput>(null);
+  tooltipData: BehaviorSubject<GeographiesEventOutput> =
+    new BehaviorSubject<GeographiesEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<GeographiesHoverDirective>[] = [
     new GeographiesHoverEmitTooltipData(),
@@ -142,19 +143,19 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: GeographiesHoverOutput,
+    data: GeographiesEventOutput,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: GeographiesHoverOutput): void {
+  updateTooltipData(data: GeographiesEventOutput): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: GeographiesHoverOutput,
+    data: GeographiesEventOutput,
     eventContext: 'hover' | 'click'
   ): void {
     const config = new HtmlTooltipConfig();
@@ -162,8 +163,8 @@ export class GeographiesExampleComponent implements OnInit {
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
     if (data) {
-      config.position.offsetX = (data.bounds[1][0] + data.bounds[0][0]) / 2;
-      config.position.offsetY = (data.bounds[1][1] + data.bounds[0][1] * 2) / 3;
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY;
       config.show = true;
     } else {
       config.show = false;

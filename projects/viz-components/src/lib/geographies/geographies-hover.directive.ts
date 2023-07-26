@@ -28,10 +28,12 @@ export class GeographiesHoverDirective extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
   effects: EventEffect<GeographiesHoverDirective>[];
   @Output('vicGeographiesHoverOutput') eventOutput =
-    new EventEmitter<GeographiesHoverOutput>();
+    new EventEmitter<GeographiesEventOutput>();
   feature: Feature;
   bounds: [[number, number], [number, number]];
   geographyIndex: number;
+  positionX: number;
+  positionY: number;
 
   constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
     super();
@@ -74,12 +76,17 @@ export class GeographiesHoverDirective extends HoverDirective {
     return this.geographies.values.indexMap.get(value);
   }
 
-  getTooltipData(): GeographiesHoverOutput {
+  getTooltipData(): GeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const extras = { feature: this.feature, bounds: this.bounds };
-    return { ...tooltipData, ...extras };
+    this.positionX = (this.bounds[1][0] + this.bounds[0][0]) / 2;
+    this.positionY = (this.bounds[1][1] + this.bounds[0][1] * 2) / 3;
+    return {
+      ...tooltipData,
+      positionX: this.positionX,
+      positionY: this.positionY,
+    };
   }
 }
