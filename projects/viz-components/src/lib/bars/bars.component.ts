@@ -158,20 +158,24 @@ export class BarsComponent
   }
 
   initQuantitativeDomain(): void {
+    let defaultMin, defaultMax: number;
     if (this.config.quantitative.domain === undefined) {
-      const dataMin = this.getDataMin();
-      const dataMax = this.getDataMax();
-      const domainMin = this.config.quantitative.domainPadding
-        ? this.getDomainMinFromDataMin(dataMin)
-        : dataMin;
-      const domainMax = this.config.quantitative.domainPadding
-        ? this.getDomainMaxFromValueExtents(dataMax, dataMin)
-        : dataMax;
-      if (domainMin === domainMax) {
-        this.config.quantitative.domain = [domainMin, domainMin + 1];
-      } else {
-        this.config.quantitative.domain = [domainMin, domainMax];
-      }
+      defaultMin = this.getDataMin();
+      defaultMax = this.getDataMax();
+    } else {
+      defaultMin = this.config.quantitative.domain[0];
+      defaultMax = this.config.quantitative.domain[1];
+    }
+    const domainMin = this.config.quantitative.domainPadding
+      ? this.getDomainMinFromDataMin(defaultMin)
+      : defaultMin;
+    const domainMax = this.config.quantitative.domainPadding
+      ? this.getDomainMaxFromValueExtents(defaultMax, defaultMin)
+      : defaultMax;
+    if (domainMin === domainMax) {
+      this.config.quantitative.domain = [domainMin, domainMin + 1];
+    } else {
+      this.config.quantitative.domain = [domainMin, domainMax];
     }
   }
 
