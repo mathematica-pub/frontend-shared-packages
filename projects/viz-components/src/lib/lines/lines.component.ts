@@ -22,6 +22,7 @@ import {
   min,
   range,
   scaleOrdinal,
+  scaleTime,
   select,
   Transition,
 } from 'd3';
@@ -32,6 +33,8 @@ import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { LinesConfig } from './lines.config';
+import { DataDomainService } from '../core/services/data-domain.service';
+import { DomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -82,6 +85,7 @@ export class LinesComponent
 
   private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
+  private dataDomainService = inject(DataDomainService);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
@@ -140,11 +144,35 @@ export class LinesComponent
 
   initDomains(): void {
     if (this.config.x.domain === undefined) {
-      this.config.x.domain = extent(this.values.x);
+      let domain = extent(this.values.x);
+      if (
+        this.config.x.scaleType !== scaleTime &&
+        this.config.x.domainPadding
+      ) {
+        const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
+          domain[0],
+          domain[1],
+          this.config.x.domainPadding
+        );
+        domain = newDomain;
+      }
+      this.config.x.domain = domain;
     }
     if (this.config.y.domain === undefined) {
       const dataMin = min([min(this.values.y), 0]);
-      this.config.y.domain = [dataMin, max(this.values.y)];
+      let domain = [dataMin, max(this.values.y)];
+      if (
+        this.config.y.scaleType !== scaleTime &&
+        this.config.y.domainPadding
+      ) {
+        const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
+          domain[0],
+          domain[1],
+          this.config.x.domainPadding
+        );
+        domain = newDomain;
+      }
+      this.config.y.domain = domain as [any, any];
     }
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;

@@ -6,41 +6,76 @@ import { ValueUtilities } from '../../shared/value-utilities.class';
   providedIn: 'root',
 })
 export class DataDomainService {
-  getPaddedDomainValue(value: number, padding: DomainPaddingConfig) {
+  getPaddedDomainValue(
+    value: number,
+    padding: DomainPaddingConfig,
+    domainType: 'min' | 'max'
+  ) {
     let paddedValue = value;
     if (padding.type === 'roundUp') {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(
         value,
-        padding.sigDigits(value)
+        padding.sigDigits(value),
+        domainType
       );
     } else if (padding.type === 'percentOver') {
       paddedValue = this.getQuantitativeDomainMaxPercentOver(
         value,
         padding.sigDigits(value),
-        padding.percentOver
+        padding.percentOver,
+        domainType
       );
     } else if (padding.type === 'roundInterval') {
       paddedValue = ValueUtilities.getValueRoundedToInterval(
         value,
-        padding.interval(value)
+        padding.interval(value),
+        domainType
       );
     }
     return paddedValue;
   }
 
-  getQuantitativeDomainMaxRoundedUp(value: number, sigDigits: number) {
-    return ValueUtilities.getValueRoundedUpNSignificantDigits(value, sigDigits);
+  getQuantitativeDomainMaxRoundedUp(
+    value: number,
+    sigDigits: number,
+    domainType: 'min' | 'max'
+  ) {
+    return ValueUtilities.getValueRoundedToNSignificantDigits(
+      value,
+      sigDigits,
+      domainType
+    );
   }
 
   getQuantitativeDomainMaxPercentOver(
     value: number,
     sigDigits: number,
-    percent: number
+    percent: number,
+    domainType: 'min' | 'max'
   ) {
-    const overValue = value * (1 + percent);
-    return ValueUtilities.getValueRoundedUpNSignificantDigits(
+    const overValue = Math.abs(value) * (1 + percent);
+    return ValueUtilities.getValueRoundedToNSignificantDigits(
       overValue,
-      sigDigits
+      sigDigits,
+      domainType
     );
+  }
+
+  getQuantitativeDomainMinAndMax(
+    dataMin: number,
+    dataMax: number,
+    domainPadding: DomainPaddingConfig
+  ): [number, number] {
+    const domainMin = domainPadding
+      ? this.getPaddedDomainValue(dataMin, domainPadding, 'min')
+      : dataMin;
+    const domainMax = domainPadding
+      ? this.getPaddedDomainValue(dataMax, domainPadding, 'max')
+      : dataMax;
+    if (domainMin === domainMax) {
+      return [domainMin, domainMin + 1];
+    } else {
+      return [domainMin, domainMax];
+    }
   }
 }
