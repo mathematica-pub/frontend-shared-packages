@@ -174,7 +174,6 @@ export class LinesComponent
     domainPadding: DomainPaddingConfig,
     domain: [any, any]
   ): [any, any] {
-    console.log(scaleType === scaleUtc);
     if (scaleType !== scaleTime && scaleType !== scaleUtc && domainPadding) {
       const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
         domain[0],
