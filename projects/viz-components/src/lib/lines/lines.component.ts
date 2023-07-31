@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -144,39 +145,43 @@ export class LinesComponent
 
   initDomains(): void {
     if (this.config.x.domain === undefined) {
-      let domain = extent(this.values.x);
-      if (
-        this.config.x.scaleType !== scaleTime &&
-        this.config.x.domainPadding
-      ) {
-        const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
-          domain[0],
-          domain[1],
-          this.config.x.domainPadding
-        );
-        domain = newDomain;
-      }
-      this.config.x.domain = domain;
+      const domain = extent(this.values.x);
+      const newDomain = this.getDomain(
+        this.config.x.scaleType,
+        this.config.x.domainPadding,
+        domain
+      );
+      this.config.x.domain = newDomain;
     }
     if (this.config.y.domain === undefined) {
       const dataMin = min([min(this.values.y), 0]);
-      let domain = [dataMin, max(this.values.y)];
-      if (
-        this.config.y.scaleType !== scaleTime &&
-        this.config.y.domainPadding
-      ) {
-        const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
-          domain[0],
-          domain[1],
-          this.config.x.domainPadding
-        );
-        domain = newDomain;
-      }
-      this.config.y.domain = domain as [any, any];
+      const domain = [dataMin, max(this.values.y)] as [any, any];
+      const newDomain = this.getDomain(
+        this.config.y.scaleType,
+        this.config.y.domainPadding,
+        domain
+      );
+      this.config.y.domain = newDomain;
     }
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
+  }
+
+  getDomain(
+    scaleType: any,
+    domainPadding: DomainPaddingConfig,
+    domain: [any, any]
+  ): [any, any] {
+    if (scaleType !== scaleTime && domainPadding) {
+      const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
+        domain[0],
+        domain[1],
+        domainPadding
+      );
+      domain = newDomain;
+    }
+    return domain;
   }
 
   setValueIndicies(): void {
