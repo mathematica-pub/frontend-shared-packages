@@ -157,7 +157,7 @@ export class LinesComponent
       this.config.x.domain === undefined
         ? extent(this.values.x)
         : this.config.x.domain;
-    const newDomain = this.getDomain(
+    const newDomain = this.getPaddedDomain(
       this.config.x.scaleType,
       this.config.x.domainPadding,
       domain
