@@ -1,9 +1,8 @@
+import { DomainType } from '../core/services/data-domain.service';
+
 /**
  * @internal
  */
-
-export type DomainType = 'max' | 'min';
-
 export class ValueUtilities {
   static getValueRoundedToNSignificantDigits(
     value: number,

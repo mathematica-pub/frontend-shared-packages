@@ -1,4 +1,5 @@
-import { DomainType, ValueUtilities } from './value-utilities.class';
+import { DomainType } from '../core/services/data-domain.service';
+import { ValueUtilities } from './value-utilities.class';
 
 describe('ValueUtilities', () => {
   describe('integration: getValueRoundedToNSignificantDigits', () => {

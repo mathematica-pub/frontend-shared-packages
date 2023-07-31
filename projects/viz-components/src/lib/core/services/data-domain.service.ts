@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { DomainPaddingConfig } from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
 
+export type DomainType = 'max' | 'min';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -9,7 +11,7 @@ export class DataDomainService {
   getPaddedDomainValue(
     value: number,
     padding: DomainPaddingConfig,
-    domainType: 'min' | 'max'
+    domainType: DomainType
   ) {
     let paddedValue = value;
     if (padding.type === 'roundUp') {
@@ -38,7 +40,7 @@ export class DataDomainService {
   getQuantitativeDomainMaxRoundedUp(
     value: number,
     sigDigits: number,
-    domainType: 'min' | 'max'
+    domainType: DomainType
   ) {
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       value,
@@ -51,7 +53,7 @@ export class DataDomainService {
     value: number,
     sigDigits: number,
     percent: number,
-    domainType: 'min' | 'max'
+    domainType: DomainType
   ) {
     const overValue = Math.abs(value) * (1 + percent);
     return ValueUtilities.getValueRoundedToNSignificantDigits(
