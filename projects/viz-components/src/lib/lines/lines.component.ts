@@ -145,28 +145,37 @@ export class LinesComponent
   }
 
   initDomains(): void {
-    if (this.config.x.domain === undefined) {
-      const domain = extent(this.values.x);
-      const newDomain = this.getDomain(
-        this.config.x.scaleType,
-        this.config.x.domainPadding,
-        domain
-      );
-      this.config.x.domain = newDomain;
-    }
-    if (this.config.y.domain === undefined) {
-      const dataMin = min([min(this.values.y), 0]);
-      const domain = [dataMin, max(this.values.y)] as [any, any];
-      const newDomain = this.getDomain(
-        this.config.y.scaleType,
-        this.config.y.domainPadding,
-        domain
-      );
-      this.config.y.domain = newDomain;
-    }
+    this.setXDomain();
+    this.setYDomain();
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
+  }
+
+  setXDomain(): void {
+    const domain =
+      this.config.x.domain === undefined
+        ? extent(this.values.x)
+        : this.config.x.domain;
+    const newDomain = this.getDomain(
+      this.config.x.scaleType,
+      this.config.x.domainPadding,
+      domain
+    );
+    this.config.x.domain = newDomain;
+  }
+
+  setYDomain(): void {
+    const domain: [any, any] =
+      this.config.y.domain === undefined
+        ? [min([min(this.values.y), 0]), max(this.values.y)]
+        : this.config.y.domain;
+    const newDomain = this.getDomain(
+      this.config.y.scaleType,
+      this.config.y.domainPadding,
+      domain
+    );
+    this.config.y.domain = newDomain;
   }
 
   getDomain(
