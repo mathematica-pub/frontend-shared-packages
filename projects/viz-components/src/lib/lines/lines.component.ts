@@ -170,7 +170,7 @@ export class LinesComponent
       this.config.y.domain === undefined
         ? [min([min(this.values.y), 0]), max(this.values.y)]
         : this.config.y.domain;
-    const newDomain = this.getDomain(
+    const newDomain = this.getPaddedDomain(
       this.config.y.scaleType,
       this.config.y.domainPadding,
       domain
@@ -178,7 +178,7 @@ export class LinesComponent
     this.config.y.domain = newDomain;
   }
 
-  getDomain(
+  getPaddedDomain(
     scaleType: any,
     domainPadding: DomainPaddingConfig,
     domain: [any, any]
