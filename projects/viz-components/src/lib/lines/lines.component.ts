@@ -24,6 +24,7 @@ import {
   range,
   scaleOrdinal,
   scaleTime,
+  scaleUtc,
   select,
   Transition,
 } from 'd3';
@@ -173,7 +174,8 @@ export class LinesComponent
     domainPadding: DomainPaddingConfig,
     domain: [any, any]
   ): [any, any] {
-    if (scaleType !== scaleTime && domainPadding) {
+    console.log(scaleType === scaleUtc);
+    if (scaleType !== scaleTime && scaleType !== scaleUtc && domainPadding) {
       const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
         domain[0],
         domain[1],
