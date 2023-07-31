@@ -189,9 +189,10 @@ export class LinesComponent
         domain[1],
         domainPadding
       );
-      domain = newDomain;
+      return newDomain;
+    } else {
+      return domain;
     }
-    return domain;
   }
 
   setValueIndicies(): void {
