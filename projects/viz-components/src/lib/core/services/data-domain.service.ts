@@ -63,7 +63,7 @@ export class DataDomainService {
     );
   }
 
-  getQuantitativeDomainMinAndMax(
+  getQuantitativeDomain(
     dataMin: number,
     dataMax: number,
     domainPadding: DomainPaddingConfig

@@ -166,7 +166,7 @@ export class BarsComponent
       dataMin = this.config.quantitative.domain[0];
       dataMax = this.config.quantitative.domain[1];
     }
-    const domain = this.dataDomainService.getQuantitativeDomainMinAndMax(
+    const domain = this.dataDomainService.getQuantitativeDomain(
       dataMin,
       dataMax,
       this.config.quantitative.domainPadding
