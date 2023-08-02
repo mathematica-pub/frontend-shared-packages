@@ -147,21 +147,7 @@ export class ValueUtilities {
     if (interval === 0) {
       return value;
     }
-
-    const round = ValueUtilities.getRoundingMethod(value, valueType);
+    const round = valueType === 'max' ? Math.ceil : Math.floor;
     return round(value / interval) * interval;
-  }
-
-  private static getRoundingMethod(
-    value: number,
-    valueType: ValueType
-  ): (value: number) => number {
-    let operator;
-    if (value > 0) {
-      operator = valueType === 'max' ? Math.ceil : Math.floor;
-    } else {
-      operator = valueType === 'max' ? Math.floor : Math.ceil;
-    }
-    return operator;
   }
 }

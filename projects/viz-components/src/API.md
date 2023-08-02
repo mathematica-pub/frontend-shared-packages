@@ -68,5 +68,3 @@ BarsConfig:
   - offset: 4
   - color: undefined, type string
   - noValueString: 'N/A'
-
-- positivePaddingForAllNegativeValues: **0.2**
