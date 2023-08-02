@@ -76,7 +76,7 @@ export class GeographiesHoverDirective extends HoverDirective {
     return this.geographies.values.indexMap.get(value);
   }
 
-  getTooltipData(): GeographiesEventOutput {
+  getEventOutput(): GeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies

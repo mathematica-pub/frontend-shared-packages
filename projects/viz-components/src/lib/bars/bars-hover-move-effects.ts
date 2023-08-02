@@ -5,7 +5,7 @@ export class BarsHoverMoveEmitTooltipData
   implements EventEffect<BarsHoverMoveDirective>
 {
   applyEffect(directive: BarsHoverMoveDirective): void {
-    const tooltipData = directive.getTooltipData();
+    const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 

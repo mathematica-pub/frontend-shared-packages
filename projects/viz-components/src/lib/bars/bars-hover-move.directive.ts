@@ -70,7 +70,7 @@ export class BarsHoverMoveDirective extends HoverMoveDirective {
     this.elRef = undefined;
   }
 
-  getTooltipData(): BarsEventOutput {
+  getEventOutput(): BarsEventOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,
@@ -78,7 +78,7 @@ export class BarsHoverMoveDirective extends HoverMoveDirective {
     );
     const extras = {
       positionX: this.pointerX,
-      positionY: this.pointerY,
+      positionY: this.pointerY - 16,
     };
     return { ...tooltipData, ...extras };
   }

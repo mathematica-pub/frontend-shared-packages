@@ -117,7 +117,7 @@ export class BarsExampleComponent implements OnInit {
     const config = new BarsExampleTooltipConfig();
     if (data) {
       config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY - 16;
+      config.position.offsetY = data.positionY;
       config.show = true;
       config.origin = data.elRef;
     } else {

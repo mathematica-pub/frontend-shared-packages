@@ -12,11 +12,7 @@ import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
-import {
-  BarsEventOutput,
-  BarsTooltipOutput,
-  getBarsTooltipData,
-} from './bars-tooltip-data';
+import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 @Directive({
@@ -60,7 +56,7 @@ export class BarsHoverDirective extends HoverDirective {
     }
   }
 
-  getTooltipData(): BarsEventOutput {
+  getEventOutput(): BarsEventOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,
@@ -72,7 +68,7 @@ export class BarsHoverDirective extends HoverDirective {
     return {
       ...tooltipData,
       positionX: barPosition.x + this.elRef.nativeElement.offsetWidth / 2,
-      positionY: (barPosition.y = 12),
+      positionY: barPosition.y,
     };
   }
 }
