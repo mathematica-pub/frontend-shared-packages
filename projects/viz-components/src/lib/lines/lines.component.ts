@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,6 +23,8 @@ import {
   min,
   range,
   scaleOrdinal,
+  scaleTime,
+  scaleUtc,
   select,
   Transition,
 } from 'd3';
@@ -32,6 +35,8 @@ import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { LinesConfig } from './lines.config';
+import { DataDomainService } from '../core/services/data-domain.service';
+import { DomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -82,6 +87,7 @@ export class LinesComponent
 
   private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
+  private dataDomainService = inject(DataDomainService);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
@@ -139,15 +145,53 @@ export class LinesComponent
   }
 
   initDomains(): void {
-    if (this.config.x.domain === undefined) {
-      this.config.x.domain = extent(this.values.x);
-    }
-    if (this.config.y.domain === undefined) {
-      const dataMin = min([min(this.values.y), 0]);
-      this.config.y.domain = [dataMin, max(this.values.y)];
-    }
+    this.setXDomain();
+    this.setYDomain();
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
+    }
+  }
+
+  setXDomain(): void {
+    const domain =
+      this.config.x.domain === undefined
+        ? extent(this.values.x)
+        : this.config.x.domain;
+    const newDomain = this.getNewDomain(
+      this.config.x.scaleType,
+      this.config.x.domainPadding,
+      domain
+    );
+    this.config.x.domain = newDomain;
+  }
+
+  setYDomain(): void {
+    const domain: [any, any] =
+      this.config.y.domain === undefined
+        ? [min([min(this.values.y), 0]), max(this.values.y)]
+        : this.config.y.domain;
+    const newDomain = this.getNewDomain(
+      this.config.y.scaleType,
+      this.config.y.domainPadding,
+      domain
+    );
+    this.config.y.domain = newDomain;
+  }
+
+  getNewDomain(
+    scaleType: any,
+    domainPadding: DomainPaddingConfig,
+    domain: [any, any]
+  ): [any, any] {
+    if (scaleType !== scaleTime && scaleType !== scaleUtc) {
+      const newDomain = this.dataDomainService.getQuantitativeDomain(
+        domain[0],
+        domain[1],
+        domainPadding
+      );
+      return newDomain;
+    } else {
+      return domain;
     }
   }
 

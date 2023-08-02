@@ -1,26 +1,30 @@
+import { ValueType } from '../core/services/data-domain.service';
+
 /**
  * @internal
  */
-
 export class ValueUtilities {
-  static getValueRoundedUpNSignificantDigits(
+  static getValueRoundedToNSignificantDigits(
     value: number,
-    sigDigits: number
+    sigDigits: number,
+    valueType: ValueType
   ): number {
-    // Rounds up if value is > 0, down if value is < 0
+    // If the value type is 'max', rounds up if value is > 0 and down if value is < 0
+    // If the value type is 'min', rounds down if value is > 0 and up if value is < 0
     // ex: 1234 => 1235, -1234 => -1235
     // SigDigits here means the first N non-zero as units holder values
     // ex: 1234, sigDigits = 2, "1" and "2" are "significant"
     // ex: 0.001234, sigDigits = 3, "1", "2", and "3" are "significant"
     this.validateSigDigits(sigDigits);
     let absRoundedValue;
-    const absValueStr = Math.abs(value).toString();
     if (Math.abs(value) < 1) {
       absRoundedValue = this.getRoundedDecimalLessThanOne(
-        absValueStr,
-        sigDigits
+        value,
+        sigDigits,
+        valueType
       );
     } else {
+      const absValueStr = Math.abs(value).toString();
       const decimalIndex = absValueStr.indexOf('.');
       let firstNDigits;
       let numZeros = 0;
@@ -35,14 +39,30 @@ export class ValueUtilities {
         }
         numZeros = numZeros < 0 ? 0 : numZeros;
       }
-      const roundedLastSigDigit =
-        Number(firstNDigits[firstNDigits.length - 1]) + 1;
-      firstNDigits =
-        firstNDigits.substring(0, firstNDigits.length - 1) +
-        roundedLastSigDigit.toString();
+      const offset = this.getRoundingOffset(value, valueType);
+      const lastSigDigit = Number(firstNDigits[firstNDigits.length - 1]);
+      // handle cases where the last rounded significant is 9 and the value is rounded up
+      if (offset === 1 && lastSigDigit === 9) {
+        firstNDigits = this.getNewValueForNine(
+          value,
+          firstNDigits.split(''),
+          absValueStr,
+          sigDigits,
+          valueType
+        ).join('');
+        if (firstNDigits[0] === '0') {
+          firstNDigits.unshift('1');
+        }
+      } else {
+        firstNDigits =
+          firstNDigits.substring(0, firstNDigits.length - 1) +
+          (lastSigDigit + offset).toString();
+      }
       absRoundedValue = Number(firstNDigits + '0'.repeat(numZeros));
     }
-    return value > 0 ? absRoundedValue : -absRoundedValue;
+    return value >= 0 || absRoundedValue === 0
+      ? absRoundedValue
+      : -absRoundedValue;
   }
 
   private static validateSigDigits(sigDigits: number): void {
@@ -52,9 +72,11 @@ export class ValueUtilities {
   }
 
   private static getRoundedDecimalLessThanOne(
-    valueStr: string,
-    sigDigits: number
+    value: number,
+    sigDigits: number,
+    valueType: ValueType
   ): number {
+    const valueStr = Math.abs(value).toString();
     let newValue = [];
     let sigDigitsFound = 0;
     for (let i = 0; i < valueStr.length; i++) {
@@ -67,9 +89,16 @@ export class ValueUtilities {
           let newDigit = '0';
           if (sigDigitsFound === sigDigits || i === valueStr.length - 1) {
             if (char === '9') {
-              newValue = this.getNewValueForNine(newValue, valueStr, i);
+              newValue = this.getNewValueForNine(
+                value,
+                newValue,
+                valueStr,
+                i,
+                valueType
+              );
             } else {
-              newDigit = `${Number(char) + 1}`;
+              const offset = this.getRoundingOffset(value, valueType);
+              newDigit = `${Number(char) + offset}`;
             }
           } else if (sigDigitsFound < sigDigits) {
             newDigit = char;
@@ -82,31 +111,56 @@ export class ValueUtilities {
   }
 
   private static getNewValueForNine(
+    value: number,
     newValue: string[],
     valueStr: string,
-    i: number
+    i: number,
+    valueType: ValueType
   ): string[] {
     const prevChar = valueStr[i - 1];
     if (prevChar === '9') {
       newValue[i - 1] = '0';
-      newValue = this.getNewValueForNine(newValue, valueStr, i - 1);
+      newValue = this.getNewValueForNine(
+        value,
+        newValue,
+        valueStr,
+        i - 1,
+        valueType
+      );
     } else if (prevChar === '.') {
-      newValue = this.getNewValueForNine(newValue, valueStr, i - 1);
+      newValue = this.getNewValueForNine(
+        value,
+        newValue,
+        valueStr,
+        i - 1,
+        valueType
+      );
     } else {
-      newValue[i - 1] = `${Number(prevChar) + 1}`;
+      const offset = this.getRoundingOffset(value, valueType);
+      newValue[i - 1] = `${Number(prevChar) + offset}`;
     }
     return newValue;
   }
 
-  static getValueRoundedToInterval(value: number, interval: number): number {
+  private static getRoundingOffset(
+    value: number,
+    valueType: ValueType
+  ): number {
+    return (value > 0 && valueType === 'max') ||
+      (value < 0 && valueType === 'min')
+      ? 1
+      : 0;
+  }
+
+  static getValueRoundedToInterval(
+    value: number,
+    interval: number,
+    valueType: ValueType
+  ): number {
     if (interval === 0) {
       return value;
     }
-
-    const sign = Math.sign(value);
-    const absoluteValue = Math.abs(value);
-    const roundedValue = Math.ceil(absoluteValue / interval) * interval;
-
-    return sign * roundedValue;
+    const round = valueType === 'max' ? Math.ceil : Math.floor;
+    return round(value / interval) * interval;
   }
 }
