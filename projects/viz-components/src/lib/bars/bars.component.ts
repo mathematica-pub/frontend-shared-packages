@@ -158,25 +158,20 @@ export class BarsComponent
   }
 
   initQuantitativeDomain(): void {
-    let defaultMin, defaultMax: number;
+    let dataMin, dataMax: number;
     if (this.config.quantitative.domain === undefined) {
-      defaultMin = this.getDataMin();
-      defaultMax = this.getDataMax();
+      dataMin = this.getDataMin();
+      dataMax = this.getDataMax();
     } else {
-      defaultMin = this.config.quantitative.domain[0];
-      defaultMax = this.config.quantitative.domain[1];
+      dataMin = this.config.quantitative.domain[0];
+      dataMax = this.config.quantitative.domain[1];
     }
-    const domainMin = this.config.quantitative.domainPadding
-      ? this.getDomainMinFromDataMin(defaultMin)
-      : defaultMin;
-    const domainMax = this.config.quantitative.domainPadding
-      ? this.getDomainMaxFromValueExtents(defaultMax, defaultMin)
-      : defaultMax;
-    if (domainMin === domainMax) {
-      this.config.quantitative.domain = [domainMin, domainMin + 1];
-    } else {
-      this.config.quantitative.domain = [domainMin, domainMax];
-    }
+    const domain = this.dataDomainService.getQuantitativeDomain(
+      dataMin,
+      dataMax,
+      this.config.quantitative.domainPadding
+    );
+    this.config.quantitative.domain = domain;
   }
 
   getDataMin(): number {
@@ -185,35 +180,6 @@ export class BarsComponent
 
   getDataMax(): number {
     return max(this.values[this.config.dimensions.quantitative]);
-  }
-
-  getDomainMinFromDataMin(minValue: number): number {
-    return minValue < 0
-      ? this.dataDomainService.getPaddedDomainValue(
-          minValue,
-          this.config.quantitative.domainPadding
-        )
-      : minValue;
-  }
-
-  getDomainMaxFromValueExtents(maxValue: number, minValue: number): number {
-    return maxValue > 0
-      ? this.dataDomainService.getPaddedDomainValue(
-          maxValue,
-          this.config.quantitative.domainPadding
-        )
-      : this.getDomainMaxForNegativeMax(minValue);
-  }
-
-  getDomainMaxForNegativeMax(dataMin: number): number {
-    const positiveValue =
-      this.config.positivePaddingForAllNegativeValues * dataMin * -1;
-    const roundedValue =
-      this.dataDomainService.getQuantitativeDomainMaxRoundedUp(
-        positiveValue,
-        this.config.quantitative.domainPadding.sigDigits(positiveValue)
-      );
-    return roundedValue;
   }
 
   initCategoryScale(): void {

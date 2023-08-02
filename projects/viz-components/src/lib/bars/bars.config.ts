@@ -16,7 +16,6 @@ export class BarsConfig extends DataMarksConfig {
     new CategoricalColorDimensionConfig();
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
-  positivePaddingForAllNegativeValues: number;
   patternPredicates?: PatternPredicate[];
 
   constructor(init?: Partial<BarsConfig>) {
@@ -27,7 +26,6 @@ export class BarsConfig extends DataMarksConfig {
     this.quantitative.scaleType = scaleLinear;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];
-    this.positivePaddingForAllNegativeValues = 0.2;
     Object.assign(this, init);
   }
 }
