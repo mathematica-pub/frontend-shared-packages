@@ -1,25 +1,25 @@
-import { DomainType } from '../core/services/data-domain.service';
+import { ValueType } from '../core/services/data-domain.service';
 import { ValueUtilities } from './value-utilities.class';
 
 describe('ValueUtilities', () => {
   describe('integration: getValueRoundedToNSignificantDigits', () => {
     let sigDigits: number;
     let value: number;
-    let domainType: DomainType;
+    let valueType: ValueType;
     describe('value is large/positive integer, test with different sigDigits', () => {
       beforeEach(() => {
         value = 1234567;
       });
       describe('if domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(2000000);
         });
@@ -29,7 +29,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1300000);
         });
@@ -38,7 +38,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1235000);
         });
@@ -48,21 +48,21 @@ describe('ValueUtilities', () => {
             ValueUtilities.getValueRoundedToNSignificantDigits(
               value,
               sigDigits,
-              domainType
+              valueType
             );
           }).toThrow(new Error('sigDigits must be greater than or equal to 1'));
         });
       });
       describe('if domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1000000);
         });
@@ -72,7 +72,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1200000);
         });
@@ -81,7 +81,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1234000);
         });
@@ -91,7 +91,7 @@ describe('ValueUtilities', () => {
             ValueUtilities.getValueRoundedToNSignificantDigits(
               value,
               sigDigits,
-              domainType
+              valueType
             );
           }).toThrow(new Error('sigDigits must be greater than or equal to 1'));
         });
@@ -104,14 +104,14 @@ describe('ValueUtilities', () => {
       });
       describe('if domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1000000);
         });
@@ -121,7 +121,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1200000);
         });
@@ -130,7 +130,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1234000);
         });
@@ -140,21 +140,21 @@ describe('ValueUtilities', () => {
             ValueUtilities.getValueRoundedToNSignificantDigits(
               value,
               sigDigits,
-              domainType
+              valueType
             );
           }).toThrow(new Error('sigDigits must be greater than or equal to 1'));
         });
       });
       describe('if domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-2000000);
         });
@@ -164,7 +164,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1300000);
         });
@@ -173,7 +173,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1235000);
         });
@@ -183,7 +183,7 @@ describe('ValueUtilities', () => {
             ValueUtilities.getValueRoundedToNSignificantDigits(
               value,
               sigDigits,
-              domainType
+              valueType
             );
           }).toThrow(new Error('sigDigits must be greater than or equal to 1'));
         });
@@ -196,14 +196,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1240);
         });
@@ -213,21 +213,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1234.57);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1230);
         });
@@ -237,7 +237,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1234.56);
         });
@@ -250,14 +250,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1230);
         });
@@ -267,21 +267,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1234.56);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1240);
         });
@@ -291,7 +291,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1234.57);
         });
@@ -304,14 +304,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(2);
         });
@@ -321,21 +321,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(2);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1);
         });
@@ -345,7 +345,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1);
         });
@@ -358,14 +358,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1);
         });
@@ -375,21 +375,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-2);
         });
@@ -399,7 +399,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-2);
         });
@@ -412,14 +412,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(16);
         });
@@ -429,21 +429,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(15.7);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(15);
         });
@@ -453,7 +453,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(15.6);
         });
@@ -466,14 +466,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-15);
         });
@@ -483,21 +483,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-15.6);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-16);
         });
@@ -507,7 +507,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-15.7);
         });
@@ -520,14 +520,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1.6);
         });
@@ -537,21 +537,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1.57);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1.5);
         });
@@ -561,7 +561,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1.56);
         });
@@ -574,14 +574,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1.5);
         });
@@ -591,21 +591,21 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1.56);
         });
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1.6);
         });
@@ -615,7 +615,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1.57);
         });
@@ -628,14 +628,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0.0011);
         });
@@ -645,7 +645,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0.001068);
         });
@@ -656,7 +656,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0.01);
         });
@@ -667,7 +667,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0.1);
         });
@@ -678,7 +678,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(1);
         });
@@ -686,14 +686,14 @@ describe('ValueUtilities', () => {
 
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0.001);
         });
@@ -703,7 +703,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0.001067);
         });
@@ -714,7 +714,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0);
         });
@@ -725,7 +725,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0);
         });
@@ -736,7 +736,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0);
         });
@@ -749,14 +749,14 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          domainType = 'max';
+          valueType = 'max';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-0.001);
         });
@@ -766,7 +766,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-0.001067);
         });
@@ -777,7 +777,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0);
         });
@@ -788,7 +788,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0);
         });
@@ -799,7 +799,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(0);
         });
@@ -807,14 +807,14 @@ describe('ValueUtilities', () => {
 
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          domainType = 'min';
+          valueType = 'min';
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-0.0011);
         });
@@ -824,7 +824,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-0.001068);
         });
@@ -835,7 +835,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-0.01);
         });
@@ -846,7 +846,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-0.1);
         });
@@ -857,7 +857,7 @@ describe('ValueUtilities', () => {
           const result = ValueUtilities.getValueRoundedToNSignificantDigits(
             value,
             sigDigits,
-            domainType
+            valueType
           );
           expect(result).toEqual(-1);
         });

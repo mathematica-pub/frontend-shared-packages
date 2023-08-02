@@ -1,4 +1,4 @@
-import { DomainType } from '../core/services/data-domain.service';
+import { ValueType } from '../core/services/data-domain.service';
 
 /**
  * @internal
@@ -7,10 +7,10 @@ export class ValueUtilities {
   static getValueRoundedToNSignificantDigits(
     value: number,
     sigDigits: number,
-    domainType: DomainType
+    valueType: ValueType
   ): number {
-    // If the domain type is 'max', rounds up if value is > 0 and down if value is < 0
-    // If the domain type is 'min', rounds down if value is > 0 and up if value is < 0
+    // If the value type is 'max', rounds up if value is > 0 and down if value is < 0
+    // If the value type is 'min', rounds down if value is > 0 and up if value is < 0
     // ex: 1234 => 1235, -1234 => -1235
     // SigDigits here means the first N non-zero as units holder values
     // ex: 1234, sigDigits = 2, "1" and "2" are "significant"
@@ -21,7 +21,7 @@ export class ValueUtilities {
       absRoundedValue = this.getRoundedDecimalLessThanOne(
         value,
         sigDigits,
-        domainType
+        valueType
       );
     } else {
       const absValueStr = Math.abs(value).toString();
@@ -39,7 +39,7 @@ export class ValueUtilities {
         }
         numZeros = numZeros < 0 ? 0 : numZeros;
       }
-      const offset = this.getRoundingOffset(value > 0, domainType);
+      const offset = this.getRoundingOffset(value, valueType);
       const roundedLastSigDigit =
         Number(firstNDigits[firstNDigits.length - 1]) + offset;
       firstNDigits =
@@ -61,7 +61,7 @@ export class ValueUtilities {
   private static getRoundedDecimalLessThanOne(
     value: number,
     sigDigits: number,
-    domainType: DomainType
+    valueType: ValueType
   ): number {
     const valueStr = Math.abs(value).toString();
     let newValue = [];
@@ -77,14 +77,14 @@ export class ValueUtilities {
           if (sigDigitsFound === sigDigits || i === valueStr.length - 1) {
             if (char === '9') {
               newValue = this.getNewValueForNine(
+                value,
                 newValue,
                 valueStr,
                 i,
-                value > 0,
-                domainType
+                valueType
               );
             } else {
-              const offset = this.getRoundingOffset(value > 0, domainType);
+              const offset = this.getRoundingOffset(value, valueType);
               newDigit = `${Number(char) + offset}`;
             }
           } else if (sigDigitsFound < sigDigits) {
@@ -98,43 +98,43 @@ export class ValueUtilities {
   }
 
   private static getNewValueForNine(
+    value: number,
     newValue: string[],
     valueStr: string,
     i: number,
-    valueIsPositive: boolean,
-    domainType: DomainType
+    valueType: ValueType
   ): string[] {
     const prevChar = valueStr[i - 1];
     if (prevChar === '9') {
       newValue[i - 1] = '0';
       newValue = this.getNewValueForNine(
+        value,
         newValue,
         valueStr,
         i - 1,
-        valueIsPositive,
-        domainType
+        valueType
       );
     } else if (prevChar === '.') {
       newValue = this.getNewValueForNine(
+        value,
         newValue,
         valueStr,
         i - 1,
-        valueIsPositive,
-        domainType
+        valueType
       );
     } else {
-      const offset = this.getRoundingOffset(valueIsPositive, domainType);
+      const offset = this.getRoundingOffset(value, valueType);
       newValue[i - 1] = `${Number(prevChar) + offset}`;
     }
     return newValue;
   }
 
   private static getRoundingOffset(
-    valueIsPositive: boolean,
-    domainType: DomainType
+    value: number,
+    valueType: ValueType
   ): number {
-    return (valueIsPositive && domainType === 'max') ||
-      (!valueIsPositive && domainType === 'min')
+    return (value > 0 && valueType === 'max') ||
+      (value < 0 && valueType === 'min')
       ? 1
       : 0;
   }
@@ -142,25 +142,25 @@ export class ValueUtilities {
   static getValueRoundedToInterval(
     value: number,
     interval: number,
-    domainType: DomainType
+    valueType: ValueType
   ): number {
     if (interval === 0) {
       return value;
     }
 
-    const round = ValueUtilities.getRoundingMethod(value, domainType);
+    const round = ValueUtilities.getRoundingMethod(value, valueType);
     return round(value / interval) * interval;
   }
 
   private static getRoundingMethod(
     value: number,
-    domainType: DomainType
+    valueType: ValueType
   ): (value: number) => number {
     let operator;
     if (value > 0) {
-      operator = domainType === 'max' ? Math.ceil : Math.floor;
+      operator = valueType === 'max' ? Math.ceil : Math.floor;
     } else {
-      operator = domainType === 'max' ? Math.floor : Math.ceil;
+      operator = valueType === 'max' ? Math.floor : Math.ceil;
     }
     return operator;
   }

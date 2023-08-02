@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DomainPaddingConfig } from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
 
-export type DomainType = 'max' | 'min';
+export type ValueType = 'max' | 'min';
 
 @Injectable({
   providedIn: 'root',
@@ -11,27 +11,27 @@ export class DataDomainService {
   getPaddedDomainValue(
     value: number,
     padding: DomainPaddingConfig,
-    domainType: DomainType
+    valueType: ValueType
   ) {
     let paddedValue = value;
     if (padding.type === 'roundUp') {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(
         value,
         padding.sigDigits(value),
-        domainType
+        valueType
       );
     } else if (padding.type === 'percentOver') {
       paddedValue = this.getQuantitativeDomainMaxPercentOver(
         value,
         padding.sigDigits(value),
         padding.percentOver,
-        domainType
+        valueType
       );
     } else if (padding.type === 'roundInterval') {
       paddedValue = ValueUtilities.getValueRoundedToInterval(
         value,
         padding.interval(value),
-        domainType
+        valueType
       );
     }
     return paddedValue;
@@ -40,12 +40,12 @@ export class DataDomainService {
   getQuantitativeDomainMaxRoundedUp(
     value: number,
     sigDigits: number,
-    domainType: DomainType
+    valueType: ValueType
   ) {
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       value,
       sigDigits,
-      domainType
+      valueType
     );
   }
 
@@ -53,13 +53,13 @@ export class DataDomainService {
     value: number,
     sigDigits: number,
     percent: number,
-    domainType: DomainType
+    valueType: ValueType
   ) {
     const overValue = Math.abs(value) * (1 + percent);
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       overValue,
       sigDigits,
-      domainType
+      valueType
     );
   }
 

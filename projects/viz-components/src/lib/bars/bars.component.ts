@@ -35,7 +35,6 @@ import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
-import { ValueUtilities } from '../shared/value-utilities.class';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({

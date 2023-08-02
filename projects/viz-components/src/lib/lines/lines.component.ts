@@ -157,11 +157,14 @@ export class LinesComponent
       this.config.x.domain === undefined
         ? extent(this.values.x)
         : this.config.x.domain;
-    const newDomain = this.getPaddedDomain(
-      this.config.x.scaleType,
-      this.config.x.domainPadding,
-      domain
-    );
+    const newDomain =
+      this.config.x.domainPadding === undefined
+        ? domain
+        : this.getPaddedDomain(
+            this.config.x.scaleType,
+            this.config.x.domainPadding,
+            domain
+          );
     this.config.x.domain = newDomain;
   }
 
@@ -170,11 +173,14 @@ export class LinesComponent
       this.config.y.domain === undefined
         ? [min([min(this.values.y), 0]), max(this.values.y)]
         : this.config.y.domain;
-    const newDomain = this.getPaddedDomain(
-      this.config.y.scaleType,
-      this.config.y.domainPadding,
-      domain
-    );
+    const newDomain =
+      this.config.y.domainPadding === undefined
+        ? domain
+        : this.getPaddedDomain(
+            this.config.y.scaleType,
+            this.config.y.domainPadding,
+            domain
+          );
     this.config.y.domain = newDomain;
   }
 
@@ -183,7 +189,7 @@ export class LinesComponent
     domainPadding: DomainPaddingConfig,
     domain: [any, any]
   ): [any, any] {
-    if (scaleType !== scaleTime && scaleType !== scaleUtc && domainPadding) {
+    if (scaleType !== scaleTime && scaleType !== scaleUtc) {
       const newDomain = this.dataDomainService.getQuantitativeDomainMinAndMax(
         domain[0],
         domain[1],
