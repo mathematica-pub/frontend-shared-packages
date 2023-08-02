@@ -40,11 +40,24 @@ export class ValueUtilities {
         numZeros = numZeros < 0 ? 0 : numZeros;
       }
       const offset = this.getRoundingOffset(value, valueType);
-      const roundedLastSigDigit =
-        Number(firstNDigits[firstNDigits.length - 1]) + offset;
-      firstNDigits =
-        firstNDigits.substring(0, firstNDigits.length - 1) +
-        roundedLastSigDigit.toString();
+      const lastSigDigit = Number(firstNDigits[firstNDigits.length - 1]);
+      // handle cases where the last rounded significant is 9 and the value is rounded up
+      if (offset === 1 && lastSigDigit === 9) {
+        firstNDigits = this.getNewValueForNine(
+          value,
+          firstNDigits.split(''),
+          absValueStr,
+          sigDigits,
+          valueType
+        ).join('');
+        if (firstNDigits[0] === '0') {
+          firstNDigits.unshift('1');
+        }
+      } else {
+        firstNDigits =
+          firstNDigits.substring(0, firstNDigits.length - 1) +
+          (lastSigDigit + offset).toString();
+      }
       absRoundedValue = Number(firstNDigits + '0'.repeat(numZeros));
     }
     return value >= 0 || absRoundedValue === 0
