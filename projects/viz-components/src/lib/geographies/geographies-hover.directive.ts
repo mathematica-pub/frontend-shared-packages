@@ -8,6 +8,7 @@ import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import {
   GeographiesEventOutput,
+  GeographiesTooltipOutput,
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
@@ -17,7 +18,7 @@ interface GeographiesHoverExtras {
   bounds?: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput = GeographiesEventOutput &
+export type GeographiesHoverOutput = GeographiesTooltipOutput &
   GeographiesHoverExtras;
 
 @Directive({
@@ -27,10 +28,12 @@ export class GeographiesHoverDirective extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
   effects: EventEffect<GeographiesHoverDirective>[];
   @Output('vicGeographiesHoverOutput') eventOutput =
-    new EventEmitter<GeographiesHoverOutput>();
+    new EventEmitter<GeographiesEventOutput>();
   feature: Feature;
   bounds: [[number, number], [number, number]];
   geographyIndex: number;
+  positionX: number;
+  positionY: number;
 
   constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
     super();
@@ -53,11 +56,15 @@ export class GeographiesHoverDirective extends HoverDirective {
     this.feature = d;
     this.bounds = this.geographies.path.bounds(d);
     this.geographyIndex = this.getGeographyIndex(d);
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => effect.applyEffect(this));
+    }
   }
 
   onElementPointerLeave(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => effect.removeEffect(this));
+    }
   }
 
   // consider making GeographiesEventMixin later to avoid duplicating this method
@@ -69,12 +76,17 @@ export class GeographiesHoverDirective extends HoverDirective {
     return this.geographies.values.indexMap.get(value);
   }
 
-  getTooltipData(): GeographiesHoverOutput {
+  getEventOutput(): GeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const extras = { feature: this.feature, bounds: this.bounds };
-    return { ...tooltipData, ...extras };
+    this.positionX = (this.bounds[1][0] + this.bounds[0][0]) / 2;
+    this.positionY = (this.bounds[1][1] + this.bounds[0][1] * 2) / 3;
+    return {
+      ...tooltipData,
+      positionX: this.positionX,
+      positionY: this.positionY,
+    };
   }
 }

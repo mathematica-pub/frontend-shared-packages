@@ -139,7 +139,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     this.overlayRef = this.overlay.create({
       ...this.size,
       panelClass: this.panelClass,
-      scrollStrategy: this.overlay.scrollStrategies.reposition(),
+      scrollStrategy: this.overlay.scrollStrategies.noop(),
       positionStrategy: this.positionStrategy,
       hasBackdrop: this.config.hasBackdrop,
       backdropClass: 'vic-html-tooltip-backdrop',

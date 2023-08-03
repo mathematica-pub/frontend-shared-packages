@@ -11,10 +11,20 @@ import {
   DataGeographyConfig,
   ElementSpacing,
   EqualValuesQuantitativeAttributeDataDimensionConfig,
+  GeographiesClickDirective,
+  GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
   GeographiesConfig,
+  GeographiesEventOutput,
   GeographiesHoverEmitTooltipData,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, combineLatest, filter, map, Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  Subject,
+} from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
 import { colors } from '../core/constants/colors.constants';
@@ -53,8 +63,8 @@ export class GeographiesExampleComponent implements OnInit {
       new HtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesHoverOutput> =
-    new BehaviorSubject<GeographiesHoverOutput>(null);
+  tooltipData: BehaviorSubject<GeographiesEventOutput> =
+    new BehaviorSubject<GeographiesEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<GeographiesHoverDirective>[] = [
     new GeographiesHoverEmitTooltipData(),
@@ -63,6 +73,12 @@ export class GeographiesExampleComponent implements OnInit {
   folderName = 'geographies-example';
   selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
   selectedYear$ = this.selectedYear.asObservable();
+
+  clickEffects: EventEffect<GeographiesClickDirective>[] = [
+    new GeographiesClickEmitTooltipDataPauseHoverMoveEffects(),
+  ];
+  removeTooltipEvent: Subject<void> = new Subject<void>();
+  removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
 
   constructor(
     private dataService: DataService,
@@ -126,21 +142,29 @@ export class GeographiesExampleComponent implements OnInit {
     return topojson.feature(map, map.objects['states'])['features'];
   }
 
-  updateTooltipForNewOutput(data: GeographiesHoverOutput): void {
+  updateTooltipForNewOutput(
+    data: GeographiesEventOutput,
+    tooltipEvent: 'hover' | 'click'
+  ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data);
+    this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: GeographiesHoverOutput): void {
+  updateTooltipData(data: GeographiesEventOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: GeographiesHoverOutput): void {
+  updateTooltipConfig(
+    data: GeographiesEventOutput,
+    eventContext: 'hover' | 'click'
+  ): void {
     const config = new HtmlTooltipConfig();
     config.size.minWidth = 130;
+    config.hasBackdrop = eventContext === 'click';
+    config.closeOnBackdropClick = eventContext === 'click';
     if (data) {
-      config.position.offsetX = (data.bounds[1][0] + data.bounds[0][0]) / 2;
-      config.position.offsetY = (data.bounds[1][1] + data.bounds[0][1] * 2) / 3;
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY;
       config.show = true;
     } else {
       config.show = false;
@@ -150,5 +174,9 @@ export class GeographiesExampleComponent implements OnInit {
 
   onYearChange(change: MatButtonToggleChange): void {
     this.selectedYear.next(change.value);
+  }
+
+  onBackdropClick(): void {
+    this.removeTooltipEvent.next();
   }
 }

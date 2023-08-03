@@ -13,48 +13,45 @@ import { Observable } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { ListenElement } from '../events/event.directive';
-import { LinesHoverMoveDirective } from './lines-hover-move.directive';
-import { LinesHoverDirective } from './lines-hover.directive';
-import { LinesInputEventDirective } from './lines-input-event.directive';
-import {
-  getLinesTooltipDataFromDatum,
-  LinesEventOutput,
-} from './lines-tooltip-data';
-import { LINES, LinesComponent } from './lines.component';
+import { BarsHoverMoveDirective } from './bars-hover-move.directive';
+import { BarsHoverDirective } from './bars-hover.directive';
+import { BarsInputEventDirective } from './bars-input-event.directive';
+import { getBarsTooltipData, BarsEventOutput } from './bars-tooltip-data';
+import { BARS, BarsComponent } from './bars.component';
 
-type LinesEventDirective =
-  | LinesHoverDirective
-  | LinesHoverMoveDirective
-  | LinesInputEventDirective;
+type BarsEventDirective =
+  | BarsHoverDirective
+  | BarsHoverMoveDirective
+  | BarsInputEventDirective;
 
 @Directive({
-  selector: '[vicLinesChartClickEffects]',
+  selector: '[vicBarsClickEffects]',
 })
-export class LinesClickDirective extends ClickDirective {
-  @Input('vicLinesChartClickEffects')
-  effects: EventEffect<LinesClickDirective>[];
-  @Input('vicLinesChartClickRemoveEvent$')
+export class BarsClickDirective extends ClickDirective {
+  @Input('vicBarsClickEffects')
+  effects: EventEffect<BarsClickDirective>[];
+  @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
-  @Output('vicLinesChartClickOutput') eventOutput =
-    new EventEmitter<LinesEventOutput>();
+  @Output('vicBarsClickOutput') eventOutput =
+    new EventEmitter<BarsEventOutput>();
 
   constructor(
-    @Inject(LINES) public lines: LinesComponent,
+    @Inject(BARS) public bars: BarsComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective,
+    public hoverDirective?: BarsHoverDirective,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverMoveDirective,
+    public hoverAndMoveDirective?: BarsHoverMoveDirective,
     @Self()
     @Optional()
-    public inputEventDirective?: LinesInputEventDirective
+    public inputEventDirective?: BarsInputEventDirective
   ) {
     super();
   }
 
   setListenedElements(): void {
-    this.elements = [this.lines.chart.svgRef.nativeElement];
+    this.elements = [this.bars.chart.svgRef.nativeElement];
     this.setListeners();
   }
 
@@ -66,18 +63,25 @@ export class LinesClickDirective extends ClickDirective {
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): LinesEventOutput {
+  getTooltipData(): BarsEventOutput {
     if (!this.hoverAndMoveDirective) {
       console.warn(
-        'Tooltip data can only be retrieved when a LinesHoverMoveDirective is implemented.'
+        'Tooltip data can only be retrieved when a BarsHoverMoveDirective is implemented.'
       );
     }
-    if (this.hoverAndMoveDirective.closestPointIndex) {
-      const data = getLinesTooltipDataFromDatum(
-        this.hoverAndMoveDirective.closestPointIndex,
-        this.lines
+    if (this.hoverAndMoveDirective) {
+      const data = getBarsTooltipData(
+        this.hoverAndMoveDirective.barIndex,
+        this.hoverAndMoveDirective.elRef,
+        this.hoverAndMoveDirective.bars
       );
-      return data;
+
+      const output: BarsEventOutput = {
+        ...data,
+        positionX: this.hoverAndMoveDirective.pointerX,
+        positionY: this.hoverAndMoveDirective.pointerY,
+      };
+      return output;
     } else {
       return null;
     }
@@ -109,13 +113,13 @@ export class LinesClickDirective extends ClickDirective {
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: LinesEventDirective): void {
+  disableEffect(directive: BarsEventDirective): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
-  enableEffect(directive: LinesEventDirective, removeEffects: boolean): void {
+  enableEffect(directive: BarsEventDirective, removeEffects: boolean): void {
     if (directive) {
       directive.preventEffect = false;
       if (removeEffects) {
