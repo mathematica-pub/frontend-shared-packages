@@ -342,7 +342,7 @@ describe('HtmlTooltipDirective', () => {
       expect(mainServiceStub.overlayStub.create).toHaveBeenCalledOnceWith({
         width: 100,
         panelClass: ['one', 'two'],
-        scrollStrategy: 'reposition',
+        scrollStrategy: 'noop',
         positionStrategy: 'positionStrategy',
         hasBackdrop: true,
         backdropClass: 'vic-html-tooltip-backdrop',

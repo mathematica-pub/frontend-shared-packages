@@ -52,11 +52,15 @@
         svg-elements
         [config]="dataMarksConfig"
         [vicGeographiesHoverEffects]="hoverEffects"
-        (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event)"
+        (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
+        [vicGeographiesClickEffects]="clickEffects"
+        [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
+        (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
       >
         <vic-html-tooltip
           [config]="(tooltipConfig$ | async)"
           [template]="htmlTooltip"
+          (backdropClick)="onBackdropClick()"
         ></vic-html-tooltip>
       </svg:g>
     </vic-map-chart>

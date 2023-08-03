@@ -15,12 +15,6 @@ import { HoverDirective } from '../events/hover.directive';
 import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
-interface BarsHoverExtras {
-  barBounds: [[number, number], [number, number]];
-}
-
-export type BarsHoverOutput = BarsEventOutput & BarsHoverExtras;
-
 @Directive({
   selector: '[vicBarsHoverEffects]',
 })
@@ -28,7 +22,7 @@ export class BarsHoverDirective extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverDirective>[];
   @Output('vicBarsHoverOutput') eventOutput =
-    new EventEmitter<BarsHoverOutput>();
+    new EventEmitter<BarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
 
@@ -62,12 +56,19 @@ export class BarsHoverDirective extends HoverDirective {
     }
   }
 
-  getTooltipData(): BarsEventOutput {
+  getEventOutput(): BarsEventOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,
       this.bars
     );
-    return tooltipData;
+
+    const barPosition = this.elRef.nativeElement.getBoundingClientRect();
+
+    return {
+      ...tooltipData,
+      positionX: barPosition.x + this.elRef.nativeElement.offsetWidth / 2,
+      positionY: barPosition.y,
+    };
   }
 }

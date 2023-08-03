@@ -5,7 +5,7 @@ export class GeographiesHoverMoveEmitTooltipData
   implements EventEffect<GeographiesHoverMoveDirective>
 {
   applyEffect(directive: GeographiesHoverMoveDirective): void {
-    const tooltipData = directive.getTooltipData();
+    const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 

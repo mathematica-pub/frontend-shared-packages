@@ -116,7 +116,7 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getTooltipData(): LinesEventOutput {
+  getEventOutput(): LinesEventOutput {
     const data = getLinesTooltipDataFromDatum(
       this.closestPointIndex,
       this.lines
