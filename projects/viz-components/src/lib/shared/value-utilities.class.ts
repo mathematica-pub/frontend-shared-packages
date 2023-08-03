@@ -49,10 +49,11 @@ export class ValueUtilities {
           absValueStr,
           sigDigits,
           valueType
-        ).join('');
+        );
         if (firstNDigits[0] === '0') {
           firstNDigits.unshift('1');
         }
+        firstNDigits = firstNDigits.join('');
       } else {
         firstNDigits =
           firstNDigits.substring(0, firstNDigits.length - 1) +

@@ -51,6 +51,16 @@ describe('ValueUtilities', () => {
           );
           expect(result).toEqual(6000000);
         });
+        it('returns the correct value if the last rounded sig digit is 9 and the first digit is rounded up', () => {
+          value = 9998877;
+          sigDigits = 3;
+          const result = ValueUtilities.getValueRoundedToNSignificantDigits(
+            value,
+            sigDigits,
+            valueType
+          );
+          expect(result).toEqual(10000000);
+        });
         it('returns the correct value if sigDigits is 0', () => {
           sigDigits = 0;
           expect(function () {
@@ -103,6 +113,16 @@ describe('ValueUtilities', () => {
             valueType
           );
           expect(result).toEqual(5990000);
+        });
+        it('returns the correct value if the last rounded sig digit is 9 and the first digit is rounded up', () => {
+          value = 9998877;
+          sigDigits = 3;
+          const result = ValueUtilities.getValueRoundedToNSignificantDigits(
+            value,
+            sigDigits,
+            valueType
+          );
+          expect(result).toEqual(9990000);
         });
         it('returns the correct value if sigDigits is 0', () => {
           sigDigits = 0;
@@ -163,6 +183,16 @@ describe('ValueUtilities', () => {
           );
           expect(result).toEqual(-5990000);
         });
+        it('returns the correct value if the last rounded sig digit is 9 and the first digit is rounded up', () => {
+          value = -9998877;
+          sigDigits = 3;
+          const result = ValueUtilities.getValueRoundedToNSignificantDigits(
+            value,
+            sigDigits,
+            valueType
+          );
+          expect(result).toEqual(-9990000);
+        });
         it('returns the correct value if sigDigits is 0', () => {
           sigDigits = 0;
           expect(function () {
@@ -215,6 +245,16 @@ describe('ValueUtilities', () => {
             valueType
           );
           expect(result).toEqual(-6000000);
+        });
+        it('returns the correct value if the last rounded sig digit is 9 and the first digit is rounded up', () => {
+          value = -9998877;
+          sigDigits = 3;
+          const result = ValueUtilities.getValueRoundedToNSignificantDigits(
+            value,
+            sigDigits,
+            valueType
+          );
+          expect(result).toEqual(-10000000);
         });
         it('returns the correct value if sigDigits is 0', () => {
           sigDigits = 0;
