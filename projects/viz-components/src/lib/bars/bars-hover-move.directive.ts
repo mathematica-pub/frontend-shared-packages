@@ -78,7 +78,7 @@ export class BarsHoverMoveDirective extends HoverMoveDirective {
     );
     const extras = {
       positionX: this.pointerX,
-      positionY: this.pointerY - 16,
+      positionY: this.pointerY,
     };
     return { ...tooltipData, ...extras };
   }
