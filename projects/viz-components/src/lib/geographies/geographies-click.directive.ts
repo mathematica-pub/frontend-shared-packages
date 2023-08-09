@@ -9,23 +9,17 @@ import {
   Output,
   Self,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { ListenElement } from '../events/event.directive';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
-import {
-  GeographiesHoverDirective,
-  GeographiesHoverOutput,
-} from './geographies-hover.directive';
+import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
-import {
-  getGeographiesTooltipData,
-  GeographiesEventOutput,
-} from './geographies-tooltip-data';
+import { GeographiesEventOutput } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
-type GeographiesEventDirective =
+export type GeographiesEventDirective =
   | GeographiesHoverDirective
   | GeographiesHoverMoveDirective
   | GeographiesInputEventDirective;
@@ -57,8 +51,15 @@ export class GeographiesClickDirective extends ClickDirective {
   }
 
   setListenedElements(): void {
-    this.elements = [this.geographies.chart.svgRef.nativeElement];
-    this.setListeners();
+    this.geographies.dataGeographies$
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((dataGeographies) => !!dataGeographies)
+      )
+      .subscribe((dataGeographies) => {
+        this.elements = dataGeographies.nodes();
+        this.setListeners();
+      });
   }
 
   onElementClick(event: PointerEvent, el: ListenElement): void {
@@ -72,19 +73,14 @@ export class GeographiesClickDirective extends ClickDirective {
   getTooltipData(): GeographiesEventOutput {
     if (!this.hoverDirective) {
       console.warn(
-        'Tooltip data can only be retrieved when a GeographiesHoverMoveDirective and a GeographiesHoverDirective are implemented.'
+        'Tooltip data can only be retrieved when a GeographiesHoverMoveDirective or a GeographiesHoverDirective are implemented.'
       );
     }
+
     if (this.hoverDirective) {
-      const data = getGeographiesTooltipData(
-        this.hoverDirective.geographyIndex,
-        this.geographies
-      );
-      const extras = {
-        positionX: this.hoverDirective.positionX,
-        positionY: this.hoverDirective.positionY,
-      };
-      return { ...data, ...extras };
+      return this.hoverDirective.getEventOutput();
+    } else if (this.hoverAndMoveDirective) {
+      return this.hoverAndMoveDirective.getEventOutput();
     } else {
       return null;
     }
