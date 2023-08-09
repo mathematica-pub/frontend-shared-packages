@@ -9,7 +9,7 @@ import {
   Output,
   Self,
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { ListenElement } from '../events/event.directive';
@@ -51,8 +51,15 @@ export class BarsClickDirective extends ClickDirective {
   }
 
   setListenedElements(): void {
-    this.elements = [this.bars.chart.svgRef.nativeElement];
-    this.setListeners();
+    this.bars.bars$
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter((barSels) => !!barSels)
+      )
+      .subscribe((barSels) => {
+        this.elements = barSels.nodes();
+        this.setListeners();
+      });
   }
 
   onElementClick(event: PointerEvent, el: ListenElement): void {
