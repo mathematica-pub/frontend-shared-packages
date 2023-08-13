@@ -240,7 +240,7 @@ export class GeographiesHoverEmitTooltipData
   implements EventEffect&lt;GeographiesHoverDirective&gt;
 {
   applyEffect(directive: GeographiesHoverDirective): void {
-    const tooltipData &#x3D; directive.getTooltipData();
+    const tooltipData &#x3D; directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 

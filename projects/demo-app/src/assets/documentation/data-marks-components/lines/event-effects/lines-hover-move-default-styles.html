@@ -570,7 +570,7 @@ export class LinesHoverMoveEmitTooltipData
   implements EventEffect&lt;LinesHoverMoveDirective&gt;
 {
   applyEffect(directive: LinesHoverMoveDirective): void {
-    const tooltipData &#x3D; directive.getTooltipData();
+    const tooltipData &#x3D; directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 

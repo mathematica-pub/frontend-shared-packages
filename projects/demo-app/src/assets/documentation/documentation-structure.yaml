@@ -34,6 +34,7 @@ data-marks-components:
     custom-breaks-quantitative-attribute-data-dimension-config: 'classes/CustomBreaksQuantitativeAttributeDataDimensionConfig.html'
     data-geography-config: 'classes/DataGeographyConfig.html'
     events:
+      geographies-click: 'directives/GeographiesClickDirective.html'
       geographies-hover: 'directives/GeographiesHoverDirective.html'
       geographies-hover-and-move: 'directives/GeographiesHoverMoveDirective.html'
       geographies-input-event: 'directives/GeographiesInputEventDirective.html'
@@ -69,6 +70,7 @@ data-marks-components:
     ordinal-dimension-config: 'classes/OrdinalDimensionConfig.html'
     bars-labels-config: 'classes/BarsLabelsConfig.html'
     events:
+      bars-click: 'directives/BarsClickDirective.html'
       bars-hover-event: 'directives/BarsHoverEventDirective.html'
       bars-hover: 'directives/BarsHoverDirective.html'
       bars-hover-move: 'directives/BarsHoverMoveDirective.html'
