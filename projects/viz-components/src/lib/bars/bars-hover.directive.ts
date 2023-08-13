@@ -25,6 +25,8 @@ export class BarsHoverDirective extends HoverDirective {
     new EventEmitter<BarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
+  positionX: number;
+  positionY: number;
 
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();
@@ -45,6 +47,9 @@ export class BarsHoverDirective extends HoverDirective {
   onElementPointerEnter(event: PointerEvent): void {
     this.barIndex = select(event.target as SVGRectElement).datum() as number;
     this.elRef = new ElementRef(event.target);
+    const barRect = this.elRef.nativeElement.getBoundingClientRect();
+    this.positionX = barRect.x + barRect.width / 2;
+    this.positionY = barRect.y;
     if (this.effects) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
@@ -63,12 +68,10 @@ export class BarsHoverDirective extends HoverDirective {
       this.bars
     );
 
-    const barPosition = this.elRef.nativeElement.getBoundingClientRect();
-
     return {
       ...tooltipData,
-      positionX: barPosition.x + this.elRef.nativeElement.offsetWidth / 2,
-      positionY: barPosition.y,
+      positionX: this.positionX,
+      positionY: this.positionY,
     };
   }
 }

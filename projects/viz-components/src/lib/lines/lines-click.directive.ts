@@ -12,7 +12,6 @@ import {
 import { Observable } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
-import { ListenElement } from '../events/event.directive';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
@@ -58,7 +57,7 @@ export class LinesClickDirective extends ClickDirective {
     this.setListeners();
   }
 
-  onElementClick(event: PointerEvent, el: ListenElement): void {
+  onElementClick(): void {
     this.effects.forEach((effect) => effect.applyEffect(this));
   }
 
@@ -66,7 +65,7 @@ export class LinesClickDirective extends ClickDirective {
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): LinesEventOutput {
+  getOutputData(): LinesEventOutput {
     if (!this.hoverAndMoveDirective) {
       console.warn(
         'Tooltip data can only be retrieved when a LinesHoverMoveDirective is implemented.'

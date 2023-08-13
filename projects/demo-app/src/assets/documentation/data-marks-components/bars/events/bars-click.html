@@ -10,15 +10,15 @@
 
 <ol class="breadcrumb">
   <li>Directives</li>
-  <li >BarsHoverMoveDirective</li>
+  <li >BarsClickDirective</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
         <li class="active">
-            <a href="documentation/./data-marks-components/bars/events/bars-hover-move#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+            <a href="documentation/./data-marks-components/bars/events/bars-click#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
         </li>
         <li >
-            <a href="documentation/./data-marks-components/bars/events/bars-hover-move#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+            <a href="documentation/./data-marks-components/bars/events/bars-click#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
         </li>
 </ul>
 
@@ -28,7 +28,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/bars/bars-hover-move.directive.ts</code>
+            <code>projects/viz-components/src/lib/bars/bars-click.directive.ts</code>
         </p>
 
 
@@ -37,7 +37,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a " target="_self" >HoverMoveDirective</a></code>
+                        <code><a " target="_self" >ClickDirective</a></code>
             </p>
 
 
@@ -49,7 +49,7 @@
 
                     <tr>
                         <td class="col-md-3">Selector</td>
-                        <td class="col-md-9"><code>[vicBarsHoverMoveEffects]</code></td>
+                        <td class="col-md-9"><code>[vicBarsClickEffects]</code></td>
                     </tr>
 
                 </tbody>
@@ -69,45 +69,54 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#barIndex" >barIndex</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#barIndex" >barIndex</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#bars" >bars</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#bars" >bars</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#elRef" >elRef</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#elRef" >elRef</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#pointerX" >pointerX</a>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#hoverAndMoveDirective" >hoverAndMoveDirective</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#pointerY" >pointerY</a>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#hoverDirective" >hoverDirective</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenPointerMove" >unlistenPointerMove</a>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Optional</span>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#inputEventDirective" >inputEventDirective</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenPointerEnter" >unlistenPointerEnter</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#pointerX" >pointerX</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenPointerLeave" >unlistenPointerLeave</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#pointerY" >pointerY</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenTouchStart" >unlistenTouchStart</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#el" >el</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unsubscribe" >unsubscribe</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#unlistenClick" >unlistenClick</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#elements" >elements</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#unsubscribe" >unsubscribe</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#preventEffect" >preventEffect</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#elements" >elements</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#preventEffect" >preventEffect</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#renderer" >renderer</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#renderer" >renderer</a>
                             </li>
                         </ul>
                     </td>
@@ -122,54 +131,52 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#getBarIndex" >getBarIndex</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#disableEffect" >disableEffect</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#getEventOutput" >getEventOutput</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#enableEffect" >enableEffect</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onElementPointerEnter" >onElementPointerEnter</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#getEventOutput" >getEventOutput</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onElementPointerLeave" >onElementPointerLeave</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#onClickRemove" >onClickRemove</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onElementPointerMove" >onElementPointerMove</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#onElementClick" >onElementClick</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setListenedElements" >setListenedElements</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#preventHoverEffects" >preventHoverEffects</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#getPointerValuesArray" >getPointerValuesArray</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#preventInputEventEffects" >preventInputEventEffects</a>
                             </li>
                             <li>
-                                    <span class="modifier"></span>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onPointerEnter" >onPointerEnter</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#resumeHoverEffects" >resumeHoverEffects</a>
                             </li>
                             <li>
-                                    <span class="modifier"></span>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setPointerLeaveListener" >setPointerLeaveListener</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#resumeInputEventEffects" >resumeInputEventEffects</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setPointerMoveListener" >setPointerMoveListener</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#setListenedElements" >setListenedElements</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#ngOnDestroy" >ngOnDestroy</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#getPointerValuesArray" >getPointerValuesArray</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onTouchStart" >onTouchStart</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setListeners" >setListeners</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setPointerEnterListener" >setPointerEnterListener</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#setClickListeners" >setClickListeners</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setTouchStartListener" >setTouchStartListener</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#setListeners" >setListeners</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#ngAfterViewInit" >ngAfterViewInit</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#ngAfterViewInit" >ngAfterViewInit</a>
                             </li>
                         </ul>
                     </td>
@@ -184,7 +191,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#vicBarsHoverMoveEffects" >vicBarsHoverMoveEffects</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#vicBarsClickEffects" >vicBarsClickEffects</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#vicBarsClickRemoveEvent$" >vicBarsClickRemoveEvent$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#vicDataMarksClickRemoveEvent$" >vicDataMarksClickRemoveEvent$</a>
                             </li>
                         </ul>
                     </td>
@@ -199,7 +212,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="documentation/./data-marks-components/bars/events/bars-hover-move#vicBarsHoverMoveOutput" >vicBarsHoverMoveOutput</a>
+                                <a href="documentation/./data-marks-components/bars/events/bars-click#vicBarsClickOutput" >vicBarsClickOutput</a>
                             </li>
                         </ul>
                     </td>
@@ -217,12 +230,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(bars: <a href="documentation/data-marks-components/bars/bars" target="_self">BarsComponent</a>)</code>
+<code>constructor(bars: <a " target="_self">BarsInputEventDirective</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -251,6 +264,42 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>hoverDirective</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="documentation/data-marks-components/bars/events/bars-hover" target="_self" >BarsHoverDirective</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>hoverAndMoveDirective</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="documentation/data-marks-components/bars/events/bars-hover-move" target="_self" >BarsHoverMoveDirective</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>inputEventDirective</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="documentation/data-marks-components/bars/events/bars-input-event" target="_self" >BarsInputEventDirective</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -266,21 +315,77 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="vicBarsHoverMoveEffects"></a>
-                        <b>vicBarsHoverMoveEffects</b>
+                        <a name="vicBarsClickEffects"></a>
+                        <b>vicBarsClickEffects</b>
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="documentation/data-marks-components/shared/event-effect" target="_self" >EventEffect&lt;BarsHoverMoveDirective&gt;[]</a></code>
+                        <i>Type : </i>        <code><a href="documentation/data-marks-components/shared/event-effect" target="_self" >EventEffect&lt;BarsClickDirective&gt;[]</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:34</a></div>
                             </td>
                         </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="vicBarsClickRemoveEvent$"></a>
+                        <b>vicBarsClickRemoveEvent$</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:36</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="vicDataMarksClickRemoveEvent$"></a>
+                        <b>vicDataMarksClickRemoveEvent$</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:27</a></code>
+</div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>An <code>Observable&lt;void&gt;</code> that triggers the <code>removeEffect</code> method of all user-provided
+ <a href="documentation/data-marks-components/shared/event-effect">EventEffect</a> instances.</p>
+</div>
+                    </td>
+                </tr>
             </tbody>
         </table>
 </section>
@@ -290,8 +395,8 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="vicBarsHoverMoveOutput"></a>
-                        <b>vicBarsHoverMoveOutput</b>
+                        <a name="vicBarsClickOutput"></a>
+                        <b>vicBarsClickOutput</b>
                     </td>
                 </tr>
                 <tr>
@@ -302,7 +407,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:37</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -319,24 +424,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getBarIndex"></a>
+                    <a name="disableEffect"></a>
                     <span class="name">
-                        <span ><b>getBarIndex</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#getBarIndex"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>disableEffect</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#disableEffect"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getBarIndex(event: PointerEvent)</code>
+<code>disableEffect(directive: <a href="documentation/library-internals/events/event" target="_self">BarsEventDirective</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:125</a></div>
                 </td>
             </tr>
 
@@ -357,9 +462,9 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>event</td>
+                                    <td>directive</td>
                                     <td>
-                                            <code>PointerEvent</code>
+                                                <code><a href="documentation/library-internals/events/event" target="_self" >BarsEventDirective</a></code>
                                     </td>
 
                                     <td>
@@ -374,7 +479,88 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="enableEffect"></a>
+                    <span class="name">
+                        <span ><b>enableEffect</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#enableEffect"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>enableEffect(directive: <a href="documentation/library-internals/events/event" target="_self">BarsEventDirective</a>, removeEffects: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="131"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:131</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>directive</td>
+                                    <td>
+                                                <code><a href="documentation/library-internals/events/event" target="_self" >BarsEventDirective</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>removeEffects</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                     <div class="io-description">
@@ -391,7 +577,7 @@
                     <a name="getEventOutput"></a>
                     <span class="name">
                         <span ><b>getEventOutput</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#getEventOutput"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#getEventOutput"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -404,8 +590,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:90</a></div>
                 </td>
             </tr>
 
@@ -425,29 +611,72 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onElementPointerEnter"></a>
+                    <a name="onClickRemove"></a>
                     <span class="name">
-                        <span ><b>onElementPointerEnter</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onElementPointerEnter"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>onClickRemove</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#onClickRemove"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onElementPointerEnter(event: PointerEvent)</code>
+<code>onClickRemove()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:47</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:82</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onElementClick"></a>
+                    <span class="name">
+                        <span ><b>onElementClick</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#onElementClick"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onElementClick(event: PointerEvent, el: <a href="../undefineds/ListenElement.html" target="_self">ListenElement</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:71</a></code>
 </div>
                 </td>
             </tr>
@@ -472,6 +701,18 @@
                                     <td>event</td>
                                     <td>
                                             <code>PointerEvent</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>el</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/typealiases.html#ListenElement" target="_self" >ListenElement</a></code>
                                     </td>
 
                                     <td>
@@ -500,30 +741,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onElementPointerLeave"></a>
+                    <a name="preventHoverEffects"></a>
                     <span class="name">
-                        <span ><b>onElementPointerLeave</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onElementPointerLeave"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>preventHoverEffects</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#preventHoverEffects"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onElementPointerLeave()</code>
+<code>preventHoverEffects()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:65</a></code>
-</div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:99</a></div>
                 </td>
             </tr>
 
@@ -543,30 +778,61 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onElementPointerMove"></a>
+                    <a name="preventInputEventEffects"></a>
                     <span class="name">
-                        <span ><b>onElementPointerMove</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onElementPointerMove"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>preventInputEventEffects</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#preventInputEventEffects"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onElementPointerMove(event: PointerEvent)</code>
+<code>preventInputEventEffects()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverMoveDirective</a></code>
-</div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:117</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resumeHoverEffects"></a>
+                    <span class="name">
+                        <span ><b>resumeHoverEffects</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#resumeHoverEffects"><span class="icon ion-ios-link"></span></a>
+                    </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverMoveDirective:58</a></code>
-</div>
+<code>resumeHoverEffects(removeEffects)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:107</a></div>
                 </td>
             </tr>
 
@@ -581,21 +847,90 @@
                             <thead>
                                 <tr>
                                     <td>Name</td>
-                                    <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Default value</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>PointerEvent</code>
-                                    </td>
+                                    <td>removeEffects</td>
 
                                     <td>
                                         No
                                     </td>
 
+                                    <td>
+                                        <code>true</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resumeInputEventEffects"></a>
+                    <span class="name">
+                        <span ><b>resumeInputEventEffects</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#resumeInputEventEffects"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resumeInputEventEffects(removeEffects)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:121</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>removeEffects</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>true</code>
+                                    </td>
 
                                 </tr>
                             </tbody>
@@ -621,7 +956,7 @@
                     <a name="setListenedElements"></a>
                     <span class="name">
                         <span ><b>setListenedElements</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setListenedElements"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#setListenedElements"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -640,7 +975,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:35</a></code>
+                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:59</a></code>
 </div>
                 </td>
             </tr>
@@ -664,7 +999,7 @@
                     <a name="getPointerValuesArray"></a>
                     <span class="name">
                         <span ><b>getPointerValuesArray</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#getPointerValuesArray"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#getPointerValuesArray"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -677,83 +1012,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverMoveDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverMoveDirective:40</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>PointerEvent</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="onPointerEnter"></a>
-                    <span class="name">
-                        <span class="modifier"></span>
-                        <span ><b>onPointerEnter</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onPointerEnter"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onPointerEnter(event: PointerEvent, el: Element)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:12</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:61</a></code>
 </div>
                 </td>
             </tr>
@@ -786,177 +1051,10 @@
 
 
                                 </tr>
-                                <tr>
-                                    <td>el</td>
-                                    <td>
-                                            <code>Element</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                     <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setPointerLeaveListener"></a>
-                    <span class="name">
-                        <span class="modifier"></span>
-                        <span ><b>setPointerLeaveListener</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setPointerLeaveListener"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setPointerLeaveListener(el: Element)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:28</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>el</td>
-                                    <td>
-                                            <code>Element</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setPointerMoveListener"></a>
-                    <span class="name">
-                        <span ><b>setPointerMoveListener</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setPointerMoveListener"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setPointerMoveListener(el)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverMoveDirective</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverMoveDirective:18</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>el</td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -969,7 +1067,7 @@
                     <a name="ngOnDestroy"></a>
                     <span class="name">
                         <span ><b>ngOnDestroy</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -982,13 +1080,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:18</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:43</a></code>
 </div>
                 </td>
             </tr>
@@ -1009,29 +1107,29 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="onTouchStart"></a>
+                    <a name="ngOnInit"></a>
                     <span class="name">
-                        <span ><b>onTouchStart</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#onTouchStart"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#ngOnInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>onTouchStart(event: TouchEvent)</code>
+<code>ngOnInit()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:38</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:35</a></code>
 </div>
                 </td>
             </tr>
@@ -1040,41 +1138,52 @@
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>event</td>
-                                    <td>
-                                            <code>TouchEvent</code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setClickListeners"></a>
+                    <span class="name">
+                        <span ><b>setClickListeners</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#setClickListeners"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setClickListeners()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:53</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
                     <div class="io-description">
-                        
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
                     </div>
                 </td>
             </tr>
@@ -1087,7 +1196,7 @@
                     <a name="setListeners"></a>
                     <span class="name">
                         <span ><b>setListeners</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setListeners"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#setListeners"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1106,93 +1215,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:25</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setPointerEnterListener"></a>
-                    <span class="name">
-                        <span ><b>setPointerEnterListener</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setPointerEnterListener"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setPointerEnterListener()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:42</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setTouchStartListener"></a>
-                    <span class="name">
-                        <span ><b>setTouchStartListener</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#setTouchStartListener"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setTouchStartListener()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:30</a></code>
+                        <div class="io-line">Defined in         <code><a href="documentation/library-internals/events/event#source" target="_self" >EventDirective:49</a></code>
 </div>
                 </td>
             </tr>
@@ -1216,7 +1239,7 @@
                     <a name="ngAfterViewInit"></a>
                     <span class="name">
                         <span ><b>ngAfterViewInit</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#ngAfterViewInit"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1265,7 +1288,7 @@
                     <a name="barIndex"></a>
                     <span class="name">
                         <span ><b>barIndex</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#barIndex"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#barIndex"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1277,7 +1300,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -1292,7 +1315,7 @@
                     <span class="name">
                             <span class="modifier">Public</span>
                         <span ><b>bars</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#bars"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#bars"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1313,7 +1336,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:45</a></div>
                         </td>
                     </tr>
 
@@ -1327,7 +1350,7 @@
                     <a name="elRef"></a>
                     <span class="name">
                         <span ><b>elRef</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#elRef"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#elRef"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1339,7 +1362,118 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:40</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hoverAndMoveDirective"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>hoverAndMoveDirective</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#hoverAndMoveDirective"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="documentation/data-marks-components/bars/events/bars-hover-move" target="_self" >BarsHoverMoveDirective</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Self()<br />@Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:51</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hoverDirective"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>hoverDirective</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#hoverDirective"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="documentation/data-marks-components/bars/events/bars-hover" target="_self" >BarsHoverDirective</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Self()<br />@Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:48</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="inputEventDirective"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Optional</span>
+                        <span ><b>inputEventDirective</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#inputEventDirective"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="documentation/data-marks-components/bars/events/bars-input-event" target="_self" >BarsInputEventDirective</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <b>Decorators : </b>
+                        <br />
+                        <code>
+                            @Self()<br />@Optional()<br />
+                        </code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -1353,7 +1487,7 @@
                     <a name="pointerX"></a>
                     <span class="name">
                         <span ><b>pointerX</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#pointerX"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#pointerX"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1365,7 +1499,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:41</a></div>
                         </td>
                     </tr>
 
@@ -1379,7 +1513,7 @@
                     <a name="pointerY"></a>
                     <span class="name">
                         <span ><b>pointerY</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#pointerY"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#pointerY"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1391,7 +1525,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-move.directive.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/viz-components/src/lib/bars/bars-click.directive.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -1402,28 +1536,28 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="unlistenPointerMove"></a>
+                    <a name="el"></a>
                     <span class="name">
-                        <span ><b>unlistenPointerMove</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenPointerMove"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>el</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#el"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UnlistenFunction" target="_self" >UnlistenFunction</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#ListenElement" target="_self" >ListenElement</a></code>
 
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >HoverMoveDirective</a></code>
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >HoverMoveDirective:8</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:30</a></code>
 </div>
                         </td>
                     </tr>
@@ -1435,76 +1569,10 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="unlistenPointerEnter"></a>
+                    <a name="unlistenClick"></a>
                     <span class="name">
-                        <span ><b>unlistenPointerEnter</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenPointerEnter"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UnlistenFunction" target="_self" >UnlistenFunction[]</a></code>
-
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:12</a></code>
-</div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="unlistenPointerLeave"></a>
-                    <span class="name">
-                        <span ><b>unlistenPointerLeave</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenPointerLeave"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/typealiases.html#UnlistenFunction" target="_self" >UnlistenFunction</a></code>
-
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
-</div>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:13</a></code>
-</div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="unlistenTouchStart"></a>
-                    <span class="name">
-                        <span ><b>unlistenTouchStart</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unlistenTouchStart"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>unlistenClick</b></span>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#unlistenClick"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1516,13 +1584,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:11</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:29</a></code>
 </div>
                         </td>
                     </tr>
@@ -1537,7 +1605,7 @@
                     <a name="unsubscribe"></a>
                     <span class="name">
                         <span ><b>unsubscribe</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#unsubscribe"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#unsubscribe"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1554,13 +1622,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >HoverDirective</a></code>
+                                <div class="io-line">Inherited from         <code><a " target="_self" >ClickDirective</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >HoverDirective:10</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >ClickDirective:28</a></code>
 </div>
                         </td>
                     </tr>
@@ -1575,7 +1643,7 @@
                     <a name="elements"></a>
                     <span class="name">
                         <span ><b>elements</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#elements"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#elements"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1608,7 +1676,7 @@
                     <a name="preventEffect"></a>
                     <span class="name">
                         <span ><b>preventEffect</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#preventEffect"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#preventEffect"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1641,7 +1709,7 @@
                     <span class="name">
                             <span class="modifier">Protected</span>
                         <span ><b>renderer</b></span>
-                        <a href="documentation/./data-marks-components/bars/events/bars-hover-move#renderer"><span class="icon ion-ios-link"></span></a>
+                        <a href="documentation/./data-marks-components/bars/events/bars-click#renderer"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
@@ -1679,29 +1747,53 @@
   EventEmitter,
   Inject,
   Input,
+  Optional,
   Output,
+  Self,
 } from &#x27;@angular/core&#x27;;
 import { select } from &#x27;d3&#x27;;
-import { filter, takeUntil } from &#x27;rxjs&#x27;;
+import { filter, Observable, takeUntil } from &#x27;rxjs&#x27;;
+import { ClickDirective } from &#x27;../events/click.directive&#x27;;
 import { EventEffect } from &#x27;../events/effect&#x27;;
-import { HoverMoveDirective } from &#x27;../events/hover-move.directive&#x27;;
+import { ListenElement } from &#x27;../events/event.directive&#x27;;
+import { BarsHoverMoveDirective } from &#x27;./bars-hover-move.directive&#x27;;
+import { BarsHoverDirective } from &#x27;./bars-hover.directive&#x27;;
+import { BarsInputEventDirective } from &#x27;./bars-input-event.directive&#x27;;
 import { BarsEventOutput, getBarsTooltipData } from &#x27;./bars-tooltip-data&#x27;;
 import { BARS, BarsComponent } from &#x27;./bars.component&#x27;;
 
+type BarsEventDirective &#x3D;
+  | BarsHoverDirective
+  | BarsHoverMoveDirective
+  | BarsInputEventDirective;
+
 @Directive({
-  selector: &#x27;[vicBarsHoverMoveEffects]&#x27;,
+  selector: &#x27;[vicBarsClickEffects]&#x27;,
 })
-export class BarsHoverMoveDirective extends HoverMoveDirective {
-  @Input(&#x27;vicBarsHoverMoveEffects&#x27;)
-  effects: EventEffect&lt;BarsHoverMoveDirective&gt;[];
-  @Output(&#x27;vicBarsHoverMoveOutput&#x27;) eventOutput &#x3D;
+export class BarsClickDirective extends ClickDirective {
+  @Input(&#x27;vicBarsClickEffects&#x27;)
+  effects: EventEffect&lt;BarsClickDirective&gt;[];
+  @Input(&#x27;vicBarsClickRemoveEvent$&#x27;)
+  override clickRemoveEvent$: Observable&lt;void&gt;;
+  @Output(&#x27;vicBarsClickOutput&#x27;) eventOutput &#x3D;
     new EventEmitter&lt;BarsEventOutput&gt;();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
 
-  constructor(@Inject(BARS) public bars: BarsComponent) {
+  constructor(
+    @Inject(BARS) public bars: BarsComponent,
+    @Self()
+    @Optional()
+    public hoverDirective?: BarsHoverDirective,
+    @Self()
+    @Optional()
+    public hoverAndMoveDirective?: BarsHoverMoveDirective,
+    @Self()
+    @Optional()
+    public inputEventDirective?: BarsInputEventDirective
+  ) {
     super();
   }
 
@@ -1717,43 +1809,73 @@ export class BarsHoverMoveDirective extends HoverMoveDirective {
       });
   }
 
-  onElementPointerEnter(event: PointerEvent): void {
-    if (!this.preventEffect) {
-      this.barIndex &#x3D; this.getBarIndex(event);
-      this.elRef &#x3D; new ElementRef(event.target);
-    }
-  }
-
-  getBarIndex(event: PointerEvent): number {
-    return select(event.target as SVGRectElement).datum() as number;
-  }
-
-  onElementPointerMove(event: PointerEvent) {
+  onElementClick(event: PointerEvent, el: ListenElement): void {
+    this.barIndex &#x3D; select(event.target as SVGRectElement).datum() as number;
+    this.elRef &#x3D; new ElementRef(event.target);
     [this.pointerX, this.pointerY] &#x3D; this.getPointerValuesArray(event);
-    if (this.effects &amp;&amp; !this.preventEffect) {
-      this.effects.forEach((effect) &#x3D;&gt; effect.applyEffect(this));
+    if (this.hoverDirective) {
+      this.pointerX &#x3D; this.hoverDirective.positionX;
+      this.pointerY &#x3D; this.hoverDirective.positionY;
     }
+    this.effects.forEach((effect) &#x3D;&gt; effect.applyEffect(this));
   }
 
-  onElementPointerLeave() {
-    if (this.effects &amp;&amp; !this.preventEffect) {
-      this.effects.forEach((effect) &#x3D;&gt; effect.removeEffect(this));
-    }
+  onClickRemove(): void {
+    this.effects.forEach((effect) &#x3D;&gt; effect.removeEffect(this));
     this.barIndex &#x3D; undefined;
     this.elRef &#x3D; undefined;
+    this.pointerX &#x3D; undefined;
+    this.pointerY &#x3D; undefined;
   }
 
   getEventOutput(): BarsEventOutput {
-    const tooltipData &#x3D; getBarsTooltipData(
-      this.barIndex,
-      this.elRef,
-      this.bars
-    );
+    const data &#x3D; getBarsTooltipData(this.barIndex, this.elRef, this.bars);
     const extras &#x3D; {
       positionX: this.pointerX,
       positionY: this.pointerY,
     };
-    return { ...tooltipData, ...extras };
+    return { ...data, ...extras };
+  }
+
+  preventHoverEffects(): void {
+    const hoverEventDirectives &#x3D; [
+      this.hoverDirective,
+      this.hoverAndMoveDirective,
+    ];
+    hoverEventDirectives.forEach((directive) &#x3D;&gt; this.disableEffect(directive));
+  }
+
+  resumeHoverEffects(removeEffects &#x3D; true): void {
+    const hoverEventDirectives &#x3D; [
+      this.hoverDirective,
+      this.hoverAndMoveDirective,
+    ];
+    hoverEventDirectives.forEach((directive) &#x3D;&gt;
+      this.enableEffect(directive, removeEffects)
+    );
+  }
+
+  preventInputEventEffects(): void {
+    this.disableEffect(this.inputEventDirective);
+  }
+
+  resumeInputEventEffects(removeEffects &#x3D; true): void {
+    this.enableEffect(this.inputEventDirective, removeEffects);
+  }
+
+  disableEffect(directive: BarsEventDirective): void {
+    if (directive) {
+      directive.preventEffect &#x3D; true;
+    }
+  }
+
+  enableEffect(directive: BarsEventDirective, removeEffects: boolean): void {
+    if (directive) {
+      directive.preventEffect &#x3D; false;
+      if (removeEffects) {
+        directive.effects.forEach((effect) &#x3D;&gt; effect.removeEffect(directive));
+      }
+    }
   }
 }
 </code></pre>

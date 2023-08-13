@@ -125,10 +125,10 @@
                                 <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getClosestPointIndex" >getClosestPointIndex</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getPointerDistanceFromPoint" >getPointerDistanceFromPoint</a>
+                                <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getEventOutput" >getEventOutput</a>
                             </li>
                             <li>
-                                <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getTooltipData" >getTooltipData</a>
+                                <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getPointerDistanceFromPoint" >getPointerDistanceFromPoint</a>
                             </li>
                             <li>
                                 <a href="documentation/./data-marks-components/lines/events/lines-hover-move#onElementPointerEnter" >onElementPointerEnter</a>
@@ -402,6 +402,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getEventOutput"></a>
+                    <span class="name">
+                        <span ><b>getEventOutput</b></span>
+                        <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getEventOutput"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getEventOutput()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move.directive.ts:119</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="documentation/data-marks-components/lines/events/lines-event-output" target="_self" >LinesEventOutput</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getPointerDistanceFromPoint"></a>
                     <span class="name">
                         <span ><b>getPointerDistanceFromPoint</b></span>
@@ -498,43 +535,6 @@
                     </div>
                     <div class="io-description">
                         
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getTooltipData"></a>
-                    <span class="name">
-                        <span ><b>getTooltipData</b></span>
-                        <a href="documentation/./data-marks-components/lines/events/lines-hover-move#getTooltipData"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getTooltipData()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move.directive.ts:119</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="documentation/data-marks-components/lines/events/lines-event-output" target="_self" >LinesEventOutput</a></code>
-
                     </div>
                 </td>
             </tr>
@@ -1980,7 +1980,7 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getTooltipData(): LinesEventOutput {
+  getEventOutput(): LinesEventOutput {
     const data &#x3D; getLinesTooltipDataFromDatum(
       this.closestPointIndex,
       this.lines

@@ -9,14 +9,17 @@ import {
   Output,
   Self,
 } from '@angular/core';
-import { Observable, filter, takeUntil } from 'rxjs';
+import { select } from 'd3';
+import { filter, Observable, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
-import { ListenElement } from '../events/event.directive';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
-import { GeographiesEventOutput } from './geographies-tooltip-data';
+import {
+  GeographiesEventOutput,
+  getGeographiesTooltipData,
+} from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 export type GeographiesEventDirective =
@@ -34,6 +37,9 @@ export class GeographiesClickDirective extends ClickDirective {
   override clickRemoveEvent$: Observable<void>;
   @Output('vicGeographiesClickOutput') eventOutput =
     new EventEmitter<GeographiesEventOutput>();
+  pointerX: number;
+  pointerY: number;
+  geographyIndex: number;
 
   constructor(
     @Inject(GEOGRAPHIES) public geographies: GeographiesComponent,
@@ -62,28 +68,43 @@ export class GeographiesClickDirective extends ClickDirective {
       });
   }
 
-  onElementClick(event: PointerEvent, el: ListenElement): void {
+  onElementClick(event: PointerEvent): void {
+    [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
+    const d = select(event.target as Element).datum();
+    this.geographyIndex = this.getGeographyIndex(d);
+    if (this.hoverDirective) {
+      this.pointerX = this.hoverDirective.positionX;
+      this.pointerY = this.hoverDirective.positionY;
+    }
     this.effects.forEach((effect) => effect.applyEffect(this));
   }
 
   onClickRemove(): void {
     this.effects.forEach((effect) => effect.removeEffect(this));
+    this.pointerX = undefined;
+    this.pointerY = undefined;
+    this.geographyIndex = undefined;
   }
 
-  getTooltipData(): GeographiesEventOutput {
-    if (!this.hoverDirective) {
-      console.warn(
-        'Tooltip data can only be retrieved when a GeographiesHoverMoveDirective or a GeographiesHoverDirective are implemented.'
-      );
+  getGeographyIndex(d: any): number {
+    let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
+    if (typeof value === 'string') {
+      value = value.toLowerCase();
     }
+    return this.geographies.values.indexMap.get(value);
+  }
 
-    if (this.hoverDirective) {
-      return this.hoverDirective.getEventOutput();
-    } else if (this.hoverAndMoveDirective) {
-      return this.hoverAndMoveDirective.getEventOutput();
-    } else {
-      return null;
-    }
+  getOutputData(): GeographiesEventOutput {
+    const tooltipData = getGeographiesTooltipData(
+      this.geographyIndex,
+      this.geographies
+    );
+    const output: GeographiesEventOutput = {
+      ...tooltipData,
+      positionX: this.pointerX,
+      positionY: this.pointerY,
+    };
+    return output;
   }
 
   preventHoverEffects(): void {

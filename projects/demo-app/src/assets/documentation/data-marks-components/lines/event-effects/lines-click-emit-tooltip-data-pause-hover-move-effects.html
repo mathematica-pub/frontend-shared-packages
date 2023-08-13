@@ -240,9 +240,9 @@ export class LinesClickEmitTooltipDataPauseHoverMoveEffects
   implements EventEffect&lt;LinesClickDirective&gt;
 {
   applyEffect(directive: LinesClickDirective) {
-    const tooltipData &#x3D; directive.getTooltipData();
+    const outputData &#x3D; directive.getOutputData();
     directive.preventHoverEffects();
-    directive.eventOutput.emit(tooltipData);
+    directive.eventOutput.emit(outputData);
   }
 
   removeEffect(directive: LinesClickDirective) {

@@ -2,6 +2,7 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 import {
   Directive,
+  ElementRef,
   EventEmitter,
   Inject,
   Input,
@@ -9,14 +10,15 @@ import {
   Output,
   Self,
 } from '@angular/core';
-import { Observable, filter, takeUntil } from 'rxjs';
+import { select } from 'd3';
+import { filter, Observable, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { ListenElement } from '../events/event.directive';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
-import { getBarsTooltipData, BarsEventOutput } from './bars-tooltip-data';
+import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 type BarsEventDirective =
@@ -34,6 +36,10 @@ export class BarsClickDirective extends ClickDirective {
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput =
     new EventEmitter<BarsEventOutput>();
+  barIndex: number;
+  elRef: ElementRef;
+  pointerX: number;
+  pointerY: number;
 
   constructor(
     @Inject(BARS) public bars: BarsComponent,
@@ -63,35 +69,31 @@ export class BarsClickDirective extends ClickDirective {
   }
 
   onElementClick(event: PointerEvent, el: ListenElement): void {
+    this.barIndex = select(event.target as SVGRectElement).datum() as number;
+    this.elRef = new ElementRef(event.target);
+    [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
+    if (this.hoverDirective) {
+      this.pointerX = this.hoverDirective.positionX;
+      this.pointerY = this.hoverDirective.positionY;
+    }
     this.effects.forEach((effect) => effect.applyEffect(this));
   }
 
   onClickRemove(): void {
     this.effects.forEach((effect) => effect.removeEffect(this));
+    this.barIndex = undefined;
+    this.elRef = undefined;
+    this.pointerX = undefined;
+    this.pointerY = undefined;
   }
 
-  getTooltipData(): BarsEventOutput {
-    if (!this.hoverAndMoveDirective) {
-      console.warn(
-        'Tooltip data can only be retrieved when a BarsHoverMoveDirective is implemented.'
-      );
-    }
-    if (this.hoverAndMoveDirective) {
-      const data = getBarsTooltipData(
-        this.hoverAndMoveDirective.barIndex,
-        this.hoverAndMoveDirective.elRef,
-        this.hoverAndMoveDirective.bars
-      );
-
-      const output: BarsEventOutput = {
-        ...data,
-        positionX: this.hoverAndMoveDirective.pointerX,
-        positionY: this.hoverAndMoveDirective.pointerY,
-      };
-      return output;
-    } else {
-      return null;
-    }
+  getEventOutput(): BarsEventOutput {
+    const data = getBarsTooltipData(this.barIndex, this.elRef, this.bars);
+    const extras = {
+      positionX: this.pointerX,
+      positionY: this.pointerY,
+    };
+    return { ...data, ...extras };
   }
 
   preventHoverEffects(): void {
