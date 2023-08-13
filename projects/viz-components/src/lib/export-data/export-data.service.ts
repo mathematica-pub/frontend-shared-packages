@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { saveAs } from 'file-saver';
+import { cloneDeep } from 'lodash-es';
 import { unparse } from 'papaparse';
 import { DataExportConfig } from './data-export.config';
-import { cloneDeep } from 'lodash-es';
 @Injectable()
 export class VicExportDataService {
   saveCSV(name: string, dataConfigs: DataExportConfig[]): void {

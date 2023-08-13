@@ -5,7 +5,7 @@ export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects
   implements EventEffect<GeographiesClickDirective>
 {
   applyEffect(directive: GeographiesClickDirective) {
-    const tooltipData = directive.getTooltipData();
+    const tooltipData = directive.getOutputData();
     directive.preventHoverEffects();
     directive.eventOutput.emit(tooltipData);
   }

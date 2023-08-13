@@ -5,9 +5,9 @@ export class BarsClickEmitTooltipDataPauseHoverMoveEffects
   implements EventEffect<BarsClickDirective>
 {
   applyEffect(directive: BarsClickDirective) {
-    const tooltipData = directive.getTooltipData();
+    const outputData = directive.getEventOutput();
     directive.preventHoverEffects();
-    directive.eventOutput.emit(tooltipData);
+    directive.eventOutput.emit(outputData);
   }
 
   removeEffect(directive: BarsClickDirective) {
