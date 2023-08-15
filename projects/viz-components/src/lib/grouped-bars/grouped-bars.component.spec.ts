@@ -25,7 +25,8 @@ describe('GroupedBarsComponent', () => {
       spyOn(component, 'initNonQuantitativeDomains');
       spyOn(component, 'setValueIndicies');
       spyOn(component, 'setHasBarsWithNegativeValues');
-      spyOn(component, 'initQuantitativeDomain');
+      spyOn(component, 'initUnpaddedQuantitativeDomain');
+      spyOn(component, 'setQuantitativeDomainPadding');
       spyOn(component, 'initCategoryScale');
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'setGroupScale');
@@ -50,8 +51,12 @@ describe('GroupedBarsComponent', () => {
       expect(component.setHasBarsWithNegativeValues).toHaveBeenCalledTimes(1);
     });
 
-    it('calls initQuantitativeDomain once', () => {
-      expect(component.initQuantitativeDomain).toHaveBeenCalledTimes(1);
+    it('calls initUnpaddedQuantitativeDomain once', () => {
+      expect(component.initUnpaddedQuantitativeDomain).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setQuantitativeDomainPadding once', () => {
+      expect(component.setQuantitativeDomainPadding).toHaveBeenCalledTimes(1);
     });
 
     it('calls setScaledSpaceProperties once', () => {
