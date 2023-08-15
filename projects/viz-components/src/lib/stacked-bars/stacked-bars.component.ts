@@ -37,7 +37,7 @@ export class StackedBarsComponent extends BarsComponent {
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.constructStackedData();
-    this.initQuantitativeDomain();
+    this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
     this.setScaledSpaceProperties();
     this.drawMarks(this.chart.transitionDuration);
@@ -83,7 +83,7 @@ export class StackedBarsComponent extends BarsComponent {
       );
   }
 
-  override initQuantitativeDomain(): void {
+  override initUnpaddedQuantitativeDomain(): void {
     // no unit test
     if (this.config.quantitative.domain === undefined) {
       this.config.quantitative.domain = extent(this.stackedData.flat(2));

@@ -27,7 +27,8 @@ export class GroupedBarsComponent extends BarsComponent {
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
-    this.initQuantitativeDomain();
+    this.initUnpaddedQuantitativeDomain();
+    this.setQuantitativeDomainPadding();
     this.initCategoryScale();
     this.setScaledSpaceProperties();
     this.setGroupScale();

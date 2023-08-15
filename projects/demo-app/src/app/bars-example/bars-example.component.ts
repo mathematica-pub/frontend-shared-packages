@@ -16,6 +16,7 @@ import {
   BarsClickDirective,
   BarsClickEmitTooltipDataPauseHoverMoveEffects,
   BarsHoverMoveEmitTooltipData,
+  PixelDomainPaddingConfig,
   RoundUpToIntervalDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
@@ -94,9 +95,7 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.quantitative.domainPadding =
-      new RoundUpToIntervalDomainPaddingConfig();
-    dataConfig.quantitative.domainPadding.interval = () => 4;
+    dataConfig.quantitative.domainPadding = new PixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,
