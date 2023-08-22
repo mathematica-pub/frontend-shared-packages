@@ -32,6 +32,7 @@ import {
   ColumnConfig,
   DataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
+import { PixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
 
 interface ViewModel {
   dataConfig: LinesConfig;
@@ -123,7 +124,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.category.valueAccessor = (d) => d.division;
     dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-
+    dataConfig.y.domainPadding = new PixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,

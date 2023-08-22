@@ -9,11 +9,15 @@ export type ValueType = 'max' | 'min';
 })
 export class DataDomainService {
   getPaddedDomainValue(
-    value: number,
+    unpaddedDomain: [number, number],
     padding: DomainPaddingConfig,
-    valueType: ValueType
+    valueType: ValueType,
+    scaleType?: any,
+    pixelRange?: [number, number]
   ) {
-    let paddedValue = value;
+    let paddedValue =
+      valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
+    const value = paddedValue;
     if (padding.type === 'roundUp') {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(
         value,
@@ -33,15 +37,42 @@ export class DataDomainService {
         padding.interval(value),
         valueType
       );
+    } else if (padding.type === 'numPixels') {
+      paddedValue = this.getPixelPaddedDomainValue(
+        unpaddedDomain,
+        padding.numPixels,
+        valueType,
+        scaleType,
+        pixelRange
+      );
     }
     return paddedValue;
+  }
+
+  getPixelPaddedDomainValue(
+    unpaddedDomain: [number, number],
+    numPixels: number,
+    valueType: ValueType,
+    scaleType: any,
+    pixelRange: [number, number]
+  ): number {
+    if (pixelRange[1] < pixelRange[0]) numPixels = -1 * numPixels;
+    const value = valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
+    if (value === 0) return value;
+    const adjustedPixelRange =
+      valueType === 'min' && unpaddedDomain[0] < 0
+        ? [pixelRange[0] + numPixels, pixelRange[1]]
+        : [pixelRange[0], pixelRange[1] - numPixels];
+    const scale = scaleType(unpaddedDomain, adjustedPixelRange);
+    const targetVal = valueType === 'min' ? pixelRange[0] : pixelRange[1];
+    return scale.invert(targetVal);
   }
 
   getQuantitativeDomainMaxRoundedUp(
     value: number,
     sigDigits: number,
     valueType: ValueType
-  ) {
+  ): number {
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       value,
       sigDigits,
@@ -54,7 +85,7 @@ export class DataDomainService {
     sigDigits: number,
     percent: number,
     valueType: ValueType
-  ) {
+  ): number {
     const overValue = Math.abs(value) * (1 + percent);
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       overValue,
@@ -64,16 +95,29 @@ export class DataDomainService {
   }
 
   getQuantitativeDomain(
-    dataMin: number,
-    dataMax: number,
-    domainPadding: DomainPaddingConfig
+    unpaddedDomain: [number, number],
+    domainPadding: DomainPaddingConfig,
+    scaleType?: any,
+    pixelRange?: [number, number]
   ): [number, number] {
     const domainMin = domainPadding
-      ? this.getPaddedDomainValue(dataMin, domainPadding, 'min')
-      : dataMin;
+      ? this.getPaddedDomainValue(
+          unpaddedDomain,
+          domainPadding,
+          'min',
+          scaleType,
+          pixelRange
+        )
+      : unpaddedDomain[0];
     const domainMax = domainPadding
-      ? this.getPaddedDomainValue(dataMax, domainPadding, 'max')
-      : dataMax;
+      ? this.getPaddedDomainValue(
+          unpaddedDomain,
+          domainPadding,
+          'max',
+          scaleType,
+          pixelRange
+        )
+      : unpaddedDomain[1];
     if (domainMin === domainMax) {
       return [domainMin, domainMin + 1];
     } else {
