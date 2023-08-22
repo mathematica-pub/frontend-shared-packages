@@ -1,0 +1,151 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Github Actions Access Policy. Sets up Policies and groups under a Role for use by Github Actions IAM User 
+
+Resources:
+  # Sean: do we want AppName
+  ServerlessAgentPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub 'MathPolicy-ServerlessAgent-${AppName}'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action:
+            - apigateway:*
+            - s3:*
+            - s3:PutBucketAcl
+            - cloudfront:*
+            - cloudformation:CancelUpdateStack
+            - cloudformation:ContinueUpdateRollback
+            - cloudformation:CreateChangeSet
+            - cloudformation:CreateStack
+            - cloudformation:CreateUploadBucket
+            - cloudformation:DeleteStack
+            - cloudformation:DeleteChangeSet
+            - cloudformation:Describe*
+            - cloudformation:EstimateTemplateCost
+            - cloudformation:ExecuteChangeSet
+            - cloudformation:Get*
+            - cloudformation:List*
+            - cloudformation:PreviewStackUpdate
+            - cloudformation:UpdateStack
+            - cloudformation:UpdateTerminationProtection
+            - cloudformation:ValidateTemplate
+            - events:DeleteRule
+            - events:DescribeRule
+            - events:ListRuleNamesByTarget
+            - events:ListRules
+            - events:ListTargetsByRule
+            - events:PutRule
+            - events:PutTargets
+            - events:RemoveTargets
+            - iam:CreateServiceLinkedRole
+            - iam:CreateRole
+            - iam:DeleteRole
+            - iam:DeleteRolePolicy
+            - iam:GetRole
+            - iam:GetRolePolicy
+            - iam:PassRole
+            - iam:PutRolePolicy
+            - iam:AttachRolePolicy
+            - iam:DetachRolePolicy
+            - iam:UpdateAssumeRolePolicy
+            - iam:UpdateAssumeRolePolicyDocument
+            - iam:ListAttachedRolePolicies
+            - iam:DeleteRole
+            - logs:CreateLogGroup
+            - logs:DeleteLogGroup
+            - logs:DescribeLogGroups
+            - logs:DescribeLogStreams
+            - logs:FilterLogEvents
+            - logs:GetLogEvents
+            - sns:CreateTopic
+            - sns:DeleteTopic
+            - sns:GetSubscriptionAttributes
+            - sns:GetTopicAttributes
+            - sns:ListSubscriptions
+            - sns:ListSubscriptionsByTopic
+            - sns:ListTopics
+            - sns:SetSubscriptionAttributes
+            - sns:SetTopicAttributes
+            - sns:Subscribe
+            - sns:Unsubscribe
+            - sns:TagResource
+          Resource: '*'
+      Roles:
+        - !Ref GithubActionsAccessRole
+
+  WriteToCodeArtifactRepositoryPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Resource: 
+              - arn:aws:codeartifact:us-east-1:922539530544:domain/shared-package-domain
+            Action: 
+              - "codeartifact:DescribeDomain"
+              - "codeartifact:DescribePackageVersion"
+              - "codeartifact:GetAuthorizationToken"
+              - "codeartifact:GetDomainPermissionsPolicy"
+              - "codeartifact:ListRepositoriesInDomain"
+          - Effect: Allow
+            Resource: 
+              - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
+            Action: 
+              - "codeartifact:DescribeRepository"
+              - "codeartifact:GetPackageVersionAsset"
+              - "codeartifact:GetPackageVersionReadme"
+              - "codeartifact:GetRepositoryEndpoint"
+              - "codeartifact:GetRepositoryPermissionsPolicy"
+              - "codeartifact:ListPackageVersionAssets"
+              - "codeartifact:ListPackageVersionDependencies"
+              - "codeartifact:ListPackageVersions"
+              - "codeartifact:ListPackages"
+              - "codeartifact:ListTagsForResource"
+              - "codeartifact:PutPackageMetadata"
+              - "codeartifact:ReadFromRepository"
+              - "codeartifact:TagResource"
+              - "codeartifact:UntagResource"
+          - Effect: Allow 
+            Resource: 
+              - arn:aws:codeartifact:us-east-1:922539530544:package/shared-package-domain/shared-package-repository/*/*/*
+            Action: 
+              - "codeartifact:PublishPackageVersion"
+
+      PolicyName: WriteToRepository
+      Roles:
+        - !Ref GithubActionsAccessRole
+
+  UseBearerTokenPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          Effect: Allow
+          Resource: '*'
+          Action: 
+            - "sts:GetServiceBearerToken"
+      PolicyName: UseBearerToken
+      Roles:
+        - !Ref GithubActionsAccessRole
+
+  # ask Sean - one role for all apps?  
+  GithubActionsAccessRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - codebuild.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
+      RoleName: !Join ["-", [ "MathRole", "GithubActionsAccessRole" ] ]
