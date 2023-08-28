@@ -13,9 +13,7 @@ Resources:
         Statement:
           Effect: Allow
           Action:
-            - apigateway:*
             - s3:*
-            - s3:PutBucketAcl
             - cloudfront:*
             - cloudformation:CancelUpdateStack
             - cloudformation:ContinueUpdateRollback
@@ -134,7 +132,6 @@ Resources:
       Roles:
         - !Ref GithubActionsAccessRole
 
-  # ask Sean - one role for all apps?  
   GithubActionsAccessRole:
     Type: AWS::IAM::Role
     Properties:
@@ -147,5 +144,4 @@ Resources:
                 - codebuild.amazonaws.com
             Action:
               - sts:AssumeRole
-      PermissionsBoundary: !Sub arn:aws:iam::${AWS::AccountId}:policy/Math-Boundary-Policy
       RoleName: !Join ["-", [ "MathRole", "GithubActionsAccessRole" ] ]
