@@ -20,19 +20,22 @@ import {
   LinesHoverMoveEmitTooltipData,
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
-import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
-import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import { LinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
-import { MetroUnemploymentDatum } from '../core/models/data';
-import { DataService } from '../core/services/data.service';
-import { HighlightLineForLabel } from './line-input-effects';
 import {
   ColumnConfig,
   DataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
+import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
+import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
+import { LinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
+import {
+  AbsoluteOffsetFromOriginPosition,
+  HtmlTooltipConfig,
+} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { PixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
+import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { MetroUnemploymentDatum } from '../core/models/data';
+import { DataService } from '../core/services/data.service';
+import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
   dataConfig: LinesConfig;
@@ -92,7 +95,7 @@ export class LinesExampleComponent implements OnInit {
   folderName = 'lines-example';
   tooltipEvent: BehaviorSubject<'hover' | 'click'> = new BehaviorSubject<
     'hover' | 'click'
-  >('hover');
+  >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
 
   private imageService = inject(VicImageService);
@@ -152,6 +155,7 @@ export class LinesExampleComponent implements OnInit {
     const config = new LinesExampleTooltipConfig();
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
+    config.position = new AbsoluteOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;
