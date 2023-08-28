@@ -4,6 +4,7 @@ import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
+import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import {
   BarsConfig,
   BarsLabelsConfig,
@@ -11,18 +12,17 @@ import {
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
-  BarsClickDirective,
-  BarsClickEmitTooltipDataPauseHoverMoveEffects,
+  AbsoluteOffsetFromOriginPosition,
+  HtmlTooltipConfig,
+} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import {
   BarsHoverMoveEmitTooltipData,
   PixelDomainPaddingConfig,
-  RoundUpToIntervalDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
-import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 
 interface ViewModel {
   dataConfig: BarsConfig;
@@ -114,6 +114,7 @@ export class BarsExampleComponent implements OnInit {
 
   updateTooltipConfig(data: BarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
+    config.position = new AbsoluteOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;

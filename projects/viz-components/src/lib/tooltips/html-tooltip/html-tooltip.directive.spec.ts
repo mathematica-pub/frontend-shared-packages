@@ -226,10 +226,15 @@ describe('HtmlTooltipDirective', () => {
       directive.checkPanelClassChanges('changes' as any);
       expect(directive.updateClasses).toHaveBeenCalledTimes(1);
     });
-    it('does not call updatePanelClasses if panelClass did not change', () => {
-      changedSpy.and.returnValue(false);
+    it('calls updatePanelClasses once if disableEventsOnTooltip changed', () => {
+      changedSpy.and.returnValues(false, true);
       directive.checkPanelClassChanges('changes' as any);
-      expect(directive.updateClasses).not.toHaveBeenCalled();
+      expect(directive.updateClasses).toHaveBeenCalledTimes(1);
+    });
+    it('does not call updatePanelClasses if neither panelClass nor disableEventsOnTooltip changed', () => {
+      changedSpy.and.returnValues(false, false);
+      directive.checkPanelClassChanges('changes' as any);
+      expect(directive.updateClasses).toHaveBeenCalledTimes(0);
     });
   });
 
@@ -283,7 +288,7 @@ describe('HtmlTooltipDirective', () => {
     describe('if events are not disabled', () => {
       beforeEach(() => {
         directive.config = new HtmlTooltipConfig();
-        directive.config.disableEventsOnTooltip = false;
+        directive.config.addEventsDisabledClass = false;
       });
       it('sets panel class to the correct value - case user provides single string', () => {
         directive.config.panelClass = 'one';
@@ -310,7 +315,7 @@ describe('HtmlTooltipDirective', () => {
     describe('if events are disabled', () => {
       beforeEach(() => {
         directive.config = new HtmlTooltipConfig();
-        directive.config.disableEventsOnTooltip = true;
+        directive.config.addEventsDisabledClass = true;
       });
       it('sets panel class to the correct value - case user provides single string', () => {
         directive.config.panelClass = 'one';

@@ -1,5 +1,6 @@
 import {
   FlexibleConnectedPositionStrategy,
+  GlobalPositionStrategy,
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
@@ -23,7 +24,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { UtilitiesService } from '../../core/services/utilities.service';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
-import { HtmlTooltipConfig } from './html-tooltip.config';
+import {
+  AbsoluteOffsetFromOriginPosition,
+  CdkManagedFromOriginPosition,
+  HtmlTooltipConfig,
+} from './html-tooltip.config';
 
 const defaultPanelClass = 'vic-html-tooltip-overlay';
 
@@ -36,7 +41,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   @Input() config: HtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
   overlayRef: OverlayRef;
-  positionStrategy: FlexibleConnectedPositionStrategy;
+  positionStrategy: FlexibleConnectedPositionStrategy | GlobalPositionStrategy;
   size: OverlaySizeConfig;
   panelClass: string[];
   backdropUnsubscribe: Subject<void> = new Subject<void>();
@@ -97,7 +102,10 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   checkPanelClassChanges(changes: SimpleChanges): void {
-    if (this.configChanged(changes, 'panelClass')) {
+    if (
+      this.configChanged(changes, 'panelClass') ||
+      this.configChanged(changes, 'disableEventsOnTooltip')
+    ) {
       this.updateClasses();
     }
   }
@@ -119,10 +127,41 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
 
   setPositionStrategy(): void {
     const origin = this.config.origin ?? this.dataMarks.chart.svgRef;
-    const position = this.config.position;
+    if (this.config.position) {
+      if (this.config.position.type === 'connected') {
+        this.setConnectedPositionStrategy(
+          origin.nativeElement,
+          this.config.position
+        );
+      } else {
+        this.setGlobalPositionStrategy(
+          origin.nativeElement,
+          this.config.position
+        );
+      }
+    }
+  }
+
+  setConnectedPositionStrategy(
+    origin: Element,
+    position: CdkManagedFromOriginPosition
+  ): void {
     this.positionStrategy = this.overlayPositionBuilder
       .flexibleConnectedTo(origin)
-      .withPositions([position]);
+      .withPositions([position.config]);
+  }
+
+  setGlobalPositionStrategy(
+    origin: Element,
+    position: AbsoluteOffsetFromOriginPosition
+  ): void {
+    const originDims = origin.getBoundingClientRect();
+    const tooltipDims =
+      this.overlayRef?.overlayElement.getBoundingClientRect() ?? new DOMRect();
+    this.positionStrategy = this.overlayPositionBuilder
+      .global()
+      .top(`${originDims.top + position.offsetY - tooltipDims.height}px`)
+      .left(`${originDims.left + position.offsetX - tooltipDims.width / 2}px`);
   }
 
   setPanelClasses(): void {
@@ -130,7 +169,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
       ? [this.config.panelClass].flat()
       : [];
     this.panelClass = [defaultPanelClass, ...userClasses].flat();
-    if (this.config.disableEventsOnTooltip) {
+    if (this.config.addEventsDisabledClass) {
       this.panelClass.push('events-disabled');
     }
   }
