@@ -37,6 +37,7 @@ export * from './lib/data-marks/data-marks.token';
 export * from './lib/events/click.directive';
 export * from './lib/events/effect';
 export * from './lib/events/event.directive';
+export * from './lib/events/listen-elements-class-selector.mixin';
 export * from './lib/events/hover-move.directive';
 export * from './lib/events/hover.directive';
 export * from './lib/events/input-event.directive';
