@@ -68,6 +68,7 @@ export class BarsComponent
   bars$: Observable<any> = this.bars.asObservable();
   barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
   barLabels$: Observable<any> = this.barLabels.asObservable();
+  unpaddedQuantitativeDomain: [number, number];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -95,7 +96,8 @@ export class BarsComponent
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
-    this.initQuantitativeDomain();
+    this.initUnpaddedQuantitativeDomain();
+    this.setQuantitativeDomainPadding();
     this.initCategoryScale();
     this.setScaledSpaceProperties();
     this.setBarsKeyFunction();
@@ -157,19 +159,24 @@ export class BarsComponent
     this.hasBarsWithNegativeValues = dataMin < 0;
   }
 
-  initQuantitativeDomain(): void {
+  initUnpaddedQuantitativeDomain(): void {
     let dataMin, dataMax: number;
     if (this.config.quantitative.domain === undefined) {
       dataMin = this.getDataMin();
       dataMax = this.getDataMax();
     } else {
-      dataMin = this.config.quantitative.domain[0];
-      dataMax = this.config.quantitative.domain[1];
+      dataMin = min([this.config.quantitative.domain[0], 0]);
+      dataMax = max([this.config.quantitative.domain[1], 0]);
     }
+    this.unpaddedQuantitativeDomain = [dataMin, dataMax];
+  }
+
+  setQuantitativeDomainPadding(): void {
     const domain = this.dataDomainService.getQuantitativeDomain(
-      dataMin,
-      dataMax,
-      this.config.quantitative.domainPadding
+      this.unpaddedQuantitativeDomain,
+      this.config.quantitative.domainPadding,
+      this.config.quantitative.scaleType,
+      this.ranges[this.config.dimensions.quantitative]
     );
     this.config.quantitative.domain = domain;
   }
@@ -179,7 +186,7 @@ export class BarsComponent
   }
 
   getDataMax(): number {
-    return max(this.values[this.config.dimensions.quantitative]);
+    return max([max(this.values[this.config.dimensions.quantitative]), 0]);
   }
 
   initCategoryScale(): void {
@@ -193,6 +200,7 @@ export class BarsComponent
 
   setScaledSpaceProperties(): void {
     this.zone.run(() => {
+      this.setQuantitativeDomainPadding();
       if (this.config.dimensions.ordinal === 'x') {
         this.chart.updateXScale(this.getOrdinalScale());
         this.chart.updateYScale(this.getQuantitativeScale());

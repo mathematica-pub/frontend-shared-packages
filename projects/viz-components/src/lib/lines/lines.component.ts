@@ -84,6 +84,8 @@ export class LinesComponent
   markersKeyFunction;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
+  unpaddedXDomain: [any, any];
+  unpaddedYDomain: [any, any];
 
   private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
@@ -145,6 +147,7 @@ export class LinesComponent
   }
 
   initDomains(): void {
+    this.setUnpaddedDomains();
     this.setXDomain();
     this.setYDomain();
     if (this.config.category.domain === undefined) {
@@ -152,28 +155,33 @@ export class LinesComponent
     }
   }
 
-  setXDomain(): void {
-    const domain =
+  setUnpaddedDomains(): void {
+    this.unpaddedXDomain =
       this.config.x.domain === undefined
         ? extent(this.values.x)
         : this.config.x.domain;
+    this.unpaddedYDomain =
+      this.config.y.domain === undefined
+        ? [min([min(this.values.y), 0]), max(this.values.y)]
+        : this.config.y.domain;
+  }
+
+  setXDomain(): void {
     const newDomain = this.getNewDomain(
       this.config.x.scaleType,
       this.config.x.domainPadding,
-      domain
+      this.unpaddedXDomain,
+      this.ranges['x']
     );
     this.config.x.domain = newDomain;
   }
 
   setYDomain(): void {
-    const domain: [any, any] =
-      this.config.y.domain === undefined
-        ? [min([min(this.values.y), 0]), max(this.values.y)]
-        : this.config.y.domain;
     const newDomain = this.getNewDomain(
       this.config.y.scaleType,
       this.config.y.domainPadding,
-      domain
+      this.unpaddedYDomain,
+      this.ranges['y']
     );
     this.config.y.domain = newDomain;
   }
@@ -181,13 +189,15 @@ export class LinesComponent
   getNewDomain(
     scaleType: any,
     domainPadding: DomainPaddingConfig,
-    domain: [any, any]
+    domain: [any, any],
+    pixelRange: [number, number]
   ): [any, any] {
     if (scaleType !== scaleTime && scaleType !== scaleUtc) {
       const newDomain = this.dataDomainService.getQuantitativeDomain(
-        domain[0],
-        domain[1],
-        domainPadding
+        domain,
+        domainPadding,
+        scaleType,
+        pixelRange
       );
       return newDomain;
     } else {
@@ -204,6 +214,8 @@ export class LinesComponent
 
   setScaledSpaceProperties(): void {
     this.zone.run(() => {
+      this.setXDomain();
+      this.setYDomain();
       this.chart.updateXScale(
         this.config.x.scaleType(this.config.x.domain, this.ranges.x)
       );
