@@ -44,6 +44,6 @@ The library provides minimal default styles for all components in the library, f
 2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @web-ast`
 3.  `npm install @web-ast/viz-components`
 
-### Advanced usage: Extending the library in a project-specific way 
+### Custom Schematics
 
-We've semi-helpfully created some custom schematics that will set you up with a component that extends whatever viz-components internal thing you care about. Run `ng g @web-ast/viz-components:extend` and follow the instructions from there.
+After installing the library, run `ng g viz-components:extend` and follow the instructions from there.

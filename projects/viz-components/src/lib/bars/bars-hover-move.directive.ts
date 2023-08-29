@@ -6,9 +6,7 @@ import {
   EventEmitter,
   Inject,
   Input,
-  OnChanges,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
@@ -24,10 +22,7 @@ const ListenElementsHoverMoveDirective =
 @Directive({
   selector: '[vicBarsHoverMoveEffects]',
 })
-export class BarsHoverMoveDirective
-  extends ListenElementsHoverMoveDirective
-  implements OnChanges
-{
+export class BarsHoverMoveDirective extends ListenElementsHoverMoveDirective {
   @Input('vicBarsHoverMoveEffects')
   effects: EventEffect<BarsHoverMoveDirective>[];
   @Input('vicBarsHoverMoveListenElementsClassSelector')
@@ -43,12 +38,6 @@ export class BarsHoverMoveDirective
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();
     this.selectionObservable = bars.bars$;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['vicBarsHoverMoveListenElementsClassSelector']) {
-      console.log(changes['vicBarsHoverMoveListenElementsClassSelector']);
-    }
   }
 
   onElementPointerEnter(event: PointerEvent): void {

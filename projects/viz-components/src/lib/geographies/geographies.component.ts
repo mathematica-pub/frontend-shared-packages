@@ -465,8 +465,10 @@ export class GeographiesComponent
 
   getClass(i: number): string {
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
-    const dataValue = this.values.attributeDataValues[convertedIndex];
-    return this.config.dataGeographyConfig.classAccessor(dataValue);
+    const dataValue = this.config.data[convertedIndex];
+    return dataValue
+      ? this.config.dataGeographyConfig.classAccessor(dataValue)
+      : '';
   }
 
   getPatternFill(i: number): string {
