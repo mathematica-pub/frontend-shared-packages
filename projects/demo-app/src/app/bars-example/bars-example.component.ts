@@ -126,4 +126,13 @@ export class BarsExampleComponent implements OnInit {
     }
     this.tooltipConfig.next(config);
   }
+
+  changeMargin(): void {
+    this.margin = {
+      top: 36,
+      right: 0,
+      bottom: 8,
+      left: Math.random() * 500,
+    };
+  }
 }

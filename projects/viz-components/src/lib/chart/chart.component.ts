@@ -21,6 +21,7 @@ import {
 } from 'rxjs';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
+import { isEqual } from 'lodash-es';
 
 export interface Ranges {
   x: [number, number];
@@ -112,6 +113,10 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   aspectRatio: number;
   private _height: BehaviorSubject<number> = new BehaviorSubject(this.height);
   height$ = this._height.asObservable();
+  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(
+    this.margin
+  );
+  margin$ = this._margin.asObservable();
   ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
 
@@ -122,6 +127,9 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     }
     if (changes['width']) {
       this.setAspectRatio();
+    }
+    if (changes['margin']) {
+      this._margin.next(this.margin);
     }
   }
 
@@ -155,8 +163,14 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       shareReplay(1)
     );
 
-    this.ranges$ = this.svgDimensions$.pipe(
-      map((dimensions) => this.getRangesFromSvgDimensions(dimensions)),
+    const margin$ = this.margin$.pipe(
+      startWith(this.margin),
+      distinctUntilChanged((a, b) => isEqual(a, b)),
+      shareReplay(1)
+    );
+
+    this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
+      map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
       shareReplay(1)
     );
   }
