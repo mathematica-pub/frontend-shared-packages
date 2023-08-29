@@ -57,9 +57,8 @@ describe('HtmlTooltipDirective', () => {
 
   describe('ngOnChanges', () => {
     let changes: any;
-    let configChangedSpy: jasmine.Spy;
     beforeEach(() => {
-      configChangedSpy = spyOn(directive, 'configChanged');
+      spyOn(directive, 'configChanged');
       spyOn(directive, 'checkBackdropChanges');
       spyOn(directive, 'checkShowChanges');
       spyOn(directive, 'checkPositionChanges');

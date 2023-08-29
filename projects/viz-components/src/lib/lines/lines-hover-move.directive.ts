@@ -21,6 +21,7 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
+  effectApplied = false;
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
     super();
@@ -67,10 +68,16 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
           this.pointerY
         )
       ) {
-        this.effects.forEach((effect) => effect.applyEffect(this));
+        this.effects.forEach((effect) => {
+          effect.applyEffect(this);
+        });
+        this.effectApplied = true;
       } else {
         this.closestPointIndex = null;
-        this.effects.forEach((effect) => effect.removeEffect(this));
+        if (this.effectApplied) {
+          this.effects.forEach((effect) => effect.removeEffect(this));
+          this.effectApplied = false;
+        }
       }
     }
   }

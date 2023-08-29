@@ -4,7 +4,7 @@ import { TooltipConfig } from '../tooltip.config';
 
 export class HtmlTooltipConfig extends TooltipConfig {
   override type: 'html';
-  position: CdkManagedFromOriginPosition | AbsoluteOffsetFromOriginPosition;
+  position: CdkManagedFromOriginPosition | OffsetFromOriginPosition;
   size: OverlaySizeConfig;
   addEventsDisabledClass: boolean;
   panelClass: string | string[];
@@ -22,13 +22,18 @@ export class HtmlTooltipConfig extends TooltipConfig {
   }
 }
 
-export class AbsoluteOffsetFromOriginPosition {
+export class OffsetFromOriginPosition {
   type: 'global';
   offsetY: number;
   offsetX: number;
+  // TODO: support other orientations
+  tooltipOriginX: 'center';
+  tooltipOriginY: 'bottom';
 
   constructor() {
     this.type = 'global';
+    this.tooltipOriginX = 'center';
+    this.tooltipOriginY = 'bottom';
     this.offsetY = 0;
     this.offsetX = 0;
   }

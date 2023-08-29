@@ -186,17 +186,28 @@ describe('LinesHoverMoveDirective', () => {
       expect(applyASpy).toHaveBeenCalledOnceWith(directive);
       expect(applyBSpy).toHaveBeenCalledOnceWith(directive);
     });
+    it('sets effectApplied equal to true if pointerIsInsideShowTooltipRadius returns true', () => {
+      directive.determineHoverStyles();
+      expect(directive.effectApplied).toEqual(true);
+    });
     it('does not call applyEffect on all effects if pointerIsInsideShowTooltipRadius returns false', () => {
       ttRadiusSpy.and.returnValue(false);
       directive.determineHoverStyles();
       expect(applyASpy).not.toHaveBeenCalled();
       expect(applyBSpy).not.toHaveBeenCalled();
     });
-    it('calls removeEffect on all effects if pointerIsInsideShowTooltipRadius returns false', () => {
+    it('calls removeEffect on all effects if pointerIsInsideShowTooltipRadius returns false and effectApplied is true', () => {
       ttRadiusSpy.and.returnValue(false);
+      directive.effectApplied = true;
       directive.determineHoverStyles();
       expect(removeASpy).toHaveBeenCalledOnceWith(directive);
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
+    });
+    it('does not call removeEffect on all effects if pointerIsInsideShowTooltipRadius returns false and effectApplied is false', () => {
+      ttRadiusSpy.and.returnValue(false);
+      directive.determineHoverStyles();
+      expect(removeASpy).toHaveBeenCalledTimes(0);
+      expect(removeBSpy).toHaveBeenCalledTimes(0);
     });
     it('does not call removeEffect on all effects if pointerIsInsideShowTooltipRadius returns true', () => {
       directive.determineHoverStyles();
