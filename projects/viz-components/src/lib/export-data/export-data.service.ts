@@ -15,6 +15,14 @@ export class VicExportDataService {
         const returnObj = {};
         for (const column of dataConfig.columns) {
           returnObj[column.title] = column.valueAccessor(datum);
+          // handle common unicode character replacements
+          // d3 format's strange default minus character https://observablehq.com/@d3/d3-format
+          if (typeof returnObj[column.title] === 'string') {
+            returnObj[column.title] = returnObj[column.title].replace(
+              /\u2212/g,
+              '-'
+            );
+          }
         }
         return returnObj;
       });
