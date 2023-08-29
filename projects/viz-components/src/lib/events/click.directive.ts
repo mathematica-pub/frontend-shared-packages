@@ -25,7 +25,6 @@ export abstract class ClickDirective
    *  [EventEffect]{@link EventEffect} instances.
    */
   @Input('vicDataMarksClickRemoveEvent$') clickRemoveEvent$: Observable<void>;
-  unsubscribe: Subject<void> = new Subject();
   unlistenClick: UnlistenFunction[];
   el: ListenElement;
 
@@ -40,7 +39,7 @@ export abstract class ClickDirective
     }
   }
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
     this.unlistenClick.forEach((func) => func());
     this.unsubscribe.next();
     this.unsubscribe.complete();

@@ -94,6 +94,10 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
+    dataConfig.classAccessor = (d) =>
+      d.division === 'Bethesda-Rockville-Frederick, MD Met Div'
+        ? 'interactive'
+        : '';
     dataConfig.quantitative.domainPadding =
       new RoundUpToIntervalDomainPaddingConfig();
     dataConfig.quantitative.domainPadding.interval = () => 4;

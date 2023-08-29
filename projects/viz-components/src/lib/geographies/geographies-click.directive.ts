@@ -21,25 +21,32 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
+import { setListenedElementsClassSelectorMixinFunction } from '../events/listen-elements-class-selector.mixin';
 
 export type GeographiesEventDirective =
   | GeographiesHoverDirective
   | GeographiesHoverMoveDirective
   | GeographiesInputEventDirective;
 
+const ListenElementsClickDirective =
+  setListenedElementsClassSelectorMixinFunction(ClickDirective);
+
 @Directive({
   selector: '[vicGeographiesClickEffects]',
 })
-export class GeographiesClickDirective extends ClickDirective {
+export class GeographiesClickDirective extends ListenElementsClickDirective {
   @Input('vicGeographiesClickEffects')
   effects: EventEffect<GeographiesClickDirective>[];
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
+  @Input('vicGeographiesClickListenElementsClassSelector')
+  override listenElementsClassSelector: string;
   @Output('vicGeographiesClickOutput') eventOutput =
     new EventEmitter<GeographiesEventOutput>();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
+  selectionObservable: Observable<any>;
 
   constructor(
     @Inject(GEOGRAPHIES) public geographies: GeographiesComponent,
@@ -54,18 +61,7 @@ export class GeographiesClickDirective extends ClickDirective {
     public inputEventDirective?: GeographiesInputEventDirective
   ) {
     super();
-  }
-
-  setListenedElements(): void {
-    this.geographies.dataGeographies$
-      .pipe(
-        takeUntil(this.unsubscribe),
-        filter((dataGeographies) => !!dataGeographies)
-      )
-      .subscribe((dataGeographies) => {
-        this.elements = dataGeographies.nodes();
-        this.setListeners();
-      });
+    this.selectionObservable = geographies.dataGeographies$;
   }
 
   onElementClick(event: PointerEvent): void {

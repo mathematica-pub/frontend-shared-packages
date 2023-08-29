@@ -67,7 +67,7 @@ export class BarsComponent
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
   bars$: Observable<any> = this.bars.asObservable();
   barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
-  barLabels$: Observable<any> = this.bars.asObservable();
+  barLabels$: Observable<any> = this.barLabels.asObservable();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -84,7 +84,7 @@ export class BarsComponent
   }
 
   updateBarElements(): void {
-    const bars = select(this.barsRef.nativeElement).selectAll('rect');
+    const bars = select(this.barsRef.nativeElement).selectAll('.vic-bar-group');
     const barLabels = select(this.barsRef.nativeElement).selectAll('text');
     this.bars.next(bars);
     this.barLabels.next(barLabels);
@@ -246,7 +246,7 @@ export class BarsComponent
         (enter) =>
           enter
             .append('g')
-            .attr('class', 'vic-bar-group')
+            .attr('class', (i) => this.getBarClass(i as number))
             .attr('transform', (i) => {
               const x = this.getBarX(i);
               const y = this.getBarY(i);
@@ -280,6 +280,7 @@ export class BarsComponent
                 ? this.getBarPattern(i as number)
                 : this.getBarColor(i as number)
             )
+
             .attr('width', (i) => this.getBarWidth(i as number))
             .attr('height', (i) => this.getBarHeight(i as number)),
         (update) =>
@@ -349,6 +350,10 @@ export class BarsComponent
     return this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
+  }
+
+  getBarClass(i: number): string {
+    return 'vic-bar-group ' + this.config.classAccessor(this.config.data[i]);
   }
 
   getBarPattern(i: number): string {

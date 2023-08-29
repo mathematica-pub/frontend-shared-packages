@@ -20,26 +20,33 @@ import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
 import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
+import { setListenedElementsClassSelectorMixinFunction } from '../events/listen-elements-class-selector.mixin';
 
 type BarsEventDirective =
   | BarsHoverDirective
   | BarsHoverMoveDirective
   | BarsInputEventDirective;
 
+const ListenElementsClickDirective =
+  setListenedElementsClassSelectorMixinFunction(ClickDirective);
+
 @Directive({
   selector: '[vicBarsClickEffects]',
 })
-export class BarsClickDirective extends ClickDirective {
+export class BarsClickDirective extends ListenElementsClickDirective {
   @Input('vicBarsClickEffects')
   effects: EventEffect<BarsClickDirective>[];
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
+  @Input('vicBarsListenElementsClassSelector')
+  override listenElementsClassSelector: string;
   @Output('vicBarsClickOutput') eventOutput =
     new EventEmitter<BarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
+  selectionObservable: Observable<any>;
 
   constructor(
     @Inject(BARS) public bars: BarsComponent,
@@ -54,18 +61,7 @@ export class BarsClickDirective extends ClickDirective {
     public inputEventDirective?: BarsInputEventDirective
   ) {
     super();
-  }
-
-  setListenedElements(): void {
-    this.bars.bars$
-      .pipe(
-        takeUntil(this.unsubscribe),
-        filter((barSels) => !!barSels)
-      )
-      .subscribe((barSels) => {
-        this.elements = barSels.nodes();
-        this.setListeners();
-      });
+    this.selectionObservable = bars.bars$;
   }
 
   onElementClick(event: PointerEvent, el: ListenElement): void {

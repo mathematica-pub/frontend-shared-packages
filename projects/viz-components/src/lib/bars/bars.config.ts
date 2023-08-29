@@ -17,6 +17,7 @@ export class BarsConfig extends DataMarksConfig {
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
   patternPredicates?: PatternPredicate[];
+  classAccessor: (d: any) => string = () => '';
 
   constructor(init?: Partial<BarsConfig>) {
     super();

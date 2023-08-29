@@ -84,6 +84,7 @@ export class NoDataGeographyConfig {
 
 export class DataGeographyConfig extends NoDataGeographyConfig {
   valueAccessor?: (d: any) => any;
+  classAccessor?: (d: any) => string = () => '';
   attributeDataConfig: AttributeDataDimensionConfig;
   nullColor: string;
 

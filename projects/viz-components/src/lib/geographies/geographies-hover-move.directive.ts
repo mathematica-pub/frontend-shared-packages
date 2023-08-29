@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -10,33 +10,28 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
+import { setListenedElementsClassSelectorMixinFunction } from '../events/listen-elements-class-selector.mixin';
 
+const ListenElementsHoverMoveDirective =
+  setListenedElementsClassSelectorMixinFunction(HoverMoveDirective);
 @Directive({
   selector: '[vicGeographiesHoverMoveEffects]',
 })
-export class GeographiesHoverMoveDirective extends HoverMoveDirective {
+export class GeographiesHoverMoveDirective extends ListenElementsHoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
   effects: EventEffect<GeographiesHoverMoveDirective>[];
+  @Input('vicGeographiesHoverMoveListenElementsClassSelector')
+  listenElementsClassSelector: string;
   @Output('vicGeographiesHoverMoveOutput') eventOutput =
     new EventEmitter<GeographiesEventOutput>();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
+  selectionObservable: Observable<any>;
 
   constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
     super();
-  }
-
-  setListenedElements(): void {
-    this.geographies.dataGeographies$
-      .pipe(
-        takeUntil(this.unsubscribe),
-        filter((geoSels) => !!geoSels)
-      )
-      .subscribe((geoSels) => {
-        this.elements = geoSels.nodes();
-        this.setListeners();
-      });
+    this.selectionObservable = geographies.dataGeographies$;
   }
 
   onElementPointerEnter(): void {

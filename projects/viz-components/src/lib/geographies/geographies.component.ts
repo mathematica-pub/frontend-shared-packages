@@ -399,6 +399,7 @@ export class GeographiesComponent
                 ? this.getPatternFill(i)
                 : this.getFill(i)
             )
+            .attr('class', (d, i) => this.getClass(i))
             .attr('stroke', this.config.dataGeographyConfig.strokeColor)
             .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
         (update) =>
@@ -460,6 +461,12 @@ export class GeographiesComponent
     const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
     const dataValue = this.values.attributeDataValues[convertedIndex];
     return this.attributeDataScale(dataValue);
+  }
+
+  getClass(i: number): string {
+    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue = this.values.attributeDataValues[convertedIndex];
+    return this.config.dataGeographyConfig.classAccessor(dataValue);
   }
 
   getPatternFill(i: number): string {

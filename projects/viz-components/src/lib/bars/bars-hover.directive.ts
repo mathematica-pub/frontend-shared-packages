@@ -9,39 +9,35 @@ import {
   Output,
 } from '@angular/core';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
+import { setListenedElementsClassSelectorMixinFunction } from '../events/listen-elements-class-selector.mixin';
+
+const ListenElementsHoverDirective =
+  setListenedElementsClassSelectorMixinFunction(HoverDirective);
 
 @Directive({
   selector: '[vicBarsHoverEffects]',
 })
-export class BarsHoverDirective extends HoverDirective {
+export class BarsHoverDirective extends ListenElementsHoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverDirective>[];
+  @Input('vicBarsHoverListenElementsClassSelector')
+  listenElementsClassSelector: string;
   @Output('vicBarsHoverOutput') eventOutput =
     new EventEmitter<BarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
   positionX: number;
   positionY: number;
+  selectionObservable: Observable<any>;
 
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();
-  }
-
-  setListenedElements(): void {
-    this.bars.bars$
-      .pipe(
-        takeUntil(this.unsubscribe),
-        filter((barSels) => !!barSels)
-      )
-      .subscribe((barSels) => {
-        this.elements = barSels.nodes();
-        this.setListeners();
-      });
+    this.selectionObservable = bars.bars$;
   }
 
   onElementPointerEnter(event: PointerEvent): void {

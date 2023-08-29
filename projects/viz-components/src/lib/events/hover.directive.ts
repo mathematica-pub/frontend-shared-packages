@@ -7,7 +7,6 @@ export abstract class HoverDirective
   extends EventDirective
   implements OnDestroy
 {
-  unsubscribe: Subject<void> = new Subject();
   unlistenTouchStart: UnlistenFunction[];
   unlistenPointerEnter: UnlistenFunction[];
   unlistenPointerLeave: UnlistenFunction;
@@ -15,7 +14,7 @@ export abstract class HoverDirective
   abstract onElementPointerEnter(event: PointerEvent): void;
   abstract onElementPointerLeave(event: PointerEvent): void;
 
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
     this.unlistenTouchStart.forEach((func) => func());
     this.unlistenPointerEnter.forEach((func) => func());
     this.unsubscribe.next();

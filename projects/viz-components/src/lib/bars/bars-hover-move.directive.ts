@@ -6,42 +6,49 @@ import {
   EventEmitter,
   Inject,
   Input,
+  OnChanges,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
+import { setListenedElementsClassSelectorMixinFunction } from '../events/listen-elements-class-selector.mixin';
+
+const ListenElementsHoverMoveDirective =
+  setListenedElementsClassSelectorMixinFunction(HoverMoveDirective);
 
 @Directive({
   selector: '[vicBarsHoverMoveEffects]',
 })
-export class BarsHoverMoveDirective extends HoverMoveDirective {
+export class BarsHoverMoveDirective
+  extends ListenElementsHoverMoveDirective
+  implements OnChanges
+{
   @Input('vicBarsHoverMoveEffects')
   effects: EventEffect<BarsHoverMoveDirective>[];
+  @Input('vicBarsHoverMoveListenElementsClassSelector')
+  listenElementsClassSelector: string;
   @Output('vicBarsHoverMoveOutput') eventOutput =
     new EventEmitter<BarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
+  selectionObservable: Observable<any>;
 
   constructor(@Inject(BARS) public bars: BarsComponent) {
     super();
+    this.selectionObservable = bars.bars$;
   }
 
-  setListenedElements(): void {
-    this.bars.bars$
-      .pipe(
-        takeUntil(this.unsubscribe),
-        filter((barSels) => !!barSels)
-      )
-      .subscribe((barSels) => {
-        this.elements = barSels.nodes();
-        this.setListeners();
-      });
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['vicBarsHoverMoveListenElementsClassSelector']) {
+      console.log(changes['vicBarsHoverMoveListenElementsClassSelector']);
+    }
   }
 
   onElementPointerEnter(event: PointerEvent): void {

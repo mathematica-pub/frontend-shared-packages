@@ -19,6 +19,7 @@
           [config]="vm.dataConfig"
           [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
           [vicBarsHoverEffects]="hoverEffects"
+          [vicBarsHoverMoveListenElementsClassSelector]="'interactive'"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
