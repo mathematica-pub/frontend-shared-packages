@@ -7,6 +7,7 @@ import {
   OverlaySizeConfig,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
+import { DOCUMENT } from '@angular/common';
 import {
   Directive,
   EventEmitter,
@@ -15,6 +16,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  Optional,
   Output,
   SimpleChanges,
   TemplateRef,
@@ -25,9 +27,9 @@ import { UtilitiesService } from '../../core/services/utilities.service';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
 import {
-  AbsoluteOffsetFromOriginPosition,
   CdkManagedFromOriginPosition,
   HtmlTooltipConfig,
+  OffsetFromOriginPosition,
 } from './html-tooltip.config';
 
 const defaultPanelClass = 'vic-html-tooltip-overlay';
@@ -46,14 +48,19 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   panelClass: string[];
   backdropUnsubscribe: Subject<void> = new Subject<void>();
   portalAttached = false;
+  _document: Document;
 
   constructor(
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
     private utilities: UtilitiesService,
-    @Inject(DATA_MARKS) private dataMarks: DataMarks
-  ) {}
+    @Inject(DATA_MARKS) private dataMarks: DataMarks,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    @Optional() @Inject(DOCUMENT) document: any
+  ) {
+    this._document = document;
+  }
 
   ngOnInit(): void {
     this.setOverlayParameters();
@@ -153,15 +160,29 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
 
   setGlobalPositionStrategy(
     origin: Element,
-    position: AbsoluteOffsetFromOriginPosition
+    position: OffsetFromOriginPosition
   ): void {
+    // body.client gets dims without scrollbar thickness if scrollbar is on html or body
+    // this is needed if using cdk centerHorizontally
+    const _window = this._document.defaultView || window;
+    const viewport = {
+      width: _window.document.body.clientWidth,
+      height: _window.document.body.clientHeight,
+    };
     const originDims = origin.getBoundingClientRect();
-    const tooltipDims =
-      this.overlayRef?.overlayElement.getBoundingClientRect() ?? new DOMRect();
-    this.positionStrategy = this.overlayPositionBuilder
-      .global()
-      .top(`${originDims.top + position.offsetY - tooltipDims.height}px`)
-      .left(`${originDims.left + position.offsetX - tooltipDims.width / 2}px`);
+    if (
+      position.tooltipOriginX === 'center' &&
+      position.tooltipOriginY === 'bottom'
+    ) {
+      this.positionStrategy = this.overlayPositionBuilder
+        .global()
+        .bottom(`${viewport.height - originDims.top - position.offsetY}px`)
+        .centerHorizontally(
+          `${-2 * (viewport.width / 2 - originDims.left - position.offsetX)}px`
+        );
+    } else {
+      this.positionStrategy = this.overlayPositionBuilder.global();
+    }
   }
 
   setPanelClasses(): void {

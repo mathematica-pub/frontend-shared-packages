@@ -13,8 +13,8 @@ import {
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
-  AbsoluteOffsetFromOriginPosition,
   HtmlTooltipConfig,
+  OffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
@@ -118,7 +118,7 @@ export class BarsExampleComponent implements OnInit {
 
   updateTooltipConfig(data: BarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
-    config.position = new AbsoluteOffsetFromOriginPosition();
+    config.position = new OffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;
@@ -129,5 +129,14 @@ export class BarsExampleComponent implements OnInit {
       config.origin = undefined;
     }
     this.tooltipConfig.next(config);
+  }
+
+  changeMargin(): void {
+    this.margin = {
+      top: 36,
+      right: 0,
+      bottom: 8,
+      left: Math.random() * 500,
+    };
   }
 }
