@@ -3,7 +3,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getStackedAreaTooltipData,
@@ -16,7 +16,7 @@ import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
 })
 export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
-  effects: EventEffect<StackedAreaHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective>[];
   @Output('vicStackedAreaHoverMoveOutput') eventOutput =
     new EventEmitter<StackedAreaEventOutput>();
   pointerX: number;
@@ -36,7 +36,13 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
   }
 
   onElementPointerEnter(): void {
-    return;
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => {
+        if (effect.initializeEffect) {
+          effect.initializeEffect(this);
+        }
+      });
+    }
   }
 
   onElementPointerMove(event: PointerEvent) {

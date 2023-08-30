@@ -11,7 +11,10 @@ import {
   HorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import {
+  EventEffect,
+  HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
 import {
   HtmlTooltipConfig,
   HtmlTooltipOffsetFromOriginPosition,
@@ -60,7 +63,7 @@ export class BarsExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<BarsEventOutput> =
     new BehaviorSubject<BarsEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: EventEffect<BarsHoverMoveDirective>[] = [
+  hoverAndMoveEffects: HoverMoveEventEffect<BarsHoverMoveDirective>[] = [
     new BarsHoverMoveEmitTooltipData(),
   ];
   hoverEffects: EventEffect<BarsHoverDirective>[] = [new BarsHoverShowLabels()];

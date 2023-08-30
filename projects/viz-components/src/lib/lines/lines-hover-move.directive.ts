@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getLinesTooltipDataFromDatum,
@@ -15,7 +15,7 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesHoverMoveDirective extends HoverMoveDirective {
   @Input('vicLinesHoverMoveEffects')
-  effects: EventEffect<LinesHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<LinesHoverMoveDirective>[];
   @Output('vicLinesHoverMoveOutput') eventOutput =
     new EventEmitter<LinesEventOutput>();
   pointerX: number;
@@ -33,7 +33,13 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
   }
 
   onElementPointerEnter(): void {
-    return;
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => {
+        if (effect.initializeEffect) {
+          effect.initializeEffect(this);
+        }
+      });
+    }
   }
 
   onElementPointerMove(event: PointerEvent) {

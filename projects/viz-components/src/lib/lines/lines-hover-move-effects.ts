@@ -1,4 +1,4 @@
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 
 export class LinesHoverMoveDefaultStylesConfig {
@@ -17,7 +17,7 @@ export class LinesHoverMoveDefaultStylesConfig {
  *  to a light gray.
  */
 export class LinesHoverMoveDefaultLinesStyles
-  implements EventEffect<LinesHoverMoveDirective>
+  implements HoverMoveEventEffect<LinesHoverMoveDirective>
 {
   applyEffect(directive: LinesHoverMoveDirective): void {
     directive.lines.lines
@@ -48,7 +48,7 @@ export class LinesHoverMoveDefaultLinesStyles
  *  closest to the pointer by a specified amount.
  */
 export class LinesHoverMoveDefaultMarkersStyles
-  implements EventEffect<LinesHoverMoveDirective>
+  implements HoverMoveEventEffect<LinesHoverMoveDirective>
 {
   constructor(private config?: LinesHoverMoveDefaultStylesConfig) {
     this.config = config ?? new LinesHoverMoveDefaultStylesConfig();
@@ -96,7 +96,7 @@ export class LinesHoverMoveDefaultMarkersStyles
  *  on the "selected" line.
  */
 export class LinesHoverMoveDefaultHoverDotStyles
-  implements EventEffect<LinesHoverMoveDirective>
+  implements HoverMoveEventEffect<LinesHoverMoveDirective>
 {
   applyEffect(directive: LinesHoverMoveDirective) {
     directive.lines.hoverDot
@@ -134,11 +134,11 @@ export class LinesHoverMoveDefaultHoverDotStyles
  *  whether line markers are used.
  */
 export class LinesHoverMoveDefaultStyles
-  implements EventEffect<LinesHoverMoveDirective>
+  implements HoverMoveEventEffect<LinesHoverMoveDirective>
 {
-  linesStyles: EventEffect<LinesHoverMoveDirective>;
-  markersStyles: EventEffect<LinesHoverMoveDirective>;
-  hoverDotStyles: EventEffect<LinesHoverMoveDirective>;
+  linesStyles: HoverMoveEventEffect<LinesHoverMoveDirective>;
+  markersStyles: HoverMoveEventEffect<LinesHoverMoveDirective>;
+  hoverDotStyles: HoverMoveEventEffect<LinesHoverMoveDirective>;
 
   constructor(config?: LinesHoverMoveDefaultStylesConfig) {
     const markersStylesConfig =
@@ -170,7 +170,7 @@ export class LinesHoverMoveDefaultStyles
 }
 
 export class LinesHoverMoveEmitTooltipData
-  implements EventEffect<LinesHoverMoveDirective>
+  implements HoverMoveEventEffect<LinesHoverMoveDirective>
 {
   applyEffect(directive: LinesHoverMoveDirective): void {
     const tooltipData = directive.getEventOutput();

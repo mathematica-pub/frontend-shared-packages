@@ -8,7 +8,10 @@ import {
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import {
+  EventEffect,
+  HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
 import { VicExportDataService } from 'projects/viz-components/src/lib/export-data/export-data.service';
 import { VicJpegImageConfig } from 'projects/viz-components/src/lib/image-download/image.config';
 import { VicImageService } from 'projects/viz-components/src/lib/image-download/image.service';
@@ -80,7 +83,7 @@ export class LinesExampleComponent implements OnInit {
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
-  hoverEffects: EventEffect<LinesHoverMoveDirective>[] = [
+  hoverEffects: HoverMoveEventEffect<LinesHoverMoveDirective>[] = [
     new LinesHoverMoveDefaultStyles(
       new LinesHoverMoveDefaultStylesConfig({
         growMarkerDimension: 3,
