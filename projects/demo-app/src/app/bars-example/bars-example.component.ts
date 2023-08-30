@@ -14,7 +14,7 @@ import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.comp
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
   HtmlTooltipConfig,
-  OffsetFromOriginPosition,
+  HtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
@@ -114,7 +114,7 @@ export class BarsExampleComponent implements OnInit {
 
   updateTooltipConfig(data: BarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
-    config.position = new OffsetFromOriginPosition();
+    config.position = new HtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;

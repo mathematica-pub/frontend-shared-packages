@@ -29,7 +29,7 @@ import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-to
 import { LinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
 import {
   HtmlTooltipConfig,
-  OffsetFromOriginPosition,
+  HtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { PixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
@@ -155,7 +155,7 @@ export class LinesExampleComponent implements OnInit {
     const config = new LinesExampleTooltipConfig();
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new OffsetFromOriginPosition();
+    config.position = new HtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;
