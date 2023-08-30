@@ -374,10 +374,22 @@ export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
   }
 }
 
+export class PixelDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: &#x27;numPixels&#x27; &#x3D; &#x27;numPixels&#x27;;
+  numPixels: number;
+
+  constructor(init?: Partial&lt;PixelDomainPaddingConfig&gt;) {
+    super();
+    this.numPixels &#x3D; 40;
+    Object.assign(this, init);
+  }
+}
+
 export type DomainPaddingConfig &#x3D;
   | RoundUpDomainPaddingConfig
   | RoundUpToIntervalDomainPaddingConfig
-  | PercentOverDomainPaddingConfig;
+  | PercentOverDomainPaddingConfig
+  | PixelDomainPaddingConfig;
 
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {
   override domain?: any[] | InternSet;

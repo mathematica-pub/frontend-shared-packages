@@ -163,6 +163,12 @@
                                 <a href="documentation/./data-marks-components/lines/lines#markersRef" >markersRef</a>
                             </li>
                             <li>
+                                <a href="documentation/./data-marks-components/lines/lines#unpaddedXDomain" >unpaddedXDomain</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#unpaddedYDomain" >unpaddedYDomain</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="documentation/./data-marks-components/lines/lines#utilities" >utilities</a>
                             </li>
@@ -263,6 +269,9 @@
                             </li>
                             <li>
                                 <a href="documentation/./data-marks-components/lines/lines#setScaledSpaceProperties" >setScaledSpaceProperties</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./data-marks-components/lines/lines#setUnpaddedDomains" >setUnpaddedDomains</a>
                             </li>
                             <li>
                                 <a href="documentation/./data-marks-components/lines/lines#setValueArrays" >setValueArrays</a>
@@ -384,8 +393,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="253"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:253</a></div>
                 </td>
             </tr>
 
@@ -453,8 +462,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="319"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:319</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="331"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:331</a></div>
                 </td>
             </tr>
 
@@ -490,8 +499,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="362"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:362</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="374"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:374</a></div>
                 </td>
             </tr>
 
@@ -527,8 +536,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="294"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:294</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="306"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:306</a></div>
                 </td>
             </tr>
 
@@ -596,8 +605,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="282"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:282</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="294"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:294</a></div>
                 </td>
             </tr>
 
@@ -665,8 +674,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="328"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:328</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:340</a></div>
                 </td>
             </tr>
 
@@ -734,8 +743,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="274"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:274</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="286"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:286</a></div>
                 </td>
             </tr>
 
@@ -796,15 +805,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getNewDomain(scaleType: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, domainPadding: <a href="../undefineds/DomainPaddingConfig.html" target="_self">DomainPaddingConfig</a>, domain: [any, any])</code>
+<code>getNewDomain(scaleType: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, domainPadding: <a href="../undefineds/DomainPaddingConfig.html" target="_self">DomainPaddingConfig</a>, domain: [any, any], pixelRange: [number, number])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="181"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:181</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:189</a></div>
                 </td>
             </tr>
 
@@ -860,6 +869,18 @@
 
 
                                 </tr>
+                                <tr>
+                                    <td>pixelRange</td>
+                                    <td>
+                                            <code>[number, number]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -889,8 +910,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="216"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:216</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:228</a></div>
                 </td>
             </tr>
 
@@ -926,8 +947,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:149</a></div>
                 </td>
             </tr>
 
@@ -963,8 +984,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="104"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:104</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:106</a></div>
                 </td>
             </tr>
 
@@ -1032,8 +1053,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="114"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:114</a></div>
                 </td>
             </tr>
 
@@ -1075,7 +1096,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:132</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >XyContent:134</a></code>
 </div>
                 </td>
             </tr>
@@ -1112,8 +1133,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="226"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:226</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="238"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:238</a></div>
                 </td>
             </tr>
 
@@ -1149,8 +1170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="249"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:249</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="261"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:261</a></div>
                 </td>
             </tr>
 
@@ -1186,8 +1207,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="258"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:258</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="270"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:270</a></div>
                 </td>
             </tr>
 
@@ -1223,8 +1244,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="262"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:262</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="274"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:274</a></div>
                 </td>
             </tr>
 
@@ -1260,8 +1281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="278"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:278</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="290"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:290</a></div>
                 </td>
             </tr>
 
@@ -1297,8 +1318,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:120</a></div>
                 </td>
             </tr>
 
@@ -1334,8 +1355,45 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="205"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:205</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:215</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setUnpaddedDomains"></a>
+                    <span class="name">
+                        <span ><b>setUnpaddedDomains</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#setUnpaddedDomains"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setUnpaddedDomains()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="158"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:158</a></div>
                 </td>
             </tr>
 
@@ -1371,8 +1429,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="138"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:138</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:140</a></div>
                 </td>
             </tr>
 
@@ -1408,8 +1466,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="198"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:198</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:208</a></div>
                 </td>
             </tr>
 
@@ -1445,8 +1503,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="155"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:155</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="169"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:169</a></div>
                 </td>
             </tr>
 
@@ -1482,8 +1540,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:179</a></div>
                 </td>
             </tr>
 
@@ -1653,7 +1711,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:92</a></div>
                         </td>
                     </tr>
 
@@ -1972,6 +2030,58 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="unpaddedXDomain"></a>
+                    <span class="name">
+                        <span ><b>unpaddedXDomain</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#unpaddedXDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[any, any]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="87" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:87</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unpaddedYDomain"></a>
+                    <span class="name">
+                        <span ><b>unpaddedYDomain</b></span>
+                        <a href="documentation/./data-marks-components/lines/lines#unpaddedYDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>[any, any]</code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:88</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="utilities"></a>
                     <span class="name">
                             <span class="modifier">Private</span>
@@ -1987,7 +2097,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="88" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:88</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:90</a></div>
                         </td>
                     </tr>
 
@@ -2044,7 +2154,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:91</a></div>
                         </td>
                     </tr>
 
@@ -2276,7 +2386,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="92" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:92</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="94" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:94</a></div>
                                 </td>
                             </tr>
 
@@ -2298,7 +2408,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="96" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:96</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:98</a></div>
                                 </td>
                             </tr>
 
@@ -2320,7 +2430,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:100</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/viz-components/src/lib/lines/lines.component.ts:102</a></div>
                                 </td>
                             </tr>
 
@@ -2416,6 +2526,8 @@ export class LinesComponent
   markersKeyFunction;
   markerClass &#x3D; &#x27;vic-lines-datum-marker&#x27;;
   markerIndexAttr &#x3D; &#x27;index&#x27;;
+  unpaddedXDomain: [any, any];
+  unpaddedYDomain: [any, any];
 
   private utilities &#x3D; inject(UtilitiesService);
   private zone &#x3D; inject(NgZone);
@@ -2477,6 +2589,7 @@ export class LinesComponent
   }
 
   initDomains(): void {
+    this.setUnpaddedDomains();
     this.setXDomain();
     this.setYDomain();
     if (this.config.category.domain &#x3D;&#x3D;&#x3D; undefined) {
@@ -2484,28 +2597,33 @@ export class LinesComponent
     }
   }
 
-  setXDomain(): void {
-    const domain &#x3D;
+  setUnpaddedDomains(): void {
+    this.unpaddedXDomain &#x3D;
       this.config.x.domain &#x3D;&#x3D;&#x3D; undefined
         ? extent(this.values.x)
         : this.config.x.domain;
+    this.unpaddedYDomain &#x3D;
+      this.config.y.domain &#x3D;&#x3D;&#x3D; undefined
+        ? [min([min(this.values.y), 0]), max(this.values.y)]
+        : this.config.y.domain;
+  }
+
+  setXDomain(): void {
     const newDomain &#x3D; this.getNewDomain(
       this.config.x.scaleType,
       this.config.x.domainPadding,
-      domain
+      this.unpaddedXDomain,
+      this.ranges[&#x27;x&#x27;]
     );
     this.config.x.domain &#x3D; newDomain;
   }
 
   setYDomain(): void {
-    const domain: [any, any] &#x3D;
-      this.config.y.domain &#x3D;&#x3D;&#x3D; undefined
-        ? [min([min(this.values.y), 0]), max(this.values.y)]
-        : this.config.y.domain;
     const newDomain &#x3D; this.getNewDomain(
       this.config.y.scaleType,
       this.config.y.domainPadding,
-      domain
+      this.unpaddedYDomain,
+      this.ranges[&#x27;y&#x27;]
     );
     this.config.y.domain &#x3D; newDomain;
   }
@@ -2513,13 +2631,15 @@ export class LinesComponent
   getNewDomain(
     scaleType: any,
     domainPadding: DomainPaddingConfig,
-    domain: [any, any]
+    domain: [any, any],
+    pixelRange: [number, number]
   ): [any, any] {
     if (scaleType !&#x3D;&#x3D; scaleTime &amp;&amp; scaleType !&#x3D;&#x3D; scaleUtc) {
       const newDomain &#x3D; this.dataDomainService.getQuantitativeDomain(
-        domain[0],
-        domain[1],
-        domainPadding
+        domain,
+        domainPadding,
+        scaleType,
+        pixelRange
       );
       return newDomain;
     } else {
@@ -2536,6 +2656,8 @@ export class LinesComponent
 
   setScaledSpaceProperties(): void {
     this.zone.run(() &#x3D;&gt; {
+      this.setXDomain();
+      this.setYDomain();
       this.chart.updateXScale(
         this.config.x.scaleType(this.config.x.domain, this.ranges.x)
       );

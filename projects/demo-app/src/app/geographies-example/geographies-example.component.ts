@@ -4,7 +4,7 @@ import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
 import {
   HtmlTooltipConfig,
-  OffsetFromOriginPosition,
+  HtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
@@ -162,7 +162,7 @@ export class GeographiesExampleComponent implements OnInit {
     config.size.minWidth = 130;
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new OffsetFromOriginPosition();
+    config.position = new HtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;

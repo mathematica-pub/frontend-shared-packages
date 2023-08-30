@@ -153,6 +153,10 @@
   removeEffect: (directive: T) &#x3D;&gt; void;
 }
 
+export interface HoverMoveEventEffect&lt;T&gt; extends EventEffect&lt;T&gt; {
+  initializeEffect?: (directive: T) &#x3D;&gt; void;
+}
+
 export interface InputEventEffect&lt;T&gt; {
   applyEffect: (directive: T, ...args) &#x3D;&gt; void;
   removeEffect: (directive: T, ...args) &#x3D;&gt; void;

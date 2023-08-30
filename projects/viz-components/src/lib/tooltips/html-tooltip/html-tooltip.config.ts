@@ -4,7 +4,9 @@ import { TooltipConfig } from '../tooltip.config';
 
 export class HtmlTooltipConfig extends TooltipConfig {
   override type: 'html';
-  position: CdkManagedFromOriginPosition | OffsetFromOriginPosition;
+  position:
+    | HtmlTooltipCdkManagedFromOriginPosition
+    | HtmlTooltipOffsetFromOriginPosition;
   size: OverlaySizeConfig;
   addEventsDisabledClass: boolean;
   panelClass: string | string[];
@@ -14,7 +16,6 @@ export class HtmlTooltipConfig extends TooltipConfig {
 
   constructor(init?: Partial<HtmlTooltipConfig>) {
     super();
-    this.addEventsDisabledClass = true;
     this.size = new HtmlTooltipSize();
     this.hasBackdrop = false;
     this.closeOnBackdropClick = false;
@@ -22,7 +23,7 @@ export class HtmlTooltipConfig extends TooltipConfig {
   }
 }
 
-export class OffsetFromOriginPosition {
+export class HtmlTooltipOffsetFromOriginPosition {
   type: 'global';
   offsetY: number;
   offsetX: number;
@@ -39,7 +40,7 @@ export class OffsetFromOriginPosition {
   }
 }
 
-export class CdkManagedFromOriginPosition {
+export class HtmlTooltipCdkManagedFromOriginPosition {
   type: 'connected';
   config: ConnectedPosition;
 

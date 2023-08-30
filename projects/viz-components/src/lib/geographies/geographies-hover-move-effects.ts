@@ -1,8 +1,8 @@
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 
 export class GeographiesHoverMoveEmitTooltipData
-  implements EventEffect<GeographiesHoverMoveDirective>
+  implements HoverMoveEventEffect<GeographiesHoverMoveDirective>
 {
   applyEffect(directive: GeographiesHoverMoveDirective): void {
     const tooltipData = directive.getEventOutput();

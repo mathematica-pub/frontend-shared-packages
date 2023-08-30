@@ -11,10 +11,13 @@ import {
   HorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import {
+  EventEffect,
+  HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
 import {
   HtmlTooltipConfig,
-  OffsetFromOriginPosition,
+  HtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
@@ -60,7 +63,7 @@ export class BarsExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<BarsEventOutput> =
     new BehaviorSubject<BarsEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: EventEffect<BarsHoverMoveDirective>[] = [
+  hoverAndMoveEffects: HoverMoveEventEffect<BarsHoverMoveDirective>[] = [
     new BarsHoverMoveEmitTooltipData(),
   ];
   hoverEffects: EventEffect<BarsHoverDirective>[] = [new BarsHoverShowLabels()];
@@ -114,7 +117,7 @@ export class BarsExampleComponent implements OnInit {
 
   updateTooltipConfig(data: BarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
-    config.position = new OffsetFromOriginPosition();
+    config.position = new HtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;

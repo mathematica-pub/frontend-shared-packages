@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
@@ -20,7 +20,7 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsHoverMoveDirective extends HoverMoveDirective {
   @Input('vicBarsHoverMoveEffects')
-  effects: EventEffect<BarsHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<BarsHoverMoveDirective>[];
   @Output('vicBarsHoverMoveOutput') eventOutput =
     new EventEmitter<BarsEventOutput>();
   barIndex: number;
@@ -48,6 +48,13 @@ export class BarsHoverMoveDirective extends HoverMoveDirective {
     if (!this.preventEffect) {
       this.barIndex = this.getBarIndex(event);
       this.elRef = new ElementRef(event.target);
+    }
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => {
+        if (effect.initializeEffect) {
+          effect.initializeEffect(this);
+        }
+      });
     }
   }
 
