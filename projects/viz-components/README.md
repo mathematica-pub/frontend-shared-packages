@@ -29,9 +29,29 @@ Run `./build.sh` to build the project. The build artifacts will be stored in the
 
 2.  run `npm install @web-ast/viz-components`. If it can't be found, it's probably because the preinstall script didn't actually run (it's supposed to but doesn't always, at least not for me, and haven't successfully debugged yet). Manually run the preinstall script, `npm run preinstall`, then run `npm install @web-ast/viz-components` again.
 
-## Custom Schematics
+## Extending a component
 
 After installing the library, run `ng g viz-components:extend` and follow the instructions from there.
+
+If you need to extend a component and then also extend an interactivity directive, see the code snippet below: 
+
+```
+export class MyProjectLinesComponent extends LinesComponent {
+  myLines = true;
+}
+
+@Directive()
+export class MyProjectLinesHoverMoveDirective extends LinesHoverMoveDirective<MyProjectLinesComponent> {
+  @Input('vicLinesHoverMoveEffects')
+  override effects: HoverMoveEventEffect<
+    LinesHoverMoveDirective<MyProjectLinesComponent>
+  >[];
+
+  constructor(@Inject(LINES) public override lines: MyProjectLinesComponent) {
+    super(lines);
+  }
+}
+```
 
 ## Running unit tests
 

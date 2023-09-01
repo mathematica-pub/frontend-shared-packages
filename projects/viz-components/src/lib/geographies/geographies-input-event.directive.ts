@@ -9,9 +9,11 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 @Directive({
   selector: '[vicGeographiesInputEffects]',
 })
-export class GeographiesInputEventDirective extends InputEventDirective {
+export class GeographiesInputEventDirective<
+  T extends GeographiesComponent = GeographiesComponent
+> extends InputEventDirective {
   @Input('vicGeographiesInputEventEffects')
-  effects: InputEventEffect<GeographiesInputEventDirective>[];
+  effects: InputEventEffect<GeographiesInputEventDirective<T>>[];
   @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<any>;
   @Output() inputEventOutput = new EventEmitter<any>();
 
