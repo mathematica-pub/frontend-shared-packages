@@ -53,7 +53,7 @@ export class GeographiesConfig extends DataMarksConfig {
   }
 }
 
-export class NoDataGeographyConfig {
+class BaseDataGeographyConfig {
   /**
    * GeoJSON features that define the geographies to be drawn.
    */
@@ -73,8 +73,16 @@ export class NoDataGeographyConfig {
    * @default: 'none'.
    */
   fill: string;
+}
+
+export class NoDataGeographyConfig extends BaseDataGeographyConfig {
+  /**
+   * The pattern for noDataGeography. If provided, fill will be overridden.
+   */
+  patternName: string;
 
   constructor(init?: Partial<NoDataGeographyConfig>) {
+    super();
     this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
     this.fill = 'none';
@@ -82,7 +90,7 @@ export class NoDataGeographyConfig {
   }
 }
 
-export class DataGeographyConfig extends NoDataGeographyConfig {
+export class DataGeographyConfig extends BaseDataGeographyConfig {
   valueAccessor?: (d: any) => any;
   attributeDataConfig: AttributeDataDimensionConfig;
   nullColor: string;
