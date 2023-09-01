@@ -1,0 +1,87 @@
+name: Unit Testing, Linting, and Building
+
+on: [push]
+
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Lint package
+        run: npm run lint:lib
+
+      - name: Lint demo-app
+        run: npm run lint
+
+  unit-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Unit Test Library
+        run: npm run test:lib:ci
+
+      - name: Unit Test Demo App
+        run: npm run test:demo:ci
+
+  build: 
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Library
+        run: npm run build:lib
+
+      - name: Build Custom Schematics
+        run: npm run build --prefix projects/viz-components
+
+      - name: Build Code Snippets
+        run: | 
+          cd projects/viz-components/code-snippets
+          python code_snippet_generator.py
+          cd ../../..
+          cp .vscode/vizcolib-configs.code-snippets dist/viz-components
+      - name: Build Demo App
+        run: npm run build demo-app
+
+
