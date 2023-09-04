@@ -1,13 +1,18 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
-  Github Actions Access Policy. Sets up Policies and groups under a Role for use by Github Actions IAM User 
+  Github Actions Access Policy. Attaches very narrow policies (eventually) to Github Actions IAM User 
+
+Parameters: 
+  AppName: 
+    Type: String 
+  GithubUser: 
+    Type: String 
 
 Resources:
-  # Sean: do we want AppName
   ServerlessAgentPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: !Sub 'MathPolicy-ServerlessAgent-${AppName}'
+      ManagedPolicyName: !Sub 'ServerlessAgent-${AppName}'
       PolicyDocument:
         Version: '2012-10-17'
         Statement:
@@ -15,22 +20,7 @@ Resources:
           Action:
             - s3:*
             - cloudfront:*
-            - cloudformation:CancelUpdateStack
-            - cloudformation:ContinueUpdateRollback
-            - cloudformation:CreateChangeSet
-            - cloudformation:CreateStack
-            - cloudformation:CreateUploadBucket
-            - cloudformation:DeleteStack
-            - cloudformation:DeleteChangeSet
-            - cloudformation:Describe*
-            - cloudformation:EstimateTemplateCost
-            - cloudformation:ExecuteChangeSet
-            - cloudformation:Get*
-            - cloudformation:List*
-            - cloudformation:PreviewStackUpdate
-            - cloudformation:UpdateStack
-            - cloudformation:UpdateTerminationProtection
-            - cloudformation:ValidateTemplate
+            - cloudformation:*
             - events:DeleteRule
             - events:DescribeRule
             - events:ListRuleNamesByTarget
@@ -53,12 +43,7 @@ Resources:
             - iam:UpdateAssumeRolePolicyDocument
             - iam:ListAttachedRolePolicies
             - iam:DeleteRole
-            - logs:CreateLogGroup
-            - logs:DeleteLogGroup
-            - logs:DescribeLogGroups
-            - logs:DescribeLogStreams
-            - logs:FilterLogEvents
-            - logs:GetLogEvents
+            - logs:*
             - sns:CreateTopic
             - sns:DeleteTopic
             - sns:GetSubscriptionAttributes
@@ -72,76 +57,34 @@ Resources:
             - sns:Unsubscribe
             - sns:TagResource
           Resource: '*'
-      Roles:
-        - !Ref GithubActionsAccessRole
+      Users:
+        - !Ref GithubUser
 
   WriteToCodeArtifactRepositoryPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
+      ManagedPolicyName: !Sub 'WriteToCodeArtifactRepository-${AppName}'
       PolicyDocument:
-        Version: 2012-10-17
+        Version: '2012-10-17'
         Statement:
-          - Effect: Allow
-            Resource: 
-              - arn:aws:codeartifact:us-east-1:922539530544:domain/shared-package-domain
-            Action: 
-              - "codeartifact:DescribeDomain"
-              - "codeartifact:DescribePackageVersion"
-              - "codeartifact:GetAuthorizationToken"
-              - "codeartifact:GetDomainPermissionsPolicy"
-              - "codeartifact:ListRepositoriesInDomain"
-          - Effect: Allow
-            Resource: 
-              - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
-            Action: 
-              - "codeartifact:DescribeRepository"
-              - "codeartifact:GetPackageVersionAsset"
-              - "codeartifact:GetPackageVersionReadme"
-              - "codeartifact:GetRepositoryEndpoint"
-              - "codeartifact:GetRepositoryPermissionsPolicy"
-              - "codeartifact:ListPackageVersionAssets"
-              - "codeartifact:ListPackageVersionDependencies"
-              - "codeartifact:ListPackageVersions"
-              - "codeartifact:ListPackages"
-              - "codeartifact:ListTagsForResource"
-              - "codeartifact:PutPackageMetadata"
-              - "codeartifact:ReadFromRepository"
-              - "codeartifact:TagResource"
-              - "codeartifact:UntagResource"
-          - Effect: Allow 
-            Resource: 
-              - arn:aws:codeartifact:us-east-1:922539530544:package/shared-package-domain/shared-package-repository/*/*/*
-            Action: 
-              - "codeartifact:PublishPackageVersion"
-
-      PolicyName: WriteToRepository
-      Roles:
-        - !Ref GithubActionsAccessRole
-
-  UseBearerTokenPolicy:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
+        - Condition:
+            StringEquals:
+              sts:AWSServiceName: codeartifact.amazonaws.com
+          Action:
+          - sts:GetServiceBearerToken
+          Resource: "*"
           Effect: Allow
-          Resource: '*'
-          Action: 
-            - "sts:GetServiceBearerToken"
-      PolicyName: UseBearerToken
-      Roles:
-        - !Ref GithubActionsAccessRole
-
-  GithubActionsAccessRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - codebuild.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      RoleName: !Join ["-", [ "MathRole", "GithubActionsAccessRole" ] ]
+          Sid: StsActions
+        - Action:
+          - codeartifact:GetAuthorizationToken
+          - codeartifact:PublishPackageVersion
+          - codeartifact:PutPackageMetadata
+          - codeartifact:ReadFromRepository
+          Resource:
+          - arn:aws:codeartifact:us-east-1:922539530544:domain/shared-package-domain
+          - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
+          - arn:aws:codeartifact:us-east-1:922539530544:package/shared-package-domain/shared-package-repository/*/*/*
+          Effect: Allow
+          Sid: CodeArtifactActions
+      Users:
+        - !Ref GithubUser
