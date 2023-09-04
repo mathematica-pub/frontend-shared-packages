@@ -81,6 +81,6 @@ jobs:
           cd ../../..
           cp .vscode/vizcolib-configs.code-snippets dist/viz-components
       - name: Build Demo App
-        run: npm run build demo-app
+        run: npm run build:demo-app
 
 
