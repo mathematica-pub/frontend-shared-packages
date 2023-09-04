@@ -3,7 +3,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   GeographiesEventOutput,
@@ -16,7 +16,7 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 })
 export class GeographiesHoverMoveDirective extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
-  effects: EventEffect<GeographiesHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<GeographiesHoverMoveDirective>[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput =
     new EventEmitter<GeographiesEventOutput>();
   pointerX: number;
@@ -40,7 +40,13 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
   }
 
   onElementPointerEnter(): void {
-    return;
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => {
+        if (effect.initializeEffect) {
+          effect.initializeEffect(this);
+        }
+      });
+    }
   }
 
   onElementPointerMove(event: PointerEvent): void {

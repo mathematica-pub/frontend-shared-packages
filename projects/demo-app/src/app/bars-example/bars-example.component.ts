@@ -4,24 +4,28 @@ import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
+import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import {
   BarsConfig,
   BarsLabelsConfig,
   HorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
-  BarsClickDirective,
-  BarsClickEmitTooltipDataPauseHoverMoveEffects,
+  EventEffect,
+  HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
+import {
+  HtmlTooltipConfig,
+  HtmlTooltipOffsetFromOriginPosition,
+} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import {
   BarsHoverMoveEmitTooltipData,
-  RoundUpToIntervalDomainPaddingConfig,
+  PixelDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
-import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 
 interface ViewModel {
   dataConfig: BarsConfig;
@@ -59,7 +63,7 @@ export class BarsExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<BarsEventOutput> =
     new BehaviorSubject<BarsEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: EventEffect<BarsHoverMoveDirective>[] = [
+  hoverAndMoveEffects: HoverMoveEventEffect<BarsHoverMoveDirective>[] = [
     new BarsHoverMoveEmitTooltipData(),
   ];
   hoverEffects: EventEffect<BarsHoverDirective>[] = [new BarsHoverShowLabels()];
@@ -94,9 +98,7 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.quantitative.domainPadding =
-      new RoundUpToIntervalDomainPaddingConfig();
-    dataConfig.quantitative.domainPadding.interval = () => 4;
+    dataConfig.quantitative.domainPadding = new PixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,
@@ -115,6 +117,7 @@ export class BarsExampleComponent implements OnInit {
 
   updateTooltipConfig(data: BarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
+    config.position = new HtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;
@@ -125,5 +128,14 @@ export class BarsExampleComponent implements OnInit {
       config.origin = undefined;
     }
     this.tooltipConfig.next(config);
+  }
+
+  changeMargin(): void {
+    this.margin = {
+      top: 36,
+      right: 0,
+      bottom: 8,
+      left: Math.random() * 500,
+    };
   }
 }

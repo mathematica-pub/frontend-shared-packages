@@ -43,7 +43,7 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="documentation/data-marks-components/shared/event-effect" target="_self" >EventEffect</a></code>
+                            <code><a " target="_self" >HoverMoveEventEffect</a></code>
             </p>
 
 
@@ -233,11 +233,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEffect } from &#x27;../events/effect&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HoverMoveEventEffect } from &#x27;../events/effect&#x27;;
 import { BarsHoverMoveDirective } from &#x27;./bars-hover-move.directive&#x27;;
 
 export class BarsHoverMoveEmitTooltipData
-  implements EventEffect&lt;BarsHoverMoveDirective&gt;
+  implements HoverMoveEventEffect&lt;BarsHoverMoveDirective&gt;
 {
   applyEffect(directive: BarsHoverMoveDirective): void {
     const tooltipData &#x3D; directive.getEventOutput();

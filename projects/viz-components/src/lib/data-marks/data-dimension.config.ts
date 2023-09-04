@@ -60,10 +60,22 @@ export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
   }
 }
 
+export class PixelDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: 'numPixels' = 'numPixels';
+  numPixels: number;
+
+  constructor(init?: Partial<PixelDomainPaddingConfig>) {
+    super();
+    this.numPixels = 40;
+    Object.assign(this, init);
+  }
+}
+
 export type DomainPaddingConfig =
   | RoundUpDomainPaddingConfig
   | RoundUpToIntervalDomainPaddingConfig
-  | PercentOverDomainPaddingConfig;
+  | PercentOverDomainPaddingConfig
+  | PixelDomainPaddingConfig;
 
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {
   override domain?: any[] | InternSet;

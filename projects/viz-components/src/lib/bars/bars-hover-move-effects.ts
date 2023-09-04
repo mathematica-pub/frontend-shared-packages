@@ -1,8 +1,8 @@
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 
 export class BarsHoverMoveEmitTooltipData
-  implements EventEffect<BarsHoverMoveDirective>
+  implements HoverMoveEventEffect<BarsHoverMoveDirective>
 {
   applyEffect(directive: BarsHoverMoveDirective): void {
     const tooltipData = directive.getEventOutput();

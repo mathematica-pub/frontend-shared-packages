@@ -52,7 +52,7 @@
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="documentation/data-marks-components/shared/event-effect" target="_self" >EventEffect</a></code>
+                            <code><a " target="_self" >HoverMoveEventEffect</a></code>
             </p>
 
 
@@ -242,7 +242,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEffect } from &#x27;../events/effect&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HoverMoveEventEffect } from &#x27;../events/effect&#x27;;
 import { LinesHoverMoveDirective } from &#x27;./lines-hover-move.directive&#x27;;
 
 export class LinesHoverMoveDefaultStylesConfig {
@@ -261,7 +261,7 @@ export class LinesHoverMoveDefaultStylesConfig {
  *  to a light gray.
  */
 export class LinesHoverMoveDefaultLinesStyles
-  implements EventEffect&lt;LinesHoverMoveDirective&gt;
+  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
 {
   applyEffect(directive: LinesHoverMoveDirective): void {
     directive.lines.lines
@@ -292,7 +292,7 @@ export class LinesHoverMoveDefaultLinesStyles
  *  closest to the pointer by a specified amount.
  */
 export class LinesHoverMoveDefaultMarkersStyles
-  implements EventEffect&lt;LinesHoverMoveDirective&gt;
+  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
 {
   constructor(private config?: LinesHoverMoveDefaultStylesConfig) {
     this.config &#x3D; config ?? new LinesHoverMoveDefaultStylesConfig();
@@ -340,7 +340,7 @@ export class LinesHoverMoveDefaultMarkersStyles
  *  on the &quot;selected&quot; line.
  */
 export class LinesHoverMoveDefaultHoverDotStyles
-  implements EventEffect&lt;LinesHoverMoveDirective&gt;
+  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
 {
   applyEffect(directive: LinesHoverMoveDirective) {
     directive.lines.hoverDot
@@ -378,11 +378,11 @@ export class LinesHoverMoveDefaultHoverDotStyles
  *  whether line markers are used.
  */
 export class LinesHoverMoveDefaultStyles
-  implements EventEffect&lt;LinesHoverMoveDirective&gt;
+  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
 {
-  linesStyles: EventEffect&lt;LinesHoverMoveDirective&gt;;
-  markersStyles: EventEffect&lt;LinesHoverMoveDirective&gt;;
-  hoverDotStyles: EventEffect&lt;LinesHoverMoveDirective&gt;;
+  linesStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;;
+  markersStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;;
+  hoverDotStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;;
 
   constructor(config?: LinesHoverMoveDefaultStylesConfig) {
     const markersStylesConfig &#x3D;
@@ -414,7 +414,7 @@ export class LinesHoverMoveDefaultStyles
 }
 
 export class LinesHoverMoveEmitTooltipData
-  implements EventEffect&lt;LinesHoverMoveDirective&gt;
+  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
 {
   applyEffect(directive: LinesHoverMoveDirective): void {
     const tooltipData &#x3D; directive.getEventOutput();

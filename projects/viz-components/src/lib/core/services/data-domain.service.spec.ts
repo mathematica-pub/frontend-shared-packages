@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DataDomainService } from './data-domain.service';
+import { scaleLinear } from 'd3';
 
 describe('DataDomainService', () => {
   let service: DataDomainService;
@@ -12,5 +13,77 @@ describe('DataDomainService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('int: getPixelPaddedDomainValue()', () => {
+    describe('when pixelRange[0] < pixelRange[1]', () => {
+      it('returns correct value when valueType is min', () => {
+        const min = service.getPixelPaddedDomainValue(
+          [-5, 10],
+          50,
+          'min',
+          scaleLinear,
+          [120, 550]
+        );
+        expect(min).toEqual(-6.973684210526316);
+      });
+
+      it('returns correct value when valueType is max', () => {
+        const min = service.getPixelPaddedDomainValue(
+          [-5, 10],
+          50,
+          'max',
+          scaleLinear,
+          [120, 550]
+        );
+        expect(min).toEqual(11.973684210526315);
+      });
+
+      it('returns correct value when value is zero', () => {
+        const min = service.getPixelPaddedDomainValue(
+          [0, 10],
+          50,
+          'min',
+          scaleLinear,
+          [120, 550]
+        );
+        expect(min).toEqual(0);
+      });
+    });
+
+    describe('when pixelRange[0] > pixelRange[1] (e.g. for y axis)', () => {
+      it('returns correct value when valueType is min', () => {
+        const min = service.getPixelPaddedDomainValue(
+          [-5, 10],
+          50,
+          'min',
+          scaleLinear,
+          [770, 8]
+        );
+        expect(min).toEqual(-6.053370786516854);
+      });
+
+      it('returns correct value when valueType is max', () => {
+        const min = service.getPixelPaddedDomainValue(
+          [-5, 10],
+          50,
+          'max',
+          scaleLinear,
+          [770, 8]
+        );
+        expect(min).toEqual(11.053370786516853);
+      });
+
+      it('returns correct value when value is zero', () => {
+        const min = service.getPixelPaddedDomainValue(
+          [0, 10],
+          50,
+          'min',
+          scaleLinear,
+          [770, 8]
+        );
+        expect(min).toEqual(0);
+      });
+    });
   });
 });

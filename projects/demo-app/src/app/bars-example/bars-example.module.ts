@@ -13,6 +13,7 @@ import {
 import { SharedModule } from '../shared/shared.module';
 import { BarsRoutingModule } from './bars-example-routing.module';
 import { BarsExampleComponent } from './bars-example.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [BarsExampleComponent],
@@ -27,6 +28,7 @@ import { BarsExampleComponent } from './bars-example.component';
     VicXQuantitativeAxisModule,
     SharedModule,
     VicHtmlTooltipModule,
+    MatButtonModule,
   ],
 })
 export class BarsModule {}

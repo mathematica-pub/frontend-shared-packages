@@ -1,25 +1,21 @@
-import {
-  ConnectedPosition,
-  OverlayConfig,
-  OverlaySizeConfig,
-} from '@angular/cdk/overlay';
+import { ConnectedPosition, OverlaySizeConfig } from '@angular/cdk/overlay';
 import { ElementRef } from '@angular/core';
 import { TooltipConfig } from '../tooltip.config';
 
 export class HtmlTooltipConfig extends TooltipConfig {
   override type: 'html';
-  position: ConnectedPosition;
+  position:
+    | HtmlTooltipCdkManagedFromOriginPosition
+    | HtmlTooltipOffsetFromOriginPosition;
   size: OverlaySizeConfig;
-  disableEventsOnTooltip: boolean;
+  addEventsDisabledClass: boolean;
   panelClass: string | string[];
-  origin?: ElementRef;
+  origin?: ElementRef<Element>;
   hasBackdrop: boolean;
   closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial<HtmlTooltipConfig>) {
     super();
-    this.disableEventsOnTooltip = true;
-    this.position = new HtmlTooltipDefaultPosition();
     this.size = new HtmlTooltipSize();
     this.hasBackdrop = false;
     this.closeOnBackdropClick = false;
@@ -27,8 +23,35 @@ export class HtmlTooltipConfig extends TooltipConfig {
   }
 }
 
+export class HtmlTooltipOffsetFromOriginPosition {
+  type: 'global';
+  offsetY: number;
+  offsetX: number;
+  // TODO: support other orientations
+  tooltipOriginX: 'center';
+  tooltipOriginY: 'bottom';
+
+  constructor() {
+    this.type = 'global';
+    this.tooltipOriginX = 'center';
+    this.tooltipOriginY = 'bottom';
+    this.offsetY = 0;
+    this.offsetX = 0;
+  }
+}
+
+export class HtmlTooltipCdkManagedFromOriginPosition {
+  type: 'connected';
+  config: ConnectedPosition;
+
+  constructor() {
+    this.type = 'connected';
+    this.config = new HtmlTooltipDefaultConnectedPosition();
+  }
+}
+
 /** Default position for the overlay. Follows the behavior of a tooltip. */
-export class HtmlTooltipDefaultPosition {
+export class HtmlTooltipDefaultConnectedPosition {
   originX: 'start' | 'center' | 'end';
   originY: 'top' | 'center' | 'bottom';
   overlayX: 'start' | 'center' | 'end';
@@ -45,9 +68,6 @@ export class HtmlTooltipDefaultPosition {
     this.overlayY = 'bottom';
     Object.assign(this, init);
   }
-}
-export class HtmlTooltipOverlayConfig extends OverlayConfig {
-  override positionStrategy: never;
 }
 
 export class HtmlTooltipSize implements OverlaySizeConfig {}

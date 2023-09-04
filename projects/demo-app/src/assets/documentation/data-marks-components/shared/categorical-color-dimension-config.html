@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:83</a></div>
                             </td>
                         </tr>
 
@@ -166,7 +166,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:83</a></div>
                         </td>
                     </tr>
 
@@ -193,7 +193,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:82</a></div>
                         </td>
                     </tr>
 
@@ -227,7 +227,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/shared/data-dimension-config#source" target="_self" >DataDimensionConfig:69</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/shared/data-dimension-config#source" target="_self" >DataDimensionConfig:81</a></code>
 </div>
                         </td>
                     </tr>
@@ -376,10 +376,22 @@ export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
   }
 }
 
+export class PixelDomainPaddingConfig extends BaseDomainPaddingConfig {
+  type: &#x27;numPixels&#x27; &#x3D; &#x27;numPixels&#x27;;
+  numPixels: number;
+
+  constructor(init?: Partial&lt;PixelDomainPaddingConfig&gt;) {
+    super();
+    this.numPixels &#x3D; 40;
+    Object.assign(this, init);
+  }
+}
+
 export type DomainPaddingConfig &#x3D;
   | RoundUpDomainPaddingConfig
   | RoundUpToIntervalDomainPaddingConfig
-  | PercentOverDomainPaddingConfig;
+  | PercentOverDomainPaddingConfig
+  | PixelDomainPaddingConfig;
 
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {
   override domain?: any[] | InternSet;

@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { EventEffect } from '../events/effect';
+import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getLinesTooltipDataFromDatum,
@@ -15,12 +15,13 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesHoverMoveDirective extends HoverMoveDirective {
   @Input('vicLinesHoverMoveEffects')
-  effects: EventEffect<LinesHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<LinesHoverMoveDirective>[];
   @Output('vicLinesHoverMoveOutput') eventOutput =
     new EventEmitter<LinesEventOutput>();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
+  effectApplied = false;
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
     super();
@@ -32,7 +33,13 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
   }
 
   onElementPointerEnter(): void {
-    return;
+    if (this.effects && !this.preventEffect) {
+      this.effects.forEach((effect) => {
+        if (effect.initializeEffect) {
+          effect.initializeEffect(this);
+        }
+      });
+    }
   }
 
   onElementPointerMove(event: PointerEvent) {
@@ -67,10 +74,16 @@ export class LinesHoverMoveDirective extends HoverMoveDirective {
           this.pointerY
         )
       ) {
-        this.effects.forEach((effect) => effect.applyEffect(this));
+        this.effects.forEach((effect) => {
+          effect.applyEffect(this);
+        });
+        this.effectApplied = true;
       } else {
         this.closestPointIndex = null;
-        this.effects.forEach((effect) => effect.removeEffect(this));
+        if (this.effectApplied) {
+          this.effects.forEach((effect) => effect.removeEffect(this));
+          this.effectApplied = false;
+        }
       }
     }
   }

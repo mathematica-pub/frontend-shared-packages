@@ -8,7 +8,10 @@ import {
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import {
+  EventEffect,
+  HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
 import { VicExportDataService } from 'projects/viz-components/src/lib/export-data/export-data.service';
 import { VicJpegImageConfig } from 'projects/viz-components/src/lib/image-download/image.config';
 import { VicImageService } from 'projects/viz-components/src/lib/image-download/image.service';
@@ -20,18 +23,22 @@ import {
   LinesHoverMoveEmitTooltipData,
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
-import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
-import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import { LinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
-import { MetroUnemploymentDatum } from '../core/models/data';
-import { DataService } from '../core/services/data.service';
-import { HighlightLineForLabel } from './line-input-effects';
 import {
   ColumnConfig,
   DataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
+import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
+import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
+import { LinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
+import {
+  HtmlTooltipConfig,
+  HtmlTooltipOffsetFromOriginPosition,
+} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import { PixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
+import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { MetroUnemploymentDatum } from '../core/models/data';
+import { DataService } from '../core/services/data.service';
+import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
   dataConfig: LinesConfig;
@@ -76,7 +83,7 @@ export class LinesExampleComponent implements OnInit {
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
-  hoverEffects: EventEffect<LinesHoverMoveDirective>[] = [
+  hoverEffects: HoverMoveEventEffect<LinesHoverMoveDirective>[] = [
     new LinesHoverMoveDefaultStyles(
       new LinesHoverMoveDefaultStylesConfig({
         growMarkerDimension: 3,
@@ -91,7 +98,7 @@ export class LinesExampleComponent implements OnInit {
   folderName = 'lines-example';
   tooltipEvent: BehaviorSubject<'hover' | 'click'> = new BehaviorSubject<
     'hover' | 'click'
-  >('hover');
+  >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
 
   private imageService = inject(VicImageService);
@@ -123,7 +130,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.category.valueAccessor = (d) => d.division;
     dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-
+    dataConfig.y.domainPadding = new PixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,
@@ -151,6 +158,7 @@ export class LinesExampleComponent implements OnInit {
     const config = new LinesExampleTooltipConfig();
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
+    config.position = new HtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;

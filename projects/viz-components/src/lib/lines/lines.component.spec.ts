@@ -250,6 +250,8 @@ describe('LineChartComponent', () => {
         updateXScale: jasmine.createSpy('updateXScale'),
         updateYScale: jasmine.createSpy('updateYScale'),
       } as any;
+      spyOn(component, 'setXDomain');
+      spyOn(component, 'setYDomain');
     });
     it('calls updateXScale on chart once', () => {
       component.setScaledSpaceProperties();
@@ -275,6 +277,16 @@ describe('LineChartComponent', () => {
         component.config.y.domain,
         component.ranges.y
       );
+    });
+
+    it('calls setXDomain once', () => {
+      component.setScaledSpaceProperties();
+      expect(component.setXDomain).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setYDomain once', () => {
+      component.setScaledSpaceProperties();
+      expect(component.setYDomain).toHaveBeenCalledTimes(1);
     });
   });
 

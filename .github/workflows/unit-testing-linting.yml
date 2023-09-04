@@ -5,12 +5,6 @@ on: [push]
 permissions:
   contents: write
 
-env:
-  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  AWS_DEFAULT_REGION: us-east-1
-  AWS_DEFAULT_OUTPUT: json
-
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -65,7 +59,6 @@ jobs:
     steps: 
       - name: Checkout
         uses: actions/checkout@v3
-      
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -87,10 +80,7 @@ jobs:
           python code_snippet_generator.py
           cd ../../..
           cp .vscode/vizcolib-configs.code-snippets dist/viz-components
-
       - name: Build Demo App
         run: npm run build demo-app
 
 
-
-  

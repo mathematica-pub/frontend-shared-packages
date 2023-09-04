@@ -92,7 +92,8 @@ describe('BarsComponent', () => {
       spyOn(component, 'initNonQuantitativeDomains');
       spyOn(component, 'setValueIndicies');
       spyOn(component, 'setHasBarsWithNegativeValues');
-      spyOn(component, 'initQuantitativeDomain');
+      spyOn(component, 'initUnpaddedQuantitativeDomain');
+      spyOn(component, 'setQuantitativeDomainPadding');
       spyOn(component, 'initCategoryScale');
       spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'drawMarks');
@@ -116,8 +117,12 @@ describe('BarsComponent', () => {
       expect(component.setHasBarsWithNegativeValues).toHaveBeenCalledTimes(1);
     });
 
-    it('calls initQuantitativeDomain once', () => {
-      expect(component.initQuantitativeDomain).toHaveBeenCalledTimes(1);
+    it('calls initUnpaddedQuantitativeDomain once', () => {
+      expect(component.initUnpaddedQuantitativeDomain).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setQuantitativeDomainPadding once', () => {
+      expect(component.setQuantitativeDomainPadding).toHaveBeenCalledTimes(1);
     });
 
     it('calls setScaledSpaceProperties once', () => {
@@ -141,6 +146,53 @@ describe('BarsComponent', () => {
 
     it('calls drawMarks once with zero as the argument', () => {
       expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
+    });
+  });
+
+  describe('int: initUnpaddedQuantitativeDomain()', () => {
+    describe('when min and max are positive', () => {
+      beforeEach(() => {
+        component.config = {
+          quantitative: {
+            domain: [2, 97],
+          },
+        } as any;
+      });
+
+      it('sets min to zero, max stays the same', () => {
+        component.initUnpaddedQuantitativeDomain();
+        expect(component.unpaddedQuantitativeDomain).toEqual([0, 97]);
+      });
+    });
+
+    describe('when min and max are negative', () => {
+      beforeEach(() => {
+        component.config = {
+          quantitative: {
+            domain: [-277, -6],
+          },
+        } as any;
+      });
+
+      it('sets max to zero, min stays the same', () => {
+        component.initUnpaddedQuantitativeDomain();
+        expect(component.unpaddedQuantitativeDomain).toEqual([-277, 0]);
+      });
+    });
+
+    describe('when min is negative and max is positive', () => {
+      beforeEach(() => {
+        component.config = {
+          quantitative: {
+            domain: [-3, 44],
+          },
+        } as any;
+      });
+
+      it('max and min stay the same', () => {
+        component.initUnpaddedQuantitativeDomain();
+        expect(component.unpaddedQuantitativeDomain).toEqual([-3, 44]);
+      });
     });
   });
 
@@ -377,6 +429,7 @@ describe('BarsComponent', () => {
       } as any;
       spyOn(component, 'getOrdinalScale').and.returnValue('ord scale');
       spyOn(component, 'getQuantitativeScale').and.returnValue('quant scale');
+      spyOn(component, 'setQuantitativeDomainPadding');
     });
     it('calls getOrdinalScale once', () => {
       component.setScaledSpaceProperties();
@@ -386,6 +439,11 @@ describe('BarsComponent', () => {
     it('calls getQuantitativeScale once', () => {
       component.setScaledSpaceProperties();
       expect(component.getQuantitativeScale).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setQuantitativeDomainPadding once', () => {
+      component.setScaledSpaceProperties();
+      expect(component.setQuantitativeDomainPadding).toHaveBeenCalledTimes(1);
     });
 
     describe('if ordinal is x', () => {
