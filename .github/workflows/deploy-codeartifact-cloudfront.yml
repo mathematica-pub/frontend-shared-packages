@@ -63,5 +63,5 @@ jobs:
 
       - name: Deploy to codeartifact
         run: | 
-         cd ./dist/ui-components
+         cd ./dist/viz-components
          npm publish
