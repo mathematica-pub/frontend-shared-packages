@@ -13,9 +13,11 @@ import { LINES, LinesComponent } from './lines.component';
 @Directive({
   selector: '[vicLinesHoverMoveEffects]',
 })
-export class LinesHoverMoveDirective extends HoverMoveDirective {
+export class LinesHoverMoveDirective<
+  T extends LinesComponent = LinesComponent
+> extends HoverMoveDirective {
   @Input('vicLinesHoverMoveEffects')
-  effects: HoverMoveEventEffect<LinesHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<LinesHoverMoveDirective<T>>[];
   @Output('vicLinesHoverMoveOutput') eventOutput =
     new EventEmitter<LinesEventOutput>();
   pointerX: number;

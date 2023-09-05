@@ -9,9 +9,11 @@ import { LINES, LinesComponent } from './lines.component';
 @Directive({
   selector: '[vicLinesInputEffects]',
 })
-export class LinesInputEventDirective extends InputEventDirective {
+export class LinesInputEventDirective<
+  T extends LinesComponent = LinesComponent
+> extends InputEventDirective {
   @Input('vicLinesInputEffects')
-  effects: InputEventEffect<LinesInputEventDirective>[];
+  effects: InputEventEffect<LinesInputEventDirective<T>>[];
   @Input('vicLinesInputEvent$') override inputEvent$: Observable<any>;
   @Output('vicLinesInputEventOutput') inputEventOutput =
     new EventEmitter<any>();

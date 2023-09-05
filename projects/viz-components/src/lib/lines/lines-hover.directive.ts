@@ -6,9 +6,11 @@ import { LINES, LinesComponent } from './lines.component';
 @Directive({
   selector: '[vicLinesHoverEffects]',
 })
-export class LinesHoverDirective extends HoverDirective {
+export class LinesHoverDirective<
+  T extends LinesComponent = LinesComponent
+> extends HoverDirective {
   @Input('vicLinesHoverEffects')
-  effects: EventEffect<LinesHoverDirective>[];
+  effects: EventEffect<LinesHoverDirective<T>>[];
 
   constructor(@Inject(LINES) public lines: LinesComponent) {
     super();

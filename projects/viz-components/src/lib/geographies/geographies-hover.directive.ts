@@ -24,9 +24,11 @@ export type GeographiesHoverOutput = GeographiesTooltipOutput &
 @Directive({
   selector: '[vicGeographiesHoverEffects]',
 })
-export class GeographiesHoverDirective extends HoverDirective {
+export class GeographiesHoverDirective<
+  T extends GeographiesComponent = GeographiesComponent
+> extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<GeographiesHoverDirective>[];
+  effects: EventEffect<GeographiesHoverDirective<T>>[];
   @Output('vicGeographiesHoverOutput') eventOutput =
     new EventEmitter<GeographiesEventOutput>();
   feature: Feature;

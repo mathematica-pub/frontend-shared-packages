@@ -29,9 +29,11 @@ type BarsEventDirective =
 @Directive({
   selector: '[vicBarsClickEffects]',
 })
-export class BarsClickDirective extends ClickDirective {
+export class BarsClickDirective<
+  T extends BarsComponent = BarsComponent
+> extends ClickDirective {
   @Input('vicBarsClickEffects')
-  effects: EventEffect<BarsClickDirective>[];
+  effects: EventEffect<BarsClickDirective<T>>[];
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput =

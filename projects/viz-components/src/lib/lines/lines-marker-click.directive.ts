@@ -35,7 +35,9 @@ type LinesEventDirective =
 @Directive({
   selector: '[vicLinesMarkerClickEffects]',
 })
-export class LinesMarkerClickDirective extends ClickDirective {
+export class LinesMarkerClickDirective<
+  T extends LinesComponent = LinesComponent
+> extends ClickDirective {
   /**
    * An array of user-provided [EventEffect]{@link EventEffect} instances.
    *
@@ -43,7 +45,7 @@ export class LinesMarkerClickDirective extends ClickDirective {
    *  called when the `clickRemoveEvent$` Observable emits.
    */
   @Input('vicLinesMarkerClickEffects')
-  effects: EventEffect<LinesMarkerClickDirective>[];
+  effects: EventEffect<LinesMarkerClickDirective<T>>[];
   /**
    * A user-provided `Observable<void>` that triggers the `removeEffect` method of all user-provided
    *  [EventEffect]{@link EventEffect} instances.
