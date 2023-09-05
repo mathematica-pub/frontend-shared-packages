@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "AppName",
+    "ParameterValue": "viz-components"
+  },
+  {
+    "ParameterKey": "GithubUser",
+    "ParameterValue": "WebAst-CodeArtifiact-Publisher_SVC"
+  }
+]

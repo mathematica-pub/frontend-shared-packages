@@ -2,21 +2,13 @@
 
 ## Steps to replicate
 
-1. Set up PR workflow
+# Deploy script permissions
 
-aws cloudformation update-stack \
- --stack-name viz-library-pr \
- --template-body file://pr-build-cf.yml \
+aws cloudformation create-stack \
+ --stack-name viz-components-permissions \
+ --template-body file://github-actions-access-policy.yml \
  --capabilities CAPABILITY_NAMED_IAM \
- --parameters file://pr-build-cf.json
-
-2. Set up package CI/CD pipeline
-
-aws cloudformation update-stack \
- --stack-name vizcolib-package-pipeline \
- --template-body file://package-pipeline-cf.yml \
- --capabilities CAPABILITY_NAMED_IAM \
- --parameters file://package-pipeline-cf.params.json
+ --parameters file://github-actions-access-policy.params.json
 
 ## Package deployment
 

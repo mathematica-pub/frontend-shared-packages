@@ -45,6 +45,9 @@ resources:
           BlockPublicPolicy: true
           IgnorePublicAcls: true
           RestrictPublicBuckets: true
+        OwnershipControls:
+          Rules: 
+            - ObjectOwnership: BucketOwnerPreferred
         BucketEncryption:
           ServerSideEncryptionConfiguration:
             - ServerSideEncryptionByDefault:

@@ -1,0 +1,90 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Github Actions Access Policy. Attaches very narrow policies (eventually) to Github Actions IAM User 
+
+Parameters: 
+  AppName: 
+    Type: String 
+  GithubUser: 
+    Type: String 
+
+Resources:
+  ServerlessAgentPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub 'ServerlessAgent-${AppName}'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          Effect: Allow
+          Action:
+            - s3:*
+            - cloudfront:*
+            - cloudformation:*
+            - events:DeleteRule
+            - events:DescribeRule
+            - events:ListRuleNamesByTarget
+            - events:ListRules
+            - events:ListTargetsByRule
+            - events:PutRule
+            - events:PutTargets
+            - events:RemoveTargets
+            - iam:CreateServiceLinkedRole
+            - iam:CreateRole
+            - iam:DeleteRole
+            - iam:DeleteRolePolicy
+            - iam:GetRole
+            - iam:GetRolePolicy
+            - iam:PassRole
+            - iam:PutRolePolicy
+            - iam:AttachRolePolicy
+            - iam:DetachRolePolicy
+            - iam:UpdateAssumeRolePolicy
+            - iam:UpdateAssumeRolePolicyDocument
+            - iam:ListAttachedRolePolicies
+            - iam:DeleteRole
+            - logs:*
+            - sns:CreateTopic
+            - sns:DeleteTopic
+            - sns:GetSubscriptionAttributes
+            - sns:GetTopicAttributes
+            - sns:ListSubscriptions
+            - sns:ListSubscriptionsByTopic
+            - sns:ListTopics
+            - sns:SetSubscriptionAttributes
+            - sns:SetTopicAttributes
+            - sns:Subscribe
+            - sns:Unsubscribe
+            - sns:TagResource
+          Resource: '*'
+      Users:
+        - !Ref GithubUser
+
+  WriteToCodeArtifactRepositoryPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: !Sub 'WriteToCodeArtifactRepository-${AppName}'
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Condition:
+            StringEquals:
+              sts:AWSServiceName: codeartifact.amazonaws.com
+          Action:
+          - sts:GetServiceBearerToken
+          Resource: "*"
+          Effect: Allow
+          Sid: StsActions
+        - Action:
+          - codeartifact:GetAuthorizationToken
+          - codeartifact:PublishPackageVersion
+          - codeartifact:PutPackageMetadata
+          - codeartifact:ReadFromRepository
+          Resource:
+          - arn:aws:codeartifact:us-east-1:922539530544:domain/shared-package-domain
+          - arn:aws:codeartifact:us-east-1:922539530544:repository/shared-package-domain/shared-package-repository
+          - arn:aws:codeartifact:us-east-1:922539530544:package/shared-package-domain/shared-package-repository/*/*/*
+          Effect: Allow
+          Sid: CodeArtifactActions
+      Users:
+        - !Ref GithubUser
