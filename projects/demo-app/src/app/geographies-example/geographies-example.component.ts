@@ -16,6 +16,7 @@ import {
   GeographiesConfig,
   GeographiesEventOutput,
   GeographiesHoverEmitTooltipData,
+  NoDataGeographyConfig,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
@@ -31,6 +32,7 @@ import { colors } from '../core/constants/colors.constants';
 import { StateIncomeDatum } from '../core/models/data';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
+import { Feature } from 'geojson';
 
 type ScaleType =
   | 'none'
@@ -91,7 +93,8 @@ export class GeographiesExampleComponent implements OnInit {
       this.selectedYear$,
     ]).pipe(
       filter(([data]) => !!data),
-      map(([data, year]) => data.filter((x) => x.year === +year))
+      map(([data, year]) => data.filter((x) => x.year === +year)),
+      map((data) => data.filter((x) => x.state !== 'Texas'))
     );
 
     this.dataMarksConfig$ = combineLatest([
@@ -110,14 +113,21 @@ export class GeographiesExampleComponent implements OnInit {
     const config = new GeographiesConfig();
     config.data = data;
     config.boundary = this.basemap.us;
-    config.noDataGeographiesConfigs = [this.basemap.usOutlineConfig];
-    config.dataGeographyConfig = this.getDataGeographyConfig(map);
+    const noDataStatesConfig = this.getNoDataGeographyStatesFeatures(map, data);
+    config.noDataGeographiesConfigs = [
+      this.basemap.usOutlineConfig,
+      noDataStatesConfig,
+    ];
+    config.dataGeographyConfig = this.getDataGeographyConfig(map, data);
     return config;
   }
 
-  getDataGeographyConfig(map: Topology): DataGeographyConfig {
+  getDataGeographyConfig(
+    map: Topology,
+    data: StateIncomeDatum[]
+  ): DataGeographyConfig {
     const config = new DataGeographyConfig();
-    config.geographies = this.getDataGeographyFeatures(map);
+    config.geographies = this.getDataGeographyFeatures(map, data);
     config.valueAccessor = (d) => d.properties['name'];
     config.attributeDataConfig =
       new EqualValuesQuantitativeAttributeDataDimensionConfig();
@@ -138,8 +148,25 @@ export class GeographiesExampleComponent implements OnInit {
     return config;
   }
 
-  getDataGeographyFeatures(map: Topology): any {
-    return topojson.feature(map, map.objects['states'])['features'];
+  getNoDataGeographyStatesFeatures(
+    map: Topology,
+    data: StateIncomeDatum[]
+  ): NoDataGeographyConfig {
+    const statesInData = data.map((x) => x.state);
+    const features = topojson
+      .feature(map, map.objects['states'])
+      ['features'].filter((x) => !statesInData.includes(x.properties.name));
+    return new NoDataGeographyConfig({
+      geographies: features,
+      patternName: this.patternName,
+    });
+  }
+
+  getDataGeographyFeatures(map: Topology, data: StateIncomeDatum[]): any {
+    const statesInData = data.map((x) => x.state);
+    return topojson
+      .feature(map, map.objects['states'])
+      ['features'].filter((x) => statesInData.includes(x.properties.name));
   }
 
   updateTooltipForNewOutput(
