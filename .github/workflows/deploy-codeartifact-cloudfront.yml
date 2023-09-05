@@ -59,7 +59,7 @@ jobs:
           aws cloudfront create-invalidation --distribution-id=$CloudFrontDistributionId --paths "/*"
 
       - name: Authenticate to codeartifact 
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @web-ast
 
       - name: Deploy to codeartifact
         run: | 
