@@ -30,9 +30,11 @@ export type GeographiesEventDirective =
 @Directive({
   selector: '[vicGeographiesClickEffects]',
 })
-export class GeographiesClickDirective extends ClickDirective {
+export class GeographiesClickDirective<
+  T extends GeographiesComponent = GeographiesComponent
+> extends ClickDirective {
   @Input('vicGeographiesClickEffects')
-  effects: EventEffect<GeographiesClickDirective>[];
+  effects: EventEffect<GeographiesClickDirective<T>>[];
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicGeographiesClickOutput') eventOutput =
