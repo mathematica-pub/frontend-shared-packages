@@ -53,7 +53,7 @@ export class GeographiesConfig extends DataMarksConfig {
   }
 }
 
-class BaseDataGeographyConfig {
+export class BaseDataGeographyConfig {
   /**
    * GeoJSON features that define the geographies to be drawn.
    */
