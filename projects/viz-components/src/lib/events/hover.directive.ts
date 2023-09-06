@@ -28,6 +28,10 @@ export abstract class HoverDirective
   }
 
   setTouchStartListener() {
+    if (this.unlistenTouchStart) {
+      this.unlistenTouchStart.forEach((func) => func());
+    }
+
     this.unlistenTouchStart = this.elements.map((el) =>
       this.renderer.listen(el, 'touchstart', (event) => {
         this.onTouchStart(event);
@@ -40,6 +44,10 @@ export abstract class HoverDirective
   }
 
   setPointerEnterListener() {
+    if (this.unlistenPointerEnter) {
+      this.unlistenPointerEnter.forEach((func) => func());
+    }
+
     this.unlistenPointerEnter = this.elements.map((el) =>
       this.renderer.listen(el, 'pointerenter', (event) => {
         this.onPointerEnter(event, el);
@@ -53,6 +61,7 @@ export abstract class HoverDirective
   }
 
   setPointerLeaveListener(el: Element) {
+    if (this.unlistenPointerLeave) this.unlistenPointerLeave();
     this.unlistenPointerLeave = this.renderer.listen(
       el,
       'pointerleave',

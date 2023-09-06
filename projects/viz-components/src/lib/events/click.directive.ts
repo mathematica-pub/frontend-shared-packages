@@ -51,6 +51,9 @@ export abstract class ClickDirective
   }
 
   setClickListeners(): void {
+    if (this.unlistenClick) {
+      this.unlistenClick.forEach((func) => func());
+    }
     this.unlistenClick = this.elements.map((el) =>
       this.renderer.listen(el, 'click', (event) => {
         this.onElementClick(event, el);
