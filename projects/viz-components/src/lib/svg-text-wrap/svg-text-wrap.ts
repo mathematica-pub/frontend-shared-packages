@@ -47,6 +47,8 @@ export function svgTextWrap(textSelection, options: SvgTextWrapConfig) {
       const offsetY =
         ((parseFloat(lastDy) - parseFloat(firstDy) - 0.5) / 2) * 16;
       text.selectAll('tspan').attr('y', y - offsetY);
+    } else {
+      text.attr('dominant-baseline', null);
     }
   });
 }
