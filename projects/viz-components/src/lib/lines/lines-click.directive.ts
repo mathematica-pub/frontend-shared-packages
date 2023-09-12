@@ -29,9 +29,11 @@ type LinesEventDirective =
 @Directive({
   selector: '[vicLinesChartClickEffects]',
 })
-export class LinesClickDirective extends ClickDirective {
+export class LinesClickDirective<
+  T extends LinesComponent = LinesComponent
+> extends ClickDirective {
   @Input('vicLinesChartClickEffects')
-  effects: EventEffect<LinesClickDirective>[];
+  effects: EventEffect<LinesClickDirective<T>>[];
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicLinesChartClickOutput') eventOutput =

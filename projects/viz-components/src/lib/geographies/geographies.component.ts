@@ -434,9 +434,8 @@ export class GeographiesComponent
           enter
             .append('path')
             .attr('d', this.path)
-            .attr(
-              'fill',
-              (d, i, nodes) => this.getConfigFromNode(nodes[i]).fill
+            .attr('fill', (d, i, nodes) =>
+              this.getNoDataGeographyPatternFill(nodes[i])
             )
             .attr(
               'stroke',
@@ -446,7 +445,12 @@ export class GeographiesComponent
               'stroke-width',
               (d, i, nodes) => this.getConfigFromNode(nodes[i]).strokeWidth
             ),
-        (update) => update.attr('d', this.path),
+        (update) =>
+          update
+            .attr('d', this.path)
+            .attr('fill', (d, i, nodes) =>
+              this.getNoDataGeographyPatternFill(nodes[i])
+            ),
         (exit) => exit.remove()
       );
   }
@@ -470,6 +474,11 @@ export class GeographiesComponent
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
     return PatternUtilities.getPatternFill(datum, color, predicates);
+  }
+
+  getNoDataGeographyPatternFill(node: any): string {
+    const config: NoDataGeographyConfig = this.getConfigFromNode(node);
+    return config.patternName ? `url(#${config.patternName})` : config.fill;
   }
 
   getValueIndexFromDataGeographyIndex(i: number): number {

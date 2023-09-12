@@ -1,0 +1,67 @@
+name: Deploy to Codeartifact, Cloudfront 
+
+on: 
+  push:
+    branches:
+      - main
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_OUTPUT: json
+  ENVTYPE: ${{ vars.ENVTYPE}}
+  S3WebsiteDeployBucket: ${{ vars.S3_WEBSITE_DEPLOY_BUCKET}}
+  CloudFrontDistributionId: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID}}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: dev
+
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Library
+        run: npm run build:lib
+
+      - name: Build Demo App
+        run: npm run build:demo-app
+
+      - name: Build Custom Schematics
+        run: npm run build --prefix projects/viz-components
+
+      - name: Build Code Snippets
+        run: | 
+          cd projects/viz-components/code-snippets
+          python code_snippet_generator.py
+          cd ../../..
+          cp .vscode/vizcolib-configs.code-snippets dist/viz-components
+
+      - name: Deploy website
+        run: |
+          cd infrastructure
+          npx serverless deploy --verbose --stage $ENVTYPE
+          cd ..
+          aws s3 rm s3://$S3WebsiteDeployBucket --recursive
+          aws s3 cp ./dist/demo-app s3://$S3WebsiteDeployBucket --recursive
+          aws s3 cp ./dist/demo-app/index.html s3://$S3WebsiteDeployBucket/index.html --metadata-directive REPLACE --cache-control no-cache --content-type "text/html"
+          aws cloudfront create-invalidation --distribution-id=$CloudFrontDistributionId --paths "/*"
+
+      - name: Authenticate to codeartifact 
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @web-ast
+
+      - name: Deploy to codeartifact
+        run: | 
+         cd ./dist/viz-components
+         npm publish

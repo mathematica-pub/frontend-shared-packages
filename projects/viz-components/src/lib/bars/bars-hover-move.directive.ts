@@ -18,9 +18,11 @@ import { BARS, BarsComponent } from './bars.component';
 @Directive({
   selector: '[vicBarsHoverMoveEffects]',
 })
-export class BarsHoverMoveDirective extends HoverMoveDirective {
+export class BarsHoverMoveDirective<
+  T extends BarsComponent = BarsComponent
+> extends HoverMoveDirective {
   @Input('vicBarsHoverMoveEffects')
-  effects: HoverMoveEventEffect<BarsHoverMoveDirective>[];
+  effects: HoverMoveEventEffect<BarsHoverMoveDirective<T>>[];
   @Output('vicBarsHoverMoveOutput') eventOutput =
     new EventEmitter<BarsEventOutput>();
   barIndex: number;
