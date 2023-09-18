@@ -16,7 +16,6 @@ export abstract class HoverMoveDirective extends HoverDirective {
   }
 
   setPointerMoveListener(el) {
-    if (this.unlistenPointerMove) this.unlistenPointerMove();
     this.unlistenPointerMove = this.renderer.listen(
       el,
       'pointermove',
@@ -27,7 +26,6 @@ export abstract class HoverMoveDirective extends HoverDirective {
   }
 
   override setPointerLeaveListener(el: Element) {
-    if (this.unlistenPointerLeave) this.unlistenPointerLeave();
     this.unlistenPointerLeave = this.renderer.listen(
       el,
       'pointerleave',
