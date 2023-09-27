@@ -15,6 +15,45 @@ describe('DataDomainService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('int: getQuantitativeDomainMaxPercentOver()', () => {
+    it('returns correct value when min is negative', () => {
+      const min = service.getQuantitativeDomainMaxPercentOver(
+        -101,
+        1,
+        0.5,
+        'min'
+      );
+      expect(min).toEqual(-200);
+    });
+    it('returns correct value when max is negative', () => {
+      const max = service.getQuantitativeDomainMaxPercentOver(
+        -101,
+        1,
+        0.5,
+        'max'
+      );
+      expect(max).toEqual(-100);
+    });
+    it('returns correct value when min is positive', () => {
+      const min = service.getQuantitativeDomainMaxPercentOver(
+        101,
+        1,
+        0.5,
+        'min'
+      );
+      expect(min).toEqual(100);
+    });
+    it('returns correct value when max is positive', () => {
+      const max = service.getQuantitativeDomainMaxPercentOver(
+        101,
+        1,
+        0.5,
+        'max'
+      );
+      expect(max).toEqual(200);
+    });
+  });
+
   describe('int: getPixelPaddedDomainValue()', () => {
     describe('when pixelRange[0] < pixelRange[1]', () => {
       it('returns correct value when valueType is min', () => {
