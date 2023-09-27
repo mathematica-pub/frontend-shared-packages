@@ -86,7 +86,8 @@ export class DataDomainService {
     percent: number,
     valueType: ValueType
   ): number {
-    const overValue = Math.abs(value) * (1 + percent);
+    let overValue = Math.abs(value) * (1 + percent);
+    if (value < 0) overValue = -overValue;
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       overValue,
       sigDigits,
