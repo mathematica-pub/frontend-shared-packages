@@ -3,6 +3,7 @@ import {
   ElementRef,
   Input,
   OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild,
@@ -18,6 +19,8 @@ import {
   of,
   shareReplay,
   startWith,
+  Subject,
+  takeUntil,
 } from 'rxjs';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
@@ -68,7 +71,7 @@ export interface ChartScaling {
   styleUrls: ['./chart.component.scss'],
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class ChartComponent implements Chart, OnInit, OnChanges {
+export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
   /**
@@ -119,6 +122,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   margin$ = this._margin.asObservable();
   ranges$: Observable<Ranges>;
   svgDimensions$: Observable<Dimensions>;
+  unsubscribe: Subject<void> = new Subject();
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['height']) {
@@ -138,6 +142,11 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     this.createDimensionObservables();
   }
 
+  ngOnDestroy(): void {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
+  }
+
   setAspectRatio(): void {
     this.aspectRatio = this.width / this.height;
   }
@@ -149,9 +158,9 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       const width$ = of(
         min([this.divRef.nativeElement.offsetWidth, this.width])
       );
-      divWidth$ = merge(width$, this.getDivWidthResizeObservable()).pipe(
-        distinctUntilChanged()
-      );
+      const divWidthResize$ = this.getDivWidthResizeObservable();
+      divWidth$ = merge(width$, divWidthResize$).pipe(distinctUntilChanged());
+      divWidthResize$.pipe(takeUntil(this.unsubscribe)).subscribe();
     } else {
       divWidth$ = of(this.width);
     }
@@ -182,7 +191,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
         subscriber.next(entries[0].contentRect.width);
       });
       observer.observe(el);
-      return function unsubscribe() {
+      return () => {
         observer.unobserve(el);
         observer.disconnect();
       };
