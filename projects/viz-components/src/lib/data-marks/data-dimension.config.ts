@@ -21,6 +21,13 @@ export class QuantitativeDimensionConfig extends DataDimensionConfig {
   }
 }
 
+export enum DomainPadding {
+  roundUp = 'roundUp',
+  roundInterval = 'roundInterval',
+  percentOver = 'percentOver',
+  numPixels = 'numPixels',
+}
+
 export class BaseDomainPaddingConfig {
   sigDigits: (d: any) => number;
   constructor(init?: Partial<BaseDomainPaddingConfig>) {
@@ -30,7 +37,7 @@ export class BaseDomainPaddingConfig {
 }
 
 export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: 'roundUp' = 'roundUp';
+  type: DomainPadding.roundUp;
 
   constructor(init?: Partial<RoundUpDomainPaddingConfig>) {
     super();
@@ -39,7 +46,7 @@ export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
 }
 
 export class RoundUpToIntervalDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: 'roundInterval' = 'roundInterval';
+  type: DomainPadding.roundInterval;
   interval: (maxValue: number) => number;
 
   constructor(init?: Partial<RoundUpToIntervalDomainPaddingConfig>) {
@@ -50,7 +57,7 @@ export class RoundUpToIntervalDomainPaddingConfig extends BaseDomainPaddingConfi
 }
 
 export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: 'percentOver' = 'percentOver';
+  type: DomainPadding.percentOver;
   percentOver: number;
 
   constructor(init?: Partial<PercentOverDomainPaddingConfig>) {
@@ -61,7 +68,7 @@ export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
 }
 
 export class PixelDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: 'numPixels' = 'numPixels';
+  type: DomainPadding.numPixels;
   numPixels: number;
 
   constructor(init?: Partial<PixelDomainPaddingConfig>) {
