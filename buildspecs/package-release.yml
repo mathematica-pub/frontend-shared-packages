@@ -13,7 +13,7 @@ phases:
   pre_build: 
     commands: 
       - echo setting up npm with codeartifact
-      - aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @web-ast
+      - aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
   build: 
     on-failure: ABORT

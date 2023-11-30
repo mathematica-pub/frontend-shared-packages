@@ -18,7 +18,7 @@ const XQuantitativeAxis = mixinXAxis(mixinQuantitativeAxis(XyAxis));
  *
  * <p class="comment-example">Example usage</p>
  *
- * import { VicXQuantitativeAxisModule } from '@web-ast/viz-components';
+ * import { VicXQuantitativeAxisModule } from '@hsi/viz-components';
  *
  * imports: [VicXQuantitativeAxisModule]
  *

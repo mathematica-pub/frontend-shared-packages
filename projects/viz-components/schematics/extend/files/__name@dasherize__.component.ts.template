@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { <%= classify(extend) %>Component } from '@web-ast/viz-components'
+import { <%= classify(extend) %>Component } from '@hsi/viz-components'
 
 @Component({
   selector: 'app-<%= dasherize(name) %>',
