@@ -1,5 +1,5 @@
 {
-  "name": "@web-ast/viz-components",
+  "name": "@hsi/viz-components",
   "version": "0.0.71",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
