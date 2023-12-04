@@ -389,31 +389,25 @@ export class GeographiesComponent
       .selectAll('path')
       .data((layer: DataGeographyConfig) => layer.geographies)
       .join(
-        (enter) =>
-          enter
-            .append('path')
-            .attr('d', this.path)
-            .attr('fill', (d, i) =>
-              this.config.dataGeographyConfig.attributeDataConfig
-                .patternPredicates
-                ? this.getPatternFill(i)
-                : this.getFill(i)
-            )
-            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
-            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
-        (update) =>
-          update
-            .attr('d', this.path)
-            .attr('fill', (d, i) =>
-              this.config.dataGeographyConfig.attributeDataConfig
-                .patternPredicates
-                ? this.getPatternFill(i)
-                : this.getFill(i)
-            )
-            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
-            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth),
+        (enter) => {
+          enter = enter.append('path');
+          this.drawBasicPaths(enter);
+        },
+        (update) => this.drawBasicPaths(update),
         (exit) => exit.remove()
       );
+  }
+
+  drawBasicPaths(selection: any): any {
+    return selection
+      .attr('d', this.path)
+      .attr('fill', (d, i) =>
+        this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
+          ? this.getPatternFill(i)
+          : this.getFill(i)
+      )
+      .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+      .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth);
   }
 
   drawNoDataLayers(t: any): void {

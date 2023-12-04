@@ -251,23 +251,14 @@ export class BarsComponent
       .selectAll('.vic-bar-group')
       .data(this.values.indicies, this.barsKeyFunction)
       .join(
-        (enter) =>
-          enter
-            .append('g')
-            .attr('class', 'vic-bar-group')
-            .attr('transform', (i) => {
-              const x = this.getBarX(i);
-              const y = this.getBarY(i);
-              return `translate(${x},${y})`;
-            }),
-        (update) =>
-          update.call((update) =>
-            update.transition(t as any).attr('transform', (i) => {
-              const x = this.getBarX(i);
-              const y = this.getBarY(i);
-              return `translate(${x},${y})`;
-            })
-          ),
+        (enter) => {
+          enter.append('g').attr('class', 'vic-bar-group');
+          return this.transformBarGroup(enter);
+        },
+        (update) => {
+          const updateTransition = update.transition(t as any);
+          return this.transformBarGroup(updateTransition);
+        },
         (exit) => exit.remove()
       );
 
@@ -275,34 +266,40 @@ export class BarsComponent
       .selectAll('.vic-bar')
       .data((i: number) => [i])
       .join(
-        (enter) =>
-          enter
+        (enter) => {
+          enter = enter
             .append('rect')
             .attr('class', 'vic-bar')
             .property(
               'key',
               (i) => this.values[this.config.dimensions.ordinal][i]
-            )
-            .attr('fill', (i) =>
-              this.config.patternPredicates
-                ? this.getBarPattern(i as number)
-                : this.getBarColor(i as number)
-            )
-            .attr('width', (i) => this.getBarWidth(i as number))
-            .attr('height', (i) => this.getBarHeight(i as number)),
-        (update) =>
-          update.call((update) =>
-            update
-              .transition(t as any)
-              .attr('width', (i) => this.getBarWidth(i as number))
-              .attr('height', (i) => this.getBarHeight(i as number))
-              .attr('fill', (i) =>
-                this.config.patternPredicates
-                  ? this.getBarPattern(i as number)
-                  : this.getBarColor(i as number)
-              )
-          ),
+            );
+          this.setBarSizeAndFill(enter);
+        },
+        (update) => {
+          const updateTransition = update.transition(t as any);
+          return this.setBarSizeAndFill(updateTransition);
+        },
         (exit) => exit.remove()
+      );
+  }
+
+  transformBarGroup(selection: any): any {
+    return selection.attr('transform', (i) => {
+      const x = this.getBarX(i);
+      const y = this.getBarY(i);
+      return `translate(${x},${y})`;
+    });
+  }
+
+  setBarSizeAndFill(selection: any): any {
+    return selection
+      .attr('width', (i) => this.getBarWidth(i as number))
+      .attr('height', (i) => this.getBarHeight(i as number))
+      .attr('fill', (i) =>
+        this.config.patternPredicates
+          ? this.getBarPattern(i as number)
+          : this.getBarColor(i as number)
       );
   }
 
@@ -315,26 +312,27 @@ export class BarsComponent
       .selectAll('text')
       .data((i: number) => [i])
       .join(
-        (enter) =>
-          enter
+        (enter) => {
+          enter = enter
             .append('text')
             .attr('class', 'vic-bar-label')
-            .text((i) => this.getBarLabelText(i))
-            .style('fill', (i) => this.getBarLabelColor(i))
-            .style('display', this.config.labels.display ? null : 'none')
-            .attr('x', (i) => this.getBarLabelX(i))
-            .attr('y', (i) => this.getBarLabelY(i)),
-        (update) =>
-          update.call((update) =>
-            update
-              .text((i) => this.getBarLabelText(i))
-              .style('fill', (i) => this.getBarLabelColor(i))
-              .transition(t as any)
-              .attr('x', (i) => this.getBarLabelX(i))
-              .attr('y', (i) => this.getBarLabelY(i))
-          ),
+            .style('display', this.config.labels.display ? null : 'none');
+          this.setLabelProperties(enter);
+        },
+        (update) => {
+          const updateTransition = update.transition(t as any);
+          this.setLabelProperties(updateTransition);
+        },
         (exit) => exit.remove()
       );
+  }
+
+  setLabelProperties(selection: any): any {
+    return selection
+      .text((i) => this.getBarLabelText(i))
+      .style('fill', (i) => this.getBarLabelColor(i))
+      .attr('x', (i) => this.getBarLabelX(i))
+      .attr('y', (i) => this.getBarLabelY(i));
   }
 
   getBarLabelText(i: number): string {
