@@ -68,7 +68,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   }
 
   init(): void {
-    if (this.overlayRef) {
+    if (!this.overlayRef) {
       this.createOverlay();
     }
   }
