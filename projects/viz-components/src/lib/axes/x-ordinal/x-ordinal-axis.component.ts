@@ -18,7 +18,7 @@ const XOrdinalAxis = mixinXAxis(OrdinalAxisMixin(XyAxis));
  *
  * <p class="comment-example">Example usage</p>
  *
- * import { VicXOrdinalAxisModule } from '@web-ast/viz-components';
+ * import { VicXOrdinalAxisModule } from '@hsi/viz-components';
  *
  * imports: [VicXOrdinalAxisModule]
  *
