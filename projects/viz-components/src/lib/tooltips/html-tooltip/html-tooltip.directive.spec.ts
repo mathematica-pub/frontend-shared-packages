@@ -60,9 +60,14 @@ describe('HtmlTooltipDirective', () => {
     beforeEach(() => {
       spyOn(directive, 'createOverlay');
     });
-    it('calls createOverlay once', () => {
+    it('calls createOverlay once if overlayRef is falsy', () => {
       directive.init();
       expect(directive.createOverlay).toHaveBeenCalledTimes(1);
+    });
+    it('does not call createOverlay if overlayRef is truthy', () => {
+      directive.overlayRef = 'hello' as any;
+      directive.init();
+      expect(directive.createOverlay).not.toHaveBeenCalled();
     });
   });
 
@@ -409,11 +414,9 @@ describe('HtmlTooltipDirective', () => {
       directive.panelClass = ['one', 'two'];
       directive.positionStrategy = 'positionStrategy' as any;
       mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
-      directive.size = {
-        width: 100,
-      };
       directive.config = {
         hasBackdrop: true,
+        size: { width: 100 },
       } as any;
     });
     it('calls setPanelClasses once', fakeAsync(() => {
