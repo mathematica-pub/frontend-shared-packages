@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection } from 'geojson';
-import { NoDataGeographyConfig } from 'projects/viz-components/src/public-api';
+import { VicNoDataGeographyConfig } from 'projects/viz-components/src/public-api';
 import { Observable, shareReplay } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
@@ -14,7 +14,7 @@ export class BasemapService {
   map$: Observable<Topology>;
   us: FeatureCollection;
   states: FeatureCollection;
-  usOutlineConfig: NoDataGeographyConfig;
+  usOutlineConfig: VicNoDataGeographyConfig;
 
   constructor(private data: DataResource) {}
 
@@ -46,7 +46,7 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    const outlineGeography = new NoDataGeographyConfig();
+    const outlineGeography = new VicNoDataGeographyConfig();
     outlineGeography.geographies = this.us.features;
     outlineGeography.strokeWidth = '1';
     outlineGeography.strokeColor = colors.base;

@@ -18,7 +18,7 @@ import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
 import {
   getLinesTooltipDataFromDatum,
-  LinesEventOutput,
+  VicLinesEventOutput,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
 
@@ -55,11 +55,11 @@ export class LinesMarkerClickDirective<
   @Input('vicLinesMarkerClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   /**
-   * An `EventEmitter` that emits a [LinesEmittedOutput]{@link LinesEventOutput} object if
+   * An `EventEmitter` that emits a [LinesEmittedOutput]{@link VicLinesEventOutput} object if
    *  an `applyEffect` or a `removeEffect` method calls `next` on it.
    */
   @Output('vicLinesMarkerClickOutput') eventOutput =
-    new EventEmitter<LinesEventOutput>();
+    new EventEmitter<VicLinesEventOutput>();
   /**
    * The index of the point that was clicked in the LinesComponent's values array.
    */
@@ -99,7 +99,7 @@ export class LinesMarkerClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): LinesEventOutput {
+  getTooltipData(): VicLinesEventOutput {
     const data = getLinesTooltipDataFromDatum(this.pointIndex, this.lines);
     return data;
   }

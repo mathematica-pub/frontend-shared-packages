@@ -18,7 +18,7 @@ import { ListenElement } from '../events/event.directive';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
-import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
+import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 type BarsEventDirective =
@@ -37,7 +37,7 @@ export class BarsClickDirective<
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput =
-    new EventEmitter<BarsEventOutput>();
+    new EventEmitter<VicBarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
@@ -89,7 +89,7 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): BarsEventOutput {
+  getEventOutput(): VicBarsEventOutput {
     const data = getBarsTooltipData(this.barIndex, this.elRef, this.bars);
     const extras = {
       positionX: this.pointerX,

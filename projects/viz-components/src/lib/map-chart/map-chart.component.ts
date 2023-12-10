@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
-import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 
 /**
  * A `Chart` component to be used with a `Geographies` `DataMarks` component.
@@ -33,7 +33,7 @@ import { AttributeDataDimensionConfig } from '../geographies/geographies.config'
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
 export class MapChartComponent extends ChartComponent implements Chart {
-  private attributeDataConfig: BehaviorSubject<AttributeDataDimensionConfig> =
+  private attributeDataConfig: BehaviorSubject<VicAttributeDataDimensionConfig> =
     new BehaviorSubject(null);
   attributeDataConfig$ = this.attributeDataConfig.asObservable();
   private attributeDataScale: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -43,7 +43,7 @@ export class MapChartComponent extends ChartComponent implements Chart {
     this.attributeDataScale.next(dataScale);
   }
 
-  updateAttributeDataConfig(dataConfig: AttributeDataDimensionConfig): void {
+  updateAttributeDataConfig(dataConfig: VicAttributeDataDimensionConfig): void {
     this.attributeDataConfig.next(dataConfig);
   }
 }

@@ -6,7 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
+import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import {
   EventEffect,
@@ -24,32 +24,32 @@ import {
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
 import {
-  ColumnConfig,
-  DataExportConfig,
+  VicColumnConfig,
+  VicDataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
 import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
-import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import { LinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
+import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
+import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
 import {
-  HtmlTooltipConfig,
-  HtmlTooltipOffsetFromOriginPosition,
+  VicHtmlTooltipConfig,
+  VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { PixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
+import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
-  dataConfig: LinesConfig;
-  xAxisConfig: AxisConfig;
-  yAxisConfig: AxisConfig;
+  dataConfig: VicLinesConfig;
+  xAxisConfig: VicAxisConfig;
+  yAxisConfig: VicAxisConfig;
   labels: string[];
 }
 const includeFiles = ['line-input-effects.ts'];
 
-class LinesExampleTooltipConfig extends HtmlTooltipConfig {
-  constructor(config: Partial<HtmlTooltipConfig> = {}) {
+class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
+  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
     super();
     this.size.minWidth = 340;
     Object.assign(this, config);
@@ -70,13 +70,13 @@ export class LinesExampleComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
       new LinesExampleTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<LinesEventOutput> =
-    new BehaviorSubject<LinesEventOutput>(null);
+  tooltipData: BehaviorSubject<VicLinesEventOutput> =
+    new BehaviorSubject<VicLinesEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
@@ -119,10 +119,10 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = new AxisConfig();
+    const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
-    const yAxisConfig = new AxisConfig();
-    const dataConfig = new LinesConfig();
+    const yAxisConfig = new VicAxisConfig();
+    const dataConfig = new VicLinesConfig();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.x.valueFormat = '%a %B %d %Y';
@@ -130,7 +130,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.category.valueAccessor = (d) => d.division;
     dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    dataConfig.y.domainPadding = new PixelDomainPaddingConfig();
+    dataConfig.y.domainPadding = new VicPixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,
@@ -140,25 +140,25 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: LinesEventOutput,
+    data: VicLinesEventOutput,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: LinesEventOutput): void {
+  updateTooltipData(data: VicLinesEventOutput): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: LinesEventOutput,
+    data: VicLinesEventOutput,
     eventContext: 'click' | 'hover'
   ): void {
     const config = new LinesExampleTooltipConfig();
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new HtmlTooltipOffsetFromOriginPosition();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY - 16;
@@ -201,18 +201,18 @@ export class LinesExampleComponent implements OnInit {
       },
     ];
 
-    const dataConfig = new DataExportConfig({
+    const dataConfig = new VicDataExportConfig({
       data: data,
       includeAllKeysAsDefault: true,
     });
-    const lineMetadataConfig = new DataExportConfig({
+    const lineMetadataConfig = new VicDataExportConfig({
       data: lineMetadata,
       flipped: true,
       flippedHeaderKey: 'fileType',
       marginBottom: 2,
       defaultColumnList: ['fileType', 'numFiles'],
       columns: [
-        new ColumnConfig({
+        new VicColumnConfig({
           title: 'Types of Cool ThInGs',
           valueAccessor: (x) => x.typesOfCoolThings,
         }),

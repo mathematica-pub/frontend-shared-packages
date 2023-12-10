@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
+import { VicCategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {
@@ -45,7 +45,7 @@ describe('DiscontinuousLegendComponent', () => {
 
   describe('setCategoricalValues', () => {
     beforeEach(() => {
-      component.config = new CategoricalAttributeDataDimensionConfig();
+      component.config = new VicCategoricalAttributeDataDimensionConfig();
       component.config.domain = ['a', 'b'];
       component.config.range = ['red', 'blue'];
       component.setCategoricalValues();

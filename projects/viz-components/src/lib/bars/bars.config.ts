@@ -1,26 +1,27 @@
 import { scaleLinear } from 'd3';
 import {
-  CategoricalColorDimensionConfig,
-  OrdinalDimensionConfig,
-  QuantitativeDimensionConfig,
+  VicCategoricalColorDimensionConfig,
+  VicOrdinalDimensionConfig,
+  VicQuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
 import {
-  DataMarksConfig,
-  PatternPredicate,
+  VicDataMarksConfig,
+  VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class BarsConfig extends DataMarksConfig {
-  ordinal: OrdinalDimensionConfig = new OrdinalDimensionConfig();
-  quantitative: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
-  category: CategoricalColorDimensionConfig =
-    new CategoricalColorDimensionConfig();
-  dimensions: BarsDimensionsConfig;
-  labels: BarsLabelsConfig;
-  patternPredicates?: PatternPredicate[];
+export class VicBarsConfig extends VicDataMarksConfig {
+  ordinal: VicOrdinalDimensionConfig = new VicOrdinalDimensionConfig();
+  quantitative: VicQuantitativeDimensionConfig =
+    new VicQuantitativeDimensionConfig();
+  category: VicCategoricalColorDimensionConfig =
+    new VicCategoricalColorDimensionConfig();
+  dimensions: VicBarsDimensionsConfig;
+  labels: VicBarsLabelsConfig;
+  patternPredicates?: VicPatternPredicate[];
 
-  constructor(init?: Partial<BarsConfig>) {
+  constructor(init?: Partial<VicBarsConfig>) {
     super();
-    this.dimensions = new VerticalBarChartDimensionsConfig();
+    this.dimensions = new VicVerticalBarChartDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.valueAccessor = (d) => d;
     this.quantitative.scaleType = scaleLinear;
@@ -30,13 +31,13 @@ export class BarsConfig extends DataMarksConfig {
   }
 }
 
-export class BarsLabelsConfig {
+export class VicBarsLabelsConfig {
   display: boolean;
   offset: number;
   color?: string;
   noValueFunction: (d) => string;
 
-  constructor(init?: Partial<BarsLabelsConfig>) {
+  constructor(init?: Partial<VicBarsLabelsConfig>) {
     this.display = true;
     this.offset = 4;
     this.noValueFunction = (d) => 'N/A';
@@ -44,7 +45,7 @@ export class BarsLabelsConfig {
   }
 }
 
-export class BarsDimensionsConfig {
+export class VicBarsDimensionsConfig {
   direction: 'vertical' | 'horizontal';
   x: 'ordinal' | 'quantitative';
   y: 'ordinal' | 'quantitative';
@@ -52,12 +53,12 @@ export class BarsDimensionsConfig {
   quantitative: 'x' | 'y';
   quantitativeDimension: 'width' | 'height';
 
-  constructor(init?: Partial<BarsDimensionsConfig>) {
+  constructor(init?: Partial<VicBarsDimensionsConfig>) {
     Object.assign(this, init);
   }
 }
 
-export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
+export class VicHorizontalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'horizontal';
@@ -69,7 +70,7 @@ export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
   }
 }
 
-export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
+export class VicVerticalBarChartDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'vertical';
@@ -81,7 +82,7 @@ export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
   }
 }
 
-export class BarsTooltipData {
+export class VicBarsTooltipData {
   datum: any;
   value: string;
 }

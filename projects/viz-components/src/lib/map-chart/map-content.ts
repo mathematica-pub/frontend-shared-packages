@@ -1,6 +1,6 @@
 import { Directive } from '@angular/core';
 import { combineLatest, takeUntil } from 'rxjs';
-import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { MapChartComponent } from './map-chart.component';
 
@@ -10,7 +10,7 @@ import { MapChartComponent } from './map-chart.component';
 @Directive()
 export abstract class MapContent extends Unsubscribe {
   attributeDataScale: any;
-  attributeDataConfig: AttributeDataDimensionConfig;
+  attributeDataConfig: VicAttributeDataDimensionConfig;
 
   constructor(public chart: MapChartComponent) {
     super();
@@ -31,6 +31,6 @@ export abstract class MapContent extends Unsubscribe {
 
   abstract setScaleAndConfig(
     scale: any,
-    config: AttributeDataDimensionConfig
+    config: VicAttributeDataDimensionConfig
   ): void;
 }

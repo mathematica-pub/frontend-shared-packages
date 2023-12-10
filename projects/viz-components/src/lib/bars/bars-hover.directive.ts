@@ -12,7 +12,7 @@ import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
-import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
+import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 @Directive({
@@ -24,7 +24,7 @@ export class BarsHoverDirective<
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverDirective<T>>[];
   @Output('vicBarsHoverOutput') eventOutput =
-    new EventEmitter<BarsEventOutput>();
+    new EventEmitter<VicBarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
   positionX: number;
@@ -63,7 +63,7 @@ export class BarsHoverDirective<
     }
   }
 
-  getEventOutput(): BarsEventOutput {
+  getEventOutput(): VicBarsEventOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,

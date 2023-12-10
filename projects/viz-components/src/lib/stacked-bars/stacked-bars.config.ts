@@ -1,11 +1,11 @@
 import { InternMap, stackOffsetDiverging, stackOrderNone } from 'd3';
-import { BarsConfig } from '../bars/bars.config';
+import { VicBarsConfig } from '../bars/bars.config';
 
-export class StackedBarsConfig extends BarsConfig {
+export class VicStackedBarsConfig extends VicBarsConfig {
   order: any;
   offset: any;
 
-  constructor(init?: Partial<StackedBarsConfig>) {
+  constructor(init?: Partial<VicStackedBarsConfig>) {
     super();
     this.order = stackOrderNone;
     this.offset = stackOffsetDiverging;
@@ -13,12 +13,14 @@ export class StackedBarsConfig extends BarsConfig {
   }
 }
 
-export interface StackDatumData {
+export interface VicStackDatumData {
   data: [string, InternMap];
 }
 
-export interface StackDatumIndex {
+export interface VicStackDatumIndex {
   i: number;
 }
 
-export type StackDatum = [number, number] & StackDatumData & StackDatumIndex;
+export type VicStackDatum = [number, number] &
+  VicStackDatumData &
+  VicStackDatumIndex;

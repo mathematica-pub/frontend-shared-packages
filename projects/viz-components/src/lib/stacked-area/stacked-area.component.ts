@@ -27,7 +27,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyContent } from '../xy-chart/xy-content';
-import { StackedAreaConfig } from './stacked-area.config';
+import { VicStackedAreaConfig } from './stacked-area.config';
 
 export const STACKED_AREA = new InjectionToken<StackedAreaComponent>(
   'StackedAreaComponent'
@@ -48,7 +48,7 @@ export class StackedAreaComponent
   extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
-  @Input() config: StackedAreaConfig;
+  @Input() config: VicStackedAreaConfig;
   values: XyDataMarksValues = new XyDataMarksValues();
   series: (SeriesPoint<InternMap<any, number>> & { i: number })[][];
   area;

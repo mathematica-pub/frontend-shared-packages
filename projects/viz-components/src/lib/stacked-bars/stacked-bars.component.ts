@@ -16,7 +16,7 @@ import {
 } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { StackDatum, StackedBarsConfig } from './stacked-bars.config';
+import { VicStackDatum, VicStackedBarsConfig } from './stacked-bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -28,7 +28,7 @@ import { StackDatum, StackedBarsConfig } from './stacked-bars.config';
   providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
 export class StackedBarsComponent extends BarsComponent {
-  @Input() override config: StackedBarsConfig;
+  @Input() override config: VicStackedBarsConfig;
   stackedData: any;
 
   override setMethodsFromConfigAndDraw(): void {
@@ -108,19 +108,23 @@ export class StackedBarsComponent extends BarsComponent {
         (enter) =>
           enter
             .append('rect')
-            .attr('x', (i) => this.getStackElementX(i as StackDatum))
-            .attr('y', (i) => this.getStackElementY(i as StackDatum))
-            .attr('width', (i) => this.getStackElementWidth(i as StackDatum))
-            .attr('height', (i) => this.getStackElementHeight(i as StackDatum)),
+            .attr('x', (i) => this.getStackElementX(i as VicStackDatum))
+            .attr('y', (i) => this.getStackElementY(i as VicStackDatum))
+            .attr('width', (i) => this.getStackElementWidth(i as VicStackDatum))
+            .attr('height', (i) =>
+              this.getStackElementHeight(i as VicStackDatum)
+            ),
         (update) =>
           update.call((update) =>
             update
               .transition(t as any)
-              .attr('x', (i) => this.getStackElementX(i as StackDatum))
-              .attr('y', (i) => this.getStackElementY(i as StackDatum))
-              .attr('width', (i) => this.getStackElementWidth(i as StackDatum))
+              .attr('x', (i) => this.getStackElementX(i as VicStackDatum))
+              .attr('y', (i) => this.getStackElementY(i as VicStackDatum))
+              .attr('width', (i) =>
+                this.getStackElementWidth(i as VicStackDatum)
+              )
               .attr('height', (i) =>
-                this.getStackElementHeight(i as StackDatum)
+                this.getStackElementHeight(i as VicStackDatum)
               )
           ),
         (exit) =>
@@ -133,7 +137,7 @@ export class StackedBarsComponent extends BarsComponent {
       );
   }
 
-  getStackElementX(datum: StackDatum): number {
+  getStackElementX(datum: VicStackDatum): number {
     // no unit test
     if (this.config.dimensions.ordinal === 'x') {
       return this.xScale(this.values.x[datum.i]);
@@ -142,7 +146,7 @@ export class StackedBarsComponent extends BarsComponent {
     }
   }
 
-  getStackElementY(datum: StackDatum): number {
+  getStackElementY(datum: VicStackDatum): number {
     // no unit test
     if (this.config.dimensions.ordinal === 'x') {
       return Math.min(this.yScale(datum[0]), this.yScale(datum[1]));
@@ -151,7 +155,7 @@ export class StackedBarsComponent extends BarsComponent {
     }
   }
 
-  getStackElementWidth(datum: StackDatum): number {
+  getStackElementWidth(datum: VicStackDatum): number {
     // no unit test
     if (this.config.dimensions.ordinal === 'x') {
       return (this.xScale as any).bandwidth();
@@ -160,7 +164,7 @@ export class StackedBarsComponent extends BarsComponent {
     }
   }
 
-  getStackElementHeight(datum: StackDatum): number {
+  getStackElementHeight(datum: VicStackDatum): number {
     // no unit test
     if (this.config.dimensions.ordinal === 'x') {
       return Math.abs(this.yScale(datum[0]) - this.yScale(datum[1]));

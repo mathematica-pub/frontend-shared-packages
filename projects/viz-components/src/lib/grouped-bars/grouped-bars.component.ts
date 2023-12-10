@@ -7,7 +7,7 @@ import {
 import { InternSet, range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { GroupedBarsConfig } from './grouped-bars.config';
+import { VicGroupedBarsConfig } from './grouped-bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -19,7 +19,7 @@ import { GroupedBarsConfig } from './grouped-bars.config';
   providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
 export class GroupedBarsComponent extends BarsComponent {
-  @Input() override config: GroupedBarsConfig;
+  @Input() override config: VicGroupedBarsConfig;
   groupScale: any;
 
   override setMethodsFromConfigAndDraw(): void {

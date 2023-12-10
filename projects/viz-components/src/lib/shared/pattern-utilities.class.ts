@@ -1,4 +1,4 @@
-import { PatternPredicate } from '../data-marks/data-marks.config';
+import { VicPatternPredicate } from '../data-marks/data-marks.config';
 
 /**
  * @internal
@@ -7,10 +7,10 @@ export class PatternUtilities {
   static getPatternFill(
     datum: any,
     defaultColor: string,
-    predicates: PatternPredicate[]
+    predicates: VicPatternPredicate[]
   ) {
     if (predicates) {
-      predicates.forEach((predMapping: PatternPredicate) => {
+      predicates.forEach((predMapping: VicPatternPredicate) => {
         if (predMapping.predicate(datum)) {
           defaultColor = `url(#${predMapping.patternName})`;
         }

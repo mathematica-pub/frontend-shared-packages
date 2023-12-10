@@ -1,5 +1,5 @@
-import { TooltipConfig } from '../tooltip.config';
+import { VicTooltipConfig } from '../tooltip.config';
 
-export class SvgTooltipConfig extends TooltipConfig {
+export class VicSvgTooltipConfig extends VicTooltipConfig {
   override type: 'svg';
 }

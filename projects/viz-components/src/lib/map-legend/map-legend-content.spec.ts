@@ -1,6 +1,6 @@
 import {
-  CategoricalAttributeDataDimensionConfig,
-  EqualValuesQuantitativeAttributeDataDimensionConfig,
+  VicCategoricalAttributeDataDimensionConfig,
+  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
 } from '../geographies/geographies.config';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
@@ -18,7 +18,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'getFormattedValues').and.returnValue(['1%', '2%']);
       directive.orientation = 'horizontal';
       directive.config =
-        new EqualValuesQuantitativeAttributeDataDimensionConfig();
+        new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
       directive.config.valueFormat = 'test formatter';
     });
 
@@ -57,7 +57,7 @@ describe('the MapLegendContent abstract class', () => {
 
   describe('setColors', () => {
     beforeEach(() => {
-      directive.config = new CategoricalAttributeDataDimensionConfig();
+      directive.config = new VicCategoricalAttributeDataDimensionConfig();
       directive.config.domain = ['a', 'b'];
       directive.config.range = ['red', 'blue'];
     });
