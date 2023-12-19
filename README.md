@@ -42,12 +42,23 @@ Our current maintainers are:
 
 ## Contributing
 
-1. Any github issue that is created needs to be approved by at least three maintainers before development work starts AND the github issue needs to be published to our [slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE). Approval includes: 
-  - Maintainers agree that the bug/feature is a good fit for the shared package
-  - Maintainers & issue opener have a code design plan of proposed changes - this is documented both in the initial issue and in the conversation following, and should describe any functions' / configs' input/output changes, planned testing, etc. 
+1. Issue approval. 
+
+Any github issue that is created needs to be approved by at least three people, two of whom are maintainers, before development work starts AND the github issue needs to be published to our [slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE). 
+
+Approval includes: 
+  - Reviewers agree that the bug/feature is a good fit for the shared package
+  
+2. Code design. 
+
+Also needs to be approved by at least three people (two maintainers) -- if issue creation contains sufficient code design, there doesn't need to be a separate code design approval step. Code design is documented both in the initial issue and in the conversation following, and should describe any functions' / configs' input/output changes, planned testing, etc. If necessary, a draft PR can be opened to describe changes.
+
+Approval includes: 
+  - Reviewers & issue opener have a code design plan of proposed changes 
 
 2. Once a github issue is approved for development, open a PR, and link again in our package's [slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE).
-3. Two maintainers need to review the PR for it to be merged. 
+
+3. Two people (at least one maintainer) need to review the PR for it to be merged. 
 
 ## Development Best Practices
 
