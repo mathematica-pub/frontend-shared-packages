@@ -50,8 +50,8 @@ describe('the XyAxis abstract class', () => {
       const scale = new BehaviorSubject<any>(null);
       const scale$ = scale.asObservable();
       abstractClass.subscribeToScale(scale$);
-      scale.next('new value');
       spy.calls.reset();
+      scale.next('new value');
       expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(
         null,
         'new value' as any
