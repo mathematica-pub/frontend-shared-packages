@@ -42,7 +42,17 @@ Our current maintainers are:
 
 ## Contributing
 
-1. Issue approval. 
+1. Creating an issue
+Anyone who has access to the repo may [open an issue](https://github.com/mathematica-org/viz-components/issues) to track a bug, request documentation, or suggest a feature. 
+
+2. Issue approval
+After any issue is created, it will receive the label "awaiting approval." 
+
+Before development work begins, three people aside from the person who opened the issue need to leave a comment on the issue granting approval. 
+
+Potential approvers should ask clarifying questions in the issue comments as well before approving. Approving entails agreement that the feature, as detailed in the issue, is a good fit for the package.
+
+The [hsi-viz-components Slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE) will be notified of new issues that are awaiting approval.  
 
 Any github issue that is created needs to be approved by at least three people, two of whom are maintainers, before development work starts AND the github issue needs to be published to our [slack channel](https://astwebcloud.slack.com/archives/C06865ECFFE). 
 
