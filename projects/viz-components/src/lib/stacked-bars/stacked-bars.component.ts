@@ -27,7 +27,7 @@ import { StackDatum, StackedBarsConfig } from './stacked-bars.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
-export class StackedBarsComponent extends BarsComponent {
+export class StackedBarsComponent<T> extends BarsComponent<T> {
   @Input() override config: StackedBarsConfig;
   stackedData: any;
 

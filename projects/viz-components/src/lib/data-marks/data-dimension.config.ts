@@ -1,21 +1,21 @@
 import { InternSet, scaleBand } from 'd3';
 import { FormatSpecifier } from '../value-format/value-format';
 
-export class DataDimensionConfig {
-  valueAccessor: (...args: any) => any;
+export class DataDimensionConfig<T> {
+  valueAccessor: (d: T, i: number) => any;
   domain?: any;
   valueFormat?: FormatSpecifier;
-  constructor(init?: Partial<DataDimensionConfig>) {
+  constructor(init?: Partial<DataDimensionConfig<T>>) {
     Object.assign(this, init);
   }
 }
 
-export class QuantitativeDimensionConfig extends DataDimensionConfig {
+export class QuantitativeDimensionConfig<T> extends DataDimensionConfig<T> {
   override domain?: [any, any];
   scaleType?: (d: any, r: any) => any;
   domainPadding: DomainPaddingConfig;
 
-  constructor(init?: Partial<QuantitativeDimensionConfig>) {
+  constructor(init?: Partial<QuantitativeDimensionConfig<T>>) {
     super();
     Object.assign(this, init);
   }
@@ -77,24 +77,24 @@ export type DomainPaddingConfig =
   | PercentOverDomainPaddingConfig
   | PixelDomainPaddingConfig;
 
-export class CategoricalColorDimensionConfig extends DataDimensionConfig {
+export class CategoricalColorDimensionConfig<T> extends DataDimensionConfig<T> {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) => any;
   colors?: string[];
-  constructor(init?: Partial<CategoricalColorDimensionConfig>) {
+  constructor(init?: Partial<CategoricalColorDimensionConfig<T>>) {
     super();
     Object.assign(this, init);
   }
 }
 
-export class OrdinalDimensionConfig extends DataDimensionConfig {
+export class OrdinalDimensionConfig<T> extends DataDimensionConfig<T> {
   override domain?: any[] | InternSet;
   scaleType: (d: any, r: any) => any;
   paddingInner: number;
   paddingOuter: number;
   align: number;
 
-  constructor(init?: Partial<OrdinalDimensionConfig>) {
+  constructor(init?: Partial<OrdinalDimensionConfig<T>>) {
     super();
     this.scaleType = scaleBand;
     this.paddingInner = 0.1;

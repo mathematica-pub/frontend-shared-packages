@@ -24,7 +24,7 @@ import {
   select,
   Transition,
 } from 'd3';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
@@ -35,8 +35,13 @@ import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { BarsConfig, BarsTooltipData } from './bars.config';
+import { Selection } from 'd3-selection';
 
-export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
+export const BARS = new InjectionToken<BarsComponent<T>>('BarsComponent');
+
+type BarGroupSelection = Selection<SVGGElement, number, SVGSVGElement, unknown>;
+type BarSelection = Selection<SVGRectElement, number, SVGGElement, number>;
+type BarLabelSelection = Selection<SVGTextElement, number, SVGGElement, number>;
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-bars]',
@@ -50,24 +55,24 @@ export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class BarsComponent
+export class BarsComponent<T>
   extends XyContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
-  @Input() config: BarsConfig;
+  @Input() config: BarsConfig<T>;
   @Output() tooltipData = new EventEmitter<BarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
-  barGroups: any;
-  barsKeyFunction: (i: number) => string;
+  barGroups: BarGroupSelection;
+  barsKeyFunction: (i: number[]) => string;
   private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
-  bars: BehaviorSubject<any> = new BehaviorSubject(null);
-  bars$: Observable<any> = this.bars.asObservable();
-  barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
-  barLabels$: Observable<any> = this.bars.asObservable();
+  bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
+  bars$ = this.bars.asObservable();
+  barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
+  barLabels$ = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -85,8 +90,14 @@ export class BarsComponent
   }
 
   updateBarElements(): void {
-    const bars = select(this.barsRef.nativeElement).selectAll('rect');
-    const barLabels = select(this.barsRef.nativeElement).selectAll('text');
+    const bars = select(this.barsRef.nativeElement).selectAll<
+      SVGRectElement,
+      number
+    >('rect');
+    const barLabels = select(this.barsRef.nativeElement).selectAll<
+      SVGTextElement,
+      number
+    >('text');
     this.bars.next(bars);
     this.barLabels.next(barLabels);
   }
@@ -230,7 +241,7 @@ export class BarsComponent
   }
 
   setBarsKeyFunction(): void {
-    this.barsKeyFunction = (i: number): string =>
+    this.barsKeyFunction = (i): string =>
       `${this.values[this.config.dimensions.ordinal][i]}`;
   }
 
@@ -248,8 +259,8 @@ export class BarsComponent
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
-      .selectAll('.vic-bar-group')
-      .data(this.values.indicies, this.barsKeyFunction)
+      .selectAll<SVGGElement, number[]>('.vic-bar-group')
+      .data<number[]>(this.values.indicies, this.barsKeyFunction)
       .join(
         (enter) => {
           enter.append('g').attr('class', 'vic-bar-group');
@@ -264,7 +275,7 @@ export class BarsComponent
 
     this.barGroups
       .selectAll('.vic-bar')
-      .data((i: number) => [i])
+      .data((i) => [i])
       .join(
         (enter) => {
           enter = enter
@@ -314,7 +325,7 @@ export class BarsComponent
       .join(
         (enter) => {
           enter = enter
-            .append('text')
+            .append<SVGTextElement>('text')
             .attr('class', 'vic-bar-label')
             .style('display', this.config.labels.display ? null : 'none');
           this.setLabelProperties(enter);

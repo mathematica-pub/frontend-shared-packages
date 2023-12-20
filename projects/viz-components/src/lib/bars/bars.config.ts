@@ -9,16 +9,17 @@ import {
   PatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class BarsConfig extends DataMarksConfig {
-  ordinal: OrdinalDimensionConfig = new OrdinalDimensionConfig();
-  quantitative: QuantitativeDimensionConfig = new QuantitativeDimensionConfig();
-  category: CategoricalColorDimensionConfig =
+export class BarsConfig<T> extends DataMarksConfig<T> {
+  ordinal: OrdinalDimensionConfig<T> = new OrdinalDimensionConfig<T>();
+  quantitative: QuantitativeDimensionConfig<T> =
+    new QuantitativeDimensionConfig();
+  category: CategoricalColorDimensionConfig<T> =
     new CategoricalColorDimensionConfig();
   dimensions: BarsDimensionsConfig;
-  labels: BarsLabelsConfig;
+  labels: BarsLabelsConfig<T>;
   patternPredicates?: PatternPredicate[];
 
-  constructor(init?: Partial<BarsConfig>) {
+  constructor(init?: Partial<BarsConfig<T>>) {
     super();
     this.dimensions = new VerticalBarChartDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
@@ -30,16 +31,16 @@ export class BarsConfig extends DataMarksConfig {
   }
 }
 
-export class BarsLabelsConfig {
+export class BarsLabelsConfig<T> {
   display: boolean;
   offset: number;
   color?: string;
-  noValueFunction: (d) => string;
+  noValueFunction: (d: T) => string;
 
-  constructor(init?: Partial<BarsLabelsConfig>) {
+  constructor(init?: Partial<BarsLabelsConfig<T>>) {
     this.display = true;
     this.offset = 4;
-    this.noValueFunction = (d) => 'N/A';
+    this.noValueFunction = () => 'N/A';
     Object.assign(this, init);
   }
 }
