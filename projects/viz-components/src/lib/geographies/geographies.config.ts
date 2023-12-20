@@ -4,6 +4,8 @@ import {
   ExtendedGeometryCollection,
   geoAlbersUsa,
   GeoGeometryObjects,
+  GeoPath,
+  GeoPermissibleObjects,
   GeoProjection,
   interpolateLab,
   scaleLinear,
@@ -73,8 +75,64 @@ export class BaseDataGeographyConfig {
    * @default: 'none'.
    */
   fill: string;
+  /**
+   * VicGeographyLabelConfig that define the labels to be shown.
+   * If not defined, no labels will be drawn.
+   */
+  labels: VicGeographyLabelConfig;
 }
 
+/**
+ * Should the color contrast check be in a service that could be
+ * reused for other visualization types? One example that comes to
+ * mind, although I don't think it's currently in viz-components,
+ * is dynamically setting the bar label color based on the ordinal
+ * color scale in a grouped bar chart.
+ */
+export class VicGeographyLabelConfig {
+  /**
+   * Function that determines whether a label should be shown on the GeoJSON feature
+   * Exists because it's common for small geographies to not have labels shown on them.
+   */
+  showLabelFunction: (d: Feature) => boolean;
+
+  /**
+   * Function that maps a feature to the desired label
+   */
+  labelTextFunction: (d: Feature) => string;
+
+  /**
+   * Under the hood, if the label is within the bounds of the geography (e.g. in the US, everything except HI), we check the contrast of
+   * the light & dark color against the fill of the geography, and use the one that has the best contrast ratio. If the label is not in the
+   * bounds of the geography, we use the dark text color.
+   */
+  darkTextColor: string;
+  lightTextColor: string;
+
+  darkTextWeight: string;
+  lightTextWeight: string;
+
+  // defaults to centroid of d [x position, y position]
+  labelPositionFunction: (
+    d: Feature,
+    path: GeoPath<any, GeoPermissibleObjects>
+  ) => [number, number] = (
+    d: Feature,
+    path: GeoPath<any, GeoPermissibleObjects>
+  ) => path.centroid(d);
+
+  /**
+   * behind the scenes, used in a font scale that is:
+   * fontScale = scaleLinear().domain([0, maxChartWidth]).range([smallestFontSize, largestFontSize])
+   * font-size = fontScale(actualChartWidth)
+   */
+  smallestFontSize = 0;
+  largestFontSize = 17;
+
+  constructor(init?: Partial<VicGeographyLabelConfig>) {
+    Object.assign(this, init);
+  }
+}
 export class NoDataGeographyConfig extends BaseDataGeographyConfig {
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.
