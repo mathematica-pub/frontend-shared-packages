@@ -2,7 +2,6 @@
 import { BehaviorSubject } from 'rxjs';
 import { XyAxisStub } from '../testing/stubs/xy-axis.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
-import { before } from 'cypress/types/lodash';
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisStub;
