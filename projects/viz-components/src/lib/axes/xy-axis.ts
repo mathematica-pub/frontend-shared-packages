@@ -1,6 +1,6 @@
 import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { select } from 'd3';
-import { Observable, pairwise, takeUntil } from 'rxjs';
+import { Observable, pairwise, startWith, takeUntil } from 'rxjs';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { SvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
@@ -39,7 +39,7 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
 
   subscribeToScale(scale$: Observable<any>): void {
     scale$
-      .pipe(takeUntil(this.unsubscribe), pairwise())
+      .pipe(takeUntil(this.unsubscribe), startWith(null), pairwise())
       .subscribe(([prev, curr]) => this.onScaleUpdate(prev, curr));
   }
 
