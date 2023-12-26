@@ -12,10 +12,12 @@ import {
 } from '@angular/core';
 import {
   extent,
+  geoContains,
   geoPath,
   InternMap,
   InternSet,
   map,
+  polygonContains,
   range,
   scaleLinear,
   select,
@@ -37,6 +39,7 @@ import {
   VicGeographyLabelConfig,
 } from './geographies.config';
 import { Feature } from 'geojson';
+import { ColorUtilities } from '../shared/color-utilities.class';
 
 export class MapDataValues {
   attributeDataValues: any[];
@@ -533,9 +536,15 @@ export class GeographiesComponent
       );
   }
 
-  getLabelFill(path: Feature, config: VicGeographyLabelConfig): string {
-    // if label is within bounds of geometry (assume either polygon or array of polygons)
-    // then figure stuff out
+  getLabelFill(d: Feature, config: VicGeographyLabelConfig): string {
+    const point = config.labelPositionFunction(d, geoPath());
+    if (geoContains(d, point)) {
+      const pathColor = this.getFill(d); // doesn't address pattern fills!
+      return ColorUtilities.getContrastRatio(config.lightTextColor, pathColor) >
+        ColorUtilities.getContrastRatio(config.darkTextColor, pathColor)
+        ? config.lightTextColor
+        : config.darkTextColor;
+    }
     return config.darkTextColor;
   }
 }

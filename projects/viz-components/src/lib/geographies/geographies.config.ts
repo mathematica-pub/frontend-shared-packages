@@ -106,9 +106,10 @@ export class VicGeographyLabelConfig {
    * Under the hood, if the label is within the bounds of the geography (e.g. in the US, everything except HI), we check the contrast of
    * the light & dark color against the fill of the geography, and use the one that has the best contrast ratio. If the label is not in the
    * bounds of the geography, we use the dark text color.
+   * Must be in rgb notation
    */
-  darkTextColor: string;
-  lightTextColor: string;
+  darkTextColor = 'rgb(0,0,0)';
+  lightTextColor = 'rgb(255,255,255)';
 
   darkTextWeight: string;
   lightTextWeight: string;
