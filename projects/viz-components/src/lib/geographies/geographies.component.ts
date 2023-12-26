@@ -34,13 +34,14 @@ import {
   DataGeographyConfig,
   GeographiesConfig,
   NoDataGeographyConfig,
+  VicGeographyLabelConfig,
 } from './geographies.config';
+import { Feature } from 'geojson';
 
 export class MapDataValues {
-  attributeDataGeographies: any[];
   attributeDataValues: any[];
-  indexMap: InternMap;
-  geoJsonGeographies: any[];
+  geoDataValueMap: InternMap;
+  geoDatumValueMap: InternMap;
 }
 
 export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
@@ -156,25 +157,24 @@ export class GeographiesComponent
   }
 
   setValueArrays(): void {
-    this.values.attributeDataGeographies = map(
+    const attributeDataGeographies = map(
       this.config.data,
       this.config.dataGeographyConfig.attributeDataConfig.geoAccessor
-    ).map((x) => {
-      return typeof x === 'string' ? x.toLowerCase() : x;
-    });
+    );
     this.values.attributeDataValues = map(
       this.config.data,
       this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
     ).map((d) => (d === null ? NaN : d));
-    this.values.indexMap = new InternMap(
-      this.values.attributeDataGeographies.map((name, i) => [name, i])
+    this.values.geoDataValueMap = new InternMap(
+      attributeDataGeographies.map((name, i) => {
+        return [name, this.values.attributeDataValues[i]];
+      })
     );
-    this.values.geoJsonGeographies = map(
-      this.config.dataGeographyConfig.geographies,
-      this.config.dataGeographyConfig.valueAccessor
-    ).map((x) => {
-      return typeof x === 'string' ? x.toLowerCase() : x;
-    });
+    this.values.geoDatumValueMap = new InternMap(
+      attributeDataGeographies.map((name, i) => {
+        return [name, this.config.data[i]];
+      })
+    );
   }
 
   initAttributeDataScaleDomain(): void {
@@ -385,9 +385,18 @@ export class GeographiesComponent
         (exit) => exit.remove()
       );
 
-    this.map
-      .selectAll('path')
+    const dataGeographyGroups = this.map
+      .selectAll('.geography-g')
       .data((layer: DataGeographyConfig) => layer.geographies)
+      .join(
+        (enter) => enter.append('g').attr('class', 'geography-g'),
+        (update) => update,
+        (exit) => exit.remove()
+      );
+
+    dataGeographyGroups
+      .selectAll('path')
+      .data((d: Feature) => [d])
       .join(
         (enter) => {
           enter = enter.append('path');
@@ -396,15 +405,23 @@ export class GeographiesComponent
         (update) => this.drawBasicPaths(update),
         (exit) => exit.remove()
       );
+
+    if (this.config.dataGeographyConfig.labels) {
+      this.drawLabels(
+        dataGeographyGroups,
+        t,
+        this.config.dataGeographyConfig.labels
+      );
+    }
   }
 
   drawBasicPaths(selection: any): any {
     return selection
       .attr('d', this.path)
-      .attr('fill', (d, i) =>
+      .attr('fill', (d) =>
         this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
-          ? this.getPatternFill(i)
-          : this.getFill(i)
+          ? this.getPatternFill(d)
+          : this.getFill(d)
       )
       .attr('stroke', this.config.dataGeographyConfig.strokeColor)
       .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth);
@@ -420,63 +437,100 @@ export class GeographiesComponent
         (exit) => exit.remove()
       );
 
-    noDataLayers
-      .selectAll('path')
-      .data((layer: NoDataGeographyConfig) => layer.geographies)
-      .join(
-        (enter) =>
-          enter
-            .append('path')
-            .attr('d', this.path)
-            .attr('fill', (d, i, nodes) =>
-              this.getNoDataGeographyPatternFill(nodes[i])
-            )
-            .attr(
-              'stroke',
-              (d, i, nodes) => this.getConfigFromNode(nodes[i]).strokeColor
-            )
-            .attr(
-              'stroke-width',
-              (d, i, nodes) => this.getConfigFromNode(nodes[i]).strokeWidth
-            ),
-        (update) =>
-          update
-            .attr('d', this.path)
-            .attr('fill', (d, i, nodes) =>
-              this.getNoDataGeographyPatternFill(nodes[i])
-            ),
-        (exit) => exit.remove()
-      );
+    this.config.noDataGeographiesConfigs.forEach((config, index) => {
+      const noDataGeographyGroups = noDataLayers
+        .filter((d, i) => i === index)
+        .selectAll('.no-data-geography-g')
+        .data((layer: NoDataGeographyConfig) => layer.geographies)
+        .join(
+          (enter) => enter.append('g').attr('class', 'geography-g'),
+          (update) => update,
+          (exit) => exit.remove()
+        );
+
+      noDataGeographyGroups
+        .selectAll('path')
+        .data((d) => [d])
+        .join(
+          (enter) =>
+            enter
+              .append('path')
+              .attr('d', this.path)
+              .attr('fill', this.getNoDataGeographyPatternFill(config))
+              .attr('stroke', config.strokeColor)
+              .attr('stroke-width', config.strokeWidth),
+          (update) =>
+            update
+              .attr('d', this.path)
+              .attr('fill', this.getNoDataGeographyPatternFill(config)),
+          (exit) => exit.remove()
+        );
+
+      if (config.labels) {
+        this.drawLabels(noDataGeographyGroups, t, config.labels);
+      }
+    });
   }
 
-  getConfigFromNode(node: any): any {
-    const config = select(node.parentNode).datum() as any;
-    return config;
-  }
-
-  getFill(i: number): string {
-    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
-    const dataValue = this.values.attributeDataValues[convertedIndex];
+  getFill(d: Feature): string {
+    const dataValue = this.values.geoDataValueMap.get(
+      this.config.dataGeographyConfig.valueAccessor(d)
+    );
     return this.attributeDataScale(dataValue);
   }
 
-  getPatternFill(i: number): string {
-    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
-    const dataValue = this.values.attributeDataValues[convertedIndex];
-    const datum = this.config.data[convertedIndex];
+  getPatternFill(d: Feature): string {
+    const geography = this.config.dataGeographyConfig.valueAccessor(d);
+    const dataValue = this.values.geoDataValueMap.get(geography);
+    const datum = this.values.geoDatumValueMap.get(geography);
     const color = this.attributeDataScale(dataValue);
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
     return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
-  getNoDataGeographyPatternFill(node: any): string {
-    const config: NoDataGeographyConfig = this.getConfigFromNode(node);
+  getNoDataGeographyPatternFill(config: NoDataGeographyConfig): string {
     return config.patternName ? `url(#${config.patternName})` : config.fill;
   }
 
-  getValueIndexFromDataGeographyIndex(i: number): number {
-    const geoName = this.values.geoJsonGeographies[i];
-    return this.values.indexMap.get(geoName);
+  drawLabels(layer: any, t: any, config: VicGeographyLabelConfig): void {
+    layer
+      .filter((d, i) => config.showLabelFunction(d, i))
+      .selectAll('.vic-geography-label')
+      .data((d: Feature) => [d])
+      .join(
+        (enter: any) =>
+          enter
+            .append('text')
+            .attr('class', '.vic-geography-label')
+            .attr('text-anchor', 'middle')
+            .attr('alignment-baseline', 'middle')
+            .attr('dominant-baseline', 'middle')
+            .style('cursor', 'default')
+            .text(config.labelTextFunction)
+            .attr('y', (d) => config.labelPositionFunction(d, this.path)[1])
+            .attr('x', (d) => config.labelPositionFunction(d, this.path)[0])
+            .attr('font-size', config.fontScale(this.ranges.x[1]))
+            .attr('fill', (d, i) => this.getLabelFill(d, config))
+            .attr('font-weight', 'normal'),
+        (update: any) =>
+          update.call((update: any) =>
+            update
+              .text(config.labelTextFunction)
+              .attr('x', config.labelPositionFunction[0])
+              .attr('y', config.labelPositionFunction[1])
+              .attr('font-size', config.fontScale(this.ranges.x[1]))
+              .transition(t as any)
+              .attr('fill', (d, i) => this.getLabelFill(d, config))
+              .attr('font-weight', 'normal')
+          ),
+        (exit: any) => exit.remove()
+      );
+  }
+
+  getLabelFill(path: Feature, config: VicGeographyLabelConfig): string {
+    // if label is within bounds of geometry (assume either polygon or array of polygons)
+    // then figure stuff out
+    return config.darkTextColor;
   }
 }

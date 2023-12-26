@@ -17,6 +17,7 @@ import {
   GeographiesEventOutput,
   GeographiesHoverEmitTooltipData,
   NoDataGeographyConfig,
+  VicGeographyLabelConfig,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
@@ -145,6 +146,9 @@ export class GeographiesExampleComponent implements OnInit {
         predicate: (d) => !!d && d.population < 1000000,
       },
     ];
+    config.labels = new VicGeographyLabelConfig();
+    config.labels.labelTextFunction = (d) => d.properties['id'];
+    config.labels.showLabelFunction = (d) => d.properties['id'] != 'WA';
     return config;
   }
 
@@ -156,9 +160,13 @@ export class GeographiesExampleComponent implements OnInit {
     const features = topojson
       .feature(map, map.objects['states'])
       ['features'].filter((x) => !statesInData.includes(x.properties.name));
+    const labels = new VicGeographyLabelConfig();
+    labels.labelTextFunction = (d) => d.properties['id'];
+    labels.showLabelFunction = (d) => d.properties['id'] === 'TX';
     return new NoDataGeographyConfig({
       geographies: features,
       patternName: this.patternName,
+      labels: labels,
     });
   }
 

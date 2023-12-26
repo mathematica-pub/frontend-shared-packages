@@ -33,7 +33,6 @@ export class GeographiesHoverDirective<
     new EventEmitter<GeographiesEventOutput>();
   feature: Feature;
   bounds: [[number, number], [number, number]];
-  geographyIndex: number;
   positionX: number;
   positionY: number;
 
@@ -57,7 +56,6 @@ export class GeographiesHoverDirective<
     const d = select(event.target as SVGPathElement).datum() as Feature;
     this.feature = d;
     this.bounds = this.geographies.path.bounds(d);
-    this.geographyIndex = this.getGeographyIndex(d);
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
@@ -69,18 +67,9 @@ export class GeographiesHoverDirective<
     }
   }
 
-  // consider making GeographiesEventMixin later to avoid duplicating this method
-  getGeographyIndex(d: any): number {
-    let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
-    if (typeof value === 'string') {
-      value = value.toLowerCase();
-    }
-    return this.geographies.values.indexMap.get(value);
-  }
-
   getEventOutput(): GeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
-      this.geographyIndex,
+      this.feature,
       this.geographies
     );
     this.positionX = (this.bounds[1][0] + this.bounds[0][0]) / 2;

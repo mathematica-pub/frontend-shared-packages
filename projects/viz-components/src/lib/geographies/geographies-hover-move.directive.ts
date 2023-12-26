@@ -10,6 +10,7 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
+import { Feature } from 'geojson';
 
 @Directive({
   selector: '[vicGeographiesHoverMoveEffects]',
@@ -21,7 +22,7 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
     new EventEmitter<GeographiesEventOutput>();
   pointerX: number;
   pointerY: number;
-  geographyIndex: number;
+  feature: Feature;
 
   constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
     super();
@@ -51,8 +52,8 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    const d = select(event.target as Element).datum();
-    this.geographyIndex = this.getGeographyIndex(d);
+    const d = select(event.target as Element).datum() as Feature;
+    this.feature = d;
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
@@ -64,17 +65,9 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getGeographyIndex(d: any): number {
-    let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
-    if (typeof value === 'string') {
-      value = value.toLowerCase();
-    }
-    return this.geographies.values.indexMap.get(value);
-  }
-
   getEventOutput(): GeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
-      this.geographyIndex,
+      this.feature,
       this.geographies
     );
     const output: GeographiesEventOutput = {

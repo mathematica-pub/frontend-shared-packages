@@ -8,6 +8,7 @@ import {
   GeoPermissibleObjects,
   GeoProjection,
   interpolateLab,
+  ScaleLinear,
   scaleLinear,
   scaleOrdinal,
   scaleQuantile,
@@ -94,7 +95,7 @@ export class VicGeographyLabelConfig {
    * Function that determines whether a label should be shown on the GeoJSON feature
    * Exists because it's common for small geographies to not have labels shown on them.
    */
-  showLabelFunction: (d: Feature) => boolean;
+  showLabelFunction: (d: Feature, i: number) => boolean = () => true;
 
   /**
    * Function that maps a feature to the desired label
@@ -112,7 +113,6 @@ export class VicGeographyLabelConfig {
   darkTextWeight: string;
   lightTextWeight: string;
 
-  // defaults to centroid of d [x position, y position]
   labelPositionFunction: (
     d: Feature,
     path: GeoPath<any, GeoPermissibleObjects>
@@ -123,11 +123,12 @@ export class VicGeographyLabelConfig {
 
   /**
    * behind the scenes, used in a font scale that is:
-   * fontScale = scaleLinear().domain([0, maxChartWidth]).range([smallestFontSize, largestFontSize])
+   * fontScale = scaleLinear().domain([0, largestChartSize]).range([0, largestFontSize])
    * font-size = fontScale(actualChartWidth)
    */
-  smallestFontSize = 0;
-  largestFontSize = 17;
+  fontScale: ScaleLinear<number, number, never> = scaleLinear()
+    .domain([0, 800])
+    .range([0, 17]);
 
   constructor(init?: Partial<VicGeographyLabelConfig>) {
     Object.assign(this, init);

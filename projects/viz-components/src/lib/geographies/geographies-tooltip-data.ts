@@ -1,3 +1,4 @@
+import { Feature } from 'geojson';
 import { formatValue } from '../value-format/value-format';
 import { GeographiesComponent } from './geographies.component';
 
@@ -14,16 +15,13 @@ export interface GeographiesEventOutput extends GeographiesTooltipOutput {
 }
 
 export function getGeographiesTooltipData(
-  geographyIndex: number,
+  geography: Feature,
   geographies: GeographiesComponent
 ): GeographiesTooltipOutput {
-  const datum = geographies.config.data.find(
-    (d) =>
-      geographies.config.dataGeographyConfig.attributeDataConfig
-        .geoAccessor(d)
-        .toLowerCase() ===
-      geographies.values.attributeDataGeographies[geographyIndex]
-  );
+  const geographyName =
+    geographies.config.dataGeographyConfig.valueAccessor(geography);
+  const datum = geographies.values.geoDatumValueMap.get(geographyName);
+  const value = geographies.values.geoDataValueMap.get(geographyName);
 
   const tooltipData: GeographiesTooltipOutput = {
     datum,
@@ -32,10 +30,10 @@ export function getGeographiesTooltipData(
         datum
       ),
     attributeValue: formatValue(
-      geographies.values.attributeDataValues[geographyIndex],
+      value,
       geographies.config.dataGeographyConfig.attributeDataConfig.valueFormat
     ),
-    color: geographies.getFill(geographyIndex),
+    color: geographies.getFill(geography),
   };
 
   return tooltipData;
