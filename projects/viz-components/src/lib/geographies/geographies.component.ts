@@ -515,6 +515,7 @@ export class GeographiesComponent
             .attr('alignment-baseline', 'middle')
             .attr('dominant-baseline', 'middle')
             .style('cursor', 'default')
+            .attr('pointer-events', 'none')
             .text(config.labelTextFunction)
             .attr('y', (d) => config.labelPositionFunction(d, this.path)[1])
             .attr('x', (d) => config.labelPositionFunction(d, this.path)[0])
