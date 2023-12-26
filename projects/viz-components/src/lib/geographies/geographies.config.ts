@@ -83,13 +83,6 @@ export class BaseDataGeographyConfig {
   labels: VicGeographyLabelConfig;
 }
 
-/**
- * Should the color contrast check be in a service that could be
- * reused for other visualization types? One example that comes to
- * mind, although I don't think it's currently in viz-components,
- * is dynamically setting the bar label color based on the ordinal
- * color scale in a grouped bar chart.
- */
 export class VicGeographyLabelConfig {
   /**
    * Function that determines whether a label should be shown on the GeoJSON feature
@@ -135,6 +128,7 @@ export class VicGeographyLabelConfig {
     Object.assign(this, init);
   }
 }
+
 export class NoDataGeographyConfig extends BaseDataGeographyConfig {
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.
