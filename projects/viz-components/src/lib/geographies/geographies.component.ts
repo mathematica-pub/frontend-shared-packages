@@ -443,7 +443,7 @@ export class GeographiesComponent
         .selectAll('.no-data-geography-g')
         .data((layer: NoDataGeographyConfig) => layer.geographies)
         .join(
-          (enter) => enter.append('g').attr('class', 'geography-g'),
+          (enter) => enter.append('g').attr('class', 'no-data-geography-g'),
           (update) => update,
           (exit) => exit.remove()
         );
@@ -497,12 +497,17 @@ export class GeographiesComponent
     layer
       .filter((d, i) => config.showLabelFunction(d, i))
       .selectAll('.vic-geography-label')
+      .remove();
+
+    layer
+      .filter((d, i) => config.showLabelFunction(d, i))
+      .selectAll('.vic-geography-label')
       .data((d: Feature) => [d])
       .join(
         (enter: any) =>
           enter
             .append('text')
-            .attr('class', '.vic-geography-label')
+            .attr('class', 'vic-geography-label')
             .attr('text-anchor', 'middle')
             .attr('alignment-baseline', 'middle')
             .attr('dominant-baseline', 'middle')
