@@ -15,7 +15,7 @@ import {
   scaleQuantize,
   scaleThreshold,
 } from 'd3';
-import { Feature } from 'geojson';
+import { Feature, MultiPolygon } from 'geojson';
 import { DataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
   DataMarksConfig,
@@ -115,10 +115,11 @@ export class VicGeographyLabelConfig {
   lightTextWeight: string;
 
   labelPositionFunction: (
-    d: Feature,
-    path: GeoPath<any, GeoPermissibleObjects>
+    d: Feature<MultiPolygon, any>,
+    path: GeoPath<any, GeoPermissibleObjects>,
+    projection: any
   ) => [number, number] = (
-    d: Feature,
+    d: Feature<MultiPolygon, any>,
     path: GeoPath<any, GeoPermissibleObjects>
   ) => path.centroid(d);
 

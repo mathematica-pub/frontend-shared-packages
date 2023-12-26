@@ -38,7 +38,7 @@ import {
   NoDataGeographyConfig,
   VicGeographyLabelConfig,
 } from './geographies.config';
-import { Feature } from 'geojson';
+import { Feature, MultiPolygon } from 'geojson';
 import { ColorUtilities } from '../shared/color-utilities.class';
 
 export class MapDataValues {
@@ -517,8 +517,16 @@ export class GeographiesComponent
             .style('cursor', 'default')
             .attr('pointer-events', 'none')
             .text(config.labelTextFunction)
-            .attr('y', (d) => config.labelPositionFunction(d, this.path)[1])
-            .attr('x', (d) => config.labelPositionFunction(d, this.path)[0])
+            .attr(
+              'y',
+              (d) =>
+                config.labelPositionFunction(d, this.path, this.projection)[1]
+            )
+            .attr(
+              'x',
+              (d) =>
+                config.labelPositionFunction(d, this.path, this.projection)[0]
+            )
             .attr('font-size', config.fontScale(this.ranges.x[1]))
             .attr('fill', (d, i) => this.getLabelFill(d, config))
             .attr('font-weight', (d, i) => this.getLabelFontWeight(d, config)),
@@ -537,8 +545,11 @@ export class GeographiesComponent
       );
   }
 
-  getLabelFill(d: Feature, config: VicGeographyLabelConfig): string {
-    const point = config.labelPositionFunction(d, geoPath());
+  getLabelFill(
+    d: Feature<MultiPolygon, any>,
+    config: VicGeographyLabelConfig
+  ): string {
+    const point = config.labelPositionFunction(d, geoPath(), (x) => x);
     if (geoContains(d, point)) {
       const pathColor = this.getFill(d); // doesn't address pattern fills!
       return ColorUtilities.getContrastRatio(config.lightTextColor, pathColor) >
@@ -549,7 +560,10 @@ export class GeographiesComponent
     return config.darkTextColor;
   }
 
-  getLabelFontWeight(d: Feature, config: VicGeographyLabelConfig): string {
+  getLabelFontWeight(
+    d: Feature<MultiPolygon, any>,
+    config: VicGeographyLabelConfig
+  ): string {
     const fontColor = this.getLabelFill(d, config);
     if (fontColor === config.darkTextColor) {
       return '600';
