@@ -123,8 +123,7 @@ export class VicGeographyLabelConfig {
   ) => path.centroid(d);
 
   /**
-   * behind the scenes, used in a font scale that is:
-   * fontScale = scaleLinear().domain([0, largestChartSize]).range([0, largestFontSize])
+   * fontScale = scaleLinear().domain([smallestChartSize, largestChartSize]).range([smallestChartSize, largestFontSize])
    * font-size = fontScale(actualChartWidth)
    */
   fontScale: ScaleLinear<number, number, never> = scaleLinear()

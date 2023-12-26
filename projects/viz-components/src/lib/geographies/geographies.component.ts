@@ -521,7 +521,7 @@ export class GeographiesComponent
             .attr('x', (d) => config.labelPositionFunction(d, this.path)[0])
             .attr('font-size', config.fontScale(this.ranges.x[1]))
             .attr('fill', (d, i) => this.getLabelFill(d, config))
-            .attr('font-weight', 'normal'),
+            .attr('font-weight', (d, i) => this.getLabelFontWeight(d, config)),
         (update: any) =>
           update.call((update: any) =>
             update
@@ -531,7 +531,7 @@ export class GeographiesComponent
               .attr('font-size', config.fontScale(this.ranges.x[1]))
               .transition(t as any)
               .attr('fill', (d, i) => this.getLabelFill(d, config))
-              .attr('font-weight', 'normal')
+              .attr('font-weight', (d, i) => this.getLabelFontWeight(d, config))
           ),
         (exit: any) => exit.remove()
       );
@@ -547,5 +547,14 @@ export class GeographiesComponent
         : config.darkTextColor;
     }
     return config.darkTextColor;
+  }
+
+  getLabelFontWeight(d: Feature, config: VicGeographyLabelConfig): string {
+    const fontColor = this.getLabelFill(d, config);
+    if (fontColor === config.darkTextColor) {
+      return '600';
+    } else {
+      return '400';
+    }
   }
 }
