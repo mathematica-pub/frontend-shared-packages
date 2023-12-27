@@ -7,7 +7,7 @@ import { UtilitiesService } from '../../core/services/utilities.service';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
-import { HtmlTooltipConfig } from './html-tooltip.config';
+import { VicHtmlTooltipConfig } from './html-tooltip.config';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
@@ -80,7 +80,7 @@ describe('HtmlTooltipDirective', () => {
       spyOn(directive, 'checkBackdropChanges');
       spyOn(directive, 'updateVisibility');
       spyOn(directive, 'init');
-      directive.config = new HtmlTooltipConfig();
+      directive.config = new VicHtmlTooltipConfig();
       changes = {};
     });
     describe('if overlayRef and config are truthy', () => {
@@ -487,7 +487,7 @@ describe('HtmlTooltipDirective', () => {
   describe('setPanelClasses', () => {
     describe('if addEventsDisabledClass is false', () => {
       beforeEach(() => {
-        directive.config = new HtmlTooltipConfig();
+        directive.config = new VicHtmlTooltipConfig();
         directive.config.addEventsDisabledClass = false;
       });
       it('sets panel class to the correct value - case user provides single string', () => {
@@ -514,7 +514,7 @@ describe('HtmlTooltipDirective', () => {
     });
     describe('if addEventsDisabledClass is true', () => {
       beforeEach(() => {
-        directive.config = new HtmlTooltipConfig();
+        directive.config = new VicHtmlTooltipConfig();
         directive.config.addEventsDisabledClass = true;
       });
       it('sets panel class to the correct value - case user provides single string', () => {

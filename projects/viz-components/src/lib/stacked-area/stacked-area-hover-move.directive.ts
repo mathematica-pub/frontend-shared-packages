@@ -7,7 +7,7 @@ import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getStackedAreaTooltipData,
-  StackedAreaEventOutput,
+  VicStackedAreaEventOutput,
 } from './stacked-area-tooltip-data';
 import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
 
@@ -18,7 +18,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
   effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective>[];
   @Output('vicStackedAreaHoverMoveOutput') eventOutput =
-    new EventEmitter<StackedAreaEventOutput>();
+    new EventEmitter<VicStackedAreaEventOutput>();
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
@@ -97,7 +97,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getTooltipData(): StackedAreaEventOutput {
+  getTooltipData(): VicStackedAreaEventOutput {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
       this.stackedArea

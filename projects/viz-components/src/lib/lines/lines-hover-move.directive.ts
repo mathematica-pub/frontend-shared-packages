@@ -6,7 +6,7 @@ import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
   getLinesTooltipDataFromDatum,
-  LinesEventOutput,
+  VicLinesEventOutput,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
 
@@ -19,7 +19,7 @@ export class LinesHoverMoveDirective<
   @Input('vicLinesHoverMoveEffects')
   effects: HoverMoveEventEffect<LinesHoverMoveDirective<T>>[];
   @Output('vicLinesHoverMoveOutput') eventOutput =
-    new EventEmitter<LinesEventOutput>();
+    new EventEmitter<VicLinesEventOutput>();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
@@ -131,7 +131,7 @@ export class LinesHoverMoveDirective<
     }
   }
 
-  getEventOutput(): LinesEventOutput {
+  getEventOutput(): VicLinesEventOutput {
     const data = getLinesTooltipDataFromDatum(
       this.closestPointIndex,
       this.lines

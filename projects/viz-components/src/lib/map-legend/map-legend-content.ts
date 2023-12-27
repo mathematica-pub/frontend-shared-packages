@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { AttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { formatValue } from '../value-format/value-format';
 
 @Directive()
@@ -9,7 +9,7 @@ export abstract class MapLegendContent {
   @Input() orientation: 'horizontal' | 'vertical';
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
   @Input() scale: any;
-  @Input() config: AttributeDataDimensionConfig;
+  @Input() config: VicAttributeDataDimensionConfig;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];

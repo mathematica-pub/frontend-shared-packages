@@ -5,7 +5,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
-import { LinesConfig } from './lines.config';
+import { VicLinesConfig } from './lines.config';
 
 describe('LineChartComponent', () => {
   let component: LinesComponent;
@@ -30,7 +30,7 @@ describe('LineChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LinesComponent);
     component = fixture.componentInstance;
-    component.config = new LinesConfig();
+    component.config = new VicLinesConfig();
   });
 
   describe('ngOnChanges()', () => {
@@ -296,7 +296,7 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawLines');
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawLineLabels');
-      component.config = new LinesConfig();
+      component.config = new VicLinesConfig();
     });
     it('calls drawLines once and with the correct argument', () => {
       component.drawMarks(duration);

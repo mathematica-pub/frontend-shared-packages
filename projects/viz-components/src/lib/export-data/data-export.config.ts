@@ -1,15 +1,15 @@
 import { formatValue, valueFormat } from '../value-format/value-format';
 
-export class ColumnConfig {
+export class VicColumnConfig {
   title: string;
   valueAccessor: (x: any) => any;
 
-  constructor(init?: Partial<ColumnConfig>) {
+  constructor(init?: Partial<VicColumnConfig>) {
     Object.assign(this, init);
   }
 }
 
-export class DataExportConfig {
+export class VicDataExportConfig {
   data: unknown[];
   /**
    * If true, the data will be flipped.
@@ -49,16 +49,16 @@ export class DataExportConfig {
    * e.g. if there's a special title, the data needs to be formatted in some way,
    * sometimes certain fields are suppressed, etc.
    */
-  columns: ColumnConfig[] = [];
+  columns: VicColumnConfig[] = [];
   marginBottom = 0;
-  constructor(config?: Partial<DataExportConfig>) {
+  constructor(config?: Partial<VicDataExportConfig>) {
     Object.assign(this, config);
     if (this.includeAllKeysAsDefault) {
       this.defaultColumnList = Object.keys(this.data[0]);
     }
     this.defaultColumnList.forEach((key) => {
       this.columns.push(
-        new ColumnConfig({
+        new VicColumnConfig({
           title: key !== this.flippedHeaderKey ? this.convertToTitle(key) : key,
           valueAccessor: (x) =>
             x[key] instanceof Date

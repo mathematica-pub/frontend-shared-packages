@@ -34,7 +34,7 @@ import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { BarsConfig, BarsTooltipData } from './bars.config';
+import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({
@@ -55,8 +55,8 @@ export class BarsComponent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
-  @Input() config: BarsConfig;
-  @Output() tooltipData = new EventEmitter<BarsTooltipData>();
+  @Input() config: VicBarsConfig;
+  @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
   values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
   barGroups: any;

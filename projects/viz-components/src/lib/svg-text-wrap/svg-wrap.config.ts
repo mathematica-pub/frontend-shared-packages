@@ -1,16 +1,11 @@
-export class SvgTextWrapConfig {
-  // test comment
+export class VicSvgTextWrapConfig {
   width: number;
   maintainXPosition: boolean;
   maintainYPosition: boolean;
-  /**
-   * multiline test comment
-   */
   lineHeight: number;
 
-  constructor(init?: Partial<SvgTextWrapConfig>) {
+  constructor(init?: Partial<VicSvgTextWrapConfig>) {
     this.maintainXPosition = false;
-    // another test comment
     this.maintainYPosition = false;
     this.lineHeight = 1.1;
     Object.assign(this, init);

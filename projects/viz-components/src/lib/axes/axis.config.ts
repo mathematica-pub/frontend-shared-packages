@@ -1,7 +1,7 @@
 import { TimeInterval } from 'd3';
-import { TickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
+import { VicTickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
 
-export class AxisConfig {
+export class VicAxisConfig {
   /**
    * Used only on quantitative axes.
    *
@@ -68,7 +68,7 @@ export class AxisConfig {
    *  method.
    *
    * Values will be formatted with either the provided value for
-   *  [tickFormat]{@link AxisConfig.tickFormat} or the default format.
+   *  [tickFormat]{@link VicAxisConfig.tickFormat} or the default format.
    */
   tickValues?: any[];
 
@@ -77,9 +77,9 @@ export class AxisConfig {
    *
    * Note: In `Bars`, bar labels are tick labels.
    */
-  wrap?: TickWrapConfig;
+  wrap?: VicTickWrapConfig;
 
-  constructor(init?: Partial<AxisConfig>) {
+  constructor(init?: Partial<VicAxisConfig>) {
     Object.assign(this, init);
   }
 }

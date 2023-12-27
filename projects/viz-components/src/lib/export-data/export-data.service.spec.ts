@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { VicExportDataService } from './export-data.service';
-import { DataExportConfig } from './data-export.config';
+import { VicDataExportConfig } from './data-export.config';
 
 describe('ExportDataService', () => {
   let service: VicExportDataService;
@@ -19,7 +19,7 @@ describe('ExportDataService', () => {
 
   describe('convertToTitle function', () => {
     it('should convert camel case to title', () => {
-      const dataExportConfig = new DataExportConfig();
+      const dataExportConfig = new VicDataExportConfig();
       expect(dataExportConfig.convertToTitle('thisString')).toBe('This String');
       expect(dataExportConfig.convertToTitle('123String')).toBe('123 String');
       expect(dataExportConfig.convertToTitle('123string')).toBe('123 string');

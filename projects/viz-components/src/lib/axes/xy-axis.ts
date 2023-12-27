@@ -3,9 +3,9 @@ import { select } from 'd3';
 import { Observable, pairwise, startWith, takeUntil } from 'rxjs';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
-import { SvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
+import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { AxisConfig } from './axis.config';
+import { VicAxisConfig } from './axis.config';
 
 /**
  * A base directive for all axes.
@@ -15,7 +15,7 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
   /**
    * The configuration for the axis.
    */
-  @Input() config: AxisConfig;
+  @Input() config: VicAxisConfig;
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   axisFunction: any;
   axis: any;
@@ -94,9 +94,9 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { wrapWidth, ...properties } = this.config.wrap;
     const config = Object.assign(
-      new SvgTextWrapConfig(),
+      new VicSvgTextWrapConfig(),
       properties
-    ) as SvgTextWrapConfig;
+    ) as VicSvgTextWrapConfig;
     let width: number;
     if (this.config.wrap.wrapWidth === 'bandwidth') {
       width = this.scale.bandwidth();

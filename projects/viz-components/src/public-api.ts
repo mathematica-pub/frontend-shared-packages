@@ -21,6 +21,7 @@ export * from './lib/bars/bars-hover.directive';
 export * from './lib/bars/bars-input-event.directive';
 export * from './lib/bars/bars-click.directive';
 export * from './lib/bars/bars-click-effects';
+export * from './lib/bars/bars-tooltip-data';
 export * from './lib/bars/bars.component';
 export * from './lib/bars/bars.config';
 export * from './lib/bars/bars.module';

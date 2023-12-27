@@ -1,9 +1,9 @@
-import { PatternPredicate } from '../data-marks/data-marks.config';
+import { VicPatternPredicate } from '../data-marks/data-marks.config';
 import { PatternUtilities } from './pattern-utilities.class';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
-    const predicates: PatternPredicate[] = [
+    const predicates: VicPatternPredicate[] = [
       { patternName: 'pattern', predicate: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {
