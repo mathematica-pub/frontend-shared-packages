@@ -68,7 +68,7 @@ All approvers of the issue must sign off on the code design document before the 
 
 3. Development.
 
-Any ticket that is marked as "ready for development" can be self-assigned by any contributor or maintainer. Once assigned, we want ongoing development progress to be made in the form of commits pushed to a draft PR or comments written to the issue or draft PR. If you don't have time to make weekly progress on an issue, we ask that you push all your progress to the repo (in the form of a draft PR or issue comments) and unassign yourself from the issue.
+Any issue that is marked as "ready for development" can be self-assigned by any contributor or maintainer. Once assigned, we want ongoing development progress to be made in the form of commits pushed to a draft PR or comments written to the issue or draft PR. If you don't have time to make weekly progress on an issue, we ask that you push all your progress to the repo (in the form of a draft PR or issue comments) and unassign yourself from the issue.
 
 (Unassignment will be automated eventually.)
 
