@@ -33,7 +33,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyContent } from '../xy-chart/xy-content';
+import { XyDataMarksContent } from '../xy-chart/xy-data-marks-content';
 import { VicLinesConfig } from './lines.config';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
@@ -67,7 +67,7 @@ export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
   ],
 })
 export class LinesComponent
-  extends XyContent
+  extends XyDataMarksContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;

@@ -8,7 +8,7 @@ import { XyChartComponent } from './xy-chart.component';
  * @internal
  */
 
-export abstract class XyContent extends Unsubscribe {
+export abstract class XyDataMarksContent extends Unsubscribe {
   xScale: any;
   yScale: any;
   categoryScale: any;

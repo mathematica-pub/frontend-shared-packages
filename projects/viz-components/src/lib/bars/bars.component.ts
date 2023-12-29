@@ -33,7 +33,7 @@ import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyContent } from '../xy-chart/xy-content';
+import { XyDataMarksContent } from '../xy-chart/xy-data-marks-content';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
@@ -51,7 +51,7 @@ export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
   ],
 })
 export class BarsComponent
-  extends XyContent
+  extends XyDataMarksContent
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
