@@ -281,6 +281,14 @@ export class BarsComponent
       );
   }
 
+  transformBarGroup(selection: any): any {
+    return selection.attr('transform', (i) => {
+      const x = this.getBarX(i);
+      const y = this.getBarY(i);
+      return `translate(${x},${y})`;
+    });
+  }
+
   setBarSizeAndFill(selection: any): any {
     return selection
       .attr('width', (i) => this.getBarWidth(i as number))

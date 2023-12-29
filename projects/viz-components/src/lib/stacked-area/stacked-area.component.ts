@@ -74,9 +74,9 @@ export class StackedAreaComponent
     this.setValueArrays();
     this.initXAndCategoryDomains();
     this.setValueIndicies();
+    this.setSeries();
     this.initYDomain();
     this.initCategoryScale();
-    this.setSeries();
     this.setChartScales(true);
   }
 
@@ -105,23 +105,6 @@ export class StackedAreaComponent
     );
   }
 
-  initYDomain(): void {
-    if (this.config.y.domain === undefined) {
-      this.config.y.domain = extent(this.series.flat(2));
-      this.config.y.domain[0] = Math.floor(this.config.y.domain[0]);
-      this.config.y.domain[1] = Math.ceil(this.config.y.domain[1]);
-    }
-  }
-
-  initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
-    }
-  }
-
   setSeries(): void {
     const rolledUpData: InternMap<any, InternMap<any, number>> = rollup(
       this.values.indicies,
@@ -146,6 +129,23 @@ export class StackedAreaComponent
           })
         )
       );
+  }
+
+  initYDomain(): void {
+    if (this.config.y.domain === undefined) {
+      this.config.y.domain = extent(this.series.flat(2));
+      this.config.y.domain[0] = Math.floor(this.config.y.domain[0]);
+      this.config.y.domain[1] = Math.ceil(this.config.y.domain[1]);
+    }
+  }
+
+  initCategoryScale(): void {
+    if (this.config.category.colorScale === undefined) {
+      this.config.category.colorScale = scaleOrdinal(
+        new InternSet(this.config.category.domain),
+        this.config.category.colors
+      );
+    }
   }
 
   setChartScales(useTransition: boolean): void {
