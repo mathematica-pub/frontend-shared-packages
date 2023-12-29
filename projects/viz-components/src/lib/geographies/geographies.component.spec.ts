@@ -1,5 +1,5 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MapChartComponent } from '../map-chart/map-chart.component';
@@ -14,7 +14,6 @@ import {
   VicGeographiesConfig,
   VicNoBinsQuantitativeAttributeDataDimensionConfig,
 } from './geographies.config';
-import { before } from 'cypress/types/lodash';
 
 describe('GeographiesComponent', () => {
   let component: GeographiesComponent;
@@ -42,104 +41,34 @@ describe('GeographiesComponent', () => {
     component.config = new VicGeographiesConfig();
   });
 
-  describe('ngOnChanges()', () => {
-    let configChange: any;
+  describe('initFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromConfig');
-      configChange = {
-        config: new SimpleChange('', '', false),
-      };
-    });
-
-    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
-      component.ngOnChanges(configChange);
-      expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
-      ).toHaveBeenCalledOnceWith(configChange, 'config');
-    });
-
-    it('calls setPropertiesFromConfig once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
-      component.ngOnChanges(configChange);
-      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not  call setPropertiesFromConfig once if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
-      component.ngOnChanges(configChange);
-      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('ngOnInit()', () => {
-    beforeEach(() => {
-      spyOn(component, 'subscribeToRanges');
-      spyOn(component, 'subscribeToAttributeScaleAndConfig');
-      spyOn(component, 'setPropertiesFromConfig');
-    });
-
-    it('calls subscribeToRanges once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToRanges).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls subscribeToAttributeScaleAndConfig once', () => {
-      component.ngOnInit();
-      expect(
-        component.subscribeToAttributeScaleAndConfig
-      ).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setPropertiesFromConfig once', () => {
-      component.ngOnInit();
-      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('resizeMarks()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setProjection');
-      spyOn(component, 'setPath');
+      spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'drawMarks');
-      component.chart = { transitionDuration: 200 } as any;
-      component.resizeMarks();
     });
-    it('calls setProjection once', () => {
-      expect(component.setProjection).toHaveBeenCalledTimes(1);
+    it('calls setPropertiesFromConfig once', () => {
+      component.initFromConfig();
+      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
     });
-
-    it('calls setPath once', () => {
-      expect(component.setPath).toHaveBeenCalledTimes(1);
+    it('calls setPropertiesFromRanges once', () => {
+      component.initFromConfig();
+      expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
     });
-
     it('calls drawMarks once', () => {
+      component.initFromConfig();
       expect(component.drawMarks).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('setPropertiesFromConfig()', () => {
     beforeEach(() => {
-      spyOn(component, 'setProjection');
-      spyOn(component, 'setPath');
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initAttributeDataScaleDomain');
       spyOn(component, 'initAttributeDataScaleRange');
       spyOn(component, 'setChartAttributeScaleAndConfig');
       component.setPropertiesFromConfig();
     });
-    it('calls setProjection once', () => {
-      expect(component.setProjection).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setPath once', () => {
-      expect(component.setPath).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setValueArrays once', () => {
       expect(component.setValueArrays).toHaveBeenCalledTimes(1);
     });
@@ -156,6 +85,20 @@ describe('GeographiesComponent', () => {
       expect(component.setChartAttributeScaleAndConfig).toHaveBeenCalledTimes(
         1
       );
+    });
+  });
+
+  describe('resizeMarks()', () => {
+    beforeEach(() => {
+      spyOn(component, 'setPropertiesFromRanges');
+      spyOn(component, 'drawMarks');
+      component.resizeMarks();
+    });
+    it('calls setPropertiesFromRanges once', () => {
+      expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
+    });
+    it('calls drawMarks once', () => {
+      expect(component.drawMarks).toHaveBeenCalledTimes(1);
     });
   });
 

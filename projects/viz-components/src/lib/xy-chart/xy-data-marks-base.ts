@@ -5,15 +5,15 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { combineLatest, filter, takeUntil } from 'rxjs';
+import { filter, takeUntil } from 'rxjs';
 import { Ranges } from '../chart/chart.component';
+import { UtilitiesService } from '../core/services/utilities.service';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import {
   XyChartComponent,
   XyChartScales,
   XyContentScale,
 } from './xy-chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
 
 /**
  * @internal

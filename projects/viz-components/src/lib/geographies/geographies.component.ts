@@ -5,25 +5,21 @@ import {
   InjectionToken,
   Input,
   NgZone,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  extent,
-  geoPath,
   InternMap,
   InternSet,
+  Transition,
+  extent,
+  geoPath,
   map,
   range,
   scaleLinear,
   select,
-  Transition,
 } from 'd3';
-import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
-import { ChartComponent, Ranges } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ChartComponent } from '../chart/chart.component';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
@@ -46,7 +42,6 @@ export class MapDataValues {
 export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   'GeographiesComponent'
 );
-
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-geographies]',
@@ -68,7 +63,7 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
 })
 export class GeographiesComponent
   extends MapDataMarksBase
-  implements DataMarks, OnChanges, OnInit
+  implements DataMarks
 {
   @Input() config: VicGeographiesConfig;
   map: any;
@@ -80,53 +75,26 @@ export class GeographiesComponent
   noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
-  constructor(
-    public utilities: UtilitiesService,
-    public zone: NgZone,
-    public elRef: ElementRef,
-    chart: MapChartComponent
-  ) {
-    super(chart);
+  constructor(public zone: NgZone, public elRef: ElementRef) {
+    super();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setPropertiesFromConfig();
-    }
-  }
-
-  ngOnInit(): void {
-    this.subscribeToRanges();
-    this.subscribeToAttributeScaleAndConfig();
+  initFromConfig(): void {
     this.setPropertiesFromConfig();
-  }
-
-  resizeMarks(): void {
-    this.setProjection();
-    this.setPath();
+    this.setPropertiesFromRanges();
     this.drawMarks();
   }
 
   setPropertiesFromConfig(): void {
-    this.setProjection();
-    this.setPath();
     this.setValueArrays();
     this.initAttributeDataScaleDomain();
     this.initAttributeDataScaleRange();
     this.setChartAttributeScaleAndConfig();
   }
 
-  setProjection(): void {
-    this.projection = this.config.projection.fitSize(
-      [this.ranges.x[1], this.ranges.y[0]],
-      this.config.boundary
-    );
-  }
-
-  setPath(): void {
-    this.path = geoPath().projection(this.projection);
+  resizeMarks(): void {
+    this.setPropertiesFromRanges();
+    this.drawMarks();
   }
 
   setValueArrays(): void {
@@ -299,6 +267,22 @@ export class GeographiesComponent
         this.config.dataGeographyConfig.attributeDataConfig
       );
     });
+  }
+
+  setPropertiesFromRanges(): void {
+    this.setProjection();
+    this.setPath();
+  }
+
+  setProjection(): void {
+    this.projection = this.config.projection.fitSize(
+      [this.ranges.x[1], this.ranges.y[0]],
+      this.config.boundary
+    );
+  }
+
+  setPath(): void {
+    this.path = geoPath().projection(this.projection);
   }
 
   getAttributeDataScale(): any {

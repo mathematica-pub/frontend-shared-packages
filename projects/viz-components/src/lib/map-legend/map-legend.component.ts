@@ -1,9 +1,8 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { MapChartComponent } from '../map-chart/map-chart.component';
-import { Unsubscribe } from '../shared/unsubscribe.class';
 import { combineLatest, filter, takeUntil } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
-import { config } from 'cypress/types/bluebird';
+import { MapChartComponent } from '../map-chart/map-chart.component';
+import { Unsubscribe } from '../shared/unsubscribe.class';
 
 @Component({
   selector: 'vic-map-legend',

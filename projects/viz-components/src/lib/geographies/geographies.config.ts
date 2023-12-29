@@ -13,10 +13,10 @@ import {
   scaleThreshold,
 } from 'd3';
 import { Feature } from 'geojson';
-import { VicDataDimensionConfig as VicDataDimensionConfig } from '../data-marks/data-dimension.config';
+import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
-  VicDataMarksConfig as VicDataMarksConfig,
-  VicPatternPredicate as VicPatternPredicate,
+  VicDataMarksConfig,
+  VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.

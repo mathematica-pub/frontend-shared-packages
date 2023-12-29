@@ -7,9 +7,6 @@ import {
   InjectionToken,
   Input,
   NgZone,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -29,14 +26,12 @@ import {
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { DataDomainService } from '../core/services/data-domain.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
 import { VicLinesConfig } from './lines.config';
-import { DataDomainService } from '../core/services/data-domain.service';
-import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -66,10 +61,7 @@ export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent
-  extends XyDataMarksBase
-  implements XyDataMarks, OnChanges, OnInit
-{
+export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;

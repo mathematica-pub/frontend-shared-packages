@@ -3,7 +3,6 @@ import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { ChartComponentStub } from '../testing/stubs/chart.component.stub';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
@@ -29,7 +28,6 @@ describe('XyDataMarksBase abstract class', () => {
       ],
     });
     abstractClass = TestBed.inject(XyDataMarksBaseStub);
-    console.log(abstractClass);
   });
 
   describe('ngOnChanges()', () => {
@@ -184,7 +182,6 @@ describe('XyDataMarksBase abstract class', () => {
   });
 
   describe('subscribeToScales()', () => {
-    let drawSpy: jasmine.Spy;
     beforeEach(() => {
       abstractClass.chart = {
         scales: new BehaviorSubject<any>(null),
@@ -235,9 +232,7 @@ describe('XyDataMarksBase abstract class', () => {
 
   describe('getTransitionDuration', () => {
     beforeEach(() => {
-      (
-        XyChartComponentStub as unknown as ChartComponentStub
-      ).transitionDuration = 123;
+      abstractClass.chart.transitionDuration = 123;
     });
     it('returns chart.transitionDuration if useTransition is true', () => {
       abstractClass.scales = {
