@@ -71,7 +71,6 @@ export class GeographiesComponent
   implements DataMarks, OnChanges, OnInit
 {
   @Input() config: VicGeographiesConfig;
-  ranges: Ranges;
   map: any;
   projection: any;
   path: any;
@@ -94,54 +93,29 @@ export class GeographiesComponent
     if (
       this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
     ) {
-      this.setMethodsFromConfigAndDraw();
+      this.setPropertiesFromConfig();
     }
   }
 
   ngOnInit(): void {
     this.subscribeToRanges();
-    this.subscribeToScalesAndConfig();
-    this.setMethodsFromConfigAndDraw();
-  }
-
-  updateGeographyElements(): void {
-    const dataGeographies = select(this.elRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-data')
-      .selectAll('path');
-    const noDataGeographies = select(this.elRef.nativeElement)
-      .selectAll('vic-map-layer.vic-no-data')
-      .selectAll('path');
-    this.dataGeographies.next(dataGeographies);
-    this.noDataGeographies.next(noDataGeographies);
-  }
-
-  subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (this.attributeDataScale) {
-        this.resizeMarks();
-      }
-    });
-  }
-
-  setScaleAndConfig(scale: any): void {
-    this.attributeDataScale = scale;
+    this.subscribeToAttributeScaleAndConfig();
+    this.setPropertiesFromConfig();
   }
 
   resizeMarks(): void {
     this.setProjection();
     this.setPath();
-    this.drawMarks(this.chart.transitionDuration);
+    this.drawMarks();
   }
 
-  setMethodsFromConfigAndDraw(): void {
+  setPropertiesFromConfig(): void {
     this.setProjection();
     this.setPath();
     this.setValueArrays();
     this.initAttributeDataScaleDomain();
     this.initAttributeDataScaleRange();
-    this.initAttributeDataScaleAndUpdateChart();
-    this.drawMarks(this.chart.transitionDuration);
+    this.setChartAttributeScaleAndConfig();
   }
 
   setProjection(): void {
@@ -317,23 +291,26 @@ export class GeographiesComponent
     );
   }
 
-  initAttributeDataScaleAndUpdateChart(): void {
-    let scale;
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
-        'quantitative' &&
-      this.config.dataGeographyConfig.attributeDataConfig.binType === 'none'
-    ) {
-      scale = this.setColorScaleWithColorInterpolator();
-    } else {
-      scale = this.setColorScaleWithoutColorInterpolator();
-    }
+  setChartAttributeScaleAndConfig(): void {
+    const scale = this.getAttributeDataScale();
     this.zone.run(() => {
       this.chart.updateAttributeDataScale(scale);
       this.chart.updateAttributeDataConfig(
         this.config.dataGeographyConfig.attributeDataConfig
       );
     });
+  }
+
+  getAttributeDataScale(): any {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
+        'quantitative' &&
+      this.config.dataGeographyConfig.attributeDataConfig.binType === 'none'
+    ) {
+      return this.setColorScaleWithColorInterpolator();
+    } else {
+      return this.setColorScaleWithoutColorInterpolator();
+    }
   }
 
   setColorScaleWithColorInterpolator(): any {
@@ -355,9 +332,9 @@ export class GeographiesComponent
       .unknown(this.config.dataGeographyConfig.nullColor);
   }
 
-  drawMarks(transitionDuration: number): void {
+  drawMarks(): void {
     this.zone.run(() => {
-      this.drawMap(transitionDuration);
+      this.drawMap(this.chart.transitionDuration);
       this.updateGeographyElements();
     });
   }
@@ -478,5 +455,16 @@ export class GeographiesComponent
   getValueIndexFromDataGeographyIndex(i: number): number {
     const geoName = this.values.geoJsonGeographies[i];
     return this.values.indexMap.get(geoName);
+  }
+
+  updateGeographyElements(): void {
+    const dataGeographies = select(this.elRef.nativeElement)
+      .selectAll('.vic-map-layer.vic-data')
+      .selectAll('path');
+    const noDataGeographies = select(this.elRef.nativeElement)
+      .selectAll('vic-map-layer.vic-no-data')
+      .selectAll('path');
+    this.dataGeographies.next(dataGeographies);
+    this.noDataGeographies.next(noDataGeographies);
   }
 }

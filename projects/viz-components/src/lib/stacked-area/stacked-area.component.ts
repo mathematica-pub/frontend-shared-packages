@@ -66,34 +66,18 @@ export class StackedAreaComponent
     if (
       this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
     ) {
-      this.setMethodsFromConfigAndDraw();
+      this.setPropertiesFromConfig();
     }
   }
 
-  ngOnInit(): void {
-    this.subscribeToRanges();
-    this.subscribeToScales();
-    this.setMethodsFromConfigAndDraw();
-  }
-
-  setMethodsFromConfigAndDraw(): void {
+  setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initXAndCategoryDomains();
     this.setValueIndicies();
-    this.setSeries();
     this.initYDomain();
-    this.setScaledSpaceProperties();
     this.initCategoryScale();
-    this.setArea();
-    this.drawMarks(this.chart.transitionDuration);
-  }
-
-  resizeMarks(): void {
-    if (this.values.x && this.values.y) {
-      this.setScaledSpaceProperties();
-      this.setArea();
-      this.drawMarks(0);
-    }
+    this.setSeries();
+    this.setChartScales(true);
   }
 
   setValueArrays(): void {
@@ -119,6 +103,23 @@ export class StackedAreaComponent
     this.values.indicies = range(this.values.x.length).filter((i) =>
       (this.config.category.domain as InternSet).has(this.values.category[i])
     );
+  }
+
+  initYDomain(): void {
+    if (this.config.y.domain === undefined) {
+      this.config.y.domain = extent(this.series.flat(2));
+      this.config.y.domain[0] = Math.floor(this.config.y.domain[0]);
+      this.config.y.domain[1] = Math.ceil(this.config.y.domain[1]);
+    }
+  }
+
+  initCategoryScale(): void {
+    if (this.config.category.colorScale === undefined) {
+      this.config.category.colorScale = scaleOrdinal(
+        new InternSet(this.config.category.domain),
+        this.config.category.colors
+      );
+    }
   }
 
   setSeries(): void {
@@ -147,45 +148,27 @@ export class StackedAreaComponent
       );
   }
 
-  initYDomain(): void {
-    if (this.config.y.domain === undefined) {
-      this.config.y.domain = extent(this.series.flat(2));
-      this.config.y.domain[0] = Math.floor(this.config.y.domain[0]);
-      this.config.y.domain[1] = Math.ceil(this.config.y.domain[1]);
-    }
-  }
-
-  setScaledSpaceProperties(): void {
+  setChartScales(useTransition: boolean): void {
     this.zone.run(() => {
-      this.chart.updateXScale(
-        this.config.x.scaleType(this.config.x.domain, this.ranges.x)
-      );
-      this.chart.updateYScale(
-        this.config.y.scaleType(this.config.y.domain, this.ranges.y)
-      );
+      const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
+      const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
+      const category = this.config.category.colorScale;
+      this.chart.updateScales({ x, y, category, useTransition });
     });
   }
 
-  initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
-    }
-    this.chart.updateCategoryScale(this.config.category.colorScale);
+  drawMarks(): void {
+    const transitionDuration = this.getTransitionDuration();
+    this.setArea();
+    this.drawAreas(transitionDuration);
   }
 
   setArea(): void {
     this.area = area()
-      .x(({ i }: any) => this.xScale(this.values.x[i]))
-      .y0(([y1]) => this.yScale(y1))
-      .y1(([, y2]) => this.yScale(y2))
+      .x(({ i }: any) => this.scales.x(this.values.x[i]))
+      .y0(([y1]) => this.scales.y(y1))
+      .y1(([, y2]) => this.scales.y(y2))
       .curve(this.config.curve);
-  }
-
-  drawMarks(transitionDuration: number): void {
-    this.drawAreas(transitionDuration);
   }
 
   drawAreas(transitionDuration: number): void {
@@ -202,7 +185,7 @@ export class StackedAreaComponent
             .append('path')
             .property('key', ([{ i }]) => this.values.category[i])
             .attr('fill', ([{ i }]) =>
-              this.categoryScale(this.values.category[i])
+              this.scales.category(this.values.category[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -211,7 +194,7 @@ export class StackedAreaComponent
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.categoryScale(this.values.category[i])
+                this.scales.category(this.values.category[i])
               )
           ),
         (exit) => exit.remove()

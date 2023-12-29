@@ -1,5 +1,4 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
 
@@ -25,7 +24,7 @@ export class MapLegendComponent extends MapContent implements OnInit {
   ngOnInit(): void {
     this.setOrientation();
     this.setValuesSide();
-    this.subscribeToScalesAndConfig();
+    this.subscribeToAttributeScaleAndConfig();
   }
 
   setOrientation(): void {
@@ -56,14 +55,8 @@ export class MapLegendComponent extends MapContent implements OnInit {
     }
   }
 
-  setScaleAndConfig(scale: any, config: VicAttributeDataDimensionConfig): void {
-    if (scale && config) {
-      this.attributeDataScale = scale;
-      this.attributeDataConfig = config;
-      if (scale && config) {
-        this.setLegendType();
-      }
-    }
+  drawMarks(): void {
+    this.setLegendType();
   }
 
   setLegendType(): void {
@@ -74,5 +67,9 @@ export class MapLegendComponent extends MapContent implements OnInit {
     } else {
       this.legendType = 'ordinal';
     }
+  }
+
+  resizeMarks(): void {
+    return;
   }
 }

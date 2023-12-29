@@ -1,14 +1,16 @@
-import { Directive } from '@angular/core';
+import { Directive, OnInit } from '@angular/core';
 import { combineLatest, takeUntil } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { MapChartComponent } from './map-chart.component';
+import { Ranges } from '../chart/chart.component';
 
 /**
  * @internal
  */
 @Directive()
 export abstract class MapContent extends Unsubscribe {
+  ranges: Ranges;
   attributeDataScale: any;
   attributeDataConfig: VicAttributeDataDimensionConfig;
 
@@ -16,7 +18,19 @@ export abstract class MapContent extends Unsubscribe {
     super();
   }
 
-  subscribeToScalesAndConfig(): void {
+  abstract drawMarks(): void;
+  abstract resizeMarks(): void;
+
+  subscribeToRanges(): void {
+    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
+      this.ranges = ranges;
+      if (this.attributeDataScale && this.attributeDataConfig) {
+        this.resizeMarks();
+      }
+    });
+  }
+
+  subscribeToAttributeScaleAndConfig(): void {
     const subscriptions = [
       this.chart.attributeDataScale$,
       this.chart.attributeDataConfig$,
@@ -25,12 +39,9 @@ export abstract class MapContent extends Unsubscribe {
     combineLatest(subscriptions)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe(([scale, config]) => {
-        this.setScaleAndConfig(scale, config);
+        this.attributeDataConfig = config;
+        this.attributeDataScale = scale;
+        this.drawMarks();
       });
   }
-
-  abstract setScaleAndConfig(
-    scale: any,
-    config: VicAttributeDataDimensionConfig
-  ): void;
 }
