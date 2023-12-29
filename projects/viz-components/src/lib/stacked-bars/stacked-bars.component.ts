@@ -5,14 +5,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  extent,
   InternMap,
   InternSet,
+  Transition,
+  extent,
   range,
   rollup,
   select,
   stack,
-  Transition,
 } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';

@@ -79,7 +79,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
   unpaddedDomain: {
     x: [any, any];
     y: [any, any];
-  };
+  } = { x: undefined, y: undefined };
 
   private zone = inject(NgZone);
   private dataDomainService = inject(DataDomainService);
