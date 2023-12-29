@@ -32,10 +32,10 @@ export class MapLegendComponent extends Unsubscribe implements OnInit {
   }
 
   subscribeToAttributeScaleAndConfig(): void {
-    combineLatest(
+    combineLatest([
       this.chart.attributeDataScale$,
-      this.chart.attributeDataConfig$
-    )
+      this.chart.attributeDataConfig$,
+    ])
       .pipe(
         takeUntil(this.unsubscribe),
         filter(([scale, config]) => !!scale && !!config)
