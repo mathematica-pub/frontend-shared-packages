@@ -10,7 +10,6 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -27,7 +26,6 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
@@ -290,14 +288,6 @@ export class BarsComponent
         },
         (exit) => exit.remove()
       );
-  }
-
-  transformBarGroup(selection: any): any {
-    return selection.attr('transform', (i) => {
-      const x = this.getBarX(i);
-      const y = this.getBarY(i);
-      return `translate(${x},${y})`;
-    });
   }
 
   setBarSizeAndFill(selection: any): any {
