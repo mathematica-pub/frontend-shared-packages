@@ -1,4 +1,4 @@
-import { TimeInterval } from 'd3';
+import { AxisTimeInterval } from 'd3';
 import { VicTickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
 
 export class VicAxisConfig {
@@ -16,7 +16,7 @@ export class VicAxisConfig {
    *  fit the domain given the precision of the percentage format, this value
    *  will be replaced by the largest number that fits the domain.
    */
-  numTicks?: number | TimeInterval;
+  numTicks?: number | AxisTimeInterval;
 
   /**
    * If true, the default line that D3 creates for the axis will be removed.
