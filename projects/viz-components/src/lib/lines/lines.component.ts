@@ -33,7 +33,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksContent } from '../xy-chart/xy-data-marks-content';
+import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
 import { VicLinesConfig } from './lines.config';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
@@ -67,7 +67,7 @@ export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
   ],
 })
 export class LinesComponent
-  extends XyDataMarksContent
+  extends XyDataMarksBase
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
@@ -84,10 +84,11 @@ export class LinesComponent
   markersKeyFunction;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
-  unpaddedXDomain: [any, any];
-  unpaddedYDomain: [any, any];
+  unpaddedDomain: {
+    x: [any, any];
+    y: [any, any];
+  };
 
-  private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
   private dataDomainService = inject(DataDomainService);
 
@@ -103,14 +104,12 @@ export class LinesComponent
     return select(this.markersRef.nativeElement).selectAll('circle');
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setPropertiesFromConfig();
-    }
-  }
-
+  /**
+   * setPropertiesFromConfig method
+   *
+   * This method handles an update to the config object. Methods called from here should not
+   * requires ranges or scales. This method is called on init and on config update.
+   */
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initDomains();
@@ -120,7 +119,6 @@ export class LinesComponent
     this.setLinesKeyFunction();
     this.setMarkersD3Data();
     this.setMarkersKeyFunction();
-    this.setChartScales(true);
   }
 
   setValueArrays(): void {
@@ -134,61 +132,20 @@ export class LinesComponent
 
   initDomains(): void {
     this.setUnpaddedDomains();
-    this.setXDomain();
-    this.setYDomain();
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
   }
 
   setUnpaddedDomains(): void {
-    this.unpaddedXDomain =
+    this.unpaddedDomain.x =
       this.config.x.domain === undefined
         ? extent(this.values.x)
         : this.config.x.domain;
-    this.unpaddedYDomain =
+    this.unpaddedDomain.y =
       this.config.y.domain === undefined
         ? [min([min(this.values.y), 0]), max(this.values.y)]
         : this.config.y.domain;
-  }
-
-  setXDomain(): void {
-    const newDomain = this.getPaddedDomain(
-      this.config.x.scaleType,
-      this.config.x.domainPadding,
-      this.unpaddedXDomain,
-      this.ranges['x']
-    );
-    this.config.x.domain = newDomain;
-  }
-
-  setYDomain(): void {
-    const newDomain = this.getPaddedDomain(
-      this.config.y.scaleType,
-      this.config.y.domainPadding,
-      this.unpaddedYDomain,
-      this.ranges['y']
-    );
-    this.config.y.domain = newDomain;
-  }
-
-  getPaddedDomain(
-    scaleType: any,
-    domainPadding: VicDomainPaddingConfig,
-    domain: [any, any],
-    pixelRange: [number, number]
-  ): [any, any] {
-    if (scaleType !== scaleTime && scaleType !== scaleUtc) {
-      const paddedDomain = this.dataDomainService.getQuantitativeDomain(
-        domain,
-        domainPadding,
-        scaleType,
-        pixelRange
-      );
-      return paddedDomain;
-    } else {
-      return domain;
-    }
   }
 
   setValueIndicies(): void {
@@ -248,17 +205,53 @@ export class LinesComponent
     this.markersKeyFunction = (d) => (d as Marker).key;
   }
 
-  setChartScales(useTransition: boolean): void {
+  /**
+   * setChartScalesFromRanges method
+   *
+   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
+   * to create the scales should be called from this method. Methods called from here should not
+   * require scales.
+   *
+   * This method is called on init, after config-based properties are set, and also on
+   * resize/when ranges change.
+   */
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const paddedXDomain = this.getPaddedDomain('x');
+    const paddedYDomain = this.getPaddedDomain('y');
+    const x = this.config.x.scaleType(paddedXDomain, this.ranges.x);
+    const y = this.config.y.scaleType(paddedYDomain, this.ranges.y);
+    const category = this.config.category.colorScale;
     this.zone.run(() => {
-      this.setXDomain();
-      this.setYDomain();
-      const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
-      const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
-      const category = this.config.category.colorScale;
       this.chart.updateScales({ x, y, category, useTransition });
     });
   }
 
+  getPaddedDomain(dimension: 'x' | 'y'): [any, any] {
+    if (
+      this.config[dimension].scaleType !== scaleTime &&
+      this.config[dimension].scaleType !== scaleUtc
+    ) {
+      const paddedDomain = this.dataDomainService.getQuantitativeDomain(
+        this.unpaddedDomain[dimension],
+        this.config[dimension].domainPadding,
+        this.config[dimension].scaleType,
+        this.ranges[dimension]
+      );
+      return paddedDomain;
+    } else {
+      return this.unpaddedDomain[dimension];
+    }
+  }
+
+  /**
+   * drawMarks method
+   *
+   * All methods that require scales should be called from drawMarks. Methods
+   * called from here should not scale.domain() or scale.range() to obtain those values
+   * rather than this.config.dimension.domain or this.ranges.dimension.
+   *
+   * This method is called when scales emit from ChartComponent.
+   */
   drawMarks(): void {
     this.setLine();
     const transitionDuration = this.getTransitionDuration();

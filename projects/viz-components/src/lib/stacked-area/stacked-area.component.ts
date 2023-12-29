@@ -7,26 +7,24 @@ import {
   NgZone,
   OnChanges,
   OnInit,
-  SimpleChanges,
 } from '@angular/core';
 import {
-  area,
-  extent,
   InternMap,
   InternSet,
+  SeriesPoint,
+  Transition,
+  area,
+  extent,
   map,
   range,
   rollup,
   scaleOrdinal,
   select,
-  SeriesPoint,
   stack,
-  Transition,
 } from 'd3';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { XyDataMarksContent } from '../xy-chart/xy-data-marks-content';
+import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 export const STACKED_AREA = new InjectionToken<StackedAreaComponent>(
@@ -45,7 +43,7 @@ export const STACKED_AREA = new InjectionToken<StackedAreaComponent>(
   ],
 })
 export class StackedAreaComponent
-  extends XyDataMarksContent
+  extends XyDataMarksBase
   implements XyDataMarks, OnChanges, OnInit
 {
   @Input() config: VicStackedAreaConfig;
@@ -56,18 +54,9 @@ export class StackedAreaComponent
 
   constructor(
     private areasRef: ElementRef<SVGSVGElement>,
-    private utilities: UtilitiesService,
     private zone: NgZone
   ) {
     super();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setPropertiesFromConfig();
-    }
   }
 
   setPropertiesFromConfig(): void {
@@ -77,7 +66,6 @@ export class StackedAreaComponent
     this.setSeries();
     this.initYDomain();
     this.initCategoryScale();
-    this.setChartScales(true);
   }
 
   setValueArrays(): void {
@@ -148,11 +136,11 @@ export class StackedAreaComponent
     }
   }
 
-  setChartScales(useTransition: boolean): void {
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
+    const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
+    const category = this.config.category.colorScale;
     this.zone.run(() => {
-      const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
-      const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
-      const category = this.config.category.colorScale;
       this.chart.updateScales({ x, y, category, useTransition });
     });
   }

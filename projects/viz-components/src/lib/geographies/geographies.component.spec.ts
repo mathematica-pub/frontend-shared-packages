@@ -14,6 +14,7 @@ import {
   VicGeographiesConfig,
   VicNoBinsQuantitativeAttributeDataDimensionConfig,
 } from './geographies.config';
+import { before } from 'cypress/types/lodash';
 
 describe('GeographiesComponent', () => {
   let component: GeographiesComponent;
@@ -44,7 +45,7 @@ describe('GeographiesComponent', () => {
   describe('ngOnChanges()', () => {
     let configChange: any;
     beforeEach(() => {
-      spyOn(component, 'setMethodsFromConfigAndDraw');
+      spyOn(component, 'setPropertiesFromConfig');
       configChange = {
         config: new SimpleChange('', '', false),
       };
@@ -58,27 +59,28 @@ describe('GeographiesComponent', () => {
       ).toHaveBeenCalledOnceWith(configChange, 'config');
     });
 
-    it('calls setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
+    it('calls setPropertiesFromConfig once if objectOnNgChangesNotFirstTime returns true', () => {
       mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
         true
       );
       component.ngOnChanges(configChange);
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
+      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
     });
 
-    it('does not  call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
+    it('does not  call setPropertiesFromConfig once if objectOnNgChangesNotFirstTime returns false', () => {
       mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
         false
       );
       component.ngOnChanges(configChange);
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(0);
+      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
       spyOn(component, 'subscribeToRanges');
-      spyOn(component, 'setMethodsFromConfigAndDraw');
+      spyOn(component, 'subscribeToAttributeScaleAndConfig');
+      spyOn(component, 'setPropertiesFromConfig');
     });
 
     it('calls subscribeToRanges once', () => {
@@ -86,9 +88,16 @@ describe('GeographiesComponent', () => {
       expect(component.subscribeToRanges).toHaveBeenCalledTimes(1);
     });
 
-    it('calls setMethodsFromConfigAndDraw once', () => {
+    it('calls subscribeToAttributeScaleAndConfig once', () => {
       component.ngOnInit();
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
+      expect(
+        component.subscribeToAttributeScaleAndConfig
+      ).toHaveBeenCalledTimes(1);
+    });
+
+    it('calls setPropertiesFromConfig once', () => {
+      component.ngOnInit();
+      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -113,17 +122,15 @@ describe('GeographiesComponent', () => {
     });
   });
 
-  describe('setMethodsFromConfigAndDraw()', () => {
+  describe('setPropertiesFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setProjection');
       spyOn(component, 'setPath');
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initAttributeDataScaleDomain');
       spyOn(component, 'initAttributeDataScaleRange');
-      spyOn(component, 'initAttributeDataScaleAndUpdateChart');
-      spyOn(component, 'drawMarks');
-      component.chart = { transitionDuration: 200 } as any;
-      component.setMethodsFromConfigAndDraw();
+      spyOn(component, 'setChartAttributeScaleAndConfig');
+      component.setPropertiesFromConfig();
     });
     it('calls setProjection once', () => {
       expect(component.setProjection).toHaveBeenCalledTimes(1);
@@ -137,22 +144,18 @@ describe('GeographiesComponent', () => {
       expect(component.setValueArrays).toHaveBeenCalledTimes(1);
     });
 
-    it('calls initDataScaleDomain once', () => {
+    it('calls initAttributeDataScaleDomain once', () => {
       expect(component.initAttributeDataScaleDomain).toHaveBeenCalledTimes(1);
     });
 
-    it('calls initDataScaleRange once', () => {
+    it('calls initAttributeDataScaleRange once', () => {
       expect(component.initAttributeDataScaleRange).toHaveBeenCalledTimes(1);
     });
 
-    it('calls initDataScale once', () => {
-      expect(
-        component.initAttributeDataScaleAndUpdateChart
-      ).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls drawMarks once', () => {
-      expect(component.drawMarks).toHaveBeenCalledOnceWith(200);
+    it('calls setChartAttributeScaleAndConfig once', () => {
+      expect(component.setChartAttributeScaleAndConfig).toHaveBeenCalledTimes(
+        1
+      );
     });
   });
 
@@ -305,14 +308,48 @@ describe('GeographiesComponent', () => {
     });
   });
 
-  describe('initAttributeDataScaleAndUpdateChart', () => {
+  describe('setChartAttributeScaleAndConfig', () => {
     beforeEach(() => {
+      spyOn(component, 'getAttributeDataScale').and.returnValue(
+        'attribute data scale' as any
+      );
       component.chart = {
         updateAttributeDataConfig: jasmine.createSpy(
           'updateAttributeDataConfig'
         ),
         updateAttributeDataScale: jasmine.createSpy('updateAttributeDataScale'),
       } as any;
+      component.config = {
+        dataGeographyConfig: {
+          attributeDataConfig: {
+            valueType: 'quantitative',
+            binType: 'none',
+          },
+        },
+      } as any;
+    });
+    it('calls getAttributeDataScale once', () => {
+      component.setChartAttributeScaleAndConfig();
+      expect(component.getAttributeDataScale).toHaveBeenCalledTimes(1);
+    });
+    it('calls updateAttributeDataScale once with the correct value', () => {
+      component.setChartAttributeScaleAndConfig();
+      expect(component.chart.updateAttributeDataScale).toHaveBeenCalledOnceWith(
+        'attribute data scale' as any
+      );
+    });
+    it('calls updateAttributeDataConfig once with the correct value', () => {
+      component.setChartAttributeScaleAndConfig();
+      expect(
+        component.chart.updateAttributeDataConfig
+      ).toHaveBeenCalledOnceWith(
+        component.config.dataGeographyConfig.attributeDataConfig
+      );
+    });
+  });
+
+  describe('getAttributeDataScale', () => {
+    beforeEach(() => {
       component.config = {
         dataGeographyConfig: {
           attributeDataConfig: {
@@ -331,17 +368,15 @@ describe('GeographiesComponent', () => {
 
     describe('if valueType is quantitative and binType is none', () => {
       it('calls setColorScaleWithColorInterpolator once', () => {
-        component.initAttributeDataScaleAndUpdateChart();
+        component.getAttributeDataScale();
         expect(
           component.setColorScaleWithColorInterpolator
         ).toHaveBeenCalledTimes(1);
       });
 
-      it('calls updateAttributeDataScale once with the correct value if scale has color interpolation', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.chart.updateAttributeDataScale
-        ).toHaveBeenCalledOnceWith('interpolated scale' as any);
+      it('returns the correct value if scale has color interpolation', () => {
+        const scale = component.getAttributeDataScale();
+        expect(scale).toEqual('interpolated scale' as any);
       });
     });
 
@@ -351,17 +386,15 @@ describe('GeographiesComponent', () => {
           'categorical';
       });
       it('calls setColorScaleWithoutColorInterpolator once', () => {
-        component.initAttributeDataScaleAndUpdateChart();
+        component.getAttributeDataScale();
         expect(
           component.setColorScaleWithoutColorInterpolator
         ).toHaveBeenCalledTimes(1);
       });
 
       it('calls updateAttributeDataScale once with the correct value if valueType is not quantitative', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.chart.updateAttributeDataScale
-        ).toHaveBeenCalledOnceWith('non-interpolated scale' as any);
+        const scale = component.getAttributeDataScale();
+        expect(scale).toEqual('non-interpolated scale' as any);
       });
     });
 
@@ -371,38 +404,34 @@ describe('GeographiesComponent', () => {
           'auto' as any;
       });
       it('calls setColorScaleWithoutColorInterpolator once', () => {
-        component.initAttributeDataScaleAndUpdateChart();
+        component.getAttributeDataScale();
         expect(
           component.setColorScaleWithoutColorInterpolator
         ).toHaveBeenCalledTimes(1);
       });
 
       it('calls updateAttributeDataScale once with the correct value if binType is not none', () => {
-        component.initAttributeDataScaleAndUpdateChart();
-        expect(
-          component.chart.updateAttributeDataScale
-        ).toHaveBeenCalledOnceWith('non-interpolated scale' as any);
+        const scale = component.getAttributeDataScale();
+        expect(scale).toEqual('non-interpolated scale' as any);
       });
-    });
-
-    it('calls updateAttributeDataConfig on chart once with the correct value', () => {
-      component.initAttributeDataScaleAndUpdateChart();
-      expect(
-        component.chart.updateAttributeDataConfig
-      ).toHaveBeenCalledOnceWith({
-        valueType: 'quantitative',
-        binType: 'none',
-      } as any);
     });
   });
 
   describe('drawMarks', () => {
     beforeEach(() => {
       spyOn(component, 'drawMap');
+      spyOn(component, 'updateGeographyElements');
+      component.chart = {
+        transitionDuration: 200,
+      } as any;
     });
     it('calls drawMap with the correct value', () => {
-      component.drawMarks(200);
+      component.drawMarks();
       expect(component.drawMap).toHaveBeenCalledWith(200);
+    });
+    it('calls updateGeographyElements with the correct value', () => {
+      component.drawMarks();
+      expect(component.updateGeographyElements).toHaveBeenCalledTimes(1);
     });
   });
 });

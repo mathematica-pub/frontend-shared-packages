@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { BehaviorSubject } from 'rxjs';
+import { of } from 'rxjs';
 import { XyAxisStub } from '../testing/stubs/xy-axis.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 
@@ -35,60 +35,42 @@ describe('the XyAxis abstract class', () => {
   });
 
   describe('subscribeToScale', () => {
-    let spy: jasmine.Spy;
     beforeEach(() => {
-      spy = spyOn(abstractClass, 'onScaleUpdate');
+      spyOn(abstractClass, 'onScaleUpdate');
     });
-    it('calls onScaleUpdate if scale does not emit new value after subscription', () => {
-      const scale = new BehaviorSubject<any>(null);
-      const scale$ = scale.asObservable();
+    it('calls onScaleUpdate with the correct values', () => {
+      const scale$ = of({ useTransition: false, x: 'scale' } as any);
       abstractClass.subscribeToScale(scale$);
-      expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(null, null);
-    });
-    it('calls onScaleUpdate if scale emits new value after subscription', () => {
-      const scale = new BehaviorSubject<any>(null);
-      const scale$ = scale.asObservable();
-      abstractClass.subscribeToScale(scale$);
-      spy.calls.reset();
-      scale.next('new value');
       expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(
-        null,
-        'new value' as any
+        'scale' as any,
+        false
       );
     });
   });
 
   describe('onScaleUpdate()', () => {
     let updateSpy: jasmine.Spy;
-    let prev;
     let curr;
     beforeEach(() => {
       updateSpy = spyOn(abstractClass, 'updateAxis');
       abstractClass.chart = { transitionDuration: 500 } as any;
-      prev = { range: () => [0, 1] };
       curr = { range: () => [0, 1] };
     });
-    it('sets scale to curr', () => {
-      curr = { range: () => [0, 9] };
-      abstractClass.onScaleUpdate(prev, curr);
-      expect(abstractClass.scale.range()).toEqual([0, 9]);
+    it('sets transitionDuration to 0 if useTransition is false', () => {
+      abstractClass.onScaleUpdate(curr, false);
+      expect(abstractClass.transitionDuration).toEqual(0);
     });
-
-    it('calls updateAxis once with 0 if prev value is falsey', () => {
-      abstractClass.onScaleUpdate(null, curr);
-      expect(updateSpy).toHaveBeenCalledOnceWith(0);
+    it('sets transitionDuration to the chart transitionDuration if useTransition is true', () => {
+      abstractClass.onScaleUpdate(curr, true);
+      expect(abstractClass.transitionDuration).toEqual(500);
     });
-
-    it('calls updateAxis with chart.transitionDuration if prev and curr arguments are the same', () => {
-      abstractClass.onScaleUpdate(prev, curr);
+    it('sets scale to the correct value', () => {
+      abstractClass.onScaleUpdate(curr, true);
+      expect(abstractClass.scale).toEqual(curr);
+    });
+    it('calls updateAxis once with the correct value', () => {
+      abstractClass.onScaleUpdate(curr, true);
       expect(updateSpy).toHaveBeenCalledOnceWith(500);
-    });
-
-    it('calls updateAxis with 0 if prev and curr arguments are not the same', () => {
-      prev = { range: () => [0, 1] };
-      curr = { range: () => [0, 2] };
-      abstractClass.onScaleUpdate(prev, curr);
-      expect(updateSpy).toHaveBeenCalledOnceWith(0);
     });
   });
 

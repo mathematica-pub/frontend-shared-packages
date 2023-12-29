@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
-import { filter, map, Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
@@ -40,15 +40,15 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     setScale(): void {
-      this.subscribeToScale(
-        this.chart.scales$.pipe(
-          filter((scales) => !!scales && !!scales.x),
-          map((scales) => {
-            return { x: scales.x, useTransition: scales.useTransition };
-          })
-        )
+      const scales$ = this.chart.scales$.pipe(
+        filter((scales) => !!scales && !!scales.x),
+        map((scales) => {
+          return { x: scales.x, useTransition: scales.useTransition };
+        })
       );
+      this.subscribeToScale(scales$);
     }
+
     setAxisFunction(): void {
       this.axisFunction = this.side === 'top' ? axisTop : axisBottom;
     }

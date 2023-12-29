@@ -1,13 +1,16 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapContent } from '../map-chart/map-content';
+import { Unsubscribe } from '../shared/unsubscribe.class';
+import { combineLatest, filter, takeUntil } from 'rxjs';
+import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { config } from 'cypress/types/bluebird';
 
 @Component({
   selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
 })
-export class MapLegendComponent extends MapContent implements OnInit {
+export class MapLegendComponent extends Unsubscribe implements OnInit {
   @Input() width: number;
   @Input() height: number;
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
@@ -16,15 +19,43 @@ export class MapLegendComponent extends MapContent implements OnInit {
   canvasRef: ElementRef<HTMLCanvasElement>;
   legendType: 'categorical' | 'ordinal' | 'continuous';
   orientation: 'horizontal' | 'vertical';
+  attributeDataConfig: VicAttributeDataDimensionConfig;
+  attributeDataScale: any;
 
-  constructor(chart: MapChartComponent) {
-    super(chart);
+  constructor(private chart: MapChartComponent) {
+    super();
   }
 
   ngOnInit(): void {
+    this.subscribeToAttributeScaleAndConfig();
     this.setOrientation();
     this.setValuesSide();
-    this.subscribeToAttributeScaleAndConfig();
+  }
+
+  subscribeToAttributeScaleAndConfig(): void {
+    combineLatest(
+      this.chart.attributeDataScale$,
+      this.chart.attributeDataConfig$
+    )
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter(([scale, config]) => !!scale && !!config)
+      )
+      .subscribe(([scale, config]) => {
+        this.attributeDataConfig = config;
+        this.attributeDataScale = scale;
+        this.setLegendType();
+      });
+  }
+
+  setLegendType(): void {
+    if (this.attributeDataConfig.valueType === 'categorical') {
+      this.legendType = 'categorical';
+    } else if (this.attributeDataConfig.binType === 'none') {
+      this.legendType = 'continuous';
+    } else {
+      this.legendType = 'ordinal';
+    }
   }
 
   setOrientation(): void {
@@ -53,23 +84,5 @@ export class MapLegendComponent extends MapContent implements OnInit {
         this.valuesSide = 'left';
       }
     }
-  }
-
-  drawMarks(): void {
-    this.setLegendType();
-  }
-
-  setLegendType(): void {
-    if (this.attributeDataConfig.valueType === 'categorical') {
-      this.legendType = 'categorical';
-    } else if (this.attributeDataConfig.binType === 'none') {
-      this.legendType = 'continuous';
-    } else {
-      this.legendType = 'ordinal';
-    }
-  }
-
-  resizeMarks(): void {
-    return;
   }
 }

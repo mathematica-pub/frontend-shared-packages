@@ -22,17 +22,6 @@ export class GroupedBarsComponent extends BarsComponent {
   @Input() override config: VicGroupedBarsConfig;
   groupScale: any;
 
-  override setPropertiesFromConfig(): void {
-    this.setValueArrays();
-    this.initNonQuantitativeDomains();
-    this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
-    this.initUnpaddedQuantitativeDomain();
-    this.setQuantitativeDomainPadding();
-    this.initCategoryScale();
-    this.setChartScales(true);
-  }
-
   override setValueIndicies(): void {
     // no unit test
     this.values.indicies = range(

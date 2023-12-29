@@ -1,15 +1,16 @@
 import { Directive, OnInit } from '@angular/core';
-import { combineLatest, takeUntil } from 'rxjs';
+import { combineLatest, filter, takeUntil } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { MapChartComponent } from './map-chart.component';
 import { Ranges } from '../chart/chart.component';
+import { config } from 'cypress/types/bluebird';
 
 /**
  * @internal
  */
 @Directive()
-export abstract class MapContent extends Unsubscribe {
+export abstract class MapDataMarksBase extends Unsubscribe {
   ranges: Ranges;
   attributeDataScale: any;
   attributeDataConfig: VicAttributeDataDimensionConfig;
@@ -37,7 +38,10 @@ export abstract class MapContent extends Unsubscribe {
     ];
 
     combineLatest(subscriptions)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(
+        takeUntil(this.unsubscribe),
+        filter(([scale, config]) => !!scale && !!config)
+      )
       .subscribe(([scale, config]) => {
         this.attributeDataConfig = config;
         this.attributeDataScale = scale;

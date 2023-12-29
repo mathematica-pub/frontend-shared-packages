@@ -1,7 +1,13 @@
 import { VicAttributeDataDimensionConfig } from '../../geographies/geographies.config';
-import { MapContent } from '../../map-chart/map-content';
+import { MapDataMarksBase } from '../../map-chart/map-data-marks-base';
 
-export class MapContentStub extends MapContent {
+export class MapDataMarksBaseStub extends MapDataMarksBase {
+  override drawMarks(): void {
+    return;
+  }
+  override resizeMarks(): void {
+    return;
+  }
   setScaleAndConfig(scale: any, config: VicAttributeDataDimensionConfig): void {
     return;
   }

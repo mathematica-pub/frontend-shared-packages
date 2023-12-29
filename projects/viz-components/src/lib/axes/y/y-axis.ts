@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { axisLeft, axisRight } from 'd3';
-import { filter, map, Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
@@ -43,14 +43,13 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     setScale(): void {
-      this.subscribeToScale(
-        this.chart.scales$.pipe(
-          filter((scales) => !!scales && !!scales.y),
-          map((scales) => {
-            return { y: scales.y, useTransition: scales.useTransition };
-          })
-        )
+      const scales$ = this.chart.scales$.pipe(
+        filter((scales) => !!scales && !!scales.y),
+        map((scales) => {
+          return { y: scales.y, useTransition: scales.useTransition };
+        })
       );
+      this.subscribeToScale(scales$);
     }
 
     setAxisFunction(): void {

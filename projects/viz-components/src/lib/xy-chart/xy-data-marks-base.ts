@@ -1,4 +1,10 @@
-import { Directive, OnInit, inject } from '@angular/core';
+import {
+  Directive,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { combineLatest, filter, takeUntil } from 'rxjs';
 import { Ranges } from '../chart/chart.component';
 import { Unsubscribe } from '../shared/unsubscribe.class';
@@ -7,26 +13,44 @@ import {
   XyChartScales,
   XyContentScale,
 } from './xy-chart.component';
+import { UtilitiesService } from '../core/services/utilities.service';
 
 /**
  * @internal
  */
 @Directive()
-export abstract class XyDataMarksContent extends Unsubscribe implements OnInit {
+export abstract class XyDataMarksBase
+  extends Unsubscribe
+  implements OnChanges, OnInit
+{
   ranges: Ranges;
   scales: XyChartScales;
   requiredScales: (keyof typeof XyContentScale)[];
   public chart = inject(XyChartComponent);
+  protected utilities = inject(UtilitiesService);
 
   abstract setPropertiesFromConfig(): void;
-  abstract setChartScales(useTransition: boolean): void;
+  abstract setChartScalesFromRanges(useTransition: boolean): void;
   abstract drawMarks(): void;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+    ) {
+      this.initFromConfig();
+    }
+  }
 
   ngOnInit(): void {
     this.setRequiredChartScales();
     this.subscribeToRanges();
     this.subscribeToScales();
+    this.initFromConfig();
+  }
+
+  initFromConfig(): void {
     this.setPropertiesFromConfig();
+    this.setChartScalesFromRanges(true);
   }
 
   setRequiredChartScales(): void {
@@ -62,7 +86,7 @@ export abstract class XyDataMarksContent extends Unsubscribe implements OnInit {
   }
 
   resizeMarks(): void {
-    this.setChartScales(false);
+    this.setChartScalesFromRanges(false);
   }
 
   getTransitionDuration(): number {

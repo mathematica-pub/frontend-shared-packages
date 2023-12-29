@@ -39,7 +39,7 @@ export class StackedBarsComponent extends BarsComponent {
     this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
     this.constructStackedData();
-    this.setChartScales(true);
+    this.setChartScalesFromRanges(true);
   }
 
   override setValueIndicies(): void {

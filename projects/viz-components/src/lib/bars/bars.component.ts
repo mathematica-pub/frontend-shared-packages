@@ -32,11 +32,8 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
-import {
-  XyChartComponent,
-  XyContentScale,
-} from '../xy-chart/xy-chart.component';
-import { XyDataMarksContent } from '../xy-chart/xy-data-marks-content';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
@@ -54,7 +51,7 @@ export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
   ],
 })
 export class BarsComponent
-  extends XyDataMarksContent
+  extends XyDataMarksBase
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
@@ -64,7 +61,6 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   barGroups: any;
   barsKeyFunction: (i: number) => string;
-  private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -73,24 +69,20 @@ export class BarsComponent
   barLabels$: Observable<any> = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setPropertiesFromConfig();
-    }
-  }
-
+  /**
+   * setPropertiesFromConfig method
+   *
+   * This method handles an update to the config object. Methods called from here should not
+   * requires ranges or scales. This method is called on init and on config update.
+   */
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.initUnpaddedQuantitativeDomain();
-    this.setQuantitativeDomainPadding();
     this.initCategoryScale();
     this.setBarsKeyFunction();
-    this.setChartScales(true);
   }
 
   setValueArrays(): void {
@@ -163,16 +155,6 @@ export class BarsComponent
     return max([max(this.values[this.config.dimensions.quantitative]), 0]);
   }
 
-  setQuantitativeDomainPadding(): void {
-    const domain = this.dataDomainService.getQuantitativeDomain(
-      this.unpaddedQuantitativeDomain,
-      this.config.quantitative.domainPadding,
-      this.config.quantitative.scaleType,
-      this.ranges[this.config.dimensions.quantitative]
-    );
-    this.config.quantitative.domain = domain;
-  }
-
   initCategoryScale(): void {
     if (this.config.category.colorScale === undefined) {
       this.config.category.colorScale = scaleOrdinal(
@@ -182,18 +164,32 @@ export class BarsComponent
     }
   }
 
-  setChartScales(useTransition: boolean): void {
+  setBarsKeyFunction(): void {
+    this.barsKeyFunction = (i: number): string =>
+      `${this.values[this.config.dimensions.ordinal][i]}`;
+  }
+
+  /**
+   * setChartScalesFromRanges method
+   *
+   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
+   * to create the scales should be called from this method. Methods called from here should not
+   * require scales.
+   *
+   * This method is called on init, after config-based properties are set, and also on
+   * resize/when ranges change.
+   */
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x =
+      this.config.dimensions.ordinal === 'x'
+        ? this.getOrdinalScale()
+        : this.getQuantitativeScale();
+    const y =
+      this.config.dimensions.ordinal === 'x'
+        ? this.getQuantitativeScale()
+        : this.getOrdinalScale();
+    const category = this.config.category.colorScale;
     this.zone.run(() => {
-      this.setQuantitativeDomainPadding();
-      const x =
-        this.config.dimensions.ordinal === 'x'
-          ? this.getOrdinalScale()
-          : this.getQuantitativeScale();
-      const y =
-        this.config.dimensions.ordinal === 'x'
-          ? this.getQuantitativeScale()
-          : this.getOrdinalScale();
-      const category = this.config.category.colorScale;
       this.chart.updateScales({ x, y, category, useTransition });
     });
   }
@@ -210,17 +206,32 @@ export class BarsComponent
   }
 
   getQuantitativeScale(): any {
+    const paddedDomain = this.getPaddedQuantitativeDomain();
     return this.config.quantitative.scaleType(
-      this.config.quantitative.domain,
+      paddedDomain,
       this.ranges[this.config.dimensions.quantitative]
     );
   }
 
-  setBarsKeyFunction(): void {
-    this.barsKeyFunction = (i: number): string =>
-      `${this.values[this.config.dimensions.ordinal][i]}`;
+  getPaddedQuantitativeDomain(): [number, number] {
+    const domain = this.dataDomainService.getQuantitativeDomain(
+      this.unpaddedQuantitativeDomain,
+      this.config.quantitative.domainPadding,
+      this.config.quantitative.scaleType,
+      this.ranges[this.config.dimensions.quantitative]
+    );
+    return domain;
   }
 
+  /**
+   * drawMarks method
+   *
+   * All methods that require scales should be called from drawMarks. Methods
+   * called from here should not scale.domain() or scale.range() to obtain those values
+   * rather than this.config.dimension.domain or this.ranges.dimension.
+   *
+   * This method is called when scales emit from ChartComponent.
+   */
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
@@ -382,8 +393,12 @@ export class BarsComponent
         return this.scales.x(0);
       }
     } else {
-      return this.scales.x(this.config.quantitative.domain[0]);
+      return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
     }
+  }
+
+  getQuantitativeDomainFromScale(): number[] {
+    return this.scales[this.config.dimensions.quantitative].domain();
   }
 
   getBarY(i: number): number {
@@ -422,7 +437,7 @@ export class BarsComponent
   getBarWidthQuantitative(i: number): number {
     const origin = this.hasBarsWithNegativeValues
       ? 0
-      : this.config.quantitative.domain[0];
+      : this.getQuantitativeDomainFromScale()[0];
     return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
   }
 
@@ -453,7 +468,7 @@ export class BarsComponent
   getBarHeightQuantitative(i: number): number {
     const origin = this.hasBarsWithNegativeValues
       ? 0
-      : this.config.quantitative.domain[0];
+      : this.getQuantitativeDomainFromScale()[0];
     return Math.abs(this.scales.y(origin - this.values.y[i]));
   }
 

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
+import { BehaviorSubject } from 'rxjs';
 import { MapLegendComponent } from './map-legend.component';
 
 describe('MapLegendComponent', () => {
@@ -21,24 +22,23 @@ describe('MapLegendComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
+      spyOn(component, 'subscribeToAttributeScaleAndConfig');
       spyOn(component, 'setOrientation');
       spyOn(component, 'setValuesSide');
-      spyOn(component, 'subscribeToScalesAndConfig');
     });
-
+    it('calls subscribeToAttributeScaleAndConfig once', () => {
+      component.ngOnInit();
+      expect(
+        component.subscribeToAttributeScaleAndConfig
+      ).toHaveBeenCalledTimes(1);
+    });
     it('calls setOrientation once', () => {
       component.ngOnInit();
       expect(component.setOrientation).toHaveBeenCalledTimes(1);
     });
-
     it('calls setValuesSide once', () => {
       component.ngOnInit();
       expect(component.setValuesSide).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls subscribeToScalesAndConfig once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToScalesAndConfig).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -130,23 +130,35 @@ describe('MapLegendComponent', () => {
     });
   });
 
-  describe('setScaleAndConfig', () => {
+  describe('subscribeToAttributeScaleAndConfig', () => {
+    let attributeDataConfig;
+    let attributeDataScale;
     beforeEach(() => {
       spyOn(component, 'setLegendType');
+      attributeDataConfig = new BehaviorSubject(null);
+      attributeDataScale = new BehaviorSubject(null);
+      (component as any).chart = {
+        attributeDataScale$: attributeDataScale.asObservable(),
+        attributeDataConfig$: attributeDataConfig.asObservable(),
+      } as any;
     });
 
     it('calls setLegendType once if scale and config are truthy', () => {
-      component.setScaleAndConfig('scale' as any, 'config' as any);
+      attributeDataConfig.next('hello' as any);
+      attributeDataScale.next('it me' as any);
+      component.subscribeToAttributeScaleAndConfig();
       expect(component.setLegendType).toHaveBeenCalledTimes(1);
     });
 
     it('does not call setLegendType if scale is not truthy', () => {
-      component.setScaleAndConfig(null, 'config' as any);
+      attributeDataConfig.next('hello' as any);
+      component.subscribeToAttributeScaleAndConfig();
       expect(component.setLegendType).not.toHaveBeenCalled();
     });
 
     it('does not call setLegendType if config is not truthy', () => {
-      component.setScaleAndConfig('scale' as any, null);
+      attributeDataScale.next('it me' as any);
+      component.subscribeToAttributeScaleAndConfig();
       expect(component.setLegendType).not.toHaveBeenCalled();
     });
   });

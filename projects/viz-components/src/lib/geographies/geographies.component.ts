@@ -27,7 +27,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapContent } from '../map-chart/map-content';
+import { MapDataMarksBase } from '../map-chart/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
@@ -67,7 +67,7 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   ],
 })
 export class GeographiesComponent
-  extends MapContent
+  extends MapDataMarksBase
   implements DataMarks, OnChanges, OnInit
 {
   @Input() config: VicGeographiesConfig;
