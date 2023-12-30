@@ -42,7 +42,7 @@ export class VicAxisConfig {
    *
    * If not provided on Quantitative Axes, ticks will be formatter with ',.1f'.
    */
-  tickFormat?: string | ((value: any) => string);
+  tickFormat?: string | ((value: number | Date) => string);
 
   /**
    * A font size to apply to the tick labels, in px. If not specified, D3's default font size will be used.
@@ -70,7 +70,7 @@ export class VicAxisConfig {
    * Values will be formatted with either the provided value for
    *  [tickFormat]{@link VicAxisConfig.tickFormat} or the default format.
    */
-  tickValues?: any[];
+  tickValues?: unknown[];
 
   /**
    * A config object to specify how tick labels should wrap.
