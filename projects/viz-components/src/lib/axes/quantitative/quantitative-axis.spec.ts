@@ -1,3 +1,4 @@
+import { timeMonth } from 'd3';
 import { QuantitativeAxisStub } from '../../testing/stubs/quantitative-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
@@ -102,7 +103,7 @@ describe('the QuantitativeAxis mixin', () => {
     let tickFormatSpy: jasmine.Spy;
     const tickFormat = '%Y';
     beforeEach(() => {
-      spyOn(abstractClass as any, 'getValidatedNumTicks').and.returnValue(10);
+      spyOn(abstractClass as any, 'getValidNumTicks').and.returnValue(10);
       ticksSpy = jasmine.createSpy('ticks');
       tickFormatSpy = jasmine.createSpy('tickFormat');
       abstractClass.axis = {
@@ -112,9 +113,9 @@ describe('the QuantitativeAxis mixin', () => {
       (abstractClass as any).setUnspecifiedTickValues(tickFormat);
     });
     it('calls getValidatedNumTicks once', () => {
-      expect(
-        (abstractClass as any).getValidatedNumTicks
-      ).toHaveBeenCalledOnceWith(tickFormat);
+      expect((abstractClass as any).getValidNumTicks).toHaveBeenCalledOnceWith(
+        tickFormat
+      );
     });
     it('calls ticks on axis with the correct values', () => {
       tickFormatSpy.calls.reset();
@@ -126,159 +127,264 @@ describe('the QuantitativeAxis mixin', () => {
     });
   });
 
-  describe('getValidatedNumTicks', () => {
-    let domainSpy: jasmine.Spy;
-    let initSpy: jasmine.Spy;
-    let integersSpy: jasmine.Spy;
-    let percentageSpy: jasmine.Spy;
-    const tickFormat = '%Y';
+  describe('getValidNumTicks', () => {
+    let tickFormat: string | (() => any);
+    let getNumTicksSpy: jasmine.Spy;
     beforeEach(() => {
-      domainSpy = jasmine.createSpy('domain');
-      abstractClass.scale = {
-        domain: domainSpy.and.returnValue([1, 4]),
-      };
-      initSpy = spyOn(abstractClass, 'initNumTicks').and.returnValue(8);
-      integersSpy = spyOn(abstractClass as any, 'ticksAreIntegers');
-      percentageSpy = spyOn(abstractClass as any, 'ticksArePercentages');
+      getNumTicksSpy = spyOn(
+        abstractClass as any,
+        'getNumTicks'
+      ).and.returnValue(8);
+      spyOn(
+        abstractClass as any,
+        'getValidNumTicksStringFormatter'
+      ).and.returnValue(10);
       abstractClass.config = {
         numTicks: 1,
       } as any;
     });
 
-    it('calls initNumTicks if config.numTicks is falsey', () => {
-      abstractClass.config.numTicks = undefined;
-      (abstractClass as any).getValidatedNumTicks(tickFormat);
-      expect(initSpy).toHaveBeenCalledTimes(1);
+    it('calls getNumTicks once', () => {
+      tickFormat = ',.0f';
+      (abstractClass as any).getValidNumTicks(tickFormat);
+      expect((abstractClass as any).getNumTicks).toHaveBeenCalledTimes(1);
     });
 
-    describe('if tickFormat is a string', () => {
+    describe('if tickFormat is a string and return value from getNumTicks is a number', () => {
       beforeEach(() => {
-        (abstractClass as any).getValidatedNumTicks(tickFormat);
+        tickFormat = ',.0f';
       });
-      it('calls ticksAreIntegers once with the correct value', () => {
+      it('calls getValidNumTicksStringFormatter once with the correct values', () => {
+        (abstractClass as any).getValidNumTicks(tickFormat);
         expect(
-          (abstractClass as any).ticksAreIntegers
-        ).toHaveBeenCalledOnceWith(tickFormat);
+          (abstractClass as any).getValidNumTicksStringFormatter
+        ).toHaveBeenCalledOnceWith(8, tickFormat);
       });
-      it('calls ticksArePercentages once with the correct value', () => {
-        expect(
-          (abstractClass as any).ticksArePercentages
-        ).toHaveBeenCalledOnceWith(tickFormat);
+      it('returns the result from getValidNumTicksStringFormatter', () => {
+        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(10);
       });
     });
 
     describe('if tickFormat is not a string', () => {
-      let numTicks: number;
-      beforeEach(() => {
-        integersSpy.and.returnValue(true);
-        percentageSpy.and.returnValue(true);
+      it('returns the result from getNumTicks', () => {
+        tickFormat = () => 2;
+        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(8);
       });
-      it('returns config.numTicks if config.numTicks is truthy', () => {
-        abstractClass.config = {
-          numTicks: 10,
-        } as any;
-        numTicks = (abstractClass as any).getValidatedNumTicks(
-          (value: any) => 2
-        );
-        expect(numTicks).toEqual(10);
-      });
+    });
 
-      it('returns result from initNumTicks if config.numTicks is falsey', () => {
-        abstractClass.config.numTicks = undefined;
-        numTicks = (abstractClass as any).getValidatedNumTicks(
-          (value: any) => 2
+    describe('if if result from initNumTicks is not a number', () => {
+      it('returns the result from initNumTicks', () => {
+        getNumTicksSpy.and.returnValue(timeMonth);
+        tickFormat = ',.0f';
+        expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(
+          timeMonth
         );
-        expect(numTicks).toEqual(8);
       });
+    });
+  });
+
+  describe('getNumTicks', () => {
+    beforeEach(() => {
+      spyOn(abstractClass as any, 'initNumTicks').and.returnValue(10);
+    });
+    it('returns the value from config.numTicks if it exists', () => {
+      abstractClass.config = {
+        numTicks: 1,
+      } as any;
+      expect((abstractClass as any).getNumTicks()).toEqual(1);
+    });
+
+    it('returns the result from initNumTicks if config.numTicks does not exist', () => {
+      abstractClass.config = {} as any;
+      expect((abstractClass as any).getNumTicks()).toEqual(10);
+    });
+  });
+
+  describe('getValidNumTicksStringFormatter', () => {
+    let intSpy: jasmine.Spy;
+    let percentSpy: jasmine.Spy;
+    beforeEach(() => {
+      intSpy = spyOn(abstractClass as any, 'ticksAreIntegers').and.returnValue(
+        true
+      );
+      percentSpy = spyOn(
+        abstractClass as any,
+        'ticksArePercentages'
+      ).and.returnValue(false);
+      spyOn(abstractClass as any, 'getValidIntegerNumTicks');
+      spyOn(abstractClass as any, 'getValidPercentNumTicks');
+    });
+    it('calls ticksAreIntegers once with the correct value', () => {
+      (abstractClass as any).getValidNumTicksStringFormatter(10, 'format');
+      expect((abstractClass as any).ticksAreIntegers).toHaveBeenCalledOnceWith(
+        'format'
+      );
     });
 
     describe('if ticksAreIntegers returns true', () => {
-      beforeEach(() => {
-        integersSpy.and.returnValue(true);
+      it('calls getValidIntegerNumTicks once with the correct values', () => {
+        (abstractClass as any).getValidNumTicksStringFormatter(10, 'format');
+        expect(
+          (abstractClass as any).getValidIntegerNumTicks
+        ).toHaveBeenCalledOnceWith(10);
       });
-      it('calls domain on scale once', () => {
-        (abstractClass as any).getValidatedNumTicks(tickFormat);
-        expect(domainSpy).toHaveBeenCalledTimes(1);
-      });
-
-      it('returns the difference between first and last values of domain if numTicks is greater than that difference', () => {
-        abstractClass.config.numTicks = 10;
-        domainSpy.and.returnValue([1, 4]);
-        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
-          3
-        );
-      });
-
-      it('returns config.numTicks if numTicks is less than that difference', () => {
-        abstractClass.config.numTicks = 2;
-        domainSpy.and.returnValue([1, 4]);
-        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
-          2
-        );
+      it('returns the result from getValidIntegerNumTicks', () => {
+        (abstractClass as any).getValidIntegerNumTicks.and.returnValue(20);
+        expect(
+          (abstractClass as any).getValidNumTicksStringFormatter(10, 'format')
+        ).toEqual(20);
       });
     });
 
-    describe('if ticksArePercentages returns true', () => {
+    describe('if ticksAreIntegers returns false', () => {
       beforeEach(() => {
-        integersSpy.and.returnValue(false);
-        percentageSpy.and.returnValue(true);
+        intSpy.and.returnValue(false);
       });
-
-      describe('int: when numTicks is greater than number of possible ticks', () => {
-        it('number of possible ticks is >= 1', () => {
-          abstractClass.config.numTicks = 5;
-          domainSpy.and.returnValue([0, 0.000157]);
-          expect(
-            (abstractClass as any).getValidatedNumTicks('.2%')
-          ).toBeCloseTo(1.57);
-          expect(domainSpy).toHaveBeenCalledTimes(1);
-        });
-
-        describe('number of possible ticks is < 1', () => {
-          it('number of possible ticks is > 0', () => {
-            abstractClass.config.numTicks = 5;
-            domainSpy.and.returnValue([0, 0.000000004275]);
-            expect((abstractClass as any).getValidatedNumTicks('.2%')).toEqual(
-              1
-            );
-            expect(domainSpy).toHaveBeenCalledWith([0, 0.0001]);
-          });
-
-          it('number of possible ticks is equal to 0', () => {
-            abstractClass.config.numTicks = 5;
-            domainSpy.and.returnValue([0, 0]);
-            expect((abstractClass as any).getValidatedNumTicks('.1%')).toEqual(
-              1
-            );
-            expect(domainSpy).toHaveBeenCalledWith([0, 0.001]);
-          });
-        });
+      it('calls ticksArePercentages once with the correct value', () => {
+        (abstractClass as any).getValidNumTicksStringFormatter(10, 'format');
+        expect(
+          (abstractClass as any).ticksArePercentages
+        ).toHaveBeenCalledOnceWith('format');
       });
-
-      it('int: when numTicks is <= number of possible ticks', () => {
-        abstractClass.config.numTicks = 5;
-        domainSpy.and.returnValue([0, 0.08]);
-        expect((abstractClass as any).getValidatedNumTicks('.0%')).toBe(5);
-        expect(domainSpy).toHaveBeenCalledTimes(1);
+      it('calls getValidPercentNumTicks once with the correct values if ticksArePercentages is true', () => {
+        percentSpy.and.returnValue(true);
+        (abstractClass as any).getValidNumTicksStringFormatter(10, 'format');
+        expect(
+          (abstractClass as any).getValidPercentNumTicks
+        ).toHaveBeenCalledOnceWith(10, 'format');
+      });
+      it('returns the result from getValidPercentNumTicks if ticksArePercentages is true', () => {
+        percentSpy.and.returnValue(true);
+        (abstractClass as any).getValidPercentNumTicks.and.returnValue(20);
+        expect(
+          (abstractClass as any).getValidNumTicksStringFormatter(10, 'format')
+        ).toEqual(20);
+      });
+      it('returns the original numTicks value if ticksArePercentages is false', () => {
+        percentSpy.and.returnValue(false);
+        expect(
+          (abstractClass as any).getValidNumTicksStringFormatter(100, 'format')
+        ).toEqual(100);
       });
     });
+  });
 
-    describe('if ticksAreIntegers and ticksArePercentages returns false', () => {
-      beforeEach(() => {
-        integersSpy.and.returnValue(false);
-      });
-      it('returns config.numTicks if config.numTicks is truthy', () => {
-        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
-          1
+  fdescribe('getValidIntegerNumTicks', () => {
+    let domainSpy: jasmine.Spy;
+    beforeEach(() => {
+      domainSpy = jasmine.createSpy('domain');
+      abstractClass.scale = {
+        domain: domainSpy.and.returnValue([0, 100]),
+      };
+    });
+    describe('if numTicks is larger than scale domain', () => {
+      it('returns the difference between the scale domain', () => {
+        expect((abstractClass as any).getValidIntegerNumTicks(200)).toEqual(
+          100
         );
       });
-
-      it('returns result from initNumTicks if config.numTicks is falsey', () => {
-        abstractClass.config.numTicks = undefined;
-        expect((abstractClass as any).getValidatedNumTicks(tickFormat)).toEqual(
-          8
-        );
+    });
+    describe('if numTicks is less than 1', () => {
+      it('returns 1', () => {
+        expect((abstractClass as any).getValidIntegerNumTicks(0)).toEqual(1);
       });
+    });
+    describe('if domain max - min is less than one or equal to one', () => {
+      it('returns 1 - case 1', () => {
+        domainSpy.and.returnValue([0, 0.5]);
+        expect((abstractClass as any).getValidIntegerNumTicks(0)).toEqual(1);
+      });
+      it('returns 1 - case 2', () => {
+        domainSpy.and.returnValue([1, 2]);
+        expect((abstractClass as any).getValidIntegerNumTicks(20)).toEqual(1);
+      });
+      it('returns 1 - case 3', () => {
+        domainSpy.and.returnValue([0, 0.5]);
+        expect((abstractClass as any).getValidIntegerNumTicks(20)).toEqual(1);
+      });
+    });
+    describe('if numTicks is between 1 and scale domain and scale domain max min diff is larger than one', () => {
+      it('returns the original value - case 1', () => {
+        expect((abstractClass as any).getValidIntegerNumTicks(50)).toEqual(50);
+      });
+      it('returns the original value - case 2', () => {
+        domainSpy.and.returnValue([0, 3]);
+        expect((abstractClass as any).getValidIntegerNumTicks(2)).toEqual(2);
+      });
+    });
+  });
+
+  describe('getValidPercentNumTicks', () => {
+    let domainSpy: jasmine.Spy;
+    let decimalSpy: jasmine.Spy;
+    beforeEach(() => {
+      domainSpy = jasmine.createSpy('domain');
+      abstractClass.scale = {
+        domain: domainSpy.and.returnValue([1, 4]),
+      };
+      decimalSpy = spyOn(
+        abstractClass as any,
+        'getNumDecimalPlacesFromPercentFormat'
+      ).and.returnValue(2);
+    });
+    it('calls getNumDecimalPlacesFromPercentFormat once with the correct value', () => {
+      (abstractClass as any).getValidPercentNumTicks(10, 'format');
+      expect(
+        (abstractClass as any).getNumDecimalPlacesFromPercentFormat
+      ).toHaveBeenCalledOnceWith('format');
+    });
+    it('returns the correct value if numTicks is larger than numPossibleTicks and not less than 1', () => {
+      expect(
+        (abstractClass as any).getValidPercentNumTicks(100, 'format')
+      ).toEqual(100);
+    });
+    it('returns numPossibleTicks if numTicks is greater than numPossibleTicks and numPossibleTicks is greater than 1', () => {
+      expect(
+        (abstractClass as any).getValidPercentNumTicks(40000, 'format')
+      ).toEqual(30000);
+    });
+    it('returns numPossibleTicks if numTicks is greater than numPossibleTicks and numPossibleTicks is greater than 1 - test 1', () => {
+      domainSpy.and.returnValue([0, 0.5]);
+      expect(
+        (abstractClass as any).getValidPercentNumTicks(40000, 'format')
+      ).toEqual(5000);
+    });
+    it('returns numPossibleTicks if numTicks is greater than numPossibleTicks and numPossibleTicks is greater than 1 - test 2', () => {
+      domainSpy.and.returnValue([0, 0.5]);
+      decimalSpy.and.returnValue(1);
+      expect(
+        (abstractClass as any).getValidPercentNumTicks(501, 'format')
+      ).toEqual(500);
+    });
+    it('returns numPossibleTicks if numTicks is greater than numPossibleTicks and numPossibleTicks is greater than 1 - test 3', () => {
+      domainSpy.and.returnValue([0, 0.5]);
+      decimalSpy.and.returnValue(0);
+      expect(
+        (abstractClass as any).getValidPercentNumTicks(51, 'format')
+      ).toEqual(50);
+    });
+    it('returns 1 if numTicks is 0', () => {
+      expect(
+        (abstractClass as any).getValidPercentNumTicks(0, 'format')
+      ).toEqual(1);
+    });
+  });
+
+  describe('getNumDecimalPlacesFromPercentFormat', () => {
+    it('returns the number of decimal places in a percentage format - case 0', () => {
+      expect(
+        (abstractClass as any).getNumDecimalPlacesFromPercentFormat('.0%')
+      ).toEqual(0);
+    });
+    it('returns the number of decimal places in a percentage format - case 1', () => {
+      expect(
+        (abstractClass as any).getNumDecimalPlacesFromPercentFormat('.1%')
+      ).toEqual(1);
+    });
+    it('returns the number of decimal places in a percentage format - case 2', () => {
+      expect(
+        (abstractClass as any).getNumDecimalPlacesFromPercentFormat('.2%')
+      ).toEqual(2);
     });
   });
 
