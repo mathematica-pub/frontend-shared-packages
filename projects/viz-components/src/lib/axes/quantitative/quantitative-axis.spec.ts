@@ -269,7 +269,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
   });
 
-  fdescribe('getValidIntegerNumTicks', () => {
+  describe('getValidIntegerNumTicks', () => {
     let domainSpy: jasmine.Spy;
     beforeEach(() => {
       domainSpy = jasmine.createSpy('domain');
