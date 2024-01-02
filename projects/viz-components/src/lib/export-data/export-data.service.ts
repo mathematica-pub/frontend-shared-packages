@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import { saveAs } from 'file-saver';
 import { cloneDeep } from 'lodash-es';
 import { unparse } from 'papaparse';
-import { DataExportConfig } from './data-export.config';
+import { VicDataExportConfig } from './data-export.config';
 @Injectable()
 export class VicExportDataService {
-  saveCSV(name: string, dataConfigs: DataExportConfig[]): void {
+  saveCSV(name: string, dataConfigs: VicDataExportConfig[]): void {
     const blobParts = [];
     for (const dataConfig of dataConfigs) {
       let csv: string;

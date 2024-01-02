@@ -17,7 +17,7 @@ import { GeographiesHoverMoveDirective } from './geographies-hover-move.directiv
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
 import {
-  GeographiesEventOutput,
+  VicGeographiesEventOutput,
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
@@ -39,7 +39,7 @@ export class GeographiesClickDirective<
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicGeographiesClickOutput') eventOutput =
-    new EventEmitter<GeographiesEventOutput>();
+    new EventEmitter<VicGeographiesEventOutput>();
   pointerX: number;
   pointerY: number;
   feature: Feature;
@@ -88,12 +88,12 @@ export class GeographiesClickDirective<
     this.feature = undefined;
   }
 
-  getOutputData(): GeographiesEventOutput {
+  getOutputData(): VicGeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.feature,
       this.geographies
     );
-    const output: GeographiesEventOutput = {
+    const output: VicGeographiesEventOutput = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,

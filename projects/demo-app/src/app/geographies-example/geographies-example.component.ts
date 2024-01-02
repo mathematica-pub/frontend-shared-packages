@@ -3,21 +3,21 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
 import {
-  HtmlTooltipConfig,
-  HtmlTooltipOffsetFromOriginPosition,
+  VicHtmlTooltipConfig,
+  VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
-  DataGeographyConfig,
+  VicDataGeographyConfig,
   ElementSpacing,
-  EqualValuesQuantitativeAttributeDataDimensionConfig,
+  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
-  GeographiesConfig,
-  GeographiesEventOutput,
+  VicGeographiesConfig,
+  VicGeographiesEventOutput,
   GeographiesHoverEmitTooltipData,
-  NoDataGeographyConfig,
   VicGeographyLabelConfig,
+  VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
@@ -58,18 +58,18 @@ export class GeographiesExampleComponent implements OnInit {
     'custom breaks',
     'categorical',
   ];
-  dataMarksConfig$: Observable<GeographiesConfig>;
+  dataMarksConfig$: Observable<VicGeographiesConfig>;
   width = 700;
   height = 400;
   margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(
-      new HtmlTooltipConfig({ show: false })
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
+      new VicHtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<GeographiesEventOutput> =
-    new BehaviorSubject<GeographiesEventOutput>(null);
+  tooltipData: BehaviorSubject<VicGeographiesEventOutput> =
+    new BehaviorSubject<VicGeographiesEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<GeographiesHoverDirective>[] = [
     new GeographiesHoverEmitTooltipData(),
@@ -112,8 +112,8 @@ export class GeographiesExampleComponent implements OnInit {
   getDataMarksConfig(
     data: StateIncomeDatum[],
     map: Topology
-  ): GeographiesConfig {
-    const config = new GeographiesConfig();
+  ): VicGeographiesConfig {
+    const config = new VicGeographiesConfig();
     config.data = data;
     config.boundary = this.basemap.us;
     const noDataStatesConfig = this.getNoDataGeographyStatesFeatures(map, data);
@@ -208,12 +208,12 @@ export class GeographiesExampleComponent implements OnInit {
   getDataGeographyConfig(
     map: Topology,
     data: StateIncomeDatum[]
-  ): DataGeographyConfig {
-    const config = new DataGeographyConfig();
+  ): VicDataGeographyConfig {
+    const config = new VicDataGeographyConfig();
     config.geographies = this.getDataGeographyFeatures(map, data);
     config.valueAccessor = (d) => d.properties['name'];
     config.attributeDataConfig =
-      new EqualValuesQuantitativeAttributeDataDimensionConfig();
+      new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
     config.attributeDataConfig.valueAccessor = (d) => d.income;
     config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
@@ -235,13 +235,13 @@ export class GeographiesExampleComponent implements OnInit {
   getNoDataGeographyStatesFeatures(
     map: Topology,
     data: StateIncomeDatum[]
-  ): NoDataGeographyConfig {
+  ): VicNoDataGeographyConfig {
     const statesInData = data.map((x) => x.state);
     const features = topojson
       .feature(map, map.objects['states'])
       ['features'].filter((x) => !statesInData.includes(x.properties.name));
     const labels = this.getGeographyLabelConfig();
-    return new NoDataGeographyConfig({
+    return new VicNoDataGeographyConfig({
       geographies: features,
       patternName: this.patternName,
       labels: labels,
@@ -256,26 +256,26 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: GeographiesEventOutput,
+    data: VicGeographiesEventOutput,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: GeographiesEventOutput): void {
+  updateTooltipData(data: VicGeographiesEventOutput): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: GeographiesEventOutput,
+    data: VicGeographiesEventOutput,
     eventContext: 'hover' | 'click'
   ): void {
-    const config = new HtmlTooltipConfig();
+    const config = new VicHtmlTooltipConfig();
     config.size.minWidth = 130;
     config.hasBackdrop = eventContext === 'click';
     config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new HtmlTooltipOffsetFromOriginPosition();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;

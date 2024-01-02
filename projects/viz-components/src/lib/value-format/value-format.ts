@@ -1,8 +1,8 @@
 import { format, timeFormat } from 'd3';
 
-export type FormatSpecifier = string | ((x: unknown) => string);
+export type VicFormatSpecifier = string | ((x: unknown) => string);
 
-export interface ValueFormats {
+export interface VicValueFormats {
   integer: string;
   integerNoComma: string;
   percent: (digits: number) => string;
@@ -13,7 +13,7 @@ export interface ValueFormats {
   monthFullYear: string;
 }
 
-export const valueFormat: ValueFormats = {
+export const valueFormat: VicValueFormats = {
   integer: ',.0f',
   integerNoComma: '.0f',
   percent: (digits: number) => `.${digits}%`,
@@ -26,7 +26,7 @@ export const valueFormat: ValueFormats = {
 
 export function formatValue(
   value: any,
-  formatSpecifier: FormatSpecifier
+  formatSpecifier: VicFormatSpecifier
 ): string {
   if (formatSpecifier && typeof formatSpecifier === 'function') {
     return formatSpecifier(value);

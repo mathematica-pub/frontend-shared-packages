@@ -12,7 +12,7 @@ import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
-import { BarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
+import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
 @Directive({
@@ -24,7 +24,7 @@ export class BarsHoverMoveDirective<
   @Input('vicBarsHoverMoveEffects')
   effects: HoverMoveEventEffect<BarsHoverMoveDirective<T>>[];
   @Output('vicBarsHoverMoveOutput') eventOutput =
-    new EventEmitter<BarsEventOutput>();
+    new EventEmitter<VicBarsEventOutput>();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
@@ -79,7 +79,7 @@ export class BarsHoverMoveDirective<
     this.elRef = undefined;
   }
 
-  getEventOutput(): BarsEventOutput {
+  getEventOutput(): VicBarsEventOutput {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,

@@ -17,7 +17,7 @@ import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
 import {
   getLinesTooltipDataFromDatum,
-  LinesEventOutput,
+  VicLinesEventOutput,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
 
@@ -37,7 +37,7 @@ export class LinesClickDirective<
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicLinesChartClickOutput') eventOutput =
-    new EventEmitter<LinesEventOutput>();
+    new EventEmitter<VicLinesEventOutput>();
 
   constructor(
     @Inject(LINES) public lines: LinesComponent,
@@ -67,7 +67,7 @@ export class LinesClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getOutputData(): LinesEventOutput {
+  getOutputData(): VicLinesEventOutput {
     if (!this.hoverAndMoveDirective) {
       console.warn(
         'Tooltip data can only be retrieved when a LinesHoverMoveDirective is implemented.'

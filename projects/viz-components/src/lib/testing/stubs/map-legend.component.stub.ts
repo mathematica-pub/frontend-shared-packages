@@ -1,7 +1,7 @@
-import { CategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
+import { VicCategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
 
 export class MapLegendComponentStub {
-  attributeDataConfig = new CategoricalAttributeDataDimensionConfig();
+  attributeDataConfig = new VicCategoricalAttributeDataDimensionConfig();
 
   constructor() {
     this.attributeDataConfig.range = ['red', 'blue'];

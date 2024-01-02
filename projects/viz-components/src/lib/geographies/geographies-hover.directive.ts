@@ -7,8 +7,8 @@ import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import {
-  GeographiesEventOutput,
-  GeographiesTooltipOutput,
+  VicGeographiesEventOutput,
+  VicGeographiesTooltipOutput,
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
@@ -18,7 +18,7 @@ interface GeographiesHoverExtras {
   bounds?: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput = GeographiesTooltipOutput &
+export type GeographiesHoverOutput = VicGeographiesTooltipOutput &
   GeographiesHoverExtras;
 
 @Directive({
@@ -30,7 +30,7 @@ export class GeographiesHoverDirective<
   @Input('vicGeographiesHoverEffects')
   effects: EventEffect<GeographiesHoverDirective<T>>[];
   @Output('vicGeographiesHoverOutput') eventOutput =
-    new EventEmitter<GeographiesEventOutput>();
+    new EventEmitter<VicGeographiesEventOutput>();
   feature: Feature;
   bounds: [[number, number], [number, number]];
   positionX: number;
@@ -67,7 +67,7 @@ export class GeographiesHoverDirective<
     }
   }
 
-  getEventOutput(): GeographiesEventOutput {
+  getEventOutput(): VicGeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.feature,
       this.geographies

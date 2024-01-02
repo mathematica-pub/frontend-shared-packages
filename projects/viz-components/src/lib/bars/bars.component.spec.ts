@@ -5,7 +5,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
-import { BarsConfig, BarsLabelsConfig } from './bars.config';
+import { VicBarsConfig, VicBarsLabelsConfig } from './bars.config';
 
 describe('BarsComponent', () => {
   let component: BarsComponent;
@@ -404,7 +404,7 @@ describe('BarsComponent', () => {
       component.values = {
         x: [1, 2, 3, 4, -5],
       } as any;
-      component.config = new BarsConfig();
+      component.config = new VicBarsConfig();
       component.config.dimensions.quantitative = 'x';
     });
     it('integration: sets hasBarsWithNegativeValues to true if dataMin is less than zero', () => {
@@ -486,8 +486,8 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       spyOn(component, 'drawBars');
       spyOn(component, 'drawBarLabels');
-      component.config = new BarsConfig();
-      component.config.labels = new BarsLabelsConfig();
+      component.config = new VicBarsConfig();
+      component.config.labels = new VicBarsLabelsConfig();
     });
     it('calls drawBars once with the correct parameter', () => {
       component.drawMarks(100);
@@ -508,7 +508,7 @@ describe('BarsComponent', () => {
 
   describe('getBarLabelText', () => {
     beforeEach(() => {
-      component.config = new BarsConfig();
+      component.config = new VicBarsConfig();
       component.config = {
         dimensions: { quantitative: 'x' },
         quantitative: {
@@ -547,8 +547,8 @@ describe('BarsComponent', () => {
   describe('getBarLabelColor', () => {
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('bar color');
-      component.config = new BarsConfig();
-      component.config.labels = new BarsLabelsConfig();
+      component.config = new VicBarsConfig();
+      component.config.labels = new VicBarsLabelsConfig();
     });
     describe('config.labels.color is defined', () => {
       beforeEach(() => {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BehaviorSubject } from 'rxjs';
 import { XyAxisStub } from '../testing/stubs/xy-axis.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
@@ -34,15 +35,25 @@ describe('the XyAxis abstract class', () => {
   });
 
   describe('subscribeToScale', () => {
-    it('calls onScaleUpdate with the emitted values', () => {
-      spyOn(abstractClass, 'onScaleUpdate');
+    let spy: jasmine.Spy;
+    beforeEach(() => {
+      spy = spyOn(abstractClass, 'onScaleUpdate');
+    });
+    it('calls onScaleUpdate if scale does not emit new value after subscription', () => {
       const scale = new BehaviorSubject<any>(null);
       const scale$ = scale.asObservable();
       abstractClass.subscribeToScale(scale$);
-      scale.next('one');
+      expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(null, null);
+    });
+    it('calls onScaleUpdate if scale emits new value after subscription', () => {
+      const scale = new BehaviorSubject<any>(null);
+      const scale$ = scale.asObservable();
+      abstractClass.subscribeToScale(scale$);
+      spy.calls.reset();
+      scale.next('new value');
       expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(
         null,
-        'one' as any
+        'new value' as any
       );
     });
   });

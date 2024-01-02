@@ -1,12 +1,12 @@
 import { ConnectedPosition, OverlaySizeConfig } from '@angular/cdk/overlay';
 import { ElementRef } from '@angular/core';
-import { TooltipConfig } from '../tooltip.config';
+import { VicTooltipConfig } from '../tooltip.config';
 
-export class HtmlTooltipConfig extends TooltipConfig {
+export class VicHtmlTooltipConfig extends VicTooltipConfig {
   override type: 'html';
   position:
-    | HtmlTooltipCdkManagedFromOriginPosition
-    | HtmlTooltipOffsetFromOriginPosition;
+    | VicHtmlTooltipCdkManagedFromOriginPosition
+    | VicHtmlTooltipOffsetFromOriginPosition;
   size: OverlaySizeConfig;
   addEventsDisabledClass: boolean;
   panelClass: string | string[];
@@ -14,16 +14,16 @@ export class HtmlTooltipConfig extends TooltipConfig {
   hasBackdrop: boolean;
   closeOnBackdropClick?: boolean;
 
-  constructor(init?: Partial<HtmlTooltipConfig>) {
+  constructor(init?: Partial<VicHtmlTooltipConfig>) {
     super();
-    this.size = new HtmlTooltipSize();
+    this.size = new VicHtmlTooltipSize();
     this.hasBackdrop = false;
     this.closeOnBackdropClick = false;
     Object.assign(this, init);
   }
 }
 
-export class HtmlTooltipOffsetFromOriginPosition {
+export class VicHtmlTooltipOffsetFromOriginPosition {
   type: 'global';
   offsetY: number;
   offsetX: number;
@@ -40,18 +40,18 @@ export class HtmlTooltipOffsetFromOriginPosition {
   }
 }
 
-export class HtmlTooltipCdkManagedFromOriginPosition {
+export class VicHtmlTooltipCdkManagedFromOriginPosition {
   type: 'connected';
   config: ConnectedPosition;
 
   constructor() {
     this.type = 'connected';
-    this.config = new HtmlTooltipDefaultConnectedPosition();
+    this.config = new VicHtmlTooltipDefaultConnectedPosition();
   }
 }
 
 /** Default position for the overlay. Follows the behavior of a tooltip. */
-export class HtmlTooltipDefaultConnectedPosition {
+export class VicHtmlTooltipDefaultConnectedPosition {
   originX: 'start' | 'center' | 'end';
   originY: 'top' | 'center' | 'bottom';
   overlayX: 'start' | 'center' | 'end';
@@ -70,4 +70,4 @@ export class HtmlTooltipDefaultConnectedPosition {
   }
 }
 
-export class HtmlTooltipSize implements OverlaySizeConfig {}
+export class VicHtmlTooltipSize implements OverlaySizeConfig {}

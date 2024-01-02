@@ -6,7 +6,7 @@ import { filter, takeUntil } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
-  GeographiesEventOutput,
+  VicGeographiesEventOutput,
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
@@ -19,7 +19,7 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
   effects: HoverMoveEventEffect<GeographiesHoverMoveDirective>[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput =
-    new EventEmitter<GeographiesEventOutput>();
+    new EventEmitter<VicGeographiesEventOutput>();
   pointerX: number;
   pointerY: number;
   feature: Feature;
@@ -65,12 +65,12 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getEventOutput(): GeographiesEventOutput {
+  getEventOutput(): VicGeographiesEventOutput {
     const tooltipData = getGeographiesTooltipData(
       this.feature,
       this.geographies
     );
-    const output: GeographiesEventOutput = {
+    const output: VicGeographiesEventOutput = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,

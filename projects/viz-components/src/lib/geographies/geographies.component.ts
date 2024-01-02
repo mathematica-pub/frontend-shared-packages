@@ -33,10 +33,10 @@ import { MapContent } from '../map-chart/map-content';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
-  DataGeographyConfig,
-  GeographiesConfig,
-  NoDataGeographyConfig,
+  VicGeographiesConfig,
+  VicDataGeographyConfig,
   VicGeographyLabelConfig,
+  VicNoDataGeographyConfig,
 } from './geographies.config';
 import { Feature, MultiPolygon } from 'geojson';
 import { ColorUtilities } from '../shared/color-utilities.class';
@@ -74,7 +74,7 @@ export class GeographiesComponent
   extends MapContent
   implements DataMarks, OnChanges, OnInit
 {
-  @Input() config: GeographiesConfig;
+  @Input() config: VicGeographiesConfig;
   ranges: Ranges;
   map: any;
   projection: any;
@@ -390,7 +390,7 @@ export class GeographiesComponent
 
     const dataGeographyGroups = this.map
       .selectAll('.geography-g')
-      .data((layer: DataGeographyConfig) => layer.geographies)
+      .data((layer: VicDataGeographyConfig) => layer.geographies)
       .join(
         (enter) => enter.append('g').attr('class', 'geography-g'),
         (update) => update,
@@ -444,7 +444,7 @@ export class GeographiesComponent
       const noDataGeographyGroups = noDataLayers
         .filter((d, i) => i === index)
         .selectAll('.no-data-geography-g')
-        .data((layer: NoDataGeographyConfig) => layer.geographies)
+        .data((layer: VicNoDataGeographyConfig) => layer.geographies)
         .join(
           (enter) => enter.append('g').attr('class', 'no-data-geography-g'),
           (update) => update,
@@ -492,7 +492,7 @@ export class GeographiesComponent
     return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
-  getNoDataGeographyPatternFill(config: NoDataGeographyConfig): string {
+  getNoDataGeographyPatternFill(config: VicNoDataGeographyConfig): string {
     return config.patternName ? `url(#${config.patternName})` : config.fill;
   }
 

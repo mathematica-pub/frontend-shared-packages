@@ -1,14 +1,14 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
-import { AxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
+import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
-import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
+import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import {
-  BarsConfig,
-  BarsLabelsConfig,
-  HorizontalBarsDimensionsConfig,
+  VicBarsConfig,
+  VicBarsLabelsConfig,
+  VicHorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import {
@@ -16,25 +16,25 @@ import {
   HoverMoveEventEffect,
 } from 'projects/viz-components/src/lib/events/effect';
 import {
-  HtmlTooltipConfig,
-  HtmlTooltipOffsetFromOriginPosition,
+  VicHtmlTooltipConfig,
+  VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
-  PixelDomainPaddingConfig,
+  VicPixelDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: BarsConfig;
-  xAxisConfig: AxisConfig;
-  yAxisConfig: AxisConfig;
+  dataConfig: VicBarsConfig;
+  xAxisConfig: VicAxisConfig;
+  yAxisConfig: VicAxisConfig;
 }
 
-class BarsExampleTooltipConfig extends HtmlTooltipConfig {
-  constructor(config: Partial<HtmlTooltipConfig> = {}) {
+class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
+  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
     super();
     this.size.minWidth = 130;
     Object.assign(this, config);
@@ -55,13 +55,13 @@ export class BarsExampleComponent implements OnInit {
     left: 300,
   };
   folderName = 'bars-example';
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(
-      new HtmlTooltipConfig(new BarsExampleTooltipConfig())
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
+      new VicHtmlTooltipConfig(new BarsExampleTooltipConfig())
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput> =
-    new BehaviorSubject<BarsEventOutput>(null);
+  tooltipData: BehaviorSubject<VicBarsEventOutput> =
+    new BehaviorSubject<VicBarsEventOutput>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveEffects: HoverMoveEventEffect<BarsHoverMoveDirective>[] = [
     new BarsHoverMoveEmitTooltipData(),
@@ -81,11 +81,11 @@ export class BarsExampleComponent implements OnInit {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
-    const xAxisConfig = new AxisConfig();
+    const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '.0f';
-    const yAxisConfig = new AxisConfig();
-    const dataConfig = new BarsConfig();
-    dataConfig.labels = new BarsLabelsConfig();
+    const yAxisConfig = new VicAxisConfig();
+    const dataConfig = new VicBarsConfig();
+    dataConfig.labels = new VicBarsLabelsConfig();
     dataConfig.labels.display = false;
     dataConfig.quantitative.valueFormat = (d: any) => {
       const label =
@@ -95,10 +95,10 @@ export class BarsExampleComponent implements OnInit {
       return d.value > 8 ? `${label}*` : label;
     };
     dataConfig.data = filteredData;
-    dataConfig.dimensions = new HorizontalBarsDimensionsConfig();
+    dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.quantitative.domainPadding = new PixelDomainPaddingConfig();
+    dataConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,
@@ -106,18 +106,18 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: BarsEventOutput): void {
+  updateTooltipForNewOutput(data: VicBarsEventOutput): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput): void {
+  updateTooltipData(data: VicBarsEventOutput): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput): void {
+  updateTooltipConfig(data: VicBarsEventOutput): void {
     const config = new BarsExampleTooltipConfig();
-    config.position = new HtmlTooltipOffsetFromOriginPosition();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
       config.position.offsetY = data.positionY;
