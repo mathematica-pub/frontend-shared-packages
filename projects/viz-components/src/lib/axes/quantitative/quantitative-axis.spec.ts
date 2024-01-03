@@ -128,7 +128,7 @@ describe('the QuantitativeAxis mixin', () => {
   });
 
   describe('getValidNumTicks', () => {
-    let tickFormat: string | (() => any);
+    let tickFormat: string | ((value: number | Date) => string);
     let getNumTicksSpy: jasmine.Spy;
     beforeEach(() => {
       getNumTicksSpy = spyOn(
