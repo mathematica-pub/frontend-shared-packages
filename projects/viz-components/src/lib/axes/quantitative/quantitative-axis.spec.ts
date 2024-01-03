@@ -167,7 +167,7 @@ describe('the QuantitativeAxis mixin', () => {
 
     describe('if tickFormat is not a string', () => {
       it('returns the result from getNumTicks', () => {
-        tickFormat = () => 2;
+        tickFormat = () => '2';
         expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(8);
       });
     });
