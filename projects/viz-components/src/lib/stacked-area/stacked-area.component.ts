@@ -10,18 +10,18 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
-  area,
-  extent,
   InternMap,
   InternSet,
+  SeriesPoint,
+  Transition,
+  area,
+  extent,
   map,
   range,
   rollup,
   scaleOrdinal,
   select,
-  SeriesPoint,
   stack,
-  Transition,
 } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -55,9 +55,9 @@ export class StackedAreaComponent
   areas;
 
   constructor(
-    private areasRef: ElementRef<SVGSVGElement>,
-    private utilities: UtilitiesService,
-    private zone: NgZone
+    protected areasRef: ElementRef<SVGSVGElement>,
+    protected utilities: UtilitiesService,
+    protected zone: NgZone
   ) {
     super();
   }

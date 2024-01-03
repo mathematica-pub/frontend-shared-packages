@@ -61,14 +61,14 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   barGroups: any;
   barsKeyFunction: (i: number) => string;
-  private utilities = inject(UtilitiesService);
-  private dataDomainService = inject(DataDomainService);
-  private zone = inject(NgZone);
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
   bars$: Observable<any> = this.bars.asObservable();
   barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
   barLabels$: Observable<any> = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
+  protected utilities = inject(UtilitiesService);
+  protected dataDomainService = inject(DataDomainService);
+  protected zone = inject(NgZone);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (

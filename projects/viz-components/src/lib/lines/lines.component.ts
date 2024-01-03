@@ -29,14 +29,14 @@ import {
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
+import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { VicLinesConfig } from './lines.config';
-import { DataDomainService } from '../core/services/data-domain.service';
-import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -86,10 +86,9 @@ export class LinesComponent
   markerIndexAttr = 'index';
   unpaddedXDomain: [any, any];
   unpaddedYDomain: [any, any];
-
-  private utilities = inject(UtilitiesService);
-  private zone = inject(NgZone);
-  private dataDomainService = inject(DataDomainService);
+  protected utilities = inject(UtilitiesService);
+  protected zone = inject(NgZone);
+  protected dataDomainService = inject(DataDomainService);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');

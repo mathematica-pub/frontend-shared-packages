@@ -4,7 +4,6 @@ import {
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
-  OverlaySizeConfig,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
@@ -51,9 +50,9 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
 
   constructor(
     private viewContainerRef: ViewContainerRef,
-    private overlay: Overlay,
-    private overlayPositionBuilder: OverlayPositionBuilder,
-    private utilities: UtilitiesService,
+    protected overlay: Overlay,
+    protected overlayPositionBuilder: OverlayPositionBuilder,
+    protected utilities: UtilitiesService,
     @Inject(DATA_MARKS) private dataMarks: DataMarks,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     @Optional() @Inject(DOCUMENT) document: any

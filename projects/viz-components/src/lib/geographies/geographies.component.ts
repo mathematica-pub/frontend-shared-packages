@@ -11,15 +11,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  extent,
-  geoPath,
   InternMap,
   InternSet,
+  Transition,
+  extent,
+  geoPath,
   map,
   range,
   scaleLinear,
   select,
-  Transition,
 } from 'd3';
 import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
@@ -82,9 +82,9 @@ export class GeographiesComponent
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
   constructor(
-    public utilities: UtilitiesService,
-    public zone: NgZone,
-    public elRef: ElementRef,
+    protected utilities: UtilitiesService,
+    protected zone: NgZone,
+    protected elRef: ElementRef,
     chart: MapChartComponent
   ) {
     super(chart);
