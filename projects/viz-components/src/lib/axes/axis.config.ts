@@ -70,7 +70,7 @@ export class VicAxisConfig {
    * Values will be formatted with either the provided value for
    *  [tickFormat]{@link VicAxisConfig.tickFormat} or the default format.
    */
-  tickValues?: unknown[];
+  tickValues?: string[] | number[] | Date[];
 
   /**
    * A config object to specify how tick labels should wrap.
