@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { VicDomainPaddingConfig } from '../../data-marks/data-dimension.config';
+import {
+  DomainPadding,
+  VicDomainPaddingConfig,
+} from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
 
 export type ValueType = 'max' | 'min';
@@ -18,26 +21,26 @@ export class DataDomainService {
     let paddedValue =
       valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
     const value = paddedValue;
-    if (padding.type === 'roundUp') {
+    if (padding.type === DomainPadding.roundUp) {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(
         value,
         padding.sigDigits(value),
         valueType
       );
-    } else if (padding.type === 'percentOver') {
+    } else if (padding.type === DomainPadding.percentOver) {
       paddedValue = this.getQuantitativeDomainMaxPercentOver(
         value,
         padding.sigDigits(value),
         padding.percentOver,
         valueType
       );
-    } else if (padding.type === 'roundInterval') {
+    } else if (padding.type === DomainPadding.roundInterval) {
       paddedValue = ValueUtilities.getValueRoundedToInterval(
         value,
         padding.interval(value),
         valueType
       );
-    } else if (padding.type === 'numPixels') {
+    } else if (padding.type === DomainPadding.numPixels) {
       paddedValue = this.getPixelPaddedDomainValue(
         unpaddedDomain,
         padding.numPixels,
