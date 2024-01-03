@@ -1,13 +1,13 @@
 import {
-  AxisConfig,
-  BarsConfig,
-  BarsLabelsConfig,
-  OrdinalDimensionConfig,
-  QuantitativeDimensionConfig,
+  VicAxisConfig,
+  VicBarsConfig,
+  VicBarsLabelsConfig,
+  VicOrdinalDimensionConfig,
+  VicQuantitativeDimensionConfig,
   verticalBarChartDimensionsConfig,
 } from '../src/public-api';
 
-const config = new AxisConfig({
+const config = new VicAxisConfig({
   // numTicks: number | TimeInterval,
   // tickFormat: string,
   // tickValues: any[],
@@ -20,12 +20,12 @@ const config = new AxisConfig({
   // tickLabelFontSize: number,
 });
 
-new BarsConfig({
-  ordinal: new OrdinalDimensionConfig(),
-  quantitative: new QuantitativeDimensionConfig(),
+new VicBarsConfig({
+  ordinal: new VicOrdinalDimensionConfig(),
+  quantitative: new VicQuantitativeDimensionConfig(),
   // category: CategoricalColorDimensionConfig
   dimensions: verticalBarChartDimensionsConfig,
-  labels: new BarsLabelsConfig(),
+  labels: new VicBarsLabelsConfig(),
   // data: any[],
   mixBlendMode: 'normal',
   //ordinal.valueAccessor: (d, i) => i,

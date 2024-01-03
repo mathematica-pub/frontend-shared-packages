@@ -34,9 +34,9 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
-import { LinesConfig } from './lines.config';
+import { VicLinesConfig } from './lines.config';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { DomainPaddingConfig } from '../data-marks/data-dimension.config';
+import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -75,7 +75,7 @@ export class LinesComponent
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
-  @Input() config: LinesConfig;
+  @Input() config: VicLinesConfig;
   values: XyDataMarksValues = new XyDataMarksValues();
   line: (x: any[]) => any;
   linesD3Data;
@@ -188,7 +188,7 @@ export class LinesComponent
 
   getNewDomain(
     scaleType: any,
-    domainPadding: DomainPaddingConfig,
+    domainPadding: VicDomainPaddingConfig,
     domain: [any, any],
     pixelRange: [number, number]
   ): [any, any] {

@@ -5,7 +5,7 @@ import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 import { StackedAreaComponent } from './stacked-area.component';
-import { StackedAreaConfig } from './stacked-area.config';
+import { VicStackedAreaConfig } from './stacked-area.config';
 
 describe('StackedAreaComponent', () => {
   let component: StackedAreaComponent;
@@ -29,7 +29,7 @@ describe('StackedAreaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StackedAreaComponent);
     component = fixture.componentInstance;
-    component.config = new StackedAreaConfig();
+    component.config = new VicStackedAreaConfig();
   });
 
   describe('ngOnChanges()', () => {

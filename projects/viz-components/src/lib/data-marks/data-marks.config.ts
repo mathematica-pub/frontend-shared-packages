@@ -1,4 +1,4 @@
-export class DataMarksConfig<T> {
+export class VicDataMarksConfig<T> {
   /**
    * An array of data objects to be used to create marks.
    * The objects can be of an type, and can contain any number of properties, including properties that are extraneous to the chart at hand.
@@ -15,14 +15,14 @@ export class DataMarksConfig<T> {
    */
   mixBlendMode: string;
 
-  constructor(init?: Partial<DataMarksConfig>) {
+  constructor(init?: Partial<VicDataMarksConfig<T>>) {
     this.mixBlendMode = 'normal';
     this.data = [];
     Object.assign(this, init);
   }
 }
 
-export interface PatternPredicate {
+export interface VicPatternPredicate {
   patternName: string;
   predicate: (d: any) => boolean;
 }

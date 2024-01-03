@@ -1,100 +1,104 @@
 import { InternSet, scaleBand } from 'd3';
-import { FormatSpecifier } from '../value-format/value-format';
+import { VicFormatSpecifier } from '../value-format/value-format';
 
-export class DataDimensionConfig<T> {
-  valueAccessor: (d: T, i: number) => any;
+export class VicDataDimensionConfig<T> {
+  valueAccessor: (...args: any) => any;
   domain?: any;
-  valueFormat?: FormatSpecifier;
-  constructor(init?: Partial<DataDimensionConfig<T>>) {
+  valueFormat?: VicFormatSpecifier;
+  constructor(init?: Partial<VicDataDimensionConfig<T>>) {
     Object.assign(this, init);
   }
 }
 
-export class QuantitativeDimensionConfig<T> extends DataDimensionConfig<T> {
+export class VicQuantitativeDimensionConfig<
+  T
+> extends VicDataDimensionConfig<T> {
   override domain?: [any, any];
   scaleType?: (d: any, r: any) => any;
-  domainPadding: DomainPaddingConfig;
+  domainPadding: VicDomainPaddingConfig;
 
-  constructor(init?: Partial<QuantitativeDimensionConfig<T>>) {
+  constructor(init?: Partial<VicQuantitativeDimensionConfig<T>>) {
     super();
     Object.assign(this, init);
   }
 }
 
-export class BaseDomainPaddingConfig {
+export class VicBaseDomainPaddingConfig {
   sigDigits: (d: any) => number;
-  constructor(init?: Partial<BaseDomainPaddingConfig>) {
+  constructor(init?: Partial<VicBaseDomainPaddingConfig>) {
     this.sigDigits = () => 1;
     Object.assign(this, init);
   }
 }
 
-export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
+export class VicRoundUpDomainPaddingConfig extends VicBaseDomainPaddingConfig {
   type: 'roundUp' = 'roundUp';
 
-  constructor(init?: Partial<RoundUpDomainPaddingConfig>) {
+  constructor(init?: Partial<VicRoundUpDomainPaddingConfig>) {
     super();
     Object.assign(this, init);
   }
 }
 
-export class RoundUpToIntervalDomainPaddingConfig extends BaseDomainPaddingConfig {
+export class VicRoundUpToIntervalDomainPaddingConfig extends VicBaseDomainPaddingConfig {
   type: 'roundInterval' = 'roundInterval';
   interval: (maxValue: number) => number;
 
-  constructor(init?: Partial<RoundUpToIntervalDomainPaddingConfig>) {
+  constructor(init?: Partial<VicRoundUpToIntervalDomainPaddingConfig>) {
     super();
     this.interval = () => 1;
     Object.assign(this, init);
   }
 }
 
-export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
+export class VicPercentOverDomainPaddingConfig extends VicBaseDomainPaddingConfig {
   type: 'percentOver' = 'percentOver';
   percentOver: number;
 
-  constructor(init?: Partial<PercentOverDomainPaddingConfig>) {
+  constructor(init?: Partial<VicPercentOverDomainPaddingConfig>) {
     super();
     this.percentOver = 0.1;
     Object.assign(this, init);
   }
 }
 
-export class PixelDomainPaddingConfig extends BaseDomainPaddingConfig {
+export class VicPixelDomainPaddingConfig extends VicBaseDomainPaddingConfig {
   type: 'numPixels' = 'numPixels';
   numPixels: number;
 
-  constructor(init?: Partial<PixelDomainPaddingConfig>) {
+  constructor(init?: Partial<VicPixelDomainPaddingConfig>) {
     super();
     this.numPixels = 40;
     Object.assign(this, init);
   }
 }
 
-export type DomainPaddingConfig =
-  | RoundUpDomainPaddingConfig
-  | RoundUpToIntervalDomainPaddingConfig
-  | PercentOverDomainPaddingConfig
-  | PixelDomainPaddingConfig;
+export type VicDomainPaddingConfig =
+  | VicRoundUpDomainPaddingConfig
+  | VicRoundUpToIntervalDomainPaddingConfig
+  | VicPercentOverDomainPaddingConfig
+  | VicPixelDomainPaddingConfig;
 
-export class CategoricalColorDimensionConfig<T> extends DataDimensionConfig<T> {
+export class VicCategoricalColorDimensionConfig<
+  T
+> extends VicDataDimensionConfig<T> {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) => any;
   colors?: string[];
-  constructor(init?: Partial<CategoricalColorDimensionConfig<T>>) {
+  constructor(init?: Partial<VicCategoricalColorDimensionConfig<T>>) {
     super();
     Object.assign(this, init);
   }
 }
 
-export class OrdinalDimensionConfig<T> extends DataDimensionConfig<T> {
+export class VicOrdinalDimensionConfig<T> extends VicDataDimensionConfig<T> {
   override domain?: any[] | InternSet;
   scaleType: (d: any, r: any) => any;
   paddingInner: number;
   paddingOuter: number;
   align: number;
 
-  constructor(init?: Partial<OrdinalDimensionConfig<T>>) {
+  constructor(init?: Partial<VicOrdinalDimensionConfig<T>>) {
     super();
     this.scaleType = scaleBand;
     this.paddingInner = 0.1;

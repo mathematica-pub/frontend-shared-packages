@@ -1,27 +1,27 @@
 import { scaleLinear } from 'd3';
 import {
-  CategoricalColorDimensionConfig,
-  OrdinalDimensionConfig,
-  QuantitativeDimensionConfig,
+  VicCategoricalColorDimensionConfig,
+  VicOrdinalDimensionConfig,
+  VicQuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
 import {
-  DataMarksConfig,
-  PatternPredicate,
+  VicDataMarksConfig,
+  VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class BarsConfig<T> extends DataMarksConfig<T> {
-  ordinal: OrdinalDimensionConfig<T> = new OrdinalDimensionConfig<T>();
-  quantitative: QuantitativeDimensionConfig<T> =
-    new QuantitativeDimensionConfig();
-  category: CategoricalColorDimensionConfig<T> =
-    new CategoricalColorDimensionConfig();
-  dimensions: BarsDimensionsConfig;
-  labels: BarsLabelsConfig<T>;
-  patternPredicates?: PatternPredicate[];
+export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
+  ordinal: VicOrdinalDimensionConfig<T> = new VicOrdinalDimensionConfig<T>();
+  quantitative: VicQuantitativeDimensionConfig<T> =
+    new VicQuantitativeDimensionConfig();
+  category: VicCategoricalColorDimensionConfig<T> =
+    new VicCategoricalColorDimensionConfig();
+  dimensions: VicBarsDimensionsConfig;
+  labels: VicBarsLabelsConfig<T>;
+  patternPredicates?: VicPatternPredicate[];
 
-  constructor(init?: Partial<BarsConfig<T>>) {
+  constructor(init?: Partial<VicBarsConfig<T>>) {
     super();
-    this.dimensions = new VerticalBarChartDimensionsConfig();
+    this.dimensions = new VicVerticalBarChartDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.valueAccessor = (d) => d;
     this.quantitative.scaleType = scaleLinear;
@@ -31,13 +31,13 @@ export class BarsConfig<T> extends DataMarksConfig<T> {
   }
 }
 
-export class BarsLabelsConfig<T> {
+export class VicBarsLabelsConfig<T> {
   display: boolean;
   offset: number;
   color?: string;
   noValueFunction: (d: T) => string;
 
-  constructor(init?: Partial<BarsLabelsConfig<T>>) {
+  constructor(init?: Partial<VicBarsLabelsConfig<T>>) {
     this.display = true;
     this.offset = 4;
     this.noValueFunction = () => 'N/A';
@@ -45,7 +45,7 @@ export class BarsLabelsConfig<T> {
   }
 }
 
-export class BarsDimensionsConfig {
+export class VicBarsDimensionsConfig {
   direction: 'vertical' | 'horizontal';
   x: 'ordinal' | 'quantitative';
   y: 'ordinal' | 'quantitative';
@@ -53,12 +53,12 @@ export class BarsDimensionsConfig {
   quantitative: 'x' | 'y';
   quantitativeDimension: 'width' | 'height';
 
-  constructor(init?: Partial<BarsDimensionsConfig>) {
+  constructor(init?: Partial<VicBarsDimensionsConfig>) {
     Object.assign(this, init);
   }
 }
 
-export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
+export class VicHorizontalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'horizontal';
@@ -70,7 +70,7 @@ export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
   }
 }
 
-export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
+export class VicVerticalBarChartDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'vertical';
@@ -82,7 +82,7 @@ export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
   }
 }
 
-export class BarsTooltipData {
+export class VicBarsTooltipData {
   datum: any;
   value: string;
 }

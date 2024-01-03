@@ -31,9 +31,9 @@ import { MapContent } from '../map-chart/map-content';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
-  DataGeographyConfig,
-  GeographiesConfig,
-  NoDataGeographyConfig,
+  VicDataGeographyConfig,
+  VicGeographiesConfig,
+  VicNoDataGeographyConfig,
 } from './geographies.config';
 
 export class MapDataValues {
@@ -70,7 +70,7 @@ export class GeographiesComponent
   extends MapContent
   implements DataMarks, OnChanges, OnInit
 {
-  @Input() config: GeographiesConfig;
+  @Input() config: VicGeographiesConfig;
   ranges: Ranges;
   map: any;
   projection: any;
@@ -387,7 +387,7 @@ export class GeographiesComponent
 
     this.map
       .selectAll('path')
-      .data((layer: DataGeographyConfig) => layer.geographies)
+      .data((layer: VicDataGeographyConfig) => layer.geographies)
       .join(
         (enter) => {
           enter = enter.append('path');
@@ -422,7 +422,7 @@ export class GeographiesComponent
 
     noDataLayers
       .selectAll('path')
-      .data((layer: NoDataGeographyConfig) => layer.geographies)
+      .data((layer: VicNoDataGeographyConfig) => layer.geographies)
       .join(
         (enter) =>
           enter
@@ -471,7 +471,7 @@ export class GeographiesComponent
   }
 
   getNoDataGeographyPatternFill(node: any): string {
-    const config: NoDataGeographyConfig = this.getConfigFromNode(node);
+    const config: VicNoDataGeographyConfig = this.getConfigFromNode(node);
     return config.patternName ? `url(#${config.patternName})` : config.fill;
   }
 

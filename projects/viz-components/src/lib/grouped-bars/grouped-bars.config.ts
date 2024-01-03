@@ -1,8 +1,8 @@
-import { BarsConfig } from '../bars/bars.config';
+import { VicBarsConfig } from '../bars/bars.config';
 
-export class GroupedBarsConfig extends BarsConfig {
+export class VicGroupedBarsConfig extends VicBarsConfig {
   intraGroupPadding: number;
-  constructor(init?: Partial<GroupedBarsConfig>) {
+  constructor(init?: Partial<VicGroupedBarsConfig>) {
     super();
     this.intraGroupPadding = 0.05;
     Object.assign(this, init);
