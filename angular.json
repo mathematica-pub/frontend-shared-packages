@@ -82,7 +82,9 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/demo-app/src/styles"]
+              "includePaths": [
+                "projects/demo-app/src/styles"
+              ]
             },
             "scripts": []
           },
@@ -154,7 +156,9 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/demo-app/src/styles"]
+              "includePaths": [
+                "projects/demo-app/src/styles"
+              ]
             },
             "scripts": []
           }
@@ -169,6 +173,14 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
     }
   }
 }
