@@ -62,7 +62,7 @@
     "tslib": "^2.3.0",
     "xmldoc": "^1.2.0",
     "yaml": "^2.1.1",
-    "zone.js": "^0.14.2"
+    "zone.js": "~0.13.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.2.10",
