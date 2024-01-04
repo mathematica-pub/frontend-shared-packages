@@ -2,7 +2,7 @@
 name: Documentation Request
 about: Inform of documentation gaps
 title: ''
-labels: ['issue type: documentation', 'triage']
+labels: ['issue type: documentation request', 'triage']
 assignees: ''
 ---
 
