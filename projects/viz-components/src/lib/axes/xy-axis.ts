@@ -1,5 +1,14 @@
-import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { select } from 'd3';
+import { isEqual } from 'lodash-es';
 import { Observable, pairwise, startWith, takeUntil } from 'rxjs';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
@@ -11,7 +20,7 @@ import { VicAxisConfig } from './axis.config';
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis extends Unsubscribe implements OnInit {
+export abstract class XyAxis extends Unsubscribe implements OnInit, OnChanges {
   /**
    * The configuration for the axis.
    */
@@ -30,6 +39,15 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
   abstract initNumTicks(): number;
   abstract setTranslate(): void;
   abstract setAxis(axisFunction: any): void;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      !changes['config'].isFirstChange() &&
+      !isEqual(changes['config'].previousValue, changes['config'].currentValue)
+    ) {
+      this.updateAxis(this.chart.transitionDuration);
+    }
+  }
 
   ngOnInit(): void {
     this.setAxisFunction();
