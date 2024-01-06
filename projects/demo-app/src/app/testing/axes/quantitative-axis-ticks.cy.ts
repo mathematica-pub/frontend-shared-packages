@@ -76,6 +76,7 @@ describe('it correctly sets ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has a last tick whose value is less than or equal to the max value', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -97,6 +98,7 @@ describe('it correctly sets ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has the specified tick values', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -116,6 +118,7 @@ describe('it correctly sets ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has the specified tick values, excluding those that are outside of the data range', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -164,6 +167,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as specified -- case .0f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -184,6 +188,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -208,6 +213,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as integers', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -239,6 +245,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as integers', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -294,6 +301,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -314,6 +322,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -344,6 +353,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -382,6 +392,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -437,6 +448,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as percentages with the correct number of decimal places - case .0%', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -457,6 +469,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -487,6 +500,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -525,6 +539,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(100);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {

@@ -33,6 +33,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "strictPropertyInitialization": false
-  },
-  "exclude": ["cypress.config.ts", "cypress", "node_modules"]
+  }
 }

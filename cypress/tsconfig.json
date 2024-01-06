@@ -4,7 +4,7 @@
     "baseUrl": "../node_modules",
     "target": "ES2019",
     "lib": ["es2020", "dom"],
-    "types": ["cypress", "node", "@percy/cypress"],
+    "types": ["cypress", "node"],
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
@@ -13,7 +13,7 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "typeRoots": ["node_modules/@types"]
+    "typeRoots": ["../node_modules/@types"]
   },
   "include": ["**/*.ts", "index.d.ts"]
 }
