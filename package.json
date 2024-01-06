@@ -30,7 +30,7 @@
     "compodoc:build-and-serve": "npx compodoc -p tsconfig.doc.json -s",
     "compodoc:serve": "npx compodoc -s",
     "cypress:open": "cypress open",
-    "cypress:run": "percy exec -- cypress run"
+    "cypress:component:ci": "cypress run --component --browser chrome"
   },
   "private": true,
   "dependencies": {
