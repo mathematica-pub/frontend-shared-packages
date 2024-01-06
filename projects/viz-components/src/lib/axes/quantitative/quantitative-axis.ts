@@ -31,13 +31,25 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     setSpecifiedTickValues(
       tickFormat: string | ((value: any) => string)
     ): void {
-      this.axis.tickValues(this.config.tickValues);
+      const validTickValues = this.getValidTickValues();
+      this.axis.tickValues(validTickValues);
       this.axis.tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;
         return typeof tickFormat === 'function'
           ? tickFormat(d)
           : formatter(tickFormat)(d);
       });
+    }
+
+    getValidTickValues(): number[] | Date[] {
+      const domain = this.scale.domain();
+      const validValues = [];
+      this.config.tickValues.forEach((value) => {
+        if (domain[0] <= value && value <= domain[1]) {
+          validValues.push(value);
+        }
+      });
+      return validValues;
     }
 
     setUnspecifiedTickValues(
@@ -59,7 +71,12 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       let numTicks = this.getNumTicks();
       if (typeof tickFormat === 'string' && typeof numTicks === 'number') {
         numTicks = Math.round(numTicks);
-        return this.getValidNumTicksStringFormatter(numTicks, tickFormat);
+        if (!tickFormat.includes('.')) {
+          this.warnThatNoTickValidationsWereMade();
+          return numTicks;
+        } else {
+          return this.getValidNumTicksForStringFormatter(numTicks, tickFormat);
+        }
       } else {
         return numTicks;
       }
@@ -69,76 +86,36 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       return this.config.numTicks || this.initNumTicks();
     }
 
-    getValidNumTicksStringFormatter(
+    getValidNumTicksForStringFormatter(
       numTicks: number,
       tickFormat: string
     ): number {
-      if (this.ticksAreIntegers(tickFormat)) {
-        return this.getValidIntegerNumTicks(numTicks);
-      } else if (this.ticksArePercentages(tickFormat)) {
-        return this.getValidPercentNumTicks(numTicks, tickFormat);
+      let numDecimalPlaces = Number(tickFormat.split('.')[1][0]);
+      if (tickFormat.includes('%')) {
+        numDecimalPlaces = numDecimalPlaces + 2;
+      }
+      const [start, end] = this.scale.domain();
+      const firstPossibleTick = start + Math.pow(10, -1 * numDecimalPlaces);
+      if (firstPossibleTick > end) {
+        return 1;
       } else {
-        return numTicks;
-      }
-    }
-
-    getValidIntegerNumTicks(numTicks: number): number {
-      const [start, end] = this.scale.domain();
-      if (numTicks > end - start) {
-        numTicks = end - start;
-      }
-      if (numTicks < 1) {
-        this.scale.domain([start, start + 1]);
-        numTicks = 1;
-      }
-      return numTicks;
-    }
-
-    getValidPercentNumTicks(numTicks: number, tickFormat: string): number {
-      const [start, end] = this.scale.domain();
-      const numDecimalPlaces =
-        this.getNumDecimalPlacesFromPercentFormat(tickFormat);
-      const numPossibleTicks =
-        (end - start) * Math.pow(10, numDecimalPlaces + 2);
-      if (numTicks > numPossibleTicks) {
-        numTicks = numPossibleTicks;
-      }
-      if (numTicks < 1) {
-        if (numTicks === 0) {
-          this.scale.domain([
-            start,
-            start + Math.pow(10, -1 * (numDecimalPlaces + 2)),
-          ]);
+        let numPossibleTicks = 1; // tick for first value in domain
+        if (numDecimalPlaces > 0) {
+          numPossibleTicks += (end - start) * Math.pow(10, numDecimalPlaces);
         } else {
-          this.scale.domain([
-            start,
-            this.ceilToPrecision(end, numDecimalPlaces + 2),
-          ]);
+          numPossibleTicks += Math.floor(end - start);
         }
-        numTicks = 1;
+        if (numTicks < numPossibleTicks) {
+          return numTicks;
+        } else {
+          return numPossibleTicks;
+        }
       }
-      return numTicks;
     }
 
-    ticksAreIntegers(tickFormat: string): boolean {
-      return tickFormat.includes('0f');
-    }
-
-    ticksArePercentages(tickFormat: string): boolean {
-      return /\d+%/.test(tickFormat);
-    }
-
-    getNumDecimalPlacesFromPercentFormat(formatString: string): number {
-      const decimalFormatString = formatString.replace(/[^0-9.]/g, '');
-      if (decimalFormatString === '' || decimalFormatString === '.') {
-        return 0;
-      }
-      return parseInt(decimalFormatString.split('.')[1] || '0');
-    }
-
-    ceilToPrecision(value: number, precision: number): number {
-      return (
-        Math.ceil(value * Math.pow(10, precision)) / Math.pow(10, precision)
+    warnThatNoTickValidationsWereMade(): void {
+      console.warn(
+        "It looks like you are using a formatter that we either haven't written code to handle or that is an invalid formatter. We are currently expecting a formatter to include '.' and cannot guarantee that you will get unique tick values using this formatter."
       );
     }
   }
