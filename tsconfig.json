@@ -34,5 +34,5 @@
     "strictTemplates": true,
     "strictPropertyInitialization": false
   },
-  "exclude": ["./projects/demo-app/cypress.config.ts"]
+  "exclude": ["cypress.config.ts", "cypress", "node_modules"]
 }

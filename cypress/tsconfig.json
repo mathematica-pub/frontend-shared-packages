@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "../node_modules",
+    "target": "ES2019",
+    "lib": ["es2020", "dom"],
+    "types": ["cypress", "node", "@percy/cypress"],
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "typeRoots": ["node_modules/@types"]
+  },
+  "include": ["**/*.ts", "index.d.ts"]
+}
