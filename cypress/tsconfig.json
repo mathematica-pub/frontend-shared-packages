@@ -13,7 +13,8 @@
     "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
-    "typeRoots": ["../node_modules/@types"]
+    "typeRoots": ["../node_modules/@types", "support"],
+    "noEmit": true
   },
-  "include": ["**/*.ts", "index.d.ts"]
+  "include": ["./*/*.ts"]
 }

@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import 'cypress/support/component';
 import { extent } from 'd3';
+import { beforeEach, cy, describe, it } from 'local-cypress';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import {
   VicBarsConfig,
@@ -81,7 +83,7 @@ describe('it correctly sets ticks', () => {
     it('has a last tick whose value is less than or equal to the max value', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const lastTick = ticks[ticks.length - 1];
-        expect(Number(lastTick.textContent)).to.be.at.most(
+        expect(Number(lastTick.textContent)).toBeLessThanOrEqual(
           barsConfig.data.map((d) => d.value).reduce((a, b) => Math.max(a, b))
         );
       });
@@ -103,7 +105,7 @@ describe('it correctly sets ticks', () => {
     it('has the specified tick values', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(axisConfig.tickValues.map(String));
+        expect(tickValues).toEqual(axisConfig.tickValues.map(String));
       });
     });
   });
@@ -123,7 +125,7 @@ describe('it correctly sets ticks', () => {
     it('has the specified tick values, excluding those that are outside of the data range', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['1', '2', '7', '21']);
+        expect(tickValues).toEqual(['1', '2', '7', '21']);
       });
     });
   });
@@ -172,7 +174,7 @@ describe('integer formatted ticks', () => {
     it('has ticks that are formatted as specified -- case .0f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
@@ -193,7 +195,7 @@ describe('integer formatted ticks', () => {
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['1', '2', '8', '21']);
+        expect(tickValues).toEqual(['1', '2', '8', '21']);
       });
     });
   });
@@ -218,14 +220,14 @@ describe('integer formatted ticks', () => {
     it('has ticks that are formatted as integers', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
     it('has only one tick per integer in the domain / does not have duplicate tick values', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['0', '1', '2', '3']);
+        expect(tickValues).toEqual(['0', '1', '2', '3']);
       });
     });
   });
@@ -250,14 +252,14 @@ describe('integer formatted ticks', () => {
     it('has ticks that are formatted as integers', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
     it('has only one tick and that tick is at zero', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['0']);
+        expect(tickValues).toEqual(['0']);
       });
     });
   });
@@ -306,7 +308,7 @@ describe('float formatted ticks', () => {
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
@@ -327,7 +329,7 @@ describe('float formatted ticks', () => {
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['1.0', '2.3', '7.0', '21.2']);
+        expect(tickValues).toEqual(['1.0', '2.3', '7.0', '21.2']);
       });
     });
   });
@@ -358,7 +360,7 @@ describe('float formatted ticks', () => {
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
@@ -366,13 +368,13 @@ describe('float formatted ticks', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         const uniqueTickValues = [...new Set(tickValues)];
-        expect(tickValues.length).to.equal(uniqueTickValues.length);
+        expect(tickValues.length).toEqual(uniqueTickValues.length);
       });
     });
     it('does not have more than the possible number of tick values given formatter', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues.length).to.be.at.most(possibleValues);
+        expect(tickValues.length).toBeLessThanOrEqual(possibleValues);
       });
     });
   });
@@ -397,14 +399,14 @@ describe('float formatted ticks', () => {
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
     it('has only one tick and that tick is at zero and correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['0.0']);
+        expect(tickValues).toEqual(['0.0']);
       });
     });
   });
@@ -453,7 +455,7 @@ describe('percent formatted ticks', () => {
     it('has ticks that are formatted as percentages with the correct number of decimal places - case .0%', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
@@ -474,7 +476,7 @@ describe('percent formatted ticks', () => {
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['1%', '3%', '7%', '21%']);
+        expect(tickValues).toEqual(['1%', '3%', '7%', '21%']);
       });
     });
   });
@@ -505,7 +507,7 @@ describe('percent formatted ticks', () => {
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
@@ -513,13 +515,13 @@ describe('percent formatted ticks', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
         const uniqueTickValues = [...new Set(tickValues)];
-        expect(tickValues.length).to.equal(uniqueTickValues.length);
+        expect(tickValues.length).toEqual(uniqueTickValues.length);
       });
     });
     it('does not have more than the possible number of tick values given formatter', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues.length).to.be.at.most(possibleValues);
+        expect(tickValues.length).toBeLessThanOrEqual(possibleValues);
       });
     });
   });
@@ -544,14 +546,14 @@ describe('percent formatted ticks', () => {
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         ticks.each((i, tick) => {
-          expect(tick.textContent).to.match(validFormatRegex);
+          expect(tick.textContent).toEqual(validFormatRegex as any);
         });
       });
     });
     it('has only one tick and that tick is at zero and correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
         const tickValues = ticks.toArray().map((tick) => tick.textContent);
-        expect(tickValues).to.deep.equal(['0%']);
+        expect(tickValues).toEqual(['0%']);
       });
     });
   });
