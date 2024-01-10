@@ -1,8 +1,10 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "defaultCollection": "@angular-eslint/schematics",
-    "analytics": false
+    "analytics": false,
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -82,7 +84,9 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/demo-app/src/styles"]
+              "includePaths": [
+                "projects/demo-app/src/styles"
+              ]
             },
             "scripts": []
           },
@@ -154,7 +158,9 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/demo-app/src/styles"]
+              "includePaths": [
+                "projects/demo-app/src/styles"
+              ]
             },
             "scripts": []
           }
@@ -169,6 +175,14 @@
           }
         }
       }
+    }
+  },
+  "schematics": {
+    "@angular-eslint/schematics:application": {
+      "setParserOptionsProject": true
+    },
+    "@angular-eslint/schematics:library": {
+      "setParserOptionsProject": true
     }
   }
 }
