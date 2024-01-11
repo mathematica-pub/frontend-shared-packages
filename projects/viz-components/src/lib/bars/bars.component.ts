@@ -291,8 +291,8 @@ export class BarsComponent
     return `translate(${x},${y})`;
   }
 
-  setBarSizeAndFill(selection: any): any {
-    return selection
+  setBarSizeAndFill(selection: any): void {
+    selection
       .attr('width', (i) => this.getBarWidth(i as number))
       .attr('height', (i) => this.getBarHeight(i as number))
       .attr('fill', (i) =>
