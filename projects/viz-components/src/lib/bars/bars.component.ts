@@ -256,14 +256,15 @@ export class BarsComponent
       .selectAll('.vic-bar-group')
       .data(this.values.indicies, this.barsKeyFunction)
       .join(
-        (enter) => {
-          enter.append('g').attr('class', 'vic-bar-group');
-          return this.transformBarGroup(enter);
-        },
-        (update) => {
-          const updateTransition = update.transition(t as any);
-          return this.transformBarGroup(updateTransition);
-        },
+        (enter) =>
+          enter
+            .append('g')
+            .attr('class', 'vic-bar-group')
+            .attr('transform', (i) => this.getBarTranslate(i)),
+        (update) =>
+          update
+            .transition(t as any)
+            .attr('transform', (i) => this.getBarTranslate(i)),
         (exit) => exit.remove()
       );
 
@@ -289,12 +290,10 @@ export class BarsComponent
       );
   }
 
-  transformBarGroup(selection: any): any {
-    return selection.attr('transform', (i) => {
-      const x = this.getBarX(i);
-      const y = this.getBarY(i);
-      return `translate(${x},${y})`;
-    });
+  getBarTranslate(i: number): string {
+    const x = this.getBarX(i);
+    const y = this.getBarY(i);
+    return `translate(${x},${y})`;
   }
 
   getBarX(i: number): number {
@@ -327,19 +326,19 @@ export class BarsComponent
 
   setBarSizeAndFill(selection: any): any {
     return selection
-      .attr('width', (i) => this.getBarWidth(i as number))
-      .attr('height', (i) => this.getBarHeight(i as number))
-      .attr('fill', (i) =>
+      .attr('width', (i: number) => this.getBarWidth(i))
+      .attr('height', (i: number) => this.getBarHeight(i))
+      .attr('fill', (i: number) =>
         this.config.patternPredicates
-          ? this.getBarPattern(i as number)
-          : this.getBarColor(i as number)
+          ? this.getBarPattern(i)
+          : this.getBarColor(i)
       );
   }
 
   getBarWidth(i: number): number {
-    let width;
+    let width: number;
     if (this.config.dimensions.ordinal === 'x') {
-      width = this.getBarWidthOrdinal(i);
+      width = this.getBarWidthOrdinal();
     } else {
       width = this.getBarWidthQuantitative(i);
     }
@@ -353,12 +352,12 @@ export class BarsComponent
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarHeightQuantitative(i);
     } else {
-      return this.getBarHeightOrdinal(i);
+      return this.getBarHeightOrdinal();
     }
   }
 
-  getBarHeightOrdinal(i: number): number {
-    return (this.yScale as any).bandwidth();
+  getBarHeightOrdinal(): number {
+    return this.yScale.bandwidth();
   }
 
   getBarPattern(i: number): string {
@@ -491,14 +490,14 @@ export class BarsComponent
 
   getBarLabelX(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarWidthOrdinal(i) / 2;
+      return this.getBarWidthOrdinal() / 2;
     } else {
       return this.getBarLabelXForQuantitativeAxis(i);
     }
   }
 
-  getBarWidthOrdinal(i: number): number {
-    return (this.xScale as any).bandwidth();
+  getBarWidthOrdinal(): number {
+    return this.xScale.bandwidth();
   }
 
   getBarLabelXForQuantitativeAxis(i: number): number {
@@ -547,12 +546,12 @@ export class BarsComponent
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarLabelYForOrdinalAxis(i);
     } else {
-      return this.getBarLabelYForQuantitativeAxis(i);
+      return this.getBarLabelYForQuantitativeAxis();
     }
   }
 
-  getBarLabelYForQuantitativeAxis(i: number): number {
-    return this.getBarHeightOrdinal(i) / 2;
+  getBarLabelYForQuantitativeAxis(): number {
+    return this.getBarHeightOrdinal() / 2;
   }
 
   getBarLabelYForOrdinalAxis(i: number): number {

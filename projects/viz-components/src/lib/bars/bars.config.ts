@@ -41,8 +41,8 @@ export class VicBarsLabelsConfig {
   constructor(init?: Partial<VicBarsLabelsConfig>) {
     this.display = true;
     this.offset = 4;
-    this.darkLabelColor = 'black';
-    this.lightLabelColor = 'white';
+    this.darkLabelColor = '#000000';
+    this.lightLabelColor = '#ffffff';
     this.noValueFunction = (d) => 'N/A';
     Object.assign(this, init);
   }

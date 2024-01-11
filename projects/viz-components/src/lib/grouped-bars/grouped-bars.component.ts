@@ -91,11 +91,11 @@ export class GroupedBarsComponent extends BarsComponent {
     return this.yScale(this.values.y[i]);
   }
 
-  override getBarWidthOrdinal(i: number): number {
+  override getBarWidthOrdinal(): number {
     return (this.groupScale as any).bandwidth();
   }
 
-  override getBarHeightOrdinal(i: number): number {
+  override getBarHeightOrdinal(): number {
     return (this.groupScale as any).bandwidth();
   }
 }
