@@ -252,19 +252,11 @@ export class BarsComponent
           enter
             .append('g')
             .attr('class', 'vic-bar-group')
-            .attr('transform', (i) => {
-              const x = this.getBarX(i);
-              const y = this.getBarY(i);
-              return `translate(${x},${y})`;
-            }),
+            .attr('transform', (i) => this.getBarTranslate(i)),
         (update) =>
-          update.call((update) =>
-            update.transition(t as any).attr('transform', (i) => {
-              const x = this.getBarX(i);
-              const y = this.getBarY(i);
-              return `translate(${x},${y})`;
-            })
-          ),
+          update
+            .transition(t as any)
+            .attr('transform', (i) => this.getBarTranslate(i)),
         (exit) => exit.remove()
       );
 
@@ -288,6 +280,12 @@ export class BarsComponent
         },
         (exit) => exit.remove()
       );
+  }
+
+  getBarTranslate(i: number): string {
+    const x = this.getBarX(i);
+    const y = this.getBarY(i);
+    return `translate(${x},${y})`;
   }
 
   setBarSizeAndFill(selection: any): any {
