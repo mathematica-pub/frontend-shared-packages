@@ -34,12 +34,15 @@ export class VicBarsConfig extends VicDataMarksConfig {
 export class VicBarsLabelsConfig {
   display: boolean;
   offset: number;
-  color?: string;
+  darkLabelColor: string;
+  lightLabelColor: string;
   noValueFunction: (d) => string;
 
   constructor(init?: Partial<VicBarsLabelsConfig>) {
     this.display = true;
     this.offset = 4;
+    this.darkLabelColor = 'black';
+    this.lightLabelColor = 'white';
     this.noValueFunction = (d) => 'N/A';
     Object.assign(this, init);
   }
