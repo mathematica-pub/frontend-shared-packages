@@ -35,6 +35,7 @@ import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
+import { ColorUtilities } from '../shared/color-utilities.class';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({
@@ -69,6 +70,8 @@ export class BarsComponent
   barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
   barLabels$: Observable<any> = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
+  // TODO: replace with dynamic width with getComputedTextWidth/getBBox
+  maxBarLabelWidth = 40;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
@@ -330,8 +333,9 @@ export class BarsComponent
   setLabelProperties(selection: any): any {
     return selection
       .text((i) => this.getBarLabelText(i))
+      .attr('text-anchor', (i: number) => this.getBarLabelTextAnchor(i))
       .style('fill', (i) => this.getBarLabelColor(i))
-      .attr('x', (i) => this.getBarLabelX(i))
+      .attr('x', (i) => this.getBarLabelInsideOutsideX(i))
       .attr('y', (i) => this.getBarLabelY(i));
   }
 
@@ -347,8 +351,66 @@ export class BarsComponent
     }
   }
 
+  getBarLabelTextAnchor(i: number): 'start' | 'middle' | 'end' {
+    if (this.config.dimensions.ordinal === 'x') {
+      return 'middle';
+    } else {
+      const value = this.values[this.config.dimensions.quantitative][i];
+      if (value === null) {
+        return 'start';
+      }
+      const isPositiveValue = value >= 0;
+      const placeLabelOutside = this.barLabelFitsOutsideBar(i, isPositiveValue);
+      if (isPositiveValue) {
+        return placeLabelOutside ? 'start' : 'end';
+      } else {
+        return placeLabelOutside ? 'end' : 'start';
+      }
+    }
+  }
+
+  barLabelFitsOutsideBar(i: number, isPositiveValue: boolean): boolean {
+    let widthOutsideBar: number;
+    if (this.config.dimensions.ordinal === 'x') {
+      widthOutsideBar = isPositiveValue
+        ? this.ranges.y[1] - this.yScale(this.values.y[i])
+        : this.yScale(this.values.y[i]) - this.ranges.y[0];
+    } else {
+      widthOutsideBar = isPositiveValue
+        ? this.ranges.x[1] - this.xScale(this.values.x[i])
+        : this.xScale(this.values.x[i]) - this.ranges.x[0];
+    }
+
+    return widthOutsideBar > this.maxBarLabelWidth;
+  }
+
   getBarLabelColor(i: number): string {
-    return this.config.labels.color ?? this.getBarColor(i);
+    const isPositiveValue =
+      this.values[this.config.dimensions.quantitative][i] >= 0;
+    if (this.barLabelShouldGoInsideBar(i, isPositiveValue)) {
+      return ColorUtilities.selectColorBasedOnContrastRatio(
+        this.config.labels.darkLabelColor,
+        this.config.labels.lightLabelColor,
+        this.getBarColor(i)
+      );
+    } else {
+      return this.config.labels.darkLabelColor;
+    }
+  }
+
+  barLabelShouldGoInsideBar(i: number, isPositiveValue: boolean): boolean {
+    // TODO: future feature - create maxBarLabelWidth dynamically based on length of d3 formatted data label
+    return (
+      !this.barLabelFitsOutsideBar(i, isPositiveValue) &&
+      this.barLabelFitsInsideBar(i, isPositiveValue)
+    );
+  }
+
+  barLabelFitsInsideBar(i: number, isPositiveValue: boolean): boolean {
+    const widthInsideBar = isPositiveValue
+      ? this.xScale(this.values.x[i]) - this.xScale(0)
+      : this.xScale(0) - this.xScale(this.values.x[i]);
+    return widthInsideBar >= this.maxBarLabelWidth;
   }
 
   getBarColor(i: number): string {
@@ -398,7 +460,7 @@ export class BarsComponent
   getBarWidth(i: number): number {
     let width;
     if (this.config.dimensions.ordinal === 'x') {
-      width = this.getBarWidthOrdinal(i);
+      width = this.getBarWidthOrdinal();
     } else {
       width = this.getBarWidthQuantitative(i);
     }
@@ -410,18 +472,51 @@ export class BarsComponent
 
   getBarLabelX(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarWidthOrdinal(i) / 2;
+      return this.getBarWidthOrdinal() / 2;
     } else {
-      let barWidth = this.getBarWidthQuantitative(i);
-      if (!barWidth || isNaN(barWidth)) {
-        barWidth = 0;
+      const isPositiveValue =
+        this.values[this.config.dimensions.quantitative][i] >= 0;
+      if (isPositiveValue) {
+        let barWidth = this.getBarWidthQuantitative(i);
+        if (!barWidth || isNaN(barWidth)) {
+          barWidth = 0;
+        }
+        return barWidth + this.config.labels.offset;
+      } else {
+        return -1 * this.config.labels.offset;
       }
-      return barWidth + this.config.labels.offset;
     }
   }
 
-  getBarWidthOrdinal(i: number): number {
-    return (this.xScale as any).bandwidth();
+  getBarWidthOrdinal(): number {
+    return this.xScale.bandwidth();
+  }
+
+  getBarLabelInsideOutsideX(i: number): number {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    if (value === null) {
+      return this.config.labels.offset;
+    }
+    const isPositiveValue = value >= 0;
+    return this.barLabelShouldGoInsideBar(i, isPositiveValue)
+      ? this.getBarLabelInsideX(i, isPositiveValue)
+      : this.getBarLabelOutsideX(i, isPositiveValue);
+  }
+
+  getBarLabelInsideX(i: number, isPositiveValue: boolean): number {
+    const positiveDataLabelOffset = 12;
+    const origin = this.getBarLabelX(i);
+    return isPositiveValue ? origin - positiveDataLabelOffset : -1 * origin;
+  }
+
+  getBarLabelOutsideX(i: number, isPositiveValue: boolean): number {
+    if (this.barLabelFitsOutsideBar(i, isPositiveValue)) {
+      return this.getBarLabelX(i);
+    } else {
+      return isPositiveValue
+        ? -this.config.labels.offset
+        : this.getBarWidthQuantitative(i) + this.config.labels.offset;
+    }
   }
 
   getBarWidthQuantitative(i: number): number {
@@ -435,7 +530,7 @@ export class BarsComponent
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarHeightQuantitative(i);
     } else {
-      return this.getBarHeightOrdinal(i);
+      return this.getBarHeightOrdinal();
     }
   }
 
@@ -447,12 +542,12 @@ export class BarsComponent
       }
       return barHeight + this.config.labels.offset;
     } else {
-      return this.getBarHeightOrdinal(i) / 2;
+      return this.getBarHeightOrdinal() / 2;
     }
   }
 
-  getBarHeightOrdinal(i: number): number {
-    return (this.yScale as any).bandwidth();
+  getBarHeightOrdinal(): number {
+    return this.yScale.bandwidth();
   }
 
   getBarHeightQuantitative(i: number): number {
