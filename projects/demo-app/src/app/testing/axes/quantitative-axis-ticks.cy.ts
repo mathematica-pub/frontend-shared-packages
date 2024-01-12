@@ -18,7 +18,6 @@ import {
 @Component({
   selector: 'app-test-x-quantitative-axis',
   template: `
-    <p>hello</p>
     <vic-xy-chart
       [margin]="margin"
       [height]="800"
