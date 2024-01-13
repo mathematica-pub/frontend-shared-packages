@@ -65,7 +65,7 @@ export class BarsComponent<T>
   values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
   barGroups: BarGroupSelection;
-  barsKeyFunction: (i: number[]) => string;
+  barsKeyFunction: (i: number) => string;
   private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
@@ -259,8 +259,8 @@ export class BarsComponent<T>
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
-      .selectAll<SVGGElement, number[]>('.vic-bar-group')
-      .data<number[]>(this.values.indicies, this.barsKeyFunction)
+      .selectAll<SVGGElement, number>('.vic-bar-group')
+      .data<number>(this.values.indicies, this.barsKeyFunction)
       .join(
         (enter) =>
           enter
@@ -275,25 +275,29 @@ export class BarsComponent<T>
       );
 
     this.barGroups
-      .selectAll('.vic-bar')
-      .data((i) => [i])
+      .selectAll<SVGRectElement, number>('.vic-bar')
+      .data<number>((i) => [i])
       .join(
-        (enter) => {
-          enter = enter
+        (enter) =>
+          enter
             .append('rect')
             .attr('class', 'vic-bar')
-            .property(
-              'key',
-              (i) => this.values[this.config.dimensions.ordinal][i]
-            );
-          this.setBarSizeAndFill(enter);
-        },
-        (update) => {
-          const updateTransition = update.transition(t as any);
-          return this.setBarSizeAndFill(updateTransition);
-        },
+            .property('key', (i) => this.getBarKey(i))
+            .attr('width', (i) => this.getBarWidth(i))
+            .attr('height', (i) => this.getBarHeight(i))
+            .attr('fill', (i) => this.getBarFill(i)),
+        (update) =>
+          update
+            .transition(t as any)
+            .attr('width', (i) => this.getBarWidth(i))
+            .attr('height', (i) => this.getBarHeight(i))
+            .attr('fill', (i) => this.getBarFill(i)),
         (exit) => exit.remove()
       );
+  }
+
+  getBarKey(i: number): string {
+    return this.values[this.config.dimensions.ordinal][i];
   }
 
   getBarTranslate(i: number): string {
@@ -302,15 +306,10 @@ export class BarsComponent<T>
     return `translate(${x},${y})`;
   }
 
-  setBarSizeAndFill(selection: any): void {
-    selection
-      .attr('width', (i) => this.getBarWidth(i as number))
-      .attr('height', (i) => this.getBarHeight(i as number))
-      .attr('fill', (i) =>
-        this.config.patternPredicates
-          ? this.getBarPattern(i as number)
-          : this.getBarColor(i as number)
-      );
+  getBarFill(i: number): string {
+    return this.config.patternPredicates
+      ? this.getBarPattern(i)
+      : this.getBarColor(i);
   }
 
   drawBarLabels(transitionDuration): void {
@@ -319,30 +318,27 @@ export class BarsComponent<T>
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
-      .selectAll('text')
+      .selectAll<SVGTextElement, number>('text')
       .data((i: number) => [i])
       .join(
-        (enter) => {
-          enter = enter
+        (enter) =>
+          enter
             .append<SVGTextElement>('text')
             .attr('class', 'vic-bar-label')
-            .style('display', this.config.labels.display ? null : 'none');
-          this.setLabelProperties(enter);
-        },
-        (update) => {
-          const updateTransition = update.transition(t as any);
-          this.setLabelProperties(updateTransition);
-        },
+            .style('display', this.config.labels.display ? null : 'none')
+            .text((i) => this.getBarLabelText(i))
+            .style('fill', (i) => this.getBarLabelColor(i))
+            .attr('x', (i) => this.getBarLabelX(i))
+            .attr('y', (i) => this.getBarLabelY(i)),
+        (update) =>
+          update
+            .transition(t as any)
+            .text((i) => this.getBarLabelText(i))
+            .style('fill', (i) => this.getBarLabelColor(i))
+            .attr('x', (i) => this.getBarLabelX(i))
+            .attr('y', (i) => this.getBarLabelY(i)),
         (exit) => exit.remove()
       );
-  }
-
-  setLabelProperties(selection: any): any {
-    return selection
-      .text((i) => this.getBarLabelText(i))
-      .style('fill', (i) => this.getBarLabelColor(i))
-      .attr('x', (i) => this.getBarLabelX(i))
-      .attr('y', (i) => this.getBarLabelY(i));
   }
 
   getBarLabelText(i: number): string {
@@ -471,8 +467,4 @@ export class BarsComponent<T>
       : this.config.quantitative.domain[0];
     return Math.abs(this.yScale(origin - this.values.y[i]));
   }
-
-  onPointerEnter: (event: PointerEvent) => void;
-  onPointerLeave: (event: PointerEvent) => void;
-  onPointerMove: (event: PointerEvent) => void;
 }
