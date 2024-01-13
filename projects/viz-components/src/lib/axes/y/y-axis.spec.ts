@@ -1,5 +1,5 @@
 import { axisLeft, axisRight } from 'd3';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
@@ -76,13 +76,27 @@ describe('the XAxis mixin', () => {
   });
 
   describe('setScale', () => {
+    let spy: jasmine.Spy;
+    beforeEach(() => {
+      spy = spyOn(abstractClass, 'subscribeToScale');
+    });
     it('calls subscribeToScale with the correct scale', () => {
-      spyOn(abstractClass, 'subscribeToScale');
-      abstractClass.chart.yScale$ = 'hello there' as any;
+      const scales = {
+        x: 'hello',
+        useTransition: false,
+        y: 'something else',
+      } as any;
+      abstractClass.chart.scales$ = of(scales);
       abstractClass.setScale();
-      expect(abstractClass.subscribeToScale).toHaveBeenCalledWith(
-        'hello there' as any
-      );
+      spy.calls
+        .mostRecent()
+        .args[0].pipe(take(1))
+        .subscribe((scale) => {
+          expect(scale).toEqual({
+            y: 'something else',
+            useTransition: false,
+          });
+        });
     });
   });
 

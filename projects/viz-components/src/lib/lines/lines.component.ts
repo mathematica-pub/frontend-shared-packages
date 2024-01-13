@@ -7,9 +7,6 @@ import {
   InjectionToken,
   Input,
   NgZone,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -29,14 +26,12 @@ import {
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { DataDomainService } from '../core/services/data-domain.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyContent } from '../xy-chart/xy-content';
+import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
 import { VicLinesConfig } from './lines.config';
-import { DataDomainService } from '../core/services/data-domain.service';
-import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -66,10 +61,7 @@ export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent
-  extends XyContent
-  implements XyDataMarks, OnChanges, OnInit
-{
+export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
@@ -84,10 +76,11 @@ export class LinesComponent
   markersKeyFunction;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
-  unpaddedXDomain: [any, any];
-  unpaddedYDomain: [any, any];
+  unpaddedDomain: {
+    x: [any, any];
+    y: [any, any];
+  } = { x: undefined, y: undefined };
 
-  private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
   private dataDomainService = inject(DataDomainService);
 
@@ -103,38 +96,21 @@ export class LinesComponent
     return select(this.markersRef.nativeElement).selectAll('circle');
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setMethodsFromConfigAndDraw();
-    }
-  }
-
-  ngOnInit(): void {
-    this.subscribeToRanges();
-    this.subscribeToScales();
-    this.setMethodsFromConfigAndDraw();
-  }
-
-  setMethodsFromConfigAndDraw(): void {
+  /**
+   * setPropertiesFromConfig method
+   *
+   * This method handles an update to the config object. Methods called from here should not
+   * requires ranges or scales. This method is called on init and on config update.
+   */
+  setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initDomains();
     this.setValueIndicies();
-    this.setScaledSpaceProperties();
     this.initCategoryScale();
-    this.setLine();
     this.setLinesD3Data();
     this.setLinesKeyFunction();
     this.setMarkersD3Data();
     this.setMarkersKeyFunction();
-    this.drawMarks(this.chart.transitionDuration);
-  }
-
-  resizeMarks(): void {
-    this.setScaledSpaceProperties();
-    this.setLine();
-    this.drawMarks(0);
   }
 
   setValueArrays(): void {
@@ -148,61 +124,20 @@ export class LinesComponent
 
   initDomains(): void {
     this.setUnpaddedDomains();
-    this.setXDomain();
-    this.setYDomain();
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
   }
 
   setUnpaddedDomains(): void {
-    this.unpaddedXDomain =
+    this.unpaddedDomain.x =
       this.config.x.domain === undefined
         ? extent(this.values.x)
         : this.config.x.domain;
-    this.unpaddedYDomain =
+    this.unpaddedDomain.y =
       this.config.y.domain === undefined
         ? [min([min(this.values.y), 0]), max(this.values.y)]
         : this.config.y.domain;
-  }
-
-  setXDomain(): void {
-    const newDomain = this.getNewDomain(
-      this.config.x.scaleType,
-      this.config.x.domainPadding,
-      this.unpaddedXDomain,
-      this.ranges['x']
-    );
-    this.config.x.domain = newDomain;
-  }
-
-  setYDomain(): void {
-    const newDomain = this.getNewDomain(
-      this.config.y.scaleType,
-      this.config.y.domainPadding,
-      this.unpaddedYDomain,
-      this.ranges['y']
-    );
-    this.config.y.domain = newDomain;
-  }
-
-  getNewDomain(
-    scaleType: any,
-    domainPadding: VicDomainPaddingConfig,
-    domain: [any, any],
-    pixelRange: [number, number]
-  ): [any, any] {
-    if (scaleType !== scaleTime && scaleType !== scaleUtc) {
-      const newDomain = this.dataDomainService.getQuantitativeDomain(
-        domain,
-        domainPadding,
-        scaleType,
-        pixelRange
-      );
-      return newDomain;
-    } else {
-      return domain;
-    }
   }
 
   setValueIndicies(): void {
@@ -212,19 +147,6 @@ export class LinesComponent
     );
   }
 
-  setScaledSpaceProperties(): void {
-    this.zone.run(() => {
-      this.setXDomain();
-      this.setYDomain();
-      this.chart.updateXScale(
-        this.config.x.scaleType(this.config.x.domain, this.ranges.x)
-      );
-      this.chart.updateYScale(
-        this.config.y.scaleType(this.config.y.domain, this.ranges.y)
-      );
-    });
-  }
-
   initCategoryScale(): void {
     if (this.config.category.colorScale === undefined) {
       this.config.category.colorScale = scaleOrdinal(
@@ -232,30 +154,6 @@ export class LinesComponent
         this.config.category.colors
       );
     }
-    this.chart.updateCategoryScale(this.config.category.colorScale);
-  }
-
-  setLine(): void {
-    if (this.config.valueIsDefined === undefined) {
-      this.config.valueIsDefined = (d, i) =>
-        this.canBeDrawnByPath(this.values.x[i]) &&
-        this.canBeDrawnByPath(this.values.y[i]);
-    }
-    const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
-
-    this.line = line()
-      .defined((i: any) => isDefinedValues[i] as boolean)
-      .curve(this.config.curve)
-      .x((i: any) => this.xScale(this.values.x[i]))
-      .y((i: any) => this.yScale(this.values.y[i]));
-  }
-
-  canBeDrawnByPath(x: any): boolean {
-    return (
-      (typeof x === 'number' || this.utilities.isDate(x)) &&
-      x !== null &&
-      x !== undefined
-    );
   }
 
   setLinesD3Data(): void {
@@ -265,6 +163,14 @@ export class LinesComponent
         this.canBeDrawnByPath(this.values.y[i])
     );
     this.linesD3Data = group(definedIndices, (i) => this.values.category[i]);
+  }
+
+  canBeDrawnByPath(x: any): boolean {
+    return (
+      (typeof x === 'number' || this.utilities.isDate(x)) &&
+      x !== null &&
+      x !== undefined
+    );
   }
 
   setLinesKeyFunction(): void {
@@ -291,7 +197,56 @@ export class LinesComponent
     this.markersKeyFunction = (d) => (d as Marker).key;
   }
 
-  drawMarks(transitionDuration: number): void {
+  /**
+   * setChartScalesFromRanges method
+   *
+   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
+   * to create the scales should be called from this method. Methods called from here should not
+   * require scales.
+   *
+   * This method is called on init, after config-based properties are set, and also on
+   * resize/when ranges change.
+   */
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const paddedXDomain = this.getPaddedDomain('x');
+    const paddedYDomain = this.getPaddedDomain('y');
+    const x = this.config.x.scaleType(paddedXDomain, this.ranges.x);
+    const y = this.config.y.scaleType(paddedYDomain, this.ranges.y);
+    const category = this.config.category.colorScale;
+    this.zone.run(() => {
+      this.chart.updateScales({ x, y, category, useTransition });
+    });
+  }
+
+  getPaddedDomain(dimension: 'x' | 'y'): [any, any] {
+    if (
+      this.config[dimension].scaleType !== scaleTime &&
+      this.config[dimension].scaleType !== scaleUtc
+    ) {
+      const paddedDomain = this.dataDomainService.getQuantitativeDomain(
+        this.unpaddedDomain[dimension],
+        this.config[dimension].domainPadding,
+        this.config[dimension].scaleType,
+        this.ranges[dimension]
+      );
+      return paddedDomain;
+    } else {
+      return this.unpaddedDomain[dimension];
+    }
+  }
+
+  /**
+   * drawMarks method
+   *
+   * All methods that require scales should be called from drawMarks. Methods
+   * called from here should not scale.domain() or scale.range() to obtain those values
+   * rather than this.config.dimension.domain or this.ranges.dimension.
+   *
+   * This method is called when scales emit from ChartComponent.
+   */
+  drawMarks(): void {
+    this.setLine();
+    const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
     if (this.config.pointMarkers.display) {
       this.drawPointMarkers(transitionDuration);
@@ -301,6 +256,21 @@ export class LinesComponent
     if (this.config.labelLines) {
       this.drawLineLabels();
     }
+  }
+
+  setLine(): void {
+    if (this.config.valueIsDefined === undefined) {
+      this.config.valueIsDefined = (d, i) =>
+        this.canBeDrawnByPath(this.values.x[i]) &&
+        this.canBeDrawnByPath(this.values.y[i]);
+    }
+    const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
+
+    this.line = line()
+      .defined((i: any) => isDefinedValues[i] as boolean)
+      .curve(this.config.curve)
+      .x((i: any) => this.scales.x(this.values.x[i]))
+      .y((i: any) => this.scales.y(this.values.y[i]));
   }
 
   drawLines(transitionDuration: number): void {
@@ -314,11 +284,11 @@ export class LinesComponent
           .append('path')
           .attr('key', ([category]) => category)
           .attr('class', 'vic-line')
-          .attr('stroke', ([category]) => this.categoryScale(category))
+          .attr('stroke', ([category]) => this.scales.category(category))
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
         update
-          .attr('stroke', ([category]) => this.categoryScale(category))
+          .attr('stroke', ([category]) => this.scales.category(category))
           .call((update) =>
             update
               .transition(t as any)
@@ -350,22 +320,22 @@ export class LinesComponent
           .attr('key', (d) => d.key)
           .attr(this.markerIndexAttr, (d) => d.index)
           .style('mix-blend-mode', this.config.mixBlendMode)
-          .attr('cx', (d) => this.xScale(this.values.x[d.index]))
-          .attr('cy', (d) => this.yScale(this.values.y[d.index]))
+          .attr('cx', (d) => this.scales.x(this.values.x[d.index]))
+          .attr('cy', (d) => this.scales.y(this.values.y[d.index]))
           .attr('r', this.config.pointMarkers.radius)
           .attr('fill', (d) =>
-            this.categoryScale(this.values.category[d.index])
+            this.scales.category(this.values.category[d.index])
           ),
       (update) =>
         update
           .attr('fill', (d) =>
-            this.categoryScale(this.values.category[d.index])
+            this.scales.category(this.values.category[d.index])
           )
           .call((update) =>
             update
               .transition(t as any)
-              .attr('cx', (d) => this.xScale(this.values.x[d.index]))
-              .attr('cy', (d) => this.yScale(this.values.y[d.index]))
+              .attr('cx', (d) => this.scales.x(this.values.x[d.index]))
+              .attr('cy', (d) => this.scales.y(this.values.y[d.index]))
           ),
       (exit) => exit.remove()
     );
@@ -384,9 +354,9 @@ export class LinesComponent
       .join('text')
       .attr('class', 'vic-line-label')
       .attr('text-anchor', 'end')
-      .attr('fill', (d) => this.categoryScale(this.values.category[d.index]))
-      .attr('x', (d) => `${this.xScale(this.values.x[d.index]) - 4}px`)
-      .attr('y', (d) => `${this.yScale(this.values.y[d.index]) - 12}px`)
+      .attr('fill', (d) => this.scales.category(this.values.category[d.index]))
+      .attr('x', (d) => `${this.scales.x(this.values.x[d.index]) - 4}px`)
+      .attr('y', (d) => `${this.scales.y(this.values.y[d.index]) - 12}px`)
       .text((d) => this.config.lineLabelsFormat(d.category));
   }
 }

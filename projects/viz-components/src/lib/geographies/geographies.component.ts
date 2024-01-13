@@ -5,29 +5,25 @@ import {
   InjectionToken,
   Input,
   NgZone,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  extent,
-  geoPath,
   InternMap,
   InternSet,
+  Transition,
+  extent,
+  geoPath,
   map,
   range,
   scaleLinear,
   select,
-  Transition,
 } from 'd3';
-import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
-import { ChartComponent, Ranges } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ChartComponent } from '../chart/chart.component';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapContent } from '../map-chart/map-content';
+import { MapDataMarksBase } from '../map-chart/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
@@ -46,7 +42,6 @@ export class MapDataValues {
 export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   'GeographiesComponent'
 );
-
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-geographies]',
@@ -67,11 +62,10 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
   ],
 })
 export class GeographiesComponent
-  extends MapContent
-  implements DataMarks, OnChanges, OnInit
+  extends MapDataMarksBase
+  implements DataMarks
 {
   @Input() config: VicGeographiesConfig;
-  ranges: Ranges;
   map: any;
   projection: any;
   path: any;
@@ -81,78 +75,26 @@ export class GeographiesComponent
   noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
-  constructor(
-    public utilities: UtilitiesService,
-    public zone: NgZone,
-    public elRef: ElementRef,
-    chart: MapChartComponent
-  ) {
-    super(chart);
+  constructor(public zone: NgZone, public elRef: ElementRef) {
+    super();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setMethodsFromConfigAndDraw();
-    }
+  initFromConfig(): void {
+    this.setPropertiesFromConfig();
+    this.setPropertiesFromRanges();
+    this.drawMarks();
   }
 
-  ngOnInit(): void {
-    this.subscribeToRanges();
-    this.subscribeToScalesAndConfig();
-    this.setMethodsFromConfigAndDraw();
-  }
-
-  updateGeographyElements(): void {
-    const dataGeographies = select(this.elRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-data')
-      .selectAll('path');
-    const noDataGeographies = select(this.elRef.nativeElement)
-      .selectAll('vic-map-layer.vic-no-data')
-      .selectAll('path');
-    this.dataGeographies.next(dataGeographies);
-    this.noDataGeographies.next(noDataGeographies);
-  }
-
-  subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (this.attributeDataScale) {
-        this.resizeMarks();
-      }
-    });
-  }
-
-  setScaleAndConfig(scale: any): void {
-    this.attributeDataScale = scale;
-  }
-
-  resizeMarks(): void {
-    this.setProjection();
-    this.setPath();
-    this.drawMarks(this.chart.transitionDuration);
-  }
-
-  setMethodsFromConfigAndDraw(): void {
-    this.setProjection();
-    this.setPath();
+  setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initAttributeDataScaleDomain();
     this.initAttributeDataScaleRange();
-    this.initAttributeDataScaleAndUpdateChart();
-    this.drawMarks(this.chart.transitionDuration);
+    this.setChartAttributeScaleAndConfig();
   }
 
-  setProjection(): void {
-    this.projection = this.config.projection.fitSize(
-      [this.ranges.x[1], this.ranges.y[0]],
-      this.config.boundary
-    );
-  }
-
-  setPath(): void {
-    this.path = geoPath().projection(this.projection);
+  resizeMarks(): void {
+    this.setPropertiesFromRanges();
+    this.drawMarks();
   }
 
   setValueArrays(): void {
@@ -317,23 +259,42 @@ export class GeographiesComponent
     );
   }
 
-  initAttributeDataScaleAndUpdateChart(): void {
-    let scale;
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
-        'quantitative' &&
-      this.config.dataGeographyConfig.attributeDataConfig.binType === 'none'
-    ) {
-      scale = this.setColorScaleWithColorInterpolator();
-    } else {
-      scale = this.setColorScaleWithoutColorInterpolator();
-    }
+  setChartAttributeScaleAndConfig(): void {
+    const scale = this.getAttributeDataScale();
     this.zone.run(() => {
       this.chart.updateAttributeDataScale(scale);
       this.chart.updateAttributeDataConfig(
         this.config.dataGeographyConfig.attributeDataConfig
       );
     });
+  }
+
+  setPropertiesFromRanges(): void {
+    this.setProjection();
+    this.setPath();
+  }
+
+  setProjection(): void {
+    this.projection = this.config.projection.fitSize(
+      [this.ranges.x[1], this.ranges.y[0]],
+      this.config.boundary
+    );
+  }
+
+  setPath(): void {
+    this.path = geoPath().projection(this.projection);
+  }
+
+  getAttributeDataScale(): any {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
+        'quantitative' &&
+      this.config.dataGeographyConfig.attributeDataConfig.binType === 'none'
+    ) {
+      return this.setColorScaleWithColorInterpolator();
+    } else {
+      return this.setColorScaleWithoutColorInterpolator();
+    }
   }
 
   setColorScaleWithColorInterpolator(): any {
@@ -355,9 +316,9 @@ export class GeographiesComponent
       .unknown(this.config.dataGeographyConfig.nullColor);
   }
 
-  drawMarks(transitionDuration: number): void {
+  drawMarks(): void {
     this.zone.run(() => {
-      this.drawMap(transitionDuration);
+      this.drawMap(this.chart.transitionDuration);
       this.updateGeographyElements();
     });
   }
@@ -478,5 +439,16 @@ export class GeographiesComponent
   getValueIndexFromDataGeographyIndex(i: number): number {
     const geoName = this.values.geoJsonGeographies[i];
     return this.values.indexMap.get(geoName);
+  }
+
+  updateGeographyElements(): void {
+    const dataGeographies = select(this.elRef.nativeElement)
+      .selectAll('.vic-map-layer.vic-data')
+      .selectAll('path');
+    const noDataGeographies = select(this.elRef.nativeElement)
+      .selectAll('vic-map-layer.vic-no-data')
+      .selectAll('path');
+    this.dataGeographies.next(dataGeographies);
+    this.noDataGeographies.next(noDataGeographies);
   }
 }

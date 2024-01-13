@@ -4,8 +4,18 @@ import { Observable, pairwise, startWith, takeUntil } from 'rxjs';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicAxisConfig } from './axis.config';
+
+type XyAxisScale =
+  | {
+      useTransition: boolean;
+      x: GenericScale<any, any>;
+    }
+  | {
+      useTransition: boolean;
+      y: GenericScale<any, any>;
+    };
 
 /**
  * A base directive for all axes.
@@ -20,6 +30,7 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
   axisFunction: any;
   axis: any;
   scale: any;
+  transitionDuration: number;
 
   constructor(public chart: XyChartComponent) {
     super();
@@ -37,28 +48,18 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
     this.setScale();
   }
 
-  subscribeToScale(scale$: Observable<any>): void {
-    scale$
-      .pipe(takeUntil(this.unsubscribe), startWith(null), pairwise())
-      .subscribe(([prev, curr]) => this.onScaleUpdate(prev, curr));
+  subscribeToScale(scale$: Observable<XyAxisScale>): void {
+    scale$.pipe(takeUntil(this.unsubscribe)).subscribe((scale) => {
+      const { useTransition, ...rest } = scale;
+      const axisScale = Object.values(rest)[0];
+      this.onScaleUpdate(axisScale, useTransition);
+    });
   }
 
-  onScaleUpdate(prev: any, curr: any): void {
-    if (curr) {
-      let transitionDuration;
-      if (prev) {
-        const currRange = curr.range();
-        const prevRange = prev.range();
-        transitionDuration =
-          currRange[0] === prevRange[0] && currRange[1] === prevRange[1]
-            ? this.chart.transitionDuration
-            : 0;
-      } else {
-        transitionDuration = 0;
-      }
-      this.scale = curr;
-      this.updateAxis(transitionDuration);
-    }
+  onScaleUpdate(scale: GenericScale<any, any>, useTransition: boolean): void {
+    this.transitionDuration = useTransition ? this.chart.transitionDuration : 0;
+    this.scale = scale;
+    this.updateAxis(this.transitionDuration);
   }
 
   updateAxis(transitionDuration: number): void {

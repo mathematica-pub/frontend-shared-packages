@@ -32,8 +32,8 @@ export function getLinesTooltipDataFromDatum(
       lines.config.y.valueFormat
     ),
     category: lines.config.category.valueAccessor(datum),
-    color: lines.categoryScale(lines.config.category.valueAccessor(datum)),
-    positionX: lines.xScale(lines.values.x[datumIndex]),
-    positionY: lines.yScale(lines.values.y[datumIndex]),
+    color: lines.scales.category(lines.config.category.valueAccessor(datum)),
+    positionX: lines.scales.x(lines.values.x[datumIndex]),
+    positionY: lines.scales.y(lines.values.y[datumIndex]),
   };
 }

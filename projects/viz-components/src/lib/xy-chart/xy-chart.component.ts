@@ -4,6 +4,25 @@ import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
 
+export enum XyContentScale {
+  x = 'x',
+  y = 'y',
+  category = 'category',
+}
+
+export interface GenericScale<Domain, Range> {
+  (...args: any): any;
+  domain?(): Domain[];
+  range?(): Range[];
+}
+
+export interface XyChartScales {
+  [XyContentScale.x]: GenericScale<any, any>;
+  [XyContentScale.y]: GenericScale<any, any>;
+  [XyContentScale.category]?: GenericScale<any, any>;
+  useTransition: boolean;
+}
+
 /**
  * A `Chart` component to be used with `DataMarks` components that have X and Y axes, such as `Bars` and `Lines`.
  *
@@ -30,22 +49,10 @@ import { CHART } from '../chart/chart.token';
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
 export class XyChartComponent extends ChartComponent implements Chart, OnInit {
-  private xScale: BehaviorSubject<any> = new BehaviorSubject(null);
-  xScale$ = this.xScale.asObservable();
-  private yScale: BehaviorSubject<any> = new BehaviorSubject(null);
-  yScale$ = this.yScale.asObservable();
-  private categoryScale: BehaviorSubject<any> = new BehaviorSubject(null);
-  categoryScale$ = this.categoryScale.asObservable();
+  private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);
+  scales$ = this.scales.asObservable();
 
-  updateXScale(scale: any): void {
-    this.xScale.next(scale);
-  }
-
-  updateYScale(scale: any): void {
-    this.yScale.next(scale);
-  }
-
-  updateCategoryScale(scale: any): void {
-    this.categoryScale.next(scale);
+  updateScales(scales: Partial<XyChartScales>): void {
+    this.scales.next({ ...this.scales.value, ...scales });
   }
 }
