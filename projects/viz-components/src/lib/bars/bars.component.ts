@@ -195,7 +195,7 @@ export class BarsComponent<T>
   /**
    * setChartScalesFromRanges method
    *
-   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
+   * This method creates and sets scales on ChartComponent. Any methods that require ranges
    * to create the scales should be called from this method. Methods called from here should not
    * require scales.
    *

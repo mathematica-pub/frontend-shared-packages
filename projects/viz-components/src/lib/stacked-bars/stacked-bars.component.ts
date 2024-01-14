@@ -7,6 +7,7 @@ import {
 import {
   InternMap,
   InternSet,
+  Stack,
   Transition,
   extent,
   range,
@@ -28,8 +29,8 @@ import { VicStackDatum, VicStackedBarsConfig } from './stacked-bars.config';
   providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
 export class StackedBarsComponent<T> extends BarsComponent<T> {
-  @Input() override config: VicStackedBarsConfig;
-  stackedData: any;
+  @Input() override config: VicStackedBarsConfig<T>;
+  stackedData: Stack<any, { [key: string]: number }, string>;
 
   override setPropertiesFromConfig(): void {
     this.setValueArrays();
@@ -68,8 +69,7 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
     this.stackedData = stack()
       .keys(this.config.category.domain as InternSet)
       .value(
-        ([x, I]: any, z) =>
-          this.values[this.config.dimensions.quantitative][I.get(z)]
+        ([, I], z) => this.values[this.config.dimensions.quantitative][I.get(z)]
       )
       .order(this.config.order)
       .offset(this.config.offset)(
@@ -95,12 +95,12 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
-      .selectAll('g')
+      .selectAll<SVGGElement, number>('g')
       .data(this.stackedData)
       .join('g')
-      .attr('fill', ([{ i }]: any) => {
-        return this.scales.category(this.values.category[i]);
-      })
+      .attr('fill', ([{ i }]: any) =>
+        this.scales.category(this.values.category[i])
+      )
       .selectAll('rect')
       .data((d) => d as any)
       .join(
