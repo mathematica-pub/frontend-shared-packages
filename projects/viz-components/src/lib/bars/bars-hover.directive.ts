@@ -19,18 +19,22 @@ import { BARS, BarsComponent } from './bars.component';
   selector: '[vicBarsHoverEffects]',
 })
 export class BarsHoverDirective<
-  T extends BarsComponent = BarsComponent
+  T,
+  U extends BarsComponent<T> = BarsComponent<T>
 > extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsHoverEffects') effects: EventEffect<BarsHoverDirective<T>>[];
-  @Output('vicBarsHoverOutput') eventOutput =
-    new EventEmitter<VicBarsEventOutput>();
+  @Input('vicBarsHoverEffects') effects: EventEffect<
+    BarsHoverDirective<T, U>
+  >[];
+  @Output('vicBarsHoverOutput') eventOutput = new EventEmitter<
+    VicBarsEventOutput<T>
+  >();
   barIndex: number;
   elRef: ElementRef;
   positionX: number;
   positionY: number;
 
-  constructor(@Inject(BARS) public bars: BarsComponent) {
+  constructor(@Inject(BARS) public bars: BarsComponent<T>) {
     super();
   }
 
@@ -63,7 +67,7 @@ export class BarsHoverDirective<
     }
   }
 
-  getEventOutput(): VicBarsEventOutput {
+  getEventOutput(): VicBarsEventOutput<T> {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,

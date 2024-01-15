@@ -2,10 +2,10 @@ import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapChartComponentStub } from '../testing/stubs/map-chart.component.stub';
 import { MapDataMarksBaseStub } from '../testing/stubs/map-data-marks-base.stub';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { MapChartComponent } from './map-chart.component';
 
 describe('MapDataMarksBase abstract class', () => {
   let abstractClass: MapDataMarksBaseStub;

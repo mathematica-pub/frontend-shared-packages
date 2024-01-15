@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  VicAxisConfig,
   ElementSpacing,
+  VicAxisConfig,
   VicStackedAreaConfig,
 } from 'projects/viz-components/src/public-api';
-import { filter, map, Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicStackedAreaConfig;
+  dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
 }
@@ -42,7 +42,7 @@ export class StackedAreaExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicStackedAreaConfig();
+    const dataConfig = new VicStackedAreaConfig<IndustryUnemploymentDatum>();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.y.valueAccessor = (d) => d.value;

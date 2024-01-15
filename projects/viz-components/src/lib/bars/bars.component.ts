@@ -5,10 +5,7 @@ import {
   EventEmitter,
   inject,
   InjectionToken,
-  Input,
   NgZone,
-  OnChanges,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
@@ -28,18 +25,15 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
+import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const BARS: InjectionToken<BarsComponent<unknown>> = new InjectionToken<
-  BarsComponent<unknown>
->('BarsComponent');
+export const BARS = new InjectionToken<BarsComponent<unknown>>('BarsComponent');
 
 export type BarGroupSelection = Selection<
   SVGGElement,
@@ -73,17 +67,9 @@ export type BarLabelSelection = Selection<
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class BarsComponent<T>
-  extends XyDataMarksBase
-  implements XyDataMarks, OnChanges, OnInit
-{
-  override setPropertiesFromConfig(): void {
-    throw new Error('Method not implemented.');
-  }
+export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
-  @Input() config: VicBarsConfig<T>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
-  values: XyDataMarksValues = new XyDataMarksValues();
   hasBarsWithNegativeValues: boolean;
   barGroups: BarGroupSelection;
   barsKeyFunction: (i: number) => string;
@@ -95,17 +81,19 @@ export class BarsComponent<T>
   barLabels$ = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
 
-  updateBarElements(): void {
-    const bars = select(this.barsRef.nativeElement).selectAll<
-      SVGRectElement,
-      number
-    >('rect');
-    const barLabels = select(this.barsRef.nativeElement).selectAll<
-      SVGTextElement,
-      number
-    >('text');
-    this.bars.next(bars);
-    this.barLabels.next(barLabels);
+  /**
+   * setPropertiesFromConfig method
+   *
+   * This method handles an update to the config object. Methods called from here should not
+   * requires ranges or scales. This method is called on init and on config update.
+   */
+  setPropertiesFromConfig(): void {
+    this.setValueArrays();
+    this.initNonQuantitativeDomains();
+    this.setValueIndicies();
+    this.setHasBarsWithNegativeValues();
+    this.initUnpaddedQuantitativeDomain();
+    this.setBarsKeyFunction();
   }
 
   setValueArrays(): void {
@@ -193,7 +181,7 @@ export class BarsComponent<T>
   }
 
   /**
-   * setChartScalesFromRanges method
+   * setPropertiesFromRanges method
    *
    * This method creates and sets scales on ChartComponent. Any methods that require ranges
    * to create the scales should be called from this method. Methods called from here should not
@@ -202,7 +190,7 @@ export class BarsComponent<T>
    * This method is called on init, after config-based properties are set, and also on
    * resize/when ranges change.
    */
-  setChartScalesFromRanges(useTransition: boolean): void {
+  setPropertiesFromRanges(useTransition: boolean): void {
     const x =
       this.config.dimensions.ordinal === 'x'
         ? this.getOrdinalScale()
@@ -479,5 +467,18 @@ export class BarsComponent<T>
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
     return Math.abs(this.scales.y(origin - this.values.y[i]));
+  }
+
+  updateBarElements(): void {
+    const bars = select(this.barsRef.nativeElement).selectAll<
+      SVGRectElement,
+      number
+    >('rect');
+    const barLabels = select(this.barsRef.nativeElement).selectAll<
+      SVGTextElement,
+      number
+    >('text');
+    this.bars.next(bars);
+    this.barLabels.next(barLabels);
   }
 }

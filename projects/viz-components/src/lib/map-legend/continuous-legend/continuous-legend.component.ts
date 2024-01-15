@@ -10,8 +10,8 @@ import { MapLegendContent } from '../map-legend-content';
   templateUrl: './continuous-legend.component.html',
   styleUrls: ['./continuous-legend.component.scss'],
 })
-export class ContinuousLegendComponent
-  extends MapLegendContent
+export class ContinuousLegendComponent<T>
+  extends MapLegendContent<T>
   implements OnChanges
 {
   @ViewChild('canvas', { static: true })

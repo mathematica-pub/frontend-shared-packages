@@ -6,7 +6,7 @@ import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
-import { XyChartComponent } from './xy-chart.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 describe('XyDataMarksBase abstract class', () => {
   let abstractClass: XyDataMarksBaseStub;

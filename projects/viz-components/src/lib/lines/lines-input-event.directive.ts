@@ -10,19 +10,20 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesInputEffects]',
 })
 export class LinesInputEventDirective<
-  T extends LinesComponent = LinesComponent
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
 > extends InputEventDirective {
   @Input('vicLinesInputEffects')
-  effects: InputEventEffect<LinesInputEventDirective<T>>[];
-  @Input('vicLinesInputEvent$') override inputEvent$: Observable<any>;
+  effects: InputEventEffect<LinesInputEventDirective<T, U>>[];
+  @Input('vicLinesInputEvent$') override inputEvent$: Observable<unknown>;
   @Output('vicLinesInputEventOutput') inputEventOutput =
-    new EventEmitter<any>();
+    new EventEmitter<unknown>();
 
-  constructor(@Inject(LINES) public lines: LinesComponent) {
+  constructor(@Inject(LINES) public lines: U) {
     super();
   }
 
-  handleNewEvent(inputEvent: any): void {
+  handleNewEvent(inputEvent: unknown): void {
     if (inputEvent) {
       this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
     } else {

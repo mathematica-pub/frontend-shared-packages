@@ -18,26 +18,28 @@ interface GeographiesHoverExtras {
   bounds?: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput = VicGeographiesTooltipOutput &
+export type GeographiesHoverOutput<T> = VicGeographiesTooltipOutput<T> &
   GeographiesHoverExtras;
 
 @Directive({
   selector: '[vicGeographiesHoverEffects]',
 })
 export class GeographiesHoverDirective<
-  T extends GeographiesComponent = GeographiesComponent
+  T,
+  U extends GeographiesComponent<T> = GeographiesComponent<T>
 > extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<GeographiesHoverDirective<T>>[];
-  @Output('vicGeographiesHoverOutput') eventOutput =
-    new EventEmitter<VicGeographiesEventOutput>();
+  effects: EventEffect<GeographiesHoverDirective<T, U>>[];
+  @Output('vicGeographiesHoverOutput') eventOutput = new EventEmitter<
+    VicGeographiesEventOutput<T>
+  >();
   feature: Feature;
   bounds: [[number, number], [number, number]];
   geographyIndex: number;
   positionX: number;
   positionY: number;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: U) {
     super();
   }
 
@@ -71,14 +73,15 @@ export class GeographiesHoverDirective<
 
   // consider making GeographiesEventMixin later to avoid duplicating this method
   getGeographyIndex(d: any): number {
-    let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
+    let value =
+      this.geographies.config.dataGeographyConfig.featureIdAccessor(d);
     if (typeof value === 'string') {
       value = value.toLowerCase();
     }
     return this.geographies.values.indexMap.get(value);
   }
 
-  getEventOutput(): VicGeographiesEventOutput {
+  getEventOutput(): VicGeographiesEventOutput<T> {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies

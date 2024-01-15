@@ -10,7 +10,7 @@ import {
 } from '../data-marks/data-marks.config';
 
 export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
-  ordinal: VicOrdinalDimensionConfig<T> = new VicOrdinalDimensionConfig<T>();
+  ordinal: VicOrdinalDimensionConfig<T> = new VicOrdinalDimensionConfig();
   quantitative: VicQuantitativeDimensionConfig<T> =
     new VicQuantitativeDimensionConfig();
   category: VicCategoricalColorDimensionConfig<T> =
@@ -23,9 +23,7 @@ export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
     super();
     this.dimensions = new VicVerticalBarChartDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
-    this.quantitative.valueAccessor = (d) => d;
     this.quantitative.scaleType = scaleLinear;
-    this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];
     Object.assign(this, init);
   }
@@ -35,7 +33,7 @@ export class VicBarsLabelsConfig<T> {
   display: boolean;
   offset: number;
   color?: string;
-  noValueFunction: (d: T) => string;
+  noValueFunction: (d: T, ...args: any) => string;
 
   constructor(init?: Partial<VicBarsLabelsConfig<T>>) {
     this.display = true;

@@ -1,12 +1,12 @@
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { VicDataMarksConfig } from './data-marks.config';
 
-export class DataMarks {
+export interface DataMarks {
   chart: Chart;
-  config: VicDataMarksConfig;
   ranges: Ranges;
   setPropertiesFromConfig: () => void;
+  setPropertiesFromRanges: (useTransition: boolean) => void;
+  setValueArrays: () => void;
   resizeMarks: () => void;
   drawMarks: () => void;
 }

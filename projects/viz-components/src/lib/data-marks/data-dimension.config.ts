@@ -2,7 +2,7 @@ import { InternSet, scaleBand } from 'd3';
 import { VicFormatSpecifier } from '../value-format/value-format';
 
 export class VicDataDimensionConfig<T> {
-  valueAccessor: (...args: any) => any;
+  valueAccessor: (d: T, ...args: any) => any;
   domain?: any;
   valueFormat?: VicFormatSpecifier;
   constructor(init?: Partial<VicDataDimensionConfig<T>>) {
@@ -13,6 +13,7 @@ export class VicDataDimensionConfig<T> {
 export class VicQuantitativeDimensionConfig<
   T
 > extends VicDataDimensionConfig<T> {
+  override valueAccessor: (d: T, ...args: any) => number | Date;
   override domain?: [any, any];
   scaleType?: (d: any, r: any) => any;
   domainPadding: VicDomainPaddingConfig;

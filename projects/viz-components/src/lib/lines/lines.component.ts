@@ -5,7 +5,6 @@ import {
   ElementRef,
   inject,
   InjectionToken,
-  Input,
   NgZone,
   ViewChild,
   ViewEncapsulation,
@@ -27,10 +26,10 @@ import {
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
+import { isDate } from '../core/utilities/isDate';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
+import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
 import { VicLinesConfig } from './lines.config';
 
 export interface Marker {
@@ -46,7 +45,9 @@ export class LinesTooltipData {
   category: string;
 }
 
-export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
+export const LINES = new InjectionToken<LinesComponent<unknown>>(
+  'LinesComponent'
+);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -61,14 +62,12 @@ export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
+export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
-  @Input() config: VicLinesConfig;
-  values: XyDataMarksValues = new XyDataMarksValues();
   line: (x: any[]) => any;
   linesD3Data;
   linesKeyFunction;
@@ -167,9 +166,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
 
   canBeDrawnByPath(x: any): boolean {
     return (
-      (typeof x === 'number' || this.utilities.isDate(x)) &&
-      x !== null &&
-      x !== undefined
+      (typeof x === 'number' || isDate(x)) && x !== null && x !== undefined
     );
   }
 
@@ -198,7 +195,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
   }
 
   /**
-   * setChartScalesFromRanges method
+   * setPropertiesFromRanges method
    *
    * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
    * to create the scales should be called from this method. Methods called from here should not
@@ -207,7 +204,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
    * This method is called on init, after config-based properties are set, and also on
    * resize/when ranges change.
    */
-  setChartScalesFromRanges(useTransition: boolean): void {
+  setPropertiesFromRanges(useTransition: boolean): void {
     const paddedXDomain = this.getPaddedDomain('x');
     const paddedYDomain = this.getPaddedDomain('y');
     const x = this.config.x.scaleType(paddedXDomain, this.ranges.x);

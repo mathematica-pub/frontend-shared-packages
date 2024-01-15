@@ -29,7 +29,9 @@ import { VicStackDatum, VicStackedBarsConfig } from './stacked-bars.config';
   providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
 export class StackedBarsComponent<T> extends BarsComponent<T> {
-  @Input() override config: VicStackedBarsConfig<T>;
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('config') override userConfig: VicStackedBarsConfig<T>;
+  override config: VicStackedBarsConfig<T>;
   stackedData: Stack<any, { [key: string]: number }, string>;
 
   override setPropertiesFromConfig(): void {

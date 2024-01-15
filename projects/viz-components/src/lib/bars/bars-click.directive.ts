@@ -11,49 +11,46 @@ import {
   Self,
 } from '@angular/core';
 import { select } from 'd3';
-import { filter, Observable, takeUntil } from 'rxjs';
+import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
-import { ListenElement } from '../events/event.directive';
+import { BarsEventDirective } from './bars-event-directive';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
 
-type BarsEventDirective =
-  | BarsHoverDirective
-  | BarsHoverMoveDirective
-  | BarsInputEventDirective;
-
 @Directive({
   selector: '[vicBarsClickEffects]',
 })
 export class BarsClickDirective<
-  T extends BarsComponent = BarsComponent
+  T,
+  U extends BarsComponent<T> = BarsComponent<T>
 > extends ClickDirective {
   @Input('vicBarsClickEffects')
-  effects: EventEffect<BarsClickDirective<T>>[];
+  effects: EventEffect<BarsClickDirective<T, U>>[];
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
-  @Output('vicBarsClickOutput') eventOutput =
-    new EventEmitter<VicBarsEventOutput>();
+  @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
+    VicBarsEventOutput<T>
+  >();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
 
   constructor(
-    @Inject(BARS) public bars: BarsComponent,
+    @Inject(BARS) public bars: U,
     @Self()
     @Optional()
-    public hoverDirective?: BarsHoverDirective,
+    public hoverDirective?: BarsHoverDirective<T, U>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: BarsHoverMoveDirective,
+    public hoverAndMoveDirective?: BarsHoverMoveDirective<T, U>,
     @Self()
     @Optional()
-    public inputEventDirective?: BarsInputEventDirective
+    public inputEventDirective?: BarsInputEventDirective<T, U>
   ) {
     super();
   }
@@ -70,7 +67,7 @@ export class BarsClickDirective<
       });
   }
 
-  onElementClick(event: PointerEvent, el: ListenElement): void {
+  onElementClick(event: PointerEvent): void {
     this.barIndex = select(event.target as SVGRectElement).datum() as number;
     this.elRef = new ElementRef(event.target);
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
@@ -89,7 +86,7 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput {
+  getEventOutput(): VicBarsEventOutput<T> {
     const data = getBarsTooltipData(this.barIndex, this.elRef, this.bars);
     const extras = {
       positionX: this.pointerX,
@@ -124,13 +121,16 @@ export class BarsClickDirective<
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: BarsEventDirective): void {
+  disableEffect(directive: BarsEventDirective<T, U>): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
-  enableEffect(directive: BarsEventDirective, removeEffects: boolean): void {
+  enableEffect(
+    directive: BarsEventDirective<T, U>,
+    removeEffects: boolean
+  ): void {
     if (directive) {
       directive.preventEffect = false;
       if (removeEffects) {

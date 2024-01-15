@@ -1,4 +1,4 @@
-import { XyDataMarksBase } from '../../xy-chart/xy-data-marks-base';
+import { XyDataMarksBase } from '../../xy-data-marks/xy-data-marks-base';
 
 export class XyDataMarksBaseStub extends XyDataMarksBase {
   override setPropertiesFromConfig(): void {

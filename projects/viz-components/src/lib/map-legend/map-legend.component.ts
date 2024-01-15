@@ -1,15 +1,22 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { combineLatest, filter, takeUntil } from 'rxjs';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { combineLatest, filter } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { Unsubscribe } from '../shared/unsubscribe.class';
 
 @Component({
   selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
 })
-export class MapLegendComponent extends Unsubscribe implements OnInit {
+export class MapLegendComponent<T> implements OnInit {
   @Input() width: number;
   @Input() height: number;
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
@@ -18,12 +25,9 @@ export class MapLegendComponent extends Unsubscribe implements OnInit {
   canvasRef: ElementRef<HTMLCanvasElement>;
   legendType: 'categorical' | 'ordinal' | 'continuous';
   orientation: 'horizontal' | 'vertical';
-  attributeDataConfig: VicAttributeDataDimensionConfig;
+  attributeDataConfig: VicAttributeDataDimensionConfig<T>;
   attributeDataScale: any;
-
-  constructor(private chart: MapChartComponent) {
-    super();
-  }
+  private chart = inject(MapChartComponent<T>);
 
   ngOnInit(): void {
     this.subscribeToAttributeScaleAndConfig();
@@ -37,7 +41,7 @@ export class MapLegendComponent extends Unsubscribe implements OnInit {
       this.chart.attributeDataConfig$,
     ])
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(),
         filter(([scale, config]) => !!scale && !!config)
       )
       .subscribe(([scale, config]) => {

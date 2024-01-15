@@ -34,8 +34,4 @@ export class UtilitiesService {
       !isEqual(get(changes, prevString), get(changes, currString))
     );
   }
-
-  isDate(x: any): boolean {
-    return Object.prototype.toString.call(x) === '[object Date]' && !isNaN(x);
-  }
 }

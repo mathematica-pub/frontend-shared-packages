@@ -3,28 +3,33 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { isDate } from '../core/utilities/isDate';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
-  getStackedAreaTooltipData,
   VicStackedAreaEventOutput,
+  getStackedAreaTooltipData,
 } from './stacked-area-tooltip-data';
-import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
+import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 
 @Directive({
   selector: '[vicStackedAreaHoverMoveEffects]',
 })
-export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
+export class StackedAreaHoverMoveDirective<
+  T,
+  U extends StackedAreaComponent<T>
+> extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
-  effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective>[];
-  @Output('vicStackedAreaHoverMoveOutput') eventOutput =
-    new EventEmitter<VicStackedAreaEventOutput>();
+  effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective<T, U>>[];
+  @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
+    VicStackedAreaEventOutput<T>
+  >();
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
 
   constructor(
-    @Inject(STACKED_AREA) public stackedArea: StackedAreaComponent,
+    @Inject(STACKED_AREA) public stackedArea: U,
     private utilities: UtilitiesService
   ) {
     super();
@@ -85,7 +90,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
     const closestXValue = least(uniqueXValues, (x) =>
       Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
-    if (this.utilities.isDate(closestXValue)) {
+    if (isDate(closestXValue)) {
       return this.stackedArea.values.indicies.filter(
         (i) =>
           this.stackedArea.values.x[i].getTime() === closestXValue.getTime()
@@ -97,7 +102,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getTooltipData(): VicStackedAreaEventOutput {
+  getTooltipData(): VicStackedAreaEventOutput<T> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
       this.stackedArea

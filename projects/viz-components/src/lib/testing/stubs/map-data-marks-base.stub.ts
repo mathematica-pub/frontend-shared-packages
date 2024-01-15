@@ -1,4 +1,4 @@
-import { MapDataMarksBase } from '../../map-chart/map-data-marks-base';
+import { MapDataMarksBase } from '../../map-data-marks/map-data-marks-base';
 
 export class MapDataMarksBaseStub extends MapDataMarksBase {
   override initFromConfig(): void {

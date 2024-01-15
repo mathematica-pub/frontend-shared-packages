@@ -13,6 +13,7 @@ import { select } from 'd3';
 import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
+import { GeographiesEventDirective } from './geographies-event-directive';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
@@ -22,38 +23,35 @@ import {
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
-export type GeographiesEventDirective =
-  | GeographiesHoverDirective
-  | GeographiesHoverMoveDirective
-  | GeographiesInputEventDirective;
-
 @Directive({
   selector: '[vicGeographiesClickEffects]',
 })
 export class GeographiesClickDirective<
-  T extends GeographiesComponent = GeographiesComponent
+  T,
+  U extends GeographiesComponent<T> = GeographiesComponent<T>
 > extends ClickDirective {
   @Input('vicGeographiesClickEffects')
-  effects: EventEffect<GeographiesClickDirective<T>>[];
+  effects: EventEffect<GeographiesClickDirective<T, U>>[];
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
-  @Output('vicGeographiesClickOutput') eventOutput =
-    new EventEmitter<VicGeographiesEventOutput>();
+  @Output('vicGeographiesClickOutput') eventOutput = new EventEmitter<
+    VicGeographiesEventOutput<T>
+  >();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
 
   constructor(
-    @Inject(GEOGRAPHIES) public geographies: GeographiesComponent,
+    @Inject(GEOGRAPHIES) public geographies: U,
     @Self()
     @Optional()
-    public hoverDirective?: GeographiesHoverDirective,
+    public hoverDirective?: GeographiesHoverDirective<T, U>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: GeographiesHoverMoveDirective,
+    public hoverAndMoveDirective?: GeographiesHoverMoveDirective<T, U>,
     @Self()
     @Optional()
-    public inputEventDirective?: GeographiesInputEventDirective
+    public inputEventDirective?: GeographiesInputEventDirective<T, U>
   ) {
     super();
   }
@@ -89,19 +87,20 @@ export class GeographiesClickDirective<
   }
 
   getGeographyIndex(d: any): number {
-    let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
+    let value =
+      this.geographies.config.dataGeographyConfig.featureIdAccessor(d);
     if (typeof value === 'string') {
       value = value.toLowerCase();
     }
     return this.geographies.values.indexMap.get(value);
   }
 
-  getOutputData(): VicGeographiesEventOutput {
+  getOutputData(): VicGeographiesEventOutput<T> {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const output: VicGeographiesEventOutput = {
+    const output: VicGeographiesEventOutput<T> = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
@@ -135,14 +134,14 @@ export class GeographiesClickDirective<
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: GeographiesEventDirective): void {
+  disableEffect(directive: GeographiesEventDirective<T, U>): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
   enableEffect(
-    directive: GeographiesEventDirective,
+    directive: GeographiesEventDirective<T, U>,
     removeEffects: boolean
   ): void {
     if (directive) {

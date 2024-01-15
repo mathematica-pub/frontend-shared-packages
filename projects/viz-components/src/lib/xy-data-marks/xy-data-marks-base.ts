@@ -1,56 +1,35 @@
-import {
-  Directive,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  inject,
-} from '@angular/core';
-import { filter, takeUntil } from 'rxjs';
-import { Ranges } from '../chart/chart.component';
+import { Directive, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { Unsubscribe } from '../shared/unsubscribe.class';
+import { DataMarksBase } from '../data-marks/data-marks-base';
+import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import {
   XyChartComponent,
   XyChartScales,
   XyContentScale,
-} from './xy-chart.component';
+} from '../xy-chart/xy-chart.component';
+import { XyDataMarksValues } from './xy-data-marks';
 
 /**
  * @internal
  */
 @Directive()
-export abstract class XyDataMarksBase
-  extends Unsubscribe
-  implements OnChanges, OnInit
+export abstract class XyDataMarksBase<T, U extends VicDataMarksConfig<T>>
+  extends DataMarksBase<T, U>
+  implements OnInit
 {
-  ranges: Ranges;
   scales: XyChartScales;
   requiredScales: (keyof typeof XyContentScale)[];
-  public chart = inject(XyChartComponent);
+  values: XyDataMarksValues = new XyDataMarksValues();
+  public override chart = inject(XyChartComponent);
   protected utilities = inject(UtilitiesService);
-
-  abstract setPropertiesFromConfig(): void;
-  abstract setChartScalesFromRanges(useTransition: boolean): void;
-  abstract drawMarks(): void;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.initFromConfig();
-    }
-  }
 
   ngOnInit(): void {
     this.setRequiredChartScales();
     this.subscribeToRanges();
     this.subscribeToScales();
     this.initFromConfig();
-  }
-
-  initFromConfig(): void {
-    this.setPropertiesFromConfig();
-    this.setChartScalesFromRanges(true);
   }
 
   setRequiredChartScales(): void {
@@ -62,7 +41,7 @@ export abstract class XyDataMarksBase
   }
 
   subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
+    this.chart.ranges$.pipe(takeUntilDestroyed()).subscribe((ranges) => {
       this.ranges = ranges;
       if (
         this.scales &&
@@ -76,7 +55,7 @@ export abstract class XyDataMarksBase
   subscribeToScales(): void {
     this.chart.scales$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(),
         filter((scales) => !!scales)
       )
       .subscribe((scales): void => {
@@ -86,7 +65,7 @@ export abstract class XyDataMarksBase
   }
 
   resizeMarks(): void {
-    this.setChartScalesFromRanges(false);
+    this.setPropertiesFromRanges(false);
   }
 
   getTransitionDuration(): number {

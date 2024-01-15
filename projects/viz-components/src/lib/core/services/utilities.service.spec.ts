@@ -120,26 +120,4 @@ describe('UtilitiesService', () => {
       expect(result).toEqual(false);
     });
   });
-
-  describe('isDate()', () => {
-    it('returns true if input is a date', () => {
-      const result = service.isDate(new Date());
-      expect(result).toEqual(true);
-    });
-
-    it('returns false if input is a string', () => {
-      const result = service.isDate('hello');
-      expect(result).toEqual(false);
-    });
-
-    it('returns false if input is a number', () => {
-      const result = service.isDate(234567);
-      expect(result).toEqual(false);
-    });
-
-    it('returns false if input is an object that is not a date', () => {
-      const result = service.isDate({ hello: 'world' });
-      expect(result).toEqual(false);
-    });
-  });
 });

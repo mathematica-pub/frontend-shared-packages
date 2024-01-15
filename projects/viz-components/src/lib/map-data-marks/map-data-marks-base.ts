@@ -1,42 +1,24 @@
-import {
-  Directive,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  inject,
-} from '@angular/core';
-import { combineLatest, filter, takeUntil } from 'rxjs';
-import { Ranges } from '../chart/chart.component';
+import { Directive, OnInit, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { combineLatest, filter } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { DataMarksBase } from '../data-marks/data-marks-base';
+import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
-import { Unsubscribe } from '../shared/unsubscribe.class';
-import { MapChartComponent } from './map-chart.component';
+import { MapChartComponent } from '../map-chart/map-chart.component';
 
 /**
  * @internal
  */
 @Directive()
-export abstract class MapDataMarksBase
-  extends Unsubscribe
-  implements OnChanges, OnInit
+export abstract class MapDataMarksBase<T, U extends VicDataMarksConfig<T>>
+  extends DataMarksBase<T, U>
+  implements OnInit
 {
-  ranges: Ranges;
   attributeDataScale: any;
-  attributeDataConfig: VicAttributeDataDimensionConfig;
-  public chart = inject(MapChartComponent);
+  attributeDataConfig: VicAttributeDataDimensionConfig<T>;
+  public override chart = inject(MapChartComponent);
   protected utilities = inject(UtilitiesService);
-
-  abstract drawMarks(): void;
-  abstract resizeMarks(): void;
-  abstract initFromConfig(): void;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.initFromConfig();
-    }
-  }
 
   ngOnInit(): void {
     this.subscribeToRanges();
@@ -45,7 +27,7 @@ export abstract class MapDataMarksBase
   }
 
   subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
+    this.chart.ranges$.pipe(takeUntilDestroyed()).subscribe((ranges) => {
       this.ranges = ranges;
       if (this.attributeDataScale && this.attributeDataConfig) {
         this.resizeMarks();
@@ -61,7 +43,7 @@ export abstract class MapDataMarksBase
 
     combineLatest(subscriptions)
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(),
         filter(([scale, config]) => !!scale && !!config)
       )
       .subscribe(([scale, config]) => {

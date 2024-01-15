@@ -3,10 +3,7 @@ import {
   Component,
   ElementRef,
   InjectionToken,
-  Input,
   NgZone,
-  OnChanges,
-  OnInit,
 } from '@angular/core';
 import {
   InternMap,
@@ -23,11 +20,12 @@ import {
   stack,
 } from 'd3';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
-import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
+import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
-export const STACKED_AREA = new InjectionToken<StackedAreaComponent>(
+// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
+// https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
+export const STACKED_AREA = new InjectionToken<StackedAreaComponent<unknown>>(
   'StackedAreaComponent'
 );
 
@@ -42,12 +40,10 @@ export const STACKED_AREA = new InjectionToken<StackedAreaComponent>(
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
   ],
 })
-export class StackedAreaComponent
-  extends XyDataMarksBase
-  implements XyDataMarks, OnChanges, OnInit
-{
-  @Input() config: VicStackedAreaConfig;
-  values: XyDataMarksValues = new XyDataMarksValues();
+export class StackedAreaComponent<T> extends XyDataMarksBase<
+  T,
+  VicStackedAreaConfig<T>
+> {
   series: (SeriesPoint<InternMap<any, number>> & { i: number })[][];
   area;
   areas;
@@ -152,7 +148,7 @@ export class StackedAreaComponent
    * This method is called on init, after config-based properties are set, and also on
    * resize/when ranges change.
    */
-  setChartScalesFromRanges(useTransition: boolean): void {
+  setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
     const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
     const category = this.config.category.colorScale;

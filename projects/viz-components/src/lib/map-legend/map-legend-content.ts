@@ -3,13 +3,13 @@ import { VicAttributeDataDimensionConfig } from '../geographies/geographies.conf
 import { formatValue } from '../value-format/value-format';
 
 @Directive()
-export abstract class MapLegendContent {
+export abstract class MapLegendContent<T> {
   @Input() width: number;
   @Input() height: number;
   @Input() orientation: 'horizontal' | 'vertical';
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
   @Input() scale: any;
-  @Input() config: VicAttributeDataDimensionConfig;
+  @Input() config: VicAttributeDataDimensionConfig<T>;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];
