@@ -21,7 +21,7 @@ export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
 
   constructor(init?: Partial<VicBarsConfig<T>>) {
     super();
-    this.dimensions = new VicVerticalBarChartDimensionsConfig();
+    this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.scaleType = scaleLinear;
     this.category.colors = ['lightslategray'];
@@ -68,7 +68,7 @@ export class VicHorizontalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   }
 }
 
-export class VicVerticalBarChartDimensionsConfig extends VicBarsDimensionsConfig {
+export class VicVerticalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'vertical';

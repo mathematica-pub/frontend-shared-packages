@@ -7,7 +7,6 @@ import {
 import {
   InternMap,
   InternSet,
-  Stack,
   Transition,
   extent,
   range,
@@ -32,8 +31,15 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override userConfig: VicStackedBarsConfig<T>;
   override config: VicStackedBarsConfig<T>;
-  stackedData: Stack<any, { [key: string]: number }, string>;
+  // stackedData: Stack<any, { [key: string]: number }, string>;
+  stackedData: any;
 
+  /**
+   * setPropertiesFromConfig method
+   *
+   * This method handles an update to the config object. Methods called from here should not
+   * requires ranges or scales. This method is called on init and on config update.
+   */
   override setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
@@ -42,7 +48,6 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
     this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
     this.constructStackedData();
-    this.setChartScalesFromRanges(true);
   }
 
   override setValueIndicies(): void {
@@ -71,7 +76,8 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
     this.stackedData = stack()
       .keys(this.config.category.domain as InternSet)
       .value(
-        ([, I], z) => this.values[this.config.dimensions.quantitative][I.get(z)]
+        ([, I]: any, z) =>
+          this.values[this.config.dimensions.quantitative][I.get(z)]
       )
       .order(this.config.order)
       .offset(this.config.offset)(
@@ -135,7 +141,7 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
             .attr('y', this.scales.y(0))
             .attr('height', 0)
             .remove()
-      );
+      ) as any;
   }
 
   getStackElementX(datum: VicStackDatum): number {
