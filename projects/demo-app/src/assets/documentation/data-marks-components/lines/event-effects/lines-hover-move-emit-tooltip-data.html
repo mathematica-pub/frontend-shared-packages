@@ -98,15 +98,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>applyEffect(directive: <a href="documentation/data-marks-components/lines/events/lines-hover-move" target="_self">LinesHoverMoveDirective</a>)</code>
+<code>applyEffect(directive: LinesHoverMoveDirective<T | U>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="175"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move-effects.ts:175</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="186"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move-effects.ts:186</a></div>
                 </td>
             </tr>
 
@@ -129,7 +129,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a href="documentation/data-marks-components/lines/events/lines-hover-move" target="_self" >LinesHoverMoveDirective</a></code>
+                                            <code>LinesHoverMoveDirective&lt;T | U&gt;</code>
                                     </td>
 
                                     <td>
@@ -167,15 +167,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeEffect(directive: <a href="documentation/data-marks-components/lines/events/lines-hover-move" target="_self">LinesHoverMoveDirective</a>)</code>
+<code>removeEffect(directive: LinesHoverMoveDirective<T | U>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="180"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move-effects.ts:180</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-hover-move-effects.ts:191</a></div>
                 </td>
             </tr>
 
@@ -198,7 +198,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a href="documentation/data-marks-components/lines/events/lines-hover-move" target="_self" >LinesHoverMoveDirective</a></code>
+                                            <code>LinesHoverMoveDirective&lt;T | U&gt;</code>
                                     </td>
 
                                     <td>
@@ -235,6 +235,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HoverMoveEventEffect } from &#x27;../events/effect&#x27;;
 import { LinesHoverMoveDirective } from &#x27;./lines-hover-move.directive&#x27;;
+import { LinesComponent } from &#x27;./lines.component&#x27;;
 
 export class LinesHoverMoveDefaultStylesConfig {
   growMarkerDimension: number;
@@ -251,10 +252,12 @@ export class LinesHoverMoveDefaultStylesConfig {
  * This effect changes the color of the non-closest-to-pointer lines
  *  to a light gray.
  */
-export class LinesHoverMoveDefaultLinesStyles
-  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
+export class LinesHoverMoveDefaultLinesStyles&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;
 {
-  applyEffect(directive: LinesHoverMoveDirective): void {
+  applyEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;): void {
     directive.lines.lines
       .style(&#x27;stroke&#x27;, ([category]): string &#x3D;&gt;
         directive.lines.values.category[directive.closestPointIndex] &#x3D;&#x3D;&#x3D;
@@ -270,7 +273,7 @@ export class LinesHoverMoveDefaultLinesStyles
       .raise();
   }
 
-  removeEffect(directive: LinesHoverMoveDirective): void {
+  removeEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;): void {
     directive.lines.lines.style(&#x27;stroke&#x27;, null);
   }
 }
@@ -282,14 +285,16 @@ export class LinesHoverMoveDefaultLinesStyles
  *  and at the same time enlarges the marker on the &quot;selected&quot; line that is
  *  closest to the pointer by a specified amount.
  */
-export class LinesHoverMoveDefaultMarkersStyles
-  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
+export class LinesHoverMoveDefaultMarkersStyles&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;
 {
   constructor(private config?: LinesHoverMoveDefaultStylesConfig) {
     this.config &#x3D; config ?? new LinesHoverMoveDefaultStylesConfig();
   }
 
-  applyEffect(directive: LinesHoverMoveDirective): void {
+  applyEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;): void {
     directive.lines.markers
       .style(&#x27;fill&#x27;, (d): string &#x3D;&gt;
         directive.lines.values.category[directive.closestPointIndex] &#x3D;&#x3D;&#x3D;
@@ -314,7 +319,7 @@ export class LinesHoverMoveDefaultMarkersStyles
       .raise();
   }
 
-  removeEffect(directive: LinesHoverMoveDirective): void {
+  removeEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;): void {
     directive.lines.markers.style(&#x27;fill&#x27;, null);
     directive.lines.markers.attr(
       &#x27;r&#x27;,
@@ -330,10 +335,12 @@ export class LinesHoverMoveDefaultMarkersStyles
  * This effect displays a circle marker at the closest datum to the pointer
  *  on the &quot;selected&quot; line.
  */
-export class LinesHoverMoveDefaultHoverDotStyles
-  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
+export class LinesHoverMoveDefaultHoverDotStyles&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;
 {
-  applyEffect(directive: LinesHoverMoveDirective) {
+  applyEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;) {
     directive.lines.hoverDot
       .style(&#x27;display&#x27;, null)
       .attr(
@@ -356,7 +363,7 @@ export class LinesHoverMoveDefaultHoverDotStyles
       );
   }
 
-  removeEffect(directive: LinesHoverMoveDirective) {
+  removeEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;) {
     directive.lines.hoverDot.style(&#x27;display&#x27;, &#x27;none&#x27;);
   }
 }
@@ -368,12 +375,14 @@ export class LinesHoverMoveDefaultHoverDotStyles
  * Applies either Line Markers effect or a Hover Dot effect depending on
  *  whether line markers are used.
  */
-export class LinesHoverMoveDefaultStyles
-  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
+export class LinesHoverMoveDefaultStyles&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;
 {
-  linesStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;;
-  markersStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;;
-  hoverDotStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;;
+  linesStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;;
+  markersStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;;
+  hoverDotStyles: HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;;
 
   constructor(config?: LinesHoverMoveDefaultStylesConfig) {
     const markersStylesConfig &#x3D;
@@ -385,7 +394,7 @@ export class LinesHoverMoveDefaultStyles
     this.hoverDotStyles &#x3D; new LinesHoverMoveDefaultHoverDotStyles();
   }
 
-  applyEffect(directive: LinesHoverMoveDirective) {
+  applyEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;) {
     this.linesStyles.applyEffect(directive);
     if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.applyEffect(directive);
@@ -394,7 +403,7 @@ export class LinesHoverMoveDefaultStyles
     }
   }
 
-  removeEffect(directive: LinesHoverMoveDirective) {
+  removeEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;) {
     this.linesStyles.removeEffect(directive);
     if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.removeEffect(directive);
@@ -404,15 +413,17 @@ export class LinesHoverMoveDefaultStyles
   }
 }
 
-export class LinesHoverMoveEmitTooltipData
-  implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&gt;
+export class LinesHoverMoveEmitTooltipData&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements HoverMoveEventEffect&lt;LinesHoverMoveDirective&lt;T, U&gt;&gt;
 {
-  applyEffect(directive: LinesHoverMoveDirective): void {
+  applyEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;): void {
     const tooltipData &#x3D; directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesHoverMoveDirective): void {
+  removeEffect(directive: LinesHoverMoveDirective&lt;T, U&gt;): void {
     directive.eventOutput.emit(null);
   }
 }

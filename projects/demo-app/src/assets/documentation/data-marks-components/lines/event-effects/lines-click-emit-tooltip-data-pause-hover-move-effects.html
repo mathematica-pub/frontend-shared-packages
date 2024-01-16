@@ -98,15 +98,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>applyEffect(directive: <a href="documentation/data-marks-components/lines/events/lines-click" target="_self">LinesClickDirective</a>)</code>
+<code>applyEffect(directive: LinesClickDirective<T | U>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-click-effects.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-click-effects.ts:10</a></div>
                 </td>
             </tr>
 
@@ -129,7 +129,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a href="documentation/data-marks-components/lines/events/lines-click" target="_self" >LinesClickDirective</a></code>
+                                            <code>LinesClickDirective&lt;T | U&gt;</code>
                                     </td>
 
                                     <td>
@@ -167,15 +167,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeEffect(directive: <a href="documentation/data-marks-components/lines/events/lines-click" target="_self">LinesClickDirective</a>)</code>
+<code>removeEffect(directive: LinesClickDirective<T | U>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-click-effects.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-click-effects.ts:16</a></div>
                 </td>
             </tr>
 
@@ -198,7 +198,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a href="documentation/data-marks-components/lines/events/lines-click" target="_self" >LinesClickDirective</a></code>
+                                            <code>LinesClickDirective&lt;T | U&gt;</code>
                                     </td>
 
                                     <td>
@@ -235,17 +235,20 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEffect } from &#x27;../events/effect&#x27;;
 import { LinesClickDirective } from &#x27;./lines-click.directive&#x27;;
+import { LinesComponent } from &#x27;./lines.component&#x27;;
 
-export class LinesClickEmitTooltipDataPauseHoverMoveEffects
-  implements EventEffect&lt;LinesClickDirective&gt;
+export class LinesClickEmitTooltipDataPauseHoverMoveEffects&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements EventEffect&lt;LinesClickDirective&lt;T, U&gt;&gt;
 {
-  applyEffect(directive: LinesClickDirective) {
+  applyEffect(directive: LinesClickDirective&lt;T, U&gt;) {
     const outputData &#x3D; directive.getOutputData();
     directive.preventHoverEffects();
     directive.eventOutput.emit(outputData);
   }
 
-  removeEffect(directive: LinesClickDirective) {
+  removeEffect(directive: LinesClickDirective&lt;T, U&gt;) {
     directive.resumeHoverEffects();
     directive.eventOutput.emit(null);
   }

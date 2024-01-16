@@ -44,12 +44,6 @@
                 <code><a " target="_self" >MapDataMarksBase</a></code>
     </p>
 
-    <p class="comment">
-        <h3>Implements</h3>
-    </p>
-    <p class="comment">
-                    <code><a " target="_self" >DataMarks</a></code>
-    </p>
 
 
 <section>
@@ -167,17 +161,21 @@
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
                                 <a href="documentation/./chart-components/map-chart/geographies#chart" >chart</a>
-                            </li>
-                            <li>
-                                <a href="documentation/./chart-components/map-chart/geographies#ranges" >ranges</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="documentation/./chart-components/map-chart/geographies#utilities" >utilities</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/map-chart/geographies#unsubscribe" >unsubscribe</a>
+                                <a href="documentation/./chart-components/map-chart/geographies#config" >config</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#ranges" >ranges</a>
                             </li>
                         </ul>
                     </td>
@@ -234,6 +232,7 @@
                                 <a href="documentation/./chart-components/map-chart/geographies#initAttributeDataScaleRange" >initAttributeDataScaleRange</a>
                             </li>
                             <li>
+                                    <span class="modifier"></span>
                                 <a href="documentation/./chart-components/map-chart/geographies#initFromConfig" >initFromConfig</a>
                             </li>
                             <li>
@@ -279,9 +278,6 @@
                                 <a href="documentation/./chart-components/map-chart/geographies#validateNumBinsAndDomainForIntegerValues" >validateNumBinsAndDomainForIntegerValues</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/map-chart/geographies#ngOnChanges" >ngOnChanges</a>
-                            </li>
-                            <li>
                                 <a href="documentation/./chart-components/map-chart/geographies#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
@@ -291,7 +287,19 @@
                                 <a href="documentation/./chart-components/map-chart/geographies#subscribeToRanges" >subscribeToRanges</a>
                             </li>
                             <li>
-                                <a href="documentation/./chart-components/map-chart/geographies#ngOnDestroy" >ngOnDestroy</a>
+                                <a href="documentation/./chart-components/map-chart/geographies#assignValue" >assignValue</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#deepCloneObject" >deepCloneObject</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setConfig" >setConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#structuredCloneValue" >structuredCloneValue</a>
                             </li>
                         </ul>
                     </td>
@@ -330,7 +338,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:74</a></div>
                             </td>
                         </tr>
 
@@ -392,13 +400,20 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a " target="_self" >VicGeographiesConfig</a></code>
+                        <i>Type : </i>    <code>U</code>
 
                     </td>
                 </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                                </td>
+                            </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:68</a></div>
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:23</a></code>
+</div>
                             </td>
                         </tr>
             </tbody>
@@ -672,13 +687,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:319</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:319</a></code>
 </div>
                 </td>
             </tr>
@@ -1226,6 +1241,7 @@
                 <td class="col-md-4">
                     <a name="initFromConfig"></a>
                     <span class="name">
+                        <span class="modifier"></span>
                         <span ><b>initFromConfig</b></span>
                         <a href="documentation/./chart-components/map-chart/geographies#initFromConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -1233,20 +1249,21 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>initFromConfig()</code>
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>initFromConfig()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:82</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:80</a></code>
 </div>
                 </td>
             </tr>
@@ -1283,13 +1300,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:95</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:94</a></code>
 </div>
                 </td>
             </tr>
@@ -1548,8 +1565,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:88</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:87</a></code>
+</div>
                 </td>
             </tr>
 
@@ -1585,8 +1608,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="272"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:272</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:272</a></code>
+</div>
                 </td>
             </tr>
 
@@ -1659,8 +1688,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:100</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:99</a></code>
+</div>
                 </td>
             </tr>
 
@@ -1791,6 +1826,308 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:23</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToAttributeScaleAndConfig"></a>
+                    <span class="name">
+                        <span ><b>subscribeToAttributeScaleAndConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#subscribeToAttributeScaleAndConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToAttributeScaleAndConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:40</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:29</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="assignValue"></a>
+                    <span class="name">
+                        <span ><b>assignValue</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#assignValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>assignValue(newObj: Record<string | >, key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:77</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newObj</td>
+                                    <td>
+                                            <code>Record&lt;string | &gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deepCloneObject"></a>
+                    <span class="name">
+                        <span ><b>deepCloneObject</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#deepCloneObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deepCloneObject(object: Record<string | >)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:58</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>object</td>
+                                    <td>
+                                            <code>Record&lt;string | &gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Record&lt;string, &gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="ngOnChanges"></a>
                     <span class="name">
                         <span ><b>ngOnChanges</b></span>
@@ -1807,13 +2144,13 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:33</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:33</a></code>
 </div>
                 </td>
             </tr>
@@ -1866,29 +2203,29 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ngOnInit"></a>
+                    <a name="setConfig"></a>
                     <span class="name">
-                        <span ><b>ngOnInit</b></span>
-                        <a href="documentation/./chart-components/map-chart/geographies#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnInit()</code>
+<code>setConfig()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:41</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:52</a></code>
 </div>
                 </td>
             </tr>
@@ -1909,29 +2246,29 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="subscribeToAttributeScaleAndConfig"></a>
+                    <a name="structuredCloneValue"></a>
                     <span class="name">
-                        <span ><b>subscribeToAttributeScaleAndConfig</b></span>
-                        <a href="documentation/./chart-components/map-chart/geographies#subscribeToAttributeScaleAndConfig"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>structuredCloneValue</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#structuredCloneValue"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>subscribeToAttributeScaleAndConfig()</code>
+<code>structuredCloneValue(newObj: Record<string | >, key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:56</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:85</a></code>
 </div>
                 </td>
             </tr>
@@ -1940,95 +2277,64 @@
             <tr>
                 <td class="col-md-4">
 
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newObj</td>
+                                    <td>
+                                            <code>Record&lt;string | &gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="subscribeToRanges"></a>
-                    <span class="name">
-                        <span ><b>subscribeToRanges</b></span>
-                        <a href="documentation/./chart-components/map-chart/geographies#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>subscribeToRanges()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:47</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnDestroy"></a>
-                    <span class="name">
-                        <span ><b>ngOnDestroy</b></span>
-                        <a href="documentation/./chart-components/map-chart/geographies#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnDestroy()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >Unsubscribe</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >Unsubscribe:11</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -2064,7 +2370,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:71</a></div>
                         </td>
                     </tr>
 
@@ -2095,7 +2401,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:74</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:72</a></div>
                         </td>
                     </tr>
 
@@ -2122,7 +2428,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -2148,7 +2454,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:67</a></div>
                         </td>
                     </tr>
 
@@ -2179,7 +2485,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:75</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:73</a></div>
                         </td>
                     </tr>
 
@@ -2210,7 +2516,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -2236,7 +2542,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:69</a></div>
                         </td>
                     </tr>
 
@@ -2262,7 +2568,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:70</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:68</a></div>
                         </td>
                     </tr>
 
@@ -2293,7 +2599,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:72</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -2320,7 +2626,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:78</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:76</a></div>
                         </td>
                     </tr>
 
@@ -2340,7 +2646,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a " target="_self" >VicAttributeDataDimensionConfig</a></code>
+                        <i>Type : </i>        <code><a " target="_self" >VicAttributeDataDimensionConfig&lt;T&gt;</a></code>
 
                     </td>
                 </tr>
@@ -2352,7 +2658,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:25</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:19</a></code>
 </div>
                         </td>
                     </tr>
@@ -2385,7 +2691,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:24</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:18</a></code>
 </div>
                         </td>
                     </tr>
@@ -2400,6 +2706,7 @@
                     <a name="chart"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                         <span ><b>chart</b></span>
                         <a href="documentation/./chart-components/map-chart/geographies#chart"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -2412,46 +2719,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:26</a></code>
-</div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ranges"></a>
-                    <span class="name">
-                        <span ><b>ranges</b></span>
-                        <a href="documentation/./chart-components/map-chart/geographies#ranges"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
-
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
-</div>
-                            </td>
-                        </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:23</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:20</a></code>
 </div>
                         </td>
                     </tr>
@@ -2484,7 +2758,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:27</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:21</a></code>
 </div>
                         </td>
                     </tr>
@@ -2496,33 +2770,93 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="unsubscribe"></a>
+                    <a name="config"></a>
                     <span class="name">
-                        <span ><b>unsubscribe</b></span>
-                        <a href="documentation/./chart-components/map-chart/geographies#unsubscribe"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>config</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#config"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Subject&lt;void&gt;</code>
+                        <i>Type : </i>    <code>U</code>
 
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject()</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >Unsubscribe</a></code>
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >Unsubscribe:9</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                        <span ><b>destroyRef</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:21</a></code>
 </div>
                         </td>
                     </tr>
@@ -2541,7 +2875,6 @@
   Component,
   ElementRef,
   InjectionToken,
-  Input,
   NgZone,
   ViewEncapsulation,
 } from &#x27;@angular/core&#x27;;
@@ -2558,14 +2891,14 @@ import {
 } from &#x27;d3&#x27;;
 import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
 import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
-import { DataMarks } from &#x27;../data-marks/data-marks&#x27;;
 import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
 import { MapChartComponent } from &#x27;../map-chart/map-chart.component&#x27;;
-import { MapDataMarksBase } from &#x27;../map-chart/map-data-marks-base&#x27;;
+import { MapDataMarksBase } from &#x27;../map-data-marks/map-data-marks-base&#x27;;
 import { PatternUtilities } from &#x27;../shared/pattern-utilities.class&#x27;;
 import { formatValue } from &#x27;../value-format/value-format&#x27;;
 import {
   VicDataGeographyConfig,
+  VicGeoJsonDefaultProperty,
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
 } from &#x27;./geographies.config&#x27;;
@@ -2577,7 +2910,7 @@ export class MapDataValues {
   geoJsonGeographies: any[];
 }
 
-export const GEOGRAPHIES &#x3D; new InjectionToken&lt;GeographiesComponent&gt;(
+export const GEOGRAPHIES &#x3D; new InjectionToken&lt;GeographiesComponent&lt;unknown&gt;&gt;(
   &#x27;GeographiesComponent&#x27;
 );
 @Component({
@@ -2599,11 +2932,10 @@ export const GEOGRAPHIES &#x3D; new InjectionToken&lt;GeographiesComponent&gt;(
     },
   ],
 })
-export class GeographiesComponent
-  extends MapDataMarksBase
-  implements DataMarks
-{
-  @Input() config: VicGeographiesConfig;
+export class GeographiesComponent&lt;
+  T,
+  P extends VicGeoJsonDefaultProperty &#x3D; VicGeoJsonDefaultProperty
+&gt; extends MapDataMarksBase&lt;T, VicGeographiesConfig&lt;T, P&gt;&gt; {
   map: any;
   projection: any;
   path: any;
@@ -2617,7 +2949,8 @@ export class GeographiesComponent
     super();
   }
 
-  initFromConfig(): void {
+  override initFromConfig(): void {
+    this.setConfig();
     this.setPropertiesFromConfig();
     this.setPropertiesFromRanges();
     this.drawMarks();
@@ -2649,12 +2982,13 @@ export class GeographiesComponent
     this.values.indexMap &#x3D; new InternMap(
       this.values.attributeDataGeographies.map((name, i) &#x3D;&gt; [name, i])
     );
-    this.values.geoJsonGeographies &#x3D; map(
-      this.config.dataGeographyConfig.geographies,
-      this.config.dataGeographyConfig.valueAccessor
-    ).map((x) &#x3D;&gt; {
-      return typeof x &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? x.toLowerCase() : x;
-    });
+    this.values.geoJsonGeographies &#x3D; this.config.dataGeographyConfig.geographies
+      .map((feature) &#x3D;&gt;
+        this.config.dataGeographyConfig.featureIdAccessor(feature.properties)
+      )
+      .map((x) &#x3D;&gt; {
+        return typeof x &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? x.toLowerCase() : x;
+      });
   }
 
   initAttributeDataScaleDomain(): void {
@@ -2886,7 +3220,7 @@ export class GeographiesComponent
 
     this.map
       .selectAll(&#x27;path&#x27;)
-      .data((layer: VicDataGeographyConfig) &#x3D;&gt; layer.geographies)
+      .data((layer: VicDataGeographyConfig&lt;T, P&gt;) &#x3D;&gt; layer.geographies)
       .join(
         (enter) &#x3D;&gt; {
           enter &#x3D; enter.append(&#x27;path&#x27;);
