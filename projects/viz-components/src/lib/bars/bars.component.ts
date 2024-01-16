@@ -93,6 +93,7 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.initUnpaddedQuantitativeDomain();
+    this.initCategoryScale();
     this.setBarsKeyFunction();
   }
 
@@ -123,9 +124,7 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
         ? this.config.ordinal.domain
         : (this.config.ordinal.domain as any[]).slice().reverse();
     this.config.ordinal.domain = new InternSet(ordinalDomain);
-    console.log(1, this.config.category.domain);
     this.config.category.domain = new InternSet(this.config.category.domain);
-    console.log(2, this.config.category.domain);
   }
 
   setValueIndicies(): void {

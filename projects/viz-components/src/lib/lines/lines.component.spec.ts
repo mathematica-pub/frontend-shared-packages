@@ -8,8 +8,8 @@ import { LinesComponent } from './lines.component';
 import { VicLinesConfig } from './lines.config';
 
 describe('LineChartComponent', () => {
-  let component: LinesComponent;
-  let fixture: ComponentFixture<LinesComponent>;
+  let component: LinesComponent<any>;
+  let fixture: ComponentFixture<LinesComponent<any>>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
@@ -116,10 +116,9 @@ describe('LineChartComponent', () => {
     });
   });
 
-  describe('setChartScales', () => {
+  describe('setPropertiesFromRanges', () => {
     let xScaleTypeSpy: jasmine.Spy;
     let yScaleTypeSpy: jasmine.Spy;
-    let paddedDomainSpy: jasmine.Spy;
     beforeEach(() => {
       xScaleTypeSpy = jasmine.createSpy('scaleType').and.returnValue('xScale');
       yScaleTypeSpy = jasmine.createSpy('scaleType').and.returnValue('yScale');
@@ -141,27 +140,24 @@ describe('LineChartComponent', () => {
       component.chart = {
         updateScales: jasmine.createSpy('updateScales'),
       } as any;
-      paddedDomainSpy = spyOn(component, 'getPaddedDomain').and.returnValues(
-        [0, 1],
-        [0, 2]
-      );
+      spyOn(component, 'getPaddedDomain').and.returnValues([0, 1], [0, 2]);
     });
     it('calls x.scaleType once with the correct values', () => {
-      component.setChartScalesFromRanges(true);
+      component.setPropertiesFromRanges(true);
       expect(xScaleTypeSpy).toHaveBeenCalledOnceWith(
         [0, 1],
         component.ranges.x
       );
     });
     it('calls y.scaleType once with the correct values', () => {
-      component.setChartScalesFromRanges(true);
+      component.setPropertiesFromRanges(true);
       expect(yScaleTypeSpy).toHaveBeenCalledOnceWith(
         [0, 2],
         component.ranges.y
       );
     });
     it('calls updateScales on chart once', () => {
-      component.setChartScalesFromRanges(true);
+      component.setPropertiesFromRanges(true);
       expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
         x: 'xScale',
         y: 'yScale',

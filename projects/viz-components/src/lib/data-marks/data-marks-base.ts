@@ -66,11 +66,27 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
       ) {
         newObj[key] = this.deepCloneObject(value as Record<string, unknown>);
       } else if (typeof value === 'function') {
-        newObj[key] = value;
+        this.assignValue(newObj, key, value);
       } else {
-        newObj[key] = structuredClone(value);
+        this.structuredCloneValue(newObj, key, value);
       }
     });
     return newObj;
+  }
+
+  assignValue(
+    newObj: Record<string, unknown>,
+    key: string,
+    value: unknown
+  ): void {
+    newObj[key] = value;
+  }
+
+  structuredCloneValue(
+    newObj: Record<string, unknown>,
+    key: string,
+    value: unknown
+  ): void {
+    newObj[key] = structuredClone(value);
   }
 }

@@ -18,6 +18,9 @@ export abstract class MapLegendContent<T> {
   largerValueSpace: number;
   leftOffset: number;
 
+  abstract getValuesFromScale(): number[];
+
+  abstract getLeftOffset(values?: number[]): number;
   setValues(): void {
     let values;
     values = this.getValuesFromScale();
@@ -42,8 +45,6 @@ export abstract class MapLegendContent<T> {
     return values.map((d) => formatValue(d, this.config.valueFormat));
   }
 
-  abstract getValuesFromScale(): number[];
-
   setValueSpaces(values: number[]): void {
     this.startValueSpace = values[0].toString().length * 4;
     this.endValueSpace = values[values.length - 1].toString().length * 4;
@@ -53,6 +54,4 @@ export abstract class MapLegendContent<T> {
         : this.endValueSpace;
     this.leftOffset = this.getLeftOffset(values);
   }
-
-  abstract getLeftOffset(values?: number[]): number;
 }

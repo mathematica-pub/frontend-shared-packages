@@ -1,10 +1,11 @@
 import { MapLegendContent } from '../../map-legend/map-legend-content';
 
-export class MapLegendContentStub extends MapLegendContent {
+export class MapLegendContentStub<T> extends MapLegendContent<T> {
   getValuesFromScale(): number[] {
-    return [];
+    return [1, 12];
   }
+
   getLeftOffset(values?: number[]): number {
-    return 0;
+    return 12;
   }
 }

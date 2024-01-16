@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
@@ -6,8 +7,8 @@ import { StackedAreaComponent } from './stacked-area.component';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 describe('StackedAreaComponent', () => {
-  let component: StackedAreaComponent;
-  let fixture: ComponentFixture<StackedAreaComponent>;
+  let component: StackedAreaComponent<any>;
+  let fixture: ComponentFixture<StackedAreaComponent<any>>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {

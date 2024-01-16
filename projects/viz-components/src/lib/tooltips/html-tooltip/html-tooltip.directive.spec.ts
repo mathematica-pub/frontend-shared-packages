@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { UtilitiesService } from '../../core/services/utilities.service';
-import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
+import { DataMarksBaseStub } from '../../testing/stubs/data-marks-base.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfig } from './html-tooltip.config';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
@@ -25,7 +25,7 @@ describe('HtmlTooltipDirective', () => {
         HtmlTooltipDirective,
         {
           provide: DATA_MARKS,
-          useClass: DataMarks,
+          useClass: DataMarksBaseStub,
         },
         {
           provide: UtilitiesService,

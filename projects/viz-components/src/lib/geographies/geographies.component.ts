@@ -78,7 +78,9 @@ export class GeographiesComponent<
   }
 
   override initFromConfig(): void {
-    super.initFromConfig();
+    this.setConfig();
+    this.setPropertiesFromConfig();
+    this.setPropertiesFromRanges();
     this.drawMarks();
   }
 

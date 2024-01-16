@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ContinuousLegendComponent } from './continuous-legend.component';
 
 describe('ContinuousLegendComponent', () => {
-  let component: ContinuousLegendComponent;
-  let fixture: ComponentFixture<ContinuousLegendComponent>;
+  let component: ContinuousLegendComponent<any>;
+  let fixture: ComponentFixture<ContinuousLegendComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
