@@ -41,21 +41,23 @@ export abstract class XyDataMarksBase<T, U extends VicDataMarksConfig<T>>
   }
 
   subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntilDestroyed()).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (
-        this.scales &&
-        this.requiredScales.every((scale) => this.scales[scale])
-      ) {
-        this.resizeMarks();
-      }
-    });
+    this.chart.ranges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((ranges) => {
+        this.ranges = ranges;
+        if (
+          this.scales &&
+          this.requiredScales.every((scale) => this.scales[scale])
+        ) {
+          this.resizeMarks();
+        }
+      });
   }
 
   subscribeToScales(): void {
     this.chart.scales$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
         filter((scales) => !!scales)
       )
       .subscribe((scales): void => {

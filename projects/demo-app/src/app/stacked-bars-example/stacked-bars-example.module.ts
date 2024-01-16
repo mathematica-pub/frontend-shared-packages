@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import {
   VicChartModule,
   VicStackedBarsModule,
-  VicXQuantitativeAxisModule,
+  VicXOrdinalAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
-  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
 import { StackedBarsRoutingModule } from './stacked-bars-example-routing.module';
@@ -21,8 +21,8 @@ import { StackedBarsExampleComponent } from './stacked-bars-example.component';
     VicStackedBarsModule,
     VicXyChartModule,
     VicXyBackgroundModule,
-    VicYOrdinalAxisModule,
-    VicXQuantitativeAxisModule,
+    VicYQuantitativeAxisModule,
+    VicXOrdinalAxisModule,
     SharedModule,
   ],
 })

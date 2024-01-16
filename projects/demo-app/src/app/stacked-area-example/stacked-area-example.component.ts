@@ -42,6 +42,7 @@ export class StackedAreaExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
+    yAxisConfig.tickFormat = ',.0f';
     const dataConfig = new VicStackedAreaConfig<IndustryUnemploymentDatum>();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;

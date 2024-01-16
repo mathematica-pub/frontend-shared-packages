@@ -40,7 +40,7 @@ export class BarsHoverMoveDirective<
   setListenedElements(): void {
     this.bars.bars$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.bars.destroyRef),
         filter((barSels) => !!barSels)
       )
       .subscribe((barSels) => {

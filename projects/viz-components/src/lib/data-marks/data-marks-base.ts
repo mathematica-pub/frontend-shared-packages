@@ -1,4 +1,11 @@
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  inject,
+} from '@angular/core';
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
@@ -15,6 +22,7 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') userConfig: U;
   config: U;
+  destroyRef = inject(DestroyRef);
 
   abstract setPropertiesFromConfig(): void;
   abstract setPropertiesFromRanges(useTransition: boolean): void;

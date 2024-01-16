@@ -1,34 +1,24 @@
 <app-component-demo [folderName]="folderName" class="stacked-bars-example">
-  <span title>Bars</span>
+  <span title>Stacked Bars</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
-    <button mat-stroked-button (click)="changeMargin()"
-      >change margin size dynamically</button
-    >
     <vic-xy-chart
       [margin]="margin"
-      [height]="800"
+      [height]="600"
       [scaleChartWithContainerWidth]="{width: true, height: false}"
     >
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
         <svg:g
-          vic-x-quantitative-axis
+          vic-x-ordinal-axis
           [config]="vm.xAxisConfig"
-          side="top"
+          side="bottom"
         ></svg:g>
-        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
         <svg:g
-          vic-data-marks-bars
-          [config]="vm.dataConfig"
-          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
-          [vicBarsHoverEffects]="hoverEffects"
-          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
-        >
-          <vic-html-tooltip
-            [config]="(tooltipConfig$ | async)"
-            [template]="htmlTooltip"
-          ></vic-html-tooltip>
-        </svg:g>
+          vic-y-quantitative-axis
+          [config]="vm.yAxisConfig"
+          side="left"
+        ></svg:g>
+        <svg:g vic-data-marks-stacked-bars [config]="vm.dataConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   </ng-container>

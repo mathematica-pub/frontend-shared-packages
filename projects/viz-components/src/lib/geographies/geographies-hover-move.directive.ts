@@ -35,7 +35,7 @@ export class GeographiesHoverMoveDirective<
   setListenedElements(): void {
     this.geographies.dataGeographies$
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.geographies.destroyRef),
         filter((geoSels) => !!geoSels)
       )
       .subscribe((geoSels) => {

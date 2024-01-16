@@ -27,12 +27,14 @@ export abstract class MapDataMarksBase<T, U extends VicDataMarksConfig<T>>
   }
 
   subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntilDestroyed()).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (this.attributeDataScale && this.attributeDataConfig) {
-        this.resizeMarks();
-      }
-    });
+    this.chart.ranges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((ranges) => {
+        this.ranges = ranges;
+        if (this.attributeDataScale && this.attributeDataConfig) {
+          this.resizeMarks();
+        }
+      });
   }
 
   subscribeToAttributeScaleAndConfig(): void {
@@ -43,7 +45,7 @@ export abstract class MapDataMarksBase<T, U extends VicDataMarksConfig<T>>
 
     combineLatest(subscriptions)
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
         filter(([scale, config]) => !!scale && !!config)
       )
       .subscribe(([scale, config]) => {

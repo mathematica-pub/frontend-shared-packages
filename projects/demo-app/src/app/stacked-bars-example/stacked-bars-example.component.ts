@@ -24,10 +24,10 @@ interface ViewModel {
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
   margin: ElementSpacing = {
-    top: 36,
+    top: 8,
     right: 0,
-    bottom: 8,
-    left: 300,
+    bottom: 36,
+    left: 64,
   };
   folderName = 'stacked-bars-example';
 
@@ -47,6 +47,7 @@ export class StackedBarsExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
+    yAxisConfig.tickFormat = ',.0f';
     const dataConfig = new VicStackedBarsConfig<IndustryUnemploymentDatum>();
     dataConfig.data = yearlyData;
     dataConfig.dimensions = new VicVerticalBarsDimensionsConfig();

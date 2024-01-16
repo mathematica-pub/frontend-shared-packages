@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   Input,
   OnInit,
@@ -28,6 +29,7 @@ export class MapLegendComponent<T> implements OnInit {
   attributeDataConfig: VicAttributeDataDimensionConfig<T>;
   attributeDataScale: any;
   private chart = inject(MapChartComponent<T>);
+  destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.subscribeToAttributeScaleAndConfig();
@@ -41,7 +43,7 @@ export class MapLegendComponent<T> implements OnInit {
       this.chart.attributeDataConfig$,
     ])
       .pipe(
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
         filter(([scale, config]) => !!scale && !!config)
       )
       .subscribe(([scale, config]) => {
