@@ -26,17 +26,17 @@ import {
   Transition,
 } from 'd3';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ChartComponent, Ranges } from '../chart/chart.component';
+import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
+import { ColorUtilities } from '../shared/color-utilities.class';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
-import { ColorUtilities } from '../shared/color-utilities.class';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
 @Component({
@@ -321,8 +321,8 @@ export class BarsComponent
     return this.yScale(this.values.y[i]);
   }
 
-  setBarSizeAndFill(selection: any): any {
-    return selection
+  setBarSizeAndFill(selection: any): void {
+    selection
       .attr('width', (i: number) => this.getBarWidth(i))
       .attr('height', (i: number) => this.getBarHeight(i))
       .attr('fill', (i: number) =>
@@ -391,7 +391,7 @@ export class BarsComponent
     );
   }
 
-  drawBarLabels(transitionDuration): void {
+  drawBarLabels(transitionDuration: any): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;

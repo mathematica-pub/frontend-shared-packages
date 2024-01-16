@@ -1,9 +1,23 @@
 {
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.options": {
+    "extensions": [".ts", ".html"]
+  },
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html"
+  ],
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#e0fc8a",
     "titleBar.activeForeground": "#000000",
     "titleBar.inactiveBackground": "#e0fc8a",
     "titleBar.inactiveForeground": "#000000"
-  },
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
