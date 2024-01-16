@@ -39,6 +39,7 @@ export class NavbarComponent implements OnInit {
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sortYaml(yaml: any): any {
     const returnArray = Object.entries(yaml)
       .map((entry) => {

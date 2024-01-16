@@ -8,6 +8,7 @@ export class XyDataMarksBaseStub<T> extends XyDataMarksBase<
   override setPropertiesFromConfig(): void {
     return;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override setPropertiesFromRanges(useTransition: boolean): void {
     return;
   }

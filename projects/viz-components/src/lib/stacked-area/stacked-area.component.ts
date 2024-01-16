@@ -29,6 +29,8 @@ export const STACKED_AREA = new InjectionToken<StackedAreaComponent<unknown>>(
   'StackedAreaComponent'
 );
 
+type Key = string | number | Date;
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-stacked-area]',
@@ -44,7 +46,9 @@ export class StackedAreaComponent<T> extends XyDataMarksBase<
   T,
   VicStackedAreaConfig<T>
 > {
-  series: (SeriesPoint<InternMap<any, number>> & { i: number })[][];
+  series: (SeriesPoint<InternMap<Key, number>> & {
+    i: number;
+  })[][];
   area;
   areas;
 
@@ -96,7 +100,7 @@ export class StackedAreaComponent<T> extends XyDataMarksBase<
   }
 
   setSeries(): void {
-    const rolledUpData: InternMap<any, InternMap<any, number>> = rollup(
+    const rolledUpData: InternMap<Key, InternMap<Key, number>> = rollup(
       this.values.indicies,
       ([i]) => i,
       (i) => this.values.x[i],

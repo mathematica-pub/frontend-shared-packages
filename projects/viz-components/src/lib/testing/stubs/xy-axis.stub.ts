@@ -4,6 +4,7 @@ export class XyAxisStub extends XyAxis {
   setAxisFunction() {
     return;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setAxis(axisFunction: any): void {
     return;
   }
