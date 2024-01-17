@@ -318,7 +318,23 @@ export class BarsComponent
   }
 
   getBarY(i: number): number {
+    if (this.config.dimensions.ordinal === 'y') {
+      return this.getBarYOrdinal(i);
+    } else {
+      return this.getBarYQuantitative(i);
+    }
+  }
+
+  getBarYOrdinal(i: number): number {
     return this.yScale(this.values.y[i]);
+  }
+
+  getBarYQuantitative(i: number): number {
+    if (this.values.y[i] < 0) {
+      return this.yScale(0);
+    } else {
+      return this.yScale(this.values.y[i]);
+    }
   }
 
   setBarSizeAndFill(selection: any): void {
@@ -372,7 +388,7 @@ export class BarsComponent
     const origin = this.hasBarsWithNegativeValues
       ? 0
       : this.config.quantitative.domain[0];
-    return Math.abs(this.yScale(origin - this.values.y[i]));
+    return Math.abs(this.yScale(origin) - this.yScale(this.values.y[i]));
   }
 
   getBarPattern(i: number): string {
@@ -419,6 +435,9 @@ export class BarsComponent
     return selection
       .text((i: number) => this.getBarLabelText(i))
       .attr('text-anchor', (i: number) => this.getBarLabelTextAnchor(i))
+      .attr('dominant-baseline', (i: number) =>
+        this.getBarLabelDominantBaseline(i)
+      )
       .style('fill', (i: number) => this.getBarLabelColor(i))
       .attr('x', (i: number) => this.getBarLabelX(i))
       .attr('y', (i: number) => this.getBarLabelY(i));
@@ -457,6 +476,29 @@ export class BarsComponent
     }
   }
 
+  getBarLabelDominantBaseline(
+    i: number
+  ): 'hanging' | 'alphabetical' | 'central' {
+    if (this.config.dimensions.ordinal === 'x') {
+      const value = this.values[this.config.dimensions.quantitative][i];
+      if (value) {
+        const isPositiveValue = value >= 0;
+        const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
+          i,
+          isPositiveValue
+        );
+        if (
+          (isPositiveValue && !placeLabelOutsideBar) ||
+          (!isPositiveValue && placeLabelOutsideBar)
+        ) {
+          return 'hanging';
+        }
+      }
+      return 'alphabetical';
+    }
+    return 'central';
+  }
+
   getBarLabelColor(i: number): string {
     const isPositiveValue =
       this.values[this.config.dimensions.quantitative][i] >= 0;
@@ -480,14 +522,14 @@ export class BarsComponent
         this.ranges.y,
         this.yScale(this.values.y[i])
       );
-      return distance > this.getMaxBarLabelHeight(i);
+      return distance > this.getMaxBarLabelHeight();
     } else {
       distance = this.getBarToChartEdgeDistance(
         isPositiveValue,
         this.ranges.x,
         this.xScale(this.values.x[i])
       );
-      return distance > this.getMaxBarLabelWidth();
+      return distance > this.getMaxBarLabelWidth(i);
     }
   }
 
@@ -496,10 +538,12 @@ export class BarsComponent
     range: [number, number],
     barValue: number
   ): number {
-    return isPositiveValue ? range[1] - barValue : barValue - range[0];
+    return isPositiveValue
+      ? Math.abs(range[1] - barValue)
+      : Math.abs(barValue - range[0]);
   }
 
-  getMaxBarLabelHeight(i: number): number {
+  getMaxBarLabelWidth(i: number): number {
     const barLabelText = this.getBarLabelText(i);
     const characterPixelAllowance = 8; // TODO: future feature - create max width based on length of rendered d3 formatted data label
     return (
@@ -507,7 +551,7 @@ export class BarsComponent
     );
   }
 
-  getMaxBarLabelWidth(): number {
+  getMaxBarLabelHeight(): number {
     const defaultFontSize = 16;
     const defaultLineHeight = 1.2; // default described in https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
     return defaultFontSize * defaultLineHeight + this.config.labels.offset;
@@ -535,37 +579,51 @@ export class BarsComponent
       return this.config.labels.offset;
     }
     const isPositiveValue = value >= 0;
-    return this.barLabelFitsOutsideBar(i, isPositiveValue)
-      ? this.getBarLabelCoordinateOutsideBar(i, isPositiveValue)
-      : this.getBarLabelCoordinateInsideBar(i, isPositiveValue);
+    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
+      i,
+      isPositiveValue
+    );
+    return this.getBarLabelCoordinateWithOffset(
+      i,
+      isPositiveValue,
+      placeLabelOutsideBar
+    );
   }
 
-  getBarLabelCoordinateOutsideBar(i: number, isPositiveValue: boolean): number {
+  getBarLabelCoordinateWithOffset(
+    i: number,
+    isPositiveValue: boolean,
+    placeLabelOutsideBar: boolean
+  ): number {
     const origin = this.getBarLabelOrigin(i, isPositiveValue);
-    return isPositiveValue
-      ? origin + this.config.labels.offset
-      : origin - this.config.labels.offset;
-  }
 
-  getBarLabelCoordinateInsideBar(i: number, isPositiveValue: boolean): number {
-    const origin = this.getBarLabelOrigin(i, isPositiveValue);
-    return isPositiveValue ? origin - this.config.labels.offset : origin;
+    if (
+      (this.config.dimensions.ordinal === 'x' && placeLabelOutsideBar) ||
+      (this.config.dimensions.ordinal === 'y' && !placeLabelOutsideBar)
+    ) {
+      return isPositiveValue
+        ? origin - this.config.labels.offset
+        : origin + this.config.labels.offset;
+    } else {
+      return isPositiveValue
+        ? origin + this.config.labels.offset
+        : origin - this.config.labels.offset;
+    }
   }
 
   getBarLabelOrigin(i: number, isPositiveValue: boolean): number {
-    if (isPositiveValue) {
-      let barDimension: number;
-      if (this.config.dimensions.ordinal === 'x') {
-        barDimension = this.getBarHeightQuantitative(i);
+    if (this.config.dimensions.ordinal === 'x') {
+      if (isPositiveValue) {
+        return 0;
       } else {
-        barDimension = this.getBarWidthQuantitative(i);
+        const barDimension = this.getBarHeightQuantitative(i);
+        return !barDimension || isNaN(barDimension) ? 0 : barDimension;
       }
-      if (!barDimension || isNaN(barDimension)) {
-        barDimension = 0;
-      }
-      return barDimension;
     } else {
-      return 0;
+      if (isPositiveValue) {
+        const barDimension = this.getBarWidthQuantitative(i);
+        return !barDimension || isNaN(barDimension) ? 0 : barDimension;
+      } else return 0;
     }
   }
 

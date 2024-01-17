@@ -3,11 +3,11 @@ import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { ColorUtilities } from '../shared/color-utilities.class';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
 import { VicBarsConfig, VicBarsLabelsConfig } from './bars.config';
-import { ColorUtilities } from '../shared/color-utilities.class';
 
 describe('BarsComponent', () => {
   let component: BarsComponent;
@@ -605,18 +605,85 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarY()', () => {
+  describe('getBarY', () => {
+    beforeEach(() => {
+      spyOn(component, 'getBarYOrdinal').and.returnValue('ordinal' as any);
+      spyOn(component, 'getBarYQuantitative').and.returnValue(
+        'quantitative' as any
+      );
+      component.config = { dimensions: { ordinal: 'y' } } as any;
+    });
+    describe('y dimension is ordinal', () => {
+      it('calls getBarYOrdinal once with the correct value', () => {
+        component.getBarY(100);
+        expect(component.getBarYOrdinal).toHaveBeenCalledOnceWith(100);
+      });
+
+      it('does not call getBarYQuantitative', () => {
+        component.getBarY(100);
+        expect(component.getBarYQuantitative).not.toHaveBeenCalled();
+      });
+
+      it('returns the correct value', () => {
+        expect(component.getBarY(100)).toEqual('ordinal' as any);
+      });
+    });
+
+    describe('x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config.dimensions.ordinal = 'x';
+      });
+
+      it('calls getBarYQuantitative once with the correct value', () => {
+        component.getBarY(100);
+        expect(component.getBarYQuantitative).toHaveBeenCalledOnceWith(100);
+      });
+
+      it('does not call getBarYOrdinal', () => {
+        component.getBarY(100);
+        expect(component.getBarYOrdinal).not.toHaveBeenCalled();
+      });
+
+      it('returns the correct value', () => {
+        expect(component.getBarY(100)).toEqual('quantitative' as any);
+      });
+    });
+  });
+
+  describe('getBarYOrdinal', () => {
     beforeEach(() => {
       component.yScale = jasmine.createSpy('yScale').and.returnValue(50);
       component.values.y = [1, 2, 3];
     });
     it('calls yScale once and with the correct value', () => {
-      component.getBarY(2);
+      component.getBarYOrdinal(2);
       expect(component.yScale).toHaveBeenCalledOnceWith(3);
     });
 
     it('returns the correct value', () => {
-      expect(component.getBarY(2)).toEqual(50);
+      expect(component.getBarYOrdinal(2)).toEqual(50);
+    });
+  });
+
+  describe('getBarYQuantitative', () => {
+    beforeEach(() => {
+      component.yScale = jasmine.createSpy('yScale').and.returnValue(50);
+      component.values.y = [1, 2, 3];
+    });
+
+    it('calls yScale once with 0 if y value is less than zero', () => {
+      component.values.y = [-1, 2, 3];
+      component.getBarYQuantitative(0);
+      expect(component.yScale).toHaveBeenCalledOnceWith(0);
+    });
+
+    it('calls yScale once with the y value if y value is greater than zero', () => {
+      component.getBarYQuantitative(2);
+      expect(component.yScale).toHaveBeenCalledOnceWith(3);
+    });
+
+    it('returns the correct value', () => {
+      expect(component.getBarYQuantitative(0)).toEqual(50);
     });
   });
 
@@ -815,7 +882,9 @@ describe('BarsComponent', () => {
     describe('hasBarsWithNegativeValues is true', () => {
       it('calls yScale once and with the correct values', () => {
         component.getBarHeightQuantitative(2);
-        expect(component.yScale).toHaveBeenCalledOnceWith(-3);
+        expect(yScaleSpy).toHaveBeenCalledTimes(2);
+        expect(yScaleSpy.calls.all()[0].args[0]).toEqual(0);
+        expect(yScaleSpy.calls.all()[1].args[0]).toEqual(3);
       });
     });
 
@@ -823,12 +892,14 @@ describe('BarsComponent', () => {
       it('calls yScale once and with the correct value', () => {
         component.hasBarsWithNegativeValues = false;
         component.getBarHeightQuantitative(2);
-        expect(component.yScale).toHaveBeenCalledOnceWith(-1);
+        expect(yScaleSpy).toHaveBeenCalledTimes(2);
+        expect(yScaleSpy.calls.all()[0].args[0]).toEqual(2);
+        expect(yScaleSpy.calls.all()[1].args[0]).toEqual(3);
       });
     });
 
     it('returns the correct value', () => {
-      expect(component.getBarHeightQuantitative(2)).toEqual(50);
+      expect(component.getBarHeightQuantitative(2)).toEqual(0);
     });
   });
 
@@ -984,6 +1055,46 @@ describe('BarsComponent', () => {
     });
   });
 
+  describe('getBarLabelDominantBaseline', () => {
+    let barFitsOutsideSpy: jasmine.Spy;
+    beforeEach(() => {
+      component.config = {
+        dimensions: { ordinal: 'x', quantitative: 'y' },
+      } as any;
+      component.values.y = [1, 2, 3];
+      barFitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
+    });
+    describe('x dimension is ordinal', () => {
+      it('returns hanging if value is positive and bar label does not fit outside bar', () => {
+        barFitsOutsideSpy.and.returnValue(false);
+        expect(component.getBarLabelDominantBaseline(1)).toBe('hanging');
+      });
+      it('returns hanging if value is negative and bar label fits outside bar', () => {
+        component.values.y = [1, -2, 3];
+        barFitsOutsideSpy.and.returnValue(true);
+        expect(component.getBarLabelDominantBaseline(1)).toBe('hanging');
+      });
+      it('returns alphabetical if value is positive and bar label fits outside bar', () => {
+        barFitsOutsideSpy.and.returnValue(true);
+        expect(component.getBarLabelDominantBaseline(1)).toBe('alphabetical');
+      });
+      it('returns alphabetical if value is negative and bar label does not fit outside bar', () => {
+        component.values.y = [1, -2, 3];
+        barFitsOutsideSpy.and.returnValue(false);
+        expect(component.getBarLabelDominantBaseline(1)).toBe('alphabetical');
+      });
+      it('returns alphabetical if value is undefined', () => {
+        component.values.y = [1, null, 3];
+        expect(component.getBarLabelDominantBaseline(1)).toBe('alphabetical');
+      });
+    });
+
+    it('returns central if x dimension is not ordinal', () => {
+      component.config.dimensions.ordinal = 'y';
+      expect(component.getBarLabelDominantBaseline(1)).toEqual('central');
+    });
+  });
+
   describe('getBarLabelColor', () => {
     let barLabelFitsOutsideBarSpy: jasmine.Spy;
 
@@ -1031,7 +1142,7 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('barLabelFitsOutsideOfBar', () => {
+  describe('barLabelFitsOutsideBar', () => {
     let distanceSpy: jasmine.Spy;
     let maxHeightSpy: jasmine.Spy;
     let maxWidthSpy: jasmine.Spy;
@@ -1065,7 +1176,7 @@ describe('BarsComponent', () => {
       });
       it('calls getMaxBarLabelHeight once', () => {
         component.barLabelFitsOutsideBar(1, true);
-        expect(maxHeightSpy).toHaveBeenCalledOnceWith(1);
+        expect(maxHeightSpy).toHaveBeenCalledTimes(1);
       });
       it('returns true if the bar to chart edge space is greater than the max bar label height', () => {
         distanceSpy.and.returnValue(10);
@@ -1094,7 +1205,7 @@ describe('BarsComponent', () => {
       });
       it('calls getMaxBarLabelWidth once', () => {
         component.barLabelFitsOutsideBar(1, true);
-        expect(maxWidthSpy).toHaveBeenCalledTimes(1);
+        expect(maxWidthSpy).toHaveBeenCalledOnceWith(1);
       });
       it('returns true if the bar to chart edge space is greater than the max bar label width', () => {
         distanceSpy.and.returnValue(10);
@@ -1120,7 +1231,7 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getMaxBarLabelHeight', () => {
+  describe('getMaxBarLabelWidth', () => {
     beforeEach(() => {
       spyOn(component, 'getBarLabelText').and.returnValue('$2,000');
       component.config = {
@@ -1131,15 +1242,15 @@ describe('BarsComponent', () => {
     });
 
     it('calls getBarLabelText once', () => {
-      component.getMaxBarLabelHeight(1);
+      component.getMaxBarLabelWidth(1);
       expect(component.getBarLabelText).toHaveBeenCalledOnceWith(1);
     });
-    it('returns the max bar label height', () => {
-      expect(component.getMaxBarLabelHeight(1)).toBe(58);
+    it('returns the max bar label width', () => {
+      expect(component.getMaxBarLabelWidth(1)).toBe(58);
     });
   });
 
-  describe('getMaxBarLabelWidth', () => {
+  describe('getMaxBarLabelHeight', () => {
     beforeEach(() => {
       component.config = {
         labels: {
@@ -1147,8 +1258,8 @@ describe('BarsComponent', () => {
         },
       } as any;
     });
-    it('returns the max bar label width', () => {
-      expect(component.getMaxBarLabelWidth()).toBe(23.2);
+    it('returns the max bar label height', () => {
+      expect(component.getMaxBarLabelHeight()).toBe(23.2);
     });
   });
 
@@ -1233,11 +1344,9 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarLabelCoordinate', () => {
-    let barFitsSpy: jasmine.Spy;
     beforeEach(() => {
-      barFitsSpy = spyOn(component, 'barLabelFitsOutsideBar');
-      spyOn(component, 'getBarLabelCoordinateOutsideBar').and.returnValue(10);
-      spyOn(component, 'getBarLabelCoordinateInsideBar').and.returnValue(20);
+      spyOn(component, 'barLabelFitsOutsideBar').and.returnValue(true);
+      spyOn(component, 'getBarLabelCoordinateWithOffset').and.returnValue(20);
       component.config = {
         dimensions: {
           quantitative: 'x',
@@ -1253,72 +1362,92 @@ describe('BarsComponent', () => {
     });
     it('calls barLabelFitsOutsideBar once', () => {
       component.getBarLabelCoordinate(1);
-      expect(barFitsSpy).toHaveBeenCalledOnceWith(1, true);
-    });
-    it('calls getBarLabelCoordinateOutsideBar once if barLabelFitsOutsideBar returns true', () => {
-      barFitsSpy.and.returnValue(true);
-      component.getBarLabelCoordinate(1);
-      expect(
-        component.getBarLabelCoordinateOutsideBar
-      ).toHaveBeenCalledOnceWith(1, true);
-    });
-    it('returns the outside bar coordinate if barLabelFitsOutsideBar returns true', () => {
-      barFitsSpy.and.returnValue(true);
-      expect(component.getBarLabelCoordinate(1)).toBe(10);
-    });
-    it('calls getBarLabelCoordinateInsideBar once if barLabelFitsOutsideBar returns false', () => {
-      barFitsSpy.and.returnValue(false);
-      component.getBarLabelCoordinate(1);
-      expect(component.getBarLabelCoordinateInsideBar).toHaveBeenCalledOnceWith(
+      expect(component.barLabelFitsOutsideBar).toHaveBeenCalledOnceWith(
         1,
         true
       );
     });
-    it('returns the inside bar coordinate if barLabelFitsOutsideBar returns false', () => {
-      barFitsSpy.and.returnValue(false);
+    it('calls getBarLabelCoordinateWithOffset once', () => {
+      component.getBarLabelCoordinate(1);
+      expect(
+        component.getBarLabelCoordinateWithOffset
+      ).toHaveBeenCalledOnceWith(1, true, true);
+    });
+    it('returns the bar coordinate with offset', () => {
       expect(component.getBarLabelCoordinate(1)).toBe(20);
     });
   });
 
-  describe('getBarLabelCoordinateOutsideBar', () => {
+  describe('getBarLabelCoordinateWithOffset', () => {
     beforeEach(() => {
       spyOn(component, 'getBarLabelOrigin').and.returnValue(10);
       component.config = {
+        dimensions: {
+          ordinal: 'x',
+        },
         labels: {
           offset: 8,
         },
       } as any;
-      component.getBarLabelCoordinateOutsideBar(1, true);
     });
     it('calls getBarLabelOrigin once', () => {
+      component.getBarLabelCoordinateWithOffset(1, true, false);
       expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(1, true);
     });
-    it('returns the correct coordinate when the value is positive', () => {
-      expect(component.getBarLabelCoordinateOutsideBar(1, true)).toBe(18);
+    describe('if x dimension is ordinal', () => {
+      describe('bar label fits outside bar', () => {
+        it('returns the origin less offset if the value is positive', () => {
+          expect(component.getBarLabelCoordinateWithOffset(1, true, true)).toBe(
+            2
+          );
+        });
+        it('returns the origin plus offset if the value is negative', () => {
+          expect(
+            component.getBarLabelCoordinateWithOffset(1, false, true)
+          ).toBe(18);
+        });
+      });
+      describe('bar label does not fit outside bar', () => {
+        it('returns the origin plus offset if the value is positive', () => {
+          expect(
+            component.getBarLabelCoordinateWithOffset(1, true, false)
+          ).toBe(18);
+        });
+        it('returns the origin plus offset if the value is negative', () => {
+          expect(
+            component.getBarLabelCoordinateWithOffset(1, false, false)
+          ).toBe(2);
+        });
+      });
     });
-    it('returns the correct coordinate when the value is negative', () => {
-      expect(component.getBarLabelCoordinateOutsideBar(1, false)).toBe(2);
-    });
-  });
-
-  describe('getBarLabelCoordinateInsideBar', () => {
-    beforeEach(() => {
-      spyOn(component, 'getBarLabelOrigin').and.returnValue(10);
-      component.config = {
-        labels: {
-          offset: 8,
-        },
-      } as any;
-      component.getBarLabelCoordinateInsideBar(1, true);
-    });
-    it('calls getBarLabelOrigin once', () => {
-      expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(1, true);
-    });
-    it('returns the correct coordinate when the value is positive', () => {
-      expect(component.getBarLabelCoordinateInsideBar(1, true)).toBe(2);
-    });
-    it('returns the correct coordinate when the value is negative', () => {
-      expect(component.getBarLabelCoordinateInsideBar(1, false)).toBe(10);
+    describe('if y dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config.dimensions.ordinal = 'y';
+      });
+      describe('bar label does not fit outside bar', () => {
+        it('returns the origin less offset if the value is positive', () => {
+          expect(
+            component.getBarLabelCoordinateWithOffset(1, true, false)
+          ).toBe(2);
+        });
+        it('returns the origin plus offset if the value is negative', () => {
+          expect(
+            component.getBarLabelCoordinateWithOffset(1, false, false)
+          ).toBe(18);
+        });
+      });
+      describe('bar label fits outside bar', () => {
+        it('returns the origin plus offset if the value is positive', () => {
+          expect(component.getBarLabelCoordinateWithOffset(1, true, true)).toBe(
+            18
+          );
+        });
+        it('returns the origin plus offset if the value is negative', () => {
+          expect(
+            component.getBarLabelCoordinateWithOffset(1, false, true)
+          ).toBe(2);
+        });
+      });
     });
   });
 
@@ -1344,46 +1473,49 @@ describe('BarsComponent', () => {
       } as any;
     });
 
-    describe('when the value is positive', () => {
-      describe('x dimension is ordinal', () => {
+    describe('x dimension is ordinal', () => {
+      it('returns 0 if value is positive', () => {
+        expect(component.getBarLabelOrigin(1, true)).toBe(0);
+      });
+
+      describe('value is negative', () => {
         it('calls getBarHeightQuantitative once', () => {
-          component.getBarLabelOrigin(1, true);
-          expect(heightQuantSpy).toHaveBeenCalledTimes(1);
+          component.getBarLabelOrigin(1, false);
+          expect(heightQuantSpy).toHaveBeenCalledOnceWith(1);
+        });
+        it('returns 0 if getBarHeightQuantitative does not return a number', () => {
+          heightQuantSpy.and.returnValue(null as any);
+          expect(component.getBarLabelOrigin(1, false)).toBe(0);
         });
         it('returns the correct value if getBarHeightQuantitative returns a number', () => {
           heightQuantSpy.and.returnValue(50);
-          expect(component.getBarLabelOrigin(1, true)).toBe(50);
-        });
-
-        it('returns 0 if getBarHeightQuantitative does not return a number', () => {
-          heightQuantSpy.and.returnValue(null as any);
-          expect(component.getBarLabelOrigin(1, true)).toBe(0);
-        });
-      });
-
-      describe('x dimension is not ordinal', () => {
-        beforeEach(() => {
-          component.config.dimensions.ordinal = 'y';
-        });
-        it('calls getBarWidthQuantitative once', () => {
-          component.getBarLabelOrigin(1, true);
-          expect(component.getBarWidthQuantitative).toHaveBeenCalledOnceWith(1);
-        });
-
-        it('returns the correct value if getBarWidthQuantitative returns a number', () => {
-          widthQuantSpy.and.returnValue(50);
-          expect(component.getBarLabelOrigin(1, true)).toBe(50);
-        });
-
-        it('returns 0 if barWidthQuantitative is not a number', () => {
-          widthQuantSpy.and.returnValue(null as any);
-          expect(component.getBarLabelOrigin(1, true)).toBe(0);
+          expect(component.getBarLabelOrigin(1, false)).toBe(50);
         });
       });
     });
 
-    it('returns 0 if the value is negative', () => {
-      expect(component.getBarLabelOrigin(1, false)).toBe(0);
+    describe('x dimension is not ordinal', () => {
+      beforeEach(() => {
+        component.config.dimensions.ordinal = 'y';
+      });
+
+      describe('value is positive', () => {
+        it('calls getBarWidthQuantitative once', () => {
+          component.getBarLabelOrigin(1, true);
+          expect(widthQuantSpy).toHaveBeenCalledOnceWith(1);
+        });
+        it('returns 0 if getBarWidthQuantitative does not return a number', () => {
+          widthQuantSpy.and.returnValue(null as any);
+          expect(component.getBarLabelOrigin(1, true)).toBe(0);
+        });
+        it('returns the correct value if getBarWidthQuantitative returns a number', () => {
+          widthQuantSpy.and.returnValue(50);
+          expect(component.getBarLabelOrigin(1, true)).toBe(50);
+        });
+      });
+      it('returns 0 if value is negative', () => {
+        expect(component.getBarLabelOrigin(1, false)).toBe(0);
+      });
     });
   });
 });

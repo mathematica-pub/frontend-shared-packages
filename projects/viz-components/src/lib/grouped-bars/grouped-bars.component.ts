@@ -81,13 +81,13 @@ export class GroupedBarsComponent extends BarsComponent {
     }
   }
 
-  getBarYOrdinal(i: number): number {
+  override getBarYOrdinal(i: number): number {
     return (
       this.yScale(this.values.y[i]) + this.groupScale(this.values.category[i])
     );
   }
 
-  getBarYQuantitative(i: number): number {
+  override getBarYQuantitative(i: number): number {
     return this.yScale(this.values.y[i]);
   }
 
