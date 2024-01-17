@@ -1,6 +1,6 @@
 import { Directive, Input } from '@angular/core';
 import { axisBottom, axisTop } from 'd3';
-import { map, Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { XyAxis } from '../xy-axis';
@@ -48,7 +48,12 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     initNumTicks(): number {
-      return this.chart.width / 40; // default in D3 example
+      const d3ExampleDefault = this.chart.width / 40;
+      if (d3ExampleDefault < 1) {
+        return 1;
+      } else {
+        return Math.floor(d3ExampleDefault);
+      }
     }
   }
 
