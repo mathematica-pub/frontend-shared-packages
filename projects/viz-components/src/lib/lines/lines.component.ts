@@ -96,12 +96,6 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
     return select(this.markersRef.nativeElement).selectAll('circle');
   }
 
-  /**
-   * setPropertiesFromConfig method
-   *
-   * This method handles an update to the config object. Methods called from here should not
-   * requires ranges or scales. This method is called on init and on config update.
-   */
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initDomains();
@@ -197,16 +191,6 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
     this.markersKeyFunction = (d) => (d as Marker).key;
   }
 
-  /**
-   * setChartScalesFromRanges method
-   *
-   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
-   * to create the scales should be called from this method. Methods called from here should not
-   * require scales.
-   *
-   * This method is called on init, after config-based properties are set, and also on
-   * resize/when ranges change.
-   */
   setChartScalesFromRanges(useTransition: boolean): void {
     const paddedXDomain = this.getPaddedDomain('x');
     const paddedYDomain = this.getPaddedDomain('y');
@@ -235,15 +219,6 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
     }
   }
 
-  /**
-   * drawMarks method
-   *
-   * All methods that require scales should be called from drawMarks. Methods
-   * called from here should not scale.domain() or scale.range() to obtain those values
-   * rather than this.config.dimension.domain or this.ranges.dimension.
-   *
-   * This method is called when scales emit from ChartComponent.
-   */
   drawMarks(): void {
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
