@@ -54,7 +54,12 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     initNumTicks(): number {
-      return this.chart.width / 40; // default in D3 example
+      const d3ExampleDefault = this.chart.width / 40;
+      if (d3ExampleDefault < 1) {
+        return 1;
+      } else {
+        return Math.floor(d3ExampleDefault);
+      }
     }
   }
 
