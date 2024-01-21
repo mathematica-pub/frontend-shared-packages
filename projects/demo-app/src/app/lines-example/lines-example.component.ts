@@ -27,9 +27,12 @@ import {
   VicColumnConfig,
   VicDataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
+import {
+  VicLinesAltConfig,
+  VicLinesConfigBuilder,
+} from 'projects/viz-components/src/lib/lines/lines-alt.config';
 import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
 import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
@@ -41,7 +44,7 @@ import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
-  dataConfig: VicLinesConfig<MetroUnemploymentDatum>;
+  dataConfig: VicLinesConfigBuilder<MetroUnemploymentDatum>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
   labels: string[];
@@ -93,17 +96,17 @@ export class LinesExampleComponent implements OnInit {
     ),
     new LinesHoverMoveEmitTooltipData(),
   ];
-  clickEffects: EventEffect<LinesClickDirective<MetroUnemploymentDatum>>[] = [
-    new LinesClickEmitTooltipDataPauseHoverMoveEffects(),
-  ];
+  clickEffects: EventEffect<
+    LinesClickDirective<MetroUnemploymentDatum, any>
+  >[] = [new LinesClickEmitTooltipDataPauseHoverMoveEffects()];
   includeFiles = includeFiles;
   folderName = 'lines-example';
   tooltipEvent: BehaviorSubject<'hover' | 'click'> = new BehaviorSubject<
     'hover' | 'click'
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
-
   private imageService = inject(VicImageService);
+
   constructor(
     private dataService: DataService,
     public downloadService: VicExportDataService
@@ -124,15 +127,18 @@ export class LinesExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicLinesConfig<MetroUnemploymentDatum>();
-    dataConfig.data = data;
-    dataConfig.x.valueAccessor = (d) => d.date;
-    dataConfig.x.valueFormat = '%a %B %d %Y';
-    dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.division;
-    dataConfig.pointMarkers.radius = 2;
+    const linesConfig = new VicLinesAltConfig<MetroUnemploymentDatum>();
+    // linesConfig.data = data;
+    linesConfig.x.valueAccessor = (d) => d.date;
+    linesConfig.x.valueFormat = '%a %B %d %Y';
+    linesConfig.y.valueAccessor = (d) => d.value;
+    linesConfig.category.valueAccessor = (d) => d.division;
+    linesConfig.pointMarkers.radius = 2;
+    linesConfig.y.domainPadding = new VicPixelDomainPaddingConfig();
+    const dataConfig = new VicLinesConfigBuilder<MetroUnemploymentDatum>()
+      .create(linesConfig)
+      .data(data);
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    dataConfig.y.domainPadding = new VicPixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,

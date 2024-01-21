@@ -49,7 +49,7 @@
               side="left"
             ></svg:g>
             <svg:g
-              vic-data-marks-lines
+              vic-data-marks-lines-alt
               [config]="vm.dataConfig"
               [vicLinesHoverMoveEffects]="hoverEffects"
               (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
@@ -79,8 +79,8 @@
               [config]="vm.yAxisConfig"
               side="left"
             ></svg:g>
-            <svg:g
-              vic-data-marks-lines
+            <!-- <svg:g
+              vic-data-marks-lines-alt
               [config]="vm.dataConfig"
               [vicLinesHoverMoveEffects]="hoverEffects"
               (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event, 'hover')"
@@ -89,7 +89,8 @@
               (vicLinesChartClickOutput)="updateTooltipForNewOutput($event, 'click')"
               [vicLinesInputEffects]="[highlightLineForLabelEffect]"
               [vicLinesInputEvent$]="chartInputEvent$"
-            >
+            > -->
+            <svg:g vic-data-marks-lines-alt [config]="vm.dataConfig">
               <vic-html-tooltip
                 [config]="(tooltipConfig$ | async)"
                 [template]="htmlTooltip"
