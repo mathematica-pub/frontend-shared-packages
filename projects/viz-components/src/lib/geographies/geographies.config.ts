@@ -135,25 +135,22 @@ export class VicGeographyLabelConfig {
    * bounds of the geography, we use the dark text color.
    * DarkTextColor and LightTextColor must be in rgb notation
    */
-  useBinaryLabelFill(
-    options: {
-      darkTextColor?: CSSType.Property.Fill;
-      lightTextColor?: CSSType.Property.Fill;
-      darkFontWeight?: CSSType.Property.FontWeight;
-      lightFontWeight?: CSSType.Property.FontWeight;
-    } = {
-      darkTextColor: 'rgb(0,0,0)',
-      lightTextColor: 'rgb(255,255,255)',
-      darkFontWeight: 'bold',
-      lightFontWeight: 'normal',
-    }
-  ): VicGeographyLabelConfig {
+  useBinaryLabelFill(options?: {
+    darkTextColor?: CSSType.Property.Fill;
+    lightTextColor?: CSSType.Property.Fill;
+    darkFontWeight?: CSSType.Property.FontWeight;
+    lightFontWeight?: CSSType.Property.FontWeight;
+  }): VicGeographyLabelConfig {
+    options.darkTextColor = options.darkTextColor ?? 'rgb(0,0,0)';
+    options.lightTextColor = options.lightTextColor ?? 'rgb(255,255,255)';
+    options.darkFontWeight = options.darkFontWeight ?? 'bold';
+    options.lightFontWeight = options.lightFontWeight ?? 'normal';
     this.labelFillFunction = (d, geographyFill) => {
       return VicGeographiesUtils.binaryLabelFill(
         d,
         geographyFill,
-        options.lightTextColor,
         options.darkTextColor,
+        options.lightTextColor,
         this
       );
     };

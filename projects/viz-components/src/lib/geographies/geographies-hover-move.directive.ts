@@ -52,8 +52,7 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    const d = select(event.target as Element).datum() as Feature;
-    this.feature = d;
+    this.feature = select(event.target as Element).datum() as Feature;
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }

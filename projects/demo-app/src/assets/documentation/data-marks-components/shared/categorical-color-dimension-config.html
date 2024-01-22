@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -166,7 +166,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:83</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:40</a></div>
                         </td>
                     </tr>
 
@@ -193,7 +193,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="82" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:82</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/data-marks/data-dimension.config.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -227,7 +227,7 @@
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/shared/data-dimension-config#source" target="_self" >DataDimensionConfig:81</a></code>
+                                <div class="io-line">Defined in         <code><a href="documentation/data-marks-components/shared/data-dimension-config#source" target="_self" >DataDimensionConfig:38</a></code>
 </div>
                         </td>
                     </tr>
@@ -333,66 +333,23 @@ export class QuantitativeDimensionConfig extends DataDimensionConfig {
 
   constructor(init?: Partial&lt;QuantitativeDimensionConfig&gt;) {
     super();
+    this.domainPadding &#x3D; new DomainPaddingConfig();
     Object.assign(this, init);
   }
 }
 
-export class BaseDomainPaddingConfig {
-  sigDigits: (d: any) &#x3D;&gt; number;
-  constructor(init?: Partial&lt;BaseDomainPaddingConfig&gt;) {
-    this.sigDigits &#x3D; () &#x3D;&gt; 1;
+export class DomainPaddingConfig {
+  type: &#x27;round&#x27; | &#x27;percent&#x27; | &#x27;none&#x27;;
+  sigDigits: number;
+  percent: number;
+
+  constructor(init?: Partial&lt;DomainPaddingConfig&gt;) {
+    this.type &#x3D; &#x27;round&#x27;;
+    this.sigDigits &#x3D; 2;
+    this.percent &#x3D; 0.1;
     Object.assign(this, init);
   }
 }
-
-export class RoundUpDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: &#x27;roundUp&#x27; &#x3D; &#x27;roundUp&#x27;;
-
-  constructor(init?: Partial&lt;RoundUpDomainPaddingConfig&gt;) {
-    super();
-    Object.assign(this, init);
-  }
-}
-
-export class RoundUpToIntervalDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: &#x27;roundInterval&#x27; &#x3D; &#x27;roundInterval&#x27;;
-  interval: (maxValue: number) &#x3D;&gt; number;
-
-  constructor(init?: Partial&lt;RoundUpToIntervalDomainPaddingConfig&gt;) {
-    super();
-    this.interval &#x3D; () &#x3D;&gt; 1;
-    Object.assign(this, init);
-  }
-}
-
-export class PercentOverDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: &#x27;percentOver&#x27; &#x3D; &#x27;percentOver&#x27;;
-  percentOver: number;
-
-  constructor(init?: Partial&lt;PercentOverDomainPaddingConfig&gt;) {
-    super();
-    this.percentOver &#x3D; 0.1;
-    Object.assign(this, init);
-  }
-}
-
-export class PixelDomainPaddingConfig extends BaseDomainPaddingConfig {
-  type: &#x27;numPixels&#x27; &#x3D; &#x27;numPixels&#x27;;
-  numPixels: number;
-
-  constructor(init?: Partial&lt;PixelDomainPaddingConfig&gt;) {
-    super();
-    this.numPixels &#x3D; 40;
-    Object.assign(this, init);
-  }
-}
-
-export type DomainPaddingConfig &#x3D;
-  | RoundUpDomainPaddingConfig
-  | RoundUpToIntervalDomainPaddingConfig
-  | PercentOverDomainPaddingConfig
-  | PixelDomainPaddingConfig;
-
 export class CategoricalColorDimensionConfig extends DataDimensionConfig {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) &#x3D;&gt; any;

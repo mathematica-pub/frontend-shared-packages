@@ -9,8 +9,8 @@ export class VicGeographiesUtils {
   public static binaryLabelFill(
     d: Feature<MultiPolygon, any>,
     geographyFill: CSSType.Property.Fill,
-    lightTextColor: CSSType.Property.Fill,
     darkTextColor: CSSType.Property.Fill,
+    lightTextColor: CSSType.Property.Fill,
     config: VicGeographyLabelConfig
   ): string {
     const point = config.labelPositionFunction(d, geoPath(), (x) => x);
