@@ -13,7 +13,7 @@ import {
 import { SharedModule } from '../shared/shared.module';
 import { BarsRoutingModule } from './bars-example-routing.module';
 import { BarsExampleComponent } from './bars-example.component';
-import { MatButtonModule } from '@angular/material/button';
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 @NgModule({
   declarations: [BarsExampleComponent],

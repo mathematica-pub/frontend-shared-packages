@@ -21,6 +21,13 @@ export class VicQuantitativeDimensionConfig extends VicDataDimensionConfig {
   }
 }
 
+export enum DomainPadding {
+  roundUp = 'roundUp',
+  roundInterval = 'roundInterval',
+  percentOver = 'percentOver',
+  numPixels = 'numPixels',
+}
+
 export class VicBaseDomainPaddingConfig {
   sigDigits: (d: any) => number;
   constructor(init?: Partial<VicBaseDomainPaddingConfig>) {
@@ -30,7 +37,7 @@ export class VicBaseDomainPaddingConfig {
 }
 
 export class VicRoundUpDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: 'roundUp' = 'roundUp';
+  type: DomainPadding.roundUp = DomainPadding.roundUp;
 
   constructor(init?: Partial<VicRoundUpDomainPaddingConfig>) {
     super();
@@ -39,7 +46,7 @@ export class VicRoundUpDomainPaddingConfig extends VicBaseDomainPaddingConfig {
 }
 
 export class VicRoundUpToIntervalDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: 'roundInterval' = 'roundInterval';
+  type: DomainPadding.roundInterval = DomainPadding.roundInterval;
   interval: (maxValue: number) => number;
 
   constructor(init?: Partial<VicRoundUpToIntervalDomainPaddingConfig>) {
@@ -50,7 +57,7 @@ export class VicRoundUpToIntervalDomainPaddingConfig extends VicBaseDomainPaddin
 }
 
 export class VicPercentOverDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: 'percentOver' = 'percentOver';
+  type: DomainPadding.percentOver = DomainPadding.percentOver;
   percentOver: number;
 
   constructor(init?: Partial<VicPercentOverDomainPaddingConfig>) {
@@ -61,7 +68,7 @@ export class VicPercentOverDomainPaddingConfig extends VicBaseDomainPaddingConfi
 }
 
 export class VicPixelDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: 'numPixels' = 'numPixels';
+  type: DomainPadding.numPixels = DomainPadding.numPixels;
   numPixels: number;
 
   constructor(init?: Partial<VicPixelDomainPaddingConfig>) {
