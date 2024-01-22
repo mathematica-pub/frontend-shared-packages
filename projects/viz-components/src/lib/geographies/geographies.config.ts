@@ -21,7 +21,8 @@ import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
-
+import type * as CSSType from 'csstype';
+import { VicGeographiesUtils } from './geographies-utils.class';
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
@@ -95,17 +96,11 @@ export class VicGeographyLabelConfig {
    */
   labelTextFunction: (d: Feature) => string;
 
-  /**
-   * Under the hood, if the label is within the bounds of the geography (e.g. in the US, everything except HI), we check the contrast of
-   * the light & dark color against the fill of the geography, and use the one that has the best contrast ratio. If the label is not in the
-   * bounds of the geography, we use the dark text color.
-   * Must be in rgb notation
-   */
-  darkTextColor = 'rgb(0,0,0)';
-  lightTextColor = 'rgb(255,255,255)';
-
-  darkTextWeight: string;
-  lightTextWeight: string;
+  textAnchor: CSSType.Property.TextAnchor;
+  alignmentBaseline: CSSType.Property.AlignmentBaseline;
+  dominantBaseline: CSSType.Property.DominantBaseline;
+  cursor: CSSType.Property.Cursor;
+  pointerEvents: CSSType.Property.PointerEvents;
 
   labelPositionFunction: (
     d: Feature<MultiPolygon, any>,
@@ -116,15 +111,74 @@ export class VicGeographyLabelConfig {
     path: GeoPath<any, GeoPermissibleObjects>
   ) => path.centroid(d);
 
+  labelFillFunction: (
+    d: Feature<MultiPolygon, any>,
+    geographyFill: CSSType.Property.Fill
+  ) => CSSType.Property.Fill;
+
+  labelFontWeightFunction: (
+    d: Feature<MultiPolygon, any>,
+    geographyFill: CSSType.Property.Fill
+  ) => CSSType.Property.FontWeight;
   /**
    * fontScale = scaleLinear().domain([smallestChartSize, largestChartSize]).range([smallestChartSize, largestFontSize])
    * font-size = fontScale(actualChartWidth)
    */
-  fontScale: ScaleLinear<number, number, never> = scaleLinear()
-    .domain([0, 800])
-    .range([0, 17]);
+  fontScale: ScaleLinear<number, number, never>;
+
+  /**
+   * Fluent Interface Functions: https://samuelkollat.hashnode.dev/beyond-basics-streamline-your-typescript-code-with-fluent-interface-design-pattern
+   *
+   *
+   * If the label is within the bounds of the geography (e.g. in the US, everything except HI), we check the contrast of
+   * the light & dark color against the fill of the geography, and use the one that has the best contrast ratio. If the label is not in the
+   * bounds of the geography, we use the dark text color.
+   * DarkTextColor and LightTextColor must be in rgb notation
+   */
+  useBinaryLabelFill(
+    options: {
+      darkTextColor?: CSSType.Property.Fill;
+      lightTextColor?: CSSType.Property.Fill;
+      darkFontWeight?: CSSType.Property.FontWeight;
+      lightFontWeight?: CSSType.Property.FontWeight;
+    } = {
+      darkTextColor: 'rgb(0,0,0)',
+      lightTextColor: 'rgb(255,255,255)',
+      darkFontWeight: 'bold',
+      lightFontWeight: 'normal',
+    }
+  ): VicGeographyLabelConfig {
+    this.labelFillFunction = (d, geographyFill) => {
+      return VicGeographiesUtils.binaryLabelFill(
+        d,
+        geographyFill,
+        options.lightTextColor,
+        options.darkTextColor,
+        this
+      );
+    };
+
+    this.labelFontWeightFunction = (d, geographyFill) => {
+      return VicGeographiesUtils.binaryLabelFontWeight(
+        d,
+        geographyFill,
+        options.darkTextColor,
+        options.lightTextColor,
+        options.darkFontWeight,
+        options.lightFontWeight,
+        this
+      );
+    };
+    return this;
+  }
 
   constructor(init?: Partial<VicGeographyLabelConfig>) {
+    this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
+    this.textAnchor = 'middle';
+    this.alignmentBaseline = 'middle';
+    this.dominantBaseline = 'middle';
+    this.cursor = 'default';
+    this.pointerEvents = 'none';
     Object.assign(this, init);
   }
 }

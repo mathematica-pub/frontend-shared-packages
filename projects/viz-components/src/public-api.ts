@@ -43,6 +43,7 @@ export * from './lib/events/hover.directive';
 export * from './lib/events/input-event.directive';
 export * from './lib/export-data/export-data.service';
 export * from './lib/export-data/data-export.config';
+export * from './lib/geographies/geographies-utils.class';
 export * from './lib/geographies/geographies-hover-effects';
 export * from './lib/geographies/geographies-hover-move-effects';
 export * from './lib/geographies/geographies-hover-move.directive';

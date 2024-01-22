@@ -18,6 +18,7 @@ import {
   GeographiesHoverEmitTooltipData,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
+  VicGeographiesUtils,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
@@ -33,9 +34,6 @@ import { colors } from '../core/constants/colors.constants';
 import { StateIncomeDatum } from '../core/models/data';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
-import { Feature, MultiPolygon } from 'geojson';
-import { maxIndex, polygonArea } from 'd3';
-import polylabel from 'polylabel';
 
 type ScaleType =
   | 'none'
@@ -157,52 +155,12 @@ export class GeographiesExampleComponent implements OnInit {
       !smallSquareStates.includes(d.properties['id']);
     labelConfig.labelPositionFunction = (d, path, projection) =>
       polylabelStates.includes(d.properties['id'])
-        ? this.getPolyLabelCentroid(d, projection)
+        ? VicGeographiesUtils.getPolyLabelCentroid(d, projection)
         : d.properties['id'] == 'HI'
-        ? this.getHawaiiCentroid(d, projection)
+        ? VicGeographiesUtils.getHawaiiCentroid(d, projection)
         : path.centroid(d);
-    labelConfig.darkTextColor = 'rgb(22,80,225)';
+    labelConfig.useBinaryLabelFill({ darkTextColor: 'rgb(22,80,225)' });
     return labelConfig;
-  }
-
-  getPolyLabelCentroid(
-    feature: Feature<MultiPolygon, any>,
-    projection: any
-  ): [number, number] {
-    const hasMultiPolys = feature.geometry.coordinates.length > 1;
-    const largestIndex = !hasMultiPolys
-      ? 0
-      : maxIndex(
-          feature.geometry.coordinates.map((polygon) => {
-            return polygonArea(polygon[0] as [number, number][]);
-          })
-        );
-    const largestPolygon = feature.geometry.coordinates[largestIndex];
-    const projectedPoints = !hasMultiPolys
-      ? (largestPolygon.map(projection) as [number, number][])
-      : (largestPolygon[0].map(projection) as [number, number][]);
-    return polylabel([projectedPoints]);
-  }
-
-  getHawaiiCentroid(
-    feature: Feature<MultiPolygon, any>,
-    projection: any
-  ): [number, number] {
-    const startPolygon = feature.geometry.coordinates[0][0].map(projection) as [
-      number,
-      number
-    ][];
-    const endPolygon = feature.geometry.coordinates[
-      feature.geometry.coordinates.length - 1
-    ][0].map(projection) as [number, number][];
-
-    const hawaiiApproxStartCoords = startPolygon[0];
-    const hawaiiApproxEndCoords = endPolygon[0];
-    return [
-      hawaiiApproxStartCoords[0] +
-        (hawaiiApproxEndCoords[0] - hawaiiApproxStartCoords[0]) / 2,
-      hawaiiApproxStartCoords[1],
-    ];
   }
 
   getDataGeographyConfig(

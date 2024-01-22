@@ -12,12 +12,10 @@ import {
 } from '@angular/core';
 import {
   extent,
-  geoContains,
   geoPath,
   InternMap,
   InternSet,
   map,
-  polygonContains,
   range,
   scaleLinear,
   select,
@@ -39,7 +37,7 @@ import {
   VicNoDataGeographyConfig,
 } from './geographies.config';
 import { Feature, MultiPolygon } from 'geojson';
-import { ColorUtilities } from '../shared/color-utilities.class';
+import type * as CSSType from 'csstype';
 
 export class MapDataValues {
   attributeDataValues: any[];
@@ -511,11 +509,11 @@ export class GeographiesComponent
           enter
             .append('text')
             .attr('class', 'vic-geography-label')
-            .attr('text-anchor', 'middle')
-            .attr('alignment-baseline', 'middle')
-            .attr('dominant-baseline', 'middle')
-            .style('cursor', 'default')
-            .attr('pointer-events', 'none')
+            .attr('text-anchor', config.textAnchor)
+            .attr('alignment-baseline', config.alignmentBaseline)
+            .attr('dominant-baseline', config.dominantBaseline)
+            .style('cursor', config.cursor)
+            .attr('pointer-events', config.pointerEvents)
             .text(config.labelTextFunction)
             .attr(
               'y',
@@ -548,27 +546,16 @@ export class GeographiesComponent
   getLabelFill(
     d: Feature<MultiPolygon, any>,
     config: VicGeographyLabelConfig
-  ): string {
-    const point = config.labelPositionFunction(d, geoPath(), (x) => x);
-    if (geoContains(d, point)) {
-      const pathColor = this.getFill(d); // doesn't address pattern fills!
-      return ColorUtilities.getContrastRatio(config.lightTextColor, pathColor) >
-        ColorUtilities.getContrastRatio(config.darkTextColor, pathColor)
-        ? config.lightTextColor
-        : config.darkTextColor;
-    }
-    return config.darkTextColor;
+  ): CSSType.Property.Fill {
+    const pathColor = this.getFill(d); // doesn't address pattern fills!
+    return config.labelFillFunction(d, pathColor);
   }
 
   getLabelFontWeight(
     d: Feature<MultiPolygon, any>,
     config: VicGeographyLabelConfig
-  ): string {
-    const fontColor = this.getLabelFill(d, config);
-    if (fontColor === config.darkTextColor) {
-      return '600';
-    } else {
-      return '400';
-    }
+  ): CSSType.Property.FontWeight {
+    const pathColor = this.getFill(d);
+    return config.labelFontWeightFunction(d, pathColor);
   }
 }
