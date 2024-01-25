@@ -1,6 +1,7 @@
 import { axisBottom, axisTop } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
+import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
@@ -11,7 +12,7 @@ describe('the XAxis mixin', () => {
 
   beforeEach(() => {
     chart = new XyChartComponentStub();
-    abstractClass = new XAxisStub(chart as any);
+    abstractClass = new XAxisStub(chart as any, new DestroyRefStub());
     testRanges = { x: [0, 10], y: [20, 50] } as Ranges;
   });
 
@@ -93,7 +94,7 @@ describe('the XAxis mixin', () => {
         .args[0].pipe(take(1))
         .subscribe((scale) => {
           expect(scale).toEqual({
-            x: 'hello',
+            scale: 'hello',
             useTransition: false,
           });
         });

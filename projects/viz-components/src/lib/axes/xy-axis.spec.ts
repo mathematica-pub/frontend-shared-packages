@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { of } from 'rxjs';
+import { DestroyRefStub } from '../testing/stubs/core/destroy-ref.stub';
 import { XyAxisStub } from '../testing/stubs/xy-axis.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 
@@ -9,7 +10,7 @@ describe('the XyAxis abstract class', () => {
 
   beforeEach(() => {
     chart = new XyChartComponentStub();
-    abstractClass = new XyAxisStub(chart as any);
+    abstractClass = new XyAxisStub(chart as any, new DestroyRefStub());
   });
 
   describe('ngOnInit', () => {
@@ -39,7 +40,7 @@ describe('the XyAxis abstract class', () => {
       spyOn(abstractClass, 'onScaleUpdate');
     });
     it('calls onScaleUpdate with the correct values', () => {
-      const scale$ = of({ useTransition: false, x: 'scale' } as any);
+      const scale$ = of({ useTransition: false, scale: 'scale' } as any);
       abstractClass.subscribeToScale(scale$);
       expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(
         'scale' as any,
@@ -56,21 +57,17 @@ describe('the XyAxis abstract class', () => {
       abstractClass.chart = { transitionDuration: 500 } as any;
       curr = { range: () => [0, 1] };
     });
-    it('sets transitionDuration to 0 if useTransition is false', () => {
-      abstractClass.onScaleUpdate(curr, false);
-      expect(abstractClass.transitionDuration).toEqual(0);
-    });
-    it('sets transitionDuration to the chart transitionDuration if useTransition is true', () => {
-      abstractClass.onScaleUpdate(curr, true);
-      expect(abstractClass.transitionDuration).toEqual(500);
-    });
     it('sets scale to the correct value', () => {
       abstractClass.onScaleUpdate(curr, true);
       expect(abstractClass.scale).toEqual(curr);
     });
-    it('calls updateAxis once with the correct value', () => {
+    it('calls updateAxis once with the correct value if useTransition is true', () => {
       abstractClass.onScaleUpdate(curr, true);
       expect(updateSpy).toHaveBeenCalledOnceWith(500);
+    });
+    it('calls updateAxis once with the correct value if useTransition is false', () => {
+      abstractClass.onScaleUpdate(curr, false);
+      expect(updateSpy).toHaveBeenCalledOnceWith(0);
     });
   });
 

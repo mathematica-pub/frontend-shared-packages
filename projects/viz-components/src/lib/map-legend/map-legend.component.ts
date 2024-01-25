@@ -1,15 +1,20 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { combineLatest, filter, takeUntil } from 'rxjs';
-import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
+import {
+  Component,
+  DestroyRef,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { Unsubscribe } from '../shared/unsubscribe.class';
 
 @Component({
   selector: 'vic-map-legend',
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
 })
-export class MapLegendComponent extends Unsubscribe implements OnInit {
+export class MapLegendComponent implements OnInit {
   @Input() width: number;
   @Input() height: number;
   @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
@@ -18,43 +23,13 @@ export class MapLegendComponent extends Unsubscribe implements OnInit {
   canvasRef: ElementRef<HTMLCanvasElement>;
   legendType: 'categorical' | 'ordinal' | 'continuous';
   orientation: 'horizontal' | 'vertical';
-  attributeDataConfig: VicAttributeDataDimensionConfig;
-  attributeDataScale: any;
+  destroyRef = inject(DestroyRef);
 
-  constructor(private chart: MapChartComponent) {
-    super();
-  }
+  constructor(public chart: MapChartComponent) {}
 
   ngOnInit(): void {
-    this.subscribeToAttributeScaleAndConfig();
     this.setOrientation();
     this.setValuesSide();
-  }
-
-  subscribeToAttributeScaleAndConfig(): void {
-    combineLatest([
-      this.chart.attributeDataScale$,
-      this.chart.attributeDataConfig$,
-    ])
-      .pipe(
-        takeUntil(this.unsubscribe),
-        filter(([scale, config]) => !!scale && !!config)
-      )
-      .subscribe(([scale, config]) => {
-        this.attributeDataConfig = config;
-        this.attributeDataScale = scale;
-        this.setLegendType();
-      });
-  }
-
-  setLegendType(): void {
-    if (this.attributeDataConfig.valueType === 'categorical') {
-      this.legendType = 'categorical';
-    } else if (this.attributeDataConfig.binType === 'none') {
-      this.legendType = 'continuous';
-    } else {
-      this.legendType = 'ordinal';
-    }
   }
 
   setOrientation(): void {

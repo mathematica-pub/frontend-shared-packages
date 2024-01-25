@@ -46,7 +46,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
       const scales$ = this.chart.scales$.pipe(
         filter((scales) => !!scales && !!scales.y),
         map((scales) => {
-          return { y: scales.y, useTransition: scales.useTransition };
+          return { scale: scales.y, useTransition: scales.useTransition };
         })
       );
       this.subscribeToScale(scales$);

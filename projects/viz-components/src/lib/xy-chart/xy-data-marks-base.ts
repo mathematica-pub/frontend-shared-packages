@@ -1,14 +1,15 @@
 import {
+  DestroyRef,
   Directive,
   OnChanges,
   OnInit,
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { filter, takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter } from 'rxjs';
 import { Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
-import { Unsubscribe } from '../shared/unsubscribe.class';
 import {
   XyChartComponent,
   XyChartScales,
@@ -19,13 +20,15 @@ import {
  * @internal
  */
 @Directive()
-export abstract class XyDataMarksBase
-  extends Unsubscribe
-  implements OnChanges, OnInit
-{
+export abstract class XyDataMarksBase implements OnChanges, OnInit {
   ranges: Ranges;
   scales: XyChartScales;
-  requiredScales: (keyof typeof XyContentScale)[];
+  requiredScales: (keyof typeof XyContentScale)[] = [
+    XyContentScale.x,
+    XyContentScale.y,
+    XyContentScale.category,
+  ];
+  public destroyRef = inject(DestroyRef);
   public chart = inject(XyChartComponent);
   protected utilities = inject(UtilitiesService);
 
@@ -68,7 +71,6 @@ export abstract class XyDataMarksBase
   }
 
   ngOnInit(): void {
-    this.setRequiredChartScales();
     this.subscribeToRanges();
     this.subscribeToScales();
     this.initFromConfig();
@@ -79,30 +81,24 @@ export abstract class XyDataMarksBase
     this.setChartScalesFromRanges(true);
   }
 
-  setRequiredChartScales(): void {
-    this.requiredScales = [
-      XyContentScale.x,
-      XyContentScale.y,
-      XyContentScale.category,
-    ];
-  }
-
   subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) => {
-      this.ranges = ranges;
-      if (
-        this.scales &&
-        this.requiredScales.every((scale) => this.scales[scale])
-      ) {
-        this.resizeMarks();
-      }
-    });
+    this.chart.ranges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((ranges) => {
+        this.ranges = ranges;
+        if (
+          this.scales &&
+          this.requiredScales.every((scale) => this.scales[scale])
+        ) {
+          this.resizeMarks();
+        }
+      });
   }
 
   subscribeToScales(): void {
     this.chart.scales$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef),
         filter((scales) => !!scales)
       )
       .subscribe((scales): void => {
