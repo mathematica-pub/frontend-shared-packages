@@ -27,7 +27,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
@@ -61,7 +61,6 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   barGroups: any;
   barsKeyFunction: (i: number) => string;
-  private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -72,7 +71,7 @@ export class BarsComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.setMethodsFromConfigAndDraw();
     }
