@@ -52,9 +52,8 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    @Inject(DATA_MARKS) private dataMarks: DataMarks,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    @Optional() @Inject(DOCUMENT) document: any
+    @Optional() @Inject(DATA_MARKS) private dataMarks: DataMarks,
+    @Optional() @Inject(DOCUMENT) document: Document
   ) {
     this._document = document;
   }

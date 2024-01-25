@@ -250,14 +250,15 @@ export class BarsComponent
       .selectAll('.vic-bar-group')
       .data(this.values.indicies, this.barsKeyFunction)
       .join(
-        (enter) => {
-          enter.append('g').attr('class', 'vic-bar-group');
-          return this.transformBarGroup(enter);
-        },
-        (update) => {
-          const updateTransition = update.transition(t as any);
-          return this.transformBarGroup(updateTransition);
-        },
+        (enter) =>
+          enter
+            .append('g')
+            .attr('class', 'vic-bar-group')
+            .attr('transform', (i) => this.getBarTranslate(i)),
+        (update) =>
+          update
+            .transition(t as any)
+            .attr('transform', (i) => this.getBarTranslate(i)),
         (exit) => exit.remove()
       );
 
@@ -283,16 +284,14 @@ export class BarsComponent
       );
   }
 
-  transformBarGroup(selection: any): any {
-    return selection.attr('transform', (i) => {
-      const x = this.getBarX(i);
-      const y = this.getBarY(i);
-      return `translate(${x},${y})`;
-    });
+  getBarTranslate(i: number): string {
+    const x = this.getBarX(i);
+    const y = this.getBarY(i);
+    return `translate(${x},${y})`;
   }
 
-  setBarSizeAndFill(selection: any): any {
-    return selection
+  setBarSizeAndFill(selection: any): void {
+    selection
       .attr('width', (i) => this.getBarWidth(i as number))
       .attr('height', (i) => this.getBarHeight(i as number))
       .attr('fill', (i) =>
