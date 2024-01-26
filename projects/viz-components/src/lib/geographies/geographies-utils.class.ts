@@ -1,49 +1,8 @@
-import type * as CSSType from 'csstype';
-import { geoContains, geoPath, maxIndex, polygonArea } from 'd3';
-import { VicGeographyLabelConfig } from './geographies.config';
-import { ColorUtilities } from '../shared/color-utilities.class';
+import { maxIndex, polygonArea } from 'd3';
 import { Feature, MultiPolygon } from 'geojson';
 import polylabel from 'polylabel';
 
 export class VicGeographiesUtils {
-  public static binaryLabelFill(
-    d: Feature<MultiPolygon, any>,
-    geographyFill: CSSType.Property.Fill,
-    darkTextColor: CSSType.Property.Fill,
-    lightTextColor: CSSType.Property.Fill,
-    config: VicGeographyLabelConfig
-  ): string {
-    const point = config.labelPositionFunction(d, geoPath(), (x) => x);
-    if (geoContains(d, point)) {
-      return ColorUtilities.getContrastRatio(lightTextColor, geographyFill) >
-        ColorUtilities.getContrastRatio(darkTextColor, geographyFill)
-        ? lightTextColor
-        : darkTextColor;
-    }
-    return darkTextColor;
-  }
-
-  public static binaryLabelFontWeight(
-    d: Feature<MultiPolygon, any>,
-    geographyFill: CSSType.Property.Fill,
-    darkTextColor: CSSType.Property.Fill,
-    lightTextColor: CSSType.Property.Fill,
-    darkFontWeight: CSSType.Property.FontWeight,
-    lightFontWeight: CSSType.Property.FontWeight,
-    config: VicGeographyLabelConfig
-  ): CSSType.Property.FontWeight {
-    const fontColor = config.labelFillFunction(d, geographyFill);
-    if (fontColor === darkTextColor) {
-      return darkFontWeight;
-    } else if (fontColor === lightTextColor) {
-      return lightFontWeight;
-    } else {
-      throw new Error(
-        'Could not determine font weight -- binary label fill is set up wrong!'
-      );
-    }
-  }
-
   public static getPolyLabelCentroid(
     feature: Feature<MultiPolygon, any>,
     projection: any
