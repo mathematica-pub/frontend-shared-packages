@@ -7,9 +7,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { combineLatest, filter } from 'rxjs';
-import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
 @Component({
@@ -26,41 +23,12 @@ export class MapLegendComponent<T> implements OnInit {
   canvasRef: ElementRef<HTMLCanvasElement>;
   legendType: 'categorical' | 'ordinal' | 'continuous';
   orientation: 'horizontal' | 'vertical';
-  attributeDataConfig: VicAttributeDataDimensionConfig<T>;
-  attributeDataScale: any;
-  private chart = inject(MapChartComponent<T>);
+  chart = inject(MapChartComponent<T>);
   destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
-    this.subscribeToAttributeScaleAndConfig();
     this.setOrientation();
     this.setValuesSide();
-  }
-
-  subscribeToAttributeScaleAndConfig(): void {
-    combineLatest([
-      this.chart.attributeDataScale$,
-      this.chart.attributeDataConfig$,
-    ])
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter(([scale, config]) => !!scale && !!config)
-      )
-      .subscribe(([scale, config]) => {
-        this.attributeDataConfig = config;
-        this.attributeDataScale = scale;
-        this.setLegendType();
-      });
-  }
-
-  setLegendType(): void {
-    if (this.attributeDataConfig.valueType === 'categorical') {
-      this.legendType = 'categorical';
-    } else if (this.attributeDataConfig.binType === 'none') {
-      this.legendType = 'continuous';
-    } else {
-      this.legendType = 'ordinal';
-    }
   }
 
   setOrientation(): void {

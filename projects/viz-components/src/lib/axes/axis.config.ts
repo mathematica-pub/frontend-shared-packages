@@ -1,4 +1,4 @@
-import { TimeInterval } from 'd3';
+import { AxisTimeInterval } from 'd3';
 import { VicTickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
 
 export class VicAxisConfig {
@@ -16,7 +16,7 @@ export class VicAxisConfig {
    *  fit the domain given the precision of the percentage format, this value
    *  will be replaced by the largest number that fits the domain.
    */
-  numTicks?: number | TimeInterval;
+  numTicks?: number | AxisTimeInterval;
 
   /**
    * If true, the default line that D3 creates for the axis will be removed.
@@ -42,7 +42,7 @@ export class VicAxisConfig {
    *
    * If not provided on Quantitative Axes, ticks will be formatter with ',.1f'.
    */
-  tickFormat?: string | ((value: any) => string);
+  tickFormat?: string | ((value: number | Date) => string);
 
   /**
    * A font size to apply to the tick labels, in px. If not specified, D3's default font size will be used.
@@ -70,7 +70,7 @@ export class VicAxisConfig {
    * Values will be formatted with either the provided value for
    *  [tickFormat]{@link VicAxisConfig.tickFormat} or the default format.
    */
-  tickValues?: any[];
+  tickValues?: string[] | number[] | Date[];
 
   /**
    * A config object to specify how tick labels should wrap.

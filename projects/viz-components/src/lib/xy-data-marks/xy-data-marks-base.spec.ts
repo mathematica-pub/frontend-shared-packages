@@ -31,14 +31,9 @@ describe('XyDataMarksBase abstract class', () => {
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'setRequiredChartScales');
       spyOn(abstractClass, 'subscribeToRanges');
       spyOn(abstractClass, 'subscribeToScales');
       spyOn(abstractClass, 'initFromConfig');
-    });
-    it('calls setRequiredChartScales()', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.setRequiredChartScales).toHaveBeenCalledTimes(1);
     });
     it('calls subscribeToRanges()', () => {
       abstractClass.ngOnInit();
@@ -51,17 +46,6 @@ describe('XyDataMarksBase abstract class', () => {
     it('calls initFromConfig()', () => {
       abstractClass.ngOnInit();
       expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setRequiredChartScales()', () => {
-    it('sets requiredScales to an array of XyContentScale values', () => {
-      abstractClass.setRequiredChartScales();
-      expect(abstractClass.requiredScales).toEqual([
-        'x',
-        'y',
-        'category',
-      ] as any);
     });
   });
 

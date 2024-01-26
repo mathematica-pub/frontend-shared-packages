@@ -2,7 +2,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
-import { BehaviorSubject } from 'rxjs';
 import { MapLegendComponent } from './map-legend.component';
 
 describe('MapLegendComponent', () => {
@@ -23,15 +22,8 @@ describe('MapLegendComponent', () => {
 
   describe('ngOnInit', () => {
     beforeEach(() => {
-      spyOn(component, 'subscribeToAttributeScaleAndConfig');
       spyOn(component, 'setOrientation');
       spyOn(component, 'setValuesSide');
-    });
-    it('calls subscribeToAttributeScaleAndConfig once', () => {
-      component.ngOnInit();
-      expect(
-        component.subscribeToAttributeScaleAndConfig
-      ).toHaveBeenCalledTimes(1);
     });
     it('calls setOrientation once', () => {
       component.ngOnInit();
@@ -128,65 +120,6 @@ describe('MapLegendComponent', () => {
           expect(console.warn).toHaveBeenCalledTimes(1);
         });
       });
-    });
-  });
-
-  describe('subscribeToAttributeScaleAndConfig', () => {
-    let attributeDataConfig;
-    let attributeDataScale;
-    beforeEach(() => {
-      spyOn(component, 'setLegendType');
-      attributeDataConfig = new BehaviorSubject(null);
-      attributeDataScale = new BehaviorSubject(null);
-      (component as any).chart = {
-        attributeDataScale$: attributeDataScale.asObservable(),
-        attributeDataConfig$: attributeDataConfig.asObservable(),
-      } as any;
-    });
-
-    it('calls setLegendType once if scale and config are truthy', () => {
-      attributeDataConfig.next('hello' as any);
-      attributeDataScale.next('it me' as any);
-      component.subscribeToAttributeScaleAndConfig();
-      expect(component.setLegendType).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not call setLegendType if scale is not truthy', () => {
-      attributeDataConfig.next('hello' as any);
-      component.subscribeToAttributeScaleAndConfig();
-      expect(component.setLegendType).not.toHaveBeenCalled();
-    });
-
-    it('does not call setLegendType if config is not truthy', () => {
-      attributeDataScale.next('it me' as any);
-      component.subscribeToAttributeScaleAndConfig();
-      expect(component.setLegendType).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('setLegendType', () => {
-    it('sets legendType to categorical if config.valueType is categorical', () => {
-      component.attributeDataConfig = { valueType: 'categorical' } as any;
-      component.setLegendType();
-      expect(component.legendType).toEqual('categorical');
-    });
-
-    it('sets legendType to continuous if config.valueType is not categorical and binType is none', () => {
-      component.attributeDataConfig = {
-        valueType: 'quantitative',
-        binType: 'none',
-      } as any;
-      component.setLegendType();
-      expect(component.legendType).toEqual('continuous');
-    });
-
-    it('sets legendType to continuous if config.valueType is not categorical and binType is not none', () => {
-      component.attributeDataConfig = {
-        valueType: 'quantitative',
-        binType: 'custom',
-      } as any;
-      component.setLegendType();
-      expect(component.legendType).toEqual('ordinal');
     });
   });
 });

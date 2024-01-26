@@ -20,24 +20,19 @@ export abstract class XyDataMarksBase<T, U extends VicDataMarksConfig<T>>
   implements OnInit
 {
   scales: XyChartScales;
-  requiredScales: (keyof typeof XyContentScale)[];
+  requiredScales: (keyof typeof XyContentScale)[] = [
+    XyContentScale.x,
+    XyContentScale.y,
+    XyContentScale.category,
+  ];
   values: XyDataMarksValues = new XyDataMarksValues();
   public override chart = inject(XyChartComponent);
   protected utilities = inject(UtilitiesService);
 
   ngOnInit(): void {
-    this.setRequiredChartScales();
     this.subscribeToRanges();
     this.subscribeToScales();
     this.initFromConfig();
-  }
-
-  setRequiredChartScales(): void {
-    this.requiredScales = [
-      XyContentScale.x,
-      XyContentScale.y,
-      XyContentScale.category,
-    ];
   }
 
   subscribeToRanges(): void {

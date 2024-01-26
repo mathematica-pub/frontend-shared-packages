@@ -24,10 +24,44 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
   config: U;
   destroyRef = inject(DestroyRef);
 
+  /**
+   * setPropertiesFromConfig method
+   *
+   * This method handles an update to the config object. Methods called from here should not
+   * requires ranges or scales. This method is called on init and on config update.
+   */
   abstract setPropertiesFromConfig(): void;
+  /**
+   * setPropertiesFromRanges method
+   *
+   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
+   * to create the scales should be called from this method. Methods called from here should not
+   * require scales.
+   *
+   * This method is called on init, after config-based properties are set, and also on
+   * resize/when ranges change.
+   */
   abstract setPropertiesFromRanges(useTransition: boolean): void;
   abstract setValueArrays(): void;
+  /**
+   * drawMarks method
+   *
+   * All methods that require scales should be called from drawMarks. Methods
+   * called from here should use scale.domain() or scale.range() to obtain those values
+   * rather than this.config.dimension.domain or this.ranges.dimension.
+   *
+   * This method is called when scales emit from ChartComponent.
+   */
   abstract drawMarks(): void;
+  /**
+   * resizeMarks method
+   *
+   * All methods that should be called when the chart resizes due to browser layout should
+   * be called from resizeMarks. Generally, the required method will update the scales, which
+   * will in turn call drawMarks, but now always.
+   *
+   * This method is called when ranges emit from ChartComponent.
+   */
   abstract resizeMarks(): void;
 
   ngOnChanges(changes: SimpleChanges): void {

@@ -46,7 +46,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
       const scales$ = this.chart.scales$.pipe(
         filter((scales) => !!scales && !!scales.y),
         map((scales) => {
-          return { y: scales.y, useTransition: scales.useTransition };
+          return { scale: scales.y, useTransition: scales.useTransition };
         })
       );
       this.subscribeToScale(scales$);
@@ -57,7 +57,12 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     initNumTicks(): number {
-      return this.chart.height / 50; // default in D3 example
+      const d3ExampleDefault = this.chart.height / 50;
+      if (d3ExampleDefault < 1) {
+        return 1;
+      } else {
+        return Math.floor(d3ExampleDefault);
+      }
     }
   }
 

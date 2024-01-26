@@ -19,7 +19,7 @@ export interface GenericScale<Domain, Range> {
 export interface XyChartScales {
   [XyContentScale.x]: GenericScale<any, any>;
   [XyContentScale.y]: GenericScale<any, any>;
-  [XyContentScale.category]?: GenericScale<any, any>;
+  [XyContentScale.category]: GenericScale<any, any>;
   useTransition: boolean;
 }
 
