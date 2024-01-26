@@ -49,6 +49,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   _document: Document;
 
   constructor(
+    // provisionally leaving as private per discussion here: https://github.com/mathematica-org/viz-components/pull/189
     private viewContainerRef: ViewContainerRef,
     protected overlay: Overlay,
     protected overlayPositionBuilder: OverlayPositionBuilder,
