@@ -10,6 +10,7 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import type * as CSSType from 'csstype';
 import {
   InternMap,
   InternSet,
@@ -520,9 +521,15 @@ export class GeographiesComponent
             .attr('y', (d) => config.position(d, this.path, this.projection)[1])
             .attr('x', (d) => config.position(d, this.path, this.projection)[0])
             .attr('font-size', config.fontScale(this.ranges.x[1]))
-            .attr('fill', (d) => this.getLabelProperty(d, config, 'color'))
+            .attr('fill', (d) =>
+              this.getLabelProperty<CSSType.Property.Fill>(d, config, 'color')
+            )
             .attr('font-weight', (d) =>
-              this.getLabelProperty(d, config, 'fontWeight')
+              this.getLabelProperty<CSSType.Property.FontWeight>(
+                d,
+                config,
+                'fontWeight'
+              )
             ),
         (update: any) =>
           update.call((update: any) =>
@@ -538,25 +545,34 @@ export class GeographiesComponent
               )
               .attr('font-size', config.fontScale(this.ranges.x[1]))
               .transition(t as any)
-              .attr('fill', (d) => this.getLabelProperty(d, config, 'color'))
+              .attr('fill', (d) =>
+                this.getLabelProperty<CSSType.Property.Fill>(d, config, 'color')
+              )
               .attr('font-weight', (d) =>
-                this.getLabelProperty(d, config, 'fontWeight')
+                this.getLabelProperty<CSSType.Property.FontWeight>(
+                  d,
+                  config,
+                  'fontWeight'
+                )
               )
           ),
         (exit: any) => exit.remove()
       );
   }
 
-  getLabelProperty(
+  getLabelProperty<T>(
     d: Feature<MultiPolygon, any>,
     config: VicGeographyLabelConfig,
     property: 'color' | 'fontWeight'
-  ): string {
+  ): T {
     const pathColor = this.getFill(d);
-    let fontProperty =
-      typeof config[property] === 'string'
-        ? config[property]
-        : config[property](d, pathColor);
+    const accessor = config[property];
+    let fontProperty;
+    if (this.isPropertyFunction(accessor)) {
+      fontProperty = accessor(d);
+    } else {
+      fontProperty = accessor;
+    }
     if (config.autoColorByContrast.enable) {
       fontProperty = this.getAutoContrastLabelProperties(
         config.autoColorByContrast,
@@ -564,6 +580,10 @@ export class GeographiesComponent
       )[property];
     }
     return fontProperty;
+  }
+
+  isPropertyFunction<T>(x: ((d: Feature) => T) | T): x is (d: Feature) => T {
+    return typeof x === 'function';
   }
 
   getAutoContrastLabelProperties(

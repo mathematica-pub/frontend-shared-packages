@@ -155,9 +155,9 @@ export class GeographiesExampleComponent implements OnInit {
       !smallSquareStates.includes(d.properties['id']);
     labelConfig.position = (d, path, projection) =>
       polylabelStates.includes(d.properties['id'])
-        ? VicGeographiesUtils.getPolyLabelCentroid(d, projection)
+        ? VicGeographiesUtils.getPolyLabelCentroid(d as any, projection)
         : d.properties['id'] == 'HI'
-        ? VicGeographiesUtils.getHawaiiCentroid(d, projection)
+        ? VicGeographiesUtils.getHawaiiCentroid(d as any, projection)
         : path.centroid(d);
     labelConfig.autoColorByContrast.enable = true;
     labelConfig.autoColorByContrast.dark.color = 'rgb(22,80,225)';

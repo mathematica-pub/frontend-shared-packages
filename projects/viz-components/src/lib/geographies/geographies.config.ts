@@ -101,11 +101,11 @@ export class VicGeographyLabelConfig {
   cursor: CSSType.Property.Cursor;
   pointerEvents: CSSType.Property.PointerEvents;
   fontWeight:
-    | CSSType.Property.FontWeight
-    | ((d: Feature) => CSSType.Property.FontWeight);
-  color: CSSType.Property.Fill | ((d: Feature) => CSSType.Property.Fill);
+    | ((d: Feature) => CSSType.Property.FontWeight)
+    | CSSType.Property.FontWeight;
+  color: ((d: Feature) => CSSType.Property.Fill) | CSSType.Property.Fill;
   position: (
-    d: Feature,
+    d: Feature<MultiPolygon, any>,
     path: GeoPath<any, GeoPermissibleObjects>,
     projection: any
   ) => [number, number];
@@ -115,7 +115,8 @@ export class VicGeographyLabelConfig {
 
   constructor(init?: Partial<VicGeographyLabelConfig>) {
     this.display = () => true;
-    this.color = 'slategray';
+    this.color = '#000';
+    this.fontWeight = 400;
     this.autoColorByContrast = new VicGeographiesLabelsAutoColor();
     this.position = (
       d: Feature<MultiPolygon, any>,
