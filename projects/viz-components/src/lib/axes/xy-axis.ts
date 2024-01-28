@@ -8,8 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { select } from 'd3';
-import { isEqual } from 'lodash-es';
 import { Observable, pairwise, startWith, takeUntil } from 'rxjs';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
@@ -42,8 +42,7 @@ export abstract class XyAxis extends Unsubscribe implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      !changes['config'].isFirstChange() &&
-      !isEqual(changes['config'].previousValue, changes['config'].currentValue)
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.updateAxis(this.chart.transitionDuration);
     }
