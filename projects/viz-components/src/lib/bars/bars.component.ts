@@ -293,6 +293,53 @@ export class BarsComponent
     return `translate(${x},${y})`;
   }
 
+  setBarSizeAndFill(selection: any): void {
+    selection
+      .attr('width', (i: number) => this.getBarWidth(i))
+      .attr('height', (i: number) => this.getBarHeight(i))
+      .attr('fill', (i: number) =>
+        this.config.patternPredicates
+          ? this.getBarPattern(i)
+          : this.getBarColor(i)
+      );
+  }
+
+  drawBarLabels(transitionDuration: any): void {
+    const t = select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+
+    this.barGroups
+      .selectAll('text')
+      .data((i: number) => [i])
+      .join(
+        (enter) => {
+          enter = enter
+            .append('text')
+            .attr('class', 'vic-bar-label')
+            .style('display', this.config.labels.display ? null : 'none');
+          this.setLabelProperties(enter);
+        },
+        (update) => {
+          const updateTransition = update.transition(t as any);
+          this.setLabelProperties(updateTransition);
+        },
+        (exit) => exit.remove()
+      );
+  }
+
+  setLabelProperties(selection: any): any {
+    return selection
+      .text((i: number) => this.getBarLabelText(i))
+      .attr('text-anchor', (i: number) => this.getBarLabelTextAnchor(i))
+      .attr('dominant-baseline', (i: number) =>
+        this.getBarLabelDominantBaseline(i)
+      )
+      .style('fill', (i: number) => this.getBarLabelColor(i))
+      .attr('x', (i: number) => this.getBarLabelX(i))
+      .attr('y', (i: number) => this.getBarLabelY(i));
+  }
+
   getBarX(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarXOrdinal(i);
@@ -335,17 +382,6 @@ export class BarsComponent
     } else {
       return this.yScale(this.values.y[i]);
     }
-  }
-
-  setBarSizeAndFill(selection: any): void {
-    selection
-      .attr('width', (i: number) => this.getBarWidth(i))
-      .attr('height', (i: number) => this.getBarHeight(i))
-      .attr('fill', (i: number) =>
-        this.config.patternPredicates
-          ? this.getBarPattern(i)
-          : this.getBarColor(i)
-      );
   }
 
   getBarWidth(i: number): number {
@@ -405,42 +441,6 @@ export class BarsComponent
     return this.config.category.colorScale(
       this.values[this.config.dimensions.ordinal][i]
     );
-  }
-
-  drawBarLabels(transitionDuration: any): void {
-    const t = select(this.chart.svgRef.nativeElement)
-      .transition()
-      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
-
-    this.barGroups
-      .selectAll('text')
-      .data((i: number) => [i])
-      .join(
-        (enter) => {
-          enter = enter
-            .append('text')
-            .attr('class', 'vic-bar-label')
-            .style('display', this.config.labels.display ? null : 'none');
-          this.setLabelProperties(enter);
-        },
-        (update) => {
-          const updateTransition = update.transition(t as any);
-          this.setLabelProperties(updateTransition);
-        },
-        (exit) => exit.remove()
-      );
-  }
-
-  setLabelProperties(selection: any): any {
-    return selection
-      .text((i: number) => this.getBarLabelText(i))
-      .attr('text-anchor', (i: number) => this.getBarLabelTextAnchor(i))
-      .attr('dominant-baseline', (i: number) =>
-        this.getBarLabelDominantBaseline(i)
-      )
-      .style('fill', (i: number) => this.getBarLabelColor(i))
-      .attr('x', (i: number) => this.getBarLabelX(i))
-      .attr('y', (i: number) => this.getBarLabelY(i));
   }
 
   getBarLabelText(i: number): string {
@@ -545,13 +545,14 @@ export class BarsComponent
 
   getMaxBarLabelWidth(i: number): number {
     const barLabelText = this.getBarLabelText(i);
-    const characterPixelAllowance = 8; // TODO: future feature - create max width based on length of rendered d3 formatted data label
+    const characterPixelAllowance = 8; // TODO: future feature - create max width based on rendered d3 formatted data label
     return (
       barLabelText.length * characterPixelAllowance + this.config.labels.offset
     );
   }
 
   getMaxBarLabelHeight(): number {
+    // TODO: future feature - create max height based on rendered d3 formatted data label
     const defaultFontSize = 16;
     const defaultLineHeight = 1.2; // default described in https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
     return defaultFontSize * defaultLineHeight + this.config.labels.offset;
@@ -561,19 +562,19 @@ export class BarsComponent
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarWidthOrdinal() / 2;
     } else {
-      return this.getBarLabelCoordinate(i);
+      return this.getBarLabelPosition(i);
     }
   }
 
   getBarLabelY(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarLabelCoordinate(i);
+      return this.getBarLabelPosition(i);
     } else {
       return this.getBarHeightOrdinal() / 2;
     }
   }
 
-  getBarLabelCoordinate(i: number): number {
+  getBarLabelPosition(i: number): number {
     const value = this.values[this.config.dimensions.quantitative][i];
     if (value === null) {
       return this.config.labels.offset;
@@ -583,14 +584,14 @@ export class BarsComponent
       i,
       isPositiveValue
     );
-    return this.getBarLabelCoordinateWithOffset(
+    return this.getBarLabelPositionWithOffset(
       i,
       isPositiveValue,
       placeLabelOutsideBar
     );
   }
 
-  getBarLabelCoordinateWithOffset(
+  getBarLabelPositionWithOffset(
     i: number,
     isPositiveValue: boolean,
     placeLabelOutsideBar: boolean
