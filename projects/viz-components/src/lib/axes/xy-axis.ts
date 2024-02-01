@@ -47,8 +47,8 @@ export abstract class XyAxis implements OnInit {
     this.setScale();
   }
 
-  subscribeToScale(scale$: Observable<XyAxisScale>): void {
-    scale$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((scale) => {
+  subscribeToScale(): void {
+    this.getScale().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((scale) => {
       this.onScaleUpdate(scale.scale, scale.useTransition);
     });
   }
