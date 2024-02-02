@@ -1,14 +1,7 @@
-import {
-  DestroyRef,
-  Directive,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
 import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -23,7 +16,7 @@ export type XyAxisScale = {
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis implements OnInit {
+export abstract class XyAxis implements OnInit, OnChanges {
   /**
    * The configuration for the axis.
    */
@@ -40,6 +33,14 @@ export abstract class XyAxis implements OnInit {
   abstract initNumTicks(): number;
   abstract setTranslate(): void;
   abstract setAxis(axisFunction: any): void;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
+    ) {
+      this.updateAxis(this.chart.transitionDuration);
+    }
+  }
 
   ngOnInit(): void {
     this.setAxisFunction();

@@ -2,7 +2,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
@@ -18,13 +17,7 @@ describe('BarsComponent', () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [BarsComponent],
-      providers: [
-        XyChartComponent,
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
-      ],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
