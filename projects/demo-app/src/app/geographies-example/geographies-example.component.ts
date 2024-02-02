@@ -8,23 +8,23 @@ import {
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
-  VicDataGeographyConfig,
   ElementSpacing,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
+  GeographiesHoverEmitTooltipData,
+  VicDataGeographyConfig,
+  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   VicGeographiesConfig,
   VicGeographiesEventOutput,
-  GeographiesHoverEmitTooltipData,
   VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
+  Observable,
+  Subject,
   combineLatest,
   filter,
   map,
-  Observable,
-  Subject,
 } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
@@ -32,7 +32,6 @@ import { colors } from '../core/constants/colors.constants';
 import { StateIncomeDatum } from '../core/models/data';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
-import { Feature } from 'geojson';
 
 type ScaleType =
   | 'none'
@@ -47,14 +46,6 @@ type ScaleType =
   styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {
-  scaleType: ScaleType;
-  scaleTypes: ScaleType[] = [
-    'none',
-    'equal value ranges',
-    'equal num observations',
-    'custom breaks',
-    'categorical',
-  ];
   dataMarksConfig$: Observable<VicGeographiesConfig>;
   width = 700;
   height = 400;

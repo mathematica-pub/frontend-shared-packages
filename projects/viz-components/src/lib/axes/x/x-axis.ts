@@ -3,6 +3,7 @@ import { axisBottom, axisTop } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
+import { VicSide } from '../../core/types/side';
 import { XyAxis, XyAxisScale } from '../xy-axis';
 
 /**
@@ -13,7 +14,7 @@ import { XyAxis, XyAxisScale } from '../xy-axis';
 export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() side: 'top' | 'bottom' = 'top';
+    @Input() side: VicSide.top | VicSide.bottom = VicSide.top;
     translate$: Observable<string>;
 
     setTranslate(): void {
@@ -26,7 +27,7 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     getTranslateDistance(ranges: Ranges): number {
-      return this.side === 'top'
+      return this.side === VicSide.top
         ? this.getTopTranslate(ranges)
         : this.getBottomTranslate(ranges);
     }
@@ -50,7 +51,7 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     setAxisFunction(): void {
-      this.axisFunction = this.side === 'top' ? axisTop : axisBottom;
+      this.axisFunction = this.side === VicSide.top ? axisTop : axisBottom;
     }
 
     initNumTicks(): number {

@@ -2,6 +2,7 @@
 import { axisBottom, axisTop } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
+import { VicSide } from '../../core/types/side';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
@@ -52,12 +53,12 @@ describe('the XAxis mixin', () => {
       spyOn(abstractClass, 'getBottomTranslate').and.returnValue(60);
     });
     it('returns the correct value for the top side', () => {
-      abstractClass.side = 'top';
+      abstractClass.side = VicSide.top;
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
 
     it('returns the correct value for the bottom side', () => {
-      abstractClass.side = 'bottom';
+      abstractClass.side = VicSide.bottom;
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -97,13 +98,13 @@ describe('the XAxis mixin', () => {
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.side = 'top';
+      abstractClass.side = VicSide.top;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisTop);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.side = 'bottom';
+      abstractClass.side = VicSide.bottom;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisBottom);
     });
