@@ -3,7 +3,8 @@ import { axisBottom, axisTop } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { XyAxis } from '../xy-axis';
+import { VicSide } from '../../core/types/side';
+import { XyAxis, XyAxisScale } from '../xy-axis';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for an x-axis.
@@ -13,7 +14,7 @@ import { XyAxis } from '../xy-axis';
 export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() side: 'top' | 'bottom' = 'top';
+    @Input() side: VicSide.top | VicSide.bottom = VicSide.top;
     translate$: Observable<string>;
 
     setTranslate(): void {
@@ -26,7 +27,7 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     getTranslateDistance(ranges: Ranges): number {
-      return this.side === 'top'
+      return this.side === VicSide.top
         ? this.getTopTranslate(ranges)
         : this.getBottomTranslate(ranges);
     }
@@ -39,18 +40,18 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
       return ranges.y[0] - ranges.y[1] + this.chart.margin.top;
     }
 
-    setScale(): void {
+    getScale(): Observable<XyAxisScale> {
       const scales$ = this.chart.scales$.pipe(
         filter((scales) => !!scales && !!scales.x),
         map((scales) => {
           return { scale: scales.x, useTransition: scales.useTransition };
         })
       );
-      this.subscribeToScale(scales$);
+      return scales$;
     }
 
     setAxisFunction(): void {
-      this.axisFunction = this.side === 'top' ? axisTop : axisBottom;
+      this.axisFunction = this.side === VicSide.top ? axisTop : axisBottom;
     }
 
     initNumTicks(): number {

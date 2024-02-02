@@ -301,7 +301,7 @@ describe('GeographiesComponent', () => {
       component.config = {
         dataGeographyConfig: {
           attributeDataConfig: {
-            valueType: 'quantitative',
+            variableType: 'quantitative',
             binType: 'none',
           },
         },
@@ -328,10 +328,10 @@ describe('GeographiesComponent', () => {
       });
     });
 
-    describe('if valueType is not quantitative', () => {
+    describe('if variableType is not quantitative', () => {
       beforeEach(() => {
-        component.config.dataGeographyConfig.attributeDataConfig.valueType =
-          'categorical';
+        component.config.dataGeographyConfig.attributeDataConfig.variableType =
+          'categorical' as any;
       });
       it('calls setColorScaleWithoutColorInterpolator once', () => {
         component.getAttributeDataScale();

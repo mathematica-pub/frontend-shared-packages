@@ -19,6 +19,7 @@ import {
 } from 'd3';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
+import { VicVariableType } from '../core/types/variable-type';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
@@ -29,6 +30,7 @@ import {
   VicGeoJsonDefaultProperty,
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
+  VicValuesBin,
 } from './geographies.config';
 
 export class MapDataValues {
@@ -121,14 +123,14 @@ export class GeographiesComponent<
 
   initAttributeDataScaleDomain(): void {
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
-      'quantitative'
+      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
+      VicVariableType.quantitative
     ) {
       this.setQuantitativeDomainAndBinsForBinType();
     }
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
-      'categorical'
+      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
+      VicVariableType.categorical
     ) {
       this.setCategoricalDomain();
     }
@@ -137,13 +139,13 @@ export class GeographiesComponent<
   setQuantitativeDomainAndBinsForBinType(): void {
     if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      'equal num observations'
+      VicValuesBin.equalNumObservations
     ) {
       this.config.dataGeographyConfig.attributeDataConfig.domain =
         this.values.attributeDataValues;
     } else if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      'custom breaks'
+      VicValuesBin.customBreaks
     ) {
       this.config.dataGeographyConfig.attributeDataConfig.domain =
         this.config.dataGeographyConfig.attributeDataConfig.breakValues.slice(
@@ -170,7 +172,7 @@ export class GeographiesComponent<
     if (
       // do we need to do this for equal num observations?
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      'equal value ranges'
+      VicValuesBin.equalValueRanges
     ) {
       if (this.attributeDataValueFormatIsInteger()) {
         this.validateNumBinsAndDomainForIntegerValues();
@@ -238,8 +240,8 @@ export class GeographiesComponent<
     } else {
       let colors = this.config.dataGeographyConfig.attributeDataConfig.colors;
       if (
-        this.config.dataGeographyConfig.attributeDataConfig.valueType ===
-        'categorical'
+        this.config.dataGeographyConfig.attributeDataConfig.variableType ===
+        VicVariableType.categorical
       ) {
         colors = colors.slice(
           0,
@@ -287,9 +289,10 @@ export class GeographiesComponent<
 
   getAttributeDataScale(): any {
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.valueType ===
-        'quantitative' &&
-      this.config.dataGeographyConfig.attributeDataConfig.binType === 'none'
+      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
+        VicVariableType.quantitative &&
+      this.config.dataGeographyConfig.attributeDataConfig.binType ===
+        VicValuesBin.none
     ) {
       return this.setColorScaleWithColorInterpolator();
     } else {

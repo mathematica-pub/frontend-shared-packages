@@ -17,11 +17,11 @@ describe('the XyAxis abstract class', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'setAxisFunction');
       spyOn(abstractClass, 'setTranslate');
-      spyOn(abstractClass, 'setScale');
+      spyOn(abstractClass, 'subscribeToScale');
     });
-    it('calls setScale once', () => {
+    it('calls subscribeToScale once', () => {
       abstractClass.ngOnInit();
-      expect(abstractClass.setScale).toHaveBeenCalledTimes(1);
+      expect(abstractClass.subscribeToScale).toHaveBeenCalledTimes(1);
     });
 
     it('calls setTranslate once', () => {
@@ -38,10 +38,15 @@ describe('the XyAxis abstract class', () => {
   describe('subscribeToScale', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'onScaleUpdate');
+      spyOn(abstractClass, 'getScale').and.returnValue(
+        of({
+          scale: 'scale',
+          useTransition: false,
+        } as any)
+      );
     });
     it('calls onScaleUpdate with the correct values', () => {
-      const scale$ = of({ useTransition: false, scale: 'scale' } as any);
-      abstractClass.subscribeToScale(scale$);
+      abstractClass.subscribeToScale();
       expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(
         'scale' as any,
         false

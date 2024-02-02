@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { axisLeft, axisRight } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
+import { VicSide } from '../../core/types/side';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
@@ -51,12 +53,12 @@ describe('the YAxis mixin', () => {
       spyOn(abstractClass, 'getRightTranslate').and.returnValue(60);
     });
     it('returns the correct value for the left side', () => {
-      abstractClass.side = 'left';
+      abstractClass.side = VicSide.left;
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
 
     it('returns the correct value for the right side', () => {
-      abstractClass.side = 'right';
+      abstractClass.side = VicSide.right;
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -76,40 +78,33 @@ describe('the YAxis mixin', () => {
     });
   });
 
-  describe('setScale', () => {
-    let spy: jasmine.Spy;
-    beforeEach(() => {
-      spy = spyOn(abstractClass, 'subscribeToScale');
-    });
-    it('calls subscribeToScale with the correct scale', () => {
+  describe('getScale', () => {
+    it('returns the correct scale', () => {
       const scales = {
         x: 'hello',
         useTransition: false,
         y: 'something else',
       } as any;
       abstractClass.chart.scales$ = of(scales);
-      abstractClass.setScale();
-      spy.calls
-        .mostRecent()
-        .args[0].pipe(take(1))
-        .subscribe((scale) => {
-          expect(scale).toEqual({
-            scale: 'something else',
-            useTransition: false,
-          });
+      const result$ = abstractClass.getScale();
+      result$.pipe(take(1)).subscribe((scale) => {
+        expect(scale).toEqual({
+          scale: 'something else' as any,
+          useTransition: false,
         });
+      });
     });
   });
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.side = 'left';
+      abstractClass.side = VicSide.left;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisLeft);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.side = 'right';
+      abstractClass.side = VicSide.right;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisRight);
     });

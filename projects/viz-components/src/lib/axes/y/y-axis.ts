@@ -3,7 +3,8 @@ import { axisLeft, axisRight } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { XyAxis } from '../xy-axis';
+import { VicSide } from '../../core/types/side';
+import { XyAxis, XyAxisScale } from '../xy-axis';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for a y-axis.
@@ -16,7 +17,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     /**
      * The side of the chart on which the axis will be rendered.
      */
-    @Input() side: 'left' | 'right' = 'left';
+    @Input() side: VicSide.left | VicSide.right = VicSide.left;
     translate$: Observable<string>;
 
     setTranslate(): void {
@@ -29,7 +30,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     getTranslateDistance(ranges: Ranges): number {
-      return this.side === 'left'
+      return this.side === VicSide.left
         ? this.getLeftTranslate(ranges)
         : this.getRightTranslate(ranges);
     }
@@ -42,18 +43,18 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
       return ranges.x[1] - ranges.x[0] - this.chart.margin.right;
     }
 
-    setScale(): void {
+    getScale(): Observable<XyAxisScale> {
       const scales$ = this.chart.scales$.pipe(
         filter((scales) => !!scales && !!scales.y),
         map((scales) => {
           return { scale: scales.y, useTransition: scales.useTransition };
         })
       );
-      this.subscribeToScale(scales$);
+      return scales$;
     }
 
     setAxisFunction(): void {
-      this.axisFunction = this.side === 'left' ? axisLeft : axisRight;
+      this.axisFunction = this.side === VicSide.left ? axisLeft : axisRight;
     }
 
     initNumTicks(): number {

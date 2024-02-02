@@ -14,7 +14,7 @@ import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
 import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicAxisConfig } from './axis.config';
 
-type XyAxisScale = {
+export type XyAxisScale = {
   useTransition: boolean;
   scale: GenericScale<any, any>;
 };
@@ -35,7 +35,7 @@ export abstract class XyAxis implements OnInit {
 
   constructor(public chart: XyChartComponent, public destroyRef: DestroyRef) {}
 
-  abstract setScale(): void;
+  abstract getScale(): Observable<XyAxisScale>;
   abstract setAxisFunction(): any;
   abstract initNumTicks(): number;
   abstract setTranslate(): void;
@@ -44,13 +44,15 @@ export abstract class XyAxis implements OnInit {
   ngOnInit(): void {
     this.setAxisFunction();
     this.setTranslate();
-    this.setScale();
+    this.subscribeToScale();
   }
 
-  subscribeToScale(scale$: Observable<XyAxisScale>): void {
-    scale$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((scale) => {
-      this.onScaleUpdate(scale.scale, scale.useTransition);
-    });
+  subscribeToScale(): void {
+    this.getScale()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((scale) => {
+        this.onScaleUpdate(scale.scale, scale.useTransition);
+      });
   }
 
   onScaleUpdate(scale: GenericScale<any, any>, useTransition: boolean): void {

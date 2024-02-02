@@ -1,4 +1,6 @@
 import { Directive, Input } from '@angular/core';
+import { VicOrientation } from '../core/types/orientation';
+import { VicSide } from '../core/types/side';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { formatValue } from '../value-format/value-format';
 
@@ -6,8 +8,8 @@ import { formatValue } from '../value-format/value-format';
 export abstract class MapLegendContent<T> {
   @Input() width: number;
   @Input() height: number;
-  @Input() orientation: 'horizontal' | 'vertical';
-  @Input() valuesSide: 'left' | 'right' | 'top' | 'bottom';
+  @Input() orientation: keyof typeof VicOrientation;
+  @Input() valuesSide: keyof typeof VicSide;
   @Input() scale: any;
   @Input() config: VicAttributeDataDimensionConfig<T>;
   @Input() outlineColor: string;
@@ -24,7 +26,7 @@ export abstract class MapLegendContent<T> {
   setValues(): void {
     let values;
     values = this.getValuesFromScale();
-    if (this.orientation === 'vertical') {
+    if (this.orientation === VicOrientation.vertical) {
       values = values.slice().reverse();
     }
     this.setValueSpaces(values);
@@ -36,7 +38,7 @@ export abstract class MapLegendContent<T> {
 
   setColors(): void {
     this.colors = this.config.range;
-    if (this.orientation === 'vertical') {
+    if (this.orientation === VicOrientation.vertical) {
       this.colors = this.colors.slice().reverse();
     }
   }
