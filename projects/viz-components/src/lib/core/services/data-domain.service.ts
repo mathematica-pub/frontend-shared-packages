@@ -1,20 +1,43 @@
-import { Injectable } from '@angular/core';
 import {
   DomainPadding,
   VicDomainPaddingConfig,
 } from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
 
-export type ValueType = 'max' | 'min';
+export type DomainExtent = 'max' | 'min';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class DataDomainService {
-  getPaddedDomainValue(
+export class QuantitativeDomainUtilities {
+  static getPaddedDomain(
+    unpaddedDomain: [number, number],
+    domainPadding: VicDomainPaddingConfig,
+    scaleType?: any,
+    pixelRange?: [number, number]
+  ): [number, number] {
+    const domainMin = this.getPaddedDomainValue(
+      unpaddedDomain,
+      domainPadding,
+      'min',
+      scaleType,
+      pixelRange
+    );
+    const domainMax = this.getPaddedDomainValue(
+      unpaddedDomain,
+      domainPadding,
+      'max',
+      scaleType,
+      pixelRange
+    );
+    if (domainMin === domainMax) {
+      return [domainMin, domainMin + 1];
+    } else {
+      return [domainMin, domainMax];
+    }
+  }
+
+  static getPaddedDomainValue(
     unpaddedDomain: [number, number],
     padding: VicDomainPaddingConfig,
-    valueType: ValueType,
+    valueType: DomainExtent,
     scaleType?: any,
     pixelRange?: [number, number]
   ) {
@@ -52,10 +75,10 @@ export class DataDomainService {
     return paddedValue;
   }
 
-  getPixelPaddedDomainValue(
+  static getPixelPaddedDomainValue(
     unpaddedDomain: [number, number],
     numPixels: number,
-    valueType: ValueType,
+    valueType: DomainExtent,
     scaleType: any,
     pixelRange: [number, number]
   ): number {
@@ -71,10 +94,10 @@ export class DataDomainService {
     return scale.invert(targetVal);
   }
 
-  getQuantitativeDomainMaxRoundedUp(
+  static getQuantitativeDomainMaxRoundedUp(
     value: number,
     sigDigits: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): number {
     return ValueUtilities.getValueRoundedToNSignificantDigits(
       value,
@@ -83,11 +106,11 @@ export class DataDomainService {
     );
   }
 
-  getQuantitativeDomainMaxPercentOver(
+  static getQuantitativeDomainMaxPercentOver(
     value: number,
     sigDigits: number,
     percent: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): number {
     let overValue = Math.abs(value) * (1 + percent);
     if (value < 0) overValue = -overValue;
@@ -96,36 +119,5 @@ export class DataDomainService {
       sigDigits,
       valueType
     );
-  }
-
-  getQuantitativeDomain(
-    unpaddedDomain: [number, number],
-    domainPadding: VicDomainPaddingConfig,
-    scaleType?: any,
-    pixelRange?: [number, number]
-  ): [number, number] {
-    const domainMin = domainPadding
-      ? this.getPaddedDomainValue(
-          unpaddedDomain,
-          domainPadding,
-          'min',
-          scaleType,
-          pixelRange
-        )
-      : unpaddedDomain[0];
-    const domainMax = domainPadding
-      ? this.getPaddedDomainValue(
-          unpaddedDomain,
-          domainPadding,
-          'max',
-          scaleType,
-          pixelRange
-        )
-      : unpaddedDomain[1];
-    if (domainMin === domainMax) {
-      return [domainMin, domainMin + 1];
-    } else {
-      return [domainMin, domainMax];
-    }
   }
 }

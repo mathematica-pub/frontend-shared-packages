@@ -26,7 +26,7 @@ import {
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { DataDomainService } from '../core/services/data-domain.service';
+import { QuantitativeDomainUtilities } from '../core/services/data-domain.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -82,7 +82,6 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
   } = { x: undefined, y: undefined };
 
   private zone = inject(NgZone);
-  private dataDomainService = inject(DataDomainService);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
@@ -192,10 +191,14 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
   }
 
   setChartScalesFromRanges(useTransition: boolean): void {
-    const paddedXDomain = this.getPaddedDomain('x');
-    const paddedYDomain = this.getPaddedDomain('y');
-    const x = this.config.x.scaleType(paddedXDomain, this.ranges.x);
-    const y = this.config.y.scaleType(paddedYDomain, this.ranges.y);
+    const xDomain = this.config.x.domainPadding
+      ? this.getPaddedDomain('x')
+      : this.unpaddedDomain.x;
+    const yDomain = this.config.y.domainPadding
+      ? this.getPaddedDomain('y')
+      : this.unpaddedDomain.y;
+    const x = this.config.x.scaleType(xDomain, this.ranges.x);
+    const y = this.config.y.scaleType(yDomain, this.ranges.y);
     const category = this.config.category.colorScale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
@@ -207,7 +210,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
       this.config[dimension].scaleType !== scaleTime &&
       this.config[dimension].scaleType !== scaleUtc
     ) {
-      const paddedDomain = this.dataDomainService.getQuantitativeDomain(
+      const paddedDomain = QuantitativeDomainUtilities.getPaddedDomain(
         this.unpaddedDomain[dimension],
         this.config[dimension].domainPadding,
         this.config[dimension].scaleType,

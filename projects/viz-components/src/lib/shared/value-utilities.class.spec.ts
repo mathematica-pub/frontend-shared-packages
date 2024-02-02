@@ -1,11 +1,11 @@
-import { ValueType } from '../core/services/data-domain.service';
+import { DomainExtent } from '../core/services/data-domain.service';
 import { ValueUtilities } from './value-utilities.class';
 
 describe('ValueUtilities', () => {
   describe('integration: getValueRoundedToNSignificantDigits', () => {
     let sigDigits: number;
     let value: number;
-    let valueType: ValueType;
+    let valueType: DomainExtent;
     describe('value is large/positive integer, test with different sigDigits', () => {
       beforeEach(() => {
         value = 1234567;

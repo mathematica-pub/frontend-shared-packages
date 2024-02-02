@@ -25,7 +25,7 @@ import {
 } from 'd3';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { DataDomainService } from '../core/services/data-domain.service';
+import { QuantitativeDomainUtilities } from '../core/services/data-domain.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
@@ -59,13 +59,14 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   barGroups: any;
   barsKeyFunction: (i: number) => string;
-  private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
   bars$: Observable<any> = this.bars.asObservable();
   barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
   barLabels$: Observable<any> = this.bars.asObservable();
-  unpaddedQuantitativeDomain: [number, number];
+  unpaddedDomain: {
+    quantitative: [number, number];
+  } = { quantitative: undefined };
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
@@ -133,18 +134,28 @@ export class BarsComponent
       dataMin = this.getDataMin();
       dataMax = this.getDataMax();
     } else {
-      dataMin = min([this.config.quantitative.domain[0], 0]);
-      dataMax = max([this.config.quantitative.domain[1], 0]);
+      dataMin = this.config.quantitative.domainIncludesZero
+        ? min([this.config.quantitative.domain[0], 0])
+        : this.config.quantitative.domain[0];
+      dataMax = this.config.quantitative.domainIncludesZero
+        ? max([this.config.quantitative.domain[1], 0])
+        : this.config.quantitative.domain[1];
     }
-    this.unpaddedQuantitativeDomain = [dataMin, dataMax];
+    this.unpaddedDomain.quantitative = [dataMin, dataMax];
   }
 
   getDataMin(): number {
-    return min([min(this.values[this.config.dimensions.quantitative]), 0]);
+    const dataMin = min(this.values[this.config.dimensions.quantitative]);
+    return this.config.quantitative.domainIncludesZero
+      ? min([dataMin, 0])
+      : dataMin;
   }
 
   getDataMax(): number {
-    return max([max(this.values[this.config.dimensions.quantitative]), 0]);
+    const dataMax = max(this.values[this.config.dimensions.quantitative]);
+    return this.config.quantitative.domainIncludesZero
+      ? max([dataMax, 0])
+      : dataMax;
   }
 
   initCategoryScale(): void {
@@ -188,16 +199,18 @@ export class BarsComponent
   }
 
   getQuantitativeScale(): any {
-    const paddedDomain = this.getPaddedQuantitativeDomain();
+    const domain = this.config.quantitative.domainPadding
+      ? this.getPaddedQuantitativeDomain()
+      : this.unpaddedDomain.quantitative;
     return this.config.quantitative.scaleType(
-      paddedDomain,
+      domain,
       this.ranges[this.config.dimensions.quantitative]
     );
   }
 
   getPaddedQuantitativeDomain(): [number, number] {
-    const domain = this.dataDomainService.getQuantitativeDomain(
-      this.unpaddedQuantitativeDomain,
+    const domain = QuantitativeDomainUtilities.getPaddedDomain(
+      this.unpaddedDomain.quantitative,
       this.config.quantitative.domainPadding,
       this.config.quantitative.scaleType,
       this.ranges[this.config.dimensions.quantitative]

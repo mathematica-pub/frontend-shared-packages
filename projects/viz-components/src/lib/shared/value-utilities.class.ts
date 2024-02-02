@@ -1,4 +1,4 @@
-import { ValueType } from '../core/services/data-domain.service';
+import { DomainExtent } from '../core/services/data-domain.service';
 
 /**
  * @internal
@@ -7,7 +7,7 @@ export class ValueUtilities {
   static getValueRoundedToNSignificantDigits(
     value: number,
     sigDigits: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): number {
     // If the value type is 'max', rounds up if value is > 0 and down if value is < 0
     // If the value type is 'min', rounds down if value is > 0 and up if value is < 0
@@ -75,7 +75,7 @@ export class ValueUtilities {
   private static getRoundedDecimalLessThanOne(
     value: number,
     sigDigits: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): number {
     const valueStr = Math.abs(value).toString();
     let newValue = [];
@@ -116,7 +116,7 @@ export class ValueUtilities {
     newValue: string[],
     valueStr: string,
     i: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): string[] {
     const prevChar = valueStr[i - 1];
     if (prevChar === '9') {
@@ -145,7 +145,7 @@ export class ValueUtilities {
 
   private static getRoundingOffset(
     value: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): number {
     return (value > 0 && valueType === 'max') ||
       (value < 0 && valueType === 'min')
@@ -156,7 +156,7 @@ export class ValueUtilities {
   static getValueRoundedToInterval(
     value: number,
     interval: number,
-    valueType: ValueType
+    valueType: DomainExtent
   ): number {
     if (interval === 0) {
       return value;

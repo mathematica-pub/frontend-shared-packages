@@ -80,7 +80,7 @@ describe('BarsComponent', () => {
 
       it('sets min to zero, max stays the same', () => {
         component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedQuantitativeDomain).toEqual([0, 97]);
+        expect(component.unpaddedDomain).toEqual([0, 97]);
       });
     });
 
@@ -95,7 +95,7 @@ describe('BarsComponent', () => {
 
       it('sets max to zero, min stays the same', () => {
         component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedQuantitativeDomain).toEqual([-277, 0]);
+        expect(component.unpaddedDomain).toEqual([-277, 0]);
       });
     });
 
@@ -110,7 +110,7 @@ describe('BarsComponent', () => {
 
       it('max and min stay the same', () => {
         component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedQuantitativeDomain).toEqual([-3, 44]);
+        expect(component.unpaddedDomain).toEqual([-3, 44]);
       });
     });
   });

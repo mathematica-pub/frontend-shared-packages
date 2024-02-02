@@ -14,6 +14,7 @@ export class VicQuantitativeDimensionConfig extends VicDataDimensionConfig {
   override domain?: [any, any];
   scaleType?: (d: any, r: any) => any;
   domainPadding: VicDomainPaddingConfig;
+  domainIncludesZero: boolean;
 
   constructor(init?: Partial<VicQuantitativeDimensionConfig>) {
     super();
