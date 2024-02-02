@@ -3,7 +3,7 @@ import { axisLeft, axisRight } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { XyAxis } from '../xy-axis';
+import { XyAxis, XyAxisScale } from '../xy-axis';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for a y-axis.
@@ -42,14 +42,14 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
       return ranges.x[1] - ranges.x[0] - this.chart.margin.right;
     }
 
-    setScale(): void {
+    getScale(): Observable<XyAxisScale> {
       const scales$ = this.chart.scales$.pipe(
         filter((scales) => !!scales && !!scales.y),
         map((scales) => {
           return { scale: scales.y, useTransition: scales.useTransition };
         })
       );
-      this.subscribeToScale(scales$);
+      return scales$;
     }
 
     setAxisFunction(): void {
