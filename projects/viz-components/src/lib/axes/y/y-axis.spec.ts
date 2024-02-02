@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { axisLeft, axisRight } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
@@ -76,28 +77,21 @@ describe('the YAxis mixin', () => {
     });
   });
 
-  describe('setScale', () => {
-    let spy: jasmine.Spy;
-    beforeEach(() => {
-      spy = spyOn(abstractClass, 'subscribeToScale');
-    });
-    it('calls subscribeToScale with the correct scale', () => {
+  describe('getScale', () => {
+    it('returns the correct scale', () => {
       const scales = {
         x: 'hello',
         useTransition: false,
         y: 'something else',
       } as any;
       abstractClass.chart.scales$ = of(scales);
-      abstractClass.setScale();
-      spy.calls
-        .mostRecent()
-        .args[0].pipe(take(1))
-        .subscribe((scale) => {
-          expect(scale).toEqual({
-            scale: 'something else',
-            useTransition: false,
-          });
+      const result$ = abstractClass.getScale();
+      result$.pipe(take(1)).subscribe((scale) => {
+        expect(scale).toEqual({
+          scale: 'something else' as any,
+          useTransition: false,
         });
+      });
     });
   });
 
