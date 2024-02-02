@@ -10,7 +10,6 @@ import {
   OnChanges,
   OnInit,
   Output,
-  SimpleChanges,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -27,13 +26,12 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyContent } from '../xy-chart/xy-content';
+import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
@@ -51,7 +49,7 @@ export const BARS = new InjectionToken<BarsComponent>('BarsComponent');
   ],
 })
 export class BarsComponent
-  extends XyContent
+  extends XyDataMarksBase
   implements XyDataMarks, OnChanges, OnInit
 {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
@@ -61,7 +59,6 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   barGroups: any;
   barsKeyFunction: (i: number) => string;
-  private utilities = inject(UtilitiesService);
   private dataDomainService = inject(DataDomainService);
   private zone = inject(NgZone);
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -70,43 +67,14 @@ export class BarsComponent
   barLabels$: Observable<any> = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
-    ) {
-      this.setMethodsFromConfigAndDraw();
-    }
-  }
-
-  ngOnInit(): void {
-    this.subscribeToRanges();
-    this.subscribeToScales();
-    this.setMethodsFromConfigAndDraw();
-  }
-
-  updateBarElements(): void {
-    const bars = select(this.barsRef.nativeElement).selectAll('rect');
-    const barLabels = select(this.barsRef.nativeElement).selectAll('text');
-    this.bars.next(bars);
-    this.barLabels.next(barLabels);
-  }
-
-  setMethodsFromConfigAndDraw(): void {
+  setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.initUnpaddedQuantitativeDomain();
-    this.setQuantitativeDomainPadding();
     this.initCategoryScale();
-    this.setScaledSpaceProperties();
     this.setBarsKeyFunction();
-    this.drawMarks(this.chart.transitionDuration);
-  }
-
-  resizeMarks(): void {
-    this.setScaledSpaceProperties();
-    this.drawMarks(0);
   }
 
   setValueArrays(): void {
@@ -171,16 +139,6 @@ export class BarsComponent
     this.unpaddedQuantitativeDomain = [dataMin, dataMax];
   }
 
-  setQuantitativeDomainPadding(): void {
-    const domain = this.dataDomainService.getQuantitativeDomain(
-      this.unpaddedQuantitativeDomain,
-      this.config.quantitative.domainPadding,
-      this.config.quantitative.scaleType,
-      this.ranges[this.config.dimensions.quantitative]
-    );
-    this.config.quantitative.domain = domain;
-  }
-
   getDataMin(): number {
     return min([min(this.values[this.config.dimensions.quantitative]), 0]);
   }
@@ -198,16 +156,23 @@ export class BarsComponent
     }
   }
 
-  setScaledSpaceProperties(): void {
+  setBarsKeyFunction(): void {
+    this.barsKeyFunction = (i: number): string =>
+      `${this.values[this.config.dimensions.ordinal][i]}`;
+  }
+
+  setChartScalesFromRanges(useTransition: boolean): void {
+    const x =
+      this.config.dimensions.ordinal === 'x'
+        ? this.getOrdinalScale()
+        : this.getQuantitativeScale();
+    const y =
+      this.config.dimensions.ordinal === 'x'
+        ? this.getQuantitativeScale()
+        : this.getOrdinalScale();
+    const category = this.config.category.colorScale;
     this.zone.run(() => {
-      this.setQuantitativeDomainPadding();
-      if (this.config.dimensions.ordinal === 'x') {
-        this.chart.updateXScale(this.getOrdinalScale());
-        this.chart.updateYScale(this.getQuantitativeScale());
-      } else {
-        this.chart.updateXScale(this.getQuantitativeScale());
-        this.chart.updateYScale(this.getOrdinalScale());
-      }
+      this.chart.updateScales({ x, y, category, useTransition });
     });
   }
 
@@ -223,18 +188,25 @@ export class BarsComponent
   }
 
   getQuantitativeScale(): any {
+    const paddedDomain = this.getPaddedQuantitativeDomain();
     return this.config.quantitative.scaleType(
-      this.config.quantitative.domain,
+      paddedDomain,
       this.ranges[this.config.dimensions.quantitative]
     );
   }
 
-  setBarsKeyFunction(): void {
-    this.barsKeyFunction = (i: number): string =>
-      `${this.values[this.config.dimensions.ordinal][i]}`;
+  getPaddedQuantitativeDomain(): [number, number] {
+    const domain = this.dataDomainService.getQuantitativeDomain(
+      this.unpaddedQuantitativeDomain,
+      this.config.quantitative.domainPadding,
+      this.config.quantitative.scaleType,
+      this.ranges[this.config.dimensions.quantitative]
+    );
+    return domain;
   }
 
-  drawMarks(transitionDuration: number): void {
+  drawMarks(): void {
+    const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
@@ -291,8 +263,8 @@ export class BarsComponent
     return `translate(${x},${y})`;
   }
 
-  setBarSizeAndFill(selection: any): void {
-    selection
+  setBarSizeAndFill(selection: any): any {
+    return selection
       .attr('width', (i) => this.getBarWidth(i as number))
       .attr('height', (i) => this.getBarHeight(i as number))
       .attr('fill', (i) =>
@@ -351,9 +323,7 @@ export class BarsComponent
   }
 
   getBarColor(i: number): string {
-    return this.config.category.colorScale(
-      this.values[this.config.dimensions.ordinal][i]
-    );
+    return this.scales.category(this.values[this.config.dimensions.ordinal][i]);
   }
 
   getBarPattern(i: number): string {
@@ -375,23 +345,27 @@ export class BarsComponent
   }
 
   getBarXOrdinal(i: number): number {
-    return this.xScale(this.values.x[i]);
+    return this.scales.x(this.values.x[i]);
   }
 
   getBarXQuantitative(i: number): number {
     if (this.hasBarsWithNegativeValues) {
       if (this.values.x[i] < 0) {
-        return this.xScale(this.values.x[i]);
+        return this.scales.x(this.values.x[i]);
       } else {
-        return this.xScale(0);
+        return this.scales.x(0);
       }
     } else {
-      return this.xScale(this.config.quantitative.domain[0]);
+      return this.scales.x(this.getQuantitativeDomainFromScale()[0]);
     }
   }
 
+  getQuantitativeDomainFromScale(): number[] {
+    return this.scales[this.config.dimensions.quantitative].domain();
+  }
+
   getBarY(i: number): number {
-    return this.yScale(this.values.y[i]);
+    return this.scales.y(this.values.y[i]);
   }
 
   getBarWidth(i: number): number {
@@ -420,14 +394,14 @@ export class BarsComponent
   }
 
   getBarWidthOrdinal(i: number): number {
-    return (this.xScale as any).bandwidth();
+    return (this.scales.x as any).bandwidth();
   }
 
   getBarWidthQuantitative(i: number): number {
     const origin = this.hasBarsWithNegativeValues
       ? 0
-      : this.config.quantitative.domain[0];
-    return Math.abs(this.xScale(this.values.x[i]) - this.xScale(origin));
+      : this.getQuantitativeDomainFromScale()[0];
+    return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
   }
 
   getBarHeight(i: number): number {
@@ -451,17 +425,20 @@ export class BarsComponent
   }
 
   getBarHeightOrdinal(i: number): number {
-    return (this.yScale as any).bandwidth();
+    return (this.scales.y as any).bandwidth();
   }
 
   getBarHeightQuantitative(i: number): number {
     const origin = this.hasBarsWithNegativeValues
       ? 0
-      : this.config.quantitative.domain[0];
-    return Math.abs(this.yScale(origin - this.values.y[i]));
+      : this.getQuantitativeDomainFromScale()[0];
+    return Math.abs(this.scales.y(origin - this.values.y[i]));
   }
 
-  onPointerEnter: (event: PointerEvent) => void;
-  onPointerLeave: (event: PointerEvent) => void;
-  onPointerMove: (event: PointerEvent) => void;
+  updateBarElements(): void {
+    const bars = select(this.barsRef.nativeElement).selectAll('rect');
+    const barLabels = select(this.barsRef.nativeElement).selectAll('text');
+    this.bars.next(bars);
+    this.barLabels.next(barLabels);
+  }
 }

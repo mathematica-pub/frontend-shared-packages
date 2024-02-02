@@ -83,7 +83,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
   getClosestXIndicies(): number[] {
     const uniqueXValues = [...new Set(this.stackedArea.values.x)];
     const closestXValue = least(uniqueXValues, (x) =>
-      Math.abs(this.stackedArea.xScale(x) - this.pointerX)
+      Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
     if (this.utilities.isDate(closestXValue)) {
       return this.stackedArea.values.indicies.filter(

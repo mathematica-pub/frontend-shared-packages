@@ -1,4 +1,5 @@
-import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
 import { UtilitiesService } from '../core/services/utilities.service';
@@ -32,120 +33,38 @@ describe('BarsComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('ngOnChanges()', () => {
-    let configChange: any;
-    beforeEach(() => {
-      spyOn(component, 'setMethodsFromConfigAndDraw');
-      configChange = {
-        config: new SimpleChange('', '', false),
-      };
-    });
-
-    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
-      component.ngOnChanges(configChange);
-      expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
-      ).toHaveBeenCalledOnceWith(configChange, 'config');
-    });
-    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
-      component.ngOnChanges(configChange);
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
-      component.ngOnChanges(configChange);
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('ngOnInit()', () => {
-    beforeEach(() => {
-      spyOn(component, 'subscribeToRanges');
-      spyOn(component, 'subscribeToScales');
-      spyOn(component, 'setMethodsFromConfigAndDraw');
-    });
-    it('calls subscribeToRanges once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToRanges).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls subscribeToScales once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToScales).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setMethodsFromConfigAndDraw once', () => {
-      component.ngOnInit();
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setMethodsFromConfigAndDraw()', () => {
+  describe('setPropertiesFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initNonQuantitativeDomains');
       spyOn(component, 'setValueIndicies');
       spyOn(component, 'setHasBarsWithNegativeValues');
       spyOn(component, 'initUnpaddedQuantitativeDomain');
-      spyOn(component, 'setQuantitativeDomainPadding');
       spyOn(component, 'initCategoryScale');
-      spyOn(component, 'setScaledSpaceProperties');
-      spyOn(component, 'drawMarks');
-      component.chart = { transitionDuration: 200 } as any;
-      component.setMethodsFromConfigAndDraw();
+      spyOn(component, 'setBarsKeyFunction');
+      component.setPropertiesFromConfig();
     });
 
     it('calls setValueArrays once', () => {
       expect(component.setValueArrays).toHaveBeenCalledTimes(1);
     });
-
     it('calls initNonQuantitativeDomains once', () => {
       expect(component.initNonQuantitativeDomains).toHaveBeenCalledTimes(1);
     });
-
     it('calls setValueArrayIndicies once', () => {
       expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
     });
-
     it('calls setHasBarsWithNegativeValues once', () => {
       expect(component.setHasBarsWithNegativeValues).toHaveBeenCalledTimes(1);
     });
-
     it('calls initUnpaddedQuantitativeDomain once', () => {
       expect(component.initUnpaddedQuantitativeDomain).toHaveBeenCalledTimes(1);
     });
-
-    it('calls setQuantitativeDomainPadding once', () => {
-      expect(component.setQuantitativeDomainPadding).toHaveBeenCalledTimes(1);
+    it('calls initCategoryScale once', () => {
+      expect(component.initCategoryScale).toHaveBeenCalledTimes(1);
     });
-
-    it('calls setScaledSpaceProperties once', () => {
-      expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls drawMarks once with the correct argument', () => {
-      expect(component.drawMarks).toHaveBeenCalledOnceWith(200);
-    });
-  });
-
-  describe('resizeMarks()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setScaledSpaceProperties');
-      spyOn(component, 'drawMarks');
-      component.resizeMarks();
-    });
-    it('calls setScaledSpaceProperties once', () => {
-      expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls drawMarks once with zero as the argument', () => {
-      expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
+    it('calls setBarsKeyFunction once', () => {
+      expect(component.setBarsKeyFunction).toHaveBeenCalledOnceWith();
     });
   });
 
@@ -418,66 +337,51 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('setScaledSpaceProperties', () => {
+  describe('setChartScalesFromRanges', () => {
     beforeEach(() => {
       component.config = {
         dimensions: { ordinal: 'x' },
+        category: {
+          colorScale: 'blue',
+        },
       } as any;
       component.chart = {
-        updateXScale: jasmine.createSpy('updateXScale'),
-        updateYScale: jasmine.createSpy('updateYScale'),
+        updateScales: jasmine.createSpy('updatesScales'),
       } as any;
       spyOn(component, 'getOrdinalScale').and.returnValue('ord scale');
       spyOn(component, 'getQuantitativeScale').and.returnValue('quant scale');
-      spyOn(component, 'setQuantitativeDomainPadding');
     });
     it('calls getOrdinalScale once', () => {
-      component.setScaledSpaceProperties();
+      component.setChartScalesFromRanges(true);
       expect(component.getOrdinalScale).toHaveBeenCalledTimes(1);
     });
-
     it('calls getQuantitativeScale once', () => {
-      component.setScaledSpaceProperties();
+      component.setChartScalesFromRanges(true);
       expect(component.getQuantitativeScale).toHaveBeenCalledTimes(1);
     });
-
-    it('calls setQuantitativeDomainPadding once', () => {
-      component.setScaledSpaceProperties();
-      expect(component.setQuantitativeDomainPadding).toHaveBeenCalledTimes(1);
-    });
-
     describe('if ordinal is x', () => {
-      it('calls updateXScale once with the correct value', () => {
-        component.setScaledSpaceProperties();
-        expect(component.chart.updateXScale).toHaveBeenCalledOnceWith(
-          'ord scale' as any
-        );
-      });
-
-      it('calls updateYScale once with the correct value', () => {
-        component.setScaledSpaceProperties();
-        expect(component.chart.updateYScale).toHaveBeenCalledOnceWith(
-          'quant scale' as any
-        );
+      it('calls updateScales once with the correct values', () => {
+        component.setChartScalesFromRanges(true);
+        expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
+          x: 'ord scale',
+          y: 'quant scale',
+          category: 'blue',
+          useTransition: true,
+        } as any);
       });
     });
-
     describe('if ordinal is not x', () => {
       beforeEach(() => {
         component.config.dimensions.ordinal = 'y';
       });
-      it('calls updateXScale once with the correct value', () => {
-        component.setScaledSpaceProperties();
-        expect(component.chart.updateXScale).toHaveBeenCalledOnceWith(
-          'quant scale' as any
-        );
-      });
-
-      it('calls updateYScale once with the correct value', () => {
-        component.setScaledSpaceProperties();
-        expect(component.chart.updateYScale).toHaveBeenCalledOnceWith(
-          'ord scale' as any
-        );
+      it('calls updateScales once with the correct value', () => {
+        component.setChartScalesFromRanges(false);
+        expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
+          x: 'quant scale',
+          y: 'ord scale',
+          category: 'blue',
+          useTransition: false,
+        } as any);
       });
     });
   });
@@ -486,23 +390,30 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       spyOn(component, 'drawBars');
       spyOn(component, 'drawBarLabels');
+      spyOn(component, 'updateBarElements');
+      spyOn(component, 'getTransitionDuration').and.returnValue(100);
       component.config = new VicBarsConfig();
       component.config.labels = new VicBarsLabelsConfig();
     });
     it('calls drawBars once with the correct parameter', () => {
-      component.drawMarks(100);
+      component.drawMarks();
       expect(component.drawBars).toHaveBeenCalledOnceWith(100);
     });
 
     it('calls drawBarLabels if config.labels is truthy', () => {
-      component.drawMarks(100);
-      expect(component.drawBarLabels).toHaveBeenCalledTimes(1);
+      component.drawMarks();
+      expect(component.drawBarLabels).toHaveBeenCalledOnceWith(100);
     });
 
     it('does not call drawBarLabels if config.labels is falsey', () => {
       component.config.labels = undefined;
-      component.drawMarks(100);
+      component.drawMarks();
       expect(component.drawBarLabels).not.toHaveBeenCalled();
+    });
+
+    it('calls updateBarElements', () => {
+      component.drawMarks();
+      expect(component.updateBarElements).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -580,18 +491,18 @@ describe('BarsComponent', () => {
       const colorScaleSpy = jasmine
         .createSpy('colorScale')
         .and.returnValue('blue');
+      component.scales = {
+        category: colorScaleSpy,
+      } as any;
       component.config = {
         dimensions: { ordinal: 'x' },
-        category: {
-          colorScale: colorScaleSpy,
-        },
         data: [1, 2, 3],
       } as any;
       component.values.x = [1, 2, 3];
     });
     it('calls colorScale once with the correct value', () => {
       component.getBarColor(0);
-      expect(component.config.category.colorScale).toHaveBeenCalledOnceWith(1);
+      expect(component.scales.category).toHaveBeenCalledOnceWith(1);
     });
     it('returns the correct value', () => {
       const result = component.getBarColor(0);
@@ -670,12 +581,14 @@ describe('BarsComponent', () => {
 
   describe('getBarXOrdinal()', () => {
     beforeEach(() => {
-      component.xScale = jasmine.createSpy('xScale').and.returnValue(10);
+      component.scales = {
+        x: jasmine.createSpy('x').and.returnValue(10),
+      } as any;
       component.values.x = [1, 2, 3];
     });
     it('calls xScale once and with the correct value', () => {
       component.getBarXOrdinal(2);
-      expect(component.xScale).toHaveBeenCalledOnceWith(3);
+      expect(component.scales.x).toHaveBeenCalledOnceWith(3);
     });
     it('returns the correct value', () => {
       expect(component.getBarXOrdinal(2)).toEqual(10);
@@ -684,25 +597,25 @@ describe('BarsComponent', () => {
 
   describe('getBarXQuantitative()', () => {
     beforeEach(() => {
-      component.xScale = jasmine.createSpy('xScale').and.returnValue(50);
+      component.scales = {
+        x: jasmine.createSpy('x').and.returnValue(50),
+      } as any;
       component.hasBarsWithNegativeValues = true;
       component.values.x = [1, 2, 3];
-      component.config = {
-        quantitative: {
-          domain: [2, 10],
-        },
-      } as any;
+      spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
+        2, 10,
+      ]);
     });
     describe('hasBarsWithNegativeValues is true', () => {
       it('calls xScale once and with the correct value if x value is less than zero', () => {
         component.values.x = [-1, 2, 3];
         component.getBarXQuantitative(0);
-        expect(component.xScale).toHaveBeenCalledOnceWith(-1);
+        expect(component.scales.x).toHaveBeenCalledOnceWith(-1);
       });
 
       it('calls xScale once with 0 if x value is greater than zero', () => {
         component.getBarXQuantitative(2);
-        expect(component.xScale).toHaveBeenCalledOnceWith(0);
+        expect(component.scales.x).toHaveBeenCalledOnceWith(0);
       });
     });
 
@@ -710,7 +623,7 @@ describe('BarsComponent', () => {
       it('calls xScale once and with the correct value', () => {
         component.hasBarsWithNegativeValues = false;
         component.getBarXQuantitative(0);
-        expect(component.xScale).toHaveBeenCalledOnceWith(2);
+        expect(component.scales.x).toHaveBeenCalledOnceWith(2);
       });
     });
 
@@ -721,12 +634,14 @@ describe('BarsComponent', () => {
 
   describe('getBarY()', () => {
     beforeEach(() => {
-      component.yScale = jasmine.createSpy('yScale').and.returnValue(50);
+      component.scales = {
+        y: jasmine.createSpy('y').and.returnValue(50),
+      } as any;
       component.values.y = [1, 2, 3];
     });
     it('calls yScale once and with the correct value', () => {
       component.getBarY(2);
-      expect(component.yScale).toHaveBeenCalledOnceWith(3);
+      expect(component.scales.y).toHaveBeenCalledOnceWith(3);
     });
 
     it('returns the correct value', () => {
@@ -849,13 +764,15 @@ describe('BarsComponent', () => {
 
   describe('getBarWidthOrdinal()', () => {
     beforeEach(() => {
-      component.xScale = {
-        bandwidth: jasmine.createSpy('bandwidth').and.returnValue(10),
+      component.scales = {
+        x: {
+          bandwidth: jasmine.createSpy('bandwidth').and.returnValue(10),
+        },
       } as any;
     });
     it('calls xScale.bandwidth once', () => {
       component.getBarWidthOrdinal(2);
-      expect((component.xScale as any).bandwidth).toHaveBeenCalledTimes(1);
+      expect((component.scales.x as any).bandwidth).toHaveBeenCalledTimes(1);
     });
 
     it('returns the correct value', () => {
@@ -866,15 +783,13 @@ describe('BarsComponent', () => {
   describe('getBarWidthQuantitative()', () => {
     let xScaleSpy: jasmine.Spy;
     beforeEach(() => {
-      xScaleSpy = jasmine.createSpy('xScale').and.returnValues(20, 50);
-      component.xScale = xScaleSpy;
+      xScaleSpy = jasmine.createSpy('x').and.returnValues(20, 50);
+      component.scales = { x: xScaleSpy } as any;
       component.hasBarsWithNegativeValues = true;
       component.values.x = [1, 2, 3];
-      component.config = {
-        quantitative: {
-          domain: [2, 10],
-        },
-      } as any;
+      spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
+        2, 10,
+      ]);
     });
     describe('hasBarsWithNegativeValues is true', () => {
       it('calls xScale twice and with the correct values', () => {
@@ -992,13 +907,15 @@ describe('BarsComponent', () => {
 
   describe('getBarHeightOrdinal()', () => {
     beforeEach(() => {
-      component.yScale = {
-        bandwidth: jasmine.createSpy('bandwidth').and.returnValue(10),
+      component.scales = {
+        y: {
+          bandwidth: jasmine.createSpy('bandwidth').and.returnValue(10),
+        },
       } as any;
     });
-    it('calls yScale.bandwidth once', () => {
+    it('calls scales.y.bandwidth once', () => {
       component.getBarHeightOrdinal(2);
-      expect((component.yScale as any).bandwidth).toHaveBeenCalledTimes(1);
+      expect((component.scales.y as any).bandwidth).toHaveBeenCalledTimes(1);
     });
 
     it('returns the correct value', () => {
@@ -1009,20 +926,18 @@ describe('BarsComponent', () => {
   describe('getBarHeightQuantitative()', () => {
     let yScaleSpy: jasmine.Spy;
     beforeEach(() => {
-      yScaleSpy = jasmine.createSpy('yScale').and.returnValue(-50);
-      component.yScale = yScaleSpy;
+      yScaleSpy = jasmine.createSpy('y').and.returnValue(-50);
+      component.scales = { y: yScaleSpy } as any;
       component.hasBarsWithNegativeValues = true;
       component.values.y = [1, 2, 3];
-      component.config = {
-        quantitative: {
-          domain: [2, 10],
-        },
-      } as any;
+      spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
+        2, 10,
+      ]);
     });
     describe('hasBarsWithNegativeValues is true', () => {
       it('calls yScale once and with the correct values', () => {
         component.getBarHeightQuantitative(2);
-        expect(component.yScale).toHaveBeenCalledOnceWith(-3);
+        expect(component.scales.y).toHaveBeenCalledOnceWith(-3);
       });
     });
 
@@ -1030,7 +945,7 @@ describe('BarsComponent', () => {
       it('calls yScale once and with the correct value', () => {
         component.hasBarsWithNegativeValues = false;
         component.getBarHeightQuantitative(2);
-        expect(component.yScale).toHaveBeenCalledOnceWith(-1);
+        expect(component.scales.y).toHaveBeenCalledOnceWith(-1);
       });
     });
 

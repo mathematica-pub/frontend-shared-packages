@@ -1,4 +1,5 @@
 import { timeMonth } from 'd3';
+import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { QuantitativeAxisStub } from '../../testing/stubs/quantitative-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
@@ -8,7 +9,10 @@ describe('the QuantitativeAxis mixin', () => {
 
   beforeEach(() => {
     chart = new XyChartComponentStub();
-    abstractClass = new QuantitativeAxisStub(chart as any);
+    abstractClass = new QuantitativeAxisStub(
+      chart as any,
+      new DestroyRefStub()
+    );
   });
 
   describe('setAxis()', () => {
