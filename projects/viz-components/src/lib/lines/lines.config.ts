@@ -5,7 +5,7 @@ import {
 } from '../data-marks/data-dimension.config';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 
-export class VicLinesConfig extends VicDataMarksConfig {
+export class VicLinesConfig<T> extends VicDataMarksConfig<T> {
   /**
    * A config for the behavior of the chart's x dimension
    *
@@ -13,7 +13,7 @@ export class VicLinesConfig extends VicDataMarksConfig {
    *
    * Default scaleType is D3's [scaleUtc]{@link https://github.com/d3/d3-scale#scaleUtc}.
    */
-  x: VicQuantitativeDimensionConfig = new VicQuantitativeDimensionConfig();
+  x: VicQuantitativeDimensionConfig<T> = new VicQuantitativeDimensionConfig();
 
   /**
    * A config for the behavior of the chart's y dimension
@@ -22,7 +22,7 @@ export class VicLinesConfig extends VicDataMarksConfig {
    *
    * Default scaleType is D3's [scaleLinear]{@link https://github.com/d3/d3-scale#scaleLinear}.
    */
-  y: VicQuantitativeDimensionConfig = new VicQuantitativeDimensionConfig();
+  y: VicQuantitativeDimensionConfig<T> = new VicQuantitativeDimensionConfig();
 
   /**
    * A config for the behavior of the chart's category dimension.
@@ -31,7 +31,7 @@ export class VicLinesConfig extends VicDataMarksConfig {
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
-  category: VicCategoricalColorDimensionConfig =
+  category: VicCategoricalColorDimensionConfig<T> =
     new VicCategoricalColorDimensionConfig();
 
   /**
@@ -89,11 +89,9 @@ export class VicLinesConfig extends VicDataMarksConfig {
    */
   pointerDetectionRadius: number;
 
-  constructor(init?: Partial<VicLinesConfig>) {
+  constructor(init?: Partial<VicLinesConfig<T>>) {
     super();
-    this.x.valueAccessor = ([x]) => x;
     this.x.scaleType = scaleUtc;
-    this.y.valueAccessor = ([, y]) => y;
     this.y.scaleType = scaleLinear;
     this.category.valueAccessor = () => 1;
     this.category.colors = schemeTableau10 as string[];

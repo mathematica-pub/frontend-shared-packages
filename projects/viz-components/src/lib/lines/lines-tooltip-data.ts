@@ -1,8 +1,8 @@
 import { formatValue } from '../value-format/value-format';
 import { LinesComponent } from './lines.component';
 
-export interface VicLinesEventOutput {
-  datum: any;
+export interface VicLinesEventOutput<T> {
+  datum: T;
   x: string;
   y: string;
   category: string;
@@ -11,10 +11,10 @@ export interface VicLinesEventOutput {
   positionY: number;
 }
 
-export function getLinesTooltipDataFromDatum(
+export function getLinesTooltipDataFromDatum<T>(
   datumIndex: number,
-  lines: LinesComponent
-): VicLinesEventOutput {
+  lines: LinesComponent<T>
+): VicLinesEventOutput<T> {
   const datum = lines.config.data.find(
     (d) =>
       lines.values.x[datumIndex] === lines.config.x.valueAccessor(d) &&

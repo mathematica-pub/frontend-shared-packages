@@ -1,15 +1,14 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
-import { XyChartComponent } from './xy-chart.component';
+import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 describe('XyDataMarksBase abstract class', () => {
-  let abstractClass: XyDataMarksBaseStub;
+  let abstractClass: XyDataMarksBaseStub<any>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(() => {
@@ -30,38 +29,6 @@ describe('XyDataMarksBase abstract class', () => {
     abstractClass = TestBed.inject(XyDataMarksBaseStub);
   });
 
-  describe('ngOnChanges()', () => {
-    let configChange: any;
-    beforeEach(() => {
-      spyOn(abstractClass, 'initFromConfig');
-      configChange = {
-        config: new SimpleChange('', '', false),
-      };
-    });
-
-    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
-      abstractClass.ngOnChanges(configChange);
-      expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
-      ).toHaveBeenCalledOnceWith(configChange, 'config');
-    });
-    it('should call initFromConfig once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
-      abstractClass.ngOnChanges(configChange);
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
-    });
-    it('should call not call initFromConfig if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
-      abstractClass.ngOnChanges(configChange);
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(0);
-    });
-  });
-
   describe('ngOnInit()', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'subscribeToRanges');
@@ -79,23 +46,6 @@ describe('XyDataMarksBase abstract class', () => {
     it('calls initFromConfig()', () => {
       abstractClass.ngOnInit();
       expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('initFromConfig()', () => {
-    beforeEach(() => {
-      spyOn(abstractClass, 'setPropertiesFromConfig');
-      spyOn(abstractClass, 'setChartScalesFromRanges');
-    });
-    it('calls setPropertiesFromConfig()', () => {
-      abstractClass.initFromConfig();
-      expect(abstractClass.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
-    });
-    it('calls setChartScales with useTransition = true', () => {
-      abstractClass.initFromConfig();
-      expect(abstractClass.setChartScalesFromRanges).toHaveBeenCalledOnceWith(
-        true
-      );
     });
   });
 
@@ -205,10 +155,10 @@ describe('XyDataMarksBase abstract class', () => {
   });
 
   describe('resizeMarks()', () => {
-    it('calls setChartScales once with the correct values', () => {
-      spyOn(abstractClass, 'setChartScalesFromRanges');
+    it('calls setPropertiesFromRanges once with the correct values', () => {
+      spyOn(abstractClass, 'setPropertiesFromRanges');
       abstractClass.resizeMarks();
-      expect(abstractClass.setChartScalesFromRanges).toHaveBeenCalledOnceWith(
+      expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledOnceWith(
         false
       );
     });

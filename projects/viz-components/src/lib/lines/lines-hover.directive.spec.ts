@@ -4,10 +4,10 @@ import { HoverDirective } from '../events/hover.directive';
 import { HoverDirectiveStub } from '../testing/stubs/hover.directive.stub';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
 import { LinesHoverDirective } from './lines-hover.directive';
-import { LINES } from './lines.component';
+import { LINES, LinesComponent } from './lines.component';
 
 describe('LinesHoverDirective', () => {
-  let directive: LinesHoverDirective;
+  let directive: LinesHoverDirective<any, LinesComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -32,9 +32,10 @@ import { VicAttributeDataDimensionConfig } from '../geographies/geographies.conf
   styleUrls: ['../chart/chart.component.scss'],
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class MapChartComponent extends ChartComponent implements Chart {
-  private attributeDataConfig: BehaviorSubject<VicAttributeDataDimensionConfig> =
-    new BehaviorSubject(null);
+export class MapChartComponent<T> extends ChartComponent implements Chart {
+  private attributeDataConfig: BehaviorSubject<
+    VicAttributeDataDimensionConfig<T>
+  > = new BehaviorSubject(null);
   attributeDataConfig$ = this.attributeDataConfig.asObservable();
   private attributeDataScale: BehaviorSubject<any> = new BehaviorSubject(null);
   attributeDataScale$ = this.attributeDataScale.asObservable();
@@ -43,7 +44,9 @@ export class MapChartComponent extends ChartComponent implements Chart {
     this.attributeDataScale.next(dataScale);
   }
 
-  updateAttributeDataConfig(dataConfig: VicAttributeDataDimensionConfig): void {
+  updateAttributeDataConfig(
+    dataConfig: VicAttributeDataDimensionConfig<T>
+  ): void {
     this.attributeDataConfig.next(dataConfig);
   }
 }

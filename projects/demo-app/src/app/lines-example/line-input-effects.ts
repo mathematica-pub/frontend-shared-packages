@@ -1,10 +1,13 @@
 import { InputEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
+import { LinesComponent } from 'projects/viz-components/src/public-api';
 
-export class HighlightLineForLabel
-  implements InputEventEffect<LinesInputEventDirective>
+export class HighlightLineForLabel<
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
+> implements InputEventEffect<LinesInputEventDirective<T, U>>
 {
-  applyEffect(event: LinesInputEventDirective, label: string): void {
+  applyEffect(event: LinesInputEventDirective<T, U>, label: string): void {
     event.lines.lines
       .style('stroke', ([category]): string =>
         label === category ? null : '#ddd'
@@ -20,7 +23,7 @@ export class HighlightLineForLabel
       .raise();
   }
 
-  removeEffect(event: LinesInputEventDirective): void {
+  removeEffect(event: LinesInputEventDirective<T, U>): void {
     event.lines.lines.style('stroke', null);
     event.lines.markers.style('fill', null);
   }

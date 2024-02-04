@@ -2,13 +2,13 @@ import { ElementRef } from '@angular/core';
 import { formatValue } from '../value-format/value-format';
 import { BarsComponent } from './bars.component';
 
-export interface VicBarsEventOutput extends VicBarsTooltipOutput {
+export interface VicBarsEventOutput<T> extends VicBarsTooltipOutput<T> {
   positionX: number;
   positionY: number;
 }
 
-export interface VicBarsTooltipOutput {
-  datum: any;
+export interface VicBarsTooltipOutput<T> {
+  datum: T;
   color: string;
   ordinal: string;
   quantitative: string;
@@ -16,11 +16,11 @@ export interface VicBarsTooltipOutput {
   elRef: ElementRef;
 }
 
-export function getBarsTooltipData(
+export function getBarsTooltipData<T>(
   barIndex: number,
   elRef: ElementRef,
-  bars: BarsComponent
-): VicBarsTooltipOutput {
+  bars: BarsComponent<T>
+): VicBarsTooltipOutput<T> {
   const datum = bars.config.data.find(
     (d) =>
       bars.values[bars.config.dimensions.quantitative][barIndex] ===
@@ -29,7 +29,7 @@ export function getBarsTooltipData(
         bars.config.ordinal.valueAccessor(d)
   );
 
-  const tooltipData: VicBarsTooltipOutput = {
+  const tooltipData: VicBarsTooltipOutput<T> = {
     datum,
     color: bars.getBarColor(barIndex),
     ordinal: bars.config.ordinal.valueAccessor(datum),

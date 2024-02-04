@@ -1,14 +1,13 @@
-import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { UtilitiesService } from '../core/services/utilities.service';
+import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapChartComponentStub } from '../testing/stubs/map-chart.component.stub';
 import { MapDataMarksBaseStub } from '../testing/stubs/map-data-marks-base.stub';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { MapChartComponent } from './map-chart.component';
 
 describe('MapDataMarksBase abstract class', () => {
-  let abstractClass: MapDataMarksBaseStub;
+  let abstractClass: MapDataMarksBaseStub<any>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(() => {
@@ -27,37 +26,6 @@ describe('MapDataMarksBase abstract class', () => {
       ],
     });
     abstractClass = TestBed.inject(MapDataMarksBaseStub);
-  });
-
-  describe('ngOnChanges()', () => {
-    let configChange: any;
-    beforeEach(() => {
-      spyOn(abstractClass, 'initFromConfig');
-      configChange = {
-        config: new SimpleChange('', '', false),
-      };
-    });
-    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
-      abstractClass.ngOnChanges(configChange);
-      expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
-      ).toHaveBeenCalledOnceWith(configChange, 'config');
-    });
-    it('should call initFromConfig once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
-      abstractClass.ngOnChanges(configChange);
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
-    });
-    it('should call not call initFromConfig if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
-      abstractClass.ngOnChanges(configChange);
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(0);
-    });
   });
 
   describe('ngOnInit()', () => {

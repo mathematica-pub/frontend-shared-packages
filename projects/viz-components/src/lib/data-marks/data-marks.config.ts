@@ -1,4 +1,4 @@
-export class VicDataMarksConfig {
+export class VicDataMarksConfig<T> {
   /**
    * An array of data objects to be used to create marks.
    * The objects can be of an type, and can contain any number of properties, including properties that are extraneous to the chart at hand.
@@ -6,7 +6,7 @@ export class VicDataMarksConfig {
    * @default: []
    * Default is []
    */
-  data: any[];
+  data: T[];
   /**
    * A blend mode applied to the primary svg g elements in various marks components.
    *
@@ -15,7 +15,7 @@ export class VicDataMarksConfig {
    */
   mixBlendMode: string;
 
-  constructor(init?: Partial<VicDataMarksConfig>) {
+  constructor(init?: Partial<VicDataMarksConfig<T>>) {
     this.mixBlendMode = 'normal';
     this.data = [];
     Object.assign(this, init);

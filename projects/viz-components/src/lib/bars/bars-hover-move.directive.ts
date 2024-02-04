@@ -8,8 +8,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
@@ -19,25 +20,27 @@ import { BARS, BarsComponent } from './bars.component';
   selector: '[vicBarsHoverMoveEffects]',
 })
 export class BarsHoverMoveDirective<
-  T extends BarsComponent = BarsComponent
+  T,
+  U extends BarsComponent<T> = BarsComponent<T>
 > extends HoverMoveDirective {
   @Input('vicBarsHoverMoveEffects')
-  effects: HoverMoveEventEffect<BarsHoverMoveDirective<T>>[];
-  @Output('vicBarsHoverMoveOutput') eventOutput =
-    new EventEmitter<VicBarsEventOutput>();
+  effects: HoverMoveEventEffect<BarsHoverMoveDirective<T, U>>[];
+  @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
+    VicBarsEventOutput<T>
+  >();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
 
-  constructor(@Inject(BARS) public bars: BarsComponent) {
+  constructor(@Inject(BARS) public bars: U) {
     super();
   }
 
   setListenedElements(): void {
     this.bars.bars$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.bars.destroyRef),
         filter((barSels) => !!barSels)
       )
       .subscribe((barSels) => {
@@ -79,7 +82,7 @@ export class BarsHoverMoveDirective<
     this.elRef = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput {
+  getEventOutput(): VicBarsEventOutput<T> {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,

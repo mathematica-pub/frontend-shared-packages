@@ -5,7 +5,6 @@ import {
   ElementRef,
   inject,
   InjectionToken,
-  Input,
   NgZone,
   ViewChild,
   ViewEncapsulation,
@@ -29,9 +28,8 @@ import { ChartComponent } from '../chart/chart.component';
 import { QuantitativeDomainUtilities } from '../core/services/data-domain.service';
 import { DateUtilities } from '../core/utilities/is-date';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksBase } from '../xy-chart/xy-data-marks-base';
+import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
 import { VicLinesConfig } from './lines.config';
 
 export interface Marker {
@@ -47,7 +45,9 @@ export class LinesTooltipData {
   category: string;
 }
 
-export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
+export const LINES = new InjectionToken<LinesComponent<unknown>>(
+  'LinesComponent'
+);
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -62,14 +62,12 @@ export const LINES = new InjectionToken<LinesComponent>('LinesComponent');
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
+export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
-  @Input() config: VicLinesConfig;
-  values: XyDataMarksValues = new XyDataMarksValues();
   line: (x: any[]) => any;
   linesD3Data;
   linesKeyFunction;
@@ -191,7 +189,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
     this.markersKeyFunction = (d) => (d as Marker).key;
   }
 
-  setChartScalesFromRanges(useTransition: boolean): void {
+  setPropertiesFromRanges(useTransition: boolean): void {
     const xDomain = this.config.x.domainPadding
       ? this.getPaddedDomain('x')
       : this.unpaddedDomain.x;

@@ -1,8 +1,9 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -14,23 +15,27 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 @Directive({
   selector: '[vicGeographiesHoverMoveEffects]',
 })
-export class GeographiesHoverMoveDirective extends HoverMoveDirective {
+export class GeographiesHoverMoveDirective<
+  T,
+  U extends GeographiesComponent<T> = GeographiesComponent<T>
+> extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
-  effects: HoverMoveEventEffect<GeographiesHoverMoveDirective>[];
-  @Output('vicGeographiesHoverMoveOutput') eventOutput =
-    new EventEmitter<VicGeographiesEventOutput>();
+  effects: HoverMoveEventEffect<GeographiesHoverMoveDirective<T, U>>[];
+  @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
+    VicGeographiesEventOutput<T>
+  >();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: U) {
     super();
   }
 
   setListenedElements(): void {
     this.geographies.dataGeographies$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.geographies.destroyRef),
         filter((geoSels) => !!geoSels)
       )
       .subscribe((geoSels) => {
@@ -65,19 +70,20 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
   }
 
   getGeographyIndex(d: any): number {
-    let value = this.geographies.config.dataGeographyConfig.valueAccessor(d);
+    let value =
+      this.geographies.config.dataGeographyConfig.featureIdAccessor(d);
     if (typeof value === 'string') {
       value = value.toLowerCase();
     }
     return this.geographies.values.indexMap.get(value);
   }
 
-  getEventOutput(): VicGeographiesEventOutput {
+  getEventOutput(): VicGeographiesEventOutput<T> {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const output: VicGeographiesEventOutput = {
+    const output: VicGeographiesEventOutput<T> = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,

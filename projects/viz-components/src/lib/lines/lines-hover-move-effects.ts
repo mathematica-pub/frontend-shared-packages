@@ -1,5 +1,6 @@
 import { HoverMoveEventEffect } from '../events/effect';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
+import { LinesComponent } from './lines.component';
 
 export class LinesHoverMoveDefaultStylesConfig {
   growMarkerDimension: number;
@@ -16,10 +17,12 @@ export class LinesHoverMoveDefaultStylesConfig {
  * This effect changes the color of the non-closest-to-pointer lines
  *  to a light gray.
  */
-export class LinesHoverMoveDefaultLinesStyles
-  implements HoverMoveEventEffect<LinesHoverMoveDirective>
+export class LinesHoverMoveDefaultLinesStyles<
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
+> implements HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>
 {
-  applyEffect(directive: LinesHoverMoveDirective): void {
+  applyEffect(directive: LinesHoverMoveDirective<T, U>): void {
     directive.lines.lines
       .style('stroke', ([category]): string =>
         directive.lines.values.category[directive.closestPointIndex] ===
@@ -35,7 +38,7 @@ export class LinesHoverMoveDefaultLinesStyles
       .raise();
   }
 
-  removeEffect(directive: LinesHoverMoveDirective): void {
+  removeEffect(directive: LinesHoverMoveDirective<T, U>): void {
     directive.lines.lines.style('stroke', null);
   }
 }
@@ -47,14 +50,16 @@ export class LinesHoverMoveDefaultLinesStyles
  *  and at the same time enlarges the marker on the "selected" line that is
  *  closest to the pointer by a specified amount.
  */
-export class LinesHoverMoveDefaultMarkersStyles
-  implements HoverMoveEventEffect<LinesHoverMoveDirective>
+export class LinesHoverMoveDefaultMarkersStyles<
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
+> implements HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>
 {
   constructor(private config?: LinesHoverMoveDefaultStylesConfig) {
     this.config = config ?? new LinesHoverMoveDefaultStylesConfig();
   }
 
-  applyEffect(directive: LinesHoverMoveDirective): void {
+  applyEffect(directive: LinesHoverMoveDirective<T, U>): void {
     directive.lines.markers
       .style('fill', (d): string =>
         directive.lines.values.category[directive.closestPointIndex] ===
@@ -79,7 +84,7 @@ export class LinesHoverMoveDefaultMarkersStyles
       .raise();
   }
 
-  removeEffect(directive: LinesHoverMoveDirective): void {
+  removeEffect(directive: LinesHoverMoveDirective<T, U>): void {
     directive.lines.markers.style('fill', null);
     directive.lines.markers.attr(
       'r',
@@ -95,10 +100,12 @@ export class LinesHoverMoveDefaultMarkersStyles
  * This effect displays a circle marker at the closest datum to the pointer
  *  on the "selected" line.
  */
-export class LinesHoverMoveDefaultHoverDotStyles
-  implements HoverMoveEventEffect<LinesHoverMoveDirective>
+export class LinesHoverMoveDefaultHoverDotStyles<
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
+> implements HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>
 {
-  applyEffect(directive: LinesHoverMoveDirective) {
+  applyEffect(directive: LinesHoverMoveDirective<T, U>) {
     directive.lines.hoverDot
       .style('display', null)
       .attr(
@@ -121,7 +128,7 @@ export class LinesHoverMoveDefaultHoverDotStyles
       );
   }
 
-  removeEffect(directive: LinesHoverMoveDirective) {
+  removeEffect(directive: LinesHoverMoveDirective<T, U>) {
     directive.lines.hoverDot.style('display', 'none');
   }
 }
@@ -133,12 +140,14 @@ export class LinesHoverMoveDefaultHoverDotStyles
  * Applies either Line Markers effect or a Hover Dot effect depending on
  *  whether line markers are used.
  */
-export class LinesHoverMoveDefaultStyles
-  implements HoverMoveEventEffect<LinesHoverMoveDirective>
+export class LinesHoverMoveDefaultStyles<
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
+> implements HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>
 {
-  linesStyles: HoverMoveEventEffect<LinesHoverMoveDirective>;
-  markersStyles: HoverMoveEventEffect<LinesHoverMoveDirective>;
-  hoverDotStyles: HoverMoveEventEffect<LinesHoverMoveDirective>;
+  linesStyles: HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>;
+  markersStyles: HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>;
+  hoverDotStyles: HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>;
 
   constructor(config?: LinesHoverMoveDefaultStylesConfig) {
     const markersStylesConfig =
@@ -150,7 +159,7 @@ export class LinesHoverMoveDefaultStyles
     this.hoverDotStyles = new LinesHoverMoveDefaultHoverDotStyles();
   }
 
-  applyEffect(directive: LinesHoverMoveDirective) {
+  applyEffect(directive: LinesHoverMoveDirective<T, U>) {
     this.linesStyles.applyEffect(directive);
     if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.applyEffect(directive);
@@ -159,7 +168,7 @@ export class LinesHoverMoveDefaultStyles
     }
   }
 
-  removeEffect(directive: LinesHoverMoveDirective) {
+  removeEffect(directive: LinesHoverMoveDirective<T, U>) {
     this.linesStyles.removeEffect(directive);
     if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.removeEffect(directive);
@@ -169,15 +178,17 @@ export class LinesHoverMoveDefaultStyles
   }
 }
 
-export class LinesHoverMoveEmitTooltipData
-  implements HoverMoveEventEffect<LinesHoverMoveDirective>
+export class LinesHoverMoveEmitTooltipData<
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
+> implements HoverMoveEventEffect<LinesHoverMoveDirective<T, U>>
 {
-  applyEffect(directive: LinesHoverMoveDirective): void {
+  applyEffect(directive: LinesHoverMoveDirective<T, U>): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesHoverMoveDirective): void {
+  removeEffect(directive: LinesHoverMoveDirective<T, U>): void {
     directive.eventOutput.emit(null);
   }
 }

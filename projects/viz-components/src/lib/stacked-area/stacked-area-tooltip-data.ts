@@ -1,24 +1,24 @@
 import { formatValue } from '../value-format/value-format';
 import { StackedAreaComponent } from './stacked-area.component';
 
-export interface VicStackedAreaEventOutput {
-  data: VicStackedAreaEventDatum[];
+export interface VicStackedAreaEventOutput<T> {
+  data: VicStackedAreaEventDatum<T>[];
   positionX: number;
   svgHeight?: number;
 }
 
-export interface VicStackedAreaEventDatum {
-  datum: any[];
+export interface VicStackedAreaEventDatum<T> {
+  datum: T;
   color: string;
   x: string;
   y: string;
   category: string;
 }
 
-export function getStackedAreaTooltipData(
+export function getStackedAreaTooltipData<T>(
   closestXIndicies: number[],
-  stackedArea: StackedAreaComponent
-): VicStackedAreaEventOutput {
+  stackedArea: StackedAreaComponent<T>
+): VicStackedAreaEventOutput<T> {
   const data = closestXIndicies.map((i) => {
     const originalDatum = stackedArea.config.data.find(
       (d) =>

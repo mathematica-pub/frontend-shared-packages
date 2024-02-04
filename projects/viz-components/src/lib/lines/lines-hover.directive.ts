@@ -7,12 +7,13 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesHoverEffects]',
 })
 export class LinesHoverDirective<
-  T extends LinesComponent = LinesComponent
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
 > extends HoverDirective {
   @Input('vicLinesHoverEffects')
   effects: EventEffect<LinesHoverDirective<T>>[];
 
-  constructor(@Inject(LINES) public lines: LinesComponent) {
+  constructor(@Inject(LINES) public lines: U) {
     super();
   }
 

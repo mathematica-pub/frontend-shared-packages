@@ -9,21 +9,20 @@ import {
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class VicBarsConfig extends VicDataMarksConfig {
-  ordinal: VicOrdinalDimensionConfig = new VicOrdinalDimensionConfig();
-  quantitative: VicQuantitativeDimensionConfig =
+export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
+  ordinal: VicOrdinalDimensionConfig<T> = new VicOrdinalDimensionConfig();
+  quantitative: VicQuantitativeDimensionConfig<T> =
     new VicQuantitativeDimensionConfig();
-  category: VicCategoricalColorDimensionConfig =
+  category: VicCategoricalColorDimensionConfig<T> =
     new VicCategoricalColorDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
-  labels: VicBarsLabelsConfig;
+  labels: VicBarsLabelsConfig<T>;
   patternPredicates?: VicPatternPredicate[];
 
-  constructor(init?: Partial<VicBarsConfig>) {
+  constructor(init?: Partial<VicBarsConfig<T>>) {
     super();
-    this.dimensions = new VicVerticalBarChartDimensionsConfig();
+    this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
-    this.quantitative.valueAccessor = (d) => d;
     this.quantitative.scaleType = scaleLinear;
     this.quantitative.domainIncludesZero = true;
     this.category.valueAccessor = (d) => d;
@@ -32,16 +31,16 @@ export class VicBarsConfig extends VicDataMarksConfig {
   }
 }
 
-export class VicBarsLabelsConfig {
+export class VicBarsLabelsConfig<T> {
   display: boolean;
   offset: number;
   color?: string;
-  noValueFunction: (d) => string;
+  noValueFunction: (d: T, ...args: any) => string;
 
-  constructor(init?: Partial<VicBarsLabelsConfig>) {
+  constructor(init?: Partial<VicBarsLabelsConfig<T>>) {
     this.display = true;
     this.offset = 4;
-    this.noValueFunction = (d) => 'N/A';
+    this.noValueFunction = () => 'N/A';
     Object.assign(this, init);
   }
 }
@@ -71,7 +70,7 @@ export class VicHorizontalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   }
 }
 
-export class VicVerticalBarChartDimensionsConfig extends VicBarsDimensionsConfig {
+export class VicVerticalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'vertical';

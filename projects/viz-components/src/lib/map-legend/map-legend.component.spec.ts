@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
 import { MapLegendComponent } from './map-legend.component';
 
 describe('MapLegendComponent', () => {
-  let component: MapLegendComponent;
-  let fixture: ComponentFixture<MapLegendComponent>;
+  let component: MapLegendComponent<any>;
+  let fixture: ComponentFixture<MapLegendComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

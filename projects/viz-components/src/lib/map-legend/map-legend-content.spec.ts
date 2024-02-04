@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   VicCategoricalAttributeDataDimensionConfig,
   VicEqualValuesQuantitativeAttributeDataDimensionConfig,
@@ -5,7 +6,7 @@ import {
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {
-  let directive: MapLegendContentStub;
+  let directive: MapLegendContentStub<any>;
 
   beforeEach(() => {
     directive = new MapLegendContentStub();

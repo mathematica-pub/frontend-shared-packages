@@ -13,19 +13,15 @@ import { Observable } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { ListenElement } from '../events/event.directive';
+import { LinesEventDirective } from './lines-event-directive';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
 import {
-  getLinesTooltipDataFromDatum,
   VicLinesEventOutput,
+  getLinesTooltipDataFromDatum,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
-
-type LinesEventDirective =
-  | LinesHoverDirective
-  | LinesHoverMoveDirective
-  | LinesInputEventDirective;
 
 /**
  * A directive that allows users to provide custom effects on click events on lines markers.
@@ -36,7 +32,8 @@ type LinesEventDirective =
   selector: '[vicLinesMarkerClickEffects]',
 })
 export class LinesMarkerClickDirective<
-  T extends LinesComponent = LinesComponent
+  T,
+  U extends LinesComponent<T> = LinesComponent<T>
 > extends ClickDirective {
   /**
    * An array of user-provided [EventEffect]{@link EventEffect} instances.
@@ -45,7 +42,7 @@ export class LinesMarkerClickDirective<
    *  called when the `clickRemoveEvent$` Observable emits.
    */
   @Input('vicLinesMarkerClickEffects')
-  effects: EventEffect<LinesMarkerClickDirective<T>>[];
+  effects: EventEffect<LinesMarkerClickDirective<T, U>>[];
   /**
    * A user-provided `Observable<void>` that triggers the `removeEffect` method of all user-provided
    *  [EventEffect]{@link EventEffect} instances.
@@ -58,24 +55,25 @@ export class LinesMarkerClickDirective<
    * An `EventEmitter` that emits a [LinesEmittedOutput]{@link VicLinesEventOutput} object if
    *  an `applyEffect` or a `removeEffect` method calls `next` on it.
    */
-  @Output('vicLinesMarkerClickOutput') eventOutput =
-    new EventEmitter<VicLinesEventOutput>();
+  @Output('vicLinesMarkerClickOutput') eventOutput = new EventEmitter<
+    VicLinesEventOutput<T>
+  >();
   /**
    * The index of the point that was clicked in the LinesComponent's values array.
    */
   pointIndex: number;
 
   constructor(
-    @Inject(LINES) public lines: LinesComponent,
+    @Inject(LINES) public lines: U,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective,
+    public hoverDirective?: LinesHoverDirective<T, U>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverMoveDirective,
+    public hoverAndMoveDirective?: LinesHoverMoveDirective<T, U>,
     @Self()
     @Optional()
-    public inputEventDirective?: LinesInputEventDirective
+    public inputEventDirective?: LinesInputEventDirective<T, U>
   ) {
     super();
   }
@@ -99,7 +97,7 @@ export class LinesMarkerClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): VicLinesEventOutput {
+  getTooltipData(): VicLinesEventOutput<T> {
     const data = getLinesTooltipDataFromDatum(this.pointIndex, this.lines);
     return data;
   }
@@ -128,13 +126,13 @@ export class LinesMarkerClickDirective<
     this.enableEffect(this.inputEventDirective);
   }
 
-  disableEffect(directive: LinesEventDirective): void {
+  disableEffect(directive: LinesEventDirective<T, U>): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
-  enableEffect(directive: LinesEventDirective): void {
+  enableEffect(directive: LinesEventDirective<T, U>): void {
     if (directive) {
       directive.preventEffect = false;
       directive.effects.forEach((effect) => effect.removeEffect(directive));

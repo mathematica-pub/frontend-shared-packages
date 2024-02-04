@@ -14,16 +14,20 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 @Directive({
   selector: '[vicStackedAreaHoverMoveEffects]',
 })
-export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
+export class StackedAreaHoverMoveDirective<
+  T,
+  U extends StackedAreaComponent<T>
+> extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
-  effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective>[];
-  @Output('vicStackedAreaHoverMoveOutput') eventOutput =
-    new EventEmitter<VicStackedAreaEventOutput>();
+  effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective<T, U>>[];
+  @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
+    VicStackedAreaEventOutput<T>
+  >();
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
 
-  constructor(@Inject(STACKED_AREA) public stackedArea: StackedAreaComponent) {
+  constructor(@Inject(STACKED_AREA) public stackedArea: U) {
     super();
   }
 
@@ -94,7 +98,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getTooltipData(): VicStackedAreaEventOutput {
+  getTooltipData(): VicStackedAreaEventOutput<T> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
       this.stackedArea
