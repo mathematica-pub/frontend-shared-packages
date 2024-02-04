@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { combineLatest, filter, takeUntil } from 'rxjs';
 import { Ranges } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { MapChartComponent } from './map-chart.component';
@@ -24,7 +24,6 @@ export abstract class MapDataMarksBase
   attributeDataScale: any;
   attributeDataConfig: VicAttributeDataDimensionConfig;
   public chart = inject(MapChartComponent);
-  protected utilities = inject(UtilitiesService);
 
   abstract drawMarks(): void;
   abstract resizeMarks(): void;
@@ -32,7 +31,7 @@ export abstract class MapDataMarksBase
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.initFromConfig();
     }

@@ -1,4 +1,14 @@
-import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
 import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
