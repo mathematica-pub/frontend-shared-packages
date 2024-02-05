@@ -98,12 +98,7 @@ export class QuantitativeDomainUtilities {
         chartRange
       );
     }
-    // we don't necessarily want this -- if we are working with a domain of [0, 0.001] we don't want to all of a sudden take the max to 1;
-    if (domainMin === domainMax) {
-      return [domainMin, domainMin + 1];
-    } else {
-      return [domainMin, domainMax];
-    }
+    return [domainMin, domainMax];
   }
 
   static getPaddedDomainValue(
@@ -153,7 +148,6 @@ export class QuantitativeDomainUtilities {
   ): number {
     let overValue = Math.abs(value) * (1 + percent);
     if (value < 0) overValue = -overValue;
-    console.log(overValue, value, percent);
     return overValue;
   }
 
@@ -176,7 +170,6 @@ export class QuantitativeDomainUtilities {
         : [chartRange[0], chartRange[1] - numPixels];
     const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
     const targetVal = valueType === 'min' ? chartRange[0] : chartRange[1];
-    const toReturn = scale.invert(targetVal);
-    return toReturn;
+    return scale.invert(targetVal);
   }
 }

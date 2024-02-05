@@ -2,6 +2,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
+import { QuantitativeDomainUtilities } from '../../public-api';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
@@ -61,50 +62,32 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('int: initUnpaddedQuantitativeDomain()', () => {
-    describe('when min and max are positive', () => {
-      beforeEach(() => {
-        component.config = {
-          quantitative: {
-            domain: [2, 97],
-          },
-        } as any;
-      });
-
-      it('sets min to zero, max stays the same', () => {
-        component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedDomain).toEqual([0, 97]);
-      });
+  describe('initUnpaddedQuantitativeDomain()', () => {
+    beforeEach(() => {
+      spyOn(QuantitativeDomainUtilities, 'getUnpaddedDomain').and.returnValue([
+        0, 2,
+      ]);
+      component.values = {
+        x: [1, 2, 3],
+      } as any;
+      component.config = {
+        quantitative: {
+          domainIncludesZero: false,
+        },
+        dimensions: {
+          quantitative: 'x',
+        },
+      } as any;
     });
-
-    describe('when min and max are negative', () => {
-      beforeEach(() => {
-        component.config = {
-          quantitative: {
-            domain: [-277, -6],
-          },
-        } as any;
-      });
-
-      it('sets max to zero, min stays the same', () => {
-        component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedDomain).toEqual([-277, 0]);
-      });
+    it('calls getUnpaddedDomain once with the correct value', () => {
+      component.initUnpaddedQuantitativeDomain();
+      expect(
+        QuantitativeDomainUtilities.getUnpaddedDomain
+      ).toHaveBeenCalledOnceWith(undefined, [1, 2, 3], false);
     });
-
-    describe('when min is negative and max is positive', () => {
-      beforeEach(() => {
-        component.config = {
-          quantitative: {
-            domain: [-3, 44],
-          },
-        } as any;
-      });
-
-      it('max and min stay the same', () => {
-        component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedDomain).toEqual([-3, 44]);
-      });
+    it('correctly sets config.quantitative.domain', () => {
+      component.initUnpaddedQuantitativeDomain();
+      expect(component.unpaddedDomain.quantitative).toEqual([0, 2]);
     });
   });
 

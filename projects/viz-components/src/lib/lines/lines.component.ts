@@ -21,7 +21,7 @@ import {
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
-import { isDate, isNumbers } from '../core/utilities/type-guard';
+import { isDate, isNumber } from '../core/utilities/type-guard';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
@@ -154,10 +154,8 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
     this.linesD3Data = group(definedIndices, (i) => this.values.category[i]);
   }
 
-  canBeDrawnByPath(x: any): boolean {
-    return (
-      (typeof x === 'number' || isDate(x)) && x !== null && x !== undefined
-    );
+  canBeDrawnByPath(x: unknown): boolean {
+    return (isNumber(x) || isDate(x)) && x !== null && x !== undefined;
   }
 
   setLinesKeyFunction(): void {
@@ -185,15 +183,7 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
-    const xDomain =
-      isNumbers(this.unpaddedDomain.x) && this.config.x.domainPadding
-        ? QuantitativeDomainUtilities.getPaddedDomain(
-            this.unpaddedDomain.x,
-            this.config.x.domainPadding,
-            this.config.x.scaleFn,
-            this.ranges.x
-          )
-        : this.unpaddedDomain.x;
+    const xDomain = this.unpaddedDomain.x;
     const yDomain = this.config.y.domainPadding
       ? QuantitativeDomainUtilities.getPaddedDomain(
           this.unpaddedDomain.y,

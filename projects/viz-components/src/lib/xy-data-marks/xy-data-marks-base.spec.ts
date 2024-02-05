@@ -1,7 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
@@ -19,10 +18,6 @@ describe('XyDataMarksBase abstract class', () => {
         {
           provide: XyChartComponent,
           useValue: XyChartComponentStub,
-        },
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
         },
       ],
     });

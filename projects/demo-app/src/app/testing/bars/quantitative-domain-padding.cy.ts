@@ -15,6 +15,7 @@ import {
   VicXQuantitativeAxisModule,
   VicXyChartModule,
 } from 'projects/viz-components/src/public-api';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-test-bars-quantitative-domain-padding',
@@ -45,11 +46,14 @@ class TestXQuantitativeDomainComponent implements AfterViewInit {
     value: number;
   }>;
   margin = { top: 20, right: 20, bottom: 20, left: 20 };
-  domain: any[];
+  domain = new BehaviorSubject<[number, number]>([undefined, undefined]);
+  domain$ = this.domain.asObservable();
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.domain = this.barsComponent.scales.x.domain();
+      this.domain.next(
+        this.barsComponent.scales.x.domain() as [number, number]
+      );
     });
   }
 }
