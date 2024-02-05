@@ -23,7 +23,7 @@ import {
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { QuantitativeDomainUtilities } from '../core/services/data-domain.service';
+import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
@@ -143,19 +143,12 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
   }
 
   initUnpaddedQuantitativeDomain(): void {
-    let dataMin, dataMax: number;
-    if (this.config.quantitative.domain === undefined) {
-      dataMin = this.getDataMin();
-      dataMax = this.getDataMax();
-    } else {
-      dataMin = this.config.quantitative.domainIncludesZero
-        ? min([this.config.quantitative.domain[0], 0])
-        : this.config.quantitative.domain[0];
-      dataMax = this.config.quantitative.domainIncludesZero
-        ? max([this.config.quantitative.domain[1], 0])
-        : this.config.quantitative.domain[1];
-    }
-    this.unpaddedDomain.quantitative = [dataMin, dataMax];
+    this.unpaddedDomain.quantitative =
+      QuantitativeDomainUtilities.getUnpaddedDomain(
+        this.config.quantitative.domain,
+        this.values[this.config.dimensions.quantitative],
+        this.config.quantitative.domainIncludesZero
+      );
   }
 
   getDataMin(): number {
@@ -213,10 +206,9 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
 
   getOrdinalScale(): any {
     return this.config.ordinal
-      .scaleType(
-        this.config.ordinal.domain,
-        this.ranges[this.config.dimensions.ordinal]
-      )
+      .scaleFn()
+      .domain(this.config.ordinal.domain)
+      .range(this.ranges[this.config.dimensions.ordinal])
       .paddingInner(this.config.ordinal.paddingInner)
       .paddingOuter(this.config.ordinal.paddingOuter)
       .align(this.config.ordinal.align);
@@ -226,17 +218,17 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
     const domain = this.config.quantitative.domainPadding
       ? this.getPaddedQuantitativeDomain()
       : this.unpaddedDomain.quantitative;
-    return this.config.quantitative.scaleType(
-      domain,
-      this.ranges[this.config.dimensions.quantitative]
-    );
+    return this.config.quantitative
+      .scaleFn()
+      .domain(domain)
+      .range(this.ranges[this.config.dimensions.quantitative]);
   }
 
   getPaddedQuantitativeDomain(): [number, number] {
     const domain = QuantitativeDomainUtilities.getPaddedDomain(
       this.unpaddedDomain.quantitative,
       this.config.quantitative.domainPadding,
-      this.config.quantitative.scaleType,
+      this.config.quantitative.scaleFn,
       this.ranges[this.config.dimensions.quantitative]
     );
     return domain;

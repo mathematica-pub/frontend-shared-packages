@@ -137,8 +137,8 @@ export class StackedAreaComponent<T> extends XyDataMarksBase<
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
-    const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
-    const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
+    const x = this.config.x.scaleFn(this.config.x.domain, this.ranges.x);
+    const y = this.config.y.scaleFn(this.config.y.domain, this.ranges.y);
     const category = this.config.category.colorScale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });

@@ -1,4 +1,4 @@
-import { DomainExtent } from '../core/services/data-domain.service';
+import { DomainExtent } from '../core/utilities/quantitative-domain';
 
 /**
  * @internal

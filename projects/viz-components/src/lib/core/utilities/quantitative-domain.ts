@@ -6,8 +6,7 @@ import {
 import { ValueUtilities } from '../../shared/value-utilities.class';
 import { VicQuantitativeScale } from '../types/scale';
 import { ToArray } from '../types/utility';
-import { VicContinuousValue } from '../types/value-type';
-import { isNumber } from './type-guard';
+import { isNumbers } from './type-guard';
 
 export type DomainExtent = 'max' | 'min';
 
@@ -22,62 +21,44 @@ export class QuantitativeDomainUtilities {
     values: Date[]
   ): [Date, Date];
   static getUnpaddedDomain(
-    userDomain: [VicContinuousValue, VicContinuousValue] | undefined,
-    values: ToArray<VicContinuousValue>,
+    userDomain: [number, number] | [Date, Date] | undefined,
+    values: ToArray<number | Date>,
     domainIncludesZero?: boolean
-  ): [VicContinuousValue, VicContinuousValue];
+  ): [number, number] | [Date, Date];
   static getUnpaddedDomain(
-    userDomain: [VicContinuousValue, VicContinuousValue] | undefined,
-    values: ToArray<VicContinuousValue>,
+    userDomain: [number, number] | [Date, Date] | undefined,
+    values: ToArray<number | Date>,
     domainIncludesZero?: boolean
-  ): [VicContinuousValue, VicContinuousValue] {
-    if (userDomain === undefined) {
-      return [
-        this.getDataExtent('min', values, domainIncludesZero),
-        this.getDataExtent('max', values, domainIncludesZero),
-      ];
+  ): [number, number] | [Date, Date] {
+    const valueFns = [min, max];
+    const extents =
+      userDomain === undefined
+        ? (valueFns.map((valueFn) => valueFn<Numeric>(values)) as
+            | [number, number]
+            | [Date, Date])
+        : userDomain;
+    if (isNumbers(extents)) {
+      return this.getAdjustedDomain(extents, domainIncludesZero);
     } else {
-      const [userMin, userMax] = userDomain;
-      if (isNumber(userMin) && isNumber(userMax) && domainIncludesZero) {
-        const userMinAug = userMin + 0;
-        return [min([userMinAug, 0]), max([userMax, 0])];
-      } else {
-        return [userDomain[0], userDomain[1]];
-      }
+      return extents;
     }
   }
 
-  static getDataExtent(
-    extent: DomainExtent,
-    values: number[],
+  static getAdjustedDomain(
+    domain: [number, number],
     domainIncludesZero: boolean
-  ): number;
-  static getDataExtent(extent: DomainExtent, values: Date[]): Date;
-  static getDataExtent(
-    extent: DomainExtent,
-    values: ToArray<VicContinuousValue>,
-    domainIncludesZero?: boolean
-  ): VicContinuousValue;
-  static getDataExtent(
-    extent: DomainExtent,
-    values: ToArray<VicContinuousValue>,
-    domainIncludesZero?: boolean
-  ): VicContinuousValue {
-    const valueFn = extent === 'max' ? max : min;
-    const dataMin = valueFn<Numeric>(values) as VicContinuousValue;
-    if (isNumber(dataMin)) {
-      return domainIncludesZero ? valueFn([dataMin, 0]) : dataMin;
-    } else {
-      return dataMin;
-    }
+  ): [number, number] {
+    return domainIncludesZero
+      ? [min([domain[0], 0]), max([domain[1], 0])]
+      : [domain[0], domain[1]];
   }
 
   static getPaddedDomain(
-    unpaddedDomain: [VicContinuousValue, VicContinuousValue],
+    unpaddedDomain: [number, number],
     domainPadding: VicDomainPaddingConfig,
     scaleType?: any,
     chartRange?: [number, number]
-  ): [VicContinuousValue, VicContinuousValue] {
+  ): [number, number] {
     const domainMin = this.getPaddedDomainValue(
       unpaddedDomain,
       domainPadding,
@@ -92,6 +73,7 @@ export class QuantitativeDomainUtilities {
       scaleType,
       chartRange
     );
+    // we don't necessarily want this -- if we are working with a domain of [0, 0.001] we don't want to all of a sudden take the max to 1;
     if (domainMin === domainMax) {
       return [domainMin, domainMin + 1];
     } else {
@@ -100,7 +82,7 @@ export class QuantitativeDomainUtilities {
   }
 
   static getPaddedDomainValue(
-    unpaddedDomain: [VicContinuousValue, VicContinuousValue],
+    unpaddedDomain: [number, number],
     padding: VicDomainPaddingConfig,
     valueType: DomainExtent,
     scaleType: VicQuantitativeScale,

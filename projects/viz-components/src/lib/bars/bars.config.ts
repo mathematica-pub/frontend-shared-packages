@@ -1,4 +1,3 @@
-import { scaleLinear } from 'd3';
 import {
   VicCategoricalColorDimensionConfig,
   VicOrdinalDimensionConfig,
@@ -23,7 +22,6 @@ export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
     super();
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
-    this.quantitative.scaleType = scaleLinear;
     this.quantitative.domainIncludesZero = true;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];

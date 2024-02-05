@@ -10,23 +10,19 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  extent,
   group,
   InternSet,
   line,
   map,
-  max,
-  min,
   range,
   scaleOrdinal,
-  scaleTime,
-  scaleUtc,
   select,
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { QuantitativeDomainUtilities } from '../core/services/data-domain.service';
 import { DateUtilities } from '../core/utilities/is-date';
+import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
+import { isNumbers } from '../core/utilities/type-guard';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
@@ -76,8 +72,8 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
   unpaddedDomain: {
-    x: [any, any];
-    y: [any, any];
+    x: [number, number] | [Date, Date];
+    y: [number, number];
   } = { x: undefined, y: undefined };
 
   private zone = inject(NgZone);
@@ -122,14 +118,16 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
   }
 
   setUnpaddedDomains(): void {
-    this.unpaddedDomain.x =
-      this.config.x.domain === undefined
-        ? extent(this.values.x)
-        : this.config.x.domain;
-    this.unpaddedDomain.y =
-      this.config.y.domain === undefined
-        ? [min([min(this.values.y), 0]), max(this.values.y)]
-        : this.config.y.domain;
+    this.unpaddedDomain.x = QuantitativeDomainUtilities.getUnpaddedDomain(
+      this.config.x.domain,
+      this.values.x,
+      this.config.x.domainIncludesZero
+    );
+    this.unpaddedDomain.y = QuantitativeDomainUtilities.getUnpaddedDomain(
+      this.config.y.domain,
+      this.values.y,
+      this.config.y.domainIncludesZero
+    );
   }
 
   setValueIndicies(): void {
@@ -190,35 +188,29 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
-    const xDomain = this.config.x.domainPadding
-      ? this.getPaddedDomain('x')
-      : this.unpaddedDomain.x;
+    const xDomain =
+      isNumbers(this.unpaddedDomain.x) && this.config.x.domainPadding
+        ? QuantitativeDomainUtilities.getPaddedDomain(
+            this.unpaddedDomain.x,
+            this.config.x.domainPadding,
+            this.config.x.scaleFn,
+            this.ranges.x
+          )
+        : this.unpaddedDomain.x;
     const yDomain = this.config.y.domainPadding
-      ? this.getPaddedDomain('y')
+      ? QuantitativeDomainUtilities.getPaddedDomain(
+          this.unpaddedDomain.y,
+          this.config.y.domainPadding,
+          this.config.y.scaleFn,
+          this.ranges.y
+        )
       : this.unpaddedDomain.y;
-    const x = this.config.x.scaleType(xDomain, this.ranges.x);
-    const y = this.config.y.scaleType(yDomain, this.ranges.y);
+    const x = this.config.x.scaleFn().domain(xDomain).range(this.ranges.x);
+    const y = this.config.y.scaleFn().domain(yDomain).range(this.ranges.y);
     const category = this.config.category.colorScale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
-  }
-
-  getPaddedDomain(dimension: 'x' | 'y'): [any, any] {
-    if (
-      this.config[dimension].scaleType !== scaleTime &&
-      this.config[dimension].scaleType !== scaleUtc
-    ) {
-      const paddedDomain = QuantitativeDomainUtilities.getPaddedDomain(
-        this.unpaddedDomain[dimension],
-        this.config[dimension].domainPadding,
-        this.config[dimension].scaleType,
-        this.ranges[dimension]
-      );
-      return paddedDomain;
-    } else {
-      return this.unpaddedDomain[dimension];
-    }
   }
 
   drawMarks(): void {

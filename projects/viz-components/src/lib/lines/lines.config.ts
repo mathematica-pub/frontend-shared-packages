@@ -1,6 +1,7 @@
-import { curveLinear, scaleLinear, scaleUtc, schemeTableau10 } from 'd3';
+import { curveLinear, schemeTableau10 } from 'd3';
 import {
   VicCategoricalColorDimensionConfig,
+  VicDateDimensionConfig,
   VicQuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
@@ -13,7 +14,7 @@ export class VicLinesConfig<T> extends VicDataMarksConfig<T> {
    *
    * Default scaleType is D3's [scaleUtc]{@link https://github.com/d3/d3-scale#scaleUtc}.
    */
-  x: VicQuantitativeDimensionConfig<T> = new VicQuantitativeDimensionConfig();
+  x: VicDateDimensionConfig<T> = new VicDateDimensionConfig();
 
   /**
    * A config for the behavior of the chart's y dimension
@@ -91,8 +92,6 @@ export class VicLinesConfig<T> extends VicDataMarksConfig<T> {
 
   constructor(init?: Partial<VicLinesConfig<T>>) {
     super();
-    this.x.scaleType = scaleUtc;
-    this.y.scaleType = scaleLinear;
     this.category.valueAccessor = () => 1;
     this.category.colors = schemeTableau10 as string[];
     this.curve = curveLinear;

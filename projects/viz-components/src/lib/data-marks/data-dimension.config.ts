@@ -1,5 +1,20 @@
-import { InternSet, scaleBand } from 'd3';
+import {
+  InternSet,
+  ScaleBand,
+  ScaleContinuousNumeric,
+  ScaleTime,
+  scaleBand,
+  scaleLinear,
+  scaleUtc,
+} from 'd3';
 import { VicFormatSpecifier } from '../value-format/value-format';
+
+export enum VicDimension {
+  'quantitative' = 'quantitative',
+  'categorical' = 'categorical',
+  'ordinal' = 'ordinal',
+  'date' = 'date',
+}
 
 export class VicDataDimensionConfig<T> {
   valueAccessor: (d: T, ...args: any) => any;
@@ -13,14 +28,38 @@ export class VicDataDimensionConfig<T> {
 export class VicQuantitativeDimensionConfig<
   T
 > extends VicDataDimensionConfig<T> {
-  override valueAccessor: (d: T, ...args: any) => number | Date;
-  override domain?: [any, any];
-  scaleType?: (d: any, r: any) => any;
+  override valueAccessor: (d: T, ...args: any) => number;
+  override domain?: [number, number];
+  type: VicDimension.quantitative = VicDimension.quantitative;
+  scaleFn: (
+    domain?: Iterable<number>,
+    range?: Iterable<number>
+  ) => ScaleContinuousNumeric<number, number>;
   domainPadding: VicDomainPaddingConfig;
   domainIncludesZero: boolean;
 
   constructor(init?: Partial<VicQuantitativeDimensionConfig<T>>) {
     super();
+    this.scaleFn = scaleLinear;
+    Object.assign(this, init);
+  }
+}
+
+export class VicDateDimensionConfig<T> extends VicDataDimensionConfig<T> {
+  override valueAccessor: (d: T, ...args: any) => Date;
+  override domain?: [Date, Date];
+  type: VicDimension.date = VicDimension.date;
+  domainPadding: never;
+  domainIncludesZero: never;
+
+  scaleFn: (
+    domain?: Iterable<Date>,
+    range?: Iterable<number>
+  ) => ScaleTime<number, number>;
+
+  constructor(init?: Partial<VicQuantitativeDimensionConfig<T>>) {
+    super();
+    this.scaleFn = scaleUtc as () => ScaleTime<number, number>;
     Object.assign(this, init);
   }
 }
@@ -102,14 +141,18 @@ export class VicCategoricalColorDimensionConfig<
 
 export class VicOrdinalDimensionConfig<T> extends VicDataDimensionConfig<T> {
   override domain?: any[] | InternSet;
-  scaleType: (d: any, r: any) => any;
+  type: VicDimension.ordinal = VicDimension.ordinal;
+  scaleFn: (
+    domain?: Iterable<string>,
+    range?: Iterable<number>
+  ) => ScaleBand<string>;
   paddingInner: number;
   paddingOuter: number;
   align: number;
 
   constructor(init?: Partial<VicOrdinalDimensionConfig<T>>) {
     super();
-    this.scaleType = scaleBand;
+    this.scaleFn = scaleBand;
     this.paddingInner = 0.1;
     this.paddingOuter = 0.1;
     this.align = 0.5;
