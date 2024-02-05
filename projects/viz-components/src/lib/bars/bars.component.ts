@@ -335,7 +335,7 @@ export class BarsComponent
       .attr('dominant-baseline', (i: number) =>
         this.getBarLabelDominantBaseline(i)
       )
-      .style('fill', (i: number) => this.getBarLabelColor(i))
+      .attr('fill', (i: number) => this.getBarLabelColor(i))
       .attr('x', (i: number) => this.getBarLabelX(i))
       .attr('y', (i: number) => this.getBarLabelY(i));
   }
