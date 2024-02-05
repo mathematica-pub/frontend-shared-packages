@@ -26,7 +26,7 @@ import {
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { isDate } from '../core/utilities/isDate';
+import { isDate } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';

@@ -1,7 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
@@ -17,13 +16,7 @@ describe('LineChartComponent', () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [LinesComponent],
-      providers: [
-        XyChartComponent,
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
-      ],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
@@ -79,15 +72,11 @@ describe('LineChartComponent', () => {
   });
 
   describe('canBeDrawnByPath()', () => {
-    beforeEach(() => {
-      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(false);
-    });
     it('integration: returns true if value is a number', () => {
       expect(component.canBeDrawnByPath(1)).toEqual(true);
     });
 
     it('integration: returns true if value is a Date', () => {
-      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(true);
       expect(component.canBeDrawnByPath(new Date())).toEqual(true);
     });
 

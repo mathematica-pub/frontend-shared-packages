@@ -1,7 +1,6 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarksBase } from '../data-marks/data-marks-base';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import {
@@ -27,7 +26,6 @@ export abstract class XyDataMarksBase<T, U extends VicDataMarksConfig<T>>
   ];
   values: XyDataMarksValues = new XyDataMarksValues();
   public override chart = inject(XyChartComponent);
-  protected utilities = inject(UtilitiesService);
 
   ngOnInit(): void {
     this.subscribeToRanges();

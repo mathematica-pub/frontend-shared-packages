@@ -1,7 +1,6 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { combineLatest, filter } from 'rxjs';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { DataMarksBase } from '../data-marks/data-marks-base';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
@@ -18,7 +17,6 @@ export abstract class MapDataMarksBase<T, U extends VicDataMarksConfig<T>>
   attributeDataScale: any;
   attributeDataConfig: VicAttributeDataDimensionConfig<T>;
   public override chart = inject(MapChartComponent);
-  protected utilities = inject(UtilitiesService);
 
   ngOnInit(): void {
     this.subscribeToRanges();

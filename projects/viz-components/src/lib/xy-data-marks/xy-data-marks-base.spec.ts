@@ -1,18 +1,16 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
+import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 describe('XyDataMarksBase abstract class', () => {
   let abstractClass: XyDataMarksBaseStub<any>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(() => {
-    mainServiceStub = new MainServiceStub();
     TestBed.configureTestingModule({
       providers: [
         XyDataMarksBaseStub,
@@ -20,13 +18,38 @@ describe('XyDataMarksBase abstract class', () => {
           provide: XyChartComponent,
           useValue: XyChartComponentStub,
         },
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
       ],
     });
     abstractClass = TestBed.inject(XyDataMarksBaseStub);
+  });
+
+  describe('ngOnChanges()', () => {
+    let configChange: any;
+    let changeSpy: jasmine.Spy;
+    beforeEach(() => {
+      spyOn(abstractClass, 'initFromConfig');
+      changeSpy = spyOn(NgOnChangesUtilities, 'inputObjectChangedNotFirstTime');
+      configChange = {
+        config: new SimpleChange('', '', false),
+      };
+    });
+
+    it('should call inputObjectChangedNotFirstTime once and with the correct parameters', () => {
+      abstractClass.ngOnChanges(configChange);
+      expect(
+        NgOnChangesUtilities.inputObjectChangedNotFirstTime
+      ).toHaveBeenCalledOnceWith(configChange, 'config');
+    });
+    it('should call initFromConfig once if objectOnNgChangesNotFirstTime returns true', () => {
+      changeSpy.and.returnValue(true);
+      abstractClass.ngOnChanges(configChange);
+      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
+    });
+    it('should call not call initFromConfig if objectOnNgChangesNotFirstTime returns false', () => {
+      changeSpy.and.returnValue(false);
+      abstractClass.ngOnChanges(configChange);
+      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('ngOnInit()', () => {
