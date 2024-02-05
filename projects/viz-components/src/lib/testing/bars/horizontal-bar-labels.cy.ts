@@ -5,34 +5,34 @@ import {
   VicBarsModule,
   VicChartModule,
   VicPixelDomainPaddingConfig,
-  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisModule,
   VicXyChartModule,
-  VicYQuantitativeAxisModule,
+  VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { VicAxisConfig } from '../../axes/axis.config';
 import {
   VicBarsConfig,
   VicBarsLabelsConfig,
-  VicVerticalBarChartDimensionsConfig,
+  VicHorizontalBarsDimensionsConfig,
 } from '../../bars/bars.config';
 
 @Component({
-  selector: 'app-test-vertical-bar-with-labels',
+  selector: 'app-test-horizontal-bar-with-labels',
   template: `
     <vic-xy-chart
       [margin]="margin"
-      [height]="400"
+      [height]="200"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
       <ng-container svg-elements>
         <svg:g
-          vic-x-ordinal-axis
-          [config]="xOrdinalAxisConfig"
-          side="bottom"
+          vic-x-quantitative-axis
+          [config]="xQuantitativeAxisConfig"
+          side="top"
         ></svg:g>
         <svg:g
-          vic-y-quantitative-axis
-          [config]="yQuantitativeAxisConfig"
+          vic-y-ordinal-axis
+          [config]="yOrdinalAxisConfig"
           side="left"
         ></svg:g>
         <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
@@ -41,23 +41,23 @@ import {
   `,
   styles: [],
 })
-class TestVerticalBarWithLabelsComponent {
+class TestHorizontalBarWithLabelsComponent {
   @Input() barsConfig: VicBarsConfig;
-  @Input() xOrdinalAxisConfig: VicAxisConfig;
-  @Input() yQuantitativeAxisConfig: VicAxisConfig;
-  margin = { top: 20, right: 20, bottom: 0, left: 40 };
+  @Input() xQuantitativeAxisConfig: VicAxisConfig;
+  @Input() yOrdinalAxisConfig: VicAxisConfig;
+  margin = { top: 20, right: 20, bottom: 20, left: 60 };
 }
 
-describe('renders a vertical bar chart with data labels', () => {
+describe('renders a horizontal bar chart with data labels', () => {
   let barsConfig: VicBarsConfig;
   let xAxisConfig: VicAxisConfig;
   let yAxisConfig: VicAxisConfig;
-  const declarations = [TestVerticalBarWithLabelsComponent];
+  const declarations = [TestHorizontalBarWithLabelsComponent];
   const imports = [
     VicChartModule,
     VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
+    VicXQuantitativeAxisModule,
+    VicYOrdinalAxisModule,
     VicXyChartModule,
   ];
   const data = [
@@ -71,7 +71,7 @@ describe('renders a vertical bar chart with data labels', () => {
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicVerticalBarChartDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = data;
@@ -82,34 +82,36 @@ describe('renders a vertical bar chart with data labels', () => {
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     barsConfig.quantitative.domainPadding.numPixels = 4;
     xAxisConfig = new VicAxisConfig();
+    xAxisConfig.tickFormat = '.0f';
     yAxisConfig = new VicAxisConfig();
-    yAxisConfig.tickFormat = '.0f';
   });
 
   describe('correctly positions the data labels', () => {
     beforeEach(() => {
-      cy.mount(TestVerticalBarWithLabelsComponent, {
+      cy.mount(TestHorizontalBarWithLabelsComponent, {
         declarations,
         imports,
         componentProperties: {
           barsConfig: barsConfig,
-          xOrdinalAxisConfig: xAxisConfig,
-          yQuantitativeAxisConfig: yAxisConfig,
+          xQuantitativeAxisConfig: xAxisConfig,
+          yOrdinalAxisConfig: yAxisConfig,
         },
       });
       cy.wait(100);
     });
 
-    it('correctly positions the bar labels horizontally', () => {
+    it('correctly positions the bar labels vertically', () => {
       cy.get('.vic-bar')
         .first()
-        .invoke('attr', 'width')
-        .then((width) => {
+        .invoke('attr', 'height')
+        .then((height) => {
           cy.get('.vic-bar-label').each((el) => {
             cy.wrap(el)
-              .invoke('attr', 'x')
-              .should('equal', `${parseFloat(width) / 2}`);
-            cy.wrap(el).invoke('attr', 'text-anchor').should('equal', 'middle');
+              .invoke('attr', 'y')
+              .should('equal', `${parseFloat(height) / 2}`);
+            cy.wrap(el)
+              .invoke('attr', 'dominant-baseline')
+              .should('equal', 'central');
           });
         });
     });
@@ -117,25 +119,14 @@ describe('renders a vertical bar chart with data labels', () => {
     describe('positions the label inside the bar without ample domain padding', () => {
       it('negative values', () => {
         const index = data.findIndex((x) => x.value === dataExtent[0]);
-
         cy.get('.vic-bar-label')
           .eq(index)
           .then((el) => {
             cy.wrap(el)
-              .prev('rect')
-              .invoke('attr', 'height')
-              .then((height) => {
-                cy.wrap(el)
-                  .invoke('attr', 'y')
-                  .should(
-                    'equal',
-                    (parseFloat(height) - labelOffset).toString()
-                  );
-              });
+              .invoke('attr', 'x')
+              .should('equal', labelOffset.toString());
             cy.wrap(el).invoke('attr', 'fill').should('equal', '#ffffff');
-            cy.wrap(el)
-              .invoke('attr', 'dominant-baseline')
-              .should('equal', 'alphabetical');
+            cy.wrap(el).invoke('attr', 'text-anchor').should('equal', 'start');
           });
       });
 
@@ -145,12 +136,15 @@ describe('renders a vertical bar chart with data labels', () => {
           .eq(index)
           .then((el) => {
             cy.wrap(el)
-              .invoke('attr', 'y')
-              .should('equal', labelOffset.toString());
+              .prev('rect')
+              .invoke('attr', 'width')
+              .then((width) => {
+                cy.wrap(el)
+                  .invoke('attr', 'x')
+                  .should('equal', (+width - labelOffset).toString());
+              });
             cy.wrap(el).invoke('attr', 'fill').should('equal', '#ffffff');
-            cy.wrap(el)
-              .invoke('attr', 'dominant-baseline')
-              .should('equal', 'hanging');
+            cy.wrap(el).invoke('attr', 'text-anchor').should('equal', 'end');
           });
       });
     });
@@ -163,21 +157,9 @@ describe('renders a vertical bar chart with data labels', () => {
         cy.get('.vic-bar-label')
           .eq(index)
           .then((el) => {
-            cy.wrap(el)
-              .prev('rect')
-              .invoke('attr', 'height')
-              .then((height) => {
-                cy.wrap(el)
-                  .invoke('attr', 'y')
-                  .should(
-                    'equal',
-                    (parseFloat(height) + labelOffset).toString()
-                  );
-              });
+            cy.wrap(el).invoke('attr', 'x').should('equal', `-${labelOffset}`);
             cy.wrap(el).invoke('attr', 'fill').should('equal', '#000000');
-            cy.wrap(el)
-              .invoke('attr', 'dominant-baseline')
-              .should('equal', 'hanging');
+            cy.wrap(el).invoke('attr', 'text-anchor').should('equal', 'end');
           });
       });
 
@@ -188,11 +170,16 @@ describe('renders a vertical bar chart with data labels', () => {
         cy.get('.vic-bar-label')
           .eq(index)
           .then((el) => {
-            cy.wrap(el).invoke('attr', 'y').should('equal', `-${labelOffset}`);
-            cy.wrap(el).invoke('attr', 'fill').should('equal', '#000000');
             cy.wrap(el)
-              .invoke('attr', 'dominant-baseline')
-              .should('equal', 'alphabetical');
+              .prev('rect')
+              .invoke('attr', 'width')
+              .then((width) => {
+                cy.wrap(el)
+                  .invoke('attr', 'x')
+                  .should('equal', (+width + labelOffset).toString());
+              });
+            cy.wrap(el).invoke('attr', 'fill').should('equal', '#000000');
+            cy.wrap(el).invoke('attr', 'text-anchor').should('equal', 'start');
           });
       });
     });
