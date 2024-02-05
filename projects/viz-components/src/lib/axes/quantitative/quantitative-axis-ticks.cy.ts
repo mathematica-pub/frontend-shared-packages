@@ -16,7 +16,7 @@ import {
 } from 'projects/viz-components/src/public-api';
 
 @Component({
-  selector: 'app-test-x-quantitative-axis',
+  selector: 'vic-test-x-quantitative-axis',
   template: `
     <vic-xy-chart
       [margin]="margin"
