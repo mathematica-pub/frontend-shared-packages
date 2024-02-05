@@ -27,6 +27,7 @@ import {
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
+import { DateUtilities } from '../core/utilities/is-date';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -161,7 +162,7 @@ export class LinesComponent extends XyDataMarksBase implements XyDataMarks {
 
   canBeDrawnByPath(x: any): boolean {
     return (
-      (typeof x === 'number' || this.utilities.isDate(x)) &&
+      (typeof x === 'number' || DateUtilities.isDate(x)) &&
       x !== null &&
       x !== undefined
     );

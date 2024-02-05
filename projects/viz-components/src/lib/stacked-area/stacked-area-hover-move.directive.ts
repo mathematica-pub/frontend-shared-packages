@@ -2,14 +2,14 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { DateUtilities } from '../core/utilities/is-date';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
-  getStackedAreaTooltipData,
   VicStackedAreaEventOutput,
+  getStackedAreaTooltipData,
 } from './stacked-area-tooltip-data';
-import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
+import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 
 @Directive({
   selector: '[vicStackedAreaHoverMoveEffects]',
@@ -23,10 +23,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
   pointerY: number;
   closestXIndicies: number[];
 
-  constructor(
-    @Inject(STACKED_AREA) public stackedArea: StackedAreaComponent,
-    private utilities: UtilitiesService
-  ) {
+  constructor(@Inject(STACKED_AREA) public stackedArea: StackedAreaComponent) {
     super();
   }
 
@@ -85,7 +82,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
     const closestXValue = least(uniqueXValues, (x) =>
       Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
-    if (this.utilities.isDate(closestXValue)) {
+    if (DateUtilities.isDate(closestXValue)) {
       return this.stackedArea.values.indicies.filter(
         (i) =>
           this.stackedArea.values.x[i].getTime() === closestXValue.getTime()

@@ -13,6 +13,48 @@ describe('the XyAxis abstract class', () => {
     abstractClass = new XyAxisStub(chart as any, new DestroyRefStub());
   });
 
+  describe('ngOnChanges', () => {
+    beforeEach(() => {
+      spyOn(abstractClass, 'updateAxis');
+    });
+    it('calls updateAxis once if config is not first change and config is not equal to previous value', () => {
+      abstractClass.ngOnChanges({
+        config: {
+          isFirstChange: () => false,
+          previousValue: {
+            x: 'old value',
+          },
+          currentValue: {
+            x: 'new value',
+          },
+        } as any,
+      });
+      expect(abstractClass.updateAxis).toHaveBeenCalledTimes(1);
+    });
+    it('does not call updateAxis if config is first change', () => {
+      abstractClass.ngOnChanges({
+        config: {
+          isFirstChange: () => true,
+        } as any,
+      });
+      expect(abstractClass.updateAxis).not.toHaveBeenCalled();
+    });
+    it('does not call updateAxis if config is equal to previous value', () => {
+      abstractClass.ngOnChanges({
+        config: {
+          isFirstChange: () => false,
+          previousValue: {
+            x: 'old value',
+          },
+          currentValue: {
+            x: 'old value',
+          },
+        } as any,
+      });
+      expect(abstractClass.updateAxis).not.toHaveBeenCalled();
+    });
+  });
+
   describe('ngOnInit', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'setAxisFunction');
