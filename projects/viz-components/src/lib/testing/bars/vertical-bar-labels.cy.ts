@@ -17,6 +17,7 @@ import {
 } from '../../bars/bars.config';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar-with-labels',
   template: `
     <vic-xy-chart
