@@ -29,14 +29,15 @@ import {
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { DataDomainService } from '../core/services/data-domain.service';
+import { DateUtilities } from '../core/utilities/is-date';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
+import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyContent } from '../xy-chart/xy-content';
 import { VicLinesConfig } from './lines.config';
-import { DataDomainService } from '../core/services/data-domain.service';
-import { VicDomainPaddingConfig } from '../data-marks/data-dimension.config';
 
 export interface Marker {
   key: string;
@@ -87,7 +88,6 @@ export class LinesComponent
   unpaddedXDomain: [any, any];
   unpaddedYDomain: [any, any];
 
-  private utilities = inject(UtilitiesService);
   private zone = inject(NgZone);
   private dataDomainService = inject(DataDomainService);
 
@@ -105,7 +105,7 @@ export class LinesComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.setMethodsFromConfigAndDraw();
     }
@@ -252,7 +252,7 @@ export class LinesComponent
 
   canBeDrawnByPath(x: any): boolean {
     return (
-      (typeof x === 'number' || this.utilities.isDate(x)) &&
+      (typeof x === 'number' || DateUtilities.isDate(x)) &&
       x !== null &&
       x !== undefined
     );
