@@ -2,7 +2,7 @@
 import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
@@ -21,10 +21,6 @@ describe('XyDataMarksBase abstract class', () => {
           provide: XyChartComponent,
           useValue: XyChartComponentStub,
         },
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
       ],
     });
     abstractClass = TestBed.inject(XyDataMarksBaseStub);
@@ -32,31 +28,28 @@ describe('XyDataMarksBase abstract class', () => {
 
   describe('ngOnChanges()', () => {
     let configChange: any;
+    let changeSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(abstractClass, 'initFromConfig');
+      changeSpy = spyOn(NgOnChangesUtilities, 'inputObjectChangedNotFirstTime');
       configChange = {
         config: new SimpleChange('', '', false),
       };
     });
 
-    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
+    it('should call inputObjectChangedNotFirstTime once and with the correct parameters', () => {
       abstractClass.ngOnChanges(configChange);
       expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
+        NgOnChangesUtilities.inputObjectChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');
     });
     it('should call initFromConfig once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
+      changeSpy.and.returnValue(true);
       abstractClass.ngOnChanges(configChange);
       expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
     });
     it('should call not call initFromConfig if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
+      changeSpy.and.returnValue(false);
       abstractClass.ngOnChanges(configChange);
       expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(0);
     });

@@ -1,7 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DateUtilities } from '../core/utilities/type-guards';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
@@ -73,16 +72,11 @@ describe('LineChartComponent', () => {
   });
 
   describe('canBeDrawnByPath()', () => {
-    let dateSpy: jasmine.Spy;
-    beforeEach(() => {
-      dateSpy = spyOn(DateUtilities, 'isDate').and.returnValue(false);
-    });
     it('integration: returns true if value is a number', () => {
       expect(component.canBeDrawnByPath(1)).toEqual(true);
     });
 
     it('integration: returns true if value is a Date', () => {
-      dateSpy.and.returnValue(true);
       expect(component.canBeDrawnByPath(new Date())).toEqual(true);
     });
 
