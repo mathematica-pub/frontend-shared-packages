@@ -1,7 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { DateUtilities } from '../core/utilities/is-date';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
@@ -17,13 +18,7 @@ describe('LineChartComponent', () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [LinesComponent],
-      providers: [
-        XyChartComponent,
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
-      ],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
@@ -35,8 +30,13 @@ describe('LineChartComponent', () => {
 
   describe('ngOnChanges()', () => {
     let configChange: any;
+    let changesSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(component, 'setMethodsFromConfigAndDraw');
+      changesSpy = spyOn(
+        NgOnChangesUtilities,
+        'inputObjectChangedNotFirstTime'
+      );
       configChange = {
         config: new SimpleChange('', '', false),
       };
@@ -45,21 +45,16 @@ describe('LineChartComponent', () => {
     it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
       component.ngOnChanges(configChange);
       expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
+        NgOnChangesUtilities.inputObjectChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');
     });
     it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
+      changesSpy.and.returnValue(true);
       component.ngOnChanges(configChange);
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
     });
     it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
+      changesSpy.and.returnValue(false);
       component.ngOnChanges(configChange);
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(0);
     });
@@ -170,15 +165,16 @@ describe('LineChartComponent', () => {
   });
 
   describe('canBeDrawnByPath()', () => {
+    let dateSpy: jasmine.Spy;
     beforeEach(() => {
-      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(false);
+      dateSpy = spyOn(DateUtilities, 'isDate').and.returnValue(false);
     });
     it('integration: returns true if value is a number', () => {
       expect(component.canBeDrawnByPath(1)).toEqual(true);
     });
 
     it('integration: returns true if value is a Date', () => {
-      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(true);
+      dateSpy.and.returnValue(true);
       expect(component.canBeDrawnByPath(new Date())).toEqual(true);
     });
 

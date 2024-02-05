@@ -1,6 +1,15 @@
-import { Directive, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { select } from 'd3';
 import { Observable, pairwise, startWith, takeUntil } from 'rxjs';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { Unsubscribe } from '../shared/unsubscribe.class';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
@@ -11,7 +20,7 @@ import { VicAxisConfig } from './axis.config';
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis extends Unsubscribe implements OnInit {
+export abstract class XyAxis extends Unsubscribe implements OnInit, OnChanges {
   /**
    * The configuration for the axis.
    */
@@ -30,6 +39,14 @@ export abstract class XyAxis extends Unsubscribe implements OnInit {
   abstract initNumTicks(): number;
   abstract setTranslate(): void;
   abstract setAxis(axisFunction: any): void;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
+    ) {
+      this.updateAxis(this.chart.transitionDuration);
+    }
+  }
 
   ngOnInit(): void {
     this.setAxisFunction();

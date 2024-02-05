@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { UtilitiesService } from '../../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
@@ -26,10 +26,6 @@ describe('HtmlTooltipDirective', () => {
         {
           provide: DATA_MARKS,
           useClass: DataMarks,
-        },
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
         },
         {
           provide: Overlay,
@@ -145,16 +141,20 @@ describe('HtmlTooltipDirective', () => {
   });
 
   describe('configChanged', () => {
+    let changesSpy: jasmine.Spy;
+    beforeEach(() => {
+      changesSpy = spyOn(NgOnChangesUtilities, 'inputObjectChanged');
+    });
     it('calls objectOnNgChangesChanged once with the correct value', () => {
       directive.configChanged('changes' as any, 'show');
-      expect(
-        mainServiceStub.utilitiesServiceStub.objectOnNgChangesChanged
-      ).toHaveBeenCalledOnceWith('changes' as any, 'config', 'show');
+      expect(NgOnChangesUtilities.inputObjectChanged).toHaveBeenCalledOnceWith(
+        'changes' as any,
+        'config',
+        'show'
+      );
     });
     it('returns the correct value', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChanged.and.returnValue(
-        true
-      );
+      changesSpy.and.returnValue(true);
       expect(directive.configChanged('changes' as any, 'show')).toEqual(true);
     });
   });
