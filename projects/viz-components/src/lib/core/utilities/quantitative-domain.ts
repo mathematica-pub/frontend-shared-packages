@@ -1,10 +1,9 @@
-import { Numeric, max, min } from 'd3';
+import { Numeric, ScaleContinuousNumeric, max, min } from 'd3';
 import {
   DomainPadding,
   VicDomainPaddingConfig,
 } from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
-import { VicQuantitativeScale } from '../types/scale';
 import { ToArray } from '../types/utility';
 import { isNumbers } from './type-guard';
 
@@ -59,20 +58,46 @@ export class QuantitativeDomainUtilities {
     scaleType?: any,
     chartRange?: [number, number]
   ): [number, number] {
-    const domainMin = this.getPaddedDomainValue(
-      unpaddedDomain,
-      domainPadding,
-      'min',
-      scaleType,
-      chartRange
-    );
-    const domainMax = this.getPaddedDomainValue(
-      unpaddedDomain,
-      domainPadding,
-      'max',
-      scaleType,
-      chartRange
-    );
+    let domainMin: number;
+    let domainMax: number;
+    if (unpaddedDomain[0] >= 0 && unpaddedDomain[1] >= 0) {
+      domainMin = unpaddedDomain[0];
+      domainMax = this.getPaddedDomainValue(
+        unpaddedDomain[1],
+        domainPadding,
+        'max',
+        scaleType,
+        unpaddedDomain,
+        chartRange
+      );
+    } else if (unpaddedDomain[0] <= 0 && unpaddedDomain[1] <= 0) {
+      domainMin = this.getPaddedDomainValue(
+        unpaddedDomain[0],
+        domainPadding,
+        'min',
+        scaleType,
+        unpaddedDomain,
+        chartRange
+      );
+      domainMax = unpaddedDomain[1];
+    } else if (unpaddedDomain[0] < 0 && unpaddedDomain[1] > 0) {
+      domainMin = this.getPaddedDomainValue(
+        unpaddedDomain[0],
+        domainPadding,
+        'min',
+        scaleType,
+        unpaddedDomain,
+        chartRange
+      );
+      domainMax = this.getPaddedDomainValue(
+        unpaddedDomain[1],
+        domainPadding,
+        'max',
+        scaleType,
+        unpaddedDomain,
+        chartRange
+      );
+    }
     // we don't necessarily want this -- if we are working with a domain of [0, 0.001] we don't want to all of a sudden take the max to 1;
     if (domainMin === domainMax) {
       return [domainMin, domainMin + 1];
@@ -82,26 +107,21 @@ export class QuantitativeDomainUtilities {
   }
 
   static getPaddedDomainValue(
-    unpaddedDomain: [number, number],
+    value: number,
     padding: VicDomainPaddingConfig,
     valueType: DomainExtent,
-    scaleType: VicQuantitativeScale,
+    scaleType: (
+      domain?: Iterable<number>,
+      range?: Iterable<number>
+    ) => ScaleContinuousNumeric<number, number>,
+    unpaddedDomain: [number, number],
     chartRange?: [number, number]
   ) {
-    let paddedValue =
-      valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
-    const value = paddedValue;
+    let paddedValue = value;
     if (padding.type === DomainPadding.roundUp) {
-      paddedValue = this.getQuantitativeDomainMaxRoundedUp(
+      paddedValue = ValueUtilities.getValueRoundedToNSignificantDigits(
         value,
         padding.sigDigits(value),
-        valueType
-      );
-    } else if (padding.type === DomainPadding.percentOver) {
-      paddedValue = this.getQuantitativeDomainMaxPercentOver(
-        value,
-        padding.sigDigits(value),
-        padding.percentOver,
         valueType
       );
     } else if (padding.type === DomainPadding.roundInterval) {
@@ -109,6 +129,11 @@ export class QuantitativeDomainUtilities {
         value,
         padding.interval(value),
         valueType
+      );
+    } else if (padding.type === DomainPadding.percentOver) {
+      paddedValue = this.getQuantitativeDomainMaxPercentOver(
+        value,
+        padding.percentOver
       );
     } else if (padding.type === DomainPadding.numPixels) {
       paddedValue = this.getPixelPaddedDomainValue(
@@ -122,11 +147,24 @@ export class QuantitativeDomainUtilities {
     return paddedValue;
   }
 
+  static getQuantitativeDomainMaxPercentOver(
+    value: number,
+    percent: number
+  ): number {
+    let overValue = Math.abs(value) * (1 + percent);
+    if (value < 0) overValue = -overValue;
+    console.log(overValue, value, percent);
+    return overValue;
+  }
+
   static getPixelPaddedDomainValue(
     unpaddedDomain: [number, number],
     numPixels: number,
     valueType: DomainExtent,
-    scaleType: any,
+    scaleFn: (
+      domain?: Iterable<number>,
+      range?: Iterable<number>
+    ) => ScaleContinuousNumeric<number, number>,
     chartRange: [number, number]
   ): number {
     if (chartRange[1] < chartRange[0]) numPixels = -1 * numPixels;
@@ -136,35 +174,9 @@ export class QuantitativeDomainUtilities {
       valueType === 'min' && unpaddedDomain[0] < 0
         ? [chartRange[0] + numPixels, chartRange[1]]
         : [chartRange[0], chartRange[1] - numPixels];
-    const scale = scaleType(unpaddedDomain, adjustedPixelRange);
+    const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
     const targetVal = valueType === 'min' ? chartRange[0] : chartRange[1];
-    return scale.invert(targetVal);
-  }
-
-  static getQuantitativeDomainMaxRoundedUp(
-    value: number,
-    sigDigits: number,
-    valueType: DomainExtent
-  ): number {
-    return ValueUtilities.getValueRoundedToNSignificantDigits(
-      value,
-      sigDigits,
-      valueType
-    );
-  }
-
-  static getQuantitativeDomainMaxPercentOver(
-    value: number,
-    sigDigits: number,
-    percent: number,
-    valueType: DomainExtent
-  ): number {
-    let overValue = Math.abs(value) * (1 + percent);
-    if (value < 0) overValue = -overValue;
-    return ValueUtilities.getValueRoundedToNSignificantDigits(
-      overValue,
-      sigDigits,
-      valueType
-    );
+    const toReturn = scale.invert(targetVal);
+    return toReturn;
   }
 }

@@ -20,9 +20,8 @@ import {
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { DateUtilities } from '../core/utilities/is-date';
 import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
-import { isNumbers } from '../core/utilities/type-guard';
+import { isDate, isNumbers } from '../core/utilities/type-guard';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
@@ -157,9 +156,7 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
 
   canBeDrawnByPath(x: any): boolean {
     return (
-      (typeof x === 'number' || DateUtilities.isDate(x)) &&
-      x !== null &&
-      x !== undefined
+      (typeof x === 'number' || isDate(x)) && x !== null && x !== undefined
     );
   }
 
