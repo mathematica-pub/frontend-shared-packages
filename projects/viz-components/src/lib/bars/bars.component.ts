@@ -506,7 +506,7 @@ export class BarsComponent
       return this.config.labels.darkLabelColor;
     } else {
       const barColor = this.getBarColor(i);
-      return ColorUtilities.selectColorBasedOnContrastRatio(
+      return ColorUtilities.getColorWithHighestContrastRatio(
         this.config.labels.darkLabelColor,
         this.config.labels.lightLabelColor,
         barColor

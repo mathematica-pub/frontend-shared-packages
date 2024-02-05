@@ -7,7 +7,7 @@ export class ColorUtilities {
       : (lumB + 0.05) / (lumA + 0.05);
   }
 
-  static selectColorBasedOnContrastRatio(
+  static getColorWithHighestContrastRatio(
     darkColor: string,
     lightColor: string,
     backgroundColor: string

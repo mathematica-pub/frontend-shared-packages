@@ -16,10 +16,10 @@ describe('getContrastRatio', () => {
   });
 });
 
-describe('selectColorBasedOnContrastRatio', () => {
+describe('getColorWithHighestContrastRatio', () => {
   it('returns the light color if the light/background contrast ratio is higher than dark/background', () => {
     expect(
-      ColorUtilities.selectColorBasedOnContrastRatio(
+      ColorUtilities.getColorWithHighestContrastRatio(
         '#000000',
         '#ffffff',
         '#0000ff'
@@ -28,7 +28,7 @@ describe('selectColorBasedOnContrastRatio', () => {
   });
   it('returns the dark color if the dark/background contrast ratio is higher than light/background', () => {
     expect(
-      ColorUtilities.selectColorBasedOnContrastRatio(
+      ColorUtilities.getColorWithHighestContrastRatio(
         '#000000',
         '#ffffff',
         '#dbdbff'
