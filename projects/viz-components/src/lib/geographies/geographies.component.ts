@@ -16,7 +16,7 @@ import {
   map,
   range,
   scaleLinear,
-  select
+  select,
 } from 'd3';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -77,12 +77,6 @@ export class GeographiesComponent
   noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
-  constructor(
-    public zone: NgZone,
-    public elRef: ElementRef,
-    chart: MapChartComponent
-  ) {
-    super(chart);
   constructor(public zone: NgZone, public elRef: ElementRef) {
     super();
   }

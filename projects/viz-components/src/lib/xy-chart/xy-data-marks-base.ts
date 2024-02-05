@@ -9,7 +9,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { Ranges } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import {
   XyChartComponent,
   XyChartScales,
@@ -30,7 +30,6 @@ export abstract class XyDataMarksBase implements OnChanges, OnInit {
   ];
   public destroyRef = inject(DestroyRef);
   public chart = inject(XyChartComponent);
-  protected utilities = inject(UtilitiesService);
 
   /**
    * setPropertiesFromConfig method
@@ -64,7 +63,7 @@ export abstract class XyDataMarksBase implements OnChanges, OnInit {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.initFromConfig();
     }
