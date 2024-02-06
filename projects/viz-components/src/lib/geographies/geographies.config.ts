@@ -1,3 +1,4 @@
+import type * as CSSType from 'csstype';
 import {
   ExtendedFeature,
   ExtendedFeatureCollection,
@@ -21,8 +22,6 @@ import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
-import type * as CSSType from 'csstype';
-import { VicGeographiesUtils } from './geographies-utils.class';
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
@@ -89,93 +88,66 @@ export class VicGeographyLabelConfig {
    * Function that determines whether a label should be shown on the GeoJSON feature
    * Exists because it's common for small geographies to not have labels shown on them.
    */
-  showLabelFunction: (d: Feature, i: number) => boolean = () => true;
+  display: (d: Feature, i: number) => boolean;
 
   /**
    * Function that maps a feature to the desired label
    */
-  labelTextFunction: (d: Feature) => string;
+  valueAccessor: (d: Feature) => string;
 
   textAnchor: CSSType.Property.TextAnchor;
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   dominantBaseline: CSSType.Property.DominantBaseline;
   cursor: CSSType.Property.Cursor;
   pointerEvents: CSSType.Property.PointerEvents;
-
-  labelPositionFunction: (
+  fontWeight:
+    | ((d: Feature) => CSSType.Property.FontWeight)
+    | CSSType.Property.FontWeight;
+  color: ((d: Feature) => CSSType.Property.Fill) | CSSType.Property.Fill;
+  position: (
     d: Feature<MultiPolygon, any>,
     path: GeoPath<any, GeoPermissibleObjects>,
     projection: any
-  ) => [number, number] = (
-    d: Feature<MultiPolygon, any>,
-    path: GeoPath<any, GeoPermissibleObjects>
-  ) => path.centroid(d);
+  ) => [number, number];
+  autoColorByContrast: VicGeographiesLabelsAutoColor;
 
-  labelFillFunction: (
-    d: Feature<MultiPolygon, any>,
-    geographyFill: CSSType.Property.Fill
-  ) => CSSType.Property.Fill;
-
-  labelFontWeightFunction: (
-    d: Feature<MultiPolygon, any>,
-    geographyFill: CSSType.Property.Fill
-  ) => CSSType.Property.FontWeight;
-  /**
-   * fontScale = scaleLinear().domain([smallestChartSize, largestChartSize]).range([smallestChartSize, largestFontSize])
-   * font-size = fontScale(actualChartWidth)
-   */
   fontScale: ScaleLinear<number, number, never>;
 
-  /**
-   * Fluent Interface Functions: https://samuelkollat.hashnode.dev/beyond-basics-streamline-your-typescript-code-with-fluent-interface-design-pattern
-   *
-   *
-   * If the label is within the bounds of the geography (e.g. in the US, everything except HI), we check the contrast of
-   * the light & dark color against the fill of the geography, and use the one that has the best contrast ratio. If the label is not in the
-   * bounds of the geography, we use the dark text color.
-   * DarkTextColor and LightTextColor must be in rgb notation
-   */
-  useBinaryLabelFill(options?: {
-    darkTextColor?: CSSType.Property.Fill;
-    lightTextColor?: CSSType.Property.Fill;
-    darkFontWeight?: CSSType.Property.FontWeight;
-    lightFontWeight?: CSSType.Property.FontWeight;
-  }): VicGeographyLabelConfig {
-    options.darkTextColor = options.darkTextColor ?? 'rgb(0,0,0)';
-    options.lightTextColor = options.lightTextColor ?? 'rgb(255,255,255)';
-    options.darkFontWeight = options.darkFontWeight ?? 'bold';
-    options.lightFontWeight = options.lightFontWeight ?? 'normal';
-    this.labelFillFunction = (d, geographyFill) => {
-      return VicGeographiesUtils.binaryLabelFill(
-        d,
-        geographyFill,
-        options.darkTextColor,
-        options.lightTextColor,
-        this
-      );
-    };
-
-    this.labelFontWeightFunction = (d, geographyFill) => {
-      return VicGeographiesUtils.binaryLabelFontWeight(
-        d,
-        geographyFill,
-        options.darkTextColor,
-        options.lightTextColor,
-        options.darkFontWeight,
-        options.lightFontWeight,
-        this
-      );
-    };
-    return this;
-  }
-
   constructor(init?: Partial<VicGeographyLabelConfig>) {
+    this.display = () => true;
+    this.color = '#000';
+    this.fontWeight = 400;
+    this.autoColorByContrast = new VicGeographiesLabelsAutoColor();
+    this.position = (
+      d: Feature<MultiPolygon, any>,
+      path: GeoPath<any, GeoPermissibleObjects>
+    ) => path.centroid(d);
     this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
     this.textAnchor = 'middle';
     this.alignmentBaseline = 'middle';
     this.dominantBaseline = 'middle';
     this.cursor = 'default';
     this.pointerEvents = 'none';
+    Object.assign(this, init);
+  }
+}
+
+export interface VicGeographiesLabelsAutoColorProperties {
+  color: CSSType.Property.Fill; // cannot used HTML named colors
+  fontWeight: CSSType.Property.FontWeight;
+}
+
+export class VicGeographiesLabelsAutoColor {
+  enable: boolean;
+  dark: VicGeographiesLabelsAutoColorProperties;
+  light: VicGeographiesLabelsAutoColorProperties;
+
+  constructor(init?: Partial<VicGeographiesLabelsAutoColor>) {
+    this.enable = false;
+    this.dark.color = '#000';
+    this.dark.fontWeight = 700;
+    this.light.color = '#fff';
+    this.light.fontWeight = 400;
     Object.assign(this, init);
   }
 }

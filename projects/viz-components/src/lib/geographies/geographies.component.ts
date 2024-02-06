@@ -10,17 +10,19 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import type * as CSSType from 'csstype';
 import {
-  extent,
-  geoPath,
   InternMap,
   InternSet,
+  Transition,
+  extent,
+  geoPath,
   map,
   range,
   scaleLinear,
   select,
-  Transition,
 } from 'd3';
+import { Feature, MultiPolygon } from 'geojson';
 import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
 import { UtilitiesService } from '../core/services/utilities.service';
@@ -28,16 +30,17 @@ import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapContent } from '../map-chart/map-content';
+import { ColorUtilities } from '../shared/color-utilities.class';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
-  VicGeographiesConfig,
   VicDataGeographyConfig,
+  VicGeographiesConfig,
+  VicGeographiesLabelsAutoColor,
+  VicGeographiesLabelsAutoColorProperties,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
 } from './geographies.config';
-import { Feature, MultiPolygon } from 'geojson';
-import type * as CSSType from 'csstype';
 
 export class MapDataValues {
   attributeDataValues: any[];
@@ -496,12 +499,12 @@ export class GeographiesComponent
 
   drawLabels(layer: any, t: any, config: VicGeographyLabelConfig): void {
     layer
-      .filter((d, i) => config.showLabelFunction(d, i))
+      .filter((d, i) => config.display(d, i))
       .selectAll('.vic-geography-label')
       .remove();
 
     layer
-      .filter((d, i) => config.showLabelFunction(d, i))
+      .filter((d, i) => config.display(d, i))
       .selectAll('.vic-geography-label')
       .data((d: Feature) => [d])
       .join(
@@ -514,48 +517,84 @@ export class GeographiesComponent
             .attr('dominant-baseline', config.dominantBaseline)
             .style('cursor', config.cursor)
             .attr('pointer-events', config.pointerEvents)
-            .text(config.labelTextFunction)
-            .attr(
-              'y',
-              (d) =>
-                config.labelPositionFunction(d, this.path, this.projection)[1]
-            )
-            .attr(
-              'x',
-              (d) =>
-                config.labelPositionFunction(d, this.path, this.projection)[0]
-            )
+            .text((d) => config.valueAccessor(d))
+            .attr('y', (d) => config.position(d, this.path, this.projection)[1])
+            .attr('x', (d) => config.position(d, this.path, this.projection)[0])
             .attr('font-size', config.fontScale(this.ranges.x[1]))
-            .attr('fill', (d, i) => this.getLabelFill(d, config))
-            .attr('font-weight', (d, i) => this.getLabelFontWeight(d, config)),
+            .attr('fill', (d) =>
+              this.getLabelProperty<CSSType.Property.Fill>(d, config, 'color')
+            )
+            .attr('font-weight', (d) =>
+              this.getLabelProperty<CSSType.Property.FontWeight>(
+                d,
+                config,
+                'fontWeight'
+              )
+            ),
         (update: any) =>
           update.call((update: any) =>
             update
-              .text(config.labelTextFunction)
-              .attr('x', config.labelPositionFunction[0])
-              .attr('y', config.labelPositionFunction[1])
+              .text((d) => config.valueAccessor(d))
+              .attr(
+                'y',
+                (d) => config.position(d, this.path, this.projection)[1]
+              )
+              .attr(
+                'x',
+                (d) => config.position(d, this.path, this.projection)[0]
+              )
               .attr('font-size', config.fontScale(this.ranges.x[1]))
               .transition(t as any)
-              .attr('fill', (d, i) => this.getLabelFill(d, config))
-              .attr('font-weight', (d, i) => this.getLabelFontWeight(d, config))
+              .attr('fill', (d) =>
+                this.getLabelProperty<CSSType.Property.Fill>(d, config, 'color')
+              )
+              .attr('font-weight', (d) =>
+                this.getLabelProperty<CSSType.Property.FontWeight>(
+                  d,
+                  config,
+                  'fontWeight'
+                )
+              )
           ),
         (exit: any) => exit.remove()
       );
   }
 
-  getLabelFill(
+  getLabelProperty<T>(
     d: Feature<MultiPolygon, any>,
-    config: VicGeographyLabelConfig
-  ): CSSType.Property.Fill {
-    const pathColor = this.getFill(d); // doesn't address pattern fills!
-    return config.labelFillFunction(d, pathColor);
+    config: VicGeographyLabelConfig,
+    property: 'color' | 'fontWeight'
+  ): T {
+    const pathColor = this.getFill(d);
+    const accessor = config[property];
+    let fontProperty;
+    if (this.isPropertyFunction(accessor)) {
+      fontProperty = accessor(d);
+    } else {
+      fontProperty = accessor;
+    }
+    if (config.autoColorByContrast.enable) {
+      fontProperty = this.getAutoContrastLabelProperties(
+        config.autoColorByContrast,
+        pathColor
+      )[property];
+    }
+    return fontProperty;
   }
 
-  getLabelFontWeight(
-    d: Feature<MultiPolygon, any>,
-    config: VicGeographyLabelConfig
-  ): CSSType.Property.FontWeight {
-    const pathColor = this.getFill(d);
-    return config.labelFontWeightFunction(d, pathColor);
+  isPropertyFunction<T>(x: ((d: Feature) => T) | T): x is (d: Feature) => T {
+    return typeof x === 'function';
+  }
+
+  getAutoContrastLabelProperties(
+    config: VicGeographiesLabelsAutoColor,
+    backgroundColor: string
+  ): VicGeographiesLabelsAutoColorProperties {
+    return ColorUtilities.getContrastRatio(
+      config.light.color,
+      backgroundColor
+    ) > ColorUtilities.getContrastRatio(config.dark.color, backgroundColor)
+      ? config.light
+      : config.dark;
   }
 }

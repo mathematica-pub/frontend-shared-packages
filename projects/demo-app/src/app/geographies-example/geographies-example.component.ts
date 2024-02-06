@@ -8,25 +8,25 @@ import {
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
-  VicDataGeographyConfig,
   ElementSpacing,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
+  GeographiesHoverEmitTooltipData,
+  VicDataGeographyConfig,
+  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   VicGeographiesConfig,
   VicGeographiesEventOutput,
-  GeographiesHoverEmitTooltipData,
+  VicGeographiesUtils,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
-  VicGeographiesUtils,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
+  Observable,
+  Subject,
   combineLatest,
   filter,
   map,
-  Observable,
-  Subject,
 } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { Topology } from 'topojson-specification';
@@ -149,17 +149,18 @@ export class GeographiesExampleComponent implements OnInit {
       'VT',
     ];
     const labelConfig = new VicGeographyLabelConfig();
-    labelConfig.labelTextFunction = (d) => d.properties['id'];
-    labelConfig.showLabelFunction = (d) =>
+    labelConfig.valueAccessor = (d) => d.properties['id'];
+    labelConfig.display = (d) =>
       !unlabelledTerritories.includes(d.properties['id']) &&
       !smallSquareStates.includes(d.properties['id']);
-    labelConfig.labelPositionFunction = (d, path, projection) =>
+    labelConfig.position = (d, path, projection) =>
       polylabelStates.includes(d.properties['id'])
-        ? VicGeographiesUtils.getPolyLabelCentroid(d, projection)
+        ? VicGeographiesUtils.getPolyLabelCentroid(d as any, projection)
         : d.properties['id'] == 'HI'
-        ? VicGeographiesUtils.getHawaiiCentroid(d, projection)
+        ? VicGeographiesUtils.getHawaiiCentroid(d as any, projection)
         : path.centroid(d);
-    labelConfig.useBinaryLabelFill({ darkTextColor: 'rgb(22,80,225)' });
+    labelConfig.autoColorByContrast.enable = true;
+    labelConfig.autoColorByContrast.dark.color = 'rgb(22,80,225)';
     return labelConfig;
   }
 
