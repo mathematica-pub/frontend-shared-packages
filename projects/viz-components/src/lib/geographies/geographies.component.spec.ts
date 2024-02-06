@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { GeographiesComponent, MapDataValues } from './geographies.component';
@@ -25,13 +25,7 @@ describe('GeographiesComponent', () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [GeographiesComponent],
-      providers: [
-        MapChartComponent,
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
-      ],
+      providers: [MapChartComponent],
     }).compileComponents();
   });
 
@@ -43,8 +37,13 @@ describe('GeographiesComponent', () => {
 
   describe('ngOnChanges()', () => {
     let configChange: any;
+    let changesSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(component, 'setMethodsFromConfigAndDraw');
+      changesSpy = spyOn(
+        NgOnChangesUtilities,
+        'inputObjectChangedNotFirstTime'
+      );
       configChange = {
         config: new SimpleChange('', '', false),
       };
@@ -53,23 +52,18 @@ describe('GeographiesComponent', () => {
     it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
       component.ngOnChanges(configChange);
       expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
+        NgOnChangesUtilities.inputObjectChangedNotFirstTime
       ).toHaveBeenCalledOnceWith(configChange, 'config');
     });
 
     it('calls setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
+      changesSpy.and.returnValue(true);
       component.ngOnChanges(configChange);
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
     });
 
     it('does not  call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
+      changesSpy.and.returnValue(false);
       component.ngOnChanges(configChange);
       expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(0);
     });

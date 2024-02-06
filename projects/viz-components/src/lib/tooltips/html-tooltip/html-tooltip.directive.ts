@@ -22,7 +22,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { UtilitiesService } from '../../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
 import {
@@ -52,7 +52,6 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    private utilities: UtilitiesService,
     @Optional() @Inject(DATA_MARKS) private dataMarks: DataMarks,
     @Optional() @Inject(DOCUMENT) document: Document
   ) {
@@ -87,7 +86,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     changes: SimpleChanges,
     property: keyof VicHtmlTooltipConfig
   ): boolean {
-    return this.utilities.objectOnNgChangesChanged(changes, 'config', property);
+    return NgOnChangesUtilities.inputObjectChanged(changes, 'config', property);
   }
 
   checkPositionChanges(changes: SimpleChanges): void {

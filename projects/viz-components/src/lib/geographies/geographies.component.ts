@@ -25,7 +25,7 @@ import {
 import { Feature, MultiPolygon } from 'geojson';
 import { BehaviorSubject, Observable, takeUntil } from 'rxjs';
 import { ChartComponent, Ranges } from '../chart/chart.component';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
@@ -87,7 +87,6 @@ export class GeographiesComponent
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
   constructor(
-    public utilities: UtilitiesService,
     public zone: NgZone,
     public elRef: ElementRef,
     chart: MapChartComponent
@@ -97,7 +96,7 @@ export class GeographiesComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.setMethodsFromConfigAndDraw();
     }

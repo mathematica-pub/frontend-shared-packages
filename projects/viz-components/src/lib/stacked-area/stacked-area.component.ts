@@ -10,20 +10,20 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import {
-  area,
-  extent,
   InternMap,
   InternSet,
+  SeriesPoint,
+  Transition,
+  area,
+  extent,
   map,
   range,
   rollup,
   scaleOrdinal,
   select,
-  SeriesPoint,
   stack,
-  Transition,
 } from 'd3';
-import { UtilitiesService } from '../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarks, XyDataMarksValues } from '../data-marks/xy-data-marks';
 import { XyContent } from '../xy-chart/xy-content';
@@ -56,7 +56,6 @@ export class StackedAreaComponent
 
   constructor(
     private areasRef: ElementRef<SVGSVGElement>,
-    private utilities: UtilitiesService,
     private zone: NgZone
   ) {
     super();
@@ -64,7 +63,7 @@ export class StackedAreaComponent
 
   ngOnChanges(changes: SimpleChanges): void {
     if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, 'config')
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.setMethodsFromConfigAndDraw();
     }
