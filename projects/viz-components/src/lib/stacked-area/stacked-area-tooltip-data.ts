@@ -37,7 +37,7 @@ export function getStackedAreaTooltipData(
         stackedArea.config.y.valueFormat
       ),
       category: stackedArea.config.category.valueAccessor(originalDatum),
-      color: stackedArea.categoryScale(
+      color: stackedArea.scales.category(
         stackedArea.config.category.valueAccessor(originalDatum)
       ),
     };
@@ -52,6 +52,6 @@ export function getStackedAreaTooltipData(
   }
   return {
     data,
-    positionX: stackedArea.xScale(stackedArea.values.x[closestXIndicies[0]]),
+    positionX: stackedArea.scales.x(stackedArea.values.x[closestXIndicies[0]]),
   };
 }

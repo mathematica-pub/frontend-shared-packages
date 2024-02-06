@@ -1,23 +1,33 @@
 # DataMarks
 
-## Class
+## Classes
 
 **DataMarks**
 
 The DataMarks class is a minimal type signature that should be extended by every component that will furnish data and draw shapes based on that data.
 
-### Required properties - must be set by user
+#### Required properties
 
-- config: any
+- config: VicDataMarksConfig
 
-### Required methods - must be set by user
+#### Required methods
 
-- setMethodsFromConfigAndDraw: () => void
-- resizeMarks: () => void
-- drawMarks: (transitionDuration: number) => void
-- onPointerEnter: (event: PointerEvent) => void
-- onPointerLeave: (event: PointerEvent) => void
-- onPointerMove: (event: PointerEvent) => void
+- setPropertiesFromConfig: () => void;
+- resizeMarks: () => void;
+- drawMarks: () => void;
+
+**VicDataMarksConfig**
+
+#### Required properties
+
+- data: any[]
+  - an array of _any_ type that contains values to visualize
+
+#### Required properties - with default values
+
+- mixBlendMode: string
+  - default value: 'normal'
+  - defines how overlapping elements are blended
 
 ## Token
 
@@ -25,114 +35,41 @@ The DataMarks class is a minimal type signature that should be extended by every
 
 The DATA_MARKS token is used as a type specifier and for Angular's dependency injection.
 
-## DataMarks Config
+## Expected patterns of use
 
-**DataMarksConfig**
+The below diagram (requires VSCode Markdown Preview Mermaid Support extension) illustrates how a DataMarks component works together with a scaled Chart component to create an expandable system with shared scales that
+will update DOM elements when data/te config updates as well as when the chart is resized by the user/browser.
 
-### Required properties - must be set by user
+In the diagram, the top olive box represents the component initialization phase. The dark teal box represents the update and draw from a config/data change cycle, and the green box (lowest) represents the update and draw from a chart size change cycle.
 
-- data: any[]
-  - an array of _any_ type that contains values to visualize
+Additional components akin to the AxisComponent in the chart can be added ad nauseum, and make use of the updated scales that emit from the ScaledChartComponent, but that are set from the DataMarksComponent.
 
-### Required properties - with default values
-
-- transitionDuration: number
-  - default value: 250
-  - defines transition durations within the visualization
-- mixBlendMode: string
-  - default value: 'normal'
-  - defines how overlapping elements are blended
-
-### Optional properties
-
-- showTooltip: boolean
-  - used to help determine if a tooltip should be shown on component
-
-## Data Dimension
-
-**DataDimension**
-
-### Required properties - must be set by user
-
-- valueAccessor: (...args: any) => any
-  - a method to access the desired value from each item in the _data_ array
-
-### Optional properties
-
-- domain: any
-- range: any
-- valueFormat: string | (x: number) => string
-
-## Quantitative Dimension
-
-**QuantitativeDimension**
-
-A QuantitativeDimension is a [DataDimension](#data-dimension).
-
-### Required properties - must be set by user
-
-- valueAccessor: (...args: any) => any
-  - a method to access the desired value from each item in the _data_ array
-
-### Optional properties
-
-- domain: [any, any]
-- range: any
-- valueFormat: string
-- scaleType: (d: any, r: any) => any
-
-## Ordinal Dimension
-
-**OrdinalDimension**
-
-An OrdinalDimension is a [DataDimension](#data-dimension).
-
-### Required properties - must be set by user
-
-- valueAccessor: (...args: any) => any
-  - a method to access the desired value from each item in the _data_ array
-
-### Required properties - with default values
-
-- scaleType: (d: any, r: any) => any
-  - default value: [scaleBand](https://github.com/d3/d3-scale/blob/main/README.md#band-scales)
-- paddingInner: number
-  - default value: 0.1
-  - values must be between 0 and 1
-  - sets [paddingInner](https://github.com/d3/d3-scale/blob/main/README.md#band_paddingInner) on _scaleBand_, controls padding between marks
-- paddingOuter: number
-  - default value: 0.1
-  - values must be between 0 and 1
-  - sets [paddingOuter](https://github.com/d3/d3-scale/blob/main/README.md#band_paddingOuter) on _scaleBand_, controls padding on outside of marks
-- align: number
-  - default value: 0.5
-  - values can be 0, 0.5, or 1
-    - 0 aligns marks to the first value in the domain (typically left or bottom)
-    - 0.5 aligns marks to the center
-    - 1 aligns marks to the last value in the domain (typically right or top)
-  - sets [align](https://github.com/d3/d3-scale/blob/main/README.md#band_align)
-
-### Optional properties
-
-- domain: any[]
-- range: any
-- valueFormat: string
-
-## Categorical Color Dimension
-
-**CategoricalColorDimension**
-
-A CategoricalColorDimension is a [DataDimension](#data-dimension).
-
-### Required properties - must be set by user
-
-- valueAccessor: (...args: any) => any
-  - a method to access the desired value from each item in the _data_ array
-
-### Optional properties
-
-- domain: any[]
-- range: any
-- valueFormat: string
-- colorScale: (...args: any) => any
-- colors: string[]
+```mermaid
+sequenceDiagram
+    participant DataMarksComponent
+    participant ScaledChartComponent
+    participant AxisComponent
+    rect rgb(50, 50, 0)
+    Note over DataMarksComponent: Subscribe to scales<br/>Subscribe to ranges
+    Note over AxisComponent: Subscribe to scales
+    ScaledChartComponent->>DataMarksComponent: Emit ranges
+    end
+    rect rgb(0, 50, 50)
+    Note over DataMarksComponent: Create scales from config / ranges
+    DataMarksComponent->>ScaledChartComponent: Update scales
+    ScaledChartComponent->>DataMarksComponent: Emit updated scales
+    ScaledChartComponent->>AxisComponent: Emit updated scales
+    Note over DataMarksComponent: Draw scaled marks
+    Note over AxisComponent: Draw scaled axis
+    end
+    rect rgb(0, 100, 50)
+    Note over ScaledChartComponent: Chart gets resized
+    ScaledChartComponent->>DataMarksComponent: Emit ranges
+    Note over DataMarksComponent: Update scales from config / ranges
+    DataMarksComponent->>ScaledChartComponent: Update scales
+    ScaledChartComponent->>DataMarksComponent: Emit updated scales
+    ScaledChartComponent->>AxisComponent: Emit updated scales
+    Note over DataMarksComponent: Draw scaled marks
+    Note over AxisComponent: Draw scaled axis
+    end
+```

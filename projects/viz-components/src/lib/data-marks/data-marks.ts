@@ -6,7 +6,7 @@ export class DataMarks {
   chart: Chart;
   config: VicDataMarksConfig;
   ranges: Ranges;
-  setMethodsFromConfigAndDraw: () => void;
+  setPropertiesFromConfig: () => void;
   resizeMarks: () => void;
-  drawMarks: (transitionDuration: number) => void;
+  drawMarks: () => void;
 }
