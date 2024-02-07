@@ -108,8 +108,8 @@ export class LinesHoverMoveDirective<
     pointerY: number
   ): number {
     return Math.hypot(
-      this.lines.xScale(pointX) - pointerX,
-      this.lines.yScale(pointY) - pointerY
+      this.lines.scales.x(pointX) - pointerX,
+      this.lines.scales.y(pointY) - pointerY
     );
   }
 

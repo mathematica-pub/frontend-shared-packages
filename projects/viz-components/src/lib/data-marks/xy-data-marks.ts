@@ -1,3 +1,4 @@
+import { XyChartScales } from '../xy-chart/xy-chart.component';
 import { DataMarks } from './data-marks';
 
 export class XyDataMarks extends DataMarks {
@@ -5,8 +6,7 @@ export class XyDataMarks extends DataMarks {
   subscribeToScales: () => void;
   subscribeToRanges: () => void;
   values: XyDataMarksValues;
-  xScale: (d: any) => any;
-  yScale: (d: any) => any;
+  scales: XyChartScales;
 }
 
 export class XyDataMarksValues {

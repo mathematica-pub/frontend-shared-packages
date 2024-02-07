@@ -22,7 +22,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { UtilitiesService } from '../../core/services/utilities.service';
+import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
 import {
@@ -51,12 +51,10 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
   constructor(
     // provisionally leaving as private per discussion here: https://github.com/mathematica-org/viz-components/pull/189
     private viewContainerRef: ViewContainerRef,
-    protected overlay: Overlay,
-    protected overlayPositionBuilder: OverlayPositionBuilder,
-    protected utilities: UtilitiesService,
+    private overlay: Overlay,
+    private overlayPositionBuilder: OverlayPositionBuilder,
     @Optional() @Inject(DATA_MARKS) private dataMarks: DataMarks,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    @Optional() @Inject(DOCUMENT) document: any
+    @Optional() @Inject(DOCUMENT) document: Document
   ) {
     this._document = document;
   }
@@ -89,7 +87,7 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     changes: SimpleChanges,
     property: keyof VicHtmlTooltipConfig
   ): boolean {
-    return this.utilities.objectOnNgChangesChanged(changes, 'config', property);
+    return NgOnChangesUtilities.inputObjectChanged(changes, 'config', property);
   }
 
   checkPositionChanges(changes: SimpleChanges): void {
