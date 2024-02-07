@@ -1,6 +1,6 @@
 import { isDate } from './type-guard';
 
-describe('isDate', () => {
+describe('isDate()', () => {
   it('returns true if input is a date', () => {
     const result = isDate(new Date());
     expect(result).toEqual(true);
