@@ -23,22 +23,14 @@ describe('MapLegendComponent', () => {
     beforeEach(() => {
       spyOn(component, 'setOrientation');
       spyOn(component, 'setValuesSide');
-      spyOn(component, 'subscribeToScalesAndConfig');
     });
-
     it('calls setOrientation once', () => {
       component.ngOnInit();
       expect(component.setOrientation).toHaveBeenCalledTimes(1);
     });
-
     it('calls setValuesSide once', () => {
       component.ngOnInit();
       expect(component.setValuesSide).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls subscribeToScalesAndConfig once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToScalesAndConfig).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -127,53 +119,6 @@ describe('MapLegendComponent', () => {
           expect(console.warn).toHaveBeenCalledTimes(1);
         });
       });
-    });
-  });
-
-  describe('setScaleAndConfig', () => {
-    beforeEach(() => {
-      spyOn(component, 'setLegendType');
-    });
-
-    it('calls setLegendType once if scale and config are truthy', () => {
-      component.setScaleAndConfig('scale' as any, 'config' as any);
-      expect(component.setLegendType).toHaveBeenCalledTimes(1);
-    });
-
-    it('does not call setLegendType if scale is not truthy', () => {
-      component.setScaleAndConfig(null, 'config' as any);
-      expect(component.setLegendType).not.toHaveBeenCalled();
-    });
-
-    it('does not call setLegendType if config is not truthy', () => {
-      component.setScaleAndConfig('scale' as any, null);
-      expect(component.setLegendType).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('setLegendType', () => {
-    it('sets legendType to categorical if config.valueType is categorical', () => {
-      component.attributeDataConfig = { valueType: 'categorical' } as any;
-      component.setLegendType();
-      expect(component.legendType).toEqual('categorical');
-    });
-
-    it('sets legendType to continuous if config.valueType is not categorical and binType is none', () => {
-      component.attributeDataConfig = {
-        valueType: 'quantitative',
-        binType: 'none',
-      } as any;
-      component.setLegendType();
-      expect(component.legendType).toEqual('continuous');
-    });
-
-    it('sets legendType to continuous if config.valueType is not categorical and binType is not none', () => {
-      component.attributeDataConfig = {
-        valueType: 'quantitative',
-        binType: 'custom',
-      } as any;
-      component.setLegendType();
-      expect(component.legendType).toEqual('ordinal');
     });
   });
 });

@@ -1,7 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
-import { CUSTOM_ELEMENTS_SCHEMA, SimpleChange } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
@@ -17,13 +16,7 @@ describe('LineChartComponent', () => {
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [LinesComponent],
-      providers: [
-        XyChartComponent,
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
-      ],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
@@ -33,75 +26,17 @@ describe('LineChartComponent', () => {
     component.config = new VicLinesConfig();
   });
 
-  describe('ngOnChanges()', () => {
-    let configChange: any;
-    beforeEach(() => {
-      spyOn(component, 'setMethodsFromConfigAndDraw');
-      configChange = {
-        config: new SimpleChange('', '', false),
-      };
-    });
-
-    it('should call objectOnNgChangesNotFirstTime once and with the correct parameters', () => {
-      component.ngOnChanges(configChange);
-      expect(
-        mainServiceStub.utilitiesServiceStub
-          .objectOnNgChangesChangedNotFirstTime
-      ).toHaveBeenCalledOnceWith(configChange, 'config');
-    });
-    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns true', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        true
-      );
-      component.ngOnChanges(configChange);
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-    it('should call setMethodsFromConfigAndDraw once if objectOnNgChangesNotFirstTime returns false', () => {
-      mainServiceStub.utilitiesServiceStub.objectOnNgChangesChangedNotFirstTime.and.returnValue(
-        false
-      );
-      component.ngOnChanges(configChange);
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('ngOnInit()', () => {
-    beforeEach(() => {
-      spyOn(component, 'subscribeToRanges');
-      spyOn(component, 'subscribeToScales');
-      spyOn(component, 'setMethodsFromConfigAndDraw');
-    });
-    it('calls subscribeToRanges once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToRanges).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls subscribeToScales once', () => {
-      component.ngOnInit();
-      expect(component.subscribeToScales).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setMethodsFromConfigAndDraw once', () => {
-      component.ngOnInit();
-      expect(component.setMethodsFromConfigAndDraw).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setMethodsFromConfigAndDraw()', () => {
+  describe('setPropertiesFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initDomains');
       spyOn(component, 'setValueIndicies');
-      spyOn(component, 'setScaledSpaceProperties');
       spyOn(component, 'initCategoryScale');
-      spyOn(component, 'setLine');
       spyOn(component, 'setLinesD3Data');
       spyOn(component, 'setLinesKeyFunction');
       spyOn(component, 'setMarkersD3Data');
       spyOn(component, 'setMarkersKeyFunction');
-      spyOn(component, 'drawMarks');
-      component.chart = { transitionDuration: 200 } as any;
-      component.setMethodsFromConfigAndDraw();
+      component.setPropertiesFromConfig();
     });
     it('calls setValueArrays once', () => {
       expect(component.setValueArrays).toHaveBeenCalledTimes(1);
@@ -115,16 +50,8 @@ describe('LineChartComponent', () => {
       expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
     });
 
-    it('calls setScaledSpaceProperties once', () => {
-      expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
-    });
-
     it('calls initCategoryScale once', () => {
       expect(component.initCategoryScale).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setLine once', () => {
-      expect(component.setLine).toHaveBeenCalledTimes(1);
     });
 
     it('calls setLinesD3Data once', () => {
@@ -142,43 +69,14 @@ describe('LineChartComponent', () => {
     it('calls setMarkersKeyFunction once', () => {
       expect(component.setMarkersKeyFunction).toHaveBeenCalledTimes(1);
     });
-
-    it('calls drawMarks once with the correct argument', () => {
-      expect(component.drawMarks).toHaveBeenCalledOnceWith(200);
-    });
-  });
-
-  describe('resizeMarks()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setScaledSpaceProperties');
-      spyOn(component, 'setLine');
-      spyOn(component, 'drawMarks');
-      component.resizeMarks();
-    });
-
-    it('calls setScaledSpaceProperties once', () => {
-      expect(component.setScaledSpaceProperties).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setLine once', () => {
-      expect(component.setLine).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls drawMarks once with zero as the argument', () => {
-      expect(component.drawMarks).toHaveBeenCalledOnceWith(0);
-    });
   });
 
   describe('canBeDrawnByPath()', () => {
-    beforeEach(() => {
-      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(false);
-    });
     it('integration: returns true if value is a number', () => {
       expect(component.canBeDrawnByPath(1)).toEqual(true);
     });
 
     it('integration: returns true if value is a Date', () => {
-      mainServiceStub.utilitiesServiceStub.isDate.and.returnValue(true);
       expect(component.canBeDrawnByPath(new Date())).toEqual(true);
     });
 
@@ -207,39 +105,22 @@ describe('LineChartComponent', () => {
     });
   });
 
-  describe('initCategoryScale', () => {
-    beforeEach(() => {
-      component.config = {
-        category: {
-          colorScale: 'color',
-        },
-      } as any;
-      component.chart = {
-        updateCategoryScale: jasmine.createSpy('updateCategoryScale'),
-      } as any;
-    });
-    it('calls updateCategoryScale on chart once with the correct value', () => {
-      component.initCategoryScale();
-      expect(component.chart.updateCategoryScale).toHaveBeenCalledOnceWith(
-        'color' as any
-      );
-    });
-  });
-
-  describe('setScaledSpaceProperties', () => {
+  describe('setChartScales', () => {
     let xScaleTypeSpy: jasmine.Spy;
     let yScaleTypeSpy: jasmine.Spy;
+    let paddedDomainSpy: jasmine.Spy;
     beforeEach(() => {
-      xScaleTypeSpy = jasmine.createSpy('scaleType');
-      yScaleTypeSpy = jasmine.createSpy('scaleType');
+      xScaleTypeSpy = jasmine.createSpy('scaleType').and.returnValue('xScale');
+      yScaleTypeSpy = jasmine.createSpy('scaleType').and.returnValue('yScale');
       component.config = {
         x: {
           scaleType: xScaleTypeSpy,
-          domain: [0, 1],
         },
         y: {
           scaleType: yScaleTypeSpy,
-          domain: [0, 2],
+        },
+        category: {
+          colorScale: 'blue',
         },
       } as any;
       component.ranges = {
@@ -247,82 +128,89 @@ describe('LineChartComponent', () => {
         y: [0, 10],
       } as any;
       component.chart = {
-        updateXScale: jasmine.createSpy('updateXScale'),
-        updateYScale: jasmine.createSpy('updateYScale'),
+        updateScales: jasmine.createSpy('updateScales'),
       } as any;
-      spyOn(component, 'setXDomain');
-      spyOn(component, 'setYDomain');
+      paddedDomainSpy = spyOn(component, 'getPaddedDomain').and.returnValues(
+        [0, 1],
+        [0, 2]
+      );
     });
-    it('calls updateXScale on chart once', () => {
-      component.setScaledSpaceProperties();
-      expect(component.chart.updateXScale).toHaveBeenCalledTimes(1);
-    });
-
     it('calls x.scaleType once with the correct values', () => {
-      component.setScaledSpaceProperties();
+      component.setChartScalesFromRanges(true);
       expect(xScaleTypeSpy).toHaveBeenCalledOnceWith(
-        component.config.x.domain,
+        [0, 1],
         component.ranges.x
       );
     });
-
-    it('calls updateYScale on chart once', () => {
-      component.setScaledSpaceProperties();
-      expect(component.chart.updateYScale).toHaveBeenCalledTimes(1);
-    });
-
     it('calls y.scaleType once with the correct values', () => {
-      component.setScaledSpaceProperties();
+      component.setChartScalesFromRanges(true);
       expect(yScaleTypeSpy).toHaveBeenCalledOnceWith(
-        component.config.y.domain,
+        [0, 2],
         component.ranges.y
       );
     });
-
-    it('calls setXDomain once', () => {
-      component.setScaledSpaceProperties();
-      expect(component.setXDomain).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setYDomain once', () => {
-      component.setScaledSpaceProperties();
-      expect(component.setYDomain).toHaveBeenCalledTimes(1);
+    it('calls updateScales on chart once', () => {
+      component.setChartScalesFromRanges(true);
+      expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
+        x: 'xScale',
+        y: 'yScale',
+        category: 'blue',
+        useTransition: true,
+      } as any);
     });
   });
 
   describe('drawMarks()', () => {
     const duration = 50;
     beforeEach(() => {
+      spyOn(component, 'setLine');
+      spyOn(component, 'getTransitionDuration').and.returnValue(duration);
       spyOn(component, 'drawLines');
       spyOn(component, 'drawPointMarkers');
+      spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
       component.config = new VicLinesConfig();
     });
+    it('calls setLine once', () => {
+      component.drawMarks();
+      expect(component.setLine).toHaveBeenCalledTimes(1);
+    });
+    it('calls getTransitionDuration once', () => {
+      component.drawMarks();
+      expect(component.getTransitionDuration).toHaveBeenCalledTimes(1);
+    });
     it('calls drawLines once and with the correct argument', () => {
-      component.drawMarks(duration);
+      component.drawMarks();
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
-
     it('calls drawPointMarkers once with the correct argument if config.pointMarkers.display is truthy', () => {
       component.config.pointMarkers.display = true;
-      component.drawMarks(duration);
+      component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
-
     it('does not call drawPointMarkers once if config.pointMarkers.display is falsy', () => {
       component.config.pointMarkers.display = false;
-      component.drawMarks(duration);
+      component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
-
+    it('calls drawHoverDot once with the correct argument if config.pointMarkers.display is false and display hover dot is true', () => {
+      component.config.pointMarkers.display = false;
+      component.config.hoverDot.display = true;
+      component.drawMarks();
+      expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
+    });
+    it('does not call drawHoverDot once if config.pointMarkers.display is true', () => {
+      component.config.pointMarkers.display = true;
+      component.drawMarks();
+      expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
+    });
     it('calls drawLineLabels once if config.labelLines is true', () => {
       component.config.labelLines = true;
-      component.drawMarks(duration);
+      component.drawMarks();
       expect(component.drawLineLabels).toHaveBeenCalledTimes(1);
     });
-
     it('does not call drawLineLabels once if config.labelLines is false', () => {
-      component.drawMarks(duration);
+      component.drawMarks();
       expect(component.drawLineLabels).toHaveBeenCalledTimes(0);
     });
   });

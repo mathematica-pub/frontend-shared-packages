@@ -1,24 +1,25 @@
 <ng-content select="[title]"></ng-content>
-<ng-container [ngSwitch]="legendType">
-  <vic-continuous-legend
-    *ngSwitchCase="'continuous'"
-    [width]="width"
-    [height]="height"
-    [valuesSide]="valuesSide"
-    [scale]="attributeDataScale"
-    [config]="attributeDataConfig"
-    [outlineColor]="outlineColor"
-    [orientation]="orientation"
-  ></vic-continuous-legend>
-  <vic-discontinuous-legend
-    *ngSwitchDefault
-    [width]="width"
-    [height]="height"
-    [valuesSide]="valuesSide"
-    [scale]="attributeDataScale"
-    [config]="attributeDataConfig"
-    [outlineColor]="outlineColor"
-    [orientation]="orientation"
-    [isCategorical]="legendType === 'categorical'"
-  ></vic-discontinuous-legend>
+<ng-container *ngIf="chart.attributeDataConfig$ | async as config">
+  <ng-container *ngIf="chart.attributeDataScale$ | async as scale">
+    <vic-continuous-legend
+      *ngIf="config.binType === 'none'"
+      [width]="width"
+      [height]="height"
+      [valuesSide]="valuesSide"
+      [scale]="scale"
+      [config]="config"
+      [outlineColor]="outlineColor"
+      [orientation]="orientation"
+    ></vic-continuous-legend>
+    <vic-discontinuous-legend
+      *ngSwitchDefault
+      [width]="width"
+      [height]="height"
+      [valuesSide]="valuesSide"
+      [config]="config"
+      [outlineColor]="outlineColor"
+      [orientation]="orientation"
+      [isCategorical]="config.variableType === 'categorical'"
+    ></vic-discontinuous-legend>
+  </ng-container>
 </ng-container>

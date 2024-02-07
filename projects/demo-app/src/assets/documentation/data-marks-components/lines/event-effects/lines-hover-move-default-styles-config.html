@@ -266,19 +266,19 @@ export class LinesHoverMoveDefaultHoverDotStyles
       .style(&#x27;display&#x27;, null)
       .attr(
         &#x27;fill&#x27;,
-        directive.lines.categoryScale(
+        directive.lines.scales.category(
           directive.lines.values.category[directive.closestPointIndex]
         )
       )
       .attr(
         &#x27;cx&#x27;,
-        directive.lines.xScale(
+        directive.lines.scales.x(
           directive.lines.values.x[directive.closestPointIndex]
         )
       )
       .attr(
         &#x27;cy&#x27;,
-        directive.lines.yScale(
+        directive.lines.scales.y(
           directive.lines.values.y[directive.closestPointIndex]
         )
       );
