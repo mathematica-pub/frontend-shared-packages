@@ -97,7 +97,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       if (tickFormat.includes('%')) {
         numDecimalPlaces = numDecimalPlaces + 2;
       }
-      const [start, end] = this.scale.domain;
+      const [start, end] = this.scale.domain();
       const firstPossibleInferredTick = // The first tick that could be created AFTER the start of the domain
         start + Math.pow(10, -1 * numDecimalPlaces);
       if (firstPossibleInferredTick > end) {
