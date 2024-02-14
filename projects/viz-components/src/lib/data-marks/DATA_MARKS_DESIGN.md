@@ -8,11 +8,15 @@ The DataMarks class is a minimal type signature that should be extended by every
 
 #### Required properties
 
-- config: VicDataMarksConfig
+- chart: Chart;
+- config: VicDataMarksConfig;
+- ranges: Ranges;
 
 #### Required methods
 
 - setPropertiesFromConfig: () => void;
+- setPropertiesFromRanges: (useTransition: boolean) => void;
+- setValueArrays: () => void;
 - resizeMarks: () => void;
 - drawMarks: () => void;
 

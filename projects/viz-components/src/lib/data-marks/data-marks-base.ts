@@ -28,6 +28,7 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
   abstract setPropertiesFromRanges(useTransition: boolean): void;
   abstract setValueArrays(): void;
   abstract drawMarks(): void;
+
   abstract resizeMarks(): void;
 
   ngOnChanges(changes: SimpleChanges): void {

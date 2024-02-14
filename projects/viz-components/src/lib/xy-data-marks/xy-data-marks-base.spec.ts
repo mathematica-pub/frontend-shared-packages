@@ -1,28 +1,20 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
 describe('XyDataMarksBase abstract class', () => {
   let abstractClass: XyDataMarksBaseStub<any>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(() => {
-    mainServiceStub = new MainServiceStub();
     TestBed.configureTestingModule({
       providers: [
         XyDataMarksBaseStub,
         {
           provide: XyChartComponent,
           useValue: XyChartComponentStub,
-        },
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
         },
       ],
     });
@@ -31,14 +23,9 @@ describe('XyDataMarksBase abstract class', () => {
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'setRequiredChartScales');
       spyOn(abstractClass, 'subscribeToRanges');
       spyOn(abstractClass, 'subscribeToScales');
       spyOn(abstractClass, 'initFromConfig');
-    });
-    it('calls setRequiredChartScales()', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.setRequiredChartScales).toHaveBeenCalledTimes(1);
     });
     it('calls subscribeToRanges()', () => {
       abstractClass.ngOnInit();
@@ -51,17 +38,6 @@ describe('XyDataMarksBase abstract class', () => {
     it('calls initFromConfig()', () => {
       abstractClass.ngOnInit();
       expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setRequiredChartScales()', () => {
-    it('sets requiredScales to an array of XyContentScale values', () => {
-      abstractClass.setRequiredChartScales();
-      expect(abstractClass.requiredScales).toEqual([
-        'x',
-        'y',
-        'category',
-      ] as any);
     });
   });
 

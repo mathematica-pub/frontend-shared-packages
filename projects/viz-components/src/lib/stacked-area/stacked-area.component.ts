@@ -59,12 +59,6 @@ export class StackedAreaComponent<T> extends XyDataMarksBase<
     super();
   }
 
-  /**
-   * setPropertiesFromConfig method
-   *
-   * This method handles an update to the config object. Methods called from here should not
-   * requires ranges or scales. This method is called on init and on config update.
-   */
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initXAndCategoryDomains();
@@ -142,16 +136,6 @@ export class StackedAreaComponent<T> extends XyDataMarksBase<
     }
   }
 
-  /**
-   * setChartScalesFromRanges method
-   *
-   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
-   * to create the scales should be called from this method. Methods called from here should not
-   * require scales.
-   *
-   * This method is called on init, after config-based properties are set, and also on
-   * resize/when ranges change.
-   */
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.scaleType(this.config.x.domain, this.ranges.x);
     const y = this.config.y.scaleType(this.config.y.domain, this.ranges.y);
@@ -161,15 +145,6 @@ export class StackedAreaComponent<T> extends XyDataMarksBase<
     });
   }
 
-  /**
-   * drawMarks method
-   *
-   * All methods that require scales should be called from drawMarks. Methods
-   * called from here should not scale.domain() or scale.range() to obtain those values
-   * rather than this.config.dimension.domain or this.ranges.dimension.
-   *
-   * This method is called when scales emit from ChartComponent.
-   */
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.setArea();

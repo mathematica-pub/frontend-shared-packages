@@ -81,12 +81,6 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
   barLabels$ = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
 
-  /**
-   * setPropertiesFromConfig method
-   *
-   * This method handles an update to the config object. Methods called from here should not
-   * requires ranges or scales. This method is called on init and on config update.
-   */
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
@@ -235,15 +229,6 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
     return domain;
   }
 
-  /**
-   * drawMarks method
-   *
-   * All methods that require scales should be called from drawMarks. Methods
-   * called from here should not scale.domain() or scale.range() to obtain those values
-   * rather than this.config.dimension.domain or this.ranges.dimension.
-   *
-   * This method is called when scales emit from ChartComponent.
-   */
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);

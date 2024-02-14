@@ -30,7 +30,6 @@ export * from './lib/chart/chart.component';
 export * from './lib/chart/chart.module';
 export * from './lib/chart/chart.token';
 export * from './lib/core/services/data-domain.service';
-export * from './lib/core/services/utilities.service';
 export * from './lib/data-marks/data-dimension.config';
 export * from './lib/data-marks/data-marks';
 export * from './lib/data-marks/data-marks.config';

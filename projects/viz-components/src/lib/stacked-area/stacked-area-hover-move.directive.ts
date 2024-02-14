@@ -2,7 +2,6 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { isDate } from '../core/utilities/isDate';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
@@ -28,10 +27,7 @@ export class StackedAreaHoverMoveDirective<
   pointerY: number;
   closestXIndicies: number[];
 
-  constructor(
-    @Inject(STACKED_AREA) public stackedArea: U,
-    private utilities: UtilitiesService
-  ) {
+  constructor(@Inject(STACKED_AREA) public stackedArea: U) {
     super();
   }
 

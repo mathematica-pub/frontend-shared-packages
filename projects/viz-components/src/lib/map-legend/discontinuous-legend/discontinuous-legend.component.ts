@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { VicOrientation } from '../../core/types/orientation';
 import { MapLegendContent } from '../map-legend-content';
 
 /**
@@ -44,7 +45,7 @@ export class DiscontinuousLegendComponent<T>
   }
 
   getLeftOffset(values: number[]): number {
-    if (this.orientation === 'horizontal') {
+    if (this.orientation === VicOrientation.horizontal) {
       const colorHalfWidth = this.width / (values.length * 2);
       if (colorHalfWidth > this.largerValueSpace) {
         return (colorHalfWidth - this.startValueSpace) * -1;

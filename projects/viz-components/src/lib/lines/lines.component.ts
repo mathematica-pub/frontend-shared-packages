@@ -26,7 +26,7 @@ import {
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { isDate } from '../core/utilities/isDate';
+import { isDate } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
@@ -95,12 +95,6 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
     return select(this.markersRef.nativeElement).selectAll('circle');
   }
 
-  /**
-   * setPropertiesFromConfig method
-   *
-   * This method handles an update to the config object. Methods called from here should not
-   * requires ranges or scales. This method is called on init and on config update.
-   */
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initDomains();
@@ -194,16 +188,6 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
     this.markersKeyFunction = (d) => (d as Marker).key;
   }
 
-  /**
-   * setPropertiesFromRanges method
-   *
-   * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
-   * to create the scales should be called from this method. Methods called from here should not
-   * require scales.
-   *
-   * This method is called on init, after config-based properties are set, and also on
-   * resize/when ranges change.
-   */
   setPropertiesFromRanges(useTransition: boolean): void {
     const paddedXDomain = this.getPaddedDomain('x');
     const paddedYDomain = this.getPaddedDomain('y');
@@ -232,15 +216,6 @@ export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
     }
   }
 
-  /**
-   * drawMarks method
-   *
-   * All methods that require scales should be called from drawMarks. Methods
-   * called from here should not scale.domain() or scale.range() to obtain those values
-   * rather than this.config.dimension.domain or this.ranges.dimension.
-   *
-   * This method is called when scales emit from ChartComponent.
-   */
   drawMarks(): void {
     this.setLine();
     const transitionDuration = this.getTransitionDuration();

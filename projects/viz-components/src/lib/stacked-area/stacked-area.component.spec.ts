@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UtilitiesService } from '../core/services/utilities.service';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { StackedAreaComponent } from './stacked-area.component';
 import { VicStackedAreaConfig } from './stacked-area.config';
@@ -9,19 +7,11 @@ import { VicStackedAreaConfig } from './stacked-area.config';
 describe('StackedAreaComponent', () => {
   let component: StackedAreaComponent<any>;
   let fixture: ComponentFixture<StackedAreaComponent<any>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       declarations: [StackedAreaComponent],
-      providers: [
-        XyChartComponent,
-        {
-          provide: UtilitiesService,
-          useValue: mainServiceStub.utilitiesServiceStub,
-        },
-      ],
+      providers: [XyChartComponent],
     }).compileComponents();
   });
 
