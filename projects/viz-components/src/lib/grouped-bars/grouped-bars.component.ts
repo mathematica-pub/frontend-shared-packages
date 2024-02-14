@@ -22,19 +22,6 @@ export class GroupedBarsComponent extends BarsComponent {
   @Input() override config: VicGroupedBarsConfig;
   groupScale: any;
 
-  override setMethodsFromConfigAndDraw(): void {
-    this.setValueArrays();
-    this.initNonQuantitativeDomains();
-    this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
-    this.initUnpaddedQuantitativeDomain();
-    this.setQuantitativeDomainPadding();
-    this.initCategoryScale();
-    this.setScaledSpaceProperties();
-    this.setGroupScale();
-    this.drawMarks(this.chart.transitionDuration);
-  }
-
   override setValueIndicies(): void {
     // no unit test
     this.values.indicies = range(
@@ -49,27 +36,32 @@ export class GroupedBarsComponent extends BarsComponent {
     });
   }
 
+  override drawMarks(): void {
+    this.setGroupScale();
+    super.drawMarks();
+  }
+
   setGroupScale(): void {
     if (this.config.dimensions.ordinal === 'x') {
       this.groupScale = scaleBand(this.config.category.domain, [
         0,
-        (this.xScale as any).bandwidth(),
+        (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
       this.groupScale = scaleBand(this.config.category.domain, [
-        (this.yScale as any).bandwidth(),
+        (this.scales.y as any).bandwidth(),
         0,
       ]).padding(this.config.intraGroupPadding);
     }
   }
 
   override getBarColor(i: number): string {
-    return this.config.category.colorScale(this.values.category[i]);
+    return this.scales.category(this.values.category[i]);
   }
 
   override getBarXOrdinal(i: number): number {
     return (
-      this.xScale(this.values.x[i]) + this.groupScale(this.values.category[i])
+      this.scales.x(this.values.x[i]) + this.groupScale(this.values.category[i])
     );
   }
 
@@ -83,12 +75,12 @@ export class GroupedBarsComponent extends BarsComponent {
 
   override getBarYOrdinal(i: number): number {
     return (
-      this.yScale(this.values.y[i]) + this.groupScale(this.values.category[i])
+      this.scales.y(this.values.y[i]) + this.groupScale(this.values.category[i])
     );
   }
 
   override getBarYQuantitative(i: number): number {
-    return this.yScale(this.values.y[i]);
+    return this.scales.y(this.values.y[i]);
   }
 
   override getBarWidthOrdinal(): number {

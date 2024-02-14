@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { axisBottom, axisTop } from 'd3';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
+import { VicSide } from '../../core/types/side';
+import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
@@ -11,7 +14,7 @@ describe('the XAxis mixin', () => {
 
   beforeEach(() => {
     chart = new XyChartComponentStub();
-    abstractClass = new XAxisStub(chart as any);
+    abstractClass = new XAxisStub(chart as any, new DestroyRefStub());
     testRanges = { x: [0, 10], y: [20, 50] } as Ranges;
   });
 
@@ -50,12 +53,12 @@ describe('the XAxis mixin', () => {
       spyOn(abstractClass, 'getBottomTranslate').and.returnValue(60);
     });
     it('returns the correct value for the top side', () => {
-      abstractClass.side = 'top';
+      abstractClass.side = VicSide.top;
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
 
     it('returns the correct value for the bottom side', () => {
-      abstractClass.side = 'bottom';
+      abstractClass.side = VicSide.bottom;
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -75,26 +78,33 @@ describe('the XAxis mixin', () => {
     });
   });
 
-  describe('setScale', () => {
-    it('calls subscribeToScale with the correct scale', () => {
-      spyOn(abstractClass, 'subscribeToScale');
-      abstractClass.chart.xScale$ = 'hello' as any;
-      abstractClass.setScale();
-      expect(abstractClass.subscribeToScale).toHaveBeenCalledWith(
-        'hello' as any
-      );
+  describe('getScale', () => {
+    it('returns the correct scale', () => {
+      const scales = {
+        x: 'hello',
+        useTransition: false,
+        y: 'something else',
+      } as any;
+      abstractClass.chart.scales$ = of(scales);
+      const result$ = abstractClass.getScale();
+      result$.pipe(take(1)).subscribe((scale) => {
+        expect(scale).toEqual({
+          scale: 'hello' as any,
+          useTransition: false,
+        });
+      });
     });
   });
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.side = 'top';
+      abstractClass.side = VicSide.top;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisTop);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.side = 'bottom';
+      abstractClass.side = VicSide.bottom;
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisBottom);
     });
