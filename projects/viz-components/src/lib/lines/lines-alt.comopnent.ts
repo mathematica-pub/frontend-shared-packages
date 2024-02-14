@@ -20,7 +20,6 @@ import { isEqual } from 'lodash-es';
 import { filter } from 'rxjs/operators';
 import { ChartComponent, Ranges } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
-import { UtilitiesService } from '../core/services/utilities.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import {
   XyChartComponent,
@@ -72,7 +71,6 @@ export class LinesAltComponent<T> implements OnChanges, OnInit {
   scales: XyChartScales;
   requiredScales: (keyof typeof XyContentScale)[];
   public chart = inject(XyChartComponent);
-  protected utilities = inject(UtilitiesService);
   destroyRef = inject(DestroyRef);
   linesKeyFunction = (d): string => d[0];
   markersKeyFunction = (d) => (d as Marker).key;
