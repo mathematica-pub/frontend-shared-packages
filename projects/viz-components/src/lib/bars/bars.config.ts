@@ -13,6 +13,9 @@ export class VicBarsConfig extends VicDataMarksConfig {
   ordinal: VicOrdinalDimensionConfig = new VicOrdinalDimensionConfig();
   quantitative: VicQuantitativeDimensionConfig =
     new VicQuantitativeDimensionConfig();
+  /**
+   * The `colors` property must be an array of hex codes or rgb colors to be compatible with color utilities.
+   */
   category: VicCategoricalColorDimensionConfig =
     new VicCategoricalColorDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
@@ -34,7 +37,17 @@ export class VicBarsConfig extends VicDataMarksConfig {
 export class VicBarsLabelsConfig {
   display: boolean;
   offset: number;
+  /**
+   * The dark color alternative for the bar label.
+   *
+   *  Must be a hex code or rgb color to be compatible with color utilities.
+   */
   darkLabelColor: string;
+  /**
+   * The light color alternative for the bar label.
+   *
+   *  Must be a hex code or rgb color to be compatible with color utilities.
+   */
   lightLabelColor: string;
   noValueFunction: (d) => string;
 
