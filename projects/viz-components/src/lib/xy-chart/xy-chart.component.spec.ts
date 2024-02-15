@@ -17,29 +17,18 @@ describe('XyChartComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('updateXScale', () => {
-    it('calls next on updateXScale', () => {
-      spyOn((component as any).xScale, 'next');
-      component.updateXScale({});
-      expect((component as any).xScale.next).toHaveBeenCalledOnceWith({});
+  describe('updateScales', () => {
+    beforeEach(() => {
+      (component as any).scales.next({ x: 1, y: 2, category: 3 } as any);
     });
-  });
-
-  describe('updateYScale', () => {
-    it('calls next on updateYScale', () => {
-      spyOn((component as any).yScale, 'next');
-      component.updateYScale({});
-      expect((component as any).yScale.next).toHaveBeenCalledOnceWith({});
-    });
-  });
-
-  describe('updateCategoryScale', () => {
-    it('calls next on updateCategoryScale', () => {
-      spyOn((component as any).categoryScale, 'next');
-      component.updateCategoryScale({});
-      expect((component as any).categoryScale.next).toHaveBeenCalledOnceWith(
-        {}
-      );
+    it('calls next on scales', () => {
+      spyOn((component as any).scales, 'next');
+      component.updateScales({ x: 4 } as any);
+      expect((component as any).scales.next).toHaveBeenCalledOnceWith({
+        x: 4,
+        y: 2,
+        category: 3,
+      } as any);
     });
   });
 });

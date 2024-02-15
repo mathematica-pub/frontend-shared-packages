@@ -50,14 +50,6 @@ type ScaleType =
   styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {
-  scaleType: ScaleType;
-  scaleTypes: ScaleType[] = [
-    'none',
-    'equal value ranges',
-    'equal num observations',
-    'custom breaks',
-    'categorical',
-  ];
   dataMarksConfig$: Observable<VicGeographiesConfig>;
   width = 700;
   height = 400;

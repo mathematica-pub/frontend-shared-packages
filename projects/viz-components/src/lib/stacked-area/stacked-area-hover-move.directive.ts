@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { DateUtilities } from '../core/utilities/is-date';
+import { isDate } from '../core/utilities/type-guards';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -80,9 +80,9 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
   getClosestXIndicies(): number[] {
     const uniqueXValues = [...new Set(this.stackedArea.values.x)];
     const closestXValue = least(uniqueXValues, (x) =>
-      Math.abs(this.stackedArea.xScale(x) - this.pointerX)
+      Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
-    if (DateUtilities.isDate(closestXValue)) {
+    if (isDate(closestXValue)) {
       return this.stackedArea.values.indicies.filter(
         (i) =>
           this.stackedArea.values.x[i].getTime() === closestXValue.getTime()

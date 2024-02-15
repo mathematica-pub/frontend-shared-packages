@@ -1272,22 +1272,22 @@
   ViewChild,
 } from &#x27;@angular/core&#x27;;
 import { min } from &#x27;d3&#x27;;
+import { isEqual } from &#x27;lodash-es&#x27;;
 import {
   BehaviorSubject,
+  Observable,
+  Subject,
   combineLatest,
   distinctUntilChanged,
   map,
   merge,
-  Observable,
   of,
   shareReplay,
   startWith,
-  Subject,
   takeUntil,
 } from &#x27;rxjs&#x27;;
 import { Chart } from &#x27;./chart&#x27;;
 import { CHART } from &#x27;./chart.token&#x27;;
-import { isEqual } from &#x27;lodash-es&#x27;;
 
 export interface Ranges {
   x: [number, number];

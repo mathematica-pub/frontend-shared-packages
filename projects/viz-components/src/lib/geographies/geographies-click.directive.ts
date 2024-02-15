@@ -10,7 +10,7 @@ import {
   Self,
 } from '@angular/core';
 import { select } from 'd3';
-import { filter, Observable, takeUntil } from 'rxjs';
+import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';

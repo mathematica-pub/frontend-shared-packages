@@ -17,6 +17,7 @@ import {
   scaleThreshold,
 } from 'd3';
 import { Feature, MultiPolygon } from 'geojson';
+import { VicVariableType } from '../core/types/variable-type';
 import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
   VicDataMarksConfig,
@@ -169,8 +170,8 @@ export class VicDataGeographyConfig extends VicBaseDataGeographyConfig {
 
 export class VicAttributeDataDimensionConfig extends VicDataDimensionConfig {
   geoAccessor: (d: any) => any;
-  valueType: string;
-  binType: VicMapBinType;
+  variableType: VicVariableType.categorical | VicVariableType.quantitative;
+  binType: keyof typeof VicValuesBin;
   range: any[];
   colorScale: (...args: any) => any;
   colors?: string[];
@@ -184,19 +185,20 @@ export class VicAttributeDataDimensionConfig extends VicDataDimensionConfig {
   }
 }
 
-export type VicMapBinType =
-  | 'none'
-  | 'equal value ranges'
-  | 'equal num observations'
-  | 'custom breaks';
+export enum VicValuesBin {
+  none = 'none',
+  equalValueRanges = 'equalValueRanges',
+  equalNumObservations = 'equalNumObservations',
+  customBreaks = 'customBreaks',
+}
 
 export class VicCategoricalAttributeDataDimensionConfig extends VicAttributeDataDimensionConfig {
   override interpolator: never;
 
   constructor(init?: Partial<VicCategoricalAttributeDataDimensionConfig>) {
     super();
-    this.valueType = 'categorical';
-    this.binType = 'none';
+    this.variableType = VicVariableType.categorical;
+    this.binType = VicValuesBin.none;
     this.colorScale = scaleOrdinal;
     this.colors = ['white', 'lightslategray'];
     Object.assign(this, init);
@@ -207,8 +209,8 @@ export class VicNoBinsQuantitativeAttributeDataDimensionConfig extends VicAttrib
     init?: Partial<VicNoBinsQuantitativeAttributeDataDimensionConfig>
   ) {
     super();
-    this.valueType = 'quantitative';
-    this.binType = 'none';
+    this.variableType = VicVariableType.quantitative;
+    this.binType = VicValuesBin.none;
     this.colorScale = scaleLinear;
     this.interpolator = interpolateLab;
     Object.assign(this, init);
@@ -220,8 +222,8 @@ export class VicEqualValuesQuantitativeAttributeDataDimensionConfig extends VicA
     init?: Partial<VicEqualValuesQuantitativeAttributeDataDimensionConfig>
   ) {
     super();
-    this.valueType = 'quantitative';
-    this.binType = 'equal value ranges';
+    this.variableType = VicVariableType.quantitative;
+    this.binType = VicValuesBin.equalValueRanges;
     this.colorScale = scaleQuantize;
     this.interpolator = interpolateLab;
     this.numBins = 5;
@@ -235,8 +237,8 @@ export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig extends Vic
     init?: Partial<VicEqualNumbersQuantitativeAttributeDataDimensionConfig>
   ) {
     super();
-    this.valueType = 'quantitative';
-    this.binType = 'equal num observations';
+    this.variableType = VicVariableType.quantitative;
+    this.binType = VicValuesBin.equalNumObservations;
     this.colorScale = scaleQuantile;
     this.interpolator = interpolateLab;
     this.numBins = 5;
@@ -249,8 +251,8 @@ export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig extends Vic
     init?: Partial<VicCustomBreaksQuantitativeAttributeDataDimensionConfig>
   ) {
     super();
-    this.valueType = 'quantitative';
-    this.binType = 'custom breaks';
+    this.variableType = VicVariableType.quantitative;
+    this.binType = VicValuesBin.customBreaks;
     this.colorScale = scaleThreshold;
     this.interpolator = interpolateLab;
     Object.assign(this, init);
