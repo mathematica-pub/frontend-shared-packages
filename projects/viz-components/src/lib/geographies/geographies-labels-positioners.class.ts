@@ -23,8 +23,8 @@ export class VicGeographiesLabelsPositionerBottomMiddleBoundingBox
   }
 
   /**
-   * Currently just works for multipolygons that are drawn from the bottom left
-   * to the top right; if used for anything other than HI in the future, generalize
+   * Currently just works for multipolygons that are drawn from the bottom right
+   * to the top left; if used for anything other than HI in the future, generalize
    * @param feature
    * @param projection
    */
