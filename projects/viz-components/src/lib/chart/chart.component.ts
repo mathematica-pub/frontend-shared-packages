@@ -9,22 +9,22 @@ import {
   ViewChild,
 } from '@angular/core';
 import { min } from 'd3';
+import { isEqual } from 'lodash-es';
 import {
   BehaviorSubject,
+  Observable,
+  Subject,
   combineLatest,
   distinctUntilChanged,
   map,
   merge,
-  Observable,
   of,
   shareReplay,
   startWith,
-  Subject,
   takeUntil,
 } from 'rxjs';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
-import { isEqual } from 'lodash-es';
 
 export interface Ranges {
   x: [number, number];

@@ -1,0 +1,3040 @@
+<!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li
+  >
+  GeographiesComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="documentation/./chart-components/map-chart/geographies#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="documentation/./chart-components/map-chart/geographies#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="documentation/./chart-components/map-chart/geographies#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="documentation/./chart-components/map-chart/geographies#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>projects/viz-components/src/lib/geographies/geographies.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+                <code><a " target="_self" >MapDataMarksBase</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a " target="_self" >DataMarks</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+            <tr>
+                <td class="col-md-3">changeDetection</td>
+                <td class="col-md-9"><code>ChangeDetectionStrategy.OnPush</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">encapsulation</td>
+                <td class="col-md-9"><code>ViewEncapsulation.None</code></td>
+            </tr>
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="documentation/chart-components/map-chart/geographies" target="_self" >{ provide: DATA_MARKS, useExisting: GeographiesComponent }</a></code>
+                                <code><a href="documentation/chart-components/map-chart/geographies" target="_self" >{
+    provide: GEOGRAPHIES, useExisting: GeographiesComponent,
+}</a></code>
+                                <code><a " target="_self" >{
+    provide: ChartComponent, useExisting: MapChartComponent,
+}</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>[vic-data-marks-geographies]</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./geographies.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./geographies.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#dataGeographies" >dataGeographies</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#dataGeographies$" >dataGeographies$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="documentation/./chart-components/map-chart/geographies#elRef" >elRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#map" >map</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#noDataGeographies" >noDataGeographies</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#noDataGeographies$" >noDataGeographies$</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#path" >path</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#projection" >projection</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#values" >values</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="documentation/./chart-components/map-chart/geographies#zone" >zone</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#attributeDataConfig" >attributeDataConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#attributeDataScale" >attributeDataScale</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="documentation/./chart-components/map-chart/geographies#chart" >chart</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#ranges" >ranges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="documentation/./chart-components/map-chart/geographies#utilities" >utilities</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#unsubscribe" >unsubscribe</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#attributeDataValueFormatIsInteger" >attributeDataValueFormatIsInteger</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#drawBasicPaths" >drawBasicPaths</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#drawDataLayer" >drawDataLayer</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#drawMap" >drawMap</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#drawNoDataLayers" >drawNoDataLayers</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#getAttributeDataScale" >getAttributeDataScale</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#getConfigFromNode" >getConfigFromNode</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#getFill" >getFill</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#getNoDataGeographyPatternFill" >getNoDataGeographyPatternFill</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#getPatternFill" >getPatternFill</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#getValueIndexFromDataGeographyIndex" >getValueIndexFromDataGeographyIndex</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#initAttributeDataScaleDomain" >initAttributeDataScaleDomain</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#initAttributeDataScaleRange" >initAttributeDataScaleRange</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#initFromConfig" >initFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#resizeMarks" >resizeMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setCategoricalDomain" >setCategoricalDomain</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setChartAttributeScaleAndConfig" >setChartAttributeScaleAndConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setColorScaleWithColorInterpolator" >setColorScaleWithColorInterpolator</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setColorScaleWithoutColorInterpolator" >setColorScaleWithoutColorInterpolator</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setPath" >setPath</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setProjection" >setProjection</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setPropertiesFromConfig" >setPropertiesFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setPropertiesFromRanges" >setPropertiesFromRanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setQuantitativeDomainAndBinsForBinType" >setQuantitativeDomainAndBinsForBinType</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#setValueArrays" >setValueArrays</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#shouldCalculateBinColors" >shouldCalculateBinColors</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#updateGeographyElements" >updateGeographyElements</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#validateNumBinsAndDomainForIntegerValues" >validateNumBinsAndDomainForIntegerValues</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#ngOnInit" >ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#subscribeToAttributeScaleAndConfig" >subscribeToAttributeScaleAndConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#subscribeToRanges" >subscribeToRanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#ngOnDestroy" >ngOnDestroy</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./chart-components/map-chart/geographies#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, elRef: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:76</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>zone</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>elRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >VicGeographiesConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:68</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataValueFormatIsInteger"></a>
+                    <span class="name">
+                        <span ><b>attributeDataValueFormatIsInteger</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#attributeDataValueFormatIsInteger"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>attributeDataValueFormatIsInteger()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="181"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:181</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawBasicPaths"></a>
+                    <span class="name">
+                        <span ><b>drawBasicPaths</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#drawBasicPaths"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawBasicPaths(selection: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="362"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:362</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>selection</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawDataLayer"></a>
+                    <span class="name">
+                        <span ><b>drawDataLayer</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#drawDataLayer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawDataLayer(t: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="339"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:339</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>t</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMap"></a>
+                    <span class="name">
+                        <span ><b>drawMap</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#drawMap"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMap(transitionDuration)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="326"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:326</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>transitionDuration</td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawMarks"></a>
+                    <span class="name">
+                        <span ><b>drawMarks</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#drawMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawMarks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:319</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="drawNoDataLayers"></a>
+                    <span class="name">
+                        <span ><b>drawNoDataLayers</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#drawNoDataLayers"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>drawNoDataLayers(t: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="374"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:374</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>t</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getAttributeDataScale"></a>
+                    <span class="name">
+                        <span ><b>getAttributeDataScale</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#getAttributeDataScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getAttributeDataScale()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="288"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:288</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfigFromNode"></a>
+                    <span class="name">
+                        <span ><b>getConfigFromNode</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#getConfigFromNode"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConfigFromNode(node: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="413"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:413</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>node</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFill"></a>
+                    <span class="name">
+                        <span ><b>getFill</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#getFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFill(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="418"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:418</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNoDataGeographyPatternFill"></a>
+                    <span class="name">
+                        <span ><b>getNoDataGeographyPatternFill</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#getNoDataGeographyPatternFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getNoDataGeographyPatternFill(node: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="434"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:434</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>node</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getPatternFill"></a>
+                    <span class="name">
+                        <span ><b>getPatternFill</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#getPatternFill"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getPatternFill(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="424"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:424</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getValueIndexFromDataGeographyIndex"></a>
+                    <span class="name">
+                        <span ><b>getValueIndexFromDataGeographyIndex</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#getValueIndexFromDataGeographyIndex"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getValueIndexFromDataGeographyIndex(i: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="439"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:439</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>i</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initAttributeDataScaleDomain"></a>
+                    <span class="name">
+                        <span ><b>initAttributeDataScaleDomain</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#initAttributeDataScaleDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initAttributeDataScaleDomain()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="122"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:122</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initAttributeDataScaleRange"></a>
+                    <span class="name">
+                        <span ><b>initAttributeDataScaleRange</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#initAttributeDataScaleRange"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initAttributeDataScaleRange()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="223"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:223</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="initFromConfig"></a>
+                    <span class="name">
+                        <span ><b>initFromConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#initFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>initFromConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:82</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resizeMarks"></a>
+                    <span class="name">
+                        <span ><b>resizeMarks</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#resizeMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resizeMarks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:95</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setCategoricalDomain"></a>
+                    <span class="name">
+                        <span ><b>setCategoricalDomain</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setCategoricalDomain"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setCategoricalDomain()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="214"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:214</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setChartAttributeScaleAndConfig"></a>
+                    <span class="name">
+                        <span ><b>setChartAttributeScaleAndConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setChartAttributeScaleAndConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setChartAttributeScaleAndConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="262"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:262</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setColorScaleWithColorInterpolator"></a>
+                    <span class="name">
+                        <span ><b>setColorScaleWithColorInterpolator</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setColorScaleWithColorInterpolator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setColorScaleWithColorInterpolator()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:300</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setColorScaleWithoutColorInterpolator"></a>
+                    <span class="name">
+                        <span ><b>setColorScaleWithoutColorInterpolator</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setColorScaleWithoutColorInterpolator"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setColorScaleWithoutColorInterpolator()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="311"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:311</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPath"></a>
+                    <span class="name">
+                        <span ><b>setPath</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setPath"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setPath()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="284"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:284</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setProjection"></a>
+                    <span class="name">
+                        <span ><b>setProjection</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setProjection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setProjection()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="277"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:277</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPropertiesFromConfig"></a>
+                    <span class="name">
+                        <span ><b>setPropertiesFromConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setPropertiesFromConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setPropertiesFromConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:88</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPropertiesFromRanges"></a>
+                    <span class="name">
+                        <span ><b>setPropertiesFromRanges</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setPropertiesFromRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setPropertiesFromRanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="272"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:272</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setQuantitativeDomainAndBinsForBinType"></a>
+                    <span class="name">
+                        <span ><b>setQuantitativeDomainAndBinsForBinType</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setQuantitativeDomainAndBinsForBinType"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setQuantitativeDomainAndBinsForBinType()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setValueArrays"></a>
+                    <span class="name">
+                        <span ><b>setValueArrays</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#setValueArrays"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setValueArrays()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="100"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:100</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldCalculateBinColors"></a>
+                    <span class="name">
+                        <span ><b>shouldCalculateBinColors</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#shouldCalculateBinColors"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>shouldCalculateBinColors()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="253"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:253</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateGeographyElements"></a>
+                    <span class="name">
+                        <span ><b>updateGeographyElements</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#updateGeographyElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateGeographyElements()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="444"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:444</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="validateNumBinsAndDomainForIntegerValues"></a>
+                    <span class="name">
+                        <span ><b>validateNumBinsAndDomainForIntegerValues</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#validateNumBinsAndDomainForIntegerValues"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>validateNumBinsAndDomainForIntegerValues()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="191"
+                            class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:191</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnChanges"></a>
+                    <span class="name">
+                        <span ><b>ngOnChanges</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#ngOnChanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnChanges(changes: <a href="https://angular.io/api/core/SimpleChanges" target="_blank">SimpleChanges</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:33</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>changes</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/SimpleChanges" target="_blank" >SimpleChanges</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:41</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToAttributeScaleAndConfig"></a>
+                    <span class="name">
+                        <span ><b>subscribeToAttributeScaleAndConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#subscribeToAttributeScaleAndConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToAttributeScaleAndConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:56</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:47</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >Unsubscribe</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >Unsubscribe:11</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+    <h3 id="inputs">
+        Properties
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataGeographies"></a>
+                    <span class="name">
+                        <span ><b>dataGeographies</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#dataGeographies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:73</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="dataGeographies$"></a>
+                    <span class="name">
+                        <span ><b>dataGeographies$</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#dataGeographies$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.dataGeographies.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:74</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="elRef"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>elRef</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#elRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="map"></a>
+                    <span class="name">
+                        <span ><b>map</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#map"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:69</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="noDataGeographies"></a>
+                    <span class="name">
+                        <span ><b>noDataGeographies</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#noDataGeographies"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>BehaviorSubject&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new BehaviorSubject(null)</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:75</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="noDataGeographies$"></a>
+                    <span class="name">
+                        <span ><b>noDataGeographies$</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#noDataGeographies$"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Observable&lt;any&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>this.noDataGeographies.asObservable()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:76</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="path"></a>
+                    <span class="name">
+                        <span ><b>path</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#path"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:71</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="projection"></a>
+                    <span class="name">
+                        <span ><b>projection</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#projection"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:70</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="values"></a>
+                    <span class="name">
+                        <span ><b>values</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#values"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >MapDataValues</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new MapDataValues()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="72" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:72</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="zone"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>zone</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#zone"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://angular.io/api/core/NgZone" target="_blank" >NgZone</a></code>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="78" class="link-to-prism">projects/viz-components/src/lib/geographies/geographies.component.ts:78</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataConfig"></a>
+                    <span class="name">
+                        <span ><b>attributeDataConfig</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#attributeDataConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >VicAttributeDataDimensionConfig</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="attributeDataScale"></a>
+                    <span class="name">
+                        <span ><b>attributeDataScale</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#attributeDataScale"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="chart"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                        <span ><b>chart</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#chart"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(MapChartComponent)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:26</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:23</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="utilities"></a>
+                    <span class="name">
+                            <span class="modifier">Protected</span>
+                        <span ><b>utilities</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#utilities"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(UtilitiesService)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >MapDataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >MapDataMarksBase:27</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="unsubscribe"></a>
+                    <span class="name">
+                        <span ><b>unsubscribe</b></span>
+                        <a href="documentation/./chart-components/map-chart/geographies#unsubscribe"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>Subject&lt;void&gt;</code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>new Subject()</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >Unsubscribe</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >Unsubscribe:9</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  InjectionToken,
+  Input,
+  NgZone,
+  ViewEncapsulation,
+} from &#x27;@angular/core&#x27;;
+import {
+  InternMap,
+  InternSet,
+  Transition,
+  extent,
+  geoPath,
+  map,
+  range,
+  scaleLinear,
+  select,
+} from &#x27;d3&#x27;;
+import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
+import { ChartComponent } from &#x27;../chart/chart.component&#x27;;
+import { DataMarks } from &#x27;../data-marks/data-marks&#x27;;
+import { DATA_MARKS } from &#x27;../data-marks/data-marks.token&#x27;;
+import { MapChartComponent } from &#x27;../map-chart/map-chart.component&#x27;;
+import { MapDataMarksBase } from &#x27;../map-chart/map-data-marks-base&#x27;;
+import { PatternUtilities } from &#x27;../shared/pattern-utilities.class&#x27;;
+import { formatValue } from &#x27;../value-format/value-format&#x27;;
+import {
+  VicDataGeographyConfig,
+  VicGeographiesConfig,
+  VicNoDataGeographyConfig,
+} from &#x27;./geographies.config&#x27;;
+
+export class MapDataValues {
+  attributeDataGeographies: any[];
+  attributeDataValues: any[];
+  indexMap: InternMap;
+  geoJsonGeographies: any[];
+}
+
+export const GEOGRAPHIES &#x3D; new InjectionToken&lt;GeographiesComponent&gt;(
+  &#x27;GeographiesComponent&#x27;
+);
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: &#x27;[vic-data-marks-geographies]&#x27;,
+  templateUrl: &#x27;./geographies.component.html&#x27;,
+  styleUrls: [&#x27;./geographies.component.scss&#x27;],
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    { provide: DATA_MARKS, useExisting: GeographiesComponent },
+    {
+      provide: GEOGRAPHIES,
+      useExisting: GeographiesComponent,
+    },
+    {
+      provide: ChartComponent,
+      useExisting: MapChartComponent,
+    },
+  ],
+})
+export class GeographiesComponent
+  extends MapDataMarksBase
+  implements DataMarks
+{
+  @Input() config: VicGeographiesConfig;
+  map: any;
+  projection: any;
+  path: any;
+  values: MapDataValues &#x3D; new MapDataValues();
+  dataGeographies: BehaviorSubject&lt;any&gt; &#x3D; new BehaviorSubject(null);
+  dataGeographies$: Observable&lt;any&gt; &#x3D; this.dataGeographies.asObservable();
+  noDataGeographies: BehaviorSubject&lt;any&gt; &#x3D; new BehaviorSubject(null);
+  noDataGeographies$: Observable&lt;any&gt; &#x3D; this.noDataGeographies.asObservable();
+
+  constructor(public zone: NgZone, public elRef: ElementRef) {
+    super();
+  }
+
+  initFromConfig(): void {
+    this.setPropertiesFromConfig();
+    this.setPropertiesFromRanges();
+    this.drawMarks();
+  }
+
+  setPropertiesFromConfig(): void {
+    this.setValueArrays();
+    this.initAttributeDataScaleDomain();
+    this.initAttributeDataScaleRange();
+    this.setChartAttributeScaleAndConfig();
+  }
+
+  resizeMarks(): void {
+    this.setPropertiesFromRanges();
+    this.drawMarks();
+  }
+
+  setValueArrays(): void {
+    this.values.attributeDataGeographies &#x3D; map(
+      this.config.data,
+      this.config.dataGeographyConfig.attributeDataConfig.geoAccessor
+    ).map((x) &#x3D;&gt; {
+      return typeof x &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? x.toLowerCase() : x;
+    });
+    this.values.attributeDataValues &#x3D; map(
+      this.config.data,
+      this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
+    ).map((d) &#x3D;&gt; (d &#x3D;&#x3D;&#x3D; null ? NaN : d));
+    this.values.indexMap &#x3D; new InternMap(
+      this.values.attributeDataGeographies.map((name, i) &#x3D;&gt; [name, i])
+    );
+    this.values.geoJsonGeographies &#x3D; map(
+      this.config.dataGeographyConfig.geographies,
+      this.config.dataGeographyConfig.valueAccessor
+    ).map((x) &#x3D;&gt; {
+      return typeof x &#x3D;&#x3D;&#x3D; &#x27;string&#x27; ? x.toLowerCase() : x;
+    });
+  }
+
+  initAttributeDataScaleDomain(): void {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.valueType &#x3D;&#x3D;&#x3D;
+      &#x27;quantitative&#x27;
+    ) {
+      this.setQuantitativeDomainAndBinsForBinType();
+    }
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.valueType &#x3D;&#x3D;&#x3D;
+      &#x27;categorical&#x27;
+    ) {
+      this.setCategoricalDomain();
+    }
+  }
+
+  setQuantitativeDomainAndBinsForBinType(): void {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.binType &#x3D;&#x3D;&#x3D;
+      &#x27;equal num observations&#x27;
+    ) {
+      this.config.dataGeographyConfig.attributeDataConfig.domain &#x3D;
+        this.values.attributeDataValues;
+    } else if (
+      this.config.dataGeographyConfig.attributeDataConfig.binType &#x3D;&#x3D;&#x3D;
+      &#x27;custom breaks&#x27;
+    ) {
+      this.config.dataGeographyConfig.attributeDataConfig.domain &#x3D;
+        this.config.dataGeographyConfig.attributeDataConfig.breakValues.slice(
+          1
+        );
+      this.config.dataGeographyConfig.attributeDataConfig.numBins &#x3D;
+        this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
+        1;
+    } else {
+      // no bins, equal interval
+      let domainValues: any[];
+      if (
+        this.config.dataGeographyConfig.attributeDataConfig.domain &#x3D;&#x3D;&#x3D; undefined
+      ) {
+        domainValues &#x3D; extent(this.values.attributeDataValues);
+      } else {
+        domainValues &#x3D;
+          this.config.dataGeographyConfig.attributeDataConfig.domain;
+      }
+      this.config.dataGeographyConfig.attributeDataConfig.domain &#x3D;
+        extent(domainValues);
+    }
+
+    if (
+      // do we need to do this for equal num observations?
+      this.config.dataGeographyConfig.attributeDataConfig.binType &#x3D;&#x3D;&#x3D;
+      &#x27;equal value ranges&#x27;
+    ) {
+      if (this.attributeDataValueFormatIsInteger()) {
+        this.validateNumBinsAndDomainForIntegerValues();
+      }
+    }
+  }
+
+  attributeDataValueFormatIsInteger(): boolean {
+    const formatString &#x3D;
+      this.config.dataGeographyConfig.attributeDataConfig.valueFormat;
+    return (
+      formatString &amp;&amp;
+      typeof formatString &#x3D;&#x3D;&#x3D; &#x27;string&#x27; &amp;&amp;
+      formatString.includes(&#x27;0f&#x27;)
+    );
+  }
+
+  validateNumBinsAndDomainForIntegerValues(): void {
+    const domain &#x3D; this.config.dataGeographyConfig.attributeDataConfig.domain;
+    const dataRange &#x3D; [domain[0], domain[domain.length - 1]].map(
+      (x) &#x3D;&gt;
+        +formatValue(
+          x,
+          this.config.dataGeographyConfig.attributeDataConfig.valueFormat
+        )
+    );
+    const numDiscreteValues &#x3D; Math.abs(dataRange[1] - dataRange[0]) + 1;
+    if (
+      numDiscreteValues &lt;
+      this.config.dataGeographyConfig.attributeDataConfig.numBins
+    ) {
+      this.config.dataGeographyConfig.attributeDataConfig.numBins &#x3D;
+        numDiscreteValues;
+      this.config.dataGeographyConfig.attributeDataConfig.domain &#x3D; [
+        dataRange[0],
+        dataRange[1] + 1,
+      ];
+    }
+  }
+
+  setCategoricalDomain(): void {
+    const domainValues &#x3D;
+      this.config.dataGeographyConfig.attributeDataConfig.domain ??
+      this.values.attributeDataValues;
+    this.config.dataGeographyConfig.attributeDataConfig.domain &#x3D; new InternSet(
+      domainValues
+    );
+  }
+
+  initAttributeDataScaleRange(): void {
+    if (this.shouldCalculateBinColors()) {
+      const binIndicies &#x3D; range(
+        this.config.dataGeographyConfig.attributeDataConfig.numBins
+      );
+      const colorGenerator &#x3D; scaleLinear()
+        .domain(extent(binIndicies))
+        .range(
+          this.config.dataGeographyConfig.attributeDataConfig.colors as any
+        )
+        .interpolate(
+          this.config.dataGeographyConfig.attributeDataConfig.interpolator
+        );
+      this.config.dataGeographyConfig.attributeDataConfig.range &#x3D;
+        binIndicies.map((i) &#x3D;&gt; colorGenerator(i));
+    } else {
+      let colors &#x3D; this.config.dataGeographyConfig.attributeDataConfig.colors;
+      if (
+        this.config.dataGeographyConfig.attributeDataConfig.valueType &#x3D;&#x3D;&#x3D;
+        &#x27;categorical&#x27;
+      ) {
+        colors &#x3D; colors.slice(
+          0,
+          this.config.dataGeographyConfig.attributeDataConfig.domain.length
+        );
+      }
+      this.config.dataGeographyConfig.attributeDataConfig.range &#x3D; colors;
+    }
+  }
+
+  shouldCalculateBinColors(): boolean {
+    return (
+      this.config.dataGeographyConfig.attributeDataConfig.numBins &amp;&amp;
+      this.config.dataGeographyConfig.attributeDataConfig.numBins &gt; 1 &amp;&amp;
+      this.config.dataGeographyConfig.attributeDataConfig.colors.length !&#x3D;&#x3D;
+        this.config.dataGeographyConfig.attributeDataConfig.numBins
+    );
+  }
+
+  setChartAttributeScaleAndConfig(): void {
+    const scale &#x3D; this.getAttributeDataScale();
+    this.zone.run(() &#x3D;&gt; {
+      this.chart.updateAttributeDataScale(scale);
+      this.chart.updateAttributeDataConfig(
+        this.config.dataGeographyConfig.attributeDataConfig
+      );
+    });
+  }
+
+  setPropertiesFromRanges(): void {
+    this.setProjection();
+    this.setPath();
+  }
+
+  setProjection(): void {
+    this.projection &#x3D; this.config.projection.fitSize(
+      [this.ranges.x[1], this.ranges.y[0]],
+      this.config.boundary
+    );
+  }
+
+  setPath(): void {
+    this.path &#x3D; geoPath().projection(this.projection);
+  }
+
+  getAttributeDataScale(): any {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.valueType &#x3D;&#x3D;&#x3D;
+        &#x27;quantitative&#x27; &amp;&amp;
+      this.config.dataGeographyConfig.attributeDataConfig.binType &#x3D;&#x3D;&#x3D; &#x27;none&#x27;
+    ) {
+      return this.setColorScaleWithColorInterpolator();
+    } else {
+      return this.setColorScaleWithoutColorInterpolator();
+    }
+  }
+
+  setColorScaleWithColorInterpolator(): any {
+    return this.config.dataGeographyConfig.attributeDataConfig
+      .colorScale()
+      .domain(this.config.dataGeographyConfig.attributeDataConfig.domain)
+      .range(this.config.dataGeographyConfig.attributeDataConfig.range)
+      .unknown(this.config.dataGeographyConfig.nullColor)
+      .interpolate(
+        this.config.dataGeographyConfig.attributeDataConfig.interpolator
+      );
+  }
+
+  setColorScaleWithoutColorInterpolator(): any {
+    return this.config.dataGeographyConfig.attributeDataConfig
+      .colorScale()
+      .domain(this.config.dataGeographyConfig.attributeDataConfig.domain)
+      .range(this.config.dataGeographyConfig.attributeDataConfig.range)
+      .unknown(this.config.dataGeographyConfig.nullColor);
+  }
+
+  drawMarks(): void {
+    this.zone.run(() &#x3D;&gt; {
+      this.drawMap(this.chart.transitionDuration);
+      this.updateGeographyElements();
+    });
+  }
+
+  drawMap(transitionDuration): void {
+    const t &#x3D; select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition&lt;SVGSVGElement, any, any, any&gt;;
+
+    if (this.config.dataGeographyConfig) {
+      this.drawDataLayer(t);
+    }
+    if (this.config.noDataGeographiesConfigs) {
+      this.drawNoDataLayers(t);
+    }
+  }
+
+  drawDataLayer(t: any): void {
+    this.map &#x3D; select(this.elRef.nativeElement)
+      .selectAll(&#x27;.vic-map-layer.vic-data&#x27;)
+      .data([this.config.dataGeographyConfig])
+      .join(
+        (enter) &#x3D;&gt; enter.append(&#x27;g&#x27;).attr(&#x27;class&#x27;, &#x27;vic-map-layer vic-data&#x27;),
+        (update) &#x3D;&gt; update,
+        (exit) &#x3D;&gt; exit.remove()
+      );
+
+    this.map
+      .selectAll(&#x27;path&#x27;)
+      .data((layer: VicDataGeographyConfig) &#x3D;&gt; layer.geographies)
+      .join(
+        (enter) &#x3D;&gt; {
+          enter &#x3D; enter.append(&#x27;path&#x27;);
+          this.drawBasicPaths(enter);
+        },
+        (update) &#x3D;&gt; this.drawBasicPaths(update),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  drawBasicPaths(selection: any): any {
+    return selection
+      .attr(&#x27;d&#x27;, this.path)
+      .attr(&#x27;fill&#x27;, (d, i) &#x3D;&gt;
+        this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
+          ? this.getPatternFill(i)
+          : this.getFill(i)
+      )
+      .attr(&#x27;stroke&#x27;, this.config.dataGeographyConfig.strokeColor)
+      .attr(&#x27;stroke-width&#x27;, this.config.dataGeographyConfig.strokeWidth);
+  }
+
+  drawNoDataLayers(t: any): void {
+    const noDataLayers &#x3D; select(this.elRef.nativeElement)
+      .selectAll(&#x27;.vic-map-layer.vic-no-data&#x27;)
+      .data(this.config.noDataGeographiesConfigs)
+      .join(
+        (enter) &#x3D;&gt; enter.append(&#x27;g&#x27;).attr(&#x27;class&#x27;, &#x27;vic-map-layer vic-no-data&#x27;),
+        (update) &#x3D;&gt; update,
+        (exit) &#x3D;&gt; exit.remove()
+      );
+
+    noDataLayers
+      .selectAll(&#x27;path&#x27;)
+      .data((layer: VicNoDataGeographyConfig) &#x3D;&gt; layer.geographies)
+      .join(
+        (enter) &#x3D;&gt;
+          enter
+            .append(&#x27;path&#x27;)
+            .attr(&#x27;d&#x27;, this.path)
+            .attr(&#x27;fill&#x27;, (d, i, nodes) &#x3D;&gt;
+              this.getNoDataGeographyPatternFill(nodes[i])
+            )
+            .attr(
+              &#x27;stroke&#x27;,
+              (d, i, nodes) &#x3D;&gt; this.getConfigFromNode(nodes[i]).strokeColor
+            )
+            .attr(
+              &#x27;stroke-width&#x27;,
+              (d, i, nodes) &#x3D;&gt; this.getConfigFromNode(nodes[i]).strokeWidth
+            ),
+        (update) &#x3D;&gt;
+          update
+            .attr(&#x27;d&#x27;, this.path)
+            .attr(&#x27;fill&#x27;, (d, i, nodes) &#x3D;&gt;
+              this.getNoDataGeographyPatternFill(nodes[i])
+            ),
+        (exit) &#x3D;&gt; exit.remove()
+      );
+  }
+
+  getConfigFromNode(node: any): any {
+    const config &#x3D; select(node.parentNode).datum() as any;
+    return config;
+  }
+
+  getFill(i: number): string {
+    const convertedIndex &#x3D; this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue &#x3D; this.values.attributeDataValues[convertedIndex];
+    return this.attributeDataScale(dataValue);
+  }
+
+  getPatternFill(i: number): string {
+    const convertedIndex &#x3D; this.getValueIndexFromDataGeographyIndex(i);
+    const dataValue &#x3D; this.values.attributeDataValues[convertedIndex];
+    const datum &#x3D; this.config.data[convertedIndex];
+    const color &#x3D; this.attributeDataScale(dataValue);
+    const predicates &#x3D;
+      this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
+    return PatternUtilities.getPatternFill(datum, color, predicates);
+  }
+
+  getNoDataGeographyPatternFill(node: any): string {
+    const config: VicNoDataGeographyConfig &#x3D; this.getConfigFromNode(node);
+    return config.patternName ? &#x60;url(#${config.patternName})&#x60; : config.fill;
+  }
+
+  getValueIndexFromDataGeographyIndex(i: number): number {
+    const geoName &#x3D; this.values.geoJsonGeographies[i];
+    return this.values.indexMap.get(geoName);
+  }
+
+  updateGeographyElements(): void {
+    const dataGeographies &#x3D; select(this.elRef.nativeElement)
+      .selectAll(&#x27;.vic-map-layer.vic-data&#x27;)
+      .selectAll(&#x27;path&#x27;);
+    const noDataGeographies &#x3D; select(this.elRef.nativeElement)
+      .selectAll(&#x27;vic-map-layer.vic-no-data&#x27;)
+      .selectAll(&#x27;path&#x27;);
+    this.dataGeographies.next(dataGeographies);
+    this.noDataGeographies.next(noDataGeographies);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;ng-content&gt;&lt;/ng-content&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./geographies.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+
+    
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->

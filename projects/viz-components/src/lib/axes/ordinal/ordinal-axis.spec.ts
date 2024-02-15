@@ -1,3 +1,4 @@
+import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
@@ -7,7 +8,7 @@ describe('the OrdinalAxis mixin', () => {
 
   beforeEach(() => {
     chart = new XyChartComponentStub();
-    abstractClass = new OrdinalAxisStub(chart as any);
+    abstractClass = new OrdinalAxisStub(chart as any, new DestroyRefStub());
   });
 
   describe('setAxis()', () => {
