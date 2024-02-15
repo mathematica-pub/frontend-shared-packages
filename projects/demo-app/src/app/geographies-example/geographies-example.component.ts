@@ -16,7 +16,9 @@ import {
   VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   VicGeographiesConfig,
   VicGeographiesEventOutput,
-  VicGeographiesUtils,
+  VicGeographiesLabelsAutoColor,
+  VicGeographiesLabelsPositionerBottomMiddleBoundingBox,
+  VicGeographiesLabelsPositionerPolylabel,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/public-api';
@@ -153,13 +155,18 @@ export class GeographiesExampleComponent implements OnInit {
     labelConfig.display = (d) =>
       !unlabelledTerritories.includes(d.properties['id']) &&
       !smallSquareStates.includes(d.properties['id']);
-    labelConfig.position = (d, path, projection) =>
-      polylabelStates.includes(d.properties['id'])
-        ? VicGeographiesUtils.getPolyLabelCentroid(d as any, projection)
-        : d.properties['id'] == 'HI'
-        ? VicGeographiesUtils.getHawaiiCentroid(d as any, projection)
-        : path.centroid(d);
-    labelConfig.autoColorByContrast.enable = true;
+
+    labelConfig.standardPositioners = [
+      new VicGeographiesLabelsPositionerPolylabel({
+        enable: (d) => polylabelStates.includes(d.properties['id']),
+      }),
+      new VicGeographiesLabelsPositionerBottomMiddleBoundingBox({
+        enable: (d) => d.properties['id'] == 'HI',
+      }),
+    ];
+
+    labelConfig.position = (d, path, projection) => path.centroid(d);
+    labelConfig.autoColorByContrast = new VicGeographiesLabelsAutoColor();
     labelConfig.autoColorByContrast.dark.color = 'rgb(22,80,225)';
     return labelConfig;
   }

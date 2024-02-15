@@ -22,6 +22,8 @@ import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
+import { VicGeographiesLabelsAutoColor } from './geographies-labels-fill-weight.class';
+import { VicGeographiesLabelsPositioner } from './geographies-labels-positioners.class';
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
@@ -109,7 +111,14 @@ export class VicGeographyLabelConfig {
     path: GeoPath<any, GeoPermissibleObjects>,
     projection: any
   ) => [number, number];
+
   autoColorByContrast: VicGeographiesLabelsAutoColor;
+
+  /**
+   * Apply a standard positioner (e.g. polylabel) to a subset of states.
+   * For that subset of states, will override value of this.position() function.
+   */
+  standardPositioners: VicGeographiesLabelsPositioner[];
 
   fontScale: ScaleLinear<number, number, never>;
 
@@ -117,7 +126,6 @@ export class VicGeographyLabelConfig {
     this.display = () => true;
     this.color = '#000';
     this.fontWeight = 400;
-    this.autoColorByContrast = new VicGeographiesLabelsAutoColor();
     this.position = (
       d: Feature<MultiPolygon, any>,
       path: GeoPath<any, GeoPermissibleObjects>
@@ -128,26 +136,6 @@ export class VicGeographyLabelConfig {
     this.dominantBaseline = 'middle';
     this.cursor = 'default';
     this.pointerEvents = 'none';
-    Object.assign(this, init);
-  }
-}
-
-export interface VicGeographiesLabelsAutoColorProperties {
-  color: CSSType.Property.Fill; // cannot used HTML named colors
-  fontWeight: CSSType.Property.FontWeight;
-}
-
-export class VicGeographiesLabelsAutoColor {
-  enable: boolean;
-  dark: VicGeographiesLabelsAutoColorProperties;
-  light: VicGeographiesLabelsAutoColorProperties;
-
-  constructor(init?: Partial<VicGeographiesLabelsAutoColor>) {
-    this.enable = false;
-    this.dark.color = '#000';
-    this.dark.fontWeight = 700;
-    this.light.color = '#fff';
-    this.light.fontWeight = 400;
     Object.assign(this, init);
   }
 }
