@@ -38,13 +38,13 @@ export class VicBarsLabelsConfig {
   display: boolean;
   offset: number;
   /**
-   * The dark color alternative for the bar label.
+   * The dark alternative for the bar label color.
    *
    *  Must be a hex code or rgb color to be compatible with color utilities.
    */
   darkLabelColor: string;
   /**
-   * The light color alternative for the bar label.
+   * The light alternative for the bar label color.
    *
    *  Must be a hex code or rgb color to be compatible with color utilities.
    */
