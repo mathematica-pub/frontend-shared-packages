@@ -826,6 +826,7 @@ describe('BarsComponent', () => {
     });
     it('returns correct value when pattern is used', () => {
       component.config.patternPredicates = [
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         { patternName: 'pattern', predicate: (d: any) => true },
       ];
       const result = component.getBarPattern(0);
@@ -866,7 +867,8 @@ describe('BarsComponent', () => {
           valueFormat: ',.1f',
         },
         labels: {
-          noValueFunction: (d) => 'no value',
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+          noValueFunction: (d: any) => 'no value',
         },
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
