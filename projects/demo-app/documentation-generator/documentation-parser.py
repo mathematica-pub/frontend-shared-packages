@@ -1,6 +1,6 @@
 import re
 import time
-from os import path, popen
+from os import listdir, path
 from pathlib import Path
 from shutil import copy
 from typing import Dict
