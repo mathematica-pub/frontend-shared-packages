@@ -1,5 +1,7 @@
 import re
 from os import path, popen
+from pathlib import Path
+from shutil import copy
 from typing import Dict
 
 import yaml
@@ -82,11 +84,12 @@ class DocumentationParser:
                     "\\", "/"
                 )
                 inputFileName = path.join(inputDirectory, dict[key]).replace("\\", "/")
-                popen(f"cp {inputFileName} {outputFileName}")
+                from_file = Path(inputFileName)
+                to_file = Path(outputFileName)
+                copy(from_file, to_file)
                 filesToParse[dict[key]] = outputFileName
             else:
                 newPath = path.join(partialPath, key).replace("/", "\\")
-                popen(f"mkdir {newPath}").read()
                 filesToParse = self.copy_files_from_dict(
                     newPath, dict[key], inputDirectory, filesToParse
                 )
