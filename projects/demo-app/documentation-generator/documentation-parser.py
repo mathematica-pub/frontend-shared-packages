@@ -89,6 +89,7 @@ class DocumentationParser:
                 )
                 inputFileName = path.join(inputDirectory, dict[key]).replace("\\", "/")
                 if make_dictionaries:
+                    print(partialPath)
                     Path(partialPath).mkdir(parents=True, exist_ok=True)
                 else:
                     from_file = Path(inputFileName)
