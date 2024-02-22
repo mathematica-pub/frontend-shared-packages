@@ -11,7 +11,10 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+
+# Automated Documentation
 /documentation
+/projects/demo-app/src/assets/documentation
 
 # IDEs and editors
 .idea/
