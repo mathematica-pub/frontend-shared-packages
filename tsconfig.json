@@ -41,6 +41,5 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "strictPropertyInitialization": false
-  },
-  "exclude": ["./projects/demo-app/cypress.config.ts"]
+  }
 }

@@ -227,11 +227,11 @@ export class BarsComponent
           enter
             .append('g')
             .attr('class', 'vic-bar-group')
-            .attr('transform', (i) => this.getBarTranslate(i)),
+            .attr('transform', (i) => this.getBarGroupTransform(i)),
         (update) =>
           update
             .transition(t as any)
-            .attr('transform', (i) => this.getBarTranslate(i)),
+            .attr('transform', (i) => this.getBarGroupTransform(i)),
         (exit) => exit.remove()
       );
 
@@ -257,7 +257,7 @@ export class BarsComponent
       );
   }
 
-  getBarTranslate(i: number): string {
+  getBarGroupTransform(i: number): string {
     const x = this.getBarX(i);
     const y = this.getBarY(i);
     return `translate(${x},${y})`;
