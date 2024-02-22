@@ -84,6 +84,7 @@ class DocumentationParser:
                     "\\", "/"
                 )
                 inputFileName = path.join(inputDirectory, dict[key]).replace("\\", "/")
+                Path(partialPath).mkdir(parents=True, exist_ok=True)
                 from_file = Path(inputFileName)
                 to_file = Path(outputFileName)
                 copy(from_file, to_file)
