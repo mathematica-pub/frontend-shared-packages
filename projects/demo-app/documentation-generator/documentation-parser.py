@@ -55,8 +55,11 @@ class DocumentationParser:
             except yaml.YAMLError as err:
                 print(err)
 
+        self.copy_files_from_dict(
+            self.outputDirectory, documentationStructure, self.inputDirectory, {}, True
+        )
         self.filesToParse = self.copy_files_from_dict(
-            self.outputDirectory, documentationStructure, self.inputDirectory, {}
+            self.outputDirectory, documentationStructure, self.inputDirectory, {}, False
         )
 
         for fileKey in self.filesToParse.keys():
@@ -71,6 +74,7 @@ class DocumentationParser:
         dict: dict,
         inputDirectory: str,
         filesToParse: Dict[str, str],
+        make_dictionaries: bool,
     ):
         """
         Recursive fxn:
@@ -84,15 +88,17 @@ class DocumentationParser:
                     "\\", "/"
                 )
                 inputFileName = path.join(inputDirectory, dict[key]).replace("\\", "/")
-                Path(partialPath).mkdir(parents=True, exist_ok=True)
-                from_file = Path(inputFileName)
-                to_file = Path(outputFileName)
-                copy(from_file, to_file)
-                filesToParse[dict[key]] = outputFileName
+                if make_dictionaries:
+                    Path(partialPath).mkdir(parents=True, exist_ok=True)
+                else:
+                    from_file = Path(inputFileName)
+                    to_file = Path(outputFileName)
+                    copy(from_file, to_file)
+                    filesToParse[dict[key]] = outputFileName
             else:
                 newPath = path.join(partialPath, key).replace("/", "\\")
                 filesToParse = self.copy_files_from_dict(
-                    newPath, dict[key], inputDirectory, filesToParse
+                    newPath, dict[key], inputDirectory, filesToParse, make_dictionaries
                 )
         return filesToParse
 
