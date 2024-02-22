@@ -17,7 +17,7 @@ def runner(event, context):
 
 def load_files():
     fileList = []
-    for root, dirs, files in os.walk("../src/lib"):
+    for root, dirs, files in os.walk("projects/viz-components/src/lib"):
         for file in files:
             if file.endswith(".config.ts"):
                 fileName = os.path.join(root, file).replace("\\", "/")
@@ -45,9 +45,7 @@ def create_code_snippets_from_configs(configs):
             currentConfig
         )
 
-    with open(
-        "../../../.vscode/vizcolib-configs.code-snippets", "w", encoding="utf-8"
-    ) as file:
+    with open(".vscode/vizcolib-configs.code-snippets", "w", encoding="utf-8") as file:
         json.dump(finalJson, file, ensure_ascii=False, indent=4)
 
 
