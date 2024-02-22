@@ -1,4 +1,5 @@
 import re
+import time
 from os import path, popen
 from pathlib import Path
 from shutil import copy
@@ -58,6 +59,9 @@ class DocumentationParser:
         self.copy_files_from_dict(
             self.outputDirectory, documentationStructure, self.inputDirectory, {}, True
         )
+
+        time.sleep(5)
+
         self.filesToParse = self.copy_files_from_dict(
             self.outputDirectory, documentationStructure, self.inputDirectory, {}, False
         )
