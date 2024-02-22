@@ -2,8 +2,7 @@ name: Testing, Linting, and Building
 
 on: [push]
 
-permissions:
-  contents: write
+permissions: write-all read-all
 
 jobs:
   lint:
