@@ -43,8 +43,6 @@ downloads/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-!.vscode/aws-shortcuts.code-snippets
-!.vscode/vizcolib-configs.code-snippets
 .history/*
 
 # Miscellaneous
