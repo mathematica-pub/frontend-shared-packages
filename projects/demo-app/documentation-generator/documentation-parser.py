@@ -84,10 +84,8 @@ class DocumentationParser:
         """
         for key in dict.keys():
             if isinstance(dict[key], str):
-                outputFileName = path.join(partialPath, f"{key}.html").replace(
-                    "\\", "/"
-                )
-                inputFileName = path.join(inputDirectory, dict[key]).replace("\\", "/")
+                outputFileName = path.join(partialPath, f"{key}.html")
+                inputFileName = path.join(inputDirectory, dict[key])
                 if make_dictionaries:
                     print(partialPath)
                     Path(partialPath).mkdir(parents=True, exist_ok=True)
@@ -97,7 +95,7 @@ class DocumentationParser:
                     copy(from_file, to_file)
                     filesToParse[dict[key]] = outputFileName
             else:
-                newPath = path.join(partialPath, key).replace("/", "\\")
+                newPath = path.join(partialPath, key)
                 filesToParse = self.copy_files_from_dict(
                     newPath, dict[key], inputDirectory, filesToParse, make_dictionaries
                 )
