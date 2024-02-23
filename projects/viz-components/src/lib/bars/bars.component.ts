@@ -61,13 +61,13 @@ export class BarsComponent
   hasBarsWithNegativeValues: boolean;
   barGroups: any;
   barsKeyFunction: (i: number) => string;
-  private dataDomainService = inject(DataDomainService);
-  private zone = inject(NgZone);
   bars: BehaviorSubject<any> = new BehaviorSubject(null);
   bars$: Observable<any> = this.bars.asObservable();
   barLabels: BehaviorSubject<any> = new BehaviorSubject(null);
   barLabels$: Observable<any> = this.bars.asObservable();
   unpaddedQuantitativeDomain: [number, number];
+  protected dataDomainService = inject(DataDomainService);
+  protected zone = inject(NgZone);
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
@@ -229,11 +229,11 @@ export class BarsComponent
           enter
             .append('g')
             .attr('class', 'vic-bar-group')
-            .attr('transform', (i) => this.getBarTranslate(i)),
+            .attr('transform', (i) => this.getBarGroupTransform(i)),
         (update) =>
           update
             .transition(t as any)
-            .attr('transform', (i) => this.getBarTranslate(i)),
+            .attr('transform', (i) => this.getBarGroupTransform(i)),
         (exit) => exit.remove()
       );
 
@@ -259,7 +259,7 @@ export class BarsComponent
       );
   }
 
-  getBarTranslate(i: number): string {
+  getBarGroupTransform(i: number): string {
     const x = this.getBarX(i);
     const y = this.getBarY(i);
     return `translate(${x},${y})`;
