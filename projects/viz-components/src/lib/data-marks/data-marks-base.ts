@@ -58,20 +58,36 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
   deepCloneObject(object: Record<string, unknown>): Record<string, unknown> {
     const newObj = {} as Record<string, unknown>;
     Object.entries(object).forEach(([key, value]) => {
-      if (
-        typeof value === 'object' &&
-        value !== null &&
-        !Array.isArray(value) &&
-        !isDate(value)
-      ) {
+      if (this.isDeepCloneableObject(value)) {
         newObj[key] = this.deepCloneObject(value as Record<string, unknown>);
+      } else if (Array.isArray(value)) {
+        newObj[key] = value.map((v) => this.deepCloneArrayValue(v));
       } else if (typeof value === 'function') {
         this.assignValue(newObj, key, value);
       } else {
-        this.structuredCloneValue(newObj, key, value);
+        this.structuredCloneObjectValue(newObj, key, value);
       }
     });
     return newObj;
+  }
+
+  isDeepCloneableObject(value: unknown): boolean {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      !Array.isArray(value) &&
+      !isDate(value)
+    );
+  }
+
+  deepCloneArrayValue(value: unknown): unknown {
+    if (this.isDeepCloneableObject(value)) {
+      return this.deepCloneObject(value as Record<string, unknown>);
+    } else if (Array.isArray(value)) {
+      return value.map((v) => this.deepCloneArrayValue(v));
+    } else {
+      return structuredClone(value);
+    }
   }
 
   assignValue(
@@ -82,7 +98,7 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
     newObj[key] = value;
   }
 
-  structuredCloneValue(
+  structuredCloneObjectValue(
     newObj: Record<string, unknown>,
     key: string,
     value: unknown

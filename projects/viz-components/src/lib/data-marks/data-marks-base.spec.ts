@@ -63,11 +63,13 @@ describe('DataMarksBase abstract class', () => {
     });
   });
 
-  describe('deepCloneObject()', () => {
+  fdescribe('integration: deepCloneObject()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'assignValue');
-      spyOn(abstractClass, 'structuredCloneValue');
+      spyOn(abstractClass, 'assignValue').and.callThrough();
+      spyOn(abstractClass, 'structuredCloneObjectValue').and.callThrough();
       spyOn(abstractClass, 'deepCloneObject').and.callThrough();
+      spyOn(abstractClass, 'isDeepCloneableObject').and.callThrough();
+      spyOn(abstractClass, 'deepCloneArrayValue').and.callThrough();
     });
     it('correctly handles values that are functions', () => {
       const obj = {
@@ -76,81 +78,90 @@ describe('DataMarksBase abstract class', () => {
         },
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(1);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(0);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(1);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(0);
     });
     it('correctly handles values that are arrays', () => {
       const obj = {
         a: [1, 2, 3],
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(3);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(0);
     });
     it('correctly handles values that are number', () => {
       const obj = {
         a: 1,
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are strings', () => {
       const obj = {
         a: '1',
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are booleans', () => {
       const obj = {
         a: true,
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are null', () => {
       const obj = {
         a: null,
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are undefined', () => {
       const obj = {
         a: undefined,
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are 0', () => {
       const obj = {
         a: 0,
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are dates', () => {
       const obj = {
         a: new Date(),
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
     });
     it('correctly handles values that are other objects', () => {
       const obj = {
@@ -159,9 +170,27 @@ describe('DataMarksBase abstract class', () => {
         },
       };
       abstractClass.deepCloneObject(obj);
-      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
-      expect(abstractClass.structuredCloneValue).toHaveBeenCalledTimes(1);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(2);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(1);
+    });
+    it('correctly handles values that are are arrays of objects', () => {
+      const obj = {
+        a: [
+          {
+            b: 'c',
+          },
+          {
+            b: 'd',
+          },
+        ],
+      };
+      abstractClass.deepCloneObject(obj);
+      expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(3);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(2);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(2);
     });
   });
 });
