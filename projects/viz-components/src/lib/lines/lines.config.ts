@@ -93,7 +93,7 @@ export class VicLinesConfig<T> extends VicDataMarksConfig<T> {
     super();
     this.x.scaleType = scaleUtc;
     this.y.scaleType = scaleLinear;
-    this.category.valueAccessor = () => 1;
+    this.category.valueAccessor = () => undefined;
     this.category.colors = schemeTableau10 as string[];
     this.curve = curveLinear;
     this.lineLabelsFormat = (d: string) => d;
