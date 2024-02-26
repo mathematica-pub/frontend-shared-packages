@@ -85,6 +85,8 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
       return this.deepCloneObject(value as Record<string, unknown>);
     } else if (Array.isArray(value)) {
       return value.map((v) => this.deepCloneArrayValue(v));
+    } else if (typeof value === 'function') {
+      return value;
     } else {
       return structuredClone(value);
     }

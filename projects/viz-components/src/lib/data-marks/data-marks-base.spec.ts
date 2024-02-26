@@ -63,7 +63,7 @@ describe('DataMarksBase abstract class', () => {
     });
   });
 
-  fdescribe('integration: deepCloneObject()', () => {
+  describe('integration: deepCloneObject()', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'assignValue').and.callThrough();
       spyOn(abstractClass, 'structuredCloneObjectValue').and.callThrough();
@@ -191,6 +191,16 @@ describe('DataMarksBase abstract class', () => {
       expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(2);
       expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
       expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(2);
+    });
+    it('correctly handles values that are are arrays of functions', () => {
+      const obj = {
+        a: [(x) => 1, (x) => 2],
+      };
+      abstractClass.deepCloneObject(obj);
+      expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);
+      expect(abstractClass.deepCloneArrayValue).toHaveBeenCalledTimes(2);
+      expect(abstractClass.assignValue).toHaveBeenCalledTimes(0);
+      expect(abstractClass.structuredCloneObjectValue).toHaveBeenCalledTimes(0);
     });
   });
 });
