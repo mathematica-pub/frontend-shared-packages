@@ -40,12 +40,6 @@ export class StackedBarsComponent<T> extends BarsComponent<T> {
   override config: VicStackedBarsConfig<T>;
   stackedData: VicStackDatum[][];
 
-  /**
-   * setPropertiesFromConfig method
-   *
-   * This method handles an update to the config object. Methods called from here should not
-   * requires ranges or scales. This method is called on init and on config update.
-   */
   override setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initNonQuantitativeDomains();

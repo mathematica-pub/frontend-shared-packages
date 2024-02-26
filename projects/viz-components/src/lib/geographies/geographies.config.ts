@@ -12,7 +12,7 @@ import {
   scaleQuantize,
   scaleThreshold,
 } from 'd3';
-import { Feature, Geometry } from 'geojson';
+import { Feature, GeoJsonProperties, Geometry } from 'geojson';
 import { VicVariableType } from '../core/types/variable-type';
 import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
@@ -57,7 +57,7 @@ export class VicGeographiesConfig<T, P> extends VicDataMarksConfig<T> {
 export type VicGeoJsonDefaultProperty = { [name: string]: any };
 
 export class VicBaseDataGeographyConfig<
-  P extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
+  P extends GeoJsonProperties = GeoJsonProperties
 > {
   /**
    * GeoJSON features that define the geographies to be drawn.

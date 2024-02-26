@@ -23,7 +23,7 @@ export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
       }
     }
 
-    setTicks(tickFormat: string | ((value: any) => string)): void {
+    setTicks(tickFormat: string | ((value: number | Date) => string)): void {
       this.axis.tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;
         return typeof tickFormat === 'function'

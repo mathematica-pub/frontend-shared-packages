@@ -34,7 +34,7 @@ export class BarsHoverDirective<
   positionX: number;
   positionY: number;
 
-  constructor(@Inject(BARS) public bars: BarsComponent<T>) {
+  constructor(@Inject(BARS) public bars: U) {
     super();
   }
 
