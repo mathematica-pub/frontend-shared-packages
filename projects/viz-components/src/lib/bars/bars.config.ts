@@ -23,6 +23,7 @@ export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
     super();
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
+    this.category.valueAccessor = () => undefined;
     this.quantitative.scaleType = scaleLinear;
     this.category.colors = ['lightslategray'];
     Object.assign(this, init);
