@@ -102,7 +102,7 @@ export class VicDataGeographyConfig<
   /**
    * A function that derives the name or id of the geography from properties object on the geojson feature.
    */
-  featureIdAccessor?: (properties: P, ...args: any) => any;
+  featureIndexAccessor?: (properties: P, ...args: any) => string | number;
   attributeDataConfig: VicAttributeDataDimensionConfig<T>;
   nullColor: string;
 

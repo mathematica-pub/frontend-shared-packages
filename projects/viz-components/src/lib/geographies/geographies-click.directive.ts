@@ -10,6 +10,7 @@ import {
   Self,
 } from '@angular/core';
 import { select } from 'd3';
+import { Feature } from 'geojson';
 import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
@@ -70,7 +71,7 @@ export class GeographiesClickDirective<
 
   onElementClick(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    const d = select(event.target as Element).datum();
+    const d = select(event.target as Element).datum() as Feature;
     this.geographyIndex = this.getGeographyIndex(d);
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
@@ -86,9 +87,11 @@ export class GeographiesClickDirective<
     this.geographyIndex = undefined;
   }
 
-  getGeographyIndex(d: any): number {
+  getGeographyIndex(d: Feature): number {
     let value =
-      this.geographies.config.dataGeographyConfig.featureIdAccessor(d);
+      this.geographies.config.dataGeographyConfig.featureIndexAccessor(
+        d.properties
+      );
     if (typeof value === 'string') {
       value = value.toLowerCase();
     }

@@ -114,7 +114,7 @@ export class GeographiesComponent<
     );
     this.values.geoJsonGeographies = this.config.dataGeographyConfig.geographies
       .map((feature) =>
-        this.config.dataGeographyConfig.featureIdAccessor(feature.properties)
+        this.config.dataGeographyConfig.featureIndexAccessor(feature.properties)
       )
       .map((x) => {
         return typeof x === 'string' ? x.toLowerCase() : x;

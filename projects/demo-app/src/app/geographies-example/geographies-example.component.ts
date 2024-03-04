@@ -121,7 +121,7 @@ export class GeographiesExampleComponent implements OnInit {
       MapGeometryProperties
     >();
     config.geographies = this.getDataGeographyFeatures(data);
-    config.featureIdAccessor = (properties) => properties.name;
+    config.featureIndexAccessor = (properties) => properties.name;
     config.attributeDataConfig =
       new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;

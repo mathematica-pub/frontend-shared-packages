@@ -72,9 +72,11 @@ export class GeographiesHoverDirective<
   }
 
   // consider making GeographiesEventMixin later to avoid duplicating this method
-  getGeographyIndex(d: any): number {
+  getGeographyIndex(d: Feature): number {
     let value =
-      this.geographies.config.dataGeographyConfig.featureIdAccessor(d);
+      this.geographies.config.dataGeographyConfig.featureIndexAccessor(
+        d.properties
+      );
     if (typeof value === 'string') {
       value = value.toLowerCase();
     }
