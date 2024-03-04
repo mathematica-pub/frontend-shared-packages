@@ -496,14 +496,14 @@ export class GeographiesComponent
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelProperty<CSSType.Property.Fill>(
-                d,
+                this.config.dataGeographyConfig.valueAccessor(d),
                 labelsConfig,
                 'color'
               )
             )
             .attr('font-weight', (d) =>
               this.getLabelProperty<CSSType.Property.FontWeight>(
-                d,
+                this.config.dataGeographyConfig.valueAccessor(d),
                 labelsConfig,
                 'fontWeight'
               )
@@ -518,14 +518,14 @@ export class GeographiesComponent
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelProperty<CSSType.Property.Fill>(
-                  d,
+                  this.config.dataGeographyConfig.valueAccessor(d),
                   labelsConfig,
                   'color'
                 )
               )
               .attr('font-weight', (d) =>
                 this.getLabelProperty<CSSType.Property.FontWeight>(
-                  d,
+                  this.config.dataGeographyConfig.valueAccessor(d),
                   labelsConfig,
                   'fontWeight'
                 )
@@ -551,17 +551,17 @@ export class GeographiesComponent
   }
 
   getLabelProperty<T>(
-    d: Feature<MultiPolygon, any>,
+    geographyIndex: string,
     config: VicGeographyLabelConfig,
     property: 'color' | 'fontWeight'
   ): T {
-    const pathColor = this.getFill(
-      this.config.dataGeographyConfig.valueAccessor(d)
-    );
+    const pathColor = this.getFill(geographyIndex);
     const accessor = config[property];
     let fontProperty;
     if (this.isPropertyFunction(accessor)) {
-      fontProperty = accessor(d);
+      fontProperty = accessor(
+        this.values.datumsByGeographyIndex.get(geographyIndex)
+      );
     } else {
       fontProperty = accessor;
     }

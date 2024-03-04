@@ -227,9 +227,9 @@ export class VicGeographyLabelConfig {
   cursor: CSSType.Property.Cursor;
   pointerEvents: CSSType.Property.PointerEvents;
   fontWeight:
-    | ((d: Feature) => CSSType.Property.FontWeight)
+    | ((d: any) => CSSType.Property.FontWeight)
     | CSSType.Property.FontWeight;
-  color: ((d: Feature) => CSSType.Property.Fill) | CSSType.Property.Fill;
+  color: ((d: any) => CSSType.Property.Fill) | CSSType.Property.Fill;
   position: (
     d: Feature<MultiPolygon, any>,
     path: GeoPath<any, GeoPermissibleObjects>,
