@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { InternMap } from 'd3';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { GeographiesComponent, MapDataValues } from './geographies.component';
@@ -105,7 +106,11 @@ describe('GeographiesComponent', () => {
       beforeEach(() => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicCategoricalAttributeDataDimensionConfig();
-        component.values.attributeDataValues = ['a', 'a', 'b', 'b', 'c', 'c'];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 'a'],
+          ['Alaska', 'b'],
+          ['Arizona', 'c'],
+        ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
         component.initAttributeDataScaleDomain();
@@ -134,7 +139,14 @@ describe('GeographiesComponent', () => {
       beforeEach(() => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicNoBinsQuantitativeAttributeDataDimensionConfig();
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 11];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 11],
+        ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
         component.initAttributeDataScaleDomain();
@@ -157,7 +169,14 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicEqualNumbersQuantitativeAttributeDataDimensionConfig();
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 11];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 11],
+        ]);
       });
       it('sets the domain to the correct value', () => {
         component.initAttributeDataScaleDomain();
@@ -171,7 +190,14 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 12];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 12],
+        ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
         component.initAttributeDataScaleDomain();
@@ -192,7 +218,12 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
         component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
           '.0f';
-        component.values.attributeDataValues = [0, 0, 1.2, 3.2];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 0],
+          ['Alaska', 0],
+          ['Arizona', 1.2],
+          ['Arkansas', 3.2],
+        ]);
         component.initAttributeDataScaleDomain();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.numBins
@@ -202,7 +233,12 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
         component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
           '.0f';
-        component.values.attributeDataValues = [0, 0, 1.2, 3.2];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 0],
+          ['Alaska', 0],
+          ['Arizona', 1.2],
+          ['Arkansas', 3.2],
+        ]);
         component.initAttributeDataScaleDomain();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
@@ -212,7 +248,13 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
         component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
           '.0%';
-        component.values.attributeDataValues = [0, 1, 2, 3, 4];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 0],
+          ['Alaska', 1],
+          ['Arizona', 2],
+          ['Arkansas', 3],
+          ['California', 4],
+        ]);
         component.initAttributeDataScaleDomain();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.numBins
@@ -227,7 +269,14 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.breakValues = [
           0, 2, 4, 6, 8,
         ];
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 12];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 12],
+        ]);
       });
       it('sets the domain to the correct value', () => {
         component.initAttributeDataScaleDomain();
