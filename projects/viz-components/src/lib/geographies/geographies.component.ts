@@ -151,8 +151,9 @@ export class GeographiesComponent
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.equalNumObservations
     ) {
-      this.config.dataGeographyConfig.attributeDataConfig.domain =
-        this.values.attributeValuesByGeographyIndex.values();
+      this.config.dataGeographyConfig.attributeDataConfig.domain = Array.from(
+        this.values.attributeValuesByGeographyIndex.values()
+      );
     } else if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.customBreaks
@@ -171,7 +172,7 @@ export class GeographiesComponent
         this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
       ) {
         domainValues = extent(
-          this.values.attributeValuesByGeographyIndex.values()
+          Array.from(this.values.attributeValuesByGeographyIndex.values())
         );
       } else {
         domainValues =
@@ -228,7 +229,7 @@ export class GeographiesComponent
   setCategoricalDomain(): void {
     const domainValues =
       this.config.dataGeographyConfig.attributeDataConfig.domain ??
-      this.values.attributeValuesByGeographyIndex.values();
+      Array.from(this.values.attributeValuesByGeographyIndex.values());
     this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
       domainValues
     );
