@@ -18,10 +18,10 @@ import { VicGroupedBarsConfig } from './grouped-bars.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
-export class GroupedBarsComponent<T> extends BarsComponent<T> {
+export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicGroupedBarsConfig<T>;
-  override config: VicGroupedBarsConfig<T>;
+  @Input('config') override userConfig: VicGroupedBarsConfig<Datum>;
+  override config: VicGroupedBarsConfig<Datum>;
   groupScale: any;
 
   override setValueIndicies(): void {

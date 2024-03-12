@@ -5,13 +5,13 @@ import { VicAttributeDataDimensionConfig } from '../geographies/geographies.conf
 import { formatValue } from '../value-format/value-format';
 
 @Directive()
-export abstract class MapLegendContent<T> {
+export abstract class MapLegendContent<Datum> {
   @Input() width: number;
   @Input() height: number;
   @Input() orientation: keyof typeof VicOrientation;
   @Input() valuesSide: keyof typeof VicSide;
   @Input() scale: any;
-  @Input() config: VicAttributeDataDimensionConfig<T>;
+  @Input() config: VicAttributeDataDimensionConfig<Datum>;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];

@@ -3,18 +3,22 @@ import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsComponent } from './bars.component';
 
 export class BarsHoverShowLabels<
-  T,
-  U extends BarsComponent<T> = BarsComponent<T>
-> implements EventEffect<BarsHoverDirective<T, U>>
+  Datum,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
+> implements EventEffect<BarsHoverDirective<Datum, ExtendedBarsComponent>>
 {
-  applyEffect(directive: BarsHoverDirective<T, U>): void {
+  applyEffect(
+    directive: BarsHoverDirective<Datum, ExtendedBarsComponent>
+  ): void {
     directive.bars.barGroups
       .filter((d) => d === directive.barIndex)
       .select('text')
       .style('display', null);
   }
 
-  removeEffect(directive: BarsHoverDirective<T, U>): void {
+  removeEffect(
+    directive: BarsHoverDirective<Datum, ExtendedBarsComponent>
+  ): void {
     directive.bars.barGroups
       .filter((d) => d === directive.barIndex)
       .select('text')

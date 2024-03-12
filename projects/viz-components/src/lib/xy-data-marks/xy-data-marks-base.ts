@@ -14,8 +14,11 @@ import { XyDataMarksValues } from './xy-data-marks';
  * @internal
  */
 @Directive()
-export abstract class XyDataMarksBase<T, U extends VicDataMarksConfig<T>>
-  extends DataMarksBase<T, U>
+export abstract class XyDataMarksBase<
+    Datum,
+    ExtendedDataMarkConfig extends VicDataMarksConfig<Datum>
+  >
+  extends DataMarksBase<Datum, ExtendedDataMarkConfig>
   implements OnInit
 {
   scales: XyChartScales;

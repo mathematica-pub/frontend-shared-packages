@@ -17,19 +17,23 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
   selector: '[vicGeographiesHoverMoveEffects]',
 })
 export class GeographiesHoverMoveDirective<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
-  effects: HoverMoveEventEffect<GeographiesHoverMoveDirective<T, U>>[];
+  effects: HoverMoveEventEffect<
+    GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+  >[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
-    VicGeographiesEventOutput<T>
+    VicGeographiesEventOutput<Datum>
   >();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: U) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 
@@ -81,12 +85,12 @@ export class GeographiesHoverMoveDirective<
     return this.geographies.values.indexMap.get(value);
   }
 
-  getEventOutput(): VicGeographiesEventOutput<T> {
+  getEventOutput(): VicGeographiesEventOutput<Datum> {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const output: VicGeographiesEventOutput<T> = {
+    const output: VicGeographiesEventOutput<Datum> = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,

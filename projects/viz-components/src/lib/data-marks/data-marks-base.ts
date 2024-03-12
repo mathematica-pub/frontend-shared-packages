@@ -14,14 +14,16 @@ import { DataMarks } from './data-marks';
 import { VicDataMarksConfig } from './data-marks.config';
 
 @Directive()
-export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
-  implements DataMarks, OnChanges
+export abstract class DataMarksBase<
+  Datum,
+  ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>
+> implements DataMarks, OnChanges
 {
   chart: Chart;
   ranges: Ranges;
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') userConfig: U;
-  config: U;
+  @Input('config') userConfig: ExtendedDataMarksConfig;
+  config: ExtendedDataMarksConfig;
   destroyRef = inject(DestroyRef);
 
   abstract setPropertiesFromConfig(): void;
@@ -52,7 +54,7 @@ export abstract class DataMarksBase<T, U extends VicDataMarksConfig<T>>
   setConfig(): void {
     this.config = this.deepCloneObject(
       this.userConfig as Record<string, unknown>
-    ) as U;
+    ) as ExtendedDataMarksConfig;
   }
 
   deepCloneObject(object: Record<string, unknown>): Record<string, unknown> {

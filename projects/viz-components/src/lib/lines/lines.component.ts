@@ -62,7 +62,10 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent<T> extends XyDataMarksBase<T, VicLinesConfig<T>> {
+export class LinesComponent<Datum> extends XyDataMarksBase<
+  Datum,
+  VicLinesConfig<Datum>
+> {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;

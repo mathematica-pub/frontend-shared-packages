@@ -42,9 +42,9 @@ type Key = string | number | Date;
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
   ],
 })
-export class StackedAreaComponent<T> extends XyDataMarksBase<
-  T,
-  VicStackedAreaConfig<T>
+export class StackedAreaComponent<Datum> extends XyDataMarksBase<
+  Datum,
+  VicStackedAreaConfig<Datum>
 > {
   series: (SeriesPoint<InternMap<Key, number>> & {
     i: number;

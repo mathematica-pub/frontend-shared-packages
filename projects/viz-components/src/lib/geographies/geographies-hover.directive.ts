@@ -18,20 +18,22 @@ interface GeographiesHoverExtras {
   bounds?: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput<T> = VicGeographiesTooltipOutput<T> &
+export type GeographiesHoverOutput<Datum> = VicGeographiesTooltipOutput<Datum> &
   GeographiesHoverExtras;
 
 @Directive({
   selector: '[vicGeographiesHoverEffects]',
 })
 export class GeographiesHoverDirective<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<GeographiesHoverDirective<T, U>>[];
+  effects: EventEffect<
+    GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
+  >[];
   @Output('vicGeographiesHoverOutput') eventOutput = new EventEmitter<
-    VicGeographiesEventOutput<T>
+    VicGeographiesEventOutput<Datum>
   >();
   feature: Feature;
   bounds: [[number, number], [number, number]];
@@ -39,7 +41,9 @@ export class GeographiesHoverDirective<
   positionX: number;
   positionY: number;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: U) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 
@@ -83,7 +87,7 @@ export class GeographiesHoverDirective<
     return this.geographies.values.indexMap.get(value);
   }
 
-  getEventOutput(): VicGeographiesEventOutput<T> {
+  getEventOutput(): VicGeographiesEventOutput<Datum> {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies

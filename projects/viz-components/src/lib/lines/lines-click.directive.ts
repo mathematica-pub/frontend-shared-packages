@@ -26,28 +26,34 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesChartClickEffects]',
 })
 export class LinesClickDirective<
-  T,
-  U extends LinesComponent<T> = LinesComponent<T>
+  Datum,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends ClickDirective {
   @Input('vicLinesChartClickEffects')
-  effects: EventEffect<LinesClickDirective<T, U>>[];
+  effects: EventEffect<LinesClickDirective<Datum, ExtendedLinesComponent>>[];
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicLinesChartClickOutput') eventOutput = new EventEmitter<
-    VicLinesEventOutput<T>
+    VicLinesEventOutput<Datum>
   >();
 
   constructor(
-    @Inject(LINES) public lines: U,
+    @Inject(LINES) public lines: ExtendedLinesComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective<T, U>,
+    public hoverDirective?: LinesHoverDirective<Datum, ExtendedLinesComponent>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverMoveDirective<T, U>,
+    public hoverAndMoveDirective?: LinesHoverMoveDirective<
+      Datum,
+      ExtendedLinesComponent
+    >,
     @Self()
     @Optional()
-    public inputEventDirective?: LinesInputEventDirective<T, U>
+    public inputEventDirective?: LinesInputEventDirective<
+      Datum,
+      ExtendedLinesComponent
+    >
   ) {
     super();
   }
@@ -65,7 +71,7 @@ export class LinesClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getOutputData(): VicLinesEventOutput<T> {
+  getOutputData(): VicLinesEventOutput<Datum> {
     if (!this.hoverAndMoveDirective) {
       console.warn(
         'Tooltip data can only be retrieved when a LinesHoverMoveDirective is implemented.'
@@ -108,14 +114,16 @@ export class LinesClickDirective<
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: LinesEventDirective<T, U>): void {
+  disableEffect(
+    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+  ): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
   enableEffect(
-    directive: LinesEventDirective<T, U>,
+    directive: LinesEventDirective<Datum, ExtendedLinesComponent>,
     removeEffects: boolean
   ): void {
     if (directive) {

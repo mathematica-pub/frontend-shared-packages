@@ -67,7 +67,10 @@ export type BarLabelSelection = Selection<
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
+export class BarsComponent<Datum> extends XyDataMarksBase<
+  Datum,
+  VicBarsConfig<Datum>
+> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
   hasBarsWithNegativeValues: boolean;

@@ -4,9 +4,9 @@ import { BarsInputEventDirective } from './bars-input-event.directive';
 import { BarsComponent } from './bars.component';
 
 export type BarsEventDirective<
-  T,
-  U extends BarsComponent<T> = BarsComponent<T>
+  Datum,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > =
-  | BarsHoverDirective<T, U>
-  | BarsHoverMoveDirective<T, U>
-  | BarsInputEventDirective<T, U>;
+  | BarsHoverDirective<Datum, ExtendedBarsComponent>
+  | BarsHoverMoveDirective<Datum, ExtendedBarsComponent>
+  | BarsInputEventDirective<Datum, ExtendedBarsComponent>;

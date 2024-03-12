@@ -9,15 +9,19 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
   selector: '[vicLinesInputEffects]',
 })
 export class StackedAreaInputEventDirective<
-  T,
-  U extends StackedAreaComponent<T>
+  Datum,
+  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
 > extends InputEventDirective {
   @Input('vicStackedAreaInputEffects')
-  effects: InputEventEffect<StackedAreaInputEventDirective<T, U>>[];
+  effects: InputEventEffect<
+    StackedAreaInputEventDirective<Datum, ExtendedStackedAreaComponent>
+  >[];
   @Output('vicStackedAreaInputEventOutput') eventOutput =
     new EventEmitter<any>();
 
-  constructor(@Inject(STACKED_AREA) public lines: U) {
+  constructor(
+    @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
+  ) {
     super();
   }
 

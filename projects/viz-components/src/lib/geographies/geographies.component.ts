@@ -63,9 +63,12 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
   ],
 })
 export class GeographiesComponent<
-  T,
-  P extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
-> extends MapDataMarksBase<T, VicGeographiesConfig<T, P>> {
+  Datum,
+  GeoJsonProperties extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
+> extends MapDataMarksBase<
+  Datum,
+  VicGeographiesConfig<Datum, GeoJsonProperties>
+> {
   map: any;
   projection: any;
   path: any;
@@ -351,7 +354,10 @@ export class GeographiesComponent<
 
     this.map
       .selectAll('path')
-      .data((layer: VicDataGeographyConfig<T, P>) => layer.geographies)
+      .data(
+        (layer: VicDataGeographyConfig<Datum, GeoJsonProperties>) =>
+          layer.geographies
+      )
       .join(
         (enter) => {
           enter = enter.append('path');

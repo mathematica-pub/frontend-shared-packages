@@ -25,15 +25,15 @@ import { BARS, BarsComponent } from './bars.component';
   selector: '[vicBarsClickEffects]',
 })
 export class BarsClickDirective<
-  T,
-  U extends BarsComponent<T> = BarsComponent<T>
+  Datum,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > extends ClickDirective {
   @Input('vicBarsClickEffects')
-  effects: EventEffect<BarsClickDirective<T, U>>[];
+  effects: EventEffect<BarsClickDirective<Datum, ExtendedBarsComponent>>[];
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
-    VicBarsEventOutput<T>
+    VicBarsEventOutput<Datum>
   >();
   barIndex: number;
   elRef: ElementRef;
@@ -41,16 +41,22 @@ export class BarsClickDirective<
   pointerY: number;
 
   constructor(
-    @Inject(BARS) public bars: U,
+    @Inject(BARS) public bars: ExtendedBarsComponent,
     @Self()
     @Optional()
-    public hoverDirective?: BarsHoverDirective<T, U>,
+    public hoverDirective?: BarsHoverDirective<Datum, ExtendedBarsComponent>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: BarsHoverMoveDirective<T, U>,
+    public hoverAndMoveDirective?: BarsHoverMoveDirective<
+      Datum,
+      ExtendedBarsComponent
+    >,
     @Self()
     @Optional()
-    public inputEventDirective?: BarsInputEventDirective<T, U>
+    public inputEventDirective?: BarsInputEventDirective<
+      Datum,
+      ExtendedBarsComponent
+    >
   ) {
     super();
   }
@@ -86,7 +92,7 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput<T> {
+  getEventOutput(): VicBarsEventOutput<Datum> {
     const data = getBarsTooltipData(this.barIndex, this.elRef, this.bars);
     const extras = {
       positionX: this.pointerX,
@@ -121,14 +127,16 @@ export class BarsClickDirective<
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: BarsEventDirective<T, U>): void {
+  disableEffect(
+    directive: BarsEventDirective<Datum, ExtendedBarsComponent>
+  ): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
   enableEffect(
-    directive: BarsEventDirective<T, U>,
+    directive: BarsEventDirective<Datum, ExtendedBarsComponent>,
     removeEffects: boolean
   ): void {
     if (directive) {

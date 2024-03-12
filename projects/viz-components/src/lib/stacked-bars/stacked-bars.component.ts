@@ -34,10 +34,10 @@ export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
-export class StackedBarsComponent<T> extends BarsComponent<T> {
+export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicStackedBarsConfig<T>;
-  override config: VicStackedBarsConfig<T>;
+  @Input('config') override userConfig: VicStackedBarsConfig<Datum>;
+  override config: VicStackedBarsConfig<Datum>;
   stackedData: VicStackDatum[][];
 
   override setPropertiesFromConfig(): void {

@@ -32,8 +32,8 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesMarkerClickEffects]',
 })
 export class LinesMarkerClickDirective<
-  T,
-  U extends LinesComponent<T> = LinesComponent<T>
+  Datum,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends ClickDirective {
   /**
    * An array of user-provided [EventEffect]{@link EventEffect} instances.
@@ -42,7 +42,9 @@ export class LinesMarkerClickDirective<
    *  called when the `clickRemoveEvent$` Observable emits.
    */
   @Input('vicLinesMarkerClickEffects')
-  effects: EventEffect<LinesMarkerClickDirective<T, U>>[];
+  effects: EventEffect<
+    LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
+  >[];
   /**
    * A user-provided `Observable<void>` that triggers the `removeEffect` method of all user-provided
    *  [EventEffect]{@link EventEffect} instances.
@@ -56,7 +58,7 @@ export class LinesMarkerClickDirective<
    *  an `applyEffect` or a `removeEffect` method calls `next` on it.
    */
   @Output('vicLinesMarkerClickOutput') eventOutput = new EventEmitter<
-    VicLinesEventOutput<T>
+    VicLinesEventOutput<Datum>
   >();
   /**
    * The index of the point that was clicked in the LinesComponent's values array.
@@ -64,16 +66,22 @@ export class LinesMarkerClickDirective<
   pointIndex: number;
 
   constructor(
-    @Inject(LINES) public lines: U,
+    @Inject(LINES) public lines: ExtendedLinesComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective<T, U>,
+    public hoverDirective?: LinesHoverDirective<Datum, ExtendedLinesComponent>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverMoveDirective<T, U>,
+    public hoverAndMoveDirective?: LinesHoverMoveDirective<
+      Datum,
+      ExtendedLinesComponent
+    >,
     @Self()
     @Optional()
-    public inputEventDirective?: LinesInputEventDirective<T, U>
+    public inputEventDirective?: LinesInputEventDirective<
+      Datum,
+      ExtendedLinesComponent
+    >
   ) {
     super();
   }
@@ -97,7 +105,7 @@ export class LinesMarkerClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getTooltipData(): VicLinesEventOutput<T> {
+  getTooltipData(): VicLinesEventOutput<Datum> {
     const data = getLinesTooltipDataFromDatum(this.pointIndex, this.lines);
     return data;
   }
@@ -126,13 +134,17 @@ export class LinesMarkerClickDirective<
     this.enableEffect(this.inputEventDirective);
   }
 
-  disableEffect(directive: LinesEventDirective<T, U>): void {
+  disableEffect(
+    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+  ): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
-  enableEffect(directive: LinesEventDirective<T, U>): void {
+  enableEffect(
+    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+  ): void {
     if (directive) {
       directive.preventEffect = false;
       directive.effects.forEach((effect) => effect.removeEffect(directive));

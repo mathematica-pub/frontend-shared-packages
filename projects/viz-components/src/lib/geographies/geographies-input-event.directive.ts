@@ -8,17 +8,21 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
   selector: '[vicGeographiesInputEffects]',
 })
 export class GeographiesInputEventDirective<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEventEffects')
-  effects: InputEventEffect<GeographiesInputEventDirective<T, U>>[];
+  effects: InputEventEffect<
+    GeographiesInputEventDirective<Datum, ExtendedGeographiesComponent>
+  >[];
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<unknown>;
   @Output() inputEventOutput = new EventEmitter<unknown>();
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: U) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 

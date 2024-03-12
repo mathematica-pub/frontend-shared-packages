@@ -10,12 +10,15 @@ import { MapChartComponent } from '../map-chart/map-chart.component';
  * @internal
  */
 @Directive()
-export abstract class MapDataMarksBase<T, U extends VicDataMarksConfig<T>>
-  extends DataMarksBase<T, U>
+export abstract class MapDataMarksBase<
+    Datum,
+    ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>
+  >
+  extends DataMarksBase<Datum, ExtendedDataMarksConfig>
   implements OnInit
 {
   attributeDataScale: any;
-  attributeDataConfig: VicAttributeDataDimensionConfig<T>;
+  attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;
   public override chart = inject(MapChartComponent);
 
   ngOnInit(): void {
