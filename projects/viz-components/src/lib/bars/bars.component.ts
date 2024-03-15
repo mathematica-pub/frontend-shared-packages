@@ -453,7 +453,9 @@ export class BarsComponent
     }
   }
 
-  getBarLabelDominantBaseline(i: number): 'hanging' | 'auto' | 'central' {
+  getBarLabelDominantBaseline(
+    i: number
+  ): 'text-after-edge' | 'text-before-edge' | 'central' {
     if (this.config.dimensions.ordinal === 'x') {
       const value = this.values[this.config.dimensions.quantitative][i];
       if (value) {
@@ -466,10 +468,10 @@ export class BarsComponent
           (isPositiveValue && !placeLabelOutsideBar) ||
           (!isPositiveValue && placeLabelOutsideBar)
         ) {
-          return 'hanging';
+          return 'text-before-edge';
         }
       }
-      return 'auto';
+      return 'text-after-edge';
     }
     return 'central';
   }

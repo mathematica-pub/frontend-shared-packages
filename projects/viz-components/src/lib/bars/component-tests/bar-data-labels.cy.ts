@@ -122,25 +122,27 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   });
 
   describe('when there is not enough vertical space between the bar and chart edge', () => {
-    it('places data label for negative value completely inside the bar', () => {
+    it('places data label for negative value completely inside the bar at the bottom', () => {
       assertPositionOfBarAndDataLabel(
         0,
         (barPosition: DOMRect, labelPosition: DOMRect) => {
           expect(labelPosition.top).to.be.greaterThan(barPosition.top);
           expect(labelPosition.bottom).to.be.lessThan(barPosition.bottom);
-          expect(barPosition.bottom - labelPosition.bottom).to.be.most(
-            labelOffset
-          );
+          expect(
+            Math.round(barPosition.bottom - labelPosition.bottom)
+          ).to.equal(labelOffset);
         }
       );
     });
-    it('places data label for positive value completely inside the bar', () => {
+    it('places data label for positive value completely inside the bar at the top', () => {
       assertPositionOfBarAndDataLabel(
         2,
         (barPosition: DOMRect, labelPosition: DOMRect) => {
           expect(labelPosition.top).to.be.greaterThan(barPosition.top);
           expect(labelPosition.bottom).to.be.lessThan(barPosition.bottom);
-          expect(labelPosition.top - barPosition.top).to.be.most(labelOffset);
+          expect(Math.round(labelPosition.top - barPosition.top)).to.equal(
+            labelOffset
+          );
         }
       );
     });
@@ -163,7 +165,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
             const axisPosition = $axis[0].getBoundingClientRect();
             expect(labelPosition.bottom).to.be.lessThan(axisPosition.bottom);
           });
-          expect(labelPosition.top - barPosition.bottom).to.be.most(
+          expect(Math.round(labelPosition.top - barPosition.bottom)).to.equal(
             labelOffset
           );
         }
@@ -178,7 +180,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
             const axisPosition = $axis[0].getBoundingClientRect();
             expect(labelPosition.top).to.be.greaterThan(axisPosition.top);
           });
-          expect(barPosition.top - labelPosition.bottom).to.be.most(
+          expect(Math.round(barPosition.top - labelPosition.bottom)).to.equal(
             labelOffset
           );
         }
@@ -193,7 +195,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     });
   });
 
-  describe('when the data label corresponds to a falsy value', () => {
+  describe('when the data label is for a falsy value', () => {
     it('offsets data label above scales.x(0)', () => {
       cy.get('.vic-bar-label')
         .eq(4)
@@ -205,13 +207,13 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               const labelPosition = $label[0].getBoundingClientRect();
               const tickPosition = $tick[0].getBoundingClientRect();
               expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-              expect(tickPosition.y - labelPosition.bottom).to.be.most(
-                labelOffset
-              );
+              expect(
+                Math.round(tickPosition.y - labelPosition.bottom)
+              ).to.equal(labelOffset);
             });
         });
     });
-    it('colors falsy data label with the darker default text color', () => {
+    it('colors data label with the darker default text color', () => {
       cy.get('.vic-bar-label').each(($label, i) => {
         if (i === 4) {
           expect($label).to.have.attr('fill', '#000000');
@@ -312,23 +314,25 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   });
 
   describe('when there is not enough horizontal space between the bar and chart edge', () => {
-    it('places data label for negative value completely inside the bar', () => {
+    it('places data label for negative value completely inside the bar to the left', () => {
       assertPositionOfBarAndDataLabel(
         0,
         (barPosition: DOMRect, labelPosition: DOMRect) => {
           expect(labelPosition.left).to.be.greaterThan(barPosition.left);
           expect(labelPosition.right).to.be.lessThan(barPosition.right);
-          expect(labelPosition.left - barPosition.left).to.be.most(labelOffset);
+          expect(Math.round(labelPosition.left - barPosition.left)).to.equal(
+            labelOffset
+          );
         }
       );
     });
-    it('places data label for positive value completely inside the bar', () => {
+    it('places data label for positive value completely inside the bar to the right', () => {
       assertPositionOfBarAndDataLabel(
         2,
         (barPosition: DOMRect, labelPosition: DOMRect) => {
           expect(labelPosition.left).to.be.greaterThan(barPosition.left);
           expect(labelPosition.right).to.be.lessThan(barPosition.right);
-          expect(barPosition.right - labelPosition.right).to.be.most(
+          expect(Math.round(barPosition.right - labelPosition.right)).to.equal(
             labelOffset
           );
         }
@@ -351,9 +355,9 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           expect(labelPosition.right).to.be.lessThan(barPosition.left);
           cy.get('.vic-x.vic-axis-g').then(($axis) => {
             const axisPosition = $axis[0].getBoundingClientRect();
-            expect(labelPosition.left).to.be.greaterThan(axisPosition.right);
+            expect(labelPosition.left).to.be.greaterThan(axisPosition.left);
           });
-          expect(barPosition.left - labelPosition.right).to.be.most(
+          expect(Math.round(barPosition.left - labelPosition.right)).to.equal(
             labelOffset
           );
         }
@@ -368,7 +372,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             const axisPosition = $axis[0].getBoundingClientRect();
             expect(labelPosition.right).to.be.lessThan(axisPosition.right);
           });
-          expect(labelPosition.left - barPosition.right).to.be.most(
+          expect(Math.round(labelPosition.left - barPosition.right)).to.equal(
             labelOffset
           );
         }
@@ -383,7 +387,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     });
   });
 
-  describe('when the data label corresponds to a falsy value', () => {
+  describe('when the data label is for a falsy value', () => {
     it('offsets data label above scales.y(0)', () => {
       cy.get('.vic-bar-label')
         .eq(4)
@@ -395,7 +399,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               const labelPosition = $label[0].getBoundingClientRect();
               const tickPosition = $tick[0].getBoundingClientRect();
               expect(labelPosition.left).to.be.greaterThan(tickPosition.x);
-              expect(labelPosition.left - tickPosition.x).to.be.most(
+              expect(Math.round(labelPosition.left - tickPosition.x)).to.equal(
                 labelOffset
               );
             });

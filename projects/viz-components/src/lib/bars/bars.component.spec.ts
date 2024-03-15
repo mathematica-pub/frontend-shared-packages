@@ -987,27 +987,37 @@ describe('BarsComponent', () => {
       barFitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
     });
     describe('x dimension is ordinal', () => {
-      it('returns hanging if value is positive and bar label does not fit outside bar', () => {
+      it('returns text-before-edge if value is positive and bar label does not fit outside bar', () => {
         barFitsOutsideSpy.and.returnValue(false);
-        expect(component.getBarLabelDominantBaseline(1)).toBe('hanging');
+        expect(component.getBarLabelDominantBaseline(1)).toBe(
+          'text-before-edge'
+        );
       });
-      it('returns hanging if value is negative and bar label fits outside bar', () => {
+      it('returns text-before-edge if value is negative and bar label fits outside bar', () => {
         component.values.y = [1, -2, 3];
         barFitsOutsideSpy.and.returnValue(true);
-        expect(component.getBarLabelDominantBaseline(1)).toBe('hanging');
+        expect(component.getBarLabelDominantBaseline(1)).toBe(
+          'text-before-edge'
+        );
       });
-      it('returns alphabetical if value is positive and bar label fits outside bar', () => {
+      it('returns text-after-edge if value is positive and bar label fits outside bar', () => {
         barFitsOutsideSpy.and.returnValue(true);
-        expect(component.getBarLabelDominantBaseline(1)).toBe('alphabetical');
+        expect(component.getBarLabelDominantBaseline(1)).toBe(
+          'text-after-edge'
+        );
       });
-      it('returns alphabetical if value is negative and bar label does not fit outside bar', () => {
+      it('returns text-after-edge if value is negative and bar label does not fit outside bar', () => {
         component.values.y = [1, -2, 3];
         barFitsOutsideSpy.and.returnValue(false);
-        expect(component.getBarLabelDominantBaseline(1)).toBe('alphabetical');
+        expect(component.getBarLabelDominantBaseline(1)).toBe(
+          'text-after-edge'
+        );
       });
-      it('returns alphabetical if value is undefined', () => {
+      it('returns text-after-edge if value is undefined', () => {
         component.values.y = [1, null, 3];
-        expect(component.getBarLabelDominantBaseline(1)).toBe('alphabetical');
+        expect(component.getBarLabelDominantBaseline(1)).toBe(
+          'text-after-edge'
+        );
       });
     });
 
