@@ -485,7 +485,7 @@ describe('BarsComponent', () => {
       it('calls xScale once and with 0', () => {
         component.values.x = [undefined, 2, 3];
         component.getBarXQuantitative(0);
-        expect(component.scales.x).toHaveBeenCalledOnceWith(-1);
+        expect(component.scales.x).toHaveBeenCalledOnceWith(0);
       });
     });
 
