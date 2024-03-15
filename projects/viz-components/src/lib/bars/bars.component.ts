@@ -387,11 +387,16 @@ export class BarsComponent
   }
 
   getBarHeight(i: number): number {
+    let height: number;
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarHeightQuantitative(i);
+      height = this.getBarHeightQuantitative(i);
     } else {
-      return this.getBarHeightOrdinal();
+      height = this.getBarHeightOrdinal();
     }
+    if (!height || isNaN(height)) {
+      height = 0;
+    }
+    return height;
   }
 
   getBarHeightOrdinal(): number {
