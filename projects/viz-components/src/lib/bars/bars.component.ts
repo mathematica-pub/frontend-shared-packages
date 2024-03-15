@@ -407,7 +407,6 @@ export class BarsComponent
     const origin = this.hasBarsWithNegativeValues
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
-    // return Math.abs(this.scales.y(origin - this.values.y[i]));
     return Math.abs(this.scales.y(origin) - this.scales.y(this.values.y[i]));
   }
 
