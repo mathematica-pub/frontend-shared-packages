@@ -325,7 +325,9 @@ export class BarsComponent
   }
 
   getBarXQuantitative(i: number): number {
-    if (this.hasBarsWithNegativeValues) {
+    if (!this.values.x[i]) {
+      return this.scales.x(0);
+    } else if (this.hasBarsWithNegativeValues) {
       if (this.values.x[i] < 0) {
         return this.scales.x(this.values.x[i]);
       } else {
@@ -353,7 +355,7 @@ export class BarsComponent
   }
 
   getBarYQuantitative(i: number): number {
-    if (this.values.y[i] < 0) {
+    if (this.values.y[i] < 0 || !this.values.y[i]) {
       return this.scales.y(0);
     } else {
       return this.scales.y(this.values.y[i]);
@@ -421,7 +423,7 @@ export class BarsComponent
   getBarLabelText(i: number): string {
     const value = this.values[this.config.dimensions.quantitative][i];
     const datum = this.config.data[i];
-    if (value === null || value === undefined) {
+    if (!value) {
       return this.config.labels.noValueFunction(datum);
     } else if (typeof this.config.quantitative.valueFormat === 'function') {
       return formatValue(datum, this.config.quantitative.valueFormat);
@@ -435,7 +437,7 @@ export class BarsComponent
       return 'middle';
     } else {
       const value = this.values[this.config.dimensions.quantitative][i];
-      if (value === null || value === undefined) {
+      if (!value) {
         return 'start';
       }
       const isPositiveValue = value >= 0;
@@ -451,9 +453,7 @@ export class BarsComponent
     }
   }
 
-  getBarLabelDominantBaseline(
-    i: number
-  ): 'hanging' | 'alphabetical' | 'central' {
+  getBarLabelDominantBaseline(i: number): 'hanging' | 'auto' | 'central' {
     if (this.config.dimensions.ordinal === 'x') {
       const value = this.values[this.config.dimensions.quantitative][i];
       if (value) {
@@ -469,7 +469,7 @@ export class BarsComponent
           return 'hanging';
         }
       }
-      return 'alphabetical';
+      return 'auto';
     }
     return 'central';
   }
@@ -477,7 +477,10 @@ export class BarsComponent
   getBarLabelColor(i: number): string {
     const isPositiveValue =
       this.values[this.config.dimensions.quantitative][i] >= 0;
-    if (this.barLabelFitsOutsideBar(i, isPositiveValue)) {
+    if (
+      this.barLabelFitsOutsideBar(i, isPositiveValue) ||
+      !this.values[this.config.dimensions.quantitative][i]
+    ) {
       return this.config.labels.darkLabelColor;
     } else {
       const barColor = this.getBarColor(i);
@@ -551,8 +554,11 @@ export class BarsComponent
 
   getBarLabelPosition(i: number): number {
     const value = this.values[this.config.dimensions.quantitative][i];
-    if (value === null) {
-      return this.config.labels.offset;
+    if (!value) {
+      return (
+        (this.config.dimensions.ordinal === 'x' ? -1 : 1) *
+        this.config.labels.offset
+      );
     }
     const isPositiveValue = value >= 0;
     const placeLabelOutsideBar = this.barLabelFitsOutsideBar(

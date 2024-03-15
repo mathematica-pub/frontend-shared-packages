@@ -481,6 +481,14 @@ describe('BarsComponent', () => {
       ]);
     });
 
+    describe('when the x value is falsey', () => {
+      it('calls xScale once and with 0', () => {
+        component.values.x = [undefined, 2, 3];
+        component.getBarXQuantitative(0);
+        expect(component.scales.x).toHaveBeenCalledOnceWith(-1);
+      });
+    });
+
     describe('hasBarsWithNegativeValues is true', () => {
       it('calls xScale once and with the correct value if x value is less than zero', () => {
         component.values.x = [-1, 2, 3];
@@ -579,6 +587,12 @@ describe('BarsComponent', () => {
 
     it('calls yScale once with 0 if y value is less than zero', () => {
       component.values.y = [-1, 2, 3];
+      component.getBarYQuantitative(0);
+      expect(component.scales.y).toHaveBeenCalledOnceWith(0);
+    });
+
+    it('calls yScale once with 0 if y value is falsey', () => {
+      component.values.y = [undefined, 2, 3];
       component.getBarYQuantitative(0);
       expect(component.scales.y).toHaveBeenCalledOnceWith(0);
     });
@@ -1017,16 +1031,26 @@ describe('BarsComponent', () => {
         dimensions: { quantitative: 'x' },
       } as any;
       component.config.labels = new VicBarsLabelsConfig();
-      component.values.x = [1, 2, 3];
+      component.values.x = [1, 2, 3, undefined];
     });
 
-    it('calls getBarLabelColor once', () => {
+    it('calls barLabelFitsOutsideBar once', () => {
       component.getBarLabelColor(1);
       expect(barLabelFitsOutsideBarSpy).toHaveBeenCalledOnceWith(1, true);
     });
-    it('returns the dark label color if the label fits outside of the bar', () => {
-      barLabelFitsOutsideBarSpy.and.returnValue(true);
-      expect(component.getBarLabelColor(1)).toBe('#000000');
+
+    describe('if the bar label fits outside the bar', () => {
+      it('returns the dark label color', () => {
+        barLabelFitsOutsideBarSpy.and.returnValue(true);
+        expect(component.getBarLabelColor(1)).toBe('#000000');
+      });
+    });
+
+    describe('if the data value is falsey', () => {
+      it('returns the dark label color', () => {
+        barLabelFitsOutsideBarSpy.and.returnValue(false);
+        expect(component.getBarLabelColor(3)).toBe('#000000');
+      });
     });
 
     describe('if the label does not fit outside the bar', () => {
