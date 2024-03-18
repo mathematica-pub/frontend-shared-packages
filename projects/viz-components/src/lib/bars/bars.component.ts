@@ -440,44 +440,47 @@ export class BarsComponent
     if (this.config.dimensions.ordinal === 'x') {
       return 'middle';
     } else {
-      const value = this.values[this.config.dimensions.quantitative][i];
-      if (!value) {
-        return 'start';
-      }
-      const isPositiveValue = value >= 0;
-      const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
-        i,
-        isPositiveValue
-      );
-      if (isPositiveValue) {
-        return placeLabelOutsideBar ? 'start' : 'end';
-      } else {
-        return placeLabelOutsideBar ? 'end' : 'start';
-      }
+      return this.getTextAlignment(i, 'start', 'end');
     }
   }
 
   getBarLabelDominantBaseline(
     i: number
   ): 'text-after-edge' | 'text-before-edge' | 'central' {
-    if (this.config.dimensions.ordinal === 'x') {
-      const value = this.values[this.config.dimensions.quantitative][i];
-      if (value) {
-        const isPositiveValue = value >= 0;
-        const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
-          i,
-          isPositiveValue
-        );
-        if (
-          (isPositiveValue && !placeLabelOutsideBar) ||
-          (!isPositiveValue && placeLabelOutsideBar)
-        ) {
-          return 'text-before-edge';
-        }
-      }
-      return 'text-after-edge';
+    if (this.config.dimensions.ordinal === 'y') {
+      return 'central';
+    } else {
+      return this.getTextAlignment(i, 'text-after-edge', 'text-before-edge');
     }
-    return 'central';
+  }
+
+  getTextAlignment<A, B>(
+    i: number,
+    alignmentInPositiveDirection: A,
+    alignmentInNegativeDirection: B
+  ): A | B {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    if (!value) {
+      if (this.hasAllOmittedOrSomePositiveValues()) {
+        return alignmentInPositiveDirection;
+      } else {
+        return alignmentInNegativeDirection;
+      }
+    }
+    const isPositiveValue = value >= 0;
+    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
+      i,
+      isPositiveValue
+    );
+    if (placeLabelOutsideBar) {
+      return isPositiveValue
+        ? alignmentInPositiveDirection
+        : alignmentInNegativeDirection;
+    } else {
+      return isPositiveValue
+        ? alignmentInNegativeDirection
+        : alignmentInPositiveDirection;
+    }
   }
 
   getBarLabelColor(i: number): string {
@@ -561,21 +564,30 @@ export class BarsComponent
   getBarLabelPosition(i: number): number {
     const value = this.values[this.config.dimensions.quantitative][i];
     if (!value) {
-      return (
-        (this.config.dimensions.ordinal === 'x' ? -1 : 1) *
-        this.config.labels.offset
+      return this.getBarLabelPositionForOmittedValue();
+    } else {
+      const isPositiveValue = value >= 0;
+      const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
+        i,
+        isPositiveValue
+      );
+      return this.getBarLabelPositionWithOffset(
+        i,
+        isPositiveValue,
+        placeLabelOutsideBar
       );
     }
-    const isPositiveValue = value >= 0;
-    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
-      i,
-      isPositiveValue
-    );
-    return this.getBarLabelPositionWithOffset(
-      i,
-      isPositiveValue,
-      placeLabelOutsideBar
-    );
+  }
+
+  getBarLabelPositionForOmittedValue(): number {
+    const hasAllOmittedOrSomePositiveValues =
+      this.hasAllOmittedOrSomePositiveValues();
+    return (hasAllOmittedOrSomePositiveValues &&
+      this.config.dimensions.ordinal === 'y') ||
+      (!hasAllOmittedOrSomePositiveValues &&
+        this.config.dimensions.ordinal === 'x')
+      ? this.config.labels.offset
+      : -this.config.labels.offset;
   }
 
   getBarLabelPositionWithOffset(
@@ -584,7 +596,6 @@ export class BarsComponent
     placeLabelOutsideBar: boolean
   ): number {
     const origin = this.getBarLabelOrigin(i, isPositiveValue);
-
     if (
       (this.config.dimensions.ordinal === 'x' && placeLabelOutsideBar) ||
       (this.config.dimensions.ordinal === 'y' && !placeLabelOutsideBar)
@@ -613,6 +624,15 @@ export class BarsComponent
         return !barDimension || isNaN(barDimension) ? 0 : barDimension;
       } else return 0;
     }
+  }
+
+  hasAllOmittedOrSomePositiveValues(): boolean {
+    return (
+      this.values[this.config.dimensions.quantitative].every((x) => !x) ||
+      this.values[this.config.dimensions.quantitative].some(
+        (x) => !!x && x >= 0
+      )
+    );
   }
 
   updateBarElements(): void {
