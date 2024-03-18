@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Topology } from 'topojson-specification';
+import { Observable, map } from 'rxjs';
+import { UsMapTopology } from '../services/basemap';
 
 @Injectable({ providedIn: 'root' })
 export class DataResource {
   constructor(private http: HttpClient) {}
 
-  getBasemap(): Observable<Topology> {
-    return this.http.get('assets/example-data/usMap.json', {
-      responseType: 'json',
-    }) as Observable<Topology>;
+  getBasemap(): Observable<UsMapTopology> {
+    return this.http
+      .get('assets/example-data/usMap.json')
+      .pipe(map((response) => response as UsMapTopology));
   }
 
   getMetroUnemploymentData(): Observable<any> {

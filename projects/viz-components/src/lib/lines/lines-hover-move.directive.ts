@@ -5,8 +5,8 @@ import { least } from 'd3';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
-  getLinesTooltipDataFromDatum,
   VicLinesEventOutput,
+  getLinesTooltipDataFromDatum,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
 
@@ -14,18 +14,22 @@ import { LINES, LinesComponent } from './lines.component';
   selector: '[vicLinesHoverMoveEffects]',
 })
 export class LinesHoverMoveDirective<
-  T extends LinesComponent = LinesComponent
+  Datum,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicLinesHoverMoveEffects')
-  effects: HoverMoveEventEffect<LinesHoverMoveDirective<T>>[];
-  @Output('vicLinesHoverMoveOutput') eventOutput =
-    new EventEmitter<VicLinesEventOutput>();
+  effects: HoverMoveEventEffect<
+    LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+  >[];
+  @Output('vicLinesHoverMoveOutput') eventOutput = new EventEmitter<
+    VicLinesEventOutput<Datum>
+  >();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
   effectApplied = false;
 
-  constructor(@Inject(LINES) public lines: LinesComponent) {
+  constructor(@Inject(LINES) public lines: ExtendedLinesComponent) {
     super();
   }
 
@@ -131,7 +135,7 @@ export class LinesHoverMoveDirective<
     }
   }
 
-  getEventOutput(): VicLinesEventOutput {
+  getEventOutput(): VicLinesEventOutput<Datum> {
     const data = getLinesTooltipDataFromDatum(
       this.closestPointIndex,
       this.lines

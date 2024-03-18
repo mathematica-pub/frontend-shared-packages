@@ -15,12 +15,11 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
 
     setAxis(axisFunction: any): void {
       const tickFormat = this.config.tickFormat || this.defaultTickFormat;
-
       this.axis = axisFunction(this.scale);
       this.setTicks(tickFormat);
     }
 
-    setTicks(tickFormat: string | ((value: any) => string)): void {
+    setTicks(tickFormat: string | ((value: number | Date) => string)): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
       } else {

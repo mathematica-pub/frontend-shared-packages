@@ -1,5 +1,3 @@
-/* eslint-disable @angular-eslint/no-input-rename */
-// eslint-disable @angular-eslint/no-input-rename
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
@@ -10,18 +8,25 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
   selector: '[vicGeographiesInputEffects]',
 })
 export class GeographiesInputEventDirective<
-  T extends GeographiesComponent = GeographiesComponent
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > extends InputEventDirective {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEventEffects')
-  effects: InputEventEffect<GeographiesInputEventDirective<T>>[];
-  @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<any>;
-  @Output() inputEventOutput = new EventEmitter<any>();
+  effects: InputEventEffect<
+    GeographiesInputEventDirective<Datum, ExtendedGeographiesComponent>
+  >[];
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<unknown>;
+  @Output() inputEventOutput = new EventEmitter<unknown>();
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 
-  handleNewEvent(inputEvent: any): void {
+  handleNewEvent(inputEvent: unknown): void {
     if (inputEvent) {
       this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
     } else {

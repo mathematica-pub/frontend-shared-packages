@@ -26,10 +26,9 @@ import {
   filter,
   map,
 } from 'rxjs';
-import * as topojson from 'topojson-client';
-import { Topology } from 'topojson-specification';
 import { colors } from '../core/constants/colors.constants';
 import { StateIncomeDatum } from '../core/models/data';
+import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
 
@@ -46,7 +45,9 @@ type ScaleType =
   styleUrls: ['./geographies-example.component.scss'],
 })
 export class GeographiesExampleComponent implements OnInit {
-  dataMarksConfig$: Observable<VicGeographiesConfig>;
+  dataMarksConfig$: Observable<
+    VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties>
+  >;
   width = 700;
   height = 400;
   margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
@@ -56,10 +57,10 @@ export class GeographiesExampleComponent implements OnInit {
       new VicHtmlTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicGeographiesEventOutput> =
-    new BehaviorSubject<VicGeographiesEventOutput>(null);
+  tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
+    new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: EventEffect<GeographiesHoverDirective>[] = [
+  hoverEffects: EventEffect<GeographiesHoverDirective<StateIncomeDatum>>[] = [
     new GeographiesHoverEmitTooltipData(),
   ];
   patternName = 'dotPattern';
@@ -67,7 +68,7 @@ export class GeographiesExampleComponent implements OnInit {
   selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
   selectedYear$ = this.selectedYear.asObservable();
 
-  clickEffects: EventEffect<GeographiesClickDirective>[] = [
+  clickEffects: EventEffect<GeographiesClickDirective<StateIncomeDatum>>[] = [
     new GeographiesClickEmitTooltipDataPauseHoverMoveEffects(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
@@ -88,38 +89,39 @@ export class GeographiesExampleComponent implements OnInit {
       map((data) => data.filter((x) => x.state !== 'Texas'))
     );
 
-    this.dataMarksConfig$ = combineLatest([
-      filteredData$,
-      this.basemap.map$,
-    ]).pipe(
-      filter(([data, map]) => !!data && !!map),
-      map(([data, map]) => this.getDataMarksConfig(data, map))
+    this.dataMarksConfig$ = filteredData$.pipe(
+      filter((data, map) => !!data),
+      map((data) => this.getDataMarksConfig(data))
     );
   }
 
   getDataMarksConfig(
-    data: StateIncomeDatum[],
-    map: Topology
-  ): VicGeographiesConfig {
-    const config = new VicGeographiesConfig();
+    data: StateIncomeDatum[]
+  ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
+    const config = new VicGeographiesConfig<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >();
     config.data = data;
     config.boundary = this.basemap.us;
-    const noDataStatesConfig = this.getNoDataGeographyStatesFeatures(map, data);
+    const noDataStatesConfig = this.getNoDataGeographyStatesFeatures(data);
     config.noDataGeographiesConfigs = [
       this.basemap.usOutlineConfig,
       noDataStatesConfig,
     ];
-    config.dataGeographyConfig = this.getDataGeographyConfig(map, data);
+    config.dataGeographyConfig = this.getDataGeographyConfig(data);
     return config;
   }
 
   getDataGeographyConfig(
-    map: Topology,
     data: StateIncomeDatum[]
-  ): VicDataGeographyConfig {
-    const config = new VicDataGeographyConfig();
-    config.geographies = this.getDataGeographyFeatures(map, data);
-    config.valueAccessor = (d) => d.properties['name'];
+  ): VicDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
+    const config = new VicDataGeographyConfig<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >();
+    config.geographies = this.getDataGeographyFeatures(data);
+    config.featureIndexAccessor = (properties) => properties.name;
     config.attributeDataConfig =
       new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
@@ -140,40 +142,39 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   getNoDataGeographyStatesFeatures(
-    map: Topology,
     data: StateIncomeDatum[]
   ): VicNoDataGeographyConfig {
     const statesInData = data.map((x) => x.state);
-    const features = topojson
-      .feature(map, map.objects['states'])
-      ['features'].filter((x) => !statesInData.includes(x.properties.name));
+    const features = this.basemap.states.features.filter(
+      (x) => !statesInData.includes(x.properties.name)
+    );
     return new VicNoDataGeographyConfig({
       geographies: features,
       patternName: this.patternName,
     });
   }
 
-  getDataGeographyFeatures(map: Topology, data: StateIncomeDatum[]): any {
+  getDataGeographyFeatures(data: StateIncomeDatum[]): any {
     const statesInData = data.map((x) => x.state);
-    return topojson
-      .feature(map, map.objects['states'])
-      ['features'].filter((x) => statesInData.includes(x.properties.name));
+    return this.basemap.states.features.filter((x) =>
+      statesInData.includes(x.properties.name)
+    );
   }
 
   updateTooltipForNewOutput(
-    data: VicGeographiesEventOutput,
+    data: VicGeographiesEventOutput<StateIncomeDatum>,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: VicGeographiesEventOutput): void {
+  updateTooltipData(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: VicGeographiesEventOutput,
+    data: VicGeographiesEventOutput<StateIncomeDatum>,
     eventContext: 'hover' | 'click'
   ): void {
     const config = new VicHtmlTooltipConfig();

@@ -4,8 +4,8 @@ import { ViewContainerRef } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { DataMarks } from '../../data-marks/data-marks';
 import { DATA_MARKS } from '../../data-marks/data-marks.token';
+import { DataMarksBaseStub } from '../../testing/stubs/data-marks-base.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfig } from './html-tooltip.config';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
@@ -25,7 +25,7 @@ describe('HtmlTooltipDirective', () => {
         HtmlTooltipDirective,
         {
           provide: DATA_MARKS,
-          useClass: DataMarks,
+          useClass: DataMarksBaseStub,
         },
         {
           provide: Overlay,

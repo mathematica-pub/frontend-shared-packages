@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   InjectionToken,
-  Input,
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
@@ -21,14 +20,14 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { VicVariableType } from '../core/types/variable-type';
-import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapDataMarksBase } from '../map-chart/map-data-marks-base';
+import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
   VicDataGeographyConfig,
+  VicGeoJsonDefaultProperty,
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
   VicValuesBin,
@@ -41,7 +40,7 @@ export class MapDataValues {
   geoJsonGeographies: any[];
 }
 
-export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
+export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
   'GeographiesComponent'
 );
 @Component({
@@ -63,11 +62,13 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
     },
   ],
 })
-export class GeographiesComponent
-  extends MapDataMarksBase
-  implements DataMarks
-{
-  @Input() config: VicGeographiesConfig;
+export class GeographiesComponent<
+  Datum,
+  GeoJsonProperties extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
+> extends MapDataMarksBase<
+  Datum,
+  VicGeographiesConfig<Datum, GeoJsonProperties>
+> {
   map: any;
   projection: any;
   path: any;
@@ -81,7 +82,8 @@ export class GeographiesComponent
     super();
   }
 
-  initFromConfig(): void {
+  override initFromConfig(): void {
+    this.setConfig();
     this.setPropertiesFromConfig();
     this.setPropertiesFromRanges();
     this.drawMarks();
@@ -113,12 +115,13 @@ export class GeographiesComponent
     this.values.indexMap = new InternMap(
       this.values.attributeDataGeographies.map((name, i) => [name, i])
     );
-    this.values.geoJsonGeographies = map(
-      this.config.dataGeographyConfig.geographies,
-      this.config.dataGeographyConfig.valueAccessor
-    ).map((x) => {
-      return typeof x === 'string' ? x.toLowerCase() : x;
-    });
+    this.values.geoJsonGeographies = this.config.dataGeographyConfig.geographies
+      .map((feature) =>
+        this.config.dataGeographyConfig.featureIndexAccessor(feature.properties)
+      )
+      .map((x) => {
+        return typeof x === 'string' ? x.toLowerCase() : x;
+      });
   }
 
   initAttributeDataScaleDomain(): void {
@@ -351,7 +354,10 @@ export class GeographiesComponent
 
     this.map
       .selectAll('path')
-      .data((layer: VicDataGeographyConfig) => layer.geographies)
+      .data(
+        (layer: VicDataGeographyConfig<Datum, GeoJsonProperties>) =>
+          layer.geographies
+      )
       .join(
         (enter) => {
           enter = enter.append('path');

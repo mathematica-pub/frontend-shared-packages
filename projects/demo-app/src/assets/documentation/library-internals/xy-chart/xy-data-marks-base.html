@@ -28,7 +28,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts</code>
+            <code>projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts</code>
         </p>
 
 
@@ -37,14 +37,13 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a " target="_self" >Unsubscribe</a></code>
+                        <code><a " target="_self" >DataMarksBase</a></code>
             </p>
 
             <p class="comment">
                 <h3>Implements</h3>
             </p>
             <p class="comment">
-                            <code><a href="https://angular.io/api/core/OnChanges" target="_blank" >OnChanges</a></code>
                             <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
             </p>
 
@@ -64,10 +63,8 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#chart" >chart</a>
-                            </li>
-                            <li>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ranges" >ranges</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#requiredScales" >requiredScales</a>
@@ -80,7 +77,16 @@
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#utilities" >utilities</a>
                             </li>
                             <li>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#unsubscribe" >unsubscribe</a>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#values" >values</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#config" >config</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#destroyRef" >destroyRef</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ranges" >ranges</a>
                             </li>
                         </ul>
                     </td>
@@ -95,31 +101,13 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#drawMarks" >drawMarks</a>
-                            </li>
-                            <li>
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#getTransitionDuration" >getTransitionDuration</a>
-                            </li>
-                            <li>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#initFromConfig" >initFromConfig</a>
-                            </li>
-                            <li>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnChanges" >ngOnChanges</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnInit" >ngOnInit</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#resizeMarks" >resizeMarks</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setChartScalesFromRanges" >setChartScalesFromRanges</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Abstract</span>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setPropertiesFromConfig" >setPropertiesFromConfig</a>
                             </li>
                             <li>
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setRequiredChartScales" >setRequiredChartScales</a>
@@ -131,12 +119,57 @@
                                 <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#subscribeToScales" >subscribeToScales</a>
                             </li>
                             <li>
-                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnDestroy" >ngOnDestroy</a>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#assignValue" >assignValue</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#deepCloneObject" >deepCloneObject</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#drawMarks" >drawMarks</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#initFromConfig" >initFromConfig</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnChanges" >ngOnChanges</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setConfig" >setConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setPropertiesFromConfig" >setPropertiesFromConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setPropertiesFromRanges" >setPropertiesFromRanges</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Abstract</span>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setValueArrays" >setValueArrays</a>
+                            </li>
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#structuredCloneValue" >structuredCloneValue</a>
                             </li>
                         </ul>
                     </td>
                 </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#config" >config</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
 
 
@@ -146,7 +179,37 @@
 </section>
 
 
+            <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="config"></a>
+                        <b>config</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>U</code>
 
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4" colspan="2">
+                                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:23</a></code>
+</div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
 
 
 
@@ -155,6 +218,407 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getTransitionDuration"></a>
+                    <span class="name">
+                        <span ><b>getTransitionDuration</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#getTransitionDuration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getTransitionDuration()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:73</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <span ><b>ngOnInit</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:28</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resizeMarks"></a>
+                    <span class="name">
+                        <span ><b>resizeMarks</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#resizeMarks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resizeMarks()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:69</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setRequiredChartScales"></a>
+                    <span class="name">
+                        <span ><b>setRequiredChartScales</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setRequiredChartScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setRequiredChartScales()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToRanges"></a>
+                    <span class="name">
+                        <span ><b>subscribeToRanges</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToRanges()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="subscribeToScales"></a>
+                    <span class="name">
+                        <span ><b>subscribeToScales</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#subscribeToScales"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>subscribeToScales()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:57</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="assignValue"></a>
+                    <span class="name">
+                        <span ><b>assignValue</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#assignValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>assignValue(newObj: Record<string | >, key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:77</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newObj</td>
+                                    <td>
+                                            <code>Record&lt;string | &gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="deepCloneObject"></a>
+                    <span class="name">
+                        <span ><b>deepCloneObject</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#deepCloneObject"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>deepCloneObject(object: Record<string | >)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:58</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>object</td>
+                                    <td>
+                                            <code>Record&lt;string | &gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Record&lt;string, &gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -177,8 +641,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:34</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:30</a></code>
+</div>
                 </td>
             </tr>
 
@@ -188,43 +658,6 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="getTransitionDuration"></a>
-                    <span class="name">
-                        <span ><b>getTransitionDuration</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#getTransitionDuration"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>getTransitionDuration()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:92</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
 
                     </div>
                 </td>
@@ -251,8 +684,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:51</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:46</a></code>
+</div>
                 </td>
             </tr>
 
@@ -288,8 +727,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:36</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:33</a></code>
+</div>
                 </td>
             </tr>
 
@@ -341,24 +786,30 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ngOnInit"></a>
+                    <a name="setConfig"></a>
                     <span class="name">
-                        <span ><b>ngOnInit</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setConfig</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>ngOnInit()</code>
+<code>setConfig()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:44</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:52</a></code>
+</div>
                 </td>
             </tr>
 
@@ -378,63 +829,77 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="resizeMarks"></a>
-                    <span class="name">
-                        <span ><b>resizeMarks</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#resizeMarks"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>resizeMarks()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:88</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setChartScalesFromRanges"></a>
+                    <a name="setPropertiesFromConfig"></a>
                     <span class="name">
                         <span class="modifier">Abstract</span>
-                        <span ><b>setChartScalesFromRanges</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setChartScalesFromRanges"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setPropertiesFromConfig</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setPropertiesFromConfig"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setChartScalesFromRanges(useTransition: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>setPropertiesFromConfig()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:33</a></div>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:27</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setPropertiesFromRanges"></a>
+                    <span class="name">
+                        <span class="modifier">Abstract</span>
+                        <span ><b>setPropertiesFromRanges</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setPropertiesFromRanges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>setPropertiesFromRanges(useTransition: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:28</a></code>
+</div>
                 </td>
             </tr>
 
@@ -486,179 +951,31 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="setPropertiesFromConfig"></a>
+                    <a name="setValueArrays"></a>
                     <span class="name">
                         <span class="modifier">Abstract</span>
-                        <span ><b>setPropertiesFromConfig</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setPropertiesFromConfig"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>setValueArrays</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setValueArrays"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>setPropertiesFromConfig()</code>
+                    <code>setValueArrays()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:32</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="setRequiredChartScales"></a>
-                    <span class="name">
-                        <span ><b>setRequiredChartScales</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#setRequiredChartScales"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>setRequiredChartScales()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:56</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="subscribeToRanges"></a>
-                    <span class="name">
-                        <span ><b>subscribeToRanges</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#subscribeToRanges"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>subscribeToRanges()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:64</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="subscribeToScales"></a>
-                    <span class="name">
-                        <span ><b>subscribeToScales</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#subscribeToScales"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>subscribeToScales()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:76</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ngOnDestroy"></a>
-                    <span class="name">
-                        <span ><b>ngOnDestroy</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>ngOnDestroy()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a " target="_self" >Unsubscribe</a></code>
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a #source" target="_self" >Unsubscribe:11</a></code>
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:29</a></code>
 </div>
                 </td>
             </tr>
@@ -670,6 +987,104 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="structuredCloneValue"></a>
+                    <span class="name">
+                        <span ><b>structuredCloneValue</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#structuredCloneValue"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>structuredCloneValue(newObj: Record<string | >, key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:85</a></code>
+</div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>newObj</td>
+                                    <td>
+                                            <code>Record&lt;string | &gt;</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -688,6 +1103,7 @@
                     <a name="chart"></a>
                     <span class="name">
                             <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                         <span ><b>chart</b></span>
                         <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#chart"><span class="icon ion-ios-link"></span></a>
                     </span>
@@ -698,35 +1114,16 @@
                         <i>Default value : </i><code>inject(XyChartComponent)</code>
                     </td>
                 </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:29</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="ranges"></a>
-                    <span class="name">
-                        <span ><b>ranges</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ranges"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
-
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:26</a></div>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:25</a></code>
+</div>
                         </td>
                     </tr>
 
@@ -752,7 +1149,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -778,7 +1175,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:22</a></div>
                         </td>
                     </tr>
 
@@ -804,7 +1201,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/viz-components/src/lib/xy-chart/xy-data-marks-base.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -815,33 +1212,124 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="unsubscribe"></a>
+                    <a name="values"></a>
                     <span class="name">
-                        <span ><b>unsubscribe</b></span>
-                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#unsubscribe"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>values</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#values"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Subject&lt;void&gt;</code>
+                        <i>Type : </i>        <code><a " target="_self" >XyDataMarksValues</a></code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new Subject()</code>
+                        <i>Default value : </i><code>new XyDataMarksValues()</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/viz-components/src/lib/xy-data-marks/xy-data-marks-base.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="config"></a>
+                    <span class="name">
+                        <span ><b>config</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#config"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>    <code>U</code>
+
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Inherited from         <code><a " target="_self" >Unsubscribe</a></code>
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
 </div>
                             </td>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a #source" target="_self" >Unsubscribe:9</a></code>
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:24</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="destroyRef"></a>
+                    <span class="name">
+                        <span ><b>destroyRef</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#destroyRef"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>inject(DestroyRef)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:25</a></code>
+</div>
+                        </td>
+                    </tr>
+
+
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ranges"></a>
+                    <span class="name">
+                        <span ><b>ranges</b></span>
+                        <a href="documentation/./library-internals/xy-chart/xy-data-marks-base#ranges"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a " target="_self" >Ranges</a></code>
+
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Inherited from         <code><a " target="_self" >DataMarksBase</a></code>
+</div>
+                            </td>
+                        </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-line">Defined in         <code><a #source" target="_self" >DataMarksBase:21</a></code>
 </div>
                         </td>
                     </tr>
@@ -856,59 +1344,38 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  Directive,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  inject,
-} from &#x27;@angular/core&#x27;;
-import { filter, takeUntil } from &#x27;rxjs&#x27;;
-import { Ranges } from &#x27;../chart/chart.component&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, OnInit, inject } from &#x27;@angular/core&#x27;;
+import { takeUntilDestroyed } from &#x27;@angular/core/rxjs-interop&#x27;;
+import { filter } from &#x27;rxjs&#x27;;
 import { UtilitiesService } from &#x27;../core/services/utilities.service&#x27;;
-import { Unsubscribe } from &#x27;../shared/unsubscribe.class&#x27;;
+import { DataMarksBase } from &#x27;../data-marks/data-marks-base&#x27;;
+import { VicDataMarksConfig } from &#x27;../data-marks/data-marks.config&#x27;;
 import {
   XyChartComponent,
   XyChartScales,
   XyContentScale,
-} from &#x27;./xy-chart.component&#x27;;
+} from &#x27;../xy-chart/xy-chart.component&#x27;;
+import { XyDataMarksValues } from &#x27;./xy-data-marks&#x27;;
 
 /**
  * @internal
  */
 @Directive()
-export abstract class XyDataMarksBase
-  extends Unsubscribe
-  implements OnChanges, OnInit
+export abstract class XyDataMarksBase&lt;T, U extends VicDataMarksConfig&lt;T&gt;&gt;
+  extends DataMarksBase&lt;T, U&gt;
+  implements OnInit
 {
-  ranges: Ranges;
   scales: XyChartScales;
   requiredScales: (keyof typeof XyContentScale)[];
-  public chart &#x3D; inject(XyChartComponent);
+  values: XyDataMarksValues &#x3D; new XyDataMarksValues();
+  public override chart &#x3D; inject(XyChartComponent);
   protected utilities &#x3D; inject(UtilitiesService);
-
-  abstract setPropertiesFromConfig(): void;
-  abstract setChartScalesFromRanges(useTransition: boolean): void;
-  abstract drawMarks(): void;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      this.utilities.objectOnNgChangesChangedNotFirstTime(changes, &#x27;config&#x27;)
-    ) {
-      this.initFromConfig();
-    }
-  }
 
   ngOnInit(): void {
     this.setRequiredChartScales();
     this.subscribeToRanges();
     this.subscribeToScales();
     this.initFromConfig();
-  }
-
-  initFromConfig(): void {
-    this.setPropertiesFromConfig();
-    this.setChartScalesFromRanges(true);
   }
 
   setRequiredChartScales(): void {
@@ -920,21 +1387,23 @@ export abstract class XyDataMarksBase
   }
 
   subscribeToRanges(): void {
-    this.chart.ranges$.pipe(takeUntil(this.unsubscribe)).subscribe((ranges) &#x3D;&gt; {
-      this.ranges &#x3D; ranges;
-      if (
-        this.scales &amp;&amp;
-        this.requiredScales.every((scale) &#x3D;&gt; this.scales[scale])
-      ) {
-        this.resizeMarks();
-      }
-    });
+    this.chart.ranges$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((ranges) &#x3D;&gt; {
+        this.ranges &#x3D; ranges;
+        if (
+          this.scales &amp;&amp;
+          this.requiredScales.every((scale) &#x3D;&gt; this.scales[scale])
+        ) {
+          this.resizeMarks();
+        }
+      });
   }
 
   subscribeToScales(): void {
     this.chart.scales$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef),
         filter((scales) &#x3D;&gt; !!scales)
       )
       .subscribe((scales): void &#x3D;&gt; {
@@ -944,7 +1413,7 @@ export abstract class XyDataMarksBase
   }
 
   resizeMarks(): void {
-    this.setChartScalesFromRanges(false);
+    this.setPropertiesFromRanges(false);
   }
 
   getTransitionDuration(): number {
