@@ -1,6 +1,7 @@
 import { select } from 'd3';
 import { EventEffect } from '../events/effect';
 import { LinesMarkerClickDirective } from './lines-marker-click.directive';
+import { LinesComponent } from './lines.component';
 
 export class LinesMarkerClickDefaultStylesConfig {
   growMarkerDimension: number;
@@ -11,14 +12,19 @@ export class LinesMarkerClickDefaultStylesConfig {
   }
 }
 
-export class LinesMarkerClickEmitTooltipData
-  implements EventEffect<LinesMarkerClickDirective>
+export class LinesMarkerClickEmitTooltipData<
+  Datum,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+> implements
+    EventEffect<LinesMarkerClickDirective<Datum, ExtendedLinesComponent>>
 {
   constructor(private config?: LinesMarkerClickDefaultStylesConfig) {
     this.config = config ?? new LinesMarkerClickDefaultStylesConfig();
   }
 
-  applyEffect(directive: LinesMarkerClickDirective) {
+  applyEffect(
+    directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
+  ) {
     const tooltipData = directive.getTooltipData();
     directive.preventHoverEffects();
     select(directive.el)
@@ -32,7 +38,9 @@ export class LinesMarkerClickEmitTooltipData
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesMarkerClickDirective) {
+  removeEffect(
+    directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
+  ) {
     select(directive.el).attr(
       'r',
       (d): number => directive.lines.config.pointMarkers.radius

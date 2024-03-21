@@ -98,15 +98,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>applyEffect(directive: <a href="documentation/data-marks-components/bars/events/bars-hover" target="_self">BarsHoverDirective</a>)</code>
+<code>applyEffect(directive: BarsHoverDirective<T | U>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="5"
-                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-effects.ts:5</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-effects.ts:10</a></div>
                 </td>
             </tr>
 
@@ -129,7 +129,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a href="documentation/data-marks-components/bars/events/bars-hover" target="_self" >BarsHoverDirective</a></code>
+                                            <code>BarsHoverDirective&lt;T | U&gt;</code>
                                     </td>
 
                                     <td>
@@ -167,15 +167,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeEffect(directive: <a href="documentation/data-marks-components/bars/events/bars-hover" target="_self">BarsHoverDirective</a>)</code>
+<code>removeEffect(directive: BarsHoverDirective<T | U>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-effects.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/viz-components/src/lib/bars/bars-hover-effects.ts:17</a></div>
                 </td>
             </tr>
 
@@ -198,7 +198,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a href="documentation/data-marks-components/bars/events/bars-hover" target="_self" >BarsHoverDirective</a></code>
+                                            <code>BarsHoverDirective&lt;T | U&gt;</code>
                                     </td>
 
                                     <td>
@@ -235,16 +235,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { EventEffect } from &#x27;../events/effect&#x27;;
 import { BarsHoverDirective } from &#x27;./bars-hover.directive&#x27;;
+import { BarsComponent } from &#x27;./bars.component&#x27;;
 
-export class BarsHoverShowLabels implements EventEffect&lt;BarsHoverDirective&gt; {
-  applyEffect(directive: BarsHoverDirective): void {
+export class BarsHoverShowLabels&lt;
+  T,
+  U extends BarsComponent&lt;T&gt; &#x3D; BarsComponent&lt;T&gt;
+&gt; implements EventEffect&lt;BarsHoverDirective&lt;T, U&gt;&gt;
+{
+  applyEffect(directive: BarsHoverDirective&lt;T, U&gt;): void {
     directive.bars.barGroups
       .filter((d) &#x3D;&gt; d &#x3D;&#x3D;&#x3D; directive.barIndex)
       .select(&#x27;text&#x27;)
       .style(&#x27;display&#x27;, null);
   }
 
-  removeEffect(directive: BarsHoverDirective): void {
+  removeEffect(directive: BarsHoverDirective&lt;T, U&gt;): void {
     directive.bars.barGroups
       .filter((d) &#x3D;&gt; d &#x3D;&#x3D;&#x3D; directive.barIndex)
       .select(&#x27;text&#x27;)

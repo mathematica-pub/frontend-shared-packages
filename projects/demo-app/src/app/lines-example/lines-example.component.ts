@@ -41,7 +41,7 @@ import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
-  dataConfig: VicLinesConfig;
+  dataConfig: VicLinesConfig<MetroUnemploymentDatum>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
   labels: string[];
@@ -75,15 +75,17 @@ export class LinesExampleComponent implements OnInit {
       new LinesExampleTooltipConfig({ show: false })
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicLinesEventOutput> =
-    new BehaviorSubject<VicLinesEventOutput>(null);
+  tooltipData: BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
   highlightLineForLabelEffect = new HighlightLineForLabel();
-  hoverEffects: HoverMoveEventEffect<LinesHoverMoveDirective>[] = [
+  hoverEffects: HoverMoveEventEffect<
+    LinesHoverMoveDirective<MetroUnemploymentDatum>
+  >[] = [
     new LinesHoverMoveDefaultStyles(
       new LinesHoverMoveDefaultStylesConfig({
         growMarkerDimension: 3,
@@ -91,7 +93,7 @@ export class LinesExampleComponent implements OnInit {
     ),
     new LinesHoverMoveEmitTooltipData(),
   ];
-  clickEffects: EventEffect<LinesClickDirective>[] = [
+  clickEffects: EventEffect<LinesClickDirective<MetroUnemploymentDatum>>[] = [
     new LinesClickEmitTooltipDataPauseHoverMoveEffects(),
   ];
   includeFiles = includeFiles;
@@ -122,7 +124,7 @@ export class LinesExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicLinesConfig();
+    const dataConfig = new VicLinesConfig<MetroUnemploymentDatum>();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.x.valueFormat = '%a %B %d %Y';
@@ -140,19 +142,19 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicLinesEventOutput,
+    data: VicLinesEventOutput<MetroUnemploymentDatum>,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: VicLinesEventOutput): void {
+  updateTooltipData(data: VicLinesEventOutput<MetroUnemploymentDatum>): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: VicLinesEventOutput,
+    data: VicLinesEventOutput<MetroUnemploymentDatum>,
     eventContext: 'click' | 'hover'
   ): void {
     const config = new LinesExampleTooltipConfig();

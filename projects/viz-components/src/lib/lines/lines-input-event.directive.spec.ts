@@ -2,10 +2,10 @@
 import { TestBed } from '@angular/core/testing';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
 import { LinesInputEventDirective } from './lines-input-event.directive';
-import { LINES } from './lines.component';
+import { LINES, LinesComponent } from './lines.component';
 
 describe('LinesInputDirective', () => {
-  let directive: LinesInputEventDirective;
+  let directive: LinesInputEventDirective<any, LinesComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

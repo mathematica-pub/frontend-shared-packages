@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { StackedAreaComponent } from './stacked-area.component';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 describe('StackedAreaComponent', () => {
-  let component: StackedAreaComponent;
-  let fixture: ComponentFixture<StackedAreaComponent>;
+  let component: StackedAreaComponent<any>;
+  let fixture: ComponentFixture<StackedAreaComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

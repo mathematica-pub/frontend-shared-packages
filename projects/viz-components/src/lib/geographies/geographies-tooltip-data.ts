@@ -1,22 +1,23 @@
 import { formatValue } from '../value-format/value-format';
 import { GeographiesComponent } from './geographies.component';
 
-export interface VicGeographiesTooltipOutput {
-  datum?: any;
+export interface VicGeographiesTooltipOutput<Datum> {
+  datum?: Datum;
   color: string;
   geography: string;
   attributeValue: string;
 }
 
-export interface VicGeographiesEventOutput extends VicGeographiesTooltipOutput {
+export interface VicGeographiesEventOutput<Datum>
+  extends VicGeographiesTooltipOutput<Datum> {
   positionX: number;
   positionY: number;
 }
 
-export function getGeographiesTooltipData(
+export function getGeographiesTooltipData<Datum>(
   geographyIndex: number,
-  geographies: GeographiesComponent
-): VicGeographiesTooltipOutput {
+  geographies: GeographiesComponent<Datum>
+): VicGeographiesTooltipOutput<Datum> {
   const datum = geographies.config.data.find(
     (d) =>
       geographies.config.dataGeographyConfig.attributeDataConfig
@@ -25,7 +26,7 @@ export function getGeographiesTooltipData(
       geographies.values.attributeDataGeographies[geographyIndex]
   );
 
-  const tooltipData: VicGeographiesTooltipOutput = {
+  const tooltipData: VicGeographiesTooltipOutput<Datum> = {
     datum,
     geography:
       geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(

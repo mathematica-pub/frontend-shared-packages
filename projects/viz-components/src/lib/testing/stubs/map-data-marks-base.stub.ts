@@ -1,13 +1,23 @@
-import { MapDataMarksBase } from '../../map-chart/map-data-marks-base';
+import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
+import { MapDataMarksBase } from '../../map-data-marks/map-data-marks-base';
 
-export class MapDataMarksBaseStub extends MapDataMarksBase {
-  override initFromConfig(): void {
+export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
+  Datum,
+  VicDataMarksConfig<Datum>
+> {
+  override setPropertiesFromConfig(): void {
     return;
   }
-  override drawMarks(): void {
+  override setPropertiesFromRanges(useTransition: boolean): void {
     return;
   }
-  override resizeMarks(): void {
+  override setValueArrays(): void {
+    return;
+  }
+  drawMarks(): void {
+    return;
+  }
+  resizeMarks(): void {
     return;
   }
 }

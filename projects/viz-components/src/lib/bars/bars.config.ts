@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { scaleLinear } from 'd3';
 import {
   VicCategoricalColorDimensionConfig,
@@ -9,24 +10,24 @@ import {
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class VicBarsConfig extends VicDataMarksConfig {
-  ordinal: VicOrdinalDimensionConfig = new VicOrdinalDimensionConfig();
-  quantitative: VicQuantitativeDimensionConfig =
+export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
+  ordinal: VicOrdinalDimensionConfig<Datum> = new VicOrdinalDimensionConfig();
+  quantitative: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
   /**
    * The `colors` property must be an array of hex codes or rgb colors to be compatible with color utilities.
    */
-  category: VicCategoricalColorDimensionConfig =
+  category: VicCategoricalColorDimensionConfig<Datum> =
     new VicCategoricalColorDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
-  labels: VicBarsLabelsConfig;
+  labels: VicBarsLabelsConfig<Datum>;
   patternPredicates?: VicPatternPredicate[];
 
-  constructor(init?: Partial<VicBarsConfig>) {
+  constructor(init?: Partial<VicBarsConfig<Datum>>) {
     super();
-    this.dimensions = new VicVerticalBarChartDimensionsConfig();
+    this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
-    this.quantitative.valueAccessor = (d) => d;
+    this.category.valueAccessor = () => undefined;
     this.quantitative.scaleType = scaleLinear;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['#778899']; // light slate gray
@@ -34,7 +35,7 @@ export class VicBarsConfig extends VicDataMarksConfig {
   }
 }
 
-export class VicBarsLabelsConfig {
+export class VicBarsLabelsConfig<Datum> {
   display: boolean;
   offset: number;
   /**
@@ -49,14 +50,14 @@ export class VicBarsLabelsConfig {
    *  Must be a hex code or rgb color to be compatible with color utilities.
    */
   lightLabelColor: string;
-  noValueFunction: (d) => string;
+  noValueFunction: (d: Datum, ...args: any) => string;
 
-  constructor(init?: Partial<VicBarsLabelsConfig>) {
+  constructor(init?: Partial<VicBarsLabelsConfig<Datum>>) {
     this.display = true;
     this.offset = 4;
     this.darkLabelColor = '#000000';
     this.lightLabelColor = '#ffffff';
-    this.noValueFunction = (d) => 'N/A';
+    this.noValueFunction = () => 'N/A';
     Object.assign(this, init);
   }
 }
@@ -86,7 +87,7 @@ export class VicHorizontalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   }
 }
 
-export class VicVerticalBarChartDimensionsConfig extends VicBarsDimensionsConfig {
+export class VicVerticalBarsDimensionsConfig extends VicBarsDimensionsConfig {
   constructor() {
     super();
     this.direction = 'vertical';

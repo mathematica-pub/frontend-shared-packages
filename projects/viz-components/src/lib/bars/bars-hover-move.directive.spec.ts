@@ -3,10 +3,10 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
-import { BARS } from './bars.component';
+import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsHoverMoveDirective', () => {
-  let directive: BarsHoverMoveDirective;
+  let directive: BarsHoverMoveDirective<any, BarsComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

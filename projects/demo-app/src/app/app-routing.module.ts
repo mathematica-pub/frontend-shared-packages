@@ -39,6 +39,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'stacked-bars',
+        loadChildren: () =>
+          import('./stacked-bars-example/stacked-bars-example.module').then(
+            (m) => m.StackedBarsModule
+          ),
+      },
+      {
         path: 'geographies',
         loadChildren: () =>
           import('./geographies-example/geographies-example.module').then(

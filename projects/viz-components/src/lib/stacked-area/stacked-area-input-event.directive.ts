@@ -3,18 +3,25 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
-import { StackedAreaComponent, STACKED_AREA } from './stacked-area.component';
+import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 
 @Directive({
   selector: '[vicLinesInputEffects]',
 })
-export class StackedAreaInputEventDirective extends InputEventDirective {
+export class StackedAreaInputEventDirective<
+  Datum,
+  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
+> extends InputEventDirective {
   @Input('vicStackedAreaInputEffects')
-  effects: InputEventEffect<StackedAreaInputEventDirective>[];
+  effects: InputEventEffect<
+    StackedAreaInputEventDirective<Datum, ExtendedStackedAreaComponent>
+  >[];
   @Output('vicStackedAreaInputEventOutput') eventOutput =
     new EventEmitter<any>();
 
-  constructor(@Inject(STACKED_AREA) public lines: StackedAreaComponent) {
+  constructor(
+    @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
+  ) {
     super();
   }
 

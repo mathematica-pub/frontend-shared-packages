@@ -1,0 +1,26 @@
+<app-component-demo [folderName]="folderName" class="stacked-bars-example">
+  <span title>Stacked Bars</span>
+  <ng-container demo *ngIf="vm$ | async as vm; else loading">
+    <vic-xy-chart
+      [margin]="margin"
+      [height]="600"
+      [scaleChartWithContainerWidth]="{width: true, height: false}"
+    >
+      <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
+        <svg:g
+          vic-x-ordinal-axis
+          [config]="vm.xAxisConfig"
+          side="bottom"
+        ></svg:g>
+        <svg:g
+          vic-y-quantitative-axis
+          [config]="vm.yAxisConfig"
+          side="left"
+        ></svg:g>
+        <svg:g vic-data-marks-stacked-bars [config]="vm.dataConfig"></svg:g>
+      </ng-container>
+    </vic-xy-chart>
+  </ng-container>
+  <ng-template #loading>Loading...</ng-template>
+</app-component-demo>
