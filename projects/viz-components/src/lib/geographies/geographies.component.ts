@@ -403,14 +403,10 @@ export class GeographiesComponent<
       .attr('fill', (d) =>
         this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
           ? this.getPatternFill(
-              this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
-                d
-              )
+              this.config.dataGeographyConfig.featureIndexAccessor(d.properties)
             )
           : this.getFill(
-              this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
-                d
-              )
+              this.config.dataGeographyConfig.featureIndexAccessor(d.properties)
             )
       )
       .attr('stroke', this.config.dataGeographyConfig.strokeColor)
@@ -462,13 +458,13 @@ export class GeographiesComponent<
     });
   }
 
-  getFill(geographyIndex: string): string {
+  getFill(geographyIndex: string | number): string {
     const dataValue =
       this.values.attributeValuesByGeographyIndex.get(geographyIndex);
     return this.attributeDataScale(dataValue);
   }
 
-  getPatternFill(geographyIndex: string): string {
+  getPatternFill(geographyIndex: string | number): string {
     const datum = this.values.datumsByGeographyIndex.get(geographyIndex);
     const color = this.attributeDataScale(
       this.values.attributeValuesByGeographyIndex.get(geographyIndex)
@@ -508,8 +504,8 @@ export class GeographiesComponent<
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelProperty<CSSType.Property.Fill>(
-                this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
-                  d
+                this.config.dataGeographyConfig.featureIndexAccessor(
+                  d.properties
                 ),
                 labelsConfig,
                 'color'
@@ -517,8 +513,8 @@ export class GeographiesComponent<
             )
             .attr('font-weight', (d) =>
               this.getLabelProperty<CSSType.Property.FontWeight>(
-                this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
-                  d
+                this.config.dataGeographyConfig.featureIndexAccessor(
+                  d.properties
                 ),
                 labelsConfig,
                 'fontWeight'
@@ -534,8 +530,8 @@ export class GeographiesComponent<
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelProperty<CSSType.Property.Fill>(
-                  this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
-                    d
+                  this.config.dataGeographyConfig.featureIndexAccessor(
+                    d.properties
                   ),
                   labelsConfig,
                   'color'
@@ -543,8 +539,8 @@ export class GeographiesComponent<
               )
               .attr('font-weight', (d) =>
                 this.getLabelProperty<CSSType.Property.FontWeight>(
-                  this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
-                    d
+                  this.config.dataGeographyConfig.featureIndexAccessor(
+                    d.properties
                   ),
                   labelsConfig,
                   'fontWeight'
@@ -559,6 +555,7 @@ export class GeographiesComponent<
     d: Feature<MultiPolygon, any>,
     config: VicGeographyLabelConfig
   ): [number, number] {
+    if (!this.path || !this.projection) return [0, 0];
     if (config.standardPositioners) {
       for (const positioner of config.standardPositioners) {
         if (positioner.enable(d)) {
@@ -571,7 +568,7 @@ export class GeographiesComponent<
   }
 
   getLabelProperty<T>(
-    geographyIndex: string,
+    geographyIndex: string | number,
     config: VicGeographyLabelConfig,
     property: 'color' | 'fontWeight'
   ): T {

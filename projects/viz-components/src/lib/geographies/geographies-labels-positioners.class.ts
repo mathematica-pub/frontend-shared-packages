@@ -19,6 +19,8 @@ export class VicGeographiesLabelsPositionerBottomMiddleBoundingBox
     init?: Partial<VicGeographiesLabelsPositionerBottomMiddleBoundingBox>
   ) {
     this.enable = () => true;
+    // eslint-disable-next-line no-self-assign
+    this.position = this.position;
     Object.assign(this, init);
   }
 
@@ -56,6 +58,8 @@ export class VicGeographiesLabelsPositionerPolylabel
 
   constructor(init?: Partial<VicGeographiesLabelsPositionerPolylabel>) {
     this.enable = () => true;
+    // eslint-disable-next-line no-self-assign
+    this.position = this.position;
     Object.assign(this, init);
   }
 

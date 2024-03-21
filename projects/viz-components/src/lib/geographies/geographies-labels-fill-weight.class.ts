@@ -27,6 +27,8 @@ export class VicGeographiesLabelsAutoColor {
       color: '#FFFFFF',
       fontWeight: 400,
     };
+    // eslint-disable-next-line no-self-assign
+    this.getAutoContrastLabelProperties = this.getAutoContrastLabelProperties;
     Object.assign(this, init);
   }
 

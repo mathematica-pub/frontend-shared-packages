@@ -36,13 +36,6 @@ import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
 
-type ScaleType =
-  | 'none'
-  | 'equal value ranges'
-  | 'equal num observations'
-  | 'custom breaks'
-  | 'categorical';
-
 @Component({
   selector: 'app-geographies-example',
   templateUrl: './geographies-example.component.html',
