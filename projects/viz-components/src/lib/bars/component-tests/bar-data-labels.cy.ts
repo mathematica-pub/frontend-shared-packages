@@ -39,7 +39,13 @@ const dataWithOmittedValues = [
   { state: 'Alaska', value: null },
   { state: 'California', value: null },
 ];
+const dataWithOmittedAndZeroValues = [
+  { state: 'Alabama', value: null },
+  { state: 'Alaska', value: 0 },
+  { state: 'California', value: null },
+];
 const labelOffset = 6;
+
 const assertPositionOfBarAndDataLabel = (
   index: number,
   assertions: (barPosition: DOMRect, labelPosition: DOMRect) => void
@@ -57,6 +63,27 @@ const assertPositionOfBarAndDataLabel = (
     });
 };
 
+const assertPositionOfZeroAxisAndDataLabel = (
+  assertions: (tickPosition: DOMRect, labelPosition: DOMRect) => void,
+  index?: number
+): void => {
+  cy.get('.vic-y.vic-axis-g .tick text')
+    .contains(/^0$/)
+    .siblings()
+    .then(($tick) => {
+      cy.get('.vic-bar-label').each(($label, i) => {
+        if (index === undefined || index === i) {
+          const tickPosition = $tick[0].getBoundingClientRect();
+          const labelPosition = $label[0].getBoundingClientRect();
+          assertions(tickPosition, labelPosition);
+        }
+      });
+    });
+};
+
+// ***********************************************************
+// Vertical bar chart component set up
+// ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'app-test-vertical-bar-with-labels',
@@ -90,18 +117,34 @@ class TestVerticalBarWithLabelsComponent {
   margin = { top: 20, right: 20, bottom: 0, left: 40 };
 }
 
+const declarations = [TestVerticalBarWithLabelsComponent];
+const imports = [
+  VicChartModule,
+  VicBarsModule,
+  VicXOrdinalAxisModule,
+  VicYQuantitativeAxisModule,
+  VicXyChartModule,
+];
+
+const mountVerticalBarComponent = (barsConfig: VicBarsConfig): void => {
+  const xAxisConfig = new VicAxisConfig();
+  const yAxisConfig = new VicAxisConfig();
+  yAxisConfig.tickFormat = '.0f';
+
+  cy.mount(TestVerticalBarWithLabelsComponent, {
+    declarations,
+    imports,
+    componentProperties: {
+      barsConfig: barsConfig,
+      xOrdinalAxisConfig: xAxisConfig,
+      yQuantitativeAxisConfig: yAxisConfig,
+    },
+  });
+  cy.wait(100);
+};
+
 describe('it correctly positions the vertical bar chart data labels', () => {
   let barsConfig: VicBarsConfig;
-  let xAxisConfig: VicAxisConfig;
-  let yAxisConfig: VicAxisConfig;
-  const declarations = [TestVerticalBarWithLabelsComponent];
-  const imports = [
-    VicChartModule,
-    VicBarsModule,
-    VicXOrdinalAxisModule,
-    VicYQuantitativeAxisModule,
-    VicXyChartModule,
-  ];
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.dimensions = new VicVerticalBarChartDimensionsConfig();
@@ -113,25 +156,11 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     barsConfig.labels.offset = labelOffset;
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     barsConfig.quantitative.domainPadding.numPixels = 4;
-    xAxisConfig = new VicAxisConfig();
-    yAxisConfig = new VicAxisConfig();
-    yAxisConfig.tickFormat = '.0f';
   });
-
   describe('for bar data that has positive, negative, and omitted values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithAllValueTypes;
-
-      cy.mount(TestVerticalBarWithLabelsComponent, {
-        declarations,
-        imports,
-        componentProperties: {
-          barsConfig: barsConfig,
-          xOrdinalAxisConfig: xAxisConfig,
-          yQuantitativeAxisConfig: yAxisConfig,
-        },
-      });
-      cy.wait(100);
+      mountVerticalBarComponent(barsConfig);
     });
     it('centers all data labels with respect to their x-axis tick', () => {
       cy.get('.vic-x.vic-axis-g .tick line').then((ticks) => {
@@ -173,7 +202,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           }
         );
       });
-      it('colors data labels with the lighter default text color', () => {
+      it('uses the lighter default text color for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 0 || i === 2) {
             expect($label).to.have.attr('fill', '#ffffff');
@@ -213,7 +242,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           }
         );
       });
-      it('colors data labels with the darker default text color', () => {
+      it('uses the darker default text color for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 1 || i === 3) {
             expect($label).to.have.attr('fill', '#000000');
@@ -224,23 +253,17 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
     describe('when the data label is for an omitted value', () => {
       it('offsets data label above scales.x(0)', () => {
-        cy.get('.vic-bar-label')
-          .eq(4)
-          .then(($label) => {
-            cy.get('.vic-y.vic-axis-g .tick text')
-              .contains(/^0$/)
-              .siblings()
-              .then(($tick) => {
-                const labelPosition = $label[0].getBoundingClientRect();
-                const tickPosition = $tick[0].getBoundingClientRect();
-                expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-                expect(
-                  Math.round(tickPosition.y - labelPosition.bottom)
-                ).to.equal(labelOffset);
-              });
-          });
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
+            expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
+              labelOffset
+            );
+          },
+          4
+        );
       });
-      it('colors data label with the darker default text color', () => {
+      it('uses the darker default text color for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 4) {
             expect($label).to.have.attr('fill', '#000000');
@@ -253,68 +276,20 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   describe('for bar data that has negative and omitted values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithNegativeAndOmittedValues;
-
-      cy.mount(TestVerticalBarWithLabelsComponent, {
-        declarations,
-        imports,
-        componentProperties: {
-          barsConfig: barsConfig,
-          xOrdinalAxisConfig: xAxisConfig,
-          yQuantitativeAxisConfig: yAxisConfig,
-        },
-      });
-      cy.wait(100);
+      barsConfig.quantitative.domain = [-10, 10];
+      mountVerticalBarComponent(barsConfig);
     });
-    describe('when there is not enough vertical space between the bar and chart edge', () => {
-      it('places data label for negative value completely inside the bar at the bottom', () => {
-        assertPositionOfBarAndDataLabel(
-          0,
-          (barPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.top).to.be.greaterThan(barPosition.top);
-            expect(labelPosition.bottom).to.be.lessThan(barPosition.bottom);
-            expect(
-              Math.round(barPosition.bottom - labelPosition.bottom)
-            ).to.equal(labelOffset);
-          }
-        );
-      });
-    });
-
-    describe('when there is ample vertical space between the bar and the chart edge', () => {
-      it('places data label for negative value below the bar and above the chart edge', () => {
-        assertPositionOfBarAndDataLabel(
-          1,
-          (barPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.top).to.be.greaterThan(barPosition.bottom);
-            cy.get('.vic-y.vic-axis-g').then(($axis) => {
-              const axisPosition = $axis[0].getBoundingClientRect();
-              expect(labelPosition.bottom).to.be.lessThan(axisPosition.bottom);
-            });
-            expect(Math.round(labelPosition.top - barPosition.bottom)).to.equal(
-              labelOffset
-            );
-          }
-        );
-      });
-    });
-
     describe('when the data label is for an omitted value', () => {
       it('offsets data label below scales.x(0)', () => {
-        cy.get('.vic-bar-label')
-          .eq(2)
-          .then(($label) => {
-            cy.get('.vic-y.vic-axis-g .tick text')
-              .contains(/^0$/)
-              .siblings()
-              .then(($tick) => {
-                const labelPosition = $label[0].getBoundingClientRect();
-                const tickPosition = $tick[0].getBoundingClientRect();
-                expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
-                expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
-                  labelOffset
-                );
-              });
-          });
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
+            expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
+              labelOffset
+            );
+          },
+          2
+        );
       });
     });
   });
@@ -322,103 +297,93 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   describe('for bar data that has positive and omitted values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithPositiveAndOmittedValues;
-
-      cy.mount(TestVerticalBarWithLabelsComponent, {
-        declarations,
-        imports,
-        componentProperties: {
-          barsConfig: barsConfig,
-          xOrdinalAxisConfig: xAxisConfig,
-          yQuantitativeAxisConfig: yAxisConfig,
-        },
-      });
-      cy.wait(100);
+      mountVerticalBarComponent(barsConfig);
     });
-    describe('when there is not enough vertical space between the bar and chart edge', () => {
-      it('places data label for positive value completely inside the bar at the top', () => {
-        assertPositionOfBarAndDataLabel(
-          0,
-          (barPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.top).to.be.greaterThan(barPosition.top);
-            expect(labelPosition.bottom).to.be.lessThan(barPosition.bottom);
-            expect(Math.round(labelPosition.top - barPosition.top)).to.equal(
-              labelOffset
-            );
-          }
-        );
-      });
-    });
-
-    describe('when there is ample vertical space between the bar and the chart edge', () => {
-      it('places data label for positive value above the bar and below the chart edge', () => {
-        assertPositionOfBarAndDataLabel(
-          1,
-          (barPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.bottom).to.be.lessThan(barPosition.top);
-            cy.get('.vic-y.vic-axis-g').then(($axis) => {
-              const axisPosition = $axis[0].getBoundingClientRect();
-              expect(labelPosition.top).to.be.greaterThan(axisPosition.top);
-            });
-            expect(Math.round(barPosition.top - labelPosition.bottom)).to.equal(
-              labelOffset
-            );
-          }
-        );
-      });
-    });
-
     describe('when the data label is for an omitted value', () => {
       it('offsets data label above scales.x(0)', () => {
-        cy.get('.vic-bar-label')
-          .eq(2)
-          .then(($label) => {
-            cy.get('.vic-y.vic-axis-g .tick text')
-              .contains(/^0$/)
-              .siblings()
-              .then(($tick) => {
-                const labelPosition = $label[0].getBoundingClientRect();
-                const tickPosition = $tick[0].getBoundingClientRect();
-                expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-                expect(
-                  Math.round(tickPosition.y - labelPosition.bottom)
-                ).to.equal(labelOffset);
-              });
-          });
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
+            expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
+              labelOffset
+            );
+          },
+          2
+        );
       });
     });
   });
 
-  describe('for bar data that has only omitted values', () => {
+  describe('for bar data that only has omitted values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithOmittedValues;
-      barsConfig.quantitative.domain = [0, 10];
-
-      cy.mount(TestVerticalBarWithLabelsComponent, {
-        declarations,
-        imports,
-        componentProperties: {
-          barsConfig: barsConfig,
-          xOrdinalAxisConfig: xAxisConfig,
-          yQuantitativeAxisConfig: yAxisConfig,
-        },
-      });
-      cy.wait(100);
     });
-    describe('when the data label is for an omitted value', () => {
+    describe('when the domain is undefined in the bars config', () => {
+      beforeEach(() => {
+        mountVerticalBarComponent(barsConfig);
+      });
       it('offsets data label above scales.x(0)', () => {
-        cy.get('.vic-y.vic-axis-g .tick text')
-          .contains(/^0$/)
-          .siblings()
-          .then(($tick) => {
-            cy.get('.vic-bar-label').each(($label) => {
-              const labelPosition = $label[0].getBoundingClientRect();
-              const tickPosition = $tick[0].getBoundingClientRect();
-              expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-              expect(
-                Math.round(tickPosition.y - labelPosition.bottom)
-              ).to.equal(labelOffset);
-            });
-          });
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
+            expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
+              labelOffset
+            );
+          }
+        );
+      });
+    });
+    describe('when the domain is set in the bars config and the minimum value is negative', () => {
+      beforeEach(() => {
+        barsConfig.quantitative.domain = [-10, 0];
+        mountVerticalBarComponent(barsConfig);
+      });
+      it('offsets data label below scales.x(0)', () => {
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
+            expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
+              labelOffset
+            );
+          }
+        );
+      });
+    });
+  });
+
+  describe('for bar data that only has omitted and zero values', () => {
+    beforeEach(() => {
+      barsConfig.data = dataWithOmittedAndZeroValues;
+    });
+    describe('when the domain is undefined in the bars config', () => {
+      beforeEach(() => {
+        mountVerticalBarComponent(barsConfig);
+      });
+      it('offsets data label above scales.x(0)', () => {
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
+            expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
+              labelOffset
+            );
+          }
+        );
+      });
+    });
+    describe('when the domain is set in the bars config and the minimum value is negative', () => {
+      beforeEach(() => {
+        barsConfig.quantitative.domain = [-10, 0];
+        mountVerticalBarComponent(barsConfig);
+      });
+      it('offsets data label below scales.x(0)', () => {
+        assertPositionOfZeroAxisAndDataLabel(
+          (tickPosition: DOMRect, labelPosition: DOMRect) => {
+            expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
+            expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
+              labelOffset
+            );
+          }
+        );
       });
     });
   });

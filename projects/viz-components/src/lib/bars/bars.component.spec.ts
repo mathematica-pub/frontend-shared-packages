@@ -990,28 +990,31 @@ describe('BarsComponent', () => {
   });
 
   describe('getTextAlignment', () => {
-    let valuesSpy: jasmine.Spy;
+    let positionSpy: jasmine.Spy;
     let barLabelFitsSpy: jasmine.Spy;
     beforeEach(() => {
       component.config = {
         dimensions: { quantitative: 'x' },
       } as any;
       component.values = { x: [1, undefined, -1] } as any;
-      valuesSpy = spyOn(component, 'hasAllOmittedOrSomePositiveValues');
+      positionSpy = spyOn(
+        component,
+        'omittedValueLabelIsPositionedInPositiveDirection'
+      );
       barLabelFitsSpy = spyOn(component, 'barLabelFitsOutsideBar');
     });
 
     describe('if the quantitative value is omitted', () => {
-      it('calls hasAllOmittedOrSomePositiveValues once', () => {
+      it('calls omittedValueLabelIsPositionedInPositiveDirection once', () => {
         component.getTextAlignment(1, 'start', 'end');
-        expect(valuesSpy).toHaveBeenCalledTimes(1);
+        expect(positionSpy).toHaveBeenCalledTimes(1);
       });
       it('returns alignment in positive direction if all or some values are omitted or positive respectively', () => {
-        valuesSpy.and.returnValue(true);
+        positionSpy.and.returnValue(true);
         expect(component.getTextAlignment(1, 'start', 'end')).toEqual('start');
       });
       it('returns alignment in negative direction if all values are negative or a combination of negative/omitted', () => {
-        valuesSpy.and.returnValue(false);
+        positionSpy.and.returnValue(false);
         expect(component.getTextAlignment(1, 'start', 'end')).toEqual('end');
       });
     });
@@ -1362,7 +1365,10 @@ describe('BarsComponent', () => {
   describe('getBarLabelPositionForOmittedValue', () => {
     let spy: jasmine.Spy;
     beforeEach(() => {
-      spy = spyOn(component, 'hasAllOmittedOrSomePositiveValues');
+      spy = spyOn(
+        component,
+        'omittedValueLabelIsPositionedInPositiveDirection'
+      );
       component.config = {
         dimensions: {
           ordinal: 'x',
@@ -1373,11 +1379,11 @@ describe('BarsComponent', () => {
       } as any;
     });
 
-    it('calls hasAllOmittedOrSomePositiveValues once', () => {
+    it('calls omittedValueLabelIsPositionedInPositiveDirection once', () => {
       component.getBarLabelPositionForOmittedValue();
       expect(spy).toHaveBeenCalledTimes(1);
     });
-    describe('if hasAllOmittedOrSomePositiveValues returns true', () => {
+    describe('if omittedValueLabelIsPositionedInPositiveDirection returns true', () => {
       beforeEach(() => {
         spy.and.returnValue(true);
       });
@@ -1389,7 +1395,7 @@ describe('BarsComponent', () => {
         expect(component.getBarLabelPositionForOmittedValue()).toEqual(-8);
       });
     });
-    describe('if hasAllOmittedOrSomePositiveValues returns false', () => {
+    describe('if omittedValueLabelIsPositionedInPositiveDirection returns false', () => {
       beforeEach(() => {
         spy.and.returnValue(false);
       });
@@ -1544,33 +1550,90 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('hasAllOmittedOrSomePositiveValues', () => {
+  describe('omittedValueLabelIsPositionedInPositiveDirection', () => {
     beforeEach(() => {
       component.config = {
         dimensions: {
           quantitative: 'y',
         },
+        quantitative: {
+          domain: undefined,
+        },
       } as any;
     });
-    it('returns true if all quantiative values are falsy', () => {
-      component.values = { y: [null, undefined, false] } as any;
-      expect(component.hasAllOmittedOrSomePositiveValues()).toBeTrue();
-    });
-    it('returns true if some quantiative values are positive', () => {
+    it('returns true if some values are positive', () => {
       component.values = { y: [null, 10, false] } as any;
-      expect(component.hasAllOmittedOrSomePositiveValues()).toBeTrue();
+      expect(
+        component.omittedValueLabelIsPositionedInPositiveDirection()
+      ).toBeTrue();
     });
-    it('returns true if some quantiative values are zero', () => {
-      component.values = { y: [null, 0, false] } as any;
-      expect(component.hasAllOmittedOrSomePositiveValues()).toBeTrue();
+    describe('if all values are omitted', () => {
+      beforeEach(() => {
+        component.values = { y: [null, undefined, false] } as any;
+      });
+      it('returns true if domain is undefined', () => {
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeTrue();
+      });
+      it('returns true if domain is defined and the minimum is greater than 0', () => {
+        component.config.quantitative.domain = [1, 10];
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeTrue();
+      });
+      it('returns true if domain is defined and the minimum is equal to 0', () => {
+        component.config.quantitative.domain = [0, 10];
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeTrue();
+      });
+      it('returns false if domain is defined and the minimum is less than 0', () => {
+        component.config.quantitative.domain = [-10, 0];
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeFalse();
+      });
     });
-    it('returns false if all quantiative values are negative and falsy', () => {
+    describe('if all values are either zero or omitted', () => {
+      beforeEach(() => {
+        component.values = { y: [null, 0, false] } as any;
+      });
+      it('returns true if domain is undefined', () => {
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeTrue();
+      });
+      it('returns true if domain is defined and the minimum is greater than 0', () => {
+        component.config.quantitative.domain = [1, 10];
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeTrue();
+      });
+      it('returns true if domain is defined and the minimum is equal to 0', () => {
+        component.config.quantitative.domain = [0, 10];
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeTrue();
+      });
+      it('returns false if domain is defined and the minimum is less than 0', () => {
+        component.config.quantitative.domain = [-10, 0];
+        expect(
+          component.omittedValueLabelIsPositionedInPositiveDirection()
+        ).toBeFalse();
+      });
+    });
+    it('returns false if all values are negative or omitted', () => {
       component.values = { y: [null, -10, undefined] } as any;
-      expect(component.hasAllOmittedOrSomePositiveValues()).toBeFalse();
+      expect(
+        component.omittedValueLabelIsPositionedInPositiveDirection()
+      ).toBeFalse();
     });
-    it('returns false if all quantiative values are negative', () => {
+    it('returns false if all values are negative', () => {
       component.values = { y: [-1, -10, -2] } as any;
-      expect(component.hasAllOmittedOrSomePositiveValues()).toBeFalse();
+      expect(
+        component.omittedValueLabelIsPositionedInPositiveDirection()
+      ).toBeFalse();
     });
   });
 });

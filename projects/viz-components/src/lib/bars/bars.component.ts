@@ -427,7 +427,7 @@ export class BarsComponent
   getBarLabelText(i: number): string {
     const value = this.values[this.config.dimensions.quantitative][i];
     const datum = this.config.data[i];
-    if (!value) {
+    if (isNaN(parseFloat(value))) {
       return this.config.labels.noValueFunction(datum);
     } else if (typeof this.config.quantitative.valueFormat === 'function') {
       return formatValue(datum, this.config.quantitative.valueFormat);
@@ -460,8 +460,8 @@ export class BarsComponent
     alignmentInNegativeDirection: B
   ): A | B {
     const value = this.values[this.config.dimensions.quantitative][i];
-    if (!value) {
-      if (this.hasAllOmittedOrSomePositiveValues()) {
+    if (isNaN(parseFloat(value))) {
+      if (this.omittedValueLabelIsPositionedInPositiveDirection()) {
         return alignmentInPositiveDirection;
       } else {
         return alignmentInNegativeDirection;
@@ -563,7 +563,7 @@ export class BarsComponent
 
   getBarLabelPosition(i: number): number {
     const value = this.values[this.config.dimensions.quantitative][i];
-    if (!value) {
+    if (isNaN(parseFloat(value))) {
       return this.getBarLabelPositionForOmittedValue();
     } else {
       const isPositiveValue = value >= 0;
@@ -580,12 +580,11 @@ export class BarsComponent
   }
 
   getBarLabelPositionForOmittedValue(): number {
-    const hasAllOmittedOrSomePositiveValues =
-      this.hasAllOmittedOrSomePositiveValues();
-    return (hasAllOmittedOrSomePositiveValues &&
+    const positionedInPositiveDirection =
+      this.omittedValueLabelIsPositionedInPositiveDirection();
+    return (positionedInPositiveDirection &&
       this.config.dimensions.ordinal === 'y') ||
-      (!hasAllOmittedOrSomePositiveValues &&
-        this.config.dimensions.ordinal === 'x')
+      (!positionedInPositiveDirection && this.config.dimensions.ordinal === 'x')
       ? this.config.labels.offset
       : -this.config.labels.offset;
   }
@@ -626,12 +625,22 @@ export class BarsComponent
     }
   }
 
-  hasAllOmittedOrSomePositiveValues(): boolean {
+  omittedValueLabelIsPositionedInPositiveDirection(): boolean {
+    const quantitativeValues = this.values[this.config.dimensions.quantitative];
+    const someValuesArePositive = quantitativeValues.some((x) => x > 0);
+    const everyValueIsOmitted = quantitativeValues.every((x) =>
+      isNaN(parseFloat(x))
+    );
+    const domainMaxIsPositive =
+      this.config.quantitative.domain === undefined ||
+      this.config.quantitative.domain[0] >= 0;
+    const everyValueIsEitherZeroOrOmitted =
+      quantitativeValues.includes(0) &&
+      quantitativeValues.every((x) => isNaN(parseFloat(x)) || x === 0);
     return (
-      this.values[this.config.dimensions.quantitative].every((x) => !x) ||
-      this.values[this.config.dimensions.quantitative].some(
-        (x) => !!x && x >= 0
-      )
+      someValuesArePositive ||
+      (everyValueIsOmitted && domainMaxIsPositive) ||
+      (everyValueIsEitherZeroOrOmitted && domainMaxIsPositive)
     );
   }
 
