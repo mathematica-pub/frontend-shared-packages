@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
@@ -14,7 +15,7 @@ import { VicAxisConfig } from '../../axes/axis.config';
 import {
   VicBarsConfig,
   VicBarsLabelsConfig,
-  VicVerticalBarChartDimensionsConfig,
+  VicVerticalBarsDimensionsConfig,
 } from '../../bars/bars.config';
 
 const dataWithAllValueTypes = [
@@ -111,7 +112,7 @@ const assertPositionOfZeroAxisAndDataLabel = (
   styles: [],
 })
 class TestVerticalBarWithLabelsComponent {
-  @Input() barsConfig: VicBarsConfig;
+  @Input() barsConfig: VicBarsConfig<any>;
   @Input() xOrdinalAxisConfig: VicAxisConfig;
   @Input() yQuantitativeAxisConfig: VicAxisConfig;
   margin = { top: 20, right: 20, bottom: 0, left: 40 };
@@ -126,7 +127,7 @@ const imports = [
   VicXyChartModule,
 ];
 
-const mountVerticalBarComponent = (barsConfig: VicBarsConfig): void => {
+const mountVerticalBarComponent = (barsConfig: VicBarsConfig<any>): void => {
   const xAxisConfig = new VicAxisConfig();
   const yAxisConfig = new VicAxisConfig();
   yAxisConfig.tickFormat = '.0f';
@@ -144,10 +145,10 @@ const mountVerticalBarComponent = (barsConfig: VicBarsConfig): void => {
 };
 
 describe('it correctly positions the vertical bar chart data labels', () => {
-  let barsConfig: VicBarsConfig;
+  let barsConfig: VicBarsConfig<any>;
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
-    barsConfig.dimensions = new VicVerticalBarChartDimensionsConfig();
+    barsConfig.dimensions = new VicVerticalBarsDimensionsConfig();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.category.colors = ['#000080'];
@@ -202,10 +203,12 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           }
         );
       });
-      it('uses the lighter default text color for the data labels color', () => {
+      it('uses the lighter default text color (white) for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 0 || i === 2) {
-            expect($label).to.have.attr('fill', '#ffffff');
+            cy.wrap($label)
+              .should('have.attr', 'style')
+              .and('include', 'fill: rgb(255, 255, 255)');
           }
         });
       });
@@ -242,10 +245,12 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           }
         );
       });
-      it('uses the darker default text color for the data labels color', () => {
+      it('uses the darker default text color (black) for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 1 || i === 3) {
-            expect($label).to.have.attr('fill', '#000000');
+            cy.wrap($label)
+              .should('have.attr', 'style')
+              .and('includes', 'fill: rgb(0, 0, 0)');
           }
         });
       });
@@ -266,7 +271,9 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       it('uses the darker default text color for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 4) {
-            expect($label).to.have.attr('fill', '#000000');
+            cy.wrap($label)
+              .should('have.attr', 'style')
+              .and('includes', 'fill: rgb(0, 0, 0)');
           }
         });
       });
