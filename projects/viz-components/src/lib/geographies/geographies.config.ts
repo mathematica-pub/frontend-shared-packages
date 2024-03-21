@@ -65,8 +65,6 @@ export class VicGeographiesConfig<
   }
 }
 
-export type VicGeoJsonDefaultProperty = { [name: string]: any };
-
 export class VicBaseDataGeographyConfig<
   SpecificGeoJsonProperties extends GeoJsonProperties = GeoJsonProperties
 > {
@@ -301,3 +299,5 @@ export class VicGeographyLabelConfig {
     Object.assign(this, init);
   }
 }
+
+export type VicGeoJsonDefaultProperty = { [name: string]: any };
