@@ -39,18 +39,18 @@ export class VicGeographiesConfig extends VicDataMarksConfig {
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   /**
+   * A configuration object that pertains to geographies that a user wants to draw with attribute data, for example, states in the US each of which have a value for % unemployment. If no attribute data exists for a geography, it will be drawn with a null color.
+   */
+  dataGeographyConfig: VicDataGeographyConfig;
+  /**
    * A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
    * @default: d3.geoAlbersUsa().
    */
   projection: GeoProjection;
   /**
-   * A configuration object that pertains to geographies that have no attribute data, for example the outline of a country.
+   * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
   noDataGeographiesConfigs?: VicNoDataGeographyConfig[];
-  /**
-   * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
-   */
-  dataGeographyConfig: VicDataGeographyConfig;
 
   constructor(init?: Partial<VicGeographiesConfig>) {
     super();
@@ -65,6 +65,11 @@ export class VicBaseDataGeographyConfig {
    */
   geographies: Feature[];
   /**
+   * The fill color for the geography.
+   * @default: 'none'.
+   */
+  fill: string;
+  /**
    * The color of the stroke for the geography.
    * @default: 'dimgray'.
    */
@@ -75,88 +80,16 @@ export class VicBaseDataGeographyConfig {
    */
   strokeWidth: string;
   /**
-   * The fill color for the geography.
-   * @default: 'none'.
-   */
-  fill: string;
-  /**
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
   labels: VicGeographyLabelConfig;
 }
 
-export class VicGeographyLabelConfig {
-  /**
-   * Function that determines whether a label should be shown on the GeoJSON feature
-   * Exists because it's common for small geographies to not have labels shown on them.
-   */
-  display: (d: Feature, i: number) => boolean;
-
-  /**
-   * Function that maps a feature to the desired label
-   */
-  valueAccessor: (d: Feature) => string;
-
-  textAnchor: CSSType.Property.TextAnchor;
-  alignmentBaseline: CSSType.Property.AlignmentBaseline;
-  dominantBaseline: CSSType.Property.DominantBaseline;
-  cursor: CSSType.Property.Cursor;
-  pointerEvents: CSSType.Property.PointerEvents;
-  fontWeight:
-    | ((d: Feature) => CSSType.Property.FontWeight)
-    | CSSType.Property.FontWeight;
-  color: ((d: Feature) => CSSType.Property.Fill) | CSSType.Property.Fill;
-  position: (
-    d: Feature<MultiPolygon, any>,
-    path: GeoPath<any, GeoPermissibleObjects>,
-    projection: any
-  ) => [number, number];
-
-  autoColorByContrast: VicGeographiesLabelsAutoColor;
-
-  /**
-   * Apply a standard positioner (e.g. polylabel) to a subset of states.
-   * For that subset of states, will override value of this.position() function.
-   */
-  standardPositioners: VicGeographiesLabelsPositioner[];
-
-  fontScale: ScaleLinear<number, number, never>;
-
-  constructor(init?: Partial<VicGeographyLabelConfig>) {
-    this.display = () => true;
-    this.color = '#000';
-    this.fontWeight = 400;
-    this.position = (
-      d: Feature<MultiPolygon, any>,
-      path: GeoPath<any, GeoPermissibleObjects>
-    ) => path.centroid(d);
-    this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
-    this.textAnchor = 'middle';
-    this.alignmentBaseline = 'middle';
-    this.dominantBaseline = 'middle';
-    this.cursor = 'default';
-    this.pointerEvents = 'none';
-    Object.assign(this, init);
-  }
-}
-
-export class VicNoDataGeographyConfig extends VicBaseDataGeographyConfig {
-  /**
-   * The pattern for noDataGeography. If provided, fill will be overridden.
-   */
-  patternName: string;
-
-  constructor(init?: Partial<VicNoDataGeographyConfig>) {
-    super();
-    this.strokeColor = 'dimgray';
-    this.strokeWidth = '1';
-    this.fill = 'none';
-    Object.assign(this, init);
-  }
-}
-
 export class VicDataGeographyConfig extends VicBaseDataGeographyConfig {
+  /**
+   * Gets a value from the geojson feature that will be used to match the attribute data to the geography.
+   */
   valueAccessor?: (d: any) => any;
   attributeDataConfig: VicAttributeDataDimensionConfig;
   nullColor: string;
@@ -255,6 +188,78 @@ export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig extends Vic
     this.binType = VicValuesBin.customBreaks;
     this.colorScale = scaleThreshold;
     this.interpolator = interpolateLab;
+    Object.assign(this, init);
+  }
+}
+
+export class VicNoDataGeographyConfig extends VicBaseDataGeographyConfig {
+  /**
+   * The pattern for noDataGeography. If provided, fill will be overridden.
+   */
+  patternName: string;
+
+  constructor(init?: Partial<VicNoDataGeographyConfig>) {
+    super();
+    this.strokeColor = 'dimgray';
+    this.strokeWidth = '1';
+    this.fill = 'none';
+    Object.assign(this, init);
+  }
+}
+
+/**
+ * Configuration object for labels to be shown on the map. Label functions depend on
+ * geojon features.
+ */
+export class VicGeographyLabelConfig {
+  /**
+   * Function that determines whether a label should be shown on the GeoJSON feature
+   * Exists because it's common for small geographies to not have labels shown on them.
+   */
+  display: (d: Feature, i: number) => boolean;
+  /**
+   * Function that maps a geojson feature to the desired label
+   */
+  valueAccessor: (d: Feature) => string;
+  textAnchor: CSSType.Property.TextAnchor;
+  alignmentBaseline: CSSType.Property.AlignmentBaseline;
+  dominantBaseline: CSSType.Property.DominantBaseline;
+  cursor: CSSType.Property.Cursor;
+  pointerEvents: CSSType.Property.PointerEvents;
+  fontWeight:
+    | ((d: any) => CSSType.Property.FontWeight)
+    | CSSType.Property.FontWeight;
+  color: ((d: any) => CSSType.Property.Fill) | CSSType.Property.Fill;
+  position: (
+    d: Feature<MultiPolygon, any>,
+    path: GeoPath<any, GeoPermissibleObjects>,
+    projection: any
+  ) => [number, number];
+
+  autoColorByContrast: VicGeographiesLabelsAutoColor;
+
+  /**
+   * Apply a standard positioner (e.g. polylabel) to a subset of states.
+   * For that subset of states, will override value of this.position() function.
+   */
+  standardPositioners: VicGeographiesLabelsPositioner[];
+
+  fontScale: ScaleLinear<number, number, never>;
+
+  constructor(init?: Partial<VicGeographyLabelConfig>) {
+    this.display = () => true;
+    this.color = '#000';
+    this.fontWeight = 400;
+    this.position = (
+      d: Feature<MultiPolygon, any>,
+      path: GeoPath<any, GeoPermissibleObjects>
+    ) => path.centroid(d);
+    this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
+    this.textAnchor = 'middle';
+    this.alignmentBaseline = 'middle';
+    this.dominantBaseline = 'middle';
+    this.cursor = 'default';
+    this.pointerEvents = 'none';
     Object.assign(this, init);
   }
 }

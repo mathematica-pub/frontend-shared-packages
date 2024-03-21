@@ -14,7 +14,6 @@ import {
   Transition,
   extent,
   geoPath,
-  map,
   range,
   scaleLinear,
   select,
@@ -38,9 +37,8 @@ import {
 } from './geographies.config';
 
 export class MapDataValues {
-  attributeDataValues: any[];
-  geoDataValueMap: InternMap;
-  geoDatumValueMap: InternMap;
+  attributeValuesByGeographyIndex: InternMap;
+  datumsByGeographyIndex: InternMap;
 }
 
 export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
@@ -102,22 +100,33 @@ export class GeographiesComponent
   }
 
   setValueArrays(): void {
-    const attributeDataGeographies = map(
-      this.config.data,
-      this.config.dataGeographyConfig.attributeDataConfig.geoAccessor
-    );
-    this.values.attributeDataValues = map(
-      this.config.data,
-      this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
-    ).map((d) => (d === null ? NaN : d));
-    this.values.geoDataValueMap = new InternMap(
-      attributeDataGeographies.map((name, i) => {
-        return [name, this.values.attributeDataValues[i]];
+    const uniqueByGeoAccessor = (arr: any[], set = new Set()) =>
+      arr.filter(
+        (x) =>
+          !set.has(
+            this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(x)
+          ) &&
+          set.add(
+            this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(x)
+          )
+      );
+    const uniqueDatums = uniqueByGeoAccessor(this.config.data);
+    this.values.attributeValuesByGeographyIndex = new InternMap(
+      uniqueDatums.map((d) => {
+        const value =
+          this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(d);
+        return [
+          this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(d),
+          value === null || value === undefined ? NaN : value,
+        ];
       })
     );
-    this.values.geoDatumValueMap = new InternMap(
-      attributeDataGeographies.map((name, i) => {
-        return [name, this.config.data[i]];
+    this.values.datumsByGeographyIndex = new InternMap(
+      uniqueDatums.map((d) => {
+        return [
+          this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(d),
+          d,
+        ];
       })
     );
   }
@@ -142,8 +151,9 @@ export class GeographiesComponent
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.equalNumObservations
     ) {
-      this.config.dataGeographyConfig.attributeDataConfig.domain =
-        this.values.attributeDataValues;
+      this.config.dataGeographyConfig.attributeDataConfig.domain = Array.from(
+        this.values.attributeValuesByGeographyIndex.values()
+      );
     } else if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.customBreaks
@@ -161,7 +171,9 @@ export class GeographiesComponent
       if (
         this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
       ) {
-        domainValues = extent(this.values.attributeDataValues);
+        domainValues = extent(
+          Array.from(this.values.attributeValuesByGeographyIndex.values())
+        );
       } else {
         domainValues =
           this.config.dataGeographyConfig.attributeDataConfig.domain;
@@ -217,7 +229,7 @@ export class GeographiesComponent
   setCategoricalDomain(): void {
     const domainValues =
       this.config.dataGeographyConfig.attributeDataConfig.domain ??
-      this.values.attributeDataValues;
+      Array.from(this.values.attributeValuesByGeographyIndex.values());
     this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
       domainValues
     );
@@ -385,8 +397,10 @@ export class GeographiesComponent
       .attr('d', this.path)
       .attr('fill', (d) =>
         this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
-          ? this.getPatternFill(d)
-          : this.getFill(d)
+          ? this.getPatternFill(
+              this.config.dataGeographyConfig.valueAccessor(d)
+            )
+          : this.getFill(this.config.dataGeographyConfig.valueAccessor(d))
       )
       .attr('stroke', this.config.dataGeographyConfig.strokeColor)
       .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth);
@@ -437,18 +451,17 @@ export class GeographiesComponent
     });
   }
 
-  getFill(d: Feature): string {
-    const dataValue = this.values.geoDataValueMap.get(
-      this.config.dataGeographyConfig.valueAccessor(d)
-    );
+  getFill(geographyIndex: string): string {
+    const dataValue =
+      this.values.attributeValuesByGeographyIndex.get(geographyIndex);
     return this.attributeDataScale(dataValue);
   }
 
-  getPatternFill(d: Feature): string {
-    const geography = this.config.dataGeographyConfig.valueAccessor(d);
-    const dataValue = this.values.geoDataValueMap.get(geography);
-    const datum = this.values.geoDatumValueMap.get(geography);
-    const color = this.attributeDataScale(dataValue);
+  getPatternFill(geographyIndex: string): string {
+    const datum = this.values.datumsByGeographyIndex.get(geographyIndex);
+    const color = this.attributeDataScale(
+      this.values.attributeValuesByGeographyIndex.get(geographyIndex)
+    );
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
     return PatternUtilities.getPatternFill(datum, color, predicates);
@@ -484,14 +497,14 @@ export class GeographiesComponent
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelProperty<CSSType.Property.Fill>(
-                d,
+                this.config.dataGeographyConfig.valueAccessor(d),
                 labelsConfig,
                 'color'
               )
             )
             .attr('font-weight', (d) =>
               this.getLabelProperty<CSSType.Property.FontWeight>(
-                d,
+                this.config.dataGeographyConfig.valueAccessor(d),
                 labelsConfig,
                 'fontWeight'
               )
@@ -506,14 +519,14 @@ export class GeographiesComponent
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelProperty<CSSType.Property.Fill>(
-                  d,
+                  this.config.dataGeographyConfig.valueAccessor(d),
                   labelsConfig,
                   'color'
                 )
               )
               .attr('font-weight', (d) =>
                 this.getLabelProperty<CSSType.Property.FontWeight>(
-                  d,
+                  this.config.dataGeographyConfig.valueAccessor(d),
                   labelsConfig,
                   'fontWeight'
                 )
@@ -539,15 +552,17 @@ export class GeographiesComponent
   }
 
   getLabelProperty<T>(
-    d: Feature<MultiPolygon, any>,
+    geographyIndex: string,
     config: VicGeographyLabelConfig,
     property: 'color' | 'fontWeight'
   ): T {
-    const pathColor = this.getFill(d);
+    const pathColor = this.getFill(geographyIndex);
     const accessor = config[property];
     let fontProperty;
     if (this.isPropertyFunction(accessor)) {
-      fontProperty = accessor(d);
+      fontProperty = accessor(
+        this.values.datumsByGeographyIndex.get(geographyIndex)
+      );
     } else {
       fontProperty = accessor;
     }

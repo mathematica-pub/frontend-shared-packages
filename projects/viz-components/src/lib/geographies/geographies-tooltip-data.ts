@@ -20,8 +20,9 @@ export function getGeographiesTooltipData(
 ): VicGeographiesTooltipOutput {
   const geographyName =
     geographies.config.dataGeographyConfig.valueAccessor(geography);
-  const datum = geographies.values.geoDatumValueMap.get(geographyName);
-  const value = geographies.values.geoDataValueMap.get(geographyName);
+  const datum = geographies.values.datumsByGeographyIndex.get(geographyName);
+  const value =
+    geographies.values.attributeValuesByGeographyIndex.get(geographyName);
 
   const tooltipData: VicGeographiesTooltipOutput = {
     datum,
@@ -33,7 +34,7 @@ export function getGeographiesTooltipData(
       value,
       geographies.config.dataGeographyConfig.attributeDataConfig.valueFormat
     ),
-    color: geographies.getFill(geography),
+    color: geographies.getFill(geographyName),
   };
 
   return tooltipData;
