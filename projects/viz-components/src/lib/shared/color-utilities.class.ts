@@ -9,7 +9,6 @@ export class ColorUtilities {
 
   static getLuminance(color: string): number {
     const rgb = ColorUtilities.colorStringToRgbObject(color);
-    console.log(rgb);
     return (
       0.2126 * ColorUtilities.sRGBToLinear(rgb.r) +
       0.7152 * ColorUtilities.sRGBToLinear(rgb.g) +
