@@ -540,8 +540,6 @@ export class GeographiesComponent
     d: Feature<MultiPolygon, any>,
     config: VicGeographyLabelConfig
   ): [number, number] {
-    if (!this.path || !this.projection) return [0, 0];
-
     if (config.standardPositioners) {
       for (const positioner of config.standardPositioners) {
         if (positioner.enable(d)) {
