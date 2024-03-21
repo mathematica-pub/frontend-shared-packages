@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from './map-chart.component';
 
 describe('MapChartComponent', () => {
-  let component: MapChartComponent;
-  let fixture: ComponentFixture<MapChartComponent>;
+  let component: MapChartComponent<any>;
+  let fixture: ComponentFixture<MapChartComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

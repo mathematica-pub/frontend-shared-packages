@@ -4,10 +4,10 @@ import { HoverDirective } from '../events/hover.directive';
 import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
 import { HoverDirectiveStub } from '../testing/stubs/hover.directive.stub';
 import { BarsHoverDirective } from './bars-hover.directive';
-import { BARS } from './bars.component';
+import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsHoverEventDirective', () => {
-  let directive: BarsHoverDirective;
+  let directive: BarsHoverDirective<any, BarsComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

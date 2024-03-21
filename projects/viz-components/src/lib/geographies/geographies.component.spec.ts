@@ -16,8 +16,8 @@ import {
 } from './geographies.config';
 
 describe('GeographiesComponent', () => {
-  let component: GeographiesComponent;
-  let fixture: ComponentFixture<GeographiesComponent>;
+  let component: GeographiesComponent<any>;
+  let fixture: ComponentFixture<GeographiesComponent<any>>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
@@ -37,9 +37,14 @@ describe('GeographiesComponent', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
+      spyOn(component, 'setConfig');
       spyOn(component, 'setPropertiesFromConfig');
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'drawMarks');
+    });
+    it('calls setConfig once', () => {
+      component.initFromConfig();
+      expect(component.setConfig).toHaveBeenCalledTimes(1);
     });
     it('calls setPropertiesFromConfig once', () => {
       component.initFromConfig();

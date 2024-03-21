@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   InjectionToken,
-  Input,
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
@@ -22,14 +21,14 @@ import { Feature, MultiPolygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { VicVariableType } from '../core/types/variable-type';
-import { DataMarks } from '../data-marks/data-marks';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapDataMarksBase } from '../map-chart/map-data-marks-base';
+import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
   VicDataGeographyConfig,
+  VicGeoJsonDefaultProperty,
   VicGeographiesConfig,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
@@ -41,7 +40,7 @@ export class MapDataValues {
   datumsByGeographyIndex: InternMap;
 }
 
-export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
+export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
   'GeographiesComponent'
 );
 @Component({
@@ -63,11 +62,13 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent>(
     },
   ],
 })
-export class GeographiesComponent
-  extends MapDataMarksBase
-  implements DataMarks
-{
-  @Input() config: VicGeographiesConfig;
+export class GeographiesComponent<
+  Datum,
+  GeoJsonProperties extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
+> extends MapDataMarksBase<
+  Datum,
+  VicGeographiesConfig<Datum, GeoJsonProperties>
+> {
   map: any;
   projection: any;
   path: any;
@@ -81,7 +82,8 @@ export class GeographiesComponent
     super();
   }
 
-  initFromConfig(): void {
+  override initFromConfig(): void {
+    this.setConfig();
     this.setPropertiesFromConfig();
     this.setPropertiesFromRanges();
     this.drawMarks();
@@ -364,7 +366,10 @@ export class GeographiesComponent
 
     const dataGeographyGroups = this.map
       .selectAll('.geography-g')
-      .data((layer: VicDataGeographyConfig) => layer.geographies)
+      .data(
+        (layer: VicDataGeographyConfig<Datum, GeoJsonProperties>) =>
+          layer.geographies
+      )
       .join(
         (enter) => enter.append('g').attr('class', 'geography-g'),
         (update) => update,
@@ -398,9 +403,15 @@ export class GeographiesComponent
       .attr('fill', (d) =>
         this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
           ? this.getPatternFill(
-              this.config.dataGeographyConfig.valueAccessor(d)
+              this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
+                d
+              )
             )
-          : this.getFill(this.config.dataGeographyConfig.valueAccessor(d))
+          : this.getFill(
+              this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
+                d
+              )
+            )
       )
       .attr('stroke', this.config.dataGeographyConfig.strokeColor)
       .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth);
@@ -497,14 +508,18 @@ export class GeographiesComponent
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelProperty<CSSType.Property.Fill>(
-                this.config.dataGeographyConfig.valueAccessor(d),
+                this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
+                  d
+                ),
                 labelsConfig,
                 'color'
               )
             )
             .attr('font-weight', (d) =>
               this.getLabelProperty<CSSType.Property.FontWeight>(
-                this.config.dataGeographyConfig.valueAccessor(d),
+                this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
+                  d
+                ),
                 labelsConfig,
                 'fontWeight'
               )
@@ -519,14 +534,18 @@ export class GeographiesComponent
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelProperty<CSSType.Property.Fill>(
-                  this.config.dataGeographyConfig.valueAccessor(d),
+                  this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
+                    d
+                  ),
                   labelsConfig,
                   'color'
                 )
               )
               .attr('font-weight', (d) =>
                 this.getLabelProperty<CSSType.Property.FontWeight>(
-                  this.config.dataGeographyConfig.valueAccessor(d),
+                  this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(
+                    d
+                  ),
                   labelsConfig,
                   'fontWeight'
                 )

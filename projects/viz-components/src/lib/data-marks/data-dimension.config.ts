@@ -1,21 +1,24 @@
 import { InternSet, scaleBand } from 'd3';
 import { VicFormatSpecifier } from '../value-format/value-format';
 
-export class VicDataDimensionConfig {
-  valueAccessor: (...args: any) => any;
+export class VicDataDimensionConfig<Datum> {
+  valueAccessor: (d: Datum, ...args: any) => any;
   domain?: any;
   valueFormat?: VicFormatSpecifier;
-  constructor(init?: Partial<VicDataDimensionConfig>) {
+  constructor(init?: Partial<VicDataDimensionConfig<Datum>>) {
     Object.assign(this, init);
   }
 }
 
-export class VicQuantitativeDimensionConfig extends VicDataDimensionConfig {
+export class VicQuantitativeDimensionConfig<
+  Datum
+> extends VicDataDimensionConfig<Datum> {
+  override valueAccessor: (d: Datum, ...args: any) => number | Date;
   override domain?: [any, any];
   scaleType?: (d: any, r: any) => any;
   domainPadding: VicDomainPaddingConfig;
 
-  constructor(init?: Partial<VicQuantitativeDimensionConfig>) {
+  constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
     Object.assign(this, init);
   }
@@ -84,24 +87,28 @@ export type VicDomainPaddingConfig =
   | VicPercentOverDomainPaddingConfig
   | VicPixelDomainPaddingConfig;
 
-export class VicCategoricalColorDimensionConfig extends VicDataDimensionConfig {
+export class VicCategoricalColorDimensionConfig<
+  Datum
+> extends VicDataDimensionConfig<Datum> {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) => any;
   colors?: string[];
-  constructor(init?: Partial<VicCategoricalColorDimensionConfig>) {
+  constructor(init?: Partial<VicCategoricalColorDimensionConfig<Datum>>) {
     super();
     Object.assign(this, init);
   }
 }
 
-export class VicOrdinalDimensionConfig extends VicDataDimensionConfig {
+export class VicOrdinalDimensionConfig<
+  Datum
+> extends VicDataDimensionConfig<Datum> {
   override domain?: any[] | InternSet;
   scaleType: (d: any, r: any) => any;
   paddingInner: number;
   paddingOuter: number;
   align: number;
 
-  constructor(init?: Partial<VicOrdinalDimensionConfig>) {
+  constructor(init?: Partial<VicOrdinalDimensionConfig<Datum>>) {
     super();
     this.scaleType = scaleBand;
     this.paddingInner = 0.1;

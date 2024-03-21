@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { isDate } from '../core/utilities/type-guards';
+import { isDate } from '../core/utilities/isDate';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -14,16 +14,24 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 @Directive({
   selector: '[vicStackedAreaHoverMoveEffects]',
 })
-export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
+export class StackedAreaHoverMoveDirective<
+  Datum,
+  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
+> extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
-  effects: HoverMoveEventEffect<StackedAreaHoverMoveDirective>[];
-  @Output('vicStackedAreaHoverMoveOutput') eventOutput =
-    new EventEmitter<VicStackedAreaEventOutput>();
+  effects: HoverMoveEventEffect<
+    StackedAreaHoverMoveDirective<Datum, ExtendedStackedAreaComponent>
+  >[];
+  @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
+    VicStackedAreaEventOutput<Datum>
+  >();
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
 
-  constructor(@Inject(STACKED_AREA) public stackedArea: StackedAreaComponent) {
+  constructor(
+    @Inject(STACKED_AREA) public stackedArea: ExtendedStackedAreaComponent
+  ) {
     super();
   }
 
@@ -94,7 +102,7 @@ export class StackedAreaHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getTooltipData(): VicStackedAreaEventOutput {
+  getTooltipData(): VicStackedAreaEventOutput<Datum> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
       this.stackedArea

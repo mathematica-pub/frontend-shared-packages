@@ -2,29 +2,32 @@ import { Feature } from 'geojson';
 import { formatValue } from '../value-format/value-format';
 import { GeographiesComponent } from './geographies.component';
 
-export interface VicGeographiesTooltipOutput {
-  datum?: any;
+export interface VicGeographiesTooltipOutput<Datum> {
+  datum?: Datum;
   color: string;
   geography: string;
   attributeValue: string;
 }
 
-export interface VicGeographiesEventOutput extends VicGeographiesTooltipOutput {
+export interface VicGeographiesEventOutput<Datum>
+  extends VicGeographiesTooltipOutput<Datum> {
   positionX: number;
   positionY: number;
 }
 
-export function getGeographiesTooltipData(
+export function getGeographiesTooltipData<Datum>(
   geography: Feature,
-  geographies: GeographiesComponent
-): VicGeographiesTooltipOutput {
+  geographies: GeographiesComponent<Datum>
+): VicGeographiesTooltipOutput<Datum> {
   const geographyName =
-    geographies.config.dataGeographyConfig.valueAccessor(geography);
+    geographies.config.dataGeographyConfig.featureIndexAccessor(
+      geography.properties
+    );
   const datum = geographies.values.datumsByGeographyIndex.get(geographyName);
   const value =
     geographies.values.attributeValuesByGeographyIndex.get(geographyName);
 
-  const tooltipData: VicGeographiesTooltipOutput = {
+  const tooltipData: VicGeographiesTooltipOutput<Datum> = {
     datum,
     geography:
       geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(

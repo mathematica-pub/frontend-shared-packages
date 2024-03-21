@@ -23,12 +23,12 @@ import {
   BarsHoverMoveEmitTooltipData,
   VicPixelDomainPaddingConfig,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, filter, map, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicBarsConfig;
+  dataConfig: VicBarsConfig<MetroUnemploymentDatum>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
 }
@@ -60,13 +60,15 @@ export class BarsExampleComponent implements OnInit {
       new VicHtmlTooltipConfig(new BarsExampleTooltipConfig())
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicBarsEventOutput> =
-    new BehaviorSubject<VicBarsEventOutput>(null);
+  tooltipData: BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: HoverMoveEventEffect<BarsHoverMoveDirective>[] = [
-    new BarsHoverMoveEmitTooltipData(),
+  hoverAndMoveEffects: HoverMoveEventEffect<
+    BarsHoverMoveDirective<MetroUnemploymentDatum>
+  >[] = [new BarsHoverMoveEmitTooltipData()];
+  hoverEffects: EventEffect<BarsHoverDirective<MetroUnemploymentDatum>>[] = [
+    new BarsHoverShowLabels(),
   ];
-  hoverEffects: EventEffect<BarsHoverDirective>[] = [new BarsHoverShowLabels()];
 
   constructor(private dataService: DataService) {}
 
@@ -84,7 +86,7 @@ export class BarsExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '.0f';
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicBarsConfig();
+    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum>();
     dataConfig.labels = new VicBarsLabelsConfig();
     dataConfig.labels.display = false;
     dataConfig.quantitative.valueFormat = (d: any) => {
@@ -106,16 +108,18 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
-  updateTooltipForNewOutput(data: VicBarsEventOutput): void {
+  updateTooltipForNewOutput(
+    data: VicBarsEventOutput<MetroUnemploymentDatum>
+  ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: VicBarsEventOutput): void {
+  updateTooltipData(data: VicBarsEventOutput<MetroUnemploymentDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: VicBarsEventOutput): void {
+  updateTooltipConfig(data: VicBarsEventOutput<MetroUnemploymentDatum>): void {
     const config = new BarsExampleTooltipConfig();
     config.position = new VicHtmlTooltipOffsetFromOriginPosition();
     if (data) {

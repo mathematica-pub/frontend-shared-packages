@@ -10,8 +10,8 @@ import { MapLegendContent } from '../map-legend-content';
   templateUrl: './discontinuous-legend.component.html',
   styleUrls: ['./discontinuous-legend.component.scss'],
 })
-export class DiscontinuousLegendComponent
-  extends MapLegendContent
+export class DiscontinuousLegendComponent<Datum>
+  extends MapLegendContent<Datum>
   implements OnChanges
 {
   @Input() isCategorical: boolean;

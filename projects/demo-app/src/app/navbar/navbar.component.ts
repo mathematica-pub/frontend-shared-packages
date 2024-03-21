@@ -13,7 +13,13 @@ import { Example } from '../core/models/example';
 export class NavbarComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   navbarConfig$: Observable<any>;
-  examples: Example[] = ['bars', 'stacked-area', 'lines', 'geographies'];
+  examples: Example[] = [
+    'bars',
+    'geographies',
+    'lines',
+    'stacked-area',
+    'stacked-bars',
+  ];
   baseFolder = '/documentation';
 
   private http = inject(HttpClient);
@@ -33,6 +39,7 @@ export class NavbarComponent implements OnInit {
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sortYaml(yaml: any): any {
     const returnArray = Object.entries(yaml)
       .map((entry) => {

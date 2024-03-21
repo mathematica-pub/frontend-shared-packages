@@ -1,8 +1,10 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { Feature } from 'geojson';
+import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -10,28 +12,35 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
-import { Feature } from 'geojson';
 
 @Directive({
   selector: '[vicGeographiesHoverMoveEffects]',
 })
-export class GeographiesHoverMoveDirective extends HoverMoveDirective {
+export class GeographiesHoverMoveDirective<
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+> extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
-  effects: HoverMoveEventEffect<GeographiesHoverMoveDirective>[];
-  @Output('vicGeographiesHoverMoveOutput') eventOutput =
-    new EventEmitter<VicGeographiesEventOutput>();
+  effects: HoverMoveEventEffect<
+    GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+  >[];
+  @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
+    VicGeographiesEventOutput<Datum>
+  >();
   pointerX: number;
   pointerY: number;
   feature: Feature;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 
   setListenedElements(): void {
     this.geographies.dataGeographies$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.geographies.destroyRef),
         filter((geoSels) => !!geoSels)
       )
       .subscribe((geoSels) => {
@@ -64,12 +73,12 @@ export class GeographiesHoverMoveDirective extends HoverMoveDirective {
     }
   }
 
-  getEventOutput(): VicGeographiesEventOutput {
+  getEventOutput(): VicGeographiesEventOutput<Datum> {
     const tooltipData = getGeographiesTooltipData(
       this.feature,
       this.geographies
     );
-    const output: VicGeographiesEventOutput = {
+    const output: VicGeographiesEventOutput<Datum> = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,

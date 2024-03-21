@@ -89,7 +89,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -146,15 +146,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>applyEffect(directive: <a " target="_self">LinesMarkerClickDirective</a>)</code>
+<code>applyEffect(directive: <a " target="_self">LinesMarkerClickDirective&lt;T | U&gt;</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:24</a></div>
                 </td>
             </tr>
 
@@ -177,7 +177,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a " target="_self" >LinesMarkerClickDirective</a></code>
+                                                <code><a " target="_self" >LinesMarkerClickDirective&lt;T | U&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -215,15 +215,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>removeEffect(directive: <a " target="_self">LinesMarkerClickDirective</a>)</code>
+<code>removeEffect(directive: <a " target="_self">LinesMarkerClickDirective&lt;T | U&gt;</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/viz-components/src/lib/lines/lines-marker-click-effects.ts:38</a></div>
                 </td>
             </tr>
 
@@ -246,7 +246,7 @@
                                 <tr>
                                     <td>directive</td>
                                     <td>
-                                                <code><a " target="_self" >LinesMarkerClickDirective</a></code>
+                                                <code><a " target="_self" >LinesMarkerClickDirective&lt;T | U&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -284,6 +284,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { select } from &#x27;d3&#x27;;
 import { EventEffect } from &#x27;../events/effect&#x27;;
 import { LinesMarkerClickDirective } from &#x27;./lines-marker-click.directive&#x27;;
+import { LinesComponent } from &#x27;./lines.component&#x27;;
 
 export class LinesMarkerClickDefaultStylesConfig {
   growMarkerDimension: number;
@@ -294,14 +295,16 @@ export class LinesMarkerClickDefaultStylesConfig {
   }
 }
 
-export class LinesMarkerClickEmitTooltipData
-  implements EventEffect&lt;LinesMarkerClickDirective&gt;
+export class LinesMarkerClickEmitTooltipData&lt;
+  T,
+  U extends LinesComponent&lt;T&gt; &#x3D; LinesComponent&lt;T&gt;
+&gt; implements EventEffect&lt;LinesMarkerClickDirective&lt;T, U&gt;&gt;
 {
   constructor(private config?: LinesMarkerClickDefaultStylesConfig) {
     this.config &#x3D; config ?? new LinesMarkerClickDefaultStylesConfig();
   }
 
-  applyEffect(directive: LinesMarkerClickDirective) {
+  applyEffect(directive: LinesMarkerClickDirective&lt;T, U&gt;) {
     const tooltipData &#x3D; directive.getTooltipData();
     directive.preventHoverEffects();
     select(directive.el)
@@ -315,7 +318,7 @@ export class LinesMarkerClickEmitTooltipData
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesMarkerClickDirective) {
+  removeEffect(directive: LinesMarkerClickDirective&lt;T, U&gt;) {
     select(directive.el).attr(
       &#x27;r&#x27;,
       (d): number &#x3D;&gt; directive.lines.config.pointMarkers.radius

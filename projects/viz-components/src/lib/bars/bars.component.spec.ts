@@ -8,8 +8,8 @@ import { BarsComponent } from './bars.component';
 import { VicBarsConfig, VicBarsLabelsConfig } from './bars.config';
 
 describe('BarsComponent', () => {
-  let component: BarsComponent;
-  let fixture: ComponentFixture<BarsComponent>;
+  let component: BarsComponent<any>;
+  let fixture: ComponentFixture<BarsComponent<any>>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
@@ -330,7 +330,7 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('setChartScalesFromRanges', () => {
+  describe('setPropertiesFromRanges', () => {
     beforeEach(() => {
       component.config = {
         dimensions: { ordinal: 'x' },
@@ -345,16 +345,16 @@ describe('BarsComponent', () => {
       spyOn(component, 'getQuantitativeScale').and.returnValue('quant scale');
     });
     it('calls getOrdinalScale once', () => {
-      component.setChartScalesFromRanges(true);
+      component.setPropertiesFromRanges(true);
       expect(component.getOrdinalScale).toHaveBeenCalledTimes(1);
     });
     it('calls getQuantitativeScale once', () => {
-      component.setChartScalesFromRanges(true);
+      component.setPropertiesFromRanges(true);
       expect(component.getQuantitativeScale).toHaveBeenCalledTimes(1);
     });
     describe('if ordinal is x', () => {
       it('calls updateScales once with the correct values', () => {
-        component.setChartScalesFromRanges(true);
+        component.setPropertiesFromRanges(true);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'ord scale',
           y: 'quant scale',
@@ -368,7 +368,7 @@ describe('BarsComponent', () => {
         component.config.dimensions.ordinal = 'y';
       });
       it('calls updateScales once with the correct value', () => {
-        component.setChartScalesFromRanges(false);
+        component.setPropertiesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quant scale',
           y: 'ord scale',

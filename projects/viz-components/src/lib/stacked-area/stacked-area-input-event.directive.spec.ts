@@ -2,10 +2,10 @@
 import { TestBed } from '@angular/core/testing';
 import { StackedAreaComponentStub } from '../testing/stubs/stacked-area.component.stub';
 import { StackedAreaInputEventDirective } from './stacked-area-input-event.directive';
-import { STACKED_AREA } from './stacked-area.component';
+import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 
 describe('StackedAreaInputDirective', () => {
-  let directive: StackedAreaInputEventDirective;
+  let directive: StackedAreaInputEventDirective<any, StackedAreaComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

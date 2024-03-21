@@ -18,25 +18,31 @@ interface GeographiesHoverExtras {
   bounds?: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput = VicGeographiesTooltipOutput &
+export type GeographiesHoverOutput<Datum> = VicGeographiesTooltipOutput<Datum> &
   GeographiesHoverExtras;
 
 @Directive({
   selector: '[vicGeographiesHoverEffects]',
 })
 export class GeographiesHoverDirective<
-  T extends GeographiesComponent = GeographiesComponent
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<GeographiesHoverDirective<T>>[];
-  @Output('vicGeographiesHoverOutput') eventOutput =
-    new EventEmitter<VicGeographiesEventOutput>();
+  effects: EventEffect<
+    GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
+  >[];
+  @Output('vicGeographiesHoverOutput') eventOutput = new EventEmitter<
+    VicGeographiesEventOutput<Datum>
+  >();
   feature: Feature;
   bounds: [[number, number], [number, number]];
   positionX: number;
   positionY: number;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: GeographiesComponent) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 
@@ -67,7 +73,7 @@ export class GeographiesHoverDirective<
     }
   }
 
-  getEventOutput(): VicGeographiesEventOutput {
+  getEventOutput(): VicGeographiesEventOutput<Datum> {
     const tooltipData = getGeographiesTooltipData(
       this.feature,
       this.geographies
