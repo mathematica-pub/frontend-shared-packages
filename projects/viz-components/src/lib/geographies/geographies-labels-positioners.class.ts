@@ -40,12 +40,11 @@ export class VicGeographiesLabelsPositionerBottomMiddleBoundingBox
       feature.geometry.coordinates.length - 1
     ][0].map(projection) as [number, number][];
 
-    const hawaiiApproxStartCoords = startPolygon[0];
-    const hawaiiApproxEndCoords = endPolygon[0];
+    const approxStartCoords = startPolygon[0];
+    const approxEndCoords = endPolygon[0];
     return [
-      hawaiiApproxStartCoords[0] +
-        (hawaiiApproxEndCoords[0] - hawaiiApproxStartCoords[0]) / 2,
-      hawaiiApproxStartCoords[1],
+      approxStartCoords[0] + (approxEndCoords[0] - approxStartCoords[0]) / 2,
+      approxStartCoords[1],
     ];
   }
 }

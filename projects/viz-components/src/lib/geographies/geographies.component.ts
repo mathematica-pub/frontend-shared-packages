@@ -377,9 +377,9 @@ export class GeographiesComponent
       .join(
         (enter) => {
           enter = enter.append('path');
-          this.drawBasicPaths(enter);
+          this.setPathAttributes(enter);
         },
-        (update) => this.drawBasicPaths(update),
+        (update) => this.setPathAttributes(update),
         (exit) => exit.remove()
       );
 
@@ -392,7 +392,7 @@ export class GeographiesComponent
     }
   }
 
-  drawBasicPaths(selection: any): any {
+  setPathAttributes(selection: any): any {
     return selection
       .attr('d', this.path)
       .attr('fill', (d) =>
@@ -539,7 +539,9 @@ export class GeographiesComponent
   getLabelPosition(
     d: Feature<MultiPolygon, any>,
     config: VicGeographyLabelConfig
-  ) {
+  ): [number, number] {
+    if (!this.path || !this.projection) return [0, 0];
+
     if (config.standardPositioners) {
       for (const positioner of config.standardPositioners) {
         if (positioner.enable(d)) {

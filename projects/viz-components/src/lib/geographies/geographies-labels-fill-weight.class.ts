@@ -6,7 +6,11 @@ import { ColorUtilities } from '../shared/color-utilities.class';
  */
 
 export interface VicGeographiesLabelsAutoColorProperties {
-  color: CSSType.Property.Fill; // cannot used HTML named colors
+  /**
+   * Cannot use HTML named colors -- the colors used here must be calculable
+   * We only support hex or rgb
+   */
+  color: CSSType.Property.Fill;
   fontWeight: CSSType.Property.FontWeight;
 }
 
@@ -16,11 +20,11 @@ export class VicGeographiesLabelsAutoColor {
 
   constructor(init?: Partial<VicGeographiesLabelsAutoColor>) {
     this.dark = {
-      color: 'rgb(0,0,0)',
+      color: '#000000',
       fontWeight: 700,
     };
     this.light = {
-      color: 'rgb(255,255,255)',
+      color: '#FFFFFF',
       fontWeight: 400,
     };
     Object.assign(this, init);
@@ -29,14 +33,6 @@ export class VicGeographiesLabelsAutoColor {
   getAutoContrastLabelProperties(
     backgroundColor: string
   ): VicGeographiesLabelsAutoColorProperties {
-    const lightContrastRatio = ColorUtilities.getContrastRatio(
-      this.light.color,
-      backgroundColor
-    );
-    const darkContrastRatio = ColorUtilities.getContrastRatio(
-      this.dark.color,
-      backgroundColor
-    );
     return ColorUtilities.getContrastRatio(this.light.color, backgroundColor) >
       ColorUtilities.getContrastRatio(this.dark.color, backgroundColor)
       ? this.light
