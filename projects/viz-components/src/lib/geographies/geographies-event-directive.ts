@@ -4,9 +4,9 @@ import { GeographiesInputEventDirective } from './geographies-input-event.direct
 import { GeographiesComponent } from './geographies.component';
 
 export type GeographiesEventDirective<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > =
-  | GeographiesHoverDirective<T, U>
-  | GeographiesHoverMoveDirective<T, U>
-  | GeographiesInputEventDirective<T, U>;
+  | GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
+  | GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+  | GeographiesInputEventDirective<Datum, ExtendedGeographiesComponent>;

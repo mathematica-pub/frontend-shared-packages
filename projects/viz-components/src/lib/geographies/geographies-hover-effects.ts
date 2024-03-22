@@ -3,16 +3,21 @@ import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesComponent } from './geographies.component';
 
 export class GeographiesHoverEmitTooltipData<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
-> implements EventEffect<GeographiesHoverDirective<T, U>>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+> implements
+    EventEffect<GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>>
 {
-  applyEffect(directive: GeographiesHoverDirective<T, U>): void {
+  applyEffect(
+    directive: GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
+  ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: GeographiesHoverDirective<T, U>): void {
+  removeEffect(
+    directive: GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

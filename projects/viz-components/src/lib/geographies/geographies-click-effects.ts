@@ -3,17 +3,22 @@ import { GeographiesClickDirective } from './geographies-click.directive';
 import { GeographiesComponent } from './geographies.component';
 
 export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
-> implements EventEffect<GeographiesClickDirective<T, U>>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+> implements
+    EventEffect<GeographiesClickDirective<Datum, ExtendedGeographiesComponent>>
 {
-  applyEffect(directive: GeographiesClickDirective<T, U>) {
+  applyEffect(
+    directive: GeographiesClickDirective<Datum, ExtendedGeographiesComponent>
+  ) {
     const tooltipData = directive.getOutputData();
     directive.preventHoverEffects();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: GeographiesClickDirective<T, U>) {
+  removeEffect(
+    directive: GeographiesClickDirective<Datum, ExtendedGeographiesComponent>
+  ) {
     directive.resumeHoverEffects();
     directive.eventOutput.emit(null);
   }

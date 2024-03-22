@@ -12,7 +12,7 @@ import {
   scaleQuantize,
   scaleThreshold,
 } from 'd3';
-import { Feature, Geometry } from 'geojson';
+import { Feature, GeoJsonProperties, Geometry } from 'geojson';
 import { VicVariableType } from '../core/types/variable-type';
 import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
@@ -24,7 +24,10 @@ import {
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
  */
-export class VicGeographiesConfig<T, P> extends VicDataMarksConfig<T> {
+export class VicGeographiesConfig<
+  Datum,
+  SpecificGeoJsonProperties
+> extends VicDataMarksConfig<Datum> {
   /** A feature or geometry object or collection that defines the extents of the map to be drawn.
    * Used for scaling the map.
    */
@@ -45,9 +48,11 @@ export class VicGeographiesConfig<T, P> extends VicDataMarksConfig<T> {
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataGeographyConfig: VicDataGeographyConfig<T, P>;
+  dataGeographyConfig: VicDataGeographyConfig<Datum, SpecificGeoJsonProperties>;
 
-  constructor(init?: Partial<VicGeographiesConfig<T, P>>) {
+  constructor(
+    init?: Partial<VicGeographiesConfig<Datum, SpecificGeoJsonProperties>>
+  ) {
     super();
     this.projection = geoAlbersUsa();
     Object.assign(this, init);
@@ -57,12 +62,12 @@ export class VicGeographiesConfig<T, P> extends VicDataMarksConfig<T> {
 export type VicGeoJsonDefaultProperty = { [name: string]: any };
 
 export class VicBaseDataGeographyConfig<
-  P extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
+  SpecificGeoJsonProperties extends GeoJsonProperties = GeoJsonProperties
 > {
   /**
    * GeoJSON features that define the geographies to be drawn.
    */
-  geographies: Feature<Geometry, P>[];
+  geographies: Feature<Geometry, SpecificGeoJsonProperties>[];
   /**
    * The color of the stroke for the geography.
    * @default: 'dimgray'.
@@ -96,17 +101,22 @@ export class VicNoDataGeographyConfig extends VicBaseDataGeographyConfig {
 }
 
 export class VicDataGeographyConfig<
-  T,
-  P
-> extends VicBaseDataGeographyConfig<P> {
+  Datum,
+  SpecificGeoJsonProperties
+> extends VicBaseDataGeographyConfig<SpecificGeoJsonProperties> {
   /**
    * A function that derives the name or id of the geography from properties object on the geojson feature.
    */
-  featureIdAccessor?: (properties: P, ...args: any) => any;
-  attributeDataConfig: VicAttributeDataDimensionConfig<T>;
+  featureIndexAccessor?: (
+    properties: SpecificGeoJsonProperties,
+    ...args: any
+  ) => string | number;
+  attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;
   nullColor: string;
 
-  constructor(init?: Partial<VicDataGeographyConfig<T, P>>) {
+  constructor(
+    init?: Partial<VicDataGeographyConfig<Datum, SpecificGeoJsonProperties>>
+  ) {
     super();
     this.nullColor = '#dcdcdc';
     Object.assign(this, init);
@@ -114,9 +124,9 @@ export class VicDataGeographyConfig<
 }
 
 export class VicAttributeDataDimensionConfig<
-  T
-> extends VicDataDimensionConfig<T> {
-  geoAccessor: (d: T, ...args: any) => any;
+  Datum
+> extends VicDataDimensionConfig<Datum> {
+  geoAccessor: (d: Datum, ...args: any) => any;
   variableType: VicVariableType.categorical | VicVariableType.quantitative;
   binType: keyof typeof VicValuesBin;
   range: any[];
@@ -126,7 +136,7 @@ export class VicAttributeDataDimensionConfig<
   breakValues?: number[];
   interpolator: (...args: any) => any;
   patternPredicates?: VicPatternPredicate[];
-  constructor(init?: Partial<VicAttributeDataDimensionConfig<T>>) {
+  constructor(init?: Partial<VicAttributeDataDimensionConfig<Datum>>) {
     super();
     Object.assign(this, init);
   }
@@ -140,11 +150,13 @@ export enum VicValuesBin {
 }
 
 export class VicCategoricalAttributeDataDimensionConfig<
-  T
-> extends VicAttributeDataDimensionConfig<T> {
+  Datum
+> extends VicAttributeDataDimensionConfig<Datum> {
   override interpolator: never;
 
-  constructor(init?: Partial<VicCategoricalAttributeDataDimensionConfig<T>>) {
+  constructor(
+    init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
+  ) {
     super();
     this.variableType = VicVariableType.categorical;
     this.binType = VicValuesBin.none;
@@ -154,10 +166,10 @@ export class VicCategoricalAttributeDataDimensionConfig<
   }
 }
 export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
-  T
-> extends VicAttributeDataDimensionConfig<T> {
+  Datum
+> extends VicAttributeDataDimensionConfig<Datum> {
   constructor(
-    init?: Partial<VicNoBinsQuantitativeAttributeDataDimensionConfig<T>>
+    init?: Partial<VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>>
   ) {
     super();
     this.variableType = VicVariableType.quantitative;
@@ -169,10 +181,12 @@ export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
 }
 
 export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
-  T
-> extends VicAttributeDataDimensionConfig<T> {
+  Datum
+> extends VicAttributeDataDimensionConfig<Datum> {
   constructor(
-    init?: Partial<VicEqualValuesQuantitativeAttributeDataDimensionConfig<T>>
+    init?: Partial<
+      VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
+    >
   ) {
     super();
     this.variableType = VicVariableType.quantitative;
@@ -185,11 +199,13 @@ export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
 }
 
 export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
-  T
-> extends VicAttributeDataDimensionConfig<T> {
+  Datum
+> extends VicAttributeDataDimensionConfig<Datum> {
   override domain: never;
   constructor(
-    init?: Partial<VicEqualNumbersQuantitativeAttributeDataDimensionConfig<T>>
+    init?: Partial<
+      VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
+    >
   ) {
     super();
     this.variableType = VicVariableType.quantitative;
@@ -202,10 +218,12 @@ export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
 }
 
 export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
-  T
-> extends VicAttributeDataDimensionConfig<T> {
+  Datum
+> extends VicAttributeDataDimensionConfig<Datum> {
   constructor(
-    init?: Partial<VicCustomBreaksQuantitativeAttributeDataDimensionConfig<T>>
+    init?: Partial<
+      VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>
+    >
   ) {
     super();
     this.variableType = VicVariableType.quantitative;

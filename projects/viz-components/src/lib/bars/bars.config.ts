@@ -8,17 +8,17 @@ import {
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
-  ordinal: VicOrdinalDimensionConfig<T> = new VicOrdinalDimensionConfig();
-  quantitative: VicQuantitativeDimensionConfig<T> =
+export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
+  ordinal: VicOrdinalDimensionConfig<Datum> = new VicOrdinalDimensionConfig();
+  quantitative: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
-  category: VicCategoricalColorDimensionConfig<T> =
+  category: VicCategoricalColorDimensionConfig<Datum> =
     new VicCategoricalColorDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
-  labels: VicBarsLabelsConfig<T>;
+  labels: VicBarsLabelsConfig<Datum>;
   patternPredicates?: VicPatternPredicate[];
 
-  constructor(init?: Partial<VicBarsConfig<T>>) {
+  constructor(init?: Partial<VicBarsConfig<Datum>>) {
     super();
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
@@ -29,13 +29,13 @@ export class VicBarsConfig<T> extends VicDataMarksConfig<T> {
   }
 }
 
-export class VicBarsLabelsConfig<T> {
+export class VicBarsLabelsConfig<Datum> {
   display: boolean;
   offset: number;
   color?: string;
-  noValueFunction: (d: T, ...args: any) => string;
+  noValueFunction: (d: Datum, ...args: any) => string;
 
-  constructor(init?: Partial<VicBarsLabelsConfig<T>>) {
+  constructor(init?: Partial<VicBarsLabelsConfig<Datum>>) {
     this.display = true;
     this.offset = 4;
     this.noValueFunction = () => 'N/A';

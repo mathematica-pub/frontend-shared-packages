@@ -19,7 +19,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       this.setTicks(tickFormat);
     }
 
-    setTicks(tickFormat: string | ((value: any) => string)): void {
+    setTicks(tickFormat: string | ((value: number | Date) => string)): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
@@ -67,17 +67,20 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     getValidNumTicks(
       tickFormat: string | ((value: any) => string)
     ): number | AxisTimeInterval {
-      let numTicks = this.getNumTicks();
-      if (typeof tickFormat === 'string' && typeof numTicks === 'number') {
-        numTicks = Math.round(numTicks);
+      let numValidTicks = this.getNumTicks();
+      if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
+        numValidTicks = Math.round(numValidTicks);
         if (!tickFormat.includes('.')) {
           this.warnThatNoTickValidationsWereMade();
-          return numTicks;
+          return numValidTicks;
         } else {
-          return this.getValidNumTicksForStringFormatter(numTicks, tickFormat);
+          return this.getValidNumTicksForStringFormatter(
+            numValidTicks,
+            tickFormat
+          );
         }
       } else {
-        return numTicks;
+        return numValidTicks;
       }
     }
 
@@ -94,20 +97,21 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
         numDecimalPlaces = numDecimalPlaces + 2;
       }
       const [start, end] = this.scale.domain();
-      const firstPossibleTick = start + Math.pow(10, -1 * numDecimalPlaces);
-      if (firstPossibleTick > end) {
+      const firstPossibleInferredTick = // The first tick that could be created AFTER the start of the domain
+        start + Math.pow(10, -1 * numDecimalPlaces);
+      if (firstPossibleInferredTick > end) {
         return 1;
       } else {
-        let numPossibleTicks = 1; // tick for first value in domain
+        let numValidTicks = 1; // tick for first value in domain
         if (numDecimalPlaces > 0) {
-          numPossibleTicks += (end - start) * Math.pow(10, numDecimalPlaces);
+          numValidTicks += (end - start) * Math.pow(10, numDecimalPlaces);
         } else {
-          numPossibleTicks += Math.floor(end - start);
+          numValidTicks += Math.floor(end - start);
         }
-        if (numTicks < numPossibleTicks) {
+        if (numTicks < numValidTicks) {
           return numTicks;
         } else {
-          return numPossibleTicks;
+          return numValidTicks;
         }
       }
     }

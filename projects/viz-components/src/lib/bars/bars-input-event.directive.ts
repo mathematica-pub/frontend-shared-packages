@@ -10,16 +10,18 @@ import { BARS, BarsComponent } from './bars.component';
   selector: '[vicBarsInputEventEffects]',
 })
 export class BarsInputEventDirective<
-  T,
-  U extends BarsComponent<T> = BarsComponent<T>
+  Datum,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsInputEventEffects')
-  effects: InputEventEffect<BarsInputEventDirective<T, U>>[];
+  effects: InputEventEffect<
+    BarsInputEventDirective<Datum, ExtendedBarsComponent>
+  >[];
   @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
   @Output('vicBarsInputEventOutput') eventOutput = new EventEmitter<any>();
 
-  constructor(@Inject(BARS) public bars: BarsComponent<T>) {
+  constructor(@Inject(BARS) public bars: BarsComponent<Datum>) {
     super();
   }
 

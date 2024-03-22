@@ -16,19 +16,19 @@ export enum VicDimension {
   'date' = 'date',
 }
 
-export class VicDataDimensionConfig<T> {
-  valueAccessor: (d: T, ...args: any) => any;
+export class VicDataDimensionConfig<Datum> {
+  valueAccessor: (d: Datum, ...args: any) => any;
   domain?: any;
   valueFormat?: VicFormatSpecifier;
-  constructor(init?: Partial<VicDataDimensionConfig<T>>) {
+  constructor(init?: Partial<VicDataDimensionConfig<Datum>>) {
     Object.assign(this, init);
   }
 }
 
 export class VicQuantitativeDimensionConfig<
-  T
-> extends VicDataDimensionConfig<T> {
-  override valueAccessor: (d: T, ...args: any) => number;
+  Datum
+> extends VicDataDimensionConfig<Datum> {
+  override valueAccessor: (d: Datum, ...args: any) => number;
   override domain?: [number, number];
   type: VicDimension.quantitative = VicDimension.quantitative;
   scaleFn: (
@@ -38,15 +38,17 @@ export class VicQuantitativeDimensionConfig<
   domainPadding: VicDomainPaddingConfig;
   domainIncludesZero: boolean;
 
-  constructor(init?: Partial<VicQuantitativeDimensionConfig<T>>) {
+  constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
     this.scaleFn = scaleLinear;
     Object.assign(this, init);
   }
 }
 
-export class VicDateDimensionConfig<T> extends VicDataDimensionConfig<T> {
-  override valueAccessor: (d: T, ...args: any) => Date;
+export class VicDateDimensionConfig<
+  Datum
+> extends VicDataDimensionConfig<Datum> {
+  override valueAccessor: (d: Datum, ...args: any) => Date;
   override domain?: [Date, Date];
   type: VicDimension.date = VicDimension.date;
   domainPadding: never;
@@ -57,7 +59,7 @@ export class VicDateDimensionConfig<T> extends VicDataDimensionConfig<T> {
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
 
-  constructor(init?: Partial<VicQuantitativeDimensionConfig<T>>) {
+  constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
     this.scaleFn = scaleUtc as () => ScaleTime<number, number>;
     Object.assign(this, init);
@@ -65,18 +67,20 @@ export class VicDateDimensionConfig<T> extends VicDataDimensionConfig<T> {
 }
 
 export class VicCategoricalColorDimensionConfig<
-  T
-> extends VicDataDimensionConfig<T> {
+  Datum
+> extends VicDataDimensionConfig<Datum> {
   override domain?: any[] | InternSet;
   colorScale?: (...args: any) => any;
   colors?: string[];
-  constructor(init?: Partial<VicCategoricalColorDimensionConfig<T>>) {
+  constructor(init?: Partial<VicCategoricalColorDimensionConfig<Datum>>) {
     super();
     Object.assign(this, init);
   }
 }
 
-export class VicOrdinalDimensionConfig<T> extends VicDataDimensionConfig<T> {
+export class VicOrdinalDimensionConfig<
+  Datum
+> extends VicDataDimensionConfig<Datum> {
   override domain?: any[] | InternSet;
   type: VicDimension.ordinal = VicDimension.ordinal;
   scaleFn: (
@@ -87,7 +91,7 @@ export class VicOrdinalDimensionConfig<T> extends VicDataDimensionConfig<T> {
   paddingOuter: number;
   align: number;
 
-  constructor(init?: Partial<VicOrdinalDimensionConfig<T>>) {
+  constructor(init?: Partial<VicOrdinalDimensionConfig<Datum>>) {
     super();
     this.scaleFn = scaleBand;
     this.paddingInner = 0.1;

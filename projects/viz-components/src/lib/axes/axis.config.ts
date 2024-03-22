@@ -41,6 +41,8 @@ export class VicAxisConfig {
    * A string or function to use for formatting tick labels.
    *
    * If not provided on Quantitative Axes, ticks will be formatter with ',.1f'.
+   *
+   * If the formatter does not include a decimal point, a warning will be logged in the console and internal tick validation will be disabled.
    */
   tickFormat?: string | ((value: number | Date) => string);
 

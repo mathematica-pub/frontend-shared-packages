@@ -20,20 +20,22 @@ import { BARS, BarsComponent } from './bars.component';
   selector: '[vicBarsHoverMoveEffects]',
 })
 export class BarsHoverMoveDirective<
-  T,
-  U extends BarsComponent<T> = BarsComponent<T>
+  Datum,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicBarsHoverMoveEffects')
-  effects: HoverMoveEventEffect<BarsHoverMoveDirective<T, U>>[];
+  effects: HoverMoveEventEffect<
+    BarsHoverMoveDirective<Datum, ExtendedBarsComponent>
+  >[];
   @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
-    VicBarsEventOutput<T>
+    VicBarsEventOutput<Datum>
   >();
   barIndex: number;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
 
-  constructor(@Inject(BARS) public bars: U) {
+  constructor(@Inject(BARS) public bars: ExtendedBarsComponent) {
     super();
   }
 
@@ -82,7 +84,7 @@ export class BarsHoverMoveDirective<
     this.elRef = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput<T> {
+  getEventOutput(): VicBarsEventOutput<Datum> {
     const tooltipData = getBarsTooltipData(
       this.barIndex,
       this.elRef,

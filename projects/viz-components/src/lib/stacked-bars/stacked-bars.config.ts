@@ -1,11 +1,11 @@
 import { schemeTableau10, stackOffsetDiverging, stackOrderNone } from 'd3';
 import { VicBarsConfig } from '../bars/bars.config';
 
-export class VicStackedBarsConfig<T> extends VicBarsConfig<T> {
+export class VicStackedBarsConfig<Datum> extends VicBarsConfig<Datum> {
   order: any;
   offset: any;
 
-  constructor(init?: Partial<VicStackedBarsConfig<T>>) {
+  constructor(init?: Partial<VicStackedBarsConfig<Datum>>) {
     super();
     this.order = stackOrderNone;
     this.offset = stackOffsetDiverging;

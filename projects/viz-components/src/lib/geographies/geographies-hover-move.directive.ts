@@ -3,6 +3,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
+import { Feature } from 'geojson';
 import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
@@ -16,19 +17,23 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
   selector: '[vicGeographiesHoverMoveEffects]',
 })
 export class GeographiesHoverMoveDirective<
-  T,
-  U extends GeographiesComponent<T> = GeographiesComponent<T>
+  Datum,
+  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
-  effects: HoverMoveEventEffect<GeographiesHoverMoveDirective<T, U>>[];
+  effects: HoverMoveEventEffect<
+    GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+  >[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
-    VicGeographiesEventOutput<T>
+    VicGeographiesEventOutput<Datum>
   >();
   pointerX: number;
   pointerY: number;
   geographyIndex: number;
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: U) {
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+  ) {
     super();
   }
 
@@ -56,7 +61,7 @@ export class GeographiesHoverMoveDirective<
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    const d = select(event.target as Element).datum();
+    const d = select(event.target as Element).datum() as Feature;
     this.geographyIndex = this.getGeographyIndex(d);
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
@@ -69,21 +74,23 @@ export class GeographiesHoverMoveDirective<
     }
   }
 
-  getGeographyIndex(d: any): number {
+  getGeographyIndex(d: Feature): number {
     let value =
-      this.geographies.config.dataGeographyConfig.featureIdAccessor(d);
+      this.geographies.config.dataGeographyConfig.featureIndexAccessor(
+        d.properties
+      );
     if (typeof value === 'string') {
       value = value.toLowerCase();
     }
     return this.geographies.values.indexMap.get(value);
   }
 
-  getEventOutput(): VicGeographiesEventOutput<T> {
+  getEventOutput(): VicGeographiesEventOutput<Datum> {
     const tooltipData = getGeographiesTooltipData(
       this.geographyIndex,
       this.geographies
     );
-    const output: VicGeographiesEventOutput<T> = {
+    const output: VicGeographiesEventOutput<Datum> = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,

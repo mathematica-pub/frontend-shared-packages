@@ -257,6 +257,14 @@ describe('the QuantitativeAxis mixin', () => {
     beforeEach(() => {
       domainSpy = jasmine.createSpy('domain');
     });
+    it('returns the numTicks argument if numTicks is valid', () => {
+      abstractClass.scale = {
+        domain: domainSpy.and.returnValue([0, 20]),
+      };
+      expect(
+        (abstractClass as any).getValidNumTicksForStringFormatter(10, ',.0f')
+      ).toEqual(10);
+    });
     it('returns 1 if the first possible tick is greater than the end of the domain', () => {
       abstractClass.scale = {
         domain: domainSpy.and.returnValue([0, 0.5]),

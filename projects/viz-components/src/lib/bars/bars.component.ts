@@ -67,13 +67,15 @@ export type BarLabelSelection = Selection<
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
+export class BarsComponent<Datum> extends XyDataMarksBase<
+  Datum,
+  VicBarsConfig<Datum>
+> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
   hasBarsWithNegativeValues: boolean;
   barGroups: BarGroupSelection;
   barsKeyFunction: (i: number) => string;
-  private zone = inject(NgZone);
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
@@ -81,6 +83,7 @@ export class BarsComponent<T> extends XyDataMarksBase<T, VicBarsConfig<T>> {
   unpaddedDomain: {
     quantitative: [number, number];
   } = { quantitative: undefined };
+  protected zone = inject(NgZone);
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();

@@ -1,9 +1,9 @@
 import { DataMarksBase } from '../../data-marks/data-marks-base';
 import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
 
-export class DataMarksBaseStub<T> extends DataMarksBase<
-  T,
-  VicDataMarksConfig<T>
+export class DataMarksBaseStub<Datum> extends DataMarksBase<
+  Datum,
+  VicDataMarksConfig<Datum>
 > {
   override setPropertiesFromConfig(): void {
     return;

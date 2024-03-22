@@ -1,9 +1,9 @@
 import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
 import { XyDataMarksBase } from '../../xy-data-marks/xy-data-marks-base';
 
-export class XyDataMarksBaseStub<T> extends XyDataMarksBase<
-  T,
-  VicDataMarksConfig<T>
+export class XyDataMarksBaseStub<Datum> extends XyDataMarksBase<
+  Datum,
+  VicDataMarksConfig<Datum>
 > {
   override setPropertiesFromConfig(): void {
     return;

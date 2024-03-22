@@ -22,7 +22,7 @@ export enum VicLegendType {
   templateUrl: './map-legend.component.html',
   styleUrls: ['./map-legend.component.scss'],
 })
-export class MapLegendComponent<T> implements OnInit {
+export class MapLegendComponent<Datum> implements OnInit {
   @Input() width: number;
   @Input() height: number;
   @Input() valuesSide: keyof typeof VicSide;
@@ -31,7 +31,7 @@ export class MapLegendComponent<T> implements OnInit {
   canvasRef: ElementRef<HTMLCanvasElement>;
   legendType: keyof typeof VicLegendType;
   orientation: keyof typeof VicOrientation;
-  chart = inject(MapChartComponent<T>);
+  chart = inject(MapChartComponent<Datum>);
   destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {

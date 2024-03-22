@@ -13,15 +13,18 @@ export class LinesMarkerClickDefaultStylesConfig {
 }
 
 export class LinesMarkerClickEmitTooltipData<
-  T,
-  U extends LinesComponent<T> = LinesComponent<T>
-> implements EventEffect<LinesMarkerClickDirective<T, U>>
+  Datum,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+> implements
+    EventEffect<LinesMarkerClickDirective<Datum, ExtendedLinesComponent>>
 {
   constructor(private config?: LinesMarkerClickDefaultStylesConfig) {
     this.config = config ?? new LinesMarkerClickDefaultStylesConfig();
   }
 
-  applyEffect(directive: LinesMarkerClickDirective<T, U>) {
+  applyEffect(
+    directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
+  ) {
     const tooltipData = directive.getTooltipData();
     directive.preventHoverEffects();
     select(directive.el)
@@ -35,7 +38,9 @@ export class LinesMarkerClickEmitTooltipData<
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: LinesMarkerClickDirective<T, U>) {
+  removeEffect(
+    directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
+  ) {
     select(directive.el).attr(
       'r',
       (d): number => directive.lines.config.pointMarkers.radius

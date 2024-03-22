@@ -24,8 +24,9 @@ The DataMarks class is a minimal type signature that should be extended by every
 
 #### Required properties
 
-- data: any[]
-  - an array of _any_ type that contains values to visualize
+- data: Datum[]
+  - an array of type Datum (TS generic) type that contains values to visualize
+  - type Datum will be provided by user in specifying the config file for the DataMarks component
 
 #### Required properties - with default values
 

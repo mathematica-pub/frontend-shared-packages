@@ -12,10 +12,11 @@ import {
 } from '../data-marks/data-dimension.config';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 
-export class VicStackedAreaConfig<T> extends VicDataMarksConfig<T> {
-  x: VicDateDimensionConfig<T> = new VicDateDimensionConfig();
-  y: VicQuantitativeDimensionConfig<T> = new VicQuantitativeDimensionConfig();
-  category: VicCategoricalColorDimensionConfig<T> =
+export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
+  x: VicDateDimensionConfig<Datum> = new VicDateDimensionConfig();
+  y: VicQuantitativeDimensionConfig<Datum> =
+    new VicQuantitativeDimensionConfig();
+  category: VicCategoricalColorDimensionConfig<Datum> =
     new VicCategoricalColorDimensionConfig();
   valueIsDefined?: (...args: any) => any;
   curve: (x: any) => any;
@@ -26,7 +27,7 @@ export class VicStackedAreaConfig<T> extends VicDataMarksConfig<T> {
   stackOrderFunction: (x: any) => any;
   categoryOrder?: string[];
 
-  constructor(init?: Partial<VicStackedAreaConfig<T>>) {
+  constructor(init?: Partial<VicStackedAreaConfig<Datum>>) {
     super();
     this.category.valueAccessor = () => 1;
     this.category.colors = schemeTableau10 as string[];

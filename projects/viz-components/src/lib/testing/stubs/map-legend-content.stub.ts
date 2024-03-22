@@ -1,6 +1,6 @@
 import { MapLegendContent } from '../../map-legend/map-legend-content';
 
-export class MapLegendContentStub<T> extends MapLegendContent<T> {
+export class MapLegendContentStub<Datum> extends MapLegendContent<Datum> {
   getValuesFromScale(): number[] {
     return [1, 12];
   }

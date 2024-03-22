@@ -3,11 +3,15 @@ import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/
 import { LinesComponent } from 'projects/viz-components/src/public-api';
 
 export class HighlightLineForLabel<
-  T,
-  U extends LinesComponent<T> = LinesComponent<T>
-> implements InputEventEffect<LinesInputEventDirective<T, U>>
+  Datum,
+  ExtendedLineComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+> implements
+    InputEventEffect<LinesInputEventDirective<Datum, ExtendedLineComponent>>
 {
-  applyEffect(event: LinesInputEventDirective<T, U>, label: string): void {
+  applyEffect(
+    event: LinesInputEventDirective<Datum, ExtendedLineComponent>,
+    label: string
+  ): void {
     event.lines.lines
       .style('stroke', ([category]): string =>
         label === category ? null : '#ddd'
@@ -23,7 +27,9 @@ export class HighlightLineForLabel<
       .raise();
   }
 
-  removeEffect(event: LinesInputEventDirective<T, U>): void {
+  removeEffect(
+    event: LinesInputEventDirective<Datum, ExtendedLineComponent>
+  ): void {
     event.lines.lines.style('stroke', null);
     event.lines.markers.style('fill', null);
   }

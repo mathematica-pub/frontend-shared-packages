@@ -22,6 +22,14 @@ export interface DataMarks {
    * resize/when ranges change.
    */
   setPropertiesFromRanges: (useTransition: boolean) => void;
+  /**
+   * setValueArrays method
+   *
+   * This method parses the data that a user provides on a DataMarksComponent config into one array per dimension, and also
+   * creates an array of indicies that can be used to index into any of the other arrays.
+   *
+   * This methose could be called when parsing the user's config.
+   */
   setValueArrays: () => void;
   /**
    * drawMarks method
