@@ -296,19 +296,17 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       barsConfig.quantitative.domain = [-10, 10];
       mountVerticalBarComponent(barsConfig);
     });
-    describe('when the data label is for an omitted value', () => {
-      it('offsets data label below scales.y(0)', () => {
-        assertPositionOfZeroAxisAndDataLabel(
-          'y',
-          (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
-            expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
-              labelOffset
-            );
-          },
-          2
-        );
-      });
+    it('offsets data label for the omitted value below scales.y(0)', () => {
+      assertPositionOfZeroAxisAndDataLabel(
+        'y',
+        (tickPosition: DOMRect, labelPosition: DOMRect) => {
+          expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
+          expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
+            labelOffset
+          );
+        },
+        2
+      );
     });
   });
 
@@ -317,19 +315,17 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       barsConfig.data = dataWithPositiveAndOmittedValues;
       mountVerticalBarComponent(barsConfig);
     });
-    describe('when the data label is for an omitted value', () => {
-      it('offsets data label above scales.y(0)', () => {
-        assertPositionOfZeroAxisAndDataLabel(
-          'y',
-          (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-            expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
-              labelOffset
-            );
-          },
-          2
-        );
-      });
+    it('offsets data label for the omiteed value above scales.y(0)', () => {
+      assertPositionOfZeroAxisAndDataLabel(
+        'y',
+        (tickPosition: DOMRect, labelPosition: DOMRect) => {
+          expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
+          expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
+            labelOffset
+          );
+        },
+        2
+      );
     });
   });
 
@@ -583,22 +579,20 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   describe('for bar data that has negative and omitted values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithNegativeAndOmittedValues;
-      barsConfig.quantitative.domain = [-10, 10];
+      barsConfig.quantitative.domain = [-10, 0];
       mountHorizontalBarComponent(barsConfig);
     });
-    describe('when the data label is for an omitted value', () => {
-      it('offsets data label to the right of scales.x(0)', () => {
-        assertPositionOfZeroAxisAndDataLabel(
-          'x',
-          (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.right).to.be.lessThan(tickPosition.x);
-            expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
-              labelOffset
-            );
-          },
-          2
-        );
-      });
+    it('offsets data label for the omitted value to the right of scales.x(0)', () => {
+      assertPositionOfZeroAxisAndDataLabel(
+        'x',
+        (tickPosition: DOMRect, labelPosition: DOMRect) => {
+          expect(labelPosition.right).to.be.lessThan(tickPosition.x);
+          expect(Math.round(tickPosition.x - labelPosition.right)).to.equal(
+            labelOffset
+          );
+        },
+        2
+      );
     });
   });
 
@@ -607,19 +601,17 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       barsConfig.data = dataWithPositiveAndOmittedValues;
       mountHorizontalBarComponent(barsConfig);
     });
-    describe('when the data label is for an omitted value', () => {
-      it('offsets data label above scales.x(0)', () => {
-        assertPositionOfZeroAxisAndDataLabel(
-          'x',
-          (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.left).to.be.greaterThan(tickPosition.x);
-            expect(Math.round(labelPosition.left - tickPosition.x)).to.equal(
-              labelOffset
-            );
-          },
-          2
-        );
-      });
+    it('offsets data label for the omitted value to the left of scales.x(0)', () => {
+      assertPositionOfZeroAxisAndDataLabel(
+        'x',
+        (tickPosition: DOMRect, labelPosition: DOMRect) => {
+          expect(labelPosition.left).to.be.greaterThan(tickPosition.x);
+          expect(Math.round(labelPosition.left - tickPosition.x)).to.equal(
+            labelOffset
+          );
+        },
+        2
+      );
     });
   });
 
