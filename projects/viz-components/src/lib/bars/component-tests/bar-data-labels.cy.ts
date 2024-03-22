@@ -91,6 +91,10 @@ const assertPositionOfZeroAxisAndDataLabel = (
     });
 };
 
+const distanceBetweenElementAndDataLabelIsOffset = (distance: number) => {
+  expect(Math.round(distance)).to.equal(labelOffset);
+};
+
 // ***********************************************************
 // Vertical bar chart component set up
 // ***********************************************************
@@ -194,9 +198,9 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.top).to.be.greaterThan(barPosition.top);
             expect(labelPosition.bottom).to.be.lessThan(barPosition.bottom);
-            expect(
-              Math.round(barPosition.bottom - labelPosition.bottom)
-            ).to.equal(labelOffset);
+            distanceBetweenElementAndDataLabelIsOffset(
+              barPosition.bottom - labelPosition.bottom
+            );
           }
         );
       });
@@ -206,8 +210,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.top).to.be.greaterThan(barPosition.top);
             expect(labelPosition.bottom).to.be.lessThan(barPosition.bottom);
-            expect(Math.round(labelPosition.top - barPosition.top)).to.equal(
-              labelOffset
+            distanceBetweenElementAndDataLabelIsOffset(
+              labelPosition.top - barPosition.top
             );
           }
         );
@@ -224,7 +228,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     });
 
     describe('when there is ample vertical space between the bar and the chart edge', () => {
-      it('places data label for negative value below the bar and above the chart edge', () => {
+      it('places data label for negative value in between bar and the bottom chart edge', () => {
         assertPositionOfBarAndDataLabel(
           1,
           (barPosition: DOMRect, labelPosition: DOMRect) => {
@@ -233,13 +237,13 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.bottom).to.be.lessThan(axisPosition.bottom);
             });
-            expect(Math.round(labelPosition.top - barPosition.bottom)).to.equal(
-              labelOffset
+            distanceBetweenElementAndDataLabelIsOffset(
+              labelPosition.top - barPosition.bottom
             );
           }
         );
       });
-      it('places data label for positive value above the bar and below the chart edge', () => {
+      it('places data label for positive value in between bar and the upper chart edge', () => {
         assertPositionOfBarAndDataLabel(
           3,
           (barPosition: DOMRect, labelPosition: DOMRect) => {
@@ -248,8 +252,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.top).to.be.greaterThan(axisPosition.top);
             });
-            expect(Math.round(barPosition.top - labelPosition.bottom)).to.equal(
-              labelOffset
+            distanceBetweenElementAndDataLabelIsOffset(
+              barPosition.top - labelPosition.bottom
             );
           }
         );
@@ -270,15 +274,15 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         assertPositionOfZeroAxisAndDataLabel(
           'y',
           (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-            expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
-              labelOffset
+            expect(labelPosition.bottom).to.be.lessThan(tickPosition.top);
+            distanceBetweenElementAndDataLabelIsOffset(
+              tickPosition.top - labelPosition.bottom
             );
           },
           4
         );
       });
-      it('uses the darker default text color for the data labels color', () => {
+      it('uses the darker default text color (black) for the data label color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 4) {
             cy.wrap($label)
@@ -300,9 +304,9 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
-          expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
-            labelOffset
+          expect(labelPosition.top).to.be.greaterThan(tickPosition.bottom);
+          distanceBetweenElementAndDataLabelIsOffset(
+            labelPosition.top - tickPosition.bottom
           );
         },
         2
@@ -315,13 +319,13 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       barsConfig.data = dataWithPositiveAndOmittedValues;
       mountVerticalBarComponent(barsConfig);
     });
-    it('offsets data label for the omiteed value above scales.y(0)', () => {
+    it('offsets data label for the omitted value above scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-          expect(Math.round(tickPosition.y - labelPosition.bottom)).to.equal(
-            labelOffset
+          expect(labelPosition.bottom).to.be.lessThan(tickPosition.top);
+          distanceBetweenElementAndDataLabelIsOffset(
+            tickPosition.top - labelPosition.bottom
           );
         },
         2
@@ -346,10 +350,10 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'y',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.bottom).to.be.lessThan(tickPosition.y);
-              expect(
-                Math.round(tickPosition.y - labelPosition.bottom)
-              ).to.equal(labelOffset);
+              expect(labelPosition.bottom).to.be.lessThan(tickPosition.top);
+              distanceBetweenElementAndDataLabelIsOffset(
+                tickPosition.top - labelPosition.bottom
+              );
             }
           );
         });
@@ -363,9 +367,9 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'y',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.top).to.be.greaterThan(tickPosition.y);
-              expect(Math.round(labelPosition.top - tickPosition.y)).to.equal(
-                labelOffset
+              expect(labelPosition.top).to.be.greaterThan(tickPosition.bottom);
+              distanceBetweenElementAndDataLabelIsOffset(
+                labelPosition.top - tickPosition.bottom
               );
             }
           );
@@ -480,8 +484,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.left).to.be.greaterThan(barPosition.left);
             expect(labelPosition.right).to.be.lessThan(barPosition.right);
-            expect(Math.round(labelPosition.left - barPosition.left)).to.equal(
-              labelOffset
+            distanceBetweenElementAndDataLabelIsOffset(
+              labelPosition.left - barPosition.left
             );
           }
         );
@@ -492,9 +496,9 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           (barPosition: DOMRect, labelPosition: DOMRect) => {
             expect(labelPosition.left).to.be.greaterThan(barPosition.left);
             expect(labelPosition.right).to.be.lessThan(barPosition.right);
-            expect(
-              Math.round(barPosition.right - labelPosition.right)
-            ).to.equal(labelOffset);
+            distanceBetweenElementAndDataLabelIsOffset(
+              barPosition.right - labelPosition.right
+            );
           }
         );
       });
@@ -519,8 +523,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.left).to.be.greaterThan(axisPosition.left);
             });
-            expect(Math.round(barPosition.left - labelPosition.right)).to.equal(
-              labelOffset
+            distanceBetweenElementAndDataLabelIsOffset(
+              barPosition.left - labelPosition.right
             );
           }
         );
@@ -534,8 +538,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               const axisPosition = $axis[0].getBoundingClientRect();
               expect(labelPosition.right).to.be.lessThan(axisPosition.right);
             });
-            expect(Math.round(labelPosition.left - barPosition.right)).to.equal(
-              labelOffset
+            distanceBetweenElementAndDataLabelIsOffset(
+              labelPosition.left - barPosition.right
             );
           }
         );
@@ -552,19 +556,19 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     });
 
     describe('when the data label is for an omitted value', () => {
-      it('offsets data label to the left of scales.x(0)', () => {
+      it('offsets data label to the right of scales.x(0)', () => {
         assertPositionOfZeroAxisAndDataLabel(
           'x',
           (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.left).to.be.greaterThan(tickPosition.x);
-            expect(Math.round(labelPosition.left - tickPosition.x)).to.equal(
-              labelOffset
+            expect(labelPosition.left).to.be.greaterThan(tickPosition.right);
+            distanceBetweenElementAndDataLabelIsOffset(
+              labelPosition.left - tickPosition.right
             );
           },
           4
         );
       });
-      it('uses the darker default text color for the data labels color', () => {
+      it('uses the darker default text color (black) for the data labels color', () => {
         cy.get('.vic-bar-label').each(($label, i) => {
           if (i === 4) {
             cy.wrap($label)
@@ -582,13 +586,13 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       barsConfig.quantitative.domain = [-10, 0];
       mountHorizontalBarComponent(barsConfig);
     });
-    it('offsets data label for the omitted value to the right of scales.x(0)', () => {
+    it('offsets data label for the omitted value to the left of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.right).to.be.lessThan(tickPosition.x);
-          expect(Math.round(tickPosition.x - labelPosition.right)).to.equal(
-            labelOffset
+          expect(labelPosition.right).to.be.lessThan(tickPosition.left);
+          distanceBetweenElementAndDataLabelIsOffset(
+            tickPosition.left - labelPosition.right
           );
         },
         2
@@ -601,13 +605,13 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       barsConfig.data = dataWithPositiveAndOmittedValues;
       mountHorizontalBarComponent(barsConfig);
     });
-    it('offsets data label for the omitted value to the left of scales.x(0)', () => {
+    it('offsets data label for the omitted value to the right of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.left).to.be.greaterThan(tickPosition.x);
-          expect(Math.round(labelPosition.left - tickPosition.x)).to.equal(
-            labelOffset
+          expect(labelPosition.left).to.be.greaterThan(tickPosition.right);
+          distanceBetweenElementAndDataLabelIsOffset(
+            labelPosition.left - tickPosition.right
           );
         },
         2
@@ -628,13 +632,13 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         beforeEach(() => {
           mountHorizontalBarComponent(barsConfig);
         });
-        it('offsets data label above scales.x(0)', () => {
+        it('offsets data label to the right of scales.x(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'x',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.left).to.be.greaterThan(tickPosition.x);
-              expect(Math.round(labelPosition.left - tickPosition.x)).to.equal(
-                labelOffset
+              expect(labelPosition.left).to.be.greaterThan(tickPosition.right);
+              distanceBetweenElementAndDataLabelIsOffset(
+                labelPosition.left - tickPosition.right
               );
             }
           );
@@ -645,13 +649,13 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           barsConfig.quantitative.domain = [-10, 0];
           mountHorizontalBarComponent(barsConfig);
         });
-        it('offsets data label below scales.x(0)', () => {
+        it('offsets data label to the left of scales.x(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'x',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.right).to.be.lessThan(tickPosition.x);
-              expect(Math.round(tickPosition.x - labelPosition.right)).to.equal(
-                labelOffset
+              expect(labelPosition.right).to.be.lessThan(tickPosition.left);
+              distanceBetweenElementAndDataLabelIsOffset(
+                tickPosition.left - labelPosition.right
               );
             }
           );
