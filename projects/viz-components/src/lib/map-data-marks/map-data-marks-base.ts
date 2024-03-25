@@ -1,6 +1,6 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { combineLatest, filter } from 'rxjs';
+import { filter } from 'rxjs';
 import { DataMarksBase } from '../data-marks/data-marks-base';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
@@ -39,19 +39,14 @@ export abstract class MapDataMarksBase<
   }
 
   subscribeToAttributeScaleAndConfig(): void {
-    const subscriptions = [
-      this.chart.attributeDataScale$,
-      this.chart.attributeDataConfig$,
-    ];
-
-    combineLatest(subscriptions)
+    this.chart.attributeProperties$
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter(([scale, config]) => !!scale && !!config)
+        filter((properties) => !!properties.scale && !!properties.config)
       )
-      .subscribe(([scale, config]) => {
-        this.attributeDataConfig = config;
-        this.attributeDataScale = scale;
+      .subscribe((properties) => {
+        this.attributeDataConfig = properties.config;
+        this.attributeDataScale = properties.scale;
         this.drawMarks();
       });
   }

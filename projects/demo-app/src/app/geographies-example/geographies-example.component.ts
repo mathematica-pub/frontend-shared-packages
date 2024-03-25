@@ -138,6 +138,7 @@ export class GeographiesExampleComponent implements OnInit {
       noDataStatesConfig,
     ];
     config.dataGeographyConfig = this.getDataGeographyConfig(data);
+    console.log('getDataMarksConfig', config);
     return config;
   }
 
@@ -243,9 +244,9 @@ export class GeographiesExampleComponent implements OnInit {
       !smallSquareStates.includes(labelConfig.valueAccessor(d));
 
     labelConfig.position = (d, path, projection) => {
-      if (this.featureIndexAccessor(d) === 'HI') {
+      if (labelConfig.valueAccessor(d) === 'HI') {
         return positionHawaiiOnGeoAlbersUsa(d, projection);
-      } else if (polylabelStates.includes(this.featureIndexAccessor(d))) {
+      } else if (polylabelStates.includes(labelConfig.valueAccessor(d))) {
         return positionWithPolylabel(d, projection);
       } else {
         return positionAtCentroid(d, path);

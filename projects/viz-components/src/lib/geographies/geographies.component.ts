@@ -80,15 +80,22 @@ export class GeographiesComponent<
     super();
   }
 
-  setPropertiesFromConfig(): void {
-    this.setValueArrays();
-    this.initAttributeDataScaleDomain();
-    this.initAttributeDataScaleRange();
-    this.setChartAttributeScaleAndConfig();
+  override initFromConfig(): void {
+    this.setConfig();
+    this.setPropertiesFromRanges();
+    this.setPropertiesFromConfig();
   }
 
   resizeMarks(): void {
     this.setPropertiesFromRanges();
+    this.drawMarks();
+  }
+
+  setPropertiesFromConfig(): void {
+    this.setValueArrays();
+    this.initAttributeDataScaleDomain();
+    this.initAttributeDataScaleRange();
+    this.updateChartScales();
   }
 
   setValueArrays(): void {
@@ -264,32 +271,6 @@ export class GeographiesComponent<
     );
   }
 
-  setChartAttributeScaleAndConfig(): void {
-    const scale = this.getAttributeDataScale();
-    this.zone.run(() => {
-      this.chart.updateAttributeDataScale(scale);
-      this.chart.updateAttributeDataConfig(
-        this.config.dataGeographyConfig.attributeDataConfig
-      );
-    });
-  }
-
-  setPropertiesFromRanges(): void {
-    this.setProjection();
-    this.setPath();
-  }
-
-  setProjection(): void {
-    this.projection = this.config.projection.fitSize(
-      [this.ranges.x[1], this.ranges.y[0]],
-      this.config.boundary
-    );
-  }
-
-  setPath(): void {
-    this.path = geoPath().projection(this.projection);
-  }
-
   getAttributeDataScale(): any {
     if (
       this.config.dataGeographyConfig.attributeDataConfig.variableType ===
@@ -322,11 +303,34 @@ export class GeographiesComponent<
       .unknown(this.config.dataGeographyConfig.nullColor);
   }
 
-  drawMarks(): void {
+  setPropertiesFromRanges(): void {
+    this.setProjection();
+    this.setPath();
+  }
+
+  setProjection(): void {
+    this.projection = this.config.projection.fitSize(
+      [this.ranges.x[1], this.ranges.y[0]],
+      this.config.boundary
+    );
+  }
+
+  setPath(): void {
+    this.path = geoPath().projection(this.projection);
+  }
+
+  updateChartScales(): void {
     this.zone.run(() => {
-      this.drawMap(this.chart.transitionDuration);
-      this.updateGeographyElements();
+      this.chart.updateAttributeProperties({
+        scale: this.getAttributeDataScale(),
+        config: this.config.dataGeographyConfig.attributeDataConfig,
+      });
     });
+  }
+
+  drawMarks(): void {
+    this.drawMap(this.chart.transitionDuration);
+    this.updateGeographyElements();
   }
 
   drawMap(transitionDuration): void {
@@ -513,8 +517,8 @@ export class GeographiesComponent<
             .style('cursor', labelsConfig.cursor)
             .attr('pointer-events', labelsConfig.pointerEvents)
             .text((d) => labelsConfig.valueAccessor(d))
-            .attr('x', (d) => this.getLabelPosition(d, labelsConfig)[0])
-            .attr('y', (d) => this.getLabelPosition(d, labelsConfig)[1])
+            .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
+            .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelColor(
