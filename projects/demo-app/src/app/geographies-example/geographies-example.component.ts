@@ -142,7 +142,6 @@ export class GeographiesExampleComponent implements OnInit {
       noDataStatesConfig,
     ];
     config.dataGeographyConfig = this.getDataGeographyConfig(data);
-    console.log('getDataMarksConfig', config);
     return config;
   }
 
