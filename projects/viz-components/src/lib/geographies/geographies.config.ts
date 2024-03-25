@@ -6,7 +6,6 @@ import {
   geoAlbersUsa,
   GeoGeometryObjects,
   GeoPath,
-  GeoPermissibleObjects,
   GeoProjection,
   interpolateLab,
   ScaleLinear,
@@ -16,7 +15,13 @@ import {
   scaleQuantize,
   scaleThreshold,
 } from 'd3';
-import { Feature, GeoJsonProperties, Geometry, MultiPolygon } from 'geojson';
+import {
+  Feature,
+  GeoJsonProperties,
+  GeometryObject as Geometry,
+  MultiPolygon,
+  Polygon,
+} from 'geojson';
 import { VicVariableType } from '../core/types/variable-type';
 import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
@@ -24,14 +29,21 @@ import {
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 import { VicGeographiesLabelsAutoColor } from './geographies-labels-fill-weight.class';
-import { VicGeographiesLabelsPositioner } from './geographies-labels-positioners.class';
+import { positionAtCentroid } from './geographies-labels-positioners';
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
  */
+
+export type GeographiesFeature<
+  P extends GeoJsonProperties = GeoJsonProperties,
+  G extends Geometry = MultiPolygon | Polygon
+> = Feature<G, P>;
+
 export class VicGeographiesConfig<
   Datum,
-  SpecificGeoJsonProperties
+  P extends GeoJsonProperties = GeoJsonProperties,
+  G extends Geometry = MultiPolygon | Polygon
 > extends VicDataMarksConfig<Datum> {
   /** A feature or geometry object or collection that defines the extents of the map to be drawn.
    * Used for scaling the map.
@@ -48,17 +60,19 @@ export class VicGeographiesConfig<
    */
   projection: GeoProjection;
   /**
+   * A function that derives an identifying string or number from the GeoJson feature.
+   */
+  featureIndexAccessor?: (d: GeographiesFeature<P, G>) => string | number;
+  /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographiesConfigs?: VicNoDataGeographyConfig[];
+  noDataGeographiesConfigs?: VicNoDataGeographyConfig<Datum, P, G>[];
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataGeographyConfig: VicDataGeographyConfig<Datum, SpecificGeoJsonProperties>;
+  dataGeographyConfig: VicDataGeographyConfig<Datum, P, G>;
 
-  constructor(
-    init?: Partial<VicGeographiesConfig<Datum, SpecificGeoJsonProperties>>
-  ) {
+  constructor(init?: Partial<VicGeographiesConfig<Datum, P, G>>) {
     super();
     this.projection = geoAlbersUsa();
     Object.assign(this, init);
@@ -68,12 +82,15 @@ export class VicGeographiesConfig<
 export type VicGeoJsonDefaultProperty = { [name: string]: any };
 
 export class VicBaseDataGeographyConfig<
-  SpecificGeoJsonProperties extends GeoJsonProperties = GeoJsonProperties
+  Datum,
+  P,
+  G extends Geometry,
+  Projection
 > {
   /**
    * GeoJSON features that define the geographies to be drawn.
    */
-  geographies: Feature<Geometry, SpecificGeoJsonProperties>[];
+  geographies: Array<GeographiesFeature<P, G>>;
   /**
    * The fill color for the geography.
    * @default: 'none'.
@@ -93,28 +110,23 @@ export class VicBaseDataGeographyConfig<
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
-  labels: VicGeographyLabelConfig;
+  labels: VicGeographyLabelConfig<Datum, P, G, Projection>;
 }
 
 export class VicDataGeographyConfig<
   Datum,
-  SpecificGeoJsonProperties
-> extends VicBaseDataGeographyConfig<SpecificGeoJsonProperties> {
-  /**
-   * A function that derives the name or id of the geography from properties object on the geojson feature.
-   */
-  featureIndexAccessor?: (
-    properties: SpecificGeoJsonProperties,
-    ...args: any
-  ) => string | number;
+  P,
+  G extends Geometry,
+  Projection = GeoProjection
+> extends VicBaseDataGeographyConfig<Datum, P, G, Projection> {
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;
   nullColor: string;
 
-  constructor(
-    init?: Partial<VicDataGeographyConfig<Datum, SpecificGeoJsonProperties>>
-  ) {
+  constructor(init?: Partial<VicDataGeographyConfig<Datum, P, G, Projection>>) {
     super();
     this.nullColor = '#dcdcdc';
+    this.strokeColor = 'dimgray';
+    this.strokeWidth = '1';
     Object.assign(this, init);
   }
 }
@@ -230,13 +242,20 @@ export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
   }
 }
 
-export class VicNoDataGeographyConfig extends VicBaseDataGeographyConfig {
+export class VicNoDataGeographyConfig<
+  Datum,
+  P,
+  G extends Geometry,
+  Projection = GeoProjection
+> extends VicBaseDataGeographyConfig<Datum, P, G, Projection> {
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.
    */
-  patternName: string;
+  patternName: ((d: GeographiesFeature<P, G>) => string) | string;
 
-  constructor(init?: Partial<VicNoDataGeographyConfig>) {
+  constructor(
+    init?: Partial<VicNoDataGeographyConfig<Datum, P, G, Projection>>
+  ) {
     super();
     this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
@@ -245,53 +264,55 @@ export class VicNoDataGeographyConfig extends VicBaseDataGeographyConfig {
   }
 }
 
+export interface LabelPosition {
+  x: number;
+  y: number;
+}
+
 /**
  * Configuration object for labels to be shown on the map. Label functions depend on
  * geojon features.
  */
-export class VicGeographyLabelConfig {
+export class VicGeographyLabelConfig<
+  Datum,
+  P,
+  G extends Geometry,
+  Projection = GeoProjection
+> {
   /**
    * Function that determines whether a label should be shown on the GeoJSON feature
    * Exists because it's common for small geographies to not have labels shown on them.
    */
-  display: (d: Feature, i: number) => boolean;
+  display: (d: GeographiesFeature<P, G>, ...args: any) => boolean;
   /**
    * Function that maps a geojson feature to the desired label
    */
-  valueAccessor: (d: Feature) => string;
+  valueAccessor: (d: GeographiesFeature<P, G>) => string;
   textAnchor: CSSType.Property.TextAnchor;
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   dominantBaseline: CSSType.Property.DominantBaseline;
   cursor: CSSType.Property.Cursor;
   pointerEvents: CSSType.Property.PointerEvents;
   fontWeight:
-    | ((d: any) => CSSType.Property.FontWeight)
+    | ((d: Datum) => CSSType.Property.FontWeight)
     | CSSType.Property.FontWeight;
-  color: ((d: any) => CSSType.Property.Fill) | CSSType.Property.Fill;
+  color: ((d: Datum) => CSSType.Property.Fill) | CSSType.Property.Fill;
   position: (
-    d: Feature<MultiPolygon, any>,
-    path: GeoPath<any, GeoPermissibleObjects>,
-    projection: any
-  ) => [number, number];
+    d: GeographiesFeature<P, G>,
+    path: GeoPath,
+    projection: Projection
+  ) => LabelPosition;
 
   autoColorByContrast: VicGeographiesLabelsAutoColor;
-
-  /**
-   * Apply a standard positioner (e.g. polylabel) to a subset of states.
-   * For that subset of states, will override value of this.position() function.
-   */
-  standardPositioners: VicGeographiesLabelsPositioner[];
-
   fontScale: ScaleLinear<number, number, never>;
 
-  constructor(init?: Partial<VicGeographyLabelConfig>) {
+  constructor(
+    init?: Partial<VicGeographyLabelConfig<Datum, P, G, Projection>>
+  ) {
     this.display = () => true;
     this.color = '#000';
     this.fontWeight = 400;
-    this.position = (
-      d: Feature<MultiPolygon, any>,
-      path: GeoPath<any, GeoPermissibleObjects>
-    ) => path.centroid(d);
+    this.position = (d, path) => positionAtCentroid<P, G>(d, path);
     this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
     this.textAnchor = 'middle';
     this.alignmentBaseline = 'middle';
