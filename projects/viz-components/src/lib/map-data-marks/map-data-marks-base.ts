@@ -23,7 +23,7 @@ export abstract class MapDataMarksBase<
 
   ngOnInit(): void {
     this.subscribeToRanges();
-    this.subscribeToAttributeScaleAndConfig();
+    this.subscribeToAttributeProperties();
     this.initFromConfig();
   }
 
@@ -38,7 +38,7 @@ export abstract class MapDataMarksBase<
       });
   }
 
-  subscribeToAttributeScaleAndConfig(): void {
+  subscribeToAttributeProperties(): void {
     this.chart.attributeProperties$
       .pipe(
         takeUntilDestroyed(this.destroyRef),

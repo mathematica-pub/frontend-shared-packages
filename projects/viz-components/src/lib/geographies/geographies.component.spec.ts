@@ -16,8 +16,8 @@ import {
 } from './geographies.config';
 
 describe('GeographiesComponent', () => {
-  let component: GeographiesComponent<any>;
-  let fixture: ComponentFixture<GeographiesComponent<any>>;
+  let component: GeographiesComponent<any, any, any>;
+  let fixture: ComponentFixture<GeographiesComponent<any, any, any>>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
@@ -38,9 +38,8 @@ describe('GeographiesComponent', () => {
   describe('initFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setConfig');
-      spyOn(component, 'setPropertiesFromConfig');
       spyOn(component, 'setPropertiesFromRanges');
-      spyOn(component, 'drawMarks');
+      spyOn(component, 'setPropertiesFromConfig');
     });
     it('calls setConfig once', () => {
       component.initFromConfig();
@@ -54,10 +53,6 @@ describe('GeographiesComponent', () => {
       component.initFromConfig();
       expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
     });
-    it('calls drawMarks once', () => {
-      component.initFromConfig();
-      expect(component.drawMarks).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('setPropertiesFromConfig()', () => {
@@ -65,7 +60,7 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initAttributeDataScaleDomain');
       spyOn(component, 'initAttributeDataScaleRange');
-      spyOn(component, 'setChartAttributeScaleAndConfig');
+      spyOn(component, 'updateChartAttributeProperties');
       component.setPropertiesFromConfig();
     });
     it('calls setValueArrays once', () => {
@@ -81,9 +76,7 @@ describe('GeographiesComponent', () => {
     });
 
     it('calls setChartAttributeScaleAndConfig once', () => {
-      expect(component.setChartAttributeScaleAndConfig).toHaveBeenCalledTimes(
-        1
-      );
+      expect(component.updateChartAttributeProperties).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -298,16 +291,15 @@ describe('GeographiesComponent', () => {
     });
   });
 
-  describe('setChartAttributeScaleAndConfig', () => {
+  describe('setChartAttributeProperties', () => {
     beforeEach(() => {
       spyOn(component, 'getAttributeDataScale').and.returnValue(
         'attribute data scale' as any
       );
       component.chart = {
-        updateAttributeDataConfig: jasmine.createSpy(
-          'updateAttributeDataConfig'
+        updateAttributeProperties: jasmine.createSpy(
+          'updateAttributeProperties'
         ),
-        updateAttributeDataScale: jasmine.createSpy('updateAttributeDataScale'),
       } as any;
       component.config = {
         dataGeographyConfig: {
@@ -319,22 +311,17 @@ describe('GeographiesComponent', () => {
       } as any;
     });
     it('calls getAttributeDataScale once', () => {
-      component.setChartAttributeScaleAndConfig();
+      component.updateChartAttributeProperties();
       expect(component.getAttributeDataScale).toHaveBeenCalledTimes(1);
     });
-    it('calls updateAttributeDataScale once with the correct value', () => {
-      component.setChartAttributeScaleAndConfig();
-      expect(component.chart.updateAttributeDataScale).toHaveBeenCalledOnceWith(
-        'attribute data scale' as any
-      );
-    });
-    it('calls updateAttributeDataConfig once with the correct value', () => {
-      component.setChartAttributeScaleAndConfig();
+    it('calls updateAttributeProperties once with the correct value', () => {
+      component.updateChartAttributeProperties();
       expect(
-        component.chart.updateAttributeDataConfig
-      ).toHaveBeenCalledOnceWith(
-        component.config.dataGeographyConfig.attributeDataConfig
-      );
+        component.chart.updateAttributeProperties
+      ).toHaveBeenCalledOnceWith({
+        scale: 'attribute data scale' as any,
+        config: component.config.dataGeographyConfig.attributeDataConfig,
+      });
     });
   });
 

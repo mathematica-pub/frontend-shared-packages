@@ -109,7 +109,11 @@ export class GeographiesExampleComponent implements OnInit {
     const filteredData$ = combineLatest([
       this.dataService.stateIncomeData$.pipe(filter((data) => !!data)),
       this.selectedYear$,
-    ]).pipe(map(([data, year]) => data.filter((x) => x.year === +year)));
+    ]).pipe(
+      map(([data, year]) =>
+        data.filter((x) => x.year === +year && x.state !== 'Texas')
+      )
+    );
 
     this.dataMarksConfig$ = filteredData$.pipe(
       map((data) => this.getDataMarksConfig(data)),
@@ -132,7 +136,7 @@ export class GeographiesExampleComponent implements OnInit {
     config.boundary = this.basemap.us;
     config.data = data;
     config.featureIndexAccessor = this.featureIndexAccessor;
-    const noDataStatesConfig = this.getNoDataGeographyStatesFeatures(data);
+    const noDataStatesConfig = this.getNoDataGeographyStatesConfig(data);
     config.noDataGeographiesConfigs = [
       this.basemap.usOutlineConfig,
       noDataStatesConfig,
@@ -182,7 +186,7 @@ export class GeographiesExampleComponent implements OnInit {
     );
   }
 
-  getNoDataGeographyStatesFeatures(
+  getNoDataGeographyStatesConfig(
     data: StateIncomeDatum[]
   ): VicNoDataGeographyConfig<
     StateIncomeDatum,
@@ -200,6 +204,7 @@ export class GeographiesExampleComponent implements OnInit {
       MultiPolygon
     >({
       geographies: features,
+      strokeColor: 'chartreuse',
       labels: labels,
     });
   }

@@ -255,7 +255,7 @@ export class VicNoDataGeographyConfig<
     init?: Partial<VicNoDataGeographyConfig<Datum, P, G, Projection>>
   ) {
     super();
-    this.strokeColor = 'red';
+    this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
     this.fill = 'none';
     Object.assign(this, init);

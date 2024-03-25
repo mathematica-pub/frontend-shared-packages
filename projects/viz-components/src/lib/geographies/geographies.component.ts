@@ -86,16 +86,11 @@ export class GeographiesComponent<
     this.setPropertiesFromConfig();
   }
 
-  resizeMarks(): void {
-    this.setPropertiesFromRanges();
-    this.drawMarks();
-  }
-
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initAttributeDataScaleDomain();
     this.initAttributeDataScaleRange();
-    this.updateChartScales();
+    this.updateChartAttributeProperties();
   }
 
   setValueArrays(): void {
@@ -319,13 +314,18 @@ export class GeographiesComponent<
     this.path = geoPath().projection(this.projection);
   }
 
-  updateChartScales(): void {
+  updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
         scale: this.getAttributeDataScale(),
         config: this.config.dataGeographyConfig.attributeDataConfig,
       });
     });
+  }
+
+  resizeMarks(): void {
+    this.setPropertiesFromRanges();
+    this.drawMarks();
   }
 
   drawMarks(): void {
