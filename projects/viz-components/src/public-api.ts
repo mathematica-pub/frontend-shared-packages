@@ -50,7 +50,6 @@ export * from './lib/geographies/geographies-hover-move.directive';
 export * from './lib/geographies/geographies-hover.directive';
 export * from './lib/geographies/geographies-input-event.directive';
 export * from './lib/geographies/geographies-labels-fill-weight.class';
-export * from './lib/geographies/geographies-labels-positioners.class';
 export * from './lib/geographies/geographies-tooltip-data';
 export * from './lib/geographies/geographies.component';
 export * from './lib/geographies/geographies.config';

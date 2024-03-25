@@ -6,29 +6,30 @@ import {
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
-import type * as CSSType from 'csstype';
+import * as CSSType from 'csstype';
 import {
   InternMap,
   InternSet,
-  Transition,
+  Selection,
   extent,
   geoPath,
   range,
   scaleLinear,
   select,
 } from 'd3';
-import { Feature, MultiPolygon } from 'geojson';
+import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { VicVariableType } from '../core/types/variable-type';
+import { isFunction } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import {
+  GeographiesFeature,
   VicDataGeographyConfig,
-  VicGeoJsonDefaultProperty,
   VicGeographiesConfig,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
@@ -40,9 +41,9 @@ export class MapDataValues {
   datumsByGeographyIndex: InternMap;
 }
 
-export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
-  'GeographiesComponent'
-);
+export const GEOGRAPHIES = new InjectionToken<
+  GeographiesComponent<unknown, unknown>
+>('GeographiesComponent');
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-geographies]',
@@ -64,12 +65,9 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
 })
 export class GeographiesComponent<
   Datum,
-  GeoJsonProperties extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
-> extends MapDataMarksBase<
-  Datum,
-  VicGeographiesConfig<Datum, GeoJsonProperties>
-> {
-  map: any;
+  P extends GeoJsonProperties = GeoJsonProperties,
+  G extends Geometry = MultiPolygon | Polygon
+> extends MapDataMarksBase<Datum, VicGeographiesConfig<Datum, P, G>> {
   projection: any;
   path: any;
   values: MapDataValues = new MapDataValues();
@@ -82,13 +80,6 @@ export class GeographiesComponent<
     super();
   }
 
-  override initFromConfig(): void {
-    this.setConfig();
-    this.setPropertiesFromConfig();
-    this.setPropertiesFromRanges();
-    this.drawMarks();
-  }
-
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initAttributeDataScaleDomain();
@@ -98,7 +89,6 @@ export class GeographiesComponent<
 
   resizeMarks(): void {
     this.setPropertiesFromRanges();
-    this.drawMarks();
   }
 
   setValueArrays(): void {
@@ -242,11 +232,9 @@ export class GeographiesComponent<
       const binIndicies = range(
         this.config.dataGeographyConfig.attributeDataConfig.numBins
       );
-      const colorGenerator = scaleLinear()
+      const colorGenerator = scaleLinear<string>()
         .domain(extent(binIndicies))
-        .range(
-          this.config.dataGeographyConfig.attributeDataConfig.colors as any
-        )
+        .range(this.config.dataGeographyConfig.attributeDataConfig.colors)
         .interpolate(
           this.config.dataGeographyConfig.attributeDataConfig.interpolator
         );
@@ -344,7 +332,7 @@ export class GeographiesComponent<
   drawMap(transitionDuration): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
-      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+      .duration(transitionDuration);
 
     if (this.config.dataGeographyConfig) {
       this.drawDataLayer(t);
@@ -355,21 +343,22 @@ export class GeographiesComponent<
   }
 
   drawDataLayer(t: any): void {
-    this.map = select(this.elRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-data')
-      .data([this.config.dataGeographyConfig])
+    const dataLayers = select(this.elRef.nativeElement)
+      .selectAll<SVGGElement, VicDataGeographyConfig<Datum, P, G>>(
+        '.vic-map-layer.vic-data'
+      )
+      .data<VicDataGeographyConfig<Datum, P, G>>([
+        this.config.dataGeographyConfig,
+      ])
       .join(
         (enter) => enter.append('g').attr('class', 'vic-map-layer vic-data'),
         (update) => update,
         (exit) => exit.remove()
       );
 
-    const dataGeographyGroups = this.map
-      .selectAll('.geography-g')
-      .data(
-        (layer: VicDataGeographyConfig<Datum, GeoJsonProperties>) =>
-          layer.geographies
-      )
+    const dataGeographyGroups = dataLayers
+      .selectAll<SVGGElement, GeographiesFeature<P, G>>('.geography-g')
+      .data<GeographiesFeature<P, G>>((layer) => layer.geographies)
       .join(
         (enter) => enter.append('g').attr('class', 'geography-g'),
         (update) => update,
@@ -377,14 +366,35 @@ export class GeographiesComponent<
       );
 
     dataGeographyGroups
-      .selectAll('path')
-      .data((d: Feature) => [d])
+      .selectAll<SVGPathElement, GeographiesFeature<P, G>>('path')
+      .data<GeographiesFeature<P, G>>((d) => [d])
       .join(
-        (enter) => {
-          enter = enter.append('path');
-          this.setPathAttributes(enter);
-        },
-        (update) => this.setPathAttributes(update),
+        (enter) =>
+          enter
+            .append('path')
+            .attr('d', this.path)
+            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
+            .attr('fill', (d) =>
+              this.config.dataGeographyConfig.attributeDataConfig
+                .patternPredicates
+                ? this.getPatternFill(this.config.featureIndexAccessor(d))
+                : this.getFill(this.config.featureIndexAccessor(d))
+            ),
+        (update) =>
+          update.call((update) =>
+            update
+              .attr('d', this.path)
+              .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+              .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
+              .transition(t)
+              .attr('fill', (d) =>
+                this.config.dataGeographyConfig.attributeDataConfig
+                  .patternPredicates
+                  ? this.getPatternFill(this.config.featureIndexAccessor(d))
+                  : this.getFill(this.config.featureIndexAccessor(d))
+              )
+          ),
         (exit) => exit.remove()
       );
 
@@ -397,26 +407,14 @@ export class GeographiesComponent<
     }
   }
 
-  setPathAttributes(selection: any): any {
-    return selection
-      .attr('d', this.path)
-      .attr('fill', (d) =>
-        this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
-          ? this.getPatternFill(
-              this.config.dataGeographyConfig.featureIndexAccessor(d.properties)
-            )
-          : this.getFill(
-              this.config.dataGeographyConfig.featureIndexAccessor(d.properties)
-            )
-      )
-      .attr('stroke', this.config.dataGeographyConfig.strokeColor)
-      .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth);
-  }
-
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.elRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-no-data')
-      .data(this.config.noDataGeographiesConfigs)
+      .selectAll<SVGGElement, VicNoDataGeographyConfig<Datum, P, G>>(
+        '.vic-map-layer.vic-no-data'
+      )
+      .data<VicNoDataGeographyConfig<Datum, P, G>>(
+        this.config.noDataGeographiesConfigs
+      )
       .join(
         (enter) => enter.append('g').attr('class', 'vic-map-layer vic-no-data'),
         (update) => update,
@@ -426,8 +424,10 @@ export class GeographiesComponent<
     this.config.noDataGeographiesConfigs.forEach((config, index) => {
       const noDataGeographyGroups = noDataLayers
         .filter((d, i) => i === index)
-        .selectAll('.no-data-geography-g')
-        .data((layer: VicNoDataGeographyConfig) => layer.geographies)
+        .selectAll<SVGGElement, GeographiesFeature<P, G>>(
+          '.no-data-geography-g'
+        )
+        .data<GeographiesFeature<P, G>>((layer) => layer.geographies)
         .join(
           (enter) => enter.append('g').attr('class', 'no-data-geography-g'),
           (update) => update,
@@ -435,16 +435,16 @@ export class GeographiesComponent<
         );
 
       noDataGeographyGroups
-        .selectAll('path')
-        .data((d) => [d])
+        .selectAll<SVGPathElement, GeographiesFeature<P, G>>('path')
+        .data<GeographiesFeature<P, G>>((d) => [d])
         .join(
           (enter) =>
             enter
               .append('path')
               .attr('d', this.path)
-              .attr('fill', this.getNoDataGeographyPatternFill(config))
               .attr('stroke', config.strokeColor)
-              .attr('stroke-width', config.strokeWidth),
+              .attr('stroke-width', config.strokeWidth)
+              .attr('fill', this.getNoDataGeographyPatternFill(config)),
           (update) =>
             update
               .attr('d', this.path)
@@ -474,22 +474,36 @@ export class GeographiesComponent<
     return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
-  getNoDataGeographyPatternFill(config: VicNoDataGeographyConfig): string {
+  getNoDataGeographyPatternFill(
+    config: VicNoDataGeographyConfig<Datum, P, G>
+  ): string {
     return config.patternName ? `url(#${config.patternName})` : config.fill;
   }
 
-  drawLabels(layer: any, t: any, labelsConfig: VicGeographyLabelConfig): void {
-    layer
-      .filter((d, i) => labelsConfig.display(d, i))
+  drawLabels(
+    features: Selection<
+      SVGGElement,
+      GeographiesFeature<P, G>,
+      SVGGElement,
+      | VicNoDataGeographyConfig<Datum, P, G>
+      | VicDataGeographyConfig<Datum, P, G>
+    >,
+    t: any,
+    labelsConfig: VicGeographyLabelConfig<Datum, P, G>
+  ): void {
+    features
+      .filter((d, i) => labelsConfig.display(d))
       .selectAll('.vic-geography-label')
       .remove();
 
-    layer
-      .filter((d, i) => labelsConfig.display(d, i))
-      .selectAll('.vic-geography-label')
-      .data((d: Feature) => [d])
+    features
+      .filter((d) => labelsConfig.display(d))
+      .selectAll<SVGTextElement, GeographiesFeature<P, G>>(
+        '.vic-geography-label'
+      )
+      .data<GeographiesFeature<P, G>>((d) => [d])
       .join(
-        (enter: any) =>
+        (enter) =>
           enter
             .append('text')
             .attr('class', 'vic-geography-label')
@@ -503,96 +517,92 @@ export class GeographiesComponent<
             .attr('y', (d) => this.getLabelPosition(d, labelsConfig)[1])
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
-              this.getLabelProperty<CSSType.Property.Fill>(
-                this.config.dataGeographyConfig.featureIndexAccessor(
-                  d.properties
-                ),
-                labelsConfig,
-                'color'
+              this.getLabelColor(
+                this.config.featureIndexAccessor(d),
+                labelsConfig
               )
             )
             .attr('font-weight', (d) =>
-              this.getLabelProperty<CSSType.Property.FontWeight>(
-                this.config.dataGeographyConfig.featureIndexAccessor(
-                  d.properties
-                ),
-                labelsConfig,
-                'fontWeight'
+              this.getLabelFontWeight(
+                this.config.featureIndexAccessor(d),
+                labelsConfig
               )
             ),
-        (update: any) =>
-          update.call((update: any) =>
+        (update) =>
+          update.call((update) =>
             update
               .text((d) => labelsConfig.valueAccessor(d))
-              .attr('y', (d) => this.getLabelPosition(d, labelsConfig)[1])
-              .attr('x', (d) => this.getLabelPosition(d, labelsConfig)[0])
+              .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
+              .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
               .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
               .transition(t as any)
               .attr('fill', (d) =>
-                this.getLabelProperty<CSSType.Property.Fill>(
-                  this.config.dataGeographyConfig.featureIndexAccessor(
-                    d.properties
-                  ),
-                  labelsConfig,
-                  'color'
+                this.getLabelColor(
+                  this.config.featureIndexAccessor(d),
+                  labelsConfig
                 )
               )
               .attr('font-weight', (d) =>
-                this.getLabelProperty<CSSType.Property.FontWeight>(
-                  this.config.dataGeographyConfig.featureIndexAccessor(
-                    d.properties
-                  ),
-                  labelsConfig,
-                  'fontWeight'
+                this.getLabelFontWeight(
+                  this.config.featureIndexAccessor(d),
+                  labelsConfig
                 )
               )
           ),
-        (exit: any) => exit.remove()
+        (exit) => exit.remove()
       );
   }
 
   getLabelPosition(
-    d: Feature<MultiPolygon, any>,
-    config: VicGeographyLabelConfig
-  ): [number, number] {
-    if (!this.path || !this.projection) return [0, 0];
-    if (config.standardPositioners) {
-      for (const positioner of config.standardPositioners) {
-        if (positioner.enable(d)) {
-          return positioner.position(d, this.projection);
-        }
-      }
-    }
-
+    d: GeographiesFeature<P, G>,
+    config: VicGeographyLabelConfig<Datum, P, G>
+  ): { x: number; y: number } {
+    if (!this.path || !this.projection) return { x: 0, y: 0 };
     return config.position(d, this.path, this.projection);
   }
 
-  getLabelProperty<T>(
+  getLabelColor(
     geographyIndex: string | number,
-    config: VicGeographyLabelConfig,
-    property: 'color' | 'fontWeight'
-  ): T {
+    config: VicGeographyLabelConfig<Datum, P, G>
+  ): CSSType.Property.Fill {
     const pathColor = this.getFill(geographyIndex);
-    const accessor = config[property];
-    let fontProperty;
-    if (this.isPropertyFunction(accessor)) {
-      fontProperty = accessor(
+    let fontColor: CSSType.Property.Fill;
+    if (isFunction(config.color)) {
+      fontColor = config.color(
         this.values.datumsByGeographyIndex.get(geographyIndex)
       );
     } else {
-      fontProperty = accessor;
+      fontColor = config.color;
+    }
+    if (config.autoColorByContrast) {
+      fontColor =
+        config.autoColorByContrast.getAutoContrastLabelProperties(pathColor)[
+          'color'
+        ];
+    }
+    return fontColor;
+  }
+
+  getLabelFontWeight(
+    geographyIndex: string | number,
+    config: VicGeographyLabelConfig<Datum, P, G>
+  ): CSSType.Property.FontWeight {
+    const pathColor = this.getFill(geographyIndex);
+    let fontProperty: CSSType.Property.FontWeight;
+    if (isFunction(config.fontWeight)) {
+      fontProperty = config.fontWeight(
+        this.values.datumsByGeographyIndex.get(geographyIndex)
+      );
+    } else {
+      fontProperty = config.fontWeight;
     }
     if (config.autoColorByContrast) {
       fontProperty =
         config.autoColorByContrast.getAutoContrastLabelProperties(pathColor)[
-          property
+          'fontWeight'
         ];
     }
     return fontProperty;
-  }
-
-  isPropertyFunction<T>(x: ((d: Feature) => T) | T): x is (d: Feature) => T {
-    return typeof x === 'function';
   }
 
   updateGeographyElements(): void {

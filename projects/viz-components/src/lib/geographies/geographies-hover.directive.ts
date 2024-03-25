@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { select } from 'd3';
-import { Feature } from 'geojson';
+import { Feature, Geometry } from 'geojson';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
@@ -12,6 +12,7 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
+import { GeographiesFeature } from './geographies.config';
 
 interface GeographiesHoverExtras {
   feature: Feature;
@@ -26,23 +27,25 @@ export type GeographiesHoverOutput<Datum> = VicGeographiesTooltipOutput<Datum> &
 })
 export class GeographiesHoverDirective<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  P,
+  G extends Geometry,
+  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+    Datum,
+    P,
+    G
+  >
 > extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<
-    GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
-  >[];
+  effects: EventEffect<GeographiesHoverDirective<Datum, P, G, C>>[];
   @Output('vicGeographiesHoverOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
-  feature: Feature;
+  feature: GeographiesFeature<P, G>;
   bounds: [[number, number], [number, number]];
   positionX: number;
   positionY: number;
 
-  constructor(
-    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
-  ) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: C) {
     super();
   }
 
@@ -59,7 +62,9 @@ export class GeographiesHoverDirective<
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    const d = select(event.target as SVGPathElement).datum() as Feature;
+    const d = select(
+      event.target as SVGPathElement
+    ).datum() as GeographiesFeature<P, G>;
     this.feature = d;
     this.bounds = this.geographies.path.bounds(d);
     if (this.effects && !this.preventEffect) {
@@ -74,16 +79,16 @@ export class GeographiesHoverDirective<
   }
 
   getEventOutput(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData(
+    const tooltipData = getGeographiesTooltipData<Datum, P, G, C>(
       this.feature,
       this.geographies
     );
     this.positionX = (this.bounds[1][0] + this.bounds[0][0]) / 2;
     this.positionY = (this.bounds[1][1] + this.bounds[0][1] * 2) / 3;
-    return {
+    return new VicGeographiesEventOutput({
       ...tooltipData,
       positionX: this.positionX,
       positionY: this.positionY,
-    };
+    });
   }
 }

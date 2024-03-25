@@ -3,7 +3,7 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { Feature } from 'geojson';
+import { Geometry } from 'geojson';
 import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
@@ -12,28 +12,33 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
+import { GeographiesFeature } from './geographies.config';
 
 @Directive({
   selector: '[vicGeographiesHoverMoveEffects]',
 })
 export class GeographiesHoverMoveDirective<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  P,
+  G extends Geometry,
+  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+    Datum,
+    P,
+    G
+  >
 > extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
   effects: HoverMoveEventEffect<
-    GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+    GeographiesHoverMoveDirective<Datum, P, G, C>
   >[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
   pointerX: number;
   pointerY: number;
-  feature: Feature;
+  feature: GeographiesFeature<P, G>;
 
-  constructor(
-    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
-  ) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: C) {
     super();
   }
 
@@ -61,7 +66,9 @@ export class GeographiesHoverMoveDirective<
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    this.feature = select(event.target as Element).datum() as Feature;
+    this.feature = select(
+      event.target as Element
+    ).datum() as GeographiesFeature<P, G>;
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
@@ -74,15 +81,15 @@ export class GeographiesHoverMoveDirective<
   }
 
   getEventOutput(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData(
+    const tooltipData = getGeographiesTooltipData<Datum, P, G, C>(
       this.feature,
       this.geographies
     );
-    const output: VicGeographiesEventOutput<Datum> = {
+    const output = new VicGeographiesEventOutput({
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
-    };
+    });
     return output;
   }
 }

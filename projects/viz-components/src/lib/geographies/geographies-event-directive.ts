@@ -1,3 +1,4 @@
+import { Geometry } from 'geojson';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
@@ -5,8 +6,14 @@ import { GeographiesComponent } from './geographies.component';
 
 export type GeographiesEventDirective<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  P,
+  G extends Geometry,
+  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+    Datum,
+    P,
+    G
+  >
 > =
-  | GeographiesHoverDirective<Datum, ExtendedGeographiesComponent>
-  | GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
-  | GeographiesInputEventDirective<Datum, ExtendedGeographiesComponent>;
+  | GeographiesHoverDirective<Datum, P, G, C>
+  | GeographiesHoverMoveDirective<Datum, P, G, C>
+  | GeographiesInputEventDirective<Datum, P, G, C>;
