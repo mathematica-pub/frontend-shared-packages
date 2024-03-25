@@ -4,11 +4,6 @@ import { MultiPolygon } from 'geojson';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
 import {
-  positionAtCentroid,
-  positionHawaiiOnGeoAlbersUsa,
-  positionWithPolylabel,
-} from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
-import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
@@ -23,7 +18,8 @@ import {
   VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   VicGeographiesConfig,
   VicGeographiesEventOutput,
-  VicGeographiesLabelsAutoColor,
+  VicGeographiesLabelsFill,
+  VicGeographiesLabelsPositioners,
   VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/public-api';
@@ -249,15 +245,36 @@ export class GeographiesExampleComponent implements OnInit {
 
     labelConfig.position = (d, path, projection) => {
       if (labelConfig.valueAccessor(d) === 'HI') {
-        return positionHawaiiOnGeoAlbersUsa(d, projection);
+        return VicGeographiesLabelsPositioners.positionHawaiiOnGeoAlbersUsa(
+          d,
+          projection
+        );
       } else if (polylabelStates.includes(labelConfig.valueAccessor(d))) {
-        return positionWithPolylabel(d, projection);
+        return VicGeographiesLabelsPositioners.positionWithPolylabel(
+          d,
+          projection
+        );
       } else {
-        return positionAtCentroid(d, path);
+        return VicGeographiesLabelsPositioners.positionAtCentroid(d, path);
       }
     };
-    labelConfig.autoColorByContrast = new VicGeographiesLabelsAutoColor();
-    labelConfig.autoColorByContrast.dark.color = 'rgb(22,80,225)';
+    const darkColor = 'rgb(22,80,225)';
+    const lightColor = '#FFFFFF';
+    labelConfig.color = (d, backgroundColor) =>
+      VicGeographiesLabelsFill.getContrastLabelFill(
+        backgroundColor,
+        darkColor,
+        lightColor
+      );
+    labelConfig.fontWeight = (d, backgroundColor) =>
+      VicGeographiesLabelsFill.getContrastLabelFill(
+        backgroundColor,
+        darkColor,
+        lightColor
+      ) === darkColor
+        ? 700
+        : 400;
+
     return labelConfig;
   }
 

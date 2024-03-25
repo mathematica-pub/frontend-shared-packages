@@ -5,7 +5,11 @@ export function isDate(x: unknown): x is Date {
 }
 
 export function isFunction<T, U = unknown>(
-  x: ((y: U) => T) | T
-): x is (y: U) => T {
+  x: unknown
+): x is (...args: U[]) => T {
   return typeof x === 'function';
+}
+
+export function isPrimitiveType<T>(x: unknown): x is T {
+  return typeof x !== 'function';
 }

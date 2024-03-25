@@ -21,7 +21,7 @@ import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { VicVariableType } from '../core/types/variable-type';
-import { isFunction } from '../core/utilities/type-guards';
+import { isFunction, isPrimitiveType } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
@@ -571,18 +571,13 @@ export class GeographiesComponent<
   ): CSSType.Property.Fill {
     const pathColor = this.getFill(geographyIndex);
     let fontColor: CSSType.Property.Fill;
-    if (isFunction(config.color)) {
+    if (isFunction<CSSType.Property.Fill>(config.color)) {
       fontColor = config.color(
-        this.values.datumsByGeographyIndex.get(geographyIndex)
+        this.values.datumsByGeographyIndex.get(geographyIndex),
+        pathColor
       );
-    } else {
+    } else if (isPrimitiveType<CSSType.Property.Fill>(config.color)) {
       fontColor = config.color;
-    }
-    if (config.autoColorByContrast) {
-      fontColor =
-        config.autoColorByContrast.getAutoContrastLabelProperties(pathColor)[
-          'color'
-        ];
     }
     return fontColor;
   }
@@ -593,18 +588,15 @@ export class GeographiesComponent<
   ): CSSType.Property.FontWeight {
     const pathColor = this.getFill(geographyIndex);
     let fontProperty: CSSType.Property.FontWeight;
-    if (isFunction(config.fontWeight)) {
+    if (isFunction<CSSType.Property.FontWeight>(config.fontWeight)) {
       fontProperty = config.fontWeight(
-        this.values.datumsByGeographyIndex.get(geographyIndex)
+        this.values.datumsByGeographyIndex.get(geographyIndex),
+        pathColor
       );
-    } else {
+    } else if (
+      isPrimitiveType<CSSType.Property.FontWeight>(config.fontWeight)
+    ) {
       fontProperty = config.fontWeight;
-    }
-    if (config.autoColorByContrast) {
-      fontProperty =
-        config.autoColorByContrast.getAutoContrastLabelProperties(pathColor)[
-          'fontWeight'
-        ];
     }
     return fontProperty;
   }

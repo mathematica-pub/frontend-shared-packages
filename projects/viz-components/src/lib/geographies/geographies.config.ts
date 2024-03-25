@@ -28,8 +28,7 @@ import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
-import { VicGeographiesLabelsAutoColor } from './geographies-labels-fill-weight.class';
-import { positionAtCentroid } from './geographies-labels-positioners';
+import { VicGeographiesLabelsPositioners } from './geographies-labels-positioners';
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
@@ -242,28 +241,6 @@ export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
   }
 }
 
-export class VicNoDataGeographyConfig<
-  Datum,
-  P,
-  G extends Geometry,
-  Projection = GeoProjection
-> extends VicBaseDataGeographyConfig<Datum, P, G, Projection> {
-  /**
-   * The pattern for noDataGeography. If provided, fill will be overridden.
-   */
-  patternName: ((d: GeographiesFeature<P, G>) => string) | string;
-
-  constructor(
-    init?: Partial<VicNoDataGeographyConfig<Datum, P, G, Projection>>
-  ) {
-    super();
-    this.strokeColor = 'dimgray';
-    this.strokeWidth = '1';
-    this.fill = 'none';
-    Object.assign(this, init);
-  }
-}
-
 export interface LabelPosition {
   x: number;
   y: number;
@@ -294,16 +271,23 @@ export class VicGeographyLabelConfig<
   cursor: CSSType.Property.Cursor;
   pointerEvents: CSSType.Property.PointerEvents;
   fontWeight:
-    | ((d: Datum) => CSSType.Property.FontWeight)
+    | ((
+        d: Datum,
+        backgroundColor: CSSType.Property.Fill
+      ) => CSSType.Property.FontWeight)
     | CSSType.Property.FontWeight;
-  color: ((d: Datum) => CSSType.Property.Fill) | CSSType.Property.Fill;
+  color:
+    | ((
+        d: Datum,
+        backgroundColor: CSSType.Property.Fill
+      ) => CSSType.Property.Fill)
+    | CSSType.Property.Fill;
   position: (
     d: GeographiesFeature<P, G>,
     path: GeoPath,
     projection: Projection
   ) => LabelPosition;
 
-  autoColorByContrast: VicGeographiesLabelsAutoColor;
   fontScale: ScaleLinear<number, number, never>;
 
   constructor(
@@ -312,13 +296,36 @@ export class VicGeographyLabelConfig<
     this.display = () => true;
     this.color = '#000';
     this.fontWeight = 400;
-    this.position = (d, path) => positionAtCentroid<P, G>(d, path);
+    this.position = (d, path) =>
+      VicGeographiesLabelsPositioners.positionAtCentroid<P, G>(d, path);
     this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
     this.textAnchor = 'middle';
     this.alignmentBaseline = 'middle';
     this.dominantBaseline = 'middle';
     this.cursor = 'default';
     this.pointerEvents = 'none';
+    Object.assign(this, init);
+  }
+}
+
+export class VicNoDataGeographyConfig<
+  Datum,
+  P,
+  G extends Geometry,
+  Projection = GeoProjection
+> extends VicBaseDataGeographyConfig<Datum, P, G, Projection> {
+  /**
+   * The pattern for noDataGeography. If provided, fill will be overridden.
+   */
+  patternName: ((d: GeographiesFeature<P, G>) => string) | string;
+
+  constructor(
+    init?: Partial<VicNoDataGeographyConfig<Datum, P, G, Projection>>
+  ) {
+    super();
+    this.strokeColor = 'dimgray';
+    this.strokeWidth = '1';
+    this.fill = 'none';
     Object.assign(this, init);
   }
 }
