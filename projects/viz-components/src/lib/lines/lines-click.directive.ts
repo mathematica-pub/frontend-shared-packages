@@ -12,44 +12,48 @@ import {
 import { Observable } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
+import { LinesEventDirective } from './lines-event-directive';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
 import {
-  getLinesTooltipDataFromDatum,
   VicLinesEventOutput,
+  getLinesTooltipDataFromDatum,
 } from './lines-tooltip-data';
 import { LINES, LinesComponent } from './lines.component';
-
-type LinesEventDirective =
-  | LinesHoverDirective
-  | LinesHoverMoveDirective
-  | LinesInputEventDirective;
 
 @Directive({
   selector: '[vicLinesChartClickEffects]',
 })
 export class LinesClickDirective<
-  T extends LinesComponent = LinesComponent
+  Datum,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends ClickDirective {
   @Input('vicLinesChartClickEffects')
-  effects: EventEffect<LinesClickDirective<T>>[];
+  effects: EventEffect<LinesClickDirective<Datum, ExtendedLinesComponent>>[];
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
-  @Output('vicLinesChartClickOutput') eventOutput =
-    new EventEmitter<VicLinesEventOutput>();
+  @Output('vicLinesChartClickOutput') eventOutput = new EventEmitter<
+    VicLinesEventOutput<Datum>
+  >();
 
   constructor(
-    @Inject(LINES) public lines: LinesComponent,
+    @Inject(LINES) public lines: ExtendedLinesComponent,
     @Self()
     @Optional()
-    public hoverDirective?: LinesHoverDirective,
+    public hoverDirective?: LinesHoverDirective<Datum, ExtendedLinesComponent>,
     @Self()
     @Optional()
-    public hoverAndMoveDirective?: LinesHoverMoveDirective,
+    public hoverAndMoveDirective?: LinesHoverMoveDirective<
+      Datum,
+      ExtendedLinesComponent
+    >,
     @Self()
     @Optional()
-    public inputEventDirective?: LinesInputEventDirective
+    public inputEventDirective?: LinesInputEventDirective<
+      Datum,
+      ExtendedLinesComponent
+    >
   ) {
     super();
   }
@@ -67,7 +71,7 @@ export class LinesClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
   }
 
-  getOutputData(): VicLinesEventOutput {
+  getOutputData(): VicLinesEventOutput<Datum> {
     if (!this.hoverAndMoveDirective) {
       console.warn(
         'Tooltip data can only be retrieved when a LinesHoverMoveDirective is implemented.'
@@ -110,13 +114,18 @@ export class LinesClickDirective<
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: LinesEventDirective): void {
+  disableEffect(
+    directive: LinesEventDirective<Datum, ExtendedLinesComponent>
+  ): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
-  enableEffect(directive: LinesEventDirective, removeEffects: boolean): void {
+  enableEffect(
+    directive: LinesEventDirective<Datum, ExtendedLinesComponent>,
+    removeEffects: boolean
+  ): void {
     if (directive) {
       directive.preventEffect = false;
       if (removeEffects) {

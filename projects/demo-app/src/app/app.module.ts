@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -9,10 +9,8 @@ import {
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UndasherizePipe } from './core/pipes/undasherize.pipe';
-import { BasemapService } from './core/services/basemap.service';
-import { DataService } from './core/services/data.service';
-import { NavbarComponent } from './navbar/navbar.component';
 import { NavbarFolderComponent } from './navbar-folder/navbar-folder.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -27,26 +25,7 @@ import { NavbarFolderComponent } from './navbar-folder/navbar-folder.component';
     AppRoutingModule,
     BrowserAnimationsModule,
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (ds: DataService) => () => {
-        return ds.initData();
-      },
-      deps: [DataService],
-      multi: true,
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (ms: BasemapService) => () => {
-        return ms.initMap();
-      },
-      deps: [BasemapService],
-      multi: true,
-    },
-    VicExportDataService,
-    VicImageService,
-  ],
+  providers: [VicExportDataService, VicImageService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

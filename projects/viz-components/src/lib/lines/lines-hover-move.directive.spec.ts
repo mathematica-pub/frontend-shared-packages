@@ -3,10 +3,10 @@ import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LinesComponentStub } from '../testing/stubs/lines.component.stub';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
-import { LINES } from './lines.component';
+import { LINES, LinesComponent } from './lines.component';
 
 describe('LinesHoverMoveDirective', () => {
-  let directive: LinesHoverMoveDirective;
+  let directive: LinesHoverMoveDirective<any, LinesComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

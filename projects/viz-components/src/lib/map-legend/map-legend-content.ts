@@ -5,13 +5,13 @@ import { VicAttributeDataDimensionConfig } from '../geographies/geographies.conf
 import { formatValue } from '../value-format/value-format';
 
 @Directive()
-export abstract class MapLegendContent {
+export abstract class MapLegendContent<Datum> {
   @Input() width: number;
   @Input() height: number;
   @Input() orientation: keyof typeof VicOrientation;
   @Input() valuesSide: keyof typeof VicSide;
   @Input() scale: any;
-  @Input() config: VicAttributeDataDimensionConfig;
+  @Input() config: VicAttributeDataDimensionConfig<Datum>;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];
@@ -20,6 +20,9 @@ export abstract class MapLegendContent {
   largerValueSpace: number;
   leftOffset: number;
 
+  abstract getValuesFromScale(): number[];
+
+  abstract getLeftOffset(values?: number[]): number;
   setValues(): void {
     let values;
     values = this.getValuesFromScale();
@@ -44,8 +47,6 @@ export abstract class MapLegendContent {
     return values.map((d) => formatValue(d, this.config.valueFormat));
   }
 
-  abstract getValuesFromScale(): number[];
-
   setValueSpaces(values: number[]): void {
     this.startValueSpace = values[0].toString().length * 4;
     this.endValueSpace = values[values.length - 1].toString().length * 4;
@@ -55,6 +56,4 @@ export abstract class MapLegendContent {
         : this.endValueSpace;
     this.leftOffset = this.getLeftOffset(values);
   }
-
-  abstract getLeftOffset(values?: number[]): number;
 }

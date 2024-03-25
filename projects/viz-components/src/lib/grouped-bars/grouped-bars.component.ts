@@ -18,12 +18,13 @@ import { VicGroupedBarsConfig } from './grouped-bars.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
-export class GroupedBarsComponent extends BarsComponent {
-  @Input() override config: VicGroupedBarsConfig;
+export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('config') override userConfig: VicGroupedBarsConfig<Datum>;
+  override config: VicGroupedBarsConfig<Datum>;
   groupScale: any;
 
   override setValueIndicies(): void {
-    // no unit test
     this.values.indicies = range(
       this.values[this.config.dimensions.ordinal].length
     ).filter((i) => {
@@ -83,11 +84,11 @@ export class GroupedBarsComponent extends BarsComponent {
     return this.scales.y(this.values.y[i]);
   }
 
-  override getBarWidthOrdinal(i: number): number {
+  override getBarWidthOrdinal(): number {
     return (this.groupScale as any).bandwidth();
   }
 
-  override getBarHeightOrdinal(i: number): number {
+  override getBarHeightOrdinal(): number {
     return (this.groupScale as any).bandwidth();
   }
 }

@@ -2,10 +2,10 @@
 import { TestBed } from '@angular/core/testing';
 import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
 import { BarsInputEventDirective } from './bars-input-event.directive';
-import { BARS } from './bars.component';
+import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsInputDirective', () => {
-  let directive: BarsInputEventDirective;
+  let directive: BarsInputEventDirective<any, BarsComponent<any>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
