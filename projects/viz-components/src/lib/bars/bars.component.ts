@@ -487,18 +487,15 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     alignmentInNegativeDirection: B
   ): A | B {
     const value = this.values[this.config.dimensions.quantitative][i];
-    if (isNaN(parseFloat(value))) {
-      if (this.omittedValueLabelIsPositionedInPositiveDirection()) {
+    if (this.valueIsZeroOrNonnumeric(value)) {
+      if (this.positionZeroOrNonnumericValueLabelInPositiveDirection()) {
         return alignmentInPositiveDirection;
       } else {
         return alignmentInNegativeDirection;
       }
     }
-    const isPositiveValue = value >= 0;
-    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
-      i,
-      isPositiveValue
-    );
+    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(i);
+    const isPositiveValue = value > 0;
     if (placeLabelOutsideBar) {
       return isPositiveValue
         ? alignmentInPositiveDirection
@@ -511,12 +508,8 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarLabelColor(i: number): string {
-    const isPositiveValue =
-      this.values[this.config.dimensions.quantitative][i] >= 0;
-    if (
-      this.barLabelFitsOutsideBar(i, isPositiveValue) ||
-      !this.values[this.config.dimensions.quantitative][i]
-    ) {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    if (this.valueIsZeroOrNonnumeric(value) || this.barLabelFitsOutsideBar(i)) {
       return this.config.labels.darkLabelColor;
     } else {
       const barColor = this.getBarColor(i);
@@ -528,8 +521,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     }
   }
 
-  barLabelFitsOutsideBar(i: number, isPositiveValue: boolean): boolean {
+  barLabelFitsOutsideBar(i: number): boolean {
     let distance: number;
+    const value = this.values[this.config.dimensions.quantitative][i];
+    const isPositiveValue = value > 0;
     if (this.config.dimensions.ordinal === 'x') {
       distance = this.getBarToChartEdgeDistance(
         isPositiveValue,
@@ -590,38 +585,28 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 
   getBarLabelPosition(i: number): number {
     const value = this.values[this.config.dimensions.quantitative][i];
-    if (isNaN(parseFloat(value))) {
-      return this.getBarLabelPositionForOmittedValue();
+    if (this.valueIsZeroOrNonnumeric(value)) {
+      return this.getBarLabelPositionForZeroOrNonnumericValue();
     } else {
-      const isPositiveValue = value >= 0;
-      const placeLabelOutsideBar = this.barLabelFitsOutsideBar(
-        i,
-        isPositiveValue
-      );
-      return this.getBarLabelPositionWithOffset(
-        i,
-        isPositiveValue,
-        placeLabelOutsideBar
-      );
+      return this.getBarLabelPositionForNumericValue(i);
     }
   }
 
-  getBarLabelPositionForOmittedValue(): number {
-    const positionedInPositiveDirection =
-      this.omittedValueLabelIsPositionedInPositiveDirection();
-    return (positionedInPositiveDirection &&
+  getBarLabelPositionForZeroOrNonnumericValue(): number {
+    const positionInPositiveDirection =
+      this.positionZeroOrNonnumericValueLabelInPositiveDirection();
+    return (positionInPositiveDirection &&
       this.config.dimensions.ordinal === 'y') ||
-      (!positionedInPositiveDirection && this.config.dimensions.ordinal === 'x')
+      (!positionInPositiveDirection && this.config.dimensions.ordinal === 'x')
       ? this.config.labels.offset
       : -this.config.labels.offset;
   }
 
-  getBarLabelPositionWithOffset(
-    i: number,
-    isPositiveValue: boolean,
-    placeLabelOutsideBar: boolean
-  ): number {
+  getBarLabelPositionForNumericValue(i: number): number {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    const isPositiveValue = value > 0;
     const origin = this.getBarLabelOrigin(i, isPositiveValue);
+    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(i);
     if (
       (this.config.dimensions.ordinal === 'x' && placeLabelOutsideBar) ||
       (this.config.dimensions.ordinal === 'y' && !placeLabelOutsideBar)
@@ -652,23 +637,27 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     }
   }
 
-  omittedValueLabelIsPositionedInPositiveDirection(): boolean {
+  positionZeroOrNonnumericValueLabelInPositiveDirection(): boolean {
     const quantitativeValues = this.values[this.config.dimensions.quantitative];
     const someValuesArePositive = quantitativeValues.some((x) => x > 0);
-    const everyValueIsOmitted = quantitativeValues.every((x) =>
+    const everyValueIsNonnumeric = quantitativeValues.every((x) =>
       isNaN(parseFloat(x))
     );
     const domainMaxIsPositive =
       this.config.quantitative.domain === undefined ||
-      this.config.quantitative.domain[0] >= 0;
-    const everyValueIsEitherZeroOrOmitted =
-      quantitativeValues.includes(0) &&
-      quantitativeValues.every((x) => isNaN(parseFloat(x)) || x === 0);
+      this.config.quantitative.domain[1] > 0;
+    const everyValueIsEitherZeroOrNonnumeric = quantitativeValues.every((x) =>
+      this.valueIsZeroOrNonnumeric(x)
+    );
     return (
       someValuesArePositive ||
-      (everyValueIsOmitted && domainMaxIsPositive) ||
-      (everyValueIsEitherZeroOrOmitted && domainMaxIsPositive)
+      (everyValueIsNonnumeric && domainMaxIsPositive) ||
+      (everyValueIsEitherZeroOrNonnumeric && domainMaxIsPositive)
     );
+  }
+
+  valueIsZeroOrNonnumeric(value: any): boolean {
+    return isNaN(parseFloat(value)) || value === 0;
   }
 
   updateBarElements(): void {
