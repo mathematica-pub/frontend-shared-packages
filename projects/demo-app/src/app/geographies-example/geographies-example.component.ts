@@ -201,6 +201,12 @@ export class GeographiesExampleComponent implements OnInit {
       geographies: features,
       strokeColor: 'chartreuse',
       labels: labels,
+      patternPredicates: [
+        {
+          patternName: this.patternName,
+          predicate: (d) => d.properties.id === 'TX',
+        },
+      ],
     });
   }
 

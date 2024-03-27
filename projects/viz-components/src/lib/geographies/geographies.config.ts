@@ -142,7 +142,7 @@ export class VicAttributeDataDimensionConfig<
   numBins?: number;
   breakValues?: number[];
   interpolator: (...args: any) => any;
-  patternPredicates?: VicPatternPredicate[];
+  patternPredicates?: VicPatternPredicate<Datum>[];
   constructor(init?: Partial<VicAttributeDataDimensionConfig<Datum>>) {
     super();
     Object.assign(this, init);
@@ -308,6 +308,11 @@ export class VicGeographyLabelConfig<
   }
 }
 
+export interface VicGeographyNoDataPatternPredicate<P, G extends Geometry> {
+  patternName: string;
+  predicate: (d: GeographiesFeature<P, G>) => boolean;
+}
+
 export class VicNoDataGeographyConfig<
   Datum,
   P,
@@ -317,7 +322,7 @@ export class VicNoDataGeographyConfig<
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.
    */
-  patternName: ((d: GeographiesFeature<P, G>) => string) | string;
+  patternPredicates?: VicGeographyNoDataPatternPredicate<P, G>[];
 
   constructor(
     init?: Partial<VicNoDataGeographyConfig<Datum, P, G, Projection>>

@@ -448,11 +448,15 @@ export class GeographiesComponent<
               .attr('d', this.path)
               .attr('stroke', config.strokeColor)
               .attr('stroke-width', config.strokeWidth)
-              .attr('fill', this.getNoDataGeographyPatternFill(config)),
+              .attr('fill', (d) =>
+                this.getNoDataGeographyPatternFill(d, config)
+              ),
           (update) =>
             update
               .attr('d', this.path)
-              .attr('fill', this.getNoDataGeographyPatternFill(config)),
+              .attr('fill', (d) =>
+                this.getNoDataGeographyPatternFill(d, config)
+              ),
           (exit) => exit.remove()
         );
 
@@ -479,9 +483,14 @@ export class GeographiesComponent<
   }
 
   getNoDataGeographyPatternFill(
+    geography: GeographiesFeature<P, G>,
     config: VicNoDataGeographyConfig<Datum, P, G>
   ): string {
-    return config.patternName ? `url(#${config.patternName})` : config.fill;
+    return PatternUtilities.getNoDataGeographiesPatternFill(
+      geography,
+      config.fill,
+      config.patternPredicates
+    );
   }
 
   drawLabels(
