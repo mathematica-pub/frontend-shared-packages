@@ -27,33 +27,39 @@ const dataWithAllValueTypes = [
   { state: 'Arizona', value: 10 },
   { state: 'Arkansas', value: 8 },
   { state: 'California', value: null },
+  { state: 'Colorado', value: 0 },
 ];
-const dataWithNegativeAndOmittedValues = [
+const dataWithNegativeZeroAndNonnumericValues = [
   { state: 'Alabama', value: -10 },
   { state: 'Alaska', value: -8 },
-  { state: 'California', value: null },
+  { state: 'Arizona', value: null },
+  { state: 'Arkansas', value: 0 },
 ];
-const dataWithPositiveAndOmittedValues = [
+const dataWithPositiveZeroAndNonnumericValues = [
   { state: 'Alabama', value: 10 },
   { state: 'Alaska', value: 8 },
-  { state: 'California', value: null },
+  { state: 'Arizona', value: null },
+  { state: 'Arkansas', value: 0 },
 ];
-const dataWithOmittedValues = [
+const dataWithNonnumericValues = [
   { state: 'Alabama', value: null },
   { state: 'Alaska', value: null },
   { state: 'California', value: null },
 ];
-const dataWithOmittedAndZeroValues = [
+const dataWithZeroAndNonnumericValues = [
   { state: 'Alabama', value: null },
   { state: 'Alaska', value: 0 },
   { state: 'California', value: null },
 ];
 const dataWithZeroValues = [
-  { state: 'Alabama', value: null },
+  { state: 'Alabama', value: 0 },
   { state: 'Alaska', value: 0 },
-  { state: 'California', value: null },
+  { state: 'California', value: 0 },
 ];
 const labelOffset = 6;
+const elementPositionDelta = 0.5;
+const darkTextColorRgb = 'rgb(0, 0, 0)';
+const lightTextColorRgb = 'rgb(255, 255, 255)';
 
 const assertPositionOfBarAndDataLabel = (
   index: number,
@@ -75,14 +81,14 @@ const assertPositionOfBarAndDataLabel = (
 const assertPositionOfZeroAxisAndDataLabel = (
   axis: 'x' | 'y',
   assertions: (tickPosition: DOMRect, labelPosition: DOMRect) => void,
-  index?: number
+  indices?: number[]
 ): void => {
   cy.get(`.vic-${axis}.vic-axis-g .tick text`)
     .contains(/^0$/)
     .siblings()
     .then(($tick) => {
       cy.get('.vic-bar-label').each(($label, i) => {
-        if (index === undefined || index === i) {
+        if (indices === undefined || indices.includes(i)) {
           const tickPosition = $tick[0].getBoundingClientRect();
           const labelPosition = $label[0].getBoundingClientRect();
           assertions(tickPosition, labelPosition);
@@ -92,7 +98,20 @@ const assertPositionOfZeroAxisAndDataLabel = (
 };
 
 const distanceBetweenElementAndDataLabelIsOffset = (distance: number) => {
-  expect(Math.round(distance)).to.equal(labelOffset);
+  expect(distance).to.be.closeTo(labelOffset, elementPositionDelta);
+};
+
+const barLabelColorMatchesExpectedRgb = (
+  rgb: string,
+  indices?: number[]
+): void => {
+  cy.get('.vic-bar-label').each(($label, i) => {
+    if (indices === undefined || indices.includes(i)) {
+      cy.wrap($label)
+        .should('have.attr', 'style')
+        .and('includes', `fill: ${rgb}`);
+    }
+  });
 };
 
 // ***********************************************************
@@ -171,7 +190,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     barsConfig.quantitative.domainPadding.numPixels = 4;
   });
-  describe('for bar data that has positive, negative, and omitted values', () => {
+  describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithAllValueTypes;
       mountVerticalBarComponent(barsConfig);
@@ -185,8 +204,11 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               const labelPosition = $label[0].getBoundingClientRect();
               const tickPosition = $tick.getBoundingClientRect();
               expect(
-                Math.round(labelPosition.width / 2 + labelPosition.left)
-              ).to.equal(Math.round(tickPosition.x));
+                labelPosition.width / 2 + labelPosition.left
+              ).to.be.closeTo(
+                tickPosition.width / 2 + tickPosition.left,
+                elementPositionDelta
+              );
             });
         });
       });
@@ -217,13 +239,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         );
       });
       it('uses the lighter default text color (white) for the data labels color', () => {
-        cy.get('.vic-bar-label').each(($label, i) => {
-          if (i === 0 || i === 2) {
-            cy.wrap($label)
-              .should('have.attr', 'style')
-              .and('include', 'fill: rgb(255, 255, 255)');
-          }
-        });
+        barLabelColorMatchesExpectedRgb(lightTextColorRgb, [0, 2]);
       });
     });
 
@@ -259,106 +275,102 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         );
       });
       it('uses the darker default text color (black) for the data labels color', () => {
-        cy.get('.vic-bar-label').each(($label, i) => {
-          if (i === 1 || i === 3) {
-            cy.wrap($label)
-              .should('have.attr', 'style')
-              .and('includes', 'fill: rgb(0, 0, 0)');
-          }
-        });
+        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [1, 3]);
       });
     });
 
-    describe('when the data label is for an omitted value', () => {
+    describe('when the data label is for a zero or non-numeric value', () => {
       it('offsets data label above scales.y(0)', () => {
         assertPositionOfZeroAxisAndDataLabel(
           'y',
           (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.bottom).to.be.lessThan(tickPosition.top);
             distanceBetweenElementAndDataLabelIsOffset(
               tickPosition.top - labelPosition.bottom
             );
           },
-          4
+          [4, 5]
         );
       });
       it('uses the darker default text color (black) for the data label color', () => {
-        cy.get('.vic-bar-label').each(($label, i) => {
-          if (i === 4) {
-            cy.wrap($label)
-              .should('have.attr', 'style')
-              .and('includes', 'fill: rgb(0, 0, 0)');
-          }
-        });
+        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [4, 5]);
       });
     });
   });
 
-  describe('for bar data that has negative and omitted values', () => {
+  describe('for bar data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig.data = dataWithNegativeAndOmittedValues;
-      barsConfig.quantitative.domain = [-10, 10];
+      barsConfig.data = dataWithNegativeZeroAndNonnumericValues;
       mountVerticalBarComponent(barsConfig);
     });
-    it('offsets data label for the omitted value below scales.y(0)', () => {
+    it('offsets data label for zero and non-numerics value below scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.top).to.be.greaterThan(tickPosition.bottom);
           distanceBetweenElementAndDataLabelIsOffset(
             labelPosition.top - tickPosition.bottom
           );
         },
-        2
+        [2, 3]
       );
+    });
+    it('uses the darker default text color (black) for the zero and non-numeric label color', () => {
+      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
     });
   });
 
-  describe('for bar data that has positive and omitted values', () => {
+  describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig.data = dataWithPositiveAndOmittedValues;
+      barsConfig.data = dataWithPositiveZeroAndNonnumericValues;
       mountVerticalBarComponent(barsConfig);
     });
-    it('offsets data label for the omitted value above scales.y(0)', () => {
+    it('offsets data label for zero and non-numeric values above scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.bottom).to.be.lessThan(tickPosition.top);
           distanceBetweenElementAndDataLabelIsOffset(
             tickPosition.top - labelPosition.bottom
           );
         },
-        2
+        [2, 3]
       );
+    });
+    it('uses the darker default text color (black) for the zero and non-numeric label color', () => {
+      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
     });
   });
 
   [
-    { data: dataWithOmittedValues, valueType: 'omitted' },
+    { data: dataWithNonnumericValues, valueType: 'non-numeric' },
     { data: dataWithZeroValues, valueType: 'zero' },
-    { data: dataWithOmittedAndZeroValues, valueType: 'omitted and zero' },
+    {
+      data: dataWithZeroAndNonnumericValues,
+      valueType: 'non-numeric and zero',
+    },
   ].forEach((item) => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       beforeEach(() => {
         barsConfig.data = item.data;
       });
-      describe('when the domain is undefined in the bars config', () => {
+      describe('when the domain maximum is greater than 0', () => {
         beforeEach(() => {
+          barsConfig.quantitative.domain = [-10, 10];
           mountVerticalBarComponent(barsConfig);
         });
         it('offsets data label above scales.y(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'y',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.bottom).to.be.lessThan(tickPosition.top);
               distanceBetweenElementAndDataLabelIsOffset(
                 tickPosition.top - labelPosition.bottom
               );
             }
           );
         });
+        it('uses the darker default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
+        });
       });
-      describe('when the domain is set in the bars config and the minimum value is negative', () => {
+      describe('when the domain maximum is not greater than 0', () => {
         beforeEach(() => {
           barsConfig.quantitative.domain = [-10, 0];
           mountVerticalBarComponent(barsConfig);
@@ -367,12 +379,14 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'y',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.top).to.be.greaterThan(tickPosition.bottom);
               distanceBetweenElementAndDataLabelIsOffset(
                 labelPosition.top - tickPosition.bottom
               );
             }
           );
+        });
+        it('uses the darker default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
         });
       });
     });
@@ -455,7 +469,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     barsConfig.quantitative.domainPadding.numPixels = 4;
   });
-  describe('for bar data that has positive, negative, and omitted values', () => {
+  describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithAllValueTypes;
       mountHorizontalBarComponent(barsConfig);
@@ -470,8 +484,11 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               const labelPosition = $label[0].getBoundingClientRect();
               const tickPosition = tick.getBoundingClientRect();
               expect(
-                Math.round(labelPosition.height / 2 + labelPosition.top)
-              ).to.equal(Math.round(tickPosition.y));
+                labelPosition.height / 2 + labelPosition.top
+              ).to.be.closeTo(
+                tickPosition.height / 2 + tickPosition.top,
+                elementPositionDelta
+              );
             });
         });
       });
@@ -503,13 +520,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         );
       });
       it('uses the lighter default text color (white) for the data labels color', () => {
-        cy.get('.vic-bar-label').each(($label, i) => {
-          if (i === 0 || i === 2) {
-            cy.wrap($label)
-              .should('have.attr', 'style')
-              .and('include', 'fill: rgb(255, 255, 255)');
-          }
-        });
+        barLabelColorMatchesExpectedRgb(lightTextColorRgb, [0, 2]);
       });
     });
 
@@ -545,106 +556,102 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         );
       });
       it('uses the darker default text color (black) for the data labels color', () => {
-        cy.get('.vic-bar-label').each(($label, i) => {
-          if (i === 1 || i === 3) {
-            cy.wrap($label)
-              .should('have.attr', 'style')
-              .and('includes', 'fill: rgb(0, 0, 0)');
-          }
-        });
+        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [1, 3]);
       });
     });
 
-    describe('when the data label is for an omitted value', () => {
+    describe('when the data label is for zero and non-numeric values', () => {
       it('offsets data label to the right of scales.x(0)', () => {
         assertPositionOfZeroAxisAndDataLabel(
           'x',
           (tickPosition: DOMRect, labelPosition: DOMRect) => {
-            expect(labelPosition.left).to.be.greaterThan(tickPosition.right);
             distanceBetweenElementAndDataLabelIsOffset(
               labelPosition.left - tickPosition.right
             );
           },
-          4
+          [4, 5]
         );
       });
       it('uses the darker default text color (black) for the data labels color', () => {
-        cy.get('.vic-bar-label').each(($label, i) => {
-          if (i === 4) {
-            cy.wrap($label)
-              .should('have.attr', 'style')
-              .and('includes', 'fill: rgb(0, 0, 0)');
-          }
-        });
+        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [4]);
       });
     });
   });
 
-  describe('for bar data that has negative and omitted values', () => {
+  describe('for bar data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig.data = dataWithNegativeAndOmittedValues;
-      barsConfig.quantitative.domain = [-10, 0];
+      barsConfig.data = dataWithNegativeZeroAndNonnumericValues;
       mountHorizontalBarComponent(barsConfig);
     });
-    it('offsets data label for the omitted value to the left of scales.x(0)', () => {
+    it('offsets data label for the non-numeric value to the left of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.right).to.be.lessThan(tickPosition.left);
           distanceBetweenElementAndDataLabelIsOffset(
             tickPosition.left - labelPosition.right
           );
         },
-        2
+        [2, 3]
       );
+    });
+    it('uses the darker default text color (black) for the zero and non-numeric labels color', () => {
+      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
     });
   });
 
-  describe('for bar data that has positive and omitted values', () => {
+  describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig.data = dataWithPositiveAndOmittedValues;
+      barsConfig.data = dataWithPositiveZeroAndNonnumericValues;
       mountHorizontalBarComponent(barsConfig);
     });
-    it('offsets data label for the omitted value to the right of scales.x(0)', () => {
+    it('offsets data label for the non-numeric value to the right of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
-          expect(labelPosition.left).to.be.greaterThan(tickPosition.right);
           distanceBetweenElementAndDataLabelIsOffset(
             labelPosition.left - tickPosition.right
           );
         },
-        2
+        [2, 3]
       );
+    });
+    it('uses the darker default text color (black) for the zero and non-numeric labels color', () => {
+      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
     });
   });
 
   [
-    { data: dataWithOmittedValues, valueType: 'omitted' },
+    { data: dataWithNonnumericValues, valueType: 'non-numeric' },
     { data: dataWithZeroValues, valueType: 'zero' },
-    { data: dataWithOmittedAndZeroValues, valueType: 'omitted and zero' },
+    {
+      data: dataWithZeroAndNonnumericValues,
+      valueType: 'non-numeric and zero',
+    },
   ].forEach((item) => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       beforeEach(() => {
         barsConfig.data = item.data;
       });
-      describe('when the domain is undefined in the bars config', () => {
+      describe('when the domain maximum value is positive', () => {
         beforeEach(() => {
+          barsConfig.quantitative.domain = [-10, 10];
           mountHorizontalBarComponent(barsConfig);
         });
         it('offsets data label to the right of scales.x(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'x',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.left).to.be.greaterThan(tickPosition.right);
               distanceBetweenElementAndDataLabelIsOffset(
                 labelPosition.left - tickPosition.right
               );
             }
           );
         });
+        it('uses the darker default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
+        });
       });
-      describe('when the domain is set in the bars config and the minimum value is negative', () => {
+      describe('when the domain maximum value is not greater than 0', () => {
         beforeEach(() => {
           barsConfig.quantitative.domain = [-10, 0];
           mountHorizontalBarComponent(barsConfig);
@@ -653,12 +660,14 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           assertPositionOfZeroAxisAndDataLabel(
             'x',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
-              expect(labelPosition.right).to.be.lessThan(tickPosition.left);
               distanceBetweenElementAndDataLabelIsOffset(
                 tickPosition.left - labelPosition.right
               );
             }
           );
+        });
+        it('uses the darker default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
         });
       });
     });
