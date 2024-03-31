@@ -10,10 +10,11 @@ import {
   Self,
 } from '@angular/core';
 import { select } from 'd3';
-import { Geometry } from 'geojson';
+import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter, takeUntil } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
+import { VicGeographiesFeature } from './geographies';
 import { GeographiesEventDirective } from './geographies-event-directive';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
@@ -23,23 +24,24 @@ import {
   getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
-import { GeographiesFeature } from './geographies.config';
 
 @Directive({
   selector: '[vicGeographiesClickEffects]',
 })
 export class GeographiesClickDirective<
   Datum,
-  P,
-  G extends Geometry,
-  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TComponent extends GeographiesComponent<
     Datum,
-    P,
-    G
-  >
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > extends ClickDirective {
   @Input('vicGeographiesClickEffects')
-  effects: EventEffect<GeographiesClickDirective<Datum, P, G, C>>[];
+  effects: EventEffect<
+    GeographiesClickDirective<Datum, TProperties, TGeometry, TComponent>
+  >[];
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicGeographiesClickOutput') eventOutput = new EventEmitter<
@@ -47,24 +49,34 @@ export class GeographiesClickDirective<
   >();
   pointerX: number;
   pointerY: number;
-  feature: GeographiesFeature<P, G>;
+  feature: VicGeographiesFeature<TProperties, TGeometry>;
 
   constructor(
-    @Inject(GEOGRAPHIES) public geographies: C,
+    @Inject(GEOGRAPHIES) public geographies: TComponent,
     @Self()
     @Optional()
-    public hoverDirective?: GeographiesHoverDirective<Datum, P, G, C>,
+    public hoverDirective?: GeographiesHoverDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: GeographiesHoverMoveDirective<
       Datum,
-      P,
-      G,
-      C
+      TProperties,
+      TGeometry,
+      TComponent
     >,
     @Self()
     @Optional()
-    public inputEventDirective?: GeographiesInputEventDirective<Datum, P, G, C>
+    public inputEventDirective?: GeographiesInputEventDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >
   ) {
     super();
   }
@@ -85,7 +97,7 @@ export class GeographiesClickDirective<
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     this.feature = select(
       event.target as Element
-    ).datum() as GeographiesFeature<P, G>;
+    ).datum() as VicGeographiesFeature<TProperties, TGeometry>;
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
       this.pointerY = this.hoverDirective.positionY;
@@ -101,10 +113,12 @@ export class GeographiesClickDirective<
   }
 
   getOutputData(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData<Datum, P, G, C>(
-      this.feature,
-      this.geographies
-    );
+    const tooltipData = getGeographiesTooltipData<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >(this.feature, this.geographies);
     return new VicGeographiesEventOutput({
       ...tooltipData,
       positionX: this.pointerX,
@@ -138,14 +152,26 @@ export class GeographiesClickDirective<
     this.enableEffect(this.inputEventDirective, removeEffects);
   }
 
-  disableEffect(directive: GeographiesEventDirective<Datum, P, G, C>): void {
+  disableEffect(
+    directive: GeographiesEventDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >
+  ): void {
     if (directive) {
       directive.preventEffect = true;
     }
   }
 
   enableEffect(
-    directive: GeographiesEventDirective<Datum, P, G, C>,
+    directive: GeographiesEventDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >,
     removeEffects: boolean
   ): void {
     if (directive) {

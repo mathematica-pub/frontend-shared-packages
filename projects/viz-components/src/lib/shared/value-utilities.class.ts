@@ -1,4 +1,4 @@
-import { ValueType } from '../core/services/data-domain.service';
+import { VicValueExtent } from '../core/types/values';
 
 /**
  * @internal
@@ -7,7 +7,7 @@ export class ValueUtilities {
   static getValueRoundedToNSignificantDigits(
     value: number,
     sigDigits: number,
-    valueType: ValueType
+    valueExtent: VicValueExtent
   ): number {
     // If the value type is 'max', rounds up if value is > 0 and down if value is < 0
     // If the value type is 'min', rounds down if value is > 0 and up if value is < 0
@@ -21,7 +21,7 @@ export class ValueUtilities {
       absRoundedValue = this.getRoundedDecimalLessThanOne(
         value,
         sigDigits,
-        valueType
+        valueExtent
       );
     } else {
       const absValueStr = Math.abs(value).toString();
@@ -39,7 +39,7 @@ export class ValueUtilities {
         }
         numZeros = numZeros < 0 ? 0 : numZeros;
       }
-      const offset = this.getRoundingOffset(value, valueType);
+      const offset = this.getRoundingOffset(value, valueExtent);
       const lastSigDigit = Number(firstNDigits[firstNDigits.length - 1]);
       // handle cases where the last rounded significant is 9 and the value is rounded up
       if (offset === 1 && lastSigDigit === 9) {
@@ -48,7 +48,7 @@ export class ValueUtilities {
           firstNDigits.split(''),
           absValueStr,
           sigDigits,
-          valueType
+          valueExtent
         );
         if (firstNDigits[0] === '0') {
           firstNDigits.unshift('1');
@@ -75,7 +75,7 @@ export class ValueUtilities {
   private static getRoundedDecimalLessThanOne(
     value: number,
     sigDigits: number,
-    valueType: ValueType
+    valueExtent: VicValueExtent
   ): number {
     const valueStr = Math.abs(value).toString();
     let newValue = [];
@@ -95,10 +95,10 @@ export class ValueUtilities {
                 newValue,
                 valueStr,
                 i,
-                valueType
+                valueExtent
               );
             } else {
-              const offset = this.getRoundingOffset(value, valueType);
+              const offset = this.getRoundingOffset(value, valueExtent);
               newDigit = `${Number(char) + offset}`;
             }
           } else if (sigDigitsFound < sigDigits) {
@@ -116,7 +116,7 @@ export class ValueUtilities {
     newValue: string[],
     valueStr: string,
     i: number,
-    valueType: ValueType
+    valueExtent: VicValueExtent
   ): string[] {
     const prevChar = valueStr[i - 1];
     if (prevChar === '9') {
@@ -126,7 +126,7 @@ export class ValueUtilities {
         newValue,
         valueStr,
         i - 1,
-        valueType
+        valueExtent
       );
     } else if (prevChar === '.') {
       newValue = this.getNewValueForNine(
@@ -134,10 +134,10 @@ export class ValueUtilities {
         newValue,
         valueStr,
         i - 1,
-        valueType
+        valueExtent
       );
     } else {
-      const offset = this.getRoundingOffset(value, valueType);
+      const offset = this.getRoundingOffset(value, valueExtent);
       newValue[i - 1] = `${Number(prevChar) + offset}`;
     }
     return newValue;
@@ -145,10 +145,10 @@ export class ValueUtilities {
 
   private static getRoundingOffset(
     value: number,
-    valueType: ValueType
+    valueExtent: VicValueExtent
   ): number {
-    return (value > 0 && valueType === 'max') ||
-      (value < 0 && valueType === 'min')
+    return (value > 0 && valueExtent === 'max') ||
+      (value < 0 && valueExtent === 'min')
       ? 1
       : 0;
   }
@@ -156,12 +156,12 @@ export class ValueUtilities {
   static getValueRoundedToInterval(
     value: number,
     interval: number,
-    valueType: ValueType
+    valueExtent: VicValueExtent
   ): number {
     if (interval === 0) {
       return value;
     }
-    const round = valueType === 'max' ? Math.ceil : Math.floor;
+    const round = valueExtent === 'max' ? Math.ceil : Math.floor;
     return round(value / interval) * interval;
   }
 }

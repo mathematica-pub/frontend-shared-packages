@@ -10,22 +10,24 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 })
 export class GeographiesInputEventDirective<
   Datum,
-  P,
-  G extends Geometry,
-  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<
     Datum,
-    P,
-    G
-  >
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEventEffects')
-  effects: InputEventEffect<GeographiesInputEventDirective<Datum, P, G, C>>[];
+  effects: InputEventEffect<
+    GeographiesInputEventDirective<Datum, TProperties, TGeometry, TComponent>
+  >[];
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<unknown>;
   @Output() inputEventOutput = new EventEmitter<unknown>();
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: C) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
     super();
   }
 

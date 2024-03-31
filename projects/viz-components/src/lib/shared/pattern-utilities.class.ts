@@ -1,9 +1,7 @@
 import { Geometry } from 'geojson';
 import { VicPatternPredicate } from '../data-marks/data-marks.config';
-import {
-  GeographiesFeature,
-  VicGeographyNoDataPatternPredicate,
-} from '../geographies/geographies.config';
+import { VicGeographiesFeature } from '../geographies/geographies';
+import { VicGeographyNoDataPatternPredicate } from '../geographies/geographies.config';
 
 /**
  * @internal
@@ -28,7 +26,7 @@ export class PatternUtilities {
   // are identical, the predicates just take different types
   // a future PR could maybe clean this up / consolidate it
   static getNoDataGeographiesPatternFill<P, G extends Geometry>(
-    geography: GeographiesFeature<P, G>,
+    geography: VicGeographiesFeature<P, G>,
     defaultColor: string,
     predicates: VicGeographyNoDataPatternPredicate<P, G>[]
   ) {
