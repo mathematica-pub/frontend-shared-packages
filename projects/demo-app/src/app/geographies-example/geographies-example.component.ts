@@ -8,9 +8,10 @@ import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/v
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
 import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
-import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
-import { VicGeographiesLabelsFill } from 'projects/viz-components/src/lib/geographies/geographies-labels-fill';
-import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
+import {
+  VicGeographiesLabelsPositioners,
+  VicGeographyLabelConfig,
+} from 'projects/viz-components/src/lib/geographies/geographies-labels';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import {
   VicDataGeographyConfig,
@@ -18,6 +19,7 @@ import {
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/lib/geographies/geographies.config';
+import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
@@ -233,13 +235,13 @@ export class GeographiesExampleComponent implements OnInit {
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     labelConfig.color = (d, backgroundColor) =>
-      VicGeographiesLabelsFill.getContrastLabelFill(
+      VicColorUtilities.getHigherContrastColorForBackground(
         backgroundColor,
         darkColor,
         lightColor
       );
     labelConfig.fontWeight = (d, backgroundColor) =>
-      VicGeographiesLabelsFill.getContrastLabelFill(
+      VicColorUtilities.getHigherContrastColorForBackground(
         backgroundColor,
         darkColor,
         lightColor

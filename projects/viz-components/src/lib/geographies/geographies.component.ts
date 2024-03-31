@@ -217,7 +217,6 @@ export class GeographiesComponent<
     numBins: number;
     domain: number[];
   } {
-    // const domain = this.config.dataGeographyConfig.attributeDataConfig.domain;
     const validated = { numBins, domain };
     const dataRange = [domain[0], domain[domain.length - 1]].map(
       (x) =>
@@ -506,7 +505,7 @@ export class GeographiesComponent<
     geography: VicGeographiesFeature<TProperties, TGeometry>,
     config: VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
   ): string {
-    return PatternUtilities.getNoDataGeographiesPatternFill(
+    return PatternUtilities.getPatternFill(
       geography,
       config.fill,
       config.patternPredicates
