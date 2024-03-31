@@ -27,7 +27,7 @@ export class ContinuousLegendComponent<Datum>
     this.drawLinearGradient();
   }
 
-  getValuesFromScale(): any[] {
+  getValuesFromScale(): number[] {
     return this.scale.domain();
   }
 

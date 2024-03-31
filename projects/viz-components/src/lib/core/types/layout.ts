@@ -21,3 +21,8 @@ export interface VicDimensions {
   width: number;
   height: number;
 }
+
+export interface VicPosition {
+  x: number;
+  y: number;
+}

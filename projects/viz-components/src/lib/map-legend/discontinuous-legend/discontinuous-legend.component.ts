@@ -26,31 +26,25 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegendContent<
 > {
   VicValuesBin = VicValuesBin;
 
-  setCategoricalValues(): void {
-    this.values = this.config.domain;
-    this.startValueSpace = 0;
-    this.endValueSpace = 0;
-    this.largerValueSpace = 0;
-    this.leftOffset = 0;
-  }
-
-  getValuesFromScale(): any[] {
+  getValuesFromScale(): string[] | number[] {
     if (this.config.binType === VicValuesBin.categorical) {
       return this.config.domain;
     } else {
-      const binColors = this.config.range;
-      const values =
-        this.config.binType === VicValuesBin.customBreaks
-          ? this.config.breakValues
-          : [
-              ...new Set(
-                binColors
-                  .map((colors) => this.scale.invertExtent(colors))
-                  .flat()
-              ),
-            ];
-      return values;
+      return this.getQuantitativeValuesFromScale();
     }
+  }
+
+  getQuantitativeValuesFromScale(): number[] {
+    const binColors = this.config.range;
+    const values =
+      this.config.binType === VicValuesBin.customBreaks
+        ? this.config.breakValues
+        : [
+            ...new Set(
+              binColors.map((colors) => this.scale.invertExtent(colors)).flat()
+            ),
+          ];
+    return values;
   }
 
   getLeftOffset(values: number[]): number {

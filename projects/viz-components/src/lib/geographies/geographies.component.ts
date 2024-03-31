@@ -188,10 +188,14 @@ export class GeographiesComponent<
       VicValuesBin.equalValueRanges
     ) {
       if (this.attributeDataValueFormatIsInteger()) {
-        this.getValidatedNumBinsAndDomainForIntegerValues(
+        const validated = this.getValidatedNumBinsAndDomainForIntegerValues(
           this.config.dataGeographyConfig.attributeDataConfig.numBins,
           this.config.dataGeographyConfig.attributeDataConfig.domain
         );
+        this.config.dataGeographyConfig.attributeDataConfig.numBins =
+          validated.numBins;
+        this.config.dataGeographyConfig.attributeDataConfig.domain =
+          validated.domain;
       }
     }
   }

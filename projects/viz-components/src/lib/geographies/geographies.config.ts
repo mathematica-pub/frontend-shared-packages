@@ -192,6 +192,7 @@ export class VicCategoricalAttributeDataDimensionConfig<
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
+  override domain: string[];
 
   constructor(
     init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
@@ -212,6 +213,7 @@ export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
   Datum
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.none = VicValuesBin.none;
+
   constructor(
     init?: Partial<VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>>
   ) {
@@ -232,6 +234,7 @@ export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
   numBins: number;
+
   constructor(
     init?: Partial<
       VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
@@ -256,6 +259,7 @@ export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
   binType: VicValuesBin.equalNumObservations =
     VicValuesBin.equalNumObservations;
   numBins: number;
+
   constructor(
     init?: Partial<
       VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>

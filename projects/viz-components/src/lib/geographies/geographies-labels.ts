@@ -1,7 +1,7 @@
 import type * as CSSType from 'csstype';
 import { GeoPath, GeoProjection, ScaleLinear, scaleLinear } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicPosition } from '../core/types/values';
+import { VicPosition } from '../core/types/layout';
 import { VicGeographiesFeature } from './geographies';
 import { VicGeographiesLabelsPositioners } from './geographies-labels-positioners';
 

@@ -178,7 +178,6 @@ describe('the QuantitativeAxis mixin', () => {
       abstractClass.config = {
         numTicks: 1,
       } as any;
-      spyOn(abstractClass as any, 'warnThatNoTickValidationsWereMade');
     });
 
     it('calls getNumTicks once', () => {
@@ -189,13 +188,7 @@ describe('the QuantitativeAxis mixin', () => {
 
     describe('if tickFormat is a string but has no period in it', () => {
       beforeEach(() => {
-        tickFormat = ',f';
-      });
-      it('calls warnThatNoTickValidationsWereMade once', () => {
-        (abstractClass as any).getValidNumTicks(tickFormat);
-        expect(
-          (abstractClass as any).warnThatNoTickValidationsWereMade
-        ).toHaveBeenCalledTimes(1);
+        tickFormat = '%Y';
       });
       it('returns the result from getNumTicks', () => {
         expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(8);

@@ -1,7 +1,7 @@
 import { GeoPath, GeoProjection, maxIndex, polygonArea } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import polylabel from 'polylabel';
-import { VicPosition } from '../core/types/values';
+import { VicPosition } from '../core/types/layout';
 import { VicGeographiesFeature } from './geographies';
 
 export class VicGeographiesLabelsPositioners {

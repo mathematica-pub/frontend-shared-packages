@@ -26,7 +26,7 @@ export abstract class MapLegendContent<
   largerValueSpace: number;
   leftOffset: number;
 
-  abstract getValuesFromScale(): number[];
+  abstract getValuesFromScale(): string[] | number[];
   abstract getLeftOffset(values?: number[]): number;
 
   ngOnChanges(): void {
@@ -60,18 +60,26 @@ export abstract class MapLegendContent<
 
   setValueSpaces(values: number[]): void {
     if (this.config.binType !== VicValuesBin.categorical) {
-      this.startValueSpace = values[0].toString().length * 4;
-      this.endValueSpace = values[values.length - 1].toString().length * 4;
-      this.largerValueSpace =
-        this.startValueSpace > this.endValueSpace
-          ? this.startValueSpace
-          : this.endValueSpace;
-      this.leftOffset = this.getLeftOffset(values);
+      this.setQuantitativeValueSpaces(values);
     } else {
-      this.startValueSpace = 0;
-      this.endValueSpace = 0;
-      this.largerValueSpace = 0;
-      this.leftOffset = 0;
+      this.setCategoricalValueSpaces();
     }
+  }
+
+  setQuantitativeValueSpaces(values: number[]): void {
+    this.startValueSpace = values[0].toString().length * 4;
+    this.endValueSpace = values[values.length - 1].toString().length * 4;
+    this.largerValueSpace =
+      this.startValueSpace > this.endValueSpace
+        ? this.startValueSpace
+        : this.endValueSpace;
+    this.leftOffset = this.getLeftOffset(values);
+  }
+
+  setCategoricalValueSpaces(): void {
+    this.startValueSpace = 0;
+    this.endValueSpace = 0;
+    this.largerValueSpace = 0;
+    this.leftOffset = 0;
   }
 }
