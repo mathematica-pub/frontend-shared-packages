@@ -28,7 +28,7 @@ class MyConfig<T> {
 }
 ```
 
-If a generic, to be specified by the user, is used for a type that needs to conform to a particular type signature and therefore extends a base type, that generic should also have a descriptive name in the form of `TBaseType`. It is permissable to shorted the name of the base type in the generic name for the sakeof brevity provided it is descriptive and distinct.
+If a generic, to be specified by the user, is used for a type that needs to conform to a particular type signature and therefore extends a base type, that generic should also have a descriptive name in the form of `TBaseType`. It is permissable to shorten the name of the base type in the generic name for the sake of brevity provided it is descriptive and distinct.
 
 Do:
 
