@@ -1246,7 +1246,9 @@ describe('BarsComponent', () => {
   describe('getBarLabelX', () => {
     beforeEach(() => {
       spyOn(component, 'getBarWidthOrdinal').and.returnValue(10);
-      spyOn(component, 'getBarLabelPosition').and.returnValue(50);
+      spyOn(component, 'getBarLabelQuantitativeAxisPosition').and.returnValue(
+        50
+      );
     });
     describe('x dimension is ordinal', () => {
       beforeEach(() => {
@@ -1273,9 +1275,11 @@ describe('BarsComponent', () => {
           },
         } as any;
       });
-      it('calls getBarLabelPosition once', () => {
+      it('calls getBarLabelQuantitativeAxisPosition once', () => {
         component.getBarLabelX(1);
-        expect(component.getBarLabelPosition).toHaveBeenCalledOnceWith(1);
+        expect(
+          component.getBarLabelQuantitativeAxisPosition
+        ).toHaveBeenCalledOnceWith(1);
       });
       it('returns the correct value', () => {
         expect(component.getBarLabelX(1)).toEqual(50);
@@ -1286,7 +1290,9 @@ describe('BarsComponent', () => {
   describe('getBarLabelX', () => {
     beforeEach(() => {
       spyOn(component, 'getBarHeightOrdinal').and.returnValue(10);
-      spyOn(component, 'getBarLabelPosition').and.returnValue(50);
+      spyOn(component, 'getBarLabelQuantitativeAxisPosition').and.returnValue(
+        50
+      );
     });
     describe('x dimension is ordinal', () => {
       beforeEach(() => {
@@ -1296,9 +1302,11 @@ describe('BarsComponent', () => {
           },
         } as any;
       });
-      it('calls getBarLabelPosition once', () => {
+      it('calls getBarLabelQuantitativeAxisPosition once', () => {
         component.getBarLabelY(1);
-        expect(component.getBarLabelPosition).toHaveBeenCalledOnceWith(1);
+        expect(
+          component.getBarLabelQuantitativeAxisPosition
+        ).toHaveBeenCalledOnceWith(1);
       });
       it('returns the correct value', () => {
         expect(component.getBarLabelY(1)).toEqual(50);
@@ -1323,7 +1331,7 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarLabelPosition', () => {
+  describe('getBarLabelQuantitativeAxisPosition', () => {
     let result: number;
     let valueSpy: jasmine.Spy;
     let zeroNonnumericPositionSpy: jasmine.Spy;
@@ -1349,13 +1357,13 @@ describe('BarsComponent', () => {
       component.values.x = [null, 2, 3];
     });
     it('calls valueIsZeroOrNonnumeric once', () => {
-      component.getBarLabelPosition(1);
+      component.getBarLabelQuantitativeAxisPosition(1);
       expect(valueSpy).toHaveBeenCalledOnceWith(2);
     });
     describe('if the quantitative value is zero or non-numeric', () => {
       beforeEach(() => {
         valueSpy.and.returnValue(true);
-        result = component.getBarLabelPosition(0);
+        result = component.getBarLabelQuantitativeAxisPosition(0);
       });
       it('calls getBarLabelPositionForZeroOrNonnumericValue once', () => {
         expect(zeroNonnumericPositionSpy).toHaveBeenCalledTimes(1);
@@ -1367,7 +1375,7 @@ describe('BarsComponent', () => {
     describe('if the quantitative value is numeric', () => {
       beforeEach(() => {
         valueSpy.and.returnValue(false);
-        result = component.getBarLabelPosition(1);
+        result = component.getBarLabelQuantitativeAxisPosition(1);
       });
       it('calls getBarLabelPositionForNumericValue once', () => {
         expect(numericPositionSpy).toHaveBeenCalledOnceWith(1);

@@ -571,19 +571,19 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarWidthOrdinal() / 2;
     } else {
-      return this.getBarLabelPosition(i);
+      return this.getBarLabelQuantitativeAxisPosition(i);
     }
   }
 
   getBarLabelY(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarLabelPosition(i);
+      return this.getBarLabelQuantitativeAxisPosition(i);
     } else {
       return this.getBarHeightOrdinal() / 2;
     }
   }
 
-  getBarLabelPosition(i: number): number {
+  getBarLabelQuantitativeAxisPosition(i: number): number {
     const value = this.values[this.config.dimensions.quantitative][i];
     if (this.valueIsZeroOrNonnumeric(value)) {
       return this.getBarLabelPositionForZeroOrNonnumericValue();
