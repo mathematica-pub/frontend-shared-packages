@@ -13,7 +13,6 @@ import {
 import {
   InternSet,
   map,
-  max,
   min,
   range,
   scaleOrdinal,
@@ -152,20 +151,6 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
         this.values[this.config.dimensions.quantitative],
         this.config.quantitative.domainIncludesZero
       );
-  }
-
-  getDataMin(): number {
-    const dataMin = min(this.values[this.config.dimensions.quantitative]);
-    return this.config.quantitative.domainIncludesZero
-      ? min([dataMin, 0])
-      : dataMin;
-  }
-
-  getDataMax(): number {
-    const dataMax = max(this.values[this.config.dimensions.quantitative]);
-    return this.config.quantitative.domainIncludesZero
-      ? max([dataMax, 0])
-      : dataMax;
   }
 
   initCategoryScale(): void {
