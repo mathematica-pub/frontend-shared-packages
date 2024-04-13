@@ -16,6 +16,7 @@ import {
   VicXyChartModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject } from 'rxjs';
+import { expectDomain } from './testing/expect-domain';
 
 @Component({
   selector: 'vic-test-bars-quantitative-domain-padding',
@@ -95,13 +96,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').first().should("have.text", 0)
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(30.3);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(30.3).validate()
+      );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
@@ -119,15 +117,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(300);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(40);
-      });
+    it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(40).validate()
+      );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
@@ -145,15 +138,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(31);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(31).validate()
+      );
     });
   });
   describe('roundUpToInterval domain padding', () => {
@@ -170,15 +158,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue rounded up to the nearest 10', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(35);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 10', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(35).validate()
+      );
     });
   });
   describe('percent over domain padding', () => {
@@ -196,15 +179,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(21);
-      });
+    it('has a domain[0] of 0 and  a domain[1] of maxValue * (1 + percent over)', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(21).validate()
+      );
     });
   });
   describe('pixel domain padding', () => {
@@ -223,14 +201,12 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       cy.wait(500);
     });
     it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1]', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.be.above(31);
-      });
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(0)
+          .maxToBe(31, { assert: 'isAbove' })
+          .validate()
+      );
     });
   });
 });
@@ -275,15 +251,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(1.1);
-      });
-    });
-    it('has a domain[1] of minValue, maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(30.3);
-      });
+    it('has a domain[0] of minValue and a a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(30.3).validate()
+      );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
@@ -301,15 +272,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(300);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(1.1);
-      });
-    });
-    it('has a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(40);
-      });
+    it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(40).validate()
+      );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
@@ -327,15 +293,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(1.1);
-      });
-    });
-    it('has a domain of minValue, maxValue whose second significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(31);
-      });
+    it('has a domain[0] of minValue and a domain of minValue, maxValue whose second significant digit is rounded up by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(31).validate()
+      );
     });
   });
   describe('roundUpToInterval domain padding', () => {
@@ -352,15 +313,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(1.1);
-      });
-    });
-    it('has a domain[1] or maxValue rounded up to the nearest 10', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(35);
-      });
+    it('has a domain[0] of minValue and a domain[1] of maxValue rounded up to the nearest 10', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(35).validate()
+      );
     });
   });
   describe('percent over domain padding', () => {
@@ -378,15 +334,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(1.1);
-      });
-    });
-    it('has a domain[1] of maxValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(21);
-      });
+    it('has a domain[0] of minValue and a domain[1] of maxValue * (1 + percent over)', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(21).validate()
+      );
     });
   });
   describe('pixel domain padding', () => {
@@ -405,14 +356,12 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       cy.wait(500);
     });
     it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(1.1);
-      });
-    });
-    it('has a domain[1] of maxValue + pixels', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.be.above(31);
-      });
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(1.1)
+          .maxToBe(31, { assert: 'isAbove' })
+          .validate()
+      );
     });
   });
 });
@@ -455,15 +404,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-30.3);
-      });
-    });
-    it('has a domain[1] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0);
-      });
+    it('has a domain[0] of minValue and a a domain[1] of 0', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-30.3).maxToBe(0).validate()
+      );
     });
   });
   describe('X domain turns off including 0', () => {
@@ -479,15 +423,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-30.3);
-      });
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-30.3).maxToBe(-1.1).validate()
+      );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
@@ -505,15 +444,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(300);
     });
-    it('has a domain[0] minValue whose first significant digit is rounded out by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-40);
-      });
-    });
-    it('has a domain[1] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0);
-      });
+    it('has a domain[0] minValue whose first significant digit is rounded out by one and a a domain[1] of 0', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-40).maxToBe(0).validate()
+      );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
@@ -531,15 +465,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain of minValue whose second significant digit is rounded out by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-31);
-      });
-    });
-    it('has a domain[1] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0);
-      });
+    it('has a domain of minValue whose second significant digit is rounded out by one and a domain[1] of 0', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-31).maxToBe(0).validate()
+      );
     });
   });
   describe('roundUpToInterval domain padding', () => {
@@ -556,15 +485,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain of minValue rounded out to the nearest 5', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-35);
-      });
-    });
-    it('has a domain[1] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0);
-      });
+    it('has a domain of minValue rounded out to the nearest 5 and a domain[1] of 0', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-35).maxToBe(0).validate()
+      );
     });
   });
   describe('percent over domain padding', () => {
@@ -582,15 +506,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-21);
-      });
-    });
-    it('has a domain[1] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0);
-      });
+    it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of 0', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-21).maxToBe(0).validate()
+      );
     });
   });
   describe('pixel domain padding', () => {
@@ -608,15 +527,13 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(500);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.be.below(-31);
-      });
-    });
-    it('has a domain[1] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0);
-      });
+    it('has a domain[0] of less than min and a domain[1] of 0', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(-31, { assert: 'isBelow' })
+          .maxToBe(0)
+          .validate()
+      );
     });
   });
 });
@@ -660,15 +577,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-30.3);
-      });
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-30.3).maxToBe(-1.1).validate()
+      );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
@@ -686,15 +598,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(300);
     });
-    it('has a domain[0] of minValue whose first significant digit is rounded out by one sig digit', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-40);
-      });
-    });
-    it('has a domain[1] of maxValue ', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain[0] of minValue whose first significant digit is rounded out by one sig digit and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-40).maxToBe(-1.1).validate()
+      );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
@@ -712,15 +619,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain of minValue whose second significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-31);
-      });
-    });
-    it('has a domain of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain[0] of minValue whose second significant digit is rounded up by one and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-31).maxToBe(-1.1).validate()
+      );
     });
   });
   describe('roundUpToInterval domain padding', () => {
@@ -737,15 +639,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain of minValue rounded out to the nearest 5', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-35);
-      });
-    });
-    it('has a domain[1] maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain of minValue rounded out to the nearest 5 and a domain[1] maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-35).maxToBe(-1.1).validate()
+      );
     });
   });
   describe('percent over domain padding', () => {
@@ -763,15 +660,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-21);
-      });
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-21).maxToBe(-1.1).validate()
+      );
     });
   });
   describe('pixel domain padding', () => {
@@ -789,15 +681,13 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(500);
     });
-    it('has a domain[0] of minValue - pixels', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.be.below(-31);
-      });
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(-1.1);
-      });
+    it('has a domain[0] of minValue - pixels and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(-31, { assert: 'isBelow' })
+          .maxToBe(-1.1)
+          .validate()
+      );
     });
   });
 });
@@ -842,15 +732,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-60.6);
-      });
-    });
-    it('has a domain[1] maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(30.3);
-      });
+    it('has a domain[0] of minValue and a domain[1] maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-60.6).maxToBe(30.3).validate()
+      );
     });
   });
   describe('X domain turns off including 0', () => {
@@ -866,17 +751,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-60.6);
-        expect(+values[1].textContent).to.equal(30.3);
-      });
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-60.6);
-        expect(+values[1].textContent).to.equal(30.3);
-      });
+    it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-60.6).maxToBe(30.3).validate()
+      );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
@@ -894,17 +772,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(300);
     });
-    it('has a domain[0] of minValue whose first significant digit is rounded out by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-70);
-        expect(+values[1].textContent).to.equal(40);
-      });
-    });
-    it('has a domain[1] of maxValue whose first significant digit is rounded out by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-70);
-        expect(+values[1].textContent).to.equal(40);
-      });
+    it('has a domain[0] of minValue whose first significant digit is rounded out by one and a domain[1] of maxValue whose first significant digit is rounded out by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-70).maxToBe(40).validate()
+      );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
@@ -922,15 +793,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(100);
     });
-    it('has a domain[0] whose minValue whose second significant digit is rounded out by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-61);
-      });
-    });
-    it('has a domain[1] whose maxValue whose second significant digit is rounded out by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(31);
-      });
+    it('has a domain[0] whose minValue whose second significant digit is rounded out by one and a domain[1] whose maxValue whose second significant digit is rounded out by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-61).maxToBe(31).validate()
+      );
     });
   });
   describe('roundUpToInterval domain padding', () => {
@@ -947,15 +813,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue rounded out to the nearest 5', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-65);
-      });
-    });
-    it('has a domain[1] of maxValue rounded out to the nearest 5', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(35);
-      });
+    it('has a domain[0] of minValue rounded out to the nearest 5 and a domain[1] of maxValue rounded out to the nearest 5', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-65).maxToBe(35).validate()
+      );
     });
   });
   describe('percent over domain padding', () => {
@@ -974,15 +835,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(100);
     });
-    it('has a domain[0] of minValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(-63);
-      });
-    });
-    it('has a domain[1] of maxValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(21);
-      });
+    it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue * (1 + percent over)', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(-63).maxToBe(21).validate()
+      );
     });
   });
   describe('pixel domain padding', () => {
@@ -1000,15 +856,13 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
       cy.wait(500);
     });
-    it('has a domain[0] of minValue - pixels', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.be.below(-61);
-      });
-    });
-    it('has a domain[1], maxValue + pixels', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.be.above(31);
-      });
+    it('has a domain[0] of minValue - pixels and a domain[1], maxValue + pixels', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(-61, { assert: 'isBelow' })
+          .maxToBe(31, { assert: 'isAbove' })
+          .validate()
+      );
     });
   });
 });
@@ -1051,15 +905,10 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0.303);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.303).validate()
+      );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
@@ -1077,15 +926,10 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(300);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0.4);
-      });
+    it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.4).validate()
+      );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
@@ -1103,15 +947,10 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0.31);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.31).validate()
+      );
     });
   });
   describe('roundUpToInterval domain padding', () => {
@@ -1128,15 +967,10 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue rounded up to the nearest 0.2', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.equal(0.4);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 0.2', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.4).validate()
+      );
     });
   });
   describe('percent over domain padding', () => {
@@ -1154,15 +988,13 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(100);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1] of maxValue * (1 + percent over)', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.be.closeTo(0.42, 0.0001);
-      });
+    it('has a domain[0] of 0 and a domain[1] of maxValue * (1 + percent over)', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(0)
+          .maxToBe(0.42, { assert: 'isCloseTo' })
+          .validate()
+      );
     });
   });
   describe('pixel domain padding', () => {
@@ -1180,15 +1012,13 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(500);
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
-    });
-    it('has a domain[1]', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[1].textContent).to.be.above(0.303);
-      });
+    it('has a domain[0] of 0 and a domain[1] above the max value', () => {
+      cy.get('.domain-value').then((els) =>
+        expectDomain(els)
+          .minToBe(0)
+          .maxToBe(0.303, { assert: 'isAbove' })
+          .validate()
+      );
     });
   });
 });
