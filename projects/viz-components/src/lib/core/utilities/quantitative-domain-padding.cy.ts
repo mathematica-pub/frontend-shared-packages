@@ -70,7 +70,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
-    barsConfig.data = [];
     barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
