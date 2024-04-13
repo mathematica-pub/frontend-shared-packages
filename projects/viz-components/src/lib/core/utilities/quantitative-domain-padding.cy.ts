@@ -96,9 +96,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       cy.wait(100);
     });
     it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((values) => {
-        expect(+values[0].textContent).to.equal(0);
-      });
+      cy.get('.domain-value').first().should("have.text", 0)
     });
     it('has a domain[1] of maxValue', () => {
       cy.get('.domain-value').then((values) => {
