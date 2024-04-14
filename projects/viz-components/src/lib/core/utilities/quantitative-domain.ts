@@ -183,6 +183,7 @@ export class QuantitativeDomainUtilities {
     return scale.invert(targetVal);
   }
 
+  // We need to set both sides padding at the same time in this case to get N pixels on both sides
   static getPixelPaddedDomainValuePositiveAndNegative(
     unpaddedDomain: [number, number],
     numPixels: number,
