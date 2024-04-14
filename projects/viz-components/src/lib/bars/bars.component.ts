@@ -151,6 +151,13 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
         this.values[this.config.dimensions.quantitative],
         this.config.quantitative.domainIncludesZero
       );
+    if (
+      !this.config.quantitative.domainIncludesZero &&
+      this.unpaddedDomain.quantitative[0] <= 0 &&
+      this.unpaddedDomain.quantitative[1] >= 0
+    ) {
+      this.config.quantitative.domainIncludesZero = true;
+    }
   }
 
   initCategoryScale(): void {
@@ -411,9 +418,16 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarWidthQuantitative(i: number): number {
-    const origin = this.hasBarsWithNegativeValues
-      ? 0
-      : this.getQuantitativeDomainFromScale()[0];
+    let origin;
+    if (this.config.quantitative.domainIncludesZero) {
+      origin = this.hasBarsWithNegativeValues
+        ? 0
+        : this.getQuantitativeDomainFromScale()[0];
+    } else {
+      origin = this.hasBarsWithNegativeValues
+        ? this.getQuantitativeDomainFromScale()[1]
+        : this.getQuantitativeDomainFromScale()[0];
+    }
     return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
   }
 

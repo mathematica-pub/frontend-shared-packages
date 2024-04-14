@@ -59,6 +59,23 @@ class TestXQuantitativeDomainComponent implements AfterViewInit {
   }
 }
 
+function distanceBetweenBarAndDomainMaxIs(
+  barIndex: number,
+  numPixels: number
+): void {
+  getBarWidthByIndex(barIndex).then((barWidth) => {
+    cy.get('.vic-x.vic-axis-g .domain').then((domain) => {
+      const domainRect = (domain[0] as unknown as SVGPathElement).getBBox();
+      const domainRightEdge = domainRect.width;
+      expect(+barWidth + numPixels).to.be.closeTo(domainRightEdge, 1);
+    });
+  });
+}
+
+function getBarWidthByIndex(index: number): Cypress.Chainable {
+  return cy.get('.vic-bar').eq(index).invoke('attr', 'width');
+}
+
 describe('it correctly sets quantitative domain - all values are positive, 0 is explicitly included in domain', () => {
   let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
@@ -182,9 +199,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     });
   });
   describe('pixel domain padding', () => {
+    const numPixels = 50;
     beforeEach(() => {
       barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
-        numPixels: 50,
+        numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
@@ -194,15 +212,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(500);
+      cy.wait(500); // wait for domain element to be in dom
     });
-    it('has a domain[0] of 0', () => {
-      cy.get('.domain-value').then((els) =>
-        expectDomain(els)
-          .minToBe(0)
-          .maxToBe(31, { assert: 'isAbove' })
-          .validate()
-      );
+    it('has the correct padding', () => {
+      distanceBetweenBarAndDomainMaxIs(2, numPixels);
     });
   });
 });
@@ -333,9 +346,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     });
   });
   describe('pixel domain padding', () => {
+    const numPixels = 50;
     beforeEach(() => {
       barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
-        numPixels: 50,
+        numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
@@ -347,13 +361,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
       cy.wait(500);
     });
-    it('has a domain[0] of minValue', () => {
-      cy.get('.domain-value').then((els) =>
-        expectDomain(els)
-          .minToBe(1.1)
-          .maxToBe(31, { assert: 'isAbove' })
-          .validate()
-      );
+    it('has the correct padding', () => {
+      distanceBetweenBarAndDomainMaxIs(2, numPixels);
     });
   });
 });
@@ -500,9 +509,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     });
   });
   describe('pixel domain padding', () => {
+    const numPixels = 40;
     beforeEach(() => {
       barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
-        numPixels: 50,
+        numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
@@ -514,13 +524,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
       cy.wait(500);
     });
-    it('has a domain[0] of less than min and a domain[1] of 0', () => {
-      cy.get('.domain-value').then((els) =>
-        expectDomain(els)
-          .minToBe(-31, { assert: 'isBelow' })
-          .maxToBe(0)
-          .validate()
-      );
+    it('has the correct padding', () => {
+      distanceBetweenBarAndDomainMaxIs(2, numPixels);
     });
   });
 });
@@ -562,6 +567,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
       cy.get('.domain-value').then((els) =>
@@ -603,6 +609,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue whose second significant digit is rounded up by one and a domain[1] of maxValue', () => {
       cy.get('.domain-value').then((els) =>
@@ -622,6 +629,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] maxValue', () => {
       cy.get('.domain-value').then((els) =>
@@ -642,6 +650,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue', () => {
       cy.get('.domain-value').then((els) =>
@@ -650,9 +659,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     });
   });
   describe('pixel domain padding', () => {
+    const numPixels = 40;
     beforeEach(() => {
       barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
-        numPixels: 50,
+        numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
@@ -662,15 +672,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(500);
+      cy.wait(300);
     });
-    it('has a domain[0] of minValue - pixels and a domain[1] of maxValue', () => {
-      cy.get('.domain-value').then((els) =>
-        expectDomain(els)
-          .minToBe(-31, { assert: 'isBelow' })
-          .maxToBe(-1.1)
-          .validate()
-      );
+    it('has the correct padding', () => {
+      distanceBetweenBarAndDomainMaxIs(2, numPixels);
     });
   });
 });
@@ -713,6 +718,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue and a domain[1] maxValue', () => {
       cy.get('.domain-value').then((els) =>
@@ -731,6 +737,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
       cy.get('.domain-value').then((els) =>
@@ -772,6 +779,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] whose minValue whose second significant digit is rounded out by one and a domain[1] whose maxValue whose second significant digit is rounded out by one', () => {
       cy.get('.domain-value').then((els) =>
@@ -791,6 +799,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue rounded out to the nearest 5 and a domain[1] of maxValue rounded out to the nearest 5', () => {
       cy.get('.domain-value').then((els) =>
@@ -812,6 +821,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
+      cy.wait(300);
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue * (1 + percent over)', () => {
       cy.get('.domain-value').then((els) =>
@@ -820,9 +830,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
     });
   });
   describe('pixel domain padding', () => {
+    const numPixels = 60;
     beforeEach(() => {
       barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
-        numPixels: 50,
+        numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
@@ -832,15 +843,21 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(500);
+      cy.wait(300);
     });
-    it('has a domain[0] of minValue - pixels and a domain[1], maxValue + pixels', () => {
-      cy.get('.domain-value').then((els) =>
-        expectDomain(els)
-          .minToBe(-61, { assert: 'isBelow' })
-          .maxToBe(31, { assert: 'isAbove' })
-          .validate()
-      );
+    it('has the correct padding', () => {
+      getBarWidthByIndex(2).then((positiveBarWidth) => {
+        getBarWidthByIndex(4).then((negativeBarWidth) => {
+          cy.get('.vic-x.vic-axis-g .domain').then((domain) => {
+            const domainRect = (
+              domain[0] as unknown as SVGPathElement
+            ).getBBox();
+            expect(
+              +positiveBarWidth + +negativeBarWidth + 2 * numPixels
+            ).to.be.closeTo(domainRect.width, 1);
+          });
+        });
+      });
     });
   });
 });
@@ -972,9 +989,10 @@ describe('it correctly sets quantitative domain - all values are positive and le
     });
   });
   describe('pixel domain padding', () => {
+    const numPixels = 30;
     beforeEach(() => {
       barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
-        numPixels: 50,
+        numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
@@ -986,13 +1004,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
       cy.wait(500);
     });
-    it('has a domain[0] of 0 and a domain[1] above the max value', () => {
-      cy.get('.domain-value').then((els) =>
-        expectDomain(els)
-          .minToBe(0)
-          .maxToBe(0.303, { assert: 'isAbove' })
-          .validate()
-      );
+    it('has the correct padding', () => {
+      distanceBetweenBarAndDomainMaxIs(2, numPixels);
     });
   });
 });

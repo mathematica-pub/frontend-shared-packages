@@ -81,22 +81,32 @@ export class QuantitativeDomainUtilities {
       );
       domainMax = unpaddedDomain[1];
     } else if (unpaddedDomain[0] < 0 && unpaddedDomain[1] > 0) {
-      domainMin = this.getPaddedDomainValue(
-        unpaddedDomain[0],
-        domainPadding,
-        'min',
-        scaleType,
-        unpaddedDomain,
-        chartRange
-      );
-      domainMax = this.getPaddedDomainValue(
-        unpaddedDomain[1],
-        domainPadding,
-        'max',
-        scaleType,
-        unpaddedDomain,
-        chartRange
-      );
+      if (domainPadding.type === DomainPadding.numPixels) {
+        [domainMin, domainMax] =
+          this.getPixelPaddedDomainValuePositiveAndNegative(
+            unpaddedDomain,
+            domainPadding.numPixels,
+            scaleType,
+            chartRange
+          );
+      } else {
+        domainMin = this.getPaddedDomainValue(
+          unpaddedDomain[0],
+          domainPadding,
+          'min',
+          scaleType,
+          unpaddedDomain,
+          chartRange
+        );
+        domainMax = this.getPaddedDomainValue(
+          unpaddedDomain[1],
+          domainPadding,
+          'max',
+          scaleType,
+          unpaddedDomain,
+          chartRange
+        );
+      }
     }
     return [domainMin, domainMax];
   }
@@ -111,7 +121,7 @@ export class QuantitativeDomainUtilities {
     ) => ScaleContinuousNumeric<number, number>,
     unpaddedDomain: [number, number],
     chartRange?: [number, number]
-  ) {
+  ): number {
     let paddedValue = value;
     if (padding.type === DomainPadding.roundUp) {
       paddedValue = ValueUtilities.getValueRoundedToNSignificantDigits(
@@ -161,7 +171,7 @@ export class QuantitativeDomainUtilities {
     ) => ScaleContinuousNumeric<number, number>,
     chartRange: [number, number]
   ): number {
-    if (chartRange[1] < chartRange[0]) numPixels = -1 * numPixels;
+    if (chartRange[1] < chartRange[0]) numPixels = -1 * numPixels; // When would we ever have this?
     const value = valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
     if (value === 0) return value;
     const adjustedPixelRange =
@@ -171,5 +181,22 @@ export class QuantitativeDomainUtilities {
     const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
     const targetVal = valueType === 'min' ? chartRange[0] : chartRange[1];
     return scale.invert(targetVal);
+  }
+
+  static getPixelPaddedDomainValuePositiveAndNegative(
+    unpaddedDomain: [number, number],
+    numPixels: number,
+    scaleFn: (
+      domain?: Iterable<number>,
+      range?: Iterable<number>
+    ) => ScaleContinuousNumeric<number, number>,
+    chartRange: [number, number]
+  ): [number, number] {
+    const adjustedPixelRange = [
+      chartRange[0] + numPixels,
+      chartRange[1] - numPixels,
+    ];
+    const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
+    return [scale.invert(chartRange[0]), scale.invert(chartRange[1])];
   }
 }
