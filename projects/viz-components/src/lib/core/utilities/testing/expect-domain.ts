@@ -1,3 +1,5 @@
+import { expect } from 'local-cypress';
+
 type Assert = 'isEqual' | 'isAbove' | 'isBelow' | 'isCloseTo';
 
 /**

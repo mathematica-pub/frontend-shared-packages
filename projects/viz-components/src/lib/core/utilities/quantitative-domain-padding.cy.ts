@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
-import { cy } from 'local-cypress';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   BarsComponent,
   VicAxisConfig,
