@@ -10,6 +10,7 @@ chart-components:
     grouped-bars: 'components/GroupedBarsComponent.html'
     lines: 'components/LinesComponent.html'
     stacked-area: 'components/StackedAreaComponent.html'
+    stacked-bars: 'components/StackedBarsComponent.html'
     xy-background: 'components/XyBackgroundComponent.html'
     x-ordinal-axis: 'components/XOrdinalAxisComponent.html'
     x-quantitative-axis: 'components/XQuantitativeAxisComponent.html'
@@ -93,6 +94,7 @@ utilities:
   svg-text-wrap-config: 'classes/VicSvgTextWrapConfig.html'
 library-internals:
   chart: 'components/ChartComponent.html'
+  data-marks-base: 'directives/DataMarksBase.html'
   events:
     event: 'directives/EventDirective.html'
     input-event: 'directives/InputEventDirective.html'

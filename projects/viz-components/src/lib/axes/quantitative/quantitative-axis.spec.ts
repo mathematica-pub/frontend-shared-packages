@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { timeMonth } from 'd3';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { QuantitativeAxisStub } from '../../testing/stubs/quantitative-axis.stub';

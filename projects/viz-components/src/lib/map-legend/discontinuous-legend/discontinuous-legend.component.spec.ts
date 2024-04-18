@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { VicCategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {
-  let component: DiscontinuousLegendComponent;
-  let fixture: ComponentFixture<DiscontinuousLegendComponent>;
+  let component: DiscontinuousLegendComponent<any>;
+  let fixture: ComponentFixture<DiscontinuousLegendComponent<any>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
