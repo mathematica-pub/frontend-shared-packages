@@ -8,10 +8,8 @@ import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/v
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
 import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
-import {
-  VicGeographiesLabelsPositioners,
-  VicGeographyLabelConfig,
-} from 'projects/viz-components/src/lib/geographies/geographies-labels';
+import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
+import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import {
   VicDataGeographyConfig,
