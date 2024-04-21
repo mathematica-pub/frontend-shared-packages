@@ -7,16 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import * as CSSType from 'csstype';
-import {
-  InternMap,
-  InternSet,
-  Selection,
-  extent,
-  geoPath,
-  range,
-  scaleLinear,
-  select,
-} from 'd3';
+import { InternMap, Selection, geoPath, select } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -25,14 +16,12 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
-import { formatValue } from '../value-format/value-format';
 import { VicGeographiesFeature } from './geographies';
 import { VicGeographyLabelConfig } from './geographies-labels';
 import {
   VicDataGeographyConfig,
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
-  VicValuesBin,
 } from './geographies.config';
 
 export class MapDataValues {
@@ -90,8 +79,7 @@ export class GeographiesComponent<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initAttributeDataScaleDomain();
-    this.initAttributeDataScaleRange();
+    this.initAttributeDataScale();
     this.updateChartAttributeProperties();
   }
 
@@ -127,181 +115,11 @@ export class GeographiesComponent<
     );
   }
 
-  initAttributeDataScaleDomain(): void {
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      VicValuesBin.categorical
-    ) {
-      this.setCategoricalDomain();
-    } else {
-      this.setQuantitativeDomainAndBinsForBinType();
-    }
-  }
-
-  setCategoricalDomain(): void {
-    const domainValues =
-      this.config.dataGeographyConfig.attributeDataConfig.domain ??
-      Array.from(this.values.attributeValuesByGeographyIndex.values());
-    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
-      domainValues
+  initAttributeDataScale(): void {
+    this.attributeDataConfig.setDomainAndBins(
+      Array.from(this.values.attributeValuesByGeographyIndex.values())
     );
-  }
-
-  setQuantitativeDomainAndBinsForBinType(): void {
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      VicValuesBin.equalNumObservations
-    ) {
-      this.config.dataGeographyConfig.attributeDataConfig.domain = Array.from(
-        this.values.attributeValuesByGeographyIndex.values()
-      );
-    } else if (
-      this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      VicValuesBin.customBreaks
-    ) {
-      this.config.dataGeographyConfig.attributeDataConfig.domain =
-        this.config.dataGeographyConfig.attributeDataConfig.breakValues.slice(
-          1
-        );
-      this.config.dataGeographyConfig.attributeDataConfig.numBins =
-        this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
-        1;
-    } else {
-      // no bins, equal value ranges
-      let domainValues: number[];
-      if (
-        this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
-      ) {
-        domainValues = extent(
-          Array.from(this.values.attributeValuesByGeographyIndex.values())
-        );
-      } else {
-        domainValues =
-          this.config.dataGeographyConfig.attributeDataConfig.domain;
-      }
-      this.config.dataGeographyConfig.attributeDataConfig.domain =
-        extent(domainValues);
-    }
-
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      VicValuesBin.equalValueRanges
-    ) {
-      if (this.attributeDataValueFormatIsInteger()) {
-        const validated = this.getValidatedNumBinsAndDomainForIntegerValues(
-          this.config.dataGeographyConfig.attributeDataConfig.numBins,
-          this.config.dataGeographyConfig.attributeDataConfig.domain
-        );
-        this.config.dataGeographyConfig.attributeDataConfig.numBins =
-          validated.numBins;
-        this.config.dataGeographyConfig.attributeDataConfig.domain =
-          validated.domain;
-      }
-    }
-  }
-
-  attributeDataValueFormatIsInteger(): boolean {
-    const formatString =
-      this.config.dataGeographyConfig.attributeDataConfig.valueFormat;
-    return (
-      formatString &&
-      typeof formatString === 'string' &&
-      formatString.includes('0f')
-    );
-  }
-
-  getValidatedNumBinsAndDomainForIntegerValues(
-    numBins: number,
-    domain: [number, number]
-  ): {
-    numBins: number;
-    domain: number[];
-  } {
-    const validated = { numBins, domain };
-    const dataRange = [domain[0], domain[domain.length - 1]].map(
-      (x) =>
-        +formatValue(
-          x,
-          this.config.dataGeographyConfig.attributeDataConfig.valueFormat
-        )
-    );
-    const numDiscreteValues = Math.abs(dataRange[1] - dataRange[0]) + 1;
-    if (numDiscreteValues < numBins) {
-      validated.numBins = numDiscreteValues;
-      validated.domain = [dataRange[0], dataRange[1] + 1];
-    }
-    return validated;
-  }
-
-  initAttributeDataScaleRange(): void {
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.binType !==
-        VicValuesBin.none &&
-      this.config.dataGeographyConfig.attributeDataConfig.binType !==
-        VicValuesBin.categorical &&
-      this.shouldCalculateBinColors(
-        this.config.dataGeographyConfig.attributeDataConfig.numBins,
-        this.config.dataGeographyConfig.attributeDataConfig.colors
-      )
-    ) {
-      const binIndicies = range(
-        this.config.dataGeographyConfig.attributeDataConfig.numBins
-      );
-      const colorGenerator = scaleLinear<string>()
-        .domain(extent(binIndicies))
-        .range(this.config.dataGeographyConfig.attributeDataConfig.colors)
-        .interpolate(
-          this.config.dataGeographyConfig.attributeDataConfig.interpolator
-        );
-      this.config.dataGeographyConfig.attributeDataConfig.range =
-        binIndicies.map((i) => colorGenerator(i));
-    } else {
-      let colors = this.config.dataGeographyConfig.attributeDataConfig.colors;
-      if (
-        this.config.dataGeographyConfig.attributeDataConfig.binType ===
-        VicValuesBin.categorical
-      ) {
-        colors = colors.slice(
-          0,
-          this.config.dataGeographyConfig.attributeDataConfig.domain.length
-        );
-      }
-      this.config.dataGeographyConfig.attributeDataConfig.range = colors;
-    }
-  }
-
-  shouldCalculateBinColors(numBins: number, colors: string[]): boolean {
-    return numBins && numBins > 1 && colors.length !== numBins;
-  }
-
-  getAttributeDataScale(): any {
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.binType ===
-      VicValuesBin.none
-    ) {
-      return this.setColorScaleWithColorInterpolator();
-    } else {
-      return this.setColorScaleWithoutColorInterpolator();
-    }
-  }
-
-  setColorScaleWithColorInterpolator(): any {
-    return this.config.dataGeographyConfig.attributeDataConfig
-      .colorScale()
-      .domain(this.config.dataGeographyConfig.attributeDataConfig.domain)
-      .range(this.config.dataGeographyConfig.attributeDataConfig.range)
-      .unknown(this.config.dataGeographyConfig.nullColor)
-      .interpolate(
-        this.config.dataGeographyConfig.attributeDataConfig.interpolator
-      );
-  }
-
-  setColorScaleWithoutColorInterpolator(): any {
-    return this.config.dataGeographyConfig.attributeDataConfig
-      .colorScale()
-      .domain(this.config.dataGeographyConfig.attributeDataConfig.domain)
-      .range(this.config.dataGeographyConfig.attributeDataConfig.range)
-      .unknown(this.config.dataGeographyConfig.nullColor);
+    this.attributeDataConfig.setRange();
   }
 
   setPropertiesFromRanges(): void {
@@ -323,7 +141,10 @@ export class GeographiesComponent<
   updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
-        scale: this.getAttributeDataScale(),
+        scale:
+          this.config.dataGeographyConfig.attributeDataConfig.getColorScale(
+            this.config.dataGeographyConfig.nullColor
+          ),
         config: this.config.dataGeographyConfig.attributeDataConfig,
       });
     });

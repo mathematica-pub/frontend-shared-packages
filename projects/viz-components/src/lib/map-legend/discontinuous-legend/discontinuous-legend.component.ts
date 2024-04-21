@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { VicOrientation } from '../../core/types/layout';
 import {
   VicAttributeDataDimensionConfig,
-  VicNoBinsQuantitativeAttributeDataDimensionConfig,
+  VicNoBinsAttributeDataDimensionConfig,
   VicValuesBin,
-} from '../../geographies/geographies.config';
+} from '../../geographies/geographies-attribute-data';
 import { MapLegendContent } from '../map-legend-content';
 
 type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   VicAttributeDataDimensionConfig<Datum>,
-  VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
+  VicNoBinsAttributeDataDimensionConfig<Datum>
 >;
 
 /**

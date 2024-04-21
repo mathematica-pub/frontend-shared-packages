@@ -3,7 +3,7 @@ import { VicOrientation, VicSide } from '../core/types/layout';
 import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
-} from '../geographies/geographies.config';
+} from '../geographies/geographies-attribute-data';
 import { formatValue } from '../value-format/value-format';
 
 @Directive()

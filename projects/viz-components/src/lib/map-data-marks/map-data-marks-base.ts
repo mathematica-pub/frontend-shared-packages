@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { DataMarksBase } from '../data-marks/data-marks-base';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
-import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { VicAttributeDataDimensionConfig } from '../geographies/geographies-attribute-data';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
 /**
