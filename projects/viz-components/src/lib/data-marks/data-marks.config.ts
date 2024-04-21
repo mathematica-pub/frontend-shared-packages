@@ -22,7 +22,7 @@ export class VicDataMarksConfig<Datum> {
   }
 }
 
-export interface VicPatternPredicate {
+export interface VicPatternPredicate<Datum> {
   patternName: string;
-  predicate: (d: any) => boolean;
+  predicate: (d: Datum) => boolean;
 }

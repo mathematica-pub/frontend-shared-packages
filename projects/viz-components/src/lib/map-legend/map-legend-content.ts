@@ -1,17 +1,23 @@
-import { Directive, Input } from '@angular/core';
-import { VicOrientation } from '../core/types/orientation';
-import { VicSide } from '../core/types/side';
-import { VicAttributeDataDimensionConfig } from '../geographies/geographies.config';
+import { Directive, Input, OnChanges } from '@angular/core';
+import { VicOrientation, VicSide } from '../core/types/layout';
+import {
+  VicAttributeDataDimensionConfig,
+  VicValuesBin,
+} from '../geographies/geographies.config';
 import { formatValue } from '../value-format/value-format';
 
 @Directive()
-export abstract class MapLegendContent<Datum> {
+export abstract class MapLegendContent<
+  Datum,
+  TAttributeDataConfig extends VicAttributeDataDimensionConfig<Datum>
+> implements OnChanges
+{
   @Input() width: number;
   @Input() height: number;
   @Input() orientation: keyof typeof VicOrientation;
   @Input() valuesSide: keyof typeof VicSide;
   @Input() scale: any;
-  @Input() config: VicAttributeDataDimensionConfig<Datum>;
+  @Input() config: TAttributeDataConfig;
   @Input() outlineColor: string;
   values: any[];
   colors: string[];
@@ -20,9 +26,14 @@ export abstract class MapLegendContent<Datum> {
   largerValueSpace: number;
   leftOffset: number;
 
-  abstract getValuesFromScale(): number[];
-
+  abstract getValuesFromScale(): string[] | number[];
   abstract getLeftOffset(values?: number[]): number;
+
+  ngOnChanges(): void {
+    this.setValues();
+    this.setColors();
+  }
+
   setValues(): void {
     let values;
     values = this.getValuesFromScale();
@@ -48,6 +59,14 @@ export abstract class MapLegendContent<Datum> {
   }
 
   setValueSpaces(values: number[]): void {
+    if (this.config.binType !== VicValuesBin.categorical) {
+      this.setQuantitativeValueSpaces(values);
+    } else {
+      this.setCategoricalValueSpaces();
+    }
+  }
+
+  setQuantitativeValueSpaces(values: number[]): void {
     this.startValueSpace = values[0].toString().length * 4;
     this.endValueSpace = values[values.length - 1].toString().length * 4;
     this.largerValueSpace =
@@ -55,5 +74,12 @@ export abstract class MapLegendContent<Datum> {
         ? this.startValueSpace
         : this.endValueSpace;
     this.leftOffset = this.getLeftOffset(values);
+  }
+
+  setCategoricalValueSpaces(): void {
+    this.startValueSpace = 0;
+    this.endValueSpace = 0;
+    this.largerValueSpace = 0;
+    this.leftOffset = 0;
   }
 }

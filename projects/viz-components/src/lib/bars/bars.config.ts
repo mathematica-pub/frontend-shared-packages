@@ -16,7 +16,7 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
     new VicCategoricalColorDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
   labels: VicBarsLabelsConfig<Datum>;
-  patternPredicates?: VicPatternPredicate[];
+  patternPredicates?: VicPatternPredicate<Datum>[];
 
   constructor(init?: Partial<VicBarsConfig<Datum>>) {
     super();

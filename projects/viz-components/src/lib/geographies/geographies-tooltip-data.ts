@@ -1,42 +1,55 @@
+import { Geometry } from 'geojson';
 import { formatValue } from '../value-format/value-format';
+import { VicGeographiesFeature } from './geographies';
 import { GeographiesComponent } from './geographies.component';
-
-export interface VicGeographiesTooltipOutput<Datum> {
+export class VicGeographiesTooltipOutput<Datum> {
   datum?: Datum;
   color: string;
   geography: string;
   attributeValue: string;
+
+  constructor(init?: Partial<VicGeographiesTooltipOutput<Datum>>) {
+    Object.assign(this, init);
+  }
 }
 
-export interface VicGeographiesEventOutput<Datum>
-  extends VicGeographiesTooltipOutput<Datum> {
+export class VicGeographiesEventOutput<
+  Datum
+> extends VicGeographiesTooltipOutput<Datum> {
   positionX: number;
   positionY: number;
+
+  constructor(init?: Partial<VicGeographiesEventOutput<Datum>>) {
+    super(init);
+    Object.assign(this, init);
+  }
 }
 
-export function getGeographiesTooltipData<Datum>(
-  geographyIndex: number,
-  geographies: GeographiesComponent<Datum>
+export function getGeographiesTooltipData<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
+>(
+  geography: VicGeographiesFeature<TProperties, TGeometry>,
+  component: TComponent
 ): VicGeographiesTooltipOutput<Datum> {
-  const datum = geographies.config.data.find(
-    (d) =>
-      geographies.config.dataGeographyConfig.attributeDataConfig
-        .geoAccessor(d)
-        .toLowerCase() ===
-      geographies.values.attributeDataGeographies[geographyIndex]
-  );
+  const geographyName = component.config.featureIndexAccessor(geography);
+  const datum = component.values.datumsByGeographyIndex.get(geographyName);
+  const value =
+    component.values.attributeValuesByGeographyIndex.get(geographyName);
 
   const tooltipData: VicGeographiesTooltipOutput<Datum> = {
     datum,
     geography:
-      geographies.config.dataGeographyConfig.attributeDataConfig.geoAccessor(
+      component.config.dataGeographyConfig.attributeDataConfig.geoAccessor(
         datum
       ),
     attributeValue: formatValue(
-      geographies.values.attributeDataValues[geographyIndex],
-      geographies.config.dataGeographyConfig.attributeDataConfig.valueFormat
+      value,
+      component.config.dataGeographyConfig.attributeDataConfig.valueFormat
     ),
-    color: geographies.getFill(geographyIndex),
+    color: component.getFill(geographyName),
   };
 
   return tooltipData;

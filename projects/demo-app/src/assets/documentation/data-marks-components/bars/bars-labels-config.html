@@ -90,7 +90,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:39</a></div>
                             </td>
                         </tr>
 
@@ -153,7 +153,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:38</a></div>
                         </td>
                     </tr>
 
@@ -179,7 +179,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:36</a></div>
                         </td>
                     </tr>
 
@@ -205,7 +205,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -231,7 +231,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/viz-components/src/lib/bars/bars.config.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -268,6 +268,7 @@ export class BarsConfig extends DataMarksConfig {
     new CategoricalColorDimensionConfig();
   dimensions: BarsDimensionsConfig;
   labels: BarsLabelsConfig;
+  positivePaddingForAllNegativeValues: number;
   patternPredicates?: PatternPredicate[];
 
   constructor(init?: Partial&lt;BarsConfig&gt;) {
@@ -278,7 +279,8 @@ export class BarsConfig extends DataMarksConfig {
     this.quantitative.scaleType &#x3D; scaleLinear;
     this.category.valueAccessor &#x3D; (d) &#x3D;&gt; d;
     this.category.colors &#x3D; [&#x27;lightslategray&#x27;];
-    Object.assign(this, init);
+    this.positivePaddingForAllNegativeValues &#x3D; 0.2;
+    Object.assign(this.category, init);
   }
 }
 
@@ -296,6 +298,11 @@ export class BarsLabelsConfig {
   }
 }
 
+export class BarsTooltipData {
+  datum: any;
+  value: string;
+}
+
 export class BarsDimensionsConfig {
   direction: &#x27;vertical&#x27; | &#x27;horizontal&#x27;;
   x: &#x27;ordinal&#x27; | &#x27;quantitative&#x27;;
@@ -303,10 +310,6 @@ export class BarsDimensionsConfig {
   ordinal: &#x27;x&#x27; | &#x27;y&#x27;;
   quantitative: &#x27;x&#x27; | &#x27;y&#x27;;
   quantitativeDimension: &#x27;width&#x27; | &#x27;height&#x27;;
-
-  constructor(init?: Partial&lt;BarsDimensionsConfig&gt;) {
-    Object.assign(this, init);
-  }
 }
 
 export class HorizontalBarsDimensionsConfig extends BarsDimensionsConfig {
@@ -331,11 +334,6 @@ export class VerticalBarChartDimensionsConfig extends BarsDimensionsConfig {
     this.quantitative &#x3D; &#x27;y&#x27;;
     this.quantitativeDimension &#x3D; &#x27;height&#x27;;
   }
-}
-
-export class BarsTooltipData {
-  datum: any;
-  value: string;
 }
 </code></pre>
     </div>

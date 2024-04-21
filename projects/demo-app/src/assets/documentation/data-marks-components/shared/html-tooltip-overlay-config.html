@@ -33,7 +33,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config.ts</code>
+            <code>projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts</code>
         </p>
 
 
@@ -102,7 +102,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/viz-components/src/lib/html-tooltip/html-tooltip.config.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -127,25 +127,19 @@
   OverlaySizeConfig,
 } from &#x27;@angular/cdk/overlay&#x27;;
 import { ElementRef } from &#x27;@angular/core&#x27;;
-import { TooltipConfig } from &#x27;../tooltip.config&#x27;;
 
-export class HtmlTooltipConfig extends TooltipConfig {
-  override type: &#x27;html&#x27;;
+export class HtmlTooltipConfig {
+  show: boolean;
   position: ConnectedPosition;
   size: OverlaySizeConfig;
   disableEventsOnTooltip: boolean;
   panelClass: string | string[];
   origin?: ElementRef;
-  hasBackdrop: boolean;
-  closeOnBackdropClick?: boolean;
 
   constructor(init?: Partial&lt;HtmlTooltipConfig&gt;) {
-    super();
     this.disableEventsOnTooltip &#x3D; true;
     this.position &#x3D; new HtmlTooltipDefaultPosition();
     this.size &#x3D; new HtmlTooltipSize();
-    this.hasBackdrop &#x3D; false;
-    this.closeOnBackdropClick &#x3D; false;
     Object.assign(this, init);
   }
 }

@@ -1,6 +1,16 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { VicOrientation } from '../../core/types/orientation';
+import { Component } from '@angular/core';
+import { VicOrientation } from '../../core/types/layout';
+import {
+  VicAttributeDataDimensionConfig,
+  VicNoBinsQuantitativeAttributeDataDimensionConfig,
+  VicValuesBin,
+} from '../../geographies/geographies.config';
 import { MapLegendContent } from '../map-legend-content';
+
+type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
+  VicAttributeDataDimensionConfig<Datum>,
+  VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
+>;
 
 /**
  * @internal
@@ -10,37 +20,30 @@ import { MapLegendContent } from '../map-legend-content';
   templateUrl: './discontinuous-legend.component.html',
   styleUrls: ['./discontinuous-legend.component.scss'],
 })
-export class DiscontinuousLegendComponent<Datum>
-  extends MapLegendContent<Datum>
-  implements OnChanges
-{
-  @Input() isCategorical: boolean;
+export class DiscontinuousLegendComponent<Datum> extends MapLegendContent<
+  Datum,
+  DiscontinuousAttributeDataDimensionConfig<Datum>
+> {
+  VicValuesBin = VicValuesBin;
 
-  ngOnChanges() {
-    if (this.isCategorical) {
-      this.setCategoricalValues();
+  getValuesFromScale(): string[] | number[] {
+    if (this.config.binType === VicValuesBin.categorical) {
+      return this.config.domain;
     } else {
-      this.setValues();
-      this.setColors();
+      return this.getQuantitativeValuesFromScale();
     }
   }
 
-  setCategoricalValues(): void {
-    this.colors = this.config.range;
-    this.values = this.config.domain;
-    this.startValueSpace = 0;
-    this.endValueSpace = 0;
-    this.largerValueSpace = 0;
-    this.leftOffset = 0;
-  }
-
-  getValuesFromScale(): any[] {
+  getQuantitativeValuesFromScale(): number[] {
     const binColors = this.config.range;
-    const values = this.config.breakValues ?? [
-      ...new Set(
-        binColors.map((colors) => this.scale.invertExtent(colors)).flat()
-      ),
-    ];
+    const values =
+      this.config.binType === VicValuesBin.customBreaks
+        ? this.config.breakValues
+        : [
+            ...new Set(
+              binColors.map((colors) => this.scale.invertExtent(colors)).flat()
+            ),
+          ];
     return values;
   }
 
