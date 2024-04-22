@@ -4,15 +4,7 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  InternMap,
-  InternSet,
-  SeriesPoint,
-  Transition,
-  range,
-  rollup,
-  select,
-} from 'd3';
+import { InternMap, SeriesPoint, Transition, range, rollup, select } from 'd3';
 import { stack } from 'd3-shape';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -53,10 +45,9 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
       this.values[this.config.dimensions.ordinal].length
     ).filter((i) => {
       return (
-        (this.config.ordinal.domain as InternSet).has(
+        this.config.ordinal.domain.includes(
           this.values[this.config.dimensions.ordinal][i]
-        ) &&
-        (this.config.category.domain as InternSet).has(this.values.category[i])
+        ) && this.config.category.domain.includes(this.values.category[i])
       );
     });
   }

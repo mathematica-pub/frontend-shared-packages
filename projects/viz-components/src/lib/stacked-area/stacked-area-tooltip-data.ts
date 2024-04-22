@@ -1,3 +1,4 @@
+import { VicDataValue } from '../data-marks/data-dimension.config';
 import { formatValue } from '../value-format/value-format';
 import { StackedAreaComponent } from './stacked-area.component';
 
@@ -12,7 +13,7 @@ export interface VicStackedAreaEventDatum<Datum> {
   color: string;
   x: string;
   y: string;
-  category: string;
+  category: VicDataValue;
 }
 
 export function getStackedAreaTooltipData<Datum>(

@@ -1,4 +1,5 @@
 import {
+  ColorCommonInstance,
   ExtendedFeature,
   ExtendedFeatureCollection,
   ExtendedGeometryCollection,
@@ -18,7 +19,11 @@ import {
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
+import { GenericScale } from '../core/types/scale';
+import {
+  VicDataDimensionConfig,
+  VicDataValue,
+} from '../data-marks/data-dimension.config';
 import {
   VicDataMarksConfig,
   VicPatternPredicate,
@@ -154,13 +159,17 @@ export class VicDataGeographyConfig<
  * The generic parameter is the type of the attribute data.
  */
 abstract class AttributeDataDimensionConfig<
-  Datum
-> extends VicDataDimensionConfig<Datum> {
-  geoAccessor: (d: Datum, ...args: any) => any;
-  range: any[];
-  colorScale: (...args: any) => any;
+  Datum,
+  AttributeValue extends VicDataValue
+> extends VicDataDimensionConfig<Datum, AttributeValue> {
+  geoAccessor: (d: Datum, ...args: any) => AttributeValue;
+  range: string[];
+  colorScale: (...args: any) => GenericScale<AttributeValue, string>;
   colors?: string[];
-  interpolator: (...args: any) => any;
+  interpolator: (
+    a: string | ColorCommonInstance,
+    b: string | ColorCommonInstance
+  ) => (t: number) => string;
   patternPredicates?: VicPatternPredicate<Datum>[];
 }
 
@@ -189,10 +198,9 @@ export type VicAttributeDataDimensionConfig<Datum> =
  */
 export class VicCategoricalAttributeDataDimensionConfig<
   Datum
-> extends AttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum, string> {
   binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
-  override domain: string[];
 
   constructor(
     init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
@@ -211,7 +219,7 @@ export class VicCategoricalAttributeDataDimensionConfig<
  */
 export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends AttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum, number> {
   binType: VicValuesBin.none = VicValuesBin.none;
 
   constructor(
@@ -231,7 +239,7 @@ export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
  */
 export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends AttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum, number> {
   binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
   numBins: number;
 
@@ -255,7 +263,7 @@ export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
  */
 export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends AttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum, number> {
   binType: VicValuesBin.equalNumObservations =
     VicValuesBin.equalNumObservations;
   numBins: number;
@@ -281,7 +289,7 @@ export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
 
 export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends AttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum, number> {
   binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
   breakValues: number[];
   numBins: number;

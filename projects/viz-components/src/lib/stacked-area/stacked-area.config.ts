@@ -7,6 +7,7 @@ import {
 } from 'd3';
 import {
   VicCategoricalColorDimensionConfig,
+  VicDataValue,
   VicDateDimensionConfig,
   VicQuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
@@ -18,18 +19,18 @@ export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
     new VicQuantitativeDimensionConfig();
   category: VicCategoricalColorDimensionConfig<Datum> =
     new VicCategoricalColorDimensionConfig();
-  valueIsDefined?: (...args: any) => any;
+  valueIsDefined?: (...args: any) => boolean;
   curve: (x: any) => any;
   stackOffsetFunction: (
     series: Series<any, any>,
     order: Iterable<number>
   ) => void;
   stackOrderFunction: (x: any) => any;
-  categoryOrder?: string[];
+  categoryOrder?: VicDataValue[];
 
   constructor(init?: Partial<VicStackedAreaConfig<Datum>>) {
     super();
-    this.category.valueAccessor = () => 1;
+    this.category.valueAccessor = () => '1';
     this.category.colors = schemeTableau10 as string[];
     this.curve = curveLinear;
     this.stackOrderFunction = stackOrderNone;

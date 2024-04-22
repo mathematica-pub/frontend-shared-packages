@@ -1,11 +1,11 @@
-import { Numeric, ScaleContinuousNumeric, max, min } from 'd3';
+import { Numeric, max, min } from 'd3';
 import {
   DomainPadding,
+  PaddedDomainArguments,
   VicDomainPaddingConfig,
-} from '../../data-marks/data-dimension.config';
-import { ValueUtilities } from '../../shared/value-utilities.class';
+} from '../../data-marks/data-domain-padding';
 import { ToArray } from '../types/utility';
-import { isNumbers } from './type-guard';
+import { isNumbers } from './type-guards';
 
 export type DomainExtent = 'max' | 'min';
 
@@ -55,149 +55,44 @@ export class QuantitativeDomainUtilities {
   static getPaddedDomain(
     unpaddedDomain: [number, number],
     domainPadding: VicDomainPaddingConfig,
-    scaleType?: any,
+    scaleFn?: any,
     chartRange?: [number, number]
   ): [number, number] {
+    const domainMinArgs: PaddedDomainArguments = {
+      value: unpaddedDomain[0],
+      valueType: 'min',
+      scaleFn,
+      unpaddedDomain,
+      chartRange,
+    };
+    const domainMaxArgs: PaddedDomainArguments = {
+      value: unpaddedDomain[1],
+      valueType: 'max',
+      scaleFn,
+      unpaddedDomain,
+      chartRange,
+    };
     let domainMin: number;
     let domainMax: number;
     if (unpaddedDomain[0] >= 0 && unpaddedDomain[1] >= 0) {
       domainMin = unpaddedDomain[0];
-      domainMax = this.getPaddedDomainValue(
-        unpaddedDomain[1],
-        domainPadding,
-        'max',
-        scaleType,
-        unpaddedDomain,
-        chartRange
-      );
+      domainMax = domainPadding.getPaddedDomainValue(domainMaxArgs);
     } else if (unpaddedDomain[0] <= 0 && unpaddedDomain[1] <= 0) {
-      domainMin = this.getPaddedDomainValue(
-        unpaddedDomain[0],
-        domainPadding,
-        'min',
-        scaleType,
-        unpaddedDomain,
-        chartRange
-      );
+      domainMin = domainPadding.getPaddedDomainValue(domainMinArgs);
       domainMax = unpaddedDomain[1];
     } else if (unpaddedDomain[0] < 0 && unpaddedDomain[1] > 0) {
       if (domainPadding.type === DomainPadding.numPixels) {
         [domainMin, domainMax] =
-          this.getPixelPaddedDomainValuePositiveAndNegative(
+          domainPadding.getPositiveAndNegativePaddedDomainValues(
             unpaddedDomain,
-            domainPadding.numPixels,
-            scaleType,
+            scaleFn,
             chartRange
           );
       } else {
-        domainMin = this.getPaddedDomainValue(
-          unpaddedDomain[0],
-          domainPadding,
-          'min',
-          scaleType,
-          unpaddedDomain,
-          chartRange
-        );
-        domainMax = this.getPaddedDomainValue(
-          unpaddedDomain[1],
-          domainPadding,
-          'max',
-          scaleType,
-          unpaddedDomain,
-          chartRange
-        );
+        domainMin = domainPadding.getPaddedDomainValue(domainMinArgs);
+        domainMax = domainPadding.getPaddedDomainValue(domainMaxArgs);
       }
     }
     return [domainMin, domainMax];
-  }
-
-  static getPaddedDomainValue(
-    value: number,
-    padding: VicDomainPaddingConfig,
-    valueType: DomainExtent,
-    scaleType: (
-      domain?: Iterable<number>,
-      range?: Iterable<number>
-    ) => ScaleContinuousNumeric<number, number>,
-    unpaddedDomain: [number, number],
-    chartRange?: [number, number]
-  ): number {
-    let paddedValue = value;
-    if (padding.type === DomainPadding.roundUp) {
-      paddedValue = ValueUtilities.getValueRoundedToNSignificantDigits(
-        value,
-        padding.sigDigits(value),
-        valueType
-      );
-    } else if (padding.type === DomainPadding.roundInterval) {
-      paddedValue = ValueUtilities.getValueRoundedToInterval(
-        value,
-        padding.interval(value),
-        valueType
-      );
-    } else if (padding.type === DomainPadding.percentOver) {
-      paddedValue = this.getQuantitativeDomainMaxPercentOver(
-        value,
-        padding.percentOver
-      );
-    } else if (padding.type === DomainPadding.numPixels) {
-      paddedValue = this.getPixelPaddedDomainValue(
-        unpaddedDomain,
-        padding.numPixels,
-        valueType,
-        scaleType,
-        chartRange
-      );
-    }
-    return paddedValue;
-  }
-
-  static getQuantitativeDomainMaxPercentOver(
-    value: number,
-    percent: number
-  ): number {
-    let overValue = Math.abs(value) * (1 + percent);
-    if (value < 0) overValue = -overValue;
-    return overValue;
-  }
-
-  static getPixelPaddedDomainValue(
-    unpaddedDomain: [number, number],
-    numPixels: number,
-    valueType: DomainExtent,
-    scaleFn: (
-      domain?: Iterable<number>,
-      range?: Iterable<number>
-    ) => ScaleContinuousNumeric<number, number>,
-    chartRange: [number, number]
-  ): number {
-    if (chartRange[1] < chartRange[0]) numPixels = -1 * numPixels; // When would we ever have this?
-    const value = valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
-    if (value === 0) return value;
-    const adjustedPixelRange =
-      valueType === 'min' && unpaddedDomain[0] < 0
-        ? [chartRange[0] + numPixels, chartRange[1]]
-        : [chartRange[0], chartRange[1] - numPixels];
-    const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
-    const targetVal = valueType === 'min' ? chartRange[0] : chartRange[1];
-    return scale.invert(targetVal);
-  }
-
-  // We need to set both sides padding at the same time in this case to get N pixels on both sides
-  static getPixelPaddedDomainValuePositiveAndNegative(
-    unpaddedDomain: [number, number],
-    numPixels: number,
-    scaleFn: (
-      domain?: Iterable<number>,
-      range?: Iterable<number>
-    ) => ScaleContinuousNumeric<number, number>,
-    chartRange: [number, number]
-  ): [number, number] {
-    const adjustedPixelRange = [
-      chartRange[0] + numPixels,
-      chartRange[1] - numPixels,
-    ];
-    const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
-    return [scale.invert(chartRange[0]), scale.invert(chartRange[1])];
   }
 }

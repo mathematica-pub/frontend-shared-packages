@@ -142,9 +142,9 @@ export class GeographiesComponent<
     const domainValues =
       this.config.dataGeographyConfig.attributeDataConfig.domain ??
       Array.from(this.values.attributeValuesByGeographyIndex.values());
-    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
-      domainValues
-    );
+    this.config.dataGeographyConfig.attributeDataConfig.domain = [
+      ...new InternSet(domainValues),
+    ];
   }
 
   setQuantitativeDomainAndBinsForBinType(): void {

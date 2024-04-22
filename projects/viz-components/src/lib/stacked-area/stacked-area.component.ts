@@ -84,12 +84,14 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
     if (this.config.category.domain === undefined) {
       this.config.category.domain = this.values.category;
     }
-    this.config.category.domain = new InternSet(this.config.category.domain);
+    this.config.category.domain = [
+      ...new InternSet(this.config.category.domain),
+    ];
   }
 
   setValueIndicies(): void {
     this.values.indicies = range(this.values.x.length).filter((i) =>
-      (this.config.category.domain as InternSet).has(this.values.category[i])
+      this.config.category.domain.includes(this.values.category[i])
     );
   }
 

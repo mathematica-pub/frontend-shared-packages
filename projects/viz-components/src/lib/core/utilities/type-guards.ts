@@ -12,3 +12,13 @@ export function isDate(value: unknown): value is Date {
     !isNaN(value as number)
   );
 }
+
+export function isFunction<T, U = unknown>(
+  x: unknown
+): x is (...args: U[]) => T {
+  return typeof x === 'function';
+}
+
+export function isPrimitiveType<T>(x: unknown): x is T {
+  return typeof x !== 'function';
+}

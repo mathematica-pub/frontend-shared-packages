@@ -21,7 +21,7 @@ import {
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
-import { isDate, isNumber } from '../core/utilities/type-guard';
+import { isDate, isNumber } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
