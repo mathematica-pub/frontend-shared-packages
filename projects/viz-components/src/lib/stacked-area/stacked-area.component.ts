@@ -60,19 +60,13 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
     this.setValueArrays();
     this.setValueIndicies();
     this.setSeries();
-    this.initYDomainFromStack();
+    this.initQuantitativeDomainFromStack();
   }
 
   setValueArrays(): void {
     this.config.x.setPropertiesFromData(this.config.data);
     this.config.y.setPropertiesFromData(this.config.data);
     this.config.category.setPropertiesFromData(this.config.data);
-    // this.values.x = map(this.config.data, this.config.x.valueAccessor);
-    // this.values.y = map(this.config.data, this.config.y.valueAccessor);
-    // this.values.category = map(
-    //   this.config.data,
-    //   this.config.category.valueAccessor
-    // );
   }
 
   setValueIndicies(): void {
@@ -107,7 +101,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
       );
   }
 
-  initYDomainFromStack(): void {
+  initQuantitativeDomainFromStack(): void {
     if (this.config.y.domain === undefined) {
       this.config.y.setUnpaddedDomain(extent(this.series.flat(2)));
     }

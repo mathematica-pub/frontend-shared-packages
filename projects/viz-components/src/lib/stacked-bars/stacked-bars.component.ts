@@ -4,7 +4,15 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { InternMap, SeriesPoint, Transition, range, rollup, select } from 'd3';
+import {
+  InternMap,
+  SeriesPoint,
+  Transition,
+  extent,
+  range,
+  rollup,
+  select,
+} from 'd3';
 import { stack } from 'd3-shape';
 import { BarsComponent } from '../bars/bars.component';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -37,6 +45,7 @@ export class StackedBarsComponent<
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.constructStackedData();
+    this.initQuantitativeDomainFromStack();
   }
 
   override setValueIndicies(): void {
@@ -73,6 +82,11 @@ export class StackedBarsComponent<
         return d as unknown as VicStackDatum;
       })
     );
+  }
+
+  initQuantitativeDomainFromStack(): void {
+    const extents = extent(this.stackedData.flat(2));
+    this.config.quantitative.setUnpaddedDomain(extents);
   }
 
   override drawBars(transitionDuration: number): void {
@@ -118,7 +132,7 @@ export class StackedBarsComponent<
 
   getStackElementX(datum: VicStackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.scales.x(this.config.order.values[datum.i]);
+      return this.scales.x(this.config.ordinal.values[datum.i]);
     } else {
       return Math.min(this.scales.x(datum[0]), this.scales.x(datum[1]));
     }

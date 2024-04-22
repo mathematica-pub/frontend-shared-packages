@@ -95,7 +95,8 @@ export class BarsComponent<
   }
 
   setHasBarsWithNegativeValues(): void {
-    this.hasBarsWithNegativeValues = this.config.quantitative.domain[0] < 0;
+    this.hasBarsWithNegativeValues =
+      this.config.quantitative.unpaddedDomain[0] < 0;
   }
 
   setValueIndicies(): void {
