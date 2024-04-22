@@ -24,11 +24,7 @@ export class GroupedBarsComponent<
   TOrdinalValue extends VicDataValue
 > extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicGroupedBarsConfig<
-    Datum,
-    TOrdinalValue
-  >;
-  override config: VicGroupedBarsConfig<Datum, TOrdinalValue>;
+  @Input('config') override config: VicGroupedBarsConfig<Datum, TOrdinalValue>;
   groupScale: any;
 
   override setValueIndicies(): void {

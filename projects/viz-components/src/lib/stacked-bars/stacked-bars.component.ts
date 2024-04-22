@@ -29,11 +29,7 @@ export class StackedBarsComponent<
   TOrdinalValue extends VicDataValue
 > extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicStackedBarsConfig<
-    Datum,
-    TOrdinalValue
-  >;
-  override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
+  @Input('config') override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
   stackedData: VicStackDatum[][];
 
   override setPropertiesFromConfig(): void {

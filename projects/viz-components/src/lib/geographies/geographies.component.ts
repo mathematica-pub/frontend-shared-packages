@@ -70,7 +70,6 @@ export class GeographiesComponent<
   }
 
   override initFromConfig(): void {
-    this.setConfig();
     this.setPropertiesFromRanges();
     this.setPropertiesFromConfig();
   }
