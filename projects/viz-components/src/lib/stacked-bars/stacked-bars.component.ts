@@ -45,15 +45,14 @@ export class StackedBarsComponent<
 
   override setValueIndicies(): void {
     // no unit test
-    this.values.indicies = range(
-      this.values[this.config.dimensions.ordinal].length
-    ).filter((i) => {
-      return (
-        this.config.ordinal.domain.includes(
-          this.values[this.config.dimensions.ordinal][i]
-        ) && this.config.category.domain.includes(this.values.category[i])
-      );
-    });
+    this.valueIndicies = range(this.config.ordinal.values.length).filter(
+      (i) => {
+        return (
+          this.config.ordinal.domain.includes(this.config.ordinal.values[i]) &&
+          this.config.category.domain.includes(this.config.category.values[i])
+        );
+      }
+    );
   }
 
   constructStackedData(): void {
@@ -63,7 +62,7 @@ export class StackedBarsComponent<
       .order(this.config.order)
       .offset(this.config.offset)(
       rollup(
-        this.values.indicies,
+        this.valueIndicies,
         ([i]) => i,
         (i) => this.config.ordinal.values[i],
         (i) => this.config.category.values[i]
@@ -123,7 +122,7 @@ export class StackedBarsComponent<
 
   getStackElementX(datum: VicStackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.scales.x(this.values.x[datum.i]);
+      return this.scales.x(this.config.order.values[datum.i]);
     } else {
       return Math.min(this.scales.x(datum[0]), this.scales.x(datum[1]));
     }
@@ -133,7 +132,7 @@ export class StackedBarsComponent<
     if (this.config.dimensions.ordinal === 'x') {
       return Math.min(this.scales.y(datum[0]), this.scales.y(datum[1]));
     } else {
-      return this.scales.y(this.values.y[datum.i]);
+      return this.scales.y(this.config.quantitative.values[datum.i]);
     }
   }
 

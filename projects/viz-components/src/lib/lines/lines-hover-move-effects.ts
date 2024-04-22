@@ -30,15 +30,16 @@ export class LinesHoverMoveDefaultLinesStyles<
   ): void {
     directive.lines.lines
       .style('stroke', ([category]): string =>
-        directive.lines.values.category[directive.closestPointIndex] ===
+        directive.lines.config.category.values[directive.closestPointIndex] ===
         category
           ? null
           : '#ddd'
       )
       .filter(
         ([category]): boolean =>
-          directive.lines.values.category[directive.closestPointIndex] ===
-          category
+          directive.lines.config.category.values[
+            directive.closestPointIndex
+          ] === category
       )
       .raise();
   }
@@ -74,8 +75,8 @@ export class LinesHoverMoveDefaultMarkersStyles<
   ): void {
     directive.lines.markers
       .style('fill', (d): string =>
-        directive.lines.values.category[directive.closestPointIndex] ===
-        directive.lines.values.category[d.index]
+        directive.lines.config.category.values[directive.closestPointIndex] ===
+        directive.lines.config.category.values[d.index]
           ? null
           : 'transparent'
       )
@@ -90,8 +91,9 @@ export class LinesHoverMoveDefaultMarkersStyles<
       })
       .filter(
         (d): boolean =>
-          directive.lines.values.category[directive.closestPointIndex] ===
-          directive.lines.values.category[d.index]
+          directive.lines.config.category.values[
+            directive.closestPointIndex
+          ] === directive.lines.config.category.values[d.index]
       )
       .raise();
   }
@@ -130,19 +132,19 @@ export class LinesHoverMoveDefaultHoverDotStyles<
       .attr(
         'fill',
         directive.lines.scales.category(
-          directive.lines.values.category[directive.closestPointIndex]
+          directive.lines.config.category.values[directive.closestPointIndex]
         )
       )
       .attr(
         'cx',
         directive.lines.scales.x(
-          directive.lines.values.x[directive.closestPointIndex]
+          directive.lines.config.x.values[directive.closestPointIndex]
         )
       )
       .attr(
         'cy',
         directive.lines.scales.y(
-          directive.lines.values.y[directive.closestPointIndex]
+          directive.lines.config.y.values[directive.closestPointIndex]
         )
       );
   }

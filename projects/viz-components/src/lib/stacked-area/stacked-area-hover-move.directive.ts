@@ -86,18 +86,19 @@ export class StackedAreaHoverMoveDirective<
   }
 
   getClosestXIndicies(): number[] {
-    const uniqueXValues = [...new Set(this.stackedArea.values.x)];
+    const uniqueXValues = [...new Set(this.stackedArea.config.x.values)];
     const closestXValue = least(uniqueXValues, (x) =>
       Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
     if (isDate(closestXValue)) {
-      return this.stackedArea.values.indicies.filter(
+      return this.stackedArea.valueIndicies.filter(
         (i) =>
-          this.stackedArea.values.x[i].getTime() === closestXValue.getTime()
+          this.stackedArea.config.x.values[i].getTime() ===
+          closestXValue.getTime()
       );
     } else {
-      return this.stackedArea.values.indicies.filter(
-        (i) => this.stackedArea.values.x[i] === closestXValue
+      return this.stackedArea.valueIndicies.filter(
+        (i) => this.stackedArea.config.x.values[i] === closestXValue
       );
     }
   }

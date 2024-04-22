@@ -8,7 +8,6 @@ import {
   XyChartScales,
   XyContentScale,
 } from '../xy-chart/xy-chart.component';
-import { XyDataMarksValues } from './xy-data-marks';
 
 /**
  * @internal
@@ -27,7 +26,7 @@ export abstract class XyDataMarksBase<
     XyContentScale.y,
     XyContentScale.category,
   ];
-  values: XyDataMarksValues = new XyDataMarksValues();
+  valueIndicies: number[];
   public override chart = inject(XyChartComponent);
 
   ngOnInit(): void {

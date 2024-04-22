@@ -28,9 +28,9 @@ export function getBarsTooltipData<Datum, TOrdinalValue extends VicDataValue>(
 ): VicBarsTooltipOutput<Datum, TOrdinalValue> {
   const datum = bars.config.data.find(
     (d) =>
-      bars.values[bars.config.dimensions.quantitative][barIndex] ===
+      bars.config.quantitative.values[barIndex] ===
         bars.config.quantitative.valueAccessor(d) &&
-      bars.values[bars.config.dimensions.ordinal][barIndex] ===
+      bars.config.ordinal.values[barIndex] ===
         bars.config.ordinal.valueAccessor(d)
   );
 

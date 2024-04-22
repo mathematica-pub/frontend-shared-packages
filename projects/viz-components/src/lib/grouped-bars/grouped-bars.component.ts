@@ -32,15 +32,14 @@ export class GroupedBarsComponent<
   groupScale: any;
 
   override setValueIndicies(): void {
-    this.values.indicies = range(
-      this.values[this.config.dimensions.ordinal].length
-    ).filter((i) => {
-      return (
-        this.config.ordinal.domain.includes(
-          this.values[this.config.dimensions.ordinal][i]
-        ) && this.config.category.domain.includes(this.values.category[i])
-      );
-    });
+    this.valueIndicies = range(this.config.ordinal.values.length).filter(
+      (i) => {
+        return (
+          this.config.ordinal.domain.includes(this.config.ordinal.values[i]) &&
+          this.config.category.domain.includes(this.config.category.values[i])
+        );
+      }
+    );
   }
 
   override drawMarks(): void {
@@ -63,12 +62,13 @@ export class GroupedBarsComponent<
   }
 
   override getBarColor(i: number): string {
-    return this.scales.category(this.values.category[i]);
+    return this.scales.category(this.config.category.values[i]);
   }
 
   override getBarXOrdinal(i: number): number {
     return (
-      this.scales.x(this.values.x[i]) + this.groupScale(this.values.category[i])
+      this.scales.x(this.config.ordinal.values[i]) +
+      this.groupScale(this.config.category.values[i])
     );
   }
 
@@ -82,12 +82,13 @@ export class GroupedBarsComponent<
 
   getBarYOrdinal(i: number): number {
     return (
-      this.scales.y(this.values.y[i]) + this.groupScale(this.values.category[i])
+      this.scales.y(this.config[this.config.dimensions.y].values[i]) +
+      this.groupScale(this.config.category.values[i])
     );
   }
 
   getBarYQuantitative(i: number): number {
-    return this.scales.y(this.values.y[i]);
+    return this.scales.y(this.config[this.config.dimensions.y].values[i]);
   }
 
   override getBarWidthOrdinal(): number {

@@ -95,10 +95,10 @@ export class LinesHoverMoveDirective<
   }
 
   getClosestPointIndex(): number {
-    return least(this.lines.values.indicies, (i) =>
+    return least(this.lines.valueIndicies, (i) =>
       this.getPointerDistanceFromPoint(
-        this.lines.values.x[i],
-        this.lines.values.y[i],
+        this.lines.config.x.values[i],
+        this.lines.config.y.values[i],
         this.pointerX,
         this.pointerY
       )
@@ -106,14 +106,14 @@ export class LinesHoverMoveDirective<
   }
 
   getPointerDistanceFromPoint(
-    pointX: number,
-    pointY: number,
+    xValue: number | Date,
+    yValue: number,
     pointerX: number,
     pointerY: number
   ): number {
     return Math.hypot(
-      this.lines.scales.x(pointX) - pointerX,
-      this.lines.scales.y(pointY) - pointerY
+      this.lines.scales.x(xValue) - pointerX,
+      this.lines.scales.y(yValue) - pointerY
     );
   }
 
@@ -126,8 +126,8 @@ export class LinesHoverMoveDirective<
       return true;
     } else {
       const cursorDistanceFromPoint = this.getPointerDistanceFromPoint(
-        this.lines.values.x[closestPointIndex],
-        this.lines.values.y[closestPointIndex],
+        this.lines.config.x.values[closestPointIndex],
+        this.lines.config.y.values[closestPointIndex],
         pointerX,
         pointerY
       );

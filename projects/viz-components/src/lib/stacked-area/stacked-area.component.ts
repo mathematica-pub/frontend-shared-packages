@@ -76,17 +76,17 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
   }
 
   setValueIndicies(): void {
-    this.values.indicies = range(this.values.x.length).filter((i) =>
-      this.config.category.domain.includes(this.values.category[i])
+    this.valueIndicies = range(this.config.x.values.length).filter((i) =>
+      this.config.category.domain.includes(this.config.category.values[i])
     );
   }
 
   setSeries(): void {
     const rolledUpData: InternMap<Key, InternMap<Key, number>> = rollup(
-      this.values.indicies,
+      this.valueIndicies,
       ([i]) => i,
-      (i) => this.values.x[i],
-      (i) => this.values.category[i]
+      (i) => this.config.x.values[i],
+      (i) => this.config.category.values[i]
     );
 
     const keys = this.config.categoryOrder
@@ -95,7 +95,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
     this.series = stack<any, InternMap<any, number>, any>()
       .keys(keys)
-      .value(([x, I]: any, category) => this.values.y[I.get(category)])
+      .value(([x, I]: any, category) => this.config.y.values[I.get(category)])
       .order(this.config.stackOrderFunction)
       .offset(this.config.stackOffsetFunction)(rolledUpData as any)
       .map((s) =>
@@ -130,7 +130,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
   setArea(): void {
     this.area = area()
-      .x(({ i }: any) => this.scales.x(this.values.x[i]))
+      .x(({ i }: any) => this.scales.x(this.config.x.values[i]))
       .y0(([y1]) => this.scales.y(y1))
       .y1(([, y2]) => this.scales.y(y2))
       .curve(this.config.curve);
@@ -148,9 +148,9 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
         (enter) =>
           enter
             .append('path')
-            .property('key', ([{ i }]) => this.values.category[i])
+            .property('key', ([{ i }]) => this.config.category.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.category(this.values.category[i])
+              this.scales.category(this.config.category.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -159,7 +159,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.category(this.values.category[i])
+                this.scales.category(this.config.category.values[i])
               )
           ),
         (exit) => exit.remove()

@@ -23,9 +23,10 @@ export function getStackedAreaTooltipData<Datum>(
   const data = closestXIndicies.map((i) => {
     const originalDatum = stackedArea.config.data.find(
       (d) =>
-        stackedArea.config.x.valueAccessor(d) === stackedArea.values.x[i] &&
+        stackedArea.config.x.valueAccessor(d) ===
+          stackedArea.config.x.values[i] &&
         stackedArea.config.category.valueAccessor(d) ===
-          stackedArea.values.category[i]
+          stackedArea.config.category.values[i]
     );
     return {
       datum: originalDatum,
@@ -53,6 +54,8 @@ export function getStackedAreaTooltipData<Datum>(
   }
   return {
     data,
-    positionX: stackedArea.scales.x(stackedArea.values.x[closestXIndicies[0]]),
+    positionX: stackedArea.scales.x(
+      stackedArea.config.x.values[closestXIndicies[0]]
+    ),
   };
 }

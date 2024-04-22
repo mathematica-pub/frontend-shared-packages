@@ -92,10 +92,6 @@ export class BarsComponent<
       this.config.dimensions.ordinal === 'y'
     );
     this.config.category.setPropertiesFromData(this.config.data);
-    this.values[this.config.dimensions.ordinal] = this.config.ordinal.values;
-    this.values[this.config.dimensions.quantitative] =
-      this.config.quantitative.values;
-    this.values.category = this.config.category.values;
   }
 
   setHasBarsWithNegativeValues(): void {
@@ -103,18 +99,14 @@ export class BarsComponent<
   }
 
   setValueIndicies(): void {
-    this.values.indicies = range(
-      this.values[this.config.dimensions.ordinal].length
-    ).filter((i) =>
-      this.config.ordinal.domain.includes(
-        this.values[this.config.dimensions.ordinal][i]
-      )
+    this.valueIndicies = range(this.config.ordinal.values.length).filter((i) =>
+      this.config.ordinal.domain.includes(this.config.ordinal.values[i])
     );
   }
 
   setBarsKeyFunction(): void {
     this.barsKeyFunction = (i: number): string =>
-      `${this.values[this.config.dimensions.ordinal][i]}`;
+      `${this.config.ordinal.values[i]}`;
   }
 
   /**
@@ -128,16 +120,12 @@ export class BarsComponent<
    * resize/when ranges change.
    */
   setPropertiesFromRanges(useTransition: boolean): void {
-    const ordinalScale = this.config.ordinal.getScaleFromRange(
-      this.ranges[this.config.dimensions.ordinal]
+    const x = this.config[this.config.dimensions.x].getScaleFromRange(
+      this.ranges.x
     );
-    const quantitativeScale = this.config.quantitative.getScaleFromRange(
-      this.ranges[this.config.dimensions.quantitative]
+    const y = this.config[this.config.dimensions.y].getScaleFromRange(
+      this.ranges.y
     );
-    const x =
-      this.config.dimensions.ordinal === 'x' ? ordinalScale : quantitativeScale;
-    const y =
-      this.config.dimensions.ordinal === 'x' ? quantitativeScale : ordinalScale;
     const category = this.config.category.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
@@ -160,7 +148,7 @@ export class BarsComponent<
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll<SVGGElement, number>('.vic-bar-group')
-      .data<number>(this.values.indicies, this.barsKeyFunction)
+      .data<number>(this.valueIndicies, this.barsKeyFunction)
       .join(
         (enter) =>
           enter
@@ -280,13 +268,13 @@ export class BarsComponent<
   }
 
   getBarXOrdinal(i: number): number {
-    return this.scales.x(this.values.x[i]);
+    return this.scales.x(this.config.ordinal.values[i]);
   }
 
   getBarXQuantitative(i: number): number {
     if (this.hasBarsWithNegativeValues) {
-      if (this.values.x[i] < 0) {
-        return this.scales.x(this.values.x[i]);
+      if (this.config.quantitative.values[i] < 0) {
+        return this.scales.x(this.config.quantitative.values[i]);
       } else {
         return this.scales.x(0);
       }
@@ -300,7 +288,7 @@ export class BarsComponent<
   }
 
   getBarY(i: number): number {
-    return this.scales.y(this.values.y[i]);
+    return this.scales.y(this.config[this.config.dimensions.y].values[i]);
   }
 
   getBarWidth(i: number): number {
@@ -343,7 +331,9 @@ export class BarsComponent<
         ? this.getQuantitativeDomainFromScale()[1]
         : this.getQuantitativeDomainFromScale()[0];
     }
-    return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
+    return Math.abs(
+      this.scales.x(this.config.quantitative.values[i]) - this.scales.x(origin)
+    );
   }
 
   getBarHeight(i: number): number {
@@ -374,7 +364,7 @@ export class BarsComponent<
     const origin = this.hasBarsWithNegativeValues
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
-    return Math.abs(this.scales.y(origin - this.values.y[i]));
+    return Math.abs(this.scales.y(origin - this.config.quantitative.values[i]));
   }
 
   updateBarElements(): void {

@@ -17,8 +17,8 @@ export function getLinesTooltipDataFromDatum<Datum>(
 ): VicLinesEventOutput<Datum> {
   const datum = lines.config.data.find(
     (d) =>
-      lines.values.x[datumIndex] === lines.config.x.valueAccessor(d) &&
-      lines.values.category[datumIndex] ===
+      lines.config.x.values[datumIndex] === lines.config.x.valueAccessor(d) &&
+      lines.config.category.values[datumIndex] ===
         lines.config.category.valueAccessor(d)
   );
   return {
@@ -33,7 +33,7 @@ export function getLinesTooltipDataFromDatum<Datum>(
     ),
     category: lines.config.category.valueAccessor(datum),
     color: lines.scales.category(lines.config.category.valueAccessor(datum)),
-    positionX: lines.scales.x(lines.values.x[datumIndex]),
-    positionY: lines.scales.y(lines.values.y[datumIndex]),
+    positionX: lines.scales.x(lines.config.x.values[datumIndex]),
+    positionY: lines.scales.y(lines.config.y.values[datumIndex]),
   };
 }

@@ -99,13 +99,13 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
 
   setValueIndicies(): void {
     const domainInternSet = new InternSet(this.config.category.domain);
-    this.values.indicies = range(this.config.x.values.length).filter((i) =>
-      domainInternSet.has(this.values.category[i])
+    this.valueIndicies = range(this.config.x.values.length).filter((i) =>
+      domainInternSet.has(this.config.category.values[i])
     );
   }
 
   setLinesD3Data(): void {
-    const definedIndices = this.values.indicies.filter(
+    const definedIndices = this.valueIndicies.filter(
       (i) =>
         this.canBeDrawnByPath(this.config.x.values[i]) &&
         this.canBeDrawnByPath(this.config.y.values[i])
@@ -125,7 +125,7 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setMarkersD3Data(): void {
-    this.markersD3Data = this.values.indicies
+    this.markersD3Data = this.valueIndicies
       .map((i) => {
         return { key: this.getMarkerKey(i), index: i };
       })
@@ -137,7 +137,7 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   getMarkerKey(i: number): string {
-    return `${this.values.category[i]}-${this.config.x.values[i]}`;
+    return `${this.config.category.values[i]}-${this.config.x.values[i]}`;
   }
 
   setMarkersKeyFunction(): void {
@@ -234,12 +234,12 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
           .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
           .attr('r', this.config.pointMarkers.radius)
           .attr('fill', (d) =>
-            this.scales.category(this.values.category[d.index])
+            this.scales.category(this.config.category.values[d.index])
           ),
       (update) =>
         update
           .attr('fill', (d) =>
-            this.scales.category(this.values.category[d.index])
+            this.scales.category(this.config.category.values[d.index])
           )
           .call((update) =>
             update
@@ -264,7 +264,9 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
       .join('text')
       .attr('class', 'vic-line-label')
       .attr('text-anchor', 'end')
-      .attr('fill', (d) => this.scales.category(this.values.category[d.index]))
+      .attr('fill', (d) =>
+        this.scales.category(this.config.category.values[d.index])
+      )
       .attr('x', (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`)
       .attr(
         'y',
