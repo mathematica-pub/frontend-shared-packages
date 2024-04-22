@@ -1,6 +1,6 @@
 import { schemeTableau10, stackOffsetDiverging, stackOrderNone } from 'd3';
 import { VicBarsConfig } from '../bars/bars.config';
-import { VicDataValue } from '../data-marks/data-dimension.config';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 
 export class VicStackedBarsConfig<
   Datum,
@@ -13,7 +13,7 @@ export class VicStackedBarsConfig<
     super();
     this.order = stackOrderNone;
     this.offset = stackOffsetDiverging;
-    this.category.colors = schemeTableau10 as string[];
+    this.category.range = schemeTableau10 as string[];
     Object.assign(this, init);
   }
 }

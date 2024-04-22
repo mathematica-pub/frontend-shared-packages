@@ -43,7 +43,7 @@ describe('LineChartComponent', () => {
     });
 
     it('calls initDomains once', () => {
-      expect(component.initDomains).toHaveBeenCalledTimes(1);
+      expect(component.initDimensionsFromValues).toHaveBeenCalledTimes(1);
     });
 
     it('calls setValueIndicies once', () => {

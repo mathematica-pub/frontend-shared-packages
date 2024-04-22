@@ -5,20 +5,18 @@ import {
   stackOffsetNone,
   stackOrderNone,
 } from 'd3';
-import {
-  VicCategoricalColorDimensionConfig,
-  VicDataValue,
-  VicDateDimensionConfig,
-  VicQuantitativeDimensionConfig,
-} from '../data-marks/data-dimension.config';
+import { VicDataValue } from '../../public-api';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categorical-dimension';
+import { VicDateDimensionConfig } from '../data-marks/dimensions/date-dimension';
+import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
   x: VicDateDimensionConfig<Datum> = new VicDateDimensionConfig();
   y: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
-  category: VicCategoricalColorDimensionConfig<Datum> =
-    new VicCategoricalColorDimensionConfig();
+  category: VicCategoricalDimensionConfig<Datum, string> =
+    new VicCategoricalDimensionConfig();
   valueIsDefined?: (...args: any) => boolean;
   curve: (x: any) => any;
   stackOffsetFunction: (
@@ -31,7 +29,7 @@ export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
   constructor(init?: Partial<VicStackedAreaConfig<Datum>>) {
     super();
     this.category.valueAccessor = () => '1';
-    this.category.colors = schemeTableau10 as string[];
+    this.category.range = schemeTableau10 as string[];
     this.curve = curveLinear;
     this.stackOrderFunction = stackOrderNone;
     this.stackOffsetFunction = stackOffsetNone;

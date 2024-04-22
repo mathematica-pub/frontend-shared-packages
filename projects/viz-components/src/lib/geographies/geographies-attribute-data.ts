@@ -8,11 +8,11 @@ import {
   scaleQuantize,
   scaleThreshold,
 } from 'd3';
+import { VicPatternPredicate } from '../data-marks/data-marks.config';
 import {
   VicDataDimensionConfig,
   VicDataValue,
-} from '../data-marks/data-dimension.config';
-import { VicPatternPredicate } from '../data-marks/data-marks.config';
+} from '../data-marks/dimensions/data-dimension';
 import { formatValue } from '../value-format/value-format';
 
 /**

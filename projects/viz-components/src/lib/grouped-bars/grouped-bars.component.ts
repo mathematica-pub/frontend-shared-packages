@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { VicDataValue } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicGroupedBarsConfig } from './grouped-bars.config';
 
 @Component({

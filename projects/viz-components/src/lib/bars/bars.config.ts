@@ -1,13 +1,11 @@
-import {
-  VicCategoricalColorDimensionConfig,
-  VicDataValue,
-  VicOrdinalDimensionConfig,
-  VicQuantitativeDimensionConfig,
-} from '../data-marks/data-dimension.config';
+import { VicDataValue } from '../../public-api';
 import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
+import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categorical-dimension';
+import { VicOrdinalDimensionConfig } from '../data-marks/dimensions/ordinal-dimension';
+import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicBarsConfig<
   Datum,
@@ -17,8 +15,8 @@ export class VicBarsConfig<
     new VicOrdinalDimensionConfig();
   quantitative: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
-  category: VicCategoricalColorDimensionConfig<Datum> =
-    new VicCategoricalColorDimensionConfig();
+  category: VicCategoricalDimensionConfig<Datum, string> =
+    new VicCategoricalDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
   labels: VicBarsLabelsConfig<Datum>;
   patternPredicates?: VicPatternPredicate<Datum>[];

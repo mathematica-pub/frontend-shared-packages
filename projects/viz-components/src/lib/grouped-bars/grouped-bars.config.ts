@@ -1,5 +1,5 @@
 import { VicBarsConfig } from '../bars/bars.config';
-import { VicDataValue } from '../data-marks/data-dimension.config';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 
 export class VicGroupedBarsConfig<
   Datum,

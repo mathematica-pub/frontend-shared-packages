@@ -3,7 +3,7 @@ import {
   DomainPadding,
   PaddedDomainArguments,
   VicDomainPaddingConfig,
-} from '../../data-marks/data-domain-padding';
+} from '../../data-marks/dimensions/data-domain-padding';
 import { ToArray } from '../types/utility';
 import { isNumbers } from './type-guards';
 

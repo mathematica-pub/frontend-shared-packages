@@ -12,7 +12,6 @@ import {
   Transition,
   area,
   extent,
-  map,
   range,
   rollup,
   scaleOrdinal,
@@ -61,7 +60,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initXAndCategoryDomains();
+    this.initDimensionsFromValues();
     this.setValueIndicies();
     this.setSeries();
     this.initYDomain();
@@ -69,15 +68,18 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
   }
 
   setValueArrays(): void {
-    this.values.x = map(this.config.data, this.config.x.valueAccessor);
-    this.values.y = map(this.config.data, this.config.y.valueAccessor);
-    this.values.category = map(
-      this.config.data,
-      this.config.category.valueAccessor
-    );
+    this.config.x.setValues(this.config.data);
+    this.config.y.setValues(this.config.data);
+    this.config.category.setValues(this.config.data);
+    // this.values.x = map(this.config.data, this.config.x.valueAccessor);
+    // this.values.y = map(this.config.data, this.config.y.valueAccessor);
+    // this.values.category = map(
+    //   this.config.data,
+    //   this.config.category.valueAccessor
+    // );
   }
 
-  initXAndCategoryDomains(): void {
+  initDimensionsFromValues(): void {
     if (this.config.x.domain === undefined) {
       this.config.x.domain = extent(this.values.x);
     }
@@ -130,8 +132,8 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
   }
 
   initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
+    if (this.config.category.scale === undefined) {
+      this.config.category.scale = scaleOrdinal(
         new InternSet(this.config.category.domain),
         this.config.category.colors
       );
@@ -141,7 +143,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.scaleFn(this.config.x.domain, this.ranges.x);
     const y = this.config.y.scaleFn(this.config.y.domain, this.ranges.y);
-    const category = this.config.category.colorScale;
+    const category = this.config.category.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });

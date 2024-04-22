@@ -1,4 +1,4 @@
-import { VicDataValue } from '../data-marks/data-dimension.config';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { formatValue } from '../value-format/value-format';
 import { StackedAreaComponent } from './stacked-area.component';
 

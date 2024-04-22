@@ -10,21 +10,12 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  InternSet,
-  map,
-  min,
-  range,
-  scaleOrdinal,
-  select,
-  Transition,
-} from 'd3';
+import { range, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
-import { VicDataValue } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -33,7 +24,9 @@ import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const BARS = new InjectionToken<BarsComponent<unknown>>('BarsComponent');
+export const BARS = new InjectionToken<BarsComponent<unknown, unknown>>(
+  'BarsComponent'
+);
 
 export type BarGroupSelection = Selection<
   SVGGElement,
@@ -87,44 +80,31 @@ export class BarsComponent<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initNonQuantitativeDomains();
+    this.initDimensionsFromValues();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
-    this.initUnpaddedQuantitativeDomain();
-    this.initCategoryScale();
     this.setBarsKeyFunction();
   }
 
   setValueArrays(): void {
-    this.values.x = map(
-      this.config.data,
-      this.config[this.config.dimensions.x].valueAccessor
-    );
-    this.values.y = map(
-      this.config.data,
-      this.config[this.config.dimensions.y].valueAccessor
-    );
-    this.values.category = map(
-      this.config.data,
-      this.config.category.valueAccessor
-    );
+    this.config.quantitative.setValues(this.config.data);
+    this.config.ordinal.setValues(this.config.data);
+    this.config.category.setValues(this.config.data);
+    this.values[this.config.dimensions.ordinal] = this.config.ordinal.values;
+    this.values[this.config.dimensions.quantitative] =
+      this.config.quantitative.values;
+    this.values.category = this.config.category.values;
   }
 
-  initNonQuantitativeDomains(): void {
-    if (this.config.ordinal.domain === undefined) {
-      this.config.ordinal.domain = this.values[this.config.dimensions.ordinal];
-    }
-    if (this.config.category.domain === undefined) {
-      this.config.category.domain = this.values.category;
-    }
-    const ordinalDomain =
-      this.config.dimensions.ordinal === 'x'
-        ? this.config.ordinal.domain
-        : (this.config.ordinal.domain as any[]).slice().reverse();
-    this.config.ordinal.domain = [...new InternSet(ordinalDomain)];
-    this.config.category.domain = [
-      ...new InternSet(this.config.category.domain),
-    ];
+  initDimensionsFromValues(): void {
+    this.config.category.initDomain();
+    this.config.ordinal.initDomain(this.config.dimensions.ordinal === 'y');
+    this.config.quantitative.setUnpaddedDomain();
+    this.config.category.initScale();
+  }
+
+  setHasBarsWithNegativeValues(): void {
+    this.hasBarsWithNegativeValues = this.config.quantitative.domain[0] < 0;
   }
 
   setValueIndicies(): void {
@@ -135,41 +115,6 @@ export class BarsComponent<
         this.values[this.config.dimensions.ordinal][i]
       )
     );
-  }
-
-  setHasBarsWithNegativeValues(): void {
-    let dataMin;
-    if (this.config.quantitative.domain === undefined) {
-      dataMin = min([min(this.values[this.config.dimensions.quantitative]), 0]);
-    } else {
-      dataMin = this.config.quantitative.domain[0];
-    }
-    this.hasBarsWithNegativeValues = dataMin < 0;
-  }
-
-  initUnpaddedQuantitativeDomain(): void {
-    this.unpaddedDomain.quantitative =
-      QuantitativeDomainUtilities.getUnpaddedDomain(
-        this.config.quantitative.domain,
-        this.values[this.config.dimensions.quantitative],
-        this.config.quantitative.domainIncludesZero
-      );
-    if (
-      !this.config.quantitative.domainIncludesZero &&
-      this.unpaddedDomain.quantitative[0] <= 0 &&
-      this.unpaddedDomain.quantitative[1] >= 0
-    ) {
-      this.config.quantitative.domainIncludesZero = true;
-    }
-  }
-
-  initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
-    }
   }
 
   setBarsKeyFunction(): void {
@@ -188,48 +133,20 @@ export class BarsComponent<
    * resize/when ranges change.
    */
   setPropertiesFromRanges(useTransition: boolean): void {
+    const ordinalScale = this.config.ordinal.getScaleFromRange(
+      this.ranges[this.config.dimensions.ordinal]
+    );
+    const quantitativeScale = this.config.quantitative.getScaleFromRange(
+      this.ranges[this.config.dimensions.quantitative]
+    );
     const x =
-      this.config.dimensions.ordinal === 'x'
-        ? this.getOrdinalScale()
-        : this.getQuantitativeScale();
+      this.config.dimensions.ordinal === 'x' ? ordinalScale : quantitativeScale;
     const y =
-      this.config.dimensions.ordinal === 'x'
-        ? this.getQuantitativeScale()
-        : this.getOrdinalScale();
+      this.config.dimensions.ordinal === 'x' ? quantitativeScale : ordinalScale;
     const category = this.config.category.colorScale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
-  }
-
-  getOrdinalScale(): any {
-    return this.config.ordinal
-      .scaleFn()
-      .domain(this.config.ordinal.domain)
-      .range(this.ranges[this.config.dimensions.ordinal])
-      .paddingInner(this.config.ordinal.paddingInner)
-      .paddingOuter(this.config.ordinal.paddingOuter)
-      .align(this.config.ordinal.align);
-  }
-
-  getQuantitativeScale(): any {
-    const domain = this.config.quantitative.domainPadding
-      ? this.getPaddedQuantitativeDomain()
-      : this.unpaddedDomain.quantitative;
-    return this.config.quantitative
-      .scaleFn()
-      .domain(domain)
-      .range(this.ranges[this.config.dimensions.quantitative]);
-  }
-
-  getPaddedQuantitativeDomain(): [number, number] {
-    const domain = QuantitativeDomainUtilities.getPaddedDomain(
-      this.unpaddedDomain.quantitative,
-      this.config.quantitative.domainPadding,
-      this.config.quantitative.scaleFn,
-      this.ranges[this.config.dimensions.quantitative]
-    );
-    return domain;
   }
 
   drawMarks(): void {
@@ -284,8 +201,8 @@ export class BarsComponent<
       );
   }
 
-  getBarKey(i: number): string {
-    return this.values[this.config.dimensions.ordinal][i];
+  getBarKey(i: number): TOrdinalValue {
+    return this.config.ordinal.values[i];
   }
 
   getBarGroupTransform(i: number): string {
@@ -330,7 +247,7 @@ export class BarsComponent<
   }
 
   getBarLabelText(i: number): string {
-    const value = this.values[this.config.dimensions.quantitative][i];
+    const value = this.config.quantitative.values[i];
     const datum = this.config.data[i];
     if (value === null || value === undefined) {
       return this.config.labels.noValueFunction(datum);
@@ -346,7 +263,7 @@ export class BarsComponent<
   }
 
   getBarColor(i: number): string {
-    return this.scales.category(this.values[this.config.dimensions.ordinal][i]);
+    return this.scales.category(this.config.ordinal.values[i]);
   }
 
   getBarPattern(i: number): string {

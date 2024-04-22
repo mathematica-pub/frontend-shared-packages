@@ -36,7 +36,7 @@ describe('StackedAreaComponent', () => {
     });
 
     it('calls initDomains once', () => {
-      expect(component.initXAndCategoryDomains).toHaveBeenCalledTimes(1);
+      expect(component.initDimensionsFromValues).toHaveBeenCalledTimes(1);
     });
 
     it('calls setValueIndicies once', () => {

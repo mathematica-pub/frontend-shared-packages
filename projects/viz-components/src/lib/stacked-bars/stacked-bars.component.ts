@@ -7,8 +7,8 @@ import {
 import { InternMap, SeriesPoint, Transition, range, rollup, select } from 'd3';
 import { stack } from 'd3-shape';
 import { BarsComponent } from '../bars/bars.component';
-import { VicDataValue } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicStackedBarsConfig } from './stacked-bars.config';
 
 export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
@@ -38,12 +38,10 @@ export class StackedBarsComponent<
 
   override setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initNonQuantitativeDomains();
+    this.initDimensionsFromValues();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.constructStackedData();
-    this.initUnpaddedQuantitativeDomain();
-    this.initCategoryScale();
   }
 
   override setValueIndicies(): void {
@@ -62,17 +60,14 @@ export class StackedBarsComponent<
   constructStackedData(): void {
     const stackedData = stack<[unknown, InternMap<string, number>]>()
       .keys(this.config.category.domain)
-      .value(
-        (d, key) =>
-          this.values[this.config.dimensions.quantitative][d[1].get(key)]
-      )
+      .value((d, key) => this.config.quantitative.values[d[1].get(key)])
       .order(this.config.order)
       .offset(this.config.offset)(
       rollup(
         this.values.indicies,
         ([i]) => i,
-        (i) => this.values[this.config.dimensions.ordinal][i],
-        (i) => this.values.category[i]
+        (i) => this.config.ordinal.values[i],
+        (i) => this.config.category.values[i]
       )
     );
 
@@ -96,7 +91,7 @@ export class StackedBarsComponent<
       .data(this.stackedData)
       .join('g')
       .attr('fill', ([{ i }]: any) =>
-        this.scales.category(this.values.category[i])
+        this.scales.category(this.config.category.values[i])
       )
       .selectAll('rect')
       .data((d) => d)

@@ -9,18 +9,8 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  group,
-  InternSet,
-  line,
-  map,
-  range,
-  scaleOrdinal,
-  select,
-  Transition,
-} from 'd3';
+import { group, InternSet, line, map, range, select, Transition } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
 import { isDate, isNumber } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -94,9 +84,8 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initDomains();
+    this.initDimensionsFromValues();
     this.setValueIndicies();
-    this.initCategoryScale();
     this.setLinesD3Data();
     this.setLinesKeyFunction();
     this.setMarkersD3Data();
@@ -104,57 +93,41 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setValueArrays(): void {
-    this.values.x = map(this.config.data, this.config.x.valueAccessor);
-    this.values.y = map(this.config.data, this.config.y.valueAccessor);
-    this.values.category = map(
-      this.config.data,
-      this.config.category.valueAccessor
-    );
+    this.config.x.setValues(this.config.data);
+    this.config.y.setValues(this.config.data);
+    this.config.category.setValues(this.config.data);
+    // this.config.x.values = map(this.config.data, this.config.x.valueAccessor);
+    // this.config.y.values = map(this.config.data, this.config.y.valueAccessor);
+    // this.values.category = map(
+    //   this.config.data,
+    //   this.config.category.valueAccessor
+    // );
   }
 
-  initDomains(): void {
-    this.setUnpaddedDomains();
-    if (this.config.category.domain === undefined) {
-      this.config.category.domain = this.values.category;
-    }
-  }
-
-  setUnpaddedDomains(): void {
-    this.unpaddedDomain.x = QuantitativeDomainUtilities.getUnpaddedDomain(
-      this.config.x.domain,
-      this.values.x,
-      this.config.x.domainIncludesZero
-    );
-    this.unpaddedDomain.y = QuantitativeDomainUtilities.getUnpaddedDomain(
-      this.config.y.domain,
-      this.values.y,
-      this.config.y.domainIncludesZero
-    );
+  initDimensionsFromValues(): void {
+    this.config.x.setUnpaddedDomain();
+    this.config.y.setUnpaddedDomain();
+    this.config.category.initDomain();
+    this.config.category.initScale();
   }
 
   setValueIndicies(): void {
     const domainInternSet = new InternSet(this.config.category.domain);
-    this.values.indicies = range(this.values.x.length).filter((i) =>
+    this.values.indicies = range(this.config.x.values.length).filter((i) =>
       domainInternSet.has(this.values.category[i])
     );
-  }
-
-  initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
-    }
   }
 
   setLinesD3Data(): void {
     const definedIndices = this.values.indicies.filter(
       (i) =>
-        this.canBeDrawnByPath(this.values.x[i]) &&
-        this.canBeDrawnByPath(this.values.y[i])
+        this.canBeDrawnByPath(this.config.x.values[i]) &&
+        this.canBeDrawnByPath(this.config.y.values[i])
     );
-    this.linesD3Data = group(definedIndices, (i) => this.values.category[i]);
+    this.linesD3Data = group(
+      definedIndices,
+      (i) => this.config.category.values[i]
+    );
   }
 
   canBeDrawnByPath(x: unknown): boolean {
@@ -172,13 +145,13 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
       })
       .filter(
         (marker: Marker) =>
-          this.canBeDrawnByPath(this.values.x[marker.index]) &&
-          this.canBeDrawnByPath(this.values.y[marker.index])
+          this.canBeDrawnByPath(this.config.x.values[marker.index]) &&
+          this.canBeDrawnByPath(this.config.y.values[marker.index])
       );
   }
 
   getMarkerKey(i: number): string {
-    return `${this.values.category[i]}-${this.values.x[i]}`;
+    return `${this.values.category[i]}-${this.config.x.values[i]}`;
   }
 
   setMarkersKeyFunction(): void {
@@ -187,17 +160,9 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
 
   setPropertiesFromRanges(useTransition: boolean): void {
     const xDomain = this.unpaddedDomain.x;
-    const yDomain = this.config.y.domainPadding
-      ? QuantitativeDomainUtilities.getPaddedDomain(
-          this.unpaddedDomain.y,
-          this.config.y.domainPadding,
-          this.config.y.scaleFn,
-          this.ranges.y
-        )
-      : this.unpaddedDomain.y;
     const x = this.config.x.scaleFn().domain(xDomain).range(this.ranges.x);
-    const y = this.config.y.scaleFn().domain(yDomain).range(this.ranges.y);
-    const category = this.config.category.colorScale;
+    const y = this.config.y.getScaleFromRange(this.ranges.y);
+    const category = this.config.category.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
@@ -220,16 +185,16 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   setLine(): void {
     if (this.config.valueIsDefined === undefined) {
       this.config.valueIsDefined = (d, i) =>
-        this.canBeDrawnByPath(this.values.x[i]) &&
-        this.canBeDrawnByPath(this.values.y[i]);
+        this.canBeDrawnByPath(this.config.x.values[i]) &&
+        this.canBeDrawnByPath(this.config.y.values[i]);
     }
     const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
 
     this.line = line()
       .defined((i: any) => isDefinedValues[i] as boolean)
       .curve(this.config.curve)
-      .x((i: any) => this.scales.x(this.values.x[i]))
-      .y((i: any) => this.scales.y(this.values.y[i]));
+      .x((i: any) => this.scales.x(this.config.x.values[i]))
+      .y((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
   drawLines(transitionDuration: number): void {
@@ -279,8 +244,8 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
           .attr('key', (d) => d.key)
           .attr(this.markerIndexAttr, (d) => d.index)
           .style('mix-blend-mode', this.config.mixBlendMode)
-          .attr('cx', (d) => this.scales.x(this.values.x[d.index]))
-          .attr('cy', (d) => this.scales.y(this.values.y[d.index]))
+          .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
+          .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
           .attr('r', this.config.pointMarkers.radius)
           .attr('fill', (d) =>
             this.scales.category(this.values.category[d.index])
@@ -293,8 +258,8 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
           .call((update) =>
             update
               .transition(t as any)
-              .attr('cx', (d) => this.scales.x(this.values.x[d.index]))
-              .attr('cy', (d) => this.scales.y(this.values.y[d.index]))
+              .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
+              .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
           ),
       (exit) => exit.remove()
     );
@@ -314,8 +279,11 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
       .attr('class', 'vic-line-label')
       .attr('text-anchor', 'end')
       .attr('fill', (d) => this.scales.category(this.values.category[d.index]))
-      .attr('x', (d) => `${this.scales.x(this.values.x[d.index]) - 4}px`)
-      .attr('y', (d) => `${this.scales.y(this.values.y[d.index]) - 12}px`)
+      .attr('x', (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`)
+      .attr(
+        'y',
+        (d) => `${this.scales.y(this.config.y.values[d.index]) - 12}px`
+      )
       .text((d) => this.config.lineLabelsFormat(d.category));
   }
 }

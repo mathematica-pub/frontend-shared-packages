@@ -1,10 +1,8 @@
 import { curveLinear, schemeTableau10 } from 'd3';
-import {
-  VicCategoricalColorDimensionConfig,
-  VicDateDimensionConfig,
-  VicQuantitativeDimensionConfig,
-} from '../data-marks/data-dimension.config';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categorical-dimension';
+import { VicDateDimensionConfig } from '../data-marks/dimensions/date-dimension';
+import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
   /**
@@ -33,8 +31,8 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
-  category: VicCategoricalColorDimensionConfig<Datum> =
-    new VicCategoricalColorDimensionConfig();
+  category: VicCategoricalDimensionConfig<Datum, string> =
+    new VicCategoricalDimensionConfig();
 
   /**
    * A function that returns a boolean indicating whether a value in the data is defined.
@@ -94,7 +92,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
   constructor(init?: Partial<VicLinesConfig<Datum>>) {
     super();
     this.category.valueAccessor = () => undefined;
-    this.category.colors = schemeTableau10 as string[];
+    this.category.range = schemeTableau10 as string[];
     this.curve = curveLinear;
     this.lineLabelsFormat = (d: string) => d;
     this.pointerDetectionRadius = 80;
