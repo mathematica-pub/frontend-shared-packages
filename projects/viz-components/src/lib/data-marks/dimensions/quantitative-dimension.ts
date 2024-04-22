@@ -21,10 +21,16 @@ export class VicQuantitativeDimensionConfig<
     Object.assign(this, init);
   }
 
-  setUnpaddedDomain() {
+  setPropertiesFromData(data: Datum[]): void {
+    this.setValues(data);
+    this.setUnpaddedDomain();
+  }
+
+  setUnpaddedDomain(valuesOverride?: [number, number]) {
     const extents =
       this.domain === undefined
-        ? ([min(this.values), max(this.values)] as [number, number])
+        ? valuesOverride ||
+          ([min(this.values), max(this.values)] as [number, number])
         : this.domain;
     this.unpaddedDomain = this.getAdjustedDomain(
       extents,
@@ -33,7 +39,7 @@ export class VicQuantitativeDimensionConfig<
     this.setDomainIncludesZero();
   }
 
-  getAdjustedDomain(
+  private getAdjustedDomain(
     domain: [number, number],
     domainIncludesZero: boolean
   ): [number, number] {
@@ -42,7 +48,7 @@ export class VicQuantitativeDimensionConfig<
       : [domain[0], domain[1]];
   }
 
-  setDomainIncludesZero() {
+  private setDomainIncludesZero() {
     if (
       !this.domainIncludesZero &&
       this.unpaddedDomain[0] <= 0 &&
@@ -59,7 +65,9 @@ export class VicQuantitativeDimensionConfig<
     return this.scaleFn().domain(domain).range(range);
   }
 
-  getPaddedQuantitativeDomain(range: [number, number]): [number, number] {
+  private getPaddedQuantitativeDomain(
+    range: [number, number]
+  ): [number, number] {
     const domain = this.domainPadding.getPaddedDomain(
       this.unpaddedDomain,
       this.scaleFn,

@@ -69,7 +69,7 @@ describe('GeographiesComponent', () => {
     });
 
     it('calls initAttributeDataScaleDomain once', () => {
-      expect(component.initAttributeDataScale).toHaveBeenCalledTimes(1);
+      expect(component.initAttributeDataProperties).toHaveBeenCalledTimes(1);
     });
 
     it('calls initAttributeDataScaleRange once', () => {
@@ -112,7 +112,7 @@ describe('GeographiesComponent', () => {
         ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         const values = [];
         for (const item of component.config.dataGeographyConfig.attributeDataConfig.domain.values()) {
           values.push(item);
@@ -126,7 +126,7 @@ describe('GeographiesComponent', () => {
           'b',
           'a',
         ];
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         const values = [];
         for (const item of component.config.dataGeographyConfig.attributeDataConfig.domain.values()) {
           values.push(item);
@@ -148,7 +148,7 @@ describe('GeographiesComponent', () => {
         ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([1, 11]);
@@ -157,7 +157,7 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.domain = [
           0, 15,
         ];
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([0, 15]);
@@ -178,7 +178,7 @@ describe('GeographiesComponent', () => {
         ]);
       });
       it('sets the domain to the correct value', () => {
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([1, 3, 5, 9, 10, 11]);
@@ -199,7 +199,7 @@ describe('GeographiesComponent', () => {
         ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([1, 12]);
@@ -208,7 +208,7 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.domain = [
           0, 15,
         ];
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([0, 15]);
@@ -226,7 +226,7 @@ describe('GeographiesComponent', () => {
           ['Arizona', 1.2],
           ['Arkansas', 3.2],
         ]);
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           (
             component.config.dataGeographyConfig
@@ -247,7 +247,7 @@ describe('GeographiesComponent', () => {
           ['Arizona', 1.2],
           ['Arkansas', 3.2],
         ]);
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([0, 4]);
@@ -266,7 +266,7 @@ describe('GeographiesComponent', () => {
           ['Arkansas', 3],
           ['California', 4],
         ]);
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           (
             component.config.dataGeographyConfig
@@ -293,13 +293,13 @@ describe('GeographiesComponent', () => {
         ]);
       });
       it('sets the domain to the correct value', () => {
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([2, 4, 6, 8]);
       });
       it('sets the numBins to the correct value', () => {
-        component.initAttributeDataScale();
+        component.initAttributeDataProperties();
         expect(
           (
             component.config.dataGeographyConfig

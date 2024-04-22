@@ -16,13 +16,11 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
+import { VicDataGeographyConfig } from './dimensions/data-geographies';
+import { VicNoDataGeographyConfig } from './dimensions/no-data-geographies';
 import { VicGeographiesFeature } from './geographies';
 import { VicGeographyLabelConfig } from './geographies-labels';
-import {
-  VicDataGeographyConfig,
-  VicGeographiesConfig,
-  VicNoDataGeographyConfig,
-} from './geographies.config';
+import { VicGeographiesConfig } from './geographies.config';
 
 export class MapDataValues {
   attributeValuesByGeographyIndex: InternMap;
@@ -79,7 +77,7 @@ export class GeographiesComponent<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initAttributeDataScale();
+    this.initAttributeDataProperties();
     this.updateChartAttributeProperties();
   }
 
@@ -115,11 +113,10 @@ export class GeographiesComponent<
     );
   }
 
-  initAttributeDataScale(): void {
-    this.attributeDataConfig.setDomainAndBins(
+  initAttributeDataProperties(): void {
+    this.attributeDataConfig.setPropertiesFromData(
       Array.from(this.values.attributeValuesByGeographyIndex.values())
     );
-    this.attributeDataConfig.setRange();
   }
 
   setPropertiesFromRanges(): void {
@@ -141,10 +138,9 @@ export class GeographiesComponent<
   updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
-        scale:
-          this.config.dataGeographyConfig.attributeDataConfig.getColorScale(
-            this.config.dataGeographyConfig.nullColor
-          ),
+        scale: this.config.dataGeographyConfig.attributeDataConfig.getScale(
+          this.config.dataGeographyConfig.nullColor
+        ),
         config: this.config.dataGeographyConfig.attributeDataConfig,
       });
     });

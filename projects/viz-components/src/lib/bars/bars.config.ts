@@ -26,7 +26,7 @@ export class VicBarsConfig<
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.domainIncludesZero = true;
-    this.category.colors = ['lightslategray'];
+    this.category.range = ['lightslategray'];
     Object.assign(this, init);
   }
 }

@@ -23,6 +23,7 @@ import {
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
 import {
   VicColumnConfig,
   VicDataExportConfig,
@@ -34,7 +35,6 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

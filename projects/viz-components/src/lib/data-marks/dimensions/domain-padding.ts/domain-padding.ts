@@ -1,5 +1,4 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { DomainExtent } from '../../../core/utilities/quantitative-domain';
 import { VicPercentOverDomainPaddingConfig } from './percent-over-padding';
 import { VicPixelDomainPaddingConfig } from './pixel-padding';
 import { VicRoundUpToIntervalDomainPaddingConfig } from './round-to-interval-padding';
@@ -11,6 +10,8 @@ export enum DomainPadding {
   percentOver = 'percentOver',
   numPixels = 'numPixels',
 }
+
+export type DomainExtent = 'max' | 'min';
 
 export type VicDomainPaddingConfig =
   | VicRoundUpDomainPaddingConfig
@@ -71,7 +72,7 @@ export abstract class DomainPaddingConfig {
     return [domainMin, domainMax];
   }
 
-  getPaddedDomainForPositiveAndNegativeValues(
+  protected getPaddedDomainForPositiveAndNegativeValues(
     domainMinArgs: PaddedDomainArguments,
     domainMaxArgs: PaddedDomainArguments,
     ...args: any

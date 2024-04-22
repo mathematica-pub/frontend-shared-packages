@@ -20,11 +20,20 @@ export class VicDateDimensionConfig<Datum> extends VicDataDimensionConfig<
     Object.assign(this, init);
   }
 
-  setUnpaddedDomain() {
+  setPropertiesFromData(data: Datum[]): void {
+    this.setValues(data);
+    this.setUnpaddedDomain();
+  }
+
+  private setUnpaddedDomain() {
     const extents =
       this.domain === undefined
         ? ([min(this.values), max(this.values)] as [Date, Date])
         : this.domain;
     this.unpaddedDomain = extents;
+  }
+
+  getScaleFromRange(range: [number, number]) {
+    return this.scaleFn().domain(this.unpaddedDomain).range(range);
   }
 }

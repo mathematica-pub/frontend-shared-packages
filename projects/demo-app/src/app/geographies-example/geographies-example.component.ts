@@ -3,8 +3,10 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
+import { VicEqualValuesAttributeDataDimensionConfig } from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
+import { VicNoDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
-import { VicEqualValuesAttributeDataDimensionConfig } from 'projects/viz-components/src/lib/geographies/geographies-attribute-data';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
 import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
@@ -12,11 +14,7 @@ import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geogr
 import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
 import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
-import {
-  VicDataGeographyConfig,
-  VicGeographiesConfig,
-  VicNoDataGeographyConfig,
-} from 'projects/viz-components/src/lib/geographies/geographies.config';
+import { VicGeographiesConfig } from 'projects/viz-components/src/lib/geographies/geographies.config';
 import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,

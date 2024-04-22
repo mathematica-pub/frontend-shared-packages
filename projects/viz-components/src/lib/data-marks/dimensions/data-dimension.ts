@@ -10,7 +10,10 @@ export enum VicDimension {
 
 export type VicDataValue = number | string | Date;
 
-export class VicDataDimensionConfig<Datum, ValueType extends VicDataValue> {
+export abstract class VicDataDimensionConfig<
+  Datum,
+  ValueType extends VicDataValue
+> {
   values: ValueType[];
   valueAccessor: (d: Datum, ...args: any) => ValueType;
   domain?: ValueType[];
@@ -19,7 +22,9 @@ export class VicDataDimensionConfig<Datum, ValueType extends VicDataValue> {
     Object.assign(this, init);
   }
 
-  setValues(data: Datum[]): void {
+  abstract setPropertiesFromData(data: Datum[], ...args: any): void;
+
+  protected setValues(data: Datum[]): void {
     this.values = map(data, this.valueAccessor);
   }
 }

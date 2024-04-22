@@ -1,0 +1,35 @@
+import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { VicGeographiesFeature } from '../geographies';
+import { VicBaseDataGeographyConfig } from '../geographies.config';
+
+export class VicNoDataGeographyConfig<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
+  /**
+   * The pattern for noDataGeography. If provided, fill will be overridden.
+   */
+  patternPredicates?: VicGeographyNoDataPatternPredicate<
+    TProperties,
+    TGeometry
+  >[];
+
+  constructor(
+    init?: Partial<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>
+  ) {
+    super();
+    this.strokeColor = 'dimgray';
+    this.strokeWidth = '1';
+    this.fill = 'none';
+    Object.assign(this, init);
+  }
+}
+
+export interface VicGeographyNoDataPatternPredicate<
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+> {
+  patternName: string;
+  predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
+}

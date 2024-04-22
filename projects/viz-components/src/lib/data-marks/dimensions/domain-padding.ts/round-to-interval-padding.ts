@@ -3,7 +3,7 @@ import {
   DomainPadding,
   DomainPaddingConfig,
   PaddedDomainArguments,
-} from '../data-domain-padding';
+} from './domain-padding';
 
 export class VicRoundUpToIntervalDomainPaddingConfig extends DomainPaddingConfig {
   type: DomainPadding.roundInterval = DomainPadding.roundInterval;
@@ -15,7 +15,7 @@ export class VicRoundUpToIntervalDomainPaddingConfig extends DomainPaddingConfig
     Object.assign(this, init);
   }
 
-  getPaddedDomainValue(args: PaddedDomainArguments): number {
+  getPaddedValue(args: PaddedDomainArguments): number {
     return ValueUtilities.getValueRoundedToInterval(
       args.value,
       this.interval(args.value),

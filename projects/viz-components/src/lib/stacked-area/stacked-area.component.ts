@@ -7,14 +7,12 @@ import {
 } from '@angular/core';
 import {
   InternMap,
-  InternSet,
   SeriesPoint,
   Transition,
   area,
   extent,
   range,
   rollup,
-  scaleOrdinal,
   select,
   stack,
 } from 'd3';
@@ -60,35 +58,21 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initDimensionsFromValues();
     this.setValueIndicies();
     this.setSeries();
-    this.initYDomain();
-    this.initCategoryScale();
+    this.initYDomainFromStack();
   }
 
   setValueArrays(): void {
-    this.config.x.setValues(this.config.data);
-    this.config.y.setValues(this.config.data);
-    this.config.category.setValues(this.config.data);
+    this.config.x.setPropertiesFromData(this.config.data);
+    this.config.y.setPropertiesFromData(this.config.data);
+    this.config.category.setPropertiesFromData(this.config.data);
     // this.values.x = map(this.config.data, this.config.x.valueAccessor);
     // this.values.y = map(this.config.data, this.config.y.valueAccessor);
     // this.values.category = map(
     //   this.config.data,
     //   this.config.category.valueAccessor
     // );
-  }
-
-  initDimensionsFromValues(): void {
-    if (this.config.x.domain === undefined) {
-      this.config.x.domain = extent(this.values.x);
-    }
-    if (this.config.category.domain === undefined) {
-      this.config.category.domain = this.values.category;
-    }
-    this.config.category.domain = [
-      ...new InternSet(this.config.category.domain),
-    ];
   }
 
   setValueIndicies(): void {
@@ -123,26 +107,15 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
       );
   }
 
-  initYDomain(): void {
+  initYDomainFromStack(): void {
     if (this.config.y.domain === undefined) {
-      this.config.y.domain = extent(this.series.flat(2));
-      this.config.y.domain[0] = Math.floor(this.config.y.domain[0]);
-      this.config.y.domain[1] = Math.ceil(this.config.y.domain[1]);
-    }
-  }
-
-  initCategoryScale(): void {
-    if (this.config.category.scale === undefined) {
-      this.config.category.scale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
+      this.config.y.setUnpaddedDomain(extent(this.series.flat(2)));
     }
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
-    const x = this.config.x.scaleFn(this.config.x.domain, this.ranges.x);
-    const y = this.config.y.scaleFn(this.config.y.domain, this.ranges.y);
+    const x = this.config.x.getScaleFromRange(this.ranges.x);
+    const y = this.config.y.getScaleFromRange(this.ranges.y);
     const category = this.config.category.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });

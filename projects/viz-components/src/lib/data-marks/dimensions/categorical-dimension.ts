@@ -23,14 +23,20 @@ export class VicCategoricalDimensionConfig<
     Object.assign(this, init);
   }
 
-  initDomain(): void {
+  setPropertiesFromData(data: Datum[]): void {
+    this.setValues(data);
+    this.initDomain();
+    this.initScale();
+  }
+
+  private initDomain(): void {
     if (this.domain === undefined) {
       this.domain = this.values;
     }
     this.domain = [...new InternSet(this.domain)];
   }
 
-  initScale(): void {
+  private initScale(): void {
     if (this.scale === undefined) {
       this.scale = scaleOrdinal([...new InternSet(this.domain)], this.range);
     }

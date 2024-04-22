@@ -24,7 +24,7 @@ import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const BARS = new InjectionToken<BarsComponent<unknown, unknown>>(
+export const BARS = new InjectionToken<BarsComponent<unknown, VicDataValue>>(
   'BarsComponent'
 );
 
@@ -80,27 +80,22 @@ export class BarsComponent<
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initDimensionsFromValues();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.setBarsKeyFunction();
   }
 
   setValueArrays(): void {
-    this.config.quantitative.setValues(this.config.data);
-    this.config.ordinal.setValues(this.config.data);
-    this.config.category.setValues(this.config.data);
+    this.config.quantitative.setPropertiesFromData(this.config.data);
+    this.config.ordinal.setPropertiesFromData(
+      this.config.data,
+      this.config.dimensions.ordinal === 'y'
+    );
+    this.config.category.setPropertiesFromData(this.config.data);
     this.values[this.config.dimensions.ordinal] = this.config.ordinal.values;
     this.values[this.config.dimensions.quantitative] =
       this.config.quantitative.values;
     this.values.category = this.config.category.values;
-  }
-
-  initDimensionsFromValues(): void {
-    this.config.category.initDomain();
-    this.config.ordinal.initDomain(this.config.dimensions.ordinal === 'y');
-    this.config.quantitative.setUnpaddedDomain();
-    this.config.category.initScale();
   }
 
   setHasBarsWithNegativeValues(): void {
@@ -143,7 +138,7 @@ export class BarsComponent<
       this.config.dimensions.ordinal === 'x' ? ordinalScale : quantitativeScale;
     const y =
       this.config.dimensions.ordinal === 'x' ? quantitativeScale : ordinalScale;
-    const category = this.config.category.colorScale;
+    const category = this.config.category.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });

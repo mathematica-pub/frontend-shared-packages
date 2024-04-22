@@ -48,7 +48,7 @@ describe('StackedAreaComponent', () => {
     });
 
     it('calls initYDomain once', () => {
-      expect(component.initYDomain).toHaveBeenCalledTimes(1);
+      expect(component.initYDomainFromStack).toHaveBeenCalledTimes(1);
     });
 
     it('calls initCategoryScale once', () => {

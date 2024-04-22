@@ -11,6 +11,7 @@ import {
   VicHorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -19,16 +20,13 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import {
-  BarsHoverMoveEmitTooltipData,
-  VicPixelDomainPaddingConfig,
-} from 'projects/viz-components/src/public-api';
+import { BarsHoverMoveEmitTooltipData } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicBarsConfig<MetroUnemploymentDatum>;
+  dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
 }
@@ -60,15 +58,18 @@ export class BarsExampleComponent implements OnInit {
       new VicHtmlTooltipConfig(new BarsExampleTooltipConfig())
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum>>(null);
+  tooltipData: BehaviorSubject<
+    VicBarsEventOutput<MetroUnemploymentDatum, string>
+  > = new BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum, string>>(
+    null
+  );
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveEffects: HoverMoveEventEffect<
-    BarsHoverMoveDirective<MetroUnemploymentDatum>
+    BarsHoverMoveDirective<MetroUnemploymentDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
-  hoverEffects: EventEffect<BarsHoverDirective<MetroUnemploymentDatum>>[] = [
-    new BarsHoverShowLabels(),
-  ];
+  hoverEffects: EventEffect<
+    BarsHoverDirective<MetroUnemploymentDatum, string>
+  >[] = [new BarsHoverShowLabels()];
 
   constructor(private dataService: DataService) {}
 
@@ -86,7 +87,7 @@ export class BarsExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '.0f';
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum>();
+    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum, string>();
     dataConfig.labels = new VicBarsLabelsConfig();
     dataConfig.labels.display = false;
     dataConfig.quantitative.valueFormat = (d: any) => {
@@ -109,17 +110,21 @@ export class BarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicBarsEventOutput<MetroUnemploymentDatum>
+    data: VicBarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: VicBarsEventOutput<MetroUnemploymentDatum>): void {
+  updateTooltipData(
+    data: VicBarsEventOutput<MetroUnemploymentDatum, string>
+  ): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: VicBarsEventOutput<MetroUnemploymentDatum>): void {
+  updateTooltipConfig(
+    data: VicBarsEventOutput<MetroUnemploymentDatum, string>
+  ): void {
     const config = new BarsExampleTooltipConfig();
     config.position = new VicHtmlTooltipOffsetFromOriginPosition();
     if (data) {

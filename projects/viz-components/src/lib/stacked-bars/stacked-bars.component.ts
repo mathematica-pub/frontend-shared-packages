@@ -38,7 +38,6 @@ export class StackedBarsComponent<
 
   override setPropertiesFromConfig(): void {
     this.setValueArrays();
-    this.initDimensionsFromValues();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.constructStackedData();

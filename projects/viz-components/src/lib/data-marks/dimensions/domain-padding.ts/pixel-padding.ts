@@ -33,7 +33,7 @@ export class VicPixelDomainPaddingConfig extends DomainPaddingConfig {
     return scale.invert(targetVal);
   }
 
-  override getPaddedDomainForPositiveAndNegativeValues(
+  protected override getPaddedDomainForPositiveAndNegativeValues(
     domainMinArgs: PaddedDomainArguments,
     domainMaxArgs: PaddedDomainArguments,
     unpaddedDomain: [number, number],

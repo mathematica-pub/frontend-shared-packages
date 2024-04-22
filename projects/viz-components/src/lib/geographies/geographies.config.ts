@@ -13,14 +13,9 @@ import {
   Polygon,
 } from 'geojson';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicDataGeographyConfig } from './dimensions/data-geographies';
+import { VicNoDataGeographyConfig } from './dimensions/no-data-geographies';
 import { VicGeographiesFeature } from './geographies';
-import {
-  VicCategoricalAttributeDataDimensionConfig,
-  VicCustomBreaksAttributeDataDimensionConfig,
-  VicEqualNumbersAttributeDataDimensionConfig,
-  VicEqualValuesAttributeDataDimensionConfig,
-  VicNoBinsAttributeDataDimensionConfig,
-} from './geographies-attribute-data';
 import { VicGeographyLabelConfig } from './geographies-labels';
 
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
@@ -114,65 +109,4 @@ export class VicBaseDataGeographyConfig<
    * If not defined, no labels will be drawn.
    */
   labels: VicGeographyLabelConfig<Datum, TProperties, TGeometry>;
-}
-
-/**
- * Configuration object for geographies that have attribute data.
- *
- * The generic parameters are the same as those in VicGeographiesConfig.
- */
-export class VicDataGeographyConfig<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
-  attributeDataConfig:
-    | VicCategoricalAttributeDataDimensionConfig<Datum>
-    | VicNoBinsAttributeDataDimensionConfig<Datum>
-    | VicEqualValuesAttributeDataDimensionConfig<Datum>
-    | VicEqualNumbersAttributeDataDimensionConfig<Datum>
-    | VicCustomBreaksAttributeDataDimensionConfig<Datum>;
-  nullColor: string;
-
-  constructor(
-    init?: Partial<VicDataGeographyConfig<Datum, TProperties, TGeometry>>
-  ) {
-    super();
-    this.nullColor = '#dcdcdc';
-    this.strokeColor = 'dimgray';
-    this.strokeWidth = '1';
-    Object.assign(this, init);
-  }
-}
-
-export interface VicGeographyNoDataPatternPredicate<
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
-> {
-  patternName: string;
-  predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
-}
-
-export class VicNoDataGeographyConfig<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
-  /**
-   * The pattern for noDataGeography. If provided, fill will be overridden.
-   */
-  patternPredicates?: VicGeographyNoDataPatternPredicate<
-    TProperties,
-    TGeometry
-  >[];
-
-  constructor(
-    init?: Partial<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>
-  ) {
-    super();
-    this.strokeColor = 'dimgray';
-    this.strokeWidth = '1';
-    this.fill = 'none';
-    Object.assign(this, init);
-  }
 }

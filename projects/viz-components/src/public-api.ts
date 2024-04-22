@@ -31,7 +31,6 @@ export * from './lib/chart/chart.module';
 export * from './lib/chart/chart.token';
 export * from './lib/core/types/layout';
 export * from './lib/core/types/values';
-export * from './lib/core/utilities/quantitative-domain';
 export * from './lib/data-marks/data-marks';
 export * from './lib/data-marks/data-marks-base';
 export * from './lib/data-marks/data-marks.config';

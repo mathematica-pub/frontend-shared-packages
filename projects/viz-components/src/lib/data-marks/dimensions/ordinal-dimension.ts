@@ -27,7 +27,12 @@ export class VicOrdinalDimensionConfig<
     Object.assign(this, init);
   }
 
-  initDomain(reverseDomain: boolean): void {
+  setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
+    this.setValues(data);
+    this.initDomain(reverseDomain);
+  }
+
+  private initDomain(reverseDomain: boolean): void {
     if (this.domain === undefined) {
       this.domain = this.values;
     }

@@ -2,6 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { Observable } from 'rxjs';
+import { VicDataValue } from '../../public-api';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
 import { BARS, BarsComponent } from './bars.component';
@@ -11,17 +12,21 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsInputEventDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
+  TOrdinalValue extends VicDataValue,
+  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+    Datum,
+    TOrdinalValue
+  >
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsInputEventEffects')
   effects: InputEventEffect<
-    BarsInputEventDirective<Datum, ExtendedBarsComponent>
+    BarsInputEventDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
   @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
   @Output('vicBarsInputEventOutput') eventOutput = new EventEmitter<any>();
 
-  constructor(@Inject(BARS) public bars: BarsComponent<Datum>) {
+  constructor(@Inject(BARS) public bars: BarsComponent<Datum, TOrdinalValue>) {
     super();
   }
 

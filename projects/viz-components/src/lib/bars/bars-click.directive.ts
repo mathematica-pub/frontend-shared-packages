@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { select } from 'd3';
 import { Observable, filter, takeUntil } from 'rxjs';
+import { VicDataValue } from '../../public-api';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { BarsEventDirective } from './bars-event-directive';
@@ -26,14 +27,20 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsClickDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
+  TOrdinalValue extends VicDataValue,
+  TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
+    Datum,
+    TOrdinalValue
+  >
 > extends ClickDirective {
   @Input('vicBarsClickEffects')
-  effects: EventEffect<BarsClickDirective<Datum, ExtendedBarsComponent>>[];
+  effects: EventEffect<
+    BarsClickDirective<Datum, TOrdinalValue, TBarsComponent>
+  >[];
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
-    VicBarsEventOutput<Datum>
+    VicBarsEventOutput<Datum, TOrdinalValue>
   >();
   barIndex: number;
   elRef: ElementRef;
@@ -41,21 +48,27 @@ export class BarsClickDirective<
   pointerY: number;
 
   constructor(
-    @Inject(BARS) public bars: ExtendedBarsComponent,
+    @Inject(BARS) public bars: TBarsComponent,
     @Self()
     @Optional()
-    public hoverDirective?: BarsHoverDirective<Datum, ExtendedBarsComponent>,
+    public hoverDirective?: BarsHoverDirective<
+      Datum,
+      TOrdinalValue,
+      TBarsComponent
+    >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: BarsHoverMoveDirective<
       Datum,
-      ExtendedBarsComponent
+      TOrdinalValue,
+      TBarsComponent
     >,
     @Self()
     @Optional()
     public inputEventDirective?: BarsInputEventDirective<
       Datum,
-      ExtendedBarsComponent
+      TOrdinalValue,
+      TBarsComponent
     >
   ) {
     super();
@@ -92,7 +105,7 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput<Datum> {
+  getEventOutput(): VicBarsEventOutput<Datum, TOrdinalValue> {
     const data = getBarsTooltipData(this.barIndex, this.elRef, this.bars);
     const extras = {
       positionX: this.pointerX,
@@ -128,7 +141,7 @@ export class BarsClickDirective<
   }
 
   disableEffect(
-    directive: BarsEventDirective<Datum, ExtendedBarsComponent>
+    directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>
   ): void {
     if (directive) {
       directive.preventEffect = true;
@@ -136,7 +149,7 @@ export class BarsClickDirective<
   }
 
   enableEffect(
-    directive: BarsEventDirective<Datum, ExtendedBarsComponent>,
+    directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>,
     removeEffects: boolean
   ): void {
     if (directive) {
