@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
+import { VicDataValue } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicGroupedBarsConfig } from './grouped-bars.config';
 
@@ -18,10 +19,16 @@ import { VicGroupedBarsConfig } from './grouped-bars.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
-export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
+export class GroupedBarsComponent<
+  Datum,
+  TOrdinalValue extends VicDataValue
+> extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicGroupedBarsConfig<Datum>;
-  override config: VicGroupedBarsConfig<Datum>;
+  @Input('config') override userConfig: VicGroupedBarsConfig<
+    Datum,
+    TOrdinalValue
+  >;
+  override config: VicGroupedBarsConfig<Datum, TOrdinalValue>;
   groupScale: any;
 
   override setValueIndicies(): void {

@@ -23,6 +23,7 @@ import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
+import { VicDataValue } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
@@ -66,10 +67,10 @@ export type BarLabelSelection = Selection<
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class BarsComponent<Datum> extends XyDataMarksBase<
+export class BarsComponent<
   Datum,
-  VicBarsConfig<Datum>
-> {
+  TOrdinalValue extends VicDataValue
+> extends XyDataMarksBase<Datum, VicBarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
   hasBarsWithNegativeValues: boolean;
@@ -120,15 +121,17 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       this.config.dimensions.ordinal === 'x'
         ? this.config.ordinal.domain
         : (this.config.ordinal.domain as any[]).slice().reverse();
-    this.config.ordinal.domain = new InternSet(ordinalDomain);
-    this.config.category.domain = new InternSet(this.config.category.domain);
+    this.config.ordinal.domain = [...new InternSet(ordinalDomain)];
+    this.config.category.domain = [
+      ...new InternSet(this.config.category.domain),
+    ];
   }
 
   setValueIndicies(): void {
     this.values.indicies = range(
       this.values[this.config.dimensions.ordinal].length
     ).filter((i) =>
-      (this.config.ordinal.domain as InternSet).has(
+      this.config.ordinal.domain.includes(
         this.values[this.config.dimensions.ordinal][i]
       )
     );

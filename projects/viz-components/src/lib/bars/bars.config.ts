@@ -1,5 +1,6 @@
 import {
   VicCategoricalColorDimensionConfig,
+  VicDataValue,
   VicOrdinalDimensionConfig,
   VicQuantitativeDimensionConfig,
 } from '../data-marks/data-dimension.config';
@@ -8,8 +9,12 @@ import {
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
 
-export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
-  ordinal: VicOrdinalDimensionConfig<Datum> = new VicOrdinalDimensionConfig();
+export class VicBarsConfig<
+  Datum,
+  TOrdinalValue extends VicDataValue
+> extends VicDataMarksConfig<Datum> {
+  ordinal: VicOrdinalDimensionConfig<Datum, TOrdinalValue> =
+    new VicOrdinalDimensionConfig();
   quantitative: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
   category: VicCategoricalColorDimensionConfig<Datum> =
@@ -18,12 +23,11 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
   labels: VicBarsLabelsConfig<Datum>;
   patternPredicates?: VicPatternPredicate<Datum>[];
 
-  constructor(init?: Partial<VicBarsConfig<Datum>>) {
+  constructor(init?: Partial<VicBarsConfig<Datum, TOrdinalValue>>) {
     super();
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.domainIncludesZero = true;
-    this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];
     Object.assign(this, init);
   }

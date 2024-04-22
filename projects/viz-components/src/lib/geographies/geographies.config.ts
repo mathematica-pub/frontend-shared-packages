@@ -1,17 +1,10 @@
 import {
-  ColorCommonInstance,
   ExtendedFeature,
   ExtendedFeatureCollection,
   ExtendedGeometryCollection,
   geoAlbersUsa,
   GeoGeometryObjects,
   GeoProjection,
-  interpolateLab,
-  scaleLinear,
-  scaleOrdinal,
-  scaleQuantile,
-  scaleQuantize,
-  scaleThreshold,
 } from 'd3';
 import {
   GeoJsonProperties,
@@ -19,16 +12,15 @@ import {
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { GenericScale } from '../core/types/scale';
-import {
-  VicDataDimensionConfig,
-  VicDataValue,
-} from '../data-marks/data-dimension.config';
-import {
-  VicDataMarksConfig,
-  VicPatternPredicate,
-} from '../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import { VicGeographiesFeature } from './geographies';
+import {
+  VicCategoricalAttributeDataDimensionConfig,
+  VicCustomBreaksAttributeDataDimensionConfig,
+  VicEqualNumbersAttributeDataDimensionConfig,
+  VicEqualValuesAttributeDataDimensionConfig,
+  VicNoBinsAttributeDataDimensionConfig,
+} from './geographies-attribute-data';
 import { VicGeographyLabelConfig } from './geographies-labels';
 
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
@@ -136,10 +128,10 @@ export class VicDataGeographyConfig<
 > extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
   attributeDataConfig:
     | VicCategoricalAttributeDataDimensionConfig<Datum>
-    | VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
-    | VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
-    | VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
-    | VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>;
+    | VicNoBinsAttributeDataDimensionConfig<Datum>
+    | VicEqualValuesAttributeDataDimensionConfig<Datum>
+    | VicEqualNumbersAttributeDataDimensionConfig<Datum>
+    | VicCustomBreaksAttributeDataDimensionConfig<Datum>;
   nullColor: string;
 
   constructor(
@@ -150,160 +142,6 @@ export class VicDataGeographyConfig<
     this.strokeColor = 'dimgray';
     this.strokeWidth = '1';
     Object.assign(this, init);
-  }
-}
-
-/**
- * Configuration object for attribute data that will be used to shade the map.
- *
- * The generic parameter is the type of the attribute data.
- */
-abstract class AttributeDataDimensionConfig<
-  Datum,
-  AttributeValue extends VicDataValue
-> extends VicDataDimensionConfig<Datum, AttributeValue> {
-  geoAccessor: (d: Datum, ...args: any) => AttributeValue;
-  range: string[];
-  colorScale: (...args: any) => GenericScale<AttributeValue, string>;
-  colors?: string[];
-  interpolator: (
-    a: string | ColorCommonInstance,
-    b: string | ColorCommonInstance
-  ) => (t: number) => string;
-  patternPredicates?: VicPatternPredicate<Datum>[];
-}
-
-/**
- * Enum that defines the types of binning that can be used to map quantitative attribute data to colors.
- */
-export enum VicValuesBin {
-  none = 'none',
-  categorical = 'categorical',
-  equalValueRanges = 'equalValueRanges',
-  equalNumObservations = 'equalNumObservations',
-  customBreaks = 'customBreaks',
-}
-
-export type VicAttributeDataDimensionConfig<Datum> =
-  | VicCategoricalAttributeDataDimensionConfig<Datum>
-  | VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
-  | VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
-  | VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
-  | VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>;
-
-/**
- * Configuration object for attribute data that is categorical.
- *
- * The generic parameter is the type of the attribute data.
- */
-export class VicCategoricalAttributeDataDimensionConfig<
-  Datum
-> extends AttributeDataDimensionConfig<Datum, string> {
-  binType: VicValuesBin.categorical = VicValuesBin.categorical;
-  override interpolator: never;
-
-  constructor(
-    init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
-  ) {
-    super();
-    this.colorScale = scaleOrdinal;
-    this.colors = ['white', 'lightslategray'];
-    Object.assign(this, init);
-  }
-}
-
-/**
- * Configuration object for attribute data that is quantitative.
- *
- * The generic parameter is the type of the attribute data.
- */
-export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
-  Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
-  binType: VicValuesBin.none = VicValuesBin.none;
-
-  constructor(
-    init?: Partial<VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>>
-  ) {
-    super();
-    this.colorScale = scaleLinear;
-    this.interpolator = interpolateLab;
-    Object.assign(this, init);
-  }
-}
-
-/**
- * Configuration object for attribute data that is quantitative and will be binned into equal value ranges. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 49] and [50, 100].
- *
- * The generic parameter is the type of the attribute data.
- */
-export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
-  Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
-  binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
-  numBins: number;
-
-  constructor(
-    init?: Partial<
-      VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
-    >
-  ) {
-    super();
-    this.colorScale = scaleQuantize;
-    this.interpolator = interpolateLab;
-    this.numBins = 5;
-    Object.assign(this, init);
-  }
-}
-
-/**
- * Configuration object for attribute data that is quantitative and will be binned into equal number of observations. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 2] and [4, 100].
- *
- * The generic parameter is the type of the attribute data.
- */
-export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
-  Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
-  binType: VicValuesBin.equalNumObservations =
-    VicValuesBin.equalNumObservations;
-  numBins: number;
-
-  constructor(
-    init?: Partial<
-      VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
-    >
-  ) {
-    super();
-    this.colorScale = scaleQuantile;
-    this.interpolator = interpolateLab;
-    this.numBins = 5;
-    Object.assign(this, init);
-  }
-}
-
-/**
- * Configuration object for attribute data that is quantitative and will be binned into custom breaks. For example, if the data is [0, 1, 2, 4, 60, 100] and breakValues is [0, 2, 5, 10, 50], the bin ranges will be [0, 2], [2, 5], [5, 10], [10, 50], [50, 100].
- *
- * The generic parameter is the type of the attribute data.
- */
-
-export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
-  Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
-  binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
-  breakValues: number[];
-  numBins: number;
-
-  constructor(
-    init?: Partial<
-      VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>
-    >
-  ) {
-    super();
-    this.colorScale = scaleThreshold;
-    this.interpolator = interpolateLab;
-    Object.assign(this, init);
-    this.numBins = undefined;
   }
 }
 

@@ -7,6 +7,7 @@ import {
 import { InternMap, SeriesPoint, Transition, range, rollup, select } from 'd3';
 import { stack } from 'd3-shape';
 import { BarsComponent } from '../bars/bars.component';
+import { VicDataValue } from '../data-marks/data-dimension.config';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicStackedBarsConfig } from './stacked-bars.config';
 
@@ -23,10 +24,16 @@ export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
 })
-export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
+export class StackedBarsComponent<
+  Datum,
+  TOrdinalValue extends VicDataValue
+> extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicStackedBarsConfig<Datum>;
-  override config: VicStackedBarsConfig<Datum>;
+  @Input('config') override userConfig: VicStackedBarsConfig<
+    Datum,
+    TOrdinalValue
+  >;
+  override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
   stackedData: VicStackDatum[][];
 
   override setPropertiesFromConfig(): void {

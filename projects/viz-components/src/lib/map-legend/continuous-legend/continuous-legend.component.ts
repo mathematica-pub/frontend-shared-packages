@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { VicOrientation } from '../../core/types/layout';
-import { VicNoBinsQuantitativeAttributeDataDimensionConfig } from '../../geographies/geographies.config';
+import { VicNoBinsAttributeDataDimensionConfig } from '../../geographies/geographies-attribute-data';
 import { MapLegendContent } from '../map-legend-content';
 
 /**
@@ -13,10 +13,7 @@ import { MapLegendContent } from '../map-legend-content';
   styleUrls: ['./continuous-legend.component.scss'],
 })
 export class ContinuousLegendComponent<Datum>
-  extends MapLegendContent<
-    Datum,
-    VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
-  >
+  extends MapLegendContent<Datum, VicNoBinsAttributeDataDimensionConfig<Datum>>
   implements OnChanges
 {
   @ViewChild('canvas', { static: true })

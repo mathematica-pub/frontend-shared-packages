@@ -4,6 +4,7 @@ import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
+import { VicEqualValuesAttributeDataDimensionConfig } from 'projects/viz-components/src/lib/geographies/geographies-attribute-data';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
 import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
@@ -13,7 +14,6 @@ import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import {
   VicDataGeographyConfig,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/lib/geographies/geographies.config';
@@ -133,22 +133,21 @@ export class GeographiesExampleComponent implements OnInit {
       MapGeometryProperties
     >();
     config.geographies = this.getDataGeographyFeatures(data);
-    config.attributeDataConfig =
-      new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
-    config.attributeDataConfig.geoAccessor = (d) => d.state;
-    config.attributeDataConfig.valueAccessor = (d) => d.income;
-    config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
-    config.attributeDataConfig.colors = [
-      colors.white,
-      colors.highlight.default,
-    ];
-    config.attributeDataConfig.numBins = 6;
-    config.attributeDataConfig.patternPredicates = [
+    config.attributeDataConfig = new VicEqualValuesAttributeDataDimensionConfig(
       {
-        patternName: this.patternName,
-        predicate: (d) => !!d && d.population < 1000000,
-      },
-    ];
+        geoAccessor: (d) => d.state,
+        valueAccessor: (d) => d.income,
+        valueFormat: `$${valueFormat.integer}`,
+        colors: [colors.white, colors.highlight.default],
+        numBins: 6,
+        patternPredicates: [
+          {
+            patternName: this.patternName,
+            predicate: (d) => !!d && d.population < 1000000,
+          },
+        ],
+      }
+    );
     config.labels = this.getGeographyLabelConfig();
     return config;
   }
