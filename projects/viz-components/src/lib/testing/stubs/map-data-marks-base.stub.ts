@@ -11,7 +11,7 @@ export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
   override setPropertiesFromRanges(useTransition: boolean): void {
     return;
   }
-  override setValueArrays(): void {
+  override setDimensionPropertiesFromData(): void {
     return;
   }
   drawMarks(): void {

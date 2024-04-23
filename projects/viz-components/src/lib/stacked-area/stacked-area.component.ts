@@ -61,13 +61,13 @@ export class StackedAreaComponent<
   }
 
   setPropertiesFromConfig(): void {
-    this.setValueArrays();
+    this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setSeries();
     this.initQuantitativeDomainFromStack();
   }
 
-  setValueArrays(): void {
+  setDimensionPropertiesFromData(): void {
     this.config.x.setPropertiesFromData(this.config.data);
     this.config.y.setPropertiesFromData(this.config.data);
     this.config.category.setPropertiesFromData(this.config.data);

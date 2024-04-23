@@ -1,7 +1,7 @@
 import { format, timeFormat } from 'd3';
 import { isDate } from '../core/utilities/type-guards';
 
-export type VicFormatSpecifier = string | ((x: unknown) => string);
+export type VicFormatSpecifier<T> = string | ((x: T) => string);
 
 export interface VicValueFormats {
   integer: string;
@@ -25,9 +25,9 @@ export const valueFormat: VicValueFormats = {
   monthFullYear: '%B %Y',
 };
 
-export function formatValue(
+export function formatValue<T>(
   value: any,
-  formatSpecifier: VicFormatSpecifier
+  formatSpecifier: VicFormatSpecifier<T>
 ): string {
   if (formatSpecifier && typeof formatSpecifier === 'function') {
     return formatSpecifier(value);

@@ -5,7 +5,11 @@ import { StackedAreaInputEventDirective } from './stacked-area-input-event.direc
 import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 
 describe('StackedAreaInputDirective', () => {
-  let directive: StackedAreaInputEventDirective<any, StackedAreaComponent<any>>;
+  let directive: StackedAreaInputEventDirective<
+    any,
+    string,
+    StackedAreaComponent<any, string>
+  >;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,7 +21,13 @@ describe('StackedAreaInputDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(StackedAreaInputEventDirective);
+    directive = TestBed.inject(
+      StackedAreaInputEventDirective<
+        any,
+        string,
+        StackedAreaComponent<any, string>
+      >
+    );
   });
 
   describe('handleNewEvent', () => {

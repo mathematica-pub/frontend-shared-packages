@@ -75,12 +75,12 @@ export class GeographiesComponent<
   }
 
   setPropertiesFromConfig(): void {
-    this.setValueArrays();
+    this.setDimensionPropertiesFromData();
     this.initAttributeDataProperties();
     this.updateChartAttributeProperties();
   }
 
-  setValueArrays(): void {
+  setDimensionPropertiesFromData(): void {
     const uniqueByGeoAccessor = (arr: any[], set = new Set()) =>
       arr.filter(
         (x) =>

@@ -12,7 +12,7 @@ export class XyDataMarksBaseStub<Datum> extends XyDataMarksBase<
   override setPropertiesFromRanges(useTransition: boolean): void {
     return;
   }
-  override setValueArrays(): void {
+  override setDimensionPropertiesFromData(): void {
     return;
   }
   override drawMarks(): void {

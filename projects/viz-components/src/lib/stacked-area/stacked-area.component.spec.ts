@@ -5,8 +5,8 @@ import { StackedAreaComponent } from './stacked-area.component';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 describe('StackedAreaComponent', () => {
-  let component: StackedAreaComponent<any>;
-  let fixture: ComponentFixture<StackedAreaComponent<any>>;
+  let component: StackedAreaComponent<any, string>;
+  let fixture: ComponentFixture<StackedAreaComponent<any, string>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -16,45 +16,32 @@ describe('StackedAreaComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StackedAreaComponent);
+    fixture = TestBed.createComponent(StackedAreaComponent<any, string>);
     component = fixture.componentInstance;
     component.config = new VicStackedAreaConfig();
   });
 
   describe('setPropertiesFromConfig()', () => {
     beforeEach(() => {
-      spyOn(component, 'setValueArrays');
-      spyOn(component, 'initXAndCategoryDomains');
+      spyOn(component, 'setDimensionPropertiesFromData');
       spyOn(component, 'setValueIndicies');
       spyOn(component, 'setSeries');
-      spyOn(component, 'initYDomain');
-      spyOn(component, 'initCategoryScale');
+      spyOn(component, 'initQuantitativeDomainFromStack');
       component.setPropertiesFromConfig();
     });
-    it('calls setValueArrays once', () => {
-      expect(component.setValueArrays).toHaveBeenCalledTimes(1);
+    it('calls setDimensionPropertiesFromData once', () => {
+      expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);
     });
-
-    it('calls initDomains once', () => {
-      expect(component.initDimensionsFromValues).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setValueIndicies once', () => {
       expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
     });
-
     it('calls setSeries once', () => {
       expect(component.setSeries).toHaveBeenCalledTimes(1);
     });
-
-    it('calls initYDomain once', () => {
+    it('calls initQuantitativeDomainFromStack once', () => {
       expect(component.initQuantitativeDomainFromStack).toHaveBeenCalledTimes(
         1
       );
-    });
-
-    it('calls initCategoryScale once', () => {
-      expect(component.initCategoryScale).toHaveBeenCalledTimes(1);
     });
   });
 });

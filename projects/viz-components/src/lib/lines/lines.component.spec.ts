@@ -28,44 +28,29 @@ describe('LineChartComponent', () => {
 
   describe('setPropertiesFromConfig()', () => {
     beforeEach(() => {
-      spyOn(component, 'setValueArrays');
-      spyOn(component, 'initDomains');
+      spyOn(component, 'setDimensionPropertiesFromData');
       spyOn(component, 'setValueIndicies');
-      spyOn(component, 'initCategoryScale');
       spyOn(component, 'setLinesD3Data');
       spyOn(component, 'setLinesKeyFunction');
       spyOn(component, 'setMarkersD3Data');
       spyOn(component, 'setMarkersKeyFunction');
       component.setPropertiesFromConfig();
     });
-    it('calls setValueArrays once', () => {
-      expect(component.setValueArrays).toHaveBeenCalledTimes(1);
+    it('calls setDimensionPropertiesFromData once', () => {
+      expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);
     });
-
-    it('calls initDomains once', () => {
-      expect(component.initDimensionsFromValues).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setValueIndicies once', () => {
       expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
     });
-
-    it('calls initCategoryScale once', () => {
-      expect(component.initCategoryScale).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setLinesD3Data once', () => {
       expect(component.setLinesD3Data).toHaveBeenCalledTimes(1);
     });
-
     it('calls setLinesKeyFunction once', () => {
       expect(component.setLinesKeyFunction).toHaveBeenCalledTimes(1);
     });
-
     it('calls setMarkersD3Data once', () => {
       expect(component.setMarkersD3Data).toHaveBeenCalledTimes(1);
     });
-
     it('calls setMarkersKeyFunction once', () => {
       expect(component.setMarkersKeyFunction).toHaveBeenCalledTimes(1);
     });

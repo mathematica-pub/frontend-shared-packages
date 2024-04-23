@@ -79,13 +79,13 @@ export class BarsComponent<
   protected zone = inject(NgZone);
 
   setPropertiesFromConfig(): void {
-    this.setValueArrays();
+    this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.setBarsKeyFunction();
   }
 
-  setValueArrays(): void {
+  setDimensionPropertiesFromData(): void {
     this.config.quantitative.setPropertiesFromData(this.config.data);
     this.config.ordinal.setPropertiesFromData(
       this.config.data,
@@ -94,15 +94,15 @@ export class BarsComponent<
     this.config.category.setPropertiesFromData(this.config.data);
   }
 
-  setHasBarsWithNegativeValues(): void {
-    this.hasBarsWithNegativeValues =
-      this.config.quantitative.unpaddedDomain[0] < 0;
-  }
-
   setValueIndicies(): void {
     this.valueIndicies = range(this.config.ordinal.values.length).filter((i) =>
       this.config.ordinal.domainIncludes(this.config.ordinal.values[i])
     );
+  }
+
+  setHasBarsWithNegativeValues(): void {
+    this.hasBarsWithNegativeValues =
+      this.config.quantitative.unpaddedDomain[0] < 0;
   }
 
   setBarsKeyFunction(): void {

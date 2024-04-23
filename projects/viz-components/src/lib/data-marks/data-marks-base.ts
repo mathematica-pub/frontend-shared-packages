@@ -26,7 +26,7 @@ export abstract class DataMarksBase<
 
   abstract setPropertiesFromConfig(): void;
   abstract setPropertiesFromRanges(useTransition: boolean): void;
-  abstract setValueArrays(): void;
+  abstract setDimensionPropertiesFromData(): void;
   abstract drawMarks(): void;
   abstract resizeMarks(): void;
 

@@ -83,7 +83,7 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setPropertiesFromConfig(): void {
-    this.setValueArrays();
+    this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setLinesD3Data();
     this.setLinesKeyFunction();
@@ -91,7 +91,7 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
     this.setMarkersKeyFunction();
   }
 
-  setValueArrays(): void {
+  setDimensionPropertiesFromData(): void {
     this.config.x.setPropertiesFromData(this.config.data);
     this.config.y.setPropertiesFromData(this.config.data);
     this.config.category.setPropertiesFromData(this.config.data);

@@ -41,7 +41,7 @@ export class StackedBarsComponent<
   stackedData: VicStackDatum[][];
 
   override setPropertiesFromConfig(): void {
-    this.setValueArrays();
+    this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
     this.constructStackedData();

@@ -30,7 +30,7 @@ export interface DataMarks {
    *
    * This methose could be called when parsing the user's config.
    */
-  setValueArrays: () => void;
+  setDimensionPropertiesFromData: () => void;
   /**
    * drawMarks method
    *

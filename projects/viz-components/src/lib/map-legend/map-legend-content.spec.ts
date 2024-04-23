@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCategoricalAttributeDataDimensionConfig,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
-} from '../geographies/geographies.config';
+import { VicCategoricalAttributeDataDimensionConfig } from '../geographies/dimensions/categorical-bins';
+import { VicEqualValuesAttributeDataDimensionConfig } from '../geographies/dimensions/equal-value-ranges-bins';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {
@@ -33,8 +31,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setValueSpaces');
       spyOn(directive, 'getFormattedValues').and.returnValue(['1%', '2%']);
       directive.orientation = 'horizontal';
-      directive.config =
-        new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
+      directive.config = new VicEqualValuesAttributeDataDimensionConfig();
       directive.config.valueFormat = 'test formatter';
     });
 
@@ -96,8 +93,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setCategoricalValueSpaces');
     });
     it('calls setQuantitativeValueSpaces once if binType is not categorical', () => {
-      directive.config =
-        new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
+      directive.config = new VicEqualValuesAttributeDataDimensionConfig();
       directive.setValueSpaces([1, 2]);
       expect(directive.setQuantitativeValueSpaces).toHaveBeenCalledTimes(1);
     });
