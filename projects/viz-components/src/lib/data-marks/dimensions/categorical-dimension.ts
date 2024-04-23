@@ -1,20 +1,22 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { VicDataDimensionConfig } from './data-dimension';
+import { VicDataDimensionConfig, VicDataValue } from './data-dimension';
 
 export class VicCategoricalDimensionConfig<
   Datum,
-  TCategoricalValue extends number | string
-> extends VicDataDimensionConfig<Datum, string> {
+  TCategoricalValue extends VicDataValue
+> extends VicDataDimensionConfig<Datum, TCategoricalValue> {
+  domain: TCategoricalValue[];
+  private internSetDomain: InternSet<TCategoricalValue>;
   /**
    * A user-defined function that transforms a category value into a graphical value.
    */
-  scale?: (category: string) => TCategoricalValue;
+  scale: (category: TCategoricalValue) => string;
   /**
    * An array of graphical values that correspond to the domain.
    *
    * For example, this could be an array of colors or sizes.
    */
-  range?: TCategoricalValue[];
+  range?: string[];
 
   constructor(
     init?: Partial<VicCategoricalDimensionConfig<Datum, TCategoricalValue>>
@@ -29,10 +31,15 @@ export class VicCategoricalDimensionConfig<
     this.initScale();
   }
 
+  domainIncludes(value: TCategoricalValue): boolean {
+    return this.internSetDomain.has(value);
+  }
+
   private initDomain(): void {
     if (this.domain === undefined) {
       this.domain = this.values;
     }
+    this.internSetDomain = new InternSet(this.domain);
     this.domain = [...new InternSet(this.domain)];
   }
 

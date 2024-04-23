@@ -16,7 +16,6 @@ export abstract class VicDataDimensionConfig<
 > {
   values: ValueType[];
   valueAccessor: (d: Datum, ...args: any) => ValueType;
-  domain?: ValueType[];
   valueFormat?: VicFormatSpecifier;
   constructor(init?: Partial<VicDataDimensionConfig<Datum, ValueType>>) {
     Object.assign(this, init);

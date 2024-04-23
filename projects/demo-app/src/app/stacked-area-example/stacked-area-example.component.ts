@@ -9,7 +9,7 @@ import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum>;
+  dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum, string>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
 }
@@ -43,7 +43,10 @@ export class StackedAreaExampleComponent implements OnInit {
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
     yAxisConfig.tickFormat = ',.0f';
-    const dataConfig = new VicStackedAreaConfig<IndustryUnemploymentDatum>();
+    const dataConfig = new VicStackedAreaConfig<
+      IndustryUnemploymentDatum,
+      string
+    >();
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.y.valueAccessor = (d) => d.value;

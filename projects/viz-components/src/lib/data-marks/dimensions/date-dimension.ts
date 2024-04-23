@@ -7,7 +7,7 @@ export class VicDateDimensionConfig<Datum> extends VicDataDimensionConfig<
   Date
 > {
   type: VicDimension.date = VicDimension.date;
-  override domain?: [Date, Date];
+  domain: [Date, Date];
   unpaddedDomain: [Date, Date];
   scaleFn: (
     domain?: Iterable<Date>,

@@ -31,8 +31,8 @@ export class GroupedBarsComponent<
     this.valueIndicies = range(this.config.ordinal.values.length).filter(
       (i) => {
         return (
-          this.config.ordinal.domain.includes(this.config.ordinal.values[i]) &&
-          this.config.category.domain.includes(this.config.category.values[i])
+          this.config.ordinal.domainIncludes(this.config.ordinal.values[i]) &&
+          this.config.category.domainIncludes(this.config.category.values[i])
         );
       }
     );

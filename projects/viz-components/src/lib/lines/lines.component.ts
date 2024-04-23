@@ -145,8 +145,7 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
-    const xDomain = this.unpaddedDomain.x;
-    const x = this.config.x.scaleFn().domain(xDomain).range(this.ranges.x);
+    const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
     const category = this.config.category.scale;
     this.zone.run(() => {

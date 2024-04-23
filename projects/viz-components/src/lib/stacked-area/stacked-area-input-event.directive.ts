@@ -1,6 +1,7 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { VicDataValue } from '../../public-api';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
 import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
@@ -10,18 +11,21 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 })
 export class StackedAreaInputEventDirective<
   Datum,
-  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
+  TCategoricalValue extends VicDataValue,
+  TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue>
 > extends InputEventDirective {
   @Input('vicStackedAreaInputEffects')
   effects: InputEventEffect<
-    StackedAreaInputEventDirective<Datum, ExtendedStackedAreaComponent>
+    StackedAreaInputEventDirective<
+      Datum,
+      TCategoricalValue,
+      TStackedAreaComponent
+    >
   >[];
   @Output('vicStackedAreaInputEventOutput') eventOutput =
     new EventEmitter<any>();
 
-  constructor(
-    @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
-  ) {
+  constructor(@Inject(STACKED_AREA) public lines: TStackedAreaComponent) {
     super();
   }
 

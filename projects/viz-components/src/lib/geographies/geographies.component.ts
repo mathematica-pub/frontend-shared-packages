@@ -113,7 +113,7 @@ export class GeographiesComponent<
   }
 
   initAttributeDataProperties(): void {
-    this.attributeDataConfig.setPropertiesFromData(
+    this.config.dataGeographyConfig.attributeDataConfig.setPropertiesFromData(
       Array.from(this.values.attributeValuesByGeographyIndex.values())
     );
   }

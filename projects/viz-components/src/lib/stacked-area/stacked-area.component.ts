@@ -16,15 +16,16 @@ import {
   select,
   stack,
 } from 'd3';
+import { VicDataValue } from '../../public-api';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const STACKED_AREA = new InjectionToken<StackedAreaComponent<unknown>>(
-  'StackedAreaComponent'
-);
+export const STACKED_AREA = new InjectionToken<
+  StackedAreaComponent<unknown, VicDataValue>
+>('StackedAreaComponent');
 
 type Key = string | number | Date;
 
@@ -39,9 +40,12 @@ type Key = string | number | Date;
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
   ],
 })
-export class StackedAreaComponent<Datum> extends XyDataMarksBase<
+export class StackedAreaComponent<
   Datum,
-  VicStackedAreaConfig<Datum>
+  TCategoricalValue extends VicDataValue
+> extends XyDataMarksBase<
+  Datum,
+  VicStackedAreaConfig<Datum, TCategoricalValue>
 > {
   series: (SeriesPoint<InternMap<Key, number>> & {
     i: number;
@@ -71,7 +75,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
   setValueIndicies(): void {
     this.valueIndicies = range(this.config.x.values.length).filter((i) =>
-      this.config.category.domain.includes(this.config.category.values[i])
+      this.config.category.domainIncludes(this.config.category.values[i])
     );
   }
 

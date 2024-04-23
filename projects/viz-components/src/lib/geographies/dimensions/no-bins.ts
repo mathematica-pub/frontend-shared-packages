@@ -10,11 +10,12 @@ import { VicValuesBin } from './attribute-data-bin-types';
 export class VicNoBinsAttributeDataDimensionConfig<
   Datum
 > extends AttributeDataDimensionConfig<Datum, number> {
+  domain: [number, number];
   binType: VicValuesBin.none = VicValuesBin.none;
 
   constructor(init?: Partial<VicNoBinsAttributeDataDimensionConfig<Datum>>) {
     super();
-    this.colorScale = scaleLinear;
+    this.scale = scaleLinear;
     this.interpolator = interpolateLab;
     Object.assign(this, init);
   }
@@ -34,7 +35,7 @@ export class VicNoBinsAttributeDataDimensionConfig<
   }
 
   getScale(nullColor: string) {
-    return this.colorScale()
+    return this.scale()
       .domain(this.domain)
       .range(this.range)
       .unknown(nullColor);

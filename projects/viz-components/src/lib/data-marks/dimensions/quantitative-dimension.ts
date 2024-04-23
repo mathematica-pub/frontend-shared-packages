@@ -6,7 +6,7 @@ export class VicQuantitativeDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum, number> {
   type: VicDimension.quantitative = VicDimension.quantitative;
-  override domain?: [number, number];
+  domain: [number, number];
   unpaddedDomain: [number, number];
   domainIncludesZero: boolean;
   domainPadding: VicDomainPaddingConfig;

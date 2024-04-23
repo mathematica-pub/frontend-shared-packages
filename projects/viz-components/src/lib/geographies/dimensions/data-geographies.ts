@@ -1,8 +1,8 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicBaseDataGeographyConfig } from '../geographies.config';
+import { VicBaseDataGeographyConfig } from './base-data-geographies';
 import { VicCategoricalAttributeDataDimensionConfig } from './categorical-bins';
 import { VicCustomBreaksAttributeDataDimensionConfig } from './custom-breaks-bins';
-import { VicEqualNumbersAttributeDataDimensionConfig } from './equal-num-observations-bins';
+import { VicEqualNumObservationsAttributeDataDimensionConfig } from './equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimensionConfig } from './equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimensionConfig } from './no-bins';
 
@@ -20,7 +20,7 @@ export class VicDataGeographyConfig<
     | VicCategoricalAttributeDataDimensionConfig<Datum>
     | VicNoBinsAttributeDataDimensionConfig<Datum>
     | VicEqualValuesAttributeDataDimensionConfig<Datum>
-    | VicEqualNumbersAttributeDataDimensionConfig<Datum>
+    | VicEqualNumObservationsAttributeDataDimensionConfig<Datum>
     | VicCustomBreaksAttributeDataDimensionConfig<Datum>;
   nullColor: string;
 

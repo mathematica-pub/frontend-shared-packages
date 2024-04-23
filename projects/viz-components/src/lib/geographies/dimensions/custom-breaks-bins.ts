@@ -10,6 +10,7 @@ import { VicValuesBin } from './attribute-data-bin-types';
 export class VicCustomBreaksAttributeDataDimensionConfig<
   Datum
 > extends AttributeDataDimensionConfig<Datum, number> {
+  domain: number[];
   binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
   breakValues: number[];
   numBins: number;
@@ -18,7 +19,7 @@ export class VicCustomBreaksAttributeDataDimensionConfig<
     init?: Partial<VicCustomBreaksAttributeDataDimensionConfig<Datum>>
   ) {
     super();
-    this.colorScale = scaleThreshold;
+    this.scale = scaleThreshold;
     this.interpolator = interpolateLab;
     Object.assign(this, init);
     this.numBins = undefined;
@@ -39,7 +40,7 @@ export class VicCustomBreaksAttributeDataDimensionConfig<
   }
 
   getScale(nullColor: string) {
-    return this.colorScale()
+    return this.scale()
       .domain(this.domain)
       .range(this.range)
       .unknown(nullColor)

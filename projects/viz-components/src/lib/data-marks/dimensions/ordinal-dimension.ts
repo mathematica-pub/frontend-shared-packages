@@ -7,18 +7,20 @@ import {
 
 export class VicOrdinalDimensionConfig<
   Datum,
-  TVicDataValue extends VicDataValue
-> extends VicDataDimensionConfig<Datum, TVicDataValue> {
+  TOrdinalValue extends VicDataValue
+> extends VicDataDimensionConfig<Datum, TOrdinalValue> {
+  domain: TOrdinalValue[];
+  private internSetDomain: InternSet<TOrdinalValue>;
   type: VicDimension.ordinal = VicDimension.ordinal;
   scaleFn: (
-    domain?: Iterable<TVicDataValue>,
+    domain?: Iterable<TOrdinalValue>,
     range?: Iterable<number>
-  ) => ScaleBand<TVicDataValue>;
+  ) => ScaleBand<TOrdinalValue>;
   paddingInner: number;
   paddingOuter: number;
   align: number;
 
-  constructor(init?: Partial<VicOrdinalDimensionConfig<Datum, TVicDataValue>>) {
+  constructor(init?: Partial<VicOrdinalDimensionConfig<Datum, TOrdinalValue>>) {
     super();
     this.scaleFn = scaleBand;
     this.paddingInner = 0.1;
@@ -32,12 +34,17 @@ export class VicOrdinalDimensionConfig<
     this.initDomain(reverseDomain);
   }
 
+  domainIncludes(value: TOrdinalValue): boolean {
+    return this.internSetDomain.has(value);
+  }
+
   private initDomain(reverseDomain: boolean): void {
     if (this.domain === undefined) {
       this.domain = this.values;
     }
     const domain = reverseDomain ? this.domain.slice().reverse() : this.domain;
-    this.domain = [...new InternSet(domain)];
+    this.internSetDomain = new InternSet(domain);
+    this.domain = [...this.internSetDomain.values()];
   }
 
   getScaleFromRange(range: [number, number]) {

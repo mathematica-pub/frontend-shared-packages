@@ -10,21 +10,22 @@ import { VicValuesBin } from './attribute-data-bin-types';
 export class VicCategoricalAttributeDataDimensionConfig<
   Datum
 > extends AttributeDataDimensionConfig<Datum, string> {
+  domain: string[];
   binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
-  override domain: string[];
 
   constructor(
     init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
   ) {
     super();
-    this.colorScale = scaleOrdinal;
+    this.scale = scaleOrdinal;
     this.colors = ['white', 'lightslategray'];
     Object.assign(this, init);
   }
 
   setPropertiesFromData(values: any[]): void {
-    throw new Error('Method not implemented.');
+    this.setDomainAndBins(values);
+    this.setRange();
   }
 
   protected setDomainAndBins(values: any[]): void {
@@ -37,7 +38,7 @@ export class VicCategoricalAttributeDataDimensionConfig<
   }
 
   getScale(nullColor: string) {
-    return this.colorScale()
+    return this.scale()
       .domain(this.domain)
       .range(this.range)
       .unknown(nullColor)

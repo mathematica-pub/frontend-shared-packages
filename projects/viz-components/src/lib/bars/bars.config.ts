@@ -24,6 +24,7 @@ export class VicBarsConfig<
   constructor(init?: Partial<VicBarsConfig<Datum, TOrdinalValue>>) {
     super();
     this.dimensions = new VicVerticalBarsDimensionsConfig();
+    this.category.valueAccessor = (d) => '';
     this.ordinal.valueAccessor = (d, i) => i;
     this.quantitative.domainIncludesZero = true;
     this.category.range = ['lightslategray'];

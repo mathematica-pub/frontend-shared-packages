@@ -1,6 +1,6 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicGeographiesFeature } from '../geographies';
-import { VicBaseDataGeographyConfig } from '../geographies.config';
+import { VicBaseDataGeographyConfig } from './base-data-geographies';
 
 export class VicNoDataGeographyConfig<
   Datum,

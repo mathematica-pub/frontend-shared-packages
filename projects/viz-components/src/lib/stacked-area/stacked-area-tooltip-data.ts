@@ -16,9 +16,12 @@ export interface VicStackedAreaEventDatum<Datum> {
   category: VicDataValue;
 }
 
-export function getStackedAreaTooltipData<Datum>(
+export function getStackedAreaTooltipData<
+  Datum,
+  TCategoricalValue extends VicDataValue
+>(
   closestXIndicies: number[],
-  stackedArea: StackedAreaComponent<Datum>
+  stackedArea: StackedAreaComponent<Datum, TCategoricalValue>
 ): VicStackedAreaEventOutput<Datum> {
   const data = closestXIndicies.map((i) => {
     const originalDatum = stackedArea.config.data.find(

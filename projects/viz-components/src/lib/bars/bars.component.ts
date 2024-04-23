@@ -101,7 +101,7 @@ export class BarsComponent<
 
   setValueIndicies(): void {
     this.valueIndicies = range(this.config.ordinal.values.length).filter((i) =>
-      this.config.ordinal.domain.includes(this.config.ordinal.values[i])
+      this.config.ordinal.domainIncludes(this.config.ordinal.values[i])
     );
   }
 

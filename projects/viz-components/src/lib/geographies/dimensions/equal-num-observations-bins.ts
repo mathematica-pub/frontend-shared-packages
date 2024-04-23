@@ -7,18 +7,19 @@ import { VicValuesBin } from './attribute-data-bin-types';
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicEqualNumbersAttributeDataDimensionConfig<
+export class VicEqualNumObservationsAttributeDataDimensionConfig<
   Datum
 > extends AttributeDataDimensionConfig<Datum, number> {
+  domain: number[];
   binType: VicValuesBin.equalNumObservations =
     VicValuesBin.equalNumObservations;
   numBins: number;
 
   constructor(
-    init?: Partial<VicEqualNumbersAttributeDataDimensionConfig<Datum>>
+    init?: Partial<VicEqualNumObservationsAttributeDataDimensionConfig<Datum>>
   ) {
     super();
-    this.colorScale = scaleQuantile;
+    this.scale = scaleQuantile;
     this.interpolator = interpolateLab;
     this.numBins = 5;
     Object.assign(this, init);
@@ -45,10 +46,9 @@ export class VicEqualNumbersAttributeDataDimensionConfig<
   }
 
   getScale(nullColor: string) {
-    return this.colorScale()
+    return this.scale()
       .domain(this.domain)
       .range(this.range)
-      .unknown(nullColor)
-      .interpolate(this.interpolator);
+      .unknown(nullColor);
   }
 }

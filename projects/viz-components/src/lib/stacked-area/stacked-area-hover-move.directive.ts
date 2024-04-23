@@ -2,6 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
+import { VicDataValue } from '../../public-api';
 import { isDate } from '../core/utilities/type-guards';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
@@ -16,11 +17,16 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 })
 export class StackedAreaHoverMoveDirective<
   Datum,
-  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
+  TCategoricalValue extends VicDataValue,
+  TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue>
 > extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
   effects: HoverMoveEventEffect<
-    StackedAreaHoverMoveDirective<Datum, ExtendedStackedAreaComponent>
+    StackedAreaHoverMoveDirective<
+      Datum,
+      TCategoricalValue,
+      TStackedAreaComponent
+    >
   >[];
   @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
     VicStackedAreaEventOutput<Datum>
@@ -29,9 +35,7 @@ export class StackedAreaHoverMoveDirective<
   pointerY: number;
   closestXIndicies: number[];
 
-  constructor(
-    @Inject(STACKED_AREA) public stackedArea: ExtendedStackedAreaComponent
-  ) {
+  constructor(@Inject(STACKED_AREA) public stackedArea: TStackedAreaComponent) {
     super();
   }
 

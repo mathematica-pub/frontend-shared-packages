@@ -84,12 +84,14 @@ export class BarsExampleComponent implements OnInit {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
-    const xAxisConfig = new VicAxisConfig();
-    xAxisConfig.tickFormat = '.0f';
+    const xAxisConfig = new VicAxisConfig({
+      tickFormat: '.0f',
+    });
     const yAxisConfig = new VicAxisConfig();
     const dataConfig = new VicBarsConfig<MetroUnemploymentDatum, string>();
-    dataConfig.labels = new VicBarsLabelsConfig();
-    dataConfig.labels.display = false;
+    dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    dataConfig.data = filteredData;
+    dataConfig.quantitative.valueAccessor = (d) => d.value;
     dataConfig.quantitative.valueFormat = (d: any) => {
       const label =
         d.value === undefined || d.value === null
@@ -97,11 +99,11 @@ export class BarsExampleComponent implements OnInit {
           : format('.1f')(d.value);
       return d.value > 8 ? `${label}*` : label;
     };
-    dataConfig.data = filteredData;
-    dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
-    dataConfig.ordinal.valueAccessor = (d) => d.division;
-    dataConfig.quantitative.valueAccessor = (d) => d.value;
     dataConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
+    dataConfig.ordinal.valueAccessor = (d) => d.division;
+    dataConfig.labels = new VicBarsLabelsConfig({
+      display: false,
+    });
     return {
       dataConfig,
       xAxisConfig,

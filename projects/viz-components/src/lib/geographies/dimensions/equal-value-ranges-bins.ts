@@ -11,15 +11,15 @@ import { VicValuesBin } from './attribute-data-bin-types';
 export class VicEqualValuesAttributeDataDimensionConfig<
   Datum
 > extends AttributeDataDimensionConfig<Datum, number> {
+  domain: [number, number];
   binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
   numBins: number;
-  override domain: [number, number];
 
   constructor(
     init?: Partial<VicEqualValuesAttributeDataDimensionConfig<Datum>>
   ) {
     super();
-    this.colorScale = scaleQuantize;
+    this.scale = scaleQuantize;
     this.interpolator = interpolateLab;
     this.numBins = 5;
     Object.assign(this, init);
@@ -82,10 +82,9 @@ export class VicEqualValuesAttributeDataDimensionConfig<
   }
 
   getScale(nullColor: string) {
-    return this.colorScale()
+    return this.scale()
       .domain(this.domain)
       .range(this.range)
-      .unknown(nullColor)
-      .interpolate(this.interpolator);
+      .unknown(nullColor);
   }
 }

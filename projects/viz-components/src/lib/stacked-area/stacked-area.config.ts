@@ -11,11 +11,14 @@ import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categori
 import { VicDateDimensionConfig } from '../data-marks/dimensions/date-dimension';
 import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
 
-export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
+export class VicStackedAreaConfig<
+  Datum,
+  TCategoricalValue extends VicDataValue
+> extends VicDataMarksConfig<Datum> {
   x: VicDateDimensionConfig<Datum> = new VicDateDimensionConfig();
   y: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
-  category: VicCategoricalDimensionConfig<Datum, string> =
+  category: VicCategoricalDimensionConfig<Datum, TCategoricalValue> =
     new VicCategoricalDimensionConfig();
   valueIsDefined?: (...args: any) => boolean;
   curve: (x: any) => any;
@@ -26,9 +29,8 @@ export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
   stackOrderFunction: (x: any) => any;
   categoryOrder?: VicDataValue[];
 
-  constructor(init?: Partial<VicStackedAreaConfig<Datum>>) {
+  constructor(init?: Partial<VicStackedAreaConfig<Datum, TCategoricalValue>>) {
     super();
-    this.category.valueAccessor = () => '1';
     this.category.range = schemeTableau10 as string[];
     this.curve = curveLinear;
     this.stackOrderFunction = stackOrderNone;

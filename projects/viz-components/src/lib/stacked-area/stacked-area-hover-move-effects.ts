@@ -1,19 +1,29 @@
+import { VicDataValue } from '../../public-api';
 import { HoverMoveEventEffect } from '../events/effect';
 import { StackedAreaHoverMoveDirective } from './stacked-area-hover-move.directive';
 import { StackedAreaComponent } from './stacked-area.component';
 
 export class StackedAreaHoverMoveEmitTooltipData<
   Datum,
-  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum> = StackedAreaComponent<Datum>
+  TCategoricalValue extends VicDataValue,
+  TStackedAreaComponent extends StackedAreaComponent<
+    Datum,
+    TCategoricalValue
+  > = StackedAreaComponent<Datum, TCategoricalValue>
 > implements
     HoverMoveEventEffect<
-      StackedAreaHoverMoveDirective<Datum, ExtendedStackedAreaComponent>
+      StackedAreaHoverMoveDirective<
+        Datum,
+        TCategoricalValue,
+        TStackedAreaComponent
+      >
     >
 {
   applyEffect(
     directive: StackedAreaHoverMoveDirective<
       Datum,
-      ExtendedStackedAreaComponent
+      TCategoricalValue,
+      TStackedAreaComponent
     >
   ): void {
     const tooltipData = directive.getTooltipData();
@@ -21,7 +31,11 @@ export class StackedAreaHoverMoveEmitTooltipData<
   }
 
   removeEffect(
-    event: StackedAreaHoverMoveDirective<Datum, ExtendedStackedAreaComponent>
+    event: StackedAreaHoverMoveDirective<
+      Datum,
+      TCategoricalValue,
+      TStackedAreaComponent
+    >
   ): void {
     event.eventOutput.emit(null);
   }

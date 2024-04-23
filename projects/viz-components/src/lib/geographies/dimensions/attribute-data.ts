@@ -15,9 +15,9 @@ export abstract class AttributeDataDimensionConfig<
   AttributeValue extends VicDataValue
 > extends VicDataDimensionConfig<Datum, AttributeValue> {
   geoAccessor: (d: Datum, ...args: any) => any;
-  range: any[];
-  colorScale: (...args: any) => any;
-  colors?: string[];
+  range: string[];
+  scale: (...args: any) => any;
+  colors: string[];
   interpolator: (...args: any) => any;
   patternPredicates?: VicPatternPredicate<Datum>[];
 
