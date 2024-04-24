@@ -10,14 +10,11 @@ export enum VicDimension {
 
 export type VicDataValue = number | string | Date;
 
-export abstract class VicDataDimensionConfig<
-  Datum,
-  ValueType extends VicDataValue
-> {
+export abstract class VicDataDimension<Datum, ValueType extends VicDataValue> {
   values: ValueType[];
   valueAccessor: (d: Datum, ...args: any) => ValueType;
   valueFormat?: VicFormatSpecifier<Datum>;
-  constructor(init?: Partial<VicDataDimensionConfig<Datum, ValueType>>) {
+  constructor(init?: Partial<VicDataDimension<Datum, ValueType>>) {
     Object.assign(this, init);
   }
 

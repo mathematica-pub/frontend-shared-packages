@@ -1,5 +1,5 @@
 import { interpolateLab, scaleThreshold } from 'd3';
-import { AttributeDataDimensionConfig } from './attribute-data';
+import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
 
 /**
@@ -7,17 +7,15 @@ import { VicValuesBin } from './attribute-data-bin-types';
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicCustomBreaksAttributeDataDimensionConfig<
+export class VicCustomBreaksAttributeDataDimension<
   Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
+> extends AttributeDataDimension<Datum, number> {
   domain: number[];
   binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
   breakValues: number[];
   numBins: number;
 
-  constructor(
-    init?: Partial<VicCustomBreaksAttributeDataDimensionConfig<Datum>>
-  ) {
+  constructor(init?: Partial<VicCustomBreaksAttributeDataDimension<Datum>>) {
     super();
     this.scale = scaleThreshold;
     this.interpolator = interpolateLab;
@@ -27,16 +25,11 @@ export class VicCustomBreaksAttributeDataDimensionConfig<
 
   setPropertiesFromData(): void {
     this.setDomainAndBins();
-    this.setRange();
   }
 
   protected setDomainAndBins(): void {
     this.domain = this.breakValues.slice(1);
     this.numBins = this.breakValues.length - 1;
-  }
-
-  protected setRange(): void {
-    this.range = this.colors;
   }
 
   getScale(nullColor: string) {

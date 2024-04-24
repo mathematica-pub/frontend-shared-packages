@@ -11,7 +11,7 @@ import {
   VicHorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -99,7 +99,7 @@ export class BarsExampleComponent implements OnInit {
           : format('.1f')(d.value);
       return d.value > 8 ? `${label}*` : label;
     };
-    dataConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
+    dataConfig.quantitative.domainPadding = new VicPixelDomainPadding();
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.labels = new VicBarsLabelsConfig({
       display: false,

@@ -4,7 +4,7 @@ import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
-import { VicEqualValuesAttributeDataDimensionConfig } from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
+import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
 import { VicNoDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
@@ -131,15 +131,11 @@ export class GeographiesExampleComponent implements OnInit {
       MapGeometryProperties
     >();
     config.geographies = this.getDataGeographyFeatures(data);
-    config.attributeDataConfig =
-      new VicEqualValuesAttributeDataDimensionConfig();
+    config.attributeDataConfig = new VicEqualValuesAttributeDataDimension();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
     config.attributeDataConfig.valueAccessor = (d) => d.income;
     config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
-    config.attributeDataConfig.colors = [
-      colors.white,
-      colors.highlight.default,
-    ];
+    config.attributeDataConfig.range = [colors.white, colors.highlight.default];
     config.attributeDataConfig.numBins = 6;
     config.attributeDataConfig.patternPredicates = [
       {

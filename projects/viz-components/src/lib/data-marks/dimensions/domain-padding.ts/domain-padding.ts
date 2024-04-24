@@ -1,8 +1,8 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { VicPercentOverDomainPaddingConfig } from './percent-over-padding';
-import { VicPixelDomainPaddingConfig } from './pixel-padding';
-import { VicRoundUpToIntervalDomainPaddingConfig } from './round-to-interval-padding';
-import { VicRoundUpDomainPaddingConfig } from './round-up-padding';
+import { VicPercentOverDomainPadding } from './percent-over-padding';
+import { VicPixelDomainPadding } from './pixel-padding';
+import { VicRoundUpToIntervalDomainPadding } from './round-to-interval-padding';
+import { VicRoundUpDomainPadding } from './round-up-padding';
 
 export enum DomainPadding {
   roundUp = 'roundUp',
@@ -14,10 +14,10 @@ export enum DomainPadding {
 export type DomainExtent = 'max' | 'min';
 
 export type VicDomainPaddingConfig =
-  | VicRoundUpDomainPaddingConfig
-  | VicRoundUpToIntervalDomainPaddingConfig
-  | VicPercentOverDomainPaddingConfig
-  | VicPixelDomainPaddingConfig;
+  | VicRoundUpDomainPadding
+  | VicRoundUpToIntervalDomainPadding
+  | VicPercentOverDomainPadding
+  | VicPixelDomainPadding;
 
 export interface PaddedDomainArguments {
   value?: number;
@@ -30,7 +30,7 @@ export interface PaddedDomainArguments {
   chartRange?: [number, number];
 }
 
-export abstract class DomainPaddingConfig {
+export abstract class VicDomainPadding {
   abstract getPaddedValue(args: PaddedDomainArguments): number;
 
   getPaddedDomain(

@@ -14,7 +14,7 @@ import {
 } from 'geojson';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
 import { VicDataGeographyConfig } from './dimensions/data-geographies';
-import { VicEqualValuesAttributeDataDimensionConfig } from './dimensions/equal-value-ranges-bins';
+import { VicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { VicNoDataGeographyConfig } from './dimensions/no-data-geographies';
 import { VicGeographiesFeature } from './geographies';
 
@@ -73,7 +73,7 @@ export class VicGeographiesConfig<
     this.projection = geoAlbersUsa();
     this.dataGeographyConfig = new VicDataGeographyConfig();
     this.dataGeographyConfig.attributeDataConfig =
-      new VicEqualValuesAttributeDataDimensionConfig();
+      new VicEqualValuesAttributeDataDimension();
     Object.assign(this, init);
   }
 }

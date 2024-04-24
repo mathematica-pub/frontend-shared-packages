@@ -1,10 +1,11 @@
 import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
-import { VicDataDimensionConfig, VicDimension } from './data-dimension';
+import { VicDataDimension, VicDimension } from './data-dimension';
 import { VicDomainPaddingConfig } from './domain-padding.ts/domain-padding';
 
-export class VicQuantitativeDimensionConfig<
-  Datum
-> extends VicDataDimensionConfig<Datum, number> {
+export class VicQuantitativeDimension<Datum> extends VicDataDimension<
+  Datum,
+  number
+> {
   type: VicDimension.quantitative = VicDimension.quantitative;
   domain: [number, number];
   unpaddedDomain: [number, number];
@@ -15,7 +16,7 @@ export class VicQuantitativeDimensionConfig<
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
 
-  constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
+  constructor(init?: Partial<VicQuantitativeDimension<Datum>>) {
     super();
     this.scaleFn = scaleLinear;
     Object.assign(this, init);

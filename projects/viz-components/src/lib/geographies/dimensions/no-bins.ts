@@ -1,5 +1,5 @@
 import { extent, interpolateLab, scaleLinear } from 'd3';
-import { AttributeDataDimensionConfig } from './attribute-data';
+import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
 
 /**
@@ -9,7 +9,7 @@ import { VicValuesBin } from './attribute-data-bin-types';
  */
 export class VicNoBinsAttributeDataDimensionConfig<
   Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
+> extends AttributeDataDimension<Datum, number> {
   domain: [number, number];
   binType: VicValuesBin.none = VicValuesBin.none;
 
@@ -22,16 +22,11 @@ export class VicNoBinsAttributeDataDimensionConfig<
 
   setPropertiesFromData(values: any[]): void {
     this.setDomainAndBins(values);
-    this.setRange();
   }
 
   protected setDomainAndBins(values: any[]): void {
     const domainValues = this.domain ?? values;
     this.domain = extent(domainValues);
-  }
-
-  protected setRange(): void {
-    this.range = this.colors;
   }
 
   getScale(nullColor: string) {

@@ -3,20 +3,20 @@ import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
-import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categorical-dimension';
-import { VicOrdinalDimensionConfig } from '../data-marks/dimensions/ordinal-dimension';
-import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
+import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
+import { VicOrdinalDimension } from '../data-marks/dimensions/ordinal-dimension';
+import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicBarsConfig<
   Datum,
   TOrdinalValue extends VicDataValue
 > extends VicDataMarksConfig<Datum> {
-  ordinal: VicOrdinalDimensionConfig<Datum, TOrdinalValue> =
-    new VicOrdinalDimensionConfig();
-  quantitative: VicQuantitativeDimensionConfig<Datum> =
-    new VicQuantitativeDimensionConfig();
-  category: VicCategoricalDimensionConfig<Datum, string> =
-    new VicCategoricalDimensionConfig();
+  ordinal: VicOrdinalDimension<Datum, TOrdinalValue> =
+    new VicOrdinalDimension();
+  quantitative: VicQuantitativeDimension<Datum> =
+    new VicQuantitativeDimension();
+  category: VicCategoricalDimension<Datum, string> =
+    new VicCategoricalDimension();
   dimensions: VicBarsDimensionsConfig;
   labels: VicBarsLabelsConfig<Datum>;
   patternPredicates?: VicPatternPredicate<Datum>[];

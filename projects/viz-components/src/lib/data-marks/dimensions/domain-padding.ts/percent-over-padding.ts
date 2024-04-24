@@ -1,14 +1,14 @@
 import {
   DomainPadding,
-  DomainPaddingConfig,
   PaddedDomainArguments,
+  VicDomainPadding,
 } from './domain-padding';
 
-export class VicPercentOverDomainPaddingConfig extends DomainPaddingConfig {
+export class VicPercentOverDomainPadding extends VicDomainPadding {
   type: DomainPadding.percentOver = DomainPadding.percentOver;
   percentOver: number;
 
-  constructor(init?: Partial<VicPercentOverDomainPaddingConfig>) {
+  constructor(init?: Partial<VicPercentOverDomainPadding>) {
     super();
     this.percentOver = 0.1;
     Object.assign(this, init);

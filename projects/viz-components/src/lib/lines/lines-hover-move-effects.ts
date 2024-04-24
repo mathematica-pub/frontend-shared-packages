@@ -19,14 +19,12 @@ export class LinesHoverMoveDefaultStylesConfig {
  */
 export class LinesHoverMoveDefaultLinesStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > implements
-    HoverMoveEventEffect<
-      LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-    >
+    HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
   applyEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
     directive.lines.lines
       .style('stroke', ([category]): string =>
@@ -45,7 +43,7 @@ export class LinesHoverMoveDefaultLinesStyles<
   }
 
   removeEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
     directive.lines.lines.style('stroke', null);
   }
@@ -60,18 +58,16 @@ export class LinesHoverMoveDefaultLinesStyles<
  */
 export class LinesHoverMoveDefaultMarkersStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > implements
-    HoverMoveEventEffect<
-      LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-    >
+    HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
   constructor(private config?: LinesHoverMoveDefaultStylesConfig) {
     this.config = config ?? new LinesHoverMoveDefaultStylesConfig();
   }
 
   applyEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
     directive.lines.markers
       .style('fill', (d): string =>
@@ -99,7 +95,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
   }
 
   removeEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
     directive.lines.markers.style('fill', null);
     directive.lines.markers.attr(
@@ -118,15 +114,11 @@ export class LinesHoverMoveDefaultMarkersStyles<
  */
 export class LinesHoverMoveDefaultHoverDotStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > implements
-    HoverMoveEventEffect<
-      LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-    >
+    HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
-  applyEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-  ) {
+  applyEffect(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     directive.lines.hoverDot
       .style('display', null)
       .attr(
@@ -149,9 +141,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
       );
   }
 
-  removeEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-  ) {
+  removeEffect(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     directive.lines.hoverDot.style('display', 'none');
   }
 }
@@ -165,20 +155,18 @@ export class LinesHoverMoveDefaultHoverDotStyles<
  */
 export class LinesHoverMoveDefaultStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > implements
-    HoverMoveEventEffect<
-      LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-    >
+    HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
   linesStyles: HoverMoveEventEffect<
-    LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    LinesHoverMoveDirective<Datum, TLinesComponent>
   >;
   markersStyles: HoverMoveEventEffect<
-    LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    LinesHoverMoveDirective<Datum, TLinesComponent>
   >;
   hoverDotStyles: HoverMoveEventEffect<
-    LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    LinesHoverMoveDirective<Datum, TLinesComponent>
   >;
 
   constructor(config?: LinesHoverMoveDefaultStylesConfig) {
@@ -191,9 +179,7 @@ export class LinesHoverMoveDefaultStyles<
     this.hoverDotStyles = new LinesHoverMoveDefaultHoverDotStyles();
   }
 
-  applyEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-  ) {
+  applyEffect(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     this.linesStyles.applyEffect(directive);
     if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.applyEffect(directive);
@@ -202,9 +188,7 @@ export class LinesHoverMoveDefaultStyles<
     }
   }
 
-  removeEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-  ) {
+  removeEffect(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     this.linesStyles.removeEffect(directive);
     if (directive.lines.config.pointMarkers.display) {
       this.markersStyles.removeEffect(directive);
@@ -216,21 +200,19 @@ export class LinesHoverMoveDefaultStyles<
 
 export class LinesHoverMoveEmitTooltipData<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > implements
-    HoverMoveEventEffect<
-      LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
-    >
+    HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
   applyEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
   removeEffect(
-    directive: LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
     directive.eventOutput.emit(null);
   }

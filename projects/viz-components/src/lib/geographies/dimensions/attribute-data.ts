@@ -1,7 +1,6 @@
-import { extent, scaleLinear } from 'd3';
 import { VicPatternPredicate } from '../../data-marks/data-marks.config';
 import {
-  VicDataDimensionConfig,
+  VicDataDimension,
   VicDataValue,
 } from '../../data-marks/dimensions/data-dimension';
 
@@ -10,29 +9,17 @@ import {
  *
  * The generic parameter is the type of the attribute data.
  */
-export abstract class AttributeDataDimensionConfig<
+export abstract class AttributeDataDimension<
   Datum,
-  AttributeValue extends VicDataValue
-> extends VicDataDimensionConfig<Datum, AttributeValue> {
+  AttributeValue extends VicDataValue,
+  RangeValue extends string | number = string
+> extends VicDataDimension<Datum, AttributeValue> {
   geoAccessor: (d: Datum, ...args: any) => any;
-  range: string[];
+  range: RangeValue[];
   scale: (...args: any) => any;
-  colors: string[];
   interpolator: (...args: any) => any;
   patternPredicates?: VicPatternPredicate<Datum>[];
 
   protected abstract setDomainAndBins(values: any[]): void;
-  protected abstract setRange(): void;
   abstract getScale(nullColor: string): any;
-
-  shouldCalculateBinColors(numBins: number, colors: string[]): boolean {
-    return numBins > 1 && colors.length !== numBins;
-  }
-
-  getColorGenerator(binIndicies: number[]): any {
-    return scaleLinear<string>()
-      .domain(extent(binIndicies))
-      .range(this.colors)
-      .interpolate(this.interpolator);
-  }
 }

@@ -224,11 +224,13 @@ describe('LinesHoverMoveDirective', () => {
         'getPointerDistanceFromPoint'
       ).and.returnValue(10);
       directive.lines = {
-        values: {
-          x: [1, 10, 20],
-          y: [1, 100, 1000],
-        },
         config: {
+          x: {
+            values: [1, 10, 20],
+          },
+          y: {
+            values: [1, 100, 1000],
+          },
           pointerDetectionRadius: undefined,
         },
       } as any;

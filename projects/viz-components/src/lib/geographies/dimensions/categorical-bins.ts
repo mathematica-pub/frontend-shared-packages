@@ -1,5 +1,5 @@
 import { scaleOrdinal } from 'd3';
-import { AttributeDataDimensionConfig } from './attribute-data';
+import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
 
 /**
@@ -7,19 +7,17 @@ import { VicValuesBin } from './attribute-data-bin-types';
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicCategoricalAttributeDataDimensionConfig<
+export class VicCategoricalAttributeDataDimension<
   Datum
-> extends AttributeDataDimensionConfig<Datum, string> {
+> extends AttributeDataDimension<Datum, string> {
   domain: string[];
   binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
 
-  constructor(
-    init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
-  ) {
+  constructor(init?: Partial<VicCategoricalAttributeDataDimension<Datum>>) {
     super();
     this.scale = scaleOrdinal;
-    this.colors = ['white', 'lightslategray'];
+    this.range = ['white', 'lightslategray'];
     Object.assign(this, init);
   }
 
@@ -34,7 +32,7 @@ export class VicCategoricalAttributeDataDimensionConfig<
   }
 
   protected setRange(): void {
-    this.range = this.colors.slice(0, this.domain.length);
+    this.range = this.range.slice(0, this.domain.length);
   }
 
   getScale(nullColor: string) {

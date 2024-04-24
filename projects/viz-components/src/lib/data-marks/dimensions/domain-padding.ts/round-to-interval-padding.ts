@@ -1,15 +1,15 @@
 import { ValueUtilities } from '../../../shared/value-utilities.class';
 import {
   DomainPadding,
-  DomainPaddingConfig,
   PaddedDomainArguments,
+  VicDomainPadding,
 } from './domain-padding';
 
-export class VicRoundUpToIntervalDomainPaddingConfig extends DomainPaddingConfig {
+export class VicRoundUpToIntervalDomainPadding extends VicDomainPadding {
   type: DomainPadding.roundInterval = DomainPadding.roundInterval;
   interval: (maxValue: number) => number;
 
-  constructor(init?: Partial<VicRoundUpToIntervalDomainPaddingConfig>) {
+  constructor(init?: Partial<VicRoundUpToIntervalDomainPadding>) {
     super();
     this.interval = () => 1;
     Object.assign(this, init);

@@ -1,8 +1,8 @@
 import { curveLinear, schemeTableau10 } from 'd3';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
-import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categorical-dimension';
-import { VicDateDimensionConfig } from '../data-marks/dimensions/date-dimension';
-import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
+import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
+import { VicDateDimension } from '../data-marks/dimensions/date-dimension';
+import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
   /**
@@ -12,7 +12,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default scaleType is D3's [scaleUtc]{@link https://github.com/d3/d3-scale#scaleUtc}.
    */
-  x: VicDateDimensionConfig<Datum> = new VicDateDimensionConfig();
+  x: VicDateDimension<Datum> = new VicDateDimension();
 
   /**
    * A config for the behavior of the chart's y dimension
@@ -21,8 +21,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default scaleType is D3's [scaleLinear]{@link https://github.com/d3/d3-scale#scaleLinear}.
    */
-  y: VicQuantitativeDimensionConfig<Datum> =
-    new VicQuantitativeDimensionConfig();
+  y: VicQuantitativeDimension<Datum> = new VicQuantitativeDimension();
 
   /**
    * A config for the behavior of the chart's category dimension.
@@ -31,8 +30,8 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
-  category: VicCategoricalDimensionConfig<Datum, string> =
-    new VicCategoricalDimensionConfig();
+  category: VicCategoricalDimension<Datum, string> =
+    new VicCategoricalDimension();
 
   /**
    * A function that returns a boolean indicating whether a value in the data is defined.

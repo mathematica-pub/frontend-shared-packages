@@ -1,9 +1,9 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicBaseDataGeographyConfig } from './base-data-geographies';
-import { VicCategoricalAttributeDataDimensionConfig } from './categorical-bins';
-import { VicCustomBreaksAttributeDataDimensionConfig } from './custom-breaks-bins';
-import { VicEqualNumObservationsAttributeDataDimensionConfig } from './equal-num-observations-bins';
-import { VicEqualValuesAttributeDataDimensionConfig } from './equal-value-ranges-bins';
+import { VicCategoricalAttributeDataDimension } from './categorical-bins';
+import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
+import { VicEqualNumObservationsAttributeDataDimension } from './equal-num-observations-bins';
+import { VicEqualValuesAttributeDataDimension } from './equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimensionConfig } from './no-bins';
 
 /**
@@ -17,11 +17,11 @@ export class VicDataGeographyConfig<
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
   attributeDataConfig:
-    | VicCategoricalAttributeDataDimensionConfig<Datum>
+    | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimensionConfig<Datum>
-    | VicEqualValuesAttributeDataDimensionConfig<Datum>
-    | VicEqualNumObservationsAttributeDataDimensionConfig<Datum>
-    | VicCustomBreaksAttributeDataDimensionConfig<Datum>;
+    | VicEqualValuesAttributeDataDimension<Datum>
+    | VicEqualNumObservationsAttributeDataDimension<Datum>
+    | VicCustomBreaksAttributeDataDimension<Datum>;
   nullColor: string;
 
   constructor(

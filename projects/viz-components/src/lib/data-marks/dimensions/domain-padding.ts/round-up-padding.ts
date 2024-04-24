@@ -1,15 +1,15 @@
 import { ValueUtilities } from '../../../shared/value-utilities.class';
 import {
   DomainPadding,
-  DomainPaddingConfig,
   PaddedDomainArguments,
+  VicDomainPadding,
 } from './domain-padding';
 
-export class VicRoundUpDomainPaddingConfig extends DomainPaddingConfig {
+export class VicRoundUpDomainPadding extends VicDomainPadding {
   type: DomainPadding.roundUp = DomainPadding.roundUp;
   sigDigits: (d: any) => number;
 
-  constructor(init?: Partial<VicRoundUpDomainPaddingConfig>) {
+  constructor(init?: Partial<VicRoundUpDomainPadding>) {
     super();
     this.sigDigits = () => 1;
     Object.assign(this, init);

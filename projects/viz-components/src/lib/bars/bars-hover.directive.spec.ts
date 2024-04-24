@@ -7,7 +7,7 @@ import { BarsHoverDirective } from './bars-hover.directive';
 import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsHoverEventDirective', () => {
-  let directive: BarsHoverDirective<any, BarsComponent<any>>;
+  let directive: BarsHoverDirective<any, string, BarsComponent<any, string>>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -24,7 +24,9 @@ describe('BarsHoverEventDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(BarsHoverDirective);
+    directive = TestBed.inject(
+      BarsHoverDirective<any, string, BarsComponent<any, string>>
+    );
     directive.unlistenTouchStart = [
       () => {
         return;

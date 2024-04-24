@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicCategoricalAttributeDataDimensionConfig } from '../geographies/dimensions/categorical-bins';
-import { VicEqualValuesAttributeDataDimensionConfig } from '../geographies/dimensions/equal-value-ranges-bins';
+import { VicCategoricalAttributeDataDimension } from '../geographies/dimensions/categorical-bins';
+import { VicEqualValuesAttributeDataDimension } from '../geographies/dimensions/equal-value-ranges-bins';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {
@@ -31,7 +31,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setValueSpaces');
       spyOn(directive, 'getFormattedValues').and.returnValue(['1%', '2%']);
       directive.orientation = 'horizontal';
-      directive.config = new VicEqualValuesAttributeDataDimensionConfig();
+      directive.config = new VicEqualValuesAttributeDataDimension();
       directive.config.valueFormat = 'test formatter';
     });
 
@@ -70,7 +70,7 @@ describe('the MapLegendContent abstract class', () => {
 
   describe('setColors', () => {
     beforeEach(() => {
-      directive.config = new VicCategoricalAttributeDataDimensionConfig();
+      directive.config = new VicCategoricalAttributeDataDimension();
       directive.config.domain = ['a', 'b'];
       directive.config.range = ['red', 'blue'];
     });
@@ -93,12 +93,12 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setCategoricalValueSpaces');
     });
     it('calls setQuantitativeValueSpaces once if binType is not categorical', () => {
-      directive.config = new VicEqualValuesAttributeDataDimensionConfig();
+      directive.config = new VicEqualValuesAttributeDataDimension();
       directive.setValueSpaces([1, 2]);
       expect(directive.setQuantitativeValueSpaces).toHaveBeenCalledTimes(1);
     });
     it('calls setCategoricalValueSpaces once if binType is categorical', () => {
-      directive.config = new VicCategoricalAttributeDataDimensionConfig();
+      directive.config = new VicCategoricalAttributeDataDimension();
       directive.setValueSpaces([1, 2]);
       expect(directive.setCategoricalValueSpaces).toHaveBeenCalledTimes(1);
     });

@@ -15,11 +15,11 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesHoverMoveDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicLinesHoverMoveEffects')
   effects: HoverMoveEventEffect<
-    LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
+    LinesHoverMoveDirective<Datum, TLinesComponent>
   >[];
   @Output('vicLinesHoverMoveOutput') eventOutput = new EventEmitter<
     VicLinesEventOutput<Datum>
@@ -29,7 +29,7 @@ export class LinesHoverMoveDirective<
   closestPointIndex: number;
   effectApplied = false;
 
-  constructor(@Inject(LINES) public lines: ExtendedLinesComponent) {
+  constructor(@Inject(LINES) public lines: TLinesComponent) {
     super();
   }
 

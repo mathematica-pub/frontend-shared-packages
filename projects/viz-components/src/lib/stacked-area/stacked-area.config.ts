@@ -7,19 +7,18 @@ import {
 } from 'd3';
 import { VicDataValue } from '../../public-api';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
-import { VicCategoricalDimensionConfig } from '../data-marks/dimensions/categorical-dimension';
-import { VicDateDimensionConfig } from '../data-marks/dimensions/date-dimension';
-import { VicQuantitativeDimensionConfig } from '../data-marks/dimensions/quantitative-dimension';
+import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
+import { VicDateDimension } from '../data-marks/dimensions/date-dimension';
+import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicStackedAreaConfig<
   Datum,
   TCategoricalValue extends VicDataValue
 > extends VicDataMarksConfig<Datum> {
-  x: VicDateDimensionConfig<Datum> = new VicDateDimensionConfig();
-  y: VicQuantitativeDimensionConfig<Datum> =
-    new VicQuantitativeDimensionConfig();
-  category: VicCategoricalDimensionConfig<Datum, TCategoricalValue> =
-    new VicCategoricalDimensionConfig();
+  x: VicDateDimension<Datum> = new VicDateDimension();
+  y: VicQuantitativeDimension<Datum> = new VicQuantitativeDimension();
+  category: VicCategoricalDimension<Datum, TCategoricalValue> =
+    new VicCategoricalDimension();
   valueIsDefined?: (...args: any) => boolean;
   curve: (x: any) => any;
   stackOffsetFunction: (

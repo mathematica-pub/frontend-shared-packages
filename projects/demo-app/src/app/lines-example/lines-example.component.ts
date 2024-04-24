@@ -23,7 +23,7 @@ import {
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
 import {
   VicColumnConfig,
   VicDataExportConfig,
@@ -132,7 +132,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.category.valueAccessor = (d) => d.division;
     dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    dataConfig.y.domainPadding = new VicPixelDomainPaddingConfig();
+    dataConfig.y.domainPadding = new VicPixelDomainPadding();
     return {
       dataConfig,
       xAxisConfig,

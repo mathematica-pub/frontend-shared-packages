@@ -1,15 +1,15 @@
 import { ScaleContinuousNumeric } from 'd3';
 import {
   DomainPadding,
-  DomainPaddingConfig,
   PaddedDomainArguments,
+  VicDomainPadding,
 } from './domain-padding';
 
-export class VicPixelDomainPaddingConfig extends DomainPaddingConfig {
+export class VicPixelDomainPadding extends VicDomainPadding {
   type: DomainPadding.numPixels = DomainPadding.numPixels;
   numPixels: number;
 
-  constructor(init?: Partial<VicPixelDomainPaddingConfig>) {
+  constructor(init?: Partial<VicPixelDomainPadding>) {
     super();
     this.numPixels = 40;
     Object.assign(this, init);

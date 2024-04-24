@@ -1,14 +1,10 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
-import {
-  VicDataDimensionConfig,
-  VicDataValue,
-  VicDimension,
-} from './data-dimension';
+import { VicDataDimension, VicDataValue, VicDimension } from './data-dimension';
 
-export class VicOrdinalDimensionConfig<
+export class VicOrdinalDimension<
   Datum,
   TOrdinalValue extends VicDataValue
-> extends VicDataDimensionConfig<Datum, TOrdinalValue> {
+> extends VicDataDimension<Datum, TOrdinalValue> {
   domain: TOrdinalValue[];
   private internSetDomain: InternSet<TOrdinalValue>;
   type: VicDimension.ordinal = VicDimension.ordinal;
@@ -20,7 +16,7 @@ export class VicOrdinalDimensionConfig<
   paddingOuter: number;
   align: number;
 
-  constructor(init?: Partial<VicOrdinalDimensionConfig<Datum, TOrdinalValue>>) {
+  constructor(init?: Partial<VicOrdinalDimension<Datum, TOrdinalValue>>) {
     super();
     this.scaleFn = scaleBand;
     this.paddingInner = 0.1;

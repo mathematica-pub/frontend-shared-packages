@@ -1,11 +1,8 @@
 import { ScaleTime, max, min, scaleUtc } from 'd3';
-import { VicDataDimensionConfig, VicDimension } from './data-dimension';
-import { VicQuantitativeDimensionConfig } from './quantitative-dimension';
+import { VicDataDimension, VicDimension } from './data-dimension';
+import { VicQuantitativeDimension } from './quantitative-dimension';
 
-export class VicDateDimensionConfig<Datum> extends VicDataDimensionConfig<
-  Datum,
-  Date
-> {
+export class VicDateDimension<Datum> extends VicDataDimension<Datum, Date> {
   type: VicDimension.date = VicDimension.date;
   domain: [Date, Date];
   unpaddedDomain: [Date, Date];
@@ -14,7 +11,7 @@ export class VicDateDimensionConfig<Datum> extends VicDataDimensionConfig<
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
 
-  constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
+  constructor(init?: Partial<VicQuantitativeDimension<Datum>>) {
     super();
     this.scaleFn = scaleUtc as () => ScaleTime<number, number>;
     Object.assign(this, init);

@@ -1,10 +1,10 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { VicDataDimensionConfig, VicDataValue } from './data-dimension';
+import { VicDataDimension, VicDataValue } from './data-dimension';
 
-export class VicCategoricalDimensionConfig<
+export class VicCategoricalDimension<
   Datum,
   TCategoricalValue extends VicDataValue
-> extends VicDataDimensionConfig<Datum, TCategoricalValue> {
+> extends VicDataDimension<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
   private internSetDomain: InternSet<TCategoricalValue>;
   /**
@@ -19,7 +19,7 @@ export class VicCategoricalDimensionConfig<
   range?: string[];
 
   constructor(
-    init?: Partial<VicCategoricalDimensionConfig<Datum, TCategoricalValue>>
+    init?: Partial<VicCategoricalDimension<Datum, TCategoricalValue>>
   ) {
     super();
     Object.assign(this, init);

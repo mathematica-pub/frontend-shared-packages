@@ -5,7 +5,11 @@ import { BarsInputEventDirective } from './bars-input-event.directive';
 import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsInputDirective', () => {
-  let directive: BarsInputEventDirective<any, BarsComponent<any>>;
+  let directive: BarsInputEventDirective<
+    any,
+    string,
+    BarsComponent<any, string>
+  >;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -17,7 +21,9 @@ describe('BarsInputDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(BarsInputEventDirective);
+    directive = TestBed.inject(
+      BarsInputEventDirective<any, string, BarsComponent<any, string>>
+    );
   });
 
   describe('handleNewEvent', () => {

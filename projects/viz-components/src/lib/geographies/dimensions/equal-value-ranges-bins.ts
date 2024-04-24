@@ -1,23 +1,20 @@
-import { extent, interpolateLab, range, scaleQuantize } from 'd3';
-import { formatValue } from '../../value-format/value-format';
-import { AttributeDataDimensionConfig } from './attribute-data';
+import { extent, interpolateLab, scaleQuantize } from 'd3';
 import { VicValuesBin } from './attribute-data-bin-types';
+import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
 
 /**
  * Configuration object for attribute data that is quantitative and will be binned into equal value ranges. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 49] and [50, 100].
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicEqualValuesAttributeDataDimensionConfig<
-  Datum
-> extends AttributeDataDimensionConfig<Datum, number> {
+export class VicEqualValuesAttributeDataDimension<
+  Datum,
+  RangeValue extends string | number = string
+> extends CalculatedRangeBinsAttributeDataDimension<Datum, number, RangeValue> {
   domain: [number, number];
   binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
-  numBins: number;
 
-  constructor(
-    init?: Partial<VicEqualValuesAttributeDataDimensionConfig<Datum>>
-  ) {
+  constructor(init?: Partial<VicEqualValuesAttributeDataDimension<Datum>>) {
     super();
     this.scale = scaleQuantize;
     this.interpolator = interpolateLab;
@@ -59,26 +56,13 @@ export class VicEqualValuesAttributeDataDimensionConfig<
     domain: [number, number];
   } {
     const validated = { numBins, domain };
-    const dataRange = [domain[0], domain[domain.length - 1]].map(
-      (x) => +formatValue(x, this.valueFormat)
-    );
+    const dataRange = domain.map((x) => Math.round(x));
     const numDiscreteValues = Math.abs(dataRange[1] - dataRange[0]) + 1;
     if (numDiscreteValues < numBins) {
       validated.numBins = numDiscreteValues;
       validated.domain = [dataRange[0], dataRange[1] + 1];
     }
     return validated;
-  }
-
-  protected setRange(): void {
-    if (this.shouldCalculateBinColors(this.numBins, this.colors)) {
-      const binIndicies = range(this.numBins);
-      this.range = binIndicies.map((i) =>
-        this.getColorGenerator(binIndicies)(i)
-      );
-    } else {
-      this.range = this.colors;
-    }
   }
 
   getScale(nullColor: string) {

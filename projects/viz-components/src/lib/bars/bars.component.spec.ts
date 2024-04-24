@@ -310,48 +310,35 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarLabelText', () => {
+  describe('getBarLabelText()', () => {
     beforeEach(() => {
-      component.config = new VicBarsConfig();
       component.config = {
         dimensions: { quantitative: 'x' },
         quantitative: {
+          values: [10000.1, 20000.2, 30000.3],
           valueFormat: ',.1f',
         },
         labels: {
           noValueFunction: (d) => 'no value',
         },
       } as any;
-      component.config = {
-        quantitative: {
-          values: [10000.1, 20000.2, 30000.3],
-        },
-      } as any;
-      component.config.data = [1, 2, 3];
+      component.config.data = [{ num: 1 }, { num: 2 }, { num: 3 }];
     });
     describe('if user has provided a custom formatting function', () => {
       beforeEach(() => {
-        component.config.quantitative.valueFormat = (value) => value + '!';
+        component.config.quantitative.valueFormat = (value) => value.num + '!';
       });
       it('integration: returns the correct value correctly formatted as a string', () => {
         expect(component.getBarLabelText(1)).toEqual('2!');
       });
       it('integration: returns the correct value correctly formatted as a string if value is null or undefined', () => {
-        component.config = {
-          quantitative: {
-            values: [null, undefined, null],
-          },
-        } as any;
+        component.config.quantitative.values = [null, undefined, null];
         expect(component.getBarLabelText(1)).toEqual('no value');
       });
     });
     describe('integration: if user has not provided a custom formatting function', () => {
       it('integration: returns the result of the noValueFunction if value null or undefined', () => {
-        component.config = {
-          quantitative: {
-            values: [null, undefined, null],
-          },
-        } as any;
+        component.config.quantitative.values = [null, undefined, null];
         expect(component.getBarLabelText(1)).toEqual('no value');
       });
       it('integration: returns the correct value correctly formatted as a string if value is not null or undefined', () => {
@@ -393,19 +380,19 @@ describe('BarsComponent', () => {
 
   describe('getBarColor()', () => {
     beforeEach(() => {
-      const colorScaleSpy = jasmine
-        .createSpy('colorScale')
-        .and.returnValue('blue');
+      const categorySpy = jasmine.createSpy('category').and.returnValue('blue');
       component.scales = {
-        category: colorScaleSpy,
+        category: categorySpy,
       } as any;
       component.config = {
+        ordinal: {
+          values: [1, 2, 3],
+        },
         dimensions: { ordinal: 'x' },
         data: [1, 2, 3],
       } as any;
-      component.values.x = [1, 2, 3];
     });
-    it('calls colorScale once with the correct value', () => {
+    it('calls category scale once with the correct value', () => {
       component.getBarColor(0);
       expect(component.scales.category).toHaveBeenCalledOnceWith(1);
     });
@@ -418,17 +405,13 @@ describe('BarsComponent', () => {
   describe('getBarPattern', () => {
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
-      const colorScaleSpy = jasmine
-        .createSpy('colorScale')
-        .and.returnValue('blue');
       component.config = {
-        dimensions: { ordinal: 'x' },
-        category: {
-          colorScale: colorScaleSpy,
+        ordinal: {
+          values: [1, 2, 3],
         },
+        dimensions: { ordinal: 'x' },
         data: [1, 2, 3],
       } as any;
-      component.values.x = [1, 2, 3];
     });
     it('returns correct value when pattern is used', () => {
       component.config.patternPredicates = [
@@ -489,7 +472,13 @@ describe('BarsComponent', () => {
       component.scales = {
         x: jasmine.createSpy('x').and.returnValue(10),
       } as any;
-      component.values.x = [1, 2, 3];
+      component.config = {
+        ordinal: {
+          values: [1, 2, 3],
+        },
+        dimensions: { ordinal: 'x' },
+        data: [1, 2, 3],
+      } as any;
     });
     it('calls xScale once and with the correct value', () => {
       component.getBarXOrdinal(2);
@@ -506,14 +495,18 @@ describe('BarsComponent', () => {
         x: jasmine.createSpy('x').and.returnValue(50),
       } as any;
       component.hasBarsWithNegativeValues = true;
-      component.values.x = [1, 2, 3];
+      component.config = {
+        quantitative: {
+          values: [1, 2, 3],
+        },
+      } as any;
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
         2, 10,
       ]);
     });
     describe('hasBarsWithNegativeValues is true', () => {
       it('calls xScale once and with the correct value if x value is less than zero', () => {
-        component.values.x = [-1, 2, 3];
+        component.config.quantitative.values = [-1, 2, 3];
         component.getBarXQuantitative(0);
         expect(component.scales.x).toHaveBeenCalledOnceWith(-1);
       });
@@ -542,7 +535,15 @@ describe('BarsComponent', () => {
       component.scales = {
         y: jasmine.createSpy('y').and.returnValue(50),
       } as any;
-      component.values.y = [1, 2, 3];
+      component.config = {
+        quantitative: {
+          values: [1, 2, 3],
+        },
+        dimensions: {
+          quantitative: 'y',
+          y: 'quantitative',
+        },
+      } as any;
     });
     it('calls yScale once and with the correct value', () => {
       component.getBarY(2);
@@ -690,8 +691,8 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       xScaleSpy = jasmine.createSpy('x').and.returnValues(20, 50);
       component.scales = { x: xScaleSpy } as any;
-      component.values.x = [1, 2, 3];
       component.config = new VicBarsConfig();
+      component.config.quantitative.values = [1, 2, 3];
       component.config.quantitative.domainIncludesZero = true;
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
         2, 10,
@@ -849,7 +850,11 @@ describe('BarsComponent', () => {
       yScaleSpy = jasmine.createSpy('y').and.returnValue(-50);
       component.scales = { y: yScaleSpy } as any;
       component.hasBarsWithNegativeValues = true;
-      component.values.y = [1, 2, 3];
+      component.config = {
+        quantitative: {
+          values: [1, 2, 3],
+        },
+      } as any;
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
         2, 10,
       ]);
