@@ -1,4 +1,4 @@
-import { Directive, Input, OnChanges } from '@angular/core';
+import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { VicOrientation, VicSide } from '../core/types/layout';
 import {
   VicAttributeDataDimensionConfig,
@@ -10,7 +10,7 @@ import { formatValue } from '../value-format/value-format';
 export abstract class MapLegendContent<
   Datum,
   AttributeDimensionConfig extends VicAttributeDataDimensionConfig<Datum>
-> implements OnChanges
+> implements OnChanges, OnInit
 {
   @Input() width: number;
   @Input() height: number;
@@ -25,6 +25,7 @@ export abstract class MapLegendContent<
   endValueSpace: number;
   largerValueSpace: number;
   leftOffset: number;
+  VicValuesBin: typeof VicValuesBin;
 
   abstract getValuesFromScale(): string[] | number[];
   abstract getLeftOffset(values?: number[]): number;
@@ -32,6 +33,10 @@ export abstract class MapLegendContent<
   ngOnChanges(): void {
     this.setValues();
     this.setColors();
+  }
+
+  ngOnInit(): void {
+    this.VicValuesBin = VicValuesBin;
   }
 
   setValues(): void {

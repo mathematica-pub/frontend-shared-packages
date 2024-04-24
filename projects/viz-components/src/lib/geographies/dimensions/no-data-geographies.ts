@@ -2,7 +2,7 @@ import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicGeographiesFeature } from '../geographies';
 import { VicBaseDataGeographyConfig } from './base-data-geographies';
 
-export class VicNoDataGeographyConfig<
+export class VicNoDataGeographies<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
@@ -16,7 +16,7 @@ export class VicNoDataGeographyConfig<
   >[];
 
   constructor(
-    init?: Partial<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>
+    init?: Partial<VicNoDataGeographies<Datum, TProperties, TGeometry>>
   ) {
     super();
     this.strokeColor = 'dimgray';

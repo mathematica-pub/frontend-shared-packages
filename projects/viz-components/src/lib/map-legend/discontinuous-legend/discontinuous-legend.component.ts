@@ -4,12 +4,12 @@ import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
 } from '../../geographies/dimensions/attribute-data-bin-types';
-import { VicNoBinsAttributeDataDimensionConfig } from '../../geographies/dimensions/no-bins';
+import { VicNoBinsAttributeDataDimension } from '../../geographies/dimensions/no-bins';
 import { MapLegendContent } from '../map-legend-content';
 
 type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   VicAttributeDataDimensionConfig<Datum>,
-  VicNoBinsAttributeDataDimensionConfig<Datum>
+  VicNoBinsAttributeDataDimension<Datum>
 >;
 
 /**
@@ -24,8 +24,6 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegendContent<
   Datum,
   DiscontinuousAttributeDataDimensionConfig<Datum>
 > {
-  VicValuesBin = VicValuesBin;
-
   getValuesFromScale(): string[] | number[] {
     if (this.config.binType === VicValuesBin.categorical) {
       return this.config.domain;

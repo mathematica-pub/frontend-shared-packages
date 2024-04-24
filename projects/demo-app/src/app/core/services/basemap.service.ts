@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicNoDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
+import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
 import { StateIncomeDatum } from '../models/data';
@@ -14,7 +14,7 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicNoDataGeographyConfig<
+  usOutlineConfig: VicNoDataGeographies<
     StateIncomeDatum,
     MapGeometryProperties
   >;
@@ -49,7 +49,7 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    const outlineGeography = new VicNoDataGeographyConfig<
+    const outlineGeography = new VicNoDataGeographies<
       StateIncomeDatum,
       MapGeometryProperties
     >();

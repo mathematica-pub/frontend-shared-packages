@@ -16,8 +16,8 @@ import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
-import { VicDataGeographyConfig } from './dimensions/data-geographies';
-import { VicNoDataGeographyConfig } from './dimensions/no-data-geographies';
+import { VicDataGeographies } from './dimensions/data-geographies';
+import { VicNoDataGeographies } from './dimensions/no-data-geographies';
 import { VicGeographiesFeature } from './geographies';
 import { VicGeographyLabelConfig } from './geographies-labels';
 import { VicGeographiesConfig } from './geographies.config';
@@ -172,9 +172,9 @@ export class GeographiesComponent<
     const dataLayers = select(this.elRef.nativeElement)
       .selectAll<
         SVGGElement,
-        VicDataGeographyConfig<Datum, TProperties, TGeometry>
+        VicDataGeographies<Datum, TProperties, TGeometry>
       >('.vic-map-layer.vic-data')
-      .data<VicDataGeographyConfig<Datum, TProperties, TGeometry>>([
+      .data<VicDataGeographies<Datum, TProperties, TGeometry>>([
         this.config.dataGeographyConfig,
       ])
       .join(
@@ -244,9 +244,9 @@ export class GeographiesComponent<
     const noDataLayers = select(this.elRef.nativeElement)
       .selectAll<
         SVGGElement,
-        VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+        VicNoDataGeographies<Datum, TProperties, TGeometry>
       >('.vic-map-layer.vic-no-data')
-      .data<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>(
+      .data<VicNoDataGeographies<Datum, TProperties, TGeometry>>(
         this.config.noDataGeographiesConfigs
       )
       .join(
@@ -319,7 +319,7 @@ export class GeographiesComponent<
 
   getNoDataGeographyPatternFill(
     geography: VicGeographiesFeature<TProperties, TGeometry>,
-    config: VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+    config: VicNoDataGeographies<Datum, TProperties, TGeometry>
   ): string {
     return PatternUtilities.getPatternFill(
       geography,
@@ -333,8 +333,8 @@ export class GeographiesComponent<
       SVGGElement,
       VicGeographiesFeature<TProperties, TGeometry>,
       SVGGElement,
-      | VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
-      | VicDataGeographyConfig<Datum, TProperties, TGeometry>
+      | VicNoDataGeographies<Datum, TProperties, TGeometry>
+      | VicDataGeographies<Datum, TProperties, TGeometry>
     >,
     t: any,
     labelsConfig: VicGeographyLabelConfig<Datum, TProperties, TGeometry>

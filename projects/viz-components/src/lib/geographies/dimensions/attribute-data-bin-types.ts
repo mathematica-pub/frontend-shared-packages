@@ -2,7 +2,7 @@ import { VicCategoricalAttributeDataDimension } from './categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
 import { VicEqualNumObservationsAttributeDataDimension } from './equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimension } from './equal-value-ranges-bins';
-import { VicNoBinsAttributeDataDimensionConfig } from './no-bins';
+import { VicNoBinsAttributeDataDimension } from './no-bins';
 
 /**
  * Enum that defines the types of binning that can be used to map quantitative attribute data to colors.
@@ -17,7 +17,7 @@ export enum VicValuesBin {
 
 export type VicAttributeDataDimensionConfig<Datum> =
   | VicCategoricalAttributeDataDimension<Datum>
-  | VicNoBinsAttributeDataDimensionConfig<Datum>
+  | VicNoBinsAttributeDataDimension<Datum>
   | VicEqualValuesAttributeDataDimension<Datum>
   | VicEqualNumObservationsAttributeDataDimension<Datum>
   | VicCustomBreaksAttributeDataDimension<Datum>;

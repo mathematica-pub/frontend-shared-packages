@@ -39,7 +39,6 @@ export class VicCategoricalAttributeDataDimension<
     return this.scale()
       .domain(this.domain)
       .range(this.range)
-      .unknown(nullColor)
-      .interpolate(this.interpolator);
+      .unknown(nullColor);
   }
 }

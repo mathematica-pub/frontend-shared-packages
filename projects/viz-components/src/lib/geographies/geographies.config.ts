@@ -13,9 +13,9 @@ import {
   Polygon,
 } from 'geojson';
 import { VicDataMarksConfig } from '../data-marks/data-marks.config';
-import { VicDataGeographyConfig } from './dimensions/data-geographies';
+import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
-import { VicNoDataGeographyConfig } from './dimensions/no-data-geographies';
+import { VicNoDataGeographies } from './dimensions/no-data-geographies';
 import { VicGeographiesFeature } from './geographies';
 
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
@@ -56,7 +56,7 @@ export class VicGeographiesConfig<
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographiesConfigs?: VicNoDataGeographyConfig<
+  noDataGeographiesConfigs?: VicNoDataGeographies<
     Datum,
     TProperties,
     TGeometry
@@ -64,14 +64,14 @@ export class VicGeographiesConfig<
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataGeographyConfig: VicDataGeographyConfig<Datum, TProperties, TGeometry>;
+  dataGeographyConfig: VicDataGeographies<Datum, TProperties, TGeometry>;
 
   constructor(
     init?: Partial<VicGeographiesConfig<Datum, TProperties, TGeometry>>
   ) {
     super();
     this.projection = geoAlbersUsa();
-    this.dataGeographyConfig = new VicDataGeographyConfig();
+    this.dataGeographyConfig = new VicDataGeographies();
     this.dataGeographyConfig.attributeDataConfig =
       new VicEqualValuesAttributeDataDimension();
     Object.assign(this, init);

@@ -1,4 +1,4 @@
-import { interpolateLab, scaleThreshold } from 'd3';
+import { interpolateLab, range, scaleLinear, scaleThreshold } from 'd3';
 import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
 
@@ -25,6 +25,7 @@ export class VicCustomBreaksAttributeDataDimension<
 
   setPropertiesFromData(): void {
     this.setDomainAndBins();
+    this.setRange();
   }
 
   protected setDomainAndBins(): void {
@@ -32,11 +33,19 @@ export class VicCustomBreaksAttributeDataDimension<
     this.numBins = this.breakValues.length - 1;
   }
 
+  protected setRange(): void {
+    if (this.range.length < this.numBins) {
+      const scale = scaleLinear<string>()
+        .domain([0, this.numBins - 1])
+        .range(this.range);
+      this.range = range(this.numBins).map((i) => scale(i));
+    }
+  }
+
   getScale(nullColor: string) {
     return this.scale()
       .domain(this.domain)
       .range(this.range)
-      .unknown(nullColor)
-      .interpolate(this.interpolator);
+      .unknown(nullColor);
   }
 }

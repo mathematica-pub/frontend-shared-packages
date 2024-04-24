@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { VicOrientation } from '../../core/types/layout';
-import { VicNoBinsAttributeDataDimensionConfig } from '../../geographies/dimensions/no-bins';
+import { VicNoBinsAttributeDataDimension } from '../../geographies/dimensions/no-bins';
 import { MapLegendContent } from '../map-legend-content';
 
 /**
@@ -13,7 +13,7 @@ import { MapLegendContent } from '../map-legend-content';
   styleUrls: ['./continuous-legend.component.scss'],
 })
 export class ContinuousLegendComponent<Datum>
-  extends MapLegendContent<Datum, VicNoBinsAttributeDataDimensionConfig<Datum>>
+  extends MapLegendContent<Datum, VicNoBinsAttributeDataDimension<Datum>>
   implements OnChanges
 {
   @ViewChild('canvas', { static: true })
@@ -54,9 +54,11 @@ export class ContinuousLegendComponent<Datum>
   ): void {
     canvas.height = 1;
     canvas.width = this.width - this.startValueSpace - this.endValueSpace - 2;
-    const rectScale = scaleLinear([0, canvas.width], this.colors);
+    const rectScale = scaleLinear<string>()
+      .domain([0, canvas.width])
+      .range(this.colors);
     for (let i = 0; i < canvas.width; ++i) {
-      ctx.fillStyle = this.scale(rectScale(i));
+      ctx.fillStyle = rectScale(i);
       ctx.fillRect(i, 0, 1, 1);
     }
   }
@@ -67,9 +69,11 @@ export class ContinuousLegendComponent<Datum>
   ): void {
     canvas.height = this.height - 16;
     canvas.width = 1;
-    const rectScale = scaleLinear([0, canvas.height], this.colors);
+    const rectScale = scaleLinear<string>()
+      .domain([0, canvas.height])
+      .range(this.colors);
     for (let i = 0; i < canvas.height; ++i) {
-      ctx.fillStyle = this.scale(rectScale(i));
+      ctx.fillStyle = rectScale(i);
       ctx.fillRect(0, i, 1, 1);
     }
   }

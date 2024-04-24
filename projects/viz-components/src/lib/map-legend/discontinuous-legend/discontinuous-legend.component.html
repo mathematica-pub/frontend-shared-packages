@@ -1,6 +1,7 @@
 <div
   class="vic-legend-color-scale vic-discontinuous"
   [ngClass]="['vic-'+orientation, 'vic-'+valuesSide]"
+  [class.vic-categorical]="config.binType === VicValuesBin.categorical"
   [style.--border-color]="outlineColor"
   [style.--width]="width + 'px'"
   [style.--height]="height + 'px'"

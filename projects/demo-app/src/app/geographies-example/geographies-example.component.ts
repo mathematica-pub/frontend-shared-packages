@@ -3,9 +3,9 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { VicDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
+import { VicDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
 import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
-import { VicNoDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
+import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
@@ -20,7 +20,7 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
+import { valueFormat } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -125,8 +125,8 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataGeographyConfig(
     data: StateIncomeDatum[]
-  ): VicDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
-    const config = new VicDataGeographyConfig<
+  ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
+    const config = new VicDataGeographies<
       StateIncomeDatum,
       MapGeometryProperties
     >();
@@ -156,16 +156,13 @@ export class GeographiesExampleComponent implements OnInit {
 
   getNoDataGeographyStatesConfig(
     data: StateIncomeDatum[]
-  ): VicNoDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
+  ): VicNoDataGeographies<StateIncomeDatum, MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
     );
     const labels = this.getGeographyLabelConfig();
-    return new VicNoDataGeographyConfig<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >({
+    return new VicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: features,
       labels: labels,
       fill: 'lightgray',

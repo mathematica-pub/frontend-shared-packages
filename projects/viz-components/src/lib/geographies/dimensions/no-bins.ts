@@ -7,13 +7,13 @@ import { VicValuesBin } from './attribute-data-bin-types';
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicNoBinsAttributeDataDimensionConfig<
+export class VicNoBinsAttributeDataDimension<
   Datum
 > extends AttributeDataDimension<Datum, number> {
   domain: [number, number];
   binType: VicValuesBin.none = VicValuesBin.none;
 
-  constructor(init?: Partial<VicNoBinsAttributeDataDimensionConfig<Datum>>) {
+  constructor(init?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
     super();
     this.scale = scaleLinear;
     this.interpolator = interpolateLab;
