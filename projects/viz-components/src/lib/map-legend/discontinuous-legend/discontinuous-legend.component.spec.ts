@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VicCategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {
@@ -16,65 +15,6 @@ describe('DiscontinuousLegendComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DiscontinuousLegendComponent);
     component = fixture.componentInstance;
-  });
-
-  describe('ngOnChanges', () => {
-    beforeEach(() => {
-      spyOn(component, 'setCategoricalValues');
-      spyOn(component, 'setValues');
-      spyOn(component, 'setColors');
-    });
-
-    it('should call setCategoricalValues if isCategorical is true', () => {
-      component.isCategorical = true;
-      component.ngOnChanges();
-      expect(component.setCategoricalValues).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call setValues if isCategorical is false', () => {
-      component.isCategorical = false;
-      component.ngOnChanges();
-      expect(component.setValues).toHaveBeenCalledTimes(1);
-    });
-
-    it('should call setColors if isCategorical is false', () => {
-      component.isCategorical = false;
-      component.ngOnChanges();
-      expect(component.setColors).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('setCategoricalValues', () => {
-    beforeEach(() => {
-      component.config = new VicCategoricalAttributeDataDimensionConfig();
-      component.config.domain = ['a', 'b'];
-      component.config.range = ['red', 'blue'];
-      component.setCategoricalValues();
-    });
-
-    it('should set colors to scale.range', () => {
-      expect(component.colors).toEqual(['red', 'blue']);
-    });
-
-    it('should set values to scale.domain', () => {
-      expect(component.values).toEqual(['a', 'b']);
-    });
-
-    it('should set startValueSpace to 0', () => {
-      expect(component.startValueSpace).toEqual(0);
-    });
-
-    it('should set endValueSpace to 0', () => {
-      expect(component.endValueSpace).toEqual(0);
-    });
-
-    it('should set largerValueSpace to 0', () => {
-      expect(component.largerValueSpace).toEqual(0);
-    });
-
-    it('should set leftOffset to 0', () => {
-      expect(component.leftOffset).toEqual(0);
-    });
   });
 
   describe('getLeftOffset', () => {

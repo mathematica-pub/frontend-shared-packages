@@ -1,22 +1,22 @@
 import { GeoPath, GeoProjection, maxIndex, polygonArea } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import polylabel from 'polylabel';
-import { GeographiesFeature, LabelPosition } from './geographies.config';
+import { VicPosition } from '../core/types/layout';
+import { VicGeographiesFeature } from './geographies';
 
 export class VicGeographiesLabelsPositioners {
-  static positionAtCentroid<P, G extends Geometry>(
-    feature: GeographiesFeature<P, G>,
+  static positionAtCentroid<TProperties, TGeometry extends Geometry>(
+    feature: VicGeographiesFeature<TProperties, TGeometry>,
     path: GeoPath
-  ): LabelPosition {
+  ): VicPosition {
     const c = path.centroid(feature);
     return { x: c[0], y: c[1] };
   }
 
-  static positionHawaiiOnGeoAlbersUsa<
-    P,
-    G extends MultiPolygon,
-    Projection extends GeoProjection
-  >(feature: GeographiesFeature<P, G>, projection: Projection): LabelPosition {
+  static positionHawaiiOnGeoAlbersUsa<TProperties>(
+    feature: VicGeographiesFeature<TProperties, MultiPolygon>,
+    projection: GeoProjection
+  ): VicPosition {
     const startPolygon =
       // we need to cast because Position can return two or three numbers but GeoProjection
       // can only handle [number, number]
@@ -36,11 +36,14 @@ export class VicGeographiesLabelsPositioners {
       y: approxStartCoords[1],
     };
   }
+
   static positionWithPolylabel<
-    P,
-    G extends MultiPolygon | Polygon,
-    Projection extends GeoProjection
-  >(feature: GeographiesFeature<P, G>, projection: Projection): LabelPosition {
+    TProperties,
+    TGeometry extends MultiPolygon | Polygon = MultiPolygon | Polygon
+  >(
+    feature: VicGeographiesFeature<TProperties, TGeometry>,
+    projection: GeoProjection
+  ): VicPosition {
     const isMultiPolygon = feature.geometry.coordinates.length > 1;
     let largestIndex = 0;
     let largestPolygon: [number, number][];

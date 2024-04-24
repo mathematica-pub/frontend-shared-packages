@@ -5,22 +5,38 @@ import { GeographiesComponent } from './geographies.component';
 
 export class GeographiesHoverMoveEmitTooltipData<
   Datum,
-  P,
-  G extends Geometry,
-  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<
     Datum,
-    P,
-    G
-  >
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > implements
-    HoverMoveEventEffect<GeographiesHoverMoveDirective<Datum, P, G, C>>
+    HoverMoveEventEffect<
+      GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
+    >
 {
-  applyEffect(directive: GeographiesHoverMoveDirective<Datum, P, G, C>): void {
+  applyEffect(
+    directive: GeographiesHoverMoveDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >
+  ): void {
     const tooltipData = directive.getEventOutput();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(directive: GeographiesHoverMoveDirective<Datum, P, G, C>): void {
+  removeEffect(
+    directive: GeographiesHoverMoveDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >
+  ): void {
     directive.eventOutput.emit(null);
   }
 }

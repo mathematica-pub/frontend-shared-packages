@@ -1,14 +1,11 @@
-import type * as CSSType from 'csstype';
 import {
   ExtendedFeature,
   ExtendedFeatureCollection,
   ExtendedGeometryCollection,
   geoAlbersUsa,
   GeoGeometryObjects,
-  GeoPath,
   GeoProjection,
   interpolateLab,
-  ScaleLinear,
   scaleLinear,
   scaleOrdinal,
   scaleQuantile,
@@ -16,33 +13,33 @@ import {
   scaleThreshold,
 } from 'd3';
 import {
-  Feature,
   GeoJsonProperties,
   GeometryObject as Geometry,
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { VicVariableType } from '../core/types/variable-type';
 import { VicDataDimensionConfig } from '../data-marks/data-dimension.config';
 import {
   VicDataMarksConfig,
   VicPatternPredicate,
 } from '../data-marks/data-marks.config';
-import { VicGeographiesLabelsPositioners } from './geographies-labels-positioners';
+import { VicGeographiesFeature } from './geographies';
+import { VicGeographyLabelConfig } from './geographies-labels';
+
 /** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
  * Note that while a GeographiesComponent can create geographies without attribute data, for example, to create an
  * outline of a geographic area, it is not intended to draw maps that have no attribute data.
+ *
+ * The first generic parameter, Datum, is the type of the attribute data that will be used to shade the map areas.
+ *
+ * The second generic parameter, TProperties, is the type of the properties object that is associated with the GeoJson.
+ *
+ * The third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson.
  */
-
-export type GeographiesFeature<
-  P extends GeoJsonProperties = GeoJsonProperties,
-  G extends Geometry = MultiPolygon | Polygon
-> = Feature<G, P>;
-
 export class VicGeographiesConfig<
   Datum,
-  P extends GeoJsonProperties = GeoJsonProperties,
-  G extends Geometry = MultiPolygon | Polygon
+  TProperties extends GeoJsonProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > extends VicDataMarksConfig<Datum> {
   /** A feature or geometry object or collection that defines the extents of the map to be drawn.
    * Used for scaling the map.
@@ -61,35 +58,45 @@ export class VicGeographiesConfig<
   /**
    * A function that derives an identifying string or number from the GeoJson feature.
    */
-  featureIndexAccessor?: (d: GeographiesFeature<P, G>) => string | number;
+  featureIndexAccessor?: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string | number;
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographiesConfigs?: VicNoDataGeographyConfig<Datum, P, G>[];
+  noDataGeographiesConfigs?: VicNoDataGeographyConfig<
+    Datum,
+    TProperties,
+    TGeometry
+  >[];
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataGeographyConfig: VicDataGeographyConfig<Datum, P, G>;
+  dataGeographyConfig: VicDataGeographyConfig<Datum, TProperties, TGeometry>;
 
-  constructor(init?: Partial<VicGeographiesConfig<Datum, P, G>>) {
+  constructor(
+    init?: Partial<VicGeographiesConfig<Datum, TProperties, TGeometry>>
+  ) {
     super();
     this.projection = geoAlbersUsa();
     Object.assign(this, init);
   }
 }
 
-export type VicGeoJsonDefaultProperty = { [name: string]: any };
-
+/**
+ * Base configuration object for geographies that can be used with or without attribute data.
+ *
+ * The generic parameters are the same as those in VicGeographiesConfig.
+ */
 export class VicBaseDataGeographyConfig<
   Datum,
-  P,
-  G extends Geometry,
-  Projection
+  TProperties,
+  TGeometry extends Geometry
 > {
   /**
    * GeoJSON features that define the geographies to be drawn.
    */
-  geographies: Array<GeographiesFeature<P, G>>;
+  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
   /**
    * The fill color for the geography.
    * @default: 'none'.
@@ -109,19 +116,30 @@ export class VicBaseDataGeographyConfig<
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
-  labels: VicGeographyLabelConfig<Datum, P, G, Projection>;
+  labels: VicGeographyLabelConfig<Datum, TProperties, TGeometry>;
 }
 
+/**
+ * Configuration object for geographies that have attribute data.
+ *
+ * The generic parameters are the same as those in VicGeographiesConfig.
+ */
 export class VicDataGeographyConfig<
   Datum,
-  P,
-  G extends Geometry,
-  Projection = GeoProjection
-> extends VicBaseDataGeographyConfig<Datum, P, G, Projection> {
-  attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
+  attributeDataConfig:
+    | VicCategoricalAttributeDataDimensionConfig<Datum>
+    | VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
+    | VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
+    | VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
+    | VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>;
   nullColor: string;
 
-  constructor(init?: Partial<VicDataGeographyConfig<Datum, P, G, Projection>>) {
+  constructor(
+    init?: Partial<VicDataGeographyConfig<Datum, TProperties, TGeometry>>
+  ) {
     super();
     this.nullColor = '#dcdcdc';
     this.strokeColor = 'dimgray';
@@ -130,74 +148,99 @@ export class VicDataGeographyConfig<
   }
 }
 
-export class VicAttributeDataDimensionConfig<
+/**
+ * Configuration object for attribute data that will be used to shade the map.
+ *
+ * The generic parameter is the type of the attribute data.
+ */
+abstract class AttributeDataDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
   geoAccessor: (d: Datum, ...args: any) => any;
-  variableType: VicVariableType.categorical | VicVariableType.quantitative;
-  binType: keyof typeof VicValuesBin;
   range: any[];
   colorScale: (...args: any) => any;
   colors?: string[];
-  numBins?: number;
-  breakValues?: number[];
   interpolator: (...args: any) => any;
   patternPredicates?: VicPatternPredicate<Datum>[];
-  constructor(init?: Partial<VicAttributeDataDimensionConfig<Datum>>) {
-    super();
-    Object.assign(this, init);
-  }
 }
 
+/**
+ * Enum that defines the types of binning that can be used to map quantitative attribute data to colors.
+ */
 export enum VicValuesBin {
   none = 'none',
+  categorical = 'categorical',
   equalValueRanges = 'equalValueRanges',
   equalNumObservations = 'equalNumObservations',
   customBreaks = 'customBreaks',
 }
 
+export type VicAttributeDataDimensionConfig<Datum> =
+  | VicCategoricalAttributeDataDimensionConfig<Datum>
+  | VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
+  | VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
+  | VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
+  | VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>;
+
+/**
+ * Configuration object for attribute data that is categorical.
+ *
+ * The generic parameter is the type of the attribute data.
+ */
 export class VicCategoricalAttributeDataDimensionConfig<
   Datum
-> extends VicAttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum> {
+  binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
+  override domain: string[];
 
   constructor(
     init?: Partial<VicCategoricalAttributeDataDimensionConfig<Datum>>
   ) {
     super();
-    this.variableType = VicVariableType.categorical;
-    this.binType = VicValuesBin.none;
     this.colorScale = scaleOrdinal;
     this.colors = ['white', 'lightslategray'];
     Object.assign(this, init);
   }
 }
+
+/**
+ * Configuration object for attribute data that is quantitative.
+ *
+ * The generic parameter is the type of the attribute data.
+ */
 export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends VicAttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum> {
+  binType: VicValuesBin.none = VicValuesBin.none;
+
   constructor(
     init?: Partial<VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>>
   ) {
     super();
-    this.variableType = VicVariableType.quantitative;
-    this.binType = VicValuesBin.none;
     this.colorScale = scaleLinear;
     this.interpolator = interpolateLab;
     Object.assign(this, init);
   }
 }
 
+/**
+ * Configuration object for attribute data that is quantitative and will be binned into equal value ranges. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 49] and [50, 100].
+ *
+ * The generic parameter is the type of the attribute data.
+ */
 export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends VicAttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum> {
+  binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
+  numBins: number;
+
   constructor(
     init?: Partial<
       VicEqualValuesQuantitativeAttributeDataDimensionConfig<Datum>
     >
   ) {
     super();
-    this.variableType = VicVariableType.quantitative;
-    this.binType = VicValuesBin.equalValueRanges;
     this.colorScale = scaleQuantize;
     this.interpolator = interpolateLab;
     this.numBins = 5;
@@ -205,18 +248,24 @@ export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
   }
 }
 
+/**
+ * Configuration object for attribute data that is quantitative and will be binned into equal number of observations. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 2] and [4, 100].
+ *
+ * The generic parameter is the type of the attribute data.
+ */
 export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends VicAttributeDataDimensionConfig<Datum> {
-  override domain: never;
+> extends AttributeDataDimensionConfig<Datum> {
+  binType: VicValuesBin.equalNumObservations =
+    VicValuesBin.equalNumObservations;
+  numBins: number;
+
   constructor(
     init?: Partial<
       VicEqualNumbersQuantitativeAttributeDataDimensionConfig<Datum>
     >
   ) {
     super();
-    this.variableType = VicVariableType.quantitative;
-    this.binType = VicValuesBin.equalNumObservations;
     this.colorScale = scaleQuantile;
     this.interpolator = interpolateLab;
     this.numBins = 5;
@@ -224,108 +273,55 @@ export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
   }
 }
 
+/**
+ * Configuration object for attribute data that is quantitative and will be binned into custom breaks. For example, if the data is [0, 1, 2, 4, 60, 100] and breakValues is [0, 2, 5, 10, 50], the bin ranges will be [0, 2], [2, 5], [5, 10], [10, 50], [50, 100].
+ *
+ * The generic parameter is the type of the attribute data.
+ */
+
 export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
   Datum
-> extends VicAttributeDataDimensionConfig<Datum> {
+> extends AttributeDataDimensionConfig<Datum> {
+  binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
+  breakValues: number[];
+  numBins: number;
+
   constructor(
     init?: Partial<
       VicCustomBreaksQuantitativeAttributeDataDimensionConfig<Datum>
     >
   ) {
     super();
-    this.variableType = VicVariableType.quantitative;
-    this.binType = VicValuesBin.customBreaks;
     this.colorScale = scaleThreshold;
     this.interpolator = interpolateLab;
     Object.assign(this, init);
+    this.numBins = undefined;
   }
 }
 
-export interface LabelPosition {
-  x: number;
-  y: number;
-}
-
-/**
- * Configuration object for labels to be shown on the map. Label functions depend on
- * geojon features.
- */
-export class VicGeographyLabelConfig<
-  Datum,
-  P,
-  G extends Geometry,
-  Projection = GeoProjection
+export interface VicGeographyNoDataPatternPredicate<
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > {
-  /**
-   * Function that determines whether a label should be shown on the GeoJSON feature
-   * Exists because it's common for small geographies to not have labels shown on them.
-   */
-  display: (d: GeographiesFeature<P, G>, ...args: any) => boolean;
-  /**
-   * Function that maps a geojson feature to the desired label
-   */
-  valueAccessor: (d: GeographiesFeature<P, G>) => string;
-  textAnchor: CSSType.Property.TextAnchor;
-  alignmentBaseline: CSSType.Property.AlignmentBaseline;
-  dominantBaseline: CSSType.Property.DominantBaseline;
-  cursor: CSSType.Property.Cursor;
-  pointerEvents: CSSType.Property.PointerEvents;
-  fontWeight:
-    | ((
-        d: Datum,
-        backgroundColor: CSSType.Property.Fill
-      ) => CSSType.Property.FontWeight)
-    | CSSType.Property.FontWeight;
-  color:
-    | ((
-        d: Datum,
-        backgroundColor: CSSType.Property.Fill
-      ) => CSSType.Property.Fill)
-    | CSSType.Property.Fill;
-  position: (
-    d: GeographiesFeature<P, G>,
-    path: GeoPath,
-    projection: Projection
-  ) => LabelPosition;
-
-  fontScale: ScaleLinear<number, number, never>;
-
-  constructor(
-    init?: Partial<VicGeographyLabelConfig<Datum, P, G, Projection>>
-  ) {
-    this.display = () => true;
-    this.color = '#000';
-    this.fontWeight = 400;
-    this.position = (d, path) =>
-      VicGeographiesLabelsPositioners.positionAtCentroid<P, G>(d, path);
-    this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
-    this.textAnchor = 'middle';
-    this.alignmentBaseline = 'middle';
-    this.dominantBaseline = 'middle';
-    this.cursor = 'default';
-    this.pointerEvents = 'none';
-    Object.assign(this, init);
-  }
-}
-
-export interface VicGeographyNoDataPatternPredicate<P, G extends Geometry> {
   patternName: string;
-  predicate: (d: GeographiesFeature<P, G>) => boolean;
+  predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
 }
 
 export class VicNoDataGeographyConfig<
   Datum,
-  P,
-  G extends Geometry,
-  Projection = GeoProjection
-> extends VicBaseDataGeographyConfig<Datum, P, G, Projection> {
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.
    */
-  patternPredicates?: VicGeographyNoDataPatternPredicate<P, G>[];
+  patternPredicates?: VicGeographyNoDataPatternPredicate<
+    TProperties,
+    TGeometry
+  >[];
 
   constructor(
-    init?: Partial<VicNoDataGeographyConfig<Datum, P, G, Projection>>
+    init?: Partial<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>
   ) {
     super();
     this.strokeColor = 'dimgray';

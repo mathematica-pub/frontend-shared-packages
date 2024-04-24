@@ -6,14 +6,14 @@ import { GeographiesComponent } from './geographies.component';
 
 export type GeographiesEventDirective<
   Datum,
-  P,
-  G extends Geometry,
-  C extends GeographiesComponent<Datum, P, G> = GeographiesComponent<
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<
     Datum,
-    P,
-    G
-  >
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > =
-  | GeographiesHoverDirective<Datum, P, G, C>
-  | GeographiesHoverMoveDirective<Datum, P, G, C>
-  | GeographiesInputEventDirective<Datum, P, G, C>;
+  | GeographiesHoverDirective<Datum, TProperties, TGeometry, TComponent>
+  | GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
+  | GeographiesInputEventDirective<Datum, TProperties, TGeometry, TComponent>;

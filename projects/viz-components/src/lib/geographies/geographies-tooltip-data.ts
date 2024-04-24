@@ -1,8 +1,7 @@
 import { Geometry } from 'geojson';
 import { formatValue } from '../value-format/value-format';
+import { VicGeographiesFeature } from './geographies';
 import { GeographiesComponent } from './geographies.component';
-import { GeographiesFeature } from './geographies.config';
-
 export class VicGeographiesTooltipOutput<Datum> {
   datum?: Datum;
   color: string;
@@ -28,12 +27,12 @@ export class VicGeographiesEventOutput<
 
 export function getGeographiesTooltipData<
   Datum,
-  P,
-  G extends Geometry,
-  C extends GeographiesComponent<Datum, P, G>
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
 >(
-  geography: GeographiesFeature<P, G>,
-  component: C
+  geography: VicGeographiesFeature<TProperties, TGeometry>,
+  component: TComponent
 ): VicGeographiesTooltipOutput<Datum> {
   const geographyName = component.config.featureIndexAccessor(geography);
   const datum = component.values.datumsByGeographyIndex.get(geographyName);

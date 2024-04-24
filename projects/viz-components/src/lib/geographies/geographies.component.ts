@@ -20,18 +20,17 @@ import {
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { VicVariableType } from '../core/types/variable-type';
 import { isFunction, isPrimitiveType } from '../core/utilities/type-guards';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
+import { VicGeographiesFeature } from './geographies';
+import { VicGeographyLabelConfig } from './geographies-labels';
 import {
-  GeographiesFeature,
   VicDataGeographyConfig,
   VicGeographiesConfig,
-  VicGeographyLabelConfig,
   VicNoDataGeographyConfig,
   VicValuesBin,
 } from './geographies.config';
@@ -65,9 +64,12 @@ export const GEOGRAPHIES = new InjectionToken<
 })
 export class GeographiesComponent<
   Datum,
-  P extends GeoJsonProperties = GeoJsonProperties,
-  G extends Geometry = MultiPolygon | Polygon
-> extends MapDataMarksBase<Datum, VicGeographiesConfig<Datum, P, G>> {
+  TProperties extends GeoJsonProperties = GeoJsonProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+> extends MapDataMarksBase<
+  Datum,
+  VicGeographiesConfig<Datum, TProperties, TGeometry>
+> {
   projection: any;
   path: any;
   values: MapDataValues = new MapDataValues();
@@ -127,17 +129,22 @@ export class GeographiesComponent<
 
   initAttributeDataScaleDomain(): void {
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-      VicVariableType.quantitative
-    ) {
-      this.setQuantitativeDomainAndBinsForBinType();
-    }
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-      VicVariableType.categorical
+      this.config.dataGeographyConfig.attributeDataConfig.binType ===
+      VicValuesBin.categorical
     ) {
       this.setCategoricalDomain();
+    } else {
+      this.setQuantitativeDomainAndBinsForBinType();
     }
+  }
+
+  setCategoricalDomain(): void {
+    const domainValues =
+      this.config.dataGeographyConfig.attributeDataConfig.domain ??
+      Array.from(this.values.attributeValuesByGeographyIndex.values());
+    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
+      domainValues
+    );
   }
 
   setQuantitativeDomainAndBinsForBinType(): void {
@@ -160,8 +167,8 @@ export class GeographiesComponent<
         this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
         1;
     } else {
-      // no bins, equal interval
-      let domainValues: any[];
+      // no bins, equal value ranges
+      let domainValues: number[];
       if (
         this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
       ) {
@@ -177,12 +184,18 @@ export class GeographiesComponent<
     }
 
     if (
-      // do we need to do this for equal num observations?
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.equalValueRanges
     ) {
       if (this.attributeDataValueFormatIsInteger()) {
-        this.validateNumBinsAndDomainForIntegerValues();
+        const validated = this.getValidatedNumBinsAndDomainForIntegerValues(
+          this.config.dataGeographyConfig.attributeDataConfig.numBins,
+          this.config.dataGeographyConfig.attributeDataConfig.domain
+        );
+        this.config.dataGeographyConfig.attributeDataConfig.numBins =
+          validated.numBins;
+        this.config.dataGeographyConfig.attributeDataConfig.domain =
+          validated.domain;
       }
     }
   }
@@ -197,8 +210,14 @@ export class GeographiesComponent<
     );
   }
 
-  validateNumBinsAndDomainForIntegerValues(): void {
-    const domain = this.config.dataGeographyConfig.attributeDataConfig.domain;
+  getValidatedNumBinsAndDomainForIntegerValues(
+    numBins: number,
+    domain: [number, number]
+  ): {
+    numBins: number;
+    domain: number[];
+  } {
+    const validated = { numBins, domain };
     const dataRange = [domain[0], domain[domain.length - 1]].map(
       (x) =>
         +formatValue(
@@ -207,30 +226,24 @@ export class GeographiesComponent<
         )
     );
     const numDiscreteValues = Math.abs(dataRange[1] - dataRange[0]) + 1;
-    if (
-      numDiscreteValues <
-      this.config.dataGeographyConfig.attributeDataConfig.numBins
-    ) {
-      this.config.dataGeographyConfig.attributeDataConfig.numBins =
-        numDiscreteValues;
-      this.config.dataGeographyConfig.attributeDataConfig.domain = [
-        dataRange[0],
-        dataRange[1] + 1,
-      ];
+    if (numDiscreteValues < numBins) {
+      validated.numBins = numDiscreteValues;
+      validated.domain = [dataRange[0], dataRange[1] + 1];
     }
-  }
-
-  setCategoricalDomain(): void {
-    const domainValues =
-      this.config.dataGeographyConfig.attributeDataConfig.domain ??
-      Array.from(this.values.attributeValuesByGeographyIndex.values());
-    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
-      domainValues
-    );
+    return validated;
   }
 
   initAttributeDataScaleRange(): void {
-    if (this.shouldCalculateBinColors()) {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.binType !==
+        VicValuesBin.none &&
+      this.config.dataGeographyConfig.attributeDataConfig.binType !==
+        VicValuesBin.categorical &&
+      this.shouldCalculateBinColors(
+        this.config.dataGeographyConfig.attributeDataConfig.numBins,
+        this.config.dataGeographyConfig.attributeDataConfig.colors
+      )
+    ) {
       const binIndicies = range(
         this.config.dataGeographyConfig.attributeDataConfig.numBins
       );
@@ -245,8 +258,8 @@ export class GeographiesComponent<
     } else {
       let colors = this.config.dataGeographyConfig.attributeDataConfig.colors;
       if (
-        this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-        VicVariableType.categorical
+        this.config.dataGeographyConfig.attributeDataConfig.binType ===
+        VicValuesBin.categorical
       ) {
         colors = colors.slice(
           0,
@@ -257,21 +270,14 @@ export class GeographiesComponent<
     }
   }
 
-  shouldCalculateBinColors(): boolean {
-    return (
-      this.config.dataGeographyConfig.attributeDataConfig.numBins &&
-      this.config.dataGeographyConfig.attributeDataConfig.numBins > 1 &&
-      this.config.dataGeographyConfig.attributeDataConfig.colors.length !==
-        this.config.dataGeographyConfig.attributeDataConfig.numBins
-    );
+  shouldCalculateBinColors(numBins: number, colors: string[]): boolean {
+    return numBins && numBins > 1 && colors.length !== numBins;
   }
 
   getAttributeDataScale(): any {
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-        VicVariableType.quantitative &&
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
-        VicValuesBin.none
+      VicValuesBin.none
     ) {
       return this.setColorScaleWithColorInterpolator();
     } else {
@@ -348,10 +354,11 @@ export class GeographiesComponent<
 
   drawDataLayer(t: any): void {
     const dataLayers = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, VicDataGeographyConfig<Datum, P, G>>(
-        '.vic-map-layer.vic-data'
-      )
-      .data<VicDataGeographyConfig<Datum, P, G>>([
+      .selectAll<
+        SVGGElement,
+        VicDataGeographyConfig<Datum, TProperties, TGeometry>
+      >('.vic-map-layer.vic-data')
+      .data<VicDataGeographyConfig<Datum, TProperties, TGeometry>>([
         this.config.dataGeographyConfig,
       ])
       .join(
@@ -361,8 +368,12 @@ export class GeographiesComponent<
       );
 
     const dataGeographyGroups = dataLayers
-      .selectAll<SVGGElement, GeographiesFeature<P, G>>('.geography-g')
-      .data<GeographiesFeature<P, G>>((layer) => layer.geographies)
+      .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
+        '.geography-g'
+      )
+      .data<VicGeographiesFeature<TProperties, TGeometry>>(
+        (layer) => layer.geographies
+      )
       .join(
         (enter) => enter.append('g').attr('class', 'geography-g'),
         (update) => update,
@@ -370,8 +381,10 @@ export class GeographiesComponent<
       );
 
     dataGeographyGroups
-      .selectAll<SVGPathElement, GeographiesFeature<P, G>>('path')
-      .data<GeographiesFeature<P, G>>((d) => [d])
+      .selectAll<SVGPathElement, VicGeographiesFeature<TProperties, TGeometry>>(
+        'path'
+      )
+      .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
       .join(
         (enter) =>
           enter
@@ -413,10 +426,11 @@ export class GeographiesComponent<
 
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, VicNoDataGeographyConfig<Datum, P, G>>(
-        '.vic-map-layer.vic-no-data'
-      )
-      .data<VicNoDataGeographyConfig<Datum, P, G>>(
+      .selectAll<
+        SVGGElement,
+        VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+      >('.vic-map-layer.vic-no-data')
+      .data<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>(
         this.config.noDataGeographiesConfigs
       )
       .join(
@@ -428,10 +442,12 @@ export class GeographiesComponent<
     this.config.noDataGeographiesConfigs.forEach((config, index) => {
       const noDataGeographyGroups = noDataLayers
         .filter((d, i) => i === index)
-        .selectAll<SVGGElement, GeographiesFeature<P, G>>(
+        .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
           '.no-data-geography-g'
         )
-        .data<GeographiesFeature<P, G>>((layer) => layer.geographies)
+        .data<VicGeographiesFeature<TProperties, TGeometry>>(
+          (layer) => layer.geographies
+        )
         .join(
           (enter) => enter.append('g').attr('class', 'no-data-geography-g'),
           (update) => update,
@@ -439,8 +455,11 @@ export class GeographiesComponent<
         );
 
       noDataGeographyGroups
-        .selectAll<SVGPathElement, GeographiesFeature<P, G>>('path')
-        .data<GeographiesFeature<P, G>>((d) => [d])
+        .selectAll<
+          SVGPathElement,
+          VicGeographiesFeature<TProperties, TGeometry>
+        >('path')
+        .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
         .join(
           (enter) =>
             enter
@@ -483,10 +502,10 @@ export class GeographiesComponent<
   }
 
   getNoDataGeographyPatternFill(
-    geography: GeographiesFeature<P, G>,
-    config: VicNoDataGeographyConfig<Datum, P, G>
+    geography: VicGeographiesFeature<TProperties, TGeometry>,
+    config: VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
   ): string {
-    return PatternUtilities.getNoDataGeographiesPatternFill(
+    return PatternUtilities.getPatternFill(
       geography,
       config.fill,
       config.patternPredicates
@@ -496,13 +515,13 @@ export class GeographiesComponent<
   drawLabels(
     features: Selection<
       SVGGElement,
-      GeographiesFeature<P, G>,
+      VicGeographiesFeature<TProperties, TGeometry>,
       SVGGElement,
-      | VicNoDataGeographyConfig<Datum, P, G>
-      | VicDataGeographyConfig<Datum, P, G>
+      | VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+      | VicDataGeographyConfig<Datum, TProperties, TGeometry>
     >,
     t: any,
-    labelsConfig: VicGeographyLabelConfig<Datum, P, G>
+    labelsConfig: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
   ): void {
     features
       .filter((d, i) => labelsConfig.display(d))
@@ -511,10 +530,10 @@ export class GeographiesComponent<
 
     features
       .filter((d) => labelsConfig.display(d))
-      .selectAll<SVGTextElement, GeographiesFeature<P, G>>(
+      .selectAll<SVGTextElement, VicGeographiesFeature<TProperties, TGeometry>>(
         '.vic-geography-label'
       )
-      .data<GeographiesFeature<P, G>>((d) => [d])
+      .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
       .join(
         (enter) =>
           enter
@@ -567,8 +586,8 @@ export class GeographiesComponent<
   }
 
   getLabelPosition(
-    d: GeographiesFeature<P, G>,
-    config: VicGeographyLabelConfig<Datum, P, G>
+    d: VicGeographiesFeature<TProperties, TGeometry>,
+    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
   ): { x: number; y: number } {
     if (!this.path || !this.projection) return { x: 0, y: 0 };
     return config.position(d, this.path, this.projection);
@@ -576,7 +595,7 @@ export class GeographiesComponent<
 
   getLabelColor(
     geographyIndex: string | number,
-    config: VicGeographyLabelConfig<Datum, P, G>
+    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
   ): CSSType.Property.Fill {
     const pathColor = this.getFill(geographyIndex);
     let fontColor: CSSType.Property.Fill;
@@ -593,7 +612,7 @@ export class GeographiesComponent<
 
   getLabelFontWeight(
     geographyIndex: string | number,
-    config: VicGeographyLabelConfig<Datum, P, G>
+    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
   ): CSSType.Property.FontWeight {
     const pathColor = this.getFill(geographyIndex);
     let fontProperty: CSSType.Property.FontWeight;

@@ -2,7 +2,7 @@
 import { axisLeft, axisRight } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
-import { VicSide } from '../../core/types/side';
+import { VicSide } from '../../core/types/layout';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';

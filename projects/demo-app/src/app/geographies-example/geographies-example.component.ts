@@ -1,28 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
+import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
+import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
+import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
+import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
+import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
+import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
+import {
+  VicDataGeographyConfig,
+  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
+  VicGeographiesConfig,
+  VicNoDataGeographyConfig,
+} from 'projects/viz-components/src/lib/geographies/geographies.config';
+import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
-import {
-  ElementSpacing,
-  GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
-  GeographiesFeature,
-  GeographiesHoverEmitTooltipData,
-  VicDataGeographyConfig,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
-  VicGeographiesConfig,
-  VicGeographiesEventOutput,
-  VicGeographiesLabelsFill,
-  VicGeographiesLabelsPositioners,
-  VicGeographyLabelConfig,
-  VicNoDataGeographyConfig,
-} from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -45,11 +45,11 @@ import { DataService } from '../core/services/data.service';
 })
 export class GeographiesExampleComponent implements OnInit {
   dataMarksConfig$: Observable<
-    VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties, MultiPolygon>
+    VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties>
   >;
   width = 700;
   height = 400;
-  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  margin: VicElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
   tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
     new BehaviorSubject<VicHtmlTooltipConfig>(
@@ -60,16 +60,11 @@ export class GeographiesExampleComponent implements OnInit {
     new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<
-    GeographiesHoverDirective<
-      StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
-    >
+    GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
   >[] = [
     new GeographiesHoverEmitTooltipData<
       StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
+      MapGeometryProperties
     >(),
   ];
   patternName = 'dotPattern';
@@ -78,23 +73,17 @@ export class GeographiesExampleComponent implements OnInit {
   selectedYear$ = this.selectedYear.asObservable();
 
   clickEffects: EventEffect<
-    GeographiesClickDirective<
-      StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
-    >
+    GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
   >[] = [
     new GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
       StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
+      MapGeometryProperties
     >(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  featureIndexAccessor = (
-    d: GeographiesFeature<MapGeometryProperties, MultiPolygon>
-  ) => d.properties.name;
+  featureIndexAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>
+    d.properties.name;
 
   constructor(
     private dataService: DataService,
@@ -119,15 +108,10 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataMarksConfig(
     data: StateIncomeDatum[]
-  ): VicGeographiesConfig<
-    StateIncomeDatum,
-    MapGeometryProperties,
-    MultiPolygon
-  > {
+  ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
     const config = new VicGeographiesConfig<
       StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
+      MapGeometryProperties
     >();
     config.boundary = this.basemap.us;
     config.data = data;
@@ -143,15 +127,10 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataGeographyConfig(
     data: StateIncomeDatum[]
-  ): VicDataGeographyConfig<
-    StateIncomeDatum,
-    MapGeometryProperties,
-    MultiPolygon
-  > {
+  ): VicDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
     const config = new VicDataGeographyConfig<
       StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
+      MapGeometryProperties
     >();
     config.geographies = this.getDataGeographyFeatures(data);
     config.attributeDataConfig =
@@ -183,11 +162,7 @@ export class GeographiesExampleComponent implements OnInit {
 
   getNoDataGeographyStatesConfig(
     data: StateIncomeDatum[]
-  ): VicNoDataGeographyConfig<
-    StateIncomeDatum,
-    MapGeometryProperties,
-    MultiPolygon
-  > {
+  ): VicNoDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
@@ -195,25 +170,17 @@ export class GeographiesExampleComponent implements OnInit {
     const labels = this.getGeographyLabelConfig();
     return new VicNoDataGeographyConfig<
       StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
+      MapGeometryProperties
     >({
       geographies: features,
-      strokeColor: 'chartreuse',
       labels: labels,
-      patternPredicates: [
-        {
-          patternName: this.patternName,
-          predicate: (d) => d.properties.id === 'TX',
-        },
-      ],
+      fill: 'lightgray',
     });
   }
 
   getGeographyLabelConfig(): VicGeographyLabelConfig<
     StateIncomeDatum,
-    MapGeometryProperties,
-    MultiPolygon
+    MapGeometryProperties
   > {
     const polylabelStates = [
       'CA',
@@ -241,8 +208,7 @@ export class GeographiesExampleComponent implements OnInit {
     ];
     const labelConfig = new VicGeographyLabelConfig<
       StateIncomeDatum,
-      MapGeometryProperties,
-      MultiPolygon
+      MapGeometryProperties
     >();
     labelConfig.valueAccessor = (d) => d.properties.id;
     labelConfig.display = (d) =>
@@ -252,7 +218,7 @@ export class GeographiesExampleComponent implements OnInit {
     labelConfig.position = (d, path, projection) => {
       if (labelConfig.valueAccessor(d) === 'HI') {
         return VicGeographiesLabelsPositioners.positionHawaiiOnGeoAlbersUsa(
-          d,
+          d as VicGeographiesFeature<MapGeometryProperties, MultiPolygon>,
           projection
         );
       } else if (polylabelStates.includes(labelConfig.valueAccessor(d))) {
@@ -267,13 +233,13 @@ export class GeographiesExampleComponent implements OnInit {
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     labelConfig.color = (d, backgroundColor) =>
-      VicGeographiesLabelsFill.getContrastLabelFill(
+      VicColorUtilities.getHigherContrastColorForBackground(
         backgroundColor,
         darkColor,
         lightColor
       );
     labelConfig.fontWeight = (d, backgroundColor) =>
-      VicGeographiesLabelsFill.getContrastLabelFill(
+      VicColorUtilities.getHigherContrastColorForBackground(
         backgroundColor,
         darkColor,
         lightColor
