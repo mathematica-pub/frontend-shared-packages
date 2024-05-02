@@ -11,7 +11,7 @@ import { VicHtmlTooltipConfig } from './html-tooltip.config';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
-  let directive: HtmlTooltipDirective;
+  let directive: HtmlTooltipDirective<any, any>;
   let mainServiceStub: MainServiceStub;
   let destroySpy: jasmine.Spy;
 

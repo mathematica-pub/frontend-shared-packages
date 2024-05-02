@@ -1,4 +1,4 @@
-import { VicPatternPredicate } from '../data-marks/data-marks.config';
+import { VicPatternPredicate } from '../data-marks/dimensions/pattern-predicate';
 import { PatternUtilities } from './pattern-utilities.class';
 
 describe('PatternUtilities', () => {

@@ -1,4 +1,4 @@
-import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../../data-marks/data-marks-types';
 import { VicXyDataMarks } from '../../xy-data-marks/xy-data-marks';
 
 export class XyDataMarksBaseStub<Datum> extends VicXyDataMarks<
@@ -10,9 +10,6 @@ export class XyDataMarksBaseStub<Datum> extends VicXyDataMarks<
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override setPropertiesFromRanges(useTransition: boolean): void {
-    return;
-  }
-  override setDimensionPropertiesFromData(): void {
     return;
   }
   override drawMarks(): void {

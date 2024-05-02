@@ -1,4 +1,4 @@
-import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../../data-marks/data-marks-types';
 import { MapDataMarksBase } from '../../map-data-marks/map-data-marks-base';
 
 export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
@@ -8,10 +8,8 @@ export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
   override setPropertiesFromData(): void {
     return;
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override setPropertiesFromRanges(useTransition: boolean): void {
-    return;
-  }
-  override setDimensionPropertiesFromData(): void {
     return;
   }
   drawMarks(): void {

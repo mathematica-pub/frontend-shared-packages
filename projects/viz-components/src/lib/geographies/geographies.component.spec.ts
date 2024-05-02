@@ -30,7 +30,7 @@ describe('GeographiesComponent', () => {
   describe('initFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromRanges');
-      spyOn(component, 'setPropertiesFromConfig');
+      spyOn(component, 'setPropertiesFromData');
     });
     it('calls setPropertiesFromConfig once', () => {
       component.initFromConfig();

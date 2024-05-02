@@ -1,8 +1,8 @@
-import { VicPatternPredicate } from '../../public-api';
 import { VicDataMarksConfig } from '../data-marks/data-marks-types';
 import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicOrdinalDimension } from '../data-marks/dimensions/ordinal-dimension';
+import { VicPatternPredicate } from '../data-marks/dimensions/pattern-predicate';
 import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 
 export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
