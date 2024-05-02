@@ -20,7 +20,7 @@ import { expectDomain } from './testing/expect-domain';
 
 function getDomainValues(): Promise<[number, number]> {
   return new Promise((resolve) => {
-    cy.get('.domain-values').then((els) => {
+    cy.get('.domain-value').then((els) => {
       resolve([+els[0].textContent, +els[1].textContent]);
     });
   });
