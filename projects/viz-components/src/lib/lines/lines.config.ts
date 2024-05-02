@@ -1,10 +1,12 @@
 import { curveLinear, schemeTableau10 } from 'd3';
-import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../data-marks/data-marks-types';
 import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
 import { VicDateDimension } from '../data-marks/dimensions/date-dimension';
 import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 
-export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
+export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
+  data: Datum[];
+  mixBlendMode: string;
   /**
    * A config for the behavior of the chart's x dimension
    *
@@ -12,7 +14,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default scaleType is D3's [scaleUtc]{@link https://github.com/d3/d3-scale#scaleUtc}.
    */
-  x: VicDateDimension<Datum> = new VicDateDimension();
+  x: VicDateDimension<Datum>;
 
   /**
    * A config for the behavior of the chart's y dimension
@@ -21,7 +23,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default scaleType is D3's [scaleLinear]{@link https://github.com/d3/d3-scale#scaleLinear}.
    */
-  y: VicQuantitativeDimension<Datum> = new VicQuantitativeDimension();
+  y: VicQuantitativeDimension<Datum>;
 
   /**
    * A config for the behavior of the chart's category dimension.
@@ -30,8 +32,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
-  category: VicCategoricalDimension<Datum, string> =
-    new VicCategoricalDimension();
+  category: VicCategoricalDimension<Datum, string>;
 
   /**
    * A function that returns a boolean indicating whether a value in the data is defined.
@@ -40,7 +41,8 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    * Used, in conjunction with a check that the value is a number of a Date, with D3's
    *  [line.defined()]{@link https://github.com/d3/d3-shape#line_defined} method.
    */
-  valueIsDefined?: (...args: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  valueIsDefined?: (d: Datum, i: number, ...args: any) => any;
 
   /**
    * A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
@@ -48,6 +50,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default is [curveLinear]{@link https://github.com/d3/d3-shape#curveLinear}.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   curve: (x: any) => any;
 
   /**
@@ -89,13 +92,18 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
   pointerDetectionRadius: number;
 
   constructor(init?: Partial<VicLinesConfig<Datum>>) {
-    super();
-    this.category.valueAccessor = () => undefined;
-    this.category.range = schemeTableau10 as string[];
+    this.mixBlendMode = 'normal';
+    this.x = new VicDateDimension();
+    this.y = new VicQuantitativeDimension();
+    this.category = new VicCategoricalDimension({
+      range: schemeTableau10 as string[],
+    });
     this.curve = curveLinear;
+    this.pointMarkers = new VicPointMarkersConfig();
+    this.hoverDot = new VicPointMarkerConfig({ radius: 4 });
+    this.stroke = new VicLinesStrokeConfig();
     this.lineLabelsFormat = (d: string) => d;
     this.pointerDetectionRadius = 80;
-    this.hoverDot.radius = 4;
     Object.assign(this, init);
   }
 }
@@ -149,7 +157,6 @@ export class VicPointMarkerConfig {
    * Default is true.
    */
   display: boolean;
-
   /**
    * A value for the radius of the point marker, in px.
    *

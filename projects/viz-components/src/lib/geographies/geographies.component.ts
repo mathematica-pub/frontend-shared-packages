@@ -12,7 +12,7 @@ import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { isFunction, isPrimitiveType } from '../core/utilities/type-guards';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
@@ -38,7 +38,7 @@ export const GEOGRAPHIES = new InjectionToken<
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: DATA_MARKS, useExisting: GeographiesComponent },
+    { provide: VIC_DATA_MARKS, useExisting: GeographiesComponent },
     {
       provide: GEOGRAPHIES,
       useExisting: GeographiesComponent,
@@ -71,10 +71,10 @@ export class GeographiesComponent<
 
   override initFromConfig(): void {
     this.setPropertiesFromRanges();
-    this.setPropertiesFromConfig();
+    this.setPropertiesFromData();
   }
 
-  setPropertiesFromConfig(): void {
+  setPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.initAttributeDataProperties();
     this.updateChartAttributeProperties();
@@ -151,7 +151,8 @@ export class GeographiesComponent<
   }
 
   drawMarks(): void {
-    this.drawMap(this.chart.transitionDuration);
+    const transitionDuration = this.getTransitionDuration();
+    this.drawMap(transitionDuration);
     this.updateGeographyElements();
   }
 

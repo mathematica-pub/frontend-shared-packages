@@ -1,11 +1,11 @@
-import { DataMarksBase } from '../../data-marks/data-marks-base';
+import { VicDataMarks } from '../../data-marks/data-marks';
 import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
 
-export class DataMarksBaseStub<Datum> extends DataMarksBase<
+export class DataMarksBaseStub<Datum> extends VicDataMarks<
   Datum,
   VicDataMarksConfig<Datum>
 > {
-  override setPropertiesFromConfig(): void {
+  override setPropertiesFromData(): void {
     return;
   }
   override setPropertiesFromRanges(useTransition: boolean): void {

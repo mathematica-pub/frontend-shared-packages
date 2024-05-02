@@ -1,5 +1,5 @@
 import { Chart } from '../../chart/chart';
-import { XyDataMarksValues } from '../../xy-data-marks/xy-data-marks';
+import { XyDataMarksValues } from '../../xy-data-marks/xy-data-marks-types';
 
 export class StackedAreaComponentStub {
   ranges = {

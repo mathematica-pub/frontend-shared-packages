@@ -1,33 +1,28 @@
-import { VicDataValue } from '../../public-api';
-import {
-  VicDataMarksConfig,
-  VicPatternPredicate,
-} from '../data-marks/data-marks.config';
+import { VicPatternPredicate } from '../../public-api';
+import { VicDataMarksConfig } from '../data-marks/data-marks-types';
 import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicOrdinalDimension } from '../data-marks/dimensions/ordinal-dimension';
 import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 
-export class VicBarsConfig<
-  Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicDataMarksConfig<Datum> {
-  ordinal: VicOrdinalDimension<Datum, TOrdinalValue> =
-    new VicOrdinalDimension();
-  quantitative: VicQuantitativeDimension<Datum> =
-    new VicQuantitativeDimension();
-  category: VicCategoricalDimension<Datum, string> =
-    new VicCategoricalDimension();
+export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
+  implements VicDataMarksConfig<Datum>
+{
+  data: Datum[];
+  mixBlendMode: string;
   dimensions: VicBarsDimensionsConfig;
+  ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
+  quantitative: VicQuantitativeDimension<Datum>;
+  category: VicCategoricalDimension<Datum, string>;
   labels: VicBarsLabelsConfig<Datum>;
   patternPredicates?: VicPatternPredicate<Datum>[];
 
   constructor(init?: Partial<VicBarsConfig<Datum, TOrdinalValue>>) {
-    super();
+    this.mixBlendMode = 'normal';
     this.dimensions = new VicVerticalBarsDimensionsConfig();
-    this.category.valueAccessor = (d) => '';
-    this.ordinal.valueAccessor = (d, i) => i;
-    this.quantitative.domainIncludesZero = true;
-    this.category.range = ['lightslategray'];
+    this.ordinal = new VicOrdinalDimension();
+    this.quantitative = new VicQuantitativeDimension();
+    this.category = new VicCategoricalDimension();
     Object.assign(this, init);
   }
 }

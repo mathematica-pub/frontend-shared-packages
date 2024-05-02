@@ -23,7 +23,7 @@ import {
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding.ts/pixel-padding';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
 import {
   VicColumnConfig,
   VicDataExportConfig,

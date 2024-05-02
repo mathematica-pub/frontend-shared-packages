@@ -1,6 +1,6 @@
 import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
 import { VicDataDimension, VicDimension } from './data-dimension';
-import { VicDomainPaddingConfig } from './domain-padding.ts/domain-padding';
+import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
 
 export class VicQuantitativeDimension<Datum> extends VicDataDimension<
   Datum,
@@ -19,6 +19,7 @@ export class VicQuantitativeDimension<Datum> extends VicDataDimension<
   constructor(init?: Partial<VicQuantitativeDimension<Datum>>) {
     super();
     this.scaleFn = scaleLinear;
+    this.domainIncludesZero = true;
     Object.assign(this, init);
   }
 

@@ -16,9 +16,9 @@ import {
   select,
   stack,
 } from 'd3';
-import { VicDataValue } from '../../public-api';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
+import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
@@ -36,14 +36,14 @@ type Key = string | number | Date;
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: DATA_MARKS, useExisting: StackedAreaComponent },
+    { provide: VIC_DATA_MARKS, useExisting: StackedAreaComponent },
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
   ],
 })
 export class StackedAreaComponent<
   Datum,
   TCategoricalValue extends VicDataValue
-> extends XyDataMarksBase<
+> extends VicXyDataMarks<
   Datum,
   VicStackedAreaConfig<Datum, TCategoricalValue>
 > {
@@ -60,7 +60,7 @@ export class StackedAreaComponent<
     super();
   }
 
-  setPropertiesFromConfig(): void {
+  setPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setSeries();
@@ -128,6 +128,7 @@ export class StackedAreaComponent<
 
   setArea(): void {
     this.area = area()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .x(({ i }: any) => this.scales.x(this.config.x.values[i]))
       .y0(([y1]) => this.scales.y(y1))
       .y1(([, y2]) => this.scales.y(y2))
@@ -137,6 +138,7 @@ export class StackedAreaComponent<
   drawAreas(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.areas = select(this.areasRef.nativeElement)
@@ -154,6 +156,7 @@ export class StackedAreaComponent<
         (update) =>
           update.call((update) =>
             update
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>

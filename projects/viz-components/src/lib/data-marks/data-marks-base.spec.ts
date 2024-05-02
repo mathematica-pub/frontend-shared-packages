@@ -47,12 +47,12 @@ describe('DataMarksBase abstract class', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'setPropertiesFromConfig');
+      spyOn(abstractClass, 'setPropertiesFromData');
       spyOn(abstractClass, 'setPropertiesFromRanges');
       abstractClass.initFromConfig();
     });
     it('calls setPropertiesFromConfig()', () => {
-      expect(abstractClass.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
+      expect(abstractClass.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
     it('calls setPropertiesFromRanges()', () => {
       expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledTimes(1);

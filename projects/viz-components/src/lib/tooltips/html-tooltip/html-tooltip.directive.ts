@@ -23,8 +23,9 @@ import {
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { DataMarks } from '../../data-marks/data-marks';
-import { DATA_MARKS } from '../../data-marks/data-marks.token';
+import { VicDataMarks } from '../../data-marks/data-marks';
+import { VicDataMarksConfig } from '../../data-marks/data-marks-types';
+import { VIC_DATA_MARKS } from '../../data-marks/data-marks.token';
 import {
   VicHtmlTooltipCdkManagedFromOriginPosition,
   VicHtmlTooltipConfig,
@@ -37,7 +38,11 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
+export class HtmlTooltipDirective<
+  Datum,
+  TDataMarksConfig extends VicDataMarksConfig<Datum>
+> implements OnInit, OnChanges, OnDestroy
+{
   @Input() template: TemplateRef<unknown>;
   @Input() config: VicHtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
@@ -53,7 +58,9 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    @Optional() @Inject(DATA_MARKS) private dataMarks: DataMarks,
+    @Optional()
+    @Inject(VIC_DATA_MARKS)
+    private dataMarks: VicDataMarks<Datum, TDataMarksConfig>,
     @Optional() @Inject(DOCUMENT) document: Document
   ) {
     this._document = document;

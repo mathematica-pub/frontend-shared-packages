@@ -18,6 +18,7 @@ export class VicOrdinalDimension<
 
   constructor(init?: Partial<VicOrdinalDimension<Datum, TOrdinalValue>>) {
     super();
+    this.valueAccessor = (d, i) => i;
     this.scaleFn = scaleBand;
     this.paddingInner = 0.1;
     this.paddingOuter = 0.1;

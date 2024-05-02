@@ -15,7 +15,7 @@ import {
 } from 'd3';
 import { stack } from 'd3-shape';
 import { BarsComponent } from '../bars/bars.component';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicStackedBarsConfig } from './stacked-bars.config';
 
@@ -30,7 +30,7 @@ export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
+  providers: [{ provide: VIC_DATA_MARKS, useExisting: StackedBarsComponent }],
 })
 export class StackedBarsComponent<
   Datum,
@@ -40,7 +40,7 @@ export class StackedBarsComponent<
   @Input('config') override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
   stackedData: VicStackDatum[][];
 
-  override setPropertiesFromConfig(): void {
+  override setPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();

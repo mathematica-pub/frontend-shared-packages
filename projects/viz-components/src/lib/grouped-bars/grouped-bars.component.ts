@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { range, scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicGroupedBarsConfig } from './grouped-bars.config';
 
@@ -17,7 +17,7 @@ import { VicGroupedBarsConfig } from './grouped-bars.config';
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
+  providers: [{ provide: VIC_DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
 export class GroupedBarsComponent<
   Datum,

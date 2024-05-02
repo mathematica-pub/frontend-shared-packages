@@ -12,7 +12,7 @@ import {
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../data-marks/data-marks-types';
 import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { VicNoDataGeographies } from './dimensions/no-data-geographies';
@@ -32,7 +32,10 @@ export class VicGeographiesConfig<
   Datum,
   TProperties extends GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicDataMarksConfig<Datum> {
+> implements VicDataMarksConfig<Datum>
+{
+  data: Datum[];
+  mixBlendMode: string;
   /** A feature or geometry object or collection that defines the extents of the map to be drawn.
    * Used for scaling the map.
    */
@@ -69,7 +72,7 @@ export class VicGeographiesConfig<
   constructor(
     init?: Partial<VicGeographiesConfig<Datum, TProperties, TGeometry>>
   ) {
-    super();
+    this.mixBlendMode = 'normal';
     this.projection = geoAlbersUsa();
     this.dataGeographyConfig = new VicDataGeographies();
     this.dataGeographyConfig.attributeDataConfig =

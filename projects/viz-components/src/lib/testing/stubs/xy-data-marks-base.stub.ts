@@ -1,11 +1,11 @@
 import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
-import { XyDataMarksBase } from '../../xy-data-marks/xy-data-marks-base';
+import { VicXyDataMarks } from '../../xy-data-marks/xy-data-marks';
 
-export class XyDataMarksBaseStub<Datum> extends XyDataMarksBase<
+export class XyDataMarksBaseStub<Datum> extends VicXyDataMarks<
   Datum,
   VicDataMarksConfig<Datum>
 > {
-  override setPropertiesFromConfig(): void {
+  override setPropertiesFromData(): void {
     return;
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

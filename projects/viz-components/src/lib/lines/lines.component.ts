@@ -12,9 +12,9 @@ import {
 import { group, InternSet, line, map, range, select, Transition } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { isDate, isNumber } from '../core/utilities/type-guards';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
+import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicLinesConfig } from './lines.config';
 
 export interface Marker {
@@ -42,12 +42,12 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: DATA_MARKS, useExisting: LinesComponent },
+    { provide: VIC_DATA_MARKS, useExisting: LinesComponent },
     { provide: LINES, useExisting: LinesComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent<Datum> extends XyDataMarksBase<
+export class LinesComponent<Datum> extends VicXyDataMarks<
   Datum,
   VicLinesConfig<Datum>
 > {
@@ -82,7 +82,7 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
     return select(this.markersRef.nativeElement).selectAll('circle');
   }
 
-  setPropertiesFromConfig(): void {
+  setPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setLinesD3Data();

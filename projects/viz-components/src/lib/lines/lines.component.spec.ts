@@ -34,7 +34,7 @@ describe('LineChartComponent', () => {
       spyOn(component, 'setLinesKeyFunction');
       spyOn(component, 'setMarkersD3Data');
       spyOn(component, 'setMarkersKeyFunction');
-      component.setPropertiesFromConfig();
+      component.setPropertiesFromData();
     });
     it('calls setDimensionPropertiesFromData once', () => {
       expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);

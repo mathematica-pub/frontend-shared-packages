@@ -36,7 +36,7 @@ describe('BarsComponent', () => {
       spyOn(component, 'setValueIndicies');
       spyOn(component, 'setHasBarsWithNegativeValues');
       spyOn(component, 'setBarsKeyFunction');
-      component.setPropertiesFromConfig();
+      component.setPropertiesFromData();
     });
 
     it('calls setValueArrays once', () => {

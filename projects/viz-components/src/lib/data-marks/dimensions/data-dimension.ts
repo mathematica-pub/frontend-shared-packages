@@ -10,14 +10,15 @@ export enum VicDimension {
 
 export type VicDataValue = number | string | Date;
 
-export abstract class VicDataDimension<Datum, ValueType extends VicDataValue> {
-  values: ValueType[];
-  valueAccessor: (d: Datum, ...args: any) => ValueType;
+export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue> {
+  values: TDataValue[];
+  valueAccessor: (d: Datum, ...args: any) => TDataValue;
   valueFormat?: VicFormatSpecifier<Datum>;
-  constructor(init?: Partial<VicDataDimension<Datum, ValueType>>) {
+  constructor(init?: Partial<VicDataDimension<Datum, TDataValue>>) {
     Object.assign(this, init);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setPropertiesFromData(data: Datum[], ...args: any): void;
 
   protected setValues(data: Datum[]): void {

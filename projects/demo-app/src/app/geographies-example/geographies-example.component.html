@@ -4,20 +4,50 @@
     demo
     *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
   >
-    <p class="effect-title">Select a year</p>
-    <div class="toggle-container">
-      <mat-button-toggle-group
-        name="selectedYear"
-        aria-label="Selected Year"
-        [value]="selectedYear$ | async"
-        (change)="onYearChange($event)"
-      >
-        <mat-button-toggle value="2020">2020</mat-button-toggle>
-        <mat-button-toggle value="2010">2010</mat-button-toggle>
-      </mat-button-toggle-group>
+    <div class="user-selections">
+      <div class="user-selection year">
+        <p class="selection-title">Select a year</p>
+        <div class="toggle-container">
+          <mat-button-toggle-group
+            name="selectedYear"
+            aria-label="Selected Year"
+            [value]="selectedYear$ | async"
+            (change)="setYear($event)"
+          >
+            <mat-button-toggle value="2020">2020</mat-button-toggle>
+            <mat-button-toggle value="2010">2010</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      <div class="user-selection bins">
+        <p class="selection-title">Select a data binning strategy</p>
+        <div class="toggle-container">
+          <mat-button-toggle-group
+            name="selectedYear"
+            aria-label="Selected Year"
+            [value]="attributeDataBinType$ | async"
+            (change)="setBinType($event)"
+          >
+            <mat-button-toggle [value]="binTypes[0]">No Bins</mat-button-toggle>
+            <mat-button-toggle [value]="binTypes[1]"
+              >Categorical</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[2]"
+              >Equal Num Observations</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[3]"
+              >Equal Value Ranges</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[4]"
+              >Custom Breaks</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+      </div>
     </div>
     <p class="data-binning-description"
-      >Attribute Data Bin Type: <span class="value">Equal Values</span></p
+      >Attribute Data Bin Type:
+      <span class="value">{{attributeDataBinType$ | async}}</span></p
     >
     <p class="fill-description"
       >Patterned states: population less than 1,000,000 (visual legend to be

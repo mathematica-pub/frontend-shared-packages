@@ -5,7 +5,7 @@ export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
   Datum,
   VicDataMarksConfig<Datum>
 > {
-  override setPropertiesFromConfig(): void {
+  override setPropertiesFromData(): void {
     return;
   }
   override setPropertiesFromRanges(useTransition: boolean): void {

@@ -34,7 +34,7 @@ describe('GeographiesComponent', () => {
     });
     it('calls setPropertiesFromConfig once', () => {
       component.initFromConfig();
-      expect(component.setPropertiesFromConfig).toHaveBeenCalledTimes(1);
+      expect(component.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
@@ -47,7 +47,7 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setDimensionPropertiesFromData');
       spyOn(component, 'initAttributeDataProperties');
       spyOn(component, 'updateChartAttributeProperties');
-      component.setPropertiesFromConfig();
+      component.setPropertiesFromData();
     });
     it('calls setDimensionPropertiesFromData once', () => {
       expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);

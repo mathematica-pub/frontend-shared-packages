@@ -14,12 +14,12 @@ import { range, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
+import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
@@ -55,7 +55,7 @@ export type BarLabelSelection = Selection<
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: DATA_MARKS, useExisting: BarsComponent },
+    { provide: VIC_DATA_MARKS, useExisting: BarsComponent },
     { provide: BARS, useExisting: BarsComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
@@ -63,7 +63,7 @@ export type BarLabelSelection = Selection<
 export class BarsComponent<
   Datum,
   TOrdinalValue extends VicDataValue
-> extends XyDataMarksBase<Datum, VicBarsConfig<Datum, TOrdinalValue>> {
+> extends VicXyDataMarks<Datum, VicBarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
   hasBarsWithNegativeValues: boolean;
@@ -78,7 +78,7 @@ export class BarsComponent<
   } = { quantitative: undefined };
   protected zone = inject(NgZone);
 
-  setPropertiesFromConfig(): void {
+  setPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();

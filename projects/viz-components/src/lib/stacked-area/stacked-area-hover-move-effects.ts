@@ -1,4 +1,4 @@
-import { VicDataValue } from '../../public-api';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { HoverMoveEventEffect } from '../events/effect';
 import { StackedAreaHoverMoveDirective } from './stacked-area-hover-move.directive';
 import { StackedAreaComponent } from './stacked-area.component';

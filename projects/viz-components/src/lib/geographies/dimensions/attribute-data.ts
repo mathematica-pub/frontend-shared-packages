@@ -1,8 +1,8 @@
-import { VicPatternPredicate } from '../../data-marks/data-marks.config';
 import {
   VicDataDimension,
   VicDataValue,
 } from '../../data-marks/dimensions/data-dimension';
+import { VicPatternPredicate } from '../../data-marks/dimensions/pattern-predicate';
 
 /**
  * Configuration object for attribute data that will be used to shade the map.
@@ -14,12 +14,17 @@ export abstract class AttributeDataDimension<
   AttributeValue extends VicDataValue,
   RangeValue extends string | number = string
 > extends VicDataDimension<Datum, AttributeValue> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geoAccessor: (d: Datum, ...args: any) => any;
   range: RangeValue[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: (...args: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   patternPredicates?: VicPatternPredicate<Datum>[];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected abstract setDomainAndBins(values: any[]): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract getScale(nullColor: string): any;
 }

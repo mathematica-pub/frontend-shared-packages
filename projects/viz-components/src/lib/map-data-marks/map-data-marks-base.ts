@@ -1,8 +1,8 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { DataMarksBase } from '../data-marks/data-marks-base';
-import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicDataMarks } from '../data-marks/data-marks';
+import { VicDataMarksConfig } from '../data-marks/data-marks-types';
 import { VicAttributeDataDimensionConfig } from '../geographies/dimensions/attribute-data-bin-types';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
@@ -14,9 +14,10 @@ export abstract class MapDataMarksBase<
     Datum,
     ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>
   >
-  extends DataMarksBase<Datum, ExtendedDataMarksConfig>
+  extends VicDataMarks<Datum, ExtendedDataMarksConfig>
   implements OnInit
 {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attributeDataScale: any;
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;
   public override chart = inject(MapChartComponent);
@@ -49,5 +50,9 @@ export abstract class MapDataMarksBase<
         this.attributeDataScale = properties.scale;
         this.drawMarks();
       });
+  }
+
+  getTransitionDuration(): number {
+    return this.chart.transitionDuration;
   }
 }

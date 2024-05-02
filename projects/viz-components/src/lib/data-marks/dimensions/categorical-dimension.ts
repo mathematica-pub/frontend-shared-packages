@@ -22,6 +22,7 @@ export class VicCategoricalDimension<
     init?: Partial<VicCategoricalDimension<Datum, TCategoricalValue>>
   ) {
     super();
+    this.range = ['lightslategray'];
     Object.assign(this, init);
   }
 

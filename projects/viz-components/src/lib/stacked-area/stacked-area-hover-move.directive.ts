@@ -2,8 +2,8 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { VicDataValue } from '../../public-api';
 import { isDate } from '../core/utilities/type-guards';
+import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {

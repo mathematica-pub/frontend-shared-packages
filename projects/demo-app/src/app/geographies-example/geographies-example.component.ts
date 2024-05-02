@@ -3,8 +3,13 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/dimensions/attribute-data-bin-types';
+import { VicCategoricalAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/categorical-bins';
+import { VicCustomBreaksAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/custom-breaks-bins';
 import { VicDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
+import { VicEqualNumObservationsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
+import { VicNoBinsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/no-bins';
 import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
@@ -35,6 +40,13 @@ import { StateIncomeDatum } from '../core/models/data';
 import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
+
+type AttributeData =
+  | VicNoBinsAttributeDataDimension<StateIncomeDatum>
+  | VicCategoricalAttributeDataDimension<StateIncomeDatum>
+  | VicEqualValuesAttributeDataDimension<StateIncomeDatum>
+  | VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>
+  | VicCustomBreaksAttributeDataDimension<StateIncomeDatum>;
 
 @Component({
   selector: 'app-geographies-example',
@@ -69,6 +81,17 @@ export class GeographiesExampleComponent implements OnInit {
   folderName = 'geographies-example';
   selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
   selectedYear$ = this.selectedYear.asObservable();
+  attributeDataBinType: BehaviorSubject<string> = new BehaviorSubject<string>(
+    VicValuesBin.equalValueRanges
+  );
+  attributeDataBinType$ = this.attributeDataBinType.asObservable();
+  binTypes = [
+    VicValuesBin.none,
+    VicValuesBin.categorical,
+    VicValuesBin.equalValueRanges,
+    VicValuesBin.equalNumObservations,
+    VicValuesBin.customBreaks,
+  ];
 
   clickEffects: EventEffect<
     GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
@@ -98,8 +121,11 @@ export class GeographiesExampleComponent implements OnInit {
       )
     );
 
-    this.dataMarksConfig$ = filteredData$.pipe(
-      map((data) => this.getDataMarksConfig(data)),
+    this.dataMarksConfig$ = combineLatest([
+      this.attributeDataBinType$,
+      filteredData$,
+    ]).pipe(
+      map(([, data]) => this.getDataMarksConfig(data)),
       shareReplay(1)
     );
   }
@@ -114,47 +140,16 @@ export class GeographiesExampleComponent implements OnInit {
     config.boundary = this.basemap.us;
     config.data = data;
     config.featureIndexAccessor = this.featureIndexAccessor;
-    const noDataStatesConfig = this.getNoDataGeographyStatesConfig(data);
+    const noDataStatesConfig = this.getNoDataGeographies(data);
     config.noDataGeographiesConfigs = [
       this.basemap.usOutlineConfig,
       noDataStatesConfig,
     ];
-    config.dataGeographyConfig = this.getDataGeographyConfig(data);
+    config.dataGeographyConfig = this.getDataGeographiesConfig(data);
     return config;
   }
 
-  getDataGeographyConfig(
-    data: StateIncomeDatum[]
-  ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
-    const config = new VicDataGeographies<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >();
-    config.geographies = this.getDataGeographyFeatures(data);
-    config.attributeDataConfig = new VicEqualValuesAttributeDataDimension();
-    config.attributeDataConfig.geoAccessor = (d) => d.state;
-    config.attributeDataConfig.valueAccessor = (d) => d.income;
-    config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
-    config.attributeDataConfig.range = [colors.white, colors.highlight.default];
-    config.attributeDataConfig.numBins = 6;
-    config.attributeDataConfig.patternPredicates = [
-      {
-        patternName: this.patternName,
-        predicate: (d) => !!d && d.population < 1000000,
-      },
-    ];
-    config.labels = this.getGeographyLabelConfig();
-    return config;
-  }
-
-  getDataGeographyFeatures(data: StateIncomeDatum[]): any {
-    const statesInData = data.map((x) => x.state);
-    return this.basemap.states.features.filter((x) =>
-      statesInData.includes(x.properties.name)
-    );
-  }
-
-  getNoDataGeographyStatesConfig(
+  getNoDataGeographies(
     data: StateIncomeDatum[]
   ): VicNoDataGeographies<StateIncomeDatum, MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
@@ -167,6 +162,78 @@ export class GeographiesExampleComponent implements OnInit {
       labels: labels,
       fill: 'lightgray',
     });
+  }
+
+  getDataGeographiesConfig(
+    data: StateIncomeDatum[]
+  ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
+    const config = new VicDataGeographies<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >();
+    config.geographies = this.getDataGeographiesFeatures(data);
+    config.attributeDataConfig = this.getAttributeDataDimension();
+    config.attributeDataConfig.geoAccessor = (d) => d.state;
+    config.attributeDataConfig.patternPredicates = [
+      {
+        patternName: this.patternName,
+        predicate: (d) => !!d && d.population < 1000000,
+      },
+    ];
+    config.labels = this.getGeographyLabelConfig();
+    return config;
+  }
+
+  getDataGeographiesFeatures(data: StateIncomeDatum[]): any {
+    const statesInData = data.map((x) => x.state);
+    return this.basemap.states.features.filter((x) =>
+      statesInData.includes(x.properties.name)
+    );
+  }
+
+  getAttributeDataDimension(): AttributeData {
+    if (this.attributeDataBinType.value === VicValuesBin.none) {
+      const config = new VicNoBinsAttributeDataDimension<StateIncomeDatum>();
+      config.valueAccessor = (d) => d.income;
+      config.valueFormat = `$${valueFormat.integer}`;
+      config.range = [colors.white, colors.highlight.default];
+      return config;
+    } else if (this.attributeDataBinType.value === VicValuesBin.categorical) {
+      const config =
+        new VicCategoricalAttributeDataDimension<StateIncomeDatum>();
+      config.valueAccessor = (d) =>
+        d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low';
+      config.range = ['sandybrown', 'mediumseagreen', colors.highlight.default];
+      return config;
+    } else if (
+      this.attributeDataBinType.value === VicValuesBin.equalValueRanges
+    ) {
+      const config =
+        new VicEqualValuesAttributeDataDimension<StateIncomeDatum>();
+      config.valueAccessor = (d) => d.income;
+      config.valueFormat = `$${valueFormat.integer}`;
+      config.numBins = 6;
+      config.range = [colors.white, colors.highlight.default];
+      return config;
+    } else if (
+      this.attributeDataBinType.value === VicValuesBin.equalNumObservations
+    ) {
+      const config =
+        new VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>();
+      config.valueAccessor = (d) => d.income;
+      config.valueFormat = `$${valueFormat.integer}`;
+      config.numBins = 6;
+      config.range = [colors.white, colors.highlight.default];
+      return config;
+    } else {
+      const config =
+        new VicCustomBreaksAttributeDataDimension<StateIncomeDatum>();
+      config.valueAccessor = (d) => d.income;
+      config.valueFormat = `$${valueFormat.integer}`;
+      config.breakValues = [45000, 55000, 65000, 75000, 100000];
+      config.range = [colors.white, colors.highlight.default];
+      return config;
+    }
   }
 
   getGeographyLabelConfig(): VicGeographyLabelConfig<
@@ -272,8 +339,12 @@ export class GeographiesExampleComponent implements OnInit {
     this.tooltipConfig.next(config);
   }
 
-  onYearChange(change: MatButtonToggleChange): void {
+  setYear(change: MatButtonToggleChange): void {
     this.selectedYear.next(change.value);
+  }
+
+  setBinType(change: MatButtonToggleChange): void {
+    this.attributeDataBinType.next(change.value);
   }
 
   onBackdropClick(): void {

@@ -1,4 +1,7 @@
 import { InjectionToken } from '@angular/core';
-import { DataMarks } from './data-marks';
+import { VicDataMarks } from './data-marks';
 
-export const DATA_MARKS = new InjectionToken<DataMarks>('DataMarks');
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const VIC_DATA_MARKS = new InjectionToken<VicDataMarks<unknown, any>>(
+  'DataMarks'
+);
