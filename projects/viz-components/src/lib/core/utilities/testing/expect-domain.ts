@@ -125,6 +125,6 @@ class ValidateDomain {
  * @example
  * expectDomain().min(0, { assertion: 'closeTo', tolerance: 0.0001 }).max(10, { assertion: 'closeTo', tolerance: 0.0001 }).validate();
  */
-export function expectDomain(els: JQuery<HTMLElement>): ValidateDomain {
-  return new ValidateDomain([+els[0].textContent, +els[1].textContent]);
+export function expectDomain(values: [number, number]): ValidateDomain {
+  return new ValidateDomain(values);
 }
