@@ -130,8 +130,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(30.3).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(30.3).validate()
       );
     });
   });
@@ -150,8 +150,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(40).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(40).validate()
       );
     });
   });
@@ -170,8 +170,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(31).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(31).validate()
       );
     });
   });
@@ -189,8 +189,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 10', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(35).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(35).validate()
       );
     });
   });
@@ -209,8 +209,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and  a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(21).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(21).validate()
       );
     });
   });
@@ -275,8 +275,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(1.1).maxToBe(30.3).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(1.1).maxToBe(30.3).validate()
       );
     });
   });
@@ -295,8 +295,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(1.1).maxToBe(40).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(1.1).maxToBe(40).validate()
       );
     });
   });
@@ -315,8 +315,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain of minValue, maxValue whose second significant digit is rounded up by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(1.1).maxToBe(31).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(1.1).maxToBe(31).validate()
       );
     });
   });
@@ -334,8 +334,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue rounded up to the nearest 10', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(1.1).maxToBe(35).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(1.1).maxToBe(35).validate()
       );
     });
   });
@@ -354,8 +354,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(1.1).maxToBe(21).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(1.1).maxToBe(21).validate()
       );
     });
   });
@@ -418,8 +418,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue and a a domain[1] of 0', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-30.3).maxToBe(0).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-30.3).maxToBe(0).validate()
       );
     });
   });
@@ -436,8 +436,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-30.3).maxToBe(-1.1).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-30.3).maxToBe(-1.1).validate()
       );
     });
   });
@@ -456,8 +456,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] minValue whose first significant digit is rounded out by one and a a domain[1] of 0', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-40).maxToBe(0).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-40).maxToBe(0).validate()
       );
     });
   });
@@ -476,8 +476,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain of minValue whose second significant digit is rounded out by one and a domain[1] of 0', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-31).maxToBe(0).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-31).maxToBe(0).validate()
       );
     });
   });
@@ -495,8 +495,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] of 0', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-35).maxToBe(0).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-35).maxToBe(0).validate()
       );
     });
   });
@@ -515,8 +515,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of 0', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-21).maxToBe(0).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-21).maxToBe(0).validate()
       );
     });
   });
@@ -580,8 +580,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-30.3).maxToBe(-1.1).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-30.3).maxToBe(-1.1).validate()
       );
     });
   });
@@ -600,8 +600,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue whose first significant digit is rounded out by one sig digit and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-40).maxToBe(-1.1).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-40).maxToBe(-1.1).validate()
       );
     });
   });
@@ -620,8 +620,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue whose second significant digit is rounded up by one and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-31).maxToBe(-1.1).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-31).maxToBe(-1.1).validate()
       );
     });
   });
@@ -639,8 +639,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-35).maxToBe(-1.1).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-35).maxToBe(-1.1).validate()
       );
     });
   });
@@ -659,8 +659,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-21).maxToBe(-1.1).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-21).maxToBe(-1.1).validate()
       );
     });
   });
@@ -725,8 +725,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue and a domain[1] maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-60.6).maxToBe(30.3).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-60.6).maxToBe(30.3).validate()
       );
     });
   });
@@ -743,8 +743,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-60.6).maxToBe(30.3).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-60.6).maxToBe(30.3).validate()
       );
     });
   });
@@ -763,8 +763,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue whose first significant digit is rounded out by one and a domain[1] of maxValue whose first significant digit is rounded out by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-70).maxToBe(40).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-70).maxToBe(40).validate()
       );
     });
   });
@@ -783,8 +783,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] whose minValue whose second significant digit is rounded out by one and a domain[1] whose maxValue whose second significant digit is rounded out by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-61).maxToBe(31).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-61).maxToBe(31).validate()
       );
     });
   });
@@ -802,8 +802,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue rounded out to the nearest 5 and a domain[1] of maxValue rounded out to the nearest 5', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-65).maxToBe(35).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-65).maxToBe(35).validate()
       );
     });
   });
@@ -823,8 +823,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(-63).maxToBe(21).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(-63).maxToBe(21).validate()
       );
     });
   });
@@ -895,8 +895,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(0.303).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(0.303).validate()
       );
     });
   });
@@ -915,8 +915,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(0.4).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(0.4).validate()
       );
     });
   });
@@ -935,8 +935,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(0.31).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(0.31).validate()
       );
     });
   });
@@ -954,8 +954,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 0.2', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els).minToBe(0).maxToBe(0.4).validate()
+      getDomainValues().then((values) =>
+        expectDomain(values).minToBe(0).maxToBe(0.4).validate()
       );
     });
   });
@@ -974,8 +974,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((els) =>
-        expectDomain(els)
+      getDomainValues().then((values) =>
+        expectDomain(values)
           .minToBe(0)
           .maxToBe(0.42, { assert: 'isCloseTo' })
           .validate()
