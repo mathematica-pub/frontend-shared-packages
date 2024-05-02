@@ -119,7 +119,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -140,7 +139,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
       getDomainValues().then((els) =>
@@ -161,7 +159,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
       getDomainValues().then((els) =>
@@ -181,7 +178,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 10', () => {
       getDomainValues().then((els) =>
@@ -202,7 +198,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and  a domain[1] of maxValue * (1 + percent over)', () => {
       getDomainValues().then((els) =>
@@ -224,7 +219,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has the correct padding', () => {
       distanceBetweenBarAndDomainMaxIs(2, numPixels);
@@ -270,7 +264,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -291,7 +284,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
       getDomainValues().then((els) =>
@@ -312,7 +304,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain of minValue, maxValue whose second significant digit is rounded up by one', () => {
       getDomainValues().then((els) =>
@@ -332,7 +323,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue rounded up to the nearest 10', () => {
       getDomainValues().then((els) =>
@@ -353,7 +343,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue * (1 + percent over)', () => {
       getDomainValues().then((els) =>
@@ -375,7 +364,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has the correct padding', () => {
       distanceBetweenBarAndDomainMaxIs(2, numPixels);
@@ -419,7 +407,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a a domain[1] of 0', () => {
       getDomainValues().then((els) =>
@@ -438,7 +425,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -459,7 +445,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] minValue whose first significant digit is rounded out by one and a a domain[1] of 0', () => {
       getDomainValues().then((els) =>
@@ -480,7 +465,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain of minValue whose second significant digit is rounded out by one and a domain[1] of 0', () => {
       getDomainValues().then((els) =>
@@ -500,7 +484,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] of 0', () => {
       getDomainValues().then((els) =>
@@ -521,7 +504,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of 0', () => {
       getDomainValues().then((els) =>
@@ -543,7 +525,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has the correct padding', () => {
       distanceBetweenBarAndDomainMaxIs(2, numPixels);
@@ -588,7 +569,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -609,7 +589,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue whose first significant digit is rounded out by one sig digit and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -630,7 +609,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue whose second significant digit is rounded up by one and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -650,7 +628,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] maxValue', () => {
       getDomainValues().then((els) =>
@@ -671,7 +648,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -693,7 +669,6 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has the correct padding', () => {
       distanceBetweenBarAndDomainMaxIs(2, numPixels);
@@ -739,7 +714,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain[1] maxValue', () => {
       getDomainValues().then((els) =>
@@ -758,7 +732,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -779,7 +752,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue whose first significant digit is rounded out by one and a domain[1] of maxValue whose first significant digit is rounded out by one', () => {
       getDomainValues().then((els) =>
@@ -800,7 +772,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] whose minValue whose second significant digit is rounded out by one and a domain[1] whose maxValue whose second significant digit is rounded out by one', () => {
       getDomainValues().then((els) =>
@@ -820,7 +791,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue rounded out to the nearest 5 and a domain[1] of maxValue rounded out to the nearest 5', () => {
       getDomainValues().then((els) =>
@@ -842,7 +812,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue * (1 + percent over)', () => {
       getDomainValues().then((els) =>
@@ -864,7 +833,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has the correct padding', () => {
       getBarWidthByIndex(2).then((positiveBarWidth) => {
@@ -919,7 +887,6 @@ describe('it correctly sets quantitative domain - all values are positive and le
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
       getDomainValues().then((els) =>
@@ -940,7 +907,6 @@ describe('it correctly sets quantitative domain - all values are positive and le
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
       getDomainValues().then((els) =>
@@ -961,7 +927,6 @@ describe('it correctly sets quantitative domain - all values are positive and le
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
       getDomainValues().then((els) =>
@@ -981,7 +946,6 @@ describe('it correctly sets quantitative domain - all values are positive and le
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 0.2', () => {
       getDomainValues().then((els) =>
@@ -1002,7 +966,6 @@ describe('it correctly sets quantitative domain - all values are positive and le
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue * (1 + percent over)', () => {
       getDomainValues().then((els) =>
@@ -1027,7 +990,6 @@ describe('it correctly sets quantitative domain - all values are positive and le
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(100);
     });
     it('has the correct padding', () => {
       distanceBetweenBarAndDomainMaxIs(2, numPixels);
