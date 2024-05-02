@@ -846,10 +846,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
     it('has the correct padding', () => {
       getBarWidthByIndex(2).then((positiveBarWidth) => {
         getBarWidthByIndex(4).then((negativeBarWidth) => {
-          cy.get('.vic-x.vic-axis-g .domain').then((domain) => {
-            const domainRect = (
-              domain[0] as unknown as SVGPathElement
-            ).getBBox();
+          getD3DomainRect().then((domainRect) => {
             expect(
               +positiveBarWidth + +negativeBarWidth + 2 * numPixels
             ).to.be.closeTo(domainRect.width, 1);
