@@ -18,14 +18,6 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { expectDomain } from './testing/expect-domain';
 
-function getDomainValues(): Promise<[number, number]> {
-  return new Promise((resolve) => {
-    cy.get('.domain-value').then((els) => {
-      resolve([+els[0].textContent, +els[1].textContent]);
-    });
-  });
-}
-
 @Component({
   selector: 'vic-test-bars-quantitative-domain-padding',
   template: `
@@ -67,12 +59,29 @@ class TestXQuantitativeDomainComponent implements AfterViewInit {
   }
 }
 
+function getDomainValues(): Promise<[number, number]> {
+  return new Promise((resolve) => {
+    cy.get('.domain-value').then((els) => {
+      resolve([+els[0].textContent, +els[1].textContent]);
+    });
+  });
+}
+
+function getD3DomainRect(): Promise<DOMRect> {
+  return new Promise((resolve) => {
+    cy.get('.vic-x.vic-axis-g .domain').then((domain) => {
+      const domainRect = (domain[0] as unknown as SVGPathElement).getBBox();
+      resolve(domainRect);
+    });
+  });
+}
+
 function distanceBetweenBarAndDomainMaxIs(
   barIndex: number,
   numPixels: number
 ): void {
   getBarWidthByIndex(barIndex).then((barWidth) => {
-    cy.get('.vic-x.vic-axis-g .domain').then((domain) => {
+    getD3DomainRect().then((domain) => {
       const domainRect = (domain[0] as unknown as SVGPathElement).getBBox();
       const domainRightEdge = domainRect.width;
       expect(+barWidth + numPixels).to.be.closeTo(domainRightEdge, 1);
