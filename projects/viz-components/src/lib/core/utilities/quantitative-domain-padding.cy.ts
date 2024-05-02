@@ -1,22 +1,22 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { BehaviorSubject } from 'rxjs';
-import { VicAxisConfig } from '../../../axes/axis.config';
-import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quantitative-axis.module';
-import { BarsComponent } from '../../../bars/bars.component';
 import {
+  BarsComponent,
+  VicAxisConfig,
   VicBarsConfig,
   VicBarsLabelsConfig,
+  VicBarsModule,
+  VicChartModule,
   VicHorizontalBarsDimensionsConfig,
-} from '../../../bars/bars.config';
-import { VicBarsModule } from '../../../bars/bars.module';
-import { VicChartModule } from '../../../chart/chart.module';
-import { expectDomain } from '../../../core/utilities/testing/expect-domain';
-import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
-import { VicPercentOverDomainPadding } from './percent-over-padding';
-import { VicPixelDomainPadding } from './pixel-padding';
-import { VicRoundUpToIntervalDomainPadding } from './round-to-interval-padding';
-import { VicRoundUpDomainPadding } from './round-up-padding';
+  VicPercentOverDomainPaddingConfig,
+  VicPixelDomainPaddingConfig,
+  VicRoundUpDomainPaddingConfig,
+  VicRoundUpToIntervalDomainPaddingConfig,
+  VicXQuantitativeAxisModule,
+  VicXyChartModule,
+} from 'projects/viz-components/src/public-api';
+import { BehaviorSubject } from 'rxjs';
+import { expectDomain } from './testing/expect-domain';
 
 @Component({
   selector: 'vic-test-bars-quantitative-domain-padding',
@@ -40,15 +40,12 @@ import { VicRoundUpDomainPadding } from './round-up-padding';
   styles: [],
 })
 class TestXQuantitativeDomainComponent implements AfterViewInit {
-  @Input() barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  @Input() barsConfig: VicBarsConfig<{ state: string; value: number }>;
   @Input() xQuantitativeAxisConfig: VicAxisConfig;
-  @ViewChild(BarsComponent) barsComponent: BarsComponent<
-    {
-      state: string;
-      value: number;
-    },
-    string
-  >;
+  @ViewChild(BarsComponent) barsComponent: BarsComponent<{
+    state: string;
+    value: number;
+  }>;
   margin = { top: 20, right: 20, bottom: 20, left: 20 };
   domain = new BehaviorSubject<[number, number]>([undefined, undefined]);
   domain$ = this.domain.asObservable();
@@ -97,7 +94,7 @@ function getBarWidthByIndex(index: number): Cypress.Chainable {
 }
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is explicitly included in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -133,14 +130,14 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(30.3).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(30.3).validate()
       );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      const roundUpDomainPadding = new VicRoundUpDomainPadding();
+      const roundUpDomainPadding = new VicRoundUpDomainPaddingConfig();
       roundUpDomainPadding.sigDigits = () => 1;
       barsConfig.quantitative.domainPadding = roundUpDomainPadding;
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -153,16 +150,16 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(40).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(40).validate()
       );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPadding({
-        sigDigits: () => 2,
-      });
+      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPaddingConfig(
+        { sigDigits: () => 2 }
+      );
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -173,15 +170,15 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(31).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(31).validate()
       );
     });
   });
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       barsConfig.quantitative.domainPadding =
-        new VicRoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingConfig({ interval: () => 5 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -192,17 +189,16 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 10', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(35).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(35).validate()
       );
     });
   });
   describe('percent over domain padding', () => {
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 20;
-      barsConfig.quantitative.domainPadding = new VicPercentOverDomainPadding({
-        percentOver: 0.05,
-      });
+      barsConfig.quantitative.domainPadding =
+        new VicPercentOverDomainPaddingConfig({ percentOver: 0.05 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -213,15 +209,15 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and  a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(21).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(21).validate()
       );
     });
   });
   describe('pixel domain padding', () => {
     const numPixels = 50;
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicPixelDomainPadding({
+      barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
         numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -240,7 +236,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
 });
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is NOT in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -279,14 +275,14 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(1.1).maxToBe(30.3).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(30.3).validate()
       );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      const roundUpDomainPadding = new VicRoundUpDomainPadding();
+      const roundUpDomainPadding = new VicRoundUpDomainPaddingConfig();
       roundUpDomainPadding.sigDigits = () => 1;
       barsConfig.quantitative.domainPadding = roundUpDomainPadding;
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -299,16 +295,16 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(1.1).maxToBe(40).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(40).validate()
       );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPadding({
-        sigDigits: () => 2,
-      });
+      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPaddingConfig(
+        { sigDigits: () => 2 }
+      );
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -319,15 +315,15 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain of minValue, maxValue whose second significant digit is rounded up by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(1.1).maxToBe(31).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(31).validate()
       );
     });
   });
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       barsConfig.quantitative.domainPadding =
-        new VicRoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingConfig({ interval: () => 5 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -338,17 +334,16 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue rounded up to the nearest 10', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(1.1).maxToBe(35).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(35).validate()
       );
     });
   });
   describe('percent over domain padding', () => {
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 20;
-      barsConfig.quantitative.domainPadding = new VicPercentOverDomainPadding({
-        percentOver: 0.05,
-      });
+      barsConfig.quantitative.domainPadding =
+        new VicPercentOverDomainPaddingConfig({ percentOver: 0.05 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -359,15 +354,15 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(1.1).maxToBe(21).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(1.1).maxToBe(21).validate()
       );
     });
   });
   describe('pixel domain padding', () => {
     const numPixels = 50;
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicPixelDomainPadding({
+      barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
         numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -386,7 +381,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
 });
 
 describe('it correctly sets quantitative domain - all values are negative, 0 is explicitly included in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -423,8 +418,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue and a a domain[1] of 0', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-30.3).maxToBe(0).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-30.3).maxToBe(0).validate()
       );
     });
   });
@@ -441,14 +436,14 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-30.3).maxToBe(-1.1).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-30.3).maxToBe(-1.1).validate()
       );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      const roundUpDomainPadding = new VicRoundUpDomainPadding();
+      const roundUpDomainPadding = new VicRoundUpDomainPaddingConfig();
       roundUpDomainPadding.sigDigits = () => 1;
       barsConfig.quantitative.domainPadding = roundUpDomainPadding;
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -461,16 +456,16 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] minValue whose first significant digit is rounded out by one and a a domain[1] of 0', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-40).maxToBe(0).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-40).maxToBe(0).validate()
       );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPadding({
-        sigDigits: () => 2,
-      });
+      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPaddingConfig(
+        { sigDigits: () => 2 }
+      );
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -481,15 +476,15 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain of minValue whose second significant digit is rounded out by one and a domain[1] of 0', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-31).maxToBe(0).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-31).maxToBe(0).validate()
       );
     });
   });
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       barsConfig.quantitative.domainPadding =
-        new VicRoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingConfig({ interval: () => 5 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -500,17 +495,16 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] of 0', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-35).maxToBe(0).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-35).maxToBe(0).validate()
       );
     });
   });
   describe('percent over domain padding', () => {
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = -20;
-      barsConfig.quantitative.domainPadding = new VicPercentOverDomainPadding({
-        percentOver: 0.05,
-      });
+      barsConfig.quantitative.domainPadding =
+        new VicPercentOverDomainPaddingConfig({ percentOver: 0.05 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -521,15 +515,15 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of 0', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-21).maxToBe(0).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-21).maxToBe(0).validate()
       );
     });
   });
   describe('pixel domain padding', () => {
     const numPixels = 40;
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicPixelDomainPadding({
+      barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
         numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -548,7 +542,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
 });
 
 describe('it correctly sets quantitative domain - all values are negative, 0 is NOT in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -586,14 +580,14 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-30.3).maxToBe(-1.1).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-30.3).maxToBe(-1.1).validate()
       );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      const roundUpDomainPadding = new VicRoundUpDomainPadding();
+      const roundUpDomainPadding = new VicRoundUpDomainPaddingConfig();
       roundUpDomainPadding.sigDigits = () => 1;
       barsConfig.quantitative.domainPadding = roundUpDomainPadding;
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -606,16 +600,16 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue whose first significant digit is rounded out by one sig digit and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-40).maxToBe(-1.1).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-40).maxToBe(-1.1).validate()
       );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPadding({
-        sigDigits: () => 2,
-      });
+      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPaddingConfig(
+        { sigDigits: () => 2 }
+      );
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -626,15 +620,15 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue whose second significant digit is rounded up by one and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-31).maxToBe(-1.1).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-31).maxToBe(-1.1).validate()
       );
     });
   });
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       barsConfig.quantitative.domainPadding =
-        new VicRoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingConfig({ interval: () => 5 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -645,17 +639,16 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain of minValue rounded out to the nearest 5 and a domain[1] maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-35).maxToBe(-1.1).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-35).maxToBe(-1.1).validate()
       );
     });
   });
   describe('percent over domain padding', () => {
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = -20;
-      barsConfig.quantitative.domainPadding = new VicPercentOverDomainPadding({
-        percentOver: 0.05,
-      });
+      barsConfig.quantitative.domainPadding =
+        new VicPercentOverDomainPaddingConfig({ percentOver: 0.05 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -666,15 +659,15 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       });
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-21).maxToBe(-1.1).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-21).maxToBe(-1.1).validate()
       );
     });
   });
   describe('pixel domain padding', () => {
     const numPixels = 40;
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicPixelDomainPadding({
+      barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
         numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -693,7 +686,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
 });
 
 describe('it correctly sets quantitative domain - values are positive and negative', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -732,8 +725,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue and a domain[1] maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-60.6).maxToBe(30.3).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-60.6).maxToBe(30.3).validate()
       );
     });
   });
@@ -750,14 +743,14 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-60.6).maxToBe(30.3).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-60.6).maxToBe(30.3).validate()
       );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      const roundUpDomainPadding = new VicRoundUpDomainPadding();
+      const roundUpDomainPadding = new VicRoundUpDomainPaddingConfig();
       roundUpDomainPadding.sigDigits = () => 1;
       barsConfig.quantitative.domainPadding = roundUpDomainPadding;
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -770,16 +763,16 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue whose first significant digit is rounded out by one and a domain[1] of maxValue whose first significant digit is rounded out by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-70).maxToBe(40).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-70).maxToBe(40).validate()
       );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPadding({
-        sigDigits: () => 2,
-      });
+      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPaddingConfig(
+        { sigDigits: () => 2 }
+      );
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -790,15 +783,15 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] whose minValue whose second significant digit is rounded out by one and a domain[1] whose maxValue whose second significant digit is rounded out by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-61).maxToBe(31).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-61).maxToBe(31).validate()
       );
     });
   });
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       barsConfig.quantitative.domainPadding =
-        new VicRoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingConfig({ interval: () => 5 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -809,8 +802,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue rounded out to the nearest 5 and a domain[1] of maxValue rounded out to the nearest 5', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-65).maxToBe(35).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-65).maxToBe(35).validate()
       );
     });
   });
@@ -818,9 +811,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 20;
       barsConfig.data.find((d) => d.state === 'California').value = -60;
-      barsConfig.quantitative.domainPadding = new VicPercentOverDomainPadding({
-        percentOver: 0.05,
-      });
+      barsConfig.quantitative.domainPadding =
+        new VicPercentOverDomainPaddingConfig({ percentOver: 0.05 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -831,15 +823,15 @@ describe('it correctly sets quantitative domain - values are positive and negati
       });
     });
     it('has a domain[0] of minValue * (1 + percent over) and a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(-63).maxToBe(21).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(-63).maxToBe(21).validate()
       );
     });
   });
   describe('pixel domain padding', () => {
     const numPixels = 60;
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicPixelDomainPadding({
+      barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
         numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -866,7 +858,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
 });
 
 describe('it correctly sets quantitative domain - all values are positive and less than one, 0 is explicitly included in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -903,14 +895,14 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(0.303).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.303).validate()
       );
     });
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      const roundUpDomainPadding = new VicRoundUpDomainPadding();
+      const roundUpDomainPadding = new VicRoundUpDomainPaddingConfig();
       roundUpDomainPadding.sigDigits = () => 1;
       barsConfig.quantitative.domainPadding = roundUpDomainPadding;
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -923,16 +915,16 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] maxValue whose first significant digit is rounded up by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(0.4).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.4).validate()
       );
     });
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPadding({
-        sigDigits: () => 2,
-      });
+      barsConfig.quantitative.domainPadding = new VicRoundUpDomainPaddingConfig(
+        { sigDigits: () => 2 }
+      );
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -943,15 +935,15 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue whose second significant digit is rounded up by one', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(0.31).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.31).validate()
       );
     });
   });
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       barsConfig.quantitative.domainPadding =
-        new VicRoundUpToIntervalDomainPadding({ interval: () => 0.2 });
+        new VicRoundUpToIntervalDomainPaddingConfig({ interval: () => 0.2 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -962,17 +954,16 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue rounded up to the nearest 0.2', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values).minToBe(0).maxToBe(0.4).validate()
+      getDomainValues().then((els) =>
+        expectDomain(els).minToBe(0).maxToBe(0.4).validate()
       );
     });
   });
   describe('percent over domain padding', () => {
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 0.4;
-      barsConfig.quantitative.domainPadding = new VicPercentOverDomainPadding({
-        percentOver: 0.05,
-      });
+      barsConfig.quantitative.domainPadding =
+        new VicPercentOverDomainPaddingConfig({ percentOver: 0.05 });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -983,8 +974,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
       });
     });
     it('has a domain[0] of 0 and a domain[1] of maxValue * (1 + percent over)', () => {
-      getDomainValues().then((values) =>
-        expectDomain(values)
+      getDomainValues().then((els) =>
+        expectDomain(els)
           .minToBe(0)
           .maxToBe(0.42, { assert: 'isCloseTo' })
           .validate()
@@ -994,7 +985,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
   describe('pixel domain padding', () => {
     const numPixels = 30;
     beforeEach(() => {
-      barsConfig.quantitative.domainPadding = new VicPixelDomainPadding({
+      barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig({
         numPixels: numPixels,
       });
       cy.mount(TestXQuantitativeDomainComponent, {
