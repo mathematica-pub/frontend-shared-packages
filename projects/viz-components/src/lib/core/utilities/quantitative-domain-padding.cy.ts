@@ -81,8 +81,7 @@ function distanceBetweenBarAndDomainMaxIs(
   numPixels: number
 ): void {
   getBarWidthByIndex(barIndex).then((barWidth) => {
-    getD3DomainRect().then((domain) => {
-      const domainRect = (domain[0] as unknown as SVGPathElement).getBBox();
+    getD3DomainRect().then((domainRect) => {
       const domainRightEdge = domainRect.width;
       expect(+barWidth + numPixels).to.be.closeTo(domainRightEdge, 1);
     });
