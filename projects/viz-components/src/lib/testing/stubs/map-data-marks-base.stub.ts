@@ -1,7 +1,7 @@
 import { VicDataMarksConfig } from '../../data-marks/data-marks-types';
-import { MapDataMarksBase } from '../../map-data-marks/map-data-marks-base';
+import { VicMapDataMarks } from '../../map-data-marks/map-data-marks';
 
-export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
+export class MapDataMarksBaseStub<Datum> extends VicMapDataMarks<
   Datum,
   VicDataMarksConfig<Datum>
 > {

@@ -86,7 +86,7 @@ export * from './lib/lines/lines.config';
 export * from './lib/lines/lines.module';
 export * from './lib/map-chart/map-chart.component';
 export * from './lib/map-chart/map-chart.module';
-export * from './lib/map-data-marks/map-data-marks-base';
+export * from './lib/map-data-marks/map-data-marks';
 export * from './lib/map-legend/map-legend.component';
 export * from './lib/map-legend/map-legend.module';
 export * from './lib/stacked-area/stacked-area-hover-move-effects';

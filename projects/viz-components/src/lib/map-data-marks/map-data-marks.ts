@@ -10,7 +10,7 @@ import { MapChartComponent } from '../map-chart/map-chart.component';
  * @internal
  */
 @Directive()
-export abstract class MapDataMarksBase<
+export abstract class VicMapDataMarks<
     Datum,
     ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>
   >

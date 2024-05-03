@@ -113,21 +113,6 @@ export class BarsExampleComponent implements OnInit {
         display: false,
       }),
     });
-    // dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
-    // dataConfig.data = filteredData;
-    // dataConfig.quantitative.valueAccessor = (d) => d.value;
-    // dataConfig.quantitative.valueFormat = (d: any) => {
-    //   const label =
-    //     d.value === undefined || d.value === null
-    //       ? 'N/A'
-    //       : format('.1f')(d.value);
-    //   return d.value > 8 ? `${label}*` : label;
-    // };
-    // dataConfig.quantitative.domainPadding = new VicPixelDomainPadding();
-    // dataConfig.ordinal.valueAccessor = (d) => d.division;
-    // dataConfig.labels = new VicBarsLabelsConfig({
-    //   display: false,
-    // });
     return {
       dataConfig,
       xAxisConfig,
@@ -155,7 +140,7 @@ export class BarsExampleComponent implements OnInit {
     config.position = new VicHtmlTooltipOffsetFromOriginPosition();
     if (data) {
       config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY;
+      config.position.offsetY = data.positionY - 4;
       config.show = true;
       config.origin = data.elRef;
     } else {

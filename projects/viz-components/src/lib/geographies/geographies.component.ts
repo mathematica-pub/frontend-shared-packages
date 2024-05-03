@@ -14,7 +14,7 @@ import { ChartComponent } from '../chart/chart.component';
 import { isFunction, isPrimitiveType } from '../core/utilities/type-guards';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
+import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicNoDataGeographies } from './dimensions/no-data-geographies';
@@ -53,7 +53,7 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends MapDataMarksBase<
+> extends VicMapDataMarks<
   Datum,
   VicGeographiesConfig<Datum, TProperties, TGeometry>
 > {
