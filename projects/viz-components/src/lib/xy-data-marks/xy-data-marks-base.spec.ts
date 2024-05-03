@@ -42,7 +42,7 @@ describe('XyDataMarksBase abstract class', () => {
   });
 
   describe('subscribeToRanges', () => {
-    let resizeSpy: jasmine.Spy;
+    let setPropertiesFromRangesSpy: jasmine.Spy;
     beforeEach(() => {
       abstractClass.chart = {
         ranges: new BehaviorSubject<any>(null),
@@ -50,7 +50,10 @@ describe('XyDataMarksBase abstract class', () => {
       abstractClass.chart.ranges$ = (
         abstractClass.chart as any
       ).ranges.asObservable();
-      resizeSpy = spyOn(abstractClass, 'resizeMarks');
+      setPropertiesFromRangesSpy = spyOn(
+        abstractClass,
+        'setPropertiesFromRanges'
+      );
     });
 
     it('sets ranges to the emitted value from the subscription', () => {
@@ -68,11 +71,11 @@ describe('XyDataMarksBase abstract class', () => {
         } as any;
         abstractClass.requiredScales = ['x', 'y', 'category'];
       });
-      it('calls resizeMarks once with the correct values', () => {
+      it('calls setPropertiesFromRanges once with the correct values', () => {
         abstractClass.subscribeToRanges();
-        resizeSpy.calls.reset();
+        setPropertiesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
-        expect(abstractClass.resizeMarks).toHaveBeenCalledTimes(1);
+        expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -81,11 +84,11 @@ describe('XyDataMarksBase abstract class', () => {
         abstractClass.scales = null;
         abstractClass.requiredScales = ['x', 'y', 'category'];
       });
-      it('does not call resizeMarks', () => {
+      it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
-        resizeSpy.calls.reset();
+        setPropertiesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
-        expect(abstractClass.resizeMarks).not.toHaveBeenCalled();
+        expect(abstractClass.setPropertiesFromRanges).not.toHaveBeenCalled();
       });
     });
 
@@ -98,11 +101,11 @@ describe('XyDataMarksBase abstract class', () => {
         } as any;
         abstractClass.requiredScales = ['x', 'y', 'category'];
       });
-      it('does not call resizeMarks', () => {
+      it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
-        resizeSpy.calls.reset();
+        setPropertiesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
-        expect(abstractClass.resizeMarks).not.toHaveBeenCalled();
+        expect(abstractClass.setPropertiesFromRanges).not.toHaveBeenCalled();
       });
     });
   });
@@ -143,16 +146,6 @@ describe('XyDataMarksBase abstract class', () => {
         abstractClass.subscribeToScales();
         expect(abstractClass.scales).toBeUndefined();
       });
-    });
-  });
-
-  describe('resizeMarks()', () => {
-    it('calls setPropertiesFromRanges once with the correct values', () => {
-      spyOn(abstractClass, 'setPropertiesFromRanges');
-      abstractClass.resizeMarks();
-      expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledOnceWith(
-        false
-      );
     });
   });
 

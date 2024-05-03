@@ -17,7 +17,4 @@ export class DataMarksBaseStub<Datum> extends VicDataMarks<
   override drawMarks(): void {
     return;
   }
-  override resizeMarks(): void {
-    return;
-  }
 }

@@ -17,7 +17,6 @@ The DataMarks class is a minimal type signature that should be extended by every
 - setPropertiesFromConfig: () => void;
 - setPropertiesFromRanges: (useTransition: boolean) => void;
 - setValueArrays: () => void;
-- resizeMarks: () => void;
 - drawMarks: () => void;
 
 **VicDataMarksConfig**

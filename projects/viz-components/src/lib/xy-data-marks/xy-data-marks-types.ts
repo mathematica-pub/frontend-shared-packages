@@ -19,7 +19,6 @@ export abstract class VicXyMarks implements VicIMarks {
   scales: XyChartScales;
   ranges: Ranges;
   drawMarks: () => void;
-  resizeMarks: () => void;
 
   getTransitionDuration(): number {
     return this.scales.useTransition ? this.chart.transitionDuration : 0;

@@ -15,7 +15,4 @@ export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
   drawMarks(): void {
     return;
   }
-  resizeMarks(): void {
-    return;
-  }
 }
