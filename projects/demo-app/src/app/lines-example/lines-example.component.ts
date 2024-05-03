@@ -23,7 +23,6 @@ import {
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
 import {
   VicColumnConfig,
   VicDataExportConfig,
@@ -35,6 +34,7 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -132,7 +132,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.category.valueAccessor = (d) => d.division;
     dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    dataConfig.y.domainPadding = new VicPixelDomainPadding();
+    dataConfig.y.domainPadding = new VicPixelDomainPadding({ numPixels: 20 });
     return {
       dataConfig,
       xAxisConfig,

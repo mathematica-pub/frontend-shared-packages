@@ -16,20 +16,26 @@ export class VicPixelDomainPadding extends VicDomainPadding {
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {
-    if (args.chartRange[1] < args.chartRange[0])
-      this.numPixels = -1 * this.numPixels; // When would we ever have this?
+    let numPixels = this.numPixels;
+    if (args.dimensionRange[0] > args.dimensionRange[1]) {
+      // on vertical axis, the range is [100, 0]
+      numPixels = -1 * this.numPixels;
+    }
     const value =
       args.valueType === 'min'
         ? args.unpaddedDomain[0]
         : args.unpaddedDomain[1];
-    if (value === 0) return value;
+    if (value === 0)
+      return args.valueType === 'min' ? value - numPixels : value + numPixels;
     const adjustedPixelRange =
       args.valueType === 'min' && args.unpaddedDomain[0] < 0
-        ? [args.chartRange[0] + this.numPixels, args.chartRange[1]]
-        : [args.chartRange[0], args.chartRange[1] - this.numPixels];
+        ? [args.dimensionRange[0] + numPixels, args.dimensionRange[1]]
+        : [args.dimensionRange[0], args.dimensionRange[1] - numPixels];
     const scale = args.scaleFn(args.unpaddedDomain, adjustedPixelRange);
     const targetVal =
-      args.valueType === 'min' ? args.chartRange[0] : args.chartRange[1];
+      args.valueType === 'min'
+        ? args.dimensionRange[0]
+        : args.dimensionRange[1];
     return scale.invert(targetVal);
   }
 
@@ -41,13 +47,13 @@ export class VicPixelDomainPadding extends VicDomainPadding {
       domain?: Iterable<number>,
       range?: Iterable<number>
     ) => ScaleContinuousNumeric<number, number>,
-    chartRange: [number, number]
+    dimensionRange: [number, number]
   ): [number, number] {
     const adjustedPixelRange = [
-      chartRange[0] + this.numPixels,
-      chartRange[1] - this.numPixels,
+      dimensionRange[0] + this.numPixels,
+      dimensionRange[1] - this.numPixels,
     ];
     const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
-    return [scale.invert(chartRange[0]), scale.invert(chartRange[1])];
+    return [scale.invert(dimensionRange[0]), scale.invert(dimensionRange[1])];
   }
 }

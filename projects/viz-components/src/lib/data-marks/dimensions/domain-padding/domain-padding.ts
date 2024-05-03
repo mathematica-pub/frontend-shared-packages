@@ -27,7 +27,7 @@ export interface PaddedDomainArguments {
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
   unpaddedDomain?: [number, number];
-  chartRange?: [number, number];
+  dimensionRange?: [number, number];
 }
 
 export abstract class VicDomainPadding {
@@ -36,21 +36,21 @@ export abstract class VicDomainPadding {
   getPaddedDomain(
     unpaddedDomain: [number, number],
     scaleFn?: any,
-    chartRange?: [number, number]
+    dimensionRange?: [number, number]
   ): [number, number] {
     const domainMinArgs: PaddedDomainArguments = {
       value: unpaddedDomain[0],
       valueType: 'min',
       scaleFn,
       unpaddedDomain,
-      chartRange,
+      dimensionRange: dimensionRange,
     };
     const domainMaxArgs: PaddedDomainArguments = {
       value: unpaddedDomain[1],
       valueType: 'max',
       scaleFn,
       unpaddedDomain,
-      chartRange,
+      dimensionRange: dimensionRange,
     };
     let domainMin: number;
     let domainMax: number;
@@ -66,7 +66,7 @@ export abstract class VicDomainPadding {
         domainMaxArgs,
         unpaddedDomain,
         scaleFn,
-        chartRange
+        dimensionRange
       );
     }
     return [domainMin, domainMax];

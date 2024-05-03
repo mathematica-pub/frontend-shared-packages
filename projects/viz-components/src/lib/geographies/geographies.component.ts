@@ -145,11 +145,6 @@ export class GeographiesComponent<
     });
   }
 
-  resizeMarks(): void {
-    this.setPropertiesFromRanges();
-    this.drawMarks();
-  }
-
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawMap(transitionDuration);

@@ -25,7 +25,6 @@ export abstract class VicDataMarks<
   abstract setPropertiesFromData(): void;
   abstract setPropertiesFromRanges(useTransition: boolean): void;
   abstract drawMarks(): void;
-  abstract resizeMarks(): void;
   abstract getTransitionDuration(): number;
 
   ngOnChanges(changes: SimpleChanges): void {

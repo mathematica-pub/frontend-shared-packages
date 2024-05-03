@@ -39,16 +39,6 @@ export interface VicIMarks extends VicICommon {
    */
   drawMarks: () => void;
   /**
-   * resizeMarks method
-   *
-   * All methods that should be called when the chart resizes due to browser layout should
-   * be called from resizeMarks. Generally, the required method will update the scales, which
-   * will in turn call drawMarks, but now always.
-   *
-   * This method is called when ranges emit from ChartComponent.
-   */
-  resizeMarks: () => void;
-  /**
    * getTransitionDuration method
    *
    * This method should return the duration of the transition to be used in the marks.

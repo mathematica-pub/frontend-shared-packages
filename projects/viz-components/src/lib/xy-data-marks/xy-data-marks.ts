@@ -44,7 +44,7 @@ export abstract class VicXyDataMarks<
           this.scales &&
           this.requiredScales.every((scale) => this.scales[scale])
         ) {
-          this.resizeMarks();
+          this.setPropertiesFromRanges(false);
         }
       });
   }
@@ -57,12 +57,13 @@ export abstract class VicXyDataMarks<
       )
       .subscribe((scales): void => {
         this.scales = scales;
-        this.drawMarks();
+        if (
+          this.scales &&
+          this.requiredScales.every((scale) => this.scales[scale])
+        ) {
+          this.drawMarks();
+        }
       });
-  }
-
-  resizeMarks(): void {
-    this.setPropertiesFromRanges(false);
   }
 
   getTransitionDuration(): number {

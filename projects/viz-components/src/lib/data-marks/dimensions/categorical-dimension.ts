@@ -22,6 +22,7 @@ export class VicCategoricalDimension<
     init?: Partial<VicCategoricalDimension<Datum, TCategoricalValue>>
   ) {
     super();
+    this.valueAccessor = () => '' as TCategoricalValue;
     this.range = ['lightslategray'];
     Object.assign(this, init);
   }

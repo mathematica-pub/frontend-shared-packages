@@ -20,7 +20,11 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { BarsHoverMoveEmitTooltipData } from 'projects/viz-components/src/public-api';
+import {
+  BarsHoverMoveEmitTooltipData,
+  VicOrdinalDimension,
+  VicQuantitativeDimension,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -88,22 +92,42 @@ export class BarsExampleComponent implements OnInit {
       tickFormat: '.0f',
     });
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum, string>();
-    dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
-    dataConfig.data = filteredData;
-    dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.quantitative.valueFormat = (d: any) => {
-      const label =
-        d.value === undefined || d.value === null
-          ? 'N/A'
-          : format('.1f')(d.value);
-      return d.value > 8 ? `${label}*` : label;
-    };
-    dataConfig.quantitative.domainPadding = new VicPixelDomainPadding();
-    dataConfig.ordinal.valueAccessor = (d) => d.division;
-    dataConfig.labels = new VicBarsLabelsConfig({
-      display: false,
+    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum, string>({
+      data: filteredData,
+      dimensions: new VicHorizontalBarsDimensionsConfig(),
+      quantitative: new VicQuantitativeDimension<MetroUnemploymentDatum>({
+        valueAccessor: (d) => d.value,
+        valueFormat: (d: any) => {
+          const label =
+            d.value === undefined || d.value === null
+              ? 'N/A'
+              : format('.1f')(d.value);
+          return d.value > 8 ? `${label}*` : label;
+        },
+        domainPadding: new VicPixelDomainPadding(),
+      }),
+      ordinal: new VicOrdinalDimension<MetroUnemploymentDatum, string>({
+        valueAccessor: (d) => d.division,
+      }),
+      labels: new VicBarsLabelsConfig({
+        display: false,
+      }),
     });
+    // dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    // dataConfig.data = filteredData;
+    // dataConfig.quantitative.valueAccessor = (d) => d.value;
+    // dataConfig.quantitative.valueFormat = (d: any) => {
+    //   const label =
+    //     d.value === undefined || d.value === null
+    //       ? 'N/A'
+    //       : format('.1f')(d.value);
+    //   return d.value > 8 ? `${label}*` : label;
+    // };
+    // dataConfig.quantitative.domainPadding = new VicPixelDomainPadding();
+    // dataConfig.ordinal.valueAccessor = (d) => d.division;
+    // dataConfig.labels = new VicBarsLabelsConfig({
+    //   display: false,
+    // });
     return {
       dataConfig,
       xAxisConfig,

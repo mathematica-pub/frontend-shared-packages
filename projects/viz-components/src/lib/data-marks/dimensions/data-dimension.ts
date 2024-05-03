@@ -14,9 +14,6 @@ export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue> {
   values: TDataValue[];
   valueAccessor: (d: Datum, ...args: any) => TDataValue;
   valueFormat?: VicFormatSpecifier<Datum>;
-  constructor(init?: Partial<VicDataDimension<Datum, TDataValue>>) {
-    Object.assign(this, init);
-  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setPropertiesFromData(data: Datum[], ...args: any): void;
