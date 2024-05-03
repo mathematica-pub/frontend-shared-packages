@@ -57,12 +57,7 @@ export abstract class VicXyDataMarks<
       )
       .subscribe((scales): void => {
         this.scales = scales;
-        if (
-          this.scales &&
-          this.requiredScales.every((scale) => this.scales[scale])
-        ) {
-          this.drawMarks();
-        }
+        this.drawMarks();
       });
   }
 

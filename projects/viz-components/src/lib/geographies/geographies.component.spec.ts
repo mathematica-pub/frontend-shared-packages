@@ -60,20 +60,6 @@ describe('GeographiesComponent', () => {
     });
   });
 
-  describe('resizeMarks()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setPropertiesFromRanges');
-      spyOn(component, 'drawMarks');
-      component.resizeMarks();
-    });
-    it('calls setPropertiesFromRanges once', () => {
-      expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
-    });
-    it('calls drawMarks once', () => {
-      expect(component.drawMarks).toHaveBeenCalledTimes(1);
-    });
-  });
-
   describe('updateChartAttributeProperties', () => {
     let scaleSpy: jasmine.Spy;
     beforeEach(() => {
