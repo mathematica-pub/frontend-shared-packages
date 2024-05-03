@@ -1,22 +1,22 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BehaviorSubject } from 'rxjs';
-import { VicAxisConfig } from '../../../axes/axis.config';
-import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quantitative-axis.module';
-import { BarsComponent } from '../../../bars/bars.component';
+import { VicAxisConfig } from '../../../../axes/axis.config';
+import { VicXQuantitativeAxisModule } from '../../../../axes/x-quantitative/x-quantitative-axis.module';
+import { BarsComponent } from '../../../../bars/bars.component';
 import {
   VicBarsConfig,
   VicBarsLabelsConfig,
   VicHorizontalBarsDimensionsConfig,
-} from '../../../bars/bars.config';
-import { VicBarsModule } from '../../../bars/bars.module';
-import { VicChartModule } from '../../../chart/chart.module';
-import { expectDomain } from '../../../core/utilities/testing/expect-domain';
-import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
-import { VicPercentOverDomainPadding } from './percent-over-padding';
-import { VicPixelDomainPadding } from './pixel-padding';
-import { VicRoundUpToIntervalDomainPadding } from './round-to-interval-padding';
-import { VicRoundUpDomainPadding } from './round-up-padding';
+} from '../../../../bars/bars.config';
+import { VicBarsModule } from '../../../../bars/bars.module';
+import { VicChartModule } from '../../../../chart/chart.module';
+import { VicXyChartModule } from '../../../../xy-chart/xy-chart.module';
+import { VicPercentOverDomainPadding } from '../percent-over-padding';
+import { VicPixelDomainPadding } from '../pixel-padding';
+import { VicRoundUpToIntervalDomainPadding } from '../round-to-interval-padding';
+import { VicRoundUpDomainPadding } from '../round-up-padding';
+import { expectDomain } from './expect-domain';
 
 @Component({
   selector: 'vic-test-bars-quantitative-domain-padding',

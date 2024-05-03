@@ -15,8 +15,8 @@ import { VicPercentOverDomainPadding } from '../../data-marks/dimensions/domain-
 import { VicPixelDomainPadding } from '../../data-marks/dimensions/domain-padding/pixel-padding';
 import { VicRoundUpToIntervalDomainPadding } from '../../data-marks/dimensions/domain-padding/round-to-interval-padding';
 import { VicRoundUpDomainPadding } from '../../data-marks/dimensions/domain-padding/round-up-padding';
+import { expectDomain } from '../../data-marks/dimensions/domain-padding/testing/expect-domain';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
-import { expectDomain } from './testing/expect-domain';
 
 @Component({
   selector: 'vic-test-bars-quantitative-domain-padding',
