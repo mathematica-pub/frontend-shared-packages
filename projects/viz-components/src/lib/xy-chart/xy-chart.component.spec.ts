@@ -19,7 +19,7 @@ describe('XyChartComponent', () => {
 
   describe('updateScales', () => {
     beforeEach(() => {
-      (component as any).scales.next({ x: 1, y: 2, category: 3 } as any);
+      (component as any).scales.next({ x: 1, y: 2, categorical: 3 } as any);
     });
     it('calls next on scales', () => {
       spyOn((component as any).scales, 'next');
@@ -27,7 +27,7 @@ describe('XyChartComponent', () => {
       expect((component as any).scales.next).toHaveBeenCalledOnceWith({
         x: 4,
         y: 2,
-        category: 3,
+        categorical: 3,
       } as any);
     });
   });

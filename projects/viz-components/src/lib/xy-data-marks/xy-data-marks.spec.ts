@@ -2,23 +2,23 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
-import { XyDataMarksBaseStub } from '../testing/stubs/xy-data-marks-base.stub';
+import { XyDataMarksStub } from '../testing/stubs/xy-data-marks.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 
-describe('XyDataMarksBase abstract class', () => {
-  let abstractClass: XyDataMarksBaseStub<any>;
+describe('XyDataMarks abstract class', () => {
+  let abstractClass: XyDataMarksStub<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        XyDataMarksBaseStub,
+        XyDataMarksStub,
         {
           provide: XyChartComponent,
           useValue: XyChartComponentStub,
         },
       ],
     });
-    abstractClass = TestBed.inject(XyDataMarksBaseStub);
+    abstractClass = TestBed.inject(XyDataMarksStub);
   });
 
   describe('ngOnInit()', () => {
@@ -67,9 +67,9 @@ describe('XyDataMarksBase abstract class', () => {
         abstractClass.scales = {
           x: 'test x',
           y: 'test y',
-          category: 'test category',
+          categorical: 'test category',
         } as any;
-        abstractClass.requiredScales = ['x', 'y', 'category'];
+        abstractClass.requiredScales = ['x', 'y', 'categorical'];
       });
       it('calls setPropertiesFromRanges once with the correct values', () => {
         abstractClass.subscribeToRanges();
@@ -82,7 +82,7 @@ describe('XyDataMarksBase abstract class', () => {
     describe('if scales are not defined', () => {
       beforeEach(() => {
         abstractClass.scales = null;
-        abstractClass.requiredScales = ['x', 'y', 'category'];
+        abstractClass.requiredScales = ['x', 'y', 'categorical'];
       });
       it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
@@ -97,9 +97,9 @@ describe('XyDataMarksBase abstract class', () => {
         abstractClass.scales = {
           x: 'test x',
           y: 'test y',
-          category: null,
+          categorical: null,
         } as any;
-        abstractClass.requiredScales = ['x', 'y', 'category'];
+        abstractClass.requiredScales = ['x', 'y', 'categorical'];
       });
       it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();

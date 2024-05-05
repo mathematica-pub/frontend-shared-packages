@@ -10,7 +10,7 @@ export class VicCategoricalDimension<
   fillPatterns: VicFillPattern<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   /**
-   * A user-defined function that transforms a category value into a graphical value.
+   * A user-defined function that transforms a categorical value into a graphical value.
    */
   scale: (category: TCategoricalValue) => string;
   /**

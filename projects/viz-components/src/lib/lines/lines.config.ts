@@ -26,7 +26,7 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
   y: VicQuantitativeDimension<Datum>;
 
   /**
-   * A config for the behavior of the chart's category dimension.
+   * A config for the behavior of the chart's categorical dimension.
    *
    * Default `valueAccessor` method returns 1.
    *

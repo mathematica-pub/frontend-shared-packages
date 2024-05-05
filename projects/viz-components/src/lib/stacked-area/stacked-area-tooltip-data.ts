@@ -42,7 +42,7 @@ export function getStackedAreaTooltipData<
         stackedArea.config.y.valueFormat
       ),
       category: stackedArea.config.categorical.valueAccessor(originalDatum),
-      color: stackedArea.scales.category(
+      color: stackedArea.scales.categorical(
         stackedArea.config.categorical.valueAccessor(originalDatum)
       ),
     };

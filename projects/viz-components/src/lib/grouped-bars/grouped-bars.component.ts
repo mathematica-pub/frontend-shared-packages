@@ -60,7 +60,7 @@ export class GroupedBarsComponent<
   }
 
   override getBarColor(i: number): string {
-    return this.scales.category(this.config.categorical.values[i]);
+    return this.scales.categorical(this.config.categorical.values[i]);
   }
 
   override getBarXOrdinal(i: number): number {

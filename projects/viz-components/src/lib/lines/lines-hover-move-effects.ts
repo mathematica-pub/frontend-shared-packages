@@ -125,7 +125,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
       .style('display', null)
       .attr(
         'fill',
-        directive.lines.scales.category(
+        directive.lines.scales.categorical(
           directive.lines.config.categorical.values[directive.closestPointIndex]
         )
       )

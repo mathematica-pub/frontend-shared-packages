@@ -27,7 +27,7 @@ export class LinesTooltipData {
   color: string;
   x: string;
   y: string;
-  category: string;
+  categorical: string;
 }
 
 export const LINES = new InjectionToken<LinesComponent<unknown>>(
@@ -147,9 +147,9 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const category = this.config.categorical.scale;
+    const categorical = this.config.categorical.scale;
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, category, useTransition });
+      this.chart.updateScales({ x, y, categorical, useTransition });
     });
   }
 
@@ -193,11 +193,11 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
           .append('path')
           .attr('key', ([category]) => category)
           .attr('class', 'vic-line')
-          .attr('stroke', ([category]) => this.scales.category(category))
+          .attr('stroke', ([category]) => this.scales.categorical(category))
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
         update
-          .attr('stroke', ([category]) => this.scales.category(category))
+          .attr('stroke', ([category]) => this.scales.categorical(category))
           .call((update) =>
             update
               .transition(t as any)
@@ -233,12 +233,12 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
           .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
           .attr('r', this.config.pointMarkers.radius)
           .attr('fill', (d) =>
-            this.scales.category(this.config.categorical.values[d.index])
+            this.scales.categorical(this.config.categorical.values[d.index])
           ),
       (update) =>
         update
           .attr('fill', (d) =>
-            this.scales.category(this.config.categorical.values[d.index])
+            this.scales.categorical(this.config.categorical.values[d.index])
           )
           .call((update) =>
             update
@@ -264,7 +264,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .attr('class', 'vic-line-label')
       .attr('text-anchor', 'end')
       .attr('fill', (d) =>
-        this.scales.category(this.config.categorical.values[d.index])
+        this.scales.categorical(this.config.categorical.values[d.index])
       )
       .attr('x', (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`)
       .attr(

@@ -114,9 +114,9 @@ export class StackedAreaComponent<
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const category = this.config.categorical.scale;
+    const categorical = this.config.categorical.scale;
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, category, useTransition });
+      this.chart.updateScales({ x, y, categorical, useTransition });
     });
   }
 
@@ -150,7 +150,7 @@ export class StackedAreaComponent<
             .append('path')
             .property('key', ([{ i }]) => this.config.categorical.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.category(this.config.categorical.values[i])
+              this.scales.categorical(this.config.categorical.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -160,7 +160,7 @@ export class StackedAreaComponent<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.category(this.config.categorical.values[i])
+                this.scales.categorical(this.config.categorical.values[i])
               )
           ),
         (exit) => exit.remove()

@@ -102,7 +102,7 @@ export class StackedBarsComponent<
       .data(this.stackedData)
       .join('g')
       .attr('fill', ([{ i }]: any) =>
-        this.scales.category(this.config.categorical.values[i])
+        this.scales.categorical(this.config.categorical.values[i])
       )
       .selectAll('rect')
       .data((d) => d)

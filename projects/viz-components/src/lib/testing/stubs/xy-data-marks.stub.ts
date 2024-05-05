@@ -1,7 +1,7 @@
 import { VicDataMarksConfig } from '../../data-marks/data-marks-types';
 import { VicXyDataMarks } from '../../xy-data-marks/xy-data-marks';
 
-export class XyDataMarksBaseStub<Datum> extends VicXyDataMarks<
+export class XyDataMarksStub<Datum> extends VicXyDataMarks<
   Datum,
   VicDataMarksConfig<Datum>
 > {

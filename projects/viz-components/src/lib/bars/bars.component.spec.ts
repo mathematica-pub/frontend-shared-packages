@@ -56,11 +56,11 @@ describe('BarsComponent', () => {
   describe('setDimensionPropertiesFromData()', () => {
     let ordinalPropSpy: jasmine.Spy;
     let quantitativePropSpy: jasmine.Spy;
-    let categoryPropSpy: jasmine.Spy;
+    let categoricalPropSpy: jasmine.Spy;
     beforeEach(() => {
       ordinalPropSpy = jasmine.createSpy('setPropertiesFromData');
       quantitativePropSpy = jasmine.createSpy('setPropertiesFromData');
-      categoryPropSpy = jasmine.createSpy('setPropertiesFromData');
+      categoricalPropSpy = jasmine.createSpy('setPropertiesFromData');
       component.config = {
         data: [
           { color: 'red', value: 1, size: 10 },
@@ -77,9 +77,9 @@ describe('BarsComponent', () => {
           valueAccessor: (x) => x.value,
           setPropertiesFromData: quantitativePropSpy,
         },
-        category: {
+        categorical: {
           valueAccessor: (x) => x.color,
-          setPropertiesFromData: categoryPropSpy,
+          setPropertiesFromData: categoricalPropSpy,
         },
         dimensions: {
           x: 'ordinal',
@@ -106,10 +106,12 @@ describe('BarsComponent', () => {
         );
       });
     });
-    describe('it calls setPropertiesFromData for the category dimension', () => {
+    describe('it calls setPropertiesFromData for the categorical dimension', () => {
       it('calls setPropertiesFromData once with the correct value', () => {
         component.setDimensionPropertiesFromData();
-        expect(categoryPropSpy).toHaveBeenCalledOnceWith(component.config.data);
+        expect(categoricalPropSpy).toHaveBeenCalledOnceWith(
+          component.config.data
+        );
       });
     });
   });
@@ -146,7 +148,7 @@ describe('BarsComponent', () => {
           'CA',
         ]);
       });
-      it('correctly sets category values', () => {
+      it('correctly sets categorical values', () => {
         expect(component.config.categorical.values).toEqual([
           'red',
           'orange',
@@ -223,8 +225,8 @@ describe('BarsComponent', () => {
         quantitative: {
           getScaleFromRange: quantitativeSpy,
         },
-        category: {
-          scale: 'category scale',
+        categorical: {
+          scale: 'categorical scale',
         },
       } as any;
       component.ranges = {
@@ -257,7 +259,7 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'ord scale',
           y: 'quant scale',
-          category: 'category scale',
+          categorical: 'categorical scale',
           useTransition: true,
         } as any);
       });
@@ -272,7 +274,7 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quant scale',
           y: 'ord scale',
-          category: 'category scale',
+          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -380,9 +382,11 @@ describe('BarsComponent', () => {
 
   describe('getBarColor()', () => {
     beforeEach(() => {
-      const categorySpy = jasmine.createSpy('category').and.returnValue('blue');
+      const categoricalSpy = jasmine
+        .createSpy('categorical')
+        .and.returnValue('blue');
       component.scales = {
-        category: categorySpy,
+        categorical: categoricalSpy,
       } as any;
       component.config = {
         ordinal: {
@@ -392,9 +396,9 @@ describe('BarsComponent', () => {
         data: [1, 2, 3],
       } as any;
     });
-    it('calls category scale once with the correct value', () => {
+    it('calls categorical scale once with the correct value', () => {
       component.getBarColor(0);
-      expect(component.scales.category).toHaveBeenCalledOnceWith(1);
+      expect(component.scales.categorical).toHaveBeenCalledOnceWith(1);
     });
     it('returns the correct value', () => {
       const result = component.getBarColor(0);
@@ -409,12 +413,13 @@ describe('BarsComponent', () => {
         ordinal: {
           values: [1, 2, 3],
         },
+        categorical: {},
         dimensions: { ordinal: 'x' },
         data: [1, 2, 3],
       } as any;
     });
     it('returns correct value when pattern is used', () => {
-      component.config.patternPredicates = [
+      component.config.categorical.fillPatterns = [
         { name: 'pattern', predicate: (d: any) => true },
       ];
       const result = component.getBarPattern(0);

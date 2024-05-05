@@ -24,7 +24,7 @@ export abstract class VicXyDataMarks<
   requiredScales: (keyof typeof XyContentScale)[] = [
     XyContentScale.x,
     XyContentScale.y,
-    XyContentScale.category,
+    XyContentScale.categorical,
   ];
   valueIndicies: number[];
   public override chart = inject(XyChartComponent);

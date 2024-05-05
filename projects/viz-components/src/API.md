@@ -45,7 +45,7 @@ BarsConfig:
     - sigDigits: 2
     - percent: 0.1
 
-- category: `new CategoricalColorDimension()`
+- categorical: `new CategoricalColorDimension()`
 
   - valueAccessor: **(d) => d**
   - valueFormat: undefined

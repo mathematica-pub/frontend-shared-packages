@@ -127,9 +127,9 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const category = this.config.categorical.scale;
+    const categorical = this.config.categorical.scale;
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, category, useTransition });
+      this.chart.updateScales({ x, y, categorical, useTransition });
     });
   }
 
@@ -247,7 +247,7 @@ export class BarsComponent<
   }
 
   getBarColor(i: number): string {
-    return this.scales.category(this.config.ordinal.values[i]);
+    return this.scales.categorical(this.config.ordinal.values[i]);
   }
 
   getBarPattern(i: number): string {

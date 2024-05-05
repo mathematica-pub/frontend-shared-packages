@@ -32,7 +32,9 @@ export function getLinesTooltipDataFromDatum<Datum>(
       lines.config.y.valueFormat
     ),
     category: lines.config.categorical.valueAccessor(datum),
-    color: lines.scales.category(lines.config.categorical.valueAccessor(datum)),
+    color: lines.scales.categorical(
+      lines.config.categorical.valueAccessor(datum)
+    ),
     positionX: lines.scales.x(lines.config.x.values[datumIndex]),
     positionY: lines.scales.y(lines.config.y.values[datumIndex]),
   };
