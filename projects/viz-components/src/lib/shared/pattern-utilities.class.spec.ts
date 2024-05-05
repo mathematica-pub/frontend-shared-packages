@@ -1,10 +1,10 @@
-import { VicPatternPredicate } from '../data-marks/dimensions/pattern-predicate';
+import { VicFillPattern } from '../data-marks/dimensions/pattern-predicate';
 import { PatternUtilities } from './pattern-utilities.class';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
-    const predicates: VicPatternPredicate<any>[] = [
-      { patternName: 'pattern', predicate: (d: number) => d > 2 },
+    const predicates: VicFillPattern<any>[] = [
+      { name: 'pattern', predicate: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {
       const output = PatternUtilities.getPatternFill(3, 'blue', predicates);

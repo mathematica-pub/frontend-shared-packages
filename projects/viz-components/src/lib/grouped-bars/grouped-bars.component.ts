@@ -32,7 +32,9 @@ export class GroupedBarsComponent<
       (i) => {
         return (
           this.config.ordinal.domainIncludes(this.config.ordinal.values[i]) &&
-          this.config.category.domainIncludes(this.config.category.values[i])
+          this.config.categorical.domainIncludes(
+            this.config.categorical.values[i]
+          )
         );
       }
     );
@@ -45,12 +47,12 @@ export class GroupedBarsComponent<
 
   setGroupScale(): void {
     if (this.config.dimensions.ordinal === 'x') {
-      this.groupScale = scaleBand(this.config.category.domain, [
+      this.groupScale = scaleBand(this.config.categorical.domain, [
         0,
         (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
-      this.groupScale = scaleBand(this.config.category.domain, [
+      this.groupScale = scaleBand(this.config.categorical.domain, [
         (this.scales.y as any).bandwidth(),
         0,
       ]).padding(this.config.intraGroupPadding);
@@ -58,13 +60,13 @@ export class GroupedBarsComponent<
   }
 
   override getBarColor(i: number): string {
-    return this.scales.category(this.config.category.values[i]);
+    return this.scales.category(this.config.categorical.values[i]);
   }
 
   override getBarXOrdinal(i: number): number {
     return (
       this.scales.x(this.config.ordinal.values[i]) +
-      this.groupScale(this.config.category.values[i])
+      this.groupScale(this.config.categorical.values[i])
     );
   }
 
@@ -79,7 +81,7 @@ export class GroupedBarsComponent<
   getBarYOrdinal(i: number): number {
     return (
       this.scales.y(this.config[this.config.dimensions.y].values[i]) +
-      this.groupScale(this.config.category.values[i])
+      this.groupScale(this.config.categorical.values[i])
     );
   }
 

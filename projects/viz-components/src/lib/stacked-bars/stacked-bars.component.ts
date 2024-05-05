@@ -53,7 +53,9 @@ export class StackedBarsComponent<
       (i) => {
         return (
           this.config.ordinal.domainIncludes(this.config.ordinal.values[i]) &&
-          this.config.category.domainIncludes(this.config.category.values[i])
+          this.config.categorical.domainIncludes(
+            this.config.categorical.values[i]
+          )
         );
       }
     );
@@ -61,7 +63,7 @@ export class StackedBarsComponent<
 
   constructStackedData(): void {
     const stackedData = stack<[unknown, InternMap<string, number>]>()
-      .keys(this.config.category.domain)
+      .keys(this.config.categorical.domain)
       .value((d, key) => {
         return this.config.quantitative.values[d[1].get(key)];
       })
@@ -71,7 +73,7 @@ export class StackedBarsComponent<
         this.valueIndicies,
         ([i]) => i,
         (i) => this.config.ordinal.values[i],
-        (i) => this.config.category.values[i]
+        (i) => this.config.categorical.values[i]
       )
     );
 
@@ -100,7 +102,7 @@ export class StackedBarsComponent<
       .data(this.stackedData)
       .join('g')
       .attr('fill', ([{ i }]: any) =>
-        this.scales.category(this.config.category.values[i])
+        this.scales.category(this.config.categorical.values[i])
       )
       .selectAll('rect')
       .data((d) => d)

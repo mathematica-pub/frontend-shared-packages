@@ -28,14 +28,15 @@ export class LinesHoverMoveDefaultLinesStyles<
   ): void {
     directive.lines.lines
       .style('stroke', ([category]): string =>
-        directive.lines.config.category.values[directive.closestPointIndex] ===
-        category
+        directive.lines.config.categorical.values[
+          directive.closestPointIndex
+        ] === category
           ? null
           : '#ddd'
       )
       .filter(
         ([category]): boolean =>
-          directive.lines.config.category.values[
+          directive.lines.config.categorical.values[
             directive.closestPointIndex
           ] === category
       )
@@ -71,8 +72,9 @@ export class LinesHoverMoveDefaultMarkersStyles<
   ): void {
     directive.lines.markers
       .style('fill', (d): string =>
-        directive.lines.config.category.values[directive.closestPointIndex] ===
-        directive.lines.config.category.values[d.index]
+        directive.lines.config.categorical.values[
+          directive.closestPointIndex
+        ] === directive.lines.config.categorical.values[d.index]
           ? null
           : 'transparent'
       )
@@ -87,9 +89,9 @@ export class LinesHoverMoveDefaultMarkersStyles<
       })
       .filter(
         (d): boolean =>
-          directive.lines.config.category.values[
+          directive.lines.config.categorical.values[
             directive.closestPointIndex
-          ] === directive.lines.config.category.values[d.index]
+          ] === directive.lines.config.categorical.values[d.index]
       )
       .raise();
   }
@@ -124,7 +126,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
       .attr(
         'fill',
         directive.lines.scales.category(
-          directive.lines.config.category.values[directive.closestPointIndex]
+          directive.lines.config.categorical.values[directive.closestPointIndex]
         )
       )
       .attr(

@@ -91,7 +91,7 @@ export class BarsComponent<
       this.config.data,
       this.config.dimensions.ordinal === 'y'
     );
-    this.config.category.setPropertiesFromData(this.config.data);
+    this.config.categorical.setPropertiesFromData(this.config.data);
   }
 
   setValueIndicies(): void {
@@ -127,7 +127,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const category = this.config.category.scale;
+    const category = this.config.categorical.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
@@ -196,7 +196,7 @@ export class BarsComponent<
   }
 
   getBarFill(i: number): string {
-    return this.config.patternPredicates
+    return this.config.categorical.fillPatterns
       ? this.getBarPattern(i)
       : this.getBarColor(i);
   }
@@ -252,11 +252,10 @@ export class BarsComponent<
 
   getBarPattern(i: number): string {
     const color = this.getBarColor(i);
-    const predicates = this.config.patternPredicates;
     return PatternUtilities.getPatternFill(
       this.config.data[i],
       color,
-      predicates
+      this.config.categorical.fillPatterns
     );
   }
 

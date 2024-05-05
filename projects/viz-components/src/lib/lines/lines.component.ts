@@ -94,13 +94,13 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   setDimensionPropertiesFromData(): void {
     this.config.x.setPropertiesFromData(this.config.data);
     this.config.y.setPropertiesFromData(this.config.data);
-    this.config.category.setPropertiesFromData(this.config.data);
+    this.config.categorical.setPropertiesFromData(this.config.data);
   }
 
   setValueIndicies(): void {
-    const domainInternSet = new InternSet(this.config.category.domain);
+    const domainInternSet = new InternSet(this.config.categorical.domain);
     this.valueIndicies = range(this.config.x.values.length).filter((i) =>
-      domainInternSet.has(this.config.category.values[i])
+      domainInternSet.has(this.config.categorical.values[i])
     );
   }
 
@@ -112,7 +112,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     );
     this.linesD3Data = group(
       definedIndices,
-      (i) => this.config.category.values[i]
+      (i) => this.config.categorical.values[i]
     );
   }
 
@@ -137,7 +137,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   }
 
   getMarkerKey(i: number): string {
-    return `${this.config.category.values[i]}-${this.config.x.values[i]}`;
+    return `${this.config.categorical.values[i]}-${this.config.x.values[i]}`;
   }
 
   setMarkersKeyFunction(): void {
@@ -147,7 +147,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const category = this.config.category.scale;
+    const category = this.config.categorical.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
@@ -233,12 +233,12 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
           .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
           .attr('r', this.config.pointMarkers.radius)
           .attr('fill', (d) =>
-            this.scales.category(this.config.category.values[d.index])
+            this.scales.category(this.config.categorical.values[d.index])
           ),
       (update) =>
         update
           .attr('fill', (d) =>
-            this.scales.category(this.config.category.values[d.index])
+            this.scales.category(this.config.categorical.values[d.index])
           )
           .call((update) =>
             update
@@ -264,7 +264,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .attr('class', 'vic-line-label')
       .attr('text-anchor', 'end')
       .attr('fill', (d) =>
-        this.scales.category(this.config.category.values[d.index])
+        this.scales.category(this.config.categorical.values[d.index])
       )
       .attr('x', (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`)
       .attr(

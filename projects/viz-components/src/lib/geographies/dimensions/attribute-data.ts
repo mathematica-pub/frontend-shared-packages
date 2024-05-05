@@ -2,7 +2,7 @@ import {
   VicDataDimension,
   VicDataValue,
 } from '../../data-marks/dimensions/data-dimension';
-import { VicPatternPredicate } from '../../data-marks/dimensions/pattern-predicate';
+import { VicFillPattern } from '../../data-marks/dimensions/pattern-predicate';
 
 /**
  * Configuration object for attribute data that will be used to shade the map.
@@ -21,7 +21,7 @@ export abstract class AttributeDataDimension<
   scale: (...args: any) => any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
-  patternPredicates?: VicPatternPredicate<Datum>[];
+  fillPatterns: VicFillPattern<Datum>[];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected abstract setDomainAndBins(values: any[]): void;

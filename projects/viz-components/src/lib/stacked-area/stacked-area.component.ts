@@ -70,12 +70,12 @@ export class StackedAreaComponent<
   setDimensionPropertiesFromData(): void {
     this.config.x.setPropertiesFromData(this.config.data);
     this.config.y.setPropertiesFromData(this.config.data);
-    this.config.category.setPropertiesFromData(this.config.data);
+    this.config.categorical.setPropertiesFromData(this.config.data);
   }
 
   setValueIndicies(): void {
     this.valueIndicies = range(this.config.x.values.length).filter((i) =>
-      this.config.category.domainIncludes(this.config.category.values[i])
+      this.config.categorical.domainIncludes(this.config.categorical.values[i])
     );
   }
 
@@ -84,12 +84,12 @@ export class StackedAreaComponent<
       this.valueIndicies,
       ([i]) => i,
       (i) => this.config.x.values[i],
-      (i) => this.config.category.values[i]
+      (i) => this.config.categorical.values[i]
     );
 
-    const keys = this.config.categoryOrder
-      ? this.config.categoryOrder.slice().reverse()
-      : this.config.category.domain;
+    const keys = this.config.categoricalOrder
+      ? this.config.categoricalOrder.slice().reverse()
+      : this.config.categorical.domain;
 
     this.series = stack<any, InternMap<any, number>, any>()
       .keys(keys)
@@ -114,7 +114,7 @@ export class StackedAreaComponent<
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const category = this.config.category.scale;
+    const category = this.config.categorical.scale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
@@ -148,9 +148,9 @@ export class StackedAreaComponent<
         (enter) =>
           enter
             .append('path')
-            .property('key', ([{ i }]) => this.config.category.values[i])
+            .property('key', ([{ i }]) => this.config.categorical.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.category(this.config.category.values[i])
+              this.scales.category(this.config.categorical.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -160,7 +160,7 @@ export class StackedAreaComponent<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.category(this.config.category.values[i])
+                this.scales.category(this.config.categorical.values[i])
               )
           ),
         (exit) => exit.remove()

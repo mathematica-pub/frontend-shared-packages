@@ -1,11 +1,13 @@
 import { InternSet, scaleOrdinal } from 'd3';
 import { VicDataDimension, VicDataValue } from './data-dimension';
+import { VicFillPattern } from './pattern-predicate';
 
 export class VicCategoricalDimension<
   Datum,
   TCategoricalValue extends VicDataValue
 > extends VicDataDimension<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
+  fillPatterns: VicFillPattern<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   /**
    * A user-defined function that transforms a category value into a graphical value.

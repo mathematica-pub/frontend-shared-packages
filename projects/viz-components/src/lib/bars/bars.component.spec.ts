@@ -126,7 +126,7 @@ describe('BarsComponent', () => {
       ];
       component.config.quantitative.valueAccessor = (d) => d.value;
       component.config.ordinal.valueAccessor = (d) => d.state;
-      component.config.category.valueAccessor = (d) => d.color;
+      component.config.categorical.valueAccessor = (d) => d.color;
       component.config.dimensions = new VicVerticalBarsDimensionsConfig();
     });
     describe('no user set domain', () => {
@@ -147,7 +147,7 @@ describe('BarsComponent', () => {
         ]);
       });
       it('correctly sets category values', () => {
-        expect(component.config.category.values).toEqual([
+        expect(component.config.categorical.values).toEqual([
           'red',
           'orange',
           'yellow',
@@ -177,7 +177,7 @@ describe('BarsComponent', () => {
       component.config = new VicBarsConfig();
       component.config.quantitative.valueAccessor = (d) => d.value;
       component.config.ordinal.valueAccessor = (d) => d.state;
-      component.config.category.valueAccessor = (d) => d.color;
+      component.config.categorical.valueAccessor = (d) => d.color;
       component.config.dimensions = new VicHorizontalBarsDimensionsConfig();
     });
     it('sets hasBarsWithNegativeValues to true if dataMin is less than zero', () => {
@@ -415,7 +415,7 @@ describe('BarsComponent', () => {
     });
     it('returns correct value when pattern is used', () => {
       component.config.patternPredicates = [
-        { patternName: 'pattern', predicate: (d: any) => true },
+        { name: 'pattern', predicate: (d: any) => true },
       ];
       const result = component.getBarPattern(0);
       expect(result).toEqual(`url(#pattern)`);

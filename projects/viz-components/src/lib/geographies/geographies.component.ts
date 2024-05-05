@@ -205,8 +205,7 @@ export class GeographiesComponent<
             .attr('stroke', this.config.dataGeographyConfig.strokeColor)
             .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
             .attr('fill', (d) =>
-              this.config.dataGeographyConfig.attributeDataConfig
-                .patternPredicates
+              this.config.dataGeographyConfig.attributeDataConfig.fillPatterns
                 ? this.getPatternFill(this.config.featureIndexAccessor(d))
                 : this.getFill(this.config.featureIndexAccessor(d))
             ),
@@ -218,8 +217,7 @@ export class GeographiesComponent<
               .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
               .transition(t)
               .attr('fill', (d) =>
-                this.config.dataGeographyConfig.attributeDataConfig
-                  .patternPredicates
+                this.config.dataGeographyConfig.attributeDataConfig.fillPatterns
                   ? this.getPatternFill(this.config.featureIndexAccessor(d))
                   : this.getFill(this.config.featureIndexAccessor(d))
               )
@@ -309,7 +307,7 @@ export class GeographiesComponent<
       this.values.attributeValuesByGeographyIndex.get(geographyIndex)
     );
     const predicates =
-      this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
+      this.config.dataGeographyConfig.attributeDataConfig.fillPatterns;
     return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
@@ -320,7 +318,7 @@ export class GeographiesComponent<
     return PatternUtilities.getPatternFill(
       geography,
       config.fill,
-      config.patternPredicates
+      config.fillPatterns
     );
   }
 

@@ -174,9 +174,9 @@ export class GeographiesExampleComponent implements OnInit {
     config.geographies = this.getDataGeographiesFeatures(data);
     config.attributeDataConfig = this.getAttributeDataDimension();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
-    config.attributeDataConfig.patternPredicates = [
+    config.attributeDataConfig.fillPatterns = [
       {
-        patternName: this.patternName,
+        name: this.patternName,
         predicate: (d) => !!d && d.population < 1000000,
       },
     ];

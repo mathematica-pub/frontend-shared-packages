@@ -50,7 +50,7 @@ export class StackedAreaExampleComponent implements OnInit {
     dataConfig.data = data;
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.industry;
+    dataConfig.categorical.valueAccessor = (d) => d.industry;
     return {
       dataConfig,
       xAxisConfig,

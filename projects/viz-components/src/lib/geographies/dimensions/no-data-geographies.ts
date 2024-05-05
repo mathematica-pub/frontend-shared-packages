@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { VicFillPattern } from '../../data-marks/dimensions/pattern-predicate';
 import { VicGeographiesFeature } from '../geographies';
 import { VicBaseDataGeographyConfig } from './base-data-geographies';
 
@@ -10,10 +11,7 @@ export class VicNoDataGeographies<
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.
    */
-  patternPredicates?: VicGeographyNoDataPatternPredicate<
-    TProperties,
-    TGeometry
-  >[];
+  fillPatterns: VicFillPattern<VicGeographiesFeature<TProperties, TGeometry>>[];
 
   constructor(
     init?: Partial<VicNoDataGeographies<Datum, TProperties, TGeometry>>
@@ -26,10 +24,10 @@ export class VicNoDataGeographies<
   }
 }
 
-export interface VicGeographyNoDataPatternPredicate<
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
-> {
-  patternName: string;
-  predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
-}
+// export interface VicGeographyNoDataPatternPredicate<
+//   TProperties,
+//   TGeometry extends Geometry = MultiPolygon | Polygon
+// > {
+//   name: string;
+//   predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
+// }

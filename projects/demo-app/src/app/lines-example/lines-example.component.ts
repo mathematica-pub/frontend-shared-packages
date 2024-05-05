@@ -129,7 +129,7 @@ export class LinesExampleComponent implements OnInit {
     dataConfig.x.valueAccessor = (d) => d.date;
     dataConfig.x.valueFormat = '%a %B %d %Y';
     dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.division;
+    dataConfig.categorical.valueAccessor = (d) => d.division;
     dataConfig.pointMarkers.radius = 2;
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     dataConfig.y.domainPadding = new VicPixelDomainPadding({ numPixels: 20 });

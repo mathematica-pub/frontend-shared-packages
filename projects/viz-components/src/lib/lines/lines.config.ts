@@ -32,7 +32,7 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
-  category: VicCategoricalDimension<Datum, string>;
+  categorical: VicCategoricalDimension<Datum, string>;
 
   /**
    * A function that returns a boolean indicating whether a value in the data is defined.
@@ -95,7 +95,7 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
     this.mixBlendMode = 'normal';
     this.x = new VicDateDimension();
     this.y = new VicQuantitativeDimension();
-    this.category = new VicCategoricalDimension({
+    this.categorical = new VicCategoricalDimension({
       range: schemeTableau10 as string[],
     });
     this.curve = curveLinear;

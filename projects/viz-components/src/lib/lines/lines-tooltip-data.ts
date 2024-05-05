@@ -18,8 +18,8 @@ export function getLinesTooltipDataFromDatum<Datum>(
   const datum = lines.config.data.find(
     (d) =>
       lines.config.x.values[datumIndex] === lines.config.x.valueAccessor(d) &&
-      lines.config.category.values[datumIndex] ===
-        lines.config.category.valueAccessor(d)
+      lines.config.categorical.values[datumIndex] ===
+        lines.config.categorical.valueAccessor(d)
   );
   return {
     datum,
@@ -31,8 +31,8 @@ export function getLinesTooltipDataFromDatum<Datum>(
       lines.config.y.valueAccessor(datum),
       lines.config.y.valueFormat
     ),
-    category: lines.config.category.valueAccessor(datum),
-    color: lines.scales.category(lines.config.category.valueAccessor(datum)),
+    category: lines.config.categorical.valueAccessor(datum),
+    color: lines.scales.category(lines.config.categorical.valueAccessor(datum)),
     positionX: lines.scales.x(lines.config.x.values[datumIndex]),
     positionY: lines.scales.y(lines.config.y.values[datumIndex]),
   };

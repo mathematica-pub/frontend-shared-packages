@@ -18,7 +18,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   mixBlendMode: string;
   x: VicDateDimension<Datum>;
   y: VicQuantitativeDimension<Datum>;
-  category: VicCategoricalDimension<Datum, TCategoricalValue>;
+  categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined?: (d: Datum, i: number, ...args: any) => boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,13 +30,13 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   ) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   stackOrderFunction: (x: any) => any;
-  categoryOrder?: TCategoricalValue[];
+  categoricalOrder?: TCategoricalValue[];
 
   constructor(init?: Partial<VicStackedAreaConfig<Datum, TCategoricalValue>>) {
     this.mixBlendMode = 'normal';
     this.x = new VicDateDimension();
     this.y = new VicQuantitativeDimension();
-    this.category = new VicCategoricalDimension({
+    this.categorical = new VicCategoricalDimension({
       range: schemeTableau10 as string[],
     });
     this.curve = curveLinear;

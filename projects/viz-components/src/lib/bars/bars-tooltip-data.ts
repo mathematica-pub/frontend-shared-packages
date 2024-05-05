@@ -42,7 +42,7 @@ export function getBarsTooltipData<Datum, TOrdinalValue extends VicDataValue>(
       bars.config.quantitative.valueAccessor(datum),
       bars.config.quantitative.valueFormat
     ),
-    category: bars.config.category.valueAccessor(datum),
+    category: bars.config.categorical.valueAccessor(datum),
     elRef: elRef,
   };
 

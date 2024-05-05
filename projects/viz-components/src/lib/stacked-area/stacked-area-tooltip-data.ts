@@ -28,8 +28,8 @@ export function getStackedAreaTooltipData<
       (d) =>
         stackedArea.config.x.valueAccessor(d) ===
           stackedArea.config.x.values[i] &&
-        stackedArea.config.category.valueAccessor(d) ===
-          stackedArea.config.category.values[i]
+        stackedArea.config.categorical.valueAccessor(d) ===
+          stackedArea.config.categorical.values[i]
     );
     return {
       datum: originalDatum,
@@ -41,17 +41,17 @@ export function getStackedAreaTooltipData<
         stackedArea.config.y.valueAccessor(originalDatum),
         stackedArea.config.y.valueFormat
       ),
-      category: stackedArea.config.category.valueAccessor(originalDatum),
+      category: stackedArea.config.categorical.valueAccessor(originalDatum),
       color: stackedArea.scales.category(
-        stackedArea.config.category.valueAccessor(originalDatum)
+        stackedArea.config.categorical.valueAccessor(originalDatum)
       ),
     };
   });
-  if (stackedArea.config.categoryOrder) {
+  if (stackedArea.config.categoricalOrder) {
     data.sort((a, b) => {
       return (
-        stackedArea.config.categoryOrder.indexOf(a.category) -
-        stackedArea.config.categoryOrder.indexOf(b.category)
+        stackedArea.config.categoricalOrder.indexOf(a.category) -
+        stackedArea.config.categoricalOrder.indexOf(b.category)
       );
     });
   }

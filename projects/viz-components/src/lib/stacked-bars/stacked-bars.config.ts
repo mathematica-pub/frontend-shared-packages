@@ -13,7 +13,7 @@ export class VicStackedBarsConfig<
     super();
     this.order = stackOrderNone;
     this.offset = stackOffsetDiverging;
-    this.category.range = schemeTableau10 as string[];
+    this.categorical.range = schemeTableau10 as string[];
     Object.assign(this, init);
   }
 }

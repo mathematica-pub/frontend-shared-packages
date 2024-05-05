@@ -56,7 +56,7 @@ export class StackedBarsExampleComponent implements OnInit {
     dataConfig.dimensions = new VicVerticalBarsDimensionsConfig();
     dataConfig.ordinal.valueAccessor = (d) => d.date;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.industry;
+    dataConfig.categorical.valueAccessor = (d) => d.industry;
     return {
       dataConfig,
       xAxisConfig,

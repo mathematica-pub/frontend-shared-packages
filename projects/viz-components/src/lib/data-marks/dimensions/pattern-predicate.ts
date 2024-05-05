@@ -1,4 +1,4 @@
-export interface VicPatternPredicate<Datum> {
-  patternName: string;
+export interface VicFillPattern<Datum> {
+  name: string;
   predicate: (d: Datum) => boolean;
 }

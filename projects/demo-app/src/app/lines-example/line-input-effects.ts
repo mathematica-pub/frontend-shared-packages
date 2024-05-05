@@ -21,12 +21,12 @@ export class HighlightLineForLabel<
 
     event.lines.markers
       .style('fill', (d): string =>
-        label === event.lines.config.category.values[d.index]
+        label === event.lines.config.categorical.values[d.index]
           ? null
           : 'transparent'
       )
       .filter(
-        (d): boolean => label === event.lines.config.category.values[d.index]
+        (d): boolean => label === event.lines.config.categorical.values[d.index]
       )
       .raise();
   }
