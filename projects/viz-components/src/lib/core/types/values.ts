@@ -1,1 +1,4 @@
-export type VicValueExtent = 'max' | 'min';
+export enum VicValueExtent {
+  max = 'max',
+  min = 'min',
+}

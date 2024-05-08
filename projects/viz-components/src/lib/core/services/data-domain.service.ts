@@ -107,7 +107,7 @@ export class DataDomainService {
       ? this.getPaddedDomainValue(
           unpaddedDomain,
           domainPadding,
-          'min',
+          VicValueExtent.min,
           scaleType,
           pixelRange
         )
@@ -116,7 +116,7 @@ export class DataDomainService {
       ? this.getPaddedDomainValue(
           unpaddedDomain,
           domainPadding,
-          'max',
+          VicValueExtent.max,
           scaleType,
           pixelRange
         )

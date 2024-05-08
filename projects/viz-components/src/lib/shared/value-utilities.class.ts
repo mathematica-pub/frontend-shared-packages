@@ -161,7 +161,7 @@ export class ValueUtilities {
     if (interval === 0) {
       return value;
     }
-    const round = valueExtent === 'max' ? Math.ceil : Math.floor;
+    const round = valueExtent === VicValueExtent.max ? Math.ceil : Math.floor;
     return round(value / interval) * interval;
   }
 }

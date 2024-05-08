@@ -12,7 +12,7 @@ describe('ValueUtilities', () => {
       });
       describe('if domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
@@ -74,7 +74,7 @@ describe('ValueUtilities', () => {
       });
       describe('if domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
@@ -143,7 +143,7 @@ describe('ValueUtilities', () => {
       });
       describe('if domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
@@ -206,7 +206,7 @@ describe('ValueUtilities', () => {
       });
       describe('if domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 1', () => {
           sigDigits = 1;
@@ -275,7 +275,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
@@ -299,7 +299,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
@@ -329,7 +329,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
@@ -353,7 +353,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 3', () => {
           sigDigits = 3;
@@ -383,7 +383,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
@@ -407,7 +407,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
@@ -437,7 +437,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
@@ -461,7 +461,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is less than or equal to length of value', () => {
           sigDigits = 1;
@@ -491,7 +491,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -515,7 +515,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -545,7 +545,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -569,7 +569,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -599,7 +599,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -623,7 +623,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -653,7 +653,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -677,7 +677,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -707,7 +707,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -765,7 +765,7 @@ describe('ValueUtilities', () => {
 
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -828,7 +828,7 @@ describe('ValueUtilities', () => {
       });
       describe('if the domain type is max', () => {
         beforeEach(() => {
-          valueExtent = 'max';
+          valueExtent = VicValueExtent.max;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;
@@ -886,7 +886,7 @@ describe('ValueUtilities', () => {
 
       describe('if the domain type is min', () => {
         beforeEach(() => {
-          valueExtent = 'min';
+          valueExtent = VicValueExtent.min;
         });
         it('returns the correct value if sigDigits is 2', () => {
           sigDigits = 2;

@@ -30,7 +30,7 @@ describe('MapDataMarksBase abstract class', () => {
       abstractClass.ngOnInit();
       expect(abstractClass.subscribeToRanges).toHaveBeenCalledTimes(1);
     });
-    it('calls subscribeToAttributeScaleAndConfig once', () => {
+    it('calls subscribeToAttributeProperties once', () => {
       abstractClass.ngOnInit();
       expect(
         abstractClass.subscribeToAttributeProperties
@@ -42,7 +42,7 @@ describe('MapDataMarksBase abstract class', () => {
     });
   });
 
-  describe('subscribeToAttributeScaleAndConfig()', () => {
+  describe('subscribeToAttributeProperties()', () => {
     beforeEach(() => {
       abstractClass.chart = {
         attributeProperties: new BehaviorSubject<any>({
