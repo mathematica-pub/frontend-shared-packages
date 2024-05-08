@@ -2,8 +2,7 @@ name: Testing, Linting, and Building
 
 on: [push]
 
-permissions:
-  contents: write
+permissions: write-all
 
 jobs:
   lint:
@@ -79,6 +78,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+          cache: 'pipenv'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install pipenv
+          pipenv sync --dev
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -94,11 +105,11 @@ jobs:
       - name: Build Custom Schematics
         run: npm run build --prefix projects/viz-components
 
+      - name: Build Compodoc Documentation
+        run: npm run build:documentation
+
       - name: Build Code Snippets
-        run: |
-          cd projects/viz-components/code-snippets
-          python code_snippet_generator.py
-          cd ../../..
-          cp .vscode/vizcolib-configs.code-snippets dist/viz-components
+        run: npm run build:code-snippets
+
       - name: Build Demo App
         run: npm run build:demo-app
