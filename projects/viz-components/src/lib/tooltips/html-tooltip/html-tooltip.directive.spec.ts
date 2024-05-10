@@ -8,10 +8,10 @@ import { VIC_DATA_MARKS } from '../../data-marks/data-marks.token';
 import { DataMarksBaseStub } from '../../testing/stubs/data-marks-base.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfig } from './html-tooltip.config';
-import { HtmlTooltipDirective } from './html-tooltip.directive';
+import { VicHtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
-  let directive: HtmlTooltipDirective<any, any>;
+  let directive: VicHtmlTooltipDirective<any, any>;
   let mainServiceStub: MainServiceStub;
   let destroySpy: jasmine.Spy;
 
@@ -22,7 +22,7 @@ describe('HtmlTooltipDirective', () => {
         ViewContainerRef,
         Overlay,
         OverlayPositionBuilder,
-        HtmlTooltipDirective,
+        VicHtmlTooltipDirective,
         {
           provide: VIC_DATA_MARKS,
           useClass: DataMarksBaseStub,
@@ -33,7 +33,7 @@ describe('HtmlTooltipDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(HtmlTooltipDirective);
+    directive = TestBed.inject(VicHtmlTooltipDirective);
     destroySpy = spyOn(directive, 'ngOnDestroy');
   });
 

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 import {
   VicBarsModule,
   VicChartModule,
@@ -13,7 +14,6 @@ import {
 import { SharedModule } from '../shared/shared.module';
 import { BarsRoutingModule } from './bars-example-routing.module';
 import { BarsExampleComponent } from './bars-example.component';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
 
 @NgModule({
   declarations: [BarsExampleComponent],

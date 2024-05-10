@@ -23,11 +23,3 @@ export class VicNoDataGeographies<
     Object.assign(this, init);
   }
 }
-
-// export interface VicGeographyNoDataPatternPredicate<
-//   TProperties,
-//   TGeometry extends Geometry = MultiPolygon | Polygon
-// > {
-//   name: string;
-//   predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
-// }

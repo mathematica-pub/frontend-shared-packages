@@ -18,25 +18,29 @@ chart-components:
     y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
     axis-config: 'classes/VicAxisConfig.html'
     tick-wrap-config: 'classes/VicTickWrapConfig.html'
+dimensions:
+  categorical: 'classes/VicCategoricalDimension.html'
+  date: 'classes/VicDateDimension.html'
+  ordinal: 'classes/VicOrdinalDimension.html'
+  quantitative: 'classes/VicQuantitativeDimension.html'
 data-marks-components:
   shared:
-    html-tooltip: 'directives/HtmlTooltipDirective.html'
+    html-tooltip: 'directives/VicHtmlTooltipDirective.html'
     html-tooltip-config: 'classes/VicHtmlTooltipConfig.html'
-    data-marks-config: 'classes/VicDataMarksConfig.html'
-    categorical-color-dimension-config: 'classes/VicCategoricalColorDimensionConfig.html'
-    data-dimension-config: 'classes/VicDataDimensionConfig.html'
+    data-marks-config: 'interfaces/VicDataMarksConfig.html'
     event-effect: 'interfaces/EventEffect.html'
     input-event-effect: 'interfaces/InputEventEffect.html'
   geographies:
+    dimensions:
+      data-geographies: 'classes/VicDataGeographies.html'
+      no-data-geographies: 'classes/VicNoDataGeographies.html'
+      attribute-data:
+        no-bins: 'classes/VicNoBinsAttributeDataDimension.html'
+        categorical: 'classes/VicCategoricalAttributeDataDimension.html'
+        equal-num-observations: 'classes/VicEqualNumObservationsAttributeDataDimension.html'
+        equal-value-ranges: 'classes/VicEqualValuesAttributeDataDimension.html'
+        custom-breaks: 'classes/VicCustomBreaksAttributeDataDimension.html'
     geographies-config: 'classes/VicGeographiesConfig.html'
-    no-data-geography-config: 'classes/VicNoDataGeographyConfig.html'
-    attribute-data-dimension-config: 'classes/VicAttributeDataDimensionConfig.html'
-    categorical-attribute-data-dimension-config: 'classes/VicCategoricalAttributeDataDimensionConfig.html'
-    no-bins-quantitative-attribute-data-dimension-config: 'classes/VicNoBinsQuantitativeAttributeDataDimensionConfig.html'
-    equal-numbers-quantitative-attribute-data-dimension-config: 'classes/VicEqualNumbersQuantitativeAttributeDataDimensionConfig.html'
-    equal-values-quantitative-attribute-data-dimension-config: 'classes/VicEqualValuesQuantitativeAttributeDataDimensionConfig.html'
-    custom-breaks-quantitative-attribute-data-dimension-config: 'classes/VicCustomBreaksQuantitativeAttributeDataDimensionConfig.html'
-    data-geography-config: 'classes/VicDataGeographyConfig.html'
     events:
       geographies-click: 'directives/GeographiesClickDirective.html'
       geographies-hover: 'directives/GeographiesHoverDirective.html'
@@ -67,8 +71,6 @@ data-marks-components:
       lines-hover-move-emit-tooltip-data: 'classes/LinesHoverMoveEmitTooltipData.html'
   bars:
     bars-config: 'classes/VicBarsConfig.html'
-    quantitative-dimension-config: 'classes/VicQuantitativeDimensionConfig.html'
-    ordinal-dimension-config: 'classes/VicOrdinalDimensionConfig.html'
     bars-labels-config: 'classes/VicBarsLabelsConfig.html'
     events:
       bars-click: 'directives/BarsClickDirective.html'
@@ -94,14 +96,14 @@ utilities:
   svg-text-wrap-config: 'classes/VicSvgTextWrapConfig.html'
 library-internals:
   chart: 'components/ChartComponent.html'
-  data-marks-base: 'directives/DataMarksBase.html'
+  data-marks: 'directives/VicDataMarks.html'
   events:
     event: 'directives/EventDirective.html'
     input-event: 'directives/InputEventDirective.html'
   xy-chart:
-    xy-data-marks-base: 'directives/XyDataMarksBase.html'
+    xy-data-marks-base: 'directives/VicXyDataMarks.html'
     xy-axis: 'directives/XyAxis.html'
   map-chart:
-    map-data-marks-base: 'directives/MapDataMarksBase.html'
+    map-data-marks-base: 'directives/VicMapDataMarks.html'
     continuous-legend: 'components/ContinuousLegendComponent.html'
     discontinuous-legend: 'components/DiscontinuousLegendComponent.html'

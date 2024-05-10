@@ -38,7 +38,7 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class HtmlTooltipDirective<
+export class VicHtmlTooltipDirective<
   Datum,
   TDataMarksConfig extends VicDataMarksConfig<Datum>
 > implements OnInit, OnChanges, OnDestroy
