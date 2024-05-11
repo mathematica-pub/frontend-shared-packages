@@ -1,17 +1,16 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
-import { VicDataDimension, VicDataValue, VicDimension } from './data-dimension';
+import { VicDataDimension, VicDataValue } from './data-dimension';
 
 export class VicOrdinalDimension<
   Datum,
   TOrdinalValue extends VicDataValue
 > extends VicDataDimension<Datum, TOrdinalValue> {
-  domain: TOrdinalValue[];
   private internSetDomain: InternSet<TOrdinalValue>;
-  type: VicDimension.ordinal = VicDimension.ordinal;
-  scaleFn: (
+  private scaleFn: (
     domain?: Iterable<TOrdinalValue>,
     range?: Iterable<number>
   ) => ScaleBand<TOrdinalValue>;
+  domain: TOrdinalValue[];
   paddingInner: number;
   paddingOuter: number;
   align: number;

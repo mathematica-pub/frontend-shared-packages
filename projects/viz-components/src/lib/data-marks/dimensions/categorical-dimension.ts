@@ -9,6 +9,7 @@ export class VicCategoricalDimension<
   domain: TCategoricalValue[];
   fillPatterns: VicFillPattern<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
+  // TODO: would we ever want this to be able to emit numbers?
   /**
    * A user-defined function that transforms a categorical value into a graphical value.
    */
@@ -18,7 +19,7 @@ export class VicCategoricalDimension<
    *
    * For example, this could be an array of colors or sizes.
    */
-  range?: string[];
+  range: string[];
 
   constructor(
     init?: Partial<VicCategoricalDimension<Datum, TCategoricalValue>>

@@ -1,13 +1,6 @@
 import { map } from 'd3';
 import { VicFormatSpecifier } from '../../value-format/value-format';
 
-export enum VicDimension {
-  'quantitative' = 'quantitative',
-  'categorical' = 'categorical',
-  'ordinal' = 'ordinal',
-  'date' = 'date',
-}
-
 export type VicDataValue = number | string | Date;
 
 export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue> {

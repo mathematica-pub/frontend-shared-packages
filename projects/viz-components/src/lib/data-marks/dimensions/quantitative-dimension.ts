@@ -1,15 +1,11 @@
 import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
-import { VicDataDimension, VicDimension } from './data-dimension';
+import { VicDataDimension } from './data-dimension';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
 
 export class VicQuantitativeDimension<Datum> extends VicDataDimension<
   Datum,
   number
 > {
-  /**
-   * The type of the dimension. This is always 'quantitative'.
-   */
-  type: VicDimension.quantitative = VicDimension.quantitative;
   /**
    * The domain of the dimension's scale, adjusted to include zero if the domain does not include zero and the user has specified that it should.
    */

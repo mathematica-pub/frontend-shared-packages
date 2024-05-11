@@ -1,12 +1,11 @@
 import { ScaleTime, max, min, scaleUtc } from 'd3';
-import { VicDataDimension, VicDimension } from './data-dimension';
+import { VicDataDimension } from './data-dimension';
 import { VicQuantitativeDimension } from './quantitative-dimension';
 
 export class VicDateDimension<Datum> extends VicDataDimension<Datum, Date> {
-  type: VicDimension.date = VicDimension.date;
   domain: [Date, Date];
-  unpaddedDomain: [Date, Date];
-  scaleFn: (
+  private unpaddedDomain: [Date, Date];
+  private scaleFn: (
     domain?: Iterable<Date>,
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
