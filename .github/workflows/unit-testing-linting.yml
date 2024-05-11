@@ -108,8 +108,5 @@ jobs:
       - name: Build Compodoc Documentation
         run: npm run build:documentation
 
-      - name: Build Code Snippets
-        run: npm run build:code-snippets
-
       - name: Build Demo App
         run: npm run build:demo-app

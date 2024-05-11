@@ -22,4 +22,3 @@ pip install --upgrade pipenv
 Then run `pipenv install --dev` to install the dependencies.
 
 To generate documentation, run `npm run build:documentation`.
-To generate code snippets, run `npm run build:code-snippets`.
