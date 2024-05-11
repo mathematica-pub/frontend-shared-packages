@@ -1,6 +1,6 @@
 import { InternSet, scaleOrdinal } from 'd3';
 import { VicDataDimension, VicDataValue } from './data-dimension';
-import { VicFillPattern } from './pattern-predicate';
+import { VicFillPattern } from './fill-pattern';
 
 export class VicCategoricalDimension<
   Datum,

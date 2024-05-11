@@ -29,13 +29,13 @@ $content-height: 100vh - $title-height;
 
 .navbar {
   overflow-y: auto;
-  width: 240px;
+  min-width: 260px;
   flex: 1 0 auto;
   border-right: 1px solid $color-primary-6;
 }
 
 .main-content {
   overflow-y: auto;
-  flex: 1 1 auto;
+  flex: 10 1 auto;
   padding: $grid-8;
 }

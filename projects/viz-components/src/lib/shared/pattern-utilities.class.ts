@@ -1,4 +1,4 @@
-import { VicFillPattern } from '../data-marks/dimensions/pattern-predicate';
+import { VicFillPattern } from '../data-marks/dimensions/fill-pattern';
 
 /**
  * @internal

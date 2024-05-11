@@ -2,7 +2,7 @@ import {
   VicDataDimension,
   VicDataValue,
 } from '../../data-marks/dimensions/data-dimension';
-import { VicFillPattern } from '../../data-marks/dimensions/pattern-predicate';
+import { VicFillPattern } from '../../data-marks/dimensions/fill-pattern';
 
 /**
  * Configuration object for attribute data that will be used to shade the map.

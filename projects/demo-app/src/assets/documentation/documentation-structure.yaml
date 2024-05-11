@@ -23,6 +23,11 @@ dimensions:
   date: 'classes/VicDateDimension.html'
   ordinal: 'classes/VicOrdinalDimension.html'
   quantitative: 'classes/VicQuantitativeDimension.html'
+  domain-padding:
+    round-up: 'classes/VicRoundUpDomainPadding.html'
+    round-to-interval: 'classes/VicRoundUpToIntervalDomainPadding.html'
+    percent-over: 'classes/VicPercentOverDomainPadding.html'
+    pixel: 'classes/VicPixelDomainPadding.html'
 data-marks-components:
   shared:
     html-tooltip: 'directives/VicHtmlTooltipDirective.html'
@@ -97,13 +102,17 @@ utilities:
 library-internals:
   chart: 'components/ChartComponent.html'
   data-marks: 'directives/VicDataMarks.html'
+  dimensions:
+    data-dimensions: 'classes/VicDataDimension.html'
+    domain-padding: 'classes/VicDomainPadding.html'
+    fill-pattern: 'interface/VicFillPattern.html'
   events:
     event: 'directives/EventDirective.html'
     input-event: 'directives/InputEventDirective.html'
   xy-chart:
-    xy-data-marks-base: 'directives/VicXyDataMarks.html'
+    xy-data-marks: 'directives/VicXyDataMarks.html'
     xy-axis: 'directives/XyAxis.html'
   map-chart:
-    map-data-marks-base: 'directives/VicMapDataMarks.html'
+    map-data-marks: 'directives/VicMapDataMarks.html'
     continuous-legend: 'components/ContinuousLegendComponent.html'
     discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
