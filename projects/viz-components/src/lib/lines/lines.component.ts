@@ -63,10 +63,6 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   markersKeyFunction;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
-  unpaddedDomain: {
-    x: [number, number] | [Date, Date];
-    y: [number, number];
-  } = { x: undefined, y: undefined };
 
   private zone = inject(NgZone);
 

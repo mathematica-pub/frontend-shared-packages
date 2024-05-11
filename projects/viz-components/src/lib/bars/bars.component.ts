@@ -73,9 +73,6 @@ export class BarsComponent<
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
-  unpaddedDomain: {
-    quantitative: [number, number];
-  } = { quantitative: undefined };
   protected zone = inject(NgZone);
 
   setPropertiesFromData(): void {
