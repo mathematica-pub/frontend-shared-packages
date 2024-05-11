@@ -1,0 +1,37 @@
+@use 'sass:map';
+
+$primary: (
+  0: #2f374c,
+  1: #4b5264,
+  2: #666c7d,
+  3: #828795,
+  4: #9da2ad,
+  5: #b9bdc5,
+  6: #d4d7de,
+  7: #f0f2f6,
+  8: #f8f8fb,
+  'text': #20283c,
+);
+
+$highlight: (
+  'dark': #0c369e,
+  'default': #1650e1,
+  'light': #4578f6,
+  'hover': #ffeb3b,
+);
+
+$primary-0: map.get($primary, 0);
+$primary-1: map.get($primary, 1);
+$primary-2: map.get($primary, 2);
+$primary-3: map.get($primary, 3);
+$primary-4: map.get($primary, 4);
+$primary-5: map.get($primary, 5);
+$primary-6: map.get($primary, 6);
+$primary-7: map.get($primary, 7);
+$primary-8: map.get($primary, 8);
+$primary-text: map.get($primary, 'text');
+
+$highlight-dark: map.get($highlight, 'dark');
+$highlight-default: map.get($highlight, 'default');
+$highlight-light: map.get($highlight, 'light');
+$highlight-hover: map.get($highlight, 'hover');
