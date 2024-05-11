@@ -6,15 +6,35 @@ export class VicQuantitativeDimension<Datum> extends VicDataDimension<
   Datum,
   number
 > {
+  /**
+   * The type of the dimension. This is always 'quantitative'.
+   */
   type: VicDimension.quantitative = VicDimension.quantitative;
-  domain: [number, number];
-  unpaddedDomain: [number, number];
-  domainIncludesZero: boolean;
-  domainPadding: VicDomainPaddingConfig;
-  scaleFn: (
+  /**
+   * The domain of the dimension's scale, adjusted to include zero if the domain does not include zero and the user has specified that it should.
+   */
+  private unpaddedDomain: [number, number];
+  /**
+   * The scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   */
+  private scaleFn: (
     domain?: Iterable<number>,
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
+  /**
+   * An optional, user-provided range of values that is used as the domain of the dimension's scale.
+   *
+   * If not provided by the user, it remains undefined.
+   */
+  domain: [number, number];
+  /**
+   * A user-configurable boolean that indicates whether the domain of the dimension's scale should include zero.
+   */
+  domainIncludesZero: boolean;
+  /**
+   * The padding configuration for the dimension's domain.
+   */
+  domainPadding: VicDomainPaddingConfig;
 
   constructor(init?: Partial<VicQuantitativeDimension<Datum>>) {
     super();

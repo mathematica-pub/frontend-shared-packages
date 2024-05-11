@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { range, select, Transition } from 'd3';
+import { min, range, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -98,8 +98,7 @@ export class BarsComponent<
   }
 
   setHasBarsWithNegativeValues(): void {
-    this.hasBarsWithNegativeValues =
-      this.config.quantitative.unpaddedDomain[0] < 0;
+    this.hasBarsWithNegativeValues = min(this.config.quantitative.values) < 0;
   }
 
   setBarsKeyFunction(): void {
