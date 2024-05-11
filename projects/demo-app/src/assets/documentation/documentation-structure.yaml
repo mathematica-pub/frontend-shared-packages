@@ -105,7 +105,6 @@ library-internals:
   dimensions:
     data-dimensions: 'classes/VicDataDimension.html'
     domain-padding: 'classes/VicDomainPadding.html'
-    fill-pattern: 'interface/VicFillPattern.html'
   events:
     event: 'directives/EventDirective.html'
     input-event: 'directives/InputEventDirective.html'
