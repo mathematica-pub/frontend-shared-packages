@@ -6,7 +6,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
-import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { Observable, startWith, switchMap } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 
@@ -17,7 +16,7 @@ import { DocumentationService } from '../../core/services/documentation.service'
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDemoComponent extends Unsubscribe implements OnInit {
+export class ComponentDemoComponent implements OnInit {
   @Input() includeFiles: string[];
   @Input() folderName: string;
   controlPanel: FormGroup;

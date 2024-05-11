@@ -1,4 +1,11 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
@@ -21,9 +28,10 @@ export class GeographiesInputEventDirective<
   @Output() inputEventOutput = new EventEmitter<unknown>();
 
   constructor(
+    destroyRef: DestroyRef,
     @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
   ) {
-    super();
+    super(destroyRef);
   }
 
   handleNewEvent(inputEvent: unknown): void {
