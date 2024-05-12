@@ -3,6 +3,8 @@ import { VicDataMarksConfig } from '../data-marks/data-marks-types';
 import { VicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
 import { VicDateDimension } from '../data-marks/dimensions/date-dimension';
 import { VicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
+import { VicLinesStroke } from './lines-stroke';
+import { VicPointMarkers } from './point-markers';
 
 export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
   data: Datum[];
@@ -46,19 +48,19 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
   /**
    * A config for the behavior of markers for each datum on the line.
    */
-  pointMarkers: VicPointMarkersConfig = new VicPointMarkersConfig();
+  pointMarkers: VicPointMarkers;
 
   /**
    * A config for a dot that will appear on hover of a line. Intended to be used when there
    *  are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
    *  data will be displayed. Will not be displayed if pointMarkers.display is true.
    */
-  hoverDot: VicPointMarkerConfig = new VicPointMarkerConfig();
+  hoverDot: VicPointMarkers;
 
   /**
    * A config for the behavior of the line stroke.
    */
-  stroke?: VicLinesStrokeConfig = new VicLinesStrokeConfig();
+  stroke?: VicLinesStroke;
 
   /**
    * A boolean to determine if the line will be labeled.
@@ -89,90 +91,11 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
       range: schemeTableau10 as string[],
     });
     this.curve = curveLinear;
-    this.pointMarkers = new VicPointMarkersConfig();
-    this.hoverDot = new VicPointMarkerConfig({ radius: 4 });
-    this.stroke = new VicLinesStrokeConfig();
+    this.pointMarkers = new VicPointMarkers();
+    this.hoverDot = new VicPointMarkers({ radius: 4, display: false });
+    this.stroke = new VicLinesStroke();
     this.lineLabelsFormat = (d: string) => d;
     this.pointerDetectionRadius = 80;
-    Object.assign(this, init);
-  }
-}
-
-export class VicLinesStrokeConfig {
-  /**
-   * A value for the line's [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
-   *  attribute.
-   *
-   * Default is 'round'.
-   */
-  linecap: string;
-
-  /**
-   * A value for the line's [stroke-linejoin]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin}
-   *  attribute.
-   *
-   * Default is 'round'.
-   */
-  linejoin: string;
-
-  /**
-   * A value for the line's [stroke-opacity]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity}
-   *  attribute.
-   *
-   * Default is 1.
-   */
-  opacity: number;
-
-  /**
-   * A value for the line's [stroke-width]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width}
-   *  attribute.
-   *
-   * Default is 2.
-   */
-  width: number;
-
-  constructor(init?: Partial<VicLinesStrokeConfig>) {
-    this.linecap = 'round';
-    this.linejoin = 'round';
-    this.opacity = 1;
-    this.width = 2;
-    Object.assign(this, init);
-  }
-}
-
-export class VicPointMarkerConfig {
-  /**
-   * A boolean to determine if point markers will be displayed.
-   *
-   * Default is true.
-   */
-  display: boolean;
-  /**
-   * A value for the radius of the point marker, in px.
-   *
-   * Default is 3.
-   */
-  radius: number;
-
-  constructor(init?: Partial<VicPointMarkerConfig>) {
-    this.display = false;
-    this.radius = 3;
-    Object.assign(this, init);
-  }
-}
-
-export class VicPointMarkersConfig extends VicPointMarkerConfig {
-  /**
-   * A value by which the point marker will expand on hover, in px.
-   *
-   * Default is 1.
-   */
-  growByOnHover: number;
-
-  constructor(init?: Partial<VicPointMarkersConfig>) {
-    super();
-    this.display = true;
-    this.growByOnHover = 1;
     Object.assign(this, init);
   }
 }
