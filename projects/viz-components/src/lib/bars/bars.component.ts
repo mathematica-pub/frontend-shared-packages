@@ -2,11 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   inject,
   InjectionToken,
   NgZone,
-  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -20,7 +18,7 @@ import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicBarsConfig, VicBarsTooltipData } from './bars.config';
+import { VicBarsConfig } from './bars.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
@@ -65,7 +63,6 @@ export class BarsComponent<
   TOrdinalValue extends VicDataValue
 > extends VicXyDataMarks<Datum, VicBarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
-  @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
   hasBarsWithNegativeValues: boolean;
   barGroups: BarGroupSelection;
   barsKeyFunction: (i: number) => string;
@@ -106,16 +103,6 @@ export class BarsComponent<
       `${this.config.ordinal.values[i]}`;
   }
 
-  /**
-   * setPropertiesFromRanges method
-   *
-   * This method creates and sets scales on ChartComponent. Any methods that require ranges
-   * to create the scales should be called from this method. Methods called from here should not
-   * require scales.
-   *
-   * This method is called on init, after config-based properties are set, and also on
-   * resize/when ranges change.
-   */
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
       this.ranges.x

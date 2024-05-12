@@ -75,8 +75,3 @@ export class VicVerticalBarsDimensionsConfig extends VicBarsDimensionsConfig {
     this.quantitativeDimension = 'height';
   }
 }
-
-export class VicBarsTooltipData {
-  datum: any;
-  value: string;
-}
