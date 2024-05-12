@@ -63,7 +63,7 @@ describe('GeographiesComponent', () => {
   describe('updateChartAttributeProperties', () => {
     let scaleSpy: jasmine.Spy;
     beforeEach(() => {
-      component.config.dataGeographyConfig.attributeDataConfig =
+      component.config.dataGeographies.attributeData =
         new VicEqualValuesAttributeDataDimension();
       scaleSpy = jasmine
         .createSpy('getScale')
@@ -74,9 +74,9 @@ describe('GeographiesComponent', () => {
         ),
       } as any;
       component.config = {
-        dataGeographyConfig: {
+        dataGeographies: {
           nullColor: 'red',
-          attributeDataConfig: {
+          attributeData: {
             valueType: 'quantitative',
             binType: 'none',
             getScale: scaleSpy,
@@ -87,7 +87,7 @@ describe('GeographiesComponent', () => {
     it('calls getScale once', () => {
       component.updateChartAttributeProperties();
       expect(
-        component.config.dataGeographyConfig.attributeDataConfig.getScale
+        component.config.dataGeographies.attributeData.getScale
       ).toHaveBeenCalledOnceWith('red');
     });
     it('calls updateAttributeProperties once with the correct value', () => {
@@ -96,7 +96,7 @@ describe('GeographiesComponent', () => {
         component.chart.updateAttributeProperties
       ).toHaveBeenCalledOnceWith({
         scale: 'attribute data scale' as any,
-        config: component.config.dataGeographyConfig.attributeDataConfig,
+        config: component.config.dataGeographies.attributeData,
       });
     });
   });

@@ -30,11 +30,17 @@ import {
 import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
 import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
 import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
+import { VicPointMarkers } from 'projects/viz-components/src/lib/lines/point-markers';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/public-api';
+import {
+  VicCategoricalDimension,
+  VicDateDimension,
+  VicPixelDomainPadding,
+  VicQuantitativeDimension,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -124,15 +130,22 @@ export class LinesExampleComponent implements OnInit {
     const xAxisConfig = new VicAxisConfig();
     xAxisConfig.tickFormat = '%Y';
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicLinesConfig<MetroUnemploymentDatum>();
-    dataConfig.data = data;
-    dataConfig.x.valueAccessor = (d) => d.date;
-    dataConfig.x.valueFormat = '%a %B %d %Y';
-    dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.categorical.valueAccessor = (d) => d.division;
-    dataConfig.pointMarkers.radius = 2;
+    const dataConfig = new VicLinesConfig<MetroUnemploymentDatum>({
+      data,
+      x: new VicDateDimension<MetroUnemploymentDatum>({
+        valueAccessor: (d) => d.date,
+        valueFormat: '%a %B %d %Y',
+      }),
+      y: new VicQuantitativeDimension<MetroUnemploymentDatum>({
+        valueAccessor: (d) => d.value,
+        domainPadding: new VicPixelDomainPadding({ numPixels: 20 }),
+      }),
+      categorical: new VicCategoricalDimension<MetroUnemploymentDatum>({
+        valueAccessor: (d) => d.division,
+      }),
+      pointMarkers: new VicPointMarkers({ radius: 2 }),
+    });
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    dataConfig.y.domainPadding = new VicPixelDomainPadding({ numPixels: 20 });
     return {
       dataConfig,
       xAxisConfig,

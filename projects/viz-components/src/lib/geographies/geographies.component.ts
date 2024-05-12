@@ -84,36 +84,29 @@ export class GeographiesComponent<
     const uniqueByGeoAccessor = (arr: any[], set = new Set()) =>
       arr.filter(
         (x) =>
-          !set.has(
-            this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(x)
-          ) &&
-          set.add(
-            this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(x)
-          )
+          !set.has(this.config.dataGeographies.attributeData.geoAccessor(x)) &&
+          set.add(this.config.dataGeographies.attributeData.geoAccessor(x))
       );
     const uniqueDatums = uniqueByGeoAccessor(this.config.data);
     this.values.attributeValuesByGeographyIndex = new InternMap(
       uniqueDatums.map((d) => {
         const value =
-          this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(d);
+          this.config.dataGeographies.attributeData.valueAccessor(d);
         return [
-          this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(d),
+          this.config.dataGeographies.attributeData.geoAccessor(d),
           value === null || value === undefined ? NaN : value,
         ];
       })
     );
     this.values.datumsByGeographyIndex = new InternMap(
       uniqueDatums.map((d) => {
-        return [
-          this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(d),
-          d,
-        ];
+        return [this.config.dataGeographies.attributeData.geoAccessor(d), d];
       })
     );
   }
 
   initAttributeDataProperties(): void {
-    this.config.dataGeographyConfig.attributeDataConfig.setPropertiesFromData(
+    this.config.dataGeographies.attributeData.setPropertiesFromData(
       Array.from(this.values.attributeValuesByGeographyIndex.values())
     );
   }
@@ -137,10 +130,10 @@ export class GeographiesComponent<
   updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
-        scale: this.config.dataGeographyConfig.attributeDataConfig.getScale(
-          this.config.dataGeographyConfig.nullColor
+        scale: this.config.dataGeographies.attributeData.getScale(
+          this.config.dataGeographies.nullColor
         ),
-        config: this.config.dataGeographyConfig.attributeDataConfig,
+        config: this.config.dataGeographies.attributeData,
       });
     });
   }
@@ -156,10 +149,10 @@ export class GeographiesComponent<
       .transition()
       .duration(transitionDuration);
 
-    if (this.config.dataGeographyConfig) {
+    if (this.config.dataGeographies) {
       this.drawDataLayer(t);
     }
-    if (this.config.noDataGeographiesConfigs) {
+    if (this.config.noDataGeographies) {
       this.drawNoDataLayers(t);
     }
   }
@@ -171,7 +164,7 @@ export class GeographiesComponent<
         VicDataGeographies<Datum, TProperties, TGeometry>
       >('.vic-map-layer.vic-data')
       .data<VicDataGeographies<Datum, TProperties, TGeometry>>([
-        this.config.dataGeographyConfig,
+        this.config.dataGeographies,
       ])
       .join(
         (enter) => enter.append('g').attr('class', 'vic-map-layer vic-data'),
@@ -202,10 +195,10 @@ export class GeographiesComponent<
           enter
             .append('path')
             .attr('d', this.path)
-            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
-            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
+            .attr('stroke', this.config.dataGeographies.strokeColor)
+            .attr('stroke-width', this.config.dataGeographies.strokeWidth)
             .attr('fill', (d) =>
-              this.config.dataGeographyConfig.attributeDataConfig.fillPatterns
+              this.config.dataGeographies.attributeData.fillPatterns
                 ? this.getPatternFill(this.config.featureIndexAccessor(d))
                 : this.getFill(this.config.featureIndexAccessor(d))
             ),
@@ -213,11 +206,11 @@ export class GeographiesComponent<
           update.call((update) =>
             update
               .attr('d', this.path)
-              .attr('stroke', this.config.dataGeographyConfig.strokeColor)
-              .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
+              .attr('stroke', this.config.dataGeographies.strokeColor)
+              .attr('stroke-width', this.config.dataGeographies.strokeWidth)
               .transition(t)
               .attr('fill', (d) =>
-                this.config.dataGeographyConfig.attributeDataConfig.fillPatterns
+                this.config.dataGeographies.attributeData.fillPatterns
                   ? this.getPatternFill(this.config.featureIndexAccessor(d))
                   : this.getFill(this.config.featureIndexAccessor(d))
               )
@@ -225,11 +218,11 @@ export class GeographiesComponent<
         (exit) => exit.remove()
       );
 
-    if (this.config.dataGeographyConfig.labels) {
+    if (this.config.dataGeographies.labels) {
       this.drawLabels(
         dataGeographyGroups,
         t,
-        this.config.dataGeographyConfig.labels
+        this.config.dataGeographies.labels
       );
     }
   }
@@ -241,7 +234,7 @@ export class GeographiesComponent<
         VicNoDataGeographies<Datum, TProperties, TGeometry>
       >('.vic-map-layer.vic-no-data')
       .data<VicNoDataGeographies<Datum, TProperties, TGeometry>>(
-        this.config.noDataGeographiesConfigs
+        this.config.noDataGeographies
       )
       .join(
         (enter) => enter.append('g').attr('class', 'vic-map-layer vic-no-data'),
@@ -249,7 +242,7 @@ export class GeographiesComponent<
         (exit) => exit.remove()
       );
 
-    this.config.noDataGeographiesConfigs.forEach((config, index) => {
+    this.config.noDataGeographies.forEach((config, index) => {
       const noDataGeographyGroups = noDataLayers
         .filter((d, i) => i === index)
         .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
@@ -306,8 +299,7 @@ export class GeographiesComponent<
     const color = this.attributeDataScale(
       this.values.attributeValuesByGeographyIndex.get(geographyIndex)
     );
-    const predicates =
-      this.config.dataGeographyConfig.attributeDataConfig.fillPatterns;
+    const predicates = this.config.dataGeographies.attributeData.fillPatterns;
     return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 

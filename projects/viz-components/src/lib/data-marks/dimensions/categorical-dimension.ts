@@ -4,7 +4,7 @@ import { VicFillPattern } from './fill-pattern';
 
 export class VicCategoricalDimension<
   Datum,
-  TCategoricalValue extends VicDataValue
+  TCategoricalValue extends VicDataValue = string
 > extends VicDataDimension<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
   fillPatterns: VicFillPattern<Datum>[];

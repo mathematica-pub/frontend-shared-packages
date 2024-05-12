@@ -12,7 +12,7 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
   /**
    * A config for the behavior of the chart's x dimension
    */
-  x: VicDateDimension<Datum>;
+  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
 
   /**
    * A config for the behavior of the chart's y dimension

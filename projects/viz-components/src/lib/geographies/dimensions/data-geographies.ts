@@ -16,7 +16,7 @@ export class VicDataGeographies<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
-  attributeDataConfig:
+  attributeData:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
     | VicEqualValuesAttributeDataDimension<Datum>

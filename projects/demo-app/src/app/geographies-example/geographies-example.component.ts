@@ -133,19 +133,17 @@ export class GeographiesExampleComponent implements OnInit {
   getDataMarksConfig(
     data: StateIncomeDatum[]
   ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
+    const noDataStatesConfig = this.getNoDataGeographies(data);
     const config = new VicGeographiesConfig<
       StateIncomeDatum,
       MapGeometryProperties
-    >();
-    config.boundary = this.basemap.us;
-    config.data = data;
-    config.featureIndexAccessor = this.featureIndexAccessor;
-    const noDataStatesConfig = this.getNoDataGeographies(data);
-    config.noDataGeographiesConfigs = [
-      this.basemap.usOutlineConfig,
-      noDataStatesConfig,
-    ];
-    config.dataGeographyConfig = this.getDataGeographiesConfig(data);
+    >({
+      boundary: this.basemap.us,
+      data,
+      featureIndexAccessor: this.featureIndexAccessor,
+      noDataGeographies: [this.basemap.usOutlineConfig, noDataStatesConfig],
+      dataGeographies: this.getDataGeographiesConfig(data),
+    });
     return config;
   }
 
@@ -172,9 +170,9 @@ export class GeographiesExampleComponent implements OnInit {
       MapGeometryProperties
     >();
     config.geographies = this.getDataGeographiesFeatures(data);
-    config.attributeDataConfig = this.getAttributeDataDimension();
-    config.attributeDataConfig.geoAccessor = (d) => d.state;
-    config.attributeDataConfig.fillPatterns = [
+    config.attributeData = this.getAttributeDataDimension();
+    config.attributeData.geoAccessor = (d) => d.state;
+    config.attributeData.fillPatterns = [
       {
         name: this.patternName,
         predicate: (d) => !!d && d.population < 1000000,

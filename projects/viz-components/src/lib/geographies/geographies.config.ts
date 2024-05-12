@@ -59,23 +59,19 @@ export class VicGeographiesConfig<
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographiesConfigs?: VicNoDataGeographies<
-    Datum,
-    TProperties,
-    TGeometry
-  >[];
+  noDataGeographies?: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataGeographyConfig: VicDataGeographies<Datum, TProperties, TGeometry>;
+  dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
 
   constructor(
     init?: Partial<VicGeographiesConfig<Datum, TProperties, TGeometry>>
   ) {
     this.mixBlendMode = 'normal';
     this.projection = geoAlbersUsa();
-    this.dataGeographyConfig = new VicDataGeographies();
-    this.dataGeographyConfig.attributeDataConfig =
+    this.dataGeographies = new VicDataGeographies();
+    this.dataGeographies.attributeData =
       new VicEqualValuesAttributeDataDimension();
     Object.assign(this, init);
   }
