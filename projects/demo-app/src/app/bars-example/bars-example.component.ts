@@ -6,7 +6,6 @@ import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-h
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
 import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/bars-labels';
-import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
@@ -20,6 +19,7 @@ import {
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
+  VicBarsEventOutput,
   VicOrdinalDimension,
   VicQuantitativeDimension,
 } from 'projects/viz-components/src/public-api';

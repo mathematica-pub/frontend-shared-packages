@@ -3,12 +3,6 @@ import { VicDataValue } from '../../public-api';
 import { formatValue } from '../value-format/value-format';
 import { BarsComponent } from './bars.component';
 
-export interface VicBarsEventOutput<Datum, TOrdinalValue extends VicDataValue>
-  extends VicBarsTooltipOutput<Datum, TOrdinalValue> {
-  positionX: number;
-  positionY: number;
-}
-
 export interface VicBarsTooltipOutput<
   Datum,
   TOrdinalValue extends VicDataValue
@@ -19,6 +13,12 @@ export interface VicBarsTooltipOutput<
   quantitative: string;
   category: string;
   elRef: ElementRef;
+}
+
+export interface VicBarsEventOutput<Datum, TOrdinalValue extends VicDataValue>
+  extends VicBarsTooltipOutput<Datum, TOrdinalValue> {
+  positionX: number;
+  positionY: number;
 }
 
 export function getBarsTooltipData<Datum, TOrdinalValue extends VicDataValue>(

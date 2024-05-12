@@ -89,10 +89,10 @@ export class GeographiesHoverDirective<
     >(this.feature, this.geographies);
     this.positionX = (this.bounds[1][0] + this.bounds[0][0]) / 2;
     this.positionY = (this.bounds[1][1] + this.bounds[0][1] * 2) / 3;
-    return new VicGeographiesEventOutput({
+    return {
       ...tooltipData,
       positionX: this.positionX,
       positionY: this.positionY,
-    });
+    };
   }
 }

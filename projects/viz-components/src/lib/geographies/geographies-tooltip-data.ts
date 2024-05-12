@@ -2,27 +2,18 @@ import { Geometry } from 'geojson';
 import { formatValue } from '../value-format/value-format';
 import { VicGeographiesFeature } from './geographies';
 import { GeographiesComponent } from './geographies.component';
-export class VicGeographiesTooltipOutput<Datum> {
+
+export interface VicGeographiesTooltipOutput<Datum> {
   datum?: Datum;
   color: string;
   geography: string;
   attributeValue: string;
-
-  constructor(init?: Partial<VicGeographiesTooltipOutput<Datum>>) {
-    Object.assign(this, init);
-  }
 }
 
-export class VicGeographiesEventOutput<
-  Datum
-> extends VicGeographiesTooltipOutput<Datum> {
+export interface VicGeographiesEventOutput<Datum>
+  extends VicGeographiesTooltipOutput<Datum> {
   positionX: number;
   positionY: number;
-
-  constructor(init?: Partial<VicGeographiesEventOutput<Datum>>) {
-    super(init);
-    Object.assign(this, init);
-  }
 }
 
 export function getGeographiesTooltipData<

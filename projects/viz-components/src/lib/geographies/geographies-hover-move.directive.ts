@@ -87,11 +87,11 @@ export class GeographiesHoverMoveDirective<
       TGeometry,
       TComponent
     >(this.feature, this.geographies);
-    const output = new VicGeographiesEventOutput({
+    const output = {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
-    });
+    };
     return output;
   }
 }

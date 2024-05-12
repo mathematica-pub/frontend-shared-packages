@@ -119,11 +119,11 @@ export class GeographiesClickDirective<
       TGeometry,
       TComponent
     >(this.feature, this.geographies);
-    return new VicGeographiesEventOutput({
+    return {
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
-    });
+    };
   }
 
   preventHoverEffects(): void {
