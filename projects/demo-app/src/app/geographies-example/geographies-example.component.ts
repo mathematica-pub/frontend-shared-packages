@@ -192,48 +192,64 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   getAttributeDataDimension(): AttributeData {
-    if (this.attributeDataBinType.value === VicValuesBin.none) {
-      const config = new VicNoBinsAttributeDataDimension<StateIncomeDatum>();
-      config.valueAccessor = (d) => d.income;
-      config.valueFormat = `$${valueFormat.integer}`;
-      config.range = [colors.white, colors.highlight.default];
-      return config;
-    } else if (this.attributeDataBinType.value === VicValuesBin.categorical) {
-      const config =
-        new VicCategoricalAttributeDataDimension<StateIncomeDatum>();
-      config.valueAccessor = (d) =>
-        d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low';
-      config.range = ['sandybrown', 'mediumseagreen', colors.highlight.default];
-      return config;
-    } else if (
-      this.attributeDataBinType.value === VicValuesBin.equalValueRanges
-    ) {
-      const config =
-        new VicEqualValuesAttributeDataDimension<StateIncomeDatum>();
-      config.valueAccessor = (d) => d.income;
-      config.valueFormat = `$${valueFormat.integer}`;
-      config.numBins = 6;
-      config.range = [colors.white, colors.highlight.default];
-      return config;
-    } else if (
-      this.attributeDataBinType.value === VicValuesBin.equalNumObservations
-    ) {
-      const config =
-        new VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>();
-      config.valueAccessor = (d) => d.income;
-      config.valueFormat = `$${valueFormat.integer}`;
-      config.numBins = 6;
-      config.range = [colors.white, colors.highlight.default];
-      return config;
-    } else {
-      const config =
-        new VicCustomBreaksAttributeDataDimension<StateIncomeDatum>();
-      config.valueAccessor = (d) => d.income;
-      config.valueFormat = `$${valueFormat.integer}`;
-      config.breakValues = [45000, 55000, 65000, 75000, 100000];
-      config.range = [colors.white, colors.highlight.default];
-      return config;
+    switch (this.attributeDataBinType.value) {
+      case VicValuesBin.none:
+        return this.getNoBinsDimension();
+      case VicValuesBin.categorical:
+        return this.getCategoricalDimension();
+      case VicValuesBin.equalValueRanges:
+        return this.getEqualValuesDimension();
+      case VicValuesBin.equalNumObservations:
+        return this.getEqualNumObservationsDimension();
+      case VicValuesBin.customBreaks:
+      default:
+        return this.getCustomBreaksDimension();
     }
+  }
+
+  getNoBinsDimension() {
+    const config = new VicNoBinsAttributeDataDimension<StateIncomeDatum>();
+    config.valueAccessor = (d) => d.income;
+    config.valueFormat = `$${valueFormat.integer}`;
+    config.range = [colors.white, colors.highlight.default];
+    return config;
+  }
+
+  getCategoricalDimension() {
+    const config = new VicCategoricalAttributeDataDimension<StateIncomeDatum>();
+    config.valueAccessor = (d) =>
+      d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low';
+    config.range = ['sandybrown', 'mediumseagreen', colors.highlight.default];
+    return config;
+  }
+
+  getEqualValuesDimension() {
+    const config = new VicEqualValuesAttributeDataDimension<StateIncomeDatum>();
+    config.valueAccessor = (d) => d.income;
+    config.valueFormat = `$${valueFormat.integer}`;
+    config.numBins = 6;
+    config.range = [colors.white, colors.highlight.default];
+    return config;
+  }
+
+  getEqualNumObservationsDimension() {
+    const config =
+      new VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>();
+    config.valueAccessor = (d) => d.income;
+    config.valueFormat = `$${valueFormat.integer}`;
+    config.numBins = 6;
+    config.range = [colors.white, colors.highlight.default];
+    return config;
+  }
+
+  getCustomBreaksDimension() {
+    const config =
+      new VicCustomBreaksAttributeDataDimension<StateIncomeDatum>();
+    config.valueAccessor = (d) => d.income;
+    config.valueFormat = `$${valueFormat.integer}`;
+    config.breakValues = [45000, 55000, 65000, 75000, 100000];
+    config.range = [colors.white, colors.highlight.default];
+    return config;
   }
 
   getGeographyLabelConfig(): VicGeographyLabelConfig<
