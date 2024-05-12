@@ -95,13 +95,7 @@ export class BarsExampleComponent implements OnInit {
       dimensions: new VicHorizontalBarsDimensions(),
       quantitative: new VicQuantitativeDimension<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
-        valueFormat: (d: any) => {
-          const label =
-            d.value === undefined || d.value === null
-              ? 'N/A'
-              : format('.1f')(d.value);
-          return d.value > 8 ? `${label}*` : label;
-        },
+        valueFormat: (d) => this.getQuantitativeValueFormat(d),
         domainPadding: new VicPixelDomainPadding(),
       }),
       ordinal: new VicOrdinalDimension<MetroUnemploymentDatum, string>({
@@ -116,6 +110,14 @@ export class BarsExampleComponent implements OnInit {
       xAxisConfig,
       yAxisConfig,
     };
+  }
+
+  getQuantitativeValueFormat(d: MetroUnemploymentDatum): string {
+    const label =
+      d.value === undefined || d.value === null
+        ? 'N/A'
+        : format('.1f')(d.value);
+    return d.value > 8 ? `${label}*` : label;
   }
 
   updateTooltipForNewOutput(
