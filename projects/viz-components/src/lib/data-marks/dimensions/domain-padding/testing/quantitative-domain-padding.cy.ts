@@ -1,14 +1,12 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { VicHorizontalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
+import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/bars-labels';
+import { VicBarsConfig } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject } from 'rxjs';
 import { VicAxisConfig } from '../../../../axes/axis.config';
 import { VicXQuantitativeAxisModule } from '../../../../axes/x-quantitative/x-quantitative-axis.module';
 import { BarsComponent } from '../../../../bars/bars.component';
-import {
-  VicBarsConfig,
-  VicBarsLabelsConfig,
-  VicHorizontalBarsDimensionsConfig,
-} from '../../../../bars/bars.config';
 import { VicBarsModule } from '../../../../bars/bars.module';
 import { VicChartModule } from '../../../../chart/chart.module';
 import { VicXyChartModule } from '../../../../xy-chart/xy-chart.module';
@@ -108,7 +106,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -116,7 +114,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       { state: 'Alaska', value: 2.2 },
       { state: 'Arizona', value: 30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -252,7 +250,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.quantitative.domainIncludesZero = false;
@@ -261,7 +259,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       { state: 'Alaska', value: 2.2 },
       { state: 'Arizona', value: 30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -398,7 +396,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -406,7 +404,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       { state: 'Alaska', value: -2.2 },
       { state: 'Arizona', value: -30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -560,7 +558,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.quantitative.domainIncludesZero = false;
@@ -569,7 +567,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       { state: 'Alaska', value: -2.2 },
       { state: 'Arizona', value: -30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -705,7 +703,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -715,7 +713,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
       { state: 'Arkansas', value: -2.2 },
       { state: 'California', value: -60.6 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -878,7 +876,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -886,7 +884,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
       { state: 'Alaska', value: 0.22 },
       { state: 'Arizona', value: 0.303 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
