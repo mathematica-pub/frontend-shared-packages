@@ -2,7 +2,11 @@ import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicHorizontalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
 import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/bars-labels';
-import { VicBarsConfig } from 'projects/viz-components/src/public-api';
+import {
+  VicBarsConfig,
+  VicOrdinalDimension,
+  VicQuantitativeDimension,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject } from 'rxjs';
 import { VicAxisConfig } from '../../../../axes/axis.config';
 import { VicXQuantitativeAxisModule } from '../../../../axes/x-quantitative/x-quantitative-axis.module';
@@ -105,17 +109,21 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsConfig();
-    barsConfig.dimensions = new VicHorizontalBarsDimensions();
-    barsConfig.ordinal.valueAccessor = (d) => d.state;
-    barsConfig.quantitative.valueAccessor = (d) => d.value;
-    barsConfig.data = [
-      { state: 'Alabama', value: 1.1 },
-      { state: 'Alaska', value: 2.2 },
-      { state: 'Arizona', value: 30.3 },
-    ];
-    barsConfig.labels = new VicBarsLabels();
-    barsConfig.labels.display = true;
+    barsConfig = new VicBarsConfig({
+      dimensions: new VicHorizontalBarsDimensions(),
+      ordinal: new VicOrdinalDimension({
+        valueAccessor: (d) => d.state,
+      }),
+      quantitative: new VicQuantitativeDimension({
+        valueAccessor: (d) => d.value,
+      }),
+      data: [
+        { state: 'Alabama', value: 1.1 },
+        { state: 'Alaska', value: 2.2 },
+        { state: 'Arizona', value: 30.3 },
+      ],
+      labels: new VicBarsLabels({ display: true }),
+    });
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
   });

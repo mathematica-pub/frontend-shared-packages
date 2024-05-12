@@ -5,15 +5,13 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import {
   VicBarsConfig,
-  VicBarsLabelsConfig,
-  VicHorizontalBarsDimensionsConfig,
-} from 'projects/viz-components/src/lib/bars/bars.config';
-import {
   VicBarsModule,
   VicChartModule,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
 } from 'projects/viz-components/src/public-api';
+import { VicHorizontalBarsDimensions } from '../../bars/bars-dimensions';
+import { VicBarsLabels } from '../../bars/bars-labels';
 
 @Component({
   selector: 'vic-test-x-quantitative-axis',
@@ -54,7 +52,7 @@ describe('it correctly sets ticks', () => {
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -62,7 +60,7 @@ describe('it correctly sets ticks', () => {
       { state: 'Alaska', value: 2.2 },
       { state: 'Arizona', value: 30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -144,7 +142,7 @@ describe('integer formatted ticks', () => {
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -152,7 +150,7 @@ describe('integer formatted ticks', () => {
       { state: 'Alaska', value: 2.2 },
       { state: 'Arizona', value: 30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0f';
@@ -278,7 +276,7 @@ describe('float formatted ticks', () => {
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -286,7 +284,7 @@ describe('float formatted ticks', () => {
       { state: 'Alaska', value: 2.2 },
       { state: 'Arizona', value: 30.3 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.1f';
@@ -425,7 +423,7 @@ describe('percent formatted ticks', () => {
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
     barsConfig.data = [];
-    barsConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
+    barsConfig.dimensions = new VicHorizontalBarsDimensions();
     barsConfig.ordinal.valueAccessor = (d) => d.state;
     barsConfig.quantitative.valueAccessor = (d) => d.value;
     barsConfig.data = [
@@ -433,7 +431,7 @@ describe('percent formatted ticks', () => {
       { state: 'Alaska', value: 0.022 },
       { state: 'Arizona', value: 0.303 },
     ];
-    barsConfig.labels = new VicBarsLabelsConfig();
+    barsConfig.labels = new VicBarsLabels();
     barsConfig.labels.display = true;
     axisConfig = new VicAxisConfig();
     axisConfig.tickFormat = '.0%';
