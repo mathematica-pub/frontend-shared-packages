@@ -6,9 +6,9 @@ This project has the following requirements for the developer's/virtual machine:
 
 - `node` version 18 or higher
 - `npm` for package management on a developer's machine
-- optional: python, pipenv for code snippet generation and compodoc documentation generation
+- optional: python, pipenv for compodoc documentation generation
 
-## Locally generating code snippets and compodoc documentation
+## Locally generating compodoc documentation
 
 If you don't have python/pyenv/pipenv installed, see [this guide](https://mathematicampr.atlassian.net/wiki/spaces/DSEH/pages/513476508/How+to+Install+and+Set+Up+Python).
 
