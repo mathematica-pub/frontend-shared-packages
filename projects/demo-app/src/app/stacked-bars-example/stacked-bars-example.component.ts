@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { VicVerticalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   VicAxisConfig,
   VicStackedBarsConfig,
-  VicVerticalBarsDimensionsConfig,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
@@ -53,7 +53,7 @@ export class StackedBarsExampleComponent implements OnInit {
       Date
     >();
     dataConfig.data = yearlyData;
-    dataConfig.dimensions = new VicVerticalBarsDimensionsConfig();
+    dataConfig.dimensions = new VicVerticalBarsDimensions();
     dataConfig.ordinal.valueAccessor = (d) => d.date;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
     dataConfig.categorical.valueAccessor = (d) => d.industry;

@@ -1,23 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { BarsComponent } from './bars.component';
 import {
-  VicBarsConfig,
-  VicBarsLabelsConfig,
-  VicHorizontalBarsDimensionsConfig,
-  VicVerticalBarsDimensionsConfig,
-} from './bars.config';
+  VicHorizontalBarsDimensions,
+  VicVerticalBarsDimensions,
+} from './bars-dimensions';
+import { VicBarsLabels } from './bars-labels';
+import { BarsComponent } from './bars.component';
+import { VicBarsConfig } from './bars.config';
 
 describe('BarsComponent', () => {
   let component: BarsComponent<any, string>;
   let fixture: ComponentFixture<BarsComponent<any, string>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [BarsComponent],
@@ -129,7 +126,7 @@ describe('BarsComponent', () => {
       component.config.quantitative.valueAccessor = (d) => d.value;
       component.config.ordinal.valueAccessor = (d) => d.state;
       component.config.categorical.valueAccessor = (d) => d.color;
-      component.config.dimensions = new VicVerticalBarsDimensionsConfig();
+      component.config.dimensions = new VicVerticalBarsDimensions();
     });
     describe('no user set domain', () => {
       beforeEach(() => {
@@ -180,7 +177,7 @@ describe('BarsComponent', () => {
       component.config.quantitative.valueAccessor = (d) => d.value;
       component.config.ordinal.valueAccessor = (d) => d.state;
       component.config.categorical.valueAccessor = (d) => d.color;
-      component.config.dimensions = new VicHorizontalBarsDimensionsConfig();
+      component.config.dimensions = new VicHorizontalBarsDimensions();
     });
     it('sets hasBarsWithNegativeValues to true if dataMin is less than zero', () => {
       component.config.data = [
@@ -288,7 +285,7 @@ describe('BarsComponent', () => {
       spyOn(component, 'updateBarElements');
       spyOn(component, 'getTransitionDuration').and.returnValue(100);
       component.config = new VicBarsConfig();
-      component.config.labels = new VicBarsLabelsConfig();
+      component.config.labels = new VicBarsLabels();
     });
     it('calls drawBars once with the correct parameter', () => {
       component.drawMarks();
@@ -353,7 +350,7 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('bar color');
       component.config = new VicBarsConfig();
-      component.config.labels = new VicBarsLabelsConfig();
+      component.config.labels = new VicBarsLabels();
     });
     describe('config.labels.color is defined', () => {
       beforeEach(() => {

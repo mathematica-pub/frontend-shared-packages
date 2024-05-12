@@ -1,15 +1,13 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
+import { VicHorizontalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
+import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/bars-labels';
 import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
-import {
-  VicBarsConfig,
-  VicBarsLabelsConfig,
-  VicHorizontalBarsDimensionsConfig,
-} from 'projects/viz-components/src/lib/bars/bars.config';
+import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
 import {
@@ -94,7 +92,7 @@ export class BarsExampleComponent implements OnInit {
     const yAxisConfig = new VicAxisConfig();
     const dataConfig = new VicBarsConfig<MetroUnemploymentDatum, string>({
       data: filteredData,
-      dimensions: new VicHorizontalBarsDimensionsConfig(),
+      dimensions: new VicHorizontalBarsDimensions(),
       quantitative: new VicQuantitativeDimension<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
         valueFormat: (d: any) => {
@@ -109,7 +107,7 @@ export class BarsExampleComponent implements OnInit {
       ordinal: new VicOrdinalDimension<MetroUnemploymentDatum, string>({
         valueAccessor: (d) => d.division,
       }),
-      labels: new VicBarsLabelsConfig({
+      labels: new VicBarsLabels({
         display: false,
       }),
     });
