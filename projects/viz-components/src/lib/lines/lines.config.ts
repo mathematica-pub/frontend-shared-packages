@@ -9,26 +9,16 @@ export class VicLinesConfig<Datum> implements VicDataMarksConfig<Datum> {
   mixBlendMode: string;
   /**
    * A config for the behavior of the chart's x dimension
-   *
-   * Default valueAccessor method returns the datum.
-   *
-   * Default scaleType is D3's [scaleUtc]{@link https://github.com/d3/d3-scale#scaleUtc}.
    */
   x: VicDateDimension<Datum>;
 
   /**
    * A config for the behavior of the chart's y dimension
-   *
-   * Default valueAccessor method returns the datum.
-   *
-   * Default scaleType is D3's [scaleLinear]{@link https://github.com/d3/d3-scale#scaleLinear}.
    */
   y: VicQuantitativeDimension<Datum>;
 
   /**
    * A config for the behavior of the chart's categorical dimension.
-   *
-   * Default `valueAccessor` method returns 1.
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
