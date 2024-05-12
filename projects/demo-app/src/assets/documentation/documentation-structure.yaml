@@ -37,7 +37,7 @@ data-marks-components:
     input-event-effect: 'interfaces/InputEventEffect.html'
   bars:
     bars-config: 'classes/VicBarsConfig.html'
-    bars-dimensions: 'classes/VicBarsDimensions.html'
+    bars-dimensions: 'interfaces/VicBarsDimensions.html'
     bars-labels: 'classes/VicBarsLabels.html'
     bars-tooltip: 'interfaces/VicBarsTooltipOutput.html'
     events:
