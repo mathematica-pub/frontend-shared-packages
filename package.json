@@ -19,7 +19,6 @@
     "build:lib": "ng build viz-components",
     "build:demo-app": "ng build demo-app",
     "build:documentation": "bash ./build-compodoc-documentation.sh",
-    "build:code-snippets": "bash ./build-code-snippets.sh",
     "watch": "ng build --watch --configuration development",
     "watch:lib": "ng build viz-components --watch",
     "test:demo": "ng test demo-app",
