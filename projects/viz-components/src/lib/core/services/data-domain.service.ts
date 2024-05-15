@@ -18,7 +18,9 @@ export class DataDomainService {
     pixelRange?: [number, number]
   ) {
     let paddedValue =
-      valueExtent === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
+      valueExtent === VicValueExtent.min
+        ? unpaddedDomain[0]
+        : unpaddedDomain[1];
     const value = paddedValue;
     if (padding.type === DomainPadding.roundUp) {
       paddedValue = this.getQuantitativeDomainMaxRoundedUp(
@@ -59,14 +61,18 @@ export class DataDomainService {
     pixelRange: [number, number]
   ): number {
     if (pixelRange[1] < pixelRange[0]) numPixels = -1 * numPixels;
-    const value = valueExtent === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
+    const value =
+      valueExtent === VicValueExtent.min
+        ? unpaddedDomain[0]
+        : unpaddedDomain[1];
     if (value === 0) return value;
     const adjustedPixelRange =
-      valueExtent === 'min' && unpaddedDomain[0] < 0
+      valueExtent === VicValueExtent.min && unpaddedDomain[0] < 0
         ? [pixelRange[0] + numPixels, pixelRange[1]]
         : [pixelRange[0], pixelRange[1] - numPixels];
     const scale = scaleType(unpaddedDomain, adjustedPixelRange);
-    const targetVal = valueExtent === 'min' ? pixelRange[0] : pixelRange[1];
+    const targetVal =
+      valueExtent === VicValueExtent.min ? pixelRange[0] : pixelRange[1];
     return scale.invert(targetVal);
   }
 
