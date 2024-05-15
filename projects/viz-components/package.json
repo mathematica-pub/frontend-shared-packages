@@ -7,8 +7,7 @@
   },
   "files": [
     "*",
-    "raw-html/*",
-    "vizcolib-configs.code-snippets"
+    "raw-html/*"
   ],
   "schematics": "./schematics/collection.json",
   "peerDependencies": {

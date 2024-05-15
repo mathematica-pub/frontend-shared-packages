@@ -30,7 +30,6 @@ data-marks-components:
   geographies:
     geographies-config: 'classes/VicGeographiesConfig.html'
     no-data-geography-config: 'classes/VicNoDataGeographyConfig.html'
-    attribute-data-dimension-config: 'classes/VicAttributeDataDimensionConfig.html'
     categorical-attribute-data-dimension-config: 'classes/VicCategoricalAttributeDataDimensionConfig.html'
     no-bins-quantitative-attribute-data-dimension-config: 'classes/VicNoBinsQuantitativeAttributeDataDimensionConfig.html'
     equal-numbers-quantitative-attribute-data-dimension-config: 'classes/VicEqualNumbersQuantitativeAttributeDataDimensionConfig.html'
