@@ -29,6 +29,8 @@ data-marks-components:
     input-event-effect: 'interfaces/InputEventEffect.html'
   geographies:
     geographies-config: 'classes/VicGeographiesConfig.html'
+    geographies-labels-config: 'classes/VicGeographyLabelConfig.html'
+    geographies-labels-positioners: 'classes/VicGeographiesLabelsPositioners.html'
     no-data-geography-config: 'classes/VicNoDataGeographyConfig.html'
     categorical-attribute-data-dimension-config: 'classes/VicCategoricalAttributeDataDimensionConfig.html'
     no-bins-quantitative-attribute-data-dimension-config: 'classes/VicNoBinsQuantitativeAttributeDataDimensionConfig.html'
