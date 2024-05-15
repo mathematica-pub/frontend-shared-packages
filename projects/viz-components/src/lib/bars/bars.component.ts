@@ -237,7 +237,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
-    if (this.config.labels) {
+    if (this.config.labels.display) {
       this.drawBarLabels(transitionDuration);
     }
     this.updateBarElements();
@@ -302,7 +302,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       : this.getBarColor(i);
   }
 
-  drawBarLabels(transitionDuration: any): void {
+  drawBarLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
