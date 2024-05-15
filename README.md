@@ -1,5 +1,8 @@
 # VizComponents
 
+[![build, lint, & test](https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml/badge.svg)](https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml)
+[![Publish to CodeArtifact](https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml/badge.svg)](https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml)
+
 VizComponents is a library of Angular components built on top of D3 that can be composed by a user to create custom visualizations.
 
 VizComponents takes care of common data viz functionality under the hood, such as setting scales, creating axes, and responsively scaling svgs. At the same time Viz Components allows the user to fully customize the system of visual marks used to represent data.

@@ -1,6 +1,6 @@
-name: Deploy to Codeartifact, Cloudfront 
+name: Deploy to Codeartifact, Cloudfront
 
-on: 
+on:
   push:
     branches:
       - main
@@ -19,9 +19,20 @@ jobs:
     timeout-minutes: 15
     environment: dev
 
-    steps: 
+    steps:
       - name: Checkout
         uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9
+          cache: 'pipenv'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install pipenv
+          pipenv sync --dev
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -41,12 +52,8 @@ jobs:
       - name: Build Custom Schematics
         run: npm run build --prefix projects/viz-components
 
-      - name: Build Code Snippets
-        run: | 
-          cd projects/viz-components/code-snippets
-          python code_snippet_generator.py
-          cd ../../..
-          cp .vscode/vizcolib-configs.code-snippets dist/viz-components
+      - name: Build Compodoc Documentation
+        run: npm run build:documentation
 
       - name: Deploy website
         run: |
@@ -58,10 +65,10 @@ jobs:
           aws s3 cp ./dist/demo-app/index.html s3://$S3WebsiteDeployBucket/index.html --metadata-directive REPLACE --cache-control no-cache --content-type "text/html"
           aws cloudfront create-invalidation --distribution-id=$CloudFrontDistributionId --paths "/*"
 
-      - name: Authenticate to codeartifact 
+      - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Deploy to codeartifact
-        run: | 
-         cd ./dist/viz-components
-         npm publish
+        run: |
+          cd ./dist/viz-components
+          npm publish
