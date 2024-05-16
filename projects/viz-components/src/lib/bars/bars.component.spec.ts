@@ -396,8 +396,8 @@ describe('BarsComponent', () => {
       expect(component.drawBarLabels).toHaveBeenCalledOnceWith(100);
     });
 
-    it('does not call drawBarLabels if config.labels is falsey', () => {
-      component.config.labels = undefined;
+    it('does not call drawBarLabels if config.labels.display is falsey', () => {
+      component.config.labels.display = false;
       component.drawMarks();
       expect(component.drawBarLabels).not.toHaveBeenCalled();
     });
@@ -1079,7 +1079,7 @@ describe('BarsComponent', () => {
       it('calls ColorUtilities.getHigherContrastColorForBackground once', () => {
         expect(
           VicColorUtilities.getHigherContrastColorForBackground
-        ).toHaveBeenCalledOnceWith('#000000', '#ffffff', 'bar color');
+        ).toHaveBeenCalledOnceWith('bar color', '#000000', '#ffffff');
       });
       it('returns the selected label color', () => {
         expect(labelColor).toBe('selected label color');
