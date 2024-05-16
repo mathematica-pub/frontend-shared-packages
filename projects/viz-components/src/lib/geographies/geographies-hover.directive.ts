@@ -1,9 +1,10 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Feature } from 'geojson';
-import { filter, takeUntil } from 'rxjs';
+import { filter } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import {
@@ -50,7 +51,7 @@ export class GeographiesHoverDirective<
   setListenedElements(): void {
     this.geographies.dataGeographies$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef),
         filter((geoSels) => !!geoSels)
       )
       .subscribe((geoSels) => {

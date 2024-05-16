@@ -1,4 +1,10 @@
-import { AfterViewInit, Directive, inject, Renderer2 } from '@angular/core';
+import {
+  AfterViewInit,
+  DestroyRef,
+  Directive,
+  inject,
+  Renderer2,
+} from '@angular/core';
 
 export type UnlistenFunction = () => void;
 export type ListenElement = HTMLElement | SVGElement;
@@ -7,7 +13,7 @@ export type ListenElement = HTMLElement | SVGElement;
 export abstract class EventDirective implements AfterViewInit {
   elements: ListenElement[];
   preventEffect = false;
-
+  protected destroyRef = inject(DestroyRef);
   protected renderer = inject(Renderer2);
 
   abstract setListeners(): void;

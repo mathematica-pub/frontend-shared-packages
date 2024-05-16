@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { ClickDirectiveStub } from '../testing/stubs/click.directive.stub';
 
 describe('ClickDirective', () => {
@@ -39,21 +39,10 @@ describe('ClickDirective', () => {
     beforeEach(() => {
       unlistenClickSpy = jasmine.createSpy();
       directive.unlistenClick = [unlistenClickSpy];
-      directive.unsubscribe = new Subject();
-      spyOn(directive.unsubscribe, 'next');
-      spyOn(directive.unsubscribe, 'complete');
     });
     it('calls unlistenClick()', () => {
       directive.ngOnDestroy();
       expect(unlistenClickSpy).toHaveBeenCalledTimes(1);
-    });
-    it('calls unsubscribe.next()', () => {
-      directive.ngOnDestroy();
-      expect(directive.unsubscribe.next).toHaveBeenCalledTimes(1);
-    });
-    it('calls unsubscribe.complete()', () => {
-      directive.ngOnDestroy();
-      expect(directive.unsubscribe.complete).toHaveBeenCalledTimes(1);
     });
   });
 
