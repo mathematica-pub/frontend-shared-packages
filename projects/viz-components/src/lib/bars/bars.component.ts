@@ -26,7 +26,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataDomainService } from '../core/services/data-domain.service';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { ColorUtilities } from '../shared/color-utilities.class';
+import { VicColorUtilities } from '../shared/color-utilities.class';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -508,10 +508,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       return this.config.labels.darkLabelColor;
     } else {
       const barColor = this.getBarColor(i);
-      return ColorUtilities.getColorWithHighestContrastRatio(
+      return VicColorUtilities.getHigherContrastColorForBackground(
+        barColor,
         this.config.labels.darkLabelColor,
-        this.config.labels.lightLabelColor,
-        barColor
+        this.config.labels.lightLabelColor
       );
     }
   }

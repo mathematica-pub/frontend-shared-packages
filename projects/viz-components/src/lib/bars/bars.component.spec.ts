@@ -2,7 +2,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
-import { ColorUtilities } from '../shared/color-utilities.class';
+import { VicColorUtilities } from '../shared/color-utilities.class';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
 import { VicBarsConfig, VicBarsLabelsConfig } from './bars.config';
@@ -1034,9 +1034,10 @@ describe('BarsComponent', () => {
 
     beforeEach(() => {
       barLabelFitsSpy = spyOn(component, 'barLabelFitsOutsideBar');
-      spyOn(ColorUtilities, 'getColorWithHighestContrastRatio').and.returnValue(
-        'selected label color'
-      );
+      spyOn(
+        VicColorUtilities,
+        'getHigherContrastColorForBackground'
+      ).and.returnValue('selected label color');
       spyOn(component, 'getBarColor').and.returnValue('bar color');
       component.config = new VicBarsConfig();
       component.config = {
@@ -1075,9 +1076,9 @@ describe('BarsComponent', () => {
       it('calls getBarColor once', () => {
         expect(component.getBarColor).toHaveBeenCalledOnceWith(1);
       });
-      it('calls ColorUtilities.getColorWithHighestContrastRatio once', () => {
+      it('calls ColorUtilities.getHigherContrastColorForBackground once', () => {
         expect(
-          ColorUtilities.getColorWithHighestContrastRatio
+          VicColorUtilities.getHigherContrastColorForBackground
         ).toHaveBeenCalledOnceWith('#000000', '#ffffff', 'bar color');
       });
       it('returns the selected label color', () => {
