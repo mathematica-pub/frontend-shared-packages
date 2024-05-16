@@ -9,8 +9,8 @@ export class ValueUtilities {
     sigDigits: number,
     valueExtent: VicValueExtent
   ): number {
-    // If the value type is 'max', rounds up if value is > 0 and down if value is < 0
-    // If the value type is 'min', rounds down if value is > 0 and up if value is < 0
+    // If the value type is VicValueExtent.max, rounds up if value is > 0 and down if value is < 0
+    // If the value type is VicValueExtent.min, rounds down if value is > 0 and up if value is < 0
     // ex: 1234 => 1235, -1234 => -1235
     // SigDigits here means the first N non-zero as units holder values
     // ex: 1234, sigDigits = 2, "1" and "2" are "significant"
@@ -147,8 +147,8 @@ export class ValueUtilities {
     value: number,
     valueExtent: VicValueExtent
   ): number {
-    return (value > 0 && valueExtent === 'max') ||
-      (value < 0 && valueExtent === 'min')
+    return (value > 0 && valueExtent === VicValueExtent.max) ||
+      (value < 0 && valueExtent === VicValueExtent.min)
       ? 1
       : 0;
   }
@@ -161,7 +161,7 @@ export class ValueUtilities {
     if (interval === 0) {
       return value;
     }
-    const round = valueExtent === 'max' ? Math.ceil : Math.floor;
+    const round = valueExtent === VicValueExtent.max ? Math.ceil : Math.floor;
     return round(value / interval) * interval;
   }
 }
