@@ -1,4 +1,5 @@
 import { ScaleContinuousNumeric } from 'd3';
+import { VicValueExtent } from '../../../core/types/values';
 import { VicPercentOverDomainPadding } from './percent-over-padding';
 import { VicPixelDomainPadding } from './pixel-padding';
 import { VicRoundUpToIntervalDomainPadding } from './round-to-interval-padding';
@@ -11,8 +12,6 @@ export enum DomainPadding {
   numPixels = 'numPixels',
 }
 
-export type DomainExtent = 'max' | 'min';
-
 export type VicDomainPaddingConfig =
   | VicRoundUpDomainPadding
   | VicRoundUpToIntervalDomainPadding
@@ -21,7 +20,7 @@ export type VicDomainPaddingConfig =
 
 export interface PaddedDomainArguments {
   value?: number;
-  valueType: DomainExtent;
+  valueType: keyof typeof VicValueExtent;
   scaleFn?: (
     domain?: Iterable<number>,
     range?: Iterable<number>

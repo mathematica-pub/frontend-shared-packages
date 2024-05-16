@@ -7,7 +7,7 @@ export class ValueUtilities {
   static getValueRoundedToNSignificantDigits(
     value: number,
     sigDigits: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof VicValueExtent
   ): number {
     // If the value type is VicValueExtent.max, rounds up if value is > 0 and down if value is < 0
     // If the value type is VicValueExtent.min, rounds down if value is > 0 and up if value is < 0
@@ -75,7 +75,7 @@ export class ValueUtilities {
   private static getRoundedDecimalLessThanOne(
     value: number,
     sigDigits: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof VicValueExtent
   ): number {
     const valueStr = Math.abs(value).toString();
     let newValue = [];
@@ -116,7 +116,7 @@ export class ValueUtilities {
     newValue: string[],
     valueStr: string,
     i: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof VicValueExtent
   ): string[] {
     const prevChar = valueStr[i - 1];
     if (prevChar === '9') {
@@ -145,7 +145,7 @@ export class ValueUtilities {
 
   private static getRoundingOffset(
     value: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof VicValueExtent
   ): number {
     return (value > 0 && valueExtent === VicValueExtent.max) ||
       (value < 0 && valueExtent === VicValueExtent.min)
@@ -156,7 +156,7 @@ export class ValueUtilities {
   static getValueRoundedToInterval(
     value: number,
     interval: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof VicValueExtent
   ): number {
     if (interval === 0) {
       return value;

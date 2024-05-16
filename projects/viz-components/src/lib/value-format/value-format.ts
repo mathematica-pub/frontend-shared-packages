@@ -1,5 +1,5 @@
 import { format, timeFormat } from 'd3';
-import { isDate } from '../core/utilities/type-guard';
+import { isDate } from '../core/utilities/type-guards';
 
 export type VicFormatSpecifier<T> = string | ((x: T) => string);
 
