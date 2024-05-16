@@ -904,60 +904,68 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarLabelTextAnchor', () => {
+    let alignTextSpy: jasmine.Spy;
     beforeEach(() => {
       component.config = {
         dimensions: { ordinal: 'x', quantitative: 'y' },
       } as any;
-      spyOn(component, 'getTextAlignment').and.returnValue('text alignment');
+      alignTextSpy = spyOn(component, 'alignTextInPositiveDirection');
     });
 
     it('returns middle if x dimension is ordinal', () => {
       expect(component.getBarLabelTextAnchor(1)).toEqual('middle');
     });
-    it('calls getTextAlignment once if y dimension is ordinal', () => {
-      component.config.dimensions.ordinal = 'y';
-      component.getBarLabelTextAnchor(1);
-      expect(component.getTextAlignment).toHaveBeenCalledOnceWith(
-        1,
-        'start',
-        'end'
-      );
-    });
-    it('returns determined text alignment if y dimension is ordinal', () => {
-      component.config.dimensions.ordinal = 'y';
-      expect(component.getBarLabelTextAnchor(1)).toEqual('text alignment');
+    describe('if y dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config.dimensions.ordinal = 'y';
+      });
+      it('calls alignTextInPositiveDirection once if y dimension is ordinal', () => {
+        component.getBarLabelTextAnchor(1);
+        expect(alignTextSpy).toHaveBeenCalledOnceWith(1);
+      });
+      it('returns start if text should be aligned in positive direction', () => {
+        alignTextSpy.and.returnValue(true);
+        expect(component.getBarLabelTextAnchor(1)).toEqual('start');
+      });
+      it('returns end if text should be aligned in negative direction', () => {
+        alignTextSpy.and.returnValue(false);
+        expect(component.getBarLabelTextAnchor(1)).toEqual('end');
+      });
     });
   });
 
   describe('getBarLabelDominantBaseline', () => {
+    let alignTextSpy: jasmine.Spy;
     beforeEach(() => {
       component.config = {
         dimensions: { ordinal: 'y', quantitative: 'x' },
       } as any;
-      spyOn(component, 'getTextAlignment').and.returnValue('text alignment');
+      alignTextSpy = spyOn(component, 'alignTextInPositiveDirection');
     });
 
     it('returns central if y dimension is ordinal', () => {
       expect(component.getBarLabelDominantBaseline(1)).toEqual('central');
     });
-    it('calls getTextAlignment once if x dimension is ordinal', () => {
-      component.config.dimensions.ordinal = 'x';
-      component.getBarLabelDominantBaseline(1);
-      expect(component.getTextAlignment).toHaveBeenCalledOnceWith(
-        1,
-        'text-after-edge',
-        'text-before-edge'
-      );
-    });
-    it('returns determined text alignment if x dimension is ordinal', () => {
-      component.config.dimensions.ordinal = 'x';
-      expect(component.getBarLabelDominantBaseline(1)).toEqual(
-        'text alignment'
-      );
+    describe('if x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config.dimensions.ordinal = 'x';
+      });
+      it('calls alignTextInPositiveDirection once if y dimension is ordinal', () => {
+        component.getBarLabelDominantBaseline(1);
+        expect(alignTextSpy).toHaveBeenCalledOnceWith(1);
+      });
+      it('returns start if text should be aligned in positive direction', () => {
+        alignTextSpy.and.returnValue(true);
+        expect(component.getBarLabelDominantBaseline(1)).toEqual('start');
+      });
+      it('returns end if text should be aligned in negative direction', () => {
+        alignTextSpy.and.returnValue(false);
+        expect(component.getBarLabelDominantBaseline(1)).toEqual('end');
+      });
     });
   });
 
-  describe('getTextAlignment', () => {
+  describe('alignTextInPositiveDirection', () => {
     let positionSpy: jasmine.Spy;
     let valueSpy: jasmine.Spy;
     let barLabelFitsSpy: jasmine.Spy;
@@ -974,7 +982,7 @@ describe('BarsComponent', () => {
       barLabelFitsSpy = spyOn(component, 'barLabelFitsOutsideBar');
     });
     it('calls valueIsZeroOrNonnumeric once', () => {
-      component.getTextAlignment(0, 'start', 'end');
+      component.alignTextInPositiveDirection(0);
       expect(valueSpy).toHaveBeenCalledOnceWith(1);
     });
     describe('if the quantitative value is zero or non-numeric', () => {
@@ -982,16 +990,16 @@ describe('BarsComponent', () => {
         valueSpy.and.returnValue(true);
       });
       it('calls positionZeroOrNonnumericValueLabelInPositiveDirection once', () => {
-        component.getTextAlignment(1, 'start', 'end');
+        component.alignTextInPositiveDirection(1);
         expect(positionSpy).toHaveBeenCalledTimes(1);
       });
-      it('returns alignment in positive direction if positionZeroOrNonnumericValueLabelInPositiveDirection returns true', () => {
+      it('returns true if positionZeroOrNonnumericValueLabelInPositiveDirection returns true', () => {
         positionSpy.and.returnValue(true);
-        expect(component.getTextAlignment(1, 'start', 'end')).toEqual('start');
+        expect(component.alignTextInPositiveDirection(1)).toBeTrue();
       });
-      it('returns alignment in negative direction if positionZeroOrNonnumericValueLabelInPositiveDirection returns false', () => {
+      it('returns false if positionZeroOrNonnumericValueLabelInPositiveDirection returns false', () => {
         positionSpy.and.returnValue(false);
-        expect(component.getTextAlignment(1, 'start', 'end')).toEqual('end');
+        expect(component.alignTextInPositiveDirection(1)).toBeFalse();
       });
     });
     describe('if the quantitative value is numeric', () => {
@@ -1007,11 +1015,11 @@ describe('BarsComponent', () => {
         beforeEach(() => {
           barLabelFitsSpy.and.returnValue(true);
         });
-        it('returns alignment in positive direction when value is positive', () => {
-          expect(component.getTextAlignment(0, 'start', 'end')).toBe('start');
+        it('returns true when value is positive', () => {
+          expect(component.alignTextInPositiveDirection(0)).toBeTrue();
         });
-        it('returns alignment in negative direction when value is negative', () => {
-          expect(component.getTextAlignment(2, 'start', 'end')).toBe('end');
+        it('returns false when value is negative', () => {
+          expect(component.alignTextInPositiveDirection(2)).toBeFalse();
         });
       });
 
@@ -1019,11 +1027,11 @@ describe('BarsComponent', () => {
         beforeEach(() => {
           barLabelFitsSpy.and.returnValue(false);
         });
-        it('returns alignment in negative direction when value is positive', () => {
-          expect(component.getTextAlignment(0, 'start', 'end')).toBe('end');
+        it('returns false when value is positive', () => {
+          expect(component.alignTextInPositiveDirection(0)).toBeFalse();
         });
-        it('returns alignment in negative direction when value is negative', () => {
-          expect(component.getTextAlignment(2, 'start', 'end')).toBe('start');
+        it('returns true when value is negative', () => {
+          expect(component.alignTextInPositiveDirection(2)).toBeTrue();
         });
       });
     });

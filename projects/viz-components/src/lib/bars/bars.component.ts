@@ -462,7 +462,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     if (this.config.dimensions.ordinal === 'x') {
       return 'middle';
     } else {
-      return this.getTextAlignment(i, 'start', 'end');
+      return this.alignTextInPositiveDirection(i) ? 'start' : 'end';
     }
   }
 
@@ -472,34 +472,20 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     if (this.config.dimensions.ordinal === 'y') {
       return 'central';
     } else {
-      return this.getTextAlignment(i, 'text-after-edge', 'text-before-edge');
+      return this.alignTextInPositiveDirection(i)
+        ? 'text-after-edge'
+        : 'text-before-edge';
     }
   }
 
-  getTextAlignment<A, B>(
-    i: number,
-    alignmentInPositiveDirection: A,
-    alignmentInNegativeDirection: B
-  ): A | B {
+  alignTextInPositiveDirection(i: number): boolean {
     const value = this.values[this.config.dimensions.quantitative][i];
     if (this.valueIsZeroOrNonnumeric(value)) {
-      if (this.positionZeroOrNonnumericValueLabelInPositiveDirection()) {
-        return alignmentInPositiveDirection;
-      } else {
-        return alignmentInNegativeDirection;
-      }
+      return this.positionZeroOrNonnumericValueLabelInPositiveDirection();
     }
     const placeLabelOutsideBar = this.barLabelFitsOutsideBar(i);
     const isPositiveValue = value > 0;
-    if (placeLabelOutsideBar) {
-      return isPositiveValue
-        ? alignmentInPositiveDirection
-        : alignmentInNegativeDirection;
-    } else {
-      return isPositiveValue
-        ? alignmentInNegativeDirection
-        : alignmentInPositiveDirection;
-    }
+    return placeLabelOutsideBar ? isPositiveValue : !isPositiveValue;
   }
 
   getBarLabelColor(i: number): string {
