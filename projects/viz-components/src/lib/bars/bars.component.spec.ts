@@ -618,28 +618,18 @@ describe('BarsComponent', () => {
       component.config = { dimensions: { ordinal: 'x' } } as any;
     });
     describe('x dimension is ordinal', () => {
-      it('calls getBarWidthOrdinal once with the correct value', () => {
+      it('calls getBarWidthOrdinal once', () => {
         component.getBarWidth(100);
-        expect(component.getBarWidthOrdinal).toHaveBeenCalledTimes(1);
+        expect(ordinalSpy).toHaveBeenCalledTimes(1);
       });
 
       it('does not call getBarWidthQuantitative', () => {
         component.getBarWidth(100);
-        expect(component.getBarWidthQuantitative).not.toHaveBeenCalled();
+        expect(quantSpy).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
         expect(component.getBarWidth(100)).toEqual(300);
-      });
-
-      it('returns 0 if getBarWidthOrdinal returns undefined', () => {
-        ordinalSpy.and.returnValue(undefined);
-        expect(component.getBarWidth(100)).toEqual(0);
-      });
-
-      it('returns 0 if getBarWidthOrdinal returns null', () => {
-        ordinalSpy.and.returnValue(null);
-        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
 
@@ -650,26 +640,16 @@ describe('BarsComponent', () => {
 
       it('calls getBarWidthQuantitative once with the correct value', () => {
         component.getBarWidth(100);
-        expect(component.getBarWidthQuantitative).toHaveBeenCalledOnceWith(100);
+        expect(quantSpy).toHaveBeenCalledOnceWith(100);
       });
 
       it('does not call getBarWidthOrdinal', () => {
         component.getBarWidth(100);
-        expect(component.getBarWidthOrdinal).not.toHaveBeenCalled();
+        expect(ordinalSpy).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
         expect(component.getBarWidth(100)).toEqual(200);
-      });
-
-      it('returns 0 if getQuantitative returns undefined', () => {
-        quantSpy.and.returnValue(undefined);
-        expect(component.getBarWidth(100)).toEqual(0);
-      });
-
-      it('returns 0 if getQuantitative returns null', () => {
-        quantSpy.and.returnValue(null);
-        expect(component.getBarWidth(100)).toEqual(0);
       });
     });
   });
@@ -704,18 +684,23 @@ describe('BarsComponent', () => {
       ]);
     });
     describe('hasBarsWithNegativeValues is true', () => {
-      it('calls xScale twice and with the correct values', () => {
+      it('calls scales.x twice and with the correct values', () => {
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [0]]);
       });
     });
 
     describe('hasBarsWithNegativeValues is false', () => {
-      it('calls xScale twice and with the correct values', () => {
+      it('calls scales.x twice and with the correct values', () => {
         component.hasBarsWithNegativeValues = false;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [2]]);
       });
+    });
+
+    it('returns 0 if the calculated width is NaN', () => {
+      xScaleSpy.and.returnValue(NaN);
+      expect(component.getBarWidthQuantitative(2)).toEqual(0);
     });
 
     it('returns the correct value', () => {
@@ -738,28 +723,16 @@ describe('BarsComponent', () => {
       });
       it('calls getBarHeightQuantitative once with the correct value', () => {
         component.getBarHeight(100);
-        expect(component.getBarHeightQuantitative).toHaveBeenCalledOnceWith(
-          100
-        );
+        expect(quantSpy).toHaveBeenCalledOnceWith(100);
       });
 
       it('does not call getBarHeightOrdinal', () => {
         component.getBarHeight(100);
-        expect(component.getBarHeightOrdinal).not.toHaveBeenCalled();
+        expect(ordinalSpy).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
         expect(component.getBarHeight(100)).toEqual(300);
-      });
-
-      it('returns 0 if getBarHeightQuantitative returns undefined', () => {
-        quantSpy.and.returnValue(undefined);
-        expect(component.getBarHeight(100)).toEqual(0);
-      });
-
-      it('returns 0 if getBarHeightQuantitative returns NaN', () => {
-        quantSpy.and.returnValue(NaN);
-        expect(component.getBarHeight(100)).toEqual(0);
       });
     });
 
@@ -768,28 +741,18 @@ describe('BarsComponent', () => {
         component.config = { dimensions: { ordinal: 'y' } } as any;
       });
 
-      it('calls getBarHeightOrdinal once with the correct value', () => {
+      it('calls getBarHeightOrdinal once', () => {
         component.getBarHeight(100);
-        expect(component.getBarHeightOrdinal).toHaveBeenCalledTimes(1);
+        expect(ordinalSpy).toHaveBeenCalledTimes(1);
       });
 
       it('does not call getBarHeightQuantitative', () => {
         component.getBarHeight(100);
-        expect(component.getBarHeightQuantitative).not.toHaveBeenCalled();
+        expect(quantSpy).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
         expect(component.getBarHeight(100)).toEqual(200);
-      });
-
-      it('returns 0 if getBarHeightOrdinal returns undefined', () => {
-        ordinalSpy.and.returnValue(undefined);
-        expect(component.getBarHeight(100)).toEqual(0);
-      });
-
-      it('returns 0 if getBarHeightOrdinal returns NaN', () => {
-        ordinalSpy.and.returnValue(NaN);
-        expect(component.getBarHeight(100)).toEqual(0);
       });
     });
   });
@@ -824,7 +787,7 @@ describe('BarsComponent', () => {
       ]);
     });
     describe('hasBarsWithNegativeValues is true', () => {
-      it('calls yScale once and with the correct values', () => {
+      it('calls scales.y twice and with the correct values', () => {
         component.getBarHeightQuantitative(2);
         expect(yScaleSpy).toHaveBeenCalledTimes(2);
         expect(yScaleSpy.calls.all()[0].args[0]).toEqual(0);
@@ -833,13 +796,18 @@ describe('BarsComponent', () => {
     });
 
     describe('hasBarsWithNegativeValues is false', () => {
-      it('calls yScale once and with the correct value', () => {
+      it('calls scales.y twice and with the correct value', () => {
         component.hasBarsWithNegativeValues = false;
         component.getBarHeightQuantitative(2);
         expect(yScaleSpy).toHaveBeenCalledTimes(2);
         expect(yScaleSpy.calls.all()[0].args[0]).toEqual(2);
         expect(yScaleSpy.calls.all()[1].args[0]).toEqual(3);
       });
+    });
+
+    it('returns 0 if the calculated height is NaN', () => {
+      yScaleSpy.and.returnValue(NaN);
+      expect(component.getBarHeightQuantitative(2)).toEqual(0);
     });
 
     it('returns the correct value', () => {

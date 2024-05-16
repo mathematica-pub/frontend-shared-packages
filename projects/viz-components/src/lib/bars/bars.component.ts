@@ -315,7 +315,6 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
           enter
             .append<SVGTextElement>('text')
             .attr('class', 'vic-bar-label')
-            .style('display', this.config.labels.display ? null : 'none')
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
             .attr('x', (i) => this.getBarLabelX(i))
@@ -382,7 +381,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarYQuantitative(i: number): number {
-    if (this.values.y[i] < 0 || !this.values.y[i]) {
+    if (!this.values.y[i] || this.values.y[i] < 0) {
       return this.scales.y(0);
     } else {
       return this.scales.y(this.values.y[i]);
@@ -390,16 +389,11 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarWidth(i: number): number {
-    let width: number;
     if (this.config.dimensions.ordinal === 'x') {
-      width = this.getBarWidthOrdinal();
+      return this.getBarWidthOrdinal();
     } else {
-      width = this.getBarWidthQuantitative(i);
+      return this.getBarWidthQuantitative(i);
     }
-    if (!width || isNaN(width)) {
-      width = 0;
-    }
-    return width;
   }
 
   getBarWidthOrdinal(): number {
@@ -410,20 +404,18 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     const origin = this.hasBarsWithNegativeValues
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
-    return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
+    const width = Math.abs(
+      this.scales.x(this.values.x[i]) - this.scales.x(origin)
+    );
+    return !width || isNaN(width) ? 0 : width;
   }
 
   getBarHeight(i: number): number {
-    let height: number;
     if (this.config.dimensions.ordinal === 'x') {
-      height = this.getBarHeightQuantitative(i);
+      return this.getBarHeightQuantitative(i);
     } else {
-      height = this.getBarHeightOrdinal();
+      return this.getBarHeightOrdinal();
     }
-    if (!height || isNaN(height)) {
-      height = 0;
-    }
-    return height;
   }
 
   getBarHeightOrdinal(): number {
@@ -434,7 +426,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     const origin = this.hasBarsWithNegativeValues
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
-    return Math.abs(this.scales.y(origin) - this.scales.y(this.values.y[i]));
+    const height = Math.abs(
+      this.scales.y(origin) - this.scales.y(this.values.y[i])
+    );
+    return !height || isNaN(height) ? 0 : height;
   }
 
   getBarPattern(i: number): string {
