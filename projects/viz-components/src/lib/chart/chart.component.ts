@@ -23,24 +23,13 @@ import {
   shareReplay,
   startWith,
 } from 'rxjs';
+import { VicDimensions, VicElementSpacing } from '../core/types/layout';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 
 export interface Ranges {
   x: [number, number];
   y: [number, number];
-}
-
-export interface ElementSpacing {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-}
-
-export interface Dimensions {
-  width: number;
-  height: number;
 }
 
 export interface ChartScaling {
@@ -85,7 +74,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   /**
    * The margin that will be established between the edges of the svg and the svg's contents.
    */
-  @Input() margin: ElementSpacing = {
+  @Input() margin: VicElementSpacing = {
     top: 36,
     right: 36,
     bottom: 36,
@@ -116,12 +105,12 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   aspectRatio: number;
   private _height: BehaviorSubject<number> = new BehaviorSubject(this.height);
   height$ = this._height.asObservable();
-  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(
+  private _margin: BehaviorSubject<VicElementSpacing> = new BehaviorSubject(
     this.margin
   );
   margin$ = this._margin.asObservable();
   ranges$: Observable<Ranges>;
-  svgDimensions$: Observable<Dimensions>;
+  svgDimensions$: Observable<VicDimensions>;
   protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -210,7 +199,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       : this.height;
   }
 
-  getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
+  getRangesFromSvgDimensions(dimensions: VicDimensions): Ranges {
     const xRange: [number, number] = [
       this.margin.left,
       dimensions.width - this.margin.right,

@@ -1,23 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { MultiPolygon } from 'geojson';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
+import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
+import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
+import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
+import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
+import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
+import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
+import {
+  VicDataGeographyConfig,
+  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
+  VicGeographiesConfig,
+  VicNoDataGeographyConfig,
+} from 'projects/viz-components/src/lib/geographies/geographies.config';
+import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
-import {
-  ElementSpacing,
-  GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
-  GeographiesHoverEmitTooltipData,
-  VicDataGeographyConfig,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
-  VicGeographiesConfig,
-  VicGeographiesEventOutput,
-  VicNoDataGeographyConfig,
-} from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -25,19 +30,13 @@ import {
   combineLatest,
   filter,
   map,
+  shareReplay,
 } from 'rxjs';
 import { colors } from '../core/constants/colors.constants';
 import { StateIncomeDatum } from '../core/models/data';
 import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
-
-type ScaleType =
-  | 'none'
-  | 'equal value ranges'
-  | 'equal num observations'
-  | 'custom breaks'
-  | 'categorical';
 
 @Component({
   selector: 'app-geographies-example',
@@ -50,7 +49,7 @@ export class GeographiesExampleComponent implements OnInit {
   >;
   width = 700;
   height = 400;
-  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  margin: VicElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
   tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
     new BehaviorSubject<VicHtmlTooltipConfig>(
@@ -60,19 +59,31 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: EventEffect<GeographiesHoverDirective<StateIncomeDatum>>[] = [
-    new GeographiesHoverEmitTooltipData(),
+  hoverEffects: EventEffect<
+    GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
+  >[] = [
+    new GeographiesHoverEmitTooltipData<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >(),
   ];
   patternName = 'dotPattern';
   folderName = 'geographies-example';
   selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
   selectedYear$ = this.selectedYear.asObservable();
 
-  clickEffects: EventEffect<GeographiesClickDirective<StateIncomeDatum>>[] = [
-    new GeographiesClickEmitTooltipDataPauseHoverMoveEffects(),
+  clickEffects: EventEffect<
+    GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
+  >[] = [
+    new GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
+  featureIndexAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>
+    d.properties.name;
 
   constructor(
     private dataService: DataService,
@@ -81,17 +92,17 @@ export class GeographiesExampleComponent implements OnInit {
 
   ngOnInit(): void {
     const filteredData$ = combineLatest([
-      this.dataService.stateIncomeData$,
+      this.dataService.stateIncomeData$.pipe(filter((data) => !!data)),
       this.selectedYear$,
     ]).pipe(
-      filter(([data]) => !!data),
-      map(([data, year]) => data.filter((x) => x.year === +year)),
-      map((data) => data.filter((x) => x.state !== 'Texas'))
+      map(([data, year]) =>
+        data.filter((x) => x.year === +year && x.state !== 'Texas')
+      )
     );
 
     this.dataMarksConfig$ = filteredData$.pipe(
-      filter((data, map) => !!data),
-      map((data) => this.getDataMarksConfig(data))
+      map((data) => this.getDataMarksConfig(data)),
+      shareReplay(1)
     );
   }
 
@@ -102,9 +113,10 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >();
-    config.data = data;
     config.boundary = this.basemap.us;
-    const noDataStatesConfig = this.getNoDataGeographyStatesFeatures(data);
+    config.data = data;
+    config.featureIndexAccessor = this.featureIndexAccessor;
+    const noDataStatesConfig = this.getNoDataGeographyStatesConfig(data);
     config.noDataGeographiesConfigs = [
       this.basemap.usOutlineConfig,
       noDataStatesConfig,
@@ -121,7 +133,6 @@ export class GeographiesExampleComponent implements OnInit {
       MapGeometryProperties
     >();
     config.geographies = this.getDataGeographyFeatures(data);
-    config.featureIndexAccessor = (properties) => properties.name;
     config.attributeDataConfig =
       new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
     config.attributeDataConfig.geoAccessor = (d) => d.state;
@@ -138,20 +149,8 @@ export class GeographiesExampleComponent implements OnInit {
         predicate: (d) => !!d && d.population < 1000000,
       },
     ];
+    config.labels = this.getGeographyLabelConfig();
     return config;
-  }
-
-  getNoDataGeographyStatesFeatures(
-    data: StateIncomeDatum[]
-  ): VicNoDataGeographyConfig {
-    const statesInData = data.map((x) => x.state);
-    const features = this.basemap.states.features.filter(
-      (x) => !statesInData.includes(x.properties.name)
-    );
-    return new VicNoDataGeographyConfig({
-      geographies: features,
-      patternName: this.patternName,
-    });
   }
 
   getDataGeographyFeatures(data: StateIncomeDatum[]): any {
@@ -159,6 +158,96 @@ export class GeographiesExampleComponent implements OnInit {
     return this.basemap.states.features.filter((x) =>
       statesInData.includes(x.properties.name)
     );
+  }
+
+  getNoDataGeographyStatesConfig(
+    data: StateIncomeDatum[]
+  ): VicNoDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
+    const statesInData = data.map((x) => x.state);
+    const features = this.basemap.states.features.filter(
+      (x) => !statesInData.includes(x.properties.name)
+    );
+    const labels = this.getGeographyLabelConfig();
+    return new VicNoDataGeographyConfig<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >({
+      geographies: features,
+      labels: labels,
+      fill: 'lightgray',
+    });
+  }
+
+  getGeographyLabelConfig(): VicGeographyLabelConfig<
+    StateIncomeDatum,
+    MapGeometryProperties
+  > {
+    const polylabelStates = [
+      'CA',
+      'ID',
+      'MN',
+      'LA',
+      'MI',
+      'KY',
+      'FL',
+      'VA',
+      'NY',
+    ];
+
+    const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
+    const smallSquareStates = [
+      'CT',
+      'DE',
+      'DC',
+      'MD',
+      'MA',
+      'NH',
+      'NJ',
+      'RI',
+      'VT',
+    ];
+    const labelConfig = new VicGeographyLabelConfig<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >();
+    labelConfig.valueAccessor = (d) => d.properties.id;
+    labelConfig.display = (d) =>
+      !unlabelledTerritories.includes(labelConfig.valueAccessor(d)) &&
+      !smallSquareStates.includes(labelConfig.valueAccessor(d));
+
+    labelConfig.position = (d, path, projection) => {
+      if (labelConfig.valueAccessor(d) === 'HI') {
+        return VicGeographiesLabelsPositioners.positionHawaiiOnGeoAlbersUsa(
+          d as VicGeographiesFeature<MapGeometryProperties, MultiPolygon>,
+          projection
+        );
+      } else if (polylabelStates.includes(labelConfig.valueAccessor(d))) {
+        return VicGeographiesLabelsPositioners.positionWithPolylabel(
+          d,
+          projection
+        );
+      } else {
+        return VicGeographiesLabelsPositioners.positionAtCentroid(d, path);
+      }
+    };
+    const darkColor = 'rgb(22,80,225)';
+    const lightColor = '#FFFFFF';
+    labelConfig.color = (d, backgroundColor) =>
+      VicColorUtilities.getHigherContrastColorForBackground(
+        backgroundColor,
+        darkColor,
+        lightColor
+      );
+    labelConfig.fontWeight = (d, backgroundColor) =>
+      VicColorUtilities.getHigherContrastColorForBackground(
+        backgroundColor,
+        darkColor,
+        lightColor
+      ) === darkColor
+        ? 700
+        : 400;
+
+    return labelConfig;
   }
 
   updateTooltipForNewOutput(

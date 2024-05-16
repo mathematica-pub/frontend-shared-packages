@@ -10,7 +10,7 @@ import {
   VicBarsLabelsConfig,
   VicHorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
-import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -48,7 +48,7 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
+  margin: VicElementSpacing = {
     top: 36,
     right: 0,
     bottom: 8,

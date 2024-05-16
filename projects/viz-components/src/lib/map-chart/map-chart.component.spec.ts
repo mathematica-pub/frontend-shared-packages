@@ -17,23 +17,19 @@ describe('MapChartComponent', () => {
     component = fixture.componentInstance;
   });
 
-  describe('updateAttributeDataScale', () => {
-    it('calls next on updateAttributeDataScale', () => {
-      spyOn((component as any).attributeDataScale, 'next');
-      component.updateAttributeDataScale({} as any);
+  describe('updateAttributeProperties', () => {
+    it('calls next on updateAttributeProperties', () => {
+      spyOn((component as any).attributeProperties, 'next');
+      component.updateAttributeProperties({
+        scale: 'test scale',
+        config: 'test config',
+      } as any);
       expect(
-        (component as any).attributeDataScale.next
-      ).toHaveBeenCalledOnceWith({});
-    });
-  });
-
-  describe('updateAttributeDataConfig', () => {
-    it('calls next on updateAttributeDataConfig', () => {
-      spyOn((component as any).attributeDataConfig, 'next');
-      component.updateAttributeDataConfig({} as any);
-      expect(
-        (component as any).attributeDataConfig.next
-      ).toHaveBeenCalledOnceWith({});
+        (component as any).attributeProperties.next
+      ).toHaveBeenCalledOnceWith({
+        scale: 'test scale',
+        config: 'test config',
+      });
     });
   });
 });

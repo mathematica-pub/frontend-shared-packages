@@ -7,8 +7,8 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { VicOrientation } from '../core/types/orientation';
-import { VicSide } from '../core/types/side';
+import { VicOrientation, VicSide } from '../core/types/layout';
+import { VicValuesBin } from '../geographies/geographies.config';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
 export enum VicLegendType {
@@ -28,6 +28,7 @@ export class MapLegendComponent<Datum> implements OnInit {
   @Input() valuesSide: keyof typeof VicSide;
   @Input() outlineColor: string;
   @ViewChild('canvas', { static: true })
+  VicValuesBin: typeof VicValuesBin;
   canvasRef: ElementRef<HTMLCanvasElement>;
   legendType: keyof typeof VicLegendType;
   orientation: keyof typeof VicOrientation;
@@ -35,6 +36,7 @@ export class MapLegendComponent<Datum> implements OnInit {
   destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
+    this.VicValuesBin = VicValuesBin; // for some reason this doesn't get assigned if it's assigned in the class properties above
     this.setOrientation();
     this.setValuesSide();
   }

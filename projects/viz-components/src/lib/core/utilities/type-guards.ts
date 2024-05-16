@@ -3,3 +3,13 @@ export function isDate(x: unknown): x is Date {
     Object.prototype.toString.call(x) === '[object Date]' && !isNaN(x as number)
   );
 }
+
+export function isFunction<T, U = unknown>(
+  x: unknown
+): x is (...args: U[]) => T {
+  return typeof x === 'function';
+}
+
+export function isPrimitiveType<T>(x: unknown): x is T {
+  return typeof x !== 'function';
+}

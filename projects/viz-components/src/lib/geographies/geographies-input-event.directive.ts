@@ -6,6 +6,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { Geometry } from 'geojson';
 import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
@@ -16,20 +17,26 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 })
 export class GeographiesInputEventDirective<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<
+    Datum,
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEventEffects')
   effects: InputEventEffect<
-    GeographiesInputEventDirective<Datum, ExtendedGeographiesComponent>
+    GeographiesInputEventDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<unknown>;
   @Output() inputEventOutput = new EventEmitter<unknown>();
 
   constructor(
-    destroyRef: DestroyRef,
-    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
+    @Inject(GEOGRAPHIES) public geographies: TComponent,
+    destroyRef: DestroyRef
   ) {
     super(destroyRef);
   }

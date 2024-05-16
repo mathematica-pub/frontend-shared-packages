@@ -11,10 +11,11 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { Feature } from 'geojson';
+import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
+import { VicGeographiesFeature } from './geographies';
 import { GeographiesEventDirective } from './geographies-event-directive';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
@@ -30,11 +31,17 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 })
 export class GeographiesClickDirective<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TComponent extends GeographiesComponent<
+    Datum,
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > extends ClickDirective {
   @Input('vicGeographiesClickEffects')
   effects: EventEffect<
-    GeographiesClickDirective<Datum, ExtendedGeographiesComponent>
+    GeographiesClickDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   @Input('vicGeographiesClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
@@ -43,27 +50,33 @@ export class GeographiesClickDirective<
   >();
   pointerX: number;
   pointerY: number;
-  geographyIndex: number;
+  feature: VicGeographiesFeature<TProperties, TGeometry>;
 
   constructor(
-    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent,
+    @Inject(GEOGRAPHIES) public geographies: TComponent,
     @Self()
     @Optional()
     public hoverDirective?: GeographiesHoverDirective<
       Datum,
-      ExtendedGeographiesComponent
+      TProperties,
+      TGeometry,
+      TComponent
     >,
     @Self()
     @Optional()
     public hoverAndMoveDirective?: GeographiesHoverMoveDirective<
       Datum,
-      ExtendedGeographiesComponent
+      TProperties,
+      TGeometry,
+      TComponent
     >,
     @Self()
     @Optional()
     public inputEventDirective?: GeographiesInputEventDirective<
       Datum,
-      ExtendedGeographiesComponent
+      TProperties,
+      TGeometry,
+      TComponent
     >
   ) {
     super();
@@ -83,8 +96,9 @@ export class GeographiesClickDirective<
 
   onElementClick(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    const d = select(event.target as Element).datum() as Feature;
-    this.geographyIndex = this.getGeographyIndex(d);
+    this.feature = select(
+      event.target as Element
+    ).datum() as VicGeographiesFeature<TProperties, TGeometry>;
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
       this.pointerY = this.hoverDirective.positionY;
@@ -96,31 +110,21 @@ export class GeographiesClickDirective<
     this.effects.forEach((effect) => effect.removeEffect(this));
     this.pointerX = undefined;
     this.pointerY = undefined;
-    this.geographyIndex = undefined;
-  }
-
-  getGeographyIndex(d: Feature): number {
-    let value =
-      this.geographies.config.dataGeographyConfig.featureIndexAccessor(
-        d.properties
-      );
-    if (typeof value === 'string') {
-      value = value.toLowerCase();
-    }
-    return this.geographies.values.indexMap.get(value);
+    this.feature = undefined;
   }
 
   getOutputData(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData(
-      this.geographyIndex,
-      this.geographies
-    );
-    const output: VicGeographiesEventOutput<Datum> = {
+    const tooltipData = getGeographiesTooltipData<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >(this.feature, this.geographies);
+    return new VicGeographiesEventOutput({
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
-    };
-    return output;
+    });
   }
 
   preventHoverEffects(): void {
@@ -150,7 +154,12 @@ export class GeographiesClickDirective<
   }
 
   disableEffect(
-    directive: GeographiesEventDirective<Datum, ExtendedGeographiesComponent>
+    directive: GeographiesEventDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >
   ): void {
     if (directive) {
       directive.preventEffect = true;
@@ -158,7 +167,12 @@ export class GeographiesClickDirective<
   }
 
   enableEffect(
-    directive: GeographiesEventDirective<Datum, ExtendedGeographiesComponent>,
+    directive: GeographiesEventDirective<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >,
     removeEffects: boolean
   ): void {
     if (directive) {

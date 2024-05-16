@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
-import { ElementSpacing } from 'projects/viz-components/src/lib/chart/chart.component';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -23,6 +22,7 @@ import {
   LinesHoverMoveEmitTooltipData,
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   VicColumnConfig,
   VicDataExportConfig,
@@ -64,7 +64,7 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
+  margin: VicElementSpacing = {
     top: 8,
     right: 4,
     bottom: 36,
