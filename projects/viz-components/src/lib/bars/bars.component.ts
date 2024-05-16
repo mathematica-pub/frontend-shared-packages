@@ -507,6 +507,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     let distance: number;
     const value = this.values[this.config.dimensions.quantitative][i];
     const isPositiveValue = value > 0;
+    // This approach assumes that the bar labels do not wrap.
     if (this.config.dimensions.ordinal === 'x') {
       distance = this.getBarToChartEdgeDistance(
         isPositiveValue,
