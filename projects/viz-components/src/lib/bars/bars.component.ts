@@ -604,17 +604,9 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 
   getBarLabelOrigin(i: number, isPositiveValue: boolean): number {
     if (this.config.dimensions.ordinal === 'x') {
-      if (isPositiveValue) {
-        return 0;
-      } else {
-        const barDimension = this.getBarHeightQuantitative(i);
-        return !barDimension || isNaN(barDimension) ? 0 : barDimension;
-      }
+      return isPositiveValue ? 0 : this.getBarHeightQuantitative(i);
     } else {
-      if (isPositiveValue) {
-        const barDimension = this.getBarWidthQuantitative(i);
-        return !barDimension || isNaN(barDimension) ? 0 : barDimension;
-      } else return 0;
+      return isPositiveValue ? this.getBarWidthQuantitative(i) : 0;
     }
   }
 

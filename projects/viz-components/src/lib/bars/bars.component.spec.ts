@@ -1519,19 +1519,9 @@ describe('BarsComponent', () => {
         expect(component.getBarLabelOrigin(1, true)).toBe(0);
       });
 
-      describe('value is negative', () => {
-        it('calls getBarHeightQuantitative once', () => {
-          component.getBarLabelOrigin(1, false);
-          expect(heightQuantSpy).toHaveBeenCalledOnceWith(1);
-        });
-        it('returns 0 if getBarHeightQuantitative does not return a number', () => {
-          heightQuantSpy.and.returnValue(null as any);
-          expect(component.getBarLabelOrigin(1, false)).toBe(0);
-        });
-        it('returns the correct value if getBarHeightQuantitative returns a number', () => {
-          heightQuantSpy.and.returnValue(50);
-          expect(component.getBarLabelOrigin(1, false)).toBe(50);
-        });
+      it('calls getBarHeightQuantitative once if value is negative', () => {
+        component.getBarLabelOrigin(1, false);
+        expect(heightQuantSpy).toHaveBeenCalledOnceWith(1);
       });
     });
 
@@ -1540,20 +1530,11 @@ describe('BarsComponent', () => {
         component.config.dimensions.ordinal = 'y';
       });
 
-      describe('value is positive', () => {
-        it('calls getBarWidthQuantitative once', () => {
-          component.getBarLabelOrigin(1, true);
-          expect(widthQuantSpy).toHaveBeenCalledOnceWith(1);
-        });
-        it('returns 0 if getBarWidthQuantitative does not return a number', () => {
-          widthQuantSpy.and.returnValue(null as any);
-          expect(component.getBarLabelOrigin(1, true)).toBe(0);
-        });
-        it('returns the correct value if getBarWidthQuantitative returns a number', () => {
-          widthQuantSpy.and.returnValue(50);
-          expect(component.getBarLabelOrigin(1, true)).toBe(50);
-        });
+      it('calls getBarWidthQuantitative once if value is positive', () => {
+        component.getBarLabelOrigin(1, true);
+        expect(widthQuantSpy).toHaveBeenCalledOnceWith(1);
       });
+
       it('returns 0 if value is negative', () => {
         expect(component.getBarLabelOrigin(1, false)).toBe(0);
       });
