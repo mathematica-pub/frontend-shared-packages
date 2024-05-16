@@ -513,14 +513,14 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
         this.ranges.y,
         this.scales.y(this.values.y[i])
       );
-      return distance > this.getMaxBarLabelHeight();
+      return distance > this.getBarLabelHeight(i);
     } else {
       distance = this.getBarToChartEdgeDistance(
         isPositiveValue,
         this.ranges.x,
         this.scales.x(this.values.x[i])
       );
-      return distance > this.getMaxBarLabelWidth(i);
+      return distance > this.getBarLabelWidth(i);
     }
   }
 
@@ -534,19 +534,21 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       : Math.abs(barValue - range[0]);
   }
 
-  getMaxBarLabelWidth(i: number): number {
-    const barLabelText = this.getBarLabelText(i);
-    const characterPixelAllowance = 8; // TODO: future feature - create max width based on rendered d3 formatted data label
-    return (
-      barLabelText.length * characterPixelAllowance + this.config.labels.offset
-    );
+  getBarLabelWidth(i: number): number {
+    const width = this.getLabelDomRect(i).width;
+    return width + this.config.labels.offset;
   }
 
-  getMaxBarLabelHeight(): number {
-    // TODO: future feature - create max height based on rendered d3 formatted data label
-    const defaultFontSize = 16;
-    const defaultLineHeight = 1.2; // default described in https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
-    return defaultFontSize * defaultLineHeight + this.config.labels.offset;
+  getBarLabelHeight(i: number): number {
+    const height = this.getLabelDomRect(i).height;
+    return height + this.config.labels.offset;
+  }
+
+  getLabelDomRect(i: number): DOMRect {
+    const selection = selectAll('.vic-bar-label').filter(
+      (_, j: number) => j === i
+    );
+    return (selection.node() as Element).getBoundingClientRect();
   }
 
   getBarLabelX(i: number): number {

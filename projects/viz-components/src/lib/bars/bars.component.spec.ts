@@ -1101,8 +1101,8 @@ describe('BarsComponent', () => {
 
   describe('barLabelFitsOutsideBar', () => {
     let distanceSpy: jasmine.Spy;
-    let maxHeightSpy: jasmine.Spy;
-    let maxWidthSpy: jasmine.Spy;
+    let heightSpy: jasmine.Spy;
+    let widthSpy: jasmine.Spy;
 
     beforeEach(() => {
       component.values = {
@@ -1118,8 +1118,8 @@ describe('BarsComponent', () => {
         x: jasmine.createSpy('x').and.returnValue(100),
       } as any;
       distanceSpy = spyOn(component, 'getBarToChartEdgeDistance');
-      maxHeightSpy = spyOn(component, 'getMaxBarLabelHeight');
-      maxWidthSpy = spyOn(component, 'getMaxBarLabelWidth');
+      heightSpy = spyOn(component, 'getBarLabelHeight');
+      widthSpy = spyOn(component, 'getBarLabelWidth');
     });
     describe('if the x dimension is ordinal', () => {
       beforeEach(() => {
@@ -1135,18 +1135,18 @@ describe('BarsComponent', () => {
           50
         );
       });
-      it('calls getMaxBarLabelHeight once', () => {
+      it('calls getBarLabelHeight once', () => {
         component.barLabelFitsOutsideBar(1);
-        expect(maxHeightSpy).toHaveBeenCalledTimes(1);
+        expect(heightSpy).toHaveBeenCalledTimes(1);
       });
       it('returns true if the bar to chart edge space is greater than the max bar label height', () => {
         distanceSpy.and.returnValue(10);
-        maxHeightSpy.and.returnValue(2);
+        heightSpy.and.returnValue(2);
         expect(component.barLabelFitsOutsideBar(1)).toBeTrue();
       });
       it('returns false if the bar to chart edge space is less than the max bar label height', () => {
         distanceSpy.and.returnValue(2);
-        maxHeightSpy.and.returnValue(10);
+        heightSpy.and.returnValue(10);
         expect(component.barLabelFitsOutsideBar(1)).toBeFalse();
       });
     });
@@ -1164,18 +1164,18 @@ describe('BarsComponent', () => {
           100
         );
       });
-      it('calls getMaxBarLabelWidth once', () => {
+      it('calls getBarLabelWidth once', () => {
         component.barLabelFitsOutsideBar(1);
-        expect(maxWidthSpy).toHaveBeenCalledOnceWith(1);
+        expect(widthSpy).toHaveBeenCalledOnceWith(1);
       });
       it('returns true if the bar to chart edge space is greater than the max bar label width', () => {
         distanceSpy.and.returnValue(10);
-        maxWidthSpy.and.returnValue(2);
+        widthSpy.and.returnValue(2);
         expect(component.barLabelFitsOutsideBar(1)).toBeTrue();
       });
       it('returns false if the bar to chart edge space is less than the max bar label height', () => {
         distanceSpy.and.returnValue(2);
-        maxWidthSpy.and.returnValue(10);
+        widthSpy.and.returnValue(10);
         expect(component.barLabelFitsOutsideBar(1)).toBeFalse();
       });
     });
@@ -1192,35 +1192,37 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getMaxBarLabelWidth', () => {
+  describe('getBarLabelWidth', () => {
     beforeEach(() => {
-      spyOn(component, 'getBarLabelText').and.returnValue('$2,000');
+      spyOn(component, 'getLabelDomRect').and.returnValue({
+        width: 100,
+        height: 200,
+      } as any);
       component.config = {
         labels: {
           offset: 10,
         },
       } as any;
     });
-
-    it('calls getBarLabelText once', () => {
-      component.getMaxBarLabelWidth(1);
-      expect(component.getBarLabelText).toHaveBeenCalledOnceWith(1);
-    });
     it('returns the max bar label width', () => {
-      expect(component.getMaxBarLabelWidth(1)).toBe(58);
+      expect(component.getBarLabelWidth(1)).toBe(110);
     });
   });
 
-  describe('getMaxBarLabelHeight', () => {
+  describe('getBarLabelHeight', () => {
     beforeEach(() => {
+      spyOn(component, 'getLabelDomRect').and.returnValue({
+        width: 100,
+        height: 200,
+      } as any);
       component.config = {
         labels: {
-          offset: 4,
+          offset: 10,
         },
       } as any;
     });
     it('returns the max bar label height', () => {
-      expect(component.getMaxBarLabelHeight()).toBe(23.2);
+      expect(component.getBarLabelHeight(1)).toBe(210);
     });
   });
 
