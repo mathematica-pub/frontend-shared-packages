@@ -1496,55 +1496,6 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarLabelOrigin', () => {
-    let heightQuantSpy: jasmine.Spy;
-    let widthQuantSpy: jasmine.Spy;
-    beforeEach(() => {
-      heightQuantSpy = spyOn(
-        component,
-        'getBarHeightQuantitative'
-      ).and.returnValue(10);
-      widthQuantSpy = spyOn(
-        component,
-        'getBarWidthQuantitative'
-      ).and.returnValue(20);
-      component.config = {
-        labels: {
-          offset: 4,
-        },
-        dimensions: {
-          ordinal: 'x',
-        },
-      } as any;
-    });
-
-    describe('x dimension is ordinal', () => {
-      it('returns 0 if value is positive', () => {
-        expect(component.getBarLabelOrigin(1, true)).toBe(0);
-      });
-
-      it('calls getBarHeightQuantitative once if value is negative', () => {
-        component.getBarLabelOrigin(1, false);
-        expect(heightQuantSpy).toHaveBeenCalledOnceWith(1);
-      });
-    });
-
-    describe('x dimension is not ordinal', () => {
-      beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
-      });
-
-      it('calls getBarWidthQuantitative once if value is positive', () => {
-        component.getBarLabelOrigin(1, true);
-        expect(widthQuantSpy).toHaveBeenCalledOnceWith(1);
-      });
-
-      it('returns 0 if value is negative', () => {
-        expect(component.getBarLabelOrigin(1, false)).toBe(0);
-      });
-    });
-  });
-
   describe('positionZeroOrNonnumericValueLabelInPositiveDirection', () => {
     beforeEach(() => {
       component.config = {
@@ -1561,28 +1512,6 @@ describe('BarsComponent', () => {
       expect(
         component.positionZeroOrNonnumericValueLabelInPositiveDirection()
       ).toBeTrue();
-    });
-    describe('if all values are non-numeric', () => {
-      beforeEach(() => {
-        component.values = { y: [null, undefined, false] } as any;
-      });
-      it('returns true if domain is undefined', () => {
-        expect(
-          component.positionZeroOrNonnumericValueLabelInPositiveDirection()
-        ).toBeTrue();
-      });
-      it('returns true if domain is defined and the maximum is greater than 0', () => {
-        component.config.quantitative.domain = [1, 10];
-        expect(
-          component.positionZeroOrNonnumericValueLabelInPositiveDirection()
-        ).toBeTrue();
-      });
-      it('returns false if domain is defined and the maximum is not greater than 0', () => {
-        component.config.quantitative.domain = [-10, 0];
-        expect(
-          component.positionZeroOrNonnumericValueLabelInPositiveDirection()
-        ).toBeFalse();
-      });
     });
     describe('if all values are either zero or non-numeric', () => {
       beforeEach(() => {

@@ -19,6 +19,7 @@ import {
   range,
   scaleOrdinal,
   select,
+  selectAll,
   Transition,
 } from 'd3';
 import { Selection } from 'd3-selection';
@@ -603,10 +604,11 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarLabelOrigin(i: number, isPositiveValue: boolean): number {
+    const selection = selectAll('.vic-bar').filter((_, j: number) => j === i);
     if (this.config.dimensions.ordinal === 'x') {
-      return isPositiveValue ? 0 : this.getBarHeightQuantitative(i);
+      return isPositiveValue ? 0 : parseFloat(selection.attr('height'));
     } else {
-      return isPositiveValue ? this.getBarWidthQuantitative(i) : 0;
+      return isPositiveValue ? parseFloat(selection.attr('width')) : 0;
     }
   }
 
