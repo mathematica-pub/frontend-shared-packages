@@ -33,20 +33,19 @@ import { VicAttributeDataDimensionConfig } from '../geographies/geographies.conf
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
 export class MapChartComponent<Datum> extends ChartComponent implements Chart {
-  private attributeDataConfig: BehaviorSubject<
-    VicAttributeDataDimensionConfig<Datum>
-  > = new BehaviorSubject(null);
-  attributeDataConfig$ = this.attributeDataConfig.asObservable();
-  private attributeDataScale: BehaviorSubject<any> = new BehaviorSubject(null);
-  attributeDataScale$ = this.attributeDataScale.asObservable();
+  private attributeProperties: BehaviorSubject<{
+    config: VicAttributeDataDimensionConfig<Datum>;
+    scale: any;
+  }> = new BehaviorSubject({ config: undefined, scale: undefined });
+  attributeProperties$ = this.attributeProperties.asObservable();
 
-  updateAttributeDataScale(dataScale: any): void {
-    this.attributeDataScale.next(dataScale);
-  }
-
-  updateAttributeDataConfig(
-    dataConfig: VicAttributeDataDimensionConfig<Datum>
-  ): void {
-    this.attributeDataConfig.next(dataConfig);
+  updateAttributeProperties(properties: {
+    config: VicAttributeDataDimensionConfig<Datum>;
+    scale: any;
+  }): void {
+    this.attributeProperties.next({
+      config: properties.config,
+      scale: properties.scale,
+    });
   }
 }

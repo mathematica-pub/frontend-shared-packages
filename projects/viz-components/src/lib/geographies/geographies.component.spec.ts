@@ -1,6 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { InternMap } from 'd3';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { GeographiesComponent, MapDataValues } from './geographies.component';
@@ -12,11 +13,12 @@ import {
   VicEqualValuesQuantitativeAttributeDataDimensionConfig,
   VicGeographiesConfig,
   VicNoBinsQuantitativeAttributeDataDimensionConfig,
+  VicValuesBin,
 } from './geographies.config';
 
 describe('GeographiesComponent', () => {
-  let component: GeographiesComponent<any>;
-  let fixture: ComponentFixture<GeographiesComponent<any>>;
+  let component: GeographiesComponent<any, any, any>;
+  let fixture: ComponentFixture<GeographiesComponent<any, any, any>>;
   let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
@@ -37,9 +39,8 @@ describe('GeographiesComponent', () => {
   describe('initFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setConfig');
-      spyOn(component, 'setPropertiesFromConfig');
       spyOn(component, 'setPropertiesFromRanges');
-      spyOn(component, 'drawMarks');
+      spyOn(component, 'setPropertiesFromConfig');
     });
     it('calls setConfig once', () => {
       component.initFromConfig();
@@ -53,10 +54,6 @@ describe('GeographiesComponent', () => {
       component.initFromConfig();
       expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
     });
-    it('calls drawMarks once', () => {
-      component.initFromConfig();
-      expect(component.drawMarks).toHaveBeenCalledTimes(1);
-    });
   });
 
   describe('setPropertiesFromConfig()', () => {
@@ -64,7 +61,7 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setValueArrays');
       spyOn(component, 'initAttributeDataScaleDomain');
       spyOn(component, 'initAttributeDataScaleRange');
-      spyOn(component, 'setChartAttributeScaleAndConfig');
+      spyOn(component, 'updateChartAttributeProperties');
       component.setPropertiesFromConfig();
     });
     it('calls setValueArrays once', () => {
@@ -80,9 +77,7 @@ describe('GeographiesComponent', () => {
     });
 
     it('calls setChartAttributeScaleAndConfig once', () => {
-      expect(component.setChartAttributeScaleAndConfig).toHaveBeenCalledTimes(
-        1
-      );
+      expect(component.updateChartAttributeProperties).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -110,7 +105,11 @@ describe('GeographiesComponent', () => {
       beforeEach(() => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicCategoricalAttributeDataDimensionConfig();
-        component.values.attributeDataValues = ['a', 'a', 'b', 'b', 'c', 'c'];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 'a'],
+          ['Alaska', 'b'],
+          ['Arizona', 'c'],
+        ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
         component.initAttributeDataScaleDomain();
@@ -139,7 +138,14 @@ describe('GeographiesComponent', () => {
       beforeEach(() => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicNoBinsQuantitativeAttributeDataDimensionConfig();
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 11];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 11],
+        ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
         component.initAttributeDataScaleDomain();
@@ -162,7 +168,14 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicEqualNumbersQuantitativeAttributeDataDimensionConfig();
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 11];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 11],
+        ]);
       });
       it('sets the domain to the correct value', () => {
         component.initAttributeDataScaleDomain();
@@ -176,7 +189,14 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig =
           new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
         component.config.dataGeographyConfig.attributeDataConfig.numBins = 3;
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 12];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 12],
+        ]);
       });
       it('sets the domain to the correct value, user did not specify domain', () => {
         component.initAttributeDataScaleDomain();
@@ -194,33 +214,64 @@ describe('GeographiesComponent', () => {
         ).toEqual([0, 15]);
       });
       it('sets the number of bins to the correct number if value formatter indicates integer values and user numBins is greater than number of values in domain', () => {
-        component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
+        (
+          component.config.dataGeographyConfig
+            .attributeDataConfig as VicEqualValuesQuantitativeAttributeDataDimensionConfig<any>
+        ).numBins = 10;
         component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
           '.0f';
-        component.values.attributeDataValues = [0, 0, 1.2, 3.2];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 0],
+          ['Alaska', 0],
+          ['Arizona', 1.2],
+          ['Arkansas', 3.2],
+        ]);
         component.initAttributeDataScaleDomain();
         expect(
-          component.config.dataGeographyConfig.attributeDataConfig.numBins
+          (
+            component.config.dataGeographyConfig
+              .attributeDataConfig as VicEqualValuesQuantitativeAttributeDataDimensionConfig<any>
+          ).numBins
         ).toEqual(4);
       });
       it('sets the domains to the correct values if value formatter indicates integer values and user numBins is greater than number of values in domain', () => {
-        component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
+        (
+          component.config.dataGeographyConfig
+            .attributeDataConfig as VicEqualValuesQuantitativeAttributeDataDimensionConfig<any>
+        ).numBins = 10;
         component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
           '.0f';
-        component.values.attributeDataValues = [0, 0, 1.2, 3.2];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 0],
+          ['Alaska', 0],
+          ['Arizona', 1.2],
+          ['Arkansas', 3.2],
+        ]);
         component.initAttributeDataScaleDomain();
         expect(
           component.config.dataGeographyConfig.attributeDataConfig.domain
         ).toEqual([0, 4]);
       });
       it('does not change user numBins if value format is not integer type', () => {
-        component.config.dataGeographyConfig.attributeDataConfig.numBins = 10;
+        (
+          component.config.dataGeographyConfig
+            .attributeDataConfig as VicEqualValuesQuantitativeAttributeDataDimensionConfig<any>
+        ).numBins = 10;
         component.config.dataGeographyConfig.attributeDataConfig.valueFormat =
           '.0%';
-        component.values.attributeDataValues = [0, 1, 2, 3, 4];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 0],
+          ['Alaska', 1],
+          ['Arizona', 2],
+          ['Arkansas', 3],
+          ['California', 4],
+        ]);
         component.initAttributeDataScaleDomain();
         expect(
-          component.config.dataGeographyConfig.attributeDataConfig.numBins
+          (
+            component.config.dataGeographyConfig
+              .attributeDataConfig as VicEqualValuesQuantitativeAttributeDataDimensionConfig<any>
+          ).numBins
         ).toEqual(10);
       });
     });
@@ -232,7 +283,14 @@ describe('GeographiesComponent', () => {
         component.config.dataGeographyConfig.attributeDataConfig.breakValues = [
           0, 2, 4, 6, 8,
         ];
-        component.values.attributeDataValues = [1, 3, 5, 9, 10, 12];
+        component.values.attributeValuesByGeographyIndex = new InternMap([
+          ['Alabama', 1],
+          ['Alaska', 3],
+          ['Arizona', 5],
+          ['Arkansas', 9],
+          ['California', 10],
+          ['Colorado', 12],
+        ]);
       });
       it('sets the domain to the correct value', () => {
         component.initAttributeDataScaleDomain();
@@ -243,22 +301,24 @@ describe('GeographiesComponent', () => {
       it('sets the numBins to the correct value', () => {
         component.initAttributeDataScaleDomain();
         expect(
-          component.config.dataGeographyConfig.attributeDataConfig.numBins
+          (
+            component.config.dataGeographyConfig
+              .attributeDataConfig as VicCustomBreaksQuantitativeAttributeDataDimensionConfig<any>
+          ).numBins
         ).toEqual(4);
       });
     });
   });
 
-  describe('setChartAttributeScaleAndConfig', () => {
+  describe('setChartAttributeProperties', () => {
     beforeEach(() => {
       spyOn(component, 'getAttributeDataScale').and.returnValue(
         'attribute data scale' as any
       );
       component.chart = {
-        updateAttributeDataConfig: jasmine.createSpy(
-          'updateAttributeDataConfig'
+        updateAttributeProperties: jasmine.createSpy(
+          'updateAttributeProperties'
         ),
-        updateAttributeDataScale: jasmine.createSpy('updateAttributeDataScale'),
       } as any;
       component.config = {
         dataGeographyConfig: {
@@ -270,22 +330,17 @@ describe('GeographiesComponent', () => {
       } as any;
     });
     it('calls getAttributeDataScale once', () => {
-      component.setChartAttributeScaleAndConfig();
+      component.updateChartAttributeProperties();
       expect(component.getAttributeDataScale).toHaveBeenCalledTimes(1);
     });
-    it('calls updateAttributeDataScale once with the correct value', () => {
-      component.setChartAttributeScaleAndConfig();
-      expect(component.chart.updateAttributeDataScale).toHaveBeenCalledOnceWith(
-        'attribute data scale' as any
-      );
-    });
-    it('calls updateAttributeDataConfig once with the correct value', () => {
-      component.setChartAttributeScaleAndConfig();
+    it('calls updateAttributeProperties once with the correct value', () => {
+      component.updateChartAttributeProperties();
       expect(
-        component.chart.updateAttributeDataConfig
-      ).toHaveBeenCalledOnceWith(
-        component.config.dataGeographyConfig.attributeDataConfig
-      );
+        component.chart.updateAttributeProperties
+      ).toHaveBeenCalledOnceWith({
+        scale: 'attribute data scale' as any,
+        config: component.config.dataGeographyConfig.attributeDataConfig,
+      });
     });
   });
 
@@ -294,7 +349,6 @@ describe('GeographiesComponent', () => {
       component.config = {
         dataGeographyConfig: {
           attributeDataConfig: {
-            variableType: 'quantitative',
             binType: 'none',
           },
         },
@@ -307,7 +361,7 @@ describe('GeographiesComponent', () => {
       );
     });
 
-    describe('if valueType is quantitative and binType is none', () => {
+    describe('if binType is none', () => {
       it('calls setColorScaleWithColorInterpolator once', () => {
         component.getAttributeDataScale();
         expect(
@@ -321,10 +375,10 @@ describe('GeographiesComponent', () => {
       });
     });
 
-    describe('if variableType is not quantitative', () => {
+    describe('if binType is not none', () => {
       beforeEach(() => {
-        component.config.dataGeographyConfig.attributeDataConfig.variableType =
-          'categorical' as any;
+        component.config.dataGeographyConfig.attributeDataConfig.binType =
+          VicValuesBin.categorical;
       });
       it('calls setColorScaleWithoutColorInterpolator once', () => {
         component.getAttributeDataScale();

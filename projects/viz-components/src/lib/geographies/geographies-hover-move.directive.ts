@@ -3,10 +3,11 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { Feature } from 'geojson';
+import { Geometry } from 'geojson';
 import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
+import { VicGeographiesFeature } from './geographies';
 import {
   VicGeographiesEventOutput,
   getGeographiesTooltipData,
@@ -18,22 +19,26 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 })
 export class GeographiesHoverMoveDirective<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<
+    Datum,
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
   effects: HoverMoveEventEffect<
-    GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+    GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
   pointerX: number;
   pointerY: number;
-  geographyIndex: number;
+  feature: VicGeographiesFeature<TProperties, TGeometry>;
 
-  constructor(
-    @Inject(GEOGRAPHIES) public geographies: ExtendedGeographiesComponent
-  ) {
+  constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
     super();
   }
 
@@ -61,8 +66,9 @@ export class GeographiesHoverMoveDirective<
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    const d = select(event.target as Element).datum() as Feature;
-    this.geographyIndex = this.getGeographyIndex(d);
+    this.feature = select(
+      event.target as Element
+    ).datum() as VicGeographiesFeature<TProperties, TGeometry>;
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
@@ -74,27 +80,18 @@ export class GeographiesHoverMoveDirective<
     }
   }
 
-  getGeographyIndex(d: Feature): number {
-    let value =
-      this.geographies.config.dataGeographyConfig.featureIndexAccessor(
-        d.properties
-      );
-    if (typeof value === 'string') {
-      value = value.toLowerCase();
-    }
-    return this.geographies.values.indexMap.get(value);
-  }
-
   getEventOutput(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData(
-      this.geographyIndex,
-      this.geographies
-    );
-    const output: VicGeographiesEventOutput<Datum> = {
+    const tooltipData = getGeographiesTooltipData<
+      Datum,
+      TProperties,
+      TGeometry,
+      TComponent
+    >(this.feature, this.geographies);
+    const output = new VicGeographiesEventOutput({
       ...tooltipData,
       positionX: this.pointerX,
       positionY: this.pointerY,
-    };
+    });
     return output;
   }
 }

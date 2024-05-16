@@ -1,7 +1,6 @@
 <div
   class="vic-legend-color-scale vic-discontinuous"
   [ngClass]="['vic-'+orientation, 'vic-'+valuesSide]"
-  [class.vic-categorical]="isCategorical"
   [style.--border-color]="outlineColor"
   [style.--width]="width + 'px'"
   [style.--height]="height + 'px'"
@@ -15,7 +14,10 @@
     <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
   </ng-container>
   <div class="vic-legend-colors-container">
-    <div class="vic-legend-color-padding" *ngIf="!isCategorical"></div>
+    <div
+      class="vic-legend-color-padding"
+      *ngIf="config.binType !== VicValuesBin.categorical"
+    ></div>
     <div
       *ngFor="let color of colors"
       class="vic-legend-color vic-discontinuous"
@@ -33,6 +35,8 @@
 
 <ng-template #valuesDisplay>
   <div class="vic-legend-values-container vic-discontinous">
-    <p class="vic-value" *ngFor="let value of values; let i = index"> {{value}} </p>
+    <p class="vic-value" *ngFor="let value of values; let i = index">
+      {{value}}
+    </p>
   </div>
 </ng-template>

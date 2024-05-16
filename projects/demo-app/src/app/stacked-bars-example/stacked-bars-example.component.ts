@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
-  ElementSpacing,
   VicAxisConfig,
   VicStackedBarsConfig,
   VicVerticalBarsDimensionsConfig,
@@ -23,7 +23,7 @@ interface ViewModel {
 })
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: ElementSpacing = {
+  margin: VicElementSpacing = {
     top: 8,
     right: 0,
     bottom: 36,
