@@ -613,9 +613,6 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   positionZeroOrNonnumericValueLabelInPositiveDirection(): boolean {
     const quantitativeValues = this.values[this.config.dimensions.quantitative];
     const someValuesArePositive = quantitativeValues.some((x) => x > 0);
-    const everyValueIsNonnumeric = quantitativeValues.every((x) =>
-      isNaN(parseFloat(x))
-    );
     const domainMaxIsPositive =
       this.config.quantitative.domain === undefined ||
       this.config.quantitative.domain[1] > 0;
@@ -624,7 +621,6 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     );
     return (
       someValuesArePositive ||
-      (everyValueIsNonnumeric && domainMaxIsPositive) ||
       (everyValueIsEitherZeroOrNonnumeric && domainMaxIsPositive)
     );
   }

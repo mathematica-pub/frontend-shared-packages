@@ -956,11 +956,15 @@ describe('BarsComponent', () => {
       });
       it('returns start if text should be aligned in positive direction', () => {
         alignTextSpy.and.returnValue(true);
-        expect(component.getBarLabelDominantBaseline(1)).toEqual('start');
+        expect(component.getBarLabelDominantBaseline(1)).toEqual(
+          'text-after-edge'
+        );
       });
       it('returns end if text should be aligned in negative direction', () => {
         alignTextSpy.and.returnValue(false);
-        expect(component.getBarLabelDominantBaseline(1)).toEqual('end');
+        expect(component.getBarLabelDominantBaseline(1)).toEqual(
+          'text-before-edge'
+        );
       });
     });
   });
