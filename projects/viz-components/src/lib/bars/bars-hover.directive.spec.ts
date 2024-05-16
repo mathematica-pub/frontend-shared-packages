@@ -6,7 +6,7 @@ import { HoverDirectiveStub } from '../testing/stubs/hover.directive.stub';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BARS, BarsComponent } from './bars.component';
 
-describe('BarsHoverEventDirective', () => {
+describe('BarsHoverDirective', () => {
   let directive: BarsHoverDirective<any, BarsComponent<any>>;
 
   beforeEach(() => {

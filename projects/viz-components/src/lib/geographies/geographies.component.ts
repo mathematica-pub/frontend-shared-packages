@@ -6,43 +6,43 @@ import {
   NgZone,
   ViewEncapsulation,
 } from '@angular/core';
+import * as CSSType from 'csstype';
 import {
   InternMap,
   InternSet,
-  Transition,
+  Selection,
   extent,
   geoPath,
-  map,
   range,
   scaleLinear,
   select,
 } from 'd3';
+import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { VicVariableType } from '../core/types/variable-type';
+import { isFunction, isPrimitiveType } from '../core/utilities/type-guard';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
+import { VicGeographiesFeature } from './geographies';
+import { VicGeographyLabelConfig } from './geographies-labels';
 import {
   VicDataGeographyConfig,
-  VicGeoJsonDefaultProperty,
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
   VicValuesBin,
 } from './geographies.config';
 
 export class MapDataValues {
-  attributeDataGeographies: any[];
-  attributeDataValues: any[];
-  indexMap: InternMap;
-  geoJsonGeographies: any[];
+  attributeValuesByGeographyIndex: InternMap;
+  datumsByGeographyIndex: InternMap;
 }
 
-export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
-  'GeographiesComponent'
-);
+export const GEOGRAPHIES = new InjectionToken<
+  GeographiesComponent<unknown, unknown>
+>('GeographiesComponent');
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-data-marks-geographies]',
@@ -64,12 +64,12 @@ export const GEOGRAPHIES = new InjectionToken<GeographiesComponent<unknown>>(
 })
 export class GeographiesComponent<
   Datum,
-  GeoJsonProperties extends VicGeoJsonDefaultProperty = VicGeoJsonDefaultProperty
+  TProperties extends GeoJsonProperties = GeoJsonProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > extends MapDataMarksBase<
   Datum,
-  VicGeographiesConfig<Datum, GeoJsonProperties>
+  VicGeographiesConfig<Datum, TProperties, TGeometry>
 > {
-  map: any;
   projection: any;
   path: any;
   values: MapDataValues = new MapDataValues();
@@ -84,59 +84,67 @@ export class GeographiesComponent<
 
   override initFromConfig(): void {
     this.setConfig();
-    this.setPropertiesFromConfig();
     this.setPropertiesFromRanges();
-    this.drawMarks();
+    this.setPropertiesFromConfig();
   }
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initAttributeDataScaleDomain();
     this.initAttributeDataScaleRange();
-    this.setChartAttributeScaleAndConfig();
-  }
-
-  resizeMarks(): void {
-    this.setPropertiesFromRanges();
-    this.drawMarks();
+    this.updateChartAttributeProperties();
   }
 
   setValueArrays(): void {
-    this.values.attributeDataGeographies = map(
-      this.config.data,
-      this.config.dataGeographyConfig.attributeDataConfig.geoAccessor
-    ).map((x) => {
-      return typeof x === 'string' ? x.toLowerCase() : x;
-    });
-    this.values.attributeDataValues = map(
-      this.config.data,
-      this.config.dataGeographyConfig.attributeDataConfig.valueAccessor
-    ).map((d) => (d === null ? NaN : d));
-    this.values.indexMap = new InternMap(
-      this.values.attributeDataGeographies.map((name, i) => [name, i])
+    const uniqueByGeoAccessor = (arr: any[], set = new Set()) =>
+      arr.filter(
+        (x) =>
+          !set.has(
+            this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(x)
+          ) &&
+          set.add(
+            this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(x)
+          )
+      );
+    const uniqueDatums = uniqueByGeoAccessor(this.config.data);
+    this.values.attributeValuesByGeographyIndex = new InternMap(
+      uniqueDatums.map((d) => {
+        const value =
+          this.config.dataGeographyConfig.attributeDataConfig.valueAccessor(d);
+        return [
+          this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(d),
+          value === null || value === undefined ? NaN : value,
+        ];
+      })
     );
-    this.values.geoJsonGeographies = this.config.dataGeographyConfig.geographies
-      .map((feature) =>
-        this.config.dataGeographyConfig.featureIndexAccessor(feature.properties)
-      )
-      .map((x) => {
-        return typeof x === 'string' ? x.toLowerCase() : x;
-      });
+    this.values.datumsByGeographyIndex = new InternMap(
+      uniqueDatums.map((d) => {
+        return [
+          this.config.dataGeographyConfig.attributeDataConfig.geoAccessor(d),
+          d,
+        ];
+      })
+    );
   }
 
   initAttributeDataScaleDomain(): void {
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-      VicVariableType.quantitative
-    ) {
-      this.setQuantitativeDomainAndBinsForBinType();
-    }
-    if (
-      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-      VicVariableType.categorical
+      this.config.dataGeographyConfig.attributeDataConfig.binType ===
+      VicValuesBin.categorical
     ) {
       this.setCategoricalDomain();
+    } else {
+      this.setQuantitativeDomainAndBinsForBinType();
     }
+  }
+
+  setCategoricalDomain(): void {
+    const domainValues =
+      this.config.dataGeographyConfig.attributeDataConfig.domain ??
+      Array.from(this.values.attributeValuesByGeographyIndex.values());
+    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
+      domainValues
+    );
   }
 
   setQuantitativeDomainAndBinsForBinType(): void {
@@ -144,8 +152,9 @@ export class GeographiesComponent<
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.equalNumObservations
     ) {
-      this.config.dataGeographyConfig.attributeDataConfig.domain =
-        this.values.attributeDataValues;
+      this.config.dataGeographyConfig.attributeDataConfig.domain = Array.from(
+        this.values.attributeValuesByGeographyIndex.values()
+      );
     } else if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.customBreaks
@@ -158,12 +167,14 @@ export class GeographiesComponent<
         this.config.dataGeographyConfig.attributeDataConfig.breakValues.length -
         1;
     } else {
-      // no bins, equal interval
-      let domainValues: any[];
+      // no bins, equal value ranges
+      let domainValues: number[];
       if (
         this.config.dataGeographyConfig.attributeDataConfig.domain === undefined
       ) {
-        domainValues = extent(this.values.attributeDataValues);
+        domainValues = extent(
+          Array.from(this.values.attributeValuesByGeographyIndex.values())
+        );
       } else {
         domainValues =
           this.config.dataGeographyConfig.attributeDataConfig.domain;
@@ -173,12 +184,18 @@ export class GeographiesComponent<
     }
 
     if (
-      // do we need to do this for equal num observations?
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
       VicValuesBin.equalValueRanges
     ) {
       if (this.attributeDataValueFormatIsInteger()) {
-        this.validateNumBinsAndDomainForIntegerValues();
+        const validated = this.getValidatedNumBinsAndDomainForIntegerValues(
+          this.config.dataGeographyConfig.attributeDataConfig.numBins,
+          this.config.dataGeographyConfig.attributeDataConfig.domain
+        );
+        this.config.dataGeographyConfig.attributeDataConfig.numBins =
+          validated.numBins;
+        this.config.dataGeographyConfig.attributeDataConfig.domain =
+          validated.domain;
       }
     }
   }
@@ -193,8 +210,14 @@ export class GeographiesComponent<
     );
   }
 
-  validateNumBinsAndDomainForIntegerValues(): void {
-    const domain = this.config.dataGeographyConfig.attributeDataConfig.domain;
+  getValidatedNumBinsAndDomainForIntegerValues(
+    numBins: number,
+    domain: [number, number]
+  ): {
+    numBins: number;
+    domain: number[];
+  } {
+    const validated = { numBins, domain };
     const dataRange = [domain[0], domain[domain.length - 1]].map(
       (x) =>
         +formatValue(
@@ -203,38 +226,30 @@ export class GeographiesComponent<
         )
     );
     const numDiscreteValues = Math.abs(dataRange[1] - dataRange[0]) + 1;
-    if (
-      numDiscreteValues <
-      this.config.dataGeographyConfig.attributeDataConfig.numBins
-    ) {
-      this.config.dataGeographyConfig.attributeDataConfig.numBins =
-        numDiscreteValues;
-      this.config.dataGeographyConfig.attributeDataConfig.domain = [
-        dataRange[0],
-        dataRange[1] + 1,
-      ];
+    if (numDiscreteValues < numBins) {
+      validated.numBins = numDiscreteValues;
+      validated.domain = [dataRange[0], dataRange[1] + 1];
     }
-  }
-
-  setCategoricalDomain(): void {
-    const domainValues =
-      this.config.dataGeographyConfig.attributeDataConfig.domain ??
-      this.values.attributeDataValues;
-    this.config.dataGeographyConfig.attributeDataConfig.domain = new InternSet(
-      domainValues
-    );
+    return validated;
   }
 
   initAttributeDataScaleRange(): void {
-    if (this.shouldCalculateBinColors()) {
+    if (
+      this.config.dataGeographyConfig.attributeDataConfig.binType !==
+        VicValuesBin.none &&
+      this.config.dataGeographyConfig.attributeDataConfig.binType !==
+        VicValuesBin.categorical &&
+      this.shouldCalculateBinColors(
+        this.config.dataGeographyConfig.attributeDataConfig.numBins,
+        this.config.dataGeographyConfig.attributeDataConfig.colors
+      )
+    ) {
       const binIndicies = range(
         this.config.dataGeographyConfig.attributeDataConfig.numBins
       );
-      const colorGenerator = scaleLinear()
+      const colorGenerator = scaleLinear<string>()
         .domain(extent(binIndicies))
-        .range(
-          this.config.dataGeographyConfig.attributeDataConfig.colors as any
-        )
+        .range(this.config.dataGeographyConfig.attributeDataConfig.colors)
         .interpolate(
           this.config.dataGeographyConfig.attributeDataConfig.interpolator
         );
@@ -243,8 +258,8 @@ export class GeographiesComponent<
     } else {
       let colors = this.config.dataGeographyConfig.attributeDataConfig.colors;
       if (
-        this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-        VicVariableType.categorical
+        this.config.dataGeographyConfig.attributeDataConfig.binType ===
+        VicValuesBin.categorical
       ) {
         colors = colors.slice(
           0,
@@ -255,47 +270,14 @@ export class GeographiesComponent<
     }
   }
 
-  shouldCalculateBinColors(): boolean {
-    return (
-      this.config.dataGeographyConfig.attributeDataConfig.numBins &&
-      this.config.dataGeographyConfig.attributeDataConfig.numBins > 1 &&
-      this.config.dataGeographyConfig.attributeDataConfig.colors.length !==
-        this.config.dataGeographyConfig.attributeDataConfig.numBins
-    );
-  }
-
-  setChartAttributeScaleAndConfig(): void {
-    const scale = this.getAttributeDataScale();
-    this.zone.run(() => {
-      this.chart.updateAttributeDataScale(scale);
-      this.chart.updateAttributeDataConfig(
-        this.config.dataGeographyConfig.attributeDataConfig
-      );
-    });
-  }
-
-  setPropertiesFromRanges(): void {
-    this.setProjection();
-    this.setPath();
-  }
-
-  setProjection(): void {
-    this.projection = this.config.projection.fitSize(
-      [this.ranges.x[1], this.ranges.y[0]],
-      this.config.boundary
-    );
-  }
-
-  setPath(): void {
-    this.path = geoPath().projection(this.projection);
+  shouldCalculateBinColors(numBins: number, colors: string[]): boolean {
+    return numBins && numBins > 1 && colors.length !== numBins;
   }
 
   getAttributeDataScale(): any {
     if (
-      this.config.dataGeographyConfig.attributeDataConfig.variableType ===
-        VicVariableType.quantitative &&
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
-        VicValuesBin.none
+      VicValuesBin.none
     ) {
       return this.setColorScaleWithColorInterpolator();
     } else {
@@ -322,17 +304,45 @@ export class GeographiesComponent<
       .unknown(this.config.dataGeographyConfig.nullColor);
   }
 
-  drawMarks(): void {
+  setPropertiesFromRanges(): void {
+    this.setProjection();
+    this.setPath();
+  }
+
+  setProjection(): void {
+    this.projection = this.config.projection.fitSize(
+      [this.ranges.x[1], this.ranges.y[0]],
+      this.config.boundary
+    );
+  }
+
+  setPath(): void {
+    this.path = geoPath().projection(this.projection);
+  }
+
+  updateChartAttributeProperties(): void {
     this.zone.run(() => {
-      this.drawMap(this.chart.transitionDuration);
-      this.updateGeographyElements();
+      this.chart.updateAttributeProperties({
+        scale: this.getAttributeDataScale(),
+        config: this.config.dataGeographyConfig.attributeDataConfig,
+      });
     });
+  }
+
+  resizeMarks(): void {
+    this.setPropertiesFromRanges();
+    this.drawMarks();
+  }
+
+  drawMarks(): void {
+    this.drawMap(this.chart.transitionDuration);
+    this.updateGeographyElements();
   }
 
   drawMap(transitionDuration): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
-      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+      .duration(transitionDuration);
 
     if (this.config.dataGeographyConfig) {
       this.drawDataLayer(t);
@@ -343,111 +353,280 @@ export class GeographiesComponent<
   }
 
   drawDataLayer(t: any): void {
-    this.map = select(this.elRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-data')
-      .data([this.config.dataGeographyConfig])
+    const dataLayers = select(this.elRef.nativeElement)
+      .selectAll<
+        SVGGElement,
+        VicDataGeographyConfig<Datum, TProperties, TGeometry>
+      >('.vic-map-layer.vic-data')
+      .data<VicDataGeographyConfig<Datum, TProperties, TGeometry>>([
+        this.config.dataGeographyConfig,
+      ])
       .join(
         (enter) => enter.append('g').attr('class', 'vic-map-layer vic-data'),
         (update) => update,
         (exit) => exit.remove()
       );
 
-    this.map
-      .selectAll('path')
-      .data(
-        (layer: VicDataGeographyConfig<Datum, GeoJsonProperties>) =>
-          layer.geographies
+    const dataGeographyGroups = dataLayers
+      .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
+        '.geography-g'
+      )
+      .data<VicGeographiesFeature<TProperties, TGeometry>>(
+        (layer) => layer.geographies
       )
       .join(
-        (enter) => {
-          enter = enter.append('path');
-          this.drawBasicPaths(enter);
-        },
-        (update) => this.drawBasicPaths(update),
+        (enter) => enter.append('g').attr('class', 'geography-g'),
+        (update) => update,
         (exit) => exit.remove()
       );
-  }
 
-  drawBasicPaths(selection: any): any {
-    return selection
-      .attr('d', this.path)
-      .attr('fill', (d, i) =>
-        this.config.dataGeographyConfig.attributeDataConfig.patternPredicates
-          ? this.getPatternFill(i)
-          : this.getFill(i)
+    dataGeographyGroups
+      .selectAll<SVGPathElement, VicGeographiesFeature<TProperties, TGeometry>>(
+        'path'
       )
-      .attr('stroke', this.config.dataGeographyConfig.strokeColor)
-      .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth);
+      .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+      .join(
+        (enter) =>
+          enter
+            .append('path')
+            .attr('d', this.path)
+            .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+            .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
+            .attr('fill', (d) =>
+              this.config.dataGeographyConfig.attributeDataConfig
+                .patternPredicates
+                ? this.getPatternFill(this.config.featureIndexAccessor(d))
+                : this.getFill(this.config.featureIndexAccessor(d))
+            ),
+        (update) =>
+          update.call((update) =>
+            update
+              .attr('d', this.path)
+              .attr('stroke', this.config.dataGeographyConfig.strokeColor)
+              .attr('stroke-width', this.config.dataGeographyConfig.strokeWidth)
+              .transition(t)
+              .attr('fill', (d) =>
+                this.config.dataGeographyConfig.attributeDataConfig
+                  .patternPredicates
+                  ? this.getPatternFill(this.config.featureIndexAccessor(d))
+                  : this.getFill(this.config.featureIndexAccessor(d))
+              )
+          ),
+        (exit) => exit.remove()
+      );
+
+    if (this.config.dataGeographyConfig.labels) {
+      this.drawLabels(
+        dataGeographyGroups,
+        t,
+        this.config.dataGeographyConfig.labels
+      );
+    }
   }
 
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.elRef.nativeElement)
-      .selectAll('.vic-map-layer.vic-no-data')
-      .data(this.config.noDataGeographiesConfigs)
+      .selectAll<
+        SVGGElement,
+        VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+      >('.vic-map-layer.vic-no-data')
+      .data<VicNoDataGeographyConfig<Datum, TProperties, TGeometry>>(
+        this.config.noDataGeographiesConfigs
+      )
       .join(
         (enter) => enter.append('g').attr('class', 'vic-map-layer vic-no-data'),
         (update) => update,
         (exit) => exit.remove()
       );
 
-    noDataLayers
-      .selectAll('path')
-      .data((layer: VicNoDataGeographyConfig) => layer.geographies)
-      .join(
-        (enter) =>
-          enter
-            .append('path')
-            .attr('d', this.path)
-            .attr('fill', (d, i, nodes) =>
-              this.getNoDataGeographyPatternFill(nodes[i])
-            )
-            .attr(
-              'stroke',
-              (d, i, nodes) => this.getConfigFromNode(nodes[i]).strokeColor
-            )
-            .attr(
-              'stroke-width',
-              (d, i, nodes) => this.getConfigFromNode(nodes[i]).strokeWidth
-            ),
-        (update) =>
-          update
-            .attr('d', this.path)
-            .attr('fill', (d, i, nodes) =>
-              this.getNoDataGeographyPatternFill(nodes[i])
-            ),
-        (exit) => exit.remove()
-      );
+    this.config.noDataGeographiesConfigs.forEach((config, index) => {
+      const noDataGeographyGroups = noDataLayers
+        .filter((d, i) => i === index)
+        .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
+          '.no-data-geography-g'
+        )
+        .data<VicGeographiesFeature<TProperties, TGeometry>>(
+          (layer) => layer.geographies
+        )
+        .join(
+          (enter) => enter.append('g').attr('class', 'no-data-geography-g'),
+          (update) => update,
+          (exit) => exit.remove()
+        );
+
+      noDataGeographyGroups
+        .selectAll<
+          SVGPathElement,
+          VicGeographiesFeature<TProperties, TGeometry>
+        >('path')
+        .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+        .join(
+          (enter) =>
+            enter
+              .append('path')
+              .attr('d', this.path)
+              .attr('stroke', config.strokeColor)
+              .attr('stroke-width', config.strokeWidth)
+              .attr('fill', (d) =>
+                this.getNoDataGeographyPatternFill(d, config)
+              ),
+          (update) =>
+            update
+              .attr('d', this.path)
+              .attr('fill', (d) =>
+                this.getNoDataGeographyPatternFill(d, config)
+              ),
+          (exit) => exit.remove()
+        );
+
+      if (config.labels) {
+        this.drawLabels(noDataGeographyGroups, t, config.labels);
+      }
+    });
   }
 
-  getConfigFromNode(node: any): any {
-    const config = select(node.parentNode).datum() as any;
-    return config;
-  }
-
-  getFill(i: number): string {
-    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
-    const dataValue = this.values.attributeDataValues[convertedIndex];
+  getFill(geographyIndex: string | number): string {
+    const dataValue =
+      this.values.attributeValuesByGeographyIndex.get(geographyIndex);
     return this.attributeDataScale(dataValue);
   }
 
-  getPatternFill(i: number): string {
-    const convertedIndex = this.getValueIndexFromDataGeographyIndex(i);
-    const dataValue = this.values.attributeDataValues[convertedIndex];
-    const datum = this.config.data[convertedIndex];
-    const color = this.attributeDataScale(dataValue);
+  getPatternFill(geographyIndex: string | number): string {
+    const datum = this.values.datumsByGeographyIndex.get(geographyIndex);
+    const color = this.attributeDataScale(
+      this.values.attributeValuesByGeographyIndex.get(geographyIndex)
+    );
     const predicates =
       this.config.dataGeographyConfig.attributeDataConfig.patternPredicates;
     return PatternUtilities.getPatternFill(datum, color, predicates);
   }
 
-  getNoDataGeographyPatternFill(node: any): string {
-    const config: VicNoDataGeographyConfig = this.getConfigFromNode(node);
-    return config.patternName ? `url(#${config.patternName})` : config.fill;
+  getNoDataGeographyPatternFill(
+    geography: VicGeographiesFeature<TProperties, TGeometry>,
+    config: VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+  ): string {
+    return PatternUtilities.getPatternFill(
+      geography,
+      config.fill,
+      config.patternPredicates
+    );
   }
 
-  getValueIndexFromDataGeographyIndex(i: number): number {
-    const geoName = this.values.geoJsonGeographies[i];
-    return this.values.indexMap.get(geoName);
+  drawLabels(
+    features: Selection<
+      SVGGElement,
+      VicGeographiesFeature<TProperties, TGeometry>,
+      SVGGElement,
+      | VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
+      | VicDataGeographyConfig<Datum, TProperties, TGeometry>
+    >,
+    t: any,
+    labelsConfig: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+  ): void {
+    features
+      .filter((d, i) => labelsConfig.display(d))
+      .selectAll('.vic-geography-label')
+      .remove();
+
+    features
+      .filter((d) => labelsConfig.display(d))
+      .selectAll<SVGTextElement, VicGeographiesFeature<TProperties, TGeometry>>(
+        '.vic-geography-label'
+      )
+      .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+      .join(
+        (enter) =>
+          enter
+            .append('text')
+            .attr('class', 'vic-geography-label')
+            .attr('text-anchor', labelsConfig.textAnchor)
+            .attr('alignment-baseline', labelsConfig.alignmentBaseline)
+            .attr('dominant-baseline', labelsConfig.dominantBaseline)
+            .style('cursor', labelsConfig.cursor)
+            .attr('pointer-events', labelsConfig.pointerEvents)
+            .text((d) => labelsConfig.valueAccessor(d))
+            .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
+            .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
+            .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
+            .attr('fill', (d) =>
+              this.getLabelColor(
+                this.config.featureIndexAccessor(d),
+                labelsConfig
+              )
+            )
+            .attr('font-weight', (d) =>
+              this.getLabelFontWeight(
+                this.config.featureIndexAccessor(d),
+                labelsConfig
+              )
+            ),
+        (update) =>
+          update.call((update) =>
+            update
+              .text((d) => labelsConfig.valueAccessor(d))
+              .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
+              .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
+              .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
+              .transition(t as any)
+              .attr('fill', (d) =>
+                this.getLabelColor(
+                  this.config.featureIndexAccessor(d),
+                  labelsConfig
+                )
+              )
+              .attr('font-weight', (d) =>
+                this.getLabelFontWeight(
+                  this.config.featureIndexAccessor(d),
+                  labelsConfig
+                )
+              )
+          ),
+        (exit) => exit.remove()
+      );
+  }
+
+  getLabelPosition(
+    d: VicGeographiesFeature<TProperties, TGeometry>,
+    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+  ): { x: number; y: number } {
+    if (!this.path || !this.projection) return { x: 0, y: 0 };
+    return config.position(d, this.path, this.projection);
+  }
+
+  getLabelColor(
+    geographyIndex: string | number,
+    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+  ): CSSType.Property.Fill {
+    const pathColor = this.getFill(geographyIndex);
+    let fontColor: CSSType.Property.Fill;
+    if (isFunction<CSSType.Property.Fill>(config.color)) {
+      fontColor = config.color(
+        this.values.datumsByGeographyIndex.get(geographyIndex),
+        pathColor
+      );
+    } else if (isPrimitiveType<CSSType.Property.Fill>(config.color)) {
+      fontColor = config.color;
+    }
+    return fontColor;
+  }
+
+  getLabelFontWeight(
+    geographyIndex: string | number,
+    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+  ): CSSType.Property.FontWeight {
+    const pathColor = this.getFill(geographyIndex);
+    let fontProperty: CSSType.Property.FontWeight;
+    if (isFunction<CSSType.Property.FontWeight>(config.fontWeight)) {
+      fontProperty = config.fontWeight(
+        this.values.datumsByGeographyIndex.get(geographyIndex),
+        pathColor
+      );
+    } else if (
+      isPrimitiveType<CSSType.Property.FontWeight>(config.fontWeight)
+    ) {
+      fontProperty = config.fontWeight;
+    }
+    return fontProperty;
   }
 
   updateGeographyElements(): void {

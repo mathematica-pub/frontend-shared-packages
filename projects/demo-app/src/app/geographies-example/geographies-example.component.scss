@@ -9,6 +9,23 @@
   padding-bottom: $grid-4;
 }
 
+.chart-component {
+  padding-top: $grid-4;
+}
+
+.data-binning-description .value {
+  font-weight: $font-weight-bold;
+}
+
+.fill-description {
+  font-size: 14px;
+}
+
+.legend-component {
+  display: block;
+  padding-top: $grid-6;
+}
+
 .tooltip-container {
   background: rgba($color-white, 0.9);
   padding: $grid-2;

@@ -3,7 +3,7 @@ import { PatternUtilities } from './pattern-utilities.class';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
-    const predicates: VicPatternPredicate[] = [
+    const predicates: VicPatternPredicate<any>[] = [
       { patternName: 'pattern', predicate: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {

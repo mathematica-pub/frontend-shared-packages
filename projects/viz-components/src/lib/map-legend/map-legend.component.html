@@ -1,27 +1,23 @@
 <ng-content select="[title]"></ng-content>
-<ng-container *ngIf="chart.attributeDataConfig$ | async as config">
-  <ng-container *ngIf="chart.attributeDataScale$ | async as scale">
-    <vic-continuous-legend
-      *ngIf="config.binType === 'none'; else discontinuousLegend"
-      [width]="width"
-      [height]="height"
-      [valuesSide]="valuesSide"
-      [scale]="scale"
-      [config]="config"
-      [outlineColor]="outlineColor"
-      [orientation]="orientation"
-    ></vic-continuous-legend>
-    <ng-template #discontinuousLegend>
-      <vic-discontinuous-legend
-        [width]="width"
-        [height]="height"
-        [valuesSide]="valuesSide"
-        [scale]="scale"
-        [config]="config"
-        [outlineColor]="outlineColor"
-        [orientation]="orientation"
-        [isCategorical]="config.variableType === 'categorical'"
-      ></vic-discontinuous-legend>
-    </ng-template>
-  </ng-container>
+<ng-container *ngIf="chart.attributeProperties$ | async as attributeProperties">
+  <vic-continuous-legend
+    *ngIf="attributeProperties.config.binType === VicValuesBin.none"
+    [width]="width"
+    [height]="height"
+    [valuesSide]="valuesSide"
+    [scale]="attributeProperties.scale"
+    [config]="attributeProperties.config"
+    [outlineColor]="outlineColor"
+    [orientation]="orientation"
+  ></vic-continuous-legend>
+  <vic-discontinuous-legend
+    *ngIf="attributeProperties.config.binType !== VicValuesBin.none"
+    [width]="width"
+    [height]="height"
+    [valuesSide]="valuesSide"
+    [scale]="attributeProperties.scale"
+    [config]="attributeProperties.config"
+    [outlineColor]="outlineColor"
+    [orientation]="orientation"
+  ></vic-discontinuous-legend>
 </ng-container>

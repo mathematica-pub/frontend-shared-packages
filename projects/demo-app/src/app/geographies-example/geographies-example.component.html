@@ -16,14 +16,15 @@
         <mat-button-toggle value="2010">2010</mat-button-toggle>
       </mat-button-toggle-group>
     </div>
-    <p>Equal values scale</p>
-    <p
-      >Patterned states = population less than 1,000,000 (visual legend to be
+    <p class="data-binning-description"
+      >Attribute Data Bin Type: <span class="value">Equal Values</span></p
+    >
+    <p class="fill-description"
+      >Patterned states: population less than 1,000,000 (visual legend to be
       added)</p
     >
-    <p
-      >Patterned and outlined states (TX) - missing data; state is part of
-      NoDataGeographies</p
+    <p class="fill-description"
+      >Gray states: missing data; state is part of NoDataGeographies</p
     >
     <vic-map-chart
       class="chart-component"
@@ -39,18 +40,17 @@
           [outlineColor]="outlineColor"
         ></vic-map-legend>
       </ng-container>
-      <svg:g svg-defs>
-        <pattern
-          [id]="patternName"
-          x="2"
-          y="2"
-          width="5"
-          height="5"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
-        </pattern>
-      </svg:g>
+      <svg:pattern
+        svg-defs
+        [id]="patternName"
+        x="2"
+        y="2"
+        width="5"
+        height="5"
+        patternUnits="userSpaceOnUse"
+      >
+        <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
+      </svg:pattern>
       <svg:g
         vic-data-marks-geographies
         svg-elements

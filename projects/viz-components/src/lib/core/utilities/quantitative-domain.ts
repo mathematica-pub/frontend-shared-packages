@@ -5,7 +5,8 @@ import {
 } from '../../data-marks/data-dimension.config';
 import { ValueUtilities } from '../../shared/value-utilities.class';
 import { ToArray } from '../types/utility';
-import { isNumbers } from './type-guard';
+import { VicValueExtent } from '../types/values';
+import { isNumberArray } from './type-guard';
 
 export type DomainExtent = 'max' | 'min';
 
@@ -36,7 +37,7 @@ export class QuantitativeDomainUtilities {
             | [number, number]
             | [Date, Date])
         : userDomain;
-    if (isNumbers(extents)) {
+    if (isNumberArray(extents)) {
       return this.getAdjustedDomain(extents, domainIncludesZero);
     } else {
       return extents;
@@ -65,7 +66,7 @@ export class QuantitativeDomainUtilities {
       domainMax = this.getPaddedDomainValue(
         unpaddedDomain[1],
         domainPadding,
-        'max',
+        VicValueExtent.max,
         scaleType,
         unpaddedDomain,
         chartRange
@@ -74,7 +75,7 @@ export class QuantitativeDomainUtilities {
       domainMin = this.getPaddedDomainValue(
         unpaddedDomain[0],
         domainPadding,
-        'min',
+        VicValueExtent.min,
         scaleType,
         unpaddedDomain,
         chartRange
@@ -93,7 +94,7 @@ export class QuantitativeDomainUtilities {
         domainMin = this.getPaddedDomainValue(
           unpaddedDomain[0],
           domainPadding,
-          'min',
+          VicValueExtent.min,
           scaleType,
           unpaddedDomain,
           chartRange
@@ -101,7 +102,7 @@ export class QuantitativeDomainUtilities {
         domainMax = this.getPaddedDomainValue(
           unpaddedDomain[1],
           domainPadding,
-          'max',
+          VicValueExtent.max,
           scaleType,
           unpaddedDomain,
           chartRange
@@ -114,7 +115,7 @@ export class QuantitativeDomainUtilities {
   static getPaddedDomainValue(
     value: number,
     padding: VicDomainPaddingConfig,
-    valueType: DomainExtent,
+    valueType: VicValueExtent,
     scaleType: (
       domain?: Iterable<number>,
       range?: Iterable<number>
@@ -172,14 +173,16 @@ export class QuantitativeDomainUtilities {
     chartRange: [number, number]
   ): number {
     if (chartRange[1] < chartRange[0]) numPixels = -1 * numPixels; // When would we ever have this?
-    const value = valueType === 'min' ? unpaddedDomain[0] : unpaddedDomain[1];
+    const value =
+      valueType === VicValueExtent.min ? unpaddedDomain[0] : unpaddedDomain[1];
     if (value === 0) return value;
     const adjustedPixelRange =
-      valueType === 'min' && unpaddedDomain[0] < 0
+      valueType === VicValueExtent.min && unpaddedDomain[0] < 0
         ? [chartRange[0] + numPixels, chartRange[1]]
         : [chartRange[0], chartRange[1] - numPixels];
     const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
-    const targetVal = valueType === 'min' ? chartRange[0] : chartRange[1];
+    const targetVal =
+      valueType === VicValueExtent.min ? chartRange[0] : chartRange[1];
     return scale.invert(targetVal);
   }
 
