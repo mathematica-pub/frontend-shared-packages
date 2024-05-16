@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataDomainService } from './data-domain.service';
 import { scaleLinear } from 'd3';
+import { VicValueExtent } from '../types/values';
+import { DataDomainService } from './data-domain.service';
 
 describe('DataDomainService', () => {
   let service: DataDomainService;
@@ -21,7 +22,7 @@ describe('DataDomainService', () => {
         -101,
         1,
         0.5,
-        'min'
+        VicValueExtent.min
       );
       expect(min).toEqual(-200);
     });
@@ -30,7 +31,7 @@ describe('DataDomainService', () => {
         -101,
         1,
         0.5,
-        'max'
+        VicValueExtent.max
       );
       expect(max).toEqual(-100);
     });
@@ -39,7 +40,7 @@ describe('DataDomainService', () => {
         101,
         1,
         0.5,
-        'min'
+        VicValueExtent.min
       );
       expect(min).toEqual(100);
     });
@@ -48,7 +49,7 @@ describe('DataDomainService', () => {
         101,
         1,
         0.5,
-        'max'
+        VicValueExtent.max
       );
       expect(max).toEqual(200);
     });
@@ -60,7 +61,7 @@ describe('DataDomainService', () => {
         const min = service.getPixelPaddedDomainValue(
           [-5, 10],
           50,
-          'min',
+          VicValueExtent.min,
           scaleLinear,
           [120, 550]
         );
@@ -71,7 +72,7 @@ describe('DataDomainService', () => {
         const min = service.getPixelPaddedDomainValue(
           [-5, 10],
           50,
-          'max',
+          VicValueExtent.max,
           scaleLinear,
           [120, 550]
         );
@@ -82,7 +83,7 @@ describe('DataDomainService', () => {
         const min = service.getPixelPaddedDomainValue(
           [0, 10],
           50,
-          'min',
+          VicValueExtent.min,
           scaleLinear,
           [120, 550]
         );
@@ -95,7 +96,7 @@ describe('DataDomainService', () => {
         const min = service.getPixelPaddedDomainValue(
           [-5, 10],
           50,
-          'min',
+          VicValueExtent.min,
           scaleLinear,
           [770, 8]
         );
@@ -106,7 +107,7 @@ describe('DataDomainService', () => {
         const min = service.getPixelPaddedDomainValue(
           [-5, 10],
           50,
-          'max',
+          VicValueExtent.max,
           scaleLinear,
           [770, 8]
         );
@@ -117,7 +118,7 @@ describe('DataDomainService', () => {
         const min = service.getPixelPaddedDomainValue(
           [0, 10],
           50,
-          'min',
+          VicValueExtent.min,
           scaleLinear,
           [770, 8]
         );

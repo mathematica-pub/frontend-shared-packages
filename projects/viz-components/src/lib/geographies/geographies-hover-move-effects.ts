@@ -1,19 +1,28 @@
+import { Geometry } from 'geojson';
 import { HoverMoveEventEffect } from '../events/effect';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesComponent } from './geographies.component';
 
 export class GeographiesHoverMoveEmitTooltipData<
   Datum,
-  ExtendedGeographiesComponent extends GeographiesComponent<Datum> = GeographiesComponent<Datum>
+  TProperties,
+  TGeometry extends Geometry,
+  TComponent extends GeographiesComponent<
+    Datum,
+    TProperties,
+    TGeometry
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > implements
     HoverMoveEventEffect<
-      GeographiesHoverMoveDirective<Datum, ExtendedGeographiesComponent>
+      GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
     >
 {
   applyEffect(
     directive: GeographiesHoverMoveDirective<
       Datum,
-      ExtendedGeographiesComponent
+      TProperties,
+      TGeometry,
+      TComponent
     >
   ): void {
     const tooltipData = directive.getEventOutput();
@@ -23,7 +32,9 @@ export class GeographiesHoverMoveEmitTooltipData<
   removeEffect(
     directive: GeographiesHoverMoveDirective<
       Datum,
-      ExtendedGeographiesComponent
+      TProperties,
+      TGeometry,
+      TComponent
     >
   ): void {
     directive.eventOutput.emit(null);

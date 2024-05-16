@@ -23,17 +23,17 @@ describe('MapDataMarksBase abstract class', () => {
   describe('ngOnInit()', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'subscribeToRanges');
-      spyOn(abstractClass, 'subscribeToAttributeScaleAndConfig');
+      spyOn(abstractClass, 'subscribeToAttributeProperties');
       spyOn(abstractClass, 'initFromConfig');
     });
     it('calls subscribeToRanges once', () => {
       abstractClass.ngOnInit();
       expect(abstractClass.subscribeToRanges).toHaveBeenCalledTimes(1);
     });
-    it('calls subscribeToAttributeScaleAndConfig once', () => {
+    it('calls subscribeToAttributeProperties once', () => {
       abstractClass.ngOnInit();
       expect(
-        abstractClass.subscribeToAttributeScaleAndConfig
+        abstractClass.subscribeToAttributeProperties
       ).toHaveBeenCalledTimes(1);
     });
     it('calls initFromConfig once', () => {
@@ -42,36 +42,41 @@ describe('MapDataMarksBase abstract class', () => {
     });
   });
 
-  describe('subscribeToAttributeScaleAndConfig()', () => {
+  describe('subscribeToAttributeProperties()', () => {
     beforeEach(() => {
       abstractClass.chart = {
-        attributeDataScale: new BehaviorSubject<any>(null),
-        attributeDataConfig: new BehaviorSubject<any>(null),
+        attributeProperties: new BehaviorSubject<any>({
+          config: undefined,
+          scale: undefined,
+        }),
       } as any;
-      abstractClass.chart.attributeDataScale$ = (
+      abstractClass.chart.attributeProperties$ = (
         abstractClass.chart as any
-      ).attributeDataScale.asObservable();
-      abstractClass.chart.attributeDataConfig$ = (
-        abstractClass.chart as any
-      ).attributeDataConfig.asObservable();
+      ).attributeProperties.asObservable();
       spyOn(abstractClass, 'drawMarks');
     });
     it('sets attributeDataConfig', () => {
-      abstractClass.subscribeToAttributeScaleAndConfig();
-      (abstractClass.chart as any).attributeDataConfig.next('test config');
-      (abstractClass.chart as any).attributeDataScale.next('test scale');
+      abstractClass.subscribeToAttributeProperties();
+      (abstractClass.chart as any).attributeProperties.next({
+        scale: 'test scale',
+        config: 'test config',
+      });
       expect(abstractClass.attributeDataConfig).toEqual('test config' as any);
     });
     it('sets attributeDataScale', () => {
-      abstractClass.subscribeToAttributeScaleAndConfig();
-      (abstractClass.chart as any).attributeDataConfig.next('test config');
-      (abstractClass.chart as any).attributeDataScale.next('test scale');
+      abstractClass.subscribeToAttributeProperties();
+      (abstractClass.chart as any).attributeProperties.next({
+        scale: 'test scale',
+        config: 'test config',
+      });
       expect(abstractClass.attributeDataScale).toEqual('test scale' as any);
     });
     it('calls drawMarks()', () => {
-      abstractClass.subscribeToAttributeScaleAndConfig();
-      (abstractClass.chart as any).attributeDataConfig.next('test config');
-      (abstractClass.chart as any).attributeDataScale.next('test scale');
+      abstractClass.subscribeToAttributeProperties();
+      (abstractClass.chart as any).attributeProperties.next({
+        scale: 'test scale',
+        config: 'test config',
+      });
       expect(abstractClass.drawMarks).toHaveBeenCalled();
     });
   });

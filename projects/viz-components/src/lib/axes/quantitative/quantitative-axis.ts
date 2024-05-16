@@ -71,7 +71,6 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
         numValidTicks = Math.round(numValidTicks);
         if (!tickFormat.includes('.')) {
-          this.warnThatNoTickValidationsWereMade();
           return numValidTicks;
         } else {
           return this.getValidNumTicksForStringFormatter(
@@ -114,12 +113,6 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
           return numValidTicks;
         }
       }
-    }
-
-    warnThatNoTickValidationsWereMade(): void {
-      console.warn(
-        "It looks like you are using a formatter that we either haven't written code to handle or that is an invalid formatter. We are currently expecting a formatter to include '.' and cannot guarantee that you will get unique tick values using this formatter."
-      );
     }
   }
 
