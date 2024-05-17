@@ -1,9 +1,14 @@
-import { VicCategoricalAttributeDataDimension } from './categorical-bins';
+import {
+  VicCategoricalAttributeDataDimension,
+  vicCategoricalAttributeDataDimension,
+} from './categorical-bins';
 
 describe('VicCategoricalAttributeDataDimension', () => {
-  let dimension: VicCategoricalAttributeDataDimension<any>;
+  let dimension: VicCategoricalAttributeDataDimension<string>;
   beforeEach(() => {
-    dimension = new VicCategoricalAttributeDataDimension();
+    dimension = vicCategoricalAttributeDataDimension({
+      valueAccessor: (d) => d,
+    });
   });
   describe('integration: setPropertiesFromData/setDomainAndBins/setRange', () => {
     it('sets the domain to the correct value, user did not specify domain', () => {

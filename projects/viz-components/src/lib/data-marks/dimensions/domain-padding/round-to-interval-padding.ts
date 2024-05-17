@@ -5,14 +5,23 @@ import {
   VicDomainPadding,
 } from './domain-padding';
 
-export class VicRoundUpToIntervalDomainPadding extends VicDomainPadding {
-  type: DomainPadding.roundInterval = DomainPadding.roundInterval;
-  interval: (maxValue: number) => number;
+const DEFAULT = {
+  interval: () => 1,
+};
 
-  constructor(init?: Partial<VicRoundUpToIntervalDomainPadding>) {
+export interface VicRoundUpToIntervalDomainPaddingOptions {
+  interval: (maxValue: number) => number;
+}
+
+export class VicRoundUpToIntervalDomainPadding extends VicDomainPadding {
+  readonly type: DomainPadding.roundInterval;
+  readonly interval: (maxValue: number) => number;
+
+  constructor(options?: Partial<VicRoundUpToIntervalDomainPaddingOptions>) {
     super();
-    this.interval = () => 1;
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.type = DomainPadding.roundInterval;
+    this.interval = this.interval ?? DEFAULT.interval;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {
@@ -22,4 +31,10 @@ export class VicRoundUpToIntervalDomainPadding extends VicDomainPadding {
       args.valueType
     );
   }
+}
+
+export function vicRoundUpToIntervalDomainPadding(
+  options?: Partial<VicRoundUpToIntervalDomainPaddingOptions>
+): VicRoundUpToIntervalDomainPadding {
+  return new VicRoundUpToIntervalDomainPadding(options);
 }

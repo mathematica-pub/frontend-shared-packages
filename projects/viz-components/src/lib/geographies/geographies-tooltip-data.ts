@@ -26,9 +26,10 @@ export function getGeographiesTooltipData<
   component: TComponent
 ): VicGeographiesTooltipOutput<Datum> {
   const geographyName = component.config.featureIndexAccessor(geography);
-  const datum = component.values.datumsByGeographyIndex.get(geographyName);
+  const datum =
+    component.config.values.datumsByGeographyIndex.get(geographyName);
   const value =
-    component.values.attributeValuesByGeographyIndex.get(geographyName);
+    component.config.values.attributeValuesByGeographyIndex.get(geographyName);
 
   const tooltipData: VicGeographiesTooltipOutput<Datum> = {
     datum,

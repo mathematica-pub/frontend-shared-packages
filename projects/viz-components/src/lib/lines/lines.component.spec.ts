@@ -1,18 +1,18 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
+import { vicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
+import { vicDateDimension } from '../data-marks/dimensions/date-dimension';
+import { vicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { VicLinesConfig } from './config/lines.config';
 import { LinesComponent } from './lines.component';
-import { VicLinesConfig } from './lines.config';
 
 describe('LineChartComponent', () => {
   let component: LinesComponent<any>;
   let fixture: ComponentFixture<LinesComponent<any>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [LinesComponent],
@@ -23,71 +23,6 @@ describe('LineChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LinesComponent);
     component = fixture.componentInstance;
-    component.config = new VicLinesConfig();
-  });
-
-  describe('setPropertiesFromConfig()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setDimensionPropertiesFromData');
-      spyOn(component, 'setValueIndicies');
-      spyOn(component, 'setLinesD3Data');
-      spyOn(component, 'setLinesKeyFunction');
-      spyOn(component, 'setMarkersD3Data');
-      spyOn(component, 'setMarkersKeyFunction');
-      component.setPropertiesFromData();
-    });
-    it('calls setDimensionPropertiesFromData once', () => {
-      expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);
-    });
-    it('calls setValueIndicies once', () => {
-      expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
-    });
-    it('calls setLinesD3Data once', () => {
-      expect(component.setLinesD3Data).toHaveBeenCalledTimes(1);
-    });
-    it('calls setLinesKeyFunction once', () => {
-      expect(component.setLinesKeyFunction).toHaveBeenCalledTimes(1);
-    });
-    it('calls setMarkersD3Data once', () => {
-      expect(component.setMarkersD3Data).toHaveBeenCalledTimes(1);
-    });
-    it('calls setMarkersKeyFunction once', () => {
-      expect(component.setMarkersKeyFunction).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('canBeDrawnByPath()', () => {
-    it('integration: returns true if value is a number', () => {
-      expect(component.canBeDrawnByPath(1)).toEqual(true);
-    });
-
-    it('integration: returns true if value is a Date', () => {
-      expect(component.canBeDrawnByPath(new Date())).toEqual(true);
-    });
-
-    it('integration: returns false if value is undefined', () => {
-      expect(component.canBeDrawnByPath(undefined)).toEqual(false);
-    });
-
-    it('integration: returns false if value is a string', () => {
-      expect(component.canBeDrawnByPath('string')).toEqual(false);
-    });
-
-    it('integration: returns false if value is null', () => {
-      expect(component.canBeDrawnByPath(null)).toEqual(false);
-    });
-
-    it('integration: returns false if value is an object', () => {
-      expect(component.canBeDrawnByPath({ oops: 'not a num' })).toEqual(false);
-    });
-
-    it('integration: returns false if value is an array', () => {
-      expect(component.canBeDrawnByPath(['not a num'])).toEqual(false);
-    });
-
-    it('integration: returns false if value is boolean', () => {
-      expect(component.canBeDrawnByPath(true)).toEqual(false);
-    });
   });
 
   describe('drawMarks()', () => {
@@ -99,7 +34,12 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
-      component.config = new VicLinesConfig();
+      component.config = new VicLinesConfig({
+        data: [],
+        x: vicDateDimension({ valueAccessor: () => null }),
+        y: vicQuantitativeDimension({ valueAccessor: () => null }),
+        categorical: vicCategoricalDimension({ valueAccessor: () => null }),
+      });
     });
     it('calls setLine once', () => {
       component.drawMarks();

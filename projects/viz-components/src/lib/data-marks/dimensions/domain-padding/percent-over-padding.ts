@@ -4,14 +4,26 @@ import {
   VicDomainPadding,
 } from './domain-padding';
 
-export class VicPercentOverDomainPadding extends VicDomainPadding {
-  type: DomainPadding.percentOver = DomainPadding.percentOver;
-  percentOver: number;
+const DEFAULT = {
+  percentOver: 0.1,
+};
 
-  constructor(init?: Partial<VicPercentOverDomainPadding>) {
+export interface VicPercentOverDomainPaddingOptions {
+  percentOver: number;
+}
+
+export class VicPercentOverDomainPadding
+  extends VicDomainPadding
+  implements VicPercentOverDomainPaddingOptions
+{
+  readonly percentOver: number;
+  readonly type: DomainPadding.percentOver;
+
+  constructor(options?: Partial<VicPercentOverDomainPadding>) {
     super();
-    this.percentOver = 0.1;
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.type = DomainPadding.percentOver;
+    this.percentOver = this.percentOver ?? DEFAULT.percentOver;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {
@@ -29,4 +41,10 @@ export class VicPercentOverDomainPadding extends VicDomainPadding {
     if (value < 0) overValue = -overValue;
     return overValue;
   }
+}
+
+export function vicPercentOverDomainPadding(
+  options?: Partial<VicPercentOverDomainPaddingOptions>
+): VicPercentOverDomainPadding {
+  return new VicPercentOverDomainPadding(options);
 }

@@ -2,6 +2,11 @@ import { extent, interpolateLab, scaleLinear } from 'd3';
 import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
 
+const DEFAULT = {
+  interpolator: interpolateLab,
+  scale: scaleLinear,
+};
+
 /**
  * Configuration object for attribute data that is quantitative.
  *
@@ -15,16 +20,17 @@ export class VicNoBinsAttributeDataDimension<
 
   constructor(init?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
     super();
-    this.scale = scaleLinear;
-    this.interpolator = interpolateLab;
+    this.scale = DEFAULT.scale;
+    this.interpolator = DEFAULT.interpolator;
     Object.assign(this, init);
   }
 
-  setPropertiesFromData(values: any[]): void {
+  setPropertiesFromData(data: Datum[]): void {
+    const values = data.map(this.valueAccessor);
     this.setDomainAndBins(values);
   }
 
-  protected setDomainAndBins(values: any[]): void {
+  protected setDomainAndBins(values: number[]): void {
     const domainValues = this.domain ?? values;
     this.domain = extent(domainValues);
   }
@@ -35,4 +41,10 @@ export class VicNoBinsAttributeDataDimension<
       .range(this.range)
       .unknown(nullColor);
   }
+}
+
+export function vicNoBinsAttributeDataDimension<Datum>(
+  options?: Partial<VicNoBinsAttributeDataDimension<Datum>>
+): VicNoBinsAttributeDataDimension<Datum> {
+  return new VicNoBinsAttributeDataDimension<Datum>(options);
 }

@@ -3,12 +3,10 @@ import { VicFormatSpecifier } from '../../value-format/value-format';
 
 export type VicDataValue = number | string | Date;
 
-export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue> {
-  /**
-   * An array of values for this dimension, extracted from the data using the value accessor.
-   * @see {@link valueAccessor}
-   */
-  values: TDataValue[];
+export interface VicDataDimensionOptions<
+  Datum,
+  TDataValue extends VicDataValue
+> {
   /**
    * A user-provided method that extracts the value for this dimension from a datum.
    */
@@ -17,6 +15,18 @@ export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue> {
    * A formatter (function or string) for the values of this dimension.
    */
   valueFormat?: VicFormatSpecifier<Datum>;
+}
+
+export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
+  implements VicDataDimensionOptions<Datum, TDataValue>
+{
+  valueAccessor: (d: Datum, ...args: any) => TDataValue;
+  valueFormat?: VicFormatSpecifier<Datum>;
+  /**
+   * An array of values for this dimension, extracted from the data using the value accessor.
+   * @see {@link valueAccessor}
+   */
+  values: TDataValue[];
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setPropertiesFromData(data: Datum[], ...args: any): void;

@@ -5,14 +5,26 @@ import {
   VicDomainPadding,
 } from './domain-padding';
 
-export class VicPixelDomainPadding extends VicDomainPadding {
-  type: DomainPadding.numPixels = DomainPadding.numPixels;
-  numPixels: number;
+const DEFAULT = {
+  numPixels: 40,
+};
 
-  constructor(init?: Partial<VicPixelDomainPadding>) {
+export interface VicPixelDomainPaddingOptions {
+  numPixels: number;
+}
+
+export class VicPixelDomainPadding
+  extends VicDomainPadding
+  implements VicPixelDomainPaddingOptions
+{
+  readonly numPixels: number;
+  readonly type: DomainPadding.numPixels = DomainPadding.numPixels;
+
+  constructor(options?: Partial<VicPixelDomainPaddingOptions>) {
     super();
-    this.numPixels = 40;
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.type = DomainPadding.numPixels;
+    this.numPixels = this.numPixels ?? DEFAULT.numPixels;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {
@@ -56,4 +68,10 @@ export class VicPixelDomainPadding extends VicDomainPadding {
     const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
     return [scale.invert(dimensionRange[0]), scale.invert(dimensionRange[1])];
   }
+}
+
+export function vicPixelDomainPadding(
+  options?: Partial<VicPixelDomainPaddingOptions>
+): VicPixelDomainPadding {
+  return new VicPixelDomainPadding(options);
 }

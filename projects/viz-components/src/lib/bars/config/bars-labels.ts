@@ -11,3 +11,9 @@ export class VicBarsLabels<Datum> {
     Object.assign(this, init);
   }
 }
+
+export function vicBarsLabels<Datum>(
+  options: Partial<VicBarsLabels<Datum>>
+): VicBarsLabels<Datum> {
+  return new VicBarsLabels(options);
+}

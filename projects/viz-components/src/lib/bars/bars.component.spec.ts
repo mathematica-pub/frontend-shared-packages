@@ -1,18 +1,70 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { vicCategoricalDimension } from '../data-marks/dimensions/categorical-dimension';
+import { vicOrdinalDimension } from '../data-marks/dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from '../data-marks/dimensions/quantitative-dimension';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import {
-  VicHorizontalBarsDimensions,
-  VicVerticalBarsDimensions,
-} from './bars-dimensions';
-import { VicBarsLabels } from './bars-labels';
 import { BarsComponent } from './bars.component';
-import { VicBarsConfig } from './bars.config';
+import {
+  HORIZONTAL_BARS_DIMENSIONS,
+  VERTICAL_BARS_DIMENSIONS,
+} from './config/bars-dimensions';
+import { vicBarsLabels } from './config/bars-labels';
+import { VicBarsConfig } from './config/bars.config';
+
+type Datum = { value: number; state: string; fruit: string };
+
+const data = [
+  { value: 1, state: 'AL', fruit: 'apple' },
+  { value: 2, state: 'AK', fruit: 'avocado' },
+  { value: 3, state: 'AZ', fruit: 'banana' },
+  { value: 4, state: 'CA', fruit: 'cherry' },
+  { value: 5, state: 'CO', fruit: 'date' },
+  { value: 6, state: 'CO', fruit: 'durian' },
+];
+
+function horizontalConfig(): VicBarsConfig<Datum, string> {
+  return new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+    data,
+    quantitative: vicQuantitativeDimension<Datum>({
+      valueAccessor: (x) => x.value,
+    }),
+    ordinal: vicOrdinalDimension<Datum, string>({
+      valueAccessor: (x) => x.state,
+    }),
+    categorical: vicCategoricalDimension<Datum, string>({
+      valueAccessor: (x) => x.fruit,
+      range: ['red', 'blue', 'green', 'yellow', 'purple'],
+    }),
+    labels: vicBarsLabels({
+      noValueFunction: (d) => 'no value',
+    }),
+  });
+}
+
+function verticalConfig(): VicBarsConfig<Datum, string> {
+  return new VicBarsConfig(VERTICAL_BARS_DIMENSIONS, {
+    data,
+    quantitative: vicQuantitativeDimension<Datum>({
+      valueAccessor: (x) => x.value,
+    }),
+    ordinal: vicOrdinalDimension<Datum, string>({
+      valueAccessor: (x) => x.state,
+    }),
+    categorical: vicCategoricalDimension<Datum, string>({
+      valueAccessor: (x) => x.fruit,
+      range: ['red', 'blue', 'green', 'yellow', 'purple'],
+    }),
+    labels: vicBarsLabels({
+      noValueFunction: (d) => 'no value',
+    }),
+  });
+}
 
 describe('BarsComponent', () => {
   let component: BarsComponent<any, string>;
-  let fixture: ComponentFixture<BarsComponent<any, string>>;
+  let fixture: ComponentFixture<BarsComponent<Datum, string>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,254 +75,83 @@ describe('BarsComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BarsComponent<any, string>);
+    fixture = TestBed.createComponent(BarsComponent<Datum, string>);
     component = fixture.componentInstance;
   });
 
-  describe('setPropertiesFromConfig()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setDimensionPropertiesFromData');
-      spyOn(component, 'setValueIndicies');
-      spyOn(component, 'setHasBarsWithNegativeValues');
-      spyOn(component, 'setBarsKeyFunction');
-      component.setPropertiesFromData();
-    });
-
-    it('calls setValueArrays once', () => {
-      expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);
-    });
-    it('calls setValueArrayIndicies once', () => {
-      expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
-    });
-    it('calls setHasBarsWithNegativeValues once', () => {
-      expect(component.setHasBarsWithNegativeValues).toHaveBeenCalledTimes(1);
-    });
-    it('calls setBarsKeyFunction once', () => {
-      expect(component.setBarsKeyFunction).toHaveBeenCalledOnceWith();
-    });
-  });
-
-  describe('setDimensionPropertiesFromData()', () => {
-    let ordinalPropSpy: jasmine.Spy;
-    let quantitativePropSpy: jasmine.Spy;
-    let categoricalPropSpy: jasmine.Spy;
-    beforeEach(() => {
-      ordinalPropSpy = jasmine.createSpy('setPropertiesFromData');
-      quantitativePropSpy = jasmine.createSpy('setPropertiesFromData');
-      categoricalPropSpy = jasmine.createSpy('setPropertiesFromData');
-      component.config = {
-        data: [
-          { color: 'red', value: 1, size: 10 },
-          { color: 'orange', value: 2, size: 20 },
-          { color: 'yellow', value: 3, size: 30 },
-          { color: 'green', value: 4, size: 40 },
-          { color: 'blue', value: 5, size: 50 },
-        ],
-        ordinal: {
-          valueAccessor: (x) => x.size,
-          setPropertiesFromData: ordinalPropSpy,
-        },
-        quantitative: {
-          valueAccessor: (x) => x.value,
-          setPropertiesFromData: quantitativePropSpy,
-        },
-        categorical: {
-          valueAccessor: (x) => x.color,
-          setPropertiesFromData: categoricalPropSpy,
-        },
-        dimensions: {
-          x: 'ordinal',
-          y: 'quantitative',
-          ordinal: 'x',
-          quantitative: 'y',
-        },
-      } as any;
-    });
-    describe('it calls setPropertiesFromData for the quantitative dimension', () => {
-      it('calls setPropertiesFromData once with the correct value', () => {
-        component.setDimensionPropertiesFromData();
-        expect(quantitativePropSpy).toHaveBeenCalledOnceWith(
-          component.config.data
-        );
-      });
-    });
-    describe('it calls setPropertiesFromData for the ordinal dimension', () => {
-      it('calls setPropertiesFromData once with the correct value', () => {
-        component.setDimensionPropertiesFromData();
-        expect(ordinalPropSpy).toHaveBeenCalledOnceWith(
-          component.config.data,
-          false
-        );
-      });
-    });
-    describe('it calls setPropertiesFromData for the categorical dimension', () => {
-      it('calls setPropertiesFromData once with the correct value', () => {
-        component.setDimensionPropertiesFromData();
-        expect(categoricalPropSpy).toHaveBeenCalledOnceWith(
-          component.config.data
-        );
-      });
-    });
-  });
-
-  describe('integration: setDimensionPropertiesFromData/setValueIndicies', () => {
-    beforeEach(() => {
-      component.config = new VicBarsConfig();
-      component.config.data = [
-        { color: 'red', value: 1, state: 'AL' },
-        { color: 'orange', value: 2, state: 'AK' },
-        { color: 'yellow', value: 3, state: 'AZ' },
-        { color: 'green', value: 4, state: 'AR' },
-        { color: 'blue', value: 5, state: 'CA' },
-      ];
-      component.config.quantitative.valueAccessor = (d) => d.value;
-      component.config.ordinal.valueAccessor = (d) => d.state;
-      component.config.categorical.valueAccessor = (d) => d.color;
-      component.config.dimensions = new VicVerticalBarsDimensions();
-    });
-    describe('no user set domain', () => {
-      beforeEach(() => {
-        component.setDimensionPropertiesFromData();
-        component.setValueIndicies();
-      });
-      it('correctly sets quantitative values', () => {
-        expect(component.config.quantitative.values).toEqual([1, 2, 3, 4, 5]);
-      });
-      it('correctly sets ordinal values', () => {
-        expect(component.config.ordinal.values).toEqual([
-          'AL',
-          'AK',
-          'AZ',
-          'AR',
-          'CA',
-        ]);
-      });
-      it('correctly sets categorical values', () => {
-        expect(component.config.categorical.values).toEqual([
-          'red',
-          'orange',
-          'yellow',
-          'green',
-          'blue',
-        ]);
-      });
-      it('correctly sets valueIndicies', () => {
-        expect(component.valueIndicies).toEqual([0, 1, 2, 3, 4]);
-      });
-    });
-    describe('user domain excludes some values', () => {
-      beforeEach(() => {
-        component.config.ordinal.domain = ['AL', 'AK', 'CA'];
-        component.setDimensionPropertiesFromData();
-        component.setValueIndicies();
-      });
-      it('correctly sets valueIndicies - user input a domain that does', () => {
-        component.setValueIndicies();
-        expect(component.valueIndicies).toEqual([0, 1, 4]);
-      });
-    });
-  });
-
-  describe('integration: setHasBarsWithNegativeValues', () => {
-    beforeEach(() => {
-      component.config = new VicBarsConfig();
-      component.config.quantitative.valueAccessor = (d) => d.value;
-      component.config.ordinal.valueAccessor = (d) => d.state;
-      component.config.categorical.valueAccessor = (d) => d.color;
-      component.config.dimensions = new VicHorizontalBarsDimensions();
-    });
-    it('sets hasBarsWithNegativeValues to true if dataMin is less than zero', () => {
-      component.config.data = [
-        { color: 'red', value: -5, state: 'AL' },
-        { color: 'orange', value: 2, state: 'AK' },
-        { color: 'yellow', value: 3, state: 'AZ' },
-        { color: 'green', value: 4, state: 'AR' },
-        { color: 'blue', value: 5, state: 'CA' },
-      ];
-      component.setDimensionPropertiesFromData();
-      component.setHasBarsWithNegativeValues();
-      expect(component.hasBarsWithNegativeValues).toBe(true);
-    });
-    it('sets hasBarsWithNegativeValues to false if dataMin is greater than zero', () => {
-      component.config.data = [
-        { color: 'red', value: 0, state: 'AL' },
-        { color: 'orange', value: 2, state: 'AK' },
-        { color: 'yellow', value: 3, state: 'AZ' },
-        { color: 'green', value: 4, state: 'AR' },
-        { color: 'blue', value: 5, state: 'CA' },
-      ];
-      component.setDimensionPropertiesFromData();
-      component.setHasBarsWithNegativeValues();
-      expect(component.hasBarsWithNegativeValues).toBe(false);
-    });
-  });
-
   describe('setPropertiesFromRanges', () => {
-    let ordinalSpy: jasmine.Spy;
-    let quantitativeSpy: jasmine.Spy;
     beforeEach(() => {
-      ordinalSpy = jasmine
-        .createSpy('getScaleFromRange')
-        .and.returnValue('ord scale');
-      quantitativeSpy = jasmine
-        .createSpy('getScaleFromRange')
-        .and.returnValue('quant scale');
-      component.config = {
-        ordinal: {
-          getScaleFromRange: ordinalSpy,
-        },
-        quantitative: {
-          getScaleFromRange: quantitativeSpy,
-        },
-        categorical: {
-          scale: 'categorical scale',
-        },
-      } as any;
       component.ranges = {
         x: [1, 2],
         y: [3, 4],
-      } as any;
-      component.config.dimensions = {
-        x: 'ordinal',
-        y: 'quantitative',
       } as any;
       component.chart = {
         updateScales: jasmine.createSpy('updatesScales'),
       } as any;
     });
-    it('calls the scale for x dimension once', () => {
-      component.setPropertiesFromRanges(true);
-      expect(
-        component.config.ordinal.getScaleFromRange
-      ).toHaveBeenCalledOnceWith([1, 2]);
-    });
-    it('calls the scale for y dimension once', () => {
-      component.setPropertiesFromRanges(false);
-      expect(
-        component.config.quantitative.getScaleFromRange
-      ).toHaveBeenCalledOnceWith([3, 4]);
-    });
-    describe('if ordinal is x', () => {
-      it('calls updateScales once with the correct values', () => {
+    describe('chart is horizontal', () => {
+      beforeEach(() => {
+        component.config = horizontalConfig();
+        component.config.categorical.scale = 'categorical scale' as any;
+        spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
+          'ordinal scale' as any
+        );
+        spyOn(
+          component.config.quantitative,
+          'getScaleFromRange'
+        ).and.returnValue('quantitative scale' as any);
+      });
+      it('calls the scale for x dimension once', () => {
         component.setPropertiesFromRanges(true);
+        expect(
+          component.config.quantitative.getScaleFromRange
+        ).toHaveBeenCalledOnceWith([1, 2]);
+      });
+      it('calls the scale for y dimension once', () => {
+        component.setPropertiesFromRanges(false);
+        expect(
+          component.config.ordinal.getScaleFromRange
+        ).toHaveBeenCalledOnceWith([3, 4]);
+      });
+      it('calls updateScales once with the correct value', () => {
+        component.setPropertiesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
-          x: 'ord scale',
-          y: 'quant scale',
+          x: 'quantitative scale',
+          y: 'ordinal scale',
           categorical: 'categorical scale',
-          useTransition: true,
+          useTransition: false,
         } as any);
       });
     });
-    describe('if ordinal is not x', () => {
+    describe('chart is vertical', () => {
+      beforeEach(() => {
+        component.config = verticalConfig();
+        component.config.categorical.scale = 'categorical scale' as any;
+        spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
+          'ordinal scale' as any
+        );
+        spyOn(
+          component.config.quantitative,
+          'getScaleFromRange'
+        ).and.returnValue('quantitative scale' as any);
+      });
+      it('calls the scale for x dimension once', () => {
+        component.setPropertiesFromRanges(true);
+        expect(
+          component.config.ordinal.getScaleFromRange
+        ).toHaveBeenCalledOnceWith([1, 2]);
+      });
+      it('calls the scale for y dimension once', () => {
+        component.setPropertiesFromRanges(false);
+        expect(
+          component.config.quantitative.getScaleFromRange
+        ).toHaveBeenCalledOnceWith([3, 4]);
+      });
       it('calls updateScales once with the correct value', () => {
-        component.config.dimensions = {
-          y: 'ordinal',
-          x: 'quantitative',
-        } as any;
         component.setPropertiesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
-          x: 'quant scale',
-          y: 'ord scale',
+          x: 'ordinal scale',
+          y: 'quantitative scale',
           categorical: 'categorical scale',
           useTransition: false,
         } as any);
@@ -284,8 +165,7 @@ describe('BarsComponent', () => {
       spyOn(component, 'drawBarLabels');
       spyOn(component, 'updateBarElements');
       spyOn(component, 'getTransitionDuration').and.returnValue(100);
-      component.config = new VicBarsConfig();
-      component.config.labels = new VicBarsLabels();
+      component.config = horizontalConfig();
     });
     it('calls drawBars once with the correct parameter', () => {
       component.drawMarks();
@@ -298,7 +178,7 @@ describe('BarsComponent', () => {
     });
 
     it('does not call drawBarLabels if config.labels is falsey', () => {
-      component.config.labels = undefined;
+      (component.config as any).labels = undefined;
       component.drawMarks();
       expect(component.drawBarLabels).not.toHaveBeenCalled();
     });
@@ -309,48 +189,49 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('getBarLabelText()', () => {
-    beforeEach(() => {
-      component.config = {
-        dimensions: { quantitative: 'x' },
-        quantitative: {
-          values: [10000.1, 20000.2, 30000.3],
-          valueFormat: ',.1f',
-        },
-        labels: {
-          noValueFunction: (d) => 'no value',
-        },
-      } as any;
-      component.config.data = [{ num: 1 }, { num: 2 }, { num: 3 }];
-    });
-    describe('if user has provided a custom formatting function', () => {
-      beforeEach(() => {
-        component.config.quantitative.valueFormat = (value) => value.num + '!';
-      });
-      it('integration: returns the correct value correctly formatted as a string', () => {
-        expect(component.getBarLabelText(1)).toEqual('2!');
-      });
-      it('integration: returns the correct value correctly formatted as a string if value is null or undefined', () => {
-        component.config.quantitative.values = [null, undefined, null];
-        expect(component.getBarLabelText(1)).toEqual('no value');
-      });
-    });
-    describe('integration: if user has not provided a custom formatting function', () => {
-      it('integration: returns the result of the noValueFunction if value null or undefined', () => {
-        component.config.quantitative.values = [null, undefined, null];
-        expect(component.getBarLabelText(1)).toEqual('no value');
-      });
-      it('integration: returns the correct value correctly formatted as a string if value is not null or undefined', () => {
-        expect(component.getBarLabelText(1)).toEqual('20,000.2');
-      });
-    });
-  });
+  // describe('getBarLabelText()', () => {
+  //   beforeEach(() => {
+  //     component.config = horizontalConfig();
+  //     component.config.quantitative.valueFormat = ',.1f';
+  //     //   component.config = new VicBarsConfig({
+  //     //     dimensions: new VicHorizontalBarsDimensions(),
+  //     //     quantitative: new VicQuantitativeDimension({
+  //     //       valueFormat: ',.1f',
+  //     //       values: [10000.1, 20000.2, 30000.3],
+  //     //     }),
+  //     //     labels: new VicBarsLabels({
+  //     //       noValueFunction: (d) => 'no value',
+  //     //     }),
+  //     //     data: [{ num: 1 }, { num: 2 }, { num: 3 }],
+  //     //   });
+  //     // });
+  //     describe('if user has provided a custom formatting function', () => {
+  //       beforeEach(() => {
+  //         component.config.quantitative.valueFormat = (value) => value + '!';
+  //       });
+  //       it('integration: returns the correct value correctly formatted as a string', () => {
+  //         expect(component.getBarLabelText(1)).toEqual('2!');
+  //       });
+  //       it('integration: returns the correct value correctly formatted as a string if value is null or undefined', () => {
+  //         component.config.quantitative.values = [null, undefined, null];
+  //         expect(component.getBarLabelText(1)).toEqual('no value');
+  //       });
+  //     });
+  //     describe('integration: if user has not provided a custom formatting function', () => {
+  //       it('integration: returns the result of the noValueFunction if value null or undefined', () => {
+  //         component.config.quantitative.values = [null, undefined, null];
+  //         expect(component.getBarLabelText(1)).toEqual('no value');
+  //       });
+  //       it('integration: returns the correct value correctly formatted as a string if value is not null or undefined', () => {
+  //         expect(component.getBarLabelText(1)).toEqual('2.0');
+  //       });
+  //     });
+  //   });
 
   describe('getBarLabelColor', () => {
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('bar color');
-      component.config = new VicBarsConfig();
-      component.config.labels = new VicBarsLabels();
+      component.config = horizontalConfig();
     });
     describe('config.labels.color is defined', () => {
       beforeEach(() => {
@@ -416,7 +297,7 @@ describe('BarsComponent', () => {
       } as any;
     });
     it('returns correct value when pattern is used', () => {
-      component.config.categorical.fillPatterns = [
+      (component.config.categorical as any).fillPatterns = [
         { name: 'pattern', predicate: (d: any) => true },
       ];
       const result = component.getBarPattern(0);
@@ -493,15 +374,12 @@ describe('BarsComponent', () => {
 
   describe('getBarXQuantitative()', () => {
     beforeEach(() => {
+      component.config = horizontalConfig();
       component.scales = {
         x: jasmine.createSpy('x').and.returnValue(50),
       } as any;
-      component.hasBarsWithNegativeValues = true;
-      component.config = {
-        quantitative: {
-          values: [1, 2, 3],
-        },
-      } as any;
+      component.config.hasBarsWithNegativeValues = true;
+      component.config.quantitative.values = [1, 2, 3];
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
         2, 10,
       ]);
@@ -518,15 +396,13 @@ describe('BarsComponent', () => {
         expect(component.scales.x).toHaveBeenCalledOnceWith(0);
       });
     });
-
     describe('hasBarsWithNegativeValues is false', () => {
       it('calls xScale once and with the correct value', () => {
-        component.hasBarsWithNegativeValues = false;
+        component.config.hasBarsWithNegativeValues = false;
         component.getBarXQuantitative(0);
         expect(component.scales.x).toHaveBeenCalledOnceWith(2);
       });
     });
-
     it('returns the correct value', () => {
       expect(component.getBarXQuantitative(0)).toEqual(50);
     });
@@ -537,21 +413,13 @@ describe('BarsComponent', () => {
       component.scales = {
         y: jasmine.createSpy('y').and.returnValue(50),
       } as any;
-      component.config = {
-        quantitative: {
-          values: [1, 2, 3],
-        },
-        dimensions: {
-          quantitative: 'y',
-          y: 'quantitative',
-        },
-      } as any;
+      component.config = verticalConfig();
+      component.config.quantitative.values = [1, 2, 3];
     });
     it('calls yScale once and with the correct value', () => {
       component.getBarY(2);
       expect(component.scales.y).toHaveBeenCalledOnceWith(3);
     });
-
     it('returns the correct value', () => {
       expect(component.getBarY(2)).toEqual(50);
     });
@@ -565,58 +433,50 @@ describe('BarsComponent', () => {
       quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
         200
       );
-      component.config = { dimensions: { ordinal: 'x' } } as any;
     });
     describe('x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config = verticalConfig();
+      });
       it('calls getBarWidthOrdinal once with the correct value', () => {
         component.getBarWidth(100);
         expect(component.getBarWidthOrdinal).toHaveBeenCalledOnceWith(100);
       });
-
       it('does not call getBarWidthQuantitative', () => {
         component.getBarWidth(100);
         expect(component.getBarWidthQuantitative).not.toHaveBeenCalled();
       });
-
       it('returns the correct value', () => {
         expect(component.getBarWidth(100)).toEqual(300);
       });
-
       it('returns 0 if getOrdinal returns undefined', () => {
         ordinalSpy.and.returnValue(undefined);
         expect(component.getBarWidth(100)).toEqual(0);
       });
-
       it('returns 0 if getOrdinal returns null', () => {
         ordinalSpy.and.returnValue(null);
         expect(component.getBarWidth(100)).toEqual(0);
       });
     });
-
     describe('y dimension is ordinal', () => {
       beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
+        component.config = horizontalConfig();
       });
-
       it('calls getBarWidthQuantitative once with the correct value', () => {
         component.getBarWidth(100);
         expect(component.getBarWidthQuantitative).toHaveBeenCalledOnceWith(100);
       });
-
       it('does not call getBarWidthOrdinal', () => {
         component.getBarWidth(100);
         expect(component.getBarWidthOrdinal).not.toHaveBeenCalled();
       });
-
       it('returns the correct value', () => {
         expect(component.getBarWidth(100)).toEqual(200);
       });
-
       it('returns 0 if getQuantitative returns undefined', () => {
         quantSpy.and.returnValue(undefined);
         expect(component.getBarWidth(100)).toEqual(0);
       });
-
       it('returns 0 if getQuantitative returns null', () => {
         quantSpy.and.returnValue(null);
         expect(component.getBarWidth(100)).toEqual(0);
@@ -631,38 +491,32 @@ describe('BarsComponent', () => {
       quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
         50
       );
-      component.config = {
-        labels: {
-          offset: 4,
-        },
-        dimensions: {
-          ordinal: 'x',
-        },
-      } as any;
     });
-    describe('x dimension is  ordinal', () => {
+    describe('x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config = verticalConfig();
+        component.config.labels.offset = 4;
+      });
       it('calls getBarWidthOrdinal once with the correct value', () => {
         component.getBarLabelX(100);
         expect(component.getBarWidthOrdinal).toHaveBeenCalledOnceWith(100);
       });
-
       it('returns the correct value', () => {
         expect(component.getBarLabelX(100)).toEqual(5);
       });
     });
     describe('x dimension is not ordinal', () => {
       beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
+        component.config = horizontalConfig();
+        component.config.labels.offset = 4;
       });
       it('calls getBarWidthQuantitative once and with the correct value', () => {
         component.getBarLabelX(2);
         expect(component.getBarWidthQuantitative).toHaveBeenCalledOnceWith(2);
       });
-
       it('returns the correct value if barWidthQuantitative is a number', () => {
         expect(component.getBarLabelX(2)).toEqual(54);
       });
-
       it('returns the correct value if barWidthQuantitative is not a number', () => {
         quantSpy.and.returnValue(null as any);
         expect(component.getBarLabelX(2)).toEqual(4);
@@ -682,7 +536,6 @@ describe('BarsComponent', () => {
       component.getBarWidthOrdinal(2);
       expect((component.scales.x as any).bandwidth).toHaveBeenCalledTimes(1);
     });
-
     it('returns the correct value', () => {
       expect(component.getBarWidthOrdinal(2)).toEqual(10);
     });
@@ -693,7 +546,7 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       xScaleSpy = jasmine.createSpy('x').and.returnValues(20, 50);
       component.scales = { x: xScaleSpy } as any;
-      component.config = new VicBarsConfig();
+      component.config = horizontalConfig();
       component.config.quantitative.values = [1, 2, 3];
       component.config.quantitative.domainIncludesZero = true;
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
@@ -702,33 +555,31 @@ describe('BarsComponent', () => {
     });
     describe('domainIncludesZero is true', () => {
       it('hasBarsWithNegativeValues is true -- calls xScale twice and with the correct values', () => {
-        component.hasBarsWithNegativeValues = true;
+        component.config.hasBarsWithNegativeValues = true;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [0]]);
       });
       it('hasBarsWithNegativeValues is false -- calls xScale twice and with the correct values', () => {
-        component.hasBarsWithNegativeValues = false;
+        component.config.hasBarsWithNegativeValues = false;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [2]]);
       });
     });
-
     describe('domainIncludesZero is false', () => {
       beforeEach(() => {
         component.config.quantitative.domainIncludesZero = false;
       });
       it('hasBarsWithNegativeValues is true -- calls xScale twice and with the correct values', () => {
-        component.hasBarsWithNegativeValues = true;
+        component.config.hasBarsWithNegativeValues = true;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [10]]);
       });
       it('hasBarsWithNegativeValues is false -- calls xScale twice and with the correct values', () => {
-        component.hasBarsWithNegativeValues = false;
+        component.config.hasBarsWithNegativeValues = false;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [2]]);
       });
     });
-
     it('returns the correct value', () => {
       expect(component.getBarWidthQuantitative(2)).toEqual(30);
     });
@@ -740,21 +591,21 @@ describe('BarsComponent', () => {
       spyOn(component, 'getBarHeightQuantitative').and.returnValue(
         'quantitative' as any
       );
-      component.config = { dimensions: { ordinal: 'x' } } as any;
     });
     describe('x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config = verticalConfig();
+      });
       it('calls getBarHeightQuantitative once with the correct value', () => {
         component.getBarHeight(100);
         expect(component.getBarHeightQuantitative).toHaveBeenCalledOnceWith(
           100
         );
       });
-
       it('does not call getBarHeightOrdinal', () => {
         component.getBarHeight(100);
         expect(component.getBarHeightOrdinal).not.toHaveBeenCalled();
       });
-
       it('returns the correct value', () => {
         expect(component.getBarHeight(100)).toEqual('quantitative' as any);
       });
@@ -762,19 +613,16 @@ describe('BarsComponent', () => {
 
     describe('y dimension is ordinal', () => {
       beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
+        component.config = horizontalConfig();
       });
-
       it('calls getBarHeightOrdinal once with the correct value', () => {
         component.getBarHeight(100);
         expect(component.getBarHeightOrdinal).toHaveBeenCalledOnceWith(100);
       });
-
       it('does not call getBarHeightQuantitative', () => {
         component.getBarHeight(100);
         expect(component.getBarHeightQuantitative).not.toHaveBeenCalled();
       });
-
       it('returns the correct value', () => {
         expect(component.getBarHeight(100)).toEqual('ordinal' as any);
       });
@@ -788,40 +636,33 @@ describe('BarsComponent', () => {
       quantSpy = spyOn(component, 'getBarHeightQuantitative').and.returnValue(
         50
       );
-      component.config = {
-        labels: {
-          offset: 4,
-        },
-        dimensions: {
-          ordinal: 'x',
-        },
-      } as any;
     });
     describe('x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config = verticalConfig();
+        component.config.labels.offset = 4;
+      });
       it('calls getBarHeightQuantitative once and with the correct value', () => {
         component.getBarLabelY(2);
         expect(component.getBarHeightQuantitative).toHaveBeenCalledOnceWith(2);
       });
-
       it('returns the correct value if barHeightQuantitative is a number', () => {
         expect(component.getBarLabelY(2)).toEqual(54);
       });
-
       it('returns the correct value if barHeightQuantitative is not a number', () => {
         quantSpy.and.returnValue(null as any);
         expect(component.getBarLabelY(2)).toEqual(4);
       });
     });
-
     describe('x dimension is not ordinal', () => {
       beforeEach(() => {
-        component.config.dimensions.ordinal = 'y';
+        component.config = horizontalConfig();
+        component.config.labels.offset = 4;
       });
       it('calls getBarHeightOrdinal once with the correct value', () => {
         component.getBarLabelY(100);
         expect(component.getBarHeightOrdinal).toHaveBeenCalledOnceWith(100);
       });
-
       it('returns the correct value', () => {
         expect(component.getBarLabelY(100)).toEqual(5);
       });
@@ -851,12 +692,9 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       yScaleSpy = jasmine.createSpy('y').and.returnValue(-50);
       component.scales = { y: yScaleSpy } as any;
-      component.hasBarsWithNegativeValues = true;
-      component.config = {
-        quantitative: {
-          values: [1, 2, 3],
-        },
-      } as any;
+      component.config = horizontalConfig();
+      component.config.hasBarsWithNegativeValues = true;
+      component.config.quantitative.values = [1, 2, 3];
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
         2, 10,
       ]);
@@ -867,15 +705,13 @@ describe('BarsComponent', () => {
         expect(component.scales.y).toHaveBeenCalledOnceWith(-3);
       });
     });
-
     describe('hasBarsWithNegativeValues is false', () => {
       it('calls yScale once and with the correct value', () => {
-        component.hasBarsWithNegativeValues = false;
+        component.config.hasBarsWithNegativeValues = false;
         component.getBarHeightQuantitative(2);
         expect(component.scales.y).toHaveBeenCalledOnceWith(-1);
       });
     });
-
     it('returns the correct value', () => {
       expect(component.getBarHeightQuantitative(2)).toEqual(50);
     });

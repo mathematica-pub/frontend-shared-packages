@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { VicVerticalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   VicAxisConfig,
   VicStackedBarsConfig,
+  vicCategoricalDimension,
+  vicOrdinalDimension,
+  vicQuantitativeDimension,
+  vicVerticalStackedBars,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
@@ -44,19 +47,24 @@ export class StackedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
-    const xAxisConfig = new VicAxisConfig();
-    xAxisConfig.tickFormat = '%Y';
-    const yAxisConfig = new VicAxisConfig();
-    yAxisConfig.tickFormat = ',.0f';
-    const dataConfig = new VicStackedBarsConfig<
-      IndustryUnemploymentDatum,
-      Date
-    >();
-    dataConfig.data = yearlyData;
-    dataConfig.dimensions = new VicVerticalBarsDimensions();
-    dataConfig.ordinal.valueAccessor = (d) => d.date;
-    dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.categorical.valueAccessor = (d) => d.industry;
+    const xAxisConfig = new VicAxisConfig({
+      tickFormat: '%Y',
+    });
+    const yAxisConfig = new VicAxisConfig({
+      tickFormat: ',.0f',
+    });
+    const dataConfig = vicVerticalStackedBars<IndustryUnemploymentDatum, Date>({
+      data: yearlyData,
+      ordinal: vicOrdinalDimension({
+        valueAccessor: (d) => d.date,
+      }),
+      quantitative: vicQuantitativeDimension({
+        valueAccessor: (d) => d.value,
+      }),
+      categorical: vicCategoricalDimension({
+        valueAccessor: (d) => d.industry,
+      }),
+    });
     return {
       dataConfig,
       xAxisConfig,

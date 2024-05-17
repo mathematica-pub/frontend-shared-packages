@@ -21,3 +21,13 @@ export function isFunction<T, U = unknown>(
 export function isPrimitiveType<T>(x: unknown): x is T {
   return typeof x !== 'function';
 }
+
+export function isObject<T>(x: unknown): x is T {
+  return (
+    typeof x === 'object' &&
+    x !== null &&
+    !Array.isArray(x) &&
+    !isFunction(x) &&
+    !isDate(x)
+  );
+}

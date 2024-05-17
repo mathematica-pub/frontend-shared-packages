@@ -9,23 +9,22 @@ import {
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { VicDataMarksConfig, VicIData, VicIMarks } from './data-marks-types';
+import { VicDataMarksOptions, VicIData, VicIMarks } from './data-marks-types';
 
 @Directive()
 export abstract class VicDataMarks<
   Datum,
-  TDataMarksConfig extends VicDataMarksConfig<Datum>
+  TDataMarksConfig extends VicDataMarksOptions<Datum>
 > implements VicIData, VicIMarks, OnChanges
 {
   @Input() config: TDataMarksConfig;
   chart: Chart;
-  ranges: Ranges;
   destroyRef = inject(DestroyRef);
+  ranges: Ranges;
 
-  abstract setPropertiesFromData(): void;
-  abstract setPropertiesFromRanges(useTransition: boolean): void;
   abstract drawMarks(): void;
   abstract getTransitionDuration(): number;
+  abstract setPropertiesFromRanges(useTransition: boolean): void;
 
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'];
@@ -39,7 +38,6 @@ export abstract class VicDataMarks<
   }
 
   initFromConfig(): void {
-    this.setPropertiesFromData();
     this.setPropertiesFromRanges(true);
   }
 }

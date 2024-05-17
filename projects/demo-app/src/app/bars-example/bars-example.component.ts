@@ -1,14 +1,20 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
-import { VicHorizontalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
+import { BarsHoverMoveEmitTooltipData } from 'projects/viz-components/src/lib/bars/bars-hover-move-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
 import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
-import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/bars-labels';
-import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/bars.config';
+import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
+import { vicBarsLabels } from 'projects/viz-components/src/lib/bars/config/bars-labels';
+import {
+  VicBarsConfig,
+  vicHorizontalBars,
+} from 'projects/viz-components/src/lib/bars/config/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
+import { vicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
+import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/quantitative-dimension';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -17,12 +23,7 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import {
-  BarsHoverMoveEmitTooltipData,
-  VicBarsEventOutput,
-  VicOrdinalDimension,
-  VicQuantitativeDimension,
-} from 'projects/viz-components/src/public-api';
+import { vicCategoricalDimension } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -90,18 +91,18 @@ export class BarsExampleComponent implements OnInit {
       tickFormat: '.0f',
     });
     const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum, string>({
+    const dataConfig = vicHorizontalBars<MetroUnemploymentDatum, string>({
       data: filteredData,
-      dimensions: new VicHorizontalBarsDimensions(),
-      quantitative: new VicQuantitativeDimension<MetroUnemploymentDatum>({
+      quantitative: vicQuantitativeDimension<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
         valueFormat: (d) => this.getQuantitativeValueFormat(d),
-        domainPadding: new VicPixelDomainPadding(),
+        domainPadding: vicPixelDomainPadding(),
       }),
-      ordinal: new VicOrdinalDimension<MetroUnemploymentDatum, string>({
+      categorical: vicCategoricalDimension<MetroUnemploymentDatum, string>(),
+      ordinal: vicOrdinalDimension<MetroUnemploymentDatum, string>({
         valueAccessor: (d) => d.division,
       }),
-      labels: new VicBarsLabels({
+      labels: vicBarsLabels({
         display: false,
       }),
     });

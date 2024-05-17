@@ -5,7 +5,7 @@ import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { VIC_DATA_MARKS } from '../../data-marks/data-marks.token';
-import { DataMarksBaseStub } from '../../testing/stubs/data-marks-base.stub';
+import { DataMarksStub } from '../../testing/stubs/data-marks.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfig } from './html-tooltip.config';
 import { VicHtmlTooltipDirective } from './html-tooltip.directive';
@@ -25,7 +25,7 @@ describe('HtmlTooltipDirective', () => {
         VicHtmlTooltipDirective,
         {
           provide: VIC_DATA_MARKS,
-          useClass: DataMarksBaseStub,
+          useClass: DataMarksStub,
         },
         {
           provide: Overlay,

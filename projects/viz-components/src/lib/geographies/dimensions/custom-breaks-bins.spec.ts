@@ -1,10 +1,32 @@
-import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
+import {
+  VicCustomBreaksAttributeDataDimension,
+  vicCustomBreaksAttributeDataDimension,
+} from './custom-breaks-bins';
 
 describe('VicCustomBreaksAttributeDataDimension', () => {
   let dimension: VicCustomBreaksAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = new VicCustomBreaksAttributeDataDimension();
+    dimension = vicCustomBreaksAttributeDataDimension({
+      breakValues: [0, 2, 5, 10, 50],
+      range: ['red', 'blue', 'yellow', 'green'],
+    });
   });
+
+  describe('setPropertiesFromData', () => {
+    beforeEach(() => {
+      spyOn(dimension as any, 'setDomainAndBins');
+      spyOn(dimension as any, 'setRange');
+    });
+    it('calls setDomainAndBins once', () => {
+      dimension.setPropertiesFromData();
+      expect((dimension as any).setDomainAndBins).toHaveBeenCalledTimes(1);
+    });
+    it('calls setRange once', () => {
+      dimension.setPropertiesFromData();
+      expect((dimension as any).setRange).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('setDomainAndBins', () => {
     beforeEach(() => {
       dimension.breakValues = [0, 2, 5, 10, 50];

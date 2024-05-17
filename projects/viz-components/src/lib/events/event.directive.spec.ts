@@ -2,7 +2,7 @@
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
-import { DataMarksBaseStub } from '../testing/stubs/data-marks-base.stub';
+import { DataMarksStub } from '../testing/stubs/data-marks.stub';
 import { EventDirectiveStub } from '../testing/stubs/event.directive.stub';
 
 describe('EventDirective', () => {
@@ -15,7 +15,7 @@ describe('EventDirective', () => {
         Renderer2,
         {
           provide: VIC_DATA_MARKS,
-          useClass: DataMarksBaseStub,
+          useClass: DataMarksStub,
         },
       ],
     });

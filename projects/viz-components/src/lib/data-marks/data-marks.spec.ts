@@ -1,15 +1,15 @@
 import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DataMarksBaseStub } from '../testing/stubs/data-marks-base.stub';
+import { DataMarksStub } from '../testing/stubs/data-marks.stub';
 
 describe('DataMarksBase abstract class', () => {
-  let abstractClass: DataMarksBaseStub<any>;
+  let abstractClass: DataMarksStub<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataMarksBaseStub],
+      providers: [DataMarksStub],
     });
-    abstractClass = TestBed.inject(DataMarksBaseStub);
+    abstractClass = TestBed.inject(DataMarksStub);
   });
 
   describe('ngOnChanges()', () => {
@@ -47,12 +47,8 @@ describe('DataMarksBase abstract class', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'setPropertiesFromData');
       spyOn(abstractClass, 'setPropertiesFromRanges');
       abstractClass.initFromConfig();
-    });
-    it('calls setPropertiesFromConfig()', () => {
-      expect(abstractClass.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
     it('calls setPropertiesFromRanges()', () => {
       expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledTimes(1);

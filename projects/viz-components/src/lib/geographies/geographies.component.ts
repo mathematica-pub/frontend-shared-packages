@@ -7,7 +7,14 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import * as CSSType from 'csstype';
-import { InternMap, Selection, geoPath, select } from 'd3';
+import {
+  GeoPath,
+  GeoProjection,
+  InternMap,
+  Selection,
+  geoPath,
+  select,
+} from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -16,11 +23,11 @@ import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
+import { VicGeographiesConfig } from './config/geographies.config';
 import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicNoDataGeographies } from './dimensions/no-data-geographies';
 import { VicGeographiesFeature } from './geographies';
 import { VicGeographyLabelConfig } from './geographies-labels';
-import { VicGeographiesConfig } from './geographies.config';
 
 export class MapDataValues {
   attributeValuesByGeographyIndex: InternMap;
@@ -57,9 +64,8 @@ export class GeographiesComponent<
   Datum,
   VicGeographiesConfig<Datum, TProperties, TGeometry>
 > {
-  projection: any;
-  path: any;
-  values: MapDataValues = new MapDataValues();
+  projection: GeoProjection;
+  path: GeoPath;
   dataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
   dataGeographies$: Observable<any> = this.dataGeographies.asObservable();
   noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -71,44 +77,7 @@ export class GeographiesComponent<
 
   override initFromConfig(): void {
     this.setPropertiesFromRanges();
-    this.setPropertiesFromData();
-  }
-
-  setPropertiesFromData(): void {
-    this.setDimensionPropertiesFromData();
-    this.initAttributeDataProperties();
     this.updateChartAttributeProperties();
-  }
-
-  setDimensionPropertiesFromData(): void {
-    const uniqueByGeoAccessor = (arr: any[], set = new Set()) =>
-      arr.filter(
-        (x) =>
-          !set.has(this.config.dataGeographies.attributeData.geoAccessor(x)) &&
-          set.add(this.config.dataGeographies.attributeData.geoAccessor(x))
-      );
-    const uniqueDatums = uniqueByGeoAccessor(this.config.data);
-    this.values.attributeValuesByGeographyIndex = new InternMap(
-      uniqueDatums.map((d) => {
-        const value =
-          this.config.dataGeographies.attributeData.valueAccessor(d);
-        return [
-          this.config.dataGeographies.attributeData.geoAccessor(d),
-          value === null || value === undefined ? NaN : value,
-        ];
-      })
-    );
-    this.values.datumsByGeographyIndex = new InternMap(
-      uniqueDatums.map((d) => {
-        return [this.config.dataGeographies.attributeData.geoAccessor(d), d];
-      })
-    );
-  }
-
-  initAttributeDataProperties(): void {
-    this.config.dataGeographies.attributeData.setPropertiesFromData(
-      Array.from(this.values.attributeValuesByGeographyIndex.values())
-    );
   }
 
   setPropertiesFromRanges(): void {
@@ -290,14 +259,14 @@ export class GeographiesComponent<
 
   getFill(geographyIndex: string | number): string {
     const dataValue =
-      this.values.attributeValuesByGeographyIndex.get(geographyIndex);
+      this.config.values.attributeValuesByGeographyIndex.get(geographyIndex);
     return this.attributeDataScale(dataValue);
   }
 
   getPatternFill(geographyIndex: string | number): string {
-    const datum = this.values.datumsByGeographyIndex.get(geographyIndex);
+    const datum = this.config.values.datumsByGeographyIndex.get(geographyIndex);
     const color = this.attributeDataScale(
-      this.values.attributeValuesByGeographyIndex.get(geographyIndex)
+      this.config.values.attributeValuesByGeographyIndex.get(geographyIndex)
     );
     const predicates = this.config.dataGeographies.attributeData.fillPatterns;
     return PatternUtilities.getPatternFill(datum, color, predicates);
@@ -403,7 +372,7 @@ export class GeographiesComponent<
     let fontColor: CSSType.Property.Fill;
     if (isFunction<CSSType.Property.Fill>(config.color)) {
       fontColor = config.color(
-        this.values.datumsByGeographyIndex.get(geographyIndex),
+        this.config.values.datumsByGeographyIndex.get(geographyIndex),
         pathColor
       );
     } else if (isPrimitiveType<CSSType.Property.Fill>(config.color)) {
@@ -420,7 +389,7 @@ export class GeographiesComponent<
     let fontProperty: CSSType.Property.FontWeight;
     if (isFunction<CSSType.Property.FontWeight>(config.fontWeight)) {
       fontProperty = config.fontWeight(
-        this.values.datumsByGeographyIndex.get(geographyIndex),
+        this.config.values.datumsByGeographyIndex.get(geographyIndex),
         pathColor
       );
     } else if (

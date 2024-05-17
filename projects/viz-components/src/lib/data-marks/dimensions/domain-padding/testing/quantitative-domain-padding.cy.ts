@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicHorizontalBarsDimensions } from 'projects/viz-components/src/lib/bars/bars-dimensions';
-import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/bars-labels';
+import { VicHorizontalBarsDimensions } from 'projects/viz-components/src/lib/bars/config/bars-dimensions';
+import { VicBarsLabels } from 'projects/viz-components/src/lib/bars/config/bars-labels';
 import {
-  VicBarsConfig,
+  VicBarsOptions,
   VicOrdinalDimension,
   VicQuantitativeDimension,
 } from 'projects/viz-components/src/public-api';
@@ -42,7 +42,7 @@ import { expectDomain } from './expect-domain';
   styles: [],
 })
 class TestXQuantitativeDomainComponent implements AfterViewInit {
-  @Input() barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  @Input() barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   @Input() xQuantitativeAxisConfig: VicAxisConfig;
   @ViewChild(BarsComponent) barsComponent: BarsComponent<
     {
@@ -98,7 +98,7 @@ function getBarWidthByIndex(index: number): Cypress.Chainable {
 }
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is explicitly included in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -245,7 +245,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
 });
 
 describe('it correctly sets quantitative domain - all values are positive, 0 is NOT in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -391,7 +391,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
 });
 
 describe('it correctly sets quantitative domain - all values are negative, 0 is explicitly included in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -553,7 +553,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
 });
 
 describe('it correctly sets quantitative domain - all values are negative, 0 is NOT in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -698,7 +698,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
 });
 
 describe('it correctly sets quantitative domain - values are positive and negative', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [
@@ -871,7 +871,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
 });
 
 describe('it correctly sets quantitative domain - all values are positive and less than one, 0 is explicitly included in domain', () => {
-  let barsConfig: VicBarsConfig<{ state: string; value: number }, string>;
+  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeDomainComponent];
   const imports = [

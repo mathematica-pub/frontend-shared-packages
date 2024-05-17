@@ -1,33 +1,45 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { VicDataDimension, VicDataValue } from './data-dimension';
+import {
+  VicDataDimension,
+  VicDataDimensionOptions,
+  VicDataValue,
+} from './data-dimension';
 import { VicFillPattern } from './fill-pattern';
 
-export class VicCategoricalDimension<
+export interface VicCategoricalDimensionOptions<
   Datum,
   TCategoricalValue extends VicDataValue = string
-> extends VicDataDimension<Datum, TCategoricalValue> {
+> extends VicDataDimensionOptions<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
   fillPatterns: VicFillPattern<Datum>[];
-  private internSetDomain: InternSet<TCategoricalValue>;
-  // TODO: would we ever want this to be able to emit numbers?
-  /**
-   * A user-defined function that transforms a categorical value into a graphical value.
-   */
-  scale: (category: TCategoricalValue) => string;
   /**
    * An array of graphical values that correspond to the domain.
    *
    * For example, this could be an array of colors or sizes.
    */
   range: string[];
+  /**
+   * A user-defined function that transforms a categorical value into a graphical value.
+   */
+  scale: (category: TCategoricalValue) => string;
+}
+
+export class VicCategoricalDimension<
+  Datum,
+  TCategoricalValue extends VicDataValue = string
+> extends VicDataDimension<Datum, TCategoricalValue> {
+  domain: TCategoricalValue[];
+  readonly fillPatterns: VicFillPattern<Datum>[];
+  private internSetDomain: InternSet<TCategoricalValue>;
+  range: string[];
+  scale: (category: TCategoricalValue) => string;
 
   constructor(
-    init?: Partial<VicCategoricalDimension<Datum, TCategoricalValue>>
+    options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
   ) {
     super();
-    this.valueAccessor = () => '' as TCategoricalValue;
-    this.range = ['lightslategray'];
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.valueAccessor = this.valueAccessor ?? ((d) => '' as TCategoricalValue);
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -53,4 +65,13 @@ export class VicCategoricalDimension<
       this.scale = scaleOrdinal([...new InternSet(this.domain)], this.range);
     }
   }
+}
+
+export function vicCategoricalDimension<
+  Datum,
+  TCategoricalValue extends VicDataValue = string
+>(
+  options?: Partial<VicCategoricalDimension<Datum, TCategoricalValue>>
+): VicCategoricalDimension<Datum, TCategoricalValue> {
+  return new VicCategoricalDimension(options);
 }

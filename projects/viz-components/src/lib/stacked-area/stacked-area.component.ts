@@ -5,29 +5,17 @@ import {
   InjectionToken,
   NgZone,
 } from '@angular/core';
-import {
-  InternMap,
-  SeriesPoint,
-  Transition,
-  area,
-  extent,
-  range,
-  rollup,
-  select,
-  stack,
-} from 'd3';
+import { Transition, area, select } from 'd3';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicStackedAreaConfig } from './stacked-area.config';
+import { VicStackedAreaConfig } from './config/stacked-area.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const STACKED_AREA = new InjectionToken<
   StackedAreaComponent<unknown, VicDataValue>
 >('StackedAreaComponent');
-
-type Key = string | number | Date;
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -47,9 +35,6 @@ export class StackedAreaComponent<
   Datum,
   VicStackedAreaConfig<Datum, TCategoricalValue>
 > {
-  series: (SeriesPoint<InternMap<Key, number>> & {
-    i: number;
-  })[][];
   area;
   areas;
 
@@ -58,57 +43,6 @@ export class StackedAreaComponent<
     private zone: NgZone
   ) {
     super();
-  }
-
-  setPropertiesFromData(): void {
-    this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
-    this.setSeries();
-    this.initQuantitativeDomainFromStack();
-  }
-
-  setDimensionPropertiesFromData(): void {
-    this.config.x.setPropertiesFromData(this.config.data);
-    this.config.y.setPropertiesFromData(this.config.data);
-    this.config.categorical.setPropertiesFromData(this.config.data);
-  }
-
-  setValueIndicies(): void {
-    this.valueIndicies = range(this.config.x.values.length).filter((i) =>
-      this.config.categorical.domainIncludes(this.config.categorical.values[i])
-    );
-  }
-
-  setSeries(): void {
-    const rolledUpData: InternMap<Key, InternMap<Key, number>> = rollup(
-      this.valueIndicies,
-      ([i]) => i,
-      (i) => this.config.x.values[i],
-      (i) => this.config.categorical.values[i]
-    );
-
-    const keys = this.config.categoricalOrder
-      ? this.config.categoricalOrder.slice().reverse()
-      : this.config.categorical.domain;
-
-    this.series = stack<any, InternMap<any, number>, any>()
-      .keys(keys)
-      .value(([x, I]: any, category) => this.config.y.values[I.get(category)])
-      .order(this.config.stackOrderFunction)
-      .offset(this.config.stackOffsetFunction)(rolledUpData as any)
-      .map((s) =>
-        s.map((d) =>
-          Object.assign(d, {
-            i: d.data[1].get(s.key),
-          })
-        )
-      );
-  }
-
-  initQuantitativeDomainFromStack(): void {
-    if (this.config.y.domain === undefined) {
-      this.config.y.setUnpaddedDomain(extent(this.series.flat(2)));
-    }
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
@@ -143,7 +77,7 @@ export class StackedAreaComponent<
 
     this.areas = select(this.areasRef.nativeElement)
       .selectAll('path')
-      .data(this.series)
+      .data(this.config.series)
       .join(
         (enter) =>
           enter

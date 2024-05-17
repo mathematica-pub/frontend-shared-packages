@@ -3,13 +3,35 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import {
+  VicGeographiesConfig,
+  vicGeographies,
+} from 'projects/viz-components/src/lib/geographies/config/geographies.config';
 import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/dimensions/attribute-data-bin-types';
-import { VicCategoricalAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/categorical-bins';
-import { VicCustomBreaksAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/custom-breaks-bins';
-import { VicDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
-import { VicEqualNumObservationsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/equal-num-observations-bins';
-import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
-import { VicNoBinsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/dimensions/no-bins';
+import {
+  VicCategoricalAttributeDataDimension,
+  vicCategoricalAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/dimensions/categorical-bins';
+import {
+  VicCustomBreaksAttributeDataDimension,
+  vicCustomBreaksAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/dimensions/custom-breaks-bins';
+import {
+  VicDataGeographies,
+  vicDataGeographies,
+} from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
+import {
+  VicEqualNumObservationsAttributeDataDimension,
+  vicEqualNumObservationsAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/dimensions/equal-num-observations-bins';
+import {
+  VicEqualValuesAttributeDataDimension,
+  vicEqualValuesAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
+import {
+  VicNoBinsAttributeDataDimension,
+  vicNoBinsAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/dimensions/no-bins';
 import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
@@ -19,13 +41,15 @@ import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geogr
 import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
 import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
-import { VicGeographiesConfig } from 'projects/viz-components/src/lib/geographies/geographies.config';
 import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { valueFormat } from 'projects/viz-components/src/public-api';
+import {
+  VicFillPattern,
+  valueFormat,
+} from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -134,10 +158,7 @@ export class GeographiesExampleComponent implements OnInit {
     data: StateIncomeDatum[]
   ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
     const noDataStatesConfig = this.getNoDataGeographies(data);
-    const config = new VicGeographiesConfig<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >({
+    const config = vicGeographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
       featureIndexAccessor: this.featureIndexAccessor,
@@ -165,20 +186,19 @@ export class GeographiesExampleComponent implements OnInit {
   getDataGeographiesConfig(
     data: StateIncomeDatum[]
   ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
-    const config = new VicDataGeographies<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >();
-    config.geographies = this.getDataGeographiesFeatures(data);
-    config.attributeData = this.getAttributeDataDimension();
-    config.attributeData.geoAccessor = (d) => d.state;
-    config.attributeData.fillPatterns = [
-      {
-        name: this.patternName,
-        predicate: (d) => !!d && d.population < 1000000,
-      },
-    ];
-    config.labels = this.getGeographyLabelConfig();
+    const config = vicDataGeographies<StateIncomeDatum, MapGeometryProperties>({
+      geographies: this.getDataGeographiesFeatures(data),
+      attributeData: this.getAttributeDataDimension({
+        geoAccessor: (d) => d.state,
+        fillPatterns: [
+          {
+            name: this.patternName,
+            predicate: (d) => !!d && d.population < 1000000,
+          },
+        ],
+      }),
+      labels: this.getGeographyLabelConfig(),
+    });
     return config;
   }
 
@@ -189,64 +209,95 @@ export class GeographiesExampleComponent implements OnInit {
     );
   }
 
-  getAttributeDataDimension(): AttributeData {
+  getAttributeDataDimension(properties: {
+    geoAccessor: (d: StateIncomeDatum) => string;
+    fillPatterns: VicFillPattern<StateIncomeDatum>[];
+  }): AttributeData {
     switch (this.attributeDataBinType.value) {
       case VicValuesBin.none:
-        return this.getNoBinsDimension();
+        return this.getNoBinsDimension(properties);
       case VicValuesBin.categorical:
-        return this.getCategoricalDimension();
+        return this.getCategoricalDimension(properties);
       case VicValuesBin.equalValueRanges:
-        return this.getEqualValuesDimension();
+        return this.getEqualValuesDimension(properties);
       case VicValuesBin.equalNumObservations:
-        return this.getEqualNumObservationsDimension();
+        return this.getEqualNumObservationsDimension(properties);
       case VicValuesBin.customBreaks:
       default:
-        return this.getCustomBreaksDimension();
+        return this.getCustomBreaksDimension(properties);
     }
   }
 
-  getNoBinsDimension() {
-    const config = new VicNoBinsAttributeDataDimension<StateIncomeDatum>();
-    config.valueAccessor = (d) => d.income;
-    config.valueFormat = `$${valueFormat.integer}`;
-    config.range = [colors.white, colors.highlight.default];
+  getNoBinsDimension(properties: {
+    geoAccessor: (d: StateIncomeDatum) => string;
+    fillPatterns: VicFillPattern<StateIncomeDatum>[];
+  }) {
+    return vicNoBinsAttributeDataDimension<StateIncomeDatum>({
+      valueAccessor: (d) => d.income,
+      valueFormat: `$${valueFormat.integer}`,
+      range: [colors.white, colors.highlight.default],
+      geoAccessor: properties.geoAccessor,
+      fillPatterns: properties.fillPatterns,
+    });
+  }
+
+  getCategoricalDimension(properties: {
+    geoAccessor: (d: StateIncomeDatum) => string;
+    fillPatterns: VicFillPattern<StateIncomeDatum>[];
+  }) {
+    const config = vicCategoricalAttributeDataDimension<StateIncomeDatum>({
+      valueAccessor: (d) =>
+        d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low',
+      range: ['sandybrown', 'mediumseagreen', colors.highlight.default],
+      geoAccessor: properties.geoAccessor,
+      fillPatterns: properties.fillPatterns,
+    });
     return config;
   }
 
-  getCategoricalDimension() {
-    const config = new VicCategoricalAttributeDataDimension<StateIncomeDatum>();
-    config.valueAccessor = (d) =>
-      d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low';
-    config.range = ['sandybrown', 'mediumseagreen', colors.highlight.default];
+  getEqualValuesDimension(properties: {
+    geoAccessor: (d: StateIncomeDatum) => string;
+    fillPatterns: VicFillPattern<StateIncomeDatum>[];
+  }) {
+    const config = vicEqualValuesAttributeDataDimension<StateIncomeDatum>({
+      valueAccessor: (d) => d.income,
+      valueFormat: `$${valueFormat.integer}`,
+      numBins: 6,
+      range: [colors.white, colors.highlight.default],
+      geoAccessor: properties.geoAccessor,
+      fillPatterns: properties.fillPatterns,
+    });
     return config;
   }
 
-  getEqualValuesDimension() {
-    const config = new VicEqualValuesAttributeDataDimension<StateIncomeDatum>();
-    config.valueAccessor = (d) => d.income;
-    config.valueFormat = `$${valueFormat.integer}`;
-    config.numBins = 6;
-    config.range = [colors.white, colors.highlight.default];
-    return config;
-  }
-
-  getEqualNumObservationsDimension() {
+  getEqualNumObservationsDimension(properties: {
+    geoAccessor: (d: StateIncomeDatum) => string;
+    fillPatterns: VicFillPattern<StateIncomeDatum>[];
+  }) {
     const config =
-      new VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>();
-    config.valueAccessor = (d) => d.income;
-    config.valueFormat = `$${valueFormat.integer}`;
-    config.numBins = 6;
-    config.range = [colors.white, colors.highlight.default];
+      vicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>({
+        valueAccessor: (d) => d.income,
+        valueFormat: `$${valueFormat.integer}`,
+        numBins: 6,
+        range: [colors.white, colors.highlight.default],
+        geoAccessor: properties.geoAccessor,
+        fillPatterns: properties.fillPatterns,
+      });
     return config;
   }
 
-  getCustomBreaksDimension() {
-    const config =
-      new VicCustomBreaksAttributeDataDimension<StateIncomeDatum>();
-    config.valueAccessor = (d) => d.income;
-    config.valueFormat = `$${valueFormat.integer}`;
-    config.breakValues = [45000, 55000, 65000, 75000, 100000];
-    config.range = [colors.white, colors.highlight.default];
+  getCustomBreaksDimension(properties: {
+    geoAccessor: (d: StateIncomeDatum) => string;
+    fillPatterns: VicFillPattern<StateIncomeDatum>[];
+  }) {
+    const config = vicCustomBreaksAttributeDataDimension<StateIncomeDatum>({
+      valueAccessor: (d) => d.income,
+      valueFormat: `$${valueFormat.integer}`,
+      breakValues: [45000, 55000, 65000, 75000, 100000],
+      range: [colors.white, colors.highlight.default],
+      geoAccessor: properties.geoAccessor,
+      fillPatterns: properties.fillPatterns,
+    });
     return config;
   }
 

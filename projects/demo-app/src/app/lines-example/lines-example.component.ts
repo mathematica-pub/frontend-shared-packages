@@ -27,10 +27,10 @@ import {
   VicColumnConfig,
   VicDataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
+import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/config/lines.config';
+import { vicPointMarkers } from 'projects/viz-components/src/lib/lines/config/point-markers';
 import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
 import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
-import { VicPointMarkers } from 'projects/viz-components/src/lib/lines/point-markers';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
@@ -143,7 +143,7 @@ export class LinesExampleComponent implements OnInit {
       categorical: new VicCategoricalDimension<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.division,
       }),
-      pointMarkers: new VicPointMarkers({ radius: 2 }),
+      pointMarkers: vicPointMarkers({ radius: 2 }),
     });
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     return {

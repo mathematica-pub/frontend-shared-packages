@@ -7,7 +7,7 @@ import { VicGeographyLabelConfig } from '../geographies-labels';
  *
  * The generic parameters are the same as those in VicGeographiesConfig.
  */
-export class VicBaseDataGeographyConfig<
+export interface VicBaseDataGeographyOptions<
   Datum,
   TProperties,
   TGeometry extends Geometry
@@ -35,5 +35,17 @@ export class VicBaseDataGeographyConfig<
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
+  labels: VicGeographyLabelConfig<Datum, TProperties, TGeometry>;
+}
+
+export class VicBaseDataGeographyConfig<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry
+> {
+  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  fill: string;
+  strokeColor: string;
+  strokeWidth: string;
   labels: VicGeographyLabelConfig<Datum, TProperties, TGeometry>;
 }

@@ -2,7 +2,7 @@ import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { VicDataMarks } from '../data-marks/data-marks';
-import { VicDataMarksConfig } from '../data-marks/data-marks-types';
+import { VicDataMarksOptions } from '../data-marks/data-marks-types';
 import {
   XyChartComponent,
   XyChartScales,
@@ -15,7 +15,7 @@ import {
 @Directive()
 export abstract class VicXyDataMarks<
     Datum,
-    TDataMarkConfig extends VicDataMarksConfig<Datum>
+    TDataMarkConfig extends VicDataMarksOptions<Datum>
   >
   extends VicDataMarks<Datum, TDataMarkConfig>
   implements OnInit
@@ -26,7 +26,6 @@ export abstract class VicXyDataMarks<
     XyContentScale.y,
     XyContentScale.categorical,
   ];
-  valueIndicies: number[];
   public override chart = inject(XyChartComponent);
 
   ngOnInit(): void {

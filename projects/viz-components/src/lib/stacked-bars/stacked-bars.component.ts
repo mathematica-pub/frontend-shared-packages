@@ -4,20 +4,11 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  InternMap,
-  SeriesPoint,
-  Transition,
-  extent,
-  range,
-  rollup,
-  select,
-} from 'd3';
-import { stack } from 'd3-shape';
+import { SeriesPoint, Transition, select } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
-import { VicStackedBarsConfig } from './stacked-bars.config';
+import { VicStackedBarsConfig } from './config/stacked-bars.config';
 
 export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
   i: number;
@@ -38,59 +29,6 @@ export class StackedBarsComponent<
 > extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
-  stackedData: VicStackDatum[][];
-
-  override setPropertiesFromData(): void {
-    this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
-    this.constructStackedData();
-    this.initQuantitativeDomainFromStack();
-  }
-
-  override setValueIndicies(): void {
-    this.valueIndicies = range(this.config.ordinal.values.length).filter(
-      (i) => {
-        return (
-          this.config.ordinal.domainIncludes(this.config.ordinal.values[i]) &&
-          this.config.categorical.domainIncludes(
-            this.config.categorical.values[i]
-          )
-        );
-      }
-    );
-  }
-
-  constructStackedData(): void {
-    const stackedData = stack<[unknown, InternMap<string, number>]>()
-      .keys(this.config.categorical.domain)
-      .value((d, key) => {
-        return this.config.quantitative.values[d[1].get(key)];
-      })
-      .order(this.config.order)
-      .offset(this.config.offset)(
-      rollup(
-        this.valueIndicies,
-        ([i]) => i,
-        (i) => this.config.ordinal.values[i],
-        (i) => this.config.categorical.values[i]
-      )
-    );
-
-    this.stackedData = stackedData.map((series) =>
-      series.map((d) => {
-        Object.assign(d, {
-          i: d.data[1].get(series.key),
-        });
-        return d as unknown as VicStackDatum;
-      })
-    );
-  }
-
-  initQuantitativeDomainFromStack(): void {
-    const extents = extent(this.stackedData.flat(2));
-    this.config.quantitative.setUnpaddedDomain(extents);
-  }
 
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
@@ -99,7 +37,7 @@ export class StackedBarsComponent<
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll('g')
-      .data(this.stackedData)
+      .data(this.config.stackedData)
       .join('g')
       .attr('fill', ([{ i }]: any) =>
         this.scales.categorical(this.config.categorical.values[i])

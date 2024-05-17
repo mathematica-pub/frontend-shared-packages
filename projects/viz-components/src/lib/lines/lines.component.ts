@@ -9,13 +9,12 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { group, InternSet, line, map, range, select, Transition } from 'd3';
+import { line, map, select, Transition } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { isDate, isNumber } from '../core/utilities/type-guards';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicLinesConfig } from './lines.config';
+import { VicLinesConfig } from './config/lines.config';
 
 export interface Marker {
   key: string;
@@ -57,10 +56,10 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
   line: (x: any[]) => any;
-  linesD3Data;
-  linesKeyFunction;
-  markersD3Data;
-  markersKeyFunction;
+  // linesD3Data;
+  // linesKeyFunction;
+  // markersD3Data;
+  // markersKeyFunction;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
 
@@ -76,68 +75,6 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
 
   get markers(): any {
     return select(this.markersRef.nativeElement).selectAll('circle');
-  }
-
-  setPropertiesFromData(): void {
-    this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
-    this.setLinesD3Data();
-    this.setLinesKeyFunction();
-    this.setMarkersD3Data();
-    this.setMarkersKeyFunction();
-  }
-
-  setDimensionPropertiesFromData(): void {
-    this.config.x.setPropertiesFromData(this.config.data);
-    this.config.y.setPropertiesFromData(this.config.data);
-    this.config.categorical.setPropertiesFromData(this.config.data);
-  }
-
-  setValueIndicies(): void {
-    const domainInternSet = new InternSet(this.config.categorical.domain);
-    this.valueIndicies = range(this.config.x.values.length).filter((i) =>
-      domainInternSet.has(this.config.categorical.values[i])
-    );
-  }
-
-  setLinesD3Data(): void {
-    const definedIndices = this.valueIndicies.filter(
-      (i) =>
-        this.canBeDrawnByPath(this.config.x.values[i]) &&
-        this.canBeDrawnByPath(this.config.y.values[i])
-    );
-    this.linesD3Data = group(
-      definedIndices,
-      (i) => this.config.categorical.values[i]
-    );
-  }
-
-  canBeDrawnByPath(x: unknown): boolean {
-    return (isNumber(x) || isDate(x)) && x !== null && x !== undefined;
-  }
-
-  setLinesKeyFunction(): void {
-    this.linesKeyFunction = (d): string => d[0];
-  }
-
-  setMarkersD3Data(): void {
-    this.markersD3Data = this.valueIndicies
-      .map((i) => {
-        return { key: this.getMarkerKey(i), index: i };
-      })
-      .filter(
-        (marker: Marker) =>
-          this.canBeDrawnByPath(this.config.x.values[marker.index]) &&
-          this.canBeDrawnByPath(this.config.y.values[marker.index])
-      );
-  }
-
-  getMarkerKey(i: number): string {
-    return `${this.config.categorical.values[i]}-${this.config.x.values[i]}`;
-  }
-
-  setMarkersKeyFunction(): void {
-    this.markersKeyFunction = (d) => (d as Marker).key;
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
@@ -166,8 +103,8 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   setLine(): void {
     if (this.config.valueIsDefined === undefined) {
       this.config.valueIsDefined = (d, i) =>
-        this.canBeDrawnByPath(this.config.x.values[i]) &&
-        this.canBeDrawnByPath(this.config.y.values[i]);
+        this.config.canBeDrawnByPath(this.config.x.values[i]) &&
+        this.config.canBeDrawnByPath(this.config.y.values[i]);
     }
     const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
 
@@ -183,7 +120,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.lines.data(this.linesD3Data, this.linesKeyFunction).join(
+    this.lines.data(this.config.linesD3Data, this.config.linesKeyFunction).join(
       (enter) =>
         enter
           .append('path')
@@ -217,38 +154,40 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.markers.data(this.markersD3Data, this.markersKeyFunction).join(
-      (enter) =>
-        enter
-          .append('circle')
-          .attr('class', this.markerClass)
-          .attr('key', (d) => d.key)
-          .attr(this.markerIndexAttr, (d) => d.index)
-          .style('mix-blend-mode', this.config.mixBlendMode)
-          .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
-          .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
-          .attr('r', this.config.pointMarkers.radius)
-          .attr('fill', (d) =>
-            this.scales.categorical(this.config.categorical.values[d.index])
-          ),
-      (update) =>
-        update
-          .attr('fill', (d) =>
-            this.scales.categorical(this.config.categorical.values[d.index])
-          )
-          .call((update) =>
-            update
-              .transition(t as any)
-              .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
-              .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
-          ),
-      (exit) => exit.remove()
-    );
+    this.markers
+      .data(this.config.markersD3Data, this.config.markersKeyFunction)
+      .join(
+        (enter) =>
+          enter
+            .append('circle')
+            .attr('class', this.markerClass)
+            .attr('key', (d) => d.key)
+            .attr(this.markerIndexAttr, (d) => d.index)
+            .style('mix-blend-mode', this.config.mixBlendMode)
+            .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
+            .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
+            .attr('r', this.config.pointMarkers.radius)
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            ),
+        (update) =>
+          update
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .call((update) =>
+              update
+                .transition(t as any)
+                .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
+                .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
+            ),
+        (exit) => exit.remove()
+      );
   }
 
   drawLineLabels(): void {
     const lastPoints = [];
-    this.linesD3Data.forEach((values, key) => {
+    this.config.linesD3Data.forEach((values, key) => {
       const lastPoint = values[values.length - 1];
       lastPoints.push({ category: key, index: lastPoint });
     });

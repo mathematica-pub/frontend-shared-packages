@@ -4,11 +4,11 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { range, scaleBand } from 'd3';
+import { scaleBand } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
-import { VicGroupedBarsConfig } from './grouped-bars.config';
+import { VicGroupedBarsConfig } from './config/grouped-bars.config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -26,19 +26,6 @@ export class GroupedBarsComponent<
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override config: VicGroupedBarsConfig<Datum, TOrdinalValue>;
   groupScale: any;
-
-  override setValueIndicies(): void {
-    this.valueIndicies = range(this.config.ordinal.values.length).filter(
-      (i) => {
-        return (
-          this.config.ordinal.domainIncludes(this.config.ordinal.values[i]) &&
-          this.config.categorical.domainIncludes(
-            this.config.categorical.values[i]
-          )
-        );
-      }
-    );
-  }
 
   override drawMarks(): void {
     this.setGroupScale();

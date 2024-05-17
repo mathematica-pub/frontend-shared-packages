@@ -1,6 +1,21 @@
 import { scaleOrdinal } from 'd3';
-import { AttributeDataDimension } from './attribute-data';
+import {
+  AttributeDataDimension,
+  VicAttributeDataDimensionOptions,
+} from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
+
+const DEFAULT = {
+  range: ['white', 'lightslategray'],
+  scale: scaleOrdinal,
+};
+
+export interface VicCategoricalAttributeDataDimensionOptions<
+  Datum,
+  RangeValue extends string | number = string
+> extends VicAttributeDataDimensionOptions<Datum, RangeValue> {
+  domain: string[];
+}
 
 /**
  * Configuration object for attribute data that is categorical.
@@ -8,25 +23,31 @@ import { VicValuesBin } from './attribute-data-bin-types';
  * The generic parameter is the type of the attribute data.
  */
 export class VicCategoricalAttributeDataDimension<
-  Datum
+  Datum,
+  RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, string> {
+  readonly binType: VicValuesBin.categorical = VicValuesBin.categorical;
   domain: string[];
-  binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
 
-  constructor(init?: Partial<VicCategoricalAttributeDataDimension<Datum>>) {
+  constructor(
+    options?: Partial<
+      VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
+    >
+  ) {
     super();
-    this.scale = scaleOrdinal;
-    this.range = ['white', 'lightslategray'];
-    Object.assign(this, init);
+    this.range = DEFAULT.range;
+    this.scale = DEFAULT.scale;
+    Object.assign(this, options);
   }
 
-  setPropertiesFromData(values: any[]): void {
+  setPropertiesFromData(data: Datum[]): void {
+    const values = data.map(this.valueAccessor);
     this.setDomainAndBins(values);
     this.setRange();
   }
 
-  protected setDomainAndBins(values: any[]): void {
+  protected setDomainAndBins(values: string[]): void {
     const domainValues = this.domain ?? values;
     this.domain = [...new Set(domainValues)];
   }
@@ -41,4 +62,15 @@ export class VicCategoricalAttributeDataDimension<
       .range(this.range)
       .unknown(nullColor);
   }
+}
+
+export function vicCategoricalAttributeDataDimension<
+  Datum,
+  RangeValue extends string | number = string
+>(
+  options?: Partial<
+    VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
+  >
+): VicCategoricalAttributeDataDimension<Datum, RangeValue> {
+  return new VicCategoricalAttributeDataDimension<Datum, RangeValue>(options);
 }

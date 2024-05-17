@@ -1,28 +1,51 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
-import { VicDataDimension, VicDataValue } from './data-dimension';
+import {
+  VicDataDimension,
+  VicDataDimensionOptions,
+  VicDataValue,
+} from './data-dimension';
 
-export class VicOrdinalDimension<
+const DEFAULT = {
+  align: 0.5,
+  paddingInner: 0.1,
+  paddingOuter: 0.1,
+  valueAccessor: (d, i) => i,
+};
+
+export interface VicOrdinalDimensionOptions<
   Datum,
   TOrdinalValue extends VicDataValue
-> extends VicDataDimension<Datum, TOrdinalValue> {
-  private internSetDomain: InternSet<TOrdinalValue>;
-  private scaleFn: (
-    domain?: Iterable<TOrdinalValue>,
-    range?: Iterable<number>
-  ) => ScaleBand<TOrdinalValue>;
+> extends VicDataDimensionOptions<Datum, TOrdinalValue> {
   domain: TOrdinalValue[];
   paddingInner: number;
   paddingOuter: number;
   align: number;
+}
 
-  constructor(init?: Partial<VicOrdinalDimension<Datum, TOrdinalValue>>) {
+export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
+  extends VicDataDimension<Datum, TOrdinalValue>
+  implements VicOrdinalDimensionOptions<Datum, TOrdinalValue>
+{
+  readonly align: number;
+  domain: TOrdinalValue[];
+  private internSetDomain: InternSet<TOrdinalValue>;
+  readonly paddingInner: number;
+  readonly paddingOuter: number;
+  private scaleFn: (
+    domain?: Iterable<TOrdinalValue>,
+    range?: Iterable<number>
+  ) => ScaleBand<TOrdinalValue>;
+
+  constructor(
+    options?: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>
+  ) {
     super();
-    this.valueAccessor = (d, i) => i;
     this.scaleFn = scaleBand;
-    this.paddingInner = 0.1;
-    this.paddingOuter = 0.1;
-    this.align = 0.5;
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.align = this.align ?? DEFAULT.align;
+    this.paddingInner = this.paddingInner ?? DEFAULT.paddingInner;
+    this.paddingOuter = this.paddingOuter ?? DEFAULT.paddingOuter;
+    this.valueAccessor = this.valueAccessor ?? DEFAULT.valueAccessor;
   }
 
   setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
@@ -51,4 +74,10 @@ export class VicOrdinalDimension<
       .paddingOuter(this.paddingOuter)
       .align(this.align);
   }
+}
+
+export function vicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>(
+  options?: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>
+): VicOrdinalDimension<Datum, TOrdinalValue> {
+  return new VicOrdinalDimension(options);
 }

@@ -1,6 +1,17 @@
 import { extent, range, scaleLinear } from 'd3';
 import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
-import { AttributeDataDimension } from './attribute-data';
+import {
+  AttributeDataDimension,
+  VicAttributeDataDimensionOptions,
+} from './attribute-data';
+
+export interface VicCalculatedRangeBinsAttributeDataDimensionOptions<
+  Datum,
+  AttributeValue extends VicDataValue,
+  RangeValue extends string | number = string
+> extends VicAttributeDataDimensionOptions<Datum, AttributeValue, RangeValue> {
+  numBins: number;
+}
 
 export abstract class CalculatedRangeBinsAttributeDataDimension<
   Datum,

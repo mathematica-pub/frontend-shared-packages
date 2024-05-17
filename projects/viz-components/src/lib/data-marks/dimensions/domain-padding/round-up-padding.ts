@@ -5,14 +5,26 @@ import {
   VicDomainPadding,
 } from './domain-padding';
 
-export class VicRoundUpDomainPadding extends VicDomainPadding {
-  type: DomainPadding.roundUp = DomainPadding.roundUp;
-  sigDigits: (d: any) => number;
+const DEFAULT = {
+  sigDigits: () => 1,
+};
 
-  constructor(init?: Partial<VicRoundUpDomainPadding>) {
+export interface VicRoundUpDomainPaddingOptions {
+  sigDigits: (d: number) => number;
+}
+
+export class VicRoundUpDomainPadding
+  extends VicDomainPadding
+  implements VicRoundUpDomainPaddingOptions
+{
+  readonly sigDigits: (d: number) => number;
+  readonly type: DomainPadding.roundUp;
+
+  constructor(options?: Partial<VicRoundUpDomainPaddingOptions>) {
     super();
-    this.sigDigits = () => 1;
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.type = DomainPadding.roundUp;
+    this.sigDigits = this.sigDigits ?? DEFAULT.sigDigits;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {
@@ -22,4 +34,10 @@ export class VicRoundUpDomainPadding extends VicDomainPadding {
       args.valueType
     );
   }
+}
+
+export function vicRoundUpDomainPadding(
+  options?: Partial<VicRoundUpDomainPaddingOptions>
+): VicRoundUpDomainPadding {
+  return new VicRoundUpDomainPadding(options);
 }

@@ -2,87 +2,104 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
-import { VicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
+import { VicGeographiesConfig } from './config/geographies.config';
+import { vicDataGeographies } from './dimensions/data-geographies';
+import { vicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { GeographiesComponent } from './geographies.component';
-import { VicGeographiesConfig } from './geographies.config';
+
+type Datum = { value: number; state: string };
 
 describe('GeographiesComponent', () => {
   let component: GeographiesComponent<any, any, any>;
   let fixture: ComponentFixture<GeographiesComponent<any, any, any>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [GeographiesComponent],
       providers: [MapChartComponent],
     }).compileComponents();
-  });
 
-  beforeEach(() => {
     fixture = TestBed.createComponent(GeographiesComponent);
     component = fixture.componentInstance;
-    component.config = new VicGeographiesConfig();
   });
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromRanges');
-      spyOn(component, 'setPropertiesFromData');
-    });
-    it('calls setPropertiesFromConfig once', () => {
-      component.initFromConfig();
-      expect(component.setPropertiesFromData).toHaveBeenCalledTimes(1);
+      spyOn(component, 'updateChartAttributeProperties');
+      component.config = new VicGeographiesConfig({
+        data: [
+          { value: 1, state: 'AL' },
+          { value: 2, state: 'AK' },
+          { value: 3, state: 'AZ' },
+          { value: 4, state: 'CA' },
+          { value: 5, state: 'CO' },
+          { value: 6, state: 'CO' },
+        ],
+        dataGeographies: vicDataGeographies<Datum, { name: string }, any>({
+          attributeData: vicEqualValuesAttributeDataDimension<Datum>({
+            valueAccessor: (d) => d.value,
+            geoAccessor: (d) => d.state,
+            numBins: 5,
+          }),
+        }),
+      });
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
       expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
     });
-  });
-
-  describe('setPropertiesFromConfig()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setDimensionPropertiesFromData');
-      spyOn(component, 'initAttributeDataProperties');
-      spyOn(component, 'updateChartAttributeProperties');
-      component.setPropertiesFromData();
-    });
-    it('calls setDimensionPropertiesFromData once', () => {
-      expect(component.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);
-    });
-    it('calls initAttributeDataScaleDomain once', () => {
-      expect(component.initAttributeDataProperties).toHaveBeenCalledTimes(1);
-    });
-    it('calls setChartAttributeScaleAndConfig once', () => {
+    it('calls updateChartAttributeProperties once', () => {
+      component.initFromConfig();
       expect(component.updateChartAttributeProperties).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('updateChartAttributeProperties', () => {
-    let scaleSpy: jasmine.Spy;
+  describe('setPropertiesFromRanges()', () => {
     beforeEach(() => {
-      component.config.dataGeographies.attributeData =
-        new VicEqualValuesAttributeDataDimension();
-      scaleSpy = jasmine
-        .createSpy('getScale')
-        .and.returnValue('attribute data scale');
+      spyOn(component, 'setProjection');
+      spyOn(component, 'setPath');
+    });
+    it('calls setProjection once', () => {
+      component.setPropertiesFromRanges();
+      expect(component.setProjection).toHaveBeenCalledTimes(1);
+    });
+    it('calls setPath once', () => {
+      component.setPropertiesFromRanges();
+      expect(component.setPath).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('updateChartAttributeProperties', () => {
+    beforeEach(() => {
       component.chart = {
         updateAttributeProperties: jasmine.createSpy(
           'updateAttributeProperties'
         ),
       } as any;
-      component.config = {
-        dataGeographies: {
+      component.config = new VicGeographiesConfig({
+        data: [
+          { value: 1, state: 'AL' },
+          { value: 2, state: 'AK' },
+          { value: 3, state: 'AZ' },
+          { value: 4, state: 'CA' },
+          { value: 5, state: 'CO' },
+          { value: 6, state: 'CO' },
+        ],
+        dataGeographies: vicDataGeographies<Datum, { name: string }, any>({
           nullColor: 'red',
-          attributeData: {
-            valueType: 'quantitative',
-            binType: 'none',
-            getScale: scaleSpy,
-          },
-        },
-      } as any;
+          attributeData: vicEqualValuesAttributeDataDimension<Datum>({
+            valueAccessor: (d) => d.value,
+            geoAccessor: (d) => d.state,
+            numBins: 5,
+          }),
+        }),
+      });
+      spyOn(
+        component.config.dataGeographies.attributeData,
+        'getScale'
+      ).and.returnValue('attribute data scale');
     });
     it('calls getScale once', () => {
       component.updateChartAttributeProperties();

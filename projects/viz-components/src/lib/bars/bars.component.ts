@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { min, range, select, Transition } from 'd3';
+import { select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -18,7 +18,7 @@ import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicBarsConfig } from './bars.config';
+import { VicBarsConfig } from './config/bars.config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
@@ -63,45 +63,14 @@ export class BarsComponent<
   TOrdinalValue extends VicDataValue
 > extends VicXyDataMarks<Datum, VicBarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
-  hasBarsWithNegativeValues: boolean;
+  // hasBarsWithNegativeValues: boolean;
   barGroups: BarGroupSelection;
-  barsKeyFunction: (i: number) => string;
+  // barsKeyFunction: (i: number) => string;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
   protected zone = inject(NgZone);
-
-  setPropertiesFromData(): void {
-    this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
-    this.setBarsKeyFunction();
-  }
-
-  setDimensionPropertiesFromData(): void {
-    this.config.quantitative.setPropertiesFromData(this.config.data);
-    this.config.ordinal.setPropertiesFromData(
-      this.config.data,
-      this.config.dimensions.ordinal === 'y'
-    );
-    this.config.categorical.setPropertiesFromData(this.config.data);
-  }
-
-  setValueIndicies(): void {
-    this.valueIndicies = range(this.config.ordinal.values.length).filter((i) =>
-      this.config.ordinal.domainIncludes(this.config.ordinal.values[i])
-    );
-  }
-
-  setHasBarsWithNegativeValues(): void {
-    this.hasBarsWithNegativeValues = min(this.config.quantitative.values) < 0;
-  }
-
-  setBarsKeyFunction(): void {
-    this.barsKeyFunction = (i: number): string =>
-      `${this.config.ordinal.values[i]}`;
-  }
 
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -132,7 +101,7 @@ export class BarsComponent<
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll<SVGGElement, number>('.vic-bar-group')
-      .data<number>(this.valueIndicies, this.barsKeyFunction)
+      .data<number>(this.config.valueIndicies, this.config.barsKeyFunction)
       .join(
         (enter) =>
           enter
@@ -255,7 +224,7 @@ export class BarsComponent<
   }
 
   getBarXQuantitative(i: number): number {
-    if (this.hasBarsWithNegativeValues) {
+    if (this.config.hasBarsWithNegativeValues) {
       if (this.config.quantitative.values[i] < 0) {
         return this.scales.x(this.config.quantitative.values[i]);
       } else {
@@ -306,11 +275,11 @@ export class BarsComponent<
   getBarWidthQuantitative(i: number): number {
     let origin;
     if (this.config.quantitative.domainIncludesZero) {
-      origin = this.hasBarsWithNegativeValues
+      origin = this.config.hasBarsWithNegativeValues
         ? 0
         : this.getQuantitativeDomainFromScale()[0];
     } else {
-      origin = this.hasBarsWithNegativeValues
+      origin = this.config.hasBarsWithNegativeValues
         ? this.getQuantitativeDomainFromScale()[1]
         : this.getQuantitativeDomainFromScale()[0];
     }
@@ -344,7 +313,7 @@ export class BarsComponent<
   }
 
   getBarHeightQuantitative(i: number): number {
-    const origin = this.hasBarsWithNegativeValues
+    const origin = this.config.hasBarsWithNegativeValues
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
     return Math.abs(this.scales.y(origin - this.config.quantitative.values[i]));

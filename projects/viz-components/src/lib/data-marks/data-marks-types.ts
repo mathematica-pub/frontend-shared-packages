@@ -8,13 +8,6 @@ export interface VicICommon {
 
 export interface VicIData extends VicICommon {
   /**
-   * setPropertiesFromConfig method
-   *
-   * This method handles an update to the config object. Methods called from here should not
-   * requires ranges or scales. This method is called on init and on config update.
-   */
-  setPropertiesFromData: () => void;
-  /**
    * setPropertiesFromRanges method
    *
    * This method sets creates and sets scales on ChartComponent. Any methods that require ranges
@@ -46,7 +39,7 @@ export interface VicIMarks extends VicICommon {
   getTransitionDuration: () => number;
 }
 
-export interface VicDataMarksConfig<Datum> {
+export interface VicDataMarksOptions<Datum> {
   /**
    * An array of data objects to be used to create marks.
    * The objects can be of an type, and can contain any number of properties, including properties that are extraneous to the chart at hand.
@@ -62,4 +55,16 @@ export interface VicDataMarksConfig<Datum> {
    * Default is 'normal'
    */
   mixBlendMode: string;
+}
+
+export abstract class VicDataMarksConfig<Datum>
+  implements VicDataMarksOptions<Datum>
+{
+  data: Datum[];
+  mixBlendMode: string;
+  abstract setPropertiesFromData(): void;
+
+  constructor() {
+    this.mixBlendMode = 'normal';
+  }
 }

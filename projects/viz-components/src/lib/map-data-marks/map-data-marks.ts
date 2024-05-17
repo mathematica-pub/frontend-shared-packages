@@ -2,7 +2,7 @@ import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { VicDataMarks } from '../data-marks/data-marks';
-import { VicDataMarksConfig } from '../data-marks/data-marks-types';
+import { VicDataMarksOptions } from '../data-marks/data-marks-types';
 import { VicAttributeDataDimensionConfig } from '../geographies/dimensions/attribute-data-bin-types';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
@@ -12,7 +12,7 @@ import { MapChartComponent } from '../map-chart/map-chart.component';
 @Directive()
 export abstract class VicMapDataMarks<
     Datum,
-    ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>
+    ExtendedDataMarksConfig extends VicDataMarksOptions<Datum>
   >
   extends VicDataMarks<Datum, ExtendedDataMarksConfig>
   implements OnInit

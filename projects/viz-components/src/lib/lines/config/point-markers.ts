@@ -25,3 +25,9 @@ export class VicPointMarkers {
     Object.assign(this, init);
   }
 }
+
+export function vicPointMarkers(
+  config?: Partial<VicPointMarkers>
+): VicPointMarkers {
+  return new VicPointMarkers(config);
+}

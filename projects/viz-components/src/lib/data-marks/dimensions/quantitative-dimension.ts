@@ -1,22 +1,14 @@
 import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
-import { VicDataDimension } from './data-dimension';
+import { VicDataDimension, VicDataDimensionOptions } from './data-dimension';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
 
-export class VicQuantitativeDimension<Datum> extends VicDataDimension<
-  Datum,
-  number
-> {
-  /**
-   * The domain of the dimension's scale, adjusted to include zero if the domain does not include zero and the user has specified that it should.
-   */
-  private unpaddedDomain: [number, number];
-  /**
-   * The scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
-   */
-  private scaleFn: (
-    domain?: Iterable<number>,
-    range?: Iterable<number>
-  ) => ScaleContinuousNumeric<number, number>;
+const DEFAULT = {
+  domainIncludesZero: true,
+  scaleFn: scaleLinear,
+};
+
+export interface VicQuantitativeDimensionOptions<Datum>
+  extends VicDataDimensionOptions<Datum, number> {
   /**
    * An optional, user-provided range of values that is used as the domain of the dimension's scale.
    *
@@ -31,12 +23,34 @@ export class VicQuantitativeDimension<Datum> extends VicDataDimension<
    * The padding configuration for the dimension's domain.
    */
   domainPadding: VicDomainPaddingConfig;
+  /**
+   * The scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   */
+  scaleFn: (
+    domain?: Iterable<number>,
+    range?: Iterable<number>
+  ) => ScaleContinuousNumeric<number, number>;
+}
 
-  constructor(init?: Partial<VicQuantitativeDimension<Datum>>) {
+export class VicQuantitativeDimension<Datum>
+  extends VicDataDimension<Datum, number>
+  implements VicQuantitativeDimensionOptions<Datum>
+{
+  readonly domain: [number, number];
+  domainIncludesZero: boolean;
+  readonly domainPadding: VicDomainPaddingConfig;
+  readonly scaleFn: (
+    domain?: Iterable<number>,
+    range?: Iterable<number>
+  ) => ScaleContinuousNumeric<number, number>;
+  private unpaddedDomain: [number, number];
+
+  constructor(options: Partial<VicQuantitativeDimensionOptions<Datum>>) {
     super();
-    this.scaleFn = scaleLinear;
-    this.domainIncludesZero = true;
-    Object.assign(this, init);
+    Object.assign(this, options);
+    this.domainIncludesZero =
+      this.domainIncludesZero ?? DEFAULT.domainIncludesZero;
+    this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn;
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -93,4 +107,20 @@ export class VicQuantitativeDimension<Datum> extends VicDataDimension<
     );
     return domain;
   }
+}
+
+/**
+ *
+ * @param {VicQuantitativeDimensionOptions<Datum>} options **REQUIRED**
+ * @param options.valueAccessor **REQUIRED**
+ * @param options.domain
+ * @param options.domainIncludesZero
+ * @param options.domainPadding
+ * @param options.scaleFn
+ * @returns
+ */
+export function vicQuantitativeDimension<Datum>(
+  options: Partial<VicQuantitativeDimensionOptions<Datum>>
+): VicQuantitativeDimension<Datum> {
+  return new VicQuantitativeDimension(options);
 }
