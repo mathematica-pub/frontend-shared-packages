@@ -25,8 +25,8 @@ export class VicColorUtilities {
 
   /**
    * @param backgroundColor string, provided by getFill
-   * @param darkColor Cannot use HTML named colors -- the colors used here must be calculable, hex or rgb
-   * @param lightColor Same constraints as darkColor
+   * @param darkColor
+   * @param lightColor
    * @returns label fill color (either dark or light color)
    */
   static getHigherContrastColorForBackground(
