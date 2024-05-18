@@ -15,7 +15,7 @@ import {
   VicBarsDimensions,
 } from '../../bars/config/bars-dimensions';
 import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import { VicStackDatum } from '../stacked-bars.component';
 
 const DEFAULT = {

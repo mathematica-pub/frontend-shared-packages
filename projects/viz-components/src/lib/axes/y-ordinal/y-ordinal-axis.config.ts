@@ -1,4 +1,4 @@
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import {
   VicOrdinalAxisOptions,
   mixinOrdinalAxisConfig,

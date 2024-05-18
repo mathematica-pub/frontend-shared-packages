@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
 import { mixinXAxis } from '../x/x-axis';
 import { XyAxis } from '../xy-axis';

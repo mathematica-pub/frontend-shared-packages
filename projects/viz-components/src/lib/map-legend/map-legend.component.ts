@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { VicOrientation, VicSide } from '../core/types/layout';
-import { VicValuesBin } from '../geographies/dimensions/attribute-data-bin-types';
+import { VicValuesBin } from '../geographies/config/dimensions/attribute-data-bin-types';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
 export enum VicLegendType {

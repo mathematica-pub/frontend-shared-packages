@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { select } from 'd3';
 import { Observable, filter, takeUntil } from 'rxjs';
-import { VicDataValue } from '../../public-api';
+import { VicDataValue } from '../core/types/values';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { BarsEventDirective } from './bars-event-directive';

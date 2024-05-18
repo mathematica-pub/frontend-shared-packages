@@ -1,5 +1,5 @@
-import { vicDataGeographies } from '../dimensions/data-geographies';
-import { vicEqualValuesAttributeDataDimension } from '../dimensions/equal-value-ranges-bins';
+import { vicDataGeographies } from './dimensions/data-geographies';
+import { vicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { VicGeographiesConfig } from './geographies.config';
 
 type Datum = { value: number; state: string };

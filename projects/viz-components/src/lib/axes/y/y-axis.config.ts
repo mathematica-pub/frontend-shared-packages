@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { VicSide } from '../../core/types/layout';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import { VicXyAxisConfig, VicXyAxisOptions } from '../xy-axis.config';
 
 export interface VicYAxisOptions<TickValue extends VicDataValue>

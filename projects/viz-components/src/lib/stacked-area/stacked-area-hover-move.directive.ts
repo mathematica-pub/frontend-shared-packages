@@ -2,8 +2,8 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InternSet, least } from 'd3';
+import { VicContinuousValue, VicDataValue } from '../core/types/values';
 import { isDate } from '../core/utilities/type-guards';
-import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -29,7 +29,7 @@ export class StackedAreaHoverMoveDirective<
     >
   >[];
   @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
-    VicStackedAreaEventOutput<Datum>
+    VicStackedAreaEventOutput<Datum, TCategoricalValue>
   >();
   pointerX: number;
   pointerY: number;
@@ -91,7 +91,7 @@ export class StackedAreaHoverMoveDirective<
 
   getClosestXIndicies(): number[] {
     const uniqueXValues = [
-      ...new InternSet<number | Date>(this.stackedArea.config.x.values),
+      ...new InternSet<VicContinuousValue>(this.stackedArea.config.x.values),
     ];
     const closestXValue = least(uniqueXValues, (x) =>
       Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
@@ -109,7 +109,7 @@ export class StackedAreaHoverMoveDirective<
     }
   }
 
-  getTooltipData(): VicStackedAreaEventOutput<Datum> {
+  getTooltipData(): VicStackedAreaEventOutput<Datum, TCategoricalValue> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
       this.stackedArea

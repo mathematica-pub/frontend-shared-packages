@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
-import { VicValuesBin } from '../../geographies/dimensions/attribute-data-bin-types';
+import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-types';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {

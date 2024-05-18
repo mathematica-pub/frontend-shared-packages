@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import { XyAxis } from '../xy-axis';
 import { VicOrdinalAxisConfig } from './ordinal-axis.config';
 

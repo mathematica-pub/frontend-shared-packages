@@ -1,4 +1,4 @@
-import { formatValue, valueFormat } from '../value-format/value-format';
+import { formatValue, valueFormat } from '../core/utilities/value-format';
 
 export class VicColumnConfig {
   title: string;

@@ -15,6 +15,7 @@ import {
   vicHorizontalBars,
 } from 'projects/viz-components/src/lib/bars/config/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/categorical-dimension';
 import { vicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
 import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/ordinal-dimension';
 import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/quantitative-dimension';
@@ -26,7 +27,6 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { vicCategoricalDimension } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

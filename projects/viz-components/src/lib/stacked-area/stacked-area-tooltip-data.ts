@@ -1,19 +1,25 @@
-import { VicDataValue } from '../data-marks/dimensions/data-dimension';
-import { formatValue } from '../value-format/value-format';
+import { VicDataValue } from '../core/types/values';
+import { formatValue } from '../core/utilities/value-format';
 import { StackedAreaComponent } from './stacked-area.component';
 
-export interface VicStackedAreaEventOutput<Datum> {
-  data: VicStackedAreaEventDatum<Datum>[];
+export interface VicStackedAreaEventOutput<
+  Datum,
+  TCategoricalValue extends VicDataValue
+> {
+  data: VicStackedAreaEventDatum<Datum, TCategoricalValue>[];
   positionX: number;
   svgHeight?: number;
 }
 
-export interface VicStackedAreaEventDatum<Datum> {
+export interface VicStackedAreaEventDatum<
+  Datum,
+  TCategoricalValue extends VicDataValue
+> {
   datum: Datum;
   color: string;
   x: string;
   y: string;
-  category: VicDataValue;
+  category: TCategoricalValue;
 }
 
 export function getStackedAreaTooltipData<
@@ -22,7 +28,7 @@ export function getStackedAreaTooltipData<
 >(
   closestXIndicies: number[],
   stackedArea: StackedAreaComponent<Datum, TCategoricalValue>
-): VicStackedAreaEventOutput<Datum> {
+): VicStackedAreaEventOutput<Datum, TCategoricalValue> {
   const data = closestXIndicies.map((i) => {
     const originalDatum = stackedArea.config.data.find(
       (d) =>

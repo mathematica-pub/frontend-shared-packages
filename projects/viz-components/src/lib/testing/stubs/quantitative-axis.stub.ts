@@ -1,5 +1,5 @@
 import { mixinQuantitativeAxis } from '../../axes/quantitative/quantitative-axis';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import { XyAxisStub } from './xy-axis.stub';
 
 export class QuantitativeAxisStub<

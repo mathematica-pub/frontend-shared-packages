@@ -1,4 +1,4 @@
-import { VicDataValue } from '../../public-api';
+import { VicDataValue } from '../core/types/values';
 import { EventEffect } from '../events/effect';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsComponent } from './bars.component';

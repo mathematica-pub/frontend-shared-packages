@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { VicAttributeDataDimensionConfig } from '../../geographies/dimensions/attribute-data-bin-types';
+import { VicAttributeDataDimensionConfig } from '../../geographies/config/dimensions/attribute-data-bin-types';
 import { MapLegendContent } from '../../map-legend/map-legend-content';
 
 export class MapLegendContentStub<Datum> extends MapLegendContent<

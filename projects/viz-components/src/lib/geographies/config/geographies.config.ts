@@ -17,10 +17,14 @@ import {
   VicDataMarksConfig,
   VicDataMarksOptions,
 } from '../../data-marks/data-marks-types';
-import { VicDataGeographies } from '../dimensions/data-geographies';
-import { VicNoDataGeographies } from '../dimensions/no-data-geographies';
-import { VicGeographiesFeature } from '../geographies';
-import { MapDataValues } from '../geographies.component';
+import { VicGeographiesFeature } from '../geographies-feature';
+import { VicDataGeographies } from './dimensions/data-geographies';
+import { VicNoDataGeographies } from './dimensions/no-data-geographies';
+
+export class MapDataValues {
+  attributeValuesByGeographyIndex: InternMap;
+  datumsByGeographyIndex: InternMap;
+}
 
 const DEFAULT = {
   projection: geoAlbersUsa(),

@@ -2,19 +2,19 @@ import { Component, Input } from '@angular/core';
 import 'cypress/support/component';
 import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import {
-  VicBarsModule,
-  VicBarsOptions,
-  VicChartModule,
-  VicXQuantitativeAxisModule,
-  VicXyChartModule,
-  vicCategoricalDimension,
-  vicHorizontalBars,
-  vicOrdinalDimension,
-  vicQuantitativeDimension,
-} from 'projects/viz-components/src/public-api';
+import { VicBarsModule } from '../../bars/bars.module';
 import { vicBarsLabels } from '../../bars/config/bars-labels';
+import {
+  VicBarsOptions,
+  vicHorizontalBars,
+} from '../../bars/config/bars.config';
+import { VicChartModule } from '../../chart/chart.module';
+import { vicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
+import { vicOrdinalDimension } from '../../data-marks/dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
+import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { vicXQuantitativeAxis } from '../x-quantitative/x-quantitative-axis.config';
+import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
 
 @Component({

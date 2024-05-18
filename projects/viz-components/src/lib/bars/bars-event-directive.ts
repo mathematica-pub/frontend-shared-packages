@@ -1,4 +1,4 @@
-import { VicDataValue } from '../../public-api';
+import { VicDataValue } from '../core/types/values';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';

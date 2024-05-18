@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicCategoricalAttributeDataDimension } from '../geographies/dimensions/categorical-bins';
-import { VicEqualValuesAttributeDataDimension } from '../geographies/dimensions/equal-value-ranges-bins';
+import { VicCategoricalAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins';
+import { VicEqualValuesAttributeDataDimension } from '../geographies/config/dimensions/equal-value-ranges-bins';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {

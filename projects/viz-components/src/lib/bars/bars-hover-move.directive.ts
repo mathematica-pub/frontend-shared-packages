@@ -11,7 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
-import { VicDataValue } from '../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../core/types/values';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';

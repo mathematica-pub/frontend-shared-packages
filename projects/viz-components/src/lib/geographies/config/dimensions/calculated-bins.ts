@@ -1,5 +1,5 @@
 import { extent, range, scaleLinear } from 'd3';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../../core/types/values';
 import {
   AttributeDataDimension,
   VicAttributeDataDimensionOptions,

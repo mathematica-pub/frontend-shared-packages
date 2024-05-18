@@ -3,8 +3,8 @@ import { VicOrientation } from '../../core/types/layout';
 import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
-} from '../../geographies/dimensions/attribute-data-bin-types';
-import { VicNoBinsAttributeDataDimension } from '../../geographies/dimensions/no-bins';
+} from '../../geographies/config/dimensions/attribute-data-bin-types';
+import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins';
 import { MapLegendContent } from '../map-legend-content';
 
 type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<

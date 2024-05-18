@@ -1,7 +1,7 @@
 import { min, range } from 'd3';
+import { VicDataValue } from '../../core/types/values';
 import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
 import { VicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
 import { VicOrdinalDimension } from '../../data-marks/dimensions/ordinal-dimension';
 import { VicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';

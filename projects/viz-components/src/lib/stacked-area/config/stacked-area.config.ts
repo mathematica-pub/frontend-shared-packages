@@ -12,9 +12,9 @@ import {
   stackOffsetNone,
   stackOrderNone,
 } from 'd3';
+import { VicContinuousValue, VicDataValue } from '../../core/types/values';
 import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
 import { VicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
 import { VicDateDimension } from '../../data-marks/dimensions/date-dimension';
 import { VicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
@@ -39,14 +39,14 @@ export interface VicStackedAreaOptions<
   curve: CurveFactory;
   stackOffset: (
     series: Series<
-      [number | Date, InternMap<TCategoricalValue, number>],
+      [VicContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >,
     order: number[]
   ) => void;
   stackOrder: (
     series: Series<
-      [number | Date, InternMap<TCategoricalValue, number>],
+      [VicContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >
   ) => Iterable<number>;
@@ -63,20 +63,20 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   curve: CurveFactory;
   stackOffset: (
     series: Series<
-      [number | Date, InternMap<TCategoricalValue, number>],
+      [VicContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >,
     order: number[]
   ) => void;
   stackOrder: (
     series: Series<
-      [number | Date, InternMap<TCategoricalValue, number>],
+      [VicContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >
   ) => Iterable<number>;
   categoricalOrder: TCategoricalValue[];
   series: (SeriesPoint<
-    [number | Date, InternMap<TCategoricalValue, number>]
+    [VicContinuousValue, InternMap<TCategoricalValue, number>]
   > & {
     i: number;
   })[][];
@@ -123,7 +123,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
       : this.categorical.domain;
 
     this.series = stack<
-      [number | Date, InternMap<TCategoricalValue, number>],
+      [VicContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >()
       .keys(keys)

@@ -2,9 +2,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
+import { vicDataGeographies } from './config/dimensions/data-geographies';
+import { vicEqualValuesAttributeDataDimension } from './config/dimensions/equal-value-ranges-bins';
 import { VicGeographiesConfig } from './config/geographies.config';
-import { vicDataGeographies } from './dimensions/data-geographies';
-import { vicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { GeographiesComponent } from './geographies.component';
 
 type Datum = { value: number; state: string };

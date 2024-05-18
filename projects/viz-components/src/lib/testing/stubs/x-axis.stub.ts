@@ -1,5 +1,5 @@
 import { mixinXAxis } from '../../axes/x/x-axis';
-import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
+import { VicDataValue } from '../../core/types/values';
 import { XyAxisStub } from './xy-axis.stub';
 
 export class XAxisStub<T extends VicDataValue> extends mixinXAxis(

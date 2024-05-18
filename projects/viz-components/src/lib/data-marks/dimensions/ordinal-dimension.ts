@@ -1,9 +1,6 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
-import {
-  VicDataDimension,
-  VicDataDimensionOptions,
-  VicDataValue,
-} from './data-dimension';
+import { VicDataValue } from '../../core/types/values';
+import { VicDataDimension, VicDataDimensionOptions } from './data-dimension';
 
 const DEFAULT = {
   align: 0.5,

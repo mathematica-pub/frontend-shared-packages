@@ -1,4 +1,4 @@
-import { VicDataValue } from '../../public-api';
+import { VicDataValue } from '../core/types/values';
 import { HoverMoveEventEffect } from '../events/effect';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 

@@ -7,7 +7,7 @@ import { Geometry } from 'geojson';
 import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
-import { VicGeographiesFeature } from './geographies';
+import { VicGeographiesFeature } from './geographies-feature';
 import {
   VicGeographiesEventOutput,
   getGeographiesTooltipData,

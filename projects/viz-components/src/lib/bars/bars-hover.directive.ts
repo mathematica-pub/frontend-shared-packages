@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { select } from 'd3';
 import { filter, takeUntil } from 'rxjs';
-import { VicDataValue } from '../../public-api';
+import { VicDataValue } from '../core/types/values';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';

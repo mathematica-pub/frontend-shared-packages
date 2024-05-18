@@ -1,10 +1,10 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { VicOrientation, VicSide } from '../core/types/layout';
+import { formatValue } from '../core/utilities/value-format';
 import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
-} from '../geographies/dimensions/attribute-data-bin-types';
-import { formatValue } from '../value-format/value-format';
+} from '../geographies/config/dimensions/attribute-data-bin-types';
 
 @Directive()
 export abstract class MapLegendContent<

@@ -6,7 +6,7 @@ import { Feature, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { filter, takeUntil } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
-import { VicGeographiesFeature } from './geographies';
+import { VicGeographiesFeature } from './geographies-feature';
 import {
   VicGeographiesEventOutput,
   VicGeographiesTooltipOutput,

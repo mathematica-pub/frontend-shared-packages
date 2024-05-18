@@ -7,14 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import * as CSSType from 'csstype';
-import {
-  GeoPath,
-  GeoProjection,
-  InternMap,
-  Selection,
-  geoPath,
-  select,
-} from 'd3';
+import { GeoPath, GeoProjection, Selection, geoPath, select } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -23,16 +16,11 @@ import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
+import { VicDataGeographies } from './config/dimensions/data-geographies';
+import { VicNoDataGeographies } from './config/dimensions/no-data-geographies';
+import { VicGeographyLabelConfig } from './config/geographies-labels';
 import { VicGeographiesConfig } from './config/geographies.config';
-import { VicDataGeographies } from './dimensions/data-geographies';
-import { VicNoDataGeographies } from './dimensions/no-data-geographies';
-import { VicGeographiesFeature } from './geographies';
-import { VicGeographyLabelConfig } from './geographies-labels';
-
-export class MapDataValues {
-  attributeValuesByGeographyIndex: InternMap;
-  datumsByGeographyIndex: InternMap;
-}
+import { VicGeographiesFeature } from './geographies-feature';
 
 export const GEOGRAPHIES = new InjectionToken<
   GeographiesComponent<unknown, unknown>

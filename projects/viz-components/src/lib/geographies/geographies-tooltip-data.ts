@@ -1,6 +1,6 @@
 import { Geometry } from 'geojson';
-import { formatValue } from '../value-format/value-format';
-import { VicGeographiesFeature } from './geographies';
+import { formatValue } from '../core/utilities/value-format';
+import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesComponent } from './geographies.component';
 
 export interface VicGeographiesTooltipOutput<Datum> {

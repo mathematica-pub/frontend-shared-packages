@@ -1,4 +1,4 @@
-import { formatValue } from '../value-format/value-format';
+import { formatValue } from '../core/utilities/value-format';
 import { LinesComponent } from './lines.component';
 
 export interface VicLinesEventOutput<Datum> {

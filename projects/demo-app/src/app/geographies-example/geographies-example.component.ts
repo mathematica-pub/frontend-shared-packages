@@ -2,54 +2,52 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { valueFormat } from 'projects/viz-components/src/lib/core/utilities/value-format';
+import { VicFillPattern } from 'projects/viz-components/src/lib/data-marks/dimensions/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-types';
+import {
+  VicCategoricalAttributeDataDimension,
+  vicCategoricalAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/categorical-bins';
+import {
+  VicCustomBreaksAttributeDataDimension,
+  vicCustomBreaksAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/custom-breaks-bins';
+import {
+  VicDataGeographies,
+  vicDataGeographies,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/data-geographies';
+import {
+  VicEqualNumObservationsAttributeDataDimension,
+  vicEqualNumObservationsAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-num-observations-bins';
+import {
+  VicEqualValuesAttributeDataDimension,
+  vicEqualValuesAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-value-ranges-bins';
+import {
+  VicNoBinsAttributeDataDimension,
+  vicNoBinsAttributeDataDimension,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/no-bins';
+import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
+import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
 import {
   VicGeographiesConfig,
   vicGeographies,
 } from 'projects/viz-components/src/lib/geographies/config/geographies.config';
-import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/dimensions/attribute-data-bin-types';
-import {
-  VicCategoricalAttributeDataDimension,
-  vicCategoricalAttributeDataDimension,
-} from 'projects/viz-components/src/lib/geographies/dimensions/categorical-bins';
-import {
-  VicCustomBreaksAttributeDataDimension,
-  vicCustomBreaksAttributeDataDimension,
-} from 'projects/viz-components/src/lib/geographies/dimensions/custom-breaks-bins';
-import {
-  VicDataGeographies,
-  vicDataGeographies,
-} from 'projects/viz-components/src/lib/geographies/dimensions/data-geographies';
-import {
-  VicEqualNumObservationsAttributeDataDimension,
-  vicEqualNumObservationsAttributeDataDimension,
-} from 'projects/viz-components/src/lib/geographies/dimensions/equal-num-observations-bins';
-import {
-  VicEqualValuesAttributeDataDimension,
-  vicEqualValuesAttributeDataDimension,
-} from 'projects/viz-components/src/lib/geographies/dimensions/equal-value-ranges-bins';
-import {
-  VicNoBinsAttributeDataDimension,
-  vicNoBinsAttributeDataDimension,
-} from 'projects/viz-components/src/lib/geographies/dimensions/no-bins';
-import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/dimensions/no-data-geographies';
-import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
+import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
 import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
-import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
-import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import {
-  VicFillPattern,
-  valueFormat,
-} from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,

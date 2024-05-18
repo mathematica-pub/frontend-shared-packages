@@ -3,13 +3,13 @@ import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/
 import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
 import { vicYQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/categorical-dimension';
+import { vicDateDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/date-dimension';
+import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/quantitative-dimension';
 import {
   VicStackedAreaConfig,
-  vicCategoricalDimension,
-  vicDateDimension,
-  vicQuantitativeDimension,
   vicStackedArea,
-} from 'projects/viz-components/src/public-api';
+} from 'projects/viz-components/src/lib/stacked-area/config/stacked-area.config';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

@@ -1,5 +1,5 @@
 import { Geometry } from 'geojson';
-import { VicGeographiesFeature } from '../geographies';
+import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographyLabelConfig } from '../geographies-labels';
 
 /**

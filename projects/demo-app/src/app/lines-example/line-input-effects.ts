@@ -1,6 +1,6 @@
 import { InputEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
-import { LinesComponent } from 'projects/viz-components/src/public-api';
+import { LinesComponent } from 'projects/viz-components/src/lib/lines/lines.component';
 
 export class HighlightLineForLabel<
   Datum,

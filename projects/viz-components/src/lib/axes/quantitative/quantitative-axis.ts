@@ -1,6 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
+import { VicContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../xy-axis';
 import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
 
@@ -10,7 +11,7 @@ import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
  * For internal library use only.
  */
 export function mixinQuantitativeAxis<
-  TickValue extends number | Date,
+  TickValue extends VicContinuousValue,
   T extends AbstractConstructor<XyAxis<TickValue>>
 >(Base: T) {
   @Directive()
