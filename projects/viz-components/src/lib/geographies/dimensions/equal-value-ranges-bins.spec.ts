@@ -84,7 +84,6 @@ describe('VicEqualValuesAttributeDataDimension', () => {
       expect(scale.domain()).toEqual([0, 8]);
     });
     it('correctly sets the range', () => {
-      console.log(dimension.range);
       expect(scale.range()).toEqual(['red', 'blue', 'yellow', 'green']);
     });
     it('correctly scales a value in the domain', () => {
