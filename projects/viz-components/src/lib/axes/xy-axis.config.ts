@@ -1,7 +1,5 @@
 import { VicTickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
 
-const DEFAULT = {};
-
 export interface VicXyAxisOptions<TickValue> {
   /**
    * If true, the default line that D3 creates for the axis will be removed.
@@ -50,7 +48,7 @@ export abstract class VicXyAxisConfig<TickValue> {
     width: number;
   }): number;
 
-  protected getValidatedNumTicks(numTicks: number): number {
+  getValidatedNumTicks(numTicks: number): number {
     if (numTicks < 1) {
       return 1;
     }
