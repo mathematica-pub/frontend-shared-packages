@@ -59,15 +59,6 @@ export function mixinXAxis<
       this.axisFunction =
         this.config.side === VicSide.top ? axisTop : axisBottom;
     }
-
-    initNumTicks(): number {
-      const d3ExampleDefault = this.chart.width / 40;
-      if (d3ExampleDefault < 1) {
-        return 1;
-      } else {
-        return Math.floor(d3ExampleDefault);
-      }
-    }
   }
 
   return Mixin;

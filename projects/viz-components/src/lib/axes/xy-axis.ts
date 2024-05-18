@@ -43,7 +43,6 @@ export abstract class XyAxis<TickValue extends VicDataValue>
 
   abstract getScale(): Observable<XyAxisScale>;
   abstract setAxisFunction(): any;
-  abstract initNumTicks(): number;
   abstract setTranslate(): void;
   abstract setAxis(axisFunction: any): void;
 

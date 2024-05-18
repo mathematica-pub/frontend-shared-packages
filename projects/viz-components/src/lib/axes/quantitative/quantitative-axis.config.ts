@@ -6,7 +6,6 @@ import { VicXyAxisConfig, VicXyAxisOptions } from '../xy-axis.config';
 
 const DEFAULT = {
   tickFormat: ',.1f',
-  numTicks: 5,
 };
 
 export interface VicQuantitativeAxisOptions<TickValue extends VicDataValue>
@@ -55,7 +54,6 @@ export function mixinQuantitativeAxisConfig<
       super(...args);
       Object.assign(this, args[0]);
       this.tickFormat = this.tickFormat ?? DEFAULT.tickFormat;
-      this.numTicks = this.numTicks ?? DEFAULT.numTicks;
     }
   }
   return Mixin;

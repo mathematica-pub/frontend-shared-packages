@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { of } from 'rxjs';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { DestroyRefStub } from '../testing/stubs/core/destroy-ref.stub';
 import { XyAxisStub } from '../testing/stubs/xy-axis.stub';
 import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
 
 describe('the XyAxis abstract class', () => {
-  let abstractClass: XyAxisStub;
+  let abstractClass: XyAxisStub<number>;
   let chart: XyChartComponentStub;
 
   beforeEach(() => {
@@ -14,43 +15,22 @@ describe('the XyAxis abstract class', () => {
   });
 
   describe('ngOnChanges', () => {
+    let objectChangedSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(abstractClass, 'updateAxis');
+      objectChangedSpy = spyOn(
+        NgOnChangesUtilities,
+        'inputObjectChangedNotFirstTime'
+      );
     });
-    it('calls updateAxis once if config is not first change and config is not equal to previous value', () => {
-      abstractClass.ngOnChanges({
-        config: {
-          isFirstChange: () => false,
-          previousValue: {
-            x: 'old value',
-          },
-          currentValue: {
-            x: 'new value',
-          },
-        } as any,
-      });
+    it('calls updateAxis once if inputObjectChangedNotFirstTime returns true', () => {
+      objectChangedSpy.and.returnValue(true);
+      abstractClass.ngOnChanges({ config: {} } as any);
       expect(abstractClass.updateAxis).toHaveBeenCalledTimes(1);
     });
     it('does not call updateAxis if config is first change', () => {
-      abstractClass.ngOnChanges({
-        config: {
-          isFirstChange: () => true,
-        } as any,
-      });
-      expect(abstractClass.updateAxis).not.toHaveBeenCalled();
-    });
-    it('does not call updateAxis if config is equal to previous value', () => {
-      abstractClass.ngOnChanges({
-        config: {
-          isFirstChange: () => false,
-          previousValue: {
-            x: 'old value',
-          },
-          currentValue: {
-            x: 'old value',
-          },
-        } as any,
-      });
+      objectChangedSpy.and.returnValue(false);
+      abstractClass.ngOnChanges({ config: {} } as any);
       expect(abstractClass.updateAxis).not.toHaveBeenCalled();
     });
   });

@@ -6,9 +6,10 @@ import { VicSide } from '../../core/types/layout';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
+import { vicXQuantitativeAxis } from '../x-quantitative/x-quantitative-axis.config';
 
 describe('the XAxis mixin', () => {
-  let abstractClass: XAxisStub;
+  let abstractClass: XAxisStub<number>;
   let chart: XyChartComponentStub;
   let testRanges: Ranges;
 
@@ -37,7 +38,6 @@ describe('the XAxis mixin', () => {
         })
         .unsubscribe();
     });
-
     it('returns the correct string', () => {
       abstractClass.translate$
         .subscribe((str) => {
@@ -51,14 +51,20 @@ describe('the XAxis mixin', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'getTopTranslate').and.returnValue(90);
       spyOn(abstractClass, 'getBottomTranslate').and.returnValue(60);
+      abstractClass.config = vicXQuantitativeAxis({
+        side: VicSide.top,
+      });
     });
     it('returns the correct value for the top side', () => {
-      abstractClass.side = VicSide.top;
+      abstractClass.config = vicXQuantitativeAxis({
+        side: VicSide.top,
+      });
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
-
     it('returns the correct value for the bottom side', () => {
-      abstractClass.side = VicSide.bottom;
+      abstractClass.config = vicXQuantitativeAxis({
+        side: VicSide.bottom,
+      });
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -98,22 +104,19 @@ describe('the XAxis mixin', () => {
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.side = VicSide.top;
+      abstractClass.config = vicXQuantitativeAxis({
+        side: VicSide.top,
+      });
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisTop);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.side = VicSide.bottom;
+      abstractClass.config = vicXQuantitativeAxis({
+        side: VicSide.bottom,
+      });
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisBottom);
-    });
-  });
-
-  describe('initNumTicks', () => {
-    it('sets the numTicks to the correct value', () => {
-      abstractClass.chart = { width: 400 } as any;
-      expect(abstractClass.initNumTicks()).toEqual(10);
     });
   });
 });

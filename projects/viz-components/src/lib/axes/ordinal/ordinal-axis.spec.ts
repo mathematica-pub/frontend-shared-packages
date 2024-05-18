@@ -1,9 +1,10 @@
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
+import { vicXOrdinalAxis } from '../x-ordinal/x-ordinal-axis.config';
 
 describe('the OrdinalAxis mixin', () => {
-  let abstractClass: OrdinalAxisStub;
+  let abstractClass: OrdinalAxisStub<string>;
   let chart: XyChartComponentStub;
 
   beforeEach(() => {
@@ -24,14 +25,13 @@ describe('the OrdinalAxis mixin', () => {
         };
       };
       abstractClass.scale = 'class scale' as any;
-      abstractClass.defaultTickSizeOuter = 3;
-      abstractClass.config = {
-        tickSizeOuter: 6,
-      } as any;
+      abstractClass.config = vicXOrdinalAxis({
+        tickSizeOuter: 3,
+      });
     });
     it('calls tickSizeOuter once with the correct value', () => {
       abstractClass.setAxis(axisFunction);
-      expect(tickSizeOuterSpy).toHaveBeenCalledOnceWith(6);
+      expect(tickSizeOuterSpy).toHaveBeenCalledOnceWith(3);
     });
   });
 });
