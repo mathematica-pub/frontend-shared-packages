@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
+import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
+import { vicYQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
-  VicAxisConfig,
   VicStackedAreaConfig,
+  vicCategoricalDimension,
+  vicDateDimension,
+  vicQuantitativeDimension,
+  vicStackedArea,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
@@ -10,8 +16,8 @@ import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
   dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum, string>;
-  xAxisConfig: VicAxisConfig;
-  yAxisConfig: VicAxisConfig;
+  xAxisConfig: VicQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -39,18 +45,25 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = new VicAxisConfig();
-    xAxisConfig.tickFormat = '%Y';
-    const yAxisConfig = new VicAxisConfig();
+    const xAxisConfig = vicXQuantitativeAxis<Date>({
+      tickFormat: '%Y',
+    });
+    const yAxisConfig = vicYQuantitativeAxis<number>({
+      tickFormat: ',.0f',
+    });
     yAxisConfig.tickFormat = ',.0f';
-    const dataConfig = new VicStackedAreaConfig<
-      IndustryUnemploymentDatum,
-      string
-    >();
-    dataConfig.data = data;
-    dataConfig.x.valueAccessor = (d) => d.date;
-    dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.categorical.valueAccessor = (d) => d.industry;
+    const dataConfig = vicStackedArea<IndustryUnemploymentDatum, string>({
+      data,
+      x: vicDateDimension({
+        valueAccessor: (d) => d.date,
+      }),
+      y: vicQuantitativeDimension({
+        valueAccessor: (d) => d.value,
+      }),
+      categorical: vicCategoricalDimension({
+        valueAccessor: (d) => d.industry,
+      }),
+    });
     return {
       dataConfig,
       xAxisConfig,

@@ -11,11 +11,7 @@
     >
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
-        <svg:g
-          vic-x-quantitative-axis
-          [config]="vm.xAxisConfig"
-          side="top"
-        ></svg:g>
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
         <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
         <svg:g
           vic-data-marks-bars

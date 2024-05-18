@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
 import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
 import { XyAxis } from '../xy-axis';
 import { mixinYAxis } from '../y/y-axis';
@@ -45,4 +46,6 @@ const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['side', 'config'],
 })
-export class YOrdinalAxisComponent extends YOrdinalAxis {}
+export class YOrdinalAxisComponent<
+  TickValue extends VicDataValue
+> extends YOrdinalAxis<TickValue> {}

@@ -1,7 +1,7 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
-import { least } from 'd3';
+import { InternSet, least } from 'd3';
 import { isDate } from '../core/utilities/type-guards';
 import { VicDataValue } from '../data-marks/dimensions/data-dimension';
 import { HoverMoveEventEffect } from '../events/effect';
@@ -90,14 +90,16 @@ export class StackedAreaHoverMoveDirective<
   }
 
   getClosestXIndicies(): number[] {
-    const uniqueXValues = [...new Set(this.stackedArea.config.x.values)];
+    const uniqueXValues = [
+      ...new InternSet<number | Date>(this.stackedArea.config.x.values),
+    ];
     const closestXValue = least(uniqueXValues, (x) =>
       Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
     if (isDate(closestXValue)) {
       return this.stackedArea.config.valueIndicies.filter(
         (i) =>
-          this.stackedArea.config.x.values[i].getTime() ===
+          (this.stackedArea.config.x.values[i] as Date).getTime() ===
           closestXValue.getTime()
       );
     } else {

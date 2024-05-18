@@ -1,4 +1,5 @@
 import {
+  CurveFactory,
   curveLinear,
   extent,
   InternMap,
@@ -27,32 +28,64 @@ const DEFAULT = {
   },
 };
 
+export interface VicStackedAreaOptions<
+  Datum,
+  TCategoricalValue extends VicDataValue
+> extends VicDataMarksOptions<Datum>,
+    VicDataMarksOptions<Datum> {
+  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
+  y: VicQuantitativeDimension<Datum>;
+  categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
+  curve: CurveFactory;
+  stackOffset: (
+    series: Series<
+      [number | Date, InternMap<TCategoricalValue, number>],
+      TCategoricalValue
+    >,
+    order: number[]
+  ) => void;
+  stackOrder: (
+    series: Series<
+      [number | Date, InternMap<TCategoricalValue, number>],
+      TCategoricalValue
+    >
+  ) => Iterable<number>;
+  categoricalOrder: TCategoricalValue[];
+}
+
 export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   extends VicXyDataMarksConfig<Datum>
   implements VicDataMarksOptions<Datum>
 {
-  x: VicDateDimension<Datum>;
+  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
   y: VicQuantitativeDimension<Datum>;
   categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  valueIsDefined?: (d: Datum, i: number, ...args: any) => boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  curve: (x: any) => any;
+  curve: CurveFactory;
   stackOffset: (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    series: Series<any, any>,
-    order: Iterable<number>
+    series: Series<
+      [number | Date, InternMap<TCategoricalValue, number>],
+      TCategoricalValue
+    >,
+    order: number[]
   ) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  stackOrder: (x: any) => any;
-  categoricalOrder?: TCategoricalValue[];
-  series: (SeriesPoint<[Date, InternMap<TCategoricalValue, number>]> & {
+  stackOrder: (
+    series: Series<
+      [number | Date, InternMap<TCategoricalValue, number>],
+      TCategoricalValue
+    >
+  ) => Iterable<number>;
+  categoricalOrder: TCategoricalValue[];
+  series: (SeriesPoint<
+    [number | Date, InternMap<TCategoricalValue, number>]
+  > & {
     i: number;
   })[][];
 
-  constructor(init?: Partial<VicStackedAreaConfig<Datum, TCategoricalValue>>) {
+  constructor(
+    options?: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
+  ) {
     super();
-    Object.assign(this, init);
+    Object.assign(this, options);
     this.curve = this.curve ?? DEFAULT.curve;
     this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
     this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
@@ -90,7 +123,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
       : this.categorical.domain;
 
     this.series = stack<
-      [Date, InternMap<TCategoricalValue, number>],
+      [number | Date, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >()
       .keys(keys)
@@ -114,11 +147,9 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
 }
 
 export function vicStackedArea<Datum, TCategoricalValue extends VicDataValue>(
-  options: Partial<VicStackedAreaConfig<Datum, TCategoricalValue>>
+  options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
 ): VicStackedAreaConfig<Datum, TCategoricalValue> {
   const config = new VicStackedAreaConfig(options);
-  config.categorical.range =
-    config.categorical.range ?? DEFAULT.categorical.range;
   config.setPropertiesFromData();
   return config;
 }

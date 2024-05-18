@@ -51,16 +51,8 @@
                 [template]="htmlTooltip"
               ></vic-html-tooltip>
             </svg:g>
-            <svg:g
-              vic-x-quantitative-axis
-              [config]="vm.xAxisConfig"
-              side="bottom"
-            ></svg:g>
-            <svg:g
-              vic-y-quantitative-axis
-              [config]="vm.yAxisConfig"
-              side="left"
-            ></svg:g>
+            <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+            <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
           </ng-container>
         </vic-xy-chart>
       </ng-container>

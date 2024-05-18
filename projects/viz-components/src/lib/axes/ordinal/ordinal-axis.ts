@@ -1,29 +1,34 @@
+import { Directive, Input } from '@angular/core';
 import { format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
+import { VicDataValue } from '../../data-marks/dimensions/data-dimension';
 import { XyAxis } from '../xy-axis';
+import { VicOrdinalAxisConfig } from './ordinal-axis.config';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for an ordinal axis.
  *
  * For internal library use only.
  */
-export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
-  Base: T
-) {
+export function OrdinalAxisMixin<
+  TickValue extends VicDataValue,
+  T extends AbstractConstructor<XyAxis<TickValue>>
+>(Base: T) {
+  @Directive()
   abstract class Mixin extends Base {
-    defaultTickSizeOuter = 0;
+    @Input() override config: VicOrdinalAxisConfig<TickValue>;
 
     setAxis(axisFunction: any): void {
       const tickFormat = this.config.tickFormat ?? undefined;
-      const tickSizeOuter =
-        this.config.tickSizeOuter || this.defaultTickSizeOuter;
-      this.axis = axisFunction(this.scale).tickSizeOuter(tickSizeOuter);
+      this.axis = axisFunction(this.scale).tickSizeOuter(
+        this.config.tickSizeOuter
+      );
       if (tickFormat) {
         this.setTicks(tickFormat);
       }
     }
 
-    setTicks(tickFormat: string | ((value: number | Date) => string)): void {
+    setTicks(tickFormat: string | ((value: TickValue) => string)): void {
       this.axis.tickFormat((d) => {
         const formatter = d instanceof Date ? timeFormat : format;
         return typeof tickFormat === 'function'

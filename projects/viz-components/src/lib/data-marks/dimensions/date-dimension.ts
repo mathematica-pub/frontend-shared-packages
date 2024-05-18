@@ -36,7 +36,7 @@ export class VicDateDimension<Datum>
     this.setUnpaddedDomain();
   }
 
-  private setUnpaddedDomain() {
+  setUnpaddedDomain() {
     const extents =
       this.domain === undefined
         ? ([min(this.values), max(this.values)] as [Date, Date])

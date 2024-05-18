@@ -6,7 +6,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -22,12 +21,18 @@ import {
   LinesHoverMoveEmitTooltipData,
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
+import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
+import { vicYQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   VicColumnConfig,
   VicDataExportConfig,
 } from 'projects/viz-components/src/lib/export-data/data-export.config';
-import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/config/lines.config';
+import {
+  vicLines,
+  VicLinesConfig,
+} from 'projects/viz-components/src/lib/lines/config/lines.config';
 import { vicPointMarkers } from 'projects/viz-components/src/lib/lines/config/point-markers';
 import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
 import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
@@ -48,8 +53,8 @@ import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
   dataConfig: VicLinesConfig<MetroUnemploymentDatum>;
-  xAxisConfig: VicAxisConfig;
-  yAxisConfig: VicAxisConfig;
+  xAxisConfig: VicQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicQuantitativeAxisConfig<number>;
   labels: string[];
 }
 const includeFiles = ['line-input-effects.ts'];
@@ -127,10 +132,10 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = new VicAxisConfig();
+    const xAxisConfig = vicXQuantitativeAxis<Date>();
     xAxisConfig.tickFormat = '%Y';
-    const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicLinesConfig<MetroUnemploymentDatum>({
+    const yAxisConfig = vicYQuantitativeAxis<number>();
+    const dataConfig = vicLines<MetroUnemploymentDatum>({
       data,
       x: new VicDateDimension<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.date,

@@ -11,11 +11,12 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
+import { VicDataValue } from '../../public-api';
 import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
 import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicAxisConfig } from './axis.config';
+import { VicXyAxisConfig } from './xy-axis.config';
 
 export type XyAxisScale = {
   useTransition: boolean;
@@ -26,11 +27,13 @@ export type XyAxisScale = {
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis implements OnInit, OnChanges {
+export abstract class XyAxis<TickValue extends VicDataValue>
+  implements OnInit, OnChanges
+{
   /**
    * The configuration for the axis.
    */
-  @Input() config: VicAxisConfig;
+  @Input() config: VicXyAxisConfig<TickValue>;
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   axisFunction: any;
   axis: any;

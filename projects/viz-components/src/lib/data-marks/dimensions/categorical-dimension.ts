@@ -1,10 +1,14 @@
-import { InternSet, scaleOrdinal } from 'd3';
+import { InternSet, scaleOrdinal, schemeTableau10 } from 'd3';
 import {
   VicDataDimension,
   VicDataDimensionOptions,
   VicDataValue,
 } from './data-dimension';
 import { VicFillPattern } from './fill-pattern';
+
+const DEFAULT = {
+  range: schemeTableau10 as string[],
+};
 
 export interface VicCategoricalDimensionOptions<
   Datum,
@@ -40,6 +44,7 @@ export class VicCategoricalDimension<
     super();
     Object.assign(this, options);
     this.valueAccessor = this.valueAccessor ?? ((d) => '' as TCategoricalValue);
+    this.range = this.range ?? DEFAULT.range;
   }
 
   setPropertiesFromData(data: Datum[]): void {

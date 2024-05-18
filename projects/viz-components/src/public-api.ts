@@ -2,7 +2,6 @@
  * Public API Surface of charts
  */
 
-export * from './lib/axes/axis.config';
 export * from './lib/axes/ordinal/ordinal-axis';
 export * from './lib/axes/quantitative/quantitative-axis';
 export * from './lib/axes/x-ordinal/x-ordinal-axis.component';
@@ -10,6 +9,7 @@ export * from './lib/axes/x-ordinal/x-ordinal-axis.module';
 export * from './lib/axes/x-quantitative/x-quantitative-axis.component';
 export * from './lib/axes/x-quantitative/x-quantitative-axis.module';
 export * from './lib/axes/xy-axis';
+export * from './lib/axes/xy-axis.config';
 export * from './lib/axes/y-ordinal/y-ordinal-axis.component';
 export * from './lib/axes/y-ordinal/y-ordinal-axis.module';
 export * from './lib/axes/y-quantitative-axis/y-quantitative-axis.component';

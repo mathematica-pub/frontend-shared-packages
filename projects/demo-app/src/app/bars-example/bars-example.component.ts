@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
-import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
+import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis.config';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
+import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
+import { vicYOrdinalAxis } from 'projects/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis.config';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverMoveEmitTooltipData } from 'projects/viz-components/src/lib/bars/bars-hover-move-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
@@ -30,8 +33,8 @@ import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
-  xAxisConfig: VicAxisConfig;
-  yAxisConfig: VicAxisConfig;
+  xAxisConfig: VicQuantitativeAxisConfig<number>;
+  yAxisConfig: VicOrdinalAxisConfig<string>;
 }
 
 class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
@@ -87,10 +90,10 @@ export class BarsExampleComponent implements OnInit {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
-    const xAxisConfig = new VicAxisConfig({
+    const xAxisConfig = vicXQuantitativeAxis<number>({
       tickFormat: '.0f',
     });
-    const yAxisConfig = new VicAxisConfig();
+    const yAxisConfig = vicYOrdinalAxis();
     const dataConfig = vicHorizontalBars<MetroUnemploymentDatum, string>({
       data: filteredData,
       quantitative: vicQuantitativeDimension<MetroUnemploymentDatum>({
@@ -98,7 +101,9 @@ export class BarsExampleComponent implements OnInit {
         valueFormat: (d) => this.getQuantitativeValueFormat(d),
         domainPadding: vicPixelDomainPadding(),
       }),
-      categorical: vicCategoricalDimension<MetroUnemploymentDatum, string>(),
+      categorical: vicCategoricalDimension<MetroUnemploymentDatum, string>({
+        range: ['slategray'],
+      }),
       ordinal: vicOrdinalDimension<MetroUnemploymentDatum, string>({
         valueAccessor: (d) => d.division,
       }),
