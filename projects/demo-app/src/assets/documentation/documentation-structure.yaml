@@ -35,7 +35,7 @@ data-marks-components:
   shared:
     html-tooltip: 'directives/VicHtmlTooltipDirective.html'
     html-tooltip-config: 'classes/VicHtmlTooltipConfig.html'
-    data-marks-config: 'interfaces/VicDataMarksConfig.html'
+    data-marks-config: 'classes/VicDataMarksConfig.html'
     event-effect: 'interfaces/EventEffect.html'
     input-event-effect: 'interfaces/InputEventEffect.html'
   bars:
