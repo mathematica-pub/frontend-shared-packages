@@ -17,9 +17,9 @@ chart-components:
     x-quantitative-axis: 'components/XQuantitativeAxisComponent.html'
     x-quantitative-axis-config: 'classes/VicXQuantitativeAxisConfig.html'
     y-ordinal-axis: 'components/YOrdinalAxisComponent.html'
-    y-ordinal-axis: 'classes/VicYOrdinalAxisConfig.html'
+    y-ordinal-axis-config: 'classes/VicYOrdinalAxisConfig.html'
     y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
-    y-quantitative-axis: 'classes/VicYQuantitativeAxisConfig.html'
+    y-quantitative-axis-config: 'classes/VicYQuantitativeAxisConfig.html'
     tick-wrap-config: 'classes/VicTickWrapConfig.html'
 dimensions:
   categorical: 'classes/VicCategoricalDimension.html'
