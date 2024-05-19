@@ -1,37 +1,37 @@
 @use 'vars' as *;
 
 .render-file-container.overview {
-  h2,
-  h3 {
-    font-weight: $font-weight-semibold;
-  }
+  // h2,
+  // h3 {
+  //   font-weight: $font-weight-semibold;
+  // }
 
-  > h3:first-of-type {
-    font-style: italic;
-    font-weight: $font-weight-regular;
-    padding-bottom: 0.5rem;
-  }
+  // > h3 {
+  //   font-style: italic;
+  //   font-weight: $font-weight-regular;
+  //   padding-bottom: 0.5rem;
+  // }
 
-  > h2 {
-    padding-top: 1rem;
-  }
+  // > h2 {
+  //   padding-top: 1rem;
+  // }
 
-  > h3:not(:first-of-type) {
-    padding: 0.5rem 0;
-  }
+  // > h3:not(:first-of-type) {
+  //   padding: 0.5rem 0;
+  // }
 
-  p {
-    padding-bottom: 0.5rem;
-  }
+  // p {
+  //   padding-bottom: 0.5rem;
+  // }
 
-  p code {
-    background-color: $color-primary-7;
-    padding: 2px;
-    border-radius: 0.25rem;
-    font-weight: $font-weight-semibold;
-  }
+  // p code {
+  //   background-color: $color-primary-7;
+  //   padding: 2px;
+  //   border-radius: 0.25rem;
+  //   font-weight: $font-weight-semibold;
+  // }
 
-  ol > li {
-    padding-bottom: 0.5rem;
-  }
+  // ol > li {
+  //   padding-bottom: 0.5rem;
+  // }
 }

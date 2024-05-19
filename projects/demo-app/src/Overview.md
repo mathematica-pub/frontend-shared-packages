@@ -1,8 +1,47 @@
-### A library of composable components for data visualization
+## Introduction
 
-Viz Components is a library of Angular components built on top of D3 that can be composed by a user to create custom visualizations.
+Viz Components is a library of Angular components for building highly custom data visualizations, built on top of [D3](https://d3js.org/).
 
-Viz Components takes care of common data viz functionality under the hood, such as setting scales, creating axes, and responsively scaling svgs. At the same time Viz Compenents allows the user to fully customize the system of visual marks used to represent data.
+Viz Components allows users to compose sub-chart level components into custom data visualizations and to fully customize the system of visual marks used to represent data. At the same time, takes care of common data viz functionality, such as setting scales, creating axes, and responsively scaling svgs under the hood.
+
+## Getting Started
+
+### System Requirements
+
+Viz Components requires the following:
+
+- Node v16.4 or higher
+- npm
+- Angular v16 or higher
+- AWS cli
+
+### Installing the library
+
+Viz Components is hosted in a private repository on AWS. In order to add it to a project as a dependency or to update it, you'll need to follow the steps below:
+
+#### Update your AWS credentials locally
+
+Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
+
+#### Use the AWS CLI to authenticate to the remote repository
+
+```
+aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
+```
+
+#### Install the library with npm
+
+```
+npm install @hsi/viz-components
+```
+
+## Creating a visualization
+
+To create a new visualization using Viz Components in your Angular application, you will need to compose Viz Components's components in the template of an Angular component in your application, and create configuration objects for those components in your component's `.ts` file.
+
+### Composing components
+
+Viz Components is designed so that
 
 ## Library concepts
 
@@ -44,6 +83,6 @@ The library provides minimal default styles for all components in the library, f
 2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi`
 3.  `npm install @hsi/viz-components`
 
-### Advanced usage: Extending the library in a project-specific way 
+### Advanced usage: Extending the library in a project-specific way
 
 We've semi-helpfully created some custom schematics that will set you up with a component that extends whatever viz-components internal thing you care about. Run `ng g @hsi/viz-components:extend` and follow the instructions from there.

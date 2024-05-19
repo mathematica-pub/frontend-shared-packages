@@ -34,7 +34,7 @@ export class RenderFileComponent
 
   ngOnInit(): void {
     if (this.router.url === '/overview') {
-      const path = 'Overview.md';
+      const path = 'OVERVIEW.md';
       this.class = 'overview';
       this.documentationService
         .getDocumentation(path)
