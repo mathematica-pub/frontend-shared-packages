@@ -60,8 +60,8 @@ const routes: Routes = [
         path: '**',
         loadComponent: () =>
           import(
-            './component-documentation/component-documentation.component'
-          ).then((m) => m.ComponentDocumentationComponent),
+            './documentation-display/documentation-display.component'
+          ).then((m) => m.DocumentationDisplayComponent),
       },
     ],
   },

@@ -18,9 +18,9 @@ import { HighlightService } from '../core/services/highlight.service';
   selector: 'app-component-documentation',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './component-documentation.component.html',
+  templateUrl: './documentation-display.component.html',
   styleUrls: [
-    './component-documentation.component.scss',
+    './documentation-display.component.scss',
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
     './styles/compodoc.scss',
@@ -28,7 +28,7 @@ import { HighlightService } from '../core/services/highlight.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDocumentationComponent
+export class DocumentationDisplayComponent
   extends Unsubscribe
   implements OnInit
 {

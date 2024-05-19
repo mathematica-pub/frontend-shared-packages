@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { HighlightService } from '../core/services/highlight.service';
+import { HighlightService } from '../../core/services/highlight.service';
 
 @Component({
   selector: 'app-code-display',
