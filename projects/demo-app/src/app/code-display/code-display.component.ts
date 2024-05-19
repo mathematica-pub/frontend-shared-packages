@@ -13,14 +13,14 @@ import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.
 import { HighlightService } from '../core/services/highlight.service';
 
 @Component({
-  selector: 'app-documentation-display',
+  selector: 'app-code-display',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './documentation-display.component.html',
-  styleUrls: ['./documentation-display.component.scss'],
+  templateUrl: './code-display.component.html',
+  styleUrls: ['./code-display.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class DocumentationDisplayComponent
+export class CodeDisplayComponent
   extends Unsubscribe
   implements OnChanges, OnInit
 {

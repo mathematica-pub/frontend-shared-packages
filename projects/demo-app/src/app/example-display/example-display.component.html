@@ -14,7 +14,5 @@
       >{{getFileDisplayName(file)}}</app-radio-input
     >
   </div>
-  <app-documentation-display
-    [fileData]="fileData$ | async"
-  ></app-documentation-display>
+  <app-code-display [fileData]="fileData$ | async"></app-code-display>
 </div>

@@ -1,19 +1,19 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DocumentationDisplayComponent } from './documentation-display.component';
+import { CodeDisplayComponent } from './code-display.component';
 
 describe('RenderFileComponent', () => {
-  let component: DocumentationDisplayComponent;
-  let fixture: ComponentFixture<DocumentationDisplayComponent>;
+  let component: CodeDisplayComponent;
+  let fixture: ComponentFixture<CodeDisplayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [DocumentationDisplayComponent],
+      declarations: [CodeDisplayComponent],
       imports: [HttpClientModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DocumentationDisplayComponent);
+    fixture = TestBed.createComponent(CodeDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

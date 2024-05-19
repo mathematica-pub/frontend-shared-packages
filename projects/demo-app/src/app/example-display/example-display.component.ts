@@ -14,8 +14,8 @@ import {
 } from '@angular/forms';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { Observable, startWith, switchMap } from 'rxjs';
+import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { DocumentationService } from '../core/services/documentation.service';
-import { DocumentationDisplayComponent } from '../documentation-display/documentation-display.component';
 import { RadioInputComponent } from '../radio-input/radio-input.component';
 
 @Component({
@@ -25,7 +25,7 @@ import { RadioInputComponent } from '../radio-input/radio-input.component';
     CommonModule,
     ReactiveFormsModule,
     RadioInputComponent,
-    DocumentationDisplayComponent,
+    CodeDisplayComponent,
   ],
   templateUrl: './example-display.component.html',
   styleUrls: ['./example-display.component.scss'],
