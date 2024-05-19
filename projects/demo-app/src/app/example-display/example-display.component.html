@@ -1,17 +1,23 @@
 <div class="component-demo">
   <h3 class="title"
-    ><ng-content select="[title]"></ng-content> Data Marks component example</h3
+    ><ng-content select="[title]"></ng-content> Data Marks Component</h3
   >
-  <div class="demo-container">
-    <ng-content select="[demo]"></ng-content>
-  </div>
-  <div [formGroup]="controlPanel" class="file-select-bar">
+  <div [formGroup]="form" class="file-select-bar">
     <app-radio-input
-      *ngFor="let file of fileList"
-      [value]="file"
-      formControlName="selectedFile"
-      >{{getFileDisplayName(file)}}</app-radio-input
+      *ngFor="let tab of tabList; let i = index"
+      [value]="i"
+      [class.selected]="(selectedTabIndex$ | async) === i"
+      formControlName="selected"
+      >{{tab}}</app-radio-input
     >
   </div>
-  <app-render-file [fileData]="fileData$ | async"></app-render-file>
+  <div class="demo-container" *ngIf="(selectedTabIndex$ | async) === 0">
+    <ng-content select="[demo]"></ng-content>
+  </div>
+  <ng-container *ngFor="let file of filesHtml; let i = index;">
+    <app-render-file
+      [fileData]="file"
+      *ngIf="(selectedTabIndex$ | async) === i + 1"
+    ></app-render-file>
+  </ng-container>
 </div>

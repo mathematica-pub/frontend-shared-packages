@@ -3,6 +3,7 @@
 
 /* ----- FONTS ----- */
 $sans-font: 'Fira Sans', sans-serif;
+$code-font: 'Fira Code', monospace;
 $serif-font: 'PT Serif', monospace;
 
 $font-weight: (
@@ -50,4 +51,4 @@ $focus-ring-width: 2px;
 $color-focus-ring: color.$highlight-default;
 $focus-ring-style: $focus-ring-width solid $color-focus-ring;
 
-$main-content-width: 1080px;
+$main-content-width: 900px;

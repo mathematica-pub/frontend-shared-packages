@@ -3,42 +3,42 @@
 @use 'color';
 
 /* ------- TYPOGRAPHY ------- */
-%typography-headline-1 {
+%typography-h1 {
   font-family: $sans-font;
   font-size: 96px;
   font-weight: $font-weight-light;
   letter-spacing: -1.5px;
 }
 
-%typography-headline-2 {
+%typography-h2 {
   font-family: $sans-font;
   font-size: 60px;
   font-weight: $font-weight-light;
   letter-spacing: -0.5px;
 }
 
-%typography-headline-3 {
+%typography-h3 {
   font-family: $sans-font;
   font-size: 48px;
   font-weight: $font-weight-regular;
   letter-spacing: 0;
 }
 
-%typography-headline-4 {
+%typography-h4 {
   font-family: $sans-font;
   font-size: 34px;
   font-weight: $font-weight-regular;
   letter-spacing: 0.25px;
 }
 
-%typography-headline-5 {
+%typography-h5 {
   font-family: $sans-font;
   font-size: 24px;
   font-weight: $font-weight-regular;
   letter-spacing: 0;
 }
 
-%typography-headline-6 {
+%typography-h6 {
   font-family: $sans-font;
   font-size: 20px;
   font-weight: $font-weight-medium;

@@ -7,37 +7,49 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: grid(8) grid(8) 0 grid(8);
+
+  .title {
+    @extend %typography-h5;
+    padding-bottom: grid(4);
+  }
 
   .file-select-bar {
-    margin-top: 50px;
+    padding-top: grid(2);
     display: flex;
     flex-direction: row;
     width: 100%;
+    border-bottom: 1px solid color.$primary-6;
   }
 
-  .title {
-    @extend %typography-headline-5;
-    padding-bottom: grid(4);
+  .file-select-bar > .selected {
+    margin-bottom: -1px;
+  }
+
+  .radio-input-label {
+    padding: grid(3) grid(4);
+    border-top-left-radius: grid(1);
+    border-top-right-radius: grid(1);
+    color: color.$highlight-default;
+  }
+
+  .radio-input-label:not(.selected):hover {
+    color: color.$highlight-default;
+    transition: all 200ms;
+    background-color: color.$primary-7;
+  }
+
+  .radio-input-label.selected {
+    border: 1px solid color.$primary-6;
+    border-bottom-color: white;
+    color: color.$primary-1;
+    font-weight: $font-weight-semibold;
   }
 
   .demo-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
-
-  .selected {
-    background-color: color.$primary-6;
-  }
-
-  .radio-input-label {
-    padding: grid(2) grid(1) 0 grid(1) grid(2);
-    border-bottom: grid(1) solid color.$primary-6;
-  }
-
-  .radio-input-label:hover {
-    color: color.$highlight-default;
-    transition: all 200ms;
+    padding-top: grid(4);
+    position: relative;
   }
 }

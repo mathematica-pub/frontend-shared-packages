@@ -55,10 +55,15 @@ const routes: Routes = [
   },
   {
     path: 'documentation',
-    loadComponent: () =>
-      import('./documentation-display/documentation-display.component').then(
-        (m) => m.DocumentationDisplayComponent
-      ),
+    children: [
+      {
+        path: '**',
+        loadComponent: () =>
+          import(
+            './documentation-display/documentation-display.component'
+          ).then((m) => m.DocumentationDisplayComponent),
+      },
+    ],
   },
   {
     path: '**',

@@ -18,6 +18,7 @@ $highlight: (
   'default': #1650e1,
   'light': #4578f6,
   'hover': #ffeb3b,
+  'code': #db3012,
 );
 
 $primary-0: map.get($primary, 0);
@@ -35,3 +36,4 @@ $highlight-dark: map.get($highlight, 'dark');
 $highlight-default: map.get($highlight, 'default');
 $highlight-light: map.get($highlight, 'light');
 $highlight-hover: map.get($highlight, 'hover');
+$highlight-code: map.get($highlight, 'code');

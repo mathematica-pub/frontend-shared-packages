@@ -4,7 +4,7 @@
 @use 'color';
 
 .cards-title {
-  @extend %typography-headline-4;
+  @extend %typography-h4;
 }
 
 .cards-container {

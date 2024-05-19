@@ -41,7 +41,21 @@ To create a new visualization using Viz Components in your Angular application, 
 
 ### Composing components
 
-Viz Components is designed so that
+Viz Components uses `Chart` components to create a chart's svg and to provide scales to any child components. Hence all visualizations should start with a `Chart` type component, which includes the `Xy Chart` (for charts that have x and y dimensions) and the `Map Chart` (for charts that draw geographies with a projection).
+
+You can place any component you want inside a `Chart` component, and it will be able to access the chart's scales. However, Viz Components has a special type of child component known as a `DataMarks` component that is used to set the domains (data ranges) of the scales on the parent `Chart` component. This means that to create a visualization, you need to combine at minimum, one `Chart` type component and one `DataMarks` component. Examples of `DataMarks` components include `Bars`, `Lines`, `Geographies`, and `Stacked Areas`.
+
+In the HTML, a minimial implementation of a visualization might look like this. Note how the child `Bars` component is between the tags of the parent `XyChart` component.
+
+```html
+<vic-xy-chart [margin]="margin" [height]="height" [width]="width">
+  <svg:g svg-elements vic-data-marks-bars [config]="dataMarksConfig"><svg:g>
+</vic-xy-chart>
+```
+
+### Providing configurations
+
+You will also need to provide the components with configuration objects.
 
 ## Library concepts
 
@@ -74,15 +88,3 @@ There is no limit to what can be projected into the `Chart` component's content-
 At minimum, the user must supply the `DataMarks` component with a `DataMarksConfig` that provides `data` (any[]), and value accessor functions for each of the components' required dimensions that tell the component how to find values for each dimension from a `data` array element -- typically an object with properties. Note that properties that have no relation to the data visualization may remain on the object without consequence.
 
 The library provides minimal default styles for all components in the library, from `DataMarks` components to add-on components such as axis components. Users may overwrite these style properties with their own in each component's `config`.
-
-## Using the library
-
-### Installation
-
-1.  set your aws credentials (found in `~/.aws/credentials`)
-2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi`
-3.  `npm install @hsi/viz-components`
-
-### Advanced usage: Extending the library in a project-specific way
-
-We've semi-helpfully created some custom schematics that will set you up with a component that extends whatever viz-components internal thing you care about. Run `ng g @hsi/viz-components:extend` and follow the instructions from there.

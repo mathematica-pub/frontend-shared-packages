@@ -4,7 +4,10 @@
     demo
     *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
   >
-    <div class="user-selections">
+    <div
+      class="user-selections"
+      [style.--mat-standard-button-toggle-height]="2.5"
+    >
       <div class="user-selection year">
         <p class="selection-title">Select a year</p>
         <div class="toggle-container">

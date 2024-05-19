@@ -173,6 +173,8 @@ export class GeographiesExampleComponent implements OnInit {
       map(([, data]) => this.getDataMarksConfig(data)),
       shareReplay(1)
     );
+
+    console.log(this.dataMarksConfig$);
   }
 
   getDataMarksConfig(
