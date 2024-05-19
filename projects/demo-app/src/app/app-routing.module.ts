@@ -60,7 +60,7 @@ const routes: Routes = [
         path: '**',
         loadComponent: () =>
           import(
-            './shared/component-documentation/component-documentation.component'
+            './component-documentation/component-documentation.component'
           ).then((m) => m.ComponentDocumentationComponent),
       },
     ],

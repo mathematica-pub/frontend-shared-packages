@@ -8,22 +8,18 @@ import {
 } from 'projects/viz-components/src/public-api';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UndasherizePipe } from './core/pipes/undasherize.pipe';
 import { NavbarFolderComponent } from './navbar-folder/navbar-folder.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    UndasherizePipe,
-    NavbarFolderComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    NavbarComponent,
+    NavbarFolderComponent,
   ],
   providers: [VicExportDataService, VicImageService],
   bootstrap: [AppComponent],

@@ -1,7 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 
 @Component({
   selector: 'app-navbar-folder',
+  standalone: true,
+  imports: [CommonModule, RouterModule, UndasherizePipe],
   templateUrl: './navbar-folder.component.html',
   styleUrls: ['./navbar-folder.component.scss'],
 })
