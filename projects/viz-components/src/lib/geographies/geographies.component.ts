@@ -18,7 +18,7 @@ import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { VicDataGeographies } from './config/dimensions/data-geographies';
 import { VicNoDataGeographies } from './config/dimensions/no-data-geographies';
-import { VicGeographyLabelConfig } from './config/geographies-labels';
+import { VicGeographiesLabels } from './config/geographies-labels';
 import { VicGeographiesConfig } from './config/geographies.config';
 import { VicGeographiesFeature } from './geographies-feature';
 
@@ -280,7 +280,7 @@ export class GeographiesComponent<
       | VicDataGeographies<Datum, TProperties, TGeometry>
     >,
     t: any,
-    labelsConfig: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+    labelsConfig: VicGeographiesLabels<Datum, TProperties, TGeometry>
   ): void {
     features
       .filter((d, i) => labelsConfig.display(d))
@@ -346,7 +346,7 @@ export class GeographiesComponent<
 
   getLabelPosition(
     d: VicGeographiesFeature<TProperties, TGeometry>,
-    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+    config: VicGeographiesLabels<Datum, TProperties, TGeometry>
   ): { x: number; y: number } {
     if (!this.path || !this.projection) return { x: 0, y: 0 };
     return config.position(d, this.path, this.projection);
@@ -354,7 +354,7 @@ export class GeographiesComponent<
 
   getLabelColor(
     geographyIndex: string | number,
-    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+    config: VicGeographiesLabels<Datum, TProperties, TGeometry>
   ): CSSType.Property.Fill {
     const pathColor = this.getFill(geographyIndex);
     let fontColor: CSSType.Property.Fill;
@@ -371,7 +371,7 @@ export class GeographiesComponent<
 
   getLabelFontWeight(
     geographyIndex: string | number,
-    config: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
+    config: VicGeographiesLabels<Datum, TProperties, TGeometry>
   ): CSSType.Property.FontWeight {
     const pathColor = this.getFill(geographyIndex);
     let fontProperty: CSSType.Property.FontWeight;

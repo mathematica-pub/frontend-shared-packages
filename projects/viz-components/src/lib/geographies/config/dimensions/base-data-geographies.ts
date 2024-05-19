@@ -1,6 +1,6 @@
 import { Geometry } from 'geojson';
 import { VicGeographiesFeature } from '../../geographies-feature';
-import { VicGeographyLabelConfig } from '../geographies-labels';
+import { VicGeographiesLabels } from '../geographies-labels';
 
 /**
  * Base configuration object for geographies that can be used with or without attribute data.
@@ -35,7 +35,7 @@ export interface VicBaseDataGeographyOptions<
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
-  labels: VicGeographyLabelConfig<Datum, TProperties, TGeometry>;
+  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 }
 
 export class VicBaseDataGeographyConfig<
@@ -47,5 +47,5 @@ export class VicBaseDataGeographyConfig<
   fill: string;
   strokeColor: string;
   strokeWidth: string;
-  labels: VicGeographyLabelConfig<Datum, TProperties, TGeometry>;
+  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 }

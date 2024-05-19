@@ -10,7 +10,7 @@ import { VicGeographiesLabelsPositioners } from './geographies-labels-positioner
  *
  * The generic parameters are the same as those in VicGeographiesConfig.
  */
-export class VicGeographyLabelConfig<
+export class VicGeographiesLabels<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
@@ -53,7 +53,7 @@ export class VicGeographyLabelConfig<
   fontScale: ScaleLinear<number, number, never>;
 
   constructor(
-    init?: Partial<VicGeographyLabelConfig<Datum, TProperties, TGeometry>>
+    init?: Partial<VicGeographiesLabels<Datum, TProperties, TGeometry>>
   ) {
     this.display = () => true;
     this.color = '#000';
