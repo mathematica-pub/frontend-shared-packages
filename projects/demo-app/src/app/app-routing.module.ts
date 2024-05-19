@@ -25,6 +25,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'geographies',
+        loadComponent: () =>
+          import('./geographies-example/geographies-example.component').then(
+            (m) => m.GeographiesExampleComponent
+          ),
+      },
+      {
         path: 'lines',
         loadChildren: () =>
           import('./lines-example/lines-example.module').then(
@@ -43,13 +50,6 @@ const routes: Routes = [
         loadChildren: () =>
           import('./stacked-bars-example/stacked-bars-example.module').then(
             (m) => m.StackedBarsModule
-          ),
-      },
-      {
-        path: 'geographies',
-        loadChildren: () =>
-          import('./geographies-example/geographies-example.module').then(
-            (m) => m.GeographiesExampleModule
           ),
       },
     ],

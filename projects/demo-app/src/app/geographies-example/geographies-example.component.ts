@@ -1,5 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import {
+  MatButtonToggleChange,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
@@ -24,6 +29,12 @@ import {
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
 import {
+  VicGeographiesModule,
+  VicHtmlTooltipModule,
+  VicMapChartModule,
+  VicMapLegendModule,
+} from 'projects/viz-components/src/public-api';
+import {
   BehaviorSubject,
   Observable,
   Subject,
@@ -37,9 +48,21 @@ import { StateIncomeDatum } from '../core/models/data';
 import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 
 @Component({
   selector: 'app-geographies-example',
+  standalone: true,
+  imports: [
+    CommonModule,
+    VicMapChartModule,
+    VicGeographiesModule,
+    VicMapLegendModule,
+    SharedModule,
+    MatSelectModule,
+    VicHtmlTooltipModule,
+    MatButtonToggleModule,
+  ],
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
 })
