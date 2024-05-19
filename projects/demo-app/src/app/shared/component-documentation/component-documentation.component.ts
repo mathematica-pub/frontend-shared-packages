@@ -60,6 +60,10 @@ export class ComponentDocumentationComponent
       .forEach((element) =>
         element.addEventListener('click', this.activateTab.bind(this))
       );
+
+    Array.from(
+      this.docsDiv.nativeElement.querySelectorAll('[role=tab]')
+    )[0].parentElement.classList.add('active');
   }
 
   addClickListenersToCodeLinks(): void {
@@ -82,7 +86,7 @@ export class ComponentDocumentationComponent
       .querySelectorAll('.tab-pane')
       .forEach((element) => element.classList.remove('active', 'in'));
     element.parentElement.classList.add('active');
-    const id = 'c-' + element.id.replace('-tab', '');
+    const id = element.id.replace('-tab', '');
     document.getElementById(id).classList.add('active', 'in');
   }
 
