@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { RenderFileComponent } from './render-file/render-file.component';
 
 const routes: Routes = [
   {
@@ -11,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'overview',
-    component: RenderFileComponent,
+    loadComponent: () =>
+      import('./overview/overview.component').then((m) => m.OverviewComponent),
   },
   {
     path: 'examples',
