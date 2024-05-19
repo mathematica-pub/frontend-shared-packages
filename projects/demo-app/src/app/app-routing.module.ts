@@ -19,9 +19,9 @@ const routes: Routes = [
     children: [
       {
         path: 'bars',
-        loadChildren: () =>
-          import('./bars-example/bars-example.module').then(
-            (m) => m.BarsModule
+        loadComponent: () =>
+          import('./bars-example/bars-example.component').then(
+            (m) => m.BarsExampleComponent
           ),
       },
       {

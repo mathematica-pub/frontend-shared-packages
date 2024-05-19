@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { format } from 'd3';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
@@ -21,11 +23,19 @@ import {
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   BarsHoverMoveEmitTooltipData,
+  VicBarsModule,
+  VicChartModule,
+  VicHtmlTooltipModule,
   VicPixelDomainPaddingConfig,
+  VicXQuantitativeAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum>;
@@ -42,6 +52,19 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
 }
 @Component({
   selector: 'app-bars-example',
+  standalone: true,
+  imports: [
+    CommonModule,
+    VicChartModule,
+    VicBarsModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYOrdinalAxisModule,
+    VicXQuantitativeAxisModule,
+    SharedModule,
+    VicHtmlTooltipModule,
+    MatButtonModule,
+  ],
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
