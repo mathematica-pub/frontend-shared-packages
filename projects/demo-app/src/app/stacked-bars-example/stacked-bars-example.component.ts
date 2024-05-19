@@ -1,13 +1,21 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   VicAxisConfig,
+  VicChartModule,
   VicStackedBarsConfig,
+  VicStackedBarsModule,
   VicVerticalBarsDimensionsConfig,
+  VicXOrdinalAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 
 interface ViewModel {
   dataConfig: VicStackedBarsConfig<IndustryUnemploymentDatum>;
@@ -17,6 +25,17 @@ interface ViewModel {
 
 @Component({
   selector: 'app-stacked-bars-example',
+  standalone: true,
+  imports: [
+    CommonModule,
+    VicChartModule,
+    VicStackedBarsModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYQuantitativeAxisModule,
+    VicXOrdinalAxisModule,
+    SharedModule,
+  ],
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,

@@ -40,16 +40,16 @@ const routes: Routes = [
       },
       {
         path: 'stacked-area',
-        loadChildren: () =>
-          import('./stacked-area-example/stacked-area-example.module').then(
-            (m) => m.StackedAreaModule
+        loadComponent: () =>
+          import('./stacked-area-example/stacked-area-example.component').then(
+            (m) => m.StackedAreaExampleComponent
           ),
       },
       {
         path: 'stacked-bars',
-        loadChildren: () =>
-          import('./stacked-bars-example/stacked-bars-example.module').then(
-            (m) => m.StackedBarsModule
+        loadComponent: () =>
+          import('./stacked-bars-example/stacked-bars-example.component').then(
+            (m) => m.StackedBarsExampleComponent
           ),
       },
     ],
