@@ -19,7 +19,7 @@ import { RadioInputComponent } from '../radio-input/radio-input.component';
 import { RenderFileComponent } from '../render-file/render-file.component';
 
 @Component({
-  selector: 'app-component-demo',
+  selector: 'app-example-display',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,12 +27,12 @@ import { RenderFileComponent } from '../render-file/render-file.component';
     RadioInputComponent,
     RenderFileComponent,
   ],
-  templateUrl: './component-demo.component.html',
-  styleUrls: ['./component-demo.component.scss'],
+  templateUrl: './example-display.component.html',
+  styleUrls: ['./example-display.component.scss'],
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDemoComponent extends Unsubscribe implements OnInit {
+export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
   @Input() includeFiles: string[];
   @Input() folderName: string;
   controlPanel: FormGroup;

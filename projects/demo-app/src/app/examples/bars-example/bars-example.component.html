@@ -1,4 +1,4 @@
-<app-component-demo [folderName]="folderName" class="bars-example">
+<app-example-display [folderName]="folderName" class="bars-example">
   <span title>Bars</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
     <button mat-stroked-button (click)="changeMargin()"
@@ -33,7 +33,7 @@
     </vic-xy-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
-</app-component-demo>
+</app-example-display>
 
 <ng-template #htmlTooltip>
   <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">

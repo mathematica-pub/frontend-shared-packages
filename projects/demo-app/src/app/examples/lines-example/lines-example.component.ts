@@ -49,9 +49,9 @@ import {
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
-import { ComponentDemoComponent } from '../../component-demo/component-demo.component';
 import { MetroUnemploymentDatum } from '../../core/models/data';
 import { DataService } from '../../core/services/data.service';
+import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
@@ -75,7 +75,7 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
   standalone: true,
   imports: [
     CommonModule,
-    ComponentDemoComponent,
+    ExampleDisplayComponent,
     VicChartModule,
     VicLinesModule,
     VicXyChartModule,

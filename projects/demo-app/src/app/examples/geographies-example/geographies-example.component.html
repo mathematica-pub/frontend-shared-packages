@@ -1,4 +1,4 @@
-<app-component-demo [folderName]="folderName">
+<app-example-display [folderName]="folderName">
   <span title>Geographies</span>
   <ng-container
     demo
@@ -70,7 +70,7 @@
     </vic-map-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
-</app-component-demo>
+</app-example-display>
 
 <ng-template #htmlTooltip>
   <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">

@@ -1,4 +1,4 @@
-<app-component-demo [folderName]="folderName" [includeFiles]="includeFiles">
+<app-example-display [folderName]="folderName" [includeFiles]="includeFiles">
   <span title class="title">Lines</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
     <button class="download-button" (click)="downloadImage()"
@@ -103,7 +103,7 @@
     </div>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
-</app-component-demo>
+</app-example-display>
 
 <ng-template #htmlTooltip>
   <ng-container *ngIf="tooltipData$ | async as tooltipData">

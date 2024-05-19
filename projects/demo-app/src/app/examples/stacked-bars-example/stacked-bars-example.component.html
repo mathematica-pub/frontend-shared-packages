@@ -1,4 +1,4 @@
-<app-component-demo [folderName]="folderName" class="stacked-bars-example">
+<app-example-display [folderName]="folderName" class="stacked-bars-example">
   <span title>Stacked Bars</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
     <vic-xy-chart
@@ -23,4 +23,4 @@
     </vic-xy-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
-</app-component-demo>
+</app-example-display>
