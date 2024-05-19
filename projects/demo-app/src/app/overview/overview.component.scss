@@ -1,3 +1,71 @@
-:host {
-  display: block;
+@use 'color';
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'placeholders' as *;
+
+.overview-container {
+  max-width: 900px;
+
+  code {
+    font-family: $code-font;
+  }
+
+  code:not(.language-html) {
+    color: color.$highlight-code;
+    background-color: color.$primary-7;
+    padding: grid(0.75) grid(1.25);
+    white-space: normal;
+    border-radius: grid(1);
+    line-height: 1.5;
+  }
+
+  h1 {
+    @extend %typography-h1;
+  }
+
+  h2 {
+    @extend %typography-h4;
+
+    &:not(:first-child) {
+      padding-top: grid(8);
+    }
+  }
+
+  h3 {
+    @extend %typography-h5;
+    // color: green;
+    padding-top: grid(4);
+    padding-bottom: grid(2);
+  }
+
+  h2 + h3 {
+    // color: purple;
+    padding-top: grid(2);
+  }
+
+  h4 {
+    @extend %typography-h6;
+    font-size: 18px;
+    // color: blue;
+    padding-top: grid(2);
+    padding-bottom: grid(1);
+  }
+
+  pre {
+    margin: grid(1) 0;
+  }
+
+  p {
+    line-height: 1.6;
+    padding-bottom: grid(2);
+  }
+
+  h2 + p {
+    padding-top: grid(2);
+  }
+
+  ul {
+    margin: 0;
+    padding-bottom: grid(2);
+  }
 }

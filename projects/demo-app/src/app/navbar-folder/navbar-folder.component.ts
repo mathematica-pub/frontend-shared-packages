@@ -14,9 +14,11 @@ export class NavbarFolderComponent {
   @Input() links;
   @Input() baseString;
   selected = {};
+
   linkIsString(link: any): boolean {
     return typeof link === 'string';
   }
+
   toggleSelected(key: string): void {
     if (this.selected[key] === undefined) {
       this.selected[key] = true;
@@ -24,9 +26,11 @@ export class NavbarFolderComponent {
       this.selected[key] = !this.selected[key];
     }
   }
+
   addPartToBaseString(key: any): string {
     return `${this.baseString}/${key}`;
   }
+
   getArrow(key: string): string {
     if (this.selected[key] === undefined || this.selected[key] == false) {
       return 'arrow-down';

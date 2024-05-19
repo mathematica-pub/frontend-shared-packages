@@ -5,7 +5,10 @@
     *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
   >
     <p class="effect-title">Select a year</p>
-    <div class="toggle-container">
+    <div
+      class="toggle-container"
+      [style.--mat-standard-button-toggle-height]="2.5"
+    >
       <mat-button-toggle-group
         name="selectedYear"
         aria-label="Selected Year"

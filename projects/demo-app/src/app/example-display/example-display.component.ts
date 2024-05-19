@@ -13,7 +13,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { Observable, startWith, switchMap } from 'rxjs';
+import { forkJoin, Observable, startWith, take } from 'rxjs';
 import { DocumentationService } from '../core/services/documentation.service';
 import { RadioInputComponent } from '../radio-input/radio-input.component';
 import { CodeDisplayComponent } from './code-display/code-display.component';
@@ -35,30 +35,35 @@ import { CodeDisplayComponent } from './code-display/code-display.component';
 export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
   @Input() includeFiles: string[];
   @Input() folderName: string;
-  controlPanel: FormGroup;
+  form: FormGroup<{ selected: FormControl<number> }>;
+  exampleLabel = 'Example';
   fileList: string[];
-  fileData$: Observable<string>;
+  tabList: string[];
+  filesHtml: string[];
+  fileData$: Observable<string[]>;
+  selectedTabIndex$: Observable<number>;
   private documentationService = inject(DocumentationService);
 
   ngOnInit(): void {
-    this.fileList = this.createFileList();
-    const initialSelectedFile = this.fileList[0];
-    this.controlPanel = new FormGroup({
-      selectedFile: new FormControl(initialSelectedFile),
-    });
-    this.documentationService.getDocumentation(this.fileList[0]);
-    this.fileData$ = this.controlPanel.controls[
-      'selectedFile'
-    ].valueChanges.pipe(
-      startWith(initialSelectedFile),
-      switchMap((fileName) =>
-        this.documentationService.getDocumentation(fileName)
-      )
-    );
+    this.getFilesForExample();
+    this.initTabs();
   }
 
-  createFileList(): string[] {
-    const baseName = `app/${this.folderName}`;
+  getFilesForExample(): void {
+    this.fileList = this.getFileList();
+    forkJoin(
+      this.fileList.map((fileName) =>
+        this.documentationService.getDocumentation(fileName)
+      )
+    )
+      .pipe(take(1))
+      .subscribe((fileData) => {
+        this.filesHtml = fileData;
+      });
+  }
+
+  getFileList(): string[] {
+    const baseName = `app/examples/${this.folderName}`;
     const baseSourceUrl = `${baseName}/${this.folderName}.component`;
     const fileList = [
       `${baseSourceUrl}.ts`,
@@ -71,6 +76,28 @@ export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
       );
     }
     return fileList;
+  }
+
+  initTabs(): void {
+    this.tabList = [
+      this.exampleLabel,
+      ...this.fileList.map(this.getFileDisplayName),
+    ];
+    this.form = new FormGroup({
+      selected: new FormControl<number>(0),
+    });
+    this.selectedTabIndex$ = this.form.controls.selected.valueChanges.pipe(
+      startWith(0)
+    );
+    // a hack to help the charts render along after switching back to it
+    // known problem, has to do with content projecting and ngif, not worth a different solution here
+    this.selectedTabIndex$.subscribe((index) => {
+      if (index === 0) {
+        setTimeout(() => {
+          return;
+        });
+      }
+    });
   }
 
   getFileDisplayName(fullFilePath: string): string {
