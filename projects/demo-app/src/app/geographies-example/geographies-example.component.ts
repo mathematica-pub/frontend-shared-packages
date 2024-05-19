@@ -48,17 +48,17 @@ import { StateIncomeDatum } from '../core/models/data';
 import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
-import { SharedModule } from '../shared/shared.module';
+import { ComponentDemoComponent } from '../shared/component-demo/component-demo.component';
 
 @Component({
   selector: 'app-geographies-example',
   standalone: true,
   imports: [
     CommonModule,
+    ComponentDemoComponent,
     VicMapChartModule,
     VicGeographiesModule,
     VicMapLegendModule,
-    SharedModule,
     MatSelectModule,
     VicHtmlTooltipModule,
     MatButtonToggleModule,

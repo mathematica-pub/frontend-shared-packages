@@ -1,16 +1,20 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit, Optional, Self } from '@angular/core';
 import {
   ControlContainer,
   FormGroupDirective,
   NgControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
-import { map, merge, Observable, of } from 'rxjs';
+import { Observable, map, merge, of } from 'rxjs';
 
 let nextUniqueId = 0;
 
 @Component({
   selector: 'app-radio-input',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './radio-input.component.html',
   styleUrls: ['./radio-input.component.scss'],
   viewProviders: [

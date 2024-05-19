@@ -35,7 +35,7 @@ import {
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
-import { SharedModule } from '../shared/shared.module';
+import { ComponentDemoComponent } from '../shared/component-demo/component-demo.component';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum>;
@@ -55,13 +55,13 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
   standalone: true,
   imports: [
     CommonModule,
+    ComponentDemoComponent,
     VicChartModule,
     VicBarsModule,
     VicXyChartModule,
     VicXyBackgroundModule,
     VicYOrdinalAxisModule,
     VicXQuantitativeAxisModule,
-    SharedModule,
     VicHtmlTooltipModule,
     MatButtonModule,
   ],

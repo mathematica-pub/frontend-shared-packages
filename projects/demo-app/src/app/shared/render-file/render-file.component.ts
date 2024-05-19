@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   inject,
@@ -16,6 +17,8 @@ import { HighlightService } from '../../core/services/highlight.service';
 
 @Component({
   selector: 'app-render-file',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './render-file.component.html',
   styleUrls: ['./render-file.component.scss'],
   encapsulation: ViewEncapsulation.None,

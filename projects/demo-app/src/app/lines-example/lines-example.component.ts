@@ -51,7 +51,7 @@ import {
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
-import { SharedModule } from '../shared/shared.module';
+import { ComponentDemoComponent } from '../shared/component-demo/component-demo.component';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
@@ -75,13 +75,13 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
   standalone: true,
   imports: [
     CommonModule,
+    ComponentDemoComponent,
     VicChartModule,
     VicLinesModule,
     VicXyChartModule,
     VicXyBackgroundModule,
     VicYQuantitativeAxisModule,
     VicXQuantitativeAxisModule,
-    SharedModule,
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],

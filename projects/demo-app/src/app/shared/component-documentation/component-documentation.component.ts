@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -15,6 +16,8 @@ import { HighlightService } from '../../core/services/highlight.service';
 
 @Component({
   selector: 'app-component-documentation',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './component-documentation.component.html',
   styleUrls: [
     './component-documentation.component.scss',

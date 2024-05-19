@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { ComponentDocumentationComponent } from './shared/component-documentation/component-documentation.component';
 import { RenderFileComponent } from './shared/render-file/render-file.component';
 
 const routes: Routes = [
@@ -59,7 +58,10 @@ const routes: Routes = [
     children: [
       {
         path: '**',
-        component: ComponentDocumentationComponent,
+        loadComponent: () =>
+          import(
+            './shared/component-documentation/component-documentation.component'
+          ).then((m) => m.ComponentDocumentationComponent),
       },
     ],
   },
