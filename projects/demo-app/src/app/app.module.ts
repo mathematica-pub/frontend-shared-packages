@@ -7,7 +7,7 @@ import { VicImageService } from 'projects/viz-components/src/lib/image-download/
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UndasherizePipe } from './core/pipes/undasherize.pipe';
-import { NavbarFolderComponent } from './navbar-folder/navbar-folder.component';
+import { NavbarFolderComponent } from './navbar/navbar-folder/navbar-folder.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({

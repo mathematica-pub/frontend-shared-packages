@@ -68,12 +68,12 @@ import {
   map,
   shareReplay,
 } from 'rxjs';
-import { colors } from '../core/constants/colors.constants';
-import { StateIncomeDatum } from '../core/models/data';
-import { MapGeometryProperties } from '../core/services/basemap';
-import { BasemapService } from '../core/services/basemap.service';
-import { DataService } from '../core/services/data.service';
-import { SharedModule } from '../shared/shared.module';
+import { colors } from '../../core/constants/colors.constants';
+import { StateIncomeDatum } from '../../core/models/data';
+import { MapGeometryProperties } from '../../core/services/basemap';
+import { BasemapService } from '../../core/services/basemap.service';
+import { DataService } from '../../core/services/data.service';
+import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
 type AttributeData =
   | VicNoBinsAttributeDataDimension<StateIncomeDatum>
@@ -87,7 +87,7 @@ type AttributeData =
   selector: 'app-geographies-example',
   imports: [
     CommonModule,
-    SharedModule,
+    ExampleDisplayComponent,
     VicMapChartModule,
     VicGeographiesModule,
     VicMapLegendModule,

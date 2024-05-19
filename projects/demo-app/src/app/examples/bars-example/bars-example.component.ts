@@ -39,9 +39,9 @@ import {
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
-import { MetroUnemploymentDatum } from '../core/models/data';
-import { DataService } from '../core/services/data.service';
-import { SharedModule } from '../shared/shared.module';
+import { MetroUnemploymentDatum } from '../../core/models/data';
+import { DataService } from '../../core/services/data.service';
+import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
@@ -57,11 +57,11 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
   }
 }
 @Component({
-  standalone: true,
   selector: 'app-bars-example',
+  standalone: true,
   imports: [
     CommonModule,
-    SharedModule,
+    ExampleDisplayComponent,
     VicChartModule,
     VicBarsModule,
     VicXyChartModule,

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { ComponentDocumentationComponent } from './shared/component-documentation/component-documentation.component';
-import { RenderFileComponent } from './shared/render-file/render-file.component';
 
 const routes: Routes = [
   {
@@ -12,7 +10,8 @@ const routes: Routes = [
   },
   {
     path: 'overview',
-    component: RenderFileComponent,
+    loadComponent: () =>
+      import('./overview/overview.component').then((m) => m.OverviewComponent),
   },
   {
     path: 'examples',
@@ -20,48 +19,46 @@ const routes: Routes = [
       {
         path: 'bars',
         loadComponent: () =>
-          import('./bars-example/bars-example.component').then(
+          import('./examples/bars-example/bars-example.component').then(
             (m) => m.BarsExampleComponent
           ),
       },
       {
         path: 'geographies',
         loadComponent: () =>
-          import('./geographies-example/geographies-example.component').then(
-            (m) => m.GeographiesExampleComponent
-          ),
+          import(
+            './examples/geographies-example/geographies-example.component'
+          ).then((m) => m.GeographiesExampleComponent),
       },
       {
         path: 'lines',
         loadComponent: () =>
-          import('./lines-example/lines-example.component').then(
+          import('./examples/lines-example/lines-example.component').then(
             (m) => m.LinesExampleComponent
           ),
       },
       {
         path: 'stacked-area',
         loadComponent: () =>
-          import('./stacked-area-example/stacked-area-example.component').then(
-            (m) => m.StackedAreaExampleComponent
-          ),
+          import(
+            './examples/stacked-area-example/stacked-area-example.component'
+          ).then((m) => m.StackedAreaExampleComponent),
       },
       {
         path: 'stacked-bars',
         loadComponent: () =>
-          import('./stacked-bars-example/stacked-bars-example.component').then(
-            (m) => m.StackedBarsExampleComponent
-          ),
+          import(
+            './examples/stacked-bars-example/stacked-bars-example.component'
+          ).then((m) => m.StackedBarsExampleComponent),
       },
     ],
   },
   {
     path: 'documentation',
-    children: [
-      {
-        path: '**',
-        component: ComponentDocumentationComponent,
-      },
-    ],
+    loadComponent: () =>
+      import('./documentation-display/documentation-display.component').then(
+        (m) => m.DocumentationDisplayComponent
+      ),
   },
   {
     path: '**',

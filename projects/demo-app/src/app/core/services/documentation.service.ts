@@ -11,16 +11,18 @@ export class DocumentationService {
 
   constructor(private http: HttpClient) {}
 
+  getOverview(): Observable<string> {
+    return this.http
+      .get('OVERVIEW.md', {
+        responseType: 'text',
+      })
+      .pipe(map((text) => parse(text)));
+  }
+
   getDocumentation(name: string): Observable<string> {
     if (!this.docs[name]) {
       if (name.startsWith('/documentation')) {
         this.docs[name] = this.getFileText(name + '.html');
-      } else if (name === 'OVERVIEW.md') {
-        this.docs[name] = this.http
-          .get(name, {
-            responseType: 'text',
-          })
-          .pipe(map((text) => parse(text)));
       } else {
         this.docs[name] = this.http
           .get(name, {

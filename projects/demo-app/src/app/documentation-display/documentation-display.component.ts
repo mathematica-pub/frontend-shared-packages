@@ -1,23 +1,25 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { takeUntil } from 'rxjs';
-import { DocumentationService } from '../../core/services/documentation.service';
-import { HighlightService } from '../../core/services/highlight.service';
+import { DocumentationService } from '../core/services/documentation.service';
+import { HighlightService } from '../core/services/highlight.service';
 
 @Component({
-  selector: 'app-component-documentation',
-  templateUrl: './component-documentation.component.html',
+  standalone: true,
+  selector: 'app-documentation-display',
+  templateUrl: './documentation-display.component.html',
   styleUrls: [
-    './component-documentation.component.scss',
+    './documentation-display.component.scss',
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
     './styles/compodoc.scss',
@@ -25,24 +27,24 @@ import { HighlightService } from '../../core/services/highlight.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDocumentationComponent
+export class DocumentationDisplayComponent
   extends Unsubscribe
   implements OnInit
 {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
-
   sanitizedDocumentation: SafeHtml;
   private highlightService = inject(HighlightService);
   private documentationService = inject(DocumentationService);
   private sanitizer = inject(DomSanitizer);
-  router = inject(Router);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
   route: string;
 
   ngOnInit(): void {
     this.route = this.router.url;
     this.documentationService
       .getDocumentation(this.route)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);

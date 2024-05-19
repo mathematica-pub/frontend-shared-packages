@@ -1,19 +1,19 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComponentDocumentationComponent } from './component-documentation.component';
+import { DocumentationDisplayComponent } from './documentation-display.component';
 
 describe('ComponentDocumentationComponent', () => {
-  let component: ComponentDocumentationComponent;
-  let fixture: ComponentFixture<ComponentDocumentationComponent>;
+  let component: DocumentationDisplayComponent;
+  let fixture: ComponentFixture<DocumentationDisplayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ComponentDocumentationComponent],
+      declarations: [DocumentationDisplayComponent],
       imports: [HttpClientModule],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ComponentDocumentationComponent);
+    fixture = TestBed.createComponent(DocumentationDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

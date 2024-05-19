@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   inject,
@@ -5,19 +6,33 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { FormControl, FormGroup, FormGroupDirective } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { Observable, startWith, switchMap } from 'rxjs';
-import { DocumentationService } from '../../core/services/documentation.service';
+import { DocumentationService } from '../core/services/documentation.service';
+import { RenderFileComponent } from '../render-file/render-file.component';
+import { RadioInputComponent } from '../shared/radio-input/radio-input.component';
 
 @Component({
-  selector: 'app-component-demo',
-  templateUrl: './component-demo.component.html',
-  styleUrls: ['./component-demo.component.scss'],
+  standalone: true,
+  selector: 'app-example-display',
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    RadioInputComponent,
+    RenderFileComponent,
+  ],
+  templateUrl: './example-display.component.html',
+  styleUrls: ['./example-display.component.scss'],
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDemoComponent extends Unsubscribe implements OnInit {
+export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
   @Input() includeFiles: string[];
   @Input() folderName: string;
   controlPanel: FormGroup;

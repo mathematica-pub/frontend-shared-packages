@@ -5,7 +5,6 @@
   <div class="demo-container">
     <ng-content select="[demo]"></ng-content>
   </div>
-
   <div [formGroup]="controlPanel" class="file-select-bar">
     <app-radio-input
       *ngFor="let file of fileList"
