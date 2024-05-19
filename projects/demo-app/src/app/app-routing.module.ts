@@ -33,9 +33,9 @@ const routes: Routes = [
       },
       {
         path: 'lines',
-        loadChildren: () =>
-          import('./lines-example/lines-example.module').then(
-            (m) => m.LinesModule
+        loadComponent: () =>
+          import('./lines-example/lines-example.component').then(
+            (m) => m.LinesExampleComponent
           ),
       },
       {

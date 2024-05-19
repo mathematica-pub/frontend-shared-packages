@@ -5,7 +5,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import {
+  MatButtonToggleChange,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
 import {
   EventEffect,
@@ -22,6 +25,7 @@ import {
   LinesHoverMoveEmitTooltipData,
 } from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
 
+import { CommonModule } from '@angular/common';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   VicColumnConfig,
@@ -34,10 +38,20 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { VicPixelDomainPaddingConfig } from 'projects/viz-components/src/public-api';
+import {
+  VicChartModule,
+  VicHtmlTooltipModule,
+  VicLinesModule,
+  VicPixelDomainPaddingConfig,
+  VicXQuantitativeAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYQuantitativeAxisModule,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
@@ -58,6 +72,19 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
 
 @Component({
   selector: 'app-lines-example',
+  standalone: true,
+  imports: [
+    CommonModule,
+    VicChartModule,
+    VicLinesModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYQuantitativeAxisModule,
+    VicXQuantitativeAxisModule,
+    SharedModule,
+    VicHtmlTooltipModule,
+    MatButtonToggleModule,
+  ],
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
 })
