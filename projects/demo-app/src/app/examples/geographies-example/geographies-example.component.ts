@@ -43,12 +43,12 @@ import {
   map,
   shareReplay,
 } from 'rxjs';
-import { ComponentDemoComponent } from '../component-demo/component-demo.component';
-import { colors } from '../core/constants/colors.constants';
-import { StateIncomeDatum } from '../core/models/data';
-import { MapGeometryProperties } from '../core/services/basemap';
-import { BasemapService } from '../core/services/basemap.service';
-import { DataService } from '../core/services/data.service';
+import { ComponentDemoComponent } from '../../component-demo/component-demo.component';
+import { colors } from '../../core/constants/colors.constants';
+import { StateIncomeDatum } from '../../core/models/data';
+import { MapGeometryProperties } from '../../core/services/basemap';
+import { BasemapService } from '../../core/services/basemap.service';
+import { DataService } from '../../core/services/data.service';
 
 @Component({
   selector: 'app-geographies-example',

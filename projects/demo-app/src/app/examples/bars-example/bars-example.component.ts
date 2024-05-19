@@ -33,9 +33,9 @@ import {
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
-import { ComponentDemoComponent } from '../component-demo/component-demo.component';
-import { MetroUnemploymentDatum } from '../core/models/data';
-import { DataService } from '../core/services/data.service';
+import { ComponentDemoComponent } from '../../component-demo/component-demo.component';
+import { MetroUnemploymentDatum } from '../../core/models/data';
+import { DataService } from '../../core/services/data.service';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum>;

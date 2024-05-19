@@ -19,37 +19,37 @@ const routes: Routes = [
       {
         path: 'bars',
         loadComponent: () =>
-          import('./bars-example/bars-example.component').then(
+          import('./examples/bars-example/bars-example.component').then(
             (m) => m.BarsExampleComponent
           ),
       },
       {
         path: 'geographies',
         loadComponent: () =>
-          import('./geographies-example/geographies-example.component').then(
-            (m) => m.GeographiesExampleComponent
-          ),
+          import(
+            './examples/geographies-example/geographies-example.component'
+          ).then((m) => m.GeographiesExampleComponent),
       },
       {
         path: 'lines',
         loadComponent: () =>
-          import('./lines-example/lines-example.component').then(
+          import('./examples/lines-example/lines-example.component').then(
             (m) => m.LinesExampleComponent
           ),
       },
       {
         path: 'stacked-area',
         loadComponent: () =>
-          import('./stacked-area-example/stacked-area-example.component').then(
-            (m) => m.StackedAreaExampleComponent
-          ),
+          import(
+            './examples/stacked-area-example/stacked-area-example.component'
+          ).then((m) => m.StackedAreaExampleComponent),
       },
       {
         path: 'stacked-bars',
         loadComponent: () =>
-          import('./stacked-bars-example/stacked-bars-example.component').then(
-            (m) => m.StackedBarsExampleComponent
-          ),
+          import(
+            './examples/stacked-bars-example/stacked-bars-example.component'
+          ).then((m) => m.StackedBarsExampleComponent),
       },
     ],
   },

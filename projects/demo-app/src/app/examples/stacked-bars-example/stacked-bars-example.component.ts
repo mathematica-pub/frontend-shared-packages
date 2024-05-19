@@ -13,9 +13,9 @@ import {
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
-import { ComponentDemoComponent } from '../component-demo/component-demo.component';
-import { IndustryUnemploymentDatum } from '../core/models/data';
-import { DataService } from '../core/services/data.service';
+import { ComponentDemoComponent } from '../../component-demo/component-demo.component';
+import { IndustryUnemploymentDatum } from '../../core/models/data';
+import { DataService } from '../../core/services/data.service';
 
 interface ViewModel {
   dataConfig: VicStackedBarsConfig<IndustryUnemploymentDatum>;
