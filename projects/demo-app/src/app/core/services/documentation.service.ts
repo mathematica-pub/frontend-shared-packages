@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
 import { parse } from 'marked';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ export class DocumentationService {
     if (!this.docs[name]) {
       if (name.startsWith('/documentation')) {
         this.docs[name] = this.getFileText(name + '.html');
-      } else if (name === 'Overview.md') {
+      } else if (name === 'OVERVIEW.md') {
         this.docs[name] = this.http
           .get(name, {
             responseType: 'text',
