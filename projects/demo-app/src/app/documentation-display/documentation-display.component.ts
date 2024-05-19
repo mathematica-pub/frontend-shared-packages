@@ -13,14 +13,14 @@ import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.
 import { HighlightService } from '../core/services/highlight.service';
 
 @Component({
-  selector: 'app-render-file',
+  selector: 'app-documentation-display',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './render-file.component.html',
-  styleUrls: ['./render-file.component.scss'],
+  templateUrl: './documentation-display.component.html',
+  styleUrls: ['./documentation-display.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RenderFileComponent
+export class DocumentationDisplayComponent
   extends Unsubscribe
   implements OnChanges, OnInit
 {

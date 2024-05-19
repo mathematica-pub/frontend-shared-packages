@@ -15,8 +15,8 @@ import {
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { Observable, startWith, switchMap } from 'rxjs';
 import { DocumentationService } from '../core/services/documentation.service';
+import { DocumentationDisplayComponent } from '../documentation-display/documentation-display.component';
 import { RadioInputComponent } from '../radio-input/radio-input.component';
-import { RenderFileComponent } from '../render-file/render-file.component';
 
 @Component({
   selector: 'app-example-display',
@@ -25,7 +25,7 @@ import { RenderFileComponent } from '../render-file/render-file.component';
     CommonModule,
     ReactiveFormsModule,
     RadioInputComponent,
-    RenderFileComponent,
+    DocumentationDisplayComponent,
   ],
   templateUrl: './example-display.component.html',
   styleUrls: ['./example-display.component.scss'],
