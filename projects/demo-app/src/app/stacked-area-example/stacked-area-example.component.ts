@@ -51,7 +51,6 @@ export class StackedAreaExampleComponent implements OnInit {
     const yAxisConfig = vicYQuantitativeAxis<number>({
       tickFormat: ',.0f',
     });
-    yAxisConfig.tickFormat = ',.0f';
     const dataConfig = vicStackedArea<IndustryUnemploymentDatum, string>({
       data,
       x: vicDateDimension({

@@ -129,8 +129,9 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = vicXQuantitativeAxis<Date>();
-    xAxisConfig.tickFormat = '%Y';
+    const xAxisConfig = vicXQuantitativeAxis<Date>({
+      tickFormat: '%Y',
+    });
     const yAxisConfig = vicYQuantitativeAxis<number>();
     const dataConfig = vicLines<MetroUnemploymentDatum>({
       data,

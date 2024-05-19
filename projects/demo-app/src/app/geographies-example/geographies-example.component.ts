@@ -30,7 +30,10 @@ import {
   VicNoBinsAttributeDataDimension,
   vicNoBinsAttributeDataDimension,
 } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-bins';
-import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import {
+  VicNoDataGeographies,
+  vicNoDataGeographies,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
 import { VicGeographiesLabels } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
 import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
 import {
@@ -174,7 +177,7 @@ export class GeographiesExampleComponent implements OnInit {
       (x) => !statesInData.includes(x.properties.name)
     );
     const labels = this.getGeographyLabelConfig();
-    return new VicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
+    return vicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: features,
       labels: labels,
       fill: 'lightgray',
