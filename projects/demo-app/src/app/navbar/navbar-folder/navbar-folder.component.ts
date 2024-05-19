@@ -24,7 +24,6 @@ export class NavbarFolderComponent {
 
   addPartToBaseString(key: any): string {
     const str = `${this.baseString}/${key}`;
-    console.log(str);
     return str;
   }
 
