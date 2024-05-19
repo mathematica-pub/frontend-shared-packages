@@ -1,22 +1,24 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 .component-demo {
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: $grid-8 $grid-8 0 $grid-8;
+  padding: grid(8) grid(8) 0 grid(8);
 
   .file-select-bar {
     margin-top: 50px;
     display: flex;
     flex-direction: row;
     width: 100%;
-    
   }
 
   .title {
     @extend %typography-headline-5;
-    padding-bottom: $grid-4;
+    padding-bottom: grid(4);
   }
 
   .demo-container {
@@ -26,16 +28,16 @@
   }
 
   .selected {
-    background-color: $color-primary-6;
+    background-color: color.$primary-6;
   }
 
   .radio-input-label {
-    padding: $grid-2 $grid-10 $grid-1 $grid-2;
-    border-bottom: $grid-1 solid $color-primary-6;
+    padding: grid(2) grid(1) 0 grid(1) grid(2);
+    border-bottom: grid(1) solid color.$primary-6;
   }
 
   .radio-input-label:hover {
-    color: $color-highlight;
+    color: color.$highlight-default;
     transition: all 200ms;
   }
 }

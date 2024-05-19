@@ -1,4 +1,7 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 .cards-title {
   @extend %typography-headline-4;
@@ -6,8 +9,8 @@
 
 .cards-container {
   width: 100%;
-  padding-top: $grid-8;
+  padding-top: grid(8);
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  grid-gap: $grid-3;
+  grid-gap: grid(3);
 }
