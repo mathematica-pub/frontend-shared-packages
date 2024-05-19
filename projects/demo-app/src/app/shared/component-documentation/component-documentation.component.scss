@@ -7,7 +7,7 @@
 }
 
 .demo-app-documentation.local-styling {
-  max-width: 1080px;
+  max-width: $main-content-width;
 
   a {
     color: color.$highlight-default;

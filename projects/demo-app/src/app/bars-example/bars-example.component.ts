@@ -1,4 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { format } from 'd3';
 import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis.config';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
@@ -27,9 +29,19 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import {
+  VicBarsModule,
+  VicChartModule,
+  VicHtmlTooltipModule,
+  VicXQuantitativeAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYOrdinalAxisModule,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
@@ -45,7 +57,20 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
   }
 }
 @Component({
+  standalone: true,
   selector: 'app-bars-example',
+  imports: [
+    CommonModule,
+    SharedModule,
+    VicChartModule,
+    VicBarsModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYOrdinalAxisModule,
+    VicXQuantitativeAxisModule,
+    VicHtmlTooltipModule,
+    MatButtonModule,
+  ],
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,

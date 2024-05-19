@@ -1,5 +1,10 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import {
+  MatButtonToggleChange,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
+import { MatSelectModule } from '@angular/material/select';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { valueFormat } from 'projects/viz-components/src/lib/core/utilities/value-format';
@@ -49,6 +54,12 @@ import {
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
+  VicGeographiesModule,
+  VicHtmlTooltipModule,
+  VicMapChartModule,
+  VicMapLegendModule,
+} from 'projects/viz-components/src/public-api';
+import {
   BehaviorSubject,
   Observable,
   Subject,
@@ -62,6 +73,7 @@ import { StateIncomeDatum } from '../core/models/data';
 import { MapGeometryProperties } from '../core/services/basemap';
 import { BasemapService } from '../core/services/basemap.service';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 
 type AttributeData =
   | VicNoBinsAttributeDataDimension<StateIncomeDatum>
@@ -71,7 +83,18 @@ type AttributeData =
   | VicCustomBreaksAttributeDataDimension<StateIncomeDatum>;
 
 @Component({
+  standalone: true,
   selector: 'app-geographies-example',
+  imports: [
+    CommonModule,
+    SharedModule,
+    VicMapChartModule,
+    VicGeographiesModule,
+    VicMapLegendModule,
+    MatSelectModule,
+    VicHtmlTooltipModule,
+    MatButtonToggleModule,
+  ],
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
 })

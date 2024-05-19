@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
 import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
@@ -10,9 +11,18 @@ import {
   VicStackedAreaConfig,
   vicStackedArea,
 } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area.config';
+import {
+  VicChartModule,
+  VicStackedAreaModule,
+  VicXQuantitativeAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYQuantitativeAxisModule,
+} from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 
 interface ViewModel {
   dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum, string>;
@@ -21,7 +31,18 @@ interface ViewModel {
 }
 
 @Component({
+  standalone: true,
   selector: 'app-stacked-area-example',
+  imports: [
+    CommonModule,
+    VicChartModule,
+    VicXyChartModule,
+    VicStackedAreaModule,
+    VicXyBackgroundModule,
+    VicXQuantitativeAxisModule,
+    VicYQuantitativeAxisModule,
+    SharedModule,
+  ],
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
 })

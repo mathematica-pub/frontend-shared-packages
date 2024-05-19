@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -5,7 +6,10 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import {
+  MatButtonToggleChange,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
 import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
 import { vicYQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
@@ -43,9 +47,19 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import {
+  VicChartModule,
+  VicHtmlTooltipModule,
+  VicLinesModule,
+  VicXQuantitativeAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYQuantitativeAxisModule,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
+import { SharedModule } from '../shared/shared.module';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
@@ -65,7 +79,20 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
 }
 
 @Component({
+  standalone: true,
   selector: 'app-lines-example',
+  imports: [
+    CommonModule,
+    VicChartModule,
+    VicLinesModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYQuantitativeAxisModule,
+    VicXQuantitativeAxisModule,
+    SharedModule,
+    VicHtmlTooltipModule,
+    MatButtonToggleModule,
+  ],
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
 })
