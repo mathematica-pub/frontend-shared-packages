@@ -15,14 +15,17 @@ const DEFAULT = {
 export class VicNoBinsAttributeDataDimension<
   Datum
 > extends AttributeDataDimension<Datum, number> {
+  readonly binType: VicValuesBin.none;
   domain: [number, number];
-  binType: VicValuesBin.none = VicValuesBin.none;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly valueAccessor: (d: Datum, ...args: any) => number;
 
-  constructor(init?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
+  constructor(options?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
     super();
+    this.binType = VicValuesBin.none;
     this.scale = DEFAULT.scale;
     this.interpolator = DEFAULT.interpolator;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 
   setPropertiesFromData(data: Datum[]): void {

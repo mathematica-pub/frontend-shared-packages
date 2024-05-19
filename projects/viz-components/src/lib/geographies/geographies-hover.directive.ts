@@ -16,7 +16,7 @@ import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 interface GeographiesHoverExtras {
   feature: Feature;
-  bounds?: [[number, number], [number, number]];
+  bounds: [[number, number], [number, number]];
 }
 
 export type GeographiesHoverOutput<Datum> = VicGeographiesTooltipOutput<Datum> &

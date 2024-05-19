@@ -91,7 +91,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
     this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
   }
 
-  setPropertiesFromData(): void {
+  initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setSeries();
@@ -150,6 +150,6 @@ export function vicStackedArea<Datum, TCategoricalValue extends VicDataValue>(
   options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
 ): VicStackedAreaConfig<Datum, TCategoricalValue> {
   const config = new VicStackedAreaConfig(options);
-  config.setPropertiesFromData();
+  config.initPropertiesFromData();
   return config;
 }

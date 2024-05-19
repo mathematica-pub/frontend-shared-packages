@@ -26,9 +26,10 @@ export class VicCategoricalAttributeDataDimension<
   Datum,
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, string> {
-  readonly binType: VicValuesBin.categorical = VicValuesBin.categorical;
+  readonly binType: VicValuesBin.categorical;
   domain: string[];
   override interpolator: never;
+  readonly valueAccessor: (d: Datum, ...args: any) => string;
 
   constructor(
     options?: Partial<
@@ -36,6 +37,7 @@ export class VicCategoricalAttributeDataDimension<
     >
   ) {
     super();
+    this.binType = VicValuesBin.categorical;
     this.range = DEFAULT.range;
     this.scale = DEFAULT.scale;
     Object.assign(this, options);

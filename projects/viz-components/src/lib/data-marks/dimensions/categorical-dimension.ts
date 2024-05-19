@@ -32,8 +32,13 @@ export class VicCategoricalDimension<
   domain: TCategoricalValue[];
   readonly fillPatterns: VicFillPattern<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
-  range: string[];
+  readonly range: string[];
   scale: (category: TCategoricalValue) => string;
+  readonly valueAccessor: (
+    d: Datum,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ...args: any
+  ) => TCategoricalValue;
 
   constructor(
     options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>

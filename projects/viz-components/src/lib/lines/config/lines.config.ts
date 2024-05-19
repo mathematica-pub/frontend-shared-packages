@@ -44,7 +44,7 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
    *  [line.defined()]{@link https://github.com/d3/d3-shape#line_defined} method.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  valueIsDefined?: (d: Datum, i: number, ...args: any) => any;
+  valueIsDefined: (d: Datum, i: number, ...args: any) => any;
   /**
    * A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
    *  method.
@@ -66,18 +66,18 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
   /**
    * A config for the behavior of the line stroke.
    */
-  stroke?: VicLinesStroke;
+  stroke: VicLinesStroke;
   /**
    * A boolean to determine if the line will be labeled.
    */
-  labelLines?: boolean;
+  labelLines: boolean;
   /**
    * A function that returns a string to be used as the label for a line. Can be used to modify the
    * line label string as needed.
    *
    * Default is the identity function.
    */
-  lineLabelsFormat?: (d: string) => string;
+  lineLabelsFormat: (d: string) => string;
   /**
    * The distance from a line in which a hover event will trigger a tooltip, in px.
    *  Default is 80.
@@ -94,13 +94,13 @@ export class VicLinesConfig<Datum>
   x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
   y: VicQuantitativeDimension<Datum>;
   categorical: VicCategoricalDimension<Datum, string>;
-  valueIsDefined?: (d: Datum, i: number, ...args: any) => any;
+  valueIsDefined: (d: Datum, i: number, ...args: any) => any;
   curve: (x: any) => any;
   pointMarkers: VicPointMarkers;
   hoverDot: VicPointMarkers;
-  stroke?: VicLinesStroke;
-  labelLines?: boolean;
-  lineLabelsFormat?: (d: string) => string;
+  stroke: VicLinesStroke;
+  labelLines: boolean;
+  lineLabelsFormat: (d: string) => string;
   pointerDetectionRadius: number;
   linesD3Data;
   linesKeyFunction;
@@ -120,7 +120,7 @@ export class VicLinesConfig<Datum>
       this.lineLabelsFormat ?? LINE_DEFAULTS.lineLabelsFormat;
   }
 
-  setPropertiesFromData(): void {
+  initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setLinesD3Data();
@@ -184,8 +184,6 @@ export function vicLines<Datum>(
   options: Partial<VicLinesOptions<Datum>>
 ): VicLinesConfig<Datum> {
   const config = new VicLinesConfig(options);
-  config.categorical.range =
-    config.categorical.range ?? LINE_DEFAULTS.categorical.range;
-  config.setPropertiesFromData();
+  config.initPropertiesFromData();
   return config;
 }

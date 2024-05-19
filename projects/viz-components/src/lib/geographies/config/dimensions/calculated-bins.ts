@@ -15,10 +15,11 @@ export interface VicCalculatedRangeBinsAttributeDataDimensionOptions<
 
 export abstract class CalculatedRangeBinsAttributeDataDimension<
   Datum,
-  AttributeValue extends VicDataValue,
   RangeValue extends string | number = string
-> extends AttributeDataDimension<Datum, AttributeValue, RangeValue> {
+> extends AttributeDataDimension<Datum, number, RangeValue> {
   numBins: number;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly valueAccessor: (d: Datum, ...args: any) => number;
 
   protected setRange(): void {
     if (this.shouldCalculateBinColors(this.numBins, this.range)) {

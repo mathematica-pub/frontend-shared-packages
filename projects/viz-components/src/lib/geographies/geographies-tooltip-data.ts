@@ -4,7 +4,7 @@ import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesComponent } from './geographies.component';
 
 export interface VicGeographiesTooltipOutput<Datum> {
-  datum?: Datum;
+  datum: Datum;
   color: string;
   geography: string;
   attributeValue: string;

@@ -47,7 +47,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     this.dimensions = dimensions;
   }
 
-  setPropertiesFromData(): void {
+  initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
@@ -83,8 +83,7 @@ function vicBars<Datum, TOrdinalValue extends VicDataValue>(
   options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
 ): VicBarsConfig<Datum, TOrdinalValue> {
   const bars = new VicBarsConfig(dimensions, options);
-  bars.categorical.range = bars.categorical.range ?? DEFAULT.categorical.range;
-  bars.setPropertiesFromData();
+  bars.initPropertiesFromData();
   return bars;
 }
 

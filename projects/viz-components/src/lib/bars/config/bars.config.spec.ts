@@ -32,7 +32,7 @@ describe('BarsConfig', () => {
       spyOn(config as any, 'setValueIndicies');
       spyOn(config as any, 'setHasBarsWithNegativeValues');
       spyOn(config as any, 'setBarsKeyFunction');
-      config.setPropertiesFromData();
+      config.initPropertiesFromData();
     });
     it('calls setDimensionPropertiesFromData once', () => {
       expect(
@@ -60,7 +60,7 @@ describe('BarsConfig', () => {
       spyOn(config as any, 'setValueIndicies');
       spyOn(config as any, 'setHasBarsWithNegativeValues');
       spyOn(config as any, 'setBarsKeyFunction');
-      config.setPropertiesFromData();
+      config.initPropertiesFromData();
     });
     it('calls quantitative.setPropertiesFromData once', () => {
       expect(

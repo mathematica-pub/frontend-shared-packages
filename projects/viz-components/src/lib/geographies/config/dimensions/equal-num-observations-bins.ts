@@ -20,7 +20,7 @@ export class VicEqualNumObservationsAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
-  extends CalculatedRangeBinsAttributeDataDimension<Datum, number, RangeValue>
+  extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
   implements
     VicCalculatedRangeBinsAttributeDataDimensionOptions<
       Datum,

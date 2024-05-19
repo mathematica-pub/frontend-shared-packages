@@ -23,6 +23,8 @@ export class VicDateDimension<Datum>
     domain?: Iterable<Date>,
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  readonly valueAccessor: (d: Datum, ...args: any) => Date;
   private unpaddedDomain: [Date, Date];
 
   constructor(options: Partial<VicDateDimension<Datum>>) {

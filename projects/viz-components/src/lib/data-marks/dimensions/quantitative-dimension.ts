@@ -43,6 +43,7 @@ export class VicQuantitativeDimension<Datum>
     domain?: Iterable<number>,
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
+  readonly valueAccessor: (d: Datum, ...args: any) => number;
   private unpaddedDomain: [number, number];
 
   constructor(options: Partial<VicQuantitativeDimensionOptions<Datum>>) {

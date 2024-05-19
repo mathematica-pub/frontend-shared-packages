@@ -32,7 +32,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'getFormattedValues').and.returnValue(['1%', '2%']);
       directive.orientation = 'horizontal';
       directive.config = new VicEqualValuesAttributeDataDimension();
-      directive.config.valueFormat = 'test formatter';
+      (directive.config as any).valueFormat = 'test formatter';
     });
 
     it('calls getValuesFromScale once', () => {
@@ -57,7 +57,7 @@ describe('the MapLegendContent abstract class', () => {
     });
 
     it('does not call getFormattedValues if formatter is falsy', () => {
-      directive.config.valueFormat = null;
+      (directive.config as any).valueFormat = null;
       directive.setValues();
       expect(directive.getFormattedValues).not.toHaveBeenCalled();
     });

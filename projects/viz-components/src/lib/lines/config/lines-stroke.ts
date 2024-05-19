@@ -31,11 +31,11 @@ export class VicLinesStroke {
    */
   width: number;
 
-  constructor(init?: Partial<VicLinesStroke>) {
+  constructor(options?: Partial<VicLinesStroke>) {
     this.linecap = 'round';
     this.linejoin = 'round';
     this.opacity = 1;
     this.width = 2;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }

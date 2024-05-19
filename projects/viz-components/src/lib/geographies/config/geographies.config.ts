@@ -51,13 +51,13 @@ export interface VicGeographiesOptions<
   /**
    * A function that derives an identifying string or number from the GeoJson feature.
    */
-  featureIndexAccessor?: (
+  featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string | number;
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographies?: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
+  noDataGeographies: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
@@ -88,10 +88,10 @@ export class VicGeographiesConfig<
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   projection: GeoProjection;
-  featureIndexAccessor?: (
+  featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string | number;
-  noDataGeographies?: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
+  noDataGeographies: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
   dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
   values: MapDataValues = new MapDataValues();
 
@@ -103,7 +103,7 @@ export class VicGeographiesConfig<
     Object.assign(this, options);
   }
 
-  setPropertiesFromData(): void {
+  initPropertiesFromData(): void {
     const uniqueDatums = this.getUniqueDatumsByGeoAccessor();
     this.dataGeographies.attributeData.setPropertiesFromData(uniqueDatums);
     this.setAttributeData(uniqueDatums);
@@ -145,6 +145,6 @@ export function vicGeographies<
   options: Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>
 ): VicGeographiesConfig<Datum, TProperties, TGeometry> {
   const config = new VicGeographiesConfig(options);
-  config.setPropertiesFromData();
+  config.initPropertiesFromData();
   return config;
 }

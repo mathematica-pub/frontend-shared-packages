@@ -53,7 +53,7 @@ export class VicGeographiesLabels<
   fontScale: ScaleLinear<number, number, never>;
 
   constructor(
-    init?: Partial<VicGeographiesLabels<Datum, TProperties, TGeometry>>
+    options?: Partial<VicGeographiesLabels<Datum, TProperties, TGeometry>>
   ) {
     this.display = () => true;
     this.color = '#000';
@@ -69,6 +69,6 @@ export class VicGeographiesLabels<
     this.dominantBaseline = 'middle';
     this.cursor = 'default';
     this.pointerEvents = 'none';
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }

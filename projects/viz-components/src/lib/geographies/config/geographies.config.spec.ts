@@ -33,7 +33,7 @@ describe('GeographiesConifg', () => {
       );
       spyOn(config, 'setAttributeData');
       spyOn(config.dataGeographies.attributeData, 'setPropertiesFromData');
-      config.setPropertiesFromData();
+      config.initPropertiesFromData();
     });
     it('calls getUniqueDatumsByGeoAccessor once', () => {
       expect(config.getUniqueDatumsByGeoAccessor).toHaveBeenCalledTimes(1);

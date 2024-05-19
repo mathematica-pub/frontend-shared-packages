@@ -10,16 +10,16 @@ export class VicHtmlTooltipConfig extends VicTooltipConfig {
   size: OverlaySizeConfig;
   addEventsDisabledClass: boolean;
   panelClass: string | string[];
-  origin?: ElementRef<Element>;
+  origin: ElementRef<Element>;
   hasBackdrop: boolean;
-  closeOnBackdropClick?: boolean;
+  closeOnBackdropClick: boolean;
 
-  constructor(init?: Partial<VicHtmlTooltipConfig>) {
+  constructor(options?: Partial<VicHtmlTooltipConfig>) {
     super();
     this.size = new VicHtmlTooltipSize();
     this.hasBackdrop = false;
     this.closeOnBackdropClick = false;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 
@@ -56,17 +56,17 @@ export class VicHtmlTooltipDefaultConnectedPosition {
   originY: 'top' | 'center' | 'bottom';
   overlayX: 'start' | 'center' | 'end';
   overlayY: 'top' | 'center' | 'bottom';
-  weight?: number;
-  offsetX?: number;
-  offsetY?: number;
+  weight: number;
+  offsetX: number;
+  offsetY: number;
   panelClass: string | string[];
 
-  constructor(init?: Partial<ConnectedPosition>) {
+  constructor(options?: Partial<ConnectedPosition>) {
     this.originX = 'start';
     this.originY = 'top';
     this.overlayX = 'center';
     this.overlayY = 'bottom';
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 

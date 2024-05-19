@@ -32,13 +32,8 @@ export class VicEqualValuesAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
-  extends CalculatedRangeBinsAttributeDataDimension<Datum, number, RangeValue>
-  implements
-    VicCalculatedRangeBinsAttributeDataDimensionOptions<
-      Datum,
-      number,
-      RangeValue
-    >
+  extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
+  implements VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: VicValuesBin.equalValueRanges;
   domain: [number, number];

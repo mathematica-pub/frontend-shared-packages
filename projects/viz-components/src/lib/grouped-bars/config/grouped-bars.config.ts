@@ -54,7 +54,7 @@ export function vicVerticalGroupedBars<
   options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
 ): VicGroupedBarsConfig<Datum, TOrdinalValue> {
   const config = new VicGroupedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
-  config.setPropertiesFromData();
+  config.initPropertiesFromData();
   return config;
 }
 
@@ -65,6 +65,6 @@ export function vicHorizontalGroupedBars<
   options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
 ): VicGroupedBarsConfig<Datum, TOrdinalValue> {
   const config = new VicGroupedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-  config.setPropertiesFromData();
+  config.initPropertiesFromData();
   return config;
 }

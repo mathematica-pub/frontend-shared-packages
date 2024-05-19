@@ -34,7 +34,7 @@ describe('StackedAreaConfig', () => {
       spyOn(config, 'setValueIndicies');
       spyOn(config, 'setSeries');
       spyOn(config, 'initQuantitativeDomainFromStack');
-      config.setPropertiesFromData();
+      config.initPropertiesFromData();
     });
     it('calls setDimensionPropertiesFromData once', () => {
       expect(config.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);

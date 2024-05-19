@@ -4,11 +4,11 @@ export class VicBarsLabels<Datum> {
   color: string;
   noValueFunction: (d: Datum, ...args: any) => string;
 
-  constructor(init?: Partial<VicBarsLabels<Datum>>) {
+  constructor(options?: Partial<VicBarsLabels<Datum>>) {
     this.display = true;
     this.offset = 4;
     this.noValueFunction = () => 'N/A';
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 

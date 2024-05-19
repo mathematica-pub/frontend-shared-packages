@@ -32,6 +32,8 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
     domain?: Iterable<TOrdinalValue>,
     range?: Iterable<number>
   ) => ScaleBand<TOrdinalValue>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
 
   constructor(
     options?: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>

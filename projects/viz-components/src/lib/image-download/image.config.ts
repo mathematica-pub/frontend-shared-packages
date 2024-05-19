@@ -16,25 +16,25 @@ export class VicImageServiceConfig {
 }
 
 export class VicJpegImageConfig extends VicImageServiceConfig {
-  constructor(init?: Partial<VicImageServiceConfig>) {
+  constructor(options?: Partial<VicImageServiceConfig>) {
     super();
     this.imageType = VicImage.jpeg;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 
 export class VicPngImageConfig extends VicImageServiceConfig {
-  constructor(init?: Partial<VicImageServiceConfig>) {
+  constructor(options?: Partial<VicImageServiceConfig>) {
     super();
     this.imageType = VicImage.png;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 
 export class VicSvgImageConfig extends VicImageServiceConfig {
-  constructor(init?: Partial<VicImageServiceConfig>) {
+  constructor(options?: Partial<VicImageServiceConfig>) {
     super();
     this.imageType = VicImage.svg;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }

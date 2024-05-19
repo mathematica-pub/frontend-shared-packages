@@ -60,11 +60,9 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     Object.assign(this, options);
     this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
     this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
-    this.categorical.range =
-      this.categorical.range ?? DEFAULT.categorical.range;
   }
 
-  override setPropertiesFromData(): void {
+  override initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
@@ -120,7 +118,7 @@ export function vicHorizontalStackedBars<
   options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
 ): VicStackedBarsConfig<Datum, TOrdinalValue> {
   const bars = new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-  bars.setPropertiesFromData();
+  bars.initPropertiesFromData();
   return bars;
 }
 
@@ -131,6 +129,6 @@ export function vicVerticalStackedBars<
   options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
 ): VicStackedBarsConfig<Datum, TOrdinalValue> {
   const bars = new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
-  bars.setPropertiesFromData();
+  bars.initPropertiesFromData();
   return bars;
 }

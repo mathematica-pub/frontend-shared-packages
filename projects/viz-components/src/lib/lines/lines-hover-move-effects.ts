@@ -5,9 +5,9 @@ import { LinesComponent } from './lines.component';
 export class LinesHoverMoveDefaultStylesConfig {
   growMarkerDimension: number;
 
-  constructor(init?: Partial<LinesHoverMoveDefaultStylesConfig>) {
+  constructor(options?: Partial<LinesHoverMoveDefaultStylesConfig>) {
     this.growMarkerDimension = 2;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 

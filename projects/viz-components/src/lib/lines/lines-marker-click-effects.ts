@@ -6,9 +6,9 @@ import { LinesComponent } from './lines.component';
 export class LinesMarkerClickDefaultStylesConfig {
   growMarkerDimension: number;
 
-  constructor(init?: Partial<LinesMarkerClickDefaultStylesConfig>) {
+  constructor(options?: Partial<LinesMarkerClickDefaultStylesConfig>) {
     this.growMarkerDimension = 2;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 

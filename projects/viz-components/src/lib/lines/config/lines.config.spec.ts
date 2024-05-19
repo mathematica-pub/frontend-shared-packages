@@ -37,7 +37,7 @@ describe('LinesConfig', () => {
       spyOn(config, 'setLinesKeyFunction');
       spyOn(config, 'setMarkersD3Data');
       spyOn(config, 'setMarkersKeyFunction');
-      config.setPropertiesFromData();
+      config.initPropertiesFromData();
     });
     it('calls setDimensionPropertiesFromData once', () => {
       expect(config.setDimensionPropertiesFromData).toHaveBeenCalledTimes(1);

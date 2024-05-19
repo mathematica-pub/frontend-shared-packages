@@ -93,7 +93,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
   /**
    * A time duration for all transitions in the chart, in ms.
    */
-  @Input() transitionDuration?: number = 250;
+  @Input() transitionDuration = 250;
   /**
    * If chart size is dynamic, the maximum width of the chart.
    *

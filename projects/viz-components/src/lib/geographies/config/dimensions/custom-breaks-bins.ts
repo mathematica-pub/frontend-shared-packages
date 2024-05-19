@@ -31,10 +31,11 @@ export class VicCustomBreaksAttributeDataDimension<
   extends AttributeDataDimension<Datum, number, RangeValue>
   implements VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
-  domain: number[];
+  readonly binType: VicValuesBin.customBreaks;
   breakValues: number[];
+  domain: number[];
   numBins: number;
+  readonly valueAccessor: (d: Datum, ...args: any) => number;
 
   constructor(
     options?: Partial<
