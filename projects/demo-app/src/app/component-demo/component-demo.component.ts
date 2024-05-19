@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { Observable, startWith, switchMap } from 'rxjs';
-import { DocumentationService } from '../../core/services/documentation.service';
+import { DocumentationService } from '../core/services/documentation.service';
 import { RadioInputComponent } from '../radio-input/radio-input.component';
 import { RenderFileComponent } from '../render-file/render-file.component';
 

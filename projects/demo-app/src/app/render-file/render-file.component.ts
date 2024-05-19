@@ -12,8 +12,8 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { takeUntil } from 'rxjs';
-import { DocumentationService } from '../../core/services/documentation.service';
-import { HighlightService } from '../../core/services/highlight.service';
+import { DocumentationService } from '../core/services/documentation.service';
+import { HighlightService } from '../core/services/highlight.service';
 
 @Component({
   selector: 'app-render-file',

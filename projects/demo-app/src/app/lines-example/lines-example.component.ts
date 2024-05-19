@@ -49,9 +49,9 @@ import {
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { ComponentDemoComponent } from '../component-demo/component-demo.component';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
-import { ComponentDemoComponent } from '../shared/component-demo/component-demo.component';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
