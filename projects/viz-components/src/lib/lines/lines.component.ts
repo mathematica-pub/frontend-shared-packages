@@ -10,23 +10,18 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
-  extent,
   group,
   InternSet,
   line,
   map,
-  max,
-  min,
   range,
   scaleOrdinal,
-  scaleTime,
-  scaleUtc,
   select,
   Transition,
 } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { DataDomainService } from '../core/services/data-domain.service';
-import { isDate } from '../core/utilities/type-guards';
+import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
+import { isDate, isNumber } from '../core/utilities/type-guard';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
@@ -79,12 +74,11 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
   unpaddedDomain: {
-    x: [any, any];
-    y: [any, any];
+    x: [number, number] | [Date, Date];
+    y: [number, number];
   } = { x: undefined, y: undefined };
 
   private zone = inject(NgZone);
-  private dataDomainService = inject(DataDomainService);
 
   get lines(): any {
     return select(this.linesRef.nativeElement).selectAll('path');
@@ -126,14 +120,16 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setUnpaddedDomains(): void {
-    this.unpaddedDomain.x =
-      this.config.x.domain === undefined
-        ? extent(this.values.x)
-        : this.config.x.domain;
-    this.unpaddedDomain.y =
-      this.config.y.domain === undefined
-        ? [min([min(this.values.y), 0]), max(this.values.y)]
-        : this.config.y.domain;
+    this.unpaddedDomain.x = QuantitativeDomainUtilities.getUnpaddedDomain(
+      this.config.x.domain,
+      this.values.x,
+      this.config.x.domainIncludesZero
+    );
+    this.unpaddedDomain.y = QuantitativeDomainUtilities.getUnpaddedDomain(
+      this.config.y.domain,
+      this.values.y,
+      this.config.y.domainIncludesZero
+    );
   }
 
   setValueIndicies(): void {
@@ -161,10 +157,8 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
     this.linesD3Data = group(definedIndices, (i) => this.values.category[i]);
   }
 
-  canBeDrawnByPath(x: any): boolean {
-    return (
-      (typeof x === 'number' || isDate(x)) && x !== null && x !== undefined
-    );
+  canBeDrawnByPath(x: unknown): boolean {
+    return (isNumber(x) || isDate(x)) && x !== null && x !== undefined;
   }
 
   setLinesKeyFunction(): void {
@@ -192,31 +186,21 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setPropertiesFromRanges(useTransition: boolean): void {
-    const paddedXDomain = this.getPaddedDomain('x');
-    const paddedYDomain = this.getPaddedDomain('y');
-    const x = this.config.x.scaleType(paddedXDomain, this.ranges.x);
-    const y = this.config.y.scaleType(paddedYDomain, this.ranges.y);
+    const xDomain = this.unpaddedDomain.x;
+    const yDomain = this.config.y.domainPadding
+      ? QuantitativeDomainUtilities.getPaddedDomain(
+          this.unpaddedDomain.y,
+          this.config.y.domainPadding,
+          this.config.y.scaleFn,
+          this.ranges.y
+        )
+      : this.unpaddedDomain.y;
+    const x = this.config.x.scaleFn().domain(xDomain).range(this.ranges.x);
+    const y = this.config.y.scaleFn().domain(yDomain).range(this.ranges.y);
     const category = this.config.category.colorScale;
     this.zone.run(() => {
       this.chart.updateScales({ x, y, category, useTransition });
     });
-  }
-
-  getPaddedDomain(dimension: 'x' | 'y'): [any, any] {
-    if (
-      this.config[dimension].scaleType !== scaleTime &&
-      this.config[dimension].scaleType !== scaleUtc
-    ) {
-      const paddedDomain = this.dataDomainService.getQuantitativeDomain(
-        this.unpaddedDomain[dimension],
-        this.config[dimension].domainPadding,
-        this.config[dimension].scaleType,
-        this.ranges[dimension]
-      );
-      return paddedDomain;
-    } else {
-      return this.unpaddedDomain[dimension];
-    }
   }
 
   drawMarks(): void {

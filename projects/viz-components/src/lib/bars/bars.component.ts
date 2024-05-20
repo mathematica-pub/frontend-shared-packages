@@ -13,7 +13,6 @@ import {
 import {
   InternSet,
   map,
-  max,
   min,
   range,
   scaleOrdinal,
@@ -23,7 +22,7 @@ import {
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { DataDomainService } from '../core/services/data-domain.service';
+import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
@@ -80,8 +79,9 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
-  unpaddedQuantitativeDomain: [number, number];
-  protected dataDomainService = inject(DataDomainService);
+  unpaddedDomain: {
+    quantitative: [number, number];
+  } = { quantitative: undefined };
   protected zone = inject(NgZone);
 
   setPropertiesFromConfig(): void {
@@ -145,23 +145,19 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   initUnpaddedQuantitativeDomain(): void {
-    let dataMin, dataMax: number;
-    if (this.config.quantitative.domain === undefined) {
-      dataMin = this.getDataMin();
-      dataMax = this.getDataMax();
-    } else {
-      dataMin = min([this.config.quantitative.domain[0], 0]);
-      dataMax = max([this.config.quantitative.domain[1], 0]);
+    this.unpaddedDomain.quantitative =
+      QuantitativeDomainUtilities.getUnpaddedDomain(
+        this.config.quantitative.domain,
+        this.values[this.config.dimensions.quantitative],
+        this.config.quantitative.domainIncludesZero
+      );
+    if (
+      !this.config.quantitative.domainIncludesZero &&
+      this.unpaddedDomain.quantitative[0] <= 0 &&
+      this.unpaddedDomain.quantitative[1] >= 0
+    ) {
+      this.config.quantitative.domainIncludesZero = true;
     }
-    this.unpaddedQuantitativeDomain = [dataMin, dataMax];
-  }
-
-  getDataMin(): number {
-    return min([min(this.values[this.config.dimensions.quantitative]), 0]);
-  }
-
-  getDataMax(): number {
-    return max([max(this.values[this.config.dimensions.quantitative]), 0]);
   }
 
   initCategoryScale(): void {
@@ -205,28 +201,29 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 
   getOrdinalScale(): any {
     return this.config.ordinal
-      .scaleType(
-        this.config.ordinal.domain,
-        this.ranges[this.config.dimensions.ordinal]
-      )
+      .scaleFn()
+      .domain(this.config.ordinal.domain)
+      .range(this.ranges[this.config.dimensions.ordinal])
       .paddingInner(this.config.ordinal.paddingInner)
       .paddingOuter(this.config.ordinal.paddingOuter)
       .align(this.config.ordinal.align);
   }
 
   getQuantitativeScale(): any {
-    const paddedDomain = this.getPaddedQuantitativeDomain();
-    return this.config.quantitative.scaleType(
-      paddedDomain,
-      this.ranges[this.config.dimensions.quantitative]
-    );
+    const domain = this.config.quantitative.domainPadding
+      ? this.getPaddedQuantitativeDomain()
+      : this.unpaddedDomain.quantitative;
+    return this.config.quantitative
+      .scaleFn()
+      .domain(domain)
+      .range(this.ranges[this.config.dimensions.quantitative]);
   }
 
   getPaddedQuantitativeDomain(): [number, number] {
-    const domain = this.dataDomainService.getQuantitativeDomain(
-      this.unpaddedQuantitativeDomain,
+    const domain = QuantitativeDomainUtilities.getPaddedDomain(
+      this.unpaddedDomain.quantitative,
       this.config.quantitative.domainPadding,
-      this.config.quantitative.scaleType,
+      this.config.quantitative.scaleFn,
       this.ranges[this.config.dimensions.quantitative]
     );
     return domain;
@@ -421,9 +418,16 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarWidthQuantitative(i: number): number {
-    const origin = this.hasBarsWithNegativeValues
-      ? 0
-      : this.getQuantitativeDomainFromScale()[0];
+    let origin;
+    if (this.config.quantitative.domainIncludesZero) {
+      origin = this.hasBarsWithNegativeValues
+        ? 0
+        : this.getQuantitativeDomainFromScale()[0];
+    } else {
+      origin = this.hasBarsWithNegativeValues
+        ? this.getQuantitativeDomainFromScale()[1]
+        : this.getQuantitativeDomainFromScale()[0];
+    }
     return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
   }
 
