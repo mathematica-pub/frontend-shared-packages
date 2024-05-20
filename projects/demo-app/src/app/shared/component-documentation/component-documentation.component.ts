@@ -1,15 +1,15 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { takeUntil } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -25,10 +25,7 @@ import { HighlightService } from '../../core/services/highlight.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class ComponentDocumentationComponent
-  extends Unsubscribe
-  implements OnInit
-{
+export class ComponentDocumentationComponent implements OnInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
 
   sanitizedDocumentation: SafeHtml;
@@ -38,11 +35,13 @@ export class ComponentDocumentationComponent
   router = inject(Router);
   route: string;
 
+  constructor(private destroyRef: DestroyRef) {}
+
   ngOnInit(): void {
     this.route = this.router.url;
     this.documentationService
       .getDocumentation(this.route)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);

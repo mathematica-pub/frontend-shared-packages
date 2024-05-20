@@ -1,6 +1,13 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { VicDataValue } from '../core/types/values';
 import { InputEventEffect } from '../events/effect';
@@ -26,8 +33,11 @@ export class BarsInputEventDirective<
   @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
   @Output('vicBarsInputEventOutput') eventOutput = new EventEmitter<any>();
 
-  constructor(@Inject(BARS) public bars: BarsComponent<Datum, TOrdinalValue>) {
-    super();
+  constructor(
+    destroyRef: DestroyRef,
+    @Inject(BARS) public bars: BarsComponent<Datum, TOrdinalValue>
+  ) {
+    super(destroyRef);
   }
 
   handleNewEvent(inputEvent: any): void {

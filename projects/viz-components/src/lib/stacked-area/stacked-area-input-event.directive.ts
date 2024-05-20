@@ -1,6 +1,13 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { VicDataValue } from '../core/types/values';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
@@ -25,8 +32,11 @@ export class StackedAreaInputEventDirective<
   @Output('vicStackedAreaInputEventOutput') eventOutput =
     new EventEmitter<any>();
 
-  constructor(@Inject(STACKED_AREA) public lines: TStackedAreaComponent) {
-    super();
+  constructor(
+    destroyRef: DestroyRef,
+    @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
+  ) {
+    super(destroyRef);
   }
 
   handleNewEvent(inputEvent: any): void {
