@@ -1,4 +1,11 @@
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { Geometry } from 'geojson';
 import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
@@ -27,8 +34,11 @@ export class GeographiesInputEventDirective<
   @Input('vicGeographiesInputEvent$') override inputEvent$: Observable<unknown>;
   @Output() inputEventOutput = new EventEmitter<unknown>();
 
-  constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
-    super();
+  constructor(
+    @Inject(GEOGRAPHIES) public geographies: TComponent,
+    destroyRef: DestroyRef
+  ) {
+    super(destroyRef);
   }
 
   handleNewEvent(inputEvent: unknown): void {

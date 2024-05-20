@@ -20,12 +20,16 @@ describe('InputEvent', () => {
       directive.inputEvent$ = of([0]);
     });
     it('calls handleNewEvent with the correct value() if inputEvent$ is defined', () => {
-      directive.ngOnInit();
+      TestBed.runInInjectionContext(() => {
+        directive.ngOnInit();
+      });
       expect(directive.handleNewEvent).toHaveBeenCalledOnceWith([0]);
     });
     it('does not call handleNewEvent() if inputEvent$ is undefined', () => {
       directive.inputEvent$ = undefined;
-      directive.ngOnInit();
+      TestBed.runInInjectionContext(() => {
+        directive.ngOnInit();
+      });
       expect(directive.handleNewEvent).toHaveBeenCalledTimes(0);
     });
   });
