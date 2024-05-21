@@ -235,7 +235,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
-    if (this.config.labels.display) {
+    if (this.config.labels?.display) {
       this.drawBarLabels(transitionDuration);
     }
     this.updateBarElements();
@@ -399,35 +399,11 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarWidthQuantitative(i: number): number {
-    // const origin = this.chartHasNegativeMinValue
-    //   ? 0
-    //   : this.getQuantitativeDomainFromScale()[0];
-
-    let origin;
-    if (this.config.quantitative.domainIncludesZero) {
-      origin = this.chartHasNegativeMinValue
-        ? 0
-        : this.getQuantitativeDomainFromScale()[0];
-    } else {
-      origin = this.chartHasNegativeMinValue
-        ? this.getQuantitativeDomainFromScale()[1]
-        : this.getQuantitativeDomainFromScale()[0];
-    }
+    const origin = this.getBarQuantitativeOrigin();
     const width = Math.abs(
       this.scales.x(this.values.x[i]) - this.scales.x(origin)
     );
     return !width || isNaN(width) ? 0 : width;
-    // let origin;
-    // if (this.config.quantitative.domainIncludesZero) {
-    //   origin = this.chartHasNegativeMinValue
-    //     ? 0
-    //     : this.getQuantitativeDomainFromScale()[0];
-    // } else {
-    //   origin = this.chartHasNegativeMinValue
-    //     ? this.getQuantitativeDomainFromScale()[1]
-    //     : this.getQuantitativeDomainFromScale()[0];
-    // }
-    // return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
   }
 
   getBarHeight(i: number): number {
@@ -443,13 +419,21 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarHeightQuantitative(i: number): number {
-    const origin = this.chartHasNegativeMinValue
-      ? 0
-      : this.getQuantitativeDomainFromScale()[0];
+    const origin = this.getBarQuantitativeOrigin();
     const height = Math.abs(
       this.scales.y(origin) - this.scales.y(this.values.y[i])
     );
     return !height || isNaN(height) ? 0 : height;
+  }
+
+  getBarQuantitativeOrigin(): number {
+    if (this.chartHasNegativeMinValue) {
+      return this.config.quantitative.domainIncludesZero
+        ? 0
+        : this.getQuantitativeDomainFromScale()[1];
+    } else {
+      return this.getQuantitativeDomainFromScale()[0];
+    }
   }
 
   getBarPattern(i: number): string {

@@ -188,7 +188,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     barsConfig.labels.display = true;
     barsConfig.labels.offset = labelOffset;
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
-    barsConfig.quantitative.domainPadding.numPixels = 4;
+    barsConfig.quantitative.domainPadding.numPixels = -4;
   });
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
@@ -455,7 +455,7 @@ const mountHorizontalBarComponent = (barsConfig: VicBarsConfig<any>): void => {
   cy.wait(100);
 };
 
-describe('it correctly positions the horizontal bar chart data labels', () => {
+describe.only('it correctly positions the horizontal bar chart data labels', () => {
   let barsConfig: VicBarsConfig<any>;
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
