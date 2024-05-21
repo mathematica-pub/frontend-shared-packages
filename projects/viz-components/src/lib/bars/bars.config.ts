@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { scaleLinear } from 'd3';
 import {
   VicCategoricalColorDimensionConfig,
   VicOrdinalDimensionConfig,
@@ -28,7 +27,7 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
     this.category.valueAccessor = () => undefined;
-    this.quantitative.scaleType = scaleLinear;
+    this.quantitative.domainIncludesZero = true;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['#778899']; // light slate gray
     Object.assign(this, init);

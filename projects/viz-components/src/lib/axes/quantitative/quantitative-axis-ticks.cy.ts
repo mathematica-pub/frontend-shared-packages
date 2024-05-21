@@ -37,13 +37,13 @@ import {
   styles: [],
 })
 class TestXQuantitativeAxisComponent {
-  @Input() barsConfig: VicBarsConfig<any>;
+  @Input() barsConfig: VicBarsConfig<{ state: string; value: number }>;
   @Input() xQuantitativeAxisConfig: VicAxisConfig;
   margin = { top: 20, right: 20, bottom: 20, left: 20 };
 }
 
 describe('it correctly sets ticks', () => {
-  let barsConfig: VicBarsConfig<any>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [
@@ -133,7 +133,7 @@ describe('it correctly sets ticks', () => {
 
 describe('integer formatted ticks', () => {
   let validFormatRegex: RegExp;
-  let barsConfig: VicBarsConfig<any>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [
@@ -267,7 +267,7 @@ describe('integer formatted ticks', () => {
 
 describe('float formatted ticks', () => {
   let validFormatRegex: RegExp;
-  let barsConfig: VicBarsConfig<any>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [
@@ -414,7 +414,7 @@ describe('float formatted ticks', () => {
 
 describe('percent formatted ticks', () => {
   let validFormatRegex: RegExp;
-  let barsConfig: VicBarsConfig<any>;
+  let barsConfig: VicBarsConfig<{ state: string; value: number }>;
   let axisConfig: VicAxisConfig;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [

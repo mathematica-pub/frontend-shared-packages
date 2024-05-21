@@ -1,6 +1,13 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 /* eslint-disable @angular-eslint/no-output-rename */
-import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
+import {
+  DestroyRef,
+  Directive,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+} from '@angular/core';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
 import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
@@ -20,9 +27,10 @@ export class StackedAreaInputEventDirective<
     new EventEmitter<any>();
 
   constructor(
+    destroyRef: DestroyRef,
     @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
   ) {
-    super();
+    super(destroyRef);
   }
 
   handleNewEvent(inputEvent: any): void {

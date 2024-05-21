@@ -14,7 +14,6 @@ import {
 import {
   InternSet,
   map,
-  max,
   min,
   range,
   scaleOrdinal,
@@ -25,7 +24,7 @@ import {
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { DataDomainService } from '../core/services/data-domain.service';
+import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicColorUtilities } from '../shared/color-utilities.class';
 import { PatternUtilities } from '../shared/pattern-utilities.class';
@@ -76,22 +75,23 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 > {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
-  hasBarsWithNegativeValues: boolean;
+  chartHasNegativeMinValue: boolean;
   barGroups: BarGroupSelection;
   barsKeyFunction: (i: number) => string;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
   bars$ = this.bars.asObservable();
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
-  unpaddedQuantitativeDomain: [number, number];
-  protected dataDomainService = inject(DataDomainService);
+  unpaddedDomain: {
+    quantitative: [number, number];
+  } = { quantitative: undefined };
   protected zone = inject(NgZone);
 
   setPropertiesFromConfig(): void {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
+    this.setChartHasNegativeMinValue();
     this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
     this.setBarsKeyFunction();
@@ -137,34 +137,30 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     );
   }
 
-  setHasBarsWithNegativeValues(): void {
+  setChartHasNegativeMinValue(): void {
     let dataMin;
     if (this.config.quantitative.domain === undefined) {
       dataMin = min([min(this.values[this.config.dimensions.quantitative]), 0]);
     } else {
       dataMin = this.config.quantitative.domain[0];
     }
-    this.hasBarsWithNegativeValues = dataMin < 0;
+    this.chartHasNegativeMinValue = dataMin < 0;
   }
 
   initUnpaddedQuantitativeDomain(): void {
-    let dataMin, dataMax: number;
-    if (this.config.quantitative.domain === undefined) {
-      dataMin = this.getDataMin();
-      dataMax = this.getDataMax();
-    } else {
-      dataMin = min([this.config.quantitative.domain[0], 0]);
-      dataMax = max([this.config.quantitative.domain[1], 0]);
+    this.unpaddedDomain.quantitative =
+      QuantitativeDomainUtilities.getUnpaddedDomain(
+        this.config.quantitative.domain,
+        this.values[this.config.dimensions.quantitative],
+        this.config.quantitative.domainIncludesZero
+      );
+    if (
+      !this.config.quantitative.domainIncludesZero &&
+      this.unpaddedDomain.quantitative[0] <= 0 &&
+      this.unpaddedDomain.quantitative[1] >= 0
+    ) {
+      this.config.quantitative.domainIncludesZero = true;
     }
-    this.unpaddedQuantitativeDomain = [dataMin, dataMax];
-  }
-
-  getDataMin(): number {
-    return min([min(this.values[this.config.dimensions.quantitative]), 0]);
-  }
-
-  getDataMax(): number {
-    return max([max(this.values[this.config.dimensions.quantitative]), 0]);
   }
 
   initCategoryScale(): void {
@@ -208,28 +204,29 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 
   getOrdinalScale(): any {
     return this.config.ordinal
-      .scaleType(
-        this.config.ordinal.domain,
-        this.ranges[this.config.dimensions.ordinal]
-      )
+      .scaleFn()
+      .domain(this.config.ordinal.domain)
+      .range(this.ranges[this.config.dimensions.ordinal])
       .paddingInner(this.config.ordinal.paddingInner)
       .paddingOuter(this.config.ordinal.paddingOuter)
       .align(this.config.ordinal.align);
   }
 
   getQuantitativeScale(): any {
-    const paddedDomain = this.getPaddedQuantitativeDomain();
-    return this.config.quantitative.scaleType(
-      paddedDomain,
-      this.ranges[this.config.dimensions.quantitative]
-    );
+    const domain = this.config.quantitative.domainPadding
+      ? this.getPaddedQuantitativeDomain()
+      : this.unpaddedDomain.quantitative;
+    return this.config.quantitative
+      .scaleFn()
+      .domain(domain)
+      .range(this.ranges[this.config.dimensions.quantitative]);
   }
 
   getPaddedQuantitativeDomain(): [number, number] {
-    const domain = this.dataDomainService.getQuantitativeDomain(
-      this.unpaddedQuantitativeDomain,
+    const domain = QuantitativeDomainUtilities.getPaddedDomain(
+      this.unpaddedDomain.quantitative,
       this.config.quantitative.domainPadding,
-      this.config.quantitative.scaleType,
+      this.config.quantitative.scaleFn,
       this.ranges[this.config.dimensions.quantitative]
     );
     return domain;
@@ -354,7 +351,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   getBarXQuantitative(i: number): number {
     if (!this.values.x[i]) {
       return this.scales.x(0);
-    } else if (this.hasBarsWithNegativeValues) {
+    } else if (this.chartHasNegativeMinValue) {
       if (this.values.x[i] < 0) {
         return this.scales.x(this.values.x[i]);
       } else {
@@ -402,13 +399,35 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarWidthQuantitative(i: number): number {
-    const origin = this.hasBarsWithNegativeValues
-      ? 0
-      : this.getQuantitativeDomainFromScale()[0];
+    // const origin = this.chartHasNegativeMinValue
+    //   ? 0
+    //   : this.getQuantitativeDomainFromScale()[0];
+
+    let origin;
+    if (this.config.quantitative.domainIncludesZero) {
+      origin = this.chartHasNegativeMinValue
+        ? 0
+        : this.getQuantitativeDomainFromScale()[0];
+    } else {
+      origin = this.chartHasNegativeMinValue
+        ? this.getQuantitativeDomainFromScale()[1]
+        : this.getQuantitativeDomainFromScale()[0];
+    }
     const width = Math.abs(
       this.scales.x(this.values.x[i]) - this.scales.x(origin)
     );
     return !width || isNaN(width) ? 0 : width;
+    // let origin;
+    // if (this.config.quantitative.domainIncludesZero) {
+    //   origin = this.chartHasNegativeMinValue
+    //     ? 0
+    //     : this.getQuantitativeDomainFromScale()[0];
+    // } else {
+    //   origin = this.chartHasNegativeMinValue
+    //     ? this.getQuantitativeDomainFromScale()[1]
+    //     : this.getQuantitativeDomainFromScale()[0];
+    // }
+    // return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
   }
 
   getBarHeight(i: number): number {
@@ -424,7 +443,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarHeightQuantitative(i: number): number {
-    const origin = this.hasBarsWithNegativeValues
+    const origin = this.chartHasNegativeMinValue
       ? 0
       : this.getQuantitativeDomainFromScale()[0];
     const height = Math.abs(

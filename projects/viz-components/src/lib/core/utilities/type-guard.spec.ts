@@ -1,4 +1,4 @@
-import { isDate } from './type-guards';
+import { isDate } from './type-guard';
 
 describe('isDate()', () => {
   it('returns true if input is a date', () => {

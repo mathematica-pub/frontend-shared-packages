@@ -1,5 +1,4 @@
 import { Directive, OnDestroy } from '@angular/core';
-import { Subject } from 'rxjs';
 import { EventDirective, UnlistenFunction } from './event.directive';
 
 @Directive()
@@ -7,7 +6,6 @@ export abstract class HoverDirective
   extends EventDirective
   implements OnDestroy
 {
-  unsubscribe: Subject<void> = new Subject();
   unlistenTouchStart: UnlistenFunction[];
   unlistenPointerEnter: UnlistenFunction[];
   unlistenPointerLeave: UnlistenFunction;
@@ -18,8 +16,6 @@ export abstract class HoverDirective
   ngOnDestroy(): void {
     this.unlistenTouchStart.forEach((func) => func());
     this.unlistenPointerEnter.forEach((func) => func());
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 
   setListeners(): void {

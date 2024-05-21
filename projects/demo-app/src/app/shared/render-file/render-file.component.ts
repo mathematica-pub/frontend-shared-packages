@@ -1,5 +1,6 @@
 import {
   Component,
+  DestroyRef,
   inject,
   Input,
   OnChanges,
@@ -7,10 +8,9 @@ import {
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { takeUntil } from 'rxjs';
 import { DocumentationService } from '../../core/services/documentation.service';
 import { HighlightService } from '../../core/services/highlight.service';
 
@@ -20,10 +20,7 @@ import { HighlightService } from '../../core/services/highlight.service';
   styleUrls: ['./render-file.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class RenderFileComponent
-  extends Unsubscribe
-  implements OnChanges, OnInit
-{
+export class RenderFileComponent implements OnChanges, OnInit {
   @Input() fileData: string;
   private highlightService = inject(HighlightService);
   private sanitizer = inject(DomSanitizer);
@@ -32,13 +29,15 @@ export class RenderFileComponent
   sanitizedDocumentation: SafeHtml;
   class: string;
 
+  constructor(private destroyRef: DestroyRef) {}
+
   ngOnInit(): void {
     if (this.router.url === '/overview') {
       const path = 'Overview.md';
       this.class = 'overview';
       this.documentationService
         .getDocumentation(path)
-        .pipe(takeUntil(this.unsubscribe))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe((data: string) => {
           this.sanitizeAndHighlight(data);
         });

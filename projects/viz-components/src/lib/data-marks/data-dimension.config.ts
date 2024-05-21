@@ -1,5 +1,20 @@
-import { InternSet, scaleBand } from 'd3';
+import {
+  InternSet,
+  ScaleBand,
+  ScaleContinuousNumeric,
+  ScaleTime,
+  scaleBand,
+  scaleLinear,
+  scaleUtc,
+} from 'd3';
 import { VicFormatSpecifier } from '../value-format/value-format';
+
+export enum VicDimension {
+  'quantitative' = 'quantitative',
+  'categorical' = 'categorical',
+  'ordinal' = 'ordinal',
+  'date' = 'date',
+}
 
 export class VicDataDimensionConfig<Datum> {
   valueAccessor: (d: Datum, ...args: any) => any;
@@ -13,79 +28,43 @@ export class VicDataDimensionConfig<Datum> {
 export class VicQuantitativeDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
-  override valueAccessor: (d: Datum, ...args: any) => number | Date;
-  override domain?: [any, any];
-  scaleType?: (d: any, r: any) => any;
+  override valueAccessor: (d: Datum, ...args: any) => number;
+  override domain?: [number, number];
+  type: VicDimension.quantitative = VicDimension.quantitative;
+  scaleFn: (
+    domain?: Iterable<number>,
+    range?: Iterable<number>
+  ) => ScaleContinuousNumeric<number, number>;
   domainPadding: VicDomainPaddingConfig;
+  domainIncludesZero: boolean;
 
   constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
+    this.scaleFn = scaleLinear;
     Object.assign(this, init);
   }
 }
 
-export enum DomainPadding {
-  roundUp = 'roundUp',
-  roundInterval = 'roundInterval',
-  percentOver = 'percentOver',
-  numPixels = 'numPixels',
-}
+export class VicDateDimensionConfig<
+  Datum
+> extends VicDataDimensionConfig<Datum> {
+  override valueAccessor: (d: Datum, ...args: any) => Date;
+  override domain?: [Date, Date];
+  type: VicDimension.date = VicDimension.date;
+  domainPadding: never;
+  domainIncludesZero: never;
 
-export class VicBaseDomainPaddingConfig {
-  sigDigits: (d: any) => number;
-  constructor(init?: Partial<VicBaseDomainPaddingConfig>) {
-    this.sigDigits = () => 1;
-    Object.assign(this, init);
-  }
-}
+  scaleFn: (
+    domain?: Iterable<Date>,
+    range?: Iterable<number>
+  ) => ScaleTime<number, number>;
 
-export class VicRoundUpDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: DomainPadding.roundUp = DomainPadding.roundUp;
-
-  constructor(init?: Partial<VicRoundUpDomainPaddingConfig>) {
+  constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
+    this.scaleFn = scaleUtc as () => ScaleTime<number, number>;
     Object.assign(this, init);
   }
 }
-
-export class VicRoundUpToIntervalDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: DomainPadding.roundInterval = DomainPadding.roundInterval;
-  interval: (maxValue: number) => number;
-
-  constructor(init?: Partial<VicRoundUpToIntervalDomainPaddingConfig>) {
-    super();
-    this.interval = () => 1;
-    Object.assign(this, init);
-  }
-}
-
-export class VicPercentOverDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: DomainPadding.percentOver = DomainPadding.percentOver;
-  percentOver: number;
-
-  constructor(init?: Partial<VicPercentOverDomainPaddingConfig>) {
-    super();
-    this.percentOver = 0.1;
-    Object.assign(this, init);
-  }
-}
-
-export class VicPixelDomainPaddingConfig extends VicBaseDomainPaddingConfig {
-  type: DomainPadding.numPixels = DomainPadding.numPixels;
-  numPixels: number;
-
-  constructor(init?: Partial<VicPixelDomainPaddingConfig>) {
-    super();
-    this.numPixels = 40;
-    Object.assign(this, init);
-  }
-}
-
-export type VicDomainPaddingConfig =
-  | VicRoundUpDomainPaddingConfig
-  | VicRoundUpToIntervalDomainPaddingConfig
-  | VicPercentOverDomainPaddingConfig
-  | VicPixelDomainPaddingConfig;
 
 export class VicCategoricalColorDimensionConfig<
   Datum
@@ -103,17 +82,74 @@ export class VicOrdinalDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
   override domain?: any[] | InternSet;
-  scaleType: (d: any, r: any) => any;
+  type: VicDimension.ordinal = VicDimension.ordinal;
+  scaleFn: (
+    domain?: Iterable<string>,
+    range?: Iterable<number>
+  ) => ScaleBand<string>;
   paddingInner: number;
   paddingOuter: number;
   align: number;
 
   constructor(init?: Partial<VicOrdinalDimensionConfig<Datum>>) {
     super();
-    this.scaleType = scaleBand;
+    this.scaleFn = scaleBand;
     this.paddingInner = 0.1;
     this.paddingOuter = 0.1;
     this.align = 0.5;
+    Object.assign(this, init);
+  }
+}
+
+export enum DomainPadding {
+  roundUp = 'roundUp',
+  roundInterval = 'roundInterval',
+  percentOver = 'percentOver',
+  numPixels = 'numPixels',
+}
+
+export type VicDomainPaddingConfig =
+  | VicRoundUpDomainPaddingConfig
+  | VicRoundUpToIntervalDomainPaddingConfig
+  | VicPercentOverDomainPaddingConfig
+  | VicPixelDomainPaddingConfig;
+
+export class VicRoundUpDomainPaddingConfig {
+  type: DomainPadding.roundUp = DomainPadding.roundUp;
+  sigDigits: (d: any) => number;
+
+  constructor(init?: Partial<VicRoundUpDomainPaddingConfig>) {
+    this.sigDigits = () => 1;
+    Object.assign(this, init);
+  }
+}
+
+export class VicRoundUpToIntervalDomainPaddingConfig {
+  type: DomainPadding.roundInterval = DomainPadding.roundInterval;
+  interval: (maxValue: number) => number;
+
+  constructor(init?: Partial<VicRoundUpToIntervalDomainPaddingConfig>) {
+    this.interval = () => 1;
+    Object.assign(this, init);
+  }
+}
+
+export class VicPercentOverDomainPaddingConfig {
+  type: DomainPadding.percentOver = DomainPadding.percentOver;
+  percentOver: number;
+
+  constructor(init?: Partial<VicPercentOverDomainPaddingConfig>) {
+    this.percentOver = 0.1;
+    Object.assign(this, init);
+  }
+}
+
+export class VicPixelDomainPaddingConfig {
+  type: DomainPadding.numPixels = DomainPadding.numPixels;
+  numPixels: number;
+
+  constructor(init?: Partial<VicPixelDomainPaddingConfig>) {
+    this.numPixels = 40;
     Object.assign(this, init);
   }
 }
