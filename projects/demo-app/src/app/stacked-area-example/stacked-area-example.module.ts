@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   VicChartModule,
+  VicHtmlTooltipModule,
   VicStackedAreaModule,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
@@ -19,6 +20,7 @@ import { StackedAreaExampleComponent } from './stacked-area-example.component';
     StackedAreaRoutingModule,
     VicChartModule,
     VicXyChartModule,
+    VicHtmlTooltipModule,
     VicStackedAreaModule,
     VicXyBackgroundModule,
     VicXQuantitativeAxisModule,

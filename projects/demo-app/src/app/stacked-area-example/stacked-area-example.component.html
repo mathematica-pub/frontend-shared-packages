@@ -14,9 +14,46 @@
           [config]="vm.yAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-data-marks-stacked-area [config]="vm.dataConfig"></svg:g>
+        <svg:g
+          vic-data-marks-stacked-area
+          [config]="vm.dataConfig"
+          [vicStackedAreaHoverMoveEffects]="hoverAndMoveEffects"
+          (vicStackedAreaHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="(tooltipConfig$ | async)"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
+        <svg:g>
+          <line
+            class="tooltip-line"
+            [attr.x1]="(tooltipData$ | async)?.positionX"
+            [attr.x2]="(tooltipData$ | async)?.positionX"
+            [attr.y1]="(tooltipData$ | async)?.minPositionY"
+            [attr.y2]="(tooltipData$ | async)?.maxPositionY"
+          ></line>
+        </svg:g>
       </ng-container>
     </vic-xy-chart>
   </ng-container>
   <ng-template #loading>Loading...</ng-template>
 </app-component-demo>
+
+<ng-template #htmlTooltip>
+  <div
+    *ngIf="(tooltipData$ | async) as eventOutput"
+    [style.--color]="eventOutput.data[eventOutput.stratIndex].color"
+    class="tooltip-container"
+  >
+    <p class="tooltip-label category">
+      {{ eventOutput.data[eventOutput.stratIndex].category }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label y">
+        <span class="value-label">Value</span>
+        {{ eventOutput.data[eventOutput.stratIndex].datum.value }}
+      </p>
+    </div>
+  </div>
+</ng-template>
