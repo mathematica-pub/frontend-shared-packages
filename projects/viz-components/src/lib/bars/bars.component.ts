@@ -349,8 +349,9 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarXQuantitative(i: number): number {
-    if (!this.values.x[i]) {
-      return this.scales.x(0);
+    if (isNaN(parseFloat(this.values.x[i]))) {
+      const origin = this.getBarQuantitativeOrigin();
+      return this.scales.x(origin);
     } else if (this.chartHasNegativeMinValue) {
       if (this.values.x[i] < 0) {
         return this.scales.x(this.values.x[i]);
@@ -379,8 +380,15 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarYQuantitative(i: number): number {
-    if (!this.values.y[i] || this.values.y[i] < 0) {
-      return this.scales.y(0);
+    if (isNaN(parseFloat(this.values.y[i]))) {
+      const origin = this.getBarQuantitativeOrigin();
+      return this.scales.y(origin);
+    } else if (this.values.y[i] < 0) {
+      if (this.config.quantitative.domainIncludesZero) {
+        return this.scales.y(0);
+      } else {
+        return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
+      }
     } else {
       return this.scales.y(this.values.y[i]);
     }
@@ -427,12 +435,12 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarQuantitativeOrigin(): number {
-    if (this.chartHasNegativeMinValue) {
-      return this.config.quantitative.domainIncludesZero
-        ? 0
-        : this.getQuantitativeDomainFromScale()[1];
+    if (this.config.quantitative.domainIncludesZero) {
+      return 0;
     } else {
-      return this.getQuantitativeDomainFromScale()[0];
+      return this.chartHasNegativeMinValue
+        ? this.getQuantitativeDomainFromScale()[1]
+        : this.getQuantitativeDomainFromScale()[0];
     }
   }
 
@@ -621,9 +629,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   positionZeroOrNonnumericValueLabelInPositiveDirection(): boolean {
     const quantitativeValues = this.values[this.config.dimensions.quantitative];
     const someValuesArePositive = quantitativeValues.some((x) => x > 0);
-    const domainMaxIsPositive =
-      this.config.quantitative.domain === undefined ||
-      this.config.quantitative.domain[1] > 0;
+    const domainMaxIsPositive = this.getQuantitativeDomainFromScale()[1] > 0;
     const everyValueIsEitherZeroOrNonnumeric = quantitativeValues.every((x) =>
       this.valueIsZeroOrNonnumeric(x)
     );

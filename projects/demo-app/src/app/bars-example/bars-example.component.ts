@@ -93,8 +93,7 @@ export class BarsExampleComponent implements OnInit {
     dataConfig.ordinal.valueAccessor = (d) => d.division;
     dataConfig.quantitative.valueAccessor = (d) => d.value;
     dataConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
-    // dataConfig.quantitative.domain = [-10, 10];
-    dataConfig.quantitative.domainIncludesZero = false;
+    dataConfig.quantitative.domainIncludesZero = true;
     return {
       dataConfig,
       xAxisConfig,

@@ -492,43 +492,52 @@ describe('BarsComponent', () => {
       component.scales = {
         x: jasmine.createSpy('x').and.returnValue(50),
       } as any;
-      component.chartHasNegativeMinValue = true;
-      component.values.x = [1, 2, 3];
+      spyOn(component, 'getBarQuantitativeOrigin').and.returnValue(10);
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
-        2, 10,
+        2, 4,
       ]);
     });
 
-    describe('when the x value is falsey', () => {
-      it('calls xScale once and with 0', () => {
+    describe('x value is non-numeric', () => {
+      beforeEach(() => {
         component.values.x = [undefined, 2, 3];
         component.getBarXQuantitative(0);
-        expect(component.scales.x).toHaveBeenCalledOnceWith(0);
+      });
+      it('calls getBarQuantitativeOrigin once', () => {
+        expect(component.getBarQuantitativeOrigin).toHaveBeenCalledTimes(1);
+      });
+      it('calls scales.x with the bar origin', () => {
+        expect(component.scales.x).toHaveBeenCalledOnceWith(10);
       });
     });
 
     describe('chartHasNegativeMinValue is true', () => {
-      it('calls xScale once and with the correct value if x value is less than zero', () => {
+      beforeEach(() => {
+        component.chartHasNegativeMinValue = true;
+      });
+
+      it('calls scales.x once with x value if x value is less than zero', () => {
         component.values.x = [-1, 2, 3];
         component.getBarXQuantitative(0);
         expect(component.scales.x).toHaveBeenCalledOnceWith(-1);
       });
-
-      it('calls xScale once with 0 if x value is greater than zero', () => {
-        component.getBarXQuantitative(2);
+      it('calls scales.x once with 0 if x value is not less than zero', () => {
+        component.values.x = [0, 2, 3];
+        component.getBarXQuantitative(0);
         expect(component.scales.x).toHaveBeenCalledOnceWith(0);
       });
     });
 
-    describe('chartHasNegativeMinValue is false', () => {
-      it('calls xScale once and with the correct value', () => {
-        component.chartHasNegativeMinValue = false;
-        component.getBarXQuantitative(0);
-        expect(component.scales.x).toHaveBeenCalledOnceWith(2);
-      });
+    it('calls scales.x once with the max from the domain if chartHasNegativeMinValue is false', () => {
+      component.values.x = [0, 1, 3];
+      component.chartHasNegativeMinValue = false;
+      component.getBarXQuantitative(0);
+      expect(component.scales.x).toHaveBeenCalledOnceWith(2);
     });
 
     it('returns the correct value', () => {
+      component.values.x = [1, 2, 3];
+      component.chartHasNegativeMinValue = false;
       expect(component.getBarXQuantitative(0)).toEqual(50);
     });
   });
@@ -600,27 +609,60 @@ describe('BarsComponent', () => {
       component.scales = {
         y: jasmine.createSpy('y').and.returnValue(50),
       } as any;
+      spyOn(component, 'getBarQuantitativeOrigin').and.returnValue(10);
+      spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
+        2, 4,
+      ]);
+    });
+
+    describe('y value is non-numeric', () => {
+      beforeEach(() => {
+        component.values.y = [undefined, 2, 3];
+        component.getBarYQuantitative(0);
+      });
+      it('calls getBarQuantitativeOrigin once', () => {
+        expect(component.getBarQuantitativeOrigin).toHaveBeenCalledTimes(1);
+      });
+      it('calls scales.y with the bar origin', () => {
+        expect(component.scales.y).toHaveBeenCalledOnceWith(10);
+      });
+    });
+
+    describe('y value is less than zero', () => {
+      beforeEach(() => {
+        component.values.y = [-1, 2, 3];
+      });
+
+      it('calls scales.y once with 0 if the domain includes zero', () => {
+        component.config = {
+          quantitative: { domainIncludesZero: true },
+        } as any;
+        component.getBarYQuantitative(0);
+        expect(component.scales.y).toHaveBeenCalledOnceWith(0);
+      });
+      it('calls scales.y once with the max from the domain range if the domain does not include zero', () => {
+        component.config = {
+          quantitative: { domainIncludesZero: false },
+        } as any;
+        component.getBarYQuantitative(0);
+        expect(component.scales.y).toHaveBeenCalledOnceWith(4);
+      });
+    });
+
+    it('calls scales.y once with 0 if y value is zero', () => {
+      component.values.y = [0, 2, 3];
+      component.getBarYQuantitative(0);
+      expect(component.scales.y).toHaveBeenCalledOnceWith(0);
+    });
+
+    it('calls scales.y once with the y value if y value is greater than zero', () => {
       component.values.y = [1, 2, 3];
-    });
-
-    it('calls yScale once with 0 if y value is less than zero', () => {
-      component.values.y = [-1, 2, 3];
       component.getBarYQuantitative(0);
-      expect(component.scales.y).toHaveBeenCalledOnceWith(0);
-    });
-
-    it('calls yScale once with 0 if y value is falsey', () => {
-      component.values.y = [undefined, 2, 3];
-      component.getBarYQuantitative(0);
-      expect(component.scales.y).toHaveBeenCalledOnceWith(0);
-    });
-
-    it('calls yScale once with the y value if y value is greater than zero', () => {
-      component.getBarYQuantitative(2);
-      expect(component.scales.y).toHaveBeenCalledOnceWith(3);
+      expect(component.scales.y).toHaveBeenCalledOnceWith(1);
     });
 
     it('returns the correct value', () => {
+      component.values.y = [1, 2, 3];
       expect(component.getBarYQuantitative(0)).toEqual(50);
     });
   });
@@ -825,30 +867,19 @@ describe('BarsComponent', () => {
         2, 10,
       ]);
     });
-    describe('chartHasNegativeMinValue is true', () => {
-      beforeEach(() => {
-        component.chartHasNegativeMinValue = true;
-      });
-      it('returns 0 if domainIncludesZero is true', () => {
-        component.config = {
-          quantitative: { domainIncludesZero: true },
-        } as any;
-        expect(component.getBarQuantitativeOrigin()).toEqual(0);
-      });
-      it('returns the correct value if domainIncludesZero is false', () => {
-        component.config = {
-          quantitative: { domainIncludesZero: false },
-        } as any;
-        expect(component.getBarQuantitativeOrigin()).toEqual(10);
-      });
+    it('returns 0 if the domain includes zero', () => {
+      component.config = { quantitative: { domainIncludesZero: true } } as any;
+      expect(component.getBarQuantitativeOrigin()).toEqual(0);
     });
-    describe('chartHasNegativeMinValue is false', () => {
-      beforeEach(() => {
-        component.chartHasNegativeMinValue = false;
-      });
-      it('returns the correct value', () => {
-        expect(component.getBarQuantitativeOrigin()).toEqual(2);
-      });
+    it('returns the max from the domain if the domain does not include zero and the chart has a negative minimum value', () => {
+      component.config = { quantitative: { domainIncludesZero: false } } as any;
+      component.chartHasNegativeMinValue = true;
+      expect(component.getBarQuantitativeOrigin()).toEqual(10);
+    });
+    it('returns the min from the domain if the domain does not include zero and the chart does not have a negative minimum value', () => {
+      component.config = { quantitative: { domainIncludesZero: false } } as any;
+      component.chartHasNegativeMinValue = false;
+      expect(component.getBarQuantitativeOrigin()).toEqual(2);
     });
   });
 
@@ -1536,6 +1567,7 @@ describe('BarsComponent', () => {
   });
 
   describe('positionZeroOrNonnumericValueLabelInPositiveDirection', () => {
+    let domainSpy: jasmine.Spy;
     beforeEach(() => {
       component.config = {
         dimensions: {
@@ -1545,6 +1577,10 @@ describe('BarsComponent', () => {
           domain: undefined,
         },
       } as any;
+      domainSpy = spyOn(
+        component,
+        'getQuantitativeDomainFromScale'
+      ).and.returnValue([-50, 50]);
     });
     it('returns true if some values are positive', () => {
       component.values = { y: [null, 10, false] } as any;
@@ -1562,13 +1598,13 @@ describe('BarsComponent', () => {
         ).toBeTrue();
       });
       it('returns true if domain is defined and the maximum is greater than 0', () => {
-        component.config.quantitative.domain = [1, 10];
+        domainSpy.and.returnValue([1, 10]);
         expect(
           component.positionZeroOrNonnumericValueLabelInPositiveDirection()
         ).toBeTrue();
       });
       it('returns false if domain is defined and the maximum is not greater than 0', () => {
-        component.config.quantitative.domain = [-10, 0];
+        domainSpy.and.returnValue([-10, 0]);
         expect(
           component.positionZeroOrNonnumericValueLabelInPositiveDirection()
         ).toBeFalse();
