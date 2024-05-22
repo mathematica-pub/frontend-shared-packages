@@ -16,7 +16,7 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 })
 export class StackedAreaHoverMoveDirective<
   Datum,
-  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
+  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum> = StackedAreaComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
   effects: HoverMoveEventEffect<
@@ -28,6 +28,9 @@ export class StackedAreaHoverMoveDirective<
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
+  closestMinPositionY: number;
+  closestMaxPositionY: number;
+  stratIndex: number;
 
   constructor(
     @Inject(STACKED_AREA) public stackedArea: ExtendedStackedAreaComponent
@@ -54,6 +57,7 @@ export class StackedAreaHoverMoveDirective<
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.pointerIsInChartArea()) {
       this.setClosestXIndicies();
+      this.setClosestDatumPosition();
       this.determineHoverStyles();
     }
   }
@@ -102,9 +106,33 @@ export class StackedAreaHoverMoveDirective<
     }
   }
 
+  setClosestDatumPosition(): void {
+    const dataAtXValue = this.stackedArea.series
+      .flatMap((strat) => strat)
+      .filter((d) => this.closestXIndicies.includes(d.i));
+    const coordinateData = dataAtXValue.map((d) => ({
+      minPositionY: this.stackedArea.scales.y(d[1]),
+      maxPositionY: this.stackedArea.scales.y(d[0]),
+      i: d.i,
+    }));
+    const closestDatumIndex = coordinateData.findIndex(
+      (d) => this.pointerY >= d.minPositionY && this.pointerY <= d.maxPositionY
+    );
+    let closestDatum;
+    if (closestDatumIndex !== -1) {
+      closestDatum = coordinateData[closestDatumIndex];
+    }
+    this.closestMinPositionY = closestDatum?.minPositionY;
+    this.closestMaxPositionY = closestDatum?.maxPositionY;
+    this.stratIndex = closestDatum ? closestDatumIndex : undefined;
+  }
+
   getTooltipData(): VicStackedAreaEventOutput<Datum> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
+      this.closestMinPositionY,
+      this.closestMaxPositionY,
+      this.stratIndex,
       this.stackedArea
     );
     tooltipData.svgHeight = this.elements[0].clientHeight;
