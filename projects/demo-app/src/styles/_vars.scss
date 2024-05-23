@@ -1,0 +1,51 @@
+@use 'sass:map';
+@use 'color';
+
+/* ----- FONTS ----- */
+$sans-font: 'Fira Sans', sans-serif;
+$serif-font: 'PT Serif', monospace;
+
+$font-weight: (
+  'light': 300,
+  'regular': 400,
+  'medium': 500,
+  'semibold': 600,
+  'bold': 700,
+);
+
+$line-height: (
+  0: 1,
+  1: 1.125,
+  2: 1.25,
+  3: 1.5,
+  4: 1.75,
+  5: 2,
+);
+
+$font-weight-light: map.get($font-weight, 'light');
+$font-weight-regular: map.get($font-weight, 'regular');
+$font-weight-medium: map.get($font-weight, 'medium');
+$font-weight-semibold: map.get($font-weight, 'semibold');
+$font-weight-bold: map.get($font-weight, 'bold');
+$line-height-0: map.get($line-height, 0);
+$line-height-1: map.get($line-height, 1);
+$line-height-2: map.get($line-height, 2);
+$line-height-3: map.get($line-height, 3);
+$line-height-4: map.get($line-height, 4);
+$line-height-5: map.get($line-height, 5);
+
+$transition-default: all 0.2s ease-in-out;
+$transition-quick: all 0.125s ease-in-out;
+
+$drop-shadow-light: 0 1px 3px rgba(color.$primary-text, 0.12),
+  0 1px 2px rgba(color.$primary-text, 0.24);
+$drop-shadow-lightest: 0 1px 3px rgba(color.$primary-text, 0.06),
+  0 1px 2px rgba(color.$primary-text, 0.12);
+$drop-shadow-bottom-light: 0 1px 3px -1px rgba(color.$primary-text, 0.12),
+  0 1px 2px -1px rgba(color.$primary-text, 0.24);
+$drop-shadow-bottom-lightest: 0 1px 3px -1px rgba(color.$primary-text, 0.06),
+  0 1px 2px -1px rgba(color.$primary-text, 0.12);
+
+$focus-ring-width: 2px;
+$color-focus-ring: color.$highlight-default;
+$focus-ring-style: $focus-ring-width solid $color-focus-ring;
