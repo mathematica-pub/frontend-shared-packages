@@ -1,0 +1,4 @@
+@function grid($number) {
+  $grid: 0.25rem;
+  @return $number * $grid;
+}

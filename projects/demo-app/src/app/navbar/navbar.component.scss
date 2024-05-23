@@ -1,4 +1,7 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 :host {
   width: 250px;
@@ -8,42 +11,42 @@
   display: flex;
   flex-direction: column;
   flex: 1 1 0%;
-  padding: $grid-2 $grid-2 $grid-2 $grid-4;
+  padding: grid(2) grid(2) grid(2) grid(4);
   font-size: 16px;
   z-index: 3;
   position: sticky;
   top: 0px;
-  border-right: 1px solid $color-primary-7;
+  border-right: 1px solid color.$primary-7;
 }
 
 .link-container:not(:first-child) {
-  padding-left: $grid-2;
+  padding-left: grid(2);
 }
 
 .nested-link-container {
-  margin-left: $grid-4;
-  padding-left: $grid-2;
+  margin-left: grid(4);
+  padding-left: grid(2);
 }
 
 .active-link {
-  background-color: $color-primary-6;
+  background-color: color.$primary-6;
 }
 
 .link-container:hover {
-  color: $color-highlight;
+  color: color.$highlight-default;
   transition: all 200ms;
 }
 
 h2 {
-  margin-top: $grid-3;
-  margin-bottom: $grid-1;
+  margin-top: grid(3);
+  margin-bottom: grid(1);
   font-weight: $font-weight-medium;
   font-size: 17px;
 }
 
 h3 {
-  margin-top: $grid-1;
-  margin-bottom: $grid-1;
+  margin-top: grid(1);
+  margin-bottom: grid(1);
   font-weight: $font-weight-medium;
   font-size: 14px;
 }
