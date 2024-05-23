@@ -30,8 +30,8 @@
             class="tooltip-line"
             [attr.x1]="(tooltipData$ | async)?.positionX"
             [attr.x2]="(tooltipData$ | async)?.positionX"
-            [attr.y1]="(tooltipData$ | async)?.minPositionY"
-            [attr.y2]="(tooltipData$ | async)?.maxPositionY"
+            [attr.y1]="(tooltipData$ | async)?.categoryYMin"
+            [attr.y2]="(tooltipData$ | async)?.categoryYMax"
           ></line>
         </svg:g>
       </ng-container>

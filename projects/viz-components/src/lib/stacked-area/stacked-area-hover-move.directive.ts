@@ -28,8 +28,8 @@ export class StackedAreaHoverMoveDirective<
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
-  closestMinPositionY: number;
-  closestMaxPositionY: number;
+  closestCategoryYMin: number;
+  closestCategoryYMax: number;
   categoryIndex: number;
 
   constructor(
@@ -111,27 +111,27 @@ export class StackedAreaHoverMoveDirective<
       .flatMap((strat) => strat)
       .filter((d) => this.closestXIndicies.includes(d.i));
     const coordinateData = dataAtXValue.map((d) => ({
-      minPositionY: this.stackedArea.scales.y(d[1]),
-      maxPositionY: this.stackedArea.scales.y(d[0]),
+      categoryYMin: this.stackedArea.scales.y(d[1]),
+      categoryYMax: this.stackedArea.scales.y(d[0]),
       i: d.i,
     }));
     const closestDatumIndex = coordinateData.findIndex(
-      (d) => this.pointerY >= d.minPositionY && this.pointerY <= d.maxPositionY
+      (d) => this.pointerY >= d.categoryYMin && this.pointerY <= d.categoryYMax
     );
     let closestDatum;
     if (closestDatumIndex !== -1) {
       closestDatum = coordinateData[closestDatumIndex];
     }
-    this.closestMinPositionY = closestDatum?.minPositionY;
-    this.closestMaxPositionY = closestDatum?.maxPositionY;
+    this.closestCategoryYMin = closestDatum?.categoryYMin;
+    this.closestCategoryYMax = closestDatum?.categoryYMax;
     this.categoryIndex = closestDatum ? closestDatumIndex : undefined;
   }
 
   getTooltipData(): VicStackedAreaEventOutput<Datum> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
-      this.closestMinPositionY,
-      this.closestMaxPositionY,
+      this.closestCategoryYMin,
+      this.closestCategoryYMax,
       this.categoryIndex,
       this.stackedArea
     );

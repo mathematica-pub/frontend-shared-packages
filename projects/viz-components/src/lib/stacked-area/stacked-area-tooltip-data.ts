@@ -4,8 +4,8 @@ import { StackedAreaComponent } from './stacked-area.component';
 export interface VicStackedAreaEventOutput<Datum> {
   data: VicStackedAreaEventDatum<Datum>[];
   positionX: number;
-  minPositionY: number;
-  maxPositionY: number;
+  categoryYMin: number;
+  categoryYMax: number;
   categoryIndex: number;
   svgHeight?: number;
 }
@@ -20,8 +20,8 @@ export interface VicStackedAreaEventDatum<Datum> {
 
 export function getStackedAreaTooltipData<Datum>(
   closestXIndicies: number[],
-  minPositionY: number,
-  maxPositionY: number,
+  categoryYMin: number,
+  categoryYMax: number,
   categoryIndex: number,
   stackedArea: StackedAreaComponent<Datum>
 ): VicStackedAreaEventOutput<Datum> {
@@ -60,8 +60,8 @@ export function getStackedAreaTooltipData<Datum>(
   return {
     data,
     positionX: stackedArea.scales.x(stackedArea.values.x[closestXIndicies[0]]),
-    minPositionY: minPositionY,
-    maxPositionY: maxPositionY,
+    categoryYMin: categoryYMin,
+    categoryYMax: categoryYMax,
     categoryIndex: categoryIndex,
   };
 }
