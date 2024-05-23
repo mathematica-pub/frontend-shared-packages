@@ -101,7 +101,7 @@ export class StackedAreaExampleComponent implements OnInit {
   ): void {
     const config = new StackedAreaExampleTooltipConfig();
     config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (output && output.stratIndex !== undefined) {
+    if (output && output.categoryIndex !== undefined) {
       config.position.offsetX = output.positionX;
       config.position.offsetY = output.minPositionY - 5;
       config.show = true;

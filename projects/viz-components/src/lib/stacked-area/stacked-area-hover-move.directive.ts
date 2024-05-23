@@ -30,7 +30,7 @@ export class StackedAreaHoverMoveDirective<
   closestXIndicies: number[];
   closestMinPositionY: number;
   closestMaxPositionY: number;
-  stratIndex: number;
+  categoryIndex: number;
 
   constructor(
     @Inject(STACKED_AREA) public stackedArea: ExtendedStackedAreaComponent
@@ -124,7 +124,7 @@ export class StackedAreaHoverMoveDirective<
     }
     this.closestMinPositionY = closestDatum?.minPositionY;
     this.closestMaxPositionY = closestDatum?.maxPositionY;
-    this.stratIndex = closestDatum ? closestDatumIndex : undefined;
+    this.categoryIndex = closestDatum ? closestDatumIndex : undefined;
   }
 
   getTooltipData(): VicStackedAreaEventOutput<Datum> {
@@ -132,7 +132,7 @@ export class StackedAreaHoverMoveDirective<
       this.closestXIndicies,
       this.closestMinPositionY,
       this.closestMaxPositionY,
-      this.stratIndex,
+      this.categoryIndex,
       this.stackedArea
     );
     tooltipData.svgHeight = this.elements[0].clientHeight;
