@@ -27,7 +27,7 @@
 
 .link:hover {
   cursor: pointer;
-  color: $color-highlight;
+  color: color.$highlight-default;
   transition: all 200ms;
 }
 
@@ -36,12 +36,12 @@
 }
 
 .active-link {
-  background-color: $color-primary-6;
+  background-color: color.$primary-6;
 }
 
 .link-container:hover {
   cursor: pointer;
-  background-color: $color-primary-7;
+  background-color: color.$primary-7;
   transition: all 200ms;
   .arrow-down {
     border-top-color: black;
