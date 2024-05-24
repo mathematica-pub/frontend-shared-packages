@@ -1,22 +1,25 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 :host {
   display: flex;
   flex-direction: column;
-  padding-left: $grid-2;
+  padding-left: grid(2);
   font-size: 16px;
 }
 
 .link {
   display: inline-block;
-  padding-bottom: $grid-1;
-  padding-top: $grid-1;
+  padding-bottom: grid(1);
+  padding-top: grid(1);
   width: 100%;
 }
 
 .link-container {
-  margin-top: $grid-1;
-  padding-right: $grid-1;
+  margin-top: grid(1);
+  padding-right: grid(1);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,7 +32,7 @@
 }
 
 .nav-item {
-  padding-right: $grid-2;
+  padding-right: grid(2);
 }
 
 .active-link {
