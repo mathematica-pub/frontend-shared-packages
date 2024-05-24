@@ -4,7 +4,7 @@
 
 .user-selections {
   display: flex;
-  gap: $grid-8;
+  gap: grid(8);
 }
 
 .selection-title {
@@ -17,7 +17,7 @@
 }
 
 .chart-component {
-  padding-top: $grid-4;
+  padding-top: grid(4);
 }
 
 .data-binning-description .value {
@@ -30,7 +30,7 @@
 
 .legend-component {
   display: block;
-  padding-top: $grid-6;
+  padding-top: grid(6);
 }
 
 .tooltip-container {
