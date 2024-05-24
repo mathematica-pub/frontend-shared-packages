@@ -9,7 +9,7 @@ import {
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { isDate } from '../core/utilities/type-guards';
+import { isDate } from '../core/utilities/type-guard';
 import { DataMarks } from './data-marks';
 import { VicDataMarksConfig } from './data-marks.config';
 

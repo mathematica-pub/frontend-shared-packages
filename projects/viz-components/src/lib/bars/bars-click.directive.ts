@@ -10,8 +10,9 @@ import {
   Output,
   Self,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { Observable, filter, takeUntil } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { BarsEventDirective } from './bars-event-directive';
@@ -64,7 +65,7 @@ export class BarsClickDirective<
   setListenedElements(): void {
     this.bars.bars$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef),
         filter((barSels) => !!barSels)
       )
       .subscribe((barSels) => {

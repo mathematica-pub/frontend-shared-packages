@@ -2,10 +2,15 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
+import { QuantitativeDomainUtilities } from '../../public-api';
 import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
-import { VicBarsConfig, VicBarsLabelsConfig } from './bars.config';
+import {
+  VicBarsConfig,
+  VicBarsLabelsConfig,
+  VicHorizontalBarsDimensionsConfig,
+} from './bars.config';
 
 describe('BarsComponent', () => {
   let component: BarsComponent<any>;
@@ -61,50 +66,32 @@ describe('BarsComponent', () => {
     });
   });
 
-  describe('int: initUnpaddedQuantitativeDomain()', () => {
-    describe('when min and max are positive', () => {
-      beforeEach(() => {
-        component.config = {
-          quantitative: {
-            domain: [2, 97],
-          },
-        } as any;
-      });
-
-      it('sets min to zero, max stays the same', () => {
-        component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedQuantitativeDomain).toEqual([0, 97]);
-      });
+  describe('initUnpaddedQuantitativeDomain()', () => {
+    beforeEach(() => {
+      spyOn(QuantitativeDomainUtilities, 'getUnpaddedDomain').and.returnValue([
+        0, 2,
+      ]);
+      component.values = {
+        x: [1, 2, 3],
+      } as any;
+      component.config = {
+        quantitative: {
+          domainIncludesZero: false,
+        },
+        dimensions: {
+          quantitative: 'x',
+        },
+      } as any;
     });
-
-    describe('when min and max are negative', () => {
-      beforeEach(() => {
-        component.config = {
-          quantitative: {
-            domain: [-277, -6],
-          },
-        } as any;
-      });
-
-      it('sets max to zero, min stays the same', () => {
-        component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedQuantitativeDomain).toEqual([-277, 0]);
-      });
+    it('calls getUnpaddedDomain once with the correct value', () => {
+      component.initUnpaddedQuantitativeDomain();
+      expect(
+        QuantitativeDomainUtilities.getUnpaddedDomain
+      ).toHaveBeenCalledOnceWith(undefined, [1, 2, 3], false);
     });
-
-    describe('when min is negative and max is positive', () => {
-      beforeEach(() => {
-        component.config = {
-          quantitative: {
-            domain: [-3, 44],
-          },
-        } as any;
-      });
-
-      it('max and min stay the same', () => {
-        component.initUnpaddedQuantitativeDomain();
-        expect(component.unpaddedQuantitativeDomain).toEqual([-3, 44]);
-      });
+    it('correctly sets config.quantitative.domain', () => {
+      component.initUnpaddedQuantitativeDomain();
+      expect(component.unpaddedDomain.quantitative).toEqual([0, 2]);
     });
   });
 
@@ -313,18 +300,20 @@ describe('BarsComponent', () => {
 
   describe('setHasBarsWithNegativeValues', () => {
     beforeEach(() => {
+      component.config = new VicBarsConfig();
+      component.config.dimensions = new VicHorizontalBarsDimensionsConfig();
+    });
+    it('integration: sets hasBarsWithNegativeValues to true if dataMin is less than zero', () => {
       component.values = {
         x: [1, 2, 3, 4, -5],
       } as any;
-      component.config = new VicBarsConfig();
-      component.config.dimensions.quantitative = 'x';
-    });
-    it('integration: sets hasBarsWithNegativeValues to true if dataMin is less than zero', () => {
+      component.config.quantitative.domain = [-5, 4];
       component.setHasBarsWithNegativeValues();
       expect(component.hasBarsWithNegativeValues).toBe(true);
     });
     it('integration: sets hasBarsWithNegativeValues to false if dataMin is greater than zero', () => {
       component.values.x = [1, 2, 3, 4, 5];
+      component.config.quantitative.domain = [1, 5];
       component.setHasBarsWithNegativeValues();
       expect(component.hasBarsWithNegativeValues).toBe(false);
     });
@@ -778,21 +767,36 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       xScaleSpy = jasmine.createSpy('x').and.returnValues(20, 50);
       component.scales = { x: xScaleSpy } as any;
-      component.hasBarsWithNegativeValues = true;
       component.values.x = [1, 2, 3];
+      component.config = new VicBarsConfig();
+      component.config.quantitative.domainIncludesZero = true;
       spyOn(component, 'getQuantitativeDomainFromScale').and.returnValue([
         2, 10,
       ]);
     });
-    describe('hasBarsWithNegativeValues is true', () => {
-      it('calls xScale twice and with the correct values', () => {
+    describe('domainIncludesZero is true', () => {
+      it('hasBarsWithNegativeValues is true -- calls xScale twice and with the correct values', () => {
+        component.hasBarsWithNegativeValues = true;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [0]]);
       });
+      it('hasBarsWithNegativeValues is false -- calls xScale twice and with the correct values', () => {
+        component.hasBarsWithNegativeValues = false;
+        component.getBarWidthQuantitative(2);
+        expect(xScaleSpy.calls.allArgs()).toEqual([[3], [2]]);
+      });
     });
 
-    describe('hasBarsWithNegativeValues is false', () => {
-      it('calls xScale twice and with the correct values', () => {
+    describe('domainIncludesZero is false', () => {
+      beforeEach(() => {
+        component.config.quantitative.domainIncludesZero = false;
+      });
+      it('hasBarsWithNegativeValues is true -- calls xScale twice and with the correct values', () => {
+        component.hasBarsWithNegativeValues = true;
+        component.getBarWidthQuantitative(2);
+        expect(xScaleSpy.calls.allArgs()).toEqual([[3], [10]]);
+      });
+      it('hasBarsWithNegativeValues is false -- calls xScale twice and with the correct values', () => {
         component.hasBarsWithNegativeValues = false;
         component.getBarWidthQuantitative(2);
         expect(xScaleSpy.calls.allArgs()).toEqual([[3], [2]]);

@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   ElementRef,
   inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
-import { takeUntil } from 'rxjs';
 import { DocumentationService } from '../core/services/documentation.service';
 import { HighlightService } from '../core/services/highlight.service';
 
@@ -28,23 +28,21 @@ import { HighlightService } from '../core/services/highlight.service';
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class DocumentationDisplayComponent
-  extends Unsubscribe
-  implements OnInit
-{
+export class DocumentationDisplayComponent implements OnInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
   private highlightService = inject(HighlightService);
   private documentationService = inject(DocumentationService);
   private sanitizer = inject(DomSanitizer);
   router = inject(Router);
+  destroyRef = inject(DestroyRef);
   route: string;
 
   ngOnInit(): void {
     this.route = this.router.url;
     this.documentationService
       .getDocumentation(this.route)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);
@@ -62,6 +60,10 @@ export class DocumentationDisplayComponent
       .forEach((element) =>
         element.addEventListener('click', this.activateTab.bind(this))
       );
+
+    Array.from(
+      this.docsDiv.nativeElement.querySelectorAll('[role=tab]')
+    )[0].parentElement.classList.add('active');
   }
 
   addClickListenersToCodeLinks(): void {
@@ -84,7 +86,7 @@ export class DocumentationDisplayComponent
       .querySelectorAll('.tab-pane')
       .forEach((element) => element.classList.remove('active', 'in'));
     element.parentElement.classList.add('active');
-    const id = 'c-' + element.id.replace('-tab', '');
+    const id = element.id.replace('-tab', '');
     document.getElementById(id).classList.add('active', 'in');
   }
 

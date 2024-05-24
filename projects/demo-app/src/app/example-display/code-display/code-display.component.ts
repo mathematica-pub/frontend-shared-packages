@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   inject,
   Input,
   OnChanges,
@@ -9,7 +10,6 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { HighlightService } from '../../core/services/highlight.service';
 
 @Component({
@@ -20,15 +20,13 @@ import { HighlightService } from '../../core/services/highlight.service';
   styleUrls: ['./code-display.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CodeDisplayComponent
-  extends Unsubscribe
-  implements OnChanges, OnInit
-{
+export class CodeDisplayComponent implements OnChanges, OnInit {
   @Input() fileData: string;
   private highlightService = inject(HighlightService);
   private sanitizer = inject(DomSanitizer);
   sanitizedDocumentation: SafeHtml;
   class: string;
+  destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.sanitizeAndHighlight(this.fileData);

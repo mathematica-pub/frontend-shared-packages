@@ -9,9 +9,6 @@ import {
   InternSet,
   SeriesPoint,
   Transition,
-  extent,
-  max,
-  min,
   range,
   rollup,
   select,
@@ -89,16 +86,6 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
         return d as unknown as VicStackDatum;
       })
     );
-  }
-
-  override getDataMin(): number {
-    const minStackValue = extent(this.stackedData.flat(2))[0];
-    return min([minStackValue, 0]);
-  }
-
-  override getDataMax(): number {
-    const maxStackValue = extent(this.stackedData.flat(2))[1];
-    return max([maxStackValue, 0]);
   }
 
   override drawBars(transitionDuration: number): void {

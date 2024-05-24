@@ -1,7 +1,8 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 import { Directive, Input, OnDestroy, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { pointer } from 'd3';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   EventDirective,
   ListenElement,
@@ -25,7 +26,6 @@ export abstract class ClickDirective
    *  [EventEffect]{@link EventEffect} instances.
    */
   @Input('vicDataMarksClickRemoveEvent$') clickRemoveEvent$: Observable<void>;
-  unsubscribe: Subject<void> = new Subject();
   unlistenClick: UnlistenFunction[];
   el: ListenElement;
 
@@ -35,15 +35,13 @@ export abstract class ClickDirective
   ngOnInit(): void {
     if (this.clickRemoveEvent$) {
       this.clickRemoveEvent$
-        .pipe(takeUntil(this.unsubscribe))
+        .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe(() => this.onClickRemove());
     }
   }
 
   ngOnDestroy(): void {
     this.unlistenClick.forEach((func) => func());
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
   }
 
   setListeners(): void {

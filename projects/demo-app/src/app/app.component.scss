@@ -35,9 +35,9 @@ $content-height: calc(100vh - $title-height);
 }
 
 .title {
+  @extend %typography-h2;
   padding-top: grid(3);
   padding-left: grid(3);
-  @extend %typography-h2;
   border-bottom: 1px solid color.$primary-7;
   flex: 0 0 auto;
   height: $title-height;

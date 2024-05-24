@@ -105,57 +105,6 @@ describe('LineChartComponent', () => {
     });
   });
 
-  describe('setPropertiesFromRanges', () => {
-    let xScaleTypeSpy: jasmine.Spy;
-    let yScaleTypeSpy: jasmine.Spy;
-    beforeEach(() => {
-      xScaleTypeSpy = jasmine.createSpy('scaleType').and.returnValue('xScale');
-      yScaleTypeSpy = jasmine.createSpy('scaleType').and.returnValue('yScale');
-      component.config = {
-        x: {
-          scaleType: xScaleTypeSpy,
-        },
-        y: {
-          scaleType: yScaleTypeSpy,
-        },
-        category: {
-          colorScale: 'blue',
-        },
-      } as any;
-      component.ranges = {
-        x: [0, 5],
-        y: [0, 10],
-      } as any;
-      component.chart = {
-        updateScales: jasmine.createSpy('updateScales'),
-      } as any;
-      spyOn(component, 'getPaddedDomain').and.returnValues([0, 1], [0, 2]);
-    });
-    it('calls x.scaleType once with the correct values', () => {
-      component.setPropertiesFromRanges(true);
-      expect(xScaleTypeSpy).toHaveBeenCalledOnceWith(
-        [0, 1],
-        component.ranges.x
-      );
-    });
-    it('calls y.scaleType once with the correct values', () => {
-      component.setPropertiesFromRanges(true);
-      expect(yScaleTypeSpy).toHaveBeenCalledOnceWith(
-        [0, 2],
-        component.ranges.y
-      );
-    });
-    it('calls updateScales on chart once', () => {
-      component.setPropertiesFromRanges(true);
-      expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
-        x: 'xScale',
-        y: 'yScale',
-        category: 'blue',
-        useTransition: true,
-      } as any);
-    });
-  });
-
   describe('drawMarks()', () => {
     const duration = 50;
     beforeEach(() => {
