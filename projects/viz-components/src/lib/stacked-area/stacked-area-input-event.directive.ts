@@ -34,7 +34,7 @@ export class StackedAreaInputEventDirective<
 
   constructor(
     destroyRef: DestroyRef,
-    @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
+    @Inject(STACKED_AREA) public lines: TStackedAreaComponent
   ) {
     super(destroyRef);
   }
