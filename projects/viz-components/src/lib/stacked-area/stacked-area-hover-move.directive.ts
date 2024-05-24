@@ -28,8 +28,8 @@ export class StackedAreaHoverMoveDirective<
   pointerX: number;
   pointerY: number;
   closestXIndicies: number[];
-  closestCategoryYMin: number;
-  closestCategoryYMax: number;
+  categoryYMin: number;
+  categoryYMax: number;
   categoryIndex: number;
 
   constructor(
@@ -122,16 +122,16 @@ export class StackedAreaHoverMoveDirective<
     if (closestDatumIndex !== -1) {
       closestDatum = coordinateData[closestDatumIndex];
     }
-    this.closestCategoryYMin = closestDatum?.categoryYMin;
-    this.closestCategoryYMax = closestDatum?.categoryYMax;
+    this.categoryYMin = closestDatum?.categoryYMin;
+    this.categoryYMax = closestDatum?.categoryYMax;
     this.categoryIndex = closestDatum ? closestDatumIndex : undefined;
   }
 
   getTooltipData(): VicStackedAreaEventOutput<Datum> {
     const tooltipData = getStackedAreaTooltipData(
       this.closestXIndicies,
-      this.closestCategoryYMin,
-      this.closestCategoryYMax,
+      this.categoryYMin,
+      this.categoryYMax,
       this.categoryIndex,
       this.stackedArea
     );
