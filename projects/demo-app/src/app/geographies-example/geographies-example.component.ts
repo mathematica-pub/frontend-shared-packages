@@ -3,7 +3,7 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { valueFormat } from 'projects/viz-components/src/lib/core/utilities/value-format';
-import { VicFillPattern } from 'projects/viz-components/src/lib/data-marks/dimensions/fill-pattern';
+import { VicFillPattern } from 'projects/viz-components/src/lib/data-dimensions/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-types';
 import {

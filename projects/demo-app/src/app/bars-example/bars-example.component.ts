@@ -15,10 +15,10 @@ import {
   vicHorizontalBars,
 } from 'projects/viz-components/src/lib/bars/config/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/categorical-dimension';
-import { vicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
-import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/quantitative-dimension';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
+import { vicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/domain-padding/pixel-padding';
+import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-dimensions/quantitative-dimension';
 import {
   EventEffect,
   HoverMoveEventEffect,

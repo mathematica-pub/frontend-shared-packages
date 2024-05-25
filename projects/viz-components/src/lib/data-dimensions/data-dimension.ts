@@ -1,6 +1,6 @@
 import { map } from 'd3';
-import { VicDataValue } from '../../core/types/values';
-import { VicFormatSpecifier } from '../../core/utilities/value-format';
+import { VicDataValue } from '../core/types/values';
+import { VicFormatSpecifier } from '../core/utilities/value-format';
 
 export interface VicDataDimensionOptions<
   Datum,

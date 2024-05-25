@@ -10,10 +10,10 @@ import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/
 import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
 import { vicYQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/categorical-dimension';
-import { vicDateDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/date-dimension';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-marks/dimensions/domain-padding/pixel-padding';
-import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/quantitative-dimension';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
+import { vicDateDimension } from 'projects/viz-components/src/lib/data-dimensions/date-dimension';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/domain-padding/pixel-padding';
+import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-dimensions/quantitative-dimension';
 import {
   EventEffect,
   HoverMoveEventEffect,

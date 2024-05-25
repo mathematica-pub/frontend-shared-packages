@@ -1,9 +1,9 @@
 import { InternSet, curveLinear, group, range, schemeTableau10 } from 'd3';
 import { isDate, isNumber } from '../../core/utilities/type-guards';
+import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { VicDateDimension } from '../../data-dimensions/date-dimension';
+import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
-import { VicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
-import { VicDateDimension } from '../../data-marks/dimensions/date-dimension';
-import { VicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { Marker } from '../lines.component';
 import { VicLinesStroke } from './lines-stroke';

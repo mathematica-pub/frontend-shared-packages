@@ -1,6 +1,6 @@
-import { vicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
-import { vicDateDimension } from '../../data-marks/dimensions/date-dimension';
-import { vicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
+import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { vicDateDimension } from '../../data-dimensions/date-dimension';
+import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicLinesConfig, vicLines } from './lines.config';
 
 type Datum = { date: Date; value: number; category: string };

@@ -1,5 +1,5 @@
 import { InternSet, scaleOrdinal, schemeTableau10 } from 'd3';
-import { VicDataValue } from '../../core/types/values';
+import { VicDataValue } from '../core/types/values';
 import { VicDataDimension, VicDataDimensionOptions } from './data-dimension';
 import { VicFillPattern } from './fill-pattern';
 

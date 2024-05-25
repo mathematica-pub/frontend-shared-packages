@@ -8,9 +8,9 @@ import {
   vicYQuantitativeAxis,
 } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/categorical-dimension';
-import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-marks/dimensions/quantitative-dimension';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
+import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-dimensions/quantitative-dimension';
 import {
   VicStackedBarsConfig,
   vicVerticalStackedBars,
