@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   VicEqualValuesAttributeDataDimension,
   vicEqualValuesAttributeDataDimension,
@@ -17,14 +18,21 @@ describe('VicEqualValuesAttributeDataDimension', () => {
 
   describe('setPropertiesFromData', () => {
     beforeEach(() => {
-      spyOn(dimension as any, 'setDomainAndBins');
+      spyOn(dimension as any, 'setDomain');
+      spyOn(dimension as any, 'setValidatedDomainAndNumBins');
       spyOn(dimension as any, 'setRange');
     });
-    it('calls setDomainAndBins once', () => {
+    it('calls setDomain once', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-      expect((dimension as any).setDomainAndBins).toHaveBeenCalledOnceWith([
+      expect((dimension as any).setDomain).toHaveBeenCalledOnceWith([
         1, 2, 3, 4, 5, 6, 7, 8, 9,
       ]);
+    });
+    it('calls setValidatedDomainAndNumBins once', () => {
+      dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      expect(
+        (dimension as any).setValidatedDomainAndNumBins
+      ).toHaveBeenCalledTimes(1);
     });
     it('calls setRange once', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -32,24 +40,25 @@ describe('VicEqualValuesAttributeDataDimension', () => {
     });
   });
 
-  describe('integration: setDomainAndBins', () => {
+  describe('integration: setDomain/setValidatedDomainAndNumBins', () => {
     it('sets the domain to the users value if it exists', () => {
-      (dimension as any).setDomainAndBins([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-      expect(dimension.domain).toEqual([0, 20]);
+      (dimension as any).setDomain([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      (dimension as any).setValidatedDomainAndNumBins();
+      expect((dimension as any).calculatedDomain).toEqual([0, 20]);
     });
-    it('sets the domain is values if there is no user provided domain', () => {
+    it('sets the domain to values if there is no user provided domain', () => {
       dimension = vicEqualValuesAttributeDataDimension({
         numBins: 3,
         valueFormat: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
         valueAccessor: (d) => d,
       });
-      (dimension as any).setDomainAndBins([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-      expect(dimension.domain).toEqual([1, 9]);
+      (dimension as any).setDomain([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+      expect((dimension as any).calculatedDomain).toEqual([1, 9]);
     });
   });
 
-  describe('getValidatedNumBinsAndIntegervalues', () => {
+  describe('getValidatedNumBinsAndDomainForIntegerValues', () => {
     it('returns a numBins that reflects possible values in domain and a domain of [min, max + 1] when numBins is greater than the length of the data', () => {
       expect(
         (dimension as any).getValidatedNumBinsAndDomainForIntegerValues(

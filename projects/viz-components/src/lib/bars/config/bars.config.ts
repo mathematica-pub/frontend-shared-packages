@@ -30,13 +30,13 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   extends VicXyDataMarksConfig<Datum>
   implements VicBarsOptions<Datum, TOrdinalValue>
 {
-  readonly ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
-  readonly quantitative: VicQuantitativeDimension<Datum>;
+  barsKeyFunction: (i: number) => string;
   readonly categorical: VicCategoricalDimension<Datum, string>;
-  readonly labels: VicBarsLabels<Datum>;
   readonly dimensions: VicBarsDimensions;
   hasBarsWithNegativeValues: boolean;
-  barsKeyFunction: (i: number) => string;
+  readonly labels: VicBarsLabels<Datum>;
+  readonly ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
+  readonly quantitative: VicQuantitativeDimension<Datum>;
 
   constructor(
     dimensions: VicBarsDimensions,

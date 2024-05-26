@@ -30,7 +30,8 @@ export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setPropertiesFromData(data: Datum[], ...args: any): void;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected abstract setDomain(...args: any): void;
   protected setValues(data: Datum[]): void {
     this.values = map(data, this.valueAccessor);
   }

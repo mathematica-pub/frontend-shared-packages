@@ -1,29 +1,17 @@
 import { extent, range, scaleLinear } from 'd3';
-import { VicDataValue } from '../../../core/types/values';
-import {
-  AttributeDataDimension,
-  VicAttributeDataDimensionOptions,
-} from './attribute-data';
-
-export interface VicCalculatedRangeBinsAttributeDataDimensionOptions<
-  Datum,
-  AttributeValue extends VicDataValue,
-  RangeValue extends string | number = string
-> extends VicAttributeDataDimensionOptions<Datum, AttributeValue, RangeValue> {
-  numBins: number;
-}
+import { AttributeDataDimension } from './attribute-data';
 
 export abstract class CalculatedRangeBinsAttributeDataDimension<
   Datum,
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, number, RangeValue> {
-  numBins: number;
+  protected calculatedNumBins: number;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly valueAccessor: (d: Datum, ...args: any) => number;
 
   protected setRange(): void {
-    if (this.shouldCalculateBinColors(this.numBins, this.range)) {
-      const binIndicies = range(this.numBins);
+    if (this.shouldCalculateBinColors(this.calculatedNumBins, this.range)) {
+      const binIndicies = range(this.calculatedNumBins);
       this.range = binIndicies.map((i) =>
         this.getColorGenerator(binIndicies)(i)
       );

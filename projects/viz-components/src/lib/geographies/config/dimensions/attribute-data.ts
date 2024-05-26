@@ -39,9 +39,6 @@ export abstract class AttributeDataDimension<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   fillPatterns: VicFillPattern<Datum>[];
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected abstract setDomainAndBins(values: any[]): void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract getScale(nullColor: string): any;
 }

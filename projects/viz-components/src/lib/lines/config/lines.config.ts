@@ -91,21 +91,21 @@ export class VicLinesConfig<Datum>
   extends VicXyDataMarksConfig<Datum>
   implements VicLinesOptions<Datum>
 {
-  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
-  y: VicQuantitativeDimension<Datum>;
   categorical: VicCategoricalDimension<Datum, string>;
-  valueIsDefined: (d: Datum, i: number, ...args: any) => any;
   curve: (x: any) => any;
-  pointMarkers: VicPointMarkers;
   hoverDot: VicPointMarkers;
-  stroke: VicLinesStroke;
   labelLines: boolean;
   lineLabelsFormat: (d: string) => string;
-  pointerDetectionRadius: number;
   linesD3Data;
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
+  pointerDetectionRadius: number;
+  pointMarkers: VicPointMarkers;
+  stroke: VicLinesStroke;
+  valueIsDefined: (d: Datum, i: number, ...args: any) => any;
+  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
+  y: VicQuantitativeDimension<Datum>;
 
   constructor(options: Partial<VicLinesOptions<Datum>>) {
     super();
@@ -186,14 +186,14 @@ export class VicLinesConfig<Datum>
  * @param {VicCategoricalDimension<Datum, string>} options.categorical - **REQUIRED** - specify using vicCategoricalDimension
  * @param { VicDateDimension<Datum> | VicQuantitativeDimension<Datum>} options.x - **REQUIRED** - specify using vicDateDimension or vicQuantitativeDimension
  * @param {VicQuantitativeDimension<Datum>} options.y - **REQUIRED** - specify using vicQuantitativeDimension
- * @param {CurveFactory} curve - CurveFactory - A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve} method. Default is curveLinear.
- * @param {VicPointMarkers} hoverDot - VicPointMarkers - A config for a dot that will appear on hover of a line. Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific data will be displayed. Will not be displayed if pointMarkers.display is true.
- * @param {boolean} labelLines - boolean - A boolean to determine if the line will be labeled.
- * @param {(d: string) => string} lineLabelsFormat - (d: string) => string - A function that returns a string to be used as the label for a line. Can be used to modify the line label string as needed. Default is the identity function.
- * @param {number} pointerDetectionRadius - number - The distance from a line in which a hover event will trigger a tooltip, in px. This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines. Default is 80.
- * @param {VicPointMarkers} pointMarkers - VicPointMarkers - A config for the behavior of markers for each datum on the line.
- * @param {VicLinesStroke} stroke - VicLinesStroke - A config for the behavior of the line stroke.
- * @param {(d: Datum, i: number, ...args: any) => any} valueIsDefined - (d: Datum, i: number, ...args: any) => any - A function that returns a boolean indicating whether a value in the data is defined. If a value is not defined, it will not be plotted. Used, in conjunction with a check that the value is a number of a Date, with D3's line.defined() method.
+ * @param {CurveFactory} options.curve - CurveFactory - A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve} method. Default is curveLinear.
+ * @param {VicPointMarkers} options.hoverDot - VicPointMarkers - A config for a dot that will appear on hover of a line. Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific data will be displayed. Will not be displayed if pointMarkers.display is true.
+ * @param {boolean} options.labelLines - boolean - A boolean to determine if the line will be labeled.
+ * @param {(d: string) => string} options.lineLabelsFormat - (d: string) => string - A function that returns a string to be used as the label for a line. Can be used to modify the line label string as needed. Default is the identity function.
+ * @param {number} options.pointerDetectionRadius - number - The distance from a line in which a hover event will trigger a tooltip, in px. This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines. Default is 80.
+ * @param {VicPointMarkers} options.pointMarkers - VicPointMarkers - A config for the behavior of markers for each datum on the line.
+ * @param {VicLinesStroke} option.stroke - VicLinesStroke - A config for the behavior of the line stroke.
+ * @param {(d: Datum, i: number, ...args: any) => any} options.valueIsDefined - (d: Datum, i: number, ...args: any) => any - A function that returns a boolean indicating whether a value in the data is defined. If a value is not defined, it will not be plotted. Used, in conjunction with a check that the value is a number of a Date, with D3's line.defined() method.
  * @returns
  */
 export function vicLines<Datum>(

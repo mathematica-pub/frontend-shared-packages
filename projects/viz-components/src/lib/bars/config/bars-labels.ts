@@ -1,8 +1,8 @@
 export class VicBarsLabels<Datum> {
-  display: boolean;
-  offset: number;
   color: string;
+  display: boolean;
   noValueFunction: (d: Datum, ...args: any) => string;
+  offset: number;
 
   constructor(options?: Partial<VicBarsLabels<Datum>>) {
     this.display = true;

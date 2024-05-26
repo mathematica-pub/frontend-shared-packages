@@ -53,15 +53,11 @@ export class VicCategoricalDimension<
 
   setPropertiesFromData(data: Datum[]): void {
     this.setValues(data);
-    this.initDomain();
-    this.initScale();
+    this.setDomain();
+    this.setScale();
   }
 
-  domainIncludes(value: TCategoricalValue): boolean {
-    return this.internSetDomain.has(value);
-  }
-
-  private initDomain(): void {
+  protected setDomain(): void {
     let domain = this.domain;
     if (domain === undefined) {
       domain = this.values;
@@ -70,10 +66,14 @@ export class VicCategoricalDimension<
     this.calculatedDomain = [...this.internSetDomain.values()];
   }
 
-  private initScale(): void {
+  private setScale(): void {
     if (this.scale === undefined) {
       this.scale = scaleOrdinal(this.internSetDomain.values(), this.range);
     }
+  }
+
+  domainIncludes(value: TCategoricalValue): boolean {
+    return this.internSetDomain.has(value);
   }
 }
 

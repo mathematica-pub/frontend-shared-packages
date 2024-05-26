@@ -30,7 +30,8 @@ export class VicPixelDomainPadding
   getPaddedValue(args: PaddedDomainArguments): number {
     let numPixels = this.numPixels;
     if (args.dimensionRange[0] > args.dimensionRange[1]) {
-      // on vertical axis, the range is [100, 0]
+      // This covers the case when this is applied to the vertical axis
+      // On the vertical axis, the range is [highValue, lowValue], i.e. [100, 0]
       numPixels = -1 * this.numPixels;
     }
     const value =
@@ -70,6 +71,12 @@ export class VicPixelDomainPadding
   }
 }
 
+/**
+ *
+ * @param {<VicPixelDomainPaddingOptions>} options
+ * @param {number} options.pixels - The number of pixels to add to the end of the domain. Defaults to 40.
+ * @returns
+ */
 export function vicPixelDomainPadding(
   options?: Partial<VicPixelDomainPaddingOptions>
 ): VicPixelDomainPadding {

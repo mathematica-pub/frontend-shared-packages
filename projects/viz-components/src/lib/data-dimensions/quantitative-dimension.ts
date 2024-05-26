@@ -57,14 +57,13 @@ export class VicQuantitativeDimension<Datum>
 
   setPropertiesFromData(data: Datum[]): void {
     this.setValues(data);
-    this.setUnpaddedDomain();
+    this.setDomain();
   }
 
-  setUnpaddedDomain(valuesOverride?: [number, number]) {
-    const extents =
+  setDomain(valuesOverride?: [number, number]) {
+    const extents: [number, number] =
       this.domain === undefined
-        ? valuesOverride ||
-          ([min(this.values), max(this.values)] as [number, number])
+        ? valuesOverride || [min(this.values), max(this.values)]
         : this.domain;
     this.calculatedDomain = this.getCalculatedDomain(extents);
     this.setDomainIncludesZero();
@@ -73,17 +72,12 @@ export class VicQuantitativeDimension<Datum>
   private getCalculatedDomain(domain: [number, number]): [number, number] {
     return this.includeZeroInDomain
       ? [min([domain[0], 0]), max([domain[1], 0])]
-      : [domain[0], domain[1]];
+      : domain;
   }
 
   private setDomainIncludesZero() {
-    if (
-      !this.includeZeroInDomain &&
-      this.calculatedDomain[0] <= 0 &&
-      this.calculatedDomain[1] >= 0
-    ) {
-      this.domainIncludesZero = true;
-    }
+    this.domainIncludesZero =
+      this.calculatedDomain[0] <= 0 && 0 <= this.calculatedDomain[1];
   }
 
   getScaleFromRange(range: [number, number]) {
@@ -96,12 +90,11 @@ export class VicQuantitativeDimension<Datum>
   private getPaddedQuantitativeDomain(
     range: [number, number]
   ): [number, number] {
-    const domain = this.domainPadding.getPaddedDomain(
+    return this.domainPadding.getPaddedDomain(
       this.calculatedDomain,
       this.scaleFn,
       range
     );
-    return domain;
   }
 }
 

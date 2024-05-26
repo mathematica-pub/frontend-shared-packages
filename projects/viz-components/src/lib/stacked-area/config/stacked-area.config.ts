@@ -142,7 +142,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
 
   private initQuantitativeDomainFromStack(): void {
     if (this.y.domain === undefined) {
-      this.y.setUnpaddedDomain(extent(this.series.flat(2)));
+      this.y.setDomain(extent(this.series.flat(2)));
     }
   }
 }

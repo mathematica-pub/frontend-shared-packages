@@ -49,10 +49,10 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
 
   setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
     this.setValues(data);
-    this.initDomain(reverseDomain);
+    this.setDomain(reverseDomain);
   }
 
-  private initDomain(reverseDomain: boolean): void {
+  protected setDomain(reverseDomain: boolean): void {
     let domain = this.domain;
     if (domain === undefined) {
       domain = this.values;

@@ -35,13 +35,13 @@ export class VicDateDimension<Datum>
 
   setPropertiesFromData(data: Datum[]): void {
     this.setValues(data);
-    this.setUnpaddedDomain();
+    this.setDomain();
   }
 
-  setUnpaddedDomain() {
-    const extents =
+  protected setDomain() {
+    const extents: [Date, Date] =
       this.domain === undefined
-        ? ([min(this.values), max(this.values)] as [Date, Date])
+        ? [min(this.values), max(this.values)]
         : this.domain;
     this.calculatedDomain = extents;
   }

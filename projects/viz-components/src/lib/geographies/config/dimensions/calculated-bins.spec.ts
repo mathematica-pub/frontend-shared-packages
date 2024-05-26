@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { interpolateLab } from 'd3';
 import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
 
@@ -5,7 +6,7 @@ class ConcreteCalculatedBins extends CalculatedRangeBinsAttributeDataDimension<
   any,
   string
 > {
-  protected override setDomainAndBins(): void {
+  protected override setDomain(): void {
     return;
   }
   override getScale() {
@@ -23,7 +24,7 @@ describe('CalculatedRangeBinsAttributeDataDimension', () => {
   });
   describe('integration: setRange', () => {
     it('sets the range to the correct values/length', () => {
-      dimension.numBins = 3;
+      (dimension as any).calculatedNumBins = 3;
       dimension.range = ['red', 'blue', 'yellow', 'green'];
       dimension.interpolator = interpolateLab;
       (dimension as any).setRange();

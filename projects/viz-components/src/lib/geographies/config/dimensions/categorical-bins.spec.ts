@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   VicCategoricalAttributeDataDimension,
   vicCategoricalAttributeDataDimension,
@@ -10,16 +11,34 @@ describe('VicCategoricalAttributeDataDimension', () => {
       valueAccessor: (d) => d,
     });
   });
-  describe('integration: setPropertiesFromData/setDomainAndBins/setRange', () => {
-    it('sets the domain to the correct value, user did not specify domain', () => {
-      dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
-      expect(dimension.domain).toEqual(['a', 'b', 'c']);
+  describe('setPropertiesFromData', () => {
+    beforeEach(() => {
+      spyOn(dimension as any, 'setDomain');
+      spyOn(dimension as any, 'setRange');
     });
-    it('sets the domain to the correct value, user specified domain', () => {
-      dimension.domain = ['c', 'd', 'b', 'a', 'd'];
-      dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
-      expect(dimension.domain).toEqual(['c', 'd', 'b', 'a']);
+    it('calls setDomain once', () => {
+      dimension.setPropertiesFromData(['a', 'b', 'c']);
+      expect((dimension as any).setDomain).toHaveBeenCalledTimes(1);
     });
+    it('calls setRange once', () => {
+      dimension.setPropertiesFromData(['a', 'b', 'c']);
+      expect((dimension as any).setRange).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setDomain', () => {
+    it('sets the domain to uniqued values', () => {
+      dimension.setPropertiesFromData(['a', 'b', 'c', 'b']);
+      expect((dimension as any).calculatedDomain).toEqual(['a', 'b', 'c']);
+    });
+    it('sets the domain to uniqued user values if specified', () => {
+      (dimension as any).domain = ['c', 'd', 'b', 'a', 'd'];
+      dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
+      expect((dimension as any).calculatedDomain).toEqual(['c', 'd', 'b', 'a']);
+    });
+  });
+
+  describe('setRange', () => {
     it('sets the range to the correct values/length', () => {
       dimension.range = ['red', 'blue', 'green', 'yellow', 'purple'];
       dimension.setPropertiesFromData(['a', 'b', 'c']);

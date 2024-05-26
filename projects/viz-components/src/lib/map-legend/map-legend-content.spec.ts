@@ -71,7 +71,7 @@ describe('the MapLegendContent abstract class', () => {
   describe('setColors', () => {
     beforeEach(() => {
       directive.config = new VicCategoricalAttributeDataDimension();
-      directive.config.domain = ['a', 'b'];
+      (directive.config as any).domain = ['a', 'b'];
       directive.config.range = ['red', 'blue'];
     });
     it('should set colors to scale.range if orientation is not vertical', () => {

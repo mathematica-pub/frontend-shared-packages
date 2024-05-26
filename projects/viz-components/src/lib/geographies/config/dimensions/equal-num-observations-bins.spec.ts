@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { it } from 'local-cypress';
 import {
   VicEqualNumObservationsAttributeDataDimension,
   vicEqualNumObservationsAttributeDataDimension,
@@ -15,14 +16,19 @@ describe('VicEqualNumObservationsBins', () => {
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {
-      spyOn(dimension as any, 'setDomainAndBins');
+      spyOn(dimension as any, 'setDomain');
+      spyOn(dimension as any, 'setNumBins');
       spyOn(dimension as any, 'setRange');
     });
-    it('calls setDomainAndBins once', () => {
+    it('calls setDomain once', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-      expect((dimension as any).setDomainAndBins).toHaveBeenCalledOnceWith([
+      expect((dimension as any).setDomain).toHaveBeenCalledOnceWith([
         1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
       ]);
+    });
+    it('calls setNumBins once', () => {
+      dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      expect((dimension as any).setNumBins).toHaveBeenCalledTimes(1);
     });
     it('calls setRange once', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -30,10 +36,19 @@ describe('VicEqualNumObservationsBins', () => {
     });
   });
 
-  describe('integration: setDomainAndBins', () => {
+  describe('integration: setDomain', () => {
     it('sets the domain to the values', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
-      expect(dimension.domain).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      expect((dimension as any).calculatedDomain).toEqual([
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+      ]);
+    });
+  });
+
+  describe('integration: setNumBins', () => {
+    it('sets the calculatedNumBins correctly', () => {
+      dimension.setPropertiesFromData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+      expect((dimension as any).calculatedNumBins).toEqual(4);
     });
   });
 

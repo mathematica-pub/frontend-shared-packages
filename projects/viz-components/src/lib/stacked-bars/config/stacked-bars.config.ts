@@ -111,7 +111,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   initQuantitativeDomainFromStack(): void {
     const extents = extent(this.stackedData.flat(2));
-    this.quantitative.setUnpaddedDomain(extents);
+    this.quantitative.setDomain(extents);
   }
 }
 

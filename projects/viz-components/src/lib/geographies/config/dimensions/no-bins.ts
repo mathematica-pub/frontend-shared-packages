@@ -30,10 +30,10 @@ export class VicNoBinsAttributeDataDimension<
 
   setPropertiesFromData(data: Datum[]): void {
     const values = data.map(this.valueAccessor);
-    this.setDomainAndBins(values);
+    this.setDomain(values);
   }
 
-  protected setDomainAndBins(values: number[]): void {
+  protected setDomain(values: number[]): void {
     const domainValues = this.domain ?? values;
     this.domain = extent(domainValues);
   }

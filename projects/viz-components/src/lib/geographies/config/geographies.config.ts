@@ -80,13 +80,13 @@ export class VicGeographiesConfig<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  readonly projection: GeoProjection;
+  readonly dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
   readonly noDataGeographies: VicNoDataGeographies<
     Datum,
     TProperties,
     TGeometry
   >[];
-  readonly dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
+  readonly projection: GeoProjection;
   readonly values: MapDataValues = new MapDataValues();
 
   constructor(
@@ -135,8 +135,10 @@ export class VicGeographiesConfig<
 /**
  * A factory function to create a geographies configuration object to be used with vic-data-marks-geographies component.
  * @param {Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>} options - **REQUIRED**
- * @param {ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection} boundary: ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection - **REQUIRED** - A feature or geometry object or collection that defines the extents of the map to be drawn. Used for scaling the map.
- * @param {VicDataGeographies<Datum, TProperties, TGeometry>} dataGeographies - **REQUIRED** - set with vicDataGeographies function.
+ * @param {ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection} options.boundary: ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection - **REQUIRED** - A feature or geometry object or collection that defines the extents of the map to be drawn. Used for scaling the map.
+ * @param {VicDataGeographies<Datum, TProperties, TGeometry>} options.dataGeographies - **REQUIRED** - set with vicDataGeographies function.
+ * @param {VicNoDataGeographies<Datum, TProperties, TGeometry>[]} options.noDataGeographies - **REQUIRED** - set with vicNoDataGeographies function.
+ * @param {GeoProjection} options.projection - A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space. Default is d3.geoAlbersUsa().
  * @returns
  */
 
