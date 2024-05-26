@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicFillPattern } from '../../../data-marks/dimensions/fill-pattern';
+import { VicFillPattern } from '../../../data-dimensions/fill-pattern';
 import { VicGeographiesFeature } from '../../geographies-feature';
 import {
   VicBaseDataGeographyConfig,

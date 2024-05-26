@@ -156,8 +156,12 @@ export class GeographiesComponent<
             .attr('stroke-width', this.config.dataGeographies.strokeWidth)
             .attr('fill', (d) =>
               this.config.dataGeographies.attributeData.fillPatterns
-                ? this.getPatternFill(this.config.featureIndexAccessor(d))
-                : this.getFill(this.config.featureIndexAccessor(d))
+                ? this.getPatternFill(
+                    this.config.dataGeographies.featureIndexAccessor(d)
+                  )
+                : this.getFill(
+                    this.config.dataGeographies.featureIndexAccessor(d)
+                  )
             ),
         (update) =>
           update.call((update) =>
@@ -168,8 +172,12 @@ export class GeographiesComponent<
               .transition(t)
               .attr('fill', (d) =>
                 this.config.dataGeographies.attributeData.fillPatterns
-                  ? this.getPatternFill(this.config.featureIndexAccessor(d))
-                  : this.getFill(this.config.featureIndexAccessor(d))
+                  ? this.getPatternFill(
+                      this.config.dataGeographies.featureIndexAccessor(d)
+                    )
+                  : this.getFill(
+                      this.config.dataGeographies.featureIndexAccessor(d)
+                    )
               )
           ),
         (exit) => exit.remove()
@@ -309,13 +317,13 @@ export class GeographiesComponent<
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelColor(
-                this.config.featureIndexAccessor(d),
+                this.config.dataGeographies.featureIndexAccessor(d),
                 labelsConfig
               )
             )
             .attr('font-weight', (d) =>
               this.getLabelFontWeight(
-                this.config.featureIndexAccessor(d),
+                this.config.dataGeographies.featureIndexAccessor(d),
                 labelsConfig
               )
             ),
@@ -329,13 +337,13 @@ export class GeographiesComponent<
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelColor(
-                  this.config.featureIndexAccessor(d),
+                  this.config.dataGeographies.featureIndexAccessor(d),
                   labelsConfig
                 )
               )
               .attr('font-weight', (d) =>
                 this.getLabelFontWeight(
-                  this.config.featureIndexAccessor(d),
+                  this.config.dataGeographies.featureIndexAccessor(d),
                   labelsConfig
                 )
               )

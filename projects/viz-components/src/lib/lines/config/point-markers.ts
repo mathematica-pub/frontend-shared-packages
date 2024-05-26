@@ -18,16 +18,16 @@ export class VicPointMarkers {
    */
   growByOnHover: number;
 
-  constructor(init?: Partial<VicPointMarkers>) {
+  constructor(options?: Partial<VicPointMarkers>) {
     this.display = true;
     this.radius = 3;
     this.growByOnHover = 1;
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 
 export function vicPointMarkers(
-  config?: Partial<VicPointMarkers>
+  options?: Partial<VicPointMarkers>
 ): VicPointMarkers {
-  return new VicPointMarkers(config);
+  return new VicPointMarkers(options);
 }

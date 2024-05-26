@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   VicCustomBreaksAttributeDataDimension,
   vicCustomBreaksAttributeDataDimension,
@@ -14,12 +15,17 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
 
   describe('setPropertiesFromData', () => {
     beforeEach(() => {
-      spyOn(dimension as any, 'setDomainAndBins');
+      spyOn(dimension as any, 'setDomain');
+      spyOn(dimension as any, 'setNumBins');
       spyOn(dimension as any, 'setRange');
     });
     it('calls setDomainAndBins once', () => {
       dimension.setPropertiesFromData();
-      expect((dimension as any).setDomainAndBins).toHaveBeenCalledTimes(1);
+      expect((dimension as any).setDomain).toHaveBeenCalledTimes(1);
+    });
+    it('calls setBins once', () => {
+      dimension.setPropertiesFromData();
+      expect((dimension as any).setNumBins).toHaveBeenCalledTimes(1);
     });
     it('calls setRange once', () => {
       dimension.setPropertiesFromData();
@@ -27,16 +33,21 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
     });
   });
 
-  describe('setDomainAndBins', () => {
+  describe('setDomain', () => {
     beforeEach(() => {
-      dimension.breakValues = [0, 2, 5, 10, 50];
-      (dimension as any).setDomainAndBins();
+      (dimension as any).breakValues = [0, 2, 5, 10, 50];
+      (dimension as any).setDomain();
     });
     it('sets the domain to the correct value', () => {
-      expect(dimension.domain).toEqual([2, 5, 10, 50]);
+      expect((dimension as any).domain).toEqual([2, 5, 10, 50]);
     });
+  });
+
+  describe('setNumBins', () => {
     it('sets the numBins to the correct value', () => {
-      expect(dimension.numBins).toEqual(4);
+      (dimension as any).breakValues = [0, 2, 5, 10, 50];
+      (dimension as any).setNumBins();
+      expect((dimension as any).calculatedNumBins).toEqual(4);
     });
   });
 });

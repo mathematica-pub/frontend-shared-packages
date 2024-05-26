@@ -1,4 +1,7 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 $title-height: 12vh;
 $content-height: 100vh - $title-height;
@@ -12,10 +15,10 @@ $content-height: 100vh - $title-height;
 }
 
 .title {
-  padding-left: $grid-2;
-  padding-top: $grid-4;
+  padding-left: grid(2);
+  padding-top: grid(4);
   @extend %typography-headline-2;
-  border-bottom: 1px solid $color-primary-6;
+  border-bottom: 1px solid color.$primary-6;
   flex: 0 0 auto;
   height: $title-height;
   white-space: nowrap;
@@ -31,11 +34,11 @@ $content-height: 100vh - $title-height;
   overflow-y: auto;
   min-width: 260px;
   flex: 1 0 auto;
-  border-right: 1px solid $color-primary-6;
+  border-right: 1px solid color.$primary-6;
 }
 
 .main-content {
   overflow-y: auto;
   flex: 10 1 auto;
-  padding: $grid-8;
+  padding: grid(8);
 }

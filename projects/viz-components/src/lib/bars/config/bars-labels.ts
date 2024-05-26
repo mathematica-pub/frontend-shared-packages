@@ -1,14 +1,14 @@
 export class VicBarsLabels<Datum> {
-  display: boolean;
-  offset: number;
   color: string;
+  display: boolean;
   noValueFunction: (d: Datum, ...args: any) => string;
+  offset: number;
 
-  constructor(init?: Partial<VicBarsLabels<Datum>>) {
+  constructor(options?: Partial<VicBarsLabels<Datum>>) {
     this.display = true;
     this.offset = 4;
     this.noValueFunction = () => 'N/A';
-    Object.assign(this, init);
+    Object.assign(this, options);
   }
 }
 

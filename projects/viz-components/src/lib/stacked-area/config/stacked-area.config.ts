@@ -13,10 +13,10 @@ import {
   stackOrderNone,
 } from 'd3';
 import { VicContinuousValue, VicDataValue } from '../../core/types/values';
+import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { VicDateDimension } from '../../data-dimensions/date-dimension';
+import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
-import { VicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
-import { VicDateDimension } from '../../data-marks/dimensions/date-dimension';
-import { VicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {
@@ -89,28 +89,29 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
     this.curve = this.curve ?? DEFAULT.curve;
     this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
     this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
+    this.initPropertiesFromData();
   }
 
-  setPropertiesFromData(): void {
+  protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setSeries();
     this.initQuantitativeDomainFromStack();
   }
 
-  setDimensionPropertiesFromData(): void {
+  private setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
     this.y.setPropertiesFromData(this.data);
     this.categorical.setPropertiesFromData(this.data);
   }
 
-  setValueIndicies(): void {
+  private setValueIndicies(): void {
     this.valueIndicies = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
   }
 
-  setSeries(): void {
+  private setSeries(): void {
     const rolledUpData = rollup(
       this.valueIndicies,
       ([i]) => i,
@@ -120,7 +121,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
 
     const keys = this.categoricalOrder
       ? this.categoricalOrder.slice().reverse()
-      : this.categorical.domain;
+      : this.categorical.calculatedDomain;
 
     this.series = stack<
       [VicContinuousValue, InternMap<TCategoricalValue, number>],
@@ -139,9 +140,9 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
       );
   }
 
-  initQuantitativeDomainFromStack(): void {
+  private initQuantitativeDomainFromStack(): void {
     if (this.y.domain === undefined) {
-      this.y.setUnpaddedDomain(extent(this.series.flat(2)));
+      this.y.setDomain(extent(this.series.flat(2)));
     }
   }
 }
@@ -149,7 +150,5 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
 export function vicStackedArea<Datum, TCategoricalValue extends VicDataValue>(
   options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
 ): VicStackedAreaConfig<Datum, TCategoricalValue> {
-  const config = new VicStackedAreaConfig(options);
-  config.setPropertiesFromData();
-  return config;
+  return new VicStackedAreaConfig(options);
 }

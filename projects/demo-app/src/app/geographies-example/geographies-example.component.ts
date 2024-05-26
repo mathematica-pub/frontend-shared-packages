@@ -3,7 +3,7 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { valueFormat } from 'projects/viz-components/src/lib/core/utilities/value-format';
-import { VicFillPattern } from 'projects/viz-components/src/lib/data-marks/dimensions/fill-pattern';
+import { VicFillPattern } from 'projects/viz-components/src/lib/data-dimensions/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-types';
 import {
@@ -30,7 +30,10 @@ import {
   VicNoBinsAttributeDataDimension,
   vicNoBinsAttributeDataDimension,
 } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-bins';
-import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import {
+  VicNoDataGeographies,
+  vicNoDataGeographies,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
 import { VicGeographiesLabels } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
 import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
 import {
@@ -159,7 +162,6 @@ export class GeographiesExampleComponent implements OnInit {
     const config = vicGeographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
-      featureIndexAccessor: this.featureIndexAccessor,
       noDataGeographies: [this.basemap.usOutlineConfig, noDataStatesConfig],
       dataGeographies: this.getDataGeographiesConfig(data),
     });
@@ -174,7 +176,7 @@ export class GeographiesExampleComponent implements OnInit {
       (x) => !statesInData.includes(x.properties.name)
     );
     const labels = this.getGeographyLabelConfig();
-    return new VicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
+    return vicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: features,
       labels: labels,
       fill: 'lightgray',
@@ -186,6 +188,7 @@ export class GeographiesExampleComponent implements OnInit {
   ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
     const config = vicDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: this.getDataGeographiesFeatures(data),
+      featureIndexAccessor: this.featureIndexAccessor,
       attributeData: this.getAttributeDataDimension({
         geoAccessor: (d) => d.state,
         fillPatterns: [

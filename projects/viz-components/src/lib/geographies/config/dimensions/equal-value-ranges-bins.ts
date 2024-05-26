@@ -1,9 +1,7 @@
 import { extent, interpolateLab, scaleQuantize } from 'd3';
+import { VicAttributeDataDimensionOptions } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
-import {
-  CalculatedRangeBinsAttributeDataDimension,
-  VicCalculatedRangeBinsAttributeDataDimensionOptions,
-} from './calculated-bins';
+import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
 
 const DEFAULT = {
   interpolator: interpolateLab,
@@ -15,12 +13,9 @@ const DEFAULT = {
 export interface VicEqualValuesAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
-> extends VicCalculatedRangeBinsAttributeDataDimensionOptions<
-    Datum,
-    number,
-    RangeValue
-  > {
+> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
   domain: [number, number];
+  numBins: number;
 }
 
 /**
@@ -32,16 +27,13 @@ export class VicEqualValuesAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
-  extends CalculatedRangeBinsAttributeDataDimension<Datum, number, RangeValue>
-  implements
-    VicCalculatedRangeBinsAttributeDataDimensionOptions<
-      Datum,
-      number,
-      RangeValue
-    >
+  extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
+  implements VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: VicValuesBin.equalValueRanges;
-  domain: [number, number];
+  private calculatedDomain: [number, number];
+  readonly domain: [number, number];
+  readonly numBins: number;
 
   constructor(
     options?: Partial<
@@ -59,20 +51,26 @@ export class VicEqualValuesAttributeDataDimension<
 
   setPropertiesFromData(data: Datum[]): void {
     const values = data.map(this.valueAccessor);
-    this.setDomainAndBins(values);
+    this.setDomain(values);
+    this.setValidatedDomainAndNumBins();
     this.setRange();
   }
 
-  protected setDomainAndBins(values: number[]): void {
+  protected setDomain(values: number[]): void {
     const domainValues = this.domain ?? values;
-    this.domain = extent(domainValues);
+    this.calculatedDomain = extent(domainValues);
+  }
+
+  private setValidatedDomainAndNumBins(): void {
     if (this.valueFormatIsInteger()) {
       const validated = this.getValidatedNumBinsAndDomainForIntegerValues(
         this.numBins,
-        this.domain
+        this.calculatedDomain
       );
-      this.numBins = validated.numBins;
-      this.domain = validated.domain;
+      this.calculatedNumBins = validated.numBins;
+      this.calculatedDomain = validated.domain;
+    } else {
+      this.calculatedNumBins = this.numBins;
     }
   }
 
@@ -103,7 +101,7 @@ export class VicEqualValuesAttributeDataDimension<
 
   getScale(nullColor: string) {
     return this.scale()
-      .domain(this.domain)
+      .domain(this.calculatedDomain)
       .range(this.range)
       .unknown(nullColor);
   }

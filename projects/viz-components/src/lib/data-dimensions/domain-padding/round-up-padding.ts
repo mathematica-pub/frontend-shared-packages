@@ -1,4 +1,4 @@
-import { ValueUtilities } from '../../../shared/value-utilities.class';
+import { ValueUtilities } from '../../shared/value-utilities.class';
 import {
   DomainPadding,
   PaddedDomainArguments,
@@ -36,6 +36,12 @@ export class VicRoundUpDomainPadding
   }
 }
 
+/**
+ *
+ * @param {<VicRoundUpDomainPaddingOptions>} options
+ * @param {(d: number) => number} options.sigDigits - A function that returns the number of significant digits to round to. Defaults to 1.
+ * @returns
+ */
 export function vicRoundUpDomainPadding(
   options?: Partial<VicRoundUpDomainPaddingOptions>
 ): VicRoundUpDomainPadding {

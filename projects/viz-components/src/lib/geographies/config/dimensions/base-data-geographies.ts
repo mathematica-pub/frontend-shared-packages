@@ -13,14 +13,25 @@ export interface VicBaseDataGeographyOptions<
   TGeometry extends Geometry
 > {
   /**
-   * GeoJSON features that define the geographies to be drawn.
+   * A function that derives an identifying string or number from the GeoJson feature.
    */
-  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string | number;
   /**
    * The fill color for the geography.
    * @default: 'none'.
    */
   fill: string;
+  /**
+   * VicGeographyLabelConfig that define the labels to be shown.
+   * If not defined, no labels will be drawn.
+   */
+  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  /**
+   * GeoJSON features that define the geographies to be drawn.
+   */
+  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
   /**
    * The color of the stroke for the geography.
    * @default: 'dimgray'.
@@ -31,11 +42,6 @@ export interface VicBaseDataGeographyOptions<
    * @default: 1.
    */
   strokeWidth: string;
-  /**
-   * VicGeographyLabelConfig that define the labels to be shown.
-   * If not defined, no labels will be drawn.
-   */
-  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 }
 
 export class VicBaseDataGeographyConfig<
@@ -43,9 +49,12 @@ export class VicBaseDataGeographyConfig<
   TProperties,
   TGeometry extends Geometry
 > {
-  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string | number;
   fill: string;
+  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
   strokeColor: string;
   strokeWidth: string;
-  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 }

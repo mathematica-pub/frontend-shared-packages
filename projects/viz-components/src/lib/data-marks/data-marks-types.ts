@@ -62,7 +62,7 @@ export abstract class VicDataMarksConfig<Datum>
 {
   data: Datum[];
   mixBlendMode: string;
-  abstract setPropertiesFromData(): void;
+  protected abstract initPropertiesFromData(): void;
 
   constructor() {
     this.mixBlendMode = 'normal';

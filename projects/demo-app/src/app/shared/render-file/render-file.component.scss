@@ -1,4 +1,6 @@
 @use 'vars' as *;
+@use 'functions' as *;
+@use 'color';
 
 .render-file-container.overview {
   h2,
@@ -9,29 +11,29 @@
   > h3:first-of-type {
     font-style: italic;
     font-weight: $font-weight-regular;
-    padding-bottom: 0.5rem;
+    padding-bottom: grid(2);
   }
 
   > h2 {
-    padding-top: 1rem;
+    padding-top: grid(4);
   }
 
   > h3:not(:first-of-type) {
-    padding: 0.5rem 0;
+    padding: grid(2) 0;
   }
 
   p {
-    padding-bottom: 0.5rem;
+    padding-bottom: grid(2);
   }
 
   p code {
-    background-color: $color-primary-7;
+    background-color: color.$primary-7;
     padding: 2px;
-    border-radius: 0.25rem;
+    border-radius: grid(1);
     font-weight: $font-weight-semibold;
   }
 
   ol > li {
-    padding-bottom: 0.5rem;
+    padding-bottom: grid(2);
   }
 }

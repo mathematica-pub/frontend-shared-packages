@@ -9,9 +9,10 @@ import {
   Output,
   Self,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { Observable, filter, takeUntil } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { GeographiesEventDirective } from './geographies-event-directive';
@@ -84,7 +85,7 @@ export class GeographiesClickDirective<
   setListenedElements(): void {
     this.geographies.dataGeographies$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef),
         filter((dataGeographies) => !!dataGeographies)
       )
       .subscribe((dataGeographies) => {

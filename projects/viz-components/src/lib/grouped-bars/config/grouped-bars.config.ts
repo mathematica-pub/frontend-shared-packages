@@ -29,12 +29,14 @@ export class VicGroupedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   implements VicGroupedBarsOptions<Datum, TOrdinalValue>
 {
   intraGroupPadding: number;
+
   constructor(
     dimensions: VicBarsDimensions,
     options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
   ) {
     super(dimensions, options);
     Object.assign(this, options);
+    this.initPropertiesFromData();
   }
 
   override setValueIndicies(): void {
@@ -54,7 +56,6 @@ export function vicVerticalGroupedBars<
   options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
 ): VicGroupedBarsConfig<Datum, TOrdinalValue> {
   const config = new VicGroupedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
-  config.setPropertiesFromData();
   return config;
 }
 
@@ -65,6 +66,5 @@ export function vicHorizontalGroupedBars<
   options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
 ): VicGroupedBarsConfig<Datum, TOrdinalValue> {
   const config = new VicGroupedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-  config.setPropertiesFromData();
   return config;
 }

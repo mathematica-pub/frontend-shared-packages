@@ -2,8 +2,8 @@ import { VicDataValue } from '../../../core/types/values';
 import {
   VicDataDimension,
   VicDataDimensionOptions,
-} from '../../../data-marks/dimensions/data-dimension';
-import { VicFillPattern } from '../../../data-marks/dimensions/fill-pattern';
+} from '../../../data-dimensions/data-dimension';
+import { VicFillPattern } from '../../../data-dimensions/fill-pattern';
 
 export interface VicAttributeDataDimensionOptions<
   Datum,
@@ -39,9 +39,6 @@ export abstract class AttributeDataDimension<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   fillPatterns: VicFillPattern<Datum>[];
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected abstract setDomainAndBins(values: any[]): void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract getScale(nullColor: string): any;
 }

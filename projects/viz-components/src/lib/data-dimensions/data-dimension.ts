@@ -1,6 +1,6 @@
 import { map } from 'd3';
-import { VicDataValue } from '../../core/types/values';
-import { VicFormatSpecifier } from '../../core/utilities/value-format';
+import { VicDataValue } from '../core/types/values';
+import { VicFormatSpecifier } from '../core/utilities/value-format';
 
 export interface VicDataDimensionOptions<
   Datum,
@@ -13,14 +13,15 @@ export interface VicDataDimensionOptions<
   /**
    * A formatter (function or string) for the values of this dimension.
    */
-  valueFormat?: VicFormatSpecifier<Datum>;
+  valueFormat: VicFormatSpecifier<Datum>;
 }
 
 export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
   implements VicDataDimensionOptions<Datum, TDataValue>
 {
-  valueAccessor: (d: Datum, ...args: any) => TDataValue;
-  valueFormat?: VicFormatSpecifier<Datum>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  abstract readonly valueAccessor: (d: Datum, ...args: any) => TDataValue;
+  readonly valueFormat: VicFormatSpecifier<Datum>;
   /**
    * An array of values for this dimension, extracted from the data using the value accessor.
    * @see {@link valueAccessor}
@@ -29,7 +30,8 @@ export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setPropertiesFromData(data: Datum[], ...args: any): void;
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  protected abstract setDomain(...args: any): void;
   protected setValues(data: Datum[]): void {
     this.values = map(data, this.valueAccessor);
   }

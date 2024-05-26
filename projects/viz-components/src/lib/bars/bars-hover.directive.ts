@@ -8,8 +8,9 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
-import { filter, takeUntil } from 'rxjs';
+import { filter } from 'rxjs';
 import { VicDataValue } from '../core/types/values';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
@@ -46,7 +47,7 @@ export class BarsHoverDirective<
   setListenedElements(): void {
     this.bars.bars$
       .pipe(
-        takeUntil(this.unsubscribe),
+        takeUntilDestroyed(this.destroyRef),
         filter((barSels) => !!barSels)
       )
       .subscribe((barSels) => {

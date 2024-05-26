@@ -1,22 +1,25 @@
 @use 'sass:color';
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 .card-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  border-radius: $grid-3;
+  border-radius: grid(3);
   height: 300px;
-  border: 2px solid $color-primary-6;
+  border: 2px solid color.$primary-6;
   overflow: hidden;
   transition: all 200ms;
 
   &:hover {
-    border: 2px solid $color-highlight-light;
+    border: 2px solid color.$highlight-light;
 
     .card-title {
-      background: $color-primary-8;
+      background: color.$primary-8;
     }
   }
 }
@@ -24,7 +27,7 @@
 .card-image {
   flex-basis: 80%;
   width: 100%;
-  background: $color-highlight-light;
+  background: color.$highlight-light;
 }
 
 .card-title {

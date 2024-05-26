@@ -9,11 +9,11 @@ import {
   vicHorizontalBars,
 } from 'projects/viz-components/src/lib/bars/config/bars.config';
 import { BehaviorSubject } from 'rxjs';
-import { VicXQuantitativeAxisModule } from '../../../../axes/x-quantitative/x-quantitative-axis.module';
-import { BarsComponent } from '../../../../bars/bars.component';
-import { VicBarsModule } from '../../../../bars/bars.module';
-import { VicChartModule } from '../../../../chart/chart.module';
-import { VicXyChartModule } from '../../../../xy-chart/xy-chart.module';
+import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quantitative-axis.module';
+import { BarsComponent } from '../../../bars/bars.component';
+import { VicBarsModule } from '../../../bars/bars.module';
+import { VicChartModule } from '../../../chart/chart.module';
+import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
 import { vicCategoricalDimension } from '../../categorical-dimension';
 import { vicOrdinalDimension } from '../../ordinal-dimension';
 import { vicQuantitativeDimension } from '../../quantitative-dimension';
@@ -276,7 +276,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       }),
       quantitative: vicQuantitativeDimension({
         valueAccessor: (d) => d.value,
-        domainIncludesZero: false,
+        includeZeroInDomain: false,
       }),
       categorical: vicCategoricalDimension(),
       labels: vicBarsLabels({ display: true }),
@@ -287,7 +287,6 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   });
   describe('X domain is default/not padded', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainIncludesZero = false;
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -454,7 +453,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   });
   describe('X domain turns off including 0', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainIncludesZero = false;
+      (barsConfig.quantitative as any).includeZeroInDomain = false;
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -594,7 +593,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       }),
       quantitative: vicQuantitativeDimension({
         valueAccessor: (d) => d.value,
-        domainIncludesZero: false,
+        includeZeroInDomain: false,
       }),
       categorical: vicCategoricalDimension(),
       labels: vicBarsLabels({ display: true }),
@@ -775,7 +774,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
   });
   describe('X domain turns off including 0', () => {
     beforeEach(() => {
-      barsConfig.quantitative.domainIncludesZero = false;
+      barsConfig.quantitative.includeZeroInDomain = false;
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,

@@ -26,9 +26,11 @@ export class VicCategoricalAttributeDataDimension<
   Datum,
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, string> {
-  readonly binType: VicValuesBin.categorical = VicValuesBin.categorical;
-  domain: string[];
+  readonly binType: VicValuesBin.categorical;
+  private calculatedDomain: string[];
+  readonly domain: string[];
   override interpolator: never;
+  readonly valueAccessor: (d: Datum, ...args: any) => string;
 
   constructor(
     options?: Partial<
@@ -36,6 +38,7 @@ export class VicCategoricalAttributeDataDimension<
     >
   ) {
     super();
+    this.binType = VicValuesBin.categorical;
     this.range = DEFAULT.range;
     this.scale = DEFAULT.scale;
     Object.assign(this, options);
@@ -43,22 +46,22 @@ export class VicCategoricalAttributeDataDimension<
 
   setPropertiesFromData(data: Datum[]): void {
     const values = data.map(this.valueAccessor);
-    this.setDomainAndBins(values);
+    this.setDomain(values);
     this.setRange();
   }
 
-  protected setDomainAndBins(values: string[]): void {
+  protected setDomain(values: string[]): void {
     const domainValues = this.domain ?? values;
-    this.domain = [...new Set(domainValues)];
+    this.calculatedDomain = [...new Set(domainValues)];
   }
 
   protected setRange(): void {
-    this.range = this.range.slice(0, this.domain.length);
+    this.range = this.range.slice(0, this.calculatedDomain.length);
   }
 
   getScale(nullColor: string) {
     return this.scale()
-      .domain(this.domain)
+      .domain(this.calculatedDomain)
       .range(this.range)
       .unknown(nullColor);
   }

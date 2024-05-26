@@ -57,19 +57,21 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     options: Partial<VicStackedBarsConfig<Datum, TOrdinalValue>>
   ) {
     super(dimensions, options);
-    Object.assign(this, options);
     this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
     this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
-    this.categorical.range =
-      this.categorical.range ?? DEFAULT.categorical.range;
+    this.initPropertiesFromData();
   }
 
-  override setPropertiesFromData(): void {
-    this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
-    this.constructStackedData();
-    this.initQuantitativeDomainFromStack();
+  override initPropertiesFromData(): void {
+    // parent class will call this method during this class's super call
+    // if statement ensure that this prevent this method is only called at the end of this class's constructor
+    if (this.stackOffset !== undefined && this.stackOrder !== undefined) {
+      this.setDimensionPropertiesFromData();
+      this.setValueIndicies();
+      this.setHasBarsWithNegativeValues();
+      this.constructStackedData();
+      this.initQuantitativeDomainFromStack();
+    }
   }
 
   override setValueIndicies(): void {
@@ -83,7 +85,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   constructStackedData(): void {
     const stackedData = stack<[unknown, InternMap<string, number>]>()
-      .keys(this.categorical.domain)
+      .keys(this.categorical.calculatedDomain)
       .value((d, key) => {
         return this.quantitative.values[d[1].get(key)];
       })
@@ -109,7 +111,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   initQuantitativeDomainFromStack(): void {
     const extents = extent(this.stackedData.flat(2));
-    this.quantitative.setUnpaddedDomain(extents);
+    this.quantitative.setDomain(extents);
   }
 }
 
@@ -119,9 +121,7 @@ export function vicHorizontalStackedBars<
 >(
   options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
 ): VicStackedBarsConfig<Datum, TOrdinalValue> {
-  const bars = new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-  bars.setPropertiesFromData();
-  return bars;
+  return new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
 }
 
 export function vicVerticalStackedBars<
@@ -130,7 +130,5 @@ export function vicVerticalStackedBars<
 >(
   options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
 ): VicStackedBarsConfig<Datum, TOrdinalValue> {
-  const bars = new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
-  bars.setPropertiesFromData();
-  return bars;
+  return new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
 }

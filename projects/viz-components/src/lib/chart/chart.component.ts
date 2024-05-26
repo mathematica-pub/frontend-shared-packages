@@ -1,19 +1,20 @@
 import {
   Component,
+  DestroyRef,
   ElementRef,
   Input,
   OnChanges,
-  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild,
+  inject,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { min } from 'd3';
 import { isEqual } from 'lodash-es';
 import {
   BehaviorSubject,
   Observable,
-  Subject,
   combineLatest,
   distinctUntilChanged,
   map,
@@ -21,7 +22,6 @@ import {
   of,
   shareReplay,
   startWith,
-  takeUntil,
 } from 'rxjs';
 import { VicDimensions, VicElementSpacing } from '../core/types/layout';
 import { Chart } from './chart';
@@ -60,7 +60,7 @@ export interface ChartScaling {
   styleUrls: ['./chart.component.scss'],
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
+export class ChartComponent implements Chart, OnInit, OnChanges {
   @ViewChild('div', { static: true }) divRef: ElementRef<HTMLDivElement>;
   @ViewChild('svg', { static: true }) svgRef: ElementRef<SVGSVGElement>;
   /**
@@ -93,7 +93,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
   /**
    * A time duration for all transitions in the chart, in ms.
    */
-  @Input() transitionDuration?: number = 250;
+  @Input() transitionDuration = 250;
   /**
    * If chart size is dynamic, the maximum width of the chart.
    *
@@ -111,7 +111,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
   margin$ = this._margin.asObservable();
   ranges$: Observable<Ranges>;
   svgDimensions$: Observable<VicDimensions>;
-  unsubscribe: Subject<void> = new Subject();
+  protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['height']) {
@@ -131,11 +131,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
     this.createDimensionObservables();
   }
 
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
-  }
-
   setAspectRatio(): void {
     this.aspectRatio = this.width / this.height;
   }
@@ -149,7 +144,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges, OnDestroy {
       );
       const divWidthResize$ = this.getDivWidthResizeObservable();
       divWidth$ = merge(width$, divWidthResize$).pipe(distinctUntilChanged());
-      divWidthResize$.pipe(takeUntil(this.unsubscribe)).subscribe();
+      divWidthResize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
     } else {
       divWidth$ = of(this.width);
     }

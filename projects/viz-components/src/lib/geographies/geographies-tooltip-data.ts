@@ -4,7 +4,7 @@ import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesComponent } from './geographies.component';
 
 export interface VicGeographiesTooltipOutput<Datum> {
-  datum?: Datum;
+  datum: Datum;
   color: string;
   geography: string;
   attributeValue: string;
@@ -25,7 +25,8 @@ export function getGeographiesTooltipData<
   geography: VicGeographiesFeature<TProperties, TGeometry>,
   component: TComponent
 ): VicGeographiesTooltipOutput<Datum> {
-  const geographyName = component.config.featureIndexAccessor(geography);
+  const geographyName =
+    component.config.dataGeographies.featureIndexAccessor(geography);
   const datum =
     component.config.values.datumsByGeographyIndex.get(geographyName);
   const value =

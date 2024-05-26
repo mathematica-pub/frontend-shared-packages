@@ -1,15 +1,20 @@
 import { interpolateLab, scaleQuantile } from 'd3';
+import { VicAttributeDataDimensionOptions } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
-import {
-  CalculatedRangeBinsAttributeDataDimension,
-  VicCalculatedRangeBinsAttributeDataDimensionOptions,
-} from './calculated-bins';
+import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
 
 const DEFAULT = {
   interpolator: interpolateLab,
   numBins: 5,
   scale: scaleQuantile,
 };
+
+export interface VicEqualNumObservationsAttributeDataDimensionOptions<
+  Datum,
+  RangeValue extends string | number = string
+> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+  numBins: number;
+}
 
 /**
  * Configuration object for attribute data that is quantitative and will be binned into equal number of observations. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 2] and [4, 100].
@@ -20,24 +25,17 @@ export class VicEqualNumObservationsAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
-  extends CalculatedRangeBinsAttributeDataDimension<Datum, number, RangeValue>
+  extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
   implements
-    VicCalculatedRangeBinsAttributeDataDimensionOptions<
-      Datum,
-      number,
-      RangeValue
-    >
+    VicEqualNumObservationsAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: VicValuesBin.equalNumObservations;
-  domain: number[];
+  private calculatedDomain: number[];
+  readonly numBins: number;
 
   constructor(
     options?: Partial<
-      VicCalculatedRangeBinsAttributeDataDimensionOptions<
-        Datum,
-        number,
-        RangeValue
-      >
+      VicEqualNumObservationsAttributeDataDimensionOptions<Datum, RangeValue>
     >
   ) {
     super();
@@ -50,17 +48,22 @@ export class VicEqualNumObservationsAttributeDataDimension<
 
   setPropertiesFromData(data: Datum[]): void {
     const values = data.map(this.valueAccessor);
-    this.setDomainAndBins(values);
+    this.setDomain(values);
+    this.setNumBins();
     this.setRange();
   }
 
-  protected setDomainAndBins(values: number[]): void {
-    this.domain = values;
+  protected setDomain(values: number[]): void {
+    this.calculatedDomain = values;
+  }
+
+  private setNumBins(): void {
+    this.calculatedNumBins = this.numBins;
   }
 
   getScale(nullColor: string) {
     return this.scale()
-      .domain(this.domain)
+      .domain(this.calculatedDomain)
       .range(this.range)
       .unknown(nullColor);
   }
@@ -71,11 +74,7 @@ export function vicEqualNumObservationsAttributeDataDimension<
   RangeValue extends string | number = string
 >(
   options?: Partial<
-    VicCalculatedRangeBinsAttributeDataDimensionOptions<
-      Datum,
-      number,
-      RangeValue
-    >
+    VicEqualNumObservationsAttributeDataDimensionOptions<Datum, RangeValue>
   >
 ): VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue> {
   return new VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue>(

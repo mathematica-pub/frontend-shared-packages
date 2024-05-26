@@ -9,9 +9,9 @@ import {
   vicHorizontalBars,
 } from '../../bars/config/bars.config';
 import { VicChartModule } from '../../chart/chart.module';
-import { vicCategoricalDimension } from '../../data-marks/dimensions/categorical-dimension';
-import { vicOrdinalDimension } from '../../data-marks/dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../../data-marks/dimensions/quantitative-dimension';
+import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { vicXQuantitativeAxis } from '../x-quantitative/x-quantitative-axis.config';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';

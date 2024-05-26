@@ -1,5 +1,5 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { VicValueExtent } from '../../../core/types/values';
+import { VicValueExtent } from '../../core/types/values';
 import { VicPercentOverDomainPadding } from './percent-over-padding';
 import { VicPixelDomainPadding } from './pixel-padding';
 import { VicRoundUpToIntervalDomainPadding } from './round-to-interval-padding';
@@ -29,6 +29,7 @@ export interface PaddedDomainArguments {
   dimensionRange?: [number, number];
 }
 
+// test these classes with Cypress component tests
 export abstract class VicDomainPadding {
   abstract getPaddedValue(args: PaddedDomainArguments): number;
 

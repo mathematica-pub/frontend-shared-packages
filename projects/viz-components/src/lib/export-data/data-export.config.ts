@@ -4,8 +4,8 @@ export class VicColumnConfig {
   title: string;
   valueAccessor: (x: any) => any;
 
-  constructor(init?: Partial<VicColumnConfig>) {
-    Object.assign(this, init);
+  constructor(options?: Partial<VicColumnConfig>) {
+    Object.assign(this, options);
   }
 }
 
