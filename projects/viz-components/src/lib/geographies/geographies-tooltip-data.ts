@@ -25,7 +25,8 @@ export function getGeographiesTooltipData<
   geography: VicGeographiesFeature<TProperties, TGeometry>,
   component: TComponent
 ): VicGeographiesTooltipOutput<Datum> {
-  const geographyName = component.config.featureIndexAccessor(geography);
+  const geographyName =
+    component.config.dataGeographies.featureIndexAccessor(geography);
   const datum =
     component.config.values.datumsByGeographyIndex.get(geographyName);
   const value =

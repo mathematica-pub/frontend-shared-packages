@@ -89,28 +89,29 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
     this.curve = this.curve ?? DEFAULT.curve;
     this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
     this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
+    this.initPropertiesFromData();
   }
 
-  initPropertiesFromData(): void {
+  protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setSeries();
     this.initQuantitativeDomainFromStack();
   }
 
-  setDimensionPropertiesFromData(): void {
+  private setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
     this.y.setPropertiesFromData(this.data);
     this.categorical.setPropertiesFromData(this.data);
   }
 
-  setValueIndicies(): void {
+  private setValueIndicies(): void {
     this.valueIndicies = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
   }
 
-  setSeries(): void {
+  private setSeries(): void {
     const rolledUpData = rollup(
       this.valueIndicies,
       ([i]) => i,
@@ -120,7 +121,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
 
     const keys = this.categoricalOrder
       ? this.categoricalOrder.slice().reverse()
-      : this.categorical.domain;
+      : this.categorical.calculatedDomain;
 
     this.series = stack<
       [VicContinuousValue, InternMap<TCategoricalValue, number>],
@@ -139,7 +140,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
       );
   }
 
-  initQuantitativeDomainFromStack(): void {
+  private initQuantitativeDomainFromStack(): void {
     if (this.y.domain === undefined) {
       this.y.setUnpaddedDomain(extent(this.series.flat(2)));
     }
@@ -149,7 +150,5 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
 export function vicStackedArea<Datum, TCategoricalValue extends VicDataValue>(
   options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
 ): VicStackedAreaConfig<Datum, TCategoricalValue> {
-  const config = new VicStackedAreaConfig(options);
-  config.initPropertiesFromData();
-  return config;
+  return new VicStackedAreaConfig(options);
 }

@@ -34,12 +34,12 @@ export class GroupedBarsComponent<
 
   setGroupScale(): void {
     if (this.config.dimensions.ordinal === 'x') {
-      this.groupScale = scaleBand(this.config.categorical.domain, [
+      this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
         0,
         (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
-      this.groupScale = scaleBand(this.config.categorical.domain, [
+      this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
         (this.scales.y as any).bandwidth(),
         0,
       ]).padding(this.config.intraGroupPadding);

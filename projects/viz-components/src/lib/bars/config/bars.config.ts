@@ -20,9 +20,9 @@ const DEFAULT = {
 
 export interface VicBarsOptions<Datum, TOrdinalValue extends VicDataValue>
   extends VicDataMarksOptions<Datum> {
+  categorical: VicCategoricalDimension<Datum, string>;
   ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
   quantitative: VicQuantitativeDimension<Datum>;
-  categorical: VicCategoricalDimension<Datum, string>;
   labels: VicBarsLabels<Datum>;
 }
 
@@ -45,9 +45,10 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     super();
     Object.assign(this, options);
     this.dimensions = dimensions;
+    this.initPropertiesFromData();
   }
 
-  initPropertiesFromData(): void {
+  protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
     this.setHasBarsWithNegativeValues();
@@ -82,17 +83,33 @@ function vicBars<Datum, TOrdinalValue extends VicDataValue>(
   dimensions: VicBarsDimensions,
   options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
 ): VicBarsConfig<Datum, TOrdinalValue> {
-  const bars = new VicBarsConfig(dimensions, options);
-  bars.initPropertiesFromData();
-  return bars;
+  return new VicBarsConfig(dimensions, options);
 }
 
+/**
+ * A function to create a horizontal bars configuration to be used with vic-data-marks-bars component
+ * @param {Partial<VicBarsOptions<Datum, TOrdinalValue>>} options - **REQUIRED**
+ * @param {VicCategoricalDimension<Datum, string>} options.categorical - **REQUIRED** - specify using vicCategoricalDimension
+ * @param {VicOrdinalDimension<Datum, TOrdinalValue>} options.ordinal - **REQUIRED** - specify using vicOrdinalDimension
+ * @param {VicQuantitativeDimension<Datum>} options.quantitative - **REQUIRED** - specify using vicQuantitativeDimension
+ * @param {VicBarsLabels<Datum>} options.labels - specify using vicBarsLabels
+ * @returns
+ */
 export function vicHorizontalBars<Datum, TOrdinalValue extends VicDataValue>(
   options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
 ): VicBarsConfig<Datum, TOrdinalValue> {
   return vicBars(HORIZONTAL_BARS_DIMENSIONS, options);
 }
 
+/**
+ * A function to create a vertical bars configuration to be used with vic-data-marks-bars component
+ * @param {Partial<VicBarsOptions<Datum, TOrdinalValue>>} options - **REQUIRED**
+ * @param {VicCategoricalDimension<Datum, string>} options.categorical - **REQUIRED** - specify using vicCategoricalDimension
+ * @param {VicOrdinalDimension<Datum, TOrdinalValue>} options.ordinal - **REQUIRED** - specify using vicOrdinalDimension
+ * @param {VicQuantitativeDimension<Datum>} options.quantitative - **REQUIRED** - specify using vicQuantitativeDimension
+ * @param {VicBarsLabels<Datum>} options.labels - specify using vicBarsLabels
+ * @returns
+ */
 export function vicVerticalBars<Datum, TOrdinalValue extends VicDataValue>(
   options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
 ): VicBarsConfig<Datum, TOrdinalValue> {

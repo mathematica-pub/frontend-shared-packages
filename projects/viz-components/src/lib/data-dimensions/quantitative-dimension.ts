@@ -18,7 +18,7 @@ export interface VicQuantitativeDimensionOptions<Datum>
   /**
    * A user-configurable boolean that indicates whether the domain of the dimension's scale should include zero.
    */
-  domainIncludesZero: boolean;
+  includeZeroInDomain: boolean;
   /**
    * The padding configuration for the dimension's domain.
    */
@@ -36,21 +36,22 @@ export class VicQuantitativeDimension<Datum>
   extends VicDataDimension<Datum, number>
   implements VicQuantitativeDimensionOptions<Datum>
 {
+  private calculatedDomain: [number, number];
   readonly domain: [number, number];
   domainIncludesZero: boolean;
   readonly domainPadding: VicDomainPaddingConfig;
+  readonly includeZeroInDomain: boolean;
   readonly scaleFn: (
     domain?: Iterable<number>,
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
   readonly valueAccessor: (d: Datum, ...args: any) => number;
-  private unpaddedDomain: [number, number];
 
   constructor(options: Partial<VicQuantitativeDimensionOptions<Datum>>) {
     super();
     Object.assign(this, options);
-    this.domainIncludesZero =
-      this.domainIncludesZero ?? DEFAULT.domainIncludesZero;
+    this.includeZeroInDomain =
+      this.includeZeroInDomain ?? DEFAULT.domainIncludesZero;
     this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn;
   }
 
@@ -65,27 +66,21 @@ export class VicQuantitativeDimension<Datum>
         ? valuesOverride ||
           ([min(this.values), max(this.values)] as [number, number])
         : this.domain;
-    this.unpaddedDomain = this.getAdjustedDomain(
-      extents,
-      this.domainIncludesZero
-    );
+    this.calculatedDomain = this.getCalculatedDomain(extents);
     this.setDomainIncludesZero();
   }
 
-  private getAdjustedDomain(
-    domain: [number, number],
-    domainIncludesZero: boolean
-  ): [number, number] {
-    return domainIncludesZero
+  private getCalculatedDomain(domain: [number, number]): [number, number] {
+    return this.includeZeroInDomain
       ? [min([domain[0], 0]), max([domain[1], 0])]
       : [domain[0], domain[1]];
   }
 
   private setDomainIncludesZero() {
     if (
-      !this.domainIncludesZero &&
-      this.unpaddedDomain[0] <= 0 &&
-      this.unpaddedDomain[1] >= 0
+      !this.includeZeroInDomain &&
+      this.calculatedDomain[0] <= 0 &&
+      this.calculatedDomain[1] >= 0
     ) {
       this.domainIncludesZero = true;
     }
@@ -94,7 +89,7 @@ export class VicQuantitativeDimension<Datum>
   getScaleFromRange(range: [number, number]) {
     const domain = this.domainPadding
       ? this.getPaddedQuantitativeDomain(range)
-      : this.unpaddedDomain;
+      : this.calculatedDomain;
     return this.scaleFn().domain(domain).range(range);
   }
 
@@ -102,7 +97,7 @@ export class VicQuantitativeDimension<Datum>
     range: [number, number]
   ): [number, number] {
     const domain = this.domainPadding.getPaddedDomain(
-      this.unpaddedDomain,
+      this.calculatedDomain,
       this.scaleFn,
       range
     );
@@ -111,14 +106,17 @@ export class VicQuantitativeDimension<Datum>
 }
 
 /**
- *
- * @param {VicQuantitativeDimensionOptions<Datum>} options **REQUIRED**
- * @param options.valueAccessor **REQUIRED**
- * @param options.domain
- * @param options.domainIncludesZero
- * @param options.domainPadding
- * @param options.scaleFn
- * @returns
+ * @param {Partial<VicQuantitativeDimensionOptions<Datum>>} options - **REQUIRED**
+ * @param {(d: Datum, ...args: any) => number} options.valueAccessor - (d: Datum, ...args: any) => number - **REQUIRED**
+ * @param {[number, number]} options.domain - [number, number] - A user-provided range of values that is used as the domain of the dimension's scale. If not provided by the user, unique values from the data are used to set the scale domain.
+ * @param {boolean} options.includeZeroInDomain - boolean - A user-configurable boolean that indicates whether the domain of the dimension's scale should include zero if it is not already included in the domain. Default is true.
+ * @param {VicDomainPaddingConfig} options.domainPadding - VicDomainPaddingConfig - padding configuration for the dimension's domain. Default is undefined.
+ * @param {(domain?: Iterable<number>, range?: Iterable<number>) => ScaleContinuousNumeric<number, number>} options.scaleFn - (
+    domain?: Iterable<number>,
+    range?: Iterable<number>
+  ) => ScaleContinuousNumeric<number, number> - scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range. Default is D3's scaleLinear function.
+ * @param {VicFormatSpecifier<Datum>} valueFormat - VicFormatSpecifier<Datum> - A user-defined format specifier for the dimension's values. Default is undefined.
+  * @returns
  */
 export function vicQuantitativeDimension<Datum>(
   options: Partial<VicQuantitativeDimensionOptions<Datum>>

@@ -1,38 +1,54 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import {
+  VicCategoricalDimension,
+  vicCategoricalDimension,
+} from '../../data-dimensions/categorical-dimension';
+import {
+  VicOrdinalDimension,
+  vicOrdinalDimension,
+} from '../../data-dimensions/ordinal-dimension';
+import {
+  VicQuantitativeDimension,
+  vicQuantitativeDimension,
+} from '../../data-dimensions/quantitative-dimension';
 import { HORIZONTAL_BARS_DIMENSIONS } from './bars-dimensions';
 import { VicBarsConfig } from './bars.config';
 
 type Datum = { value: number; state: string };
+const data = [
+  { value: 1, state: 'AL' },
+  { value: 2, state: 'AK' },
+  { value: 3, state: 'AZ' },
+  { value: 4, state: 'CA' },
+  { value: 5, state: 'CO' },
+  { value: 6, state: 'CO' },
+];
+function getNewConfig(): VicBarsConfig<Datum, string> {
+  return new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+    data,
+    quantitative: vicQuantitativeDimension<Datum>({
+      valueAccessor: (d) => d.value,
+    }),
+    ordinal: vicOrdinalDimension<Datum, string>({
+      valueAccessor: (d) => d.state,
+    }),
+    categorical: vicCategoricalDimension<Datum, string>({}),
+  });
+}
 
 describe('BarsConfig', () => {
   let config: VicBarsConfig<Datum, string>;
-  const data = [
-    { value: 1, state: 'AL' },
-    { value: 2, state: 'AK' },
-    { value: 3, state: 'AZ' },
-    { value: 4, state: 'CA' },
-    { value: 5, state: 'CO' },
-    { value: 6, state: 'CO' },
-  ];
   beforeEach(() => {
-    config = new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
-      data,
-      quantitative: vicQuantitativeDimension<Datum>({}),
-      ordinal: vicOrdinalDimension<Datum, string>({}),
-      categorical: vicCategoricalDimension<Datum, string>({}),
-    });
+    config = undefined;
   });
 
-  describe('setPropertiesFromData()', () => {
+  describe('initPropertiesFromData()', () => {
     beforeEach(() => {
-      spyOn(config as any, 'setDimensionPropertiesFromData');
-      spyOn(config as any, 'setValueIndicies');
-      spyOn(config as any, 'setHasBarsWithNegativeValues');
-      spyOn(config as any, 'setBarsKeyFunction');
-      config.initPropertiesFromData();
+      spyOn(VicBarsConfig.prototype as any, 'setDimensionPropertiesFromData');
+      spyOn(VicBarsConfig.prototype as any, 'setValueIndicies');
+      spyOn(VicBarsConfig.prototype as any, 'setHasBarsWithNegativeValues');
+      spyOn(VicBarsConfig.prototype as any, 'setBarsKeyFunction');
+      config = getNewConfig();
     });
     it('calls setDimensionPropertiesFromData once', () => {
       expect(
@@ -54,13 +70,12 @@ describe('BarsConfig', () => {
 
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
-      spyOn(config.quantitative, 'setPropertiesFromData');
-      spyOn(config.ordinal, 'setPropertiesFromData');
-      spyOn(config.categorical, 'setPropertiesFromData');
-      spyOn(config as any, 'setValueIndicies');
-      spyOn(config as any, 'setHasBarsWithNegativeValues');
-      spyOn(config as any, 'setBarsKeyFunction');
-      config.initPropertiesFromData();
+      spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
+      spyOn(VicQuantitativeDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(VicOrdinalDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(VicCategoricalDimension.prototype as any, 'setPropertiesFromData');
+      config = getNewConfig();
+      (config as any).setDimensionPropertiesFromData();
     });
     it('calls quantitative.setPropertiesFromData once', () => {
       expect(
@@ -82,16 +97,37 @@ describe('BarsConfig', () => {
 
   describe('setValueIndicies()', () => {
     beforeEach(() => {
-      config.ordinal.values = ['AL', 'AK', 'AZ', 'CA', 'CO'];
-      spyOn(config.ordinal, 'domainIncludes').and.returnValue(true);
-      (config as any).setValueIndicies();
+      spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
     });
     it('returns the value indicies', () => {
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4]);
+      config = getNewConfig();
+      (config as any).setDimensionPropertiesFromData();
+      (config as any).setValueIndicies();
+      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
+    });
+    it('sets valueIndicies to the correct array when ordinal domain is limited by user', () => {
+      config = new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+        data,
+        quantitative: vicQuantitativeDimension<Datum>({
+          valueAccessor: (d) => d.value,
+        }),
+        ordinal: vicOrdinalDimension<Datum, string>({
+          valueAccessor: (d) => d.state,
+          domain: ['AL', 'AZ', 'CA'],
+        }),
+        categorical: vicCategoricalDimension<Datum, string>({}),
+      });
+      (config as any).setDimensionPropertiesFromData();
+      (config as any).setValueIndicies();
+      expect(config.valueIndicies).toEqual([0, 2, 3]);
     });
   });
 
   describe('setHasBarsWithNegativeValues()', () => {
+    beforeEach(() => {
+      spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
+      config = getNewConfig();
+    });
     it('returns false if all values are positive', () => {
       config.quantitative.values = [1, 2, 3, 4, 5];
       (config as any).setHasBarsWithNegativeValues();

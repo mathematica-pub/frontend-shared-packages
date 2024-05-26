@@ -162,7 +162,6 @@ export class GeographiesExampleComponent implements OnInit {
     const config = vicGeographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
-      featureIndexAccessor: this.featureIndexAccessor,
       noDataGeographies: [this.basemap.usOutlineConfig, noDataStatesConfig],
       dataGeographies: this.getDataGeographiesConfig(data),
     });
@@ -189,6 +188,7 @@ export class GeographiesExampleComponent implements OnInit {
   ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
     const config = vicDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: this.getDataGeographiesFeatures(data),
+      featureIndexAccessor: this.featureIndexAccessor,
       attributeData: this.getAttributeDataDimension({
         geoAccessor: (d) => d.state,
         fillPatterns: [
