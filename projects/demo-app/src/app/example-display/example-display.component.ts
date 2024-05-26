@@ -1,18 +1,19 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  DestroyRef,
   inject,
   Input,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Unsubscribe } from 'projects/viz-components/src/lib/shared/unsubscribe.class';
 import { forkJoin, Observable, startWith, take } from 'rxjs';
 import { DocumentationService } from '../core/services/documentation.service';
 import { RadioInputComponent } from '../radio-input/radio-input.component';
@@ -32,7 +33,7 @@ import { CodeDisplayComponent } from './code-display/code-display.component';
   providers: [FormGroupDirective],
   encapsulation: ViewEncapsulation.None,
 })
-export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
+export class ExampleDisplayComponent implements OnInit {
   @Input() includeFiles: string[];
   @Input() folderName: string;
   form: FormGroup<{ selected: FormControl<number> }>;
@@ -43,6 +44,7 @@ export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
   fileData$: Observable<string[]>;
   selectedTabIndex$: Observable<number>;
   private documentationService = inject(DocumentationService);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.getFilesForExample();
@@ -90,14 +92,16 @@ export class ExampleDisplayComponent extends Unsubscribe implements OnInit {
       startWith(0)
     );
     // a hack to help the charts render along after switching back to it
-    // known problem, has to do with content projecting and ngif, not worth a different solution here
-    this.selectedTabIndex$.subscribe((index) => {
-      if (index === 0) {
-        setTimeout(() => {
-          return;
-        });
-      }
-    });
+    // known problem, has to do with content projecting and ngif, not worth a different solution here imo
+    this.selectedTabIndex$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((index) => {
+        if (index === 0) {
+          setTimeout(() => {
+            return;
+          });
+        }
+      });
   }
 
   getFileDisplayName(fullFilePath: string): string {
