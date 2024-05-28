@@ -1,4 +1,4 @@
-@import 'vars', 'placeholders';
+@use 'functions' as *;
 
 $icon-dimension: 16px;
 
@@ -23,7 +23,7 @@ $icon-dimension: 16px;
 
   .icon {
     cursor: pointer;
-    margin-right: $grid-1;
+    margin-right: grid(1);
     flex-shrink: 0;
   }
 }

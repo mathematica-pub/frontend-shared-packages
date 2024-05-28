@@ -1,5 +1,7 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'color';
 
 .display-container {
-  padding: $grid-8 $grid-4;
+  padding: grid(8) grid(4);
 }

@@ -1,13 +1,16 @@
-@import 'vars', 'placeholders';
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
 
 .effect-title {
   @extend %typography-subtitle-2;
-  padding-top: $grid-2;
+  padding-top: grid(2);
 }
 
 .effect-instruction {
   @extend %typography-caption;
-  padding-bottom: $grid-2;
+  padding-bottom: grid(2);
 }
 
 .download-button {
@@ -35,10 +38,7 @@
 
 //Note: requires global styles for .vic-html-tooltip-overlay
 .tooltip-container {
-  background: rgba($color-white, 0.9);
-  padding: $grid-2;
-  border: 1px solid $color-primary-6;
-  width: 100%;
+  @extend %tooltip-container-styles;
 
   .tooltip-label {
     display: flex;
@@ -46,14 +46,14 @@
   }
 
   .tooltip-label:not(.category) {
-    padding-top: $grid-1;
+    padding-top: grid(1);
   }
 
   .category {
     color: var(--color);
     font-weight: $font-weight-bold;
     line-height: 1.2;
-    padding-bottom: $grid-1;
+    padding-bottom: grid(1);
   }
 
   .value-label {
