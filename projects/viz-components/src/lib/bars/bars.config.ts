@@ -39,7 +39,7 @@ export class VicBarsLabelsConfig<Datum> {
   offset: number;
   defaultLabelColor: string;
   /**
-   *  The alternative label color is used if it and the bar color have a higher contrast ratio than the default label color and the bar color.
+   *  The alternative label color is used for a label positioned within a bar if it and the bar color have a higher contrast ratio than the default label color and the bar color.
    */
   withinBarAlternativeLabelColor: string;
   noValueFunction: (d: Datum, ...args: any) => string;
