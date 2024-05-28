@@ -37,25 +37,18 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
 export class VicBarsLabelsConfig<Datum> {
   display: boolean;
   offset: number;
+  defaultLabelColor: string;
   /**
-   * The dark alternative for the bar label color.
-   *
-   *  Must be a hex code or rgb color to be compatible with color utilities.
+   *  The alternative label color is used if it and the bar color have a higher contrast ratio than the default label color and the bar color.
    */
-  darkLabelColor: string;
-  /**
-   * The light alternative for the bar label color.
-   *
-   *  Must be a hex code or rgb color to be compatible with color utilities.
-   */
-  lightLabelColor: string;
+  withinBarAlternativeLabelColor: string;
   noValueFunction: (d: Datum, ...args: any) => string;
 
   constructor(init?: Partial<VicBarsLabelsConfig<Datum>>) {
     this.display = true;
     this.offset = 4;
-    this.darkLabelColor = '#000000';
-    this.lightLabelColor = '#ffffff';
+    this.defaultLabelColor = '#000000';
+    this.withinBarAlternativeLabelColor = '#ffffff';
     this.noValueFunction = () => 'N/A';
     Object.assign(this, init);
   }

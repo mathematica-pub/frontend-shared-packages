@@ -503,13 +503,13 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   getBarLabelColor(i: number): string {
     const value = this.values[this.config.dimensions.quantitative][i];
     if (this.valueIsZeroOrNonnumeric(value) || this.barLabelFitsOutsideBar(i)) {
-      return this.config.labels.darkLabelColor;
+      return this.config.labels.defaultLabelColor;
     } else {
       const barColor = this.getBarColor(i);
       return VicColorUtilities.getHigherContrastColorForBackground(
         barColor,
-        this.config.labels.darkLabelColor,
-        this.config.labels.lightLabelColor
+        this.config.labels.defaultLabelColor,
+        this.config.labels.withinBarAlternativeLabelColor
       );
     }
   }
