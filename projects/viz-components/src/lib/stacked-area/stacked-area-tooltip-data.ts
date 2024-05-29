@@ -6,7 +6,7 @@ export interface VicStackedAreaEventOutput<Datum> {
   positionX: number;
   categoryYMin: number;
   categoryYMax: number;
-  categoryIndex: number;
+  hoveredDatum: VicStackedAreaEventDatum<Datum>;
   svgHeight?: number;
 }
 
@@ -62,6 +62,6 @@ export function getStackedAreaTooltipData<Datum>(
     positionX: stackedArea.scales.x(stackedArea.values.x[closestXIndicies[0]]),
     categoryYMin: categoryYMin,
     categoryYMax: categoryYMax,
-    categoryIndex: categoryIndex,
+    hoveredDatum: data[categoryIndex],
   };
 }
