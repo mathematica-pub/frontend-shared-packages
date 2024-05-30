@@ -27,11 +27,12 @@
         </svg:g>
         <svg:g>
           <line
+            *ngIf="(tooltipData$ | async) as tooltipData"
             class="tooltip-line"
-            [attr.x1]="(tooltipData$ | async)?.positionX"
-            [attr.x2]="(tooltipData$ | async)?.positionX"
-            [attr.y1]="(tooltipData$ | async)?.categoryYMin"
-            [attr.y2]="(tooltipData$ | async)?.categoryYMax"
+            [attr.x1]="tooltipData.positionX"
+            [attr.x2]="tooltipData.positionX"
+            [attr.y1]="tooltipData.categoryYMin"
+            [attr.y2]="tooltipData.categoryYMax"
           ></line>
         </svg:g>
       </ng-container>
