@@ -2,7 +2,7 @@ import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { VicDataMarks } from '../data-marks/data-marks';
-import { VicDataOptions } from '../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../data-marks/data-marks.config';
 import {
   XyChartComponent,
   XyChartScales,
@@ -15,7 +15,7 @@ import {
 @Directive()
 export abstract class VicXyDataMarks<
     Datum,
-    TDataMarkConfig extends VicDataOptions<Datum>
+    TDataMarkConfig extends VicDataMarksOptions<Datum>
   >
   extends VicDataMarks<Datum, TDataMarkConfig>
   implements OnInit

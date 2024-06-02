@@ -3,7 +3,7 @@ import { isDate, isNumber } from '../../core/utilities/type-guards';
 import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
 import { VicDateDimension } from '../../data-dimensions/date-dimension';
 import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicDataOptions } from '../../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { Marker } from '../lines.component';
 import { VicLinesStroke } from './lines-stroke';
@@ -21,7 +21,7 @@ const LINE_DEFAULTS = {
   },
 };
 
-export interface VicLinesOptions<Datum> extends VicDataOptions<Datum> {
+export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
   /**
    * A config for the behavior of the chart's categorical dimension.
    *

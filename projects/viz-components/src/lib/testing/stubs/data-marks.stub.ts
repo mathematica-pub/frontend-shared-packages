@@ -1,9 +1,9 @@
 import { VicDataMarks } from '../../data-marks/data-marks';
-import { VicDataOptions } from '../../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 
 export class DataMarksStub<Datum> extends VicDataMarks<
   Datum,
-  VicDataOptions<Datum>
+  VicDataMarksOptions<Datum>
 > {
   override drawMarks(): void {
     return;

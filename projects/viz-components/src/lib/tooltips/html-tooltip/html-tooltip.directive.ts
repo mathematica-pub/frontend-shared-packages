@@ -24,7 +24,7 @@ import {
 import { Subject, takeUntil } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { VIC_DATA_MARKS, VicDataMarks } from '../../data-marks/data-marks';
-import { VicDataOptions } from '../../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import {
   VicHtmlTooltipCdkManagedFromOriginPosition,
   VicHtmlTooltipConfig,
@@ -39,7 +39,7 @@ const defaultPanelClass = 'vic-html-tooltip-overlay';
 })
 export class VicHtmlTooltipDirective<
   Datum,
-  TDataMarksConfig extends VicDataOptions<Datum>
+  TDataMarksConfig extends VicDataMarksOptions<Datum>
 > implements OnInit, OnChanges, OnDestroy
 {
   @Input() template: TemplateRef<unknown>;

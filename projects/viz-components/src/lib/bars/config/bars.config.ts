@@ -3,7 +3,7 @@ import { VicDataValue } from '../../core/types/values';
 import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
 import { VicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
 import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicDataOptions } from '../../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import {
   HORIZONTAL_BARS_DIMENSIONS,
@@ -13,7 +13,7 @@ import {
 import { VicBarsLabels } from './bars-labels';
 
 export interface VicBarsOptions<Datum, TOrdinalValue extends VicDataValue>
-  extends VicDataOptions<Datum> {
+  extends VicDataMarksOptions<Datum> {
   categorical: VicCategoricalDimension<Datum, string>;
   ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
   quantitative: VicQuantitativeDimension<Datum>;
