@@ -16,7 +16,7 @@ import { VicContinuousValue, VicDataValue } from '../../core/types/values';
 import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
 import { VicDateDimension } from '../../data-dimensions/date-dimension';
 import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
+import { VicDataOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {
@@ -31,8 +31,8 @@ const DEFAULT = {
 export interface VicStackedAreaOptions<
   Datum,
   TCategoricalValue extends VicDataValue
-> extends VicDataMarksOptions<Datum>,
-    VicDataMarksOptions<Datum> {
+> extends VicDataOptions<Datum>,
+    VicDataOptions<Datum> {
   x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
   y: VicQuantitativeDimension<Datum>;
   categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
@@ -55,7 +55,7 @@ export interface VicStackedAreaOptions<
 
 export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   extends VicXyDataMarksConfig<Datum>
-  implements VicDataMarksOptions<Datum>
+  implements VicDataOptions<Datum>
 {
   x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
   y: VicQuantitativeDimension<Datum>;

@@ -14,8 +14,8 @@ import {
   Polygon,
 } from 'geojson';
 import {
-  VicDataMarksConfig,
-  VicDataMarksOptions,
+  VicDataConfig,
+  VicDataOptions,
 } from '../../data-marks/data-marks.config';
 import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicNoDataGeographies } from './dimensions/no-data-geographies';
@@ -33,7 +33,7 @@ export interface VicGeographiesOptions<
   Datum,
   TProperties extends GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicDataMarksOptions<Datum> {
+> extends VicDataOptions<Datum> {
   /** A feature or geometry object or collection that defines the extents of the map to be drawn.
    * Used for scaling the map.
    */
@@ -72,8 +72,8 @@ export class VicGeographiesConfig<
     TProperties extends GeoJsonProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
-  extends VicDataMarksConfig<Datum>
-  implements VicDataMarksOptions<Datum>
+  extends VicDataConfig<Datum>
+  implements VicDataOptions<Datum>
 {
   readonly boundary:
     | ExtendedFeature

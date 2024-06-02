@@ -10,7 +10,7 @@ import {
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { VicDataMarksOptions } from './data-marks.config';
+import { VicDataOptions } from './data-marks.config';
 
 export interface VicICommon {
   chart: Chart;
@@ -58,7 +58,7 @@ export const VIC_DATA_MARKS = new InjectionToken<VicDataMarks<unknown, any>>(
 @Directive()
 export abstract class VicDataMarks<
   Datum,
-  TDataMarksConfig extends VicDataMarksOptions<Datum>
+  TDataMarksConfig extends VicDataOptions<Datum>
 > implements VicIData, VicIMarks, OnChanges
 {
   @Input() config: TDataMarksConfig;
