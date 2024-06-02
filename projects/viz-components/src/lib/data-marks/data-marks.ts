@@ -9,7 +9,8 @@ import {
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { VicDataMarksOptions, VicIData, VicIMarks } from './data-marks-types';
+import { VicIData, VicIMarks } from './data-marks-types';
+import { VicDataMarksOptions } from './data-marks.config';
 
 @Directive()
 export abstract class VicDataMarks<

@@ -16,7 +16,7 @@ import {
 import {
   VicDataMarksConfig,
   VicDataMarksOptions,
-} from '../../data-marks/data-marks-types';
+} from '../../data-marks/data-marks.config';
 import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicNoDataGeographies } from './dimensions/no-data-geographies';
 

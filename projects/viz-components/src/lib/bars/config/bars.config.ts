@@ -3,7 +3,7 @@ import { VicDataValue } from '../../core/types/values';
 import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
 import { VicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
 import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import {
   HORIZONTAL_BARS_DIMENSIONS,
