@@ -7,7 +7,7 @@ import {
 import { SeriesPoint, Transition, select } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicStackedBarsConfig } from './config/stacked-bars.config';
 
 export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {

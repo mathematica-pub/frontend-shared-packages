@@ -16,7 +16,7 @@ import { ChartComponent } from '../chart/chart.component';
 import { VicDataValue } from '../core/types/values';
 import { isFunction, isNumber } from '../core/utilities/type-guards';
 import { VicFormatSpecifier } from '../core/utilities/value-format';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicColorUtilities } from '../shared/color-utilities';
 import { PatternUtilities } from '../shared/pattern-utilities';
 import { ValueUtilities } from '../shared/value-utilities';

@@ -23,9 +23,8 @@ import {
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { VicDataMarks } from '../../data-marks/data-marks';
+import { VIC_DATA_MARKS, VicDataMarks } from '../../data-marks/data-marks';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
-import { VIC_DATA_MARKS } from '../../data-marks/data-marks.token';
 import {
   VicHtmlTooltipCdkManagedFromOriginPosition,
   VicHtmlTooltipConfig,

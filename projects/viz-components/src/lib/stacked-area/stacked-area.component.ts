@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
 import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicStackedAreaConfig } from './config/stacked-area.config';
 

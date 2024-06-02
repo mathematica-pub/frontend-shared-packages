@@ -7,7 +7,7 @@ import {
 import { scaleBand } from 'd3';
 import { BarDatum, BarsComponent } from '../bars/bars.component';
 import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicGroupedBarsConfig } from './config/grouped-bars.config';
 
 @Component({

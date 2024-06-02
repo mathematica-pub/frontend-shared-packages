@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { line, map, select, Transition } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicLinesConfig } from './config/lines.config';
