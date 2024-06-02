@@ -12,12 +12,6 @@ import {
 } from './bars-dimensions';
 import { VicBarsLabels } from './bars-labels';
 
-const DEFAULT = {
-  categorical: {
-    range: ['lightslategray'],
-  },
-};
-
 export interface VicBarsOptions<Datum, TOrdinalValue extends VicDataValue>
   extends VicDataMarksOptions<Datum> {
   categorical: VicCategoricalDimension<Datum, string>;
@@ -33,7 +27,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   barsKeyFunction: (i: number) => string;
   readonly categorical: VicCategoricalDimension<Datum, string>;
   readonly dimensions: VicBarsDimensions;
-  hasBarsWithNegativeValues: boolean;
+  hasNegativeValues: boolean;
   readonly labels: VicBarsLabels<Datum>;
   readonly ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
   readonly quantitative: VicQuantitativeDimension<Datum>;
@@ -51,16 +45,13 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
     this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
+    this.setHasNegativeValues();
     this.setBarsKeyFunction();
   }
 
   protected setDimensionPropertiesFromData(): void {
     this.quantitative.setPropertiesFromData(this.data);
-    this.ordinal.setPropertiesFromData(
-      this.data,
-      this.dimensions.ordinal === 'y'
-    );
+    this.ordinal.setPropertiesFromData(this.data, this.dimensions.isHorizontal);
     this.categorical.setPropertiesFromData(this.data);
   }
 
@@ -70,8 +61,8 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     );
   }
 
-  protected setHasBarsWithNegativeValues(): void {
-    this.hasBarsWithNegativeValues = min(this.quantitative.values) < 0;
+  protected setHasNegativeValues(): void {
+    this.hasNegativeValues = min(this.quantitative.values) < 0;
   }
 
   protected setBarsKeyFunction(): void {

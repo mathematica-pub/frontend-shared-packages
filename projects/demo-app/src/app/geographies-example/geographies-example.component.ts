@@ -46,7 +46,7 @@ import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographi
 import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
 import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
-import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
+import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,

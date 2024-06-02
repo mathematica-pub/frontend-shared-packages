@@ -1,4 +1,5 @@
-import { formatValue, valueFormat } from '../core/utilities/value-format';
+import { valueFormat } from '../core/utilities/value-format';
+import { ValueUtilities } from '../shared/value-utilities';
 
 export class VicColumnConfig {
   title: string;
@@ -62,7 +63,7 @@ export class VicDataExportConfig {
           title: key !== this.flippedHeaderKey ? this.convertToTitle(key) : key,
           valueAccessor: (x) =>
             x[key] instanceof Date
-              ? formatValue(x[key], valueFormat.monthYear)
+              ? ValueUtilities.formatValue(x[key], valueFormat.monthYear)
               : x[key],
         })
       );

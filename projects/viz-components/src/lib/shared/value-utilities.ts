@@ -1,4 +1,7 @@
+import { format, timeFormat } from 'd3';
+import { VicFormatSpecifier } from '../../public-api';
 import { VicValueExtent } from '../core/types/values';
+import { isDate } from '../core/utilities/type-guards';
 
 /**
  * @internal
@@ -163,5 +166,22 @@ export class ValueUtilities {
     }
     const round = valueExtent === VicValueExtent.max ? Math.ceil : Math.floor;
     return round(value / interval) * interval;
+  }
+
+  static formatValue<T>(
+    value: any,
+    formatSpecifier: VicFormatSpecifier<T>
+  ): string {
+    if (formatSpecifier && typeof formatSpecifier === 'function') {
+      return formatSpecifier(value);
+    } else if (value === null || value === undefined) {
+      return '';
+    } else if (formatSpecifier && typeof formatSpecifier === 'string') {
+      return isDate(value)
+        ? timeFormat(formatSpecifier)(value)
+        : format(formatSpecifier)(value);
+    } else {
+      return value.toString();
+    }
   }
 }

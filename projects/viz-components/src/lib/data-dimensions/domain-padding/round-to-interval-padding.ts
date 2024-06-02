@@ -1,4 +1,4 @@
-import { ValueUtilities } from '../../shared/value-utilities.class';
+import { ValueUtilities } from '../../shared/value-utilities';
 import {
   DomainPadding,
   PaddedDomainArguments,

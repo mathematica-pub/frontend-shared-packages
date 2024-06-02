@@ -42,7 +42,7 @@ describe('StackedAreaConfig', () => {
   beforeEach(() => {
     config = undefined;
   });
-  describe('setPropertiesFromData()', () => {
+  describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(
         VicStackedAreaConfig.prototype as any,

@@ -60,7 +60,7 @@ export interface VicDataMarksOptions<Datum> {
 export abstract class VicDataMarksConfig<Datum>
   implements VicDataMarksOptions<Datum>
 {
-  data: Datum[];
+  readonly data: Datum[];
   mixBlendMode: string;
   protected abstract initPropertiesFromData(): void;
 

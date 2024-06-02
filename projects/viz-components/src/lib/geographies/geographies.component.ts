@@ -15,7 +15,7 @@ import { isFunction, isPrimitiveType } from '../core/utilities/type-guards';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
-import { PatternUtilities } from '../shared/pattern-utilities.class';
+import { PatternUtilities } from '../shared/pattern-utilities';
 import { VicDataGeographies } from './config/dimensions/data-geographies';
 import { VicNoDataGeographies } from './config/dimensions/no-data-geographies';
 import { VicGeographiesLabels } from './config/geographies-labels';

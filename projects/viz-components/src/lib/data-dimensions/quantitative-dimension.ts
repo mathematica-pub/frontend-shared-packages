@@ -2,8 +2,8 @@ import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
 import { VicDataDimension, VicDataDimensionOptions } from './data-dimension';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
 
-const DEFAULT = {
-  domainIncludesZero: true,
+const DEFAULT: Partial<VicQuantitativeDimensionOptions<unknown>> = {
+  includeZeroInDomain: true,
   scaleFn: scaleLinear,
 };
 
@@ -22,7 +22,7 @@ export interface VicQuantitativeDimensionOptions<Datum>
   /**
    * The padding configuration for the dimension's domain.
    */
-  domainPadding: VicDomainPaddingConfig;
+  domainPadding?: VicDomainPaddingConfig;
   /**
    * The scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
    */
@@ -39,7 +39,7 @@ export class VicQuantitativeDimension<Datum>
   private calculatedDomain: [number, number];
   readonly domain: [number, number];
   domainIncludesZero: boolean;
-  readonly domainPadding: VicDomainPaddingConfig;
+  readonly domainPadding?: VicDomainPaddingConfig;
   readonly includeZeroInDomain: boolean;
   readonly scaleFn: (
     domain?: Iterable<number>,
@@ -51,7 +51,7 @@ export class VicQuantitativeDimension<Datum>
     super();
     Object.assign(this, options);
     this.includeZeroInDomain =
-      this.includeZeroInDomain ?? DEFAULT.domainIncludesZero;
+      this.includeZeroInDomain ?? DEFAULT.includeZeroInDomain;
     this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn;
   }
 

@@ -1,5 +1,5 @@
 import { Geometry } from 'geojson';
-import { formatValue } from '../core/utilities/value-format';
+import { ValueUtilities } from '../shared/value-utilities';
 import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesComponent } from './geographies.component';
 
@@ -36,7 +36,7 @@ export function getGeographiesTooltipData<
     datum,
     geography:
       component.config.dataGeographies.attributeData.geoAccessor(datum),
-    attributeValue: formatValue(
+    attributeValue: ValueUtilities.formatValue(
       value,
       component.config.dataGeographies.attributeData.valueFormat
     ),

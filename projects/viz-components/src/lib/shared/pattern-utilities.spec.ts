@@ -1,5 +1,5 @@
 import { VicFillPattern } from '../data-dimensions/fill-pattern';
-import { PatternUtilities } from './pattern-utilities.class';
+import { PatternUtilities } from './pattern-utilities';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {

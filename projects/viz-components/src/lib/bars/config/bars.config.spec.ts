@@ -12,7 +12,7 @@ import {
   vicQuantitativeDimension,
 } from '../../data-dimensions/quantitative-dimension';
 import { HORIZONTAL_BARS_DIMENSIONS } from './bars-dimensions';
-import { VicBarsConfig } from './bars.config';
+import { VicBarsConfig, vicHorizontalBars } from './bars.config';
 
 type Datum = { value: number; state: string };
 const data = [
@@ -24,7 +24,7 @@ const data = [
   { value: 6, state: 'CO' },
 ];
 function getNewConfig(): VicBarsConfig<Datum, string> {
-  return new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+  return vicHorizontalBars<Datum, string>({
     data,
     quantitative: vicQuantitativeDimension<Datum>({
       valueAccessor: (d) => d.value,
@@ -46,7 +46,7 @@ describe('BarsConfig', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'setDimensionPropertiesFromData');
       spyOn(VicBarsConfig.prototype as any, 'setValueIndicies');
-      spyOn(VicBarsConfig.prototype as any, 'setHasBarsWithNegativeValues');
+      spyOn(VicBarsConfig.prototype as any, 'setHasNegativeValues');
       spyOn(VicBarsConfig.prototype as any, 'setBarsKeyFunction');
       config = getNewConfig();
     });
@@ -58,10 +58,8 @@ describe('BarsConfig', () => {
     it('calls setValueIndicies once', () => {
       expect((config as any).setValueIndicies).toHaveBeenCalledTimes(1);
     });
-    it('calls setHasBarsWithNegativeValues once', () => {
-      expect(
-        (config as any).setHasBarsWithNegativeValues
-      ).toHaveBeenCalledTimes(1);
+    it('calls setHasNegativeValues once', () => {
+      expect((config as any).setHasNegativeValues).toHaveBeenCalledTimes(1);
     });
     it('calls setBarsKeyFunction once', () => {
       expect((config as any).setBarsKeyFunction).toHaveBeenCalledTimes(1);
@@ -123,20 +121,20 @@ describe('BarsConfig', () => {
     });
   });
 
-  describe('setHasBarsWithNegativeValues()', () => {
+  describe('setHasNegativeValues()', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
       config = getNewConfig();
     });
     it('returns false if all values are positive', () => {
       config.quantitative.values = [1, 2, 3, 4, 5];
-      (config as any).setHasBarsWithNegativeValues();
-      expect(config.hasBarsWithNegativeValues).toBeFalse();
+      (config as any).setHasNegativeValues();
+      expect(config.hasNegativeValues).toBeFalse();
     });
     it('returns true if any values are negative', () => {
       config.quantitative.values = [1, 2, -3, 4, 5];
-      (config as any).setHasBarsWithNegativeValues();
-      expect(config.hasBarsWithNegativeValues).toBeTrue();
+      (config as any).setHasNegativeValues();
+      expect(config.hasNegativeValues).toBeTrue();
     });
   });
 });

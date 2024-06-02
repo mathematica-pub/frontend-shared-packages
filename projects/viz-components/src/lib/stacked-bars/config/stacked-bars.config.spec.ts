@@ -42,10 +42,7 @@ describe('StackedBarsConfig', () => {
         'setDimensionPropertiesFromData'
       );
       spyOn(VicStackedBarsConfig.prototype as any, 'setValueIndicies');
-      spyOn(
-        VicStackedBarsConfig.prototype as any,
-        'setHasBarsWithNegativeValues'
-      );
+      spyOn(VicStackedBarsConfig.prototype as any, 'setHasNegativeValues');
       spyOn(VicStackedBarsConfig.prototype as any, 'constructStackedData');
       spyOn(
         VicStackedBarsConfig.prototype as any,
@@ -61,10 +58,8 @@ describe('StackedBarsConfig', () => {
     it('calls setValueIndicies once', () => {
       expect((config as any).setValueIndicies).toHaveBeenCalledTimes(1);
     });
-    it('calls setHasBarsWithNegativeValues once', () => {
-      expect(
-        (config as any).setHasBarsWithNegativeValues
-      ).toHaveBeenCalledTimes(1);
+    it('calls setHasNegativeValues once', () => {
+      expect((config as any).setHasNegativeValues).toHaveBeenCalledTimes(1);
     });
     it('calls constructStackedData once', () => {
       expect((config as any).constructStackedData).toHaveBeenCalledTimes(1);

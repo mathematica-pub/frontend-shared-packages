@@ -1,5 +1,5 @@
 import { VicDataValue } from '../core/types/values';
-import { formatValue } from '../core/utilities/value-format';
+import { ValueUtilities } from '../shared/value-utilities';
 import { StackedAreaComponent } from './stacked-area.component';
 
 export interface VicStackedAreaEventOutput<
@@ -39,11 +39,11 @@ export function getStackedAreaTooltipData<
     );
     return {
       datum: originalDatum,
-      x: formatValue(
+      x: ValueUtilities.formatValue(
         stackedArea.config.x.valueAccessor(originalDatum),
         stackedArea.config.x.valueFormat
       ),
-      y: formatValue(
+      y: ValueUtilities.formatValue(
         stackedArea.config.y.valueAccessor(originalDatum),
         stackedArea.config.y.valueFormat
       ),

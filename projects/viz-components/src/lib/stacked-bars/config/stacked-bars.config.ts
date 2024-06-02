@@ -68,7 +68,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     if (this.stackOffset !== undefined && this.stackOrder !== undefined) {
       this.setDimensionPropertiesFromData();
       this.setValueIndicies();
-      this.setHasBarsWithNegativeValues();
+      this.setHasNegativeValues();
       this.constructStackedData();
       this.initQuantitativeDomainFromStack();
     }
