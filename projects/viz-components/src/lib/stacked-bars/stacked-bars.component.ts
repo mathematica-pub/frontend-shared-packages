@@ -92,6 +92,7 @@ export class StackedBarsComponent<
 
   getStackElementWidth(datum: VicStackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.x as any).bandwidth();
     } else {
       return Math.abs(this.scales.x(datum[0]) - this.scales.x(datum[1]));
@@ -102,6 +103,7 @@ export class StackedBarsComponent<
     if (this.config.dimensions.ordinal === 'x') {
       return Math.abs(this.scales.y(datum[0]) - this.scales.y(datum[1]));
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.y as any).bandwidth();
     }
   }
