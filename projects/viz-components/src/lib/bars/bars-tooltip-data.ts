@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { VicDataValue } from '../core/types/values';
-import { formatValue } from '../core/utilities/value-format';
+import { ValueUtilities } from '../shared/value-utilities';
 import { BarsComponent } from './bars.component';
 
 export interface VicBarsTooltipOutput<
@@ -36,9 +36,9 @@ export function getBarsTooltipData<Datum, TOrdinalValue extends VicDataValue>(
 
   const tooltipData: VicBarsTooltipOutput<Datum, TOrdinalValue> = {
     datum,
-    color: bars.getBarColor(barIndex),
+    color: bars.getBarColor(bars.getBarDatumFromIndex(barIndex)),
     ordinal: bars.config.ordinal.valueAccessor(datum),
-    quantitative: formatValue(
+    quantitative: ValueUtilities.formatValue(
       bars.config.quantitative.valueAccessor(datum),
       bars.config.quantitative.valueFormat
     ),

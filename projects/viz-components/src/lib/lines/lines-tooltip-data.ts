@@ -1,4 +1,4 @@
-import { formatValue } from '../core/utilities/value-format';
+import { ValueUtilities } from '../shared/value-utilities';
 import { LinesComponent } from './lines.component';
 
 export interface VicLinesEventOutput<Datum> {
@@ -23,11 +23,11 @@ export function getLinesTooltipDataFromDatum<Datum>(
   );
   return {
     datum,
-    x: formatValue(
+    x: ValueUtilities.formatValue(
       lines.config.x.valueAccessor(datum),
       lines.config.x.valueFormat
     ),
-    y: formatValue(
+    y: ValueUtilities.formatValue(
       lines.config.y.valueAccessor(datum),
       lines.config.y.valueFormat
     ),

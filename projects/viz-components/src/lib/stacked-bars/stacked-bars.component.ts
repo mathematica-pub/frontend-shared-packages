@@ -27,8 +27,7 @@ export class StackedBarsComponent<
   Datum,
   TOrdinalValue extends VicDataValue
 > extends BarsComponent<Datum, TOrdinalValue> {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
+  @Input() override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
 
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)

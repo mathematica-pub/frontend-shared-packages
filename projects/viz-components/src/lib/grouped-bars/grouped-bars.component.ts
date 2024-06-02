@@ -5,7 +5,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { scaleBand } from 'd3';
-import { BarsComponent } from '../bars/bars.component';
+import { BarDatum, BarsComponent } from '../bars/bars.component';
 import { VicDataValue } from '../core/types/values';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
 import { VicGroupedBarsConfig } from './config/grouped-bars.config';
@@ -46,34 +46,28 @@ export class GroupedBarsComponent<
     }
   }
 
-  override getBarColor(i: number): string {
-    return this.scales.categorical(this.config.categorical.values[i]);
+  override getBarColor(d: BarDatum<TOrdinalValue>): string {
+    return this.scales.categorical(d.categorical);
   }
 
-  override getBarXOrdinal(i: number): number {
-    return (
-      this.scales.x(this.config.ordinal.values[i]) +
-      this.groupScale(this.config.categorical.values[i])
-    );
+  override getBarXOrdinal(d: BarDatum<TOrdinalValue>): number {
+    return this.scales.x(d.ordinal) + this.groupScale(d.categorical);
   }
 
-  override getBarY(i: number): number {
+  override getBarY(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarYQuantitative(i);
+      return this.getBarYQuantitative(d);
     } else {
-      return this.getBarYOrdinal(i);
+      return this.getBarYOrdinal(d);
     }
   }
 
-  getBarYOrdinal(i: number): number {
-    return (
-      this.scales.y(this.config[this.config.dimensions.y].values[i]) +
-      this.groupScale(this.config.categorical.values[i])
-    );
+  override getBarYOrdinal(d: BarDatum<TOrdinalValue>): number {
+    return this.scales.y(d.ordinal) + this.groupScale(d.categorical);
   }
 
-  getBarYQuantitative(i: number): number {
-    return this.scales.y(this.config[this.config.dimensions.y].values[i]);
+  override getBarYQuantitative(d: BarDatum<TOrdinalValue>): number {
+    return this.scales.y(d.quantitative);
   }
 
   override getBarWidthOrdinal(): number {
