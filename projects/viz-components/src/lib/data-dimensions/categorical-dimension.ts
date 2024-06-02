@@ -5,6 +5,7 @@ import { VicFillPattern } from './fill-pattern';
 
 const DEFAULT = {
   range: schemeTableau10 as string[],
+  valueAccessor: (d, i) => i,
 };
 
 export interface VicCategoricalDimensionOptions<

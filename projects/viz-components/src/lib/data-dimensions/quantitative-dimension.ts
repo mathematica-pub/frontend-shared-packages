@@ -53,6 +53,9 @@ export class VicQuantitativeDimension<Datum>
     this.includeZeroInDomain =
       this.includeZeroInDomain ?? DEFAULT.includeZeroInDomain;
     this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn;
+    if (this.valueAccessor === undefined) {
+      throw new Error('A value accessor function is required.');
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {

@@ -31,6 +31,9 @@ export class VicDateDimension<Datum>
     super();
     Object.assign(this, options);
     this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn<number, number>;
+    if (this.valueAccessor === undefined) {
+      throw new Error('A value accessor function is required.');
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {
