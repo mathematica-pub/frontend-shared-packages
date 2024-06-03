@@ -56,10 +56,6 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
   line: (x: any[]) => any;
-  // linesD3Data;
-  // linesKeyFunction;
-  // markersD3Data;
-  // markersKeyFunction;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
 
