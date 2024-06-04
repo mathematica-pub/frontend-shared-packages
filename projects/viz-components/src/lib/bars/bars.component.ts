@@ -235,7 +235,9 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
-    if (this.config.labels?.display) {
+    // Do not check if config.labels.display is defined here because labels
+    // may be drawn but not immediately displayed (e.g., revealed on hover).
+    if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
     this.updateBarElements();
@@ -313,6 +315,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
           enter
             .append<SVGTextElement>('text')
             .attr('class', 'vic-bar-label')
+            .style('display', this.config.labels.display ? null : 'none')
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
             .attr('x', (i) => this.getBarLabelX(i))
