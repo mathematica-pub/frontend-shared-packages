@@ -455,7 +455,7 @@ const mountHorizontalBarComponent = (barsConfig: VicBarsConfig<any>): void => {
   cy.wait(100);
 };
 
-describe.only('it correctly positions the horizontal bar chart data labels', () => {
+describe('it correctly positions the horizontal bar chart data labels', () => {
   let barsConfig: VicBarsConfig<any>;
   beforeEach(() => {
     barsConfig = new VicBarsConfig();
