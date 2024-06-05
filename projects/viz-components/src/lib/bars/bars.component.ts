@@ -18,7 +18,6 @@ import {
   range,
   scaleOrdinal,
   select,
-  selectAll,
   Transition,
 } from 'd3';
 import { Selection } from 'd3-selection';
@@ -560,9 +559,9 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getLabelDomRect(i: number): DOMRect {
-    const selection = selectAll('.vic-bar-label').filter(
-      (_, j: number) => j === i
-    );
+    const selection = select(this.barsRef.nativeElement)
+      .selectAll('.vic-bar-label')
+      .filter((_, j: number) => j === i);
     return (selection.node() as Element).getBoundingClientRect();
   }
 
@@ -621,7 +620,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarLabelOrigin(i: number, isPositiveValue: boolean): number {
-    const selection = selectAll('.vic-bar').filter((_, j: number) => j === i);
+    const selection = select(this.barsRef.nativeElement)
+      .selectAll('.vic-bar')
+      .filter((_, j: number) => j === i);
+    console.log(selection);
     if (this.config.dimensions.ordinal === 'x') {
       return isPositiveValue ? 0 : parseFloat(selection.attr('height'));
     } else {
