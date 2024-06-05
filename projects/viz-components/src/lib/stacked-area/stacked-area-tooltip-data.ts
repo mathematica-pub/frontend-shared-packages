@@ -4,6 +4,9 @@ import { StackedAreaComponent } from './stacked-area.component';
 export interface VicStackedAreaEventOutput<Datum> {
   data: VicStackedAreaEventDatum<Datum>[];
   positionX: number;
+  categoryYMin: number;
+  categoryYMax: number;
+  hoveredDatum: VicStackedAreaEventDatum<Datum>;
   svgHeight?: number;
 }
 
@@ -17,6 +20,9 @@ export interface VicStackedAreaEventDatum<Datum> {
 
 export function getStackedAreaTooltipData<Datum>(
   closestXIndicies: number[],
+  categoryYMin: number,
+  categoryYMax: number,
+  categoryIndex: number,
   stackedArea: StackedAreaComponent<Datum>
 ): VicStackedAreaEventOutput<Datum> {
   const data = closestXIndicies.map((i) => {
@@ -49,9 +55,13 @@ export function getStackedAreaTooltipData<Datum>(
         stackedArea.config.categoryOrder.indexOf(b.category)
       );
     });
+    categoryIndex = closestXIndicies.length - categoryIndex;
   }
   return {
     data,
     positionX: stackedArea.scales.x(stackedArea.values.x[closestXIndicies[0]]),
+    categoryYMin: categoryYMin,
+    categoryYMax: categoryYMax,
+    hoveredDatum: data[categoryIndex],
   };
 }
