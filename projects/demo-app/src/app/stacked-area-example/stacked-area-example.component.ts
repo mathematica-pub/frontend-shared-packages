@@ -10,7 +10,15 @@ import {
   VicStackedAreaConfig,
   vicStackedArea,
 } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area.config';
-import { Observable, filter, map } from 'rxjs';
+import {
+  HoverMoveEventEffect,
+  StackedAreaHoverMoveDirective,
+  StackedAreaHoverMoveEmitTooltipData,
+  VicHtmlTooltipConfig,
+  VicHtmlTooltipOffsetFromOriginPosition,
+  VicStackedAreaEventOutput,
+} from 'projects/viz-components/src/public-api';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
@@ -18,6 +26,14 @@ interface ViewModel {
   dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<Date>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
+}
+
+class StackedAreaExampleTooltipConfig extends VicHtmlTooltipConfig {
+  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
+    super();
+    this.size.minWidth = 130;
+    Object.assign(this, config);
+  }
 }
 
 @Component({
@@ -34,6 +50,20 @@ export class StackedAreaExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-area-example';
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
+      new VicHtmlTooltipConfig(new StackedAreaExampleTooltipConfig())
+    );
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<
+    VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  > = new BehaviorSubject<VicStackedAreaEventOutput<IndustryUnemploymentDatum>>(
+    null
+  );
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverAndMoveEffects: HoverMoveEventEffect<
+    StackedAreaHoverMoveDirective<IndustryUnemploymentDatum>
+  >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 
   constructor(private dataService: DataService) {}
 
@@ -68,5 +98,34 @@ export class StackedAreaExampleComponent implements OnInit {
       xAxisConfig,
       yAxisConfig,
     };
+  }
+
+  updateTooltipForNewOutput(
+    data: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  ): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(
+    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  ): void {
+    this.tooltipData.next(output);
+  }
+
+  updateTooltipConfig(
+    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  ): void {
+    const config = new StackedAreaExampleTooltipConfig();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
+    if (output && output.hoveredDatum !== undefined) {
+      config.position.offsetX = output.positionX;
+      config.position.offsetY = output.categoryYMin - 5;
+      config.show = true;
+    } else {
+      config.show = false;
+      config.origin = undefined;
+    }
+    this.tooltipConfig.next(config);
   }
 }
