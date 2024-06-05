@@ -4,6 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
  */
 @Pipe({
   name: 'resizeChartHeight',
+  standalone: true,
 })
 export class ResizeChartHeightPipe implements PipeTransform {
   transform(divWidth: any, maxHeight: number, maxWidth: number): any {

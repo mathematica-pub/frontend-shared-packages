@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { VicColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
@@ -17,7 +18,6 @@ import {
   VicGeographiesConfig,
   VicNoDataGeographyConfig,
 } from 'projects/viz-components/src/lib/geographies/geographies.config';
-import { VicColorUtilities } from 'projects/viz-components/src/lib/shared/color-utilities.class';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,

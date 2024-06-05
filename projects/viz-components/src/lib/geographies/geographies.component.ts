@@ -20,11 +20,11 @@ import {
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
+import { PatternUtilities } from '../core/utilities/fill-patterns';
 import { isFunction, isPrimitiveType } from '../core/utilities/type-guard';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { MapDataMarksBase } from '../map-data-marks/map-data-marks-base';
-import { PatternUtilities } from '../shared/pattern-utilities.class';
 import { formatValue } from '../value-format/value-format';
 import { VicGeographiesFeature } from './geographies';
 import { VicGeographyLabelConfig } from './geographies-labels';

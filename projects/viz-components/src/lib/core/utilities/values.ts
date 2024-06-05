@@ -1,4 +1,4 @@
-import { VicValueExtent } from '../core/types/values';
+import { VicValueExtent } from '../types/values';
 
 /**
  * @internal

@@ -1,5 +1,5 @@
-import { VicPatternPredicate } from '../data-marks/data-marks.config';
-import { PatternUtilities } from './pattern-utilities.class';
+import { VicPatternPredicate } from '../../data-marks/data-marks.config';
+import { PatternUtilities } from './fill-patterns';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
