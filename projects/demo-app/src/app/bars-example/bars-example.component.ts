@@ -32,8 +32,6 @@ interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicOrdinalAxisConfig<string>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
-  // xAxisConfig: VicQuantitativeAxisConfig<number>;
-  // yAxisConfig: VicOrdinalAxisConfig<string>;
 }
 
 class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {

@@ -29,7 +29,6 @@ export interface PaddedDomainArguments {
   dimensionRange?: [number, number];
 }
 
-// test these classes with Cypress component tests
 export abstract class VicDomainPadding {
   abstract getPaddedValue(args: PaddedDomainArguments): number;
 
