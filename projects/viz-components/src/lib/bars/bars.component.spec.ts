@@ -414,8 +414,8 @@ describe('BarsComponent', () => {
       expect(component.drawBarLabels).toHaveBeenCalledOnceWith(100);
     });
 
-    it('does not call drawBarLabels if config.labels.display is falsey', () => {
-      component.config.labels.display = false;
+    it('does not call drawBarLabels if config.labels is falsey', () => {
+      component.config.labels = undefined;
       component.drawMarks();
       expect(component.drawBarLabels).not.toHaveBeenCalled();
     });
