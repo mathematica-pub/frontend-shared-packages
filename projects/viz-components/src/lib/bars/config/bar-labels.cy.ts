@@ -7,26 +7,26 @@ import {
   VicYOrdinalAxisModule,
   vicXQuantitativeAxis,
   vicYOrdinalAxis,
-} from '../../public-api';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis.config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis.config';
-import { vicXOrdinalAxis } from '../axes/x-ordinal/x-ordinal-axis.config';
-import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
-import { vicYQuantitativeAxis } from '../axes/y-quantitative-axis/y-quantitative-axis.config';
-import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
-import { VicChartModule } from '../chart/chart.module';
-import { vicCategoricalDimension } from '../data-dimensions/categorical-dimension';
-import { vicPixelDomainPadding } from '../data-dimensions/domain-padding/pixel-padding';
-import { vicOrdinalDimension } from '../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../data-dimensions/quantitative-dimension';
-import { VicXyChartModule } from '../xy-chart/xy-chart.module';
-import { VicBarsModule } from './bars.module';
-import { vicBarsLabels } from './config/bars-labels';
+} from '../../../public-api';
+import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
+import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
+import { vicXOrdinalAxis } from '../../axes/x-ordinal/x-ordinal-axis.config';
+import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
+import { vicYQuantitativeAxis } from '../../axes/y-quantitative-axis/y-quantitative-axis.config';
+import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
+import { VicChartModule } from '../../chart/chart.module';
+import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { vicPixelDomainPadding } from '../../data-dimensions/domain-padding/pixel-padding';
+import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
+import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
+import { VicBarsModule } from '../bars.module';
+import { vicBarsLabels } from './bars-labels';
 import {
   VicBarsConfig,
   vicHorizontalBars,
   vicVerticalBars,
-} from './config/bars.config';
+} from './bars.config';
 
 type Datum = { state: string; value: number };
 
