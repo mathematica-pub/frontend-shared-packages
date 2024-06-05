@@ -190,7 +190,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     barsConfig.quantitative.domainPadding.numPixels = -4;
   });
-  describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
+  describe('for bar data with positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithAllValueTypes;
       mountVerticalBarComponent(barsConfig);
@@ -213,7 +213,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         });
       });
     });
-    describe('when there is not enough vertical space between the bar and chart edge', () => {
+    describe('for values that do not leave sufficient space for the label between the bar end and chart edge', () => {
       it('places data label for negative value completely inside the bar at the bottom', () => {
         assertPositionOfBarAndDataLabel(
           0,
@@ -243,7 +243,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       });
     });
 
-    describe('when there is ample vertical space between the bar and the chart edge', () => {
+    describe('for values that leave sufficient space for the label between the bar end and chart edge', () => {
       it('places data label for negative value in between bar and the bottom chart edge', () => {
         assertPositionOfBarAndDataLabel(
           1,
@@ -279,7 +279,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       });
     });
 
-    describe('when the data label is for a zero or non-numeric value', () => {
+    describe('for zero or non-numeric values', () => {
       it('offsets data label above scales.y(0)', () => {
         assertPositionOfZeroAxisAndDataLabel(
           'y',
@@ -297,12 +297,12 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     });
   });
 
-  describe('for bar data that has negative, zero, and non-numeric values', () => {
+  describe('for bar data with negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithNegativeZeroAndNonnumericValues;
       mountVerticalBarComponent(barsConfig);
     });
-    it('offsets data label for zero and non-numerics value below scales.y(0)', () => {
+    it('offsets data labels for zero and non-numerics values below scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
@@ -318,12 +318,12 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     });
   });
 
-  describe('for bar data that has positive, zero, and non-numeric values', () => {
+  describe('for bar data with positive, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithPositiveZeroAndNonnumericValues;
       mountVerticalBarComponent(barsConfig);
     });
-    it('offsets data label for zero and non-numeric values above scales.y(0)', () => {
+    it('offsets data labels for zero and non-numeric values above scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
@@ -347,7 +347,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       valueType: 'non-numeric and zero',
     },
   ].forEach((item) => {
-    describe(`for bar data that only has ${item.valueType} values`, () => {
+    describe(`for bar data with only ${item.valueType} values`, () => {
       beforeEach(() => {
         barsConfig.data = item.data;
       });
@@ -469,7 +469,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     barsConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
     barsConfig.quantitative.domainPadding.numPixels = 4;
   });
-  describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
+  describe('for bar data with positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithAllValueTypes;
       mountHorizontalBarComponent(barsConfig);
@@ -494,7 +494,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       });
     });
 
-    describe('when there is not enough horizontal space between the bar and chart edge', () => {
+    describe('for values that do not leave sufficient space for the label between the bar end and chart edge', () => {
       it('places data label for negative value completely inside the bar to the left', () => {
         assertPositionOfBarAndDataLabel(
           0,
@@ -524,7 +524,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       });
     });
 
-    describe('when there is ample vertical space between the bar and the chart edge', () => {
+    describe('for values that leave sufficient space for the label between the bar end and chart edge', () => {
       it('places data label for negative value in between bar and the left chart edge', () => {
         assertPositionOfBarAndDataLabel(
           1,
@@ -560,7 +560,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       });
     });
 
-    describe('when the data label is for zero and non-numeric values', () => {
+    describe('for zero and non-numeric values', () => {
       it('offsets data label to the right of scales.x(0)', () => {
         assertPositionOfZeroAxisAndDataLabel(
           'x',
@@ -578,12 +578,12 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     });
   });
 
-  describe('for bar data that has negative, zero, and non-numeric values', () => {
+  describe('for bar data with negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithNegativeZeroAndNonnumericValues;
       mountHorizontalBarComponent(barsConfig);
     });
-    it('offsets data label for the non-numeric value to the left of scales.x(0)', () => {
+    it('offsets data labels for the non-numeric values to the left of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
@@ -599,12 +599,12 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     });
   });
 
-  describe('for bar data that has positive, zero, and non-numeric values', () => {
+  describe('for bar data with positive, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig.data = dataWithPositiveZeroAndNonnumericValues;
       mountHorizontalBarComponent(barsConfig);
     });
-    it('offsets data label for the non-numeric value to the right of scales.x(0)', () => {
+    it('offsets data labels for the non-numeric values to the right of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
@@ -628,7 +628,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       valueType: 'non-numeric and zero',
     },
   ].forEach((item) => {
-    describe(`for bar data that only has ${item.valueType} values`, () => {
+    describe(`for bar data with only ${item.valueType} values`, () => {
       beforeEach(() => {
         barsConfig.data = item.data;
       });
