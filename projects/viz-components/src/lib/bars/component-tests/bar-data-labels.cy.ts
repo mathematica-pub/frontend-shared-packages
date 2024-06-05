@@ -173,7 +173,6 @@ const mountVerticalBarComponent = (barsConfig: VicBarsConfig<any>): void => {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100);
 };
 
 describe('it correctly positions the vertical bar chart data labels', () => {
@@ -452,7 +451,6 @@ const mountHorizontalBarComponent = (barsConfig: VicBarsConfig<any>): void => {
       yOrdinalAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100);
 };
 
 describe('it correctly positions the horizontal bar chart data labels', () => {

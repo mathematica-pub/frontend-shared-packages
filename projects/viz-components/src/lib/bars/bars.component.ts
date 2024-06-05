@@ -623,7 +623,6 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     const selection = select(this.barsRef.nativeElement)
       .selectAll('.vic-bar')
       .filter((_, j: number) => j === i);
-    console.log(selection);
     if (this.config.dimensions.ordinal === 'x') {
       return isPositiveValue ? 0 : parseFloat(selection.attr('height'));
     } else {
