@@ -10,7 +10,7 @@ export interface VicStackedAreaEventOutput<
   positionX: number;
   categoryYMin: number;
   categoryYMax: number;
-  hoveredDatum: VicStackedAreaEventDatum<Datum>;
+  hoveredDatum: VicStackedAreaEventDatum<Datum, TCategoricalValue>;
   svgHeight?: number;
 }
 

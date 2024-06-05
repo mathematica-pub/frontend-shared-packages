@@ -18,7 +18,10 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 export class StackedAreaHoverMoveDirective<
   Datum,
   TCategoricalValue extends VicDataValue,
-  TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue>
+  TStackedAreaComponent extends StackedAreaComponent<
+    Datum,
+    TCategoricalValue
+  > = StackedAreaComponent<Datum, TCategoricalValue>
 > extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
   effects: HoverMoveEventEffect<
@@ -114,7 +117,7 @@ export class StackedAreaHoverMoveDirective<
   }
 
   setClosestDatumPosition(): void {
-    const dataAtXValue = this.stackedArea.series
+    const dataAtXValue = this.stackedArea.config.series
       .flatMap((strat) => strat)
       .filter((d) => this.closestXIndicies.includes(d.i));
     const coordinateData = dataAtXValue.map((d) => ({

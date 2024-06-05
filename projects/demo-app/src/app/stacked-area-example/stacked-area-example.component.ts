@@ -56,13 +56,13 @@ export class StackedAreaExampleComponent implements OnInit {
     );
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    VicStackedAreaEventOutput<IndustryUnemploymentDatum>
-  > = new BehaviorSubject<VicStackedAreaEventOutput<IndustryUnemploymentDatum>>(
-    null
-  );
+    VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+  > = new BehaviorSubject<
+    VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+  >(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveEffects: HoverMoveEventEffect<
-    StackedAreaHoverMoveDirective<IndustryUnemploymentDatum>
+    StackedAreaHoverMoveDirective<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 
   constructor(private dataService: DataService) {}
@@ -101,20 +101,20 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+    data: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
   updateTooltipData(
-    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     this.tooltipData.next(output);
   }
 
   updateTooltipConfig(
-    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     const config = new StackedAreaExampleTooltipConfig();
     config.position = new VicHtmlTooltipOffsetFromOriginPosition();
