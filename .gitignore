@@ -11,6 +11,7 @@
 /node_modules
 npm-debug.log
 yarn-error.log
+/projects/*/node_modules
 
 # Automated Documentation
 /documentation
