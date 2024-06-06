@@ -210,7 +210,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       mountVerticalBarComponent(barsConfig);
     });
     it('centers all data labels with respect to their x-axis tick', () => {
-      runAssertionBeforeAndAfterWindowResize(() =>
+      checkPositionBeforeAndAfterWindowResize(() =>
         cy.get('.vic-x.vic-axis-g .tick line').then((ticks) => {
           ticks.each((i, $tick) => {
             cy.get('.vic-bar-label')
@@ -490,7 +490,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       mountHorizontalBarComponent(barsConfig);
     });
     it('centers all data labels with respect to their y-axis tick', () => {
-      runAssertionBeforeAndAfterWindowResize(() =>
+      checkPositionBeforeAndAfterWindowResize(() =>
         cy.get('.vic-y.vic-axis-g .tick line').then((ticks) => {
           const reversedTicks = Array.from(ticks).reverse();
           reversedTicks.forEach((tick, i) => {
