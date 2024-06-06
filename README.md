@@ -13,7 +13,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 1.  set your aws credentials (found in `~/.aws/credentials`)
 2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi`
-3.  `npm i @hsi/[PACKAGE_NAME_HERE]`
+3.  `npm i @hsi/viz-components`
 4.  Once the package is installed, you can use it like any normal third party package
 
 ## Example Projects

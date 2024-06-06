@@ -42,4 +42,20 @@ describe('getContrastRatio', () => {
       ) / 100
     ).toEqual(8.59);
   });
+  it('works with mixed values - one named color and one hex', () => {
+    expect(
+      Math.floor(VicColorUtilities.getContrastRatio('blue', '#FFFFFF') * 100) /
+        100
+    ).toEqual(8.59);
+  });
+  it('works with mixed values - one hsl color and one rgb', () => {
+    expect(
+      Math.floor(
+        VicColorUtilities.getContrastRatio(
+          'hsl(240, 100%, 50%)',
+          'rgb(255, 255, 255)'
+        ) * 100
+      ) / 100
+    ).toEqual(8.59);
+  });
 });
