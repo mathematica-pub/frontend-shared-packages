@@ -1566,6 +1566,43 @@ describe('BarsComponent', () => {
     });
   });
 
+  describe('getBarLabelOrigin', () => {
+    beforeEach(() => {
+      spyOn(component, 'getBarHeightQuantitative').and.returnValue(10);
+      spyOn(component, 'getBarWidthQuantitative').and.returnValue(20);
+    });
+    describe('if x dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config = {
+          dimensions: {
+            ordinal: 'x',
+          },
+        } as any;
+      });
+      it('returns zero for positive values', () => {
+        expect(component.getBarLabelOrigin(1, true)).toBe(0);
+      });
+      it('returns the value from getBarHeightQuantitative for values that are not positive', () => {
+        expect(component.getBarLabelOrigin(1, false)).toBe(10);
+      });
+    });
+    describe('if y dimension is ordinal', () => {
+      beforeEach(() => {
+        component.config = {
+          dimensions: {
+            ordinal: 'y',
+          },
+        } as any;
+      });
+      it('returns the value from getBarWidthQuantitative for positive values', () => {
+        expect(component.getBarLabelOrigin(1, true)).toBe(20);
+      });
+      it('returns zero for values that are not positive', () => {
+        expect(component.getBarLabelOrigin(1, false)).toBe(0);
+      });
+    });
+  });
+
   describe('positionZeroOrNonnumericValueLabelInPositiveDirection', () => {
     let domainSpy: jasmine.Spy;
     beforeEach(() => {

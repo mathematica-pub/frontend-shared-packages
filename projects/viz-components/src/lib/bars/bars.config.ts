@@ -29,7 +29,7 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
     this.category.valueAccessor = () => undefined;
     this.quantitative.domainIncludesZero = true;
     this.category.valueAccessor = (d) => d;
-    this.category.colors = ['#778899']; // light slate gray
+    this.category.colors = ['lightslategray'];
     Object.assign(this, init);
   }
 }

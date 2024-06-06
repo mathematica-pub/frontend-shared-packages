@@ -620,13 +620,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarLabelOrigin(i: number, isPositiveValue: boolean): number {
-    const selection = select(this.barsRef.nativeElement)
-      .selectAll('.vic-bar')
-      .filter((_, j: number) => j === i);
     if (this.config.dimensions.ordinal === 'x') {
-      return isPositiveValue ? 0 : parseFloat(selection.attr('height'));
+      return isPositiveValue ? 0 : this.getBarHeightQuantitative(i);
     } else {
-      return isPositiveValue ? parseFloat(selection.attr('width')) : 0;
+      return isPositiveValue ? this.getBarWidthQuantitative(i) : 0;
     }
   }
 

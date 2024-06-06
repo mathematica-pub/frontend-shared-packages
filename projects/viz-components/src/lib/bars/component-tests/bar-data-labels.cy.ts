@@ -23,21 +23,21 @@ import {
 
 const dataWithAllValueTypes = [
   { state: 'Alabama', value: -10 },
-  { state: 'Alaska', value: -8 },
+  { state: 'Alaska', value: -5 },
   { state: 'Arizona', value: 10 },
-  { state: 'Arkansas', value: 8 },
+  { state: 'Arkansas', value: 5 },
   { state: 'California', value: null },
   { state: 'Colorado', value: 0 },
 ];
 const dataWithNegativeZeroAndNonnumericValues = [
   { state: 'Alabama', value: -10 },
-  { state: 'Alaska', value: -8 },
+  { state: 'Alaska', value: -5 },
   { state: 'Arizona', value: null },
   { state: 'Arkansas', value: 0 },
 ];
 const dataWithPositiveZeroAndNonnumericValues = [
   { state: 'Alabama', value: 10 },
-  { state: 'Alaska', value: 8 },
+  { state: 'Alaska', value: 5 },
   { state: 'Arizona', value: null },
   { state: 'Arkansas', value: 0 },
 ];
@@ -56,26 +56,29 @@ const dataWithZeroValues = [
   { state: 'Alaska', value: 0 },
   { state: 'California', value: 0 },
 ];
-const labelOffset = 6;
+const labelOffset = 4;
 const elementPositionDelta = 0.5;
-const darkTextColorRgb = 'rgb(0, 0, 0)';
-const lightTextColorRgb = 'rgb(255, 255, 255)';
+const defaultTextColorRgb = 'rgb(0, 0, 0)';
+const alternativeTextColorRgb = 'rgb(255, 255, 255)';
 
 const assertPositionOfBarAndDataLabel = (
   index: number,
   assertions: (barPosition: DOMRect, labelPosition: DOMRect) => void
 ): void => {
-  cy.get('.vic-bar')
-    .eq(index)
-    .then(($bar) => {
-      cy.get('.vic-bar-label')
-        .eq(index)
-        .then(($label) => {
-          const barPosition = $bar[0].getBoundingClientRect();
-          const labelPosition = $label[0].getBoundingClientRect();
-          assertions(barPosition, labelPosition);
-        });
-    });
+  const assertionFn = () => {
+    cy.get('.vic-bar')
+      .eq(index)
+      .then(($bar) => {
+        cy.get('.vic-bar-label')
+          .eq(index)
+          .then(($label) => {
+            const barPosition = $bar[0].getBoundingClientRect();
+            const labelPosition = $label[0].getBoundingClientRect();
+            assertions(barPosition, labelPosition);
+          });
+      });
+  };
+  checkPositionBeforeAndAfterWindowResize(assertionFn);
 };
 
 const assertPositionOfZeroAxisAndDataLabel = (
@@ -83,18 +86,30 @@ const assertPositionOfZeroAxisAndDataLabel = (
   assertions: (tickPosition: DOMRect, labelPosition: DOMRect) => void,
   indices?: number[]
 ): void => {
-  cy.get(`.vic-${axis}.vic-axis-g .tick text`)
-    .contains(/^0$/)
-    .siblings()
-    .then(($tick) => {
-      cy.get('.vic-bar-label').each(($label, i) => {
-        if (indices === undefined || indices.includes(i)) {
-          const tickPosition = $tick[0].getBoundingClientRect();
-          const labelPosition = $label[0].getBoundingClientRect();
-          assertions(tickPosition, labelPosition);
-        }
+  const assertionFn = () => {
+    cy.get(`.vic-${axis}.vic-axis-g .tick text`)
+      .contains(/^0$/)
+      .siblings()
+      .then(($tick) => {
+        cy.get('.vic-bar-label').each(($label, i) => {
+          if (indices === undefined || indices.includes(i)) {
+            const tickPosition = $tick[0].getBoundingClientRect();
+            const labelPosition = $label[0].getBoundingClientRect();
+            assertions(tickPosition, labelPosition);
+          }
+        });
       });
-    });
+  };
+  checkPositionBeforeAndAfterWindowResize(assertionFn);
+};
+
+const checkPositionBeforeAndAfterWindowResize = (assertions: () => void) => {
+  assertions();
+
+  // Resize window to check that label positioning is maintained
+  cy.viewport(300, 300);
+  cy.wait(250);
+  assertions();
 };
 
 const distanceBetweenElementAndDataLabelIsOffset = (distance: number) => {
@@ -124,7 +139,7 @@ const barLabelColorMatchesExpectedRgb = (
     <vic-xy-chart
       [margin]="margin"
       [height]="400"
-      [scaleChartWithContainerWidth]="{ width: true, height: false }"
+      [scaleChartWithContainerWidth]="{ width: true, height: true }"
     >
       <ng-container svg-elements>
         <svg:g
@@ -195,22 +210,24 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       mountVerticalBarComponent(barsConfig);
     });
     it('centers all data labels with respect to their x-axis tick', () => {
-      cy.get('.vic-x.vic-axis-g .tick line').then((ticks) => {
-        ticks.each((i, $tick) => {
-          cy.get('.vic-bar-label')
-            .eq(i)
-            .then(($label) => {
-              const labelPosition = $label[0].getBoundingClientRect();
-              const tickPosition = $tick.getBoundingClientRect();
-              expect(
-                labelPosition.width / 2 + labelPosition.left
-              ).to.be.closeTo(
-                tickPosition.width / 2 + tickPosition.left,
-                elementPositionDelta
-              );
-            });
-        });
-      });
+      runAssertionBeforeAndAfterWindowResize(() =>
+        cy.get('.vic-x.vic-axis-g .tick line').then((ticks) => {
+          ticks.each((i, $tick) => {
+            cy.get('.vic-bar-label')
+              .eq(i)
+              .then(($label) => {
+                const labelPosition = $label[0].getBoundingClientRect();
+                const tickPosition = $tick.getBoundingClientRect();
+                expect(
+                  labelPosition.width / 2 + labelPosition.left
+                ).to.be.closeTo(
+                  tickPosition.width / 2 + tickPosition.left,
+                  elementPositionDelta
+                );
+              });
+          });
+        })
+      );
     });
     describe('for values that do not leave sufficient space for the label between the bar end and chart edge', () => {
       it('places data label for negative value completely inside the bar at the bottom', () => {
@@ -237,8 +254,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           }
         );
       });
-      it('uses the lighter default text color (white) for the data labels color', () => {
-        barLabelColorMatchesExpectedRgb(lightTextColorRgb, [0, 2]);
+      it('uses the alternative text color (white) for the data labels color', () => {
+        barLabelColorMatchesExpectedRgb(alternativeTextColorRgb, [0, 2]);
       });
     });
 
@@ -273,8 +290,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           }
         );
       });
-      it('uses the darker default text color (black) for the data labels color', () => {
-        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [1, 3]);
+      it('uses the default text color (black) for the data labels color', () => {
+        barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [1, 3]);
       });
     });
 
@@ -290,8 +307,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           [4, 5]
         );
       });
-      it('uses the darker default text color (black) for the data label color', () => {
-        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [4, 5]);
+      it('uses the default text color (black) for the data label color', () => {
+        barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [4, 5]);
       });
     });
   });
@@ -312,8 +329,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         [2, 3]
       );
     });
-    it('uses the darker default text color (black) for the zero and non-numeric label color', () => {
-      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
+    it('uses the default text color (black) for the zero and non-numeric label color', () => {
+      barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [2, 3]);
     });
   });
 
@@ -333,8 +350,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         [2, 3]
       );
     });
-    it('uses the darker default text color (black) for the zero and non-numeric label color', () => {
-      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
+    it('uses the default text color (black) for the zero and non-numeric label color', () => {
+      barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [2, 3]);
     });
   });
 
@@ -365,8 +382,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
             }
           );
         });
-        it('uses the darker default text color (black) for the data labels color', () => {
-          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
+        it('uses the default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(defaultTextColorRgb);
         });
       });
       describe('when the domain maximum is not greater than 0', () => {
@@ -384,8 +401,8 @@ describe('it correctly positions the vertical bar chart data labels', () => {
             }
           );
         });
-        it('uses the darker default text color (black) for the data labels color', () => {
-          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
+        it('uses the default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(defaultTextColorRgb);
         });
       });
     });
@@ -473,23 +490,25 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       mountHorizontalBarComponent(barsConfig);
     });
     it('centers all data labels with respect to their y-axis tick', () => {
-      cy.get('.vic-y.vic-axis-g .tick line').then((ticks) => {
-        const reversedTicks = Array.from(ticks).reverse();
-        reversedTicks.forEach((tick, i) => {
-          cy.get('.vic-bar-label')
-            .eq(i)
-            .then(($label) => {
-              const labelPosition = $label[0].getBoundingClientRect();
-              const tickPosition = tick.getBoundingClientRect();
-              expect(
-                labelPosition.height / 2 + labelPosition.top
-              ).to.be.closeTo(
-                tickPosition.height / 2 + tickPosition.top,
-                elementPositionDelta
-              );
-            });
-        });
-      });
+      runAssertionBeforeAndAfterWindowResize(() =>
+        cy.get('.vic-y.vic-axis-g .tick line').then((ticks) => {
+          const reversedTicks = Array.from(ticks).reverse();
+          reversedTicks.forEach((tick, i) => {
+            cy.get('.vic-bar-label')
+              .eq(i)
+              .then(($label) => {
+                const labelPosition = $label[0].getBoundingClientRect();
+                const tickPosition = tick.getBoundingClientRect();
+                expect(
+                  labelPosition.height / 2 + labelPosition.top
+                ).to.be.closeTo(
+                  tickPosition.height / 2 + tickPosition.top,
+                  elementPositionDelta
+                );
+              });
+          });
+        })
+      );
     });
 
     describe('for values that do not leave sufficient space for the label between the bar end and chart edge', () => {
@@ -517,8 +536,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           }
         );
       });
-      it('uses the lighter default text color (white) for the data labels color', () => {
-        barLabelColorMatchesExpectedRgb(lightTextColorRgb, [0, 2]);
+      it('uses the alternative text color (white) for the data labels color', () => {
+        barLabelColorMatchesExpectedRgb(alternativeTextColorRgb, [0, 2]);
       });
     });
 
@@ -553,8 +572,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           }
         );
       });
-      it('uses the darker default text color (black) for the data labels color', () => {
-        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [1, 3]);
+      it('uses the default text color (black) for the data labels color', () => {
+        barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [1, 3]);
       });
     });
 
@@ -570,8 +589,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           [4, 5]
         );
       });
-      it('uses the darker default text color (black) for the data labels color', () => {
-        barLabelColorMatchesExpectedRgb(darkTextColorRgb, [4]);
+      it('uses the default text color (black) for the data labels color', () => {
+        barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [4]);
       });
     });
   });
@@ -592,8 +611,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         [2, 3]
       );
     });
-    it('uses the darker default text color (black) for the zero and non-numeric labels color', () => {
-      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
+    it('uses the default text color (black) for the zero and non-numeric labels color', () => {
+      barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [2, 3]);
     });
   });
 
@@ -613,8 +632,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         [2, 3]
       );
     });
-    it('uses the darker default text color (black) for the zero and non-numeric labels color', () => {
-      barLabelColorMatchesExpectedRgb(darkTextColorRgb, [2, 3]);
+    it('uses the default text color (black) for the zero and non-numeric labels color', () => {
+      barLabelColorMatchesExpectedRgb(defaultTextColorRgb, [2, 3]);
     });
   });
 
@@ -645,8 +664,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             }
           );
         });
-        it('uses the darker default text color (black) for the data labels color', () => {
-          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
+        it('uses the default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(defaultTextColorRgb);
         });
       });
       describe('when the domain maximum value is not greater than 0', () => {
@@ -664,8 +683,8 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             }
           );
         });
-        it('uses the darker default text color (black) for the data labels color', () => {
-          barLabelColorMatchesExpectedRgb(darkTextColorRgb);
+        it('uses the default text color (black) for the data labels color', () => {
+          barLabelColorMatchesExpectedRgb(defaultTextColorRgb);
         });
       });
     });
