@@ -8,12 +8,13 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
 import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 
 @Directive({
-  selector: '[vicLinesInputEffects]',
+  selector: '[vicStackedAreaInputEffects]',
 })
 export class StackedAreaInputEventDirective<
   Datum,
@@ -23,12 +24,13 @@ export class StackedAreaInputEventDirective<
   effects: InputEventEffect<
     StackedAreaInputEventDirective<Datum, ExtendedStackedAreaComponent>
   >[];
+  @Input('vicStackedAreaInputEvent$') override inputEvent$: Observable<unknown>;
   @Output('vicStackedAreaInputEventOutput') eventOutput =
     new EventEmitter<any>();
 
   constructor(
     destroyRef: DestroyRef,
-    @Inject(STACKED_AREA) public lines: ExtendedStackedAreaComponent
+    @Inject(STACKED_AREA) public areas: ExtendedStackedAreaComponent
   ) {
     super(destroyRef);
   }

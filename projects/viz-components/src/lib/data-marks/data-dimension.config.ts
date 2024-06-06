@@ -41,6 +41,7 @@ export class VicQuantitativeDimensionConfig<
   constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
     this.scaleFn = scaleLinear;
+    this.domainIncludesZero = true;
     Object.assign(this, init);
   }
 }
