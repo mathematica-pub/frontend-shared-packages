@@ -108,7 +108,7 @@ const checkPositionBeforeAndAfterWindowResize = (assertions: () => void) => {
 
   // Resize window to check that label positioning is maintained
   cy.viewport(300, 300);
-  cy.wait(250);
+  cy.wait(100);
   assertions();
 };
 
