@@ -22,7 +22,6 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
     super();
     this.dimensions = new VicVerticalBarsDimensionsConfig();
     this.ordinal.valueAccessor = (d, i) => i;
-    this.quantitative.domainIncludesZero = true;
     this.category.valueAccessor = (d) => d;
     this.category.colors = ['lightslategray'];
     Object.assign(this, init);

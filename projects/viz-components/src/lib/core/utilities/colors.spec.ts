@@ -16,4 +16,46 @@ describe('getContrastRatio', () => {
       ) / 100
     ).toEqual(2.76);
   });
+  it('works with rgb values', () => {
+    expect(
+      Math.floor(
+        VicColorUtilities.getContrastRatio(
+          'rgb(0, 0, 255)',
+          'rgb(255, 255, 255)'
+        ) * 100
+      ) / 100
+    ).toEqual(8.59);
+  });
+  it('works with named colors', () => {
+    expect(
+      Math.floor(VicColorUtilities.getContrastRatio('blue', 'white') * 100) /
+        100
+    ).toEqual(8.59);
+  });
+  it('works with hsl values', () => {
+    expect(
+      Math.floor(
+        VicColorUtilities.getContrastRatio(
+          'hsl(240, 100%, 50%)',
+          'hsl(0, 0%, 100%)'
+        ) * 100
+      ) / 100
+    ).toEqual(8.59);
+  });
+  it('works with mixed values - one named color and one hex', () => {
+    expect(
+      Math.floor(VicColorUtilities.getContrastRatio('blue', '#FFFFFF') * 100) /
+        100
+    ).toEqual(8.59);
+  });
+  it('works with mixed values - one hsl color and one rgb', () => {
+    expect(
+      Math.floor(
+        VicColorUtilities.getContrastRatio(
+          'hsl(240, 100%, 50%)',
+          'rgb(255, 255, 255)'
+        ) * 100
+      ) / 100
+    ).toEqual(8.59);
+  });
 });
