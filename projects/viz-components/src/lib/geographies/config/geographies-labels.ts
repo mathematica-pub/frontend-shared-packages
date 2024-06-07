@@ -22,6 +22,7 @@ export class VicGeographiesLabels<
    */
   display: (
     d: VicGeographiesFeature<TProperties, TGeometry>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...args: any
   ) => boolean;
   /**

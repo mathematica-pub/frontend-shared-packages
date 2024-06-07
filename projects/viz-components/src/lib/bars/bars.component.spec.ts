@@ -732,7 +732,7 @@ describe('BarsComponent', () => {
     });
     it('returns the correct value if value is not a number', () => {
       datum.quantitative = undefined;
-      component.config.labels.noValueFunction = (d) => 'nope';
+      component.config.labels.noValueFunction = () => 'nope';
       expect(component.getBarLabelText(datum)).toEqual('nope');
     });
     it('calls formatValue once with full datum if valueFormat is a function', () => {
@@ -1261,10 +1261,9 @@ describe('BarsComponent', () => {
 
   describe('getBarLabelPositionForNumericValue()', () => {
     let datum: BarDatum<string>;
-    let originSpy: jasmine.Spy;
     let fitsOutsideSpy: jasmine.Spy;
     beforeEach(() => {
-      originSpy = spyOn(component, 'getBarLabelOrigin').and.returnValue(50);
+      spyOn(component, 'getBarLabelOrigin').and.returnValue(50);
       fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
     });
     describe('bars are horizontal', () => {

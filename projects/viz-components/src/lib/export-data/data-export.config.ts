@@ -3,6 +3,7 @@ import { ValueUtilities } from '../shared/value-utilities';
 
 export class VicColumnConfig {
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueAccessor: (x: any) => any;
 
   constructor(options?: Partial<VicColumnConfig>) {

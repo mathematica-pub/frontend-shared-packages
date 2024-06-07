@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 @Directive()
 export abstract class InputEventDirective implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input('vicDataMarksInputEvent$') inputEvent$: Observable<any>;
   preventEffect = false;
 

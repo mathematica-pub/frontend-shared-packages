@@ -54,9 +54,13 @@ export class GeographiesComponent<
 > {
   projection: GeoProjection;
   path: GeoPath;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataGeographies$: Observable<any> = this.dataGeographies.asObservable();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
   constructor(public zone: NgZone, public elRef: ElementRef) {
@@ -114,6 +118,7 @@ export class GeographiesComponent<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawDataLayer(t: any): void {
     const dataLayers = select(this.elRef.nativeElement)
       .selectAll<
@@ -192,6 +197,7 @@ export class GeographiesComponent<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.elRef.nativeElement)
       .selectAll<
@@ -287,11 +293,12 @@ export class GeographiesComponent<
       | VicNoDataGeographies<Datum, TProperties, TGeometry>
       | VicDataGeographies<Datum, TProperties, TGeometry>
     >,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     t: any,
     labelsConfig: VicGeographiesLabels<Datum, TProperties, TGeometry>
   ): void {
     features
-      .filter((d, i) => labelsConfig.display(d))
+      .filter((d) => labelsConfig.display(d))
       .selectAll('.vic-geography-label')
       .remove();
 
@@ -334,6 +341,7 @@ export class GeographiesComponent<
               .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
               .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
               .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelColor(

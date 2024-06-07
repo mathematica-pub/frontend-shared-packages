@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ToArray<T> = T extends any[] ? T : T[];
 
 // https://stackoverflow.com/questions/49242232/constraining-type-in-typescript-generic-to-be-one-of-several-types

@@ -18,6 +18,7 @@ export function OrdinalAxisMixin<
   abstract class Mixin extends Base {
     @Input() override config: VicOrdinalAxisConfig<TickValue>;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {
       const tickFormat = this.config.tickFormat ?? undefined;
       this.axis = axisFunction(this.scale).tickSizeOuter(

@@ -31,7 +31,7 @@ describe('the XAxis mixin', () => {
     });
     it('calls getTranslateDistance once', () => {
       abstractClass.translate$
-        .subscribe((str) => {
+        .subscribe(() => {
           expect(abstractClass.getTranslateDistance).toHaveBeenCalledOnceWith(
             testRanges
           );

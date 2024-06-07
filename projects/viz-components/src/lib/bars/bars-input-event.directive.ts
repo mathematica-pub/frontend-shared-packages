@@ -30,7 +30,9 @@ export class BarsInputEventDirective<
   effects: InputEventEffect<
     BarsInputEventDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input('vicBarsInputEvent$') override inputEvent$: Observable<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Output('vicBarsInputEventOutput') eventOutput = new EventEmitter<any>();
 
   constructor(
@@ -40,6 +42,7 @@ export class BarsInputEventDirective<
     super(destroyRef);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleNewEvent(inputEvent: any): void {
     if (inputEvent) {
       this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));

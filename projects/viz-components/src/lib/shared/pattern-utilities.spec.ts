@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { VicFillPattern } from '../data-dimensions/fill-pattern';
 import { PatternUtilities } from './pattern-utilities';
 

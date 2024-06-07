@@ -203,6 +203,7 @@ export class GeographiesExampleComponent implements OnInit {
     return config;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getDataGeographiesFeatures(data: StateIncomeDatum[]): any {
     const statesInData = data.map((x) => x.state);
     return this.basemap.states.features.filter((x) =>

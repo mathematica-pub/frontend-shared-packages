@@ -32,12 +32,14 @@ export class StackedBarsComponent<
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll('g')
       .data(this.config.stackedData)
       .join('g')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr('fill', ([{ i }]: any) =>
         this.scales.categorical(this.config.categorical.values[i])
       )
@@ -54,6 +56,7 @@ export class StackedBarsComponent<
         (update) =>
           update.call((update) =>
             update
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .transition(t as any)
               .attr('x', (d) => this.getStackElementX(d))
               .attr('y', (d) => this.getStackElementY(d))
@@ -62,11 +65,13 @@ export class StackedBarsComponent<
           ),
         (exit) =>
           exit // fancy exit needs to be tested with actual/any data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .delay((_, i) => i * 20)
             .attr('y', this.scales.y(0))
             .attr('height', 0)
             .remove()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ) as any;
   }
 

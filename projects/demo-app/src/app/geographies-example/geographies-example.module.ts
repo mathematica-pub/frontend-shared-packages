@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { VicGeographiesModule } from 'projects/viz-components/src/lib/geographies/geographies.module';
 import { VicMapChartModule } from 'projects/viz-components/src/lib/map-chart/map-chart.module';
 import { VicMapLegendModule } from 'projects/viz-components/src/lib/map-legend/map-legend.module';
@@ -19,7 +18,6 @@ import { GeographiesExampleComponent } from './geographies-example.component';
     VicGeographiesModule,
     VicMapLegendModule,
     SharedModule,
-    MatSelectModule,
     VicHtmlTooltipModule,
     MatButtonToggleModule,
   ],

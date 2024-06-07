@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { XyAxis } from '../../axes/xy-axis';
 import { mixinYAxis } from '../../axes/y/y-axis';
 import { VicDataValue } from '../../core/types/values';

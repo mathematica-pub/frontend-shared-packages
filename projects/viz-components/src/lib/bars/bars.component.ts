@@ -106,6 +106,7 @@ export class BarsComponent<
   drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
@@ -121,6 +122,7 @@ export class BarsComponent<
             ),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('transform', (i) =>
               this.getBarGroupTransform(this.getBarDatumFromIndex(i))
@@ -142,6 +144,7 @@ export class BarsComponent<
             .attr('fill', (d) => this.getBarFill(d)),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
@@ -174,6 +177,7 @@ export class BarsComponent<
   drawBarLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
@@ -202,6 +206,7 @@ export class BarsComponent<
             ),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
