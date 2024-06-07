@@ -13,6 +13,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
   abstract class Mixin extends Base {
     defaultTickFormat = ',.1f';
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {
       const tickFormat = this.config.tickFormat || this.defaultTickFormat;
       this.axis = axisFunction(this.scale);
@@ -28,6 +29,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     setSpecifiedTickValues(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tickFormat: string | ((value: any) => string)
     ): void {
       const validTickValues = this.getValidTickValues();
@@ -52,6 +54,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     setUnspecifiedTickValues(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tickFormat: string | ((value: any) => string)
     ): void {
       const validNumTicks = this.getValidNumTicks(tickFormat);
@@ -65,6 +68,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     getValidNumTicks(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       tickFormat: string | ((value: any) => string)
     ): number | AxisTimeInterval {
       let numValidTicks = this.getNumTicks();

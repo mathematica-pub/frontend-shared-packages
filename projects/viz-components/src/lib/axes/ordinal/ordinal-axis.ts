@@ -13,6 +13,7 @@ export function OrdinalAxisMixin<T extends AbstractConstructor<XyAxis>>(
   abstract class Mixin extends Base {
     defaultTickSizeOuter = 0;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {
       const tickFormat = this.config.tickFormat ?? undefined;
       const tickSizeOuter =

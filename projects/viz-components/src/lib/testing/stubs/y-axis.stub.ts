@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { mixinYAxis } from '../../axes/y/y-axis';
 import { XyAxisStub } from './xy-axis.stub';
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
