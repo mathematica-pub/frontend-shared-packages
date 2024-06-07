@@ -22,3 +22,9 @@ pip install --upgrade pipenv
 Then run `pipenv install --dev` to install the dependencies.
 
 To generate documentation, run `npm run build:documentation`.
+
+## Adding dependencies to the library
+
+If you are going to add dependencies to the library (an external package such as D3), you should manually add the package and appropriate version to `projects/viz-components/package.json` as a **peer dependency**.
+
+**Do not install via the command line with npm install** as that will build node_modules inside viz components which will cause version conflicts.
