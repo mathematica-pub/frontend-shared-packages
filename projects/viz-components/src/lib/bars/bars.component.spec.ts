@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
 import { QuantitativeDomainUtilities } from '../../public-api';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
 import {
@@ -15,10 +14,8 @@ import {
 describe('BarsComponent', () => {
   let component: BarsComponent<any>;
   let fixture: ComponentFixture<BarsComponent<any>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [BarsComponent],
@@ -408,7 +405,7 @@ describe('BarsComponent', () => {
           valueFormat: ',.1f',
         },
         labels: {
-          noValueFunction: (d) => 'no value',
+          noValueFunction: () => 'no value',
         },
       } as any;
       component.values.x = [10000.1, 20000.2, 30000.3];
@@ -509,7 +506,7 @@ describe('BarsComponent', () => {
     });
     it('returns correct value when pattern is used', () => {
       component.config.patternPredicates = [
-        { patternName: 'pattern', predicate: (d: any) => true },
+        { patternName: 'pattern', predicate: () => true },
       ];
       const result = component.getBarPattern(0);
       expect(result).toEqual(`url(#pattern)`);

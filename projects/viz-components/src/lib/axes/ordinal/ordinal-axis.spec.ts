@@ -19,7 +19,7 @@ describe('the OrdinalAxis mixin', () => {
       tickSizeOuterSpy = jasmine
         .createSpy('tickSizeOuter')
         .and.returnValue('tick size' as any);
-      axisFunction = (scale: any) => {
+      axisFunction = () => {
         return {
           tickSizeOuter: tickSizeOuterSpy,
         };

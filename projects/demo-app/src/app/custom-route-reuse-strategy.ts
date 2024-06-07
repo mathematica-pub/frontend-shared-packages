@@ -1,7 +1,7 @@
 import {
-  RouteReuseStrategy,
   ActivatedRouteSnapshot,
   DetachedRouteHandle,
+  RouteReuseStrategy,
 } from '@angular/router';
 
 export class CustomRouteReuseStrategy implements RouteReuseStrategy {
@@ -18,6 +18,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
   }
   shouldReuseRoute(
     future: ActivatedRouteSnapshot,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     curr: ActivatedRouteSnapshot
   ): boolean {
     if (future.fragment !== null) return true;

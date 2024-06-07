@@ -391,7 +391,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   getBarWidth(i: number): number {
     let width;
     if (this.config.dimensions.ordinal === 'x') {
-      width = this.getBarWidthOrdinal(i);
+      width = this.getBarWidthOrdinal();
     } else {
       width = this.getBarWidthQuantitative(i);
     }
@@ -403,7 +403,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 
   getBarLabelX(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarWidthOrdinal(i) / 2;
+      return this.getBarWidthOrdinal() / 2;
     } else {
       let barWidth = this.getBarWidthQuantitative(i);
       if (!barWidth || isNaN(barWidth)) {
@@ -413,7 +413,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     }
   }
 
-  getBarWidthOrdinal(i: number): number {
+  getBarWidthOrdinal(): number {
     return (this.scales.x as any).bandwidth();
   }
 
@@ -435,7 +435,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarHeightQuantitative(i);
     } else {
-      return this.getBarHeightOrdinal(i);
+      return this.getBarHeightOrdinal();
     }
   }
 
@@ -447,11 +447,11 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       }
       return barHeight + this.config.labels.offset;
     } else {
-      return this.getBarHeightOrdinal(i) / 2;
+      return this.getBarHeightOrdinal() / 2;
     }
   }
 
-  getBarHeightOrdinal(i: number): number {
+  getBarHeightOrdinal(): number {
     return (this.scales.y as any).bandwidth();
   }
 
