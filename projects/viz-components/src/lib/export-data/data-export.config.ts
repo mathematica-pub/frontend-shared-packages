@@ -2,6 +2,7 @@ import { formatValue, valueFormat } from '../value-format/value-format';
 
 export class VicColumnConfig {
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueAccessor: (x: any) => any;
 
   constructor(init?: Partial<VicColumnConfig>) {

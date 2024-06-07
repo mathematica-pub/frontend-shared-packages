@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,6 +23,7 @@ export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override userConfig: VicGroupedBarsConfig<Datum>;
   override config: VicGroupedBarsConfig<Datum>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupScale: any;
 
   override setValueIndicies(): void {
@@ -46,10 +48,12 @@ export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
     if (this.config.dimensions.ordinal === 'x') {
       this.groupScale = scaleBand(this.config.category.domain, [
         0,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
       this.groupScale = scaleBand(this.config.category.domain, [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.y as any).bandwidth(),
         0,
       ]).padding(this.config.intraGroupPadding);

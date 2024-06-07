@@ -1,7 +1,9 @@
 <app-component-demo [folderName]="folderName" class="bars-example">
   <span title>Bars</span>
   <ng-container demo *ngIf="vm$ | async as vm; else loading">
-    <button (click)="changeMargin()">change margin size dynamically</button>
+    <button mat-stroked-button (click)="changeMargin()"
+      >change margin size dynamically</button
+    >
     <vic-xy-chart
       [margin]="margin"
       [height]="800"

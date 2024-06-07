@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DataMarksBaseStub } from '../testing/stubs/data-marks-base.stub';

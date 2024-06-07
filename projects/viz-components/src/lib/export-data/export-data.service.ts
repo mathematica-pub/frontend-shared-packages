@@ -11,6 +11,7 @@ export class VicExportDataService {
       let csv: string;
 
       let csvData = cloneDeep(dataConfig.data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       csvData = csvData.map((datum: any) => {
         const returnObj = {};
         for (const column of dataConfig.columns) {
@@ -28,6 +29,7 @@ export class VicExportDataService {
       });
 
       if (dataConfig.flipped) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = csvData.reduce((acc: any, curr: any) => {
           for (const key in curr) {
             if (
@@ -52,6 +54,7 @@ export class VicExportDataService {
         csv = '';
         if (dataConfig.flippedHeaderKey) {
           csv += ',';
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           csv += csvData.reduce((acc: any, curr: any) => {
             if (acc !== '') {
               acc += `,${curr[dataConfig.flippedHeaderKey]}`;

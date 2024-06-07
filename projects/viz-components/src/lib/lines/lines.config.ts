@@ -43,6 +43,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    * Used, in conjunction with a check that the value is a number of a Date, with D3's
    *  [line.defined()]{@link https://github.com/d3/d3-shape#line_defined} method.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined?: (...args: any) => any;
 
   /**
@@ -51,6 +52,7 @@ export class VicLinesConfig<Datum> extends VicDataMarksConfig<Datum> {
    *
    * Default is [curveLinear]{@link https://github.com/d3/d3-shape#curveLinear}.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   curve: (x: any) => any;
 
   /**

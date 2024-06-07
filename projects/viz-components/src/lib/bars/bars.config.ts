@@ -32,6 +32,7 @@ export class VicBarsLabelsConfig<Datum> {
   display: boolean;
   offset: number;
   color?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   noValueFunction: (d: Datum, ...args: any) => string;
 
   constructor(init?: Partial<VicBarsLabelsConfig<Datum>>) {

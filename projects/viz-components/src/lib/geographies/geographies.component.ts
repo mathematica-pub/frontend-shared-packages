@@ -70,12 +70,18 @@ export class GeographiesComponent<
   Datum,
   VicGeographiesConfig<Datum, TProperties, TGeometry>
 > {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   projection: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   path: any;
   values: MapDataValues = new MapDataValues();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dataGeographies$: Observable<any> = this.dataGeographies.asObservable();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   noDataGeographies: BehaviorSubject<any> = new BehaviorSubject(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
   constructor(public zone: NgZone, public elRef: ElementRef) {
@@ -96,6 +102,7 @@ export class GeographiesComponent<
   }
 
   setValueArrays(): void {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const uniqueByGeoAccessor = (arr: any[], set = new Set()) =>
       arr.filter(
         (x) =>
@@ -274,6 +281,7 @@ export class GeographiesComponent<
     return numBins && numBins > 1 && colors.length !== numBins;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAttributeDataScale(): any {
     if (
       this.config.dataGeographyConfig.attributeDataConfig.binType ===
@@ -285,6 +293,7 @@ export class GeographiesComponent<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setColorScaleWithColorInterpolator(): any {
     return this.config.dataGeographyConfig.attributeDataConfig
       .colorScale()
@@ -296,6 +305,7 @@ export class GeographiesComponent<
       );
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setColorScaleWithoutColorInterpolator(): any {
     return this.config.dataGeographyConfig.attributeDataConfig
       .colorScale()
@@ -352,6 +362,7 @@ export class GeographiesComponent<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawDataLayer(t: any): void {
     const dataLayers = select(this.elRef.nativeElement)
       .selectAll<
@@ -424,6 +435,7 @@ export class GeographiesComponent<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawNoDataLayers(t: any): void {
     const noDataLayers = select(this.elRef.nativeElement)
       .selectAll<
@@ -520,6 +532,7 @@ export class GeographiesComponent<
       | VicNoDataGeographyConfig<Datum, TProperties, TGeometry>
       | VicDataGeographyConfig<Datum, TProperties, TGeometry>
     >,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     t: any,
     labelsConfig: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
   ): void {
@@ -567,6 +580,7 @@ export class GeographiesComponent<
               .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
               .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
               .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelColor(
