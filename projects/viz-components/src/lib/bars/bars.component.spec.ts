@@ -641,7 +641,7 @@ describe('BarsComponent', () => {
     describe('x dimension is ordinal', () => {
       it('calls getBarWidthOrdinal once with the correct value', () => {
         component.getBarWidth(100);
-        expect(component.getBarWidthOrdinal).toHaveBeenCalledOnceWith(100);
+        expect(component.getBarWidthOrdinal).toHaveBeenCalledOnceWith();
       });
 
       it('does not call getBarWidthQuantitative', () => {
@@ -714,7 +714,7 @@ describe('BarsComponent', () => {
     describe('x dimension is  ordinal', () => {
       it('calls getBarWidthOrdinal once with the correct value', () => {
         component.getBarLabelX(100);
-        expect(component.getBarWidthOrdinal).toHaveBeenCalledOnceWith(100);
+        expect(component.getBarWidthOrdinal).toHaveBeenCalledOnceWith();
       });
 
       it('returns the correct value', () => {
@@ -750,12 +750,12 @@ describe('BarsComponent', () => {
       } as any;
     });
     it('calls xScale.bandwidth once', () => {
-      component.getBarWidthOrdinal(2);
+      component.getBarWidthOrdinal();
       expect((component.scales.x as any).bandwidth).toHaveBeenCalledTimes(1);
     });
 
     it('returns the correct value', () => {
-      expect(component.getBarWidthOrdinal(2)).toEqual(10);
+      expect(component.getBarWidthOrdinal()).toEqual(10);
     });
   });
 
@@ -838,7 +838,7 @@ describe('BarsComponent', () => {
 
       it('calls getBarHeightOrdinal once with the correct value', () => {
         component.getBarHeight(100);
-        expect(component.getBarHeightOrdinal).toHaveBeenCalledOnceWith(100);
+        expect(component.getBarHeightOrdinal).toHaveBeenCalledOnceWith();
       });
 
       it('does not call getBarHeightQuantitative', () => {
@@ -890,7 +890,7 @@ describe('BarsComponent', () => {
       });
       it('calls getBarHeightOrdinal once with the correct value', () => {
         component.getBarLabelY(100);
-        expect(component.getBarHeightOrdinal).toHaveBeenCalledOnceWith(100);
+        expect(component.getBarHeightOrdinal).toHaveBeenCalledOnceWith();
       });
 
       it('returns the correct value', () => {
@@ -908,12 +908,12 @@ describe('BarsComponent', () => {
       } as any;
     });
     it('calls scales.y.bandwidth once', () => {
-      component.getBarHeightOrdinal(2);
+      component.getBarHeightOrdinal();
       expect((component.scales.y as any).bandwidth).toHaveBeenCalledTimes(1);
     });
 
     it('returns the correct value', () => {
-      expect(component.getBarHeightOrdinal(2)).toEqual(10);
+      expect(component.getBarHeightOrdinal()).toEqual(10);
     });
   });
 
