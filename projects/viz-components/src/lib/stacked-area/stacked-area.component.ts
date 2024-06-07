@@ -107,7 +107,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
     this.series = stack<any, InternMap<any, number>, any>()
       .keys(keys)
-      .value(([x, I]: any, category) => this.values.y[I.get(category)])
+      .value(([, I]: any, category) => this.values.y[I.get(category)])
       .order(this.config.stackOrderFunction)
       .offset(this.config.stackOffsetFunction)(rolledUpData as any)
       .map((s) =>

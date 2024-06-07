@@ -1,3 +1,3 @@
-export class DataMarksComponentCard {
+export interface DataMarksComponentCard {
   name: string;
 }

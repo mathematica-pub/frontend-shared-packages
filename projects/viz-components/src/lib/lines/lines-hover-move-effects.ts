@@ -102,7 +102,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
     directive.lines.markers.style('fill', null);
     directive.lines.markers.attr(
       'r',
-      (d) => directive.lines.config.pointMarkers.radius
+      () => directive.lines.config.pointMarkers.radius
     );
   }
 }

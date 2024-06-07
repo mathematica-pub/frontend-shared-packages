@@ -524,7 +524,7 @@ export class GeographiesComponent<
     labelsConfig: VicGeographyLabelConfig<Datum, TProperties, TGeometry>
   ): void {
     features
-      .filter((d, i) => labelsConfig.display(d))
+      .filter((d) => labelsConfig.display(d))
       .selectAll('.vic-geography-label')
       .remove();
 
