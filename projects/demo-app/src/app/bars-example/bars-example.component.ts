@@ -7,6 +7,7 @@ import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-to
 import { vicBarsLabels } from 'projects/viz-components/src/lib/bars/config/bars-labels';
 import {
   VicBarsConfig,
+  vicHorizontalBars,
   vicVerticalBars,
 } from 'projects/viz-components/src/lib/bars/config/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
@@ -22,16 +23,18 @@ import {
   BarsHoverMoveEmitTooltipData,
   vicOrdinalDimension,
   vicXOrdinalAxis,
+  vicXQuantitativeAxis,
+  vicYOrdinalAxis,
   vicYQuantitativeAxis,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
-  xAxisConfig: VicOrdinalAxisConfig<string>;
-  yAxisConfig: VicQuantitativeAxisConfig<number>;
+  xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
+  yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
 }
 
 class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
@@ -40,6 +43,11 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
     this.size.minWidth = 130;
     Object.assign(this, config);
   }
+}
+
+enum Orientation {
+  vertical = 'vertical',
+  horizontal = 'horizontal',
 }
 @Component({
   selector: 'app-bars-example',
@@ -70,25 +78,48 @@ export class BarsExampleComponent implements OnInit {
   hoverAndMoveEffects: HoverMoveEventEffect<
     BarsHoverMoveDirective<MetroUnemploymentDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
+  orientation: BehaviorSubject<keyof typeof Orientation> = new BehaviorSubject(
+    Orientation.horizontal as keyof typeof Orientation
+  );
+  orientation$ = this.orientation.asObservable();
+  Orientation = Orientation;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.vm$ = this.dataService.metroUnemploymentData$.pipe(
-      filter((x) => !!x),
-      map((x) => this.getViewModel(x))
+    const data$ = this.dataService.metroUnemploymentData$.pipe(
+      filter((x) => !!x)
+    );
+
+    this.vm$ = combineLatest([data$, this.orientation$]).pipe(
+      map(([data, orientation]) => this.getViewModel(data, orientation))
     );
   }
 
-  getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
+  getViewModel(
+    data: MetroUnemploymentDatum[],
+    orientation: keyof typeof Orientation
+  ): ViewModel {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
-    const xAxisConfig = vicXOrdinalAxis<number>();
-    const yAxisConfig = vicYQuantitativeAxis({
-      tickFormat: '.0f',
-    });
-    const dataConfig = vicVerticalBars<MetroUnemploymentDatum, string>({
+    const xAxisConfig =
+      orientation === Orientation.horizontal
+        ? vicXQuantitativeAxis<number>({
+            tickFormat: '.0f',
+          })
+        : vicXOrdinalAxis<string>();
+    const yAxisConfig =
+      orientation === Orientation.horizontal
+        ? vicYOrdinalAxis<string>()
+        : vicYQuantitativeAxis<number>({
+            tickFormat: '.0f',
+          });
+    const barsGenerator =
+      orientation === Orientation.horizontal
+        ? vicHorizontalBars
+        : vicVerticalBars;
+    const dataConfig = barsGenerator<MetroUnemploymentDatum, string>({
       data: filteredData,
       quantitative: vicQuantitativeDimension<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
@@ -99,7 +130,10 @@ export class BarsExampleComponent implements OnInit {
         range: ['slategray'],
       }),
       ordinal: vicOrdinalDimension<MetroUnemploymentDatum, string>({
-        valueAccessor: (d) => d.division,
+        valueAccessor: (d) => {
+          console.log(d);
+          return d.division;
+        },
       }),
       labels: vicBarsLabels({
         display: true,
@@ -157,5 +191,9 @@ export class BarsExampleComponent implements OnInit {
       bottom: 8,
       left: Math.random() * 500,
     };
+  }
+
+  updateOrientation(value: keyof typeof Orientation): void {
+    this.orientation.next(value);
   }
 }
