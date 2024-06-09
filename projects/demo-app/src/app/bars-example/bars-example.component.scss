@@ -5,6 +5,7 @@
 
 .bars-example {
   /* I think we should reconsider making the component-demo a 100% width flex column overall */
+  /* Overwriting it here locally for the time being */
   .component-demo {
     display: block;
     width: initial;
