@@ -6,8 +6,7 @@ export abstract class CalculatedRangeBinsAttributeDataDimension<
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, number, RangeValue> {
   protected calculatedNumBins: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly valueAccessor: (d: Datum, ...args: any) => number;
+  readonly valueAccessor: (d: Datum) => number;
 
   protected setRange(): void {
     if (this.shouldCalculateBinColors(this.calculatedNumBins, this.range)) {

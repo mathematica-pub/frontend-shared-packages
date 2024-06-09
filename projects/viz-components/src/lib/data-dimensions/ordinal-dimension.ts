@@ -24,6 +24,7 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
   implements VicOrdinalDimensionOptions<Datum, TOrdinalValue>
 {
   readonly align: number;
+  private _calculatedDomain: TOrdinalValue[];
   readonly domain: TOrdinalValue[];
   private internSetDomain: InternSet<TOrdinalValue>;
   readonly paddingInner: number;
@@ -34,6 +35,7 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
   ) => ScaleBand<TOrdinalValue>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
+  private reverseDomainForDisplay: boolean;
 
   constructor(
     options?: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>
@@ -47,18 +49,26 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
     this.valueAccessor = this.valueAccessor ?? DEFAULT.valueAccessor;
   }
 
-  setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
-    this.setValues(data);
-    this.setDomain(reverseDomain);
+  get calculatedDomain(): TOrdinalValue[] {
+    return this._calculatedDomain;
   }
 
-  protected setDomain(reverseDomain: boolean): void {
+  setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
+    this.reverseDomainForDisplay = reverseDomain;
+    this.setValues(data);
+    this.setDomain();
+  }
+
+  protected setDomain(): void {
     let domain = this.domain;
     if (domain === undefined) {
       domain = this.values;
     }
-    domain = reverseDomain ? domain.slice().reverse() : domain;
     this.internSetDomain = new InternSet(domain);
+    const uniqueValues = [...this.internSetDomain.values()];
+    this._calculatedDomain = this.reverseDomainForDisplay
+      ? uniqueValues.reverse()
+      : uniqueValues;
   }
 
   domainIncludes(value: TOrdinalValue): boolean {
@@ -67,7 +77,7 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
 
   getScaleFromRange(range: [number, number]) {
     return this.scaleFn()
-      .domain([...this.internSetDomain.values()])
+      .domain(this._calculatedDomain)
       .range(range)
       .paddingInner(this.paddingInner)
       .paddingOuter(this.paddingOuter)

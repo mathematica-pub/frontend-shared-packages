@@ -17,6 +17,7 @@ import {
   VicDataMarksConfig,
   VicDataMarksOptions,
 } from '../../data-marks/data-marks.config';
+import { VicGeographiesFeature } from '../geographies-feature';
 import { VicDataGeographies } from './dimensions/data-geographies';
 import { VicNoDataGeographies } from './dimensions/no-data-geographies';
 
@@ -46,6 +47,12 @@ export interface VicGeographiesOptions<
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
   dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
+  /**
+   * A function that derives an identifying string from the GeoJson feature.
+   */
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
@@ -81,6 +88,9 @@ export class VicGeographiesConfig<
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   readonly dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
   readonly noDataGeographies: VicNoDataGeographies<
     Datum,
     TProperties,
@@ -101,6 +111,12 @@ export class VicGeographiesConfig<
   protected initPropertiesFromData(): void {
     const uniqueDatums = this.getUniqueDatumsByGeoAccessor();
     this.dataGeographies.attributeData.setPropertiesFromData(uniqueDatums);
+    this.noDataGeographies.forEach((config) => {
+      const featureIndicies = config.geographies.map((g) => {
+        return this.featureIndexAccessor(g);
+      });
+      config.categorical.setPropertiesFromData(featureIndicies);
+    });
     this.setAttributeData(uniqueDatums);
   }
 

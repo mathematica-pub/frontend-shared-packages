@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicFillPattern } from '../../../data-dimensions/fill-pattern';
+import { VicCategoricalDimension } from '../../../data-dimensions/categorical-dimension';
 import { VicGeographiesFeature } from '../../geographies-feature';
 import {
   VicBaseDataGeographyConfig,
@@ -15,20 +15,22 @@ const DEFAULT = {
 export interface VicNoDataGeographiesOptions<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TCategoricalValue extends string = string
 > extends VicBaseDataGeographyOptions<Datum, TProperties, TGeometry> {
-  /**
-   * The pattern for noDataGeography. If provided, fill will be overridden.
-   */
-  fillPatterns: VicFillPattern<VicGeographiesFeature<TProperties, TGeometry>>[];
+  categorical: VicCategoricalDimension<
+    VicGeographiesFeature<TProperties, TGeometry>,
+    TCategoricalValue
+  >;
 }
 
 export class VicNoDataGeographies<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TCategoricalValue extends string = string
 > extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
-  fillPatterns: VicFillPattern<VicGeographiesFeature<TProperties, TGeometry>>[];
+  readonly categorical: VicCategoricalDimension<string, TCategoricalValue>;
 
   constructor(
     options?: Partial<
@@ -37,7 +39,6 @@ export class VicNoDataGeographies<
   ) {
     super();
     Object.assign(this, options);
-    this.fill = this.fill ?? DEFAULT.fill;
     this.strokeColor = this.strokeColor ?? DEFAULT.strokeColor;
     this.strokeWidth = this.strokeWidth ?? DEFAULT.strokeWidth;
   }

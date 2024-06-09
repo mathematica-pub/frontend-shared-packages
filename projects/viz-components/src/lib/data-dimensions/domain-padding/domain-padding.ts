@@ -34,7 +34,8 @@ export abstract class VicDomainPadding {
 
   getPaddedDomain(
     unpaddedDomain: [number, number],
-    scaleFn?: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    scaleFn: any,
     dimensionRange?: [number, number]
   ): [number, number] {
     const domainMinArgs: PaddedDomainArguments = {
@@ -74,6 +75,7 @@ export abstract class VicDomainPadding {
   protected getPaddedDomainForPositiveAndNegativeValues(
     domainMinArgs: PaddedDomainArguments,
     domainMaxArgs: PaddedDomainArguments,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
     ...args: any
   ): [number, number] {
     return [

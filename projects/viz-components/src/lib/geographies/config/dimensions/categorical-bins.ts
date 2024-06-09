@@ -30,7 +30,7 @@ export class VicCategoricalAttributeDataDimension<
   private calculatedDomain: string[];
   readonly domain: string[];
   override interpolator: never;
-  readonly valueAccessor: (d: Datum, ...args: any) => string;
+  readonly valueAccessor: (d: Datum) => string;
 
   constructor(
     options?: Partial<

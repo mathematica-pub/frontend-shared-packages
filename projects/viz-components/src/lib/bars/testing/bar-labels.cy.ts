@@ -3,8 +3,12 @@ import { Component, Input } from '@angular/core';
 import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
+  VicBarsConfig,
   VicXQuantitativeAxisModule,
   VicYOrdinalAxisModule,
+  vicBarsLabels,
+  vicHorizontalBars,
+  vicVerticalBars,
   vicXQuantitativeAxis,
   vicYOrdinalAxis,
 } from '../../../public-api';
@@ -21,12 +25,6 @@ import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
 import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { VicBarsModule } from '../bars.module';
-import { vicBarsLabels } from './bars-labels';
-import {
-  VicBarsConfig,
-  vicHorizontalBars,
-  vicVerticalBars,
-} from './bars.config';
 
 type Datum = { state: string; value: number };
 
@@ -124,7 +122,7 @@ const barLabelColorMatchesExpectedRgb = (
 };
 
 // ***********************************************************
-// Vertical bar chart component set up
+// Vertical bars chart component set up
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -152,14 +150,14 @@ const barLabelColorMatchesExpectedRgb = (
   `,
   styles: [],
 })
-class TestVerticalBarWithLabelsComponent {
+class TestVerticalBarsWithLabelsComponent {
   @Input() barsConfig: VicBarsConfig<Datum, string>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = { top: 20, right: 20, bottom: 0, left: 40 };
 }
 
-const mountVerticalBarComponent = (
+const mountVerticalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
   const xAxisConfig = vicXOrdinalAxis();
@@ -167,7 +165,7 @@ const mountVerticalBarComponent = (
     tickFormat: '.0f',
   });
 
-  const declarations = [TestVerticalBarWithLabelsComponent];
+  const declarations = [TestVerticalBarsWithLabelsComponent];
   const imports = [
     VicChartModule,
     VicBarsModule,
@@ -176,7 +174,7 @@ const mountVerticalBarComponent = (
     VicXyChartModule,
   ];
 
-  cy.mount(TestVerticalBarWithLabelsComponent, {
+  cy.mount(TestVerticalBarsWithLabelsComponent, {
     declarations,
     imports,
     componentProperties: {
@@ -212,7 +210,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           offset: labelOffset,
         }),
       });
-      mountVerticalBarComponent(barsConfig);
+      mountVerticalBarsComponent(barsConfig);
     });
     it('centers all data labels with respect to their x-axis tick', () => {
       cy.get('.vic-x.vic-axis-g .tick line').then((ticks) => {
@@ -338,7 +336,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           offset: labelOffset,
         }),
       });
-      mountVerticalBarComponent(barsConfig);
+      mountVerticalBarsComponent(barsConfig);
     });
     it('offsets data label for zero and non-numerics value below scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
@@ -378,7 +376,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           offset: labelOffset,
         }),
       });
-      mountVerticalBarComponent(barsConfig);
+      mountVerticalBarsComponent(barsConfig);
     });
     it('offsets data label for zero and non-numeric values above scales.y(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
@@ -428,7 +426,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               offset: labelOffset,
             }),
           });
-          mountVerticalBarComponent(barsConfig);
+          mountVerticalBarsComponent(barsConfig);
         });
         it('offsets data label above scales.y(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
@@ -467,7 +465,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               offset: labelOffset,
             }),
           });
-          mountVerticalBarComponent(barsConfig);
+          mountVerticalBarsComponent(barsConfig);
         });
         it('offsets data label below scales.y(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
@@ -492,7 +490,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: 'app-test-horizontal-bar-with-labels',
+  selector: 'app-test-horizontal-bars-with-labels',
   template: `
     <vic-xy-chart
       [margin]="margin"
@@ -516,14 +514,14 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   `,
   styles: [],
 })
-class TestHorizontalBarWithLabelsComponent {
+class TestHorizontalBarsWithLabelsComponent {
   @Input() barsConfig: VicBarsConfig<Datum, string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   margin = { top: 20, right: 20, bottom: 20, left: 60 };
 }
 
-const mountHorizontalBarComponent = (
+const mountHorizontalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
   const xAxisConfig = vicXQuantitativeAxis({
@@ -531,7 +529,7 @@ const mountHorizontalBarComponent = (
   });
   const yAxisConfig = vicYOrdinalAxis();
 
-  const declarations = [TestHorizontalBarWithLabelsComponent];
+  const declarations = [TestHorizontalBarsWithLabelsComponent];
   const imports = [
     VicChartModule,
     VicBarsModule,
@@ -540,7 +538,7 @@ const mountHorizontalBarComponent = (
     VicXyChartModule,
   ];
 
-  cy.mount(TestHorizontalBarWithLabelsComponent, {
+  cy.mount(TestHorizontalBarsWithLabelsComponent, {
     declarations,
     imports,
     componentProperties: {
@@ -576,7 +574,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           offset: labelOffset,
         }),
       });
-      mountHorizontalBarComponent(barsConfig);
+      mountHorizontalBarsComponent(barsConfig);
     });
     it('centers all data labels with respect to their y-axis tick', () => {
       cy.get('.vic-y.vic-axis-g .tick line').then((ticks) => {
@@ -703,7 +701,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           offset: labelOffset,
         }),
       });
-      mountHorizontalBarComponent(barsConfig);
+      mountHorizontalBarsComponent(barsConfig);
     });
     it('offsets data label for the non-numeric value to the left of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
@@ -743,7 +741,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           offset: labelOffset,
         }),
       });
-      mountHorizontalBarComponent(barsConfig);
+      mountHorizontalBarsComponent(barsConfig);
     });
     it('offsets data label for the non-numeric value to the right of scales.x(0)', () => {
       assertPositionOfZeroAxisAndDataLabel(
@@ -793,7 +791,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               offset: labelOffset,
             }),
           });
-          mountHorizontalBarComponent(barsConfig);
+          mountHorizontalBarsComponent(barsConfig);
         });
         it('offsets data label to the right of scales.x(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
@@ -832,7 +830,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               offset: labelOffset,
             }),
           });
-          mountHorizontalBarComponent(barsConfig);
+          mountHorizontalBarsComponent(barsConfig);
         });
         it('offsets data label to the left of scales.x(0)', () => {
           assertPositionOfZeroAxisAndDataLabel(
