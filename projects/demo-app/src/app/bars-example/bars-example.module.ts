@@ -8,6 +8,8 @@ import { VicXyBackgroundModule } from 'projects/viz-components/src/lib/xy-backgr
 import { VicXyChartModule } from 'projects/viz-components/src/lib/xy-chart/xy-chart.module';
 import {
   VicXOrdinalAxisModule,
+  VicXQuantitativeAxisModule,
+  VicYOrdinalAxisModule,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { SharedModule } from '../shared/shared.module';
@@ -25,6 +27,8 @@ import { BarsExampleComponent } from './bars-example.component';
     VicXyBackgroundModule,
     VicXOrdinalAxisModule,
     VicYQuantitativeAxisModule,
+    VicYOrdinalAxisModule,
+    VicXQuantitativeAxisModule,
     SharedModule,
     VicHtmlTooltipModule,
     MatButtonModule,

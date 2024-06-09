@@ -95,7 +95,9 @@ describe('BarsComponent', () => {
     describe('chart is horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
-        component.config.categorical.scale = 'categorical scale' as any;
+        spyOn(component.config.categorical, 'getScale').and.returnValue(
+          'categorical scale' as any
+        );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
           'ordinal scale' as any
         );
@@ -129,7 +131,9 @@ describe('BarsComponent', () => {
     describe('chart is vertical', () => {
       beforeEach(() => {
         component.config = verticalConfig();
-        component.config.categorical.scale = 'categorical scale' as any;
+        spyOn(component.config.categorical, 'getScale').and.returnValue(
+          'categorical scale' as any
+        );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
           'ordinal scale' as any
         );
@@ -237,7 +241,7 @@ describe('BarsComponent', () => {
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
       (component.config.categorical as any).fillPatterns = [
-        { name: 'pattern', predicate: (d) => true },
+        { name: 'pattern', usePattern: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
     });
@@ -678,13 +682,11 @@ describe('BarsComponent', () => {
     let datum: BarDatum<string>;
     const pattern = {
       name: 'pattern1',
-      predicate: (d) => d.fruit === 'avocado',
+      usePattern: (d) => d.fruit === 'avocado',
     };
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
-      spyOn(PatternUtilities, 'getPatternFill').and.returnValue(
-        'return-pattern'
-      );
+      spyOn(PatternUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
       (component.config.categorical as any).fillPatterns = [pattern];
@@ -1089,13 +1091,13 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarLabelQuantitativeAxisPosition once with datum', () => {
-        component.getBarLabelX(datum);
+        component.getBarLabelX(datum, 'node' as any);
         expect(
           component.getBarLabelQuantitativeAxisPosition
-        ).toHaveBeenCalledOnceWith(datum);
+        ).toHaveBeenCalledOnceWith(datum, 'node' as any);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelX(datum)).toEqual(50);
+        expect(component.getBarLabelX(datum, 'node' as any)).toEqual(50);
       });
     });
     describe('bars are vertical', () => {
@@ -1104,11 +1106,11 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarWidthOrdinal once', () => {
-        component.getBarLabelX(datum);
+        component.getBarLabelX(datum, 'node' as any);
         expect(component.getBarWidthOrdinal).toHaveBeenCalledTimes(1);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelX(datum)).toEqual(5);
+        expect(component.getBarLabelX(datum, 'node' as any)).toEqual(5);
       });
     });
   });
@@ -1127,11 +1129,11 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarHeightOrdinal once', () => {
-        component.getBarLabelY(datum);
+        component.getBarLabelY(datum, 'node' as any);
         expect(component.getBarHeightOrdinal).toHaveBeenCalledTimes(1);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelY(datum)).toEqual(5);
+        expect(component.getBarLabelY(datum, 'node' as any)).toEqual(5);
       });
     });
     describe('bars are vertical', () => {
@@ -1140,13 +1142,13 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
       });
       it('calls getBarLabelQuantitativeAxisPosition once with datum', () => {
-        component.getBarLabelY(datum);
+        component.getBarLabelY(datum, 'node' as any);
         expect(
           component.getBarLabelQuantitativeAxisPosition
-        ).toHaveBeenCalledOnceWith(datum);
+        ).toHaveBeenCalledOnceWith(datum, 'node' as any);
       });
       it('returns the correct value', () => {
-        expect(component.getBarLabelY(datum)).toEqual(50);
+        expect(component.getBarLabelY(datum, 'node' as any)).toEqual(50);
       });
     });
   });
@@ -1171,20 +1173,20 @@ describe('BarsComponent', () => {
         isZeroOrNonNumericSpy.and.returnValue(true);
       });
       it('calls isZeroOrNonNumeric once', () => {
-        component.getBarLabelQuantitativeAxisPosition(datum);
+        component.getBarLabelQuantitativeAxisPosition(datum, 'node' as any);
         expect(component.isZeroOrNonNumeric).toHaveBeenCalledTimes(1);
       });
       it('calls getBarLabelPositionForZeroOrNonnumericValue once if value is zero', () => {
         isZeroOrNonNumericSpy.and.returnValue(true);
-        component.getBarLabelQuantitativeAxisPosition(datum);
+        component.getBarLabelQuantitativeAxisPosition(datum, 'node' as any);
         expect(
           component.getBarLabelPositionForZeroOrNonnumericValue
         ).toHaveBeenCalledTimes(1);
       });
       it('returns the value from getBarLabelPositionForZeroOrNonnumericValue', () => {
-        expect(component.getBarLabelQuantitativeAxisPosition(datum)).toEqual(
-          10
-        );
+        expect(
+          component.getBarLabelQuantitativeAxisPosition(datum, 'node' as any)
+        ).toEqual(10);
       });
     });
     describe('quantitative value is numeric and not zero', () => {
@@ -1192,15 +1194,15 @@ describe('BarsComponent', () => {
         isZeroOrNonNumericSpy.and.returnValue(false);
       });
       it('calls getBarLabelPositionForNumericValue once', () => {
-        component.getBarLabelQuantitativeAxisPosition(datum);
+        component.getBarLabelQuantitativeAxisPosition(datum, 'node' as any);
         expect(
           component.getBarLabelPositionForNumericValue
-        ).toHaveBeenCalledTimes(1);
+        ).toHaveBeenCalledOnceWith(datum, 'node' as any);
       });
       it('returns the value from getBarLabelPositionForNumericValue', () => {
-        expect(component.getBarLabelQuantitativeAxisPosition(datum)).toEqual(
-          20
-        );
+        expect(
+          component.getBarLabelQuantitativeAxisPosition(datum, 'node' as any)
+        ).toEqual(20);
       });
     });
   });
@@ -1273,34 +1275,48 @@ describe('BarsComponent', () => {
         component.config.labels.offset = 20;
       });
       describe('quantitative value is positive', () => {
+        it('calls barLabelFitsOutsideBar once', () => {
+          component.getBarLabelPositionForNumericValue(datum, 'node' as any);
+          expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
+            'node' as any,
+            true
+          );
+        });
         it('returns the origin plus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(70);
         });
         it('returns the origin minus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(30);
         });
       });
       describe('quantitative value is negative', () => {
         beforeEach(() => {
           datum.quantitative = -1;
         });
+        it('calls barLabelFitsOutsideBar once', () => {
+          component.getBarLabelPositionForNumericValue(datum, 'node' as any);
+          expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
+            'node' as any,
+            false
+          );
+        });
         it('returns the origin minus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(30);
         });
         it('returns the origin plus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(70);
         });
       });
     });
@@ -1313,15 +1329,15 @@ describe('BarsComponent', () => {
       describe('quantitative value is positive', () => {
         it('returns the origin minus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(30);
         });
         it('returns the origin plus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(70);
         });
       });
       describe('quantitative value is negative', () => {
@@ -1330,15 +1346,15 @@ describe('BarsComponent', () => {
         });
         it('returns the origin plus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            70
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(70);
         });
         it('returns the origin minus the offset if the label fits inside the bar', () => {
           fitsOutsideSpy.and.returnValue(false);
-          expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
-            30
-          );
+          expect(
+            component.getBarLabelPositionForNumericValue(datum, 'node' as any)
+          ).toEqual(30);
         });
       });
     });

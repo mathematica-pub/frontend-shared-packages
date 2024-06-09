@@ -97,11 +97,11 @@ describe('BarsConfig', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
     });
-    it('returns the value indicies', () => {
+    it('returns the value indicies of datums with unique ordinal values', () => {
       config = getNewConfig();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
+      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4]);
     });
     it('sets valueIndicies to the correct array when ordinal domain is limited by user', () => {
       config = new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
