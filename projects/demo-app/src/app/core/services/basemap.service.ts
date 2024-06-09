@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import {
+  VicNoDataGeographies,
+  vicNoDataGeographies,
+} from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import { vicCategoricalDimension } from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
 import { StateIncomeDatum } from '../models/data';
@@ -49,13 +53,16 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    const outlineGeography = new VicNoDataGeographies<
+    this.usOutlineConfig = vicNoDataGeographies<
       StateIncomeDatum,
       MapGeometryProperties
-    >();
-    outlineGeography.geographies = this.us.features;
-    outlineGeography.strokeWidth = '1';
-    outlineGeography.strokeColor = colors.base;
-    this.usOutlineConfig = outlineGeography;
+    >({
+      geographies: this.us.features,
+      strokeColor: colors.base,
+      strokeWidth: '1',
+      categorical: vicCategoricalDimension({
+        range: ['none'],
+      }),
+    });
   }
 }

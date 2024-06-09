@@ -4,15 +4,15 @@ import { VicFillPattern } from '../data-dimensions/fill-pattern';
  * @internal
  */
 export class PatternUtilities {
-  static getPatternFill<Datum>(
+  static getFill<Datum>(
     datum: Datum,
     defaultColor: string,
-    predicates: VicFillPattern<Datum>[]
+    patterns: VicFillPattern<Datum>[]
   ): string {
-    if (predicates) {
-      predicates.forEach((predMapping: VicFillPattern<Datum>) => {
-        if (predMapping.predicate(datum)) {
-          defaultColor = `url(#${predMapping.name})`;
+    if (patterns) {
+      patterns.forEach((pattern: VicFillPattern<Datum>) => {
+        if (pattern.usePattern(datum)) {
+          defaultColor = `url(#${pattern.name})`;
         }
       });
     }

@@ -3,6 +3,7 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { valueFormat } from 'projects/viz-components/src/lib/core/utilities/value-format';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
 import { VicFillPattern } from 'projects/viz-components/src/lib/data-dimensions/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-types';
@@ -162,6 +163,7 @@ export class GeographiesExampleComponent implements OnInit {
     const config = vicGeographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
+      featureIndexAccessor: this.featureIndexAccessor,
       noDataGeographies: [this.basemap.usOutlineConfig, noDataStatesConfig],
       dataGeographies: this.getDataGeographiesConfig(data),
     });
@@ -179,7 +181,9 @@ export class GeographiesExampleComponent implements OnInit {
     return vicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: features,
       labels: labels,
-      fill: 'lightgray',
+      categorical: vicCategoricalDimension({
+        range: ['lightgray'],
+      }),
     });
   }
 
@@ -188,13 +192,12 @@ export class GeographiesExampleComponent implements OnInit {
   ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
     const config = vicDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: this.getDataGeographiesFeatures(data),
-      featureIndexAccessor: this.featureIndexAccessor,
       attributeData: this.getAttributeDataDimension({
         geoAccessor: (d) => d.state,
         fillPatterns: [
           {
             name: this.patternName,
-            predicate: (d) => !!d && d.population < 1000000,
+            usePattern: (d) => !!d && d.population < 1000000,
           },
         ],
       }),

@@ -159,15 +159,7 @@ export class GeographiesComponent<
             .attr('d', this.path)
             .attr('stroke', this.config.dataGeographies.strokeColor)
             .attr('stroke-width', this.config.dataGeographies.strokeWidth)
-            .attr('fill', (d) =>
-              this.config.dataGeographies.attributeData.fillPatterns
-                ? this.getPatternFill(
-                    this.config.dataGeographies.featureIndexAccessor(d)
-                  )
-                : this.getFill(
-                    this.config.dataGeographies.featureIndexAccessor(d)
-                  )
-            ),
+            .attr('fill', (d) => this.getAttributeDataFill(d)),
         (update) =>
           update.call((update) =>
             update
@@ -175,15 +167,7 @@ export class GeographiesComponent<
               .attr('stroke', this.config.dataGeographies.strokeColor)
               .attr('stroke-width', this.config.dataGeographies.strokeWidth)
               .transition(t)
-              .attr('fill', (d) =>
-                this.config.dataGeographies.attributeData.fillPatterns
-                  ? this.getPatternFill(
-                      this.config.dataGeographies.featureIndexAccessor(d)
-                    )
-                  : this.getFill(
-                      this.config.dataGeographies.featureIndexAccessor(d)
-                    )
-              )
+              .attr('fill', (d) => this.getAttributeDataFill(d))
           ),
         (exit) => exit.remove()
       );
@@ -241,15 +225,11 @@ export class GeographiesComponent<
               .attr('d', this.path)
               .attr('stroke', config.strokeColor)
               .attr('stroke-width', config.strokeWidth)
-              .attr('fill', (d) =>
-                this.getNoDataGeographyPatternFill(d, config)
-              ),
+              .attr('fill', (d) => this.getNoDataGeographyFill(d, config)),
           (update) =>
             update
               .attr('d', this.path)
-              .attr('fill', (d) =>
-                this.getNoDataGeographyPatternFill(d, config)
-              ),
+              .attr('fill', (d) => this.getNoDataGeographyFill(d, config)),
           (exit) => exit.remove()
         );
 
@@ -257,6 +237,15 @@ export class GeographiesComponent<
         this.drawLabels(noDataGeographyGroups, t, config.labels);
       }
     });
+  }
+
+  getAttributeDataFill(
+    geography: VicGeographiesFeature<TProperties, TGeometry>
+  ): string {
+    const geographyIndex = this.config.featureIndexAccessor(geography);
+    return this.config.dataGeographies.attributeData.fillPatterns
+      ? this.getPatternFill(geographyIndex)
+      : this.getFill(geographyIndex);
   }
 
   getFill(geographyIndex: string | number): string {
@@ -267,22 +256,24 @@ export class GeographiesComponent<
 
   getPatternFill(geographyIndex: string | number): string {
     const datum = this.config.values.datumsByGeographyIndex.get(geographyIndex);
-    const color = this.attributeDataScale(
-      this.config.values.attributeValuesByGeographyIndex.get(geographyIndex)
-    );
+    const color = this.getFill(geographyIndex);
     const predicates = this.config.dataGeographies.attributeData.fillPatterns;
-    return PatternUtilities.getPatternFill(datum, color, predicates);
+    return PatternUtilities.getFill(datum, color, predicates);
   }
 
-  getNoDataGeographyPatternFill(
+  getNoDataGeographyFill(
     geography: VicGeographiesFeature<TProperties, TGeometry>,
     config: VicNoDataGeographies<Datum, TProperties, TGeometry>
   ): string {
-    return PatternUtilities.getPatternFill(
-      geography,
-      config.fill,
-      config.fillPatterns
-    );
+    const featureIndex = this.config.featureIndexAccessor(geography);
+    const defaultFill = config.categorical.getScale()(featureIndex);
+    return config.categorical.fillPatterns
+      ? PatternUtilities.getFill(
+          featureIndex,
+          defaultFill,
+          config.categorical.fillPatterns
+        )
+      : defaultFill;
   }
 
   drawLabels(
@@ -324,13 +315,13 @@ export class GeographiesComponent<
             .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
             .attr('fill', (d) =>
               this.getLabelColor(
-                this.config.dataGeographies.featureIndexAccessor(d),
+                this.config.featureIndexAccessor(d),
                 labelsConfig
               )
             )
             .attr('font-weight', (d) =>
               this.getLabelFontWeight(
-                this.config.dataGeographies.featureIndexAccessor(d),
+                this.config.featureIndexAccessor(d),
                 labelsConfig
               )
             ),
@@ -345,13 +336,13 @@ export class GeographiesComponent<
               .transition(t as any)
               .attr('fill', (d) =>
                 this.getLabelColor(
-                  this.config.dataGeographies.featureIndexAccessor(d),
+                  this.config.featureIndexAccessor(d),
                   labelsConfig
                 )
               )
               .attr('font-weight', (d) =>
                 this.getLabelFontWeight(
-                  this.config.dataGeographies.featureIndexAccessor(d),
+                  this.config.featureIndexAccessor(d),
                   labelsConfig
                 )
               )

@@ -88,7 +88,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.categorical.scale;
+    const categorical = this.config.categorical.getScale();
     this.zone.run(() => {
       this.chart.updateScales({ x, y, categorical, useTransition });
     });
@@ -198,8 +198,8 @@ export class BarsComponent<
             .style('display', this.config.labels.display ? null : 'none')
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
-            .attr('x', (d) => this.getBarLabelX(d))
-            .attr('y', (d) => this.getBarLabelY(d))
+            .attr('x', (d, i, nodes) => this.getBarLabelX(d, nodes[i]))
+            .attr('y', (d, i, nodes) => this.getBarLabelY(d, nodes[i]))
             .attr('text-anchor', (d) => this.getBarLabelTextAnchor(d))
             .attr('dominant-baseline', (d) =>
               this.getBarLabelDominantBaseline(d)
@@ -210,8 +210,8 @@ export class BarsComponent<
             .transition(t as any)
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
-            .attr('x', (d) => this.getBarLabelX(d))
-            .attr('y', (d) => this.getBarLabelY(d))
+            .attr('x', (d, i, nodes) => this.getBarLabelX(d, nodes[i]))
+            .attr('y', (d, i, nodes) => this.getBarLabelY(d, nodes[i]))
             .attr('text-anchor', (d) => this.getBarLabelTextAnchor(d))
             .attr('dominant-baseline', (d) =>
               this.getBarLabelDominantBaseline(d)
@@ -327,11 +327,7 @@ export class BarsComponent<
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
     const patterns = this.config.categorical.fillPatterns;
-    return PatternUtilities.getPatternFill(
-      this.config.data[d.i],
-      color,
-      patterns
-    );
+    return PatternUtilities.getFill(this.config.data[d.i], color, patterns);
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
@@ -444,27 +440,30 @@ export class BarsComponent<
     return selection.node().getBoundingClientRect();
   }
 
-  getBarLabelX(d: BarDatum<TOrdinalValue>): number {
+  getBarLabelX(d: BarDatum<TOrdinalValue>, node: SVGTextElement): number {
     if (this.config.dimensions.x === 'ordinal') {
       return this.getBarWidthOrdinal() / 2;
     } else {
-      return this.getBarLabelQuantitativeAxisPosition(d);
+      return this.getBarLabelQuantitativeAxisPosition(d, node);
     }
   }
 
-  getBarLabelY(d: BarDatum<TOrdinalValue>): number {
+  getBarLabelY(d: BarDatum<TOrdinalValue>, node: SVGTextElement): number {
     if (this.config.dimensions.y === 'ordinal') {
       return this.getBarHeightOrdinal() / 2;
     } else {
-      return this.getBarLabelQuantitativeAxisPosition(d);
+      return this.getBarLabelQuantitativeAxisPosition(d, node);
     }
   }
 
-  getBarLabelQuantitativeAxisPosition(d: BarDatum<TOrdinalValue>): number {
+  getBarLabelQuantitativeAxisPosition(
+    d: BarDatum<TOrdinalValue>,
+    node: SVGTextElement
+  ): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       return this.getBarLabelPositionForZeroOrNonnumericValue();
     } else {
-      return this.getBarLabelPositionForNumericValue(d);
+      return this.getBarLabelPositionForNumericValue(d, node);
     }
   }
 
@@ -478,9 +477,12 @@ export class BarsComponent<
       : -this.config.labels.offset;
   }
 
-  getBarLabelPositionForNumericValue(d: BarDatum<TOrdinalValue>): number {
+  getBarLabelPositionForNumericValue(
+    d: BarDatum<TOrdinalValue>,
+    node: SVGTextElement
+  ): number {
     const isPositiveValue = d.quantitative > 0;
-    const origin = this.getBarLabelOrigin(d, isPositiveValue);
+    const origin = this.getBarLabelOrigin(d, node, isPositiveValue);
     const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d);
     if (
       (this.config.dimensions.isVertical && placeLabelOutsideBar) ||
@@ -498,13 +500,14 @@ export class BarsComponent<
 
   getBarLabelOrigin(
     d: BarDatum<TOrdinalValue>,
+    node: SVGTextElement,
     isPositiveValue: boolean
   ): number {
-    const selection = selectAll('.vic-bar').filter((_, j: number) => j === d.i);
+    const bar = select(node.parentElement).select<SVGRectElement>('.vic-bar');
     if (this.config.dimensions.ordinal === 'x') {
-      return isPositiveValue ? 0 : parseFloat(selection.attr('height'));
+      return isPositiveValue ? 0 : parseFloat(bar.attr('height'));
     } else {
-      return isPositiveValue ? parseFloat(selection.attr('width')) : 0;
+      return isPositiveValue ? parseFloat(bar.attr('width')) : 0;
     }
   }
 

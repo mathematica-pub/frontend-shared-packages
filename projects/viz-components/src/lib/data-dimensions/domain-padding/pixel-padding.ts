@@ -62,10 +62,18 @@ export class VicPixelDomainPadding
     ) => ScaleContinuousNumeric<number, number>,
     dimensionRange: [number, number]
   ): [number, number] {
-    const adjustedPixelRange = [
-      dimensionRange[0] + this.numPixels,
-      dimensionRange[1] - this.numPixels,
-    ];
+    let adjustedPixelRange;
+    if (dimensionRange[0] < dimensionRange[1]) {
+      adjustedPixelRange = [
+        dimensionRange[0] + this.numPixels,
+        dimensionRange[1] - this.numPixels,
+      ];
+    } else {
+      adjustedPixelRange = [
+        dimensionRange[0] - this.numPixels,
+        dimensionRange[1] + this.numPixels,
+      ];
+    }
     const scale = scaleFn(unpaddedDomain, adjustedPixelRange);
     return [scale.invert(dimensionRange[0]), scale.invert(dimensionRange[1])];
   }
