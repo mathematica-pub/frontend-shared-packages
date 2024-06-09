@@ -15,9 +15,15 @@ export interface VicCategoricalDimensionOptions<
   domain: TCategoricalValue[];
   fillPatterns: VicFillPattern<Datum>[];
   /**
-   * An array of graphical values that correspond to the domain.
+   * An array of visual values that will be the output from D3 scale ordinal.
    *
    * For example, this could be an array of colors or sizes.
+   *
+   * Default is D3's schemeTableau10.
+   *
+   * To have all items have the same visual value, use an array with a single element.
+   *
+   * Will not be used if `scale` is provided.
    */
   range: string[];
   /**
@@ -31,25 +37,29 @@ export class VicCategoricalDimension<
   Datum,
   TCategoricalValue extends VicDataValue = string
 > extends VicDataDimension<Datum, TCategoricalValue> {
-  calculatedDomain: TCategoricalValue[];
+  private _calculatedDomain: TCategoricalValue[];
   private readonly domain: TCategoricalValue[];
   readonly fillPatterns: VicFillPattern<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   readonly range: string[];
-  scale: (category: TCategoricalValue) => string;
-  readonly valueAccessor: (
-    d: Datum,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...args: any
-  ) => TCategoricalValue;
+  private scale: (category: TCategoricalValue) => string;
+  readonly valueAccessor: (d: Datum) => TCategoricalValue;
 
   constructor(
     options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
   ) {
     super();
     Object.assign(this, options);
-    this.valueAccessor = this.valueAccessor ?? ((d) => '' as TCategoricalValue);
+    this.valueAccessor = this.valueAccessor ?? (() => '' as TCategoricalValue);
     this.range = this.range ?? DEFAULT.range;
+  }
+
+  get calculatedDomain(): TCategoricalValue[] {
+    return this._calculatedDomain;
+  }
+
+  getScale(): (category: TCategoricalValue) => string {
+    return this.scale;
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -64,12 +74,12 @@ export class VicCategoricalDimension<
       domain = this.values;
     }
     this.internSetDomain = new InternSet(domain);
-    this.calculatedDomain = [...this.internSetDomain.values()];
+    this._calculatedDomain = [...this.internSetDomain.values()];
   }
 
   private setScale(): void {
     if (this.scale === undefined) {
-      this.scale = scaleOrdinal(this.internSetDomain.values(), this.range);
+      this.scale = scaleOrdinal([...this.internSetDomain.values()], this.range);
     }
   }
 

@@ -695,7 +695,7 @@ describe('BarsComponent', () => {
     });
     it('calls getPatternFill once with the correct values', () => {
       component.getBarPattern(datum);
-      expect(PatternUtilities.getPatternFill).toHaveBeenCalledOnceWith(
+      expect(PatternUtilities.getFill).toHaveBeenCalledOnceWith(
         data[2],
         'blue',
         [pattern]

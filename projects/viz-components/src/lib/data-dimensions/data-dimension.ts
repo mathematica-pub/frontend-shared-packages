@@ -9,7 +9,7 @@ export interface VicDataDimensionOptions<
   /**
    * A user-provided method that extracts the value for this dimension from a datum.
    */
-  valueAccessor: (d: Datum, ...args: any) => TDataValue;
+  valueAccessor: (d: Datum) => TDataValue;
   /**
    * A formatter (function or string) for the values of this dimension.
    */

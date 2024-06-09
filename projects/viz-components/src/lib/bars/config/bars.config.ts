@@ -12,9 +12,12 @@ import {
 } from './bars-dimensions';
 import { VicBarsLabels } from './bars-labels';
 
-export interface VicBarsOptions<Datum, TOrdinalValue extends VicDataValue>
-  extends VicDataMarksOptions<Datum> {
-  categorical: VicCategoricalDimension<Datum, string>;
+export interface VicBarsOptions<
+  Datum,
+  TOrdinalValue extends VicDataValue,
+  TCategoricalValue extends VicDataValue = string
+> extends VicDataMarksOptions<Datum> {
+  categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
   ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
   quantitative: VicQuantitativeDimension<Datum>;
   labels: VicBarsLabels<Datum>;
@@ -56,9 +59,15 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   }
 
   protected setValueIndicies(): void {
-    this.valueIndicies = range(this.ordinal.values.length).filter((i) =>
-      this.ordinal.domainIncludes(this.ordinal.values[i])
-    );
+    this.valueIndicies = range(this.data.length).filter((i) => {
+      if (!this.ordinal.domainIncludes(this.ordinal.values[i])) {
+        return false;
+      } else {
+        const ordinalValue = this.ordinal.values[i];
+        const firstIndex = this.ordinal.values.indexOf(ordinalValue);
+        return i === firstIndex;
+      }
+    });
   }
 
   protected setHasNegativeValues(): void {

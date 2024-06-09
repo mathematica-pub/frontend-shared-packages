@@ -774,7 +774,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
   });
   describe('X domain turns off including 0', () => {
     beforeEach(() => {
-      barsConfig.quantitative.includeZeroInDomain = false;
+      (barsConfig.quantitative as any).includeZeroInDomain = false;
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
