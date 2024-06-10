@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
 import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
+import { BarsHoverShowLabels } from 'projects/viz-components/src/lib/bars/bars-hover-effects';
 import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
+import { BarsHoverDirective } from 'projects/viz-components/src/lib/bars/bars-hover.directive';
 import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import {
   VicBarsConfig,
@@ -9,7 +11,10 @@ import {
   VicHorizontalBarsDimensionsConfig,
 } from 'projects/viz-components/src/lib/bars/bars.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
+import {
+  EventEffect,
+  HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
 import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
@@ -61,6 +66,9 @@ export class BarsExampleComponent implements OnInit {
   hoverAndMoveEffects: HoverMoveEventEffect<
     BarsHoverMoveDirective<MetroUnemploymentDatum>
   >[] = [new BarsHoverMoveEmitTooltipData()];
+  hoverEffects: EventEffect<BarsHoverDirective<MetroUnemploymentDatum>>[] = [
+    new BarsHoverShowLabels(),
+  ];
 
   constructor(private dataService: DataService) {}
 
@@ -80,7 +88,7 @@ export class BarsExampleComponent implements OnInit {
     const yAxisConfig = new VicAxisConfig();
     const dataConfig = new VicBarsConfig<MetroUnemploymentDatum>();
     dataConfig.labels = new VicBarsLabelsConfig();
-    dataConfig.labels.display = true;
+    dataConfig.labels.display = false;
     dataConfig.quantitative.valueFormat = (d: any) => {
       const label =
         d.value === undefined || d.value === null

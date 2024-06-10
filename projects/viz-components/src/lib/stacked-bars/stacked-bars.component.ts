@@ -41,7 +41,7 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
-    this.setChartHasNegativeMinValue();
+    this.setHasBarsWithNegativeValues();
     this.constructStackedData();
     this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
