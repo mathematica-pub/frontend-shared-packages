@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { VicGeographiesLabels } from '../geographies-labels';
 import {
   VicBaseDataGeographyConfig,
   VicBaseDataGeographyOptions,
@@ -25,7 +26,7 @@ export interface VicDataGeographiesOptions<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicBaseDataGeographyOptions<Datum, TProperties, TGeometry> {
+> extends VicBaseDataGeographyOptions<TProperties, TGeometry> {
   attributeData:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
@@ -33,20 +34,30 @@ export interface VicDataGeographiesOptions<
     | VicEqualNumObservationsAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
   nullColor: string;
+  /**
+   * VicGeographyLabelConfig that define the labels to be shown.
+   * If not defined, no labels will be drawn.
+   */
+  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 }
 
 export class VicDataGeographies<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
+    Datum,
+    TProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon
+  >
+  extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry>
+  implements VicDataGeographiesOptions<Datum, TProperties, TGeometry>
+{
   readonly attributeData:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
     | VicEqualValuesAttributeDataDimension<Datum>
     | VicEqualNumObservationsAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
+  override readonly hasAttributeData: true;
   readonly nullColor: string;
+  override labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 
   constructor(
     options?: Partial<VicDataGeographiesOptions<Datum, TProperties, TGeometry>>
@@ -57,6 +68,8 @@ export class VicDataGeographies<
     this.nullColor = this.nullColor || DEFAULT.nullColor;
     this.strokeColor = this.strokeColor || DEFAULT.strokeColor;
     this.strokeWidth = this.strokeWidth || DEFAULT.strokeWidth;
+    this.class = '.vic-data-geographies ' + this.class;
+    this.hasAttributeData = true;
   }
 }
 

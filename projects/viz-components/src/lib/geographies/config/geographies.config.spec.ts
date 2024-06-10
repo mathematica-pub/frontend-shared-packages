@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
 import { vicDataGeographies } from './dimensions/data-geographies';
 import {
   VicEqualValuesAttributeDataDimension,
   vicEqualValuesAttributeDataDimension,
 } from './dimensions/equal-value-ranges-bins';
+import { vicNoDataGeographies } from './dimensions/no-data-geographies';
 import { VicGeographiesConfig } from './geographies.config';
 
 type Datum = { value: number; state: string };
+type FeatureProperties = { name: string };
 const data = [
   { value: 1, state: 'AL' },
   { value: 2, state: 'AK' },
@@ -13,6 +17,13 @@ const data = [
   { value: 4, state: 'CA' },
   { value: 5, state: 'CO' },
   { value: 6, state: 'CO' },
+];
+const features = [
+  { name: 'Alabama' },
+  { name: 'Alaska' },
+  { name: 'Arizona' },
+  { name: 'California' },
+  { name: 'Colorado' },
 ];
 function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
   return new VicGeographiesConfig({
@@ -24,6 +35,14 @@ function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
         numBins: 5,
       }),
     }),
+    noDataGeographies: [
+      vicNoDataGeographies<FeatureProperties>({
+        geographies: features as any,
+        categorical: vicCategoricalDimension({
+          range: ['lime'],
+        }),
+      }),
+    ],
   });
 }
 

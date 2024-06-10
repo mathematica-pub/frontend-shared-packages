@@ -7,7 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import * as CSSType from 'csstype';
-import { GeoPath, GeoProjection, Selection, geoPath, select } from 'd3';
+import { GeoPath, GeoProjection, geoPath, select } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
@@ -21,6 +21,18 @@ import { VicNoDataGeographies } from './config/dimensions/no-data-geographies';
 import { VicGeographiesLabels } from './config/geographies-labels';
 import { VicGeographiesConfig } from './config/geographies.config';
 import { VicGeographiesFeature } from './geographies-feature';
+
+function isAttributeDataConfig<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+>(
+  config:
+    | VicDataGeographies<Datum, TProperties, TGeometry>
+    | VicNoDataGeographies<TProperties, TGeometry>
+): config is VicDataGeographies<Datum, TProperties, TGeometry> {
+  return config.hasAttributeData;
+}
 
 export const GEOGRAPHIES = new InjectionToken<
   GeographiesComponent<unknown, unknown>
@@ -109,288 +121,228 @@ export class GeographiesComponent<
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration);
-
-    if (this.config.dataGeographies) {
-      this.drawDataLayer(t);
-    }
-    if (this.config.noDataGeographies) {
-      this.drawNoDataLayers(t);
-    }
+    this.drawDataLayers(t);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  drawDataLayer(t: any): void {
-    const dataLayers = select(this.elRef.nativeElement)
-      .selectAll<
-        SVGGElement,
-        VicDataGeographies<Datum, TProperties, TGeometry>
-      >('.vic-map-layer.vic-data')
-      .data<VicDataGeographies<Datum, TProperties, TGeometry>>([
-        this.config.dataGeographies,
-      ])
-      .join(
-        (enter) => enter.append('g').attr('class', 'vic-map-layer vic-data'),
-        (update) => update,
-        (exit) => exit.remove()
-      );
+  drawDataLayers(t: any): void {
+    const layersGroup = select(this.elRef.nativeElement)
+      .append('g')
+      .attr('class', 'vic-geographies-layers');
+    // .selectAll<
+    //   SVGGElement,
+    //   VicDataGeographies<Datum, TProperties, TGeometry>
+    // >('.vic-map-layers')
+    // .data<VicDataGeographies<Datum, TProperties, TGeometry>>([
+    //   this.config.dataGeographies,
+    // ])
+    // .join(
+    //   (enter) => enter.append('g').attr('class', 'vic-map-layers'),
+    //   (update) => update,
+    //   (exit) => exit.remove()
+    // );
 
-    const dataGeographyGroups = dataLayers
-      .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
-        '.geography-g'
-      )
-      .data<VicGeographiesFeature<TProperties, TGeometry>>(
-        (layer) => layer.geographies
-      )
-      .join(
-        (enter) => enter.append('g').attr('class', 'geography-g'),
-        (update) => update,
-        (exit) => exit.remove()
-      );
+    [this.config.dataGeographies, ...this.config.noDataGeographies].forEach(
+      (config, i) => {
+        const layer = layersGroup
+          .selectAll<
+            SVGGElement,
+            VicGeographiesFeature<TProperties, TGeometry>
+          >(`.geographies-layer .geographies-layer-${i} ${config.class}`)
+          .data<VicGeographiesFeature<TProperties, TGeometry>>(
+            config.geographies
+          )
+          .join(
+            (enter) =>
+              enter
+                .append('g')
+                .attr(
+                  'class',
+                  `.geographies-layer .geographies-layer-${i} ${config.class}`
+                ),
+            (update) => update,
+            (exit) => exit.remove()
+          );
 
-    dataGeographyGroups
-      .selectAll<SVGPathElement, VicGeographiesFeature<TProperties, TGeometry>>(
-        'path'
-      )
-      .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
-      .join(
-        (enter) =>
-          enter
-            .append('path')
-            .attr('d', this.path)
-            .attr('stroke', this.config.dataGeographies.strokeColor)
-            .attr('stroke-width', this.config.dataGeographies.strokeWidth)
-            .attr('fill', (d) => this.getAttributeDataFill(d)),
-        (update) =>
-          update.call((update) =>
-            update
-              .attr('d', this.path)
-              .attr('stroke', this.config.dataGeographies.strokeColor)
-              .attr('stroke-width', this.config.dataGeographies.strokeWidth)
-              .transition(t)
-              .attr('fill', (d) => this.getAttributeDataFill(d))
-          ),
-        (exit) => exit.remove()
-      );
+        layer
+          .selectAll<
+            SVGPathElement,
+            VicGeographiesFeature<TProperties, TGeometry>
+          >('path')
+          .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+          .join(
+            (enter) =>
+              enter
+                .append('path')
+                .attr('d', this.path)
+                .attr('stroke', config.strokeColor)
+                .attr('stroke-width', config.strokeWidth)
+                .attr('fill', (d) =>
+                  isAttributeDataConfig(config)
+                    ? this.getFillFromAttributeData(d)
+                    : this.getFillFromGeography(d, config)
+                ),
+            (update) =>
+              update.call((update) =>
+                update
+                  .attr('d', this.path)
+                  .attr('stroke', config.strokeColor)
+                  .attr('stroke-width', config.strokeWidth)
+                  .transition(t)
+                  .attr('fill', (d) =>
+                    isAttributeDataConfig(config)
+                      ? this.getFillFromAttributeData(d)
+                      : this.getFillFromGeography(d, config)
+                  )
+              ),
+            (exit) => exit.remove()
+          );
 
-    if (this.config.dataGeographies.labels) {
-      this.drawLabels(
-        dataGeographyGroups,
-        t,
-        this.config.dataGeographies.labels
-      );
-    }
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  drawNoDataLayers(t: any): void {
-    const noDataLayers = select(this.elRef.nativeElement)
-      .selectAll<
-        SVGGElement,
-        VicNoDataGeographies<Datum, TProperties, TGeometry>
-      >('.vic-map-layer.vic-no-data')
-      .data<VicNoDataGeographies<Datum, TProperties, TGeometry>>(
-        this.config.noDataGeographies
-      )
-      .join(
-        (enter) => enter.append('g').attr('class', 'vic-map-layer vic-no-data'),
-        (update) => update,
-        (exit) => exit.remove()
-      );
-
-    this.config.noDataGeographies.forEach((config, index) => {
-      const noDataGeographyGroups = noDataLayers
-        .filter((d, i) => i === index)
-        .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
-          '.no-data-geography-g'
-        )
-        .data<VicGeographiesFeature<TProperties, TGeometry>>(
-          (layer) => layer.geographies
-        )
-        .join(
-          (enter) => enter.append('g').attr('class', 'no-data-geography-g'),
-          (update) => update,
-          (exit) => exit.remove()
-        );
-
-      noDataGeographyGroups
-        .selectAll<
-          SVGPathElement,
-          VicGeographiesFeature<TProperties, TGeometry>
-        >('path')
-        .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
-        .join(
-          (enter) =>
-            enter
-              .append('path')
-              .attr('d', this.path)
-              .attr('stroke', config.strokeColor)
-              .attr('stroke-width', config.strokeWidth)
-              .attr('fill', (d) => this.getNoDataGeographyFill(d, config)),
-          (update) =>
-            update
-              .attr('d', this.path)
-              .attr('fill', (d) => this.getNoDataGeographyFill(d, config)),
-          (exit) => exit.remove()
-        );
-
-      if (config.labels) {
-        this.drawLabels(noDataGeographyGroups, t, config.labels);
+        if (config.labels) {
+          layer
+            .filter((d) =>
+              config.labels.display(this.config.featureIndexAccessor(d))
+            )
+            .selectAll<
+              SVGTextElement,
+              VicGeographiesFeature<TProperties, TGeometry>
+            >('.vic-geography-label')
+            .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+            .join(
+              (enter) =>
+                enter
+                  .append('text')
+                  .attr('class', 'vic-geography-label')
+                  .attr('text-anchor', config.labels.textAnchor)
+                  .attr('alignment-baseline', config.labels.alignmentBaseline)
+                  .attr('dominant-baseline', config.labels.dominantBaseline)
+                  .style('cursor', config.labels.cursor)
+                  .attr('pointer-events', config.labels.pointerEvents)
+                  .text((d) => config.labels.valueAccessor(d))
+                  .attr('x', (d) => this.getLabelPosition(d, config.labels).x)
+                  .attr('y', (d) => this.getLabelPosition(d, config.labels).y)
+                  .attr('font-size', config.labels.fontScale(this.ranges.x[1]))
+                  .attr('fill', (d) => this.getLabelColor(d, config))
+                  .attr('font-weight', (d) =>
+                    this.getLabelFontWeight(d, config)
+                  ),
+              (update) =>
+                update.call((update) =>
+                  update
+                    .text((d) => config.labels.valueAccessor(d))
+                    .attr('y', (d) => this.getLabelPosition(d, config.labels).y)
+                    .attr('x', (d) => this.getLabelPosition(d, config.labels).x)
+                    .attr(
+                      'font-size',
+                      config.labels.fontScale(this.ranges.x[1])
+                    )
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    .transition(t as any)
+                    .attr('fill', (d) => this.getLabelColor(d, config))
+                    .attr('font-weight', (d) =>
+                      this.getLabelFontWeight(d, config)
+                    )
+                ),
+              (exit) => exit.remove()
+            );
+        }
       }
-    });
+    );
   }
 
-  getAttributeDataFill(
+  getFillFromAttributeData(
     geography: VicGeographiesFeature<TProperties, TGeometry>
   ): string {
     const geographyIndex = this.config.featureIndexAccessor(geography);
     return this.config.dataGeographies.attributeData.fillPatterns
-      ? this.getPatternFill(geographyIndex)
-      : this.getFill(geographyIndex);
+      ? this.getAttributePatternFill(geographyIndex)
+      : this.getAttributeFill(geographyIndex);
   }
 
-  getFill(geographyIndex: string | number): string {
+  getAttributeFill(geographyIndex: string | number): string {
     const dataValue =
       this.config.values.attributeValuesByGeographyIndex.get(geographyIndex);
     return this.attributeDataScale(dataValue);
   }
 
-  getPatternFill(geographyIndex: string | number): string {
+  getAttributePatternFill(geographyIndex: string | number): string {
     const datum = this.config.values.datumsByGeographyIndex.get(geographyIndex);
-    const color = this.getFill(geographyIndex);
-    const predicates = this.config.dataGeographies.attributeData.fillPatterns;
-    return PatternUtilities.getFill(datum, color, predicates);
+    const geographyFill = this.getAttributeFill(geographyIndex);
+    const patterns = this.config.dataGeographies.attributeData.fillPatterns;
+    return PatternUtilities.getFill(datum, geographyFill, patterns);
   }
 
-  getNoDataGeographyFill(
+  getFillFromGeography(
     geography: VicGeographiesFeature<TProperties, TGeometry>,
-    config: VicNoDataGeographies<Datum, TProperties, TGeometry>
+    config: VicNoDataGeographies<TProperties, TGeometry>
   ): string {
     const featureIndex = this.config.featureIndexAccessor(geography);
     const defaultFill = config.categorical.getScale()(featureIndex);
     return config.categorical.fillPatterns
       ? PatternUtilities.getFill(
-          featureIndex,
+          geography,
           defaultFill,
           config.categorical.fillPatterns
         )
       : defaultFill;
   }
 
-  drawLabels(
-    features: Selection<
-      SVGGElement,
-      VicGeographiesFeature<TProperties, TGeometry>,
-      SVGGElement,
-      | VicNoDataGeographies<Datum, TProperties, TGeometry>
-      | VicDataGeographies<Datum, TProperties, TGeometry>
-    >,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    t: any,
-    labelsConfig: VicGeographiesLabels<Datum, TProperties, TGeometry>
-  ): void {
-    features
-      .filter((d) => labelsConfig.display(d))
-      .selectAll('.vic-geography-label')
-      .remove();
-
-    features
-      .filter((d) => labelsConfig.display(d))
-      .selectAll<SVGTextElement, VicGeographiesFeature<TProperties, TGeometry>>(
-        '.vic-geography-label'
-      )
-      .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
-      .join(
-        (enter) =>
-          enter
-            .append('text')
-            .attr('class', 'vic-geography-label')
-            .attr('text-anchor', labelsConfig.textAnchor)
-            .attr('alignment-baseline', labelsConfig.alignmentBaseline)
-            .attr('dominant-baseline', labelsConfig.dominantBaseline)
-            .style('cursor', labelsConfig.cursor)
-            .attr('pointer-events', labelsConfig.pointerEvents)
-            .text((d) => labelsConfig.valueAccessor(d))
-            .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
-            .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
-            .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
-            .attr('fill', (d) =>
-              this.getLabelColor(
-                this.config.featureIndexAccessor(d),
-                labelsConfig
-              )
-            )
-            .attr('font-weight', (d) =>
-              this.getLabelFontWeight(
-                this.config.featureIndexAccessor(d),
-                labelsConfig
-              )
-            ),
-        (update) =>
-          update.call((update) =>
-            update
-              .text((d) => labelsConfig.valueAccessor(d))
-              .attr('y', (d) => this.getLabelPosition(d, labelsConfig).y)
-              .attr('x', (d) => this.getLabelPosition(d, labelsConfig).x)
-              .attr('font-size', labelsConfig.fontScale(this.ranges.x[1]))
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              .transition(t as any)
-              .attr('fill', (d) =>
-                this.getLabelColor(
-                  this.config.featureIndexAccessor(d),
-                  labelsConfig
-                )
-              )
-              .attr('font-weight', (d) =>
-                this.getLabelFontWeight(
-                  this.config.featureIndexAccessor(d),
-                  labelsConfig
-                )
-              )
-          ),
-        (exit) => exit.remove()
-      );
-  }
-
   getLabelPosition(
     d: VicGeographiesFeature<TProperties, TGeometry>,
-    config: VicGeographiesLabels<Datum, TProperties, TGeometry>
+    config:
+      | VicGeographiesLabels<Datum, TProperties, TGeometry>
+      | VicGeographiesLabels<
+          VicGeographiesFeature<TProperties, TGeometry>,
+          TProperties,
+          TGeometry
+        >
   ): { x: number; y: number } {
     if (!this.path || !this.projection) return { x: 0, y: 0 };
     return config.position(d, this.path, this.projection);
   }
 
   getLabelColor(
-    geographyIndex: string | number,
-    config: VicGeographiesLabels<Datum, TProperties, TGeometry>
+    geographyFeature: VicGeographiesFeature<TProperties, TGeometry>,
+    config:
+      | VicDataGeographies<Datum, TProperties, TGeometry>
+      | VicNoDataGeographies<TProperties, TGeometry>
   ): CSSType.Property.Fill {
-    const pathColor = this.getFill(geographyIndex);
+    const geographyIndex = this.config.featureIndexAccessor(geographyFeature);
+    const pathColor = isAttributeDataConfig(config)
+      ? this.getFillFromAttributeData(geographyFeature)
+      : this.getFillFromGeography(geographyFeature, config);
     let fontColor: CSSType.Property.Fill;
-    if (isFunction<CSSType.Property.Fill>(config.color)) {
-      fontColor = config.color(
+    if (isFunction<CSSType.Property.Fill>(config.labels.color)) {
+      fontColor = config.labels.color(
         this.config.values.datumsByGeographyIndex.get(geographyIndex),
         pathColor
       );
-    } else if (isPrimitiveType<CSSType.Property.Fill>(config.color)) {
-      fontColor = config.color;
+    } else if (isPrimitiveType<CSSType.Property.Fill>(config.labels.color)) {
+      fontColor = config.labels.color;
     }
     return fontColor;
   }
 
   getLabelFontWeight(
-    geographyIndex: string | number,
-    config: VicGeographiesLabels<Datum, TProperties, TGeometry>
+    geographyFeature: VicGeographiesFeature<TProperties, TGeometry>,
+    config:
+      | VicDataGeographies<Datum, TProperties, TGeometry>
+      | VicNoDataGeographies<TProperties, TGeometry>
   ): CSSType.Property.FontWeight {
-    const pathColor = this.getFill(geographyIndex);
+    const geographyIndex = this.config.featureIndexAccessor(geographyFeature);
+    const pathColor = isAttributeDataConfig(config)
+      ? this.getFillFromAttributeData(geographyFeature)
+      : this.getFillFromGeography(geographyFeature, config);
     let fontProperty: CSSType.Property.FontWeight;
-    if (isFunction<CSSType.Property.FontWeight>(config.fontWeight)) {
-      fontProperty = config.fontWeight(
+    if (isFunction<CSSType.Property.FontWeight>(config.labels.fontWeight)) {
+      fontProperty = config.labels.fontWeight(
         this.config.values.datumsByGeographyIndex.get(geographyIndex),
         pathColor
       );
     } else if (
-      isPrimitiveType<CSSType.Property.FontWeight>(config.fontWeight)
+      isPrimitiveType<CSSType.Property.FontWeight>(config.labels.fontWeight)
     ) {
-      fontProperty = config.fontWeight;
+      fontProperty = config.labels.fontWeight;
     }
     return fontProperty;
   }

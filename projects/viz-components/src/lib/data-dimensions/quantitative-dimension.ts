@@ -36,7 +36,7 @@ export class VicQuantitativeDimension<Datum>
   extends VicDataDimension<Datum, number>
   implements VicQuantitativeDimensionOptions<Datum>
 {
-  private calculatedDomain: [number, number];
+  private _calculatedDomain: [number, number];
   readonly domain: [number, number];
   domainIncludesZero: boolean;
   readonly domainPadding?: VicDomainPaddingConfig;
@@ -45,7 +45,7 @@ export class VicQuantitativeDimension<Datum>
     domain?: Iterable<number>,
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
-  readonly valueAccessor: (d: Datum, ...args: any) => number;
+  readonly valueAccessor: (d: Datum) => number;
 
   constructor(options: Partial<VicQuantitativeDimensionOptions<Datum>>) {
     super();
@@ -68,7 +68,7 @@ export class VicQuantitativeDimension<Datum>
       this.domain === undefined
         ? valuesOverride || [min(this.values), max(this.values)]
         : this.domain;
-    this.calculatedDomain = this.getCalculatedDomain(extents);
+    this._calculatedDomain = this.getCalculatedDomain(extents);
     this.setDomainIncludesZero();
   }
 
@@ -80,13 +80,13 @@ export class VicQuantitativeDimension<Datum>
 
   private setDomainIncludesZero() {
     this.domainIncludesZero =
-      this.calculatedDomain[0] <= 0 && 0 <= this.calculatedDomain[1];
+      this._calculatedDomain[0] <= 0 && 0 <= this._calculatedDomain[1];
   }
 
   getScaleFromRange(range: [number, number]) {
     const domain = this.domainPadding
       ? this.getPaddedQuantitativeDomain(range)
-      : this.calculatedDomain;
+      : this._calculatedDomain;
     return this.scaleFn().domain(domain).range(range);
   }
 
@@ -94,7 +94,7 @@ export class VicQuantitativeDimension<Datum>
     range: [number, number]
   ): [number, number] {
     return this.domainPadding.getPaddedDomain(
-      this.calculatedDomain,
+      this._calculatedDomain,
       this.scaleFn,
       range
     );

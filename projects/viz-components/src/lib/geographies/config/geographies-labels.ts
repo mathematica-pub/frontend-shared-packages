@@ -5,12 +5,25 @@ import { VicPosition } from '../../core/types/layout';
 import { VicGeographiesFeature } from '../geographies-feature';
 import { VicGeographiesLabelsPositioners } from './geographies-labels-positioners';
 
+const DEFAULT = {
+  display: () => true,
+  valueAccessor: (feature) => feature,
+  color: '#000',
+  fontWeight: 400,
+  fontScale: scaleLinear().domain([0, 800]).range([0, 17]),
+  textAnchor: 'middle',
+  alignmentBaseline: 'middle',
+  dominantBaseline: 'middle',
+  cursor: 'default',
+  pointerEvents: 'none',
+};
+
 /**
  * Configuration object for displaying labels on map.
  *
  * The generic parameters are the same as those in VicGeographiesConfig.
  */
-export class VicGeographiesLabels<
+export interface VicGeographiesLabelsOptions<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
@@ -20,15 +33,45 @@ export class VicGeographiesLabels<
    *
    * Example use case: Don't show labels for very small states.
    */
-  display: (
+  display: (featureIndex: string) => boolean;
+  valueAccessor: (
+    feature: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
+  textAnchor: CSSType.Property.TextAnchor;
+  alignmentBaseline: CSSType.Property.AlignmentBaseline;
+  dominantBaseline: CSSType.Property.DominantBaseline;
+  cursor: CSSType.Property.Cursor;
+  pointerEvents: CSSType.Property.PointerEvents;
+  fontWeight:
+    | ((
+        d: Datum,
+        backgroundColor: CSSType.Property.Fill
+      ) => CSSType.Property.FontWeight)
+    | CSSType.Property.FontWeight;
+  color:
+    | ((
+        d: Datum,
+        backgroundColor: CSSType.Property.Fill
+      ) => CSSType.Property.Fill)
+    | CSSType.Property.Fill;
+  position: (
     d: VicGeographiesFeature<TProperties, TGeometry>,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ...args: any
-  ) => boolean;
-  /**
-   * Function that maps a geojson feature to the desired label.
-   */
-  valueAccessor: (d: VicGeographiesFeature<TProperties, TGeometry>) => string;
+    path: GeoPath,
+    projection: GeoProjection
+  ) => VicPosition;
+  fontScale: ScaleLinear<number, number, never>;
+}
+
+export class VicGeographiesLabels<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+> implements VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>
+{
+  display: (featureIndex: string) => boolean;
+  valueAccessor: (
+    featureIndex: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
   textAnchor: CSSType.Property.TextAnchor;
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   dominantBaseline: CSSType.Property.DominantBaseline;
@@ -54,22 +97,24 @@ export class VicGeographiesLabels<
   fontScale: ScaleLinear<number, number, never>;
 
   constructor(
-    options?: Partial<VicGeographiesLabels<Datum, TProperties, TGeometry>>
+    options: Partial<VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>>
   ) {
-    this.display = () => true;
-    this.color = '#000';
-    this.fontWeight = 400;
     this.position = (d, path) =>
       VicGeographiesLabelsPositioners.positionAtCentroid<
         TProperties,
         TGeometry
       >(d, path);
-    this.fontScale = scaleLinear().domain([0, 800]).range([0, 17]);
-    this.textAnchor = 'middle';
-    this.alignmentBaseline = 'middle';
-    this.dominantBaseline = 'middle';
-    this.cursor = 'default';
-    this.pointerEvents = 'none';
+    Object.assign(this, DEFAULT);
     Object.assign(this, options);
   }
+}
+
+export function vicGeographiesLabels<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry = MultiPolygon | Polygon
+>(
+  options?: Partial<VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>>
+): VicGeographiesLabels<Datum, TProperties, TGeometry> {
+  return new VicGeographiesLabels(options);
 }

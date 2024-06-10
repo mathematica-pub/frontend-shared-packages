@@ -7,7 +7,6 @@ import {
 import { vicCategoricalDimension } from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
-import { StateIncomeDatum } from '../models/data';
 import { DataResource } from '../resources/data.resource';
 import { MapGeometryProperties, UsMapTopology } from './basemap';
 
@@ -18,10 +17,7 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicNoDataGeographies<
-    StateIncomeDatum,
-    MapGeometryProperties
-  >;
+  usOutlineConfig: VicNoDataGeographies<MapGeometryProperties>;
 
   constructor(private data: DataResource) {}
 
@@ -53,14 +49,12 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    this.usOutlineConfig = vicNoDataGeographies<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >({
+    this.usOutlineConfig = vicNoDataGeographies<MapGeometryProperties>({
       geographies: this.us.features,
       strokeColor: colors.base,
       strokeWidth: '1',
       categorical: vicCategoricalDimension({
+        valueAccessor: (d) => d.properties.name,
         range: ['none'],
       }),
     });

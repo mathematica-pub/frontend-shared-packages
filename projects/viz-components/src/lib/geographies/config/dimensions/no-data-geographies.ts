@@ -1,6 +1,7 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicCategoricalDimension } from '../../../data-dimensions/categorical-dimension';
 import { VicGeographiesFeature } from '../../geographies-feature';
+import { VicGeographiesLabels } from '../geographies-labels';
 import {
   VicBaseDataGeographyConfig,
   VicBaseDataGeographyOptions,
@@ -13,43 +14,65 @@ const DEFAULT = {
 };
 
 export interface VicNoDataGeographiesOptions<
-  Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
   TCategoricalValue extends string = string
-> extends VicBaseDataGeographyOptions<Datum, TProperties, TGeometry> {
+> extends VicBaseDataGeographyOptions<TProperties, TGeometry> {
   categorical: VicCategoricalDimension<
     VicGeographiesFeature<TProperties, TGeometry>,
     TCategoricalValue
   >;
+  labels: VicGeographiesLabels<
+    VicGeographiesFeature<TProperties, TGeometry>,
+    TProperties,
+    TGeometry
+  >;
 }
 
 export class VicNoDataGeographies<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
-  TCategoricalValue extends string = string
-> extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
-  readonly categorical: VicCategoricalDimension<string, TCategoricalValue>;
+    TProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon,
+    TCategoricalValue extends string = string
+  >
+  extends VicBaseDataGeographyConfig<
+    VicGeographiesFeature<TProperties, TGeometry>,
+    TProperties,
+    TGeometry
+  >
+  implements
+    VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
+{
+  override readonly hasAttributeData: false;
+  readonly categorical: VicCategoricalDimension<
+    VicGeographiesFeature<TProperties, TGeometry>,
+    TCategoricalValue
+  >;
+  override labels: VicGeographiesLabels<
+    VicGeographiesFeature<TProperties, TGeometry>,
+    TProperties,
+    TGeometry
+  >;
 
   constructor(
     options?: Partial<
-      VicNoDataGeographiesOptions<Datum, TProperties, TGeometry>
+      VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
     >
   ) {
     super();
+    Object.assign(this, DEFAULT);
     Object.assign(this, options);
-    this.strokeColor = this.strokeColor ?? DEFAULT.strokeColor;
-    this.strokeWidth = this.strokeWidth ?? DEFAULT.strokeWidth;
+    this.hasAttributeData = false;
   }
 }
 
 export function vicNoDataGeographies<
-  Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TCategoricalValue extends string = string
 >(
-  options?: Partial<VicNoDataGeographiesOptions<Datum, TProperties, TGeometry>>
+  options?: Partial<
+    VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
+  >
 ) {
   return new VicNoDataGeographies(options);
 }

@@ -56,7 +56,7 @@ export interface VicGeographiesOptions<
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographies: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
+  noDataGeographies: VicNoDataGeographies<TProperties, TGeometry>[];
   /**
    * A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
    * @default: d3.geoAlbersUsa().
@@ -91,11 +91,7 @@ export class VicGeographiesConfig<
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
-  readonly noDataGeographies: VicNoDataGeographies<
-    Datum,
-    TProperties,
-    TGeometry
-  >[];
+  readonly noDataGeographies: VicNoDataGeographies<TProperties, TGeometry>[];
   readonly projection: GeoProjection;
   readonly values: MapDataValues = new MapDataValues();
 
@@ -111,12 +107,11 @@ export class VicGeographiesConfig<
   protected initPropertiesFromData(): void {
     const uniqueDatums = this.getUniqueDatumsByGeoAccessor();
     this.dataGeographies.attributeData.setPropertiesFromData(uniqueDatums);
-    this.noDataGeographies.forEach((config) => {
-      const featureIndicies = config.geographies.map((g) => {
-        return this.featureIndexAccessor(g);
+    if (this.noDataGeographies) {
+      this.noDataGeographies.forEach((config) => {
+        config.categorical.setPropertiesFromData(config.geographies);
       });
-      config.categorical.setPropertiesFromData(featureIndicies);
-    });
+    }
     this.setAttributeData(uniqueDatums);
   }
 
