@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
+import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
 import {
   VicNoDataGeographies,
   vicNoDataGeographies,
 } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
-import { vicCategoricalDimension } from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
 import { DataResource } from '../resources/data.resource';

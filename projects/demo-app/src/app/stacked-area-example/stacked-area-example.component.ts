@@ -6,18 +6,18 @@ import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/la
 import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
 import { vicDateDimension } from 'projects/viz-components/src/lib/data-dimensions/date-dimension';
 import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-dimensions/quantitative-dimension';
+import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
   VicStackedAreaConfig,
   vicStackedArea,
 } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area.config';
+import { StackedAreaHoverMoveEmitTooltipData } from 'projects/viz-components/src/lib/stacked-area/stacked-area-hover-move-effects';
+import { StackedAreaHoverMoveDirective } from 'projects/viz-components/src/lib/stacked-area/stacked-area-hover-move.directive';
+import { VicStackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/stacked-area-tooltip-data';
 import {
-  HoverMoveEventEffect,
-  StackedAreaHoverMoveDirective,
-  StackedAreaHoverMoveEmitTooltipData,
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
-  VicStackedAreaEventOutput,
-} from 'projects/viz-components/src/public-api';
+} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
