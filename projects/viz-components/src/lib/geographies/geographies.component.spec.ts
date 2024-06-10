@@ -26,7 +26,6 @@ describe('GeographiesComponent', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
-      console.log('trying');
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
       component.config = vicGeographies({
@@ -46,7 +45,6 @@ describe('GeographiesComponent', () => {
           }),
         }),
       });
-      console.log('bye');
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
@@ -98,7 +96,6 @@ describe('GeographiesComponent', () => {
           }),
         }),
       });
-      console.log('hi', component.config);
       spyOn(
         component.config.dataGeographies.attributeData,
         'getScale'

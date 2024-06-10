@@ -55,7 +55,7 @@ describe('VicQuantitativeDimension', () => {
     });
     it('sets calculatedDomain to the return value of getCalculatedDomain', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5]);
-      expect((dimension as any)._calculatedDomain).toEqual([10, 50]);
+      expect((dimension as any).calculatedDomain).toEqual([10, 50]);
     });
     it('calls getCalculatedDomain once with provided valuesOverride if that is provided', () => {
       dimension.setPropertiesFromData([1, 2, 3, 4, 5]);
