@@ -169,6 +169,7 @@ export class ValueUtilities {
   }
 
   static formatValue<T>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
     formatSpecifier: VicFormatSpecifier<T>
   ): string {

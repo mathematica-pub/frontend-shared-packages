@@ -41,7 +41,7 @@ function horizontalConfig(): VicBarsConfig<Datum, string> {
       range: ['red', 'blue', 'green', 'yellow', 'purple'],
     }),
     labels: vicBarsLabels({
-      noValueFunction: (d) => 'no value',
+      noValueFunction: () => 'no value',
     }),
   });
 }
@@ -60,7 +60,7 @@ function verticalConfig(): VicBarsConfig<Datum, string> {
       range: ['red', 'blue', 'green', 'yellow', 'purple'],
     }),
     labels: vicBarsLabels({
-      noValueFunction: (d) => 'no value',
+      noValueFunction: () => 'no value',
     }),
   });
 }

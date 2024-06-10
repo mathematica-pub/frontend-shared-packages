@@ -12,7 +12,9 @@ export interface VicAttributeDataDimensionOptions<
 > extends VicDataDimensionOptions<Datum, AttributeValue> {
   geoAccessor: (d: Datum) => string;
   range: RangeValue[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: (...args: any) => string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   fillPatterns: VicFillPattern<Datum>[];
 }
