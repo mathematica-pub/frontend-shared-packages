@@ -182,7 +182,7 @@ describe('BarsComponent', () => {
       component.drawMarks();
       expect(component.drawBarLabels).toHaveBeenCalledOnceWith(100);
     });
-    it('does not call drawBarLabels if config.labels is falsey', () => {
+    it('does not call drawBarLabels if config.labels is falsy', () => {
       (component.config as any).labels = undefined;
       component.drawMarks();
       expect(component.drawBarLabels).not.toHaveBeenCalled();
@@ -1278,7 +1278,7 @@ describe('BarsComponent', () => {
         it('calls barLabelFitsOutsideBar once', () => {
           component.getBarLabelPositionForNumericValue(datum);
           expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
-            'node' as any,
+            datum,
             true
           );
         });
@@ -1302,7 +1302,7 @@ describe('BarsComponent', () => {
         it('calls barLabelFitsOutsideBar once', () => {
           component.getBarLabelPositionForNumericValue(datum);
           expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
-            'node' as any,
+            datum,
             false
           );
         });
@@ -1391,18 +1391,18 @@ describe('BarsComponent', () => {
         datum = component.getBarDatumFromIndex(2);
         component.config.labels.offset = 20;
       });
-      it('calls getBarDimensionQuantitative once with datum and y if value is positive', () => {
-        component.getBarLabelOrigin(datum, true);
+      it('calls getBarDimensionQuantitative once with datum and y if value is negative', () => {
+        component.getBarLabelOrigin(datum, false);
         expect(component.getBarDimensionQuantitative).toHaveBeenCalledOnceWith(
           datum,
           'y'
         );
       });
-      it('returns the value from getBarHeightQuantitative for positive values', () => {
-        expect(component.getBarLabelOrigin(datum, true)).toBe(10);
+      it('returns zero for positive values', () => {
+        expect(component.getBarLabelOrigin(datum, true)).toBe(0);
       });
-      it('returns zero for values that are not positive', () => {
-        expect(component.getBarLabelOrigin(datum, false)).toBe(0);
+      it('returns the value from getBarHeightQuantitative for negative values', () => {
+        expect(component.getBarLabelOrigin(datum, false)).toBe(10);
       });
     });
   });
