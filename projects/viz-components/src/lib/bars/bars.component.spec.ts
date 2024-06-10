@@ -740,7 +740,7 @@ describe('BarsComponent', () => {
 
     it('calls getBarQuantitativeOrigin once', () => {
       component.getBarWidthQuantitative(2);
-      expect(component.getBarWidth).toHaveBeenCalledTimes(1);
+      expect(component.getBarQuantitativeOrigin).toHaveBeenCalledTimes(1);
     });
 
     it('calls xScale twice and with the correct values', () => {
