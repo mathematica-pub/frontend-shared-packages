@@ -482,7 +482,7 @@ export class BarsComponent<
     node: SVGTextElement
   ): number {
     const isPositiveValue = d.quantitative > 0;
-    const origin = this.getBarLabelOrigin(d, node, isPositiveValue);
+    const origin = this.getBarLabelOrigin(node, isPositiveValue);
     const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d);
     if (
       (this.config.dimensions.isVertical && placeLabelOutsideBar) ||
@@ -498,11 +498,7 @@ export class BarsComponent<
     }
   }
 
-  getBarLabelOrigin(
-    d: BarDatum<TOrdinalValue>,
-    node: SVGTextElement,
-    isPositiveValue: boolean
-  ): number {
+  getBarLabelOrigin(node: SVGTextElement, isPositiveValue: boolean): number {
     const bar = select(node.parentElement).select<SVGRectElement>('.vic-bar');
     if (this.config.dimensions.ordinal === 'x') {
       return isPositiveValue ? 0 : parseFloat(bar.attr('height'));

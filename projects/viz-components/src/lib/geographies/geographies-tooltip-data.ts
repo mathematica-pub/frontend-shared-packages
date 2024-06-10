@@ -39,7 +39,7 @@ export function getGeographiesTooltipData<
       value,
       component.config.dataGeographies.attributeData.valueFormat
     ),
-    color: component.getFill(geographyName),
+    color: component.getAttributeFill(geographyName),
   };
 
   return tooltipData;

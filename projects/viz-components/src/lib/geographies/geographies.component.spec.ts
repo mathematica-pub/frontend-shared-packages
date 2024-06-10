@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { vicDataGeographies } from './config/dimensions/data-geographies';
 import { vicEqualValuesAttributeDataDimension } from './config/dimensions/equal-value-ranges-bins';
-import { VicGeographiesConfig } from './config/geographies.config';
+import { vicGeographies } from './config/geographies.config';
 import { GeographiesComponent } from './geographies.component';
 
 type Datum = { value: number; state: string };
@@ -28,7 +28,7 @@ describe('GeographiesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
-      component.config = new VicGeographiesConfig({
+      component.config = vicGeographies({
         data: [
           { value: 1, state: 'AL' },
           { value: 2, state: 'AK' },
@@ -78,7 +78,7 @@ describe('GeographiesComponent', () => {
           'updateAttributeProperties'
         ),
       } as any;
-      component.config = new VicGeographiesConfig({
+      component.config = vicGeographies({
         data: [
           { value: 1, state: 'AL' },
           { value: 2, state: 'AK' },

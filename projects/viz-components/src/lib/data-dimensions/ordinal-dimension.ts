@@ -35,7 +35,6 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
   ) => ScaleBand<TOrdinalValue>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
-  private reverseDomainForDisplay: boolean;
 
   constructor(
     options?: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>
@@ -54,19 +53,18 @@ export class VicOrdinalDimension<Datum, TOrdinalValue extends VicDataValue>
   }
 
   setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
-    this.reverseDomainForDisplay = reverseDomain;
     this.setValues(data);
-    this.setDomain();
+    this.setDomain(reverseDomain);
   }
 
-  protected setDomain(): void {
+  protected setDomain(reverseDomain: boolean): void {
     let domain = this.domain;
     if (domain === undefined) {
       domain = this.values;
     }
     this.internSetDomain = new InternSet(domain);
     const uniqueValues = [...this.internSetDomain.values()];
-    this._calculatedDomain = this.reverseDomainForDisplay
+    this._calculatedDomain = reverseDomain
       ? uniqueValues.reverse()
       : uniqueValues;
   }

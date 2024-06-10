@@ -92,6 +92,7 @@ export class VicLinesConfig<Datum>
   implements VicLinesOptions<Datum>
 {
   categorical: VicCategoricalDimension<Datum, string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   curve: (x: any) => any;
   hoverDot: VicPointMarkers;
   labelLines: boolean;
@@ -103,6 +104,7 @@ export class VicLinesConfig<Datum>
   pointerDetectionRadius: number;
   pointMarkers: VicPointMarkers;
   stroke: VicLinesStroke;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined: (d: Datum, i: number, ...args: any) => any;
   x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
   y: VicQuantitativeDimension<Datum>;

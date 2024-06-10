@@ -24,6 +24,7 @@ export abstract class CalculatedRangeBinsAttributeDataDimension<
     return numBins > 1 && range.length !== numBins;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getColorGenerator(binIndicies: number[]): any {
     return scaleLinear<RangeValue>()
       .domain(extent(binIndicies))

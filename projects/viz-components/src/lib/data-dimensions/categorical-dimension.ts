@@ -5,7 +5,7 @@ import { VicFillPattern } from './fill-pattern';
 
 const DEFAULT = {
   range: schemeTableau10 as string[],
-  valueAccessor: (d, i) => i,
+  valueAccessor: () => '',
 };
 
 export interface VicCategoricalDimensionOptions<
@@ -49,9 +49,7 @@ export class VicCategoricalDimension<
     options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
   ) {
     super();
-    Object.assign(this, options);
-    this.valueAccessor = this.valueAccessor ?? (() => '' as TCategoricalValue);
-    this.range = this.range ?? DEFAULT.range;
+    Object.assign(this, DEFAULT, options);
   }
 
   get calculatedDomain(): TCategoricalValue[] {

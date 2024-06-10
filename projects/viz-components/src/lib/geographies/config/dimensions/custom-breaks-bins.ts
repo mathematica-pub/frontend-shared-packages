@@ -35,7 +35,7 @@ export class VicCustomBreaksAttributeDataDimension<
   readonly breakValues: number[];
   private calculatedNumBins: number;
   private domain: number[];
-  readonly valueAccessor: (d: Datum, ...args: any) => number;
+  readonly valueAccessor: (d: Datum) => number;
 
   constructor(
     options?: Partial<
