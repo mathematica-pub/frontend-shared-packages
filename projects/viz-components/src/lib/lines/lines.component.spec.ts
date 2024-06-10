@@ -1,7 +1,6 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { LinesComponent } from './lines.component';
 import { VicLinesConfig } from './lines.config';
@@ -9,10 +8,8 @@ import { VicLinesConfig } from './lines.config';
 describe('LineChartComponent', () => {
   let component: LinesComponent<any>;
   let fixture: ComponentFixture<LinesComponent<any>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [LinesComponent],

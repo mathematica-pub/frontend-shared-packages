@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export class OverlayStub {
   create = jasmine.createSpy('create');
   scrollStrategies = {

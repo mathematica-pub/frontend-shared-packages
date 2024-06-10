@@ -121,7 +121,8 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     const ordinalDomain =
       this.config.dimensions.ordinal === 'x'
         ? this.config.ordinal.domain
-        : (this.config.ordinal.domain as any[]).slice().reverse();
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this.config.ordinal.domain as any[]).slice().reverse();
     this.config.ordinal.domain = new InternSet(ordinalDomain);
     this.config.category.domain = new InternSet(this.config.category.domain);
   }
@@ -201,6 +202,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getOrdinalScale(): any {
     return this.config.ordinal
       .scaleFn()
@@ -211,6 +213,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       .align(this.config.ordinal.align);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getQuantitativeScale(): any {
     const domain = this.config.quantitative.domainPadding
       ? this.getPaddedQuantitativeDomain()
@@ -245,6 +248,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
@@ -258,6 +262,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
             .attr('transform', (i) => this.getBarGroupTransform(i)),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('transform', (i) => this.getBarGroupTransform(i)),
         (exit) => exit.remove()
@@ -277,6 +282,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
             .attr('fill', (i) => this.getBarFill(i)),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('width', (i) => this.getBarWidth(i))
             .attr('height', (i) => this.getBarHeight(i))
@@ -304,6 +310,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawBarLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
@@ -325,6 +332,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
             ),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))

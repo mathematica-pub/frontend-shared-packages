@@ -13,18 +13,21 @@ export class DataResource {
       .pipe(map((response) => response as UsMapTopology));
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getMetroUnemploymentData(): Observable<any> {
     return this.http.get('assets/example-data/metro_unemployment.json', {
       responseType: 'json',
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getIndustryUnemploymentData(): Observable<any> {
     return this.http.get('assets/example-data/industry_unemployment.json', {
       responseType: 'json',
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getStateIncomeData(): Observable<any> {
     return this.http.get('assets/example-data/state_income.json', {
       responseType: 'json',

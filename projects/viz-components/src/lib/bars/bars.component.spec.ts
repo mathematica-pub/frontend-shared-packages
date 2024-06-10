@@ -668,24 +668,20 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarWidth', () => {
-    let ordinalSpy: jasmine.Spy;
-    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      ordinalSpy = spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
-      quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
-        200
-      );
+      spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
+      spyOn(component, 'getBarWidthQuantitative').and.returnValue(200);
       component.config = { dimensions: { ordinal: 'x' } } as any;
     });
     describe('x dimension is ordinal', () => {
       it('calls getBarWidthOrdinal once', () => {
         component.getBarWidth(100);
-        expect(ordinalSpy).toHaveBeenCalledTimes(1);
+        expect(component.getBarWidthOrdinal).toHaveBeenCalledTimes(1);
       });
 
       it('does not call getBarWidthQuantitative', () => {
         component.getBarWidth(100);
-        expect(quantSpy).not.toHaveBeenCalled();
+        expect(component.getBarWidthQuantitative).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
@@ -700,12 +696,12 @@ describe('BarsComponent', () => {
 
       it('calls getBarWidthQuantitative once with the correct value', () => {
         component.getBarWidth(100);
-        expect(quantSpy).toHaveBeenCalledOnceWith(100);
+        expect(component.getBarWidthQuantitative).toHaveBeenCalledOnceWith(100);
       });
 
       it('does not call getBarWidthOrdinal', () => {
         component.getBarWidth(100);
-        expect(ordinalSpy).not.toHaveBeenCalled();
+        expect(component.getBarWidthOrdinal).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
@@ -744,7 +740,7 @@ describe('BarsComponent', () => {
 
     it('calls getBarQuantitativeOrigin once', () => {
       component.getBarWidthQuantitative(2);
-      expect(getOriginSpy).toHaveBeenCalledTimes(1);
+      expect(component.getBarQuantitativeOrigin).toHaveBeenCalledTimes(1);
     });
 
     it('calls xScale twice and with the correct values', () => {
@@ -764,13 +760,9 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarHeight', () => {
-    let ordinalSpy: jasmine.Spy;
-    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      ordinalSpy = spyOn(component, 'getBarHeightOrdinal').and.returnValue(200);
-      quantSpy = spyOn(component, 'getBarHeightQuantitative').and.returnValue(
-        300
-      );
+      spyOn(component, 'getBarHeightOrdinal').and.returnValue(200);
+      spyOn(component, 'getBarHeightQuantitative').and.returnValue(300);
     });
     describe('x dimension is ordinal', () => {
       beforeEach(() => {
@@ -778,12 +770,14 @@ describe('BarsComponent', () => {
       });
       it('calls getBarHeightQuantitative once with the correct value', () => {
         component.getBarHeight(100);
-        expect(quantSpy).toHaveBeenCalledOnceWith(100);
+        expect(component.getBarHeightQuantitative).toHaveBeenCalledOnceWith(
+          100
+        );
       });
 
       it('does not call getBarHeightOrdinal', () => {
         component.getBarHeight(100);
-        expect(ordinalSpy).not.toHaveBeenCalled();
+        expect(component.getBarHeightOrdinal).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
@@ -798,12 +792,12 @@ describe('BarsComponent', () => {
 
       it('calls getBarHeightOrdinal once', () => {
         component.getBarHeight(100);
-        expect(ordinalSpy).toHaveBeenCalledTimes(1);
+        expect(component.getBarHeightOrdinal).toHaveBeenCalledTimes(1);
       });
 
       it('does not call getBarHeightQuantitative', () => {
         component.getBarHeight(100);
-        expect(quantSpy).not.toHaveBeenCalled();
+        expect(component.getBarHeightQuantitative).not.toHaveBeenCalled();
       });
 
       it('returns the correct value', () => {
@@ -820,7 +814,7 @@ describe('BarsComponent', () => {
         },
       } as any;
     });
-    it('calls yScale.bandwidth once', () => {
+    it('calls scales.y.bandwidth once', () => {
       component.getBarHeightOrdinal();
       expect((component.scales.y as any).bandwidth).toHaveBeenCalledTimes(1);
     });

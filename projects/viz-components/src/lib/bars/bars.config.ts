@@ -90,6 +90,7 @@ export class VicVerticalBarsDimensionsConfig extends VicBarsDimensionsConfig {
 }
 
 export class VicBarsTooltipData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   datum: any;
   value: string;
 }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { VicPatternPredicate } from '../data-marks/data-marks.config';
 import { PatternUtilities } from './pattern-utilities.class';
 

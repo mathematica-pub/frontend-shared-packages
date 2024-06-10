@@ -81,6 +81,7 @@ export class BarsExampleComponent implements OnInit {
     const dataConfig = new VicBarsConfig<MetroUnemploymentDatum>();
     dataConfig.labels = new VicBarsLabelsConfig();
     dataConfig.labels.display = true;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     dataConfig.quantitative.valueFormat = (d: any) => {
       const label =
         d.value === undefined || d.value === null

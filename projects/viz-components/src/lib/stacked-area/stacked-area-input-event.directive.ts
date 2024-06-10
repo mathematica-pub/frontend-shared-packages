@@ -26,6 +26,7 @@ export class StackedAreaInputEventDirective<
   >[];
   @Input('vicStackedAreaInputEvent$') override inputEvent$: Observable<unknown>;
   @Output('vicStackedAreaInputEventOutput') eventOutput =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     new EventEmitter<any>();
 
   constructor(
@@ -35,6 +36,7 @@ export class StackedAreaInputEventDirective<
     super(destroyRef);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleNewEvent(inputEvent: any): void {
     if (inputEvent) {
       this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));

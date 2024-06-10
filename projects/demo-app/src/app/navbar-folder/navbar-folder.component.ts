@@ -9,6 +9,7 @@ export class NavbarFolderComponent {
   @Input() links;
   @Input() baseString;
   selected = {};
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   linkIsString(link: any): boolean {
     return typeof link === 'string';
   }
@@ -19,6 +20,7 @@ export class NavbarFolderComponent {
       this.selected[key] = !this.selected[key];
     }
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   addPartToBaseString(key: any): string {
     return `${this.baseString}/${key}`;
   }
