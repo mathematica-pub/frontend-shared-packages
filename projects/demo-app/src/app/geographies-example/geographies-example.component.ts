@@ -35,7 +35,10 @@ import {
   VicNoDataGeographies,
   vicNoDataGeographies,
 } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
-import { VicGeographiesLabels } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
+import {
+  VicGeographiesLabels,
+  vicGeographiesLabels,
+} from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
 import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
 import {
   VicGeographiesConfig,
@@ -160,6 +163,7 @@ export class GeographiesExampleComponent implements OnInit {
     data: StateIncomeDatum[]
   ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
     const noDataStatesConfig = this.getNoDataGeographies(data);
+    console.log(noDataStatesConfig);
     const config = vicGeographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
@@ -172,17 +176,22 @@ export class GeographiesExampleComponent implements OnInit {
 
   getNoDataGeographies(
     data: StateIncomeDatum[]
-  ): VicNoDataGeographies<StateIncomeDatum, MapGeometryProperties> {
+  ): VicNoDataGeographies<MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
     );
-    const labels = this.getGeographyLabelConfig();
-    return vicNoDataGeographies<StateIncomeDatum, MapGeometryProperties>({
+    // const labels = this.getGeographyLabelConfig();
+    return vicNoDataGeographies<MapGeometryProperties>({
       geographies: features,
-      labels: labels,
       categorical: vicCategoricalDimension({
         range: ['lightgray'],
+        valueAccessor: this.featureIndexAccessor,
+      }),
+      labels: vicGeographiesLabels({
+        valueAccessor: (d) => d.properties.id,
+        color: () => 'magenta',
+        fontWeight: () => 700,
       }),
     });
   }
@@ -190,7 +199,7 @@ export class GeographiesExampleComponent implements OnInit {
   getDataGeographiesConfig(
     data: StateIncomeDatum[]
   ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
-    const config = vicDataGeographies<StateIncomeDatum, MapGeometryProperties>({
+    return vicDataGeographies<StateIncomeDatum, MapGeometryProperties>({
       geographies: this.getDataGeographiesFeatures(data),
       attributeData: this.getAttributeDataDimension({
         geoAccessor: (d) => d.state,
@@ -203,7 +212,6 @@ export class GeographiesExampleComponent implements OnInit {
       }),
       labels: this.getGeographyLabelConfig(),
     });
-    return config;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -321,7 +329,6 @@ export class GeographiesExampleComponent implements OnInit {
       'VA',
       'NY',
     ];
-
     const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
     const smallSquareStates = [
       'CT',
@@ -334,48 +341,51 @@ export class GeographiesExampleComponent implements OnInit {
       'RI',
       'VT',
     ];
-    const labelConfig = new VicGeographiesLabels<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >();
-    labelConfig.valueAccessor = (d) => d.properties.id;
-    labelConfig.display = (d) =>
-      !unlabelledTerritories.includes(labelConfig.valueAccessor(d)) &&
-      !smallSquareStates.includes(labelConfig.valueAccessor(d));
-
-    labelConfig.position = (d, path, projection) => {
-      if (labelConfig.valueAccessor(d) === 'HI') {
-        return VicGeographiesLabelsPositioners.positionHawaiiOnGeoAlbersUsa(
-          d as VicGeographiesFeature<MapGeometryProperties, MultiPolygon>,
-          projection
-        );
-      } else if (polylabelStates.includes(labelConfig.valueAccessor(d))) {
-        return VicGeographiesLabelsPositioners.positionWithPolylabel(
-          d,
-          projection
-        );
-      } else {
-        return VicGeographiesLabelsPositioners.positionAtCentroid(d, path);
-      }
-    };
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
-    labelConfig.color = (d, backgroundColor) =>
-      VicColorUtilities.getHigherContrastColorForBackground(
-        backgroundColor,
-        darkColor,
-        lightColor
-      );
-    labelConfig.fontWeight = (d, backgroundColor) =>
-      VicColorUtilities.getHigherContrastColorForBackground(
-        backgroundColor,
-        darkColor,
-        lightColor
-      ) === darkColor
-        ? 700
-        : 400;
-
-    return labelConfig;
+    const valueAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>
+      d.properties.id;
+    return vicGeographiesLabels<StateIncomeDatum, MapGeometryProperties>({
+      valueAccessor,
+      display: (featureIndex) =>
+        !unlabelledTerritories.includes(featureIndex) &&
+        !smallSquareStates.includes(featureIndex),
+      position: (d, path, projection) => {
+        if (valueAccessor(d) === 'HI') {
+          return VicGeographiesLabelsPositioners.positionHawaiiOnGeoAlbersUsa(
+            d as VicGeographiesFeature<MapGeometryProperties, MultiPolygon>,
+            projection
+          );
+        } else if (polylabelStates.includes(valueAccessor(d))) {
+          return VicGeographiesLabelsPositioners.positionWithPolylabel(
+            d,
+            projection
+          );
+        } else {
+          return VicGeographiesLabelsPositioners.positionAtCentroid(d, path);
+        }
+      },
+      color: (d, backgroundColor) => {
+        return backgroundColor.slice(0, 3) === 'url'
+          ? darkColor
+          : VicColorUtilities.getHigherContrastColorForBackground(
+              backgroundColor,
+              darkColor,
+              lightColor
+            );
+      },
+      fontWeight: (d, backgroundColor) => {
+        return backgroundColor.slice(0, 3) === 'url'
+          ? 700
+          : VicColorUtilities.getHigherContrastColorForBackground(
+              backgroundColor,
+              darkColor,
+              lightColor
+            ) === darkColor
+          ? 700
+          : 400;
+      },
+    });
   }
 
   updateTooltipForNewOutput(

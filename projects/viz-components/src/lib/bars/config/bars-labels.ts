@@ -13,10 +13,10 @@ export class VicBarsLabels<Datum> {
   display: boolean;
   /**
    * The noValueFunction is used to determine the text of the label when the value of the bar is null or undefined.
-   * @default (d: Datum, ...args: any) => 'N/A'
-   * @type {(d: Datum, ...args: any) => string}
+   * @default (d: Datum) => 'N/A'
+   * @type {(d: Datum) => string}
    */
-  noValueFunction: (d: Datum, ...args: any) => string;
+  noValueFunction: (d: Datum) => string;
   /**
    * The distance between the label and the end of the bar.
    * @default 4

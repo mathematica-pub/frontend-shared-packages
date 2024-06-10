@@ -12,7 +12,9 @@ export interface VicAttributeDataDimensionOptions<
 > extends VicDataDimensionOptions<Datum, AttributeValue> {
   geoAccessor: (d: Datum) => string;
   range: RangeValue[];
-  scale: (...args: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  scale: (...args: any) => string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   fillPatterns: VicFillPattern<Datum>[];
 }
@@ -32,7 +34,7 @@ export abstract class AttributeDataDimension<
     VicAttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  geoAccessor: (d: Datum, ...args: any) => any;
+  geoAccessor: (d: Datum) => any;
   range: RangeValue[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: (...args: any) => any;

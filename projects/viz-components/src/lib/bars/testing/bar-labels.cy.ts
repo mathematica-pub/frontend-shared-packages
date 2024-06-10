@@ -2,20 +2,14 @@
 import { Component, Input } from '@angular/core';
 import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import {
-  VicBarsConfig,
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisModule,
-  vicBarsLabels,
-  vicHorizontalBars,
-  vicVerticalBars,
-  vicXQuantitativeAxis,
-  vicYOrdinalAxis,
-} from '../../../public-api';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
 import { vicXOrdinalAxis } from '../../axes/x-ordinal/x-ordinal-axis.config';
 import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
+import { vicXQuantitativeAxis } from '../../axes/x-quantitative/x-quantitative-axis.config';
+import { VicXQuantitativeAxisModule } from '../../axes/x-quantitative/x-quantitative-axis.module';
+import { vicYOrdinalAxis } from '../../axes/y-ordinal/y-ordinal-axis.config';
+import { VicYOrdinalAxisModule } from '../../axes/y-ordinal/y-ordinal-axis.module';
 import { vicYQuantitativeAxis } from '../../axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../../chart/chart.module';
@@ -25,6 +19,12 @@ import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
 import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { VicBarsModule } from '../bars.module';
+import { vicBarsLabels } from '../config/bars-labels';
+import {
+  VicBarsConfig,
+  vicHorizontalBars,
+  vicVerticalBars,
+} from '../config/bars.config';
 
 type Datum = { state: string; value: number };
 

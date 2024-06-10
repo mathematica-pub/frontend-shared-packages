@@ -1,7 +1,8 @@
 import { format, timeFormat } from 'd3';
-import { VicFormatSpecifier } from '../../public-api';
+
 import { VicValueExtent } from '../core/types/values';
 import { isDate } from '../core/utilities/type-guards';
+import { VicFormatSpecifier } from '../core/utilities/value-format';
 
 /**
  * @internal
@@ -169,6 +170,7 @@ export class ValueUtilities {
   }
 
   static formatValue<T>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     value: any,
     formatSpecifier: VicFormatSpecifier<T>
   ): string {

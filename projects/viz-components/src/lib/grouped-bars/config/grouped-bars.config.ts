@@ -7,14 +7,8 @@ import {
 import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
 import { VicDataValue } from '../../core/types/values';
 
-const GROUPED_BARS_DEFAULTS = {
-  root: {
-    mixBlendMode: 'normal',
-    intraGroupPadding: 0.05,
-  },
-  categorical: {
-    range: ['lightslategray'],
-  },
+const DEFAULT = {
+  intraGroupPadding: 0.05,
 };
 
 export interface VicGroupedBarsOptions<
@@ -35,7 +29,7 @@ export class VicGroupedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
   ) {
     super(dimensions, options);
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
     this.initPropertiesFromData();
   }
 
