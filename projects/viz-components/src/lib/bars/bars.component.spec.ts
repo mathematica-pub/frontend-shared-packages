@@ -668,13 +668,9 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarWidth', () => {
-    let ordinalSpy: jasmine.Spy;
-    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      ordinalSpy = spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
-      quantSpy = spyOn(component, 'getBarWidthQuantitative').and.returnValue(
-        200
-      );
+      spyOn(component, 'getBarWidthOrdinal').and.returnValue(300);
+      spyOn(component, 'getBarWidthQuantitative').and.returnValue(200);
       component.config = { dimensions: { ordinal: 'x' } } as any;
     });
     describe('x dimension is ordinal', () => {
@@ -764,13 +760,9 @@ describe('BarsComponent', () => {
   });
 
   describe('getBarHeight', () => {
-    let ordinalSpy: jasmine.Spy;
-    let quantSpy: jasmine.Spy;
     beforeEach(() => {
-      ordinalSpy = spyOn(component, 'getBarHeightOrdinal').and.returnValue(200);
-      quantSpy = spyOn(component, 'getBarHeightQuantitative').and.returnValue(
-        300
-      );
+      spyOn(component, 'getBarHeightOrdinal').and.returnValue(200);
+      spyOn(component, 'getBarHeightQuantitative').and.returnValue(300);
     });
     describe('x dimension is ordinal', () => {
       beforeEach(() => {
