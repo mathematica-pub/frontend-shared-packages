@@ -1,9 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
-import {
-  VicXQuantitativeAxisModule,
-  VicYOrdinalAxisModule,
-} from '@hsi/viz-components';
 import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
@@ -11,7 +7,9 @@ import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-
 import { vicXOrdinalAxis } from '../../axes/x-ordinal/x-ordinal-axis.config';
 import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
 import { vicXQuantitativeAxis } from '../../axes/x-quantitative/x-quantitative-axis.config';
+import { VicXQuantitativeAxisModule } from '../../axes/x-quantitative/x-quantitative-axis.module';
 import { vicYOrdinalAxis } from '../../axes/y-ordinal/y-ordinal-axis.config';
+import { VicYOrdinalAxisModule } from '../../axes/y-ordinal/y-ordinal-axis.module';
 import { vicYQuantitativeAxis } from '../../axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../../chart/chart.module';
