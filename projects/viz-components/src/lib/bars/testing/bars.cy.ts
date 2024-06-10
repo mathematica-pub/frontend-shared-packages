@@ -463,7 +463,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           }
         });
       });
-      it(`has bars with the correct ${barAttr} when values are negative`, () => {
+      it(`has bars with the correct ${barAttr} when some values are negative`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = barFunction({
@@ -521,7 +521,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             });
           });
       });
-      it('has bars with the correct width when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
+      it(`has bars with the correct ${barAttr} when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = barFunction({
