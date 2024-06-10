@@ -74,13 +74,13 @@ export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
     }
   }
 
-  getBarYOrdinal(i: number): number {
+  override getBarYOrdinal(i: number): number {
     return (
       this.scales.y(this.values.y[i]) + this.groupScale(this.values.category[i])
     );
   }
 
-  getBarYQuantitative(i: number): number {
+  override getBarYQuantitative(i: number): number {
     return this.scales.y(this.values.y[i]);
   }
 
