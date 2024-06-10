@@ -198,8 +198,8 @@ export class BarsComponent<
             .style('display', this.config.labels.display ? null : 'none')
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
-            .attr('x', (d, i, nodes) => this.getBarLabelX(d, nodes[i]))
-            .attr('y', (d, i, nodes) => this.getBarLabelY(d, nodes[i]))
+            .attr('x', (d) => this.getBarLabelX(d))
+            .attr('y', (d) => this.getBarLabelY(d))
             .attr('text-anchor', (d) => this.getBarLabelTextAnchor(d))
             .attr('dominant-baseline', (d) =>
               this.getBarLabelDominantBaseline(d)
@@ -210,8 +210,8 @@ export class BarsComponent<
             .transition(t as any)
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
-            .attr('x', (d, i, nodes) => this.getBarLabelX(d, nodes[i]))
-            .attr('y', (d, i, nodes) => this.getBarLabelY(d, nodes[i]))
+            .attr('x', (d) => this.getBarLabelX(d))
+            .attr('y', (d) => this.getBarLabelY(d))
             .attr('text-anchor', (d) => this.getBarLabelTextAnchor(d))
             .attr('dominant-baseline', (d) =>
               this.getBarLabelDominantBaseline(d)
@@ -440,30 +440,27 @@ export class BarsComponent<
     return selection.node().getBoundingClientRect();
   }
 
-  getBarLabelX(d: BarDatum<TOrdinalValue>, node: SVGTextElement): number {
+  getBarLabelX(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.x === 'ordinal') {
       return this.getBarWidthOrdinal() / 2;
     } else {
-      return this.getBarLabelQuantitativeAxisPosition(d, node);
+      return this.getBarLabelQuantitativeAxisPosition(d);
     }
   }
 
-  getBarLabelY(d: BarDatum<TOrdinalValue>, node: SVGTextElement): number {
+  getBarLabelY(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.y === 'ordinal') {
       return this.getBarHeightOrdinal() / 2;
     } else {
-      return this.getBarLabelQuantitativeAxisPosition(d, node);
+      return this.getBarLabelQuantitativeAxisPosition(d);
     }
   }
 
-  getBarLabelQuantitativeAxisPosition(
-    d: BarDatum<TOrdinalValue>,
-    node: SVGTextElement
-  ): number {
+  getBarLabelQuantitativeAxisPosition(d: BarDatum<TOrdinalValue>): number {
     if (this.isZeroOrNonNumeric(d.quantitative)) {
       return this.getBarLabelPositionForZeroOrNonnumericValue();
     } else {
-      return this.getBarLabelPositionForNumericValue(d, node);
+      return this.getBarLabelPositionForNumericValue(d);
     }
   }
 
@@ -477,12 +474,9 @@ export class BarsComponent<
       : -this.config.labels.offset;
   }
 
-  getBarLabelPositionForNumericValue(
-    d: BarDatum<TOrdinalValue>,
-    node: SVGTextElement
-  ): number {
+  getBarLabelPositionForNumericValue(d: BarDatum<TOrdinalValue>): number {
     const isPositiveValue = d.quantitative > 0;
-    const origin = this.getBarLabelOrigin(node, isPositiveValue);
+    const origin = this.getBarLabelOrigin(d, isPositiveValue);
     const placeLabelOutsideBar = this.barLabelFitsOutsideBar(d);
     if (
       (this.config.dimensions.isVertical && placeLabelOutsideBar) ||
@@ -498,12 +492,14 @@ export class BarsComponent<
     }
   }
 
-  getBarLabelOrigin(node: SVGTextElement, isPositiveValue: boolean): number {
-    const bar = select(node.parentElement).select<SVGRectElement>('.vic-bar');
-    if (this.config.dimensions.ordinal === 'x') {
-      return isPositiveValue ? 0 : parseFloat(bar.attr('height'));
+  getBarLabelOrigin(
+    d: BarDatum<TOrdinalValue>,
+    isPositiveValue: boolean
+  ): number {
+    if (this.config.dimensions.isHorizontal) {
+      return isPositiveValue ? this.getBarDimensionQuantitative(d, 'x') : 0;
     } else {
-      return isPositiveValue ? parseFloat(bar.attr('width')) : 0;
+      return isPositiveValue ? 0 : this.getBarDimensionQuantitative(d, 'y');
     }
   }
 
