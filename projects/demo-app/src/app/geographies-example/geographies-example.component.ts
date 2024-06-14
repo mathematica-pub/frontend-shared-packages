@@ -8,11 +8,11 @@ import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-types';
 import { VicCategoricalAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/custom-breaks-bins';
-import { VicDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/data-layer';
+import { VicGeographiesDataLayer } from 'projects/viz-components/src/lib/geographies/config/dimensions/data-layer';
 import { VicEqualNumObservationsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-bins';
-import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-layer';
+import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-layer';
 import { VicGeographiesLabels } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
 import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
 import { VicGeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies.config';
@@ -149,7 +149,7 @@ export class GeographiesExampleComponent implements OnInit {
 
   getNoDataLayer(
     data: StateIncomeDatum[]
-  ): VicNoDataGeographies<MapGeometryProperties> {
+  ): VicGeographiesNoDataLayer<MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
@@ -170,7 +170,7 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataLayerConfig(
     data: StateIncomeDatum[]
-  ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
+  ): VicGeographiesDataLayer<StateIncomeDatum, MapGeometryProperties> {
     return Vic.geographiesDataLayer<StateIncomeDatum, MapGeometryProperties>({
       geographies: this.getDataGeographiesFeatures(data),
       attributeData: this.getAttributeDataDimension({
