@@ -135,19 +135,19 @@ export class GeographiesExampleComponent implements OnInit {
   getDataMarksConfig(
     data: StateIncomeDatum[]
   ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
-    const noDataStatesConfig = this.getNoDataGeographies(data);
+    const noDataStatesConfig = this.getNoDataLayer(data);
     console.log(noDataStatesConfig);
     const config = Vic.geographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
       featureIndexAccessor: this.featureIndexAccessor,
       noDataLayers: [this.basemap.usOutlineConfig, noDataStatesConfig],
-      dataLayer: this.getDataGeographiesConfig(data),
+      dataLayer: this.getDataLayerConfig(data),
     });
     return config;
   }
 
-  getNoDataGeographies(
+  getNoDataLayer(
     data: StateIncomeDatum[]
   ): VicNoDataGeographies<MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
@@ -168,7 +168,7 @@ export class GeographiesExampleComponent implements OnInit {
     });
   }
 
-  getDataGeographiesConfig(
+  getDataLayerConfig(
     data: StateIncomeDatum[]
   ): VicDataGeographies<StateIncomeDatum, MapGeometryProperties> {
     return Vic.geographiesDataLayer<StateIncomeDatum, MapGeometryProperties>({
