@@ -29,8 +29,8 @@ import {
   VicDateDimensionOptions,
 } from '../data-dimensions/date-dimension';
 import {
-  PercentOverDomainPadding,
   PercentOverDomainPaddingOptions,
+  VicPercentOverDomainPadding,
 } from '../data-dimensions/domain-padding/percent-over';
 import {
   VicPixelDomainPadding,
@@ -193,8 +193,8 @@ export class Vic {
 
   static domainPaddingPercentOver(
     options?: Partial<PercentOverDomainPaddingOptions>
-  ): PercentOverDomainPadding {
-    return new PercentOverDomainPadding(options);
+  ): VicPercentOverDomainPadding {
+    return new VicPercentOverDomainPadding(options);
   }
 
   static domainPaddingPixel(

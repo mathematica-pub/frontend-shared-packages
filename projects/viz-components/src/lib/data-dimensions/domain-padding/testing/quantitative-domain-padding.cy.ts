@@ -10,7 +10,7 @@ import { VicBarsModule } from '../../../bars/bars.module';
 import { VicChartModule } from '../../../chart/chart.module';
 import { Vic } from '../../../config/vic';
 import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
-import { PercentOverDomainPadding } from '../percent-over';
+import { VicPercentOverDomainPadding } from '../percent-over';
 import { VicPixelDomainPadding } from '../pixel';
 import { VicRoundUpToIntervalDomainPadding } from '../round-to-interval';
 import { VicRoundUpDomainPadding } from '../round-up';
@@ -681,7 +681,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = -20;
       (barsConfig.quantitative as any).domainPadding =
-        new PercentOverDomainPadding({
+        new VicPercentOverDomainPadding({
           percentOver: 0.05,
         });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -855,7 +855,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
       barsConfig.data.find((d) => d.state === 'Arizona').value = 20;
       barsConfig.data.find((d) => d.state === 'California').value = -60;
       (barsConfig.quantitative as any).domainPadding =
-        new PercentOverDomainPadding({
+        new VicPercentOverDomainPadding({
           percentOver: 0.05,
         });
       cy.mount(TestXQuantitativeDomainComponent, {
@@ -1016,7 +1016,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 0.4;
       (barsConfig.quantitative as any).domainPadding =
-        new PercentOverDomainPadding({
+        new VicPercentOverDomainPadding({
           percentOver: 0.05,
         });
       cy.mount(TestXQuantitativeDomainComponent, {

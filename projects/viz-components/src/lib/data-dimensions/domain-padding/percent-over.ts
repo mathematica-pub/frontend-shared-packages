@@ -12,14 +12,14 @@ export interface PercentOverDomainPaddingOptions {
   percentOver: number;
 }
 
-export class PercentOverDomainPadding
+export class VicPercentOverDomainPadding
   extends VicDomainPadding
   implements PercentOverDomainPaddingOptions
 {
   readonly percentOver: number;
   readonly type: DomainPadding.percentOver;
 
-  constructor(options?: Partial<PercentOverDomainPadding>) {
+  constructor(options?: Partial<VicPercentOverDomainPadding>) {
     super();
     Object.assign(this, options);
     this.type = DomainPadding.percentOver;
