@@ -101,10 +101,6 @@ export class BarsExampleComponent implements OnInit {
         : Vic.axisYQuantitative<number>({
             tickFormat: '.0f',
           });
-    const barsGenerator =
-      orientation === Orientation.horizontal
-        ? Vic.barsHorizontal
-        : Vic.barsVertical;
     const method =
       orientation === 'horizontal' ? 'barsHorizontal' : 'barsVertical';
     const dataConfig = Vic[method]<MetroUnemploymentDatum, string>({
