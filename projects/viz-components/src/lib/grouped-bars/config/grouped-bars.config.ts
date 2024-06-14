@@ -1,9 +1,5 @@
 import { range } from 'd3';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicBarsDimensions,
-} from '../../bars/config/bars-dimensions';
+import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
 import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
 import { VicDataValue } from '../../core/types/values';
 
@@ -41,24 +37,4 @@ export class VicGroupedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
       );
     });
   }
-}
-
-export function vicVerticalGroupedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
-): VicGroupedBarsConfig<Datum, TOrdinalValue> {
-  const config = new VicGroupedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
-  return config;
-}
-
-export function vicHorizontalGroupedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
-): VicGroupedBarsConfig<Datum, TOrdinalValue> {
-  const config = new VicGroupedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-  return config;
 }

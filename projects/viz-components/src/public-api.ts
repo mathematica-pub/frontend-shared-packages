@@ -33,6 +33,7 @@ export * from './lib/chart/chart';
 export * from './lib/chart/chart.component';
 export * from './lib/chart/chart.module';
 export * from './lib/chart/chart.token';
+export * from './lib/config/vic';
 export * from './lib/core/types/layout';
 export * from './lib/core/types/values';
 export * from './lib/core/utilities/value-format';

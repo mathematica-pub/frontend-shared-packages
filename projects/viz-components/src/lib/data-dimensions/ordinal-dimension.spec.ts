@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicOrdinalDimension, vicOrdinalDimension } from './ordinal-dimension';
+import { Vic } from '../config/vic';
+import { VicOrdinalDimension } from './ordinal-dimension';
 
 const data = [
   { value: 1, category: 'a' },
@@ -15,7 +16,7 @@ describe('VicOrdinalDimension', () => {
     string
   >;
   beforeEach(() => {
-    dimension = vicOrdinalDimension({
+    dimension = Vic.dimensionOrdinal({
       valueAccessor: (d) => d.category,
     });
   });

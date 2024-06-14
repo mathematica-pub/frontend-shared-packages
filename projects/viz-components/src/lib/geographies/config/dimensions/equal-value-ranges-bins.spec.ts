@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicEqualValuesAttributeDataDimension,
-  vicEqualValuesAttributeDataDimension,
-} from './equal-value-ranges-bins';
+import { Vic } from '../../../config/vic';
+import { VicEqualValuesAttributeDataDimension } from './equal-value-ranges-bins';
 
 describe('VicEqualValuesAttributeDataDimension', () => {
   let dimension: VicEqualValuesAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = vicEqualValuesAttributeDataDimension({
+    dimension = Vic.geographiesDataDimensionEqualValueRanges({
       numBins: 3,
       valueFormat: '.1f',
       range: ['red', 'blue', 'yellow', 'green'],
@@ -47,7 +45,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
       expect((dimension as any).calculatedDomain).toEqual([0, 20]);
     });
     it('sets the domain to values if there is no user provided domain', () => {
-      dimension = vicEqualValuesAttributeDataDimension({
+      dimension = Vic.geographiesDataDimensionEqualValueRanges({
         numBins: 3,
         valueFormat: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
@@ -80,7 +78,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
   describe('integration: getScale', () => {
     let scale: any;
     beforeEach(() => {
-      dimension = vicEqualValuesAttributeDataDimension({
+      dimension = Vic.geographiesDataDimensionEqualValueRanges({
         numBins: 4,
         valueFormat: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],

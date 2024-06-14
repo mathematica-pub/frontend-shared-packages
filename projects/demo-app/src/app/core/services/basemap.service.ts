@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
-import {
-  VicNoDataGeographies,
-  vicNoDataGeographies,
-} from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import { Vic } from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
 import { DataResource } from '../resources/data.resource';
@@ -49,11 +46,11 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    this.usOutlineConfig = vicNoDataGeographies<MapGeometryProperties>({
+    this.usOutlineConfig = Vic.geographiesNoDataLayer<MapGeometryProperties>({
       geographies: this.us.features,
       strokeColor: colors.base,
       strokeWidth: '1',
-      categorical: vicCategoricalDimension({
+      categorical: Vic.dimensionCategorical({
         valueAccessor: (d) => d.properties.name,
         range: ['none'],
       }),

@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicDataGeographies } from './dimensions/data-geographies';
-import {
-  VicEqualValuesAttributeDataDimension,
-  vicEqualValuesAttributeDataDimension,
-} from './dimensions/equal-value-ranges-bins';
-import { vicNoDataGeographies } from './dimensions/no-data-geographies';
+
+import { Vic } from '../../config/vic';
+import { VicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { VicGeographiesConfig } from './geographies.config';
 
 type Datum = { value: number; state: string };
@@ -26,19 +22,19 @@ const features = [
   { name: 'Colorado' },
 ];
 function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
-  return new VicGeographiesConfig({
+  return Vic.geographies({
     data: data,
-    dataGeographies: vicDataGeographies<Datum, { name: string }, any>({
-      attributeData: vicEqualValuesAttributeDataDimension<Datum>({
+    dataGeographies: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+      attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
         valueAccessor: (d) => d.value,
         geoAccessor: (d) => d.state,
         numBins: 5,
       }),
     }),
     noDataGeographies: [
-      vicNoDataGeographies<FeatureProperties>({
+      Vic.geographiesNoDataLayer<FeatureProperties>({
         geographies: features as any,
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           range: ['lime'],
         }),
       }),

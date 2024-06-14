@@ -1,20 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import {
-  VicXOrdinalAxisConfig,
-  vicXOrdinalAxis,
-} from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis.config';
-import {
-  VicYQuantitativeAxisConfig,
-  vicYQuantitativeAxis,
-} from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
+import { VicXOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis.config';
+import { VicYQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
-import { vicOrdinalDimension } from 'projects/viz-components/src/lib/data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-dimensions/quantitative-dimension';
-import {
-  VicStackedBarsConfig,
-  vicVerticalStackedBars,
-} from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars.config';
+import { VicStackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars.config';
+import { Vic } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -54,24 +43,26 @@ export class StackedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
-    const xAxisConfig = vicXOrdinalAxis<Date>({
+    const xAxisConfig = Vic.axisXOrdinal<Date>({
       tickFormat: '%Y',
     });
-    const yAxisConfig = vicYQuantitativeAxis<number>({
+    const yAxisConfig = Vic.axisYQuantitative<number>({
       tickFormat: ',.0f',
     });
-    const dataConfig = vicVerticalStackedBars<IndustryUnemploymentDatum, Date>({
-      data: yearlyData,
-      ordinal: vicOrdinalDimension({
-        valueAccessor: (d) => d.date,
-      }),
-      quantitative: vicQuantitativeDimension({
-        valueAccessor: (d) => d.value,
-      }),
-      categorical: vicCategoricalDimension({
-        valueAccessor: (d) => d.industry,
-      }),
-    });
+    const dataConfig = Vic.stackedBarsVertical<IndustryUnemploymentDatum, Date>(
+      {
+        data: yearlyData,
+        ordinal: Vic.dimensionOrdinal({
+          valueAccessor: (d) => d.date,
+        }),
+        quantitative: Vic.dimensionQuantitative({
+          valueAccessor: (d) => d.value,
+        }),
+        categorical: Vic.dimensionCategorical({
+          valueAccessor: (d) => d.industry,
+        }),
+      }
+    );
     return {
       dataConfig,
       xAxisConfig,

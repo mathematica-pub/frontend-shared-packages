@@ -21,10 +21,3 @@ export class VicXQuantitativeAxisConfig<
     Object.assign(this, options);
   }
 }
-
-export function vicXQuantitativeAxis<TickValue extends VicDataValue>(
-  options?: Partial<VicXAxisOptions<TickValue>> &
-    Partial<VicQuantitativeAxisOptions<TickValue>>
-): VicXQuantitativeAxisConfig<TickValue> {
-  return new VicXQuantitativeAxisConfig(options);
-}

@@ -79,14 +79,9 @@ export class VicPixelDomainPadding
   }
 }
 
-/**
- *
- * @param {<VicPixelDomainPaddingOptions>} options
- * @param {number} options.pixels - The number of pixels to add to the end of the domain. Defaults to 40.
- * @returns
- */
-export function vicPixelDomainPadding(
-  options?: Partial<VicPixelDomainPaddingOptions>
-): VicPixelDomainPadding {
-  return new VicPixelDomainPadding(options);
-}
+// /**
+//  *
+//  * @param {<VicPixelDomainPaddingOptions>} options
+//  * @param {number} options.pixels - The number of pixels to add to the end of the domain. Defaults to 40.
+//  * @returns
+//  */

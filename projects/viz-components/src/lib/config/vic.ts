@@ -1,0 +1,364 @@
+import {
+  GeoJsonProperties,
+  GeometryObject as Geometry,
+  MultiPolygon,
+  Polygon,
+} from 'geojson';
+import { VicOrdinalAxisOptions } from '../axes/ordinal/ordinal-axis.config';
+import { VicQuantitativeAxisOptions } from '../axes/quantitative/quantitative-axis.config';
+import { VicXOrdinalAxisConfig } from '../axes/x-ordinal/x-ordinal-axis.config';
+import { VicXQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis.config';
+import { VicXAxisOptions } from '../axes/x/x-axis.config';
+import { VicYOrdinalAxisConfig } from '../axes/y-ordinal/y-ordinal-axis.config';
+import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis.config';
+import { VicYAxisOptions } from '../axes/y/y-axis.config';
+import {
+  HORIZONTAL_BARS_DIMENSIONS,
+  VERTICAL_BARS_DIMENSIONS,
+  VicBarsDimensions,
+} from '../bars/config/bars-dimensions';
+import { VicBarsLabels } from '../bars/config/bars-labels';
+import { VicBarsConfig, VicBarsOptions } from '../bars/config/bars.config';
+import { VicDataValue } from '../core/types/values';
+import {
+  VicCategoricalDimension,
+  VicCategoricalDimensionOptions,
+} from '../data-dimensions/categorical-dimension';
+import {
+  VicDateDimension,
+  VicDateDimensionOptions,
+} from '../data-dimensions/date-dimension';
+import {
+  VicPercentOverDomainPadding,
+  VicPercentOverDomainPaddingOptions,
+} from '../data-dimensions/domain-padding/percent-over-padding';
+import {
+  VicPixelDomainPadding,
+  VicPixelDomainPaddingOptions,
+} from '../data-dimensions/domain-padding/pixel-padding';
+import {
+  VicRoundUpToIntervalDomainPadding,
+  VicRoundUpToIntervalDomainPaddingOptions,
+} from '../data-dimensions/domain-padding/round-to-interval-padding';
+import {
+  VicRoundUpDomainPadding,
+  VicRoundUpDomainPaddingOptions,
+} from '../data-dimensions/domain-padding/round-up-padding';
+import {
+  VicOrdinalDimension,
+  VicOrdinalDimensionOptions,
+} from '../data-dimensions/ordinal-dimension';
+import {
+  VicQuantitativeDimension,
+  VicQuantitativeDimensionOptions,
+} from '../data-dimensions/quantitative-dimension';
+import {
+  VicCategoricalAttributeDataDimension,
+  VicCategoricalAttributeDataDimensionOptions,
+} from '../geographies/config/dimensions/categorical-bins';
+import {
+  VicCustomBreaksAttributeDataDimension,
+  VicCustomBreaksAttributeDataDimensionOptions,
+} from '../geographies/config/dimensions/custom-breaks-bins';
+import {
+  VicDataGeographies,
+  VicDataGeographiesOptions,
+} from '../geographies/config/dimensions/data-geographies';
+import {
+  VicEqualNumObservationsAttributeDataDimension,
+  VicEqualNumObservationsAttributeDataDimensionOptions,
+} from '../geographies/config/dimensions/equal-num-observations-bins';
+import {
+  VicEqualValuesAttributeDataDimension,
+  VicEqualValuesAttributeDataDimensionOptions,
+} from '../geographies/config/dimensions/equal-value-ranges-bins';
+import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
+import {
+  VicNoDataGeographies,
+  VicNoDataGeographiesOptions,
+} from '../geographies/config/dimensions/no-data-geographies';
+import {
+  VicGeographiesLabels,
+  VicGeographiesLabelsOptions,
+} from '../geographies/config/geographies-labels';
+import {
+  VicGeographiesConfig,
+  VicGeographiesOptions,
+} from '../geographies/config/geographies.config';
+import {
+  VicGroupedBarsConfig,
+  VicGroupedBarsOptions,
+} from '../grouped-bars/config/grouped-bars.config';
+import {
+  VicLinesStroke,
+  VicLinesStrokeOptions,
+} from '../lines/config/lines-stroke';
+import { VicLinesConfig, VicLinesOptions } from '../lines/config/lines.config';
+import {
+  VicPointMarkers,
+  VicPointMarkersOptions,
+} from '../lines/config/point-markers';
+import {
+  VicStackedAreaConfig,
+  VicStackedAreaOptions,
+} from '../stacked-area/config/stacked-area.config';
+import {
+  VicStackedBarsConfig,
+  VicStackedBarsOptions,
+} from '../stacked-bars/config/stacked-bars.config';
+
+export class Vic {
+  static axisXOrdinal<TickValue extends VicDataValue>(
+    options?: Partial<VicXAxisOptions<TickValue>> &
+      Partial<VicOrdinalAxisOptions<TickValue>>
+  ): VicXOrdinalAxisConfig<TickValue> {
+    return new VicXOrdinalAxisConfig(options);
+  }
+
+  static axisXQuantitative<TickValue extends VicDataValue>(
+    options?: Partial<VicXAxisOptions<TickValue>> &
+      Partial<VicQuantitativeAxisOptions<TickValue>>
+  ): VicXQuantitativeAxisConfig<TickValue> {
+    return new VicXQuantitativeAxisConfig(options);
+  }
+
+  static axisYOrdinal<TickValue extends VicDataValue>(
+    options?: Partial<
+      VicYAxisOptions<TickValue> & Partial<VicOrdinalAxisOptions<TickValue>>
+    >
+  ): VicYOrdinalAxisConfig<TickValue> {
+    return new VicYOrdinalAxisConfig(options);
+  }
+
+  static axisYQuantitative<TickValue extends VicDataValue>(
+    options?: Partial<
+      VicYAxisOptions<TickValue> &
+        Partial<VicQuantitativeAxisOptions<TickValue>>
+    >
+  ): VicYQuantitativeAxisConfig<TickValue> {
+    return new VicYQuantitativeAxisConfig(options);
+  }
+
+  private static bars<Datum, TOrdinalValue extends VicDataValue>(
+    dimensions: VicBarsDimensions,
+    options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
+  ): VicBarsConfig<Datum, TOrdinalValue> {
+    return new VicBarsConfig(dimensions, options);
+  }
+
+  static barsHorizontal<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
+  ): VicBarsConfig<Datum, TOrdinalValue> {
+    return this.bars(HORIZONTAL_BARS_DIMENSIONS, options);
+  }
+
+  static barsLabels<Datum>(
+    options: Partial<VicBarsLabels<Datum>>
+  ): VicBarsLabels<Datum> {
+    return new VicBarsLabels(options);
+  }
+
+  static barsVertical<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
+  ): VicBarsConfig<Datum, TOrdinalValue> {
+    return this.bars(VERTICAL_BARS_DIMENSIONS, options);
+  }
+
+  static dimensionCategorical<
+    Datum,
+    TCategoricalValue extends VicDataValue = string
+  >(
+    options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
+  ): VicCategoricalDimension<Datum, TCategoricalValue> {
+    return new VicCategoricalDimension(options);
+  }
+
+  static dimensionDate<Datum>(
+    options: Partial<VicDateDimensionOptions<Datum>>
+  ): VicDateDimension<Datum> {
+    return new VicDateDimension(options);
+  }
+
+  static dimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>
+  ): VicOrdinalDimension<Datum, TOrdinalValue> {
+    return new VicOrdinalDimension(options);
+  }
+
+  static dimensionQuantitative<Datum>(
+    options: Partial<VicQuantitativeDimensionOptions<Datum>>
+  ): VicQuantitativeDimension<Datum> {
+    return new VicQuantitativeDimension(options);
+  }
+
+  static domainPaddingPercentOver(
+    options?: Partial<VicPercentOverDomainPaddingOptions>
+  ): VicPercentOverDomainPadding {
+    return new VicPercentOverDomainPadding(options);
+  }
+
+  static domainPaddingPixel(
+    options?: Partial<VicPixelDomainPaddingOptions>
+  ): VicPixelDomainPadding {
+    return new VicPixelDomainPadding(options);
+  }
+
+  static domainPaddingRoundUp(
+    options?: Partial<VicRoundUpDomainPaddingOptions>
+  ): VicRoundUpDomainPadding {
+    return new VicRoundUpDomainPadding(options);
+  }
+
+  static domainPaddingRoundUpToInterval(
+    options?: Partial<VicRoundUpToIntervalDomainPaddingOptions>
+  ): VicRoundUpToIntervalDomainPadding {
+    return new VicRoundUpToIntervalDomainPadding(options);
+  }
+
+  static geographies<
+    Datum,
+    TProperties extends GeoJsonProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon
+  >(
+    options: Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>
+  ): VicGeographiesConfig<Datum, TProperties, TGeometry> {
+    return new VicGeographiesConfig(options);
+  }
+
+  static geographiesDataDimensionCategorical<
+    Datum,
+    RangeValue extends string | number = string
+  >(
+    options?: Partial<
+      VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
+    >
+  ): VicCategoricalAttributeDataDimension<Datum, RangeValue> {
+    return new VicCategoricalAttributeDataDimension<Datum, RangeValue>(options);
+  }
+
+  static geographiesDataDimensionCustomBreaks<
+    Datum,
+    RangeValue extends string | number = string
+  >(
+    options?: Partial<
+      VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
+    >
+  ): VicCustomBreaksAttributeDataDimension<Datum, RangeValue> {
+    return new VicCustomBreaksAttributeDataDimension<Datum, RangeValue>(
+      options
+    );
+  }
+
+  static geographiesDataDimensionEqualNumObservations<
+    Datum,
+    RangeValue extends string | number = string
+  >(
+    options?: Partial<
+      VicEqualNumObservationsAttributeDataDimensionOptions<Datum, RangeValue>
+    >
+  ): VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue> {
+    return new VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue>(
+      options
+    );
+  }
+
+  static geographiesDataDimensionEqualValueRanges<
+    Datum,
+    RangeValue extends string | number = string
+  >(
+    options?: Partial<
+      VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
+    >
+  ): VicEqualValuesAttributeDataDimension<Datum, RangeValue> {
+    return new VicEqualValuesAttributeDataDimension<Datum, RangeValue>(options);
+  }
+
+  static geographiesDataDimensionNoBins<Datum>(
+    options?: Partial<VicNoBinsAttributeDataDimension<Datum>>
+  ): VicNoBinsAttributeDataDimension<Datum> {
+    return new VicNoBinsAttributeDataDimension<Datum>(options);
+  }
+
+  static geographiesDataLayer<
+    Datum,
+    TProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon
+  >(
+    options?: Partial<VicDataGeographiesOptions<Datum, TProperties, TGeometry>>
+  ): VicDataGeographies<Datum, TProperties, TGeometry> {
+    return new VicDataGeographies(options);
+  }
+
+  static geographiesLabels<
+    Datum,
+    TProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon
+  >(
+    options?: Partial<
+      VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>
+    >
+  ): VicGeographiesLabels<Datum, TProperties, TGeometry> {
+    return new VicGeographiesLabels(options);
+  }
+
+  static geographiesNoDataLayer<
+    TProperties,
+    TGeometry extends Geometry = MultiPolygon | Polygon,
+    TCategoricalValue extends string = string
+  >(
+    options?: Partial<
+      VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
+    >
+  ) {
+    return new VicNoDataGeographies(options);
+  }
+
+  static groupedBarsHorizontal<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
+  ): VicGroupedBarsConfig<Datum, TOrdinalValue> {
+    const config = new VicGroupedBarsConfig(
+      HORIZONTAL_BARS_DIMENSIONS,
+      options
+    );
+    return config;
+  }
+
+  static groupedBarsVertical<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
+  ): VicGroupedBarsConfig<Datum, TOrdinalValue> {
+    const config = new VicGroupedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
+    return config;
+  }
+
+  static lines<Datum>(
+    options: Partial<VicLinesOptions<Datum>>
+  ): VicLinesConfig<Datum> {
+    return new VicLinesConfig(options);
+  }
+
+  static linesStroke(options: Partial<VicLinesStrokeOptions>) {
+    return new VicLinesStroke(options);
+  }
+
+  static linesPointMarkers(options: Partial<VicPointMarkersOptions>) {
+    return new VicPointMarkers(options);
+  }
+
+  static stackedArea<Datum, TCategoricalValue extends VicDataValue>(
+    options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
+  ): VicStackedAreaConfig<Datum, TCategoricalValue> {
+    return new VicStackedAreaConfig(options);
+  }
+
+  static stackedBarsHorizontal<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
+  ): VicStackedBarsConfig<Datum, TOrdinalValue> {
+    return new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
+  }
+
+  static stackedBarsVertical<Datum, TOrdinalValue extends VicDataValue>(
+    options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
+  ): VicStackedBarsConfig<Datum, TOrdinalValue> {
+    return new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
+  }
+}

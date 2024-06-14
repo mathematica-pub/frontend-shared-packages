@@ -43,14 +43,9 @@ export class VicPercentOverDomainPadding
   }
 }
 
-/**
- *
- * @param {<VicPercentOverDomainPaddingOptions>} options
- * @param {number} options.percentOver - A value that specifies the percentage above the max value to pad the domain by. If the max value is 240, and the percentOver value is 0.1, the chart could accommodate values up to 264. Defaults to 0.1.
- * @returns
- */
-export function vicPercentOverDomainPadding(
-  options?: Partial<VicPercentOverDomainPaddingOptions>
-): VicPercentOverDomainPadding {
-  return new VicPercentOverDomainPadding(options);
-}
+// /**
+//  *
+//  * @param {<VicPercentOverDomainPaddingOptions>} options
+//  * @param {number} options.percentOver - A value that specifies the percentage above the max value to pad the domain by. If the max value is 240, and the percentOver value is 0.1, the chart could accommodate values up to 264. Defaults to 0.1.
+//  * @returns
+//  */

@@ -33,14 +33,9 @@ export class VicRoundUpToIntervalDomainPadding extends VicDomainPadding {
   }
 }
 
-/**
- *
- * @param {<VicRoundToIntervalDomainPaddingOptions>} options
- * @param {(d: number) => number} options.interval - A function that returns the interval to round to. An interval of 5 rounds up to the nearest multiple of 5 (5, 10, 15, etc). Defaults to 1.
- * @returns
- */
-export function vicRoundUpToIntervalDomainPadding(
-  options?: Partial<VicRoundUpToIntervalDomainPaddingOptions>
-): VicRoundUpToIntervalDomainPadding {
-  return new VicRoundUpToIntervalDomainPadding(options);
-}
+// /**
+//  *
+//  * @param {<VicRoundToIntervalDomainPaddingOptions>} options
+//  * @param {(d: number) => number} options.interval - A function that returns the interval to round to. An interval of 5 rounds up to the nearest multiple of 5 (5, 10, 15, etc). Defaults to 1.
+//  * @returns
+//  */

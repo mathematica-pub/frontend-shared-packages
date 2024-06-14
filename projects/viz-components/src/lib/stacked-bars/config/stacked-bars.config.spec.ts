@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HORIZONTAL_BARS_DIMENSIONS } from '../../bars/config/bars-dimensions';
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { Vic } from '../../config/vic';
 import { VicStackedBarsConfig } from './stacked-bars.config';
 
 type Datum = { country: string; value: number; category: string };
@@ -16,15 +13,15 @@ const data = [
 ];
 
 function getNewConfig(): VicStackedBarsConfig<Datum, string> {
-  return new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+  return Vic.stackedBarsHorizontal<Datum, string>({
     data,
-    ordinal: vicOrdinalDimension<Datum, string>({
+    ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (d) => d.country,
     }),
-    quantitative: vicQuantitativeDimension<Datum>({
+    quantitative: Vic.dimensionQuantitative<Datum>({
       valueAccessor: (d) => d.value,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (d) => d.category,
     }),
   });
@@ -77,31 +74,31 @@ describe('StackedBarsConfig', () => {
       expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('returns an array of indicies when ordinal domain is limited by user', () => {
-      config = new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+      config = Vic.stackedBarsHorizontal<Datum, string>({
         data,
-        ordinal: vicOrdinalDimension<Datum, string>({
+        ordinal: Vic.dimensionOrdinal<Datum, string>({
           valueAccessor: (d) => d.country,
           domain: ['Sweden', 'Norway', 'Iceland'],
         }),
-        quantitative: vicQuantitativeDimension<Datum>({
+        quantitative: Vic.dimensionQuantitative<Datum>({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension<Datum, string>({
+        categorical: Vic.dimensionCategorical<Datum, string>({
           valueAccessor: (d) => d.category,
         }),
       });
       expect(config.valueIndicies).toEqual([0, 2, 3]);
     });
     it('returns an array of indicies when categorical domain is limited by user', () => {
-      config = new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+      config = Vic.stackedBarsHorizontal<Datum, string>({
         data,
-        ordinal: vicOrdinalDimension<Datum, string>({
+        ordinal: Vic.dimensionOrdinal<Datum, string>({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension<Datum>({
+        quantitative: Vic.dimensionQuantitative<Datum>({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension<Datum, string>({
+        categorical: Vic.dimensionCategorical<Datum, string>({
           valueAccessor: (d) => d.category,
           domain: ['a'],
         }),
@@ -109,16 +106,16 @@ describe('StackedBarsConfig', () => {
       expect(config.valueIndicies).toEqual([0, 1, 2]);
     });
     it('returns an array of indicies when both ordinal and categorical domains are limited by user', () => {
-      config = new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+      config = Vic.stackedBarsHorizontal<Datum, string>({
         data,
-        ordinal: vicOrdinalDimension<Datum, string>({
+        ordinal: Vic.dimensionOrdinal<Datum, string>({
           valueAccessor: (d) => d.country,
           domain: ['Sweden', 'Norway', 'Iceland'],
         }),
-        quantitative: vicQuantitativeDimension<Datum>({
+        quantitative: Vic.dimensionQuantitative<Datum>({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension<Datum, string>({
+        categorical: Vic.dimensionCategorical<Datum, string>({
           valueAccessor: (d) => d.category,
           domain: ['a'],
         }),

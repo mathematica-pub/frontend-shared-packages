@@ -9,11 +9,7 @@ import {
   stackOffsetDiverging,
   stackOrderNone,
 } from 'd3';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicBarsDimensions,
-} from '../../bars/config/bars-dimensions';
+import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
 import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
 import { VicDataValue } from '../../core/types/values';
 import { VicStackDatum } from '../stacked-bars.component';
@@ -113,22 +109,4 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     const extents = extent(this.stackedData.flat(2));
     this.quantitative.setDomain(extents);
   }
-}
-
-export function vicHorizontalStackedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
-): VicStackedBarsConfig<Datum, TOrdinalValue> {
-  return new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-}
-
-export function vicVerticalStackedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
-): VicStackedBarsConfig<Datum, TOrdinalValue> {
-  return new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
 }

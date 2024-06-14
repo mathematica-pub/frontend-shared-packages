@@ -68,16 +68,3 @@ export class VicEqualNumObservationsAttributeDataDimension<
       .unknown(nullColor);
   }
 }
-
-export function vicEqualNumObservationsAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string
->(
-  options?: Partial<
-    VicEqualNumObservationsAttributeDataDimensionOptions<Datum, RangeValue>
-  >
-): VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue> {
-  return new VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue>(
-    options
-  );
-}

@@ -1,4 +1,11 @@
-export class VicLinesStroke {
+const DEFAULT = {
+  linecap: 'round',
+  linejoin: 'round',
+  opacity: 1,
+  width: 2,
+};
+
+export interface VicLinesStrokeOptions {
   /**
    * A value for the line's [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
    *  attribute.
@@ -30,12 +37,14 @@ export class VicLinesStroke {
    * Default is 2.
    */
   width: number;
+}
+export class VicLinesStroke implements VicLinesStrokeOptions {
+  linecap: string;
+  linejoin: string;
+  opacity: number;
+  width: number;
 
-  constructor(options?: Partial<VicLinesStroke>) {
-    this.linecap = 'round';
-    this.linejoin = 'round';
-    this.opacity = 1;
-    this.width = 2;
-    Object.assign(this, options);
+  constructor(options?: Partial<VicLinesStrokeOptions>) {
+    Object.assign(this, DEFAULT, options);
   }
 }
