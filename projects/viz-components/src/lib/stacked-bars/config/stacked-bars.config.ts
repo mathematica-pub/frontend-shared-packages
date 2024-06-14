@@ -119,7 +119,7 @@ export function vicHorizontalStackedBars<
   Datum,
   TOrdinalValue extends VicDataValue
 >(
-  options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
+  options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
 ): VicStackedBarsConfig<Datum, TOrdinalValue> {
   return new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
 }
