@@ -27,11 +27,9 @@ Each viz-components _component_ that accepts any user input will have one `@Inpu
 
 Users create these configs by using exported functions from the library that will `new` the config.\*
 
-\*June 2024 note: I'm not _fully_ convinced by these functions, but I do not love having users `new` a million classes, feels very non-JS-y. Could imagine moving to an API that looks like:
-
 ```
-vic.horizontalBars({
-  categorical: vic.categoricalDimension({}),
+Vic.barsHorizontal({
+  categorical: Vic.dimensionCategorical({}),
 })
 ```
 
