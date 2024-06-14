@@ -1,6 +1,6 @@
 import { ScaleContinuousNumeric } from 'd3';
 import { VicValueExtent } from '../../core/types/values';
-import { PercentOverDomainPadding } from './percent-over';
+import { VicPercentOverDomainPadding } from './percent-over';
 import { VicPixelDomainPadding } from './pixel';
 import { VicRoundUpToIntervalDomainPadding } from './round-to-interval';
 import { VicRoundUpDomainPadding } from './round-up';
@@ -15,7 +15,7 @@ export enum DomainPadding {
 export type VicDomainPaddingConfig =
   | VicRoundUpDomainPadding
   | VicRoundUpToIntervalDomainPadding
-  | PercentOverDomainPadding
+  | VicPercentOverDomainPadding
   | VicPixelDomainPadding;
 
 export interface PaddedDomainArguments {
