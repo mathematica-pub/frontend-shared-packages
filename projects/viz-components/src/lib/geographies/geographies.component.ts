@@ -16,8 +16,8 @@ import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities';
-import { VicDataGeographies } from './config/dimensions/data-layer';
-import { VicNoDataGeographies } from './config/dimensions/no-data-layer';
+import { VicGeographiesDataLayer } from './config/dimensions/data-layer';
+import { VicGeographiesNoDataLayer } from './config/dimensions/no-data-layer';
 import { VicGeographiesLabels } from './config/geographies-labels';
 import { VicGeographiesConfig } from './config/geographies.config';
 import { VicGeographiesFeature } from './geographies-feature';
@@ -28,9 +28,9 @@ function isAttributeDataConfig<
   TGeometry extends Geometry = MultiPolygon | Polygon
 >(
   config:
-    | VicDataGeographies<Datum, TProperties, TGeometry>
-    | VicNoDataGeographies<TProperties, TGeometry>
-): config is VicDataGeographies<Datum, TProperties, TGeometry> {
+    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesNoDataLayer<TProperties, TGeometry>
+): config is VicGeographiesDataLayer<Datum, TProperties, TGeometry> {
   return config.hasAttributeData;
 }
 
@@ -262,7 +262,7 @@ export class GeographiesComponent<
 
   getFillFromGeography(
     geography: VicGeographiesFeature<TProperties, TGeometry>,
-    config: VicNoDataGeographies<TProperties, TGeometry>
+    config: VicGeographiesNoDataLayer<TProperties, TGeometry>
   ): string {
     const featureIndex = this.config.featureIndexAccessor(geography);
     const defaultFill = config.categorical.getScale()(featureIndex);
@@ -292,8 +292,8 @@ export class GeographiesComponent<
   getLabelColor(
     geographyFeature: VicGeographiesFeature<TProperties, TGeometry>,
     config:
-      | VicDataGeographies<Datum, TProperties, TGeometry>
-      | VicNoDataGeographies<TProperties, TGeometry>
+      | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+      | VicGeographiesNoDataLayer<TProperties, TGeometry>
   ): CSSType.Property.Fill {
     const geographyIndex = this.config.featureIndexAccessor(geographyFeature);
     const pathColor = isAttributeDataConfig(config)
@@ -314,8 +314,8 @@ export class GeographiesComponent<
   getLabelFontWeight(
     geographyFeature: VicGeographiesFeature<TProperties, TGeometry>,
     config:
-      | VicDataGeographies<Datum, TProperties, TGeometry>
-      | VicNoDataGeographies<TProperties, TGeometry>
+      | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+      | VicGeographiesNoDataLayer<TProperties, TGeometry>
   ): CSSType.Property.FontWeight {
     const geographyIndex = this.config.featureIndexAccessor(geographyFeature);
     const pathColor = isAttributeDataConfig(config)

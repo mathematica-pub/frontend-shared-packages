@@ -18,8 +18,8 @@ import {
   VicDataMarksOptions,
 } from '../../data-marks/data-marks.config';
 import { VicGeographiesFeature } from '../geographies-feature';
-import { VicDataGeographies } from './dimensions/data-layer';
-import { VicNoDataGeographies } from './dimensions/no-data-layer';
+import { VicGeographiesDataLayer } from './dimensions/data-layer';
+import { VicGeographiesNoDataLayer } from './dimensions/no-data-layer';
 
 export class MapDataValues {
   attributeValuesByGeographyIndex: InternMap;
@@ -46,7 +46,7 @@ export interface VicGeographiesOptions<
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataLayer: VicDataGeographies<Datum, TProperties, TGeometry>;
+  dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
   /**
    * A function that derives an identifying string from the GeoJson feature.
    */
@@ -56,7 +56,7 @@ export interface VicGeographiesOptions<
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataLayers: VicNoDataGeographies<TProperties, TGeometry>[];
+  noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
   /**
    * A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
    * @default: d3.geoAlbersUsa().
@@ -87,11 +87,11 @@ export class VicGeographiesConfig<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  readonly dataLayer: VicDataGeographies<Datum, TProperties, TGeometry>;
+  readonly dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
-  readonly noDataLayers: VicNoDataGeographies<TProperties, TGeometry>[];
+  readonly noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
   readonly projection: GeoProjection;
   readonly values: MapDataValues = new MapDataValues();
 

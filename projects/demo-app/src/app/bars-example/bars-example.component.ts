@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
-import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis.config';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
-import { BarsHoverMoveEmitTooltipData } from 'projects/viz-components/src/lib/bars/bars-hover-move-effects';
-import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
-import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
-import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/config/bars.config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import {
+  BarsHoverMoveDirective,
+  BarsHoverMoveEmitTooltipData,
+  HoverMoveEventEffect,
+  Vic,
+  VicBarsConfig,
+  VicBarsEventOutput,
+  VicElementSpacing,
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
-} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { Vic } from 'projects/viz-components/src/public-api';
+  VicOrdinalAxisConfig,
+  VicQuantitativeAxisConfig,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

@@ -13,7 +13,7 @@ const DEFAULT = {
   fill: 'none',
 };
 
-export interface VicNoDataGeographiesOptions<
+export interface VicGeographiesNoDataLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
   TCategoricalValue extends string = string
@@ -29,7 +29,7 @@ export interface VicNoDataGeographiesOptions<
   >;
 }
 
-export class VicNoDataGeographies<
+export class VicGeographiesNoDataLayer<
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon,
     TCategoricalValue extends string = string
@@ -40,7 +40,7 @@ export class VicNoDataGeographies<
     TGeometry
   >
   implements
-    VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
+    VicGeographiesNoDataLayerOptions<TProperties, TGeometry, TCategoricalValue>
 {
   override readonly hasAttributeData: false;
   readonly categorical: VicCategoricalDimension<
@@ -55,7 +55,11 @@ export class VicNoDataGeographies<
 
   constructor(
     options?: Partial<
-      VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
+      VicGeographiesNoDataLayerOptions<
+        TProperties,
+        TGeometry,
+        TCategoricalValue
+      >
     >
   ) {
     super();

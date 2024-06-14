@@ -61,8 +61,8 @@ import {
   VicCustomBreaksAttributeDataDimensionOptions,
 } from '../geographies/config/dimensions/custom-breaks-bins';
 import {
-  VicDataGeographies,
-  VicDataGeographiesOptions,
+  VicGeographiesDataLayer,
+  VicGeographiesDataLayerOptions,
 } from '../geographies/config/dimensions/data-layer';
 import {
   VicEqualNumObservationsAttributeDataDimension,
@@ -74,8 +74,8 @@ import {
 } from '../geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
 import {
-  VicNoDataGeographies,
-  VicNoDataGeographiesOptions,
+  VicGeographiesNoDataLayer,
+  VicGeographiesNoDataLayerOptions,
 } from '../geographies/config/dimensions/no-data-layer';
 import {
   VicGeographiesLabels,
@@ -284,9 +284,11 @@ export class Vic {
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >(
-    options?: Partial<VicDataGeographiesOptions<Datum, TProperties, TGeometry>>
-  ): VicDataGeographies<Datum, TProperties, TGeometry> {
-    return new VicDataGeographies(options);
+    options?: Partial<
+      VicGeographiesDataLayerOptions<Datum, TProperties, TGeometry>
+    >
+  ): VicGeographiesDataLayer<Datum, TProperties, TGeometry> {
+    return new VicGeographiesDataLayer(options);
   }
 
   static geographiesLabels<
@@ -307,10 +309,14 @@ export class Vic {
     TCategoricalValue extends string = string
   >(
     options?: Partial<
-      VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
+      VicGeographiesNoDataLayerOptions<
+        TProperties,
+        TGeometry,
+        TCategoricalValue
+      >
     >
   ) {
-    return new VicNoDataGeographies(options);
+    return new VicGeographiesNoDataLayer(options);
   }
 
   static groupedBarsHorizontal<Datum, TOrdinalValue extends VicDataValue>(
