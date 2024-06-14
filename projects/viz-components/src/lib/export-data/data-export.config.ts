@@ -55,7 +55,7 @@ export class VicDataExportConfig {
   marginBottom = 0;
   constructor(config?: Partial<VicDataExportConfig>) {
     Object.assign(this, config);
-    if (this.includeAllKeysAsDefault) {
+    if (this.includeAllKeysAsDefault && this.data) {
       this.defaultColumnList = Object.keys(this.data[0]);
     }
     this.defaultColumnList.forEach((key) => {
