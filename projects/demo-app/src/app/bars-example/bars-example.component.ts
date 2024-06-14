@@ -105,23 +105,44 @@ export class BarsExampleComponent implements OnInit {
       orientation === Orientation.horizontal
         ? Vic.barsHorizontal
         : Vic.barsVertical;
-    const dataConfig = barsGenerator<MetroUnemploymentDatum, string>({
-      data: filteredData,
-      quantitative: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
-        valueAccessor: (d) => d.value,
-        valueFormat: (d) => this.getQuantitativeValueFormat(d),
-        domainPadding: Vic.domainPaddingPixel(),
-      }),
-      categorical: Vic.dimensionCategorical<MetroUnemploymentDatum, string>({
-        range: ['slategray'],
-      }),
-      ordinal: Vic.dimensionOrdinal<MetroUnemploymentDatum, string>({
-        valueAccessor: (d) => d.division,
-      }),
-      labels: Vic.barsLabels({
-        display: true,
-      }),
-    });
+    let dataConfig;
+    if (orientation === Orientation.horizontal) {
+      dataConfig = Vic.barsHorizontal<MetroUnemploymentDatum, string>({
+        data: filteredData,
+        quantitative: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
+          valueAccessor: (d) => d.value,
+          valueFormat: (d) => this.getQuantitativeValueFormat(d),
+          domainPadding: Vic.domainPaddingPixel(),
+        }),
+        categorical: Vic.dimensionCategorical<MetroUnemploymentDatum, string>({
+          range: ['slategray'],
+        }),
+        ordinal: Vic.dimensionOrdinal<MetroUnemploymentDatum, string>({
+          valueAccessor: (d) => d.division,
+        }),
+        labels: Vic.barsLabels({
+          display: true,
+        }),
+      });
+    } else {
+      dataConfig = Vic.barsVertical<MetroUnemploymentDatum, string>({
+        data: filteredData,
+        quantitative: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
+          valueAccessor: (d) => d.value,
+          valueFormat: (d) => this.getQuantitativeValueFormat(d),
+          domainPadding: Vic.domainPaddingPixel(),
+        }),
+        categorical: Vic.dimensionCategorical<MetroUnemploymentDatum, string>({
+          range: ['slategray'],
+        }),
+        ordinal: Vic.dimensionOrdinal<MetroUnemploymentDatum, string>({
+          valueAccessor: (d) => d.division,
+        }),
+        labels: Vic.barsLabels({
+          display: true,
+        }),
+      });
+    }
     return {
       dataConfig,
       xAxisConfig,

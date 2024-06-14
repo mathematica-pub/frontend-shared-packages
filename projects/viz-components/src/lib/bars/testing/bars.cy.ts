@@ -377,18 +377,16 @@ describe('it creates the correct bars in the correct order for the data', () => 
 // ***********************************************************
 [
   {
-    barFunction: Vic.barsHorizontal,
     mountFunction: mountHorizontalBarsComponent,
     orientation: 'horizontal',
     barAttr: 'width',
   },
   {
-    barFunction: Vic.barsVertical,
     mountFunction: mountVerticalBarsComponent,
     orientation: 'vertical',
     barAttr: 'height',
   },
-].forEach(({ barFunction, mountFunction, orientation, barAttr }) => {
+].forEach(({ mountFunction, orientation, barAttr }) => {
   describe('bars have the expected size in the quantitative dimension', () => {
     let barsConfig: VicBarsConfig<Datum, string>;
     let testData: Datum[];
@@ -400,20 +398,37 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`a bar has a ${barAttr} of 0 if the quantitative value is 0`, () => {
         const zeroIndex = 2;
         testData[zeroIndex].area = 0;
-        barsConfig = barFunction({
-          data: testData,
-          ordinal: Vic.dimensionOrdinal({
-            valueAccessor: (d) => d.country,
-          }),
-          quantitative: Vic.dimensionQuantitative({
-            valueAccessor: (d) => d.area,
-            domainPadding: Vic.domainPaddingPixel(),
-          }),
-          categorical: Vic.dimensionCategorical(),
-          labels: Vic.barsLabels({
-            display: true,
-          }),
-        });
+        if (orientation === 'horizontal') {
+          barsConfig = Vic.barsHorizontal({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        } else {
+          barsConfig = Vic.barsVertical({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        }
         mountFunction(barsConfig);
         cy.get('.vic-bar').each(($bar, i) => {
           const size = parseFloat($bar.attr(barAttr));
@@ -427,20 +442,37 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`a bar has a ${barAttr} of 0 if the quantitative value is non numeric`, () => {
         const nonNumericIndex = 3;
         testData[nonNumericIndex].area = undefined;
-        barsConfig = barFunction({
-          data: testData,
-          ordinal: Vic.dimensionOrdinal({
-            valueAccessor: (d) => d.country,
-          }),
-          quantitative: Vic.dimensionQuantitative({
-            valueAccessor: (d) => d.area,
-            domainPadding: Vic.domainPaddingPixel(),
-          }),
-          categorical: Vic.dimensionCategorical(),
-          labels: Vic.barsLabels({
-            display: true,
-          }),
-        });
+        if (orientation === 'horizontal') {
+          barsConfig = Vic.barsHorizontal({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        } else {
+          barsConfig = Vic.barsVertical({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        }
         mountFunction(barsConfig);
         cy.get('.vic-bar').each(($bar, i) => {
           const size = parseFloat($bar.attr(barAttr));
@@ -454,20 +486,37 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`has bars with the correct ${barAttr} when some values are negative`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
-        barsConfig = barFunction({
-          data: testData,
-          ordinal: Vic.dimensionOrdinal({
-            valueAccessor: (d) => d.country,
-          }),
-          quantitative: Vic.dimensionQuantitative({
-            valueAccessor: (d) => d.area,
-            domainPadding: Vic.domainPaddingPixel(),
-          }),
-          categorical: Vic.dimensionCategorical(),
-          labels: Vic.barsLabels({
-            display: true,
-          }),
-        });
+        if (orientation === 'horizontal') {
+          barsConfig = Vic.barsHorizontal({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        } else {
+          barsConfig = Vic.barsVertical({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        }
         mountFunction(barsConfig);
         cy.get('.vic-bar').then(($bars) => {
           const sizes = [];
@@ -479,21 +528,39 @@ describe('it creates the correct bars in the correct order for the data', () => 
         });
       });
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-        barsConfig = barFunction({
-          data: testData,
-          ordinal: Vic.dimensionOrdinal({
-            valueAccessor: (d) => d.country,
-          }),
-          quantitative: Vic.dimensionQuantitative({
-            valueAccessor: (d) => d.area,
-            domain: [0, 700000],
-            domainPadding: Vic.domainPaddingPixel(),
-          }),
-          categorical: Vic.dimensionCategorical(),
-          labels: Vic.barsLabels({
-            display: true,
-          }),
-        });
+        if (orientation === 'horizontal') {
+          barsConfig = Vic.barsHorizontal({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domain: [0, 700000],
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        } else {
+          barsConfig = Vic.barsVertical({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domain: [0, 700000],
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        }
         mountFunction(barsConfig);
         cy.get('.vic-bar')
           .eq(2)
@@ -512,21 +579,39 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`has bars with the correct ${barAttr} when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
-        barsConfig = barFunction({
-          data: testData,
-          ordinal: Vic.dimensionOrdinal({
-            valueAccessor: (d) => d.country,
-          }),
-          quantitative: Vic.dimensionQuantitative({
-            valueAccessor: (d) => d.area,
-            domain: [0, 1000000],
-            domainPadding: Vic.domainPaddingPixel(),
-          }),
-          categorical: Vic.dimensionCategorical(),
-          labels: Vic.barsLabels({
-            display: true,
-          }),
-        });
+        if (orientation === 'horizontal') {
+          barsConfig = Vic.barsHorizontal({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domain: [0, 1000000],
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        } else {
+          barsConfig = Vic.barsVertical({
+            data: testData,
+            ordinal: Vic.dimensionOrdinal({
+              valueAccessor: (d) => d.country,
+            }),
+            quantitative: Vic.dimensionQuantitative({
+              valueAccessor: (d) => d.area,
+              domain: [0, 1000000],
+              domainPadding: Vic.domainPaddingPixel(),
+            }),
+            categorical: Vic.dimensionCategorical(),
+            labels: Vic.barsLabels({
+              display: true,
+            }),
+          });
+        }
         mountFunction(barsConfig);
         cy.get('.vic-bar').then(($bars) => {
           const sizes = [];
