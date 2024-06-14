@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
-import { VicXQuantitativeAxisModule } from '@hsi/viz-components';
 import 'cypress/support/component';
 import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
@@ -9,6 +8,7 @@ import { VicBarsOptions } from '../../bars/config/bars.config';
 import { VicChartModule } from '../../chart/chart.module';
 import { Vic } from '../../config/vic';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
+import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
 
 @Component({
@@ -142,7 +142,7 @@ describe('integer formatted ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    Vic.axisXQuantitativeModule,
+    VicXQuantitativeAxisModule,
     VicXyChartModule,
   ];
   beforeEach(() => {
@@ -303,7 +303,7 @@ describe('float formatted ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    Vic.axisXQuantitativeModule,
+    VicXQuantitativeAxisModule,
     VicXyChartModule,
   ];
   beforeEach(() => {
@@ -477,7 +477,7 @@ describe('percent formatted ticks', () => {
   const imports = [
     VicChartModule,
     VicBarsModule,
-    Vic.axisXQuantitativeModule,
+    VicXQuantitativeAxisModule,
     VicXyChartModule,
   ];
   beforeEach(() => {
