@@ -4,27 +4,15 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
-import { vicXOrdinalAxis } from '../../axes/x-ordinal/x-ordinal-axis.config';
 import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
-import { vicXQuantitativeAxis } from '../../axes/x-quantitative/x-quantitative-axis.config';
 import { VicXQuantitativeAxisModule } from '../../axes/x-quantitative/x-quantitative-axis.module';
-import { vicYOrdinalAxis } from '../../axes/y-ordinal/y-ordinal-axis.config';
 import { VicYOrdinalAxisModule } from '../../axes/y-ordinal/y-ordinal-axis.module';
-import { vicYQuantitativeAxis } from '../../axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../../chart/chart.module';
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicPixelDomainPadding } from '../../data-dimensions/domain-padding/pixel-padding';
-import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { Vic } from '../../config/vic';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { VicBarsModule } from '../bars.module';
-import { vicBarsLabels } from '../config/bars-labels';
-import {
-  VicBarsConfig,
-  vicHorizontalBars,
-  vicVerticalBars,
-} from '../config/bars.config';
+import { VicBarsConfig } from '../config/bars.config';
 
 type Datum = { country: string; area: number; continent: string };
 const defaultData = [
@@ -124,10 +112,10 @@ class TestHorizontalBarsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = vicXQuantitativeAxis({
+  const xAxisConfig = Vic.axisXQuantitative({
     tickFormat: '.0f',
   });
-  const yAxisConfig = vicYOrdinalAxis();
+  const yAxisConfig = Vic.axisYOrdinal();
   const declarations = [TestHorizontalBarsComponent];
   const imports = [
     VicChartModule,
@@ -215,8 +203,8 @@ class TestVerticalBarsComponent {
 const mountVerticalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = vicXOrdinalAxis();
-  const yAxisConfig = vicYQuantitativeAxis({
+  const xAxisConfig = Vic.axisXOrdinal();
+  const yAxisConfig = Vic.axisYQuantitative({
     tickFormat: '.0f',
   });
 
@@ -251,17 +239,17 @@ describe('it creates the correct bars in the correct order for the data', () => 
   });
   describe('if a user does not provide an explicit ordinal domain', () => {
     it('creates one bar and one ordinal axis tick per datum when data has no repeated ordinal values', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -278,21 +266,21 @@ describe('it creates the correct bars in the correct order for the data', () => 
       });
     });
     it('creates one bar and one ordinal axis tick per unique ordinal value and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: [
           defaultData[0],
           { country: 'Afghanistan', area: 300000, continent: 'Asia' },
           ...defaultData.slice(1),
         ],
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -313,20 +301,20 @@ describe('it creates the correct bars in the correct order for the data', () => 
   describe('if a user provides an explicit ordinal domain', () => {
     const ordinalDomain = ['Afghanistan', 'Albania', 'Angola'];
     beforeEach(() => {
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
           domain: ordinalDomain,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: 50,
           }),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -351,21 +339,21 @@ describe('it creates the correct bars in the correct order for the data', () => 
       });
     });
     it('creates one bar and one ordinal axis tick per ordinal value in the domain and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: [
           ...defaultData,
           { country: 'Afghanistan', area: 300000, continent: 'Asia' },
         ],
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
           domain: ordinalDomain,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -389,13 +377,13 @@ describe('it creates the correct bars in the correct order for the data', () => 
 // ***********************************************************
 [
   {
-    barFunction: vicHorizontalBars,
+    barFunction: Vic.barsHorizontal,
     mountFunction: mountHorizontalBarsComponent,
     orientation: 'horizontal',
     barAttr: 'width',
   },
   {
-    barFunction: vicVerticalBars,
+    barFunction: Vic.barsVertical,
     mountFunction: mountVerticalBarsComponent,
     orientation: 'vertical',
     barAttr: 'height',
@@ -414,15 +402,15 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[zeroIndex].area = 0;
         barsConfig = barFunction({
           data: testData,
-          ordinal: vicOrdinalDimension({
+          ordinal: Vic.dimensionOrdinal({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: vicQuantitativeDimension({
+          quantitative: Vic.dimensionQuantitative({
             valueAccessor: (d) => d.area,
-            domainPadding: vicPixelDomainPadding(),
+            domainPadding: Vic.domainPaddingPixel(),
           }),
-          categorical: vicCategoricalDimension(),
-          labels: vicBarsLabels({
+          categorical: Vic.dimensionCategorical(),
+          labels: Vic.barsLabels({
             display: true,
           }),
         });
@@ -441,15 +429,15 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[nonNumericIndex].area = undefined;
         barsConfig = barFunction({
           data: testData,
-          ordinal: vicOrdinalDimension({
+          ordinal: Vic.dimensionOrdinal({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: vicQuantitativeDimension({
+          quantitative: Vic.dimensionQuantitative({
             valueAccessor: (d) => d.area,
-            domainPadding: vicPixelDomainPadding(),
+            domainPadding: Vic.domainPaddingPixel(),
           }),
-          categorical: vicCategoricalDimension(),
-          labels: vicBarsLabels({
+          categorical: Vic.dimensionCategorical(),
+          labels: Vic.barsLabels({
             display: true,
           }),
         });
@@ -468,15 +456,15 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = barFunction({
           data: testData,
-          ordinal: vicOrdinalDimension({
+          ordinal: Vic.dimensionOrdinal({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: vicQuantitativeDimension({
+          quantitative: Vic.dimensionQuantitative({
             valueAccessor: (d) => d.area,
-            domainPadding: vicPixelDomainPadding(),
+            domainPadding: Vic.domainPaddingPixel(),
           }),
-          categorical: vicCategoricalDimension(),
-          labels: vicBarsLabels({
+          categorical: Vic.dimensionCategorical(),
+          labels: Vic.barsLabels({
             display: true,
           }),
         });
@@ -493,16 +481,16 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
         barsConfig = barFunction({
           data: testData,
-          ordinal: vicOrdinalDimension({
+          ordinal: Vic.dimensionOrdinal({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: vicQuantitativeDimension({
+          quantitative: Vic.dimensionQuantitative({
             valueAccessor: (d) => d.area,
             domain: [0, 700000],
-            domainPadding: vicPixelDomainPadding(),
+            domainPadding: Vic.domainPaddingPixel(),
           }),
-          categorical: vicCategoricalDimension(),
-          labels: vicBarsLabels({
+          categorical: Vic.dimensionCategorical(),
+          labels: Vic.barsLabels({
             display: true,
           }),
         });
@@ -526,16 +514,16 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = barFunction({
           data: testData,
-          ordinal: vicOrdinalDimension({
+          ordinal: Vic.dimensionOrdinal({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: vicQuantitativeDimension({
+          quantitative: Vic.dimensionQuantitative({
             valueAccessor: (d) => d.area,
             domain: [0, 1000000],
-            domainPadding: vicPixelDomainPadding(),
+            domainPadding: Vic.domainPaddingPixel(),
           }),
-          categorical: vicCategoricalDimension(),
-          labels: vicBarsLabels({
+          categorical: Vic.dimensionCategorical(),
+          labels: Vic.barsLabels({
             display: true,
           }),
         });
@@ -566,17 +554,17 @@ describe('bars have the expected origin in the quantitative dimension', () => {
   });
   describe('all values are positive', () => {
     it('has bars that start at the left chart margin if bars are horizontal', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: testData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -590,17 +578,17 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       });
     });
     it('has bars that start at the bottom chart margin if bars are vertical', () => {
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: testData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -625,17 +613,17 @@ describe('bars have the expected origin in the quantitative dimension', () => {
     it('has bars whose negative bars end at the start of the positive bars - bars are horizontal', () => {
       negativeBarIndex = 2;
       testData[negativeBarIndex].area = -testData[negativeBarIndex].area;
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: testData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -662,17 +650,17 @@ describe('bars have the expected origin in the quantitative dimension', () => {
     it('has bars whose negative bars end at the start of the positive bars - bars are vertical', () => {
       negativeBarIndex = 2;
       testData[negativeBarIndex].area = -testData[negativeBarIndex].area;
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: testData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -707,17 +695,17 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       testData.forEach((d) => {
         d.area = -d.area;
       });
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: testData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -740,17 +728,17 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       testData.forEach((d) => {
         d.area = -d.area;
       });
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: testData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -793,19 +781,19 @@ describe('bars have expected fill', () => {
   describe('user does not specify a categorical valueAccessor or a custom scale', () => {
     it('colors every bar by first color in user-provided range if user provides range of length >= 1', () => {
       const color = 'chartreuse';
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           range: [color, 'red', 'yellow'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -816,17 +804,17 @@ describe('bars have expected fill', () => {
     });
     it('colors every bar by first color in the default range if user provides no range and no custom scale', () => {
       const color = schemeTableau10[0];
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -839,19 +827,19 @@ describe('bars have expected fill', () => {
   describe('user provides a valueAccessor for the categorical dimension', () => {
     it('colors every bar according to the valueAccessor using default color array', () => {
       const color = schemeTableau10;
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: (d) => d.continent,
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -881,20 +869,20 @@ describe('bars have expected fill', () => {
   });
   describe('user provides a custom scale for the categorical dimension', () => {
     it('colors every bar according to the custom scale when user also provides a value accessor', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: (d) => d.continent,
           scale: customCategoricalScale,
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -922,19 +910,19 @@ describe('bars have expected fill', () => {
       });
     });
     it('colors every bar according to the custom scales behavior with empty string arg when user does not provide a value accessor', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           scale: customCategoricalScale,
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -946,16 +934,16 @@ describe('bars have expected fill', () => {
   });
   describe('user provides a fill pattern', () => {
     it('sets bar fill with either the pattern name or the regular fill according to usePattern function', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           fillPatterns: [
             {
               name: dotsPatternMagenta,
@@ -963,7 +951,7 @@ describe('bars have expected fill', () => {
             },
           ],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -977,16 +965,16 @@ describe('bars have expected fill', () => {
       });
     });
     it('sets bar fill with either the pattern name or the regular fill according to usePattern function when user provides a scale and valueAccessor', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           fillPatterns: [
             {
               name: dotsPatternMagenta,
@@ -996,7 +984,7 @@ describe('bars have expected fill', () => {
           valueAccessor: (d) => d.continent,
           scale: customCategoricalScale,
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
@@ -1028,16 +1016,16 @@ describe('bars have expected fill', () => {
       });
     });
     it('sets bar fill with the last matching pattern in fillPatterns array if two patterns match', () => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: defaultData,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.area,
-          domainPadding: vicPixelDomainPadding(),
+          domainPadding: Vic.domainPaddingPixel(),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           fillPatterns: [
             {
               name: dotsPatternMagenta,
@@ -1050,7 +1038,7 @@ describe('bars have expected fill', () => {
           ],
           range: ['lightcoral'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
         }),
       });
