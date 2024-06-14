@@ -8,7 +8,7 @@ import {
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/domain-padding/pixel-padding';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/domain-padding/pixel';
 import {
   EventEffect,
   HoverMoveEventEffect,

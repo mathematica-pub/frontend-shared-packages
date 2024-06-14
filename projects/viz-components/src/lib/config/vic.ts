@@ -29,21 +29,21 @@ import {
   VicDateDimensionOptions,
 } from '../data-dimensions/date-dimension';
 import {
-  VicPercentOverDomainPadding,
-  VicPercentOverDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/percent-over-padding';
+  PercentOverDomainPadding,
+  PercentOverDomainPaddingOptions,
+} from '../data-dimensions/domain-padding/percent-over';
 import {
   VicPixelDomainPadding,
   VicPixelDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/pixel-padding';
+} from '../data-dimensions/domain-padding/pixel';
 import {
   VicRoundUpToIntervalDomainPadding,
   VicRoundUpToIntervalDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/round-to-interval-padding';
+} from '../data-dimensions/domain-padding/round-to-interval';
 import {
   VicRoundUpDomainPadding,
   VicRoundUpDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/round-up-padding';
+} from '../data-dimensions/domain-padding/round-up';
 import {
   VicOrdinalDimension,
   VicOrdinalDimensionOptions,
@@ -192,9 +192,9 @@ export class Vic {
   }
 
   static domainPaddingPercentOver(
-    options?: Partial<VicPercentOverDomainPaddingOptions>
-  ): VicPercentOverDomainPadding {
-    return new VicPercentOverDomainPadding(options);
+    options?: Partial<PercentOverDomainPaddingOptions>
+  ): PercentOverDomainPadding {
+    return new PercentOverDomainPadding(options);
   }
 
   static domainPaddingPixel(
