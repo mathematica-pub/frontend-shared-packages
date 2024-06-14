@@ -35,10 +35,3 @@ export class VicRoundUpDomainPadding
     );
   }
 }
-
-// /**
-//  *
-//  * @param {<VicRoundUpDomainPaddingOptions>} options
-//  * @param {(d: number) => number} options.sigDigits - A function that returns the number of significant digits to round to. Defaults to 1.
-//  * @returns
-//  */

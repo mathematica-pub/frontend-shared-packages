@@ -63,7 +63,7 @@ import {
 import {
   VicDataGeographies,
   VicDataGeographiesOptions,
-} from '../geographies/config/dimensions/data-geographies';
+} from '../geographies/config/dimensions/data-layer';
 import {
   VicEqualNumObservationsAttributeDataDimension,
   VicEqualNumObservationsAttributeDataDimensionOptions,
@@ -76,7 +76,7 @@ import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimension
 import {
   VicNoDataGeographies,
   VicNoDataGeographiesOptions,
-} from '../geographies/config/dimensions/no-data-geographies';
+} from '../geographies/config/dimensions/no-data-layer';
 import {
   VicGeographiesLabels,
   VicGeographiesLabelsOptions,

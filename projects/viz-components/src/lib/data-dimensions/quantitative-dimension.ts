@@ -100,17 +100,3 @@ export class VicQuantitativeDimension<Datum>
     );
   }
 }
-
-// /**
-//  * @param {Partial<VicQuantitativeDimensionOptions<Datum>>} options - **REQUIRED**
-//  * @param {(d: Datum, ...args: any) => number} options.valueAccessor - (d: Datum, ...args: any) => number - **REQUIRED**
-//  * @param {[number, number]} options.domain - [number, number] - A user-provided range of values that is used as the domain of the dimension's scale. If not provided by the user, unique values from the data are used to set the scale domain.
-//  * @param {boolean} options.includeZeroInDomain - boolean - A user-configurable boolean that indicates whether the domain of the dimension's scale should include zero if it is not already included in the domain. Default is true.
-//  * @param {VicDomainPaddingConfig} options.domainPadding - VicDomainPaddingConfig - padding configuration for the dimension's domain. Default is undefined.
-//  * @param {(domain?: Iterable<number>, range?: Iterable<number>) => ScaleContinuousNumeric<number, number>} options.scaleFn - (
-//     domain?: Iterable<number>,
-//     range?: Iterable<number>
-//   ) => ScaleContinuousNumeric<number, number> - scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range. Default is D3's scaleLinear function.
-//  * @param {VicFormatSpecifier<Datum>} valueFormat - VicFormatSpecifier<Datum> - A user-defined format specifier for the dimension's values. Default is undefined.
-//   * @returns
-//  */

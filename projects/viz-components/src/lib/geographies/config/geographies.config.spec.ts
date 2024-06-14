@@ -24,14 +24,14 @@ const features = [
 function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
   return Vic.geographies({
     data: data,
-    dataGeographies: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+    dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
       attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
         valueAccessor: (d) => d.value,
         geoAccessor: (d) => d.state,
         numBins: 5,
       }),
     }),
-    noDataGeographies: [
+    noDataLayers: [
       Vic.geographiesNoDataLayer<FeatureProperties>({
         geographies: features as any,
         categorical: Vic.dimensionCategorical({
@@ -69,7 +69,7 @@ describe('GeographiesConfig', () => {
     });
     it('calls dataGeographies.attributeData.setPropertiesFromData once', () => {
       expect(
-        config.dataGeographies.attributeData.setPropertiesFromData
+        config.dataLayer.attributeData.setPropertiesFromData
       ).toHaveBeenCalledOnceWith(data);
     });
     it('calls setAttributeData once', () => {

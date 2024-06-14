@@ -35,15 +35,13 @@ describe('GeographiesComponent', () => {
           { value: 5, state: 'CO' },
           { value: 6, state: 'CO' },
         ],
-        dataGeographies: Vic.geographiesDataLayer<Datum, { name: string }, any>(
-          {
-            attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-              valueAccessor: (d) => d.value,
-              geoAccessor: (d) => d.state,
-              numBins: 5,
-            }),
-          }
-        ),
+        dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+          attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
+            valueAccessor: (d) => d.value,
+            geoAccessor: (d) => d.state,
+            numBins: 5,
+          }),
+        }),
       });
     });
     it('calls setPropertiesFromRanges once', () => {
@@ -87,26 +85,24 @@ describe('GeographiesComponent', () => {
           { value: 5, state: 'CO' },
           { value: 6, state: 'CO' },
         ],
-        dataGeographies: Vic.geographiesDataLayer<Datum, { name: string }, any>(
-          {
-            nullColor: 'red',
-            attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-              valueAccessor: (d) => d.value,
-              geoAccessor: (d) => d.state,
-              numBins: 5,
-            }),
-          }
-        ),
+        dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+          nullColor: 'red',
+          attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
+            valueAccessor: (d) => d.value,
+            geoAccessor: (d) => d.state,
+            numBins: 5,
+          }),
+        }),
       });
       spyOn(
-        component.config.dataGeographies.attributeData,
+        component.config.dataLayer.attributeData,
         'getScale'
       ).and.returnValue('attribute data scale');
     });
     it('calls getScale once', () => {
       component.updateChartAttributeProperties();
       expect(
-        component.config.dataGeographies.attributeData.getScale
+        component.config.dataLayer.attributeData.getScale
       ).toHaveBeenCalledOnceWith('red');
     });
     it('calls updateAttributeProperties once with the correct value', () => {
@@ -115,7 +111,7 @@ describe('GeographiesComponent', () => {
         component.chart.updateAttributeProperties
       ).toHaveBeenCalledOnceWith({
         scale: 'attribute data scale' as any,
-        config: component.config.dataGeographies.attributeData,
+        config: component.config.dataLayer.attributeData,
       });
     });
   });

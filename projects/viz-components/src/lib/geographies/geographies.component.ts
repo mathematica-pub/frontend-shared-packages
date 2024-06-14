@@ -16,8 +16,8 @@ import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities';
-import { VicDataGeographies } from './config/dimensions/data-geographies';
-import { VicNoDataGeographies } from './config/dimensions/no-data-geographies';
+import { VicDataGeographies } from './config/dimensions/data-layer';
+import { VicNoDataGeographies } from './config/dimensions/no-data-layer';
 import { VicGeographiesLabels } from './config/geographies-labels';
 import { VicGeographiesConfig } from './config/geographies.config';
 import { VicGeographiesFeature } from './geographies-feature';
@@ -103,10 +103,10 @@ export class GeographiesComponent<
   updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
-        scale: this.config.dataGeographies.attributeData.getScale(
-          this.config.dataGeographies.nullColor
+        scale: this.config.dataLayer.attributeData.getScale(
+          this.config.dataLayer.nullColor
         ),
-        config: this.config.dataGeographies.attributeData,
+        config: this.config.dataLayer.attributeData,
       });
     });
   }
@@ -121,28 +121,16 @@ export class GeographiesComponent<
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration);
-    this.drawDataLayers(t);
+    this.drawLayers(t);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  drawDataLayers(t: any): void {
+  drawLayers(t: any): void {
     const layersGroup = select(this.elRef.nativeElement)
       .append('g')
       .attr('class', 'vic-geographies-layers');
-    // .selectAll<
-    //   SVGGElement,
-    //   VicDataGeographies<Datum, TProperties, TGeometry>
-    // >('.vic-map-layers')
-    // .data<VicDataGeographies<Datum, TProperties, TGeometry>>([
-    //   this.config.dataGeographies,
-    // ])
-    // .join(
-    //   (enter) => enter.append('g').attr('class', 'vic-map-layers'),
-    //   (update) => update,
-    //   (exit) => exit.remove()
-    // );
 
-    [this.config.dataGeographies, ...this.config.noDataGeographies].forEach(
+    [this.config.dataLayer, ...this.config.noDataLayers].forEach(
       (config, i) => {
         const layer = layersGroup
           .selectAll<
@@ -254,7 +242,7 @@ export class GeographiesComponent<
     geography: VicGeographiesFeature<TProperties, TGeometry>
   ): string {
     const geographyIndex = this.config.featureIndexAccessor(geography);
-    return this.config.dataGeographies.attributeData.fillPatterns
+    return this.config.dataLayer.attributeData.fillPatterns
       ? this.getAttributePatternFill(geographyIndex)
       : this.getAttributeFill(geographyIndex);
   }
@@ -268,7 +256,7 @@ export class GeographiesComponent<
   getAttributePatternFill(geographyIndex: string | number): string {
     const datum = this.config.values.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
-    const patterns = this.config.dataGeographies.attributeData.fillPatterns;
+    const patterns = this.config.dataLayer.attributeData.fillPatterns;
     return PatternUtilities.getFill(datum, geographyFill, patterns);
   }
 
