@@ -154,7 +154,6 @@ export class GeographiesExampleComponent implements OnInit {
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
     );
-    // const labels = this.getGeographyLabelConfig();
     return Vic.geographiesNoDataLayer<MapGeometryProperties>({
       geographies: features,
       categorical: Vic.dimensionCategorical({
