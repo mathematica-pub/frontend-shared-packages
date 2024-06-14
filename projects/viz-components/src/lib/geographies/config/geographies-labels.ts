@@ -108,13 +108,3 @@ export class VicGeographiesLabels<
     Object.assign(this, options);
   }
 }
-
-export function vicGeographiesLabels<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
->(
-  options?: Partial<VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>>
-): VicGeographiesLabels<Datum, TProperties, TGeometry> {
-  return new VicGeographiesLabels(options);
-}

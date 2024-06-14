@@ -78,15 +78,3 @@ export class VicPixelDomainPadding
     return [scale.invert(dimensionRange[0]), scale.invert(dimensionRange[1])];
   }
 }
-
-/**
- *
- * @param {<VicPixelDomainPaddingOptions>} options
- * @param {number} options.pixels - The number of pixels to add to the end of the domain. Defaults to 40.
- * @returns
- */
-export function vicPixelDomainPadding(
-  options?: Partial<VicPixelDomainPaddingOptions>
-): VicPixelDomainPadding {
-  return new VicPixelDomainPadding(options);
-}

@@ -64,15 +64,3 @@ export class VicNoDataGeographies<
     this.hasAttributeData = false;
   }
 }
-
-export function vicNoDataGeographies<
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
-  TCategoricalValue extends string = string
->(
-  options?: Partial<
-    VicNoDataGeographiesOptions<TProperties, TGeometry, TCategoricalValue>
-  >
-) {
-  return new VicNoDataGeographies(options);
-}

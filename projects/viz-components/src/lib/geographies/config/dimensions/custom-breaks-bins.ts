@@ -80,14 +80,3 @@ export class VicCustomBreaksAttributeDataDimension<
       .unknown(nullColor);
   }
 }
-
-export function vicCustomBreaksAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string
->(
-  options?: Partial<
-    VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
-  >
-): VicCustomBreaksAttributeDataDimension<Datum, RangeValue> {
-  return new VicCustomBreaksAttributeDataDimension<Datum, RangeValue>(options);
-}

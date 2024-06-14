@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCustomBreaksAttributeDataDimension,
-  vicCustomBreaksAttributeDataDimension,
-} from './custom-breaks-bins';
+import { Vic } from '../../../config/vic';
+import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
 
 describe('VicCustomBreaksAttributeDataDimension', () => {
   let dimension: VicCustomBreaksAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = vicCustomBreaksAttributeDataDimension({
+    dimension = Vic.geographiesDataDimensionCustomBreaks({
       breakValues: [0, 2, 5, 10, 50],
       range: ['red', 'blue', 'yellow', 'green'],
     });

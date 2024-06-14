@@ -86,19 +86,11 @@ export class VicCategoricalDimension<
   }
 }
 
-/**
- * @param {Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue extends VicDataValue>>} options - **REQUIRED**
- * @param {(d: Datum, ...args: any) => string} options.valueAccessor - (d: Datum, ...args: any) => TCategoricalValue - **REQUIRED**
- * @param {TCategoricalValue[]} options.domain - TCategoricalValue[] - An array of values that is used as the domain of the dimension's scale. If not provided by the user, unique values from the data are used to set the scale domain.
- * @param {VicFillPattern<Datum>[]} options.fillPatterns - VicFillPattern<Datum>[] - An array of fill patterns specifications to be used for the dimension's values. Default is undefined.
- * @param {string[]} options.range - string[] - An array of graphical values that correspond to the domain. Default is D3's schemeTableau10.
- * @param {(category: TCategoricalValue) => string} options.scale - (category: TCategoricalValue) => string - A user-defined function that transforms a categorical value into a graphical value.
- */
-export function vicCategoricalDimension<
-  Datum,
-  TCategoricalValue extends VicDataValue = string
->(
-  options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
-): VicCategoricalDimension<Datum, TCategoricalValue> {
-  return new VicCategoricalDimension(options);
-}
+// /**
+//  * @param {Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue extends VicDataValue>>} options - **REQUIRED**
+//  * @param {(d: Datum, ...args: any) => string} options.valueAccessor - (d: Datum, ...args: any) => TCategoricalValue - **REQUIRED**
+//  * @param {TCategoricalValue[]} options.domain - TCategoricalValue[] - An array of values that is used as the domain of the dimension's scale. If not provided by the user, unique values from the data are used to set the scale domain.
+//  * @param {VicFillPattern<Datum>[]} options.fillPatterns - VicFillPattern<Datum>[] - An array of fill patterns specifications to be used for the dimension's values. Default is undefined.
+//  * @param {string[]} options.range - string[] - An array of graphical values that correspond to the domain. Default is D3's schemeTableau10.
+//  * @param {(category: TCategoricalValue) => string} options.scale - (category: TCategoricalValue) => string - A user-defined function that transforms a categorical value into a graphical value.
+//  */

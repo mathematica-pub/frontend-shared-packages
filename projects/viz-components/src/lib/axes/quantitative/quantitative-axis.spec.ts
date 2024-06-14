@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { timeMonth } from 'd3';
+import { Vic } from '../../config/vic';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { QuantitativeAxisStub } from '../../testing/stubs/quantitative-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
-import { vicXQuantitativeAxis } from '../x-quantitative/x-quantitative-axis.config';
 
 describe('the QuantitativeAxis mixin', () => {
   let abstractClass: QuantitativeAxisStub<number>;
@@ -25,7 +25,7 @@ describe('the QuantitativeAxis mixin', () => {
         .and.returnValue('a scale' as any);
       spyOn(abstractClass as any, 'setTicks');
       abstractClass.scale = 'class scale' as any;
-      abstractClass.config = vicXQuantitativeAxis({
+      abstractClass.config = Vic.axisXQuantitative({
         tickFormat: '.0f',
       });
     });
@@ -46,7 +46,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
     describe('if tickValues exists on config', () => {
       it('calls setSpecifiedTickValues once with the correct value', () => {
-        abstractClass.config = vicXQuantitativeAxis({
+        abstractClass.config = Vic.axisXQuantitative({
           tickValues: [1, 2, 3],
         });
         (abstractClass as any).setTicks('.0f');
@@ -57,7 +57,7 @@ describe('the QuantitativeAxis mixin', () => {
     });
     describe('if tickValues does not exist on config', () => {
       it('calls setUnspecifiedTickValues once with the correct value', () => {
-        abstractClass.config = vicXQuantitativeAxis();
+        abstractClass.config = Vic.axisXQuantitative();
         (abstractClass as any).setTicks('.0f');
         expect(
           (abstractClass as any).setUnspecifiedTickValues
@@ -104,13 +104,13 @@ describe('the QuantitativeAxis mixin', () => {
       };
     });
     it('returns the original tickValues if all values are within the scale domain', () => {
-      abstractClass.config = vicXQuantitativeAxis({
+      abstractClass.config = Vic.axisXQuantitative({
         tickValues: [0, 2, 4, 5],
       });
       expect((abstractClass as any).getValidTickValues()).toEqual([0, 2, 4, 5]);
     });
     it('returns only values that are within the scale domain', () => {
-      abstractClass.config = vicXQuantitativeAxis({
+      abstractClass.config = Vic.axisXQuantitative({
         tickValues: [-1, 0, 1, 2, 3, 4, 5, 6],
       });
       expect((abstractClass as any).getValidTickValues()).toEqual([
@@ -160,7 +160,7 @@ describe('the QuantitativeAxis mixin', () => {
         abstractClass as any,
         'getValidNumTicksForStringFormatter'
       ).and.returnValue(10);
-      abstractClass.config = vicXQuantitativeAxis({
+      abstractClass.config = Vic.axisXQuantitative({
         numTicks: 1,
       });
     });
@@ -219,13 +219,13 @@ describe('the QuantitativeAxis mixin', () => {
       } as any;
     });
     it('returns the value from config.numTicks if it exists', () => {
-      abstractClass.config = vicXQuantitativeAxis({
+      abstractClass.config = Vic.axisXQuantitative({
         numTicks: 17,
       });
       expect((abstractClass as any).getNumTicks()).toEqual(17);
     });
     it('returns the result from getSuggestedNumTicksFromChartDimension if config.numTicks does not exist', () => {
-      abstractClass.config = vicXQuantitativeAxis({});
+      abstractClass.config = Vic.axisXQuantitative({});
       spyOn(
         abstractClass.config,
         'getSuggestedNumTicksFromChartDimension'

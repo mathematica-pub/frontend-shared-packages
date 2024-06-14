@@ -1,4 +1,10 @@
-export class VicPointMarkers {
+const DEFAULT = {
+  display: true,
+  radius: 3,
+  growByOnHover: 1,
+};
+
+export interface VicPointMarkersOptions {
   /**
    * A boolean to determine if point markers will be displayed.
    *
@@ -17,17 +23,14 @@ export class VicPointMarkers {
    * Default is 1.
    */
   growByOnHover: number;
-
-  constructor(options?: Partial<VicPointMarkers>) {
-    this.display = true;
-    this.radius = 3;
-    this.growByOnHover = 1;
-    Object.assign(this, options);
-  }
 }
 
-export function vicPointMarkers(
-  options?: Partial<VicPointMarkers>
-): VicPointMarkers {
-  return new VicPointMarkers(options);
+export class VicPointMarkers implements VicPointMarkersOptions {
+  display: boolean;
+  radius: number;
+  growByOnHover: number;
+
+  constructor(options?: Partial<VicPointMarkers>) {
+    Object.assign(this, DEFAULT, options);
+  }
 }

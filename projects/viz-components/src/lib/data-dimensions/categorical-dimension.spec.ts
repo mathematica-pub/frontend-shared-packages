@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCategoricalDimension,
-  vicCategoricalDimension,
-} from './categorical-dimension';
+import { Vic } from '../config/vic';
+import { VicCategoricalDimension } from './categorical-dimension';
 
 describe('VicCategoricalDimension', () => {
   let dimension: VicCategoricalDimension<string>;
   beforeEach(() => {
-    dimension = vicCategoricalDimension({
+    dimension = Vic.dimensionCategorical({
       valueAccessor: (d) => d,
     });
   });

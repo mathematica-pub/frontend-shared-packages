@@ -1,17 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCategoricalDimension,
-  vicCategoricalDimension,
-} from '../../data-dimensions/categorical-dimension';
-import {
-  VicDateDimension,
-  vicDateDimension,
-} from '../../data-dimensions/date-dimension';
-import {
-  VicQuantitativeDimension,
-  vicQuantitativeDimension,
-} from '../../data-dimensions/quantitative-dimension';
-import { VicStackedAreaConfig, vicStackedArea } from './stacked-area.config';
+import { Vic } from '../../config/vic';
+import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { VicDateDimension } from '../../data-dimensions/date-dimension';
+import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { VicStackedAreaConfig } from './stacked-area.config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [
@@ -23,15 +15,15 @@ const data = [
   { date: new Date('2020-01-03'), value: 6, category: 'b' },
 ];
 function createConfig(): VicStackedAreaConfig<Datum, string> {
-  return vicStackedArea({
+  return Vic.stackedArea({
     data,
-    x: vicDateDimension<Datum>({
+    x: Vic.dimensionDate<Datum>({
       valueAccessor: (d) => d.date,
     }),
-    y: vicQuantitativeDimension<Datum>({
+    y: Vic.dimensionQuantitative<Datum>({
       valueAccessor: (d) => d.value,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (d) => d.category,
     }),
   });
@@ -105,15 +97,15 @@ describe('StackedAreaConfig', () => {
       expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
-      config = vicStackedArea({
+      config = Vic.stackedArea({
         data,
-        x: vicDateDimension<Datum>({
+        x: Vic.dimensionDate<Datum>({
           valueAccessor: (d) => d.date,
         }),
-        y: vicQuantitativeDimension<Datum>({
+        y: Vic.dimensionQuantitative<Datum>({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension<Datum, string>({
+        categorical: Vic.dimensionCategorical<Datum, string>({
           valueAccessor: (d) => d.category,
           domain: ['a'],
         }),

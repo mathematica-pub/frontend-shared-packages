@@ -1,14 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { it } from 'local-cypress';
-import {
-  VicEqualNumObservationsAttributeDataDimension,
-  vicEqualNumObservationsAttributeDataDimension,
-} from './equal-num-observations-bins';
+import { Vic } from '../../../config/vic';
+import { VicEqualNumObservationsAttributeDataDimension } from './equal-num-observations-bins';
 
 describe('VicEqualNumObservationsBins', () => {
   let dimension: VicEqualNumObservationsAttributeDataDimension<any, string>;
   beforeEach(() => {
-    dimension = vicEqualNumObservationsAttributeDataDimension({
+    dimension = Vic.geographiesDataDimensionEqualNumObservations({
       numBins: 4,
       range: ['red', 'blue', 'yellow', 'green'],
       valueAccessor: (d) => d,

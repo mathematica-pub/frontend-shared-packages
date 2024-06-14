@@ -1,11 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vicCategoricalDimension } from '../data-dimensions/categorical-dimension';
-import { vicDateDimension } from '../data-dimensions/date-dimension';
-import { vicQuantitativeDimension } from '../data-dimensions/quantitative-dimension';
+import { Vic } from '../config/vic';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicLinesConfig } from './config/lines.config';
 import { LinesComponent } from './lines.component';
 
 describe('LineChartComponent', () => {
@@ -34,11 +31,11 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
-      component.config = new VicLinesConfig({
+      component.config = Vic.lines({
         data: [],
-        x: vicDateDimension({ valueAccessor: () => null }),
-        y: vicQuantitativeDimension({ valueAccessor: () => null }),
-        categorical: vicCategoricalDimension({ valueAccessor: () => null }),
+        x: Vic.dimensionDate({ valueAccessor: () => null }),
+        y: Vic.dimensionQuantitative({ valueAccessor: () => null }),
+        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
       });
     });
     it('calls setLine once', () => {

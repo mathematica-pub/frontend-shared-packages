@@ -1,10 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Vic } from '../config/vic';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { vicDataGeographies } from './config/dimensions/data-geographies';
-import { vicEqualValuesAttributeDataDimension } from './config/dimensions/equal-value-ranges-bins';
-import { vicGeographies } from './config/geographies.config';
 import { GeographiesComponent } from './geographies.component';
 
 type Datum = { value: number; state: string };
@@ -28,7 +26,7 @@ describe('GeographiesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
-      component.config = vicGeographies({
+      component.config = Vic.geographies({
         data: [
           { value: 1, state: 'AL' },
           { value: 2, state: 'AK' },
@@ -37,8 +35,8 @@ describe('GeographiesComponent', () => {
           { value: 5, state: 'CO' },
           { value: 6, state: 'CO' },
         ],
-        dataGeographies: vicDataGeographies<Datum, { name: string }, any>({
-          attributeData: vicEqualValuesAttributeDataDimension<Datum>({
+        dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+          attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
             valueAccessor: (d) => d.value,
             geoAccessor: (d) => d.state,
             numBins: 5,
@@ -78,7 +76,7 @@ describe('GeographiesComponent', () => {
           'updateAttributeProperties'
         ),
       } as any;
-      component.config = vicGeographies({
+      component.config = Vic.geographies({
         data: [
           { value: 1, state: 'AL' },
           { value: 2, state: 'AK' },
@@ -87,9 +85,9 @@ describe('GeographiesComponent', () => {
           { value: 5, state: 'CO' },
           { value: 6, state: 'CO' },
         ],
-        dataGeographies: vicDataGeographies<Datum, { name: string }, any>({
+        dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
           nullColor: 'red',
-          attributeData: vicEqualValuesAttributeDataDimension<Datum>({
+          attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
             valueAccessor: (d) => d.value,
             geoAccessor: (d) => d.state,
             numBins: 5,
@@ -97,14 +95,14 @@ describe('GeographiesComponent', () => {
         }),
       });
       spyOn(
-        component.config.dataGeographies.attributeData,
+        component.config.dataLayer.attributeData,
         'getScale'
       ).and.returnValue('attribute data scale');
     });
     it('calls getScale once', () => {
       component.updateChartAttributeProperties();
       expect(
-        component.config.dataGeographies.attributeData.getScale
+        component.config.dataLayer.attributeData.getScale
       ).toHaveBeenCalledOnceWith('red');
     });
     it('calls updateAttributeProperties once with the correct value', () => {
@@ -113,7 +111,7 @@ describe('GeographiesComponent', () => {
         component.chart.updateAttributeProperties
       ).toHaveBeenCalledOnceWith({
         scale: 'attribute data scale' as any,
-        config: component.config.dataGeographies.attributeData,
+        config: component.config.dataLayer.attributeData,
       });
     });
   });

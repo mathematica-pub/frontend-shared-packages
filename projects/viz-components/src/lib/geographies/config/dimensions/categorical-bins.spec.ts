@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCategoricalAttributeDataDimension,
-  vicCategoricalAttributeDataDimension,
-} from './categorical-bins';
+import { Vic } from '../../../config/vic';
+import { VicCategoricalAttributeDataDimension } from './categorical-bins';
 
 describe('VicCategoricalAttributeDataDimension', () => {
   let dimension: VicCategoricalAttributeDataDimension<string>;
   beforeEach(() => {
-    dimension = vicCategoricalAttributeDataDimension({
+    dimension = Vic.geographiesDataDimensionCategorical({
       valueAccessor: (d) => d,
     });
   });

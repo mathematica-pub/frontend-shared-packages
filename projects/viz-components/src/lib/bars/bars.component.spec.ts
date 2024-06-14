@@ -1,20 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vicCategoricalDimension } from '../data-dimensions/categorical-dimension';
-import { vicOrdinalDimension } from '../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../data-dimensions/quantitative-dimension';
+import { Vic } from '../config/vic';
 import { VicColorUtilities } from '../shared/color-utilities';
 import { PatternUtilities } from '../shared/pattern-utilities';
 import { ValueUtilities } from '../shared/value-utilities';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
-import { vicBarsLabels } from './config/bars-labels';
-import {
-  VicBarsConfig,
-  vicHorizontalBars,
-  vicVerticalBars,
-} from './config/bars.config';
+import { VicBarsConfig } from './config/bars.config';
 
 type Datum = { value: number; state: string; fruit: string };
 
@@ -28,38 +21,38 @@ const data = [
 ];
 
 function horizontalConfig(): VicBarsConfig<Datum, string> {
-  return vicHorizontalBars<Datum, string>({
+  return Vic.barsHorizontal<Datum, string>({
     data,
-    quantitative: vicQuantitativeDimension<Datum>({
+    quantitative: Vic.dimensionQuantitative<Datum>({
       valueAccessor: (x) => x.value,
     }),
-    ordinal: vicOrdinalDimension<Datum, string>({
+    ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (x) => x.state,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (x) => x.fruit,
       range: ['red', 'blue', 'green', 'yellow', 'purple'],
     }),
-    labels: vicBarsLabels({
+    labels: Vic.barsLabels({
       noValueFunction: () => 'no value',
     }),
   });
 }
 
 function verticalConfig(): VicBarsConfig<Datum, string> {
-  return vicVerticalBars<Datum, string>({
+  return Vic.barsVertical<Datum, string>({
     data,
-    quantitative: vicQuantitativeDimension<Datum>({
+    quantitative: Vic.dimensionQuantitative<Datum>({
       valueAccessor: (x) => x.value,
     }),
-    ordinal: vicOrdinalDimension<Datum, string>({
+    ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (x) => x.state,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (x) => x.fruit,
       range: ['red', 'blue', 'green', 'yellow', 'purple'],
     }),
-    labels: vicBarsLabels({
+    labels: Vic.barsLabels({
       noValueFunction: () => 'no value',
     }),
   });

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Vic } from '../../config/vic';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
-import { vicXOrdinalAxis } from '../x-ordinal/x-ordinal-axis.config';
 
 describe('the OrdinalAxis mixin', () => {
   let abstractClass: OrdinalAxisStub<string>;
@@ -26,7 +26,7 @@ describe('the OrdinalAxis mixin', () => {
         };
       };
       abstractClass.scale = 'class scale' as any;
-      abstractClass.config = vicXOrdinalAxis({
+      abstractClass.config = Vic.axisXOrdinal({
         tickSizeOuter: 3,
       });
     });

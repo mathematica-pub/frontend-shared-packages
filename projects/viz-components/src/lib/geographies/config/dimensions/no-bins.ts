@@ -45,9 +45,3 @@ export class VicNoBinsAttributeDataDimension<
       .unknown(nullColor);
   }
 }
-
-export function vicNoBinsAttributeDataDimension<Datum>(
-  options?: Partial<VicNoBinsAttributeDataDimension<Datum>>
-): VicNoBinsAttributeDataDimension<Datum> {
-  return new VicNoBinsAttributeDataDimension<Datum>(options);
-}

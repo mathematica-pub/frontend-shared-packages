@@ -33,11 +33,10 @@ export function getGeographiesTooltipData<
 
   const tooltipData: VicGeographiesTooltipOutput<Datum> = {
     datum,
-    geography:
-      component.config.dataGeographies.attributeData.geoAccessor(datum),
+    geography: component.config.dataLayer.attributeData.geoAccessor(datum),
     attributeValue: ValueUtilities.formatValue(
       value,
-      component.config.dataGeographies.attributeData.valueFormat
+      component.config.dataLayer.attributeData.valueFormat
     ),
     color: component.getAttributeFill(geographyName),
   };

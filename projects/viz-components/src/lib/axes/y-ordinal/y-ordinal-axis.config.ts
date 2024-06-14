@@ -21,11 +21,3 @@ export class VicYOrdinalAxisConfig<
     Object.assign(this, options);
   }
 }
-
-export function vicYOrdinalAxis<TickValue extends VicDataValue>(
-  options?: Partial<
-    VicYAxisOptions<TickValue> & Partial<VicOrdinalAxisOptions<TickValue>>
-  >
-): VicYOrdinalAxisConfig<TickValue> {
-  return new VicYOrdinalAxisConfig(options);
-}

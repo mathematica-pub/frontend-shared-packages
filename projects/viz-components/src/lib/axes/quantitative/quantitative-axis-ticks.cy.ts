@@ -4,17 +4,10 @@ import 'cypress/support/component';
 import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsModule } from '../../bars/bars.module';
-import { vicBarsLabels } from '../../bars/config/bars-labels';
-import {
-  VicBarsOptions,
-  vicHorizontalBars,
-} from '../../bars/config/bars.config';
+import { VicBarsOptions } from '../../bars/config/bars.config';
 import { VicChartModule } from '../../chart/chart.module';
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { Vic } from '../../config/vic';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
-import { vicXQuantitativeAxis } from '../x-quantitative/x-quantitative-axis.config';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
 
@@ -55,18 +48,20 @@ describe('it correctly sets ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = vicHorizontalBars({
+    barsConfig = Vic.barsHorizontal({
       data: [
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ],
-      ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-      quantitative: vicQuantitativeDimension({ valueAccessor: (d) => d.value }),
-      categorical: vicCategoricalDimension(),
-      labels: vicBarsLabels({ display: true }),
+      ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+      quantitative: Vic.dimensionQuantitative({
+        valueAccessor: (d) => d.value,
+      }),
+      categorical: Vic.dimensionCategorical(),
+      labels: Vic.barsLabels({ display: true }),
     });
-    axisConfig = vicXQuantitativeAxis({
+    axisConfig = Vic.axisXQuantitative({
       tickFormat: '.0f',
     });
   });
@@ -93,7 +88,7 @@ describe('it correctly sets ticks', () => {
   });
   describe('tick values are specified by user', () => {
     beforeEach(() => {
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0f',
         tickValues: [1, 2, 7, 21],
       });
@@ -116,7 +111,7 @@ describe('it correctly sets ticks', () => {
   });
   describe('tick values are specified by user - tick values are outside of data range', () => {
     beforeEach(() => {
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0f',
         tickValues: [-1, 1, 2, 7, 21, 100],
       });
@@ -151,18 +146,20 @@ describe('integer formatted ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = vicHorizontalBars({
+    barsConfig = Vic.barsHorizontal({
       data: [
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ],
-      ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-      quantitative: vicQuantitativeDimension({ valueAccessor: (d) => d.value }),
-      categorical: vicCategoricalDimension(),
-      labels: vicBarsLabels({ display: true }),
+      ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+      quantitative: Vic.dimensionQuantitative({
+        valueAccessor: (d) => d.value,
+      }),
+      categorical: Vic.dimensionCategorical(),
+      labels: Vic.barsLabels({ display: true }),
     });
-    axisConfig = vicXQuantitativeAxis({
+    axisConfig = Vic.axisXQuantitative({
       tickFormat: '.0f',
     });
     validFormatRegex = /^\d+$/;
@@ -189,7 +186,7 @@ describe('integer formatted ticks', () => {
   });
   describe('tick values are specified by user - specified values are not integers', () => {
     beforeEach(() => {
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0f',
         tickValues: [1.1, 2.2, 7.7, 21.21],
       });
@@ -212,20 +209,20 @@ describe('integer formatted ticks', () => {
   });
   describe('user specifies numTicks and data range has fewer integer values than numTicks', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: [
           { state: 'Alabama', value: 1.1 },
           { state: 'Alaska', value: 2.2 },
           { state: 'Arizona', value: 3.3 },
         ],
-        ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-        quantitative: vicQuantitativeDimension({
+        ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({ display: true }),
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({ display: true }),
       });
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0f',
         numTicks: 100,
       });
@@ -255,20 +252,20 @@ describe('integer formatted ticks', () => {
   });
   describe('user specifies numTicks and data max is less than 1 (first possible value given formatter)', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: [
           { state: 'Alabama', value: 0.1 },
           { state: 'Alaska', value: 0.4 },
           { state: 'Arizona', value: 0.8 },
         ],
-        ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-        quantitative: vicQuantitativeDimension({
+        ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({ display: true }),
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({ display: true }),
       });
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0f',
         numTicks: 10,
       });
@@ -310,18 +307,20 @@ describe('float formatted ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = vicHorizontalBars({
+    barsConfig = Vic.barsHorizontal({
       data: [
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ],
-      ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-      quantitative: vicQuantitativeDimension({ valueAccessor: (d) => d.value }),
-      categorical: vicCategoricalDimension(),
-      labels: vicBarsLabels({ display: true }),
+      ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+      quantitative: Vic.dimensionQuantitative({
+        valueAccessor: (d) => d.value,
+      }),
+      categorical: Vic.dimensionCategorical(),
+      labels: Vic.barsLabels({ display: true }),
     });
-    axisConfig = vicXQuantitativeAxis({
+    axisConfig = Vic.axisXQuantitative({
       tickFormat: '.1f',
     });
     validFormatRegex = /^(\d|[1-9]\d+)\.\d$/;
@@ -348,7 +347,7 @@ describe('float formatted ticks', () => {
   });
   describe('tick values are specified by user - specified values are not the correct format', () => {
     beforeEach(() => {
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.1f',
         tickValues: [1, 2.27, 7.0, 21.21],
       });
@@ -372,20 +371,20 @@ describe('float formatted ticks', () => {
   describe('user specifies numTicks and data range has fewer possible formatted values than numTicks', () => {
     let possibleValues: number;
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: [
           { state: 'Alabama', value: 1.1 },
           { state: 'Alaska', value: 2.2 },
           { state: 'Arizona', value: 3.3 },
         ],
-        ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-        quantitative: vicQuantitativeDimension({
+        ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({ display: true }),
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({ display: true }),
       });
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.1f',
         numTicks: 100,
       });
@@ -427,20 +426,20 @@ describe('float formatted ticks', () => {
   });
   describe('user specifies numTicks and data max is less than first possible value given formatter', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: [
           { state: 'Alabama', value: 0.01 },
           { state: 'Alaska', value: 0.04 },
           { state: 'Arizona', value: 0.08 },
         ],
-        ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-        quantitative: vicQuantitativeDimension({
+        ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({ display: true }),
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({ display: true }),
       });
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.1f',
         numTicks: 10,
       });
@@ -482,18 +481,20 @@ describe('percent formatted ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = vicHorizontalBars({
+    barsConfig = Vic.barsHorizontal({
       data: [
         { state: 'Alabama', value: 0.011 },
         { state: 'Alaska', value: 0.022 },
         { state: 'Arizona', value: 0.303 },
       ],
-      ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-      quantitative: vicQuantitativeDimension({ valueAccessor: (d) => d.value }),
-      categorical: vicCategoricalDimension(),
-      labels: vicBarsLabels({ display: true }),
+      ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+      quantitative: Vic.dimensionQuantitative({
+        valueAccessor: (d) => d.value,
+      }),
+      categorical: Vic.dimensionCategorical(),
+      labels: Vic.barsLabels({ display: true }),
     });
-    axisConfig = vicXQuantitativeAxis({
+    axisConfig = Vic.axisXQuantitative({
       tickFormat: '.0%',
     });
     validFormatRegex = /^(\d|[1-9]\d+)%$/;
@@ -520,7 +521,7 @@ describe('percent formatted ticks', () => {
   });
   describe('tick values are specified by user - specified values are not the correct format', () => {
     beforeEach(() => {
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0%',
         tickValues: [0.01, 0.027, 0.07, 0.2121],
       });
@@ -544,7 +545,7 @@ describe('percent formatted ticks', () => {
   describe('user specifies numTicks and data range has fewer possible formatted values than numTicks', () => {
     let possibleValues: number;
     beforeEach(() => {
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0%',
         numTicks: 100,
       });
@@ -586,20 +587,20 @@ describe('percent formatted ticks', () => {
   });
   describe('user specifies numTicks and data max is less than first possible value given formatter', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: [
           { state: 'Alabama', value: 0.001 },
           { state: 'Alaska', value: 0.004 },
           { state: 'Arizona', value: 0.008 },
         ],
-        ordinal: vicOrdinalDimension({ valueAccessor: (d) => d.state }),
-        quantitative: vicQuantitativeDimension({
+        ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension(),
-        labels: vicBarsLabels({ display: true }),
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({ display: true }),
       });
-      axisConfig = vicXQuantitativeAxis({
+      axisConfig = Vic.axisXQuantitative({
         tickFormat: '.0%',
         numTicks: 10,
       });

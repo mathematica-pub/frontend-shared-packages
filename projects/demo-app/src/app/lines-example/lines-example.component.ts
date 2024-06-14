@@ -7,13 +7,8 @@ import {
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
-import { vicXQuantitativeAxis } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.config';
-import { vicYQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { vicCategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical-dimension';
-import { vicDateDimension } from 'projects/viz-components/src/lib/data-dimensions/date-dimension';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/domain-padding/pixel-padding';
-import { vicQuantitativeDimension } from 'projects/viz-components/src/lib/data-dimensions/quantitative-dimension';
+import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/domain-padding/pixel';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -25,11 +20,7 @@ import {
 import { VicExportDataService } from 'projects/viz-components/src/lib/export-data/export-data.service';
 import { VicJpegImageConfig } from 'projects/viz-components/src/lib/image-download/image.config';
 import { VicImageService } from 'projects/viz-components/src/lib/image-download/image.service';
-import {
-  vicLines,
-  VicLinesConfig,
-} from 'projects/viz-components/src/lib/lines/config/lines.config';
-import { vicPointMarkers } from 'projects/viz-components/src/lib/lines/config/point-markers';
+import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/config/lines.config';
 import { LinesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/lines/lines-click-effects';
 import { LinesClickDirective } from 'projects/viz-components/src/lib/lines/lines-click.directive';
 import {
@@ -43,6 +34,7 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
+import { Vic } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
@@ -129,24 +121,24 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = vicXQuantitativeAxis<Date>({
+    const xAxisConfig = Vic.axisXQuantitative<Date>({
       tickFormat: '%Y',
     });
-    const yAxisConfig = vicYQuantitativeAxis<number>();
-    const dataConfig = vicLines<MetroUnemploymentDatum>({
+    const yAxisConfig = Vic.axisYQuantitative<number>();
+    const dataConfig = Vic.lines<MetroUnemploymentDatum>({
       data,
-      x: vicDateDimension<MetroUnemploymentDatum>({
+      x: Vic.dimensionDate<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.date,
         valueFormat: '%a %B %d %Y',
       }),
-      y: vicQuantitativeDimension<MetroUnemploymentDatum>({
+      y: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
         domainPadding: new VicPixelDomainPadding({ numPixels: 20 }),
       }),
-      categorical: vicCategoricalDimension<MetroUnemploymentDatum>({
+      categorical: Vic.dimensionCategorical<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.division,
       }),
-      pointMarkers: vicPointMarkers({ radius: 2 }),
+      pointMarkers: Vic.linesPointMarkers({ radius: 2 }),
     });
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     return {
