@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicDateDimension } from '../../data-dimensions/date-dimension';
-import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicLinesConfig, vicLines } from './lines.config';
+import { Vic } from '../../config/vic';
+import { VicLinesConfig } from './lines.config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [
@@ -15,15 +13,15 @@ const data = [
 ];
 
 function createConfig(): VicLinesConfig<Datum> {
-  return vicLines({
+  return Vic.lines({
     data,
-    x: vicDateDimension<Datum>({
+    x: Vic.dimensionDate<Datum>({
       valueAccessor: (d) => d.date,
     }),
-    y: vicQuantitativeDimension<Datum>({
+    y: Vic.dimensionQuantitative<Datum>({
       valueAccessor: (d) => d.value,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (d) => d.category,
     }),
   });

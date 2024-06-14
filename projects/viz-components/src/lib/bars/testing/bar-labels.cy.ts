@@ -4,27 +4,15 @@ import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
-import { vicXOrdinalAxis } from '../../axes/x-ordinal/x-ordinal-axis.config';
 import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
-import { vicXQuantitativeAxis } from '../../axes/x-quantitative/x-quantitative-axis.config';
 import { VicXQuantitativeAxisModule } from '../../axes/x-quantitative/x-quantitative-axis.module';
-import { vicYOrdinalAxis } from '../../axes/y-ordinal/y-ordinal-axis.config';
 import { VicYOrdinalAxisModule } from '../../axes/y-ordinal/y-ordinal-axis.module';
-import { vicYQuantitativeAxis } from '../../axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../../chart/chart.module';
-import { vicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { vicPixelDomainPadding } from '../../data-dimensions/domain-padding/pixel-padding';
-import { vicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { Vic } from '../../config/vic';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { VicBarsModule } from '../bars.module';
-import { vicBarsLabels } from '../config/bars-labels';
-import {
-  VicBarsConfig,
-  vicHorizontalBars,
-  vicVerticalBars,
-} from '../config/bars.config';
+import { VicBarsConfig } from '../config/bars.config';
 
 type Datum = { state: string; value: number };
 
@@ -175,8 +163,8 @@ class TestVerticalBarsWithLabelsComponent {
 const mountVerticalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = vicXOrdinalAxis();
-  const yAxisConfig = vicYQuantitativeAxis({
+  const xAxisConfig = Vic.axisXOrdinal();
+  const yAxisConfig = Vic.axisYQuantitative({
     tickFormat: '.0f',
   });
 
@@ -204,22 +192,22 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   let barsConfig: VicBarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: dataWithAllValueTypes,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: -4,
           }),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: () => '',
           range: ['#000080'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
           offset: labelOffset,
         }),
@@ -332,22 +320,22 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
   describe('for bar data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: dataWithNegativeZeroAndNonnumericValues,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: -4,
           }),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: () => '',
           range: ['#000080'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
           offset: labelOffset,
         }),
@@ -372,22 +360,22 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = vicVerticalBars({
+      barsConfig = Vic.barsVertical({
         data: dataWithPositiveZeroAndNonnumericValues,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: -4,
           }),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: () => '',
           range: ['#000080'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
           offset: labelOffset,
         }),
@@ -421,23 +409,23 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       describe('when the domain maximum is greater than 0', () => {
         beforeEach(() => {
-          barsConfig = vicVerticalBars({
+          barsConfig = Vic.barsVertical({
             data: item.data,
-            ordinal: vicOrdinalDimension({
+            ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: vicQuantitativeDimension({
+            quantitative: Vic.dimensionQuantitative({
               valueAccessor: (d) => d.value,
               domain: [-10, 10],
-              domainPadding: vicPixelDomainPadding({
+              domainPadding: Vic.domainPaddingPixel({
                 numPixels: -4,
               }),
             }),
-            categorical: vicCategoricalDimension({
+            categorical: Vic.dimensionCategorical({
               valueAccessor: () => '',
               range: ['#000080'],
             }),
-            labels: vicBarsLabels({
+            labels: Vic.barsLabels({
               display: true,
               offset: labelOffset,
             }),
@@ -460,23 +448,23 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       });
       describe('when the domain maximum is not greater than 0', () => {
         beforeEach(() => {
-          barsConfig = vicVerticalBars({
+          barsConfig = Vic.barsVertical({
             data: item.data,
-            ordinal: vicOrdinalDimension({
+            ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: vicQuantitativeDimension({
+            quantitative: Vic.dimensionQuantitative({
               valueAccessor: (d) => d.value,
               domain: [-10, 0],
-              domainPadding: vicPixelDomainPadding({
+              domainPadding: Vic.domainPaddingPixel({
                 numPixels: -4,
               }),
             }),
-            categorical: vicCategoricalDimension({
+            categorical: Vic.dimensionCategorical({
               valueAccessor: () => '',
               range: ['#000080'],
             }),
-            labels: vicBarsLabels({
+            labels: Vic.barsLabels({
               display: true,
               offset: labelOffset,
             }),
@@ -540,10 +528,10 @@ class TestHorizontalBarsWithLabelsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = vicXQuantitativeAxis({
+  const xAxisConfig = Vic.axisXQuantitative({
     tickFormat: '.0f',
   });
-  const yAxisConfig = vicYOrdinalAxis();
+  const yAxisConfig = Vic.axisYOrdinal();
 
   const declarations = [TestHorizontalBarsWithLabelsComponent];
   const imports = [
@@ -569,22 +557,22 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   let barsConfig: VicBarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: dataWithAllValueTypes,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: 4,
           }),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: () => '',
           range: ['#000080'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
           offset: labelOffset,
         }),
@@ -698,22 +686,22 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
   describe('for data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: dataWithNegativeZeroAndNonnumericValues,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: 4,
           }),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: () => '',
           range: ['#000080'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
           offset: labelOffset,
         }),
@@ -738,22 +726,22 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = vicHorizontalBars({
+      barsConfig = Vic.barsHorizontal({
         data: dataWithPositiveZeroAndNonnumericValues,
-        ordinal: vicOrdinalDimension({
+        ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: vicQuantitativeDimension({
+        quantitative: Vic.dimensionQuantitative({
           valueAccessor: (d) => d.value,
-          domainPadding: vicPixelDomainPadding({
+          domainPadding: Vic.domainPaddingPixel({
             numPixels: 4,
           }),
         }),
-        categorical: vicCategoricalDimension({
+        categorical: Vic.dimensionCategorical({
           valueAccessor: () => '',
           range: ['#000080'],
         }),
-        labels: vicBarsLabels({
+        labels: Vic.barsLabels({
           display: true,
           offset: labelOffset,
         }),
@@ -787,23 +775,23 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       describe('when the domain maximum value is positive', () => {
         beforeEach(() => {
-          barsConfig = vicHorizontalBars({
+          barsConfig = Vic.barsHorizontal({
             data: item.data,
-            ordinal: vicOrdinalDimension({
+            ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: vicQuantitativeDimension({
+            quantitative: Vic.dimensionQuantitative({
               valueAccessor: (d) => d.value,
               domain: [-10, 10],
-              domainPadding: vicPixelDomainPadding({
+              domainPadding: Vic.domainPaddingPixel({
                 numPixels: 4,
               }),
             }),
-            categorical: vicCategoricalDimension({
+            categorical: Vic.dimensionCategorical({
               valueAccessor: () => '',
               range: ['#000080'],
             }),
-            labels: vicBarsLabels({
+            labels: Vic.barsLabels({
               display: true,
               offset: labelOffset,
             }),
@@ -826,23 +814,23 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       });
       describe('when the domain maximum value is not greater than 0', () => {
         beforeEach(() => {
-          barsConfig = vicHorizontalBars({
+          barsConfig = Vic.barsHorizontal({
             data: item.data,
-            ordinal: vicOrdinalDimension({
+            ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: vicQuantitativeDimension({
+            quantitative: Vic.dimensionQuantitative({
               valueAccessor: (d) => d.value,
               domain: [-10, 0],
-              domainPadding: vicPixelDomainPadding({
+              domainPadding: Vic.domainPaddingPixel({
                 numPixels: 4,
               }),
             }),
-            categorical: vicCategoricalDimension({
+            categorical: Vic.dimensionCategorical({
               valueAccessor: () => '',
               range: ['#000080'],
             }),
-            labels: vicBarsLabels({
+            labels: Vic.barsLabels({
               display: true,
               offset: labelOffset,
             }),

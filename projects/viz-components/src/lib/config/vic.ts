@@ -72,6 +72,7 @@ import {
   VicEqualValuesAttributeDataDimension,
   VicEqualValuesAttributeDataDimensionOptions,
 } from '../geographies/config/dimensions/equal-value-ranges-bins';
+import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
 import {
   VicNoDataGeographies,
   VicNoDataGeographiesOptions,
@@ -88,7 +89,15 @@ import {
   VicGroupedBarsConfig,
   VicGroupedBarsOptions,
 } from '../grouped-bars/config/grouped-bars.config';
+import {
+  VicLinesStroke,
+  VicLinesStrokeOptions,
+} from '../lines/config/lines-stroke';
 import { VicLinesConfig, VicLinesOptions } from '../lines/config/lines.config';
+import {
+  VicPointMarkers,
+  VicPointMarkersOptions,
+} from '../lines/config/point-markers';
 import {
   VicStackedAreaConfig,
   VicStackedAreaOptions,
@@ -264,6 +273,12 @@ export class Vic {
     return new VicEqualValuesAttributeDataDimension<Datum, RangeValue>(options);
   }
 
+  static geographiesDataDimensionNoBins<Datum>(
+    options?: Partial<VicNoBinsAttributeDataDimension<Datum>>
+  ): VicNoBinsAttributeDataDimension<Datum> {
+    return new VicNoBinsAttributeDataDimension<Datum>(options);
+  }
+
   static geographiesDataLayer<
     Datum,
     TProperties,
@@ -319,6 +334,14 @@ export class Vic {
     options: Partial<VicLinesOptions<Datum>>
   ): VicLinesConfig<Datum> {
     return new VicLinesConfig(options);
+  }
+
+  static linesStroke(options: Partial<VicLinesStrokeOptions>) {
+    return new VicLinesStroke(options);
+  }
+
+  static linesPointMarkers(options: Partial<VicPointMarkersOptions>) {
+    return new VicPointMarkers(options);
   }
 
   static stackedArea<Datum, TCategoricalValue extends VicDataValue>(

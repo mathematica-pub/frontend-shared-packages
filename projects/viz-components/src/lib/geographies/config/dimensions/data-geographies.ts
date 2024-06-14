@@ -72,13 +72,3 @@ export class VicDataGeographies<
     this.hasAttributeData = true;
   }
 }
-
-export function vicDataGeographies<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
->(
-  options?: Partial<VicDataGeographiesOptions<Datum, TProperties, TGeometry>>
-): VicDataGeographies<Datum, TProperties, TGeometry> {
-  return new VicDataGeographies(options);
-}

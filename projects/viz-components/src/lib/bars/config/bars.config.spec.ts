@@ -1,18 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCategoricalDimension,
-  vicCategoricalDimension,
-} from '../../data-dimensions/categorical-dimension';
-import {
-  VicOrdinalDimension,
-  vicOrdinalDimension,
-} from '../../data-dimensions/ordinal-dimension';
-import {
-  VicQuantitativeDimension,
-  vicQuantitativeDimension,
-} from '../../data-dimensions/quantitative-dimension';
-import { HORIZONTAL_BARS_DIMENSIONS } from './bars-dimensions';
-import { VicBarsConfig, vicHorizontalBars } from './bars.config';
+import { Vic } from '../../config/vic';
+import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
+import { VicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
+import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { VicBarsConfig } from './bars.config';
 
 type Datum = { value: number; state: string };
 const data = [
@@ -24,15 +15,15 @@ const data = [
   { value: 6, state: 'CO' },
 ];
 function getNewConfig(): VicBarsConfig<Datum, string> {
-  return vicHorizontalBars<Datum, string>({
+  return Vic.barsHorizontal<Datum, string>({
     data,
-    quantitative: vicQuantitativeDimension<Datum>({
+    quantitative: Vic.dimensionQuantitative<Datum>({
       valueAccessor: (d) => d.value,
     }),
-    ordinal: vicOrdinalDimension<Datum, string>({
+    ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (d) => d.state,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({}),
+    categorical: Vic.dimensionCategorical<Datum, string>({}),
   });
 }
 
@@ -104,16 +95,16 @@ describe('BarsConfig', () => {
       expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4]);
     });
     it('sets valueIndicies to the correct array when ordinal domain is limited by user', () => {
-      config = new VicBarsConfig(HORIZONTAL_BARS_DIMENSIONS, {
+      config = Vic.barsHorizontal({
         data,
-        quantitative: vicQuantitativeDimension<Datum>({
+        quantitative: Vic.dimensionQuantitative<Datum>({
           valueAccessor: (d) => d.value,
         }),
-        ordinal: vicOrdinalDimension<Datum, string>({
+        ordinal: Vic.dimensionOrdinal<Datum, string>({
           valueAccessor: (d) => d.state,
           domain: ['AL', 'AZ', 'CA'],
         }),
-        categorical: vicCategoricalDimension<Datum, string>({}),
+        categorical: Vic.dimensionCategorical<Datum, string>({}),
       });
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();

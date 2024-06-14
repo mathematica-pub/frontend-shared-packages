@@ -22,11 +22,3 @@ export class VicYQuantitativeAxisConfig<
     Object.assign(this, options);
   }
 }
-
-export function vicYQuantitativeAxis<TickValue extends VicDataValue>(
-  options?: Partial<
-    VicYAxisOptions<TickValue> & Partial<VicQuantitativeAxisOptions<TickValue>>
-  >
-): VicYQuantitativeAxisConfig<TickValue> {
-  return new VicYQuantitativeAxisConfig(options);
-}

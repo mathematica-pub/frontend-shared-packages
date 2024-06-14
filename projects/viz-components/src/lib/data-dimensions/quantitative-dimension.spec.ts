@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicQuantitativeDimension,
-  vicQuantitativeDimension,
-} from './quantitative-dimension';
+import { Vic } from '../config/vic';
+import { VicQuantitativeDimension } from './quantitative-dimension';
 
 describe('VicQuantitativeDimension', () => {
   let dimension: VicQuantitativeDimension<number>;
   beforeEach(() => {
-    dimension = vicQuantitativeDimension({
+    dimension = Vic.dimensionQuantitative({
       valueAccessor: (d) => d,
     });
   });

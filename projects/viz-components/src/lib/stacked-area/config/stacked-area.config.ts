@@ -146,9 +146,3 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
     }
   }
 }
-
-export function vicStackedArea<Datum, TCategoricalValue extends VicDataValue>(
-  options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
-): VicStackedAreaConfig<Datum, TCategoricalValue> {
-  return new VicStackedAreaConfig(options);
-}

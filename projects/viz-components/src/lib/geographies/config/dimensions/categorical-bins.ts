@@ -66,14 +66,3 @@ export class VicCategoricalAttributeDataDimension<
       .unknown(nullColor);
   }
 }
-
-export function vicCategoricalAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string
->(
-  options?: Partial<
-    VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
-  >
-): VicCategoricalAttributeDataDimension<Datum, RangeValue> {
-  return new VicCategoricalAttributeDataDimension<Datum, RangeValue>(options);
-}
