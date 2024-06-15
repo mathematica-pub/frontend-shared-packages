@@ -9,7 +9,7 @@ import { Marker } from '../lines.component';
 import { VicLinesStroke } from './lines-stroke';
 import { VicPointMarkers } from './point-markers';
 
-const LINE_DEFAULTS = {
+const DEFAULT = {
   curve: curveLinear,
   pointMarkers: new VicPointMarkers(),
   hoverDot: new VicPointMarkers({ radius: 4, display: false }),
@@ -111,15 +111,7 @@ export class VicLinesConfig<Datum>
 
   constructor(options: Partial<VicLinesOptions<Datum>>) {
     super();
-    Object.assign(this, options);
-    this.curve = this.curve ?? LINE_DEFAULTS.curve;
-    this.pointMarkers = this.pointMarkers ?? LINE_DEFAULTS.pointMarkers;
-    this.hoverDot = this.hoverDot ?? LINE_DEFAULTS.hoverDot;
-    this.stroke = this.stroke ?? LINE_DEFAULTS.stroke;
-    this.pointerDetectionRadius =
-      this.pointerDetectionRadius ?? LINE_DEFAULTS.pointerDetectionRadius;
-    this.lineLabelsFormat =
-      this.lineLabelsFormat ?? LINE_DEFAULTS.lineLabelsFormat;
+    Object.assign(this, DEFAULT, options);
     this.initPropertiesFromData();
   }
 
