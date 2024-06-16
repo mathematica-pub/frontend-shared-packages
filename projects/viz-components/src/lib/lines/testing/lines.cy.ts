@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { curveBasis } from 'd3';
 import { cy, describe, it } from 'local-cypress';
 import {
   VicChartModule,
@@ -181,7 +182,6 @@ describe('it creates the correct lines', () => {
           valueAccessor: (d) => d.continent,
         }),
       });
-      console.log(linesConfig);
       mountDateLinesComponent(linesConfig);
       cy.get('.vic-line').should('have.length', 6);
     });
@@ -204,5 +204,28 @@ describe('it creates the correct lines', () => {
       mountNumberLinesComponent(linesConfig);
       cy.get('.vic-line').should('have.length', 6);
     });
+  });
+});
+
+// ***********************************************************
+// Tests of various config properties
+// ***********************************************************
+describe('can use different D3curve functions', () => {
+  it('should draw the correct number of lines', () => {
+    const linesConfig = Vic.lines<DateDatum>({
+      data: defaultDateData,
+      x: Vic.dimensionDate<DateDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitative<DateDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<DateDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+      curve: curveBasis,
+    });
+    mountDateLinesComponent(linesConfig);
+    cy.get('.vic-line').should('have.length', 6);
   });
 });

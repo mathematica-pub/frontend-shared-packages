@@ -26,9 +26,9 @@ export interface VicPointMarkersOptions {
 }
 
 export class VicPointMarkers implements VicPointMarkersOptions {
-  display: boolean;
-  radius: number;
-  growByOnHover: number;
+  readonly display: boolean;
+  readonly radius: number;
+  readonly growByOnHover: number;
 
   constructor(options?: Partial<VicPointMarkers>) {
     Object.assign(this, DEFAULT, options);

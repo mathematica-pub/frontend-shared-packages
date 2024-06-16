@@ -91,19 +91,19 @@ export class VicLinesConfig<Datum>
   extends VicXyDataMarksConfig<Datum>
   implements VicLinesOptions<Datum>
 {
-  categorical: VicCategoricalDimension<Datum, string>;
+  readonly categorical: VicCategoricalDimension<Datum, string>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  curve: (x: any) => any;
-  hoverDot: VicPointMarkers;
-  labelLines: boolean;
-  lineLabelsFormat: (d: string) => string;
+  readonly curve: (x: any) => any;
+  readonly hoverDot: VicPointMarkers;
+  readonly labelLines: boolean;
+  readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
-  pointerDetectionRadius: number;
-  pointMarkers: VicPointMarkers;
-  stroke: VicLinesStroke;
+  readonly pointerDetectionRadius: number;
+  readonly pointMarkers: VicPointMarkers;
+  readonly stroke: VicLinesStroke;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined: (d: Datum, i: number, ...args: any) => any;
   x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
