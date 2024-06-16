@@ -193,6 +193,7 @@ describe('it creates lines with the correct properties per config', () => {
     cy.get('.vic-line').should('have.length', 6);
   });
   describe('pointMarkers', () => {
+    const markerClass = 'test-point-marker';
     it('draws the correct number of point markers', () => {
       const linesConfig = Vic.lines<QdQnCDatum>({
         data: dateData,
@@ -205,12 +206,14 @@ describe('it creates lines with the correct properties per config', () => {
         categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
           valueAccessor: (d) => d.continent,
         }),
-        pointMarkers: Vic.pointMarkers(),
+        pointMarkers: Vic.pointMarkers({ class: markerClass }),
       });
       mountDateLinesComponent(linesConfig);
-      cy.get('.vic-point-marker').should('have.length', 24);
+      cy.get(`.${markerClass}`).should('have.length', 24);
     });
     it('draws point markers with the correct radius - user provides custom radius', () => {
+      const markerClass = 'test-point-marker';
+      const radius = 4;
       const linesConfig = Vic.lines<QdQnCDatum>({
         data: dateData,
         x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
@@ -222,11 +225,14 @@ describe('it creates lines with the correct properties per config', () => {
         categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
           valueAccessor: (d) => d.continent,
         }),
-        pointMarkers: Vic.pointMarkers({ radius: 4 }),
+        pointMarkers: Vic.pointMarkers({
+          radius,
+          class: markerClass,
+        }),
       });
       mountDateLinesComponent(linesConfig);
-      cy.get('.vic-point-marker').each(($pointMarker) => {
-        cy.wrap($pointMarker).should('have.attr', 'r', '4');
+      cy.get(`.${markerClass}`).each(($pointMarker) => {
+        cy.wrap($pointMarker).should('have.attr', 'r', radius.toString());
       });
     });
   });
