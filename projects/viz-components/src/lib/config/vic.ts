@@ -25,8 +25,8 @@ import {
   VicDimensionCategorical,
 } from '../data-dimensions/categorical/categorical';
 import {
-  VicDateDimension,
-  VicDateDimensionOptions,
+  VicDimensionDate,
+  VicDimensionDateOptions,
 } from '../data-dimensions/date/date-dimension';
 import {
   VicDimensionOrdinal,
@@ -174,9 +174,9 @@ export class Vic {
   }
 
   static dimensionDate<Datum>(
-    options: Partial<VicDateDimensionOptions<Datum>>
-  ): VicDateDimension<Datum> {
-    return new VicDateDimension(options);
+    options: Partial<VicDimensionDateOptions<Datum>>
+  ): VicDimensionDate<Datum> {
+    return new VicDimensionDate(options);
   }
 
   static dimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>(
