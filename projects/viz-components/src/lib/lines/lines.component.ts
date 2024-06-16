@@ -52,6 +52,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   lineLabelsRef: ElementRef<SVGSVGElement>;
   line: (x: any[]) => any;
   markerClass = 'vic-lines-datum-marker';
+  hoverDotClass = 'vic-lines-hover-dot';
   markerIndexAttr = 'index';
 
   private zone = inject(NgZone);
@@ -81,9 +82,9 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
-    if (this.config.pointMarkers.display) {
+    if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.hoverDot.display) {
+    } else if (this.config.hoverDot) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -92,18 +93,19 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   }
 
   setLine(): void {
-    if (this.config.valueIsDefined === undefined) {
-      this.config.valueIsDefined = (d, i) =>
-        this.config.canBeDrawnByPath(this.config.x.values[i]) &&
-        this.config.canBeDrawnByPath(this.config.y.values[i]);
-    }
-    const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
+    const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.line = line()
-      .defined((i: any) => isDefinedValues[i] as boolean)
+      .defined((i: any) => isValid[i] as boolean)
       .curve(this.config.curve)
       .x((i: any) => this.scales.x(this.config.x.values[i]))
       .y((i: any) => this.scales.y(this.config.y.values[i]));
+  }
+
+  isValidValue(d: Datum): boolean {
+    const xIsValid = this.config.x.isValidValue(this.config.x.valueAccessor(d));
+    const yIsValid = this.config.y.isValidValue(this.config.y.valueAccessor(d));
+    return xIsValid && yIsValid;
   }
 
   drawLines(transitionDuration: number): void {
@@ -134,7 +136,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   drawHoverDot(): void {
     select(this.dotRef.nativeElement)
       .append('circle')
-      .attr('class', 'vic-tooltip-dot')
+      .attr('class', `${this.config.hoverDot.class} ${this.hoverDotClass}`)
       .attr('r', this.config.hoverDot.radius)
       .attr('fill', '#222')
       .attr('display', 'none');
@@ -151,7 +153,10 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
         (enter) =>
           enter
             .append('circle')
-            .attr('class', this.markerClass)
+            .attr(
+              'class',
+              `${this.config.pointMarkers.class} ${this.markerClass}`
+            )
             .attr('key', (d) => d.key)
             .attr(this.markerIndexAttr, (d) => d.index)
             .style('mix-blend-mode', this.config.mixBlendMode)

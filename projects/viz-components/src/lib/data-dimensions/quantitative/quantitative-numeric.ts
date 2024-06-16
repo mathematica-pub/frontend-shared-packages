@@ -1,4 +1,5 @@
 import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
+import { isNumber } from '../../core/utilities/type-guards';
 import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
 
@@ -98,5 +99,12 @@ export class VicDimensionQuantitativeNumeric<Datum>
       this.scaleFn,
       range
     );
+  }
+
+  // returns false if data is undefined or null or not a number
+  // for some charts this may be fine
+  // original intended use case: d3Line can only handle defined values
+  isValidValue(x: unknown): boolean {
+    return isNumber(x);
   }
 }
