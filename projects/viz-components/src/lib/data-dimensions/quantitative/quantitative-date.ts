@@ -1,4 +1,5 @@
 import { ScaleTime, max, min, scaleUtc } from 'd3';
+import { isDate } from '../../core/utilities/type-guards';
 import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
 
 const DEFAULT = {
@@ -51,5 +52,12 @@ export class VicDimensionQuantitativeDate<Datum>
 
   getScaleFromRange(range: [number, number]) {
     return this.scaleFn().domain(this.calculatedDomain).range(range);
+  }
+
+  // returns false if data is undefined or null of not a Date
+  // for some charts this may be fine
+  // original intended use case: d3Line can only handle defined values
+  isValidValue(x: unknown): boolean {
+    return isDate(x);
   }
 }
