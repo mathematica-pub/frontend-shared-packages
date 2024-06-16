@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../config/vic';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionDate } from '../../data-dimensions/date/date-dimension';
-import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
+import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
 type Datum = { date: Date; value: number; category: string };
@@ -17,10 +17,10 @@ const data = [
 function createConfig(): VicStackedAreaConfig<Datum, string> {
   return Vic.stackedArea({
     data,
-    x: Vic.dimensionDate<Datum>({
+    x: Vic.dimensionQuantitativeDate<Datum>({
       valueAccessor: (d) => d.date,
     }),
-    y: Vic.dimensionQuantitative<Datum>({
+    y: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (d) => d.value,
     }),
     categorical: Vic.dimensionCategorical<Datum, string>({
@@ -69,8 +69,8 @@ describe('StackedAreaConfig', () => {
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(VicStackedAreaConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(VicDimensionDate.prototype, 'setPropertiesFromData');
-      spyOn(VicDimensionQuantitative.prototype, 'setPropertiesFromData');
+      spyOn(VicDimensionQuantitativeDate.prototype, 'setPropertiesFromData');
+      spyOn(VicDimensionQuantitativeNumeric.prototype, 'setPropertiesFromData');
       spyOn(VicDimensionCategorical.prototype, 'setPropertiesFromData');
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
@@ -99,10 +99,10 @@ describe('StackedAreaConfig', () => {
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
       config = Vic.stackedArea({
         data,
-        x: Vic.dimensionDate<Datum>({
+        x: Vic.dimensionQuantitativeDate<Datum>({
           valueAccessor: (d) => d.date,
         }),
-        y: Vic.dimensionQuantitative<Datum>({
+        y: Vic.dimensionQuantitativeNumeric<Datum>({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical<Datum, string>({

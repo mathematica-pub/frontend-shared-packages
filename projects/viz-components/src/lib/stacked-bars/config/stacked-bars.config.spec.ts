@@ -18,7 +18,7 @@ function getNewConfig(): VicStackedBarsConfig<Datum, string> {
     ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (d) => d.country,
     }),
-    quantitative: Vic.dimensionQuantitative<Datum>({
+    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (d) => d.value,
     }),
     categorical: Vic.dimensionCategorical<Datum, string>({
@@ -80,7 +80,7 @@ describe('StackedBarsConfig', () => {
           valueAccessor: (d) => d.country,
           domain: ['Sweden', 'Norway', 'Iceland'],
         }),
-        quantitative: Vic.dimensionQuantitative<Datum>({
+        quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical<Datum, string>({
@@ -95,7 +95,7 @@ describe('StackedBarsConfig', () => {
         ordinal: Vic.dimensionOrdinal<Datum, string>({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative<Datum>({
+        quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical<Datum, string>({
@@ -112,7 +112,7 @@ describe('StackedBarsConfig', () => {
           valueAccessor: (d) => d.country,
           domain: ['Sweden', 'Norway', 'Iceland'],
         }),
-        quantitative: Vic.dimensionQuantitative<Datum>({
+        quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical<Datum, string>({

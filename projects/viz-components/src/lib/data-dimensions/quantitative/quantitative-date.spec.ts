@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../config/vic';
-import { VicDimensionDate } from './date-dimension';
+import { VicDimensionQuantitativeDate } from './quantitative-date';
 
 describe('VicDateDimension', () => {
-  let dimension: VicDimensionDate<Date>;
+  let dimension: VicDimensionQuantitativeDate<Date>;
   beforeEach(() => {
-    dimension = Vic.dimensionDate({
+    dimension = Vic.dimensionQuantitativeDate({
       valueAccessor: (d) => d,
     });
   });

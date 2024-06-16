@@ -22,15 +22,17 @@ chart-components:
     y-quantitative-axis-config: 'classes/VicYQuantitativeAxisConfig.html'
     tick-wrap-config: 'classes/VicTickWrapConfig.html'
 dimensions:
-  categorical: 'classes/VicCategoricalDimension.html'
-  date: 'classes/VicDateDimension.html'
-  ordinal: 'classes/VicOrdinalDimension.html'
-  quantitative: 'classes/VicQuantitativeDimension.html'
-  domain-padding:
-    round-up: 'classes/VicRoundUpDomainPadding.html'
-    round-to-interval: 'classes/VicRoundUpToIntervalDomainPadding.html'
-    percent-over: 'classes/VicPercentOverDomainPadding.html'
-    pixel: 'classes/VicPixelDomainPadding.html'
+  categorical:
+    categorical: 'classes/VicDimensionCategorical.html'
+    domain-padding:
+      round-up: 'classes/VicRoundUpDomainPadding.html'
+      round-to-interval: 'classes/VicRoundUpToIntervalDomainPadding.html'
+      percent-over: 'classes/VicPercentOverDomainPadding.html'
+      pixel: 'classes/VicPixelDomainPadding.html'
+  ordinal: 'classes/VicDimensionOrdinal.html'
+  quantitative:
+    numeric: 'classes/VicDimensionQuantitativeNumeric.html'
+    date: 'classes/VicDimensionQuantitativeDate.html'
 data-marks-components:
   shared:
     html-tooltip: 'directives/VicHtmlTooltipDirective.html'

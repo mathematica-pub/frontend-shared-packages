@@ -29,10 +29,10 @@ describe('StackedAreaComponent', () => {
         { date: new Date('2020-01-02'), value: 5, category: 'b' },
         { date: new Date('2020-01-03'), value: 6, category: 'b' },
       ],
-      x: Vic.dimensionDate<Datum>({
+      x: Vic.dimensionQuantitativeDate<Datum>({
         valueAccessor: (d) => d.date,
       }),
-      y: Vic.dimensionQuantitative<Datum>({
+      y: Vic.dimensionQuantitativeNumeric<Datum>({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical<Datum, string>({

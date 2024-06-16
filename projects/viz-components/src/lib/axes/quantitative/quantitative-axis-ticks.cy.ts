@@ -55,7 +55,7 @@ describe('it correctly sets ticks', () => {
         { state: 'Arizona', value: 30.3 },
       ],
       ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -153,7 +153,7 @@ describe('integer formatted ticks', () => {
         { state: 'Arizona', value: 30.3 },
       ],
       ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -216,7 +216,7 @@ describe('integer formatted ticks', () => {
           { state: 'Arizona', value: 3.3 },
         ],
         ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical(),
@@ -259,7 +259,7 @@ describe('integer formatted ticks', () => {
           { state: 'Arizona', value: 0.8 },
         ],
         ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical(),
@@ -314,7 +314,7 @@ describe('float formatted ticks', () => {
         { state: 'Arizona', value: 30.3 },
       ],
       ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -378,7 +378,7 @@ describe('float formatted ticks', () => {
           { state: 'Arizona', value: 3.3 },
         ],
         ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical(),
@@ -433,7 +433,7 @@ describe('float formatted ticks', () => {
           { state: 'Arizona', value: 0.08 },
         ],
         ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical(),
@@ -488,7 +488,7 @@ describe('percent formatted ticks', () => {
         { state: 'Arizona', value: 0.303 },
       ],
       ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -594,7 +594,7 @@ describe('percent formatted ticks', () => {
           { state: 'Arizona', value: 0.008 },
         ],
         ordinal: Vic.dimensionOrdinal({ valueAccessor: (d) => d.state }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical(),

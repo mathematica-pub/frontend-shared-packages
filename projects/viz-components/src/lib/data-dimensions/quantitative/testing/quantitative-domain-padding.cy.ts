@@ -108,7 +108,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.state,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -261,7 +261,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.state,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
         includeZeroInDomain: false,
       }),
@@ -415,7 +415,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.state,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -586,7 +586,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.state,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
         includeZeroInDomain: false,
       }),
@@ -743,7 +743,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.state,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
@@ -923,7 +923,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.state,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical(),
