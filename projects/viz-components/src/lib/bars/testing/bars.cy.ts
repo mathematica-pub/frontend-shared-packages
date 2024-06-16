@@ -402,10 +402,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[zeroIndex].area = 0;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal({
+          ordinal: Vic.dimensionOrdinal<Datum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative({
+          quantitative: Vic.dimensionQuantitative<Datum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -429,10 +429,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[nonNumericIndex].area = undefined;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal({
+          ordinal: Vic.dimensionOrdinal<Datum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative({
+          quantitative: Vic.dimensionQuantitative<Datum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -456,10 +456,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal({
+          ordinal: Vic.dimensionOrdinal<Datum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative({
+          quantitative: Vic.dimensionQuantitative<Datum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -481,10 +481,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal({
+          ordinal: Vic.dimensionOrdinal<Datum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative({
+          quantitative: Vic.dimensionQuantitative<Datum>({
             valueAccessor: (d) => d.area,
             domain: [0, 700000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -514,10 +514,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal({
+          ordinal: Vic.dimensionOrdinal<Datum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative({
+          quantitative: Vic.dimensionQuantitative<Datum>({
             valueAccessor: (d) => d.area,
             domain: [0, 1000000],
             domainPadding: Vic.domainPaddingPixel(),
