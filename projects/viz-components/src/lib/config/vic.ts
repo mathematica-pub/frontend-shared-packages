@@ -25,10 +25,6 @@ import {
   VicDimensionCategorical,
 } from '../data-dimensions/categorical/categorical';
 import {
-  VicDimensionDate,
-  VicDimensionDateOptions,
-} from '../data-dimensions/date/date-dimension';
-import {
   VicDimensionOrdinal,
   VicDimensionOrdinalOptions,
 } from '../data-dimensions/ordinal/ordinal';
@@ -49,9 +45,13 @@ import {
   VicRoundUpDomainPaddingOptions,
 } from '../data-dimensions/quantitative/domain-padding/round-up';
 import {
-  VicDimensionQuantitative,
-  VicDimensionQuantitativeOptions,
-} from '../data-dimensions/quantitative/quantitative';
+  VicDimensionQuantitativeDate,
+  VicDimensionQuantitativeDateOptions,
+} from '../data-dimensions/quantitative/quantitative-date';
+import {
+  VicDimensionQuantitativeNumeric,
+  VicDimensionQuantitativeNumericOptions,
+} from '../data-dimensions/quantitative/quantitative-numeric';
 import {
   VicCategoricalAttributeDataDimension,
   VicCategoricalAttributeDataDimensionOptions,
@@ -93,8 +93,8 @@ import { VicLinesConfig, VicLinesOptions } from '../lines/config/lines.config';
 import {
   VicPointMarkers,
   VicPointMarkersOptions,
-} from '../lines/config/point-markers';
-import { VicStroke, VicStrokeOptions } from '../lines/config/stroke';
+} from '../marks/point-markers';
+import { VicStroke, VicStrokeOptions } from '../marks/stroke';
 import {
   VicStackedAreaConfig,
   VicStackedAreaOptions,
@@ -170,22 +170,22 @@ export class Vic {
     return new VicDimensionCategorical(options);
   }
 
-  static dimensionDate<Datum>(
-    options: Partial<VicDimensionDateOptions<Datum>>
-  ): VicDimensionDate<Datum> {
-    return new VicDimensionDate(options);
-  }
-
   static dimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>(
     options: Partial<VicDimensionOrdinalOptions<Datum, TOrdinalValue>>
   ): VicDimensionOrdinal<Datum, TOrdinalValue> {
     return new VicDimensionOrdinal(options);
   }
 
-  static dimensionQuantitative<Datum>(
-    options: Partial<VicDimensionQuantitativeOptions<Datum>>
-  ): VicDimensionQuantitative<Datum> {
-    return new VicDimensionQuantitative(options);
+  static dimensionQuantitativeDate<Datum>(
+    options: Partial<VicDimensionQuantitativeDateOptions<Datum>>
+  ): VicDimensionQuantitativeDate<Datum> {
+    return new VicDimensionQuantitativeDate(options);
+  }
+
+  static dimensionQuantitativeNumeric<Datum>(
+    options: Partial<VicDimensionQuantitativeNumericOptions<Datum>>
+  ): VicDimensionQuantitativeNumeric<Datum> {
+    return new VicDimensionQuantitativeNumeric(options);
   }
 
   static domainPaddingPercentOver(

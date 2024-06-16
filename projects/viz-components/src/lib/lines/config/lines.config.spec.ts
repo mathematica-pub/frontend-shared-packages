@@ -15,10 +15,10 @@ const data = [
 function createConfig(): VicLinesConfig<Datum> {
   return Vic.lines({
     data,
-    x: Vic.dimensionDate<Datum>({
+    x: Vic.dimensionQuantitativeDate<Datum>({
       valueAccessor: (d) => d.date,
     }),
-    y: Vic.dimensionQuantitative<Datum>({
+    y: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (d) => d.value,
     }),
     categorical: Vic.dimensionCategorical<Datum, string>({

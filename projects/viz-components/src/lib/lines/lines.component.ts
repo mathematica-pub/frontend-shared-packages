@@ -16,11 +16,6 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicLinesConfig } from './config/lines.config';
 
-export interface Marker {
-  key: string;
-  index: number;
-}
-
 export class LinesTooltipData {
   datum: any;
   color: string;

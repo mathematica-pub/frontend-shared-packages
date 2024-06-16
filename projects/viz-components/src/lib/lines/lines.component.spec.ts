@@ -33,8 +33,8 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawLineLabels');
       component.config = Vic.lines({
         data: [],
-        x: Vic.dimensionDate({ valueAccessor: () => null }),
-        y: Vic.dimensionQuantitative({ valueAccessor: () => null }),
+        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
+        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
         categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
       });
     });

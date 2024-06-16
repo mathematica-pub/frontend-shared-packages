@@ -14,8 +14,8 @@ import {
 } from 'd3';
 import { VicContinuousValue, VicDataValue } from '../../core/types/values';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionDate } from '../../data-dimensions/date/date-dimension';
-import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
+import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
@@ -33,8 +33,10 @@ export interface VicStackedAreaOptions<
   TCategoricalValue extends VicDataValue
 > extends VicDataMarksOptions<Datum>,
     VicDataMarksOptions<Datum> {
-  x: VicDimensionDate<Datum> | VicDimensionQuantitative<Datum>;
-  y: VicDimensionQuantitative<Datum>;
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
   categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
   curve: CurveFactory;
   stackOffset: (
@@ -57,8 +59,10 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   extends VicXyDataMarksConfig<Datum>
   implements VicDataMarksOptions<Datum>
 {
-  x: VicDimensionDate<Datum> | VicDimensionQuantitative<Datum>;
-  y: VicDimensionQuantitative<Datum>;
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
   categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
   curve: CurveFactory;
   stackOffset: (

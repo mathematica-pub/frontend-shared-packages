@@ -76,10 +76,10 @@ export class StackedAreaExampleComponent implements OnInit {
     });
     const dataConfig = Vic.stackedArea<IndustryUnemploymentDatum, string>({
       data,
-      x: Vic.dimensionDate({
+      x: Vic.dimensionQuantitativeDate({
         valueAccessor: (d) => d.date,
       }),
-      y: Vic.dimensionQuantitative({
+      y: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.value,
       }),
       categorical: Vic.dimensionCategorical({

@@ -127,11 +127,11 @@ export class LinesExampleComponent implements OnInit {
     const yAxisConfig = Vic.axisYQuantitative<number>();
     const dataConfig = Vic.lines<MetroUnemploymentDatum>({
       data,
-      x: Vic.dimensionDate<MetroUnemploymentDatum>({
+      x: Vic.dimensionQuantitativeDate<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.date,
         valueFormat: '%a %B %d %Y',
       }),
-      y: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
+      y: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
         domainPadding: new VicPixelDomainPadding({ numPixels: 20 }),
       }),

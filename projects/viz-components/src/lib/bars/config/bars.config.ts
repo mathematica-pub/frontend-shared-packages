@@ -2,7 +2,7 @@ import { min, range } from 'd3';
 import { VicDataValue } from '../../core/types/values';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
-import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { VicBarsDimensions } from './bars-dimensions';
@@ -15,7 +15,7 @@ export interface VicBarsOptions<
 > extends VicDataMarksOptions<Datum> {
   categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
   ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
-  quantitative: VicDimensionQuantitative<Datum>;
+  quantitative: VicDimensionQuantitativeNumeric<Datum>;
   labels: VicBarsLabels<Datum>;
 }
 
@@ -29,7 +29,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   hasNegativeValues: boolean;
   readonly labels: VicBarsLabels<Datum>;
   readonly ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
-  readonly quantitative: VicDimensionQuantitative<Datum>;
+  readonly quantitative: VicDimensionQuantitativeNumeric<Datum>;
 
   constructor(
     dimensions: VicBarsDimensions,

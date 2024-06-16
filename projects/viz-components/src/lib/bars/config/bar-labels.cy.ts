@@ -197,7 +197,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: -4,
@@ -325,7 +325,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: -4,
@@ -365,7 +365,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: -4,
@@ -414,7 +414,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
             ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: Vic.dimensionQuantitative({
+            quantitative: Vic.dimensionQuantitativeNumeric({
               valueAccessor: (d) => d.value,
               domain: [-10, 10],
               domainPadding: Vic.domainPaddingPixel({
@@ -453,7 +453,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
             ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: Vic.dimensionQuantitative({
+            quantitative: Vic.dimensionQuantitativeNumeric({
               valueAccessor: (d) => d.value,
               domain: [-10, 0],
               domainPadding: Vic.domainPaddingPixel({
@@ -562,7 +562,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: 4,
@@ -691,7 +691,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: 4,
@@ -731,7 +731,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.state,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: 4,
@@ -780,7 +780,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: Vic.dimensionQuantitative({
+            quantitative: Vic.dimensionQuantitativeNumeric({
               valueAccessor: (d) => d.value,
               domain: [-10, 10],
               domainPadding: Vic.domainPaddingPixel({
@@ -819,7 +819,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             ordinal: Vic.dimensionOrdinal({
               valueAccessor: (d) => d.state,
             }),
-            quantitative: Vic.dimensionQuantitative({
+            quantitative: Vic.dimensionQuantitativeNumeric({
               valueAccessor: (d) => d.value,
               domain: [-10, 0],
               domainPadding: Vic.domainPaddingPixel({

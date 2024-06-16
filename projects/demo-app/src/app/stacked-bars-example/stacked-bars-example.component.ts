@@ -55,7 +55,7 @@ export class StackedBarsExampleComponent implements OnInit {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.date,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.value,
         }),
         categorical: Vic.dimensionCategorical({

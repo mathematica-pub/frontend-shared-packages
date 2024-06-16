@@ -105,7 +105,7 @@ export class BarsExampleComponent implements OnInit {
       orientation === 'horizontal' ? 'barsHorizontal' : 'barsVertical';
     const dataConfig = Vic[method]<MetroUnemploymentDatum, string>({
       data: filteredData,
-      quantitative: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
+      quantitative: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
         valueFormat: (d) => this.getQuantitativeValueFormat(d),
         domainPadding: Vic.domainPaddingPixel(),
