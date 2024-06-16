@@ -186,7 +186,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -217,7 +217,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -249,7 +249,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           valueAccessor: (d) => d.country,
           domain: ordinalDomain,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel({
             numPixels: 50,
@@ -290,7 +290,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           valueAccessor: (d) => d.country,
           domain: ordinalDomain,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -347,7 +347,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -374,7 +374,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -401,7 +401,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -426,7 +426,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
             valueAccessor: (d) => d.area,
             domain: [0, 700000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -459,7 +459,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
             valueAccessor: (d) => d.area,
             domain: [0, 1000000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -492,7 +492,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative<QOCDatum>({
+        quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -532,7 +532,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -556,7 +556,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -591,7 +591,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -628,7 +628,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -673,7 +673,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -706,7 +706,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),

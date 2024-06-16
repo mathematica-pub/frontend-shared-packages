@@ -142,7 +142,7 @@ describe('marks have expected fill', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -165,7 +165,7 @@ describe('marks have expected fill', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -188,7 +188,7 @@ describe('marks have expected fill', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -230,7 +230,7 @@ describe('marks have expected fill', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -271,7 +271,7 @@ describe('marks have expected fill', () => {
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitative({
+        quantitative: Vic.dimensionQuantitativeNumeric({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -304,7 +304,7 @@ describe('user provides a fill pattern', () => {
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.country,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.area,
         domainPadding: Vic.domainPaddingPixel(),
       }),
@@ -335,7 +335,7 @@ describe('user provides a fill pattern', () => {
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.country,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.area,
         domainPadding: Vic.domainPaddingPixel(),
       }),
@@ -386,7 +386,7 @@ describe('user provides a fill pattern', () => {
       ordinal: Vic.dimensionOrdinal({
         valueAccessor: (d) => d.country,
       }),
-      quantitative: Vic.dimensionQuantitative({
+      quantitative: Vic.dimensionQuantitativeNumeric({
         valueAccessor: (d) => d.area,
         domainPadding: Vic.domainPaddingPixel(),
       }),
