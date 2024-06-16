@@ -4,10 +4,9 @@ import { VicDimensionCategorical } from '../../data-dimensions/categorical/categ
 import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
+import { VicPointMarkers } from '../../marks/point-markers';
+import { VicStroke } from '../../marks/stroke';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
-import { Marker } from '../lines.component';
-import { VicStroke } from './lines-stroke';
-import { VicPointMarkers } from './point-markers';
 
 const DEFAULT = {
   curve: curveLinear,
@@ -20,6 +19,11 @@ const DEFAULT = {
     range: schemeTableau10 as string[],
   },
 };
+
+interface Marker {
+  key: string;
+  index: number;
+}
 
 export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
   /**

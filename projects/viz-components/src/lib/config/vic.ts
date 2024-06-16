@@ -89,12 +89,12 @@ import {
   VicGroupedBarsConfig,
   VicGroupedBarsOptions,
 } from '../grouped-bars/config/grouped-bars.config';
-import { VicStroke, VicStrokeOptions } from '../lines/config/lines-stroke';
 import { VicLinesConfig, VicLinesOptions } from '../lines/config/lines.config';
 import {
   VicPointMarkers,
   VicPointMarkersOptions,
-} from '../lines/config/point-markers';
+} from '../marks/point-markers';
+import { VicStroke, VicStrokeOptions } from '../marks/stroke';
 import {
   VicStackedAreaConfig,
   VicStackedAreaOptions,
