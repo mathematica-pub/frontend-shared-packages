@@ -12,7 +12,7 @@ export interface VicPointMarkersOptions {
    */
   display: boolean;
   /**
-   * A class to be applied to the point markers.
+   * A class to be added to the point markers.
    */
   class: string;
   /**
