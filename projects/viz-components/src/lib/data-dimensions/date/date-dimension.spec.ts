@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../config/vic';
+import { Vic } from '../../config/vic';
 import { VicDateDimension } from './date-dimension';
 
 describe('VicDateDimension', () => {

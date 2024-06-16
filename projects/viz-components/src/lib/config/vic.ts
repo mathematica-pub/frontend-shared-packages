@@ -21,37 +21,37 @@ import { VicBarsLabels } from '../bars/config/bars-labels';
 import { VicBarsConfig, VicBarsOptions } from '../bars/config/bars.config';
 import { VicDataValue } from '../core/types/values';
 import {
-  VicCategoricalDimension,
   VicCategoricalDimensionOptions,
-} from '../data-dimensions/categorical-dimension';
+  VicDimensionCategorical,
+} from '../data-dimensions/categorical/categorical';
 import {
   VicDateDimension,
   VicDateDimensionOptions,
-} from '../data-dimensions/date-dimension';
+} from '../data-dimensions/date/date-dimension';
+import {
+  VicDimensionOrdinal,
+  VicDimensionOrdinalOptions,
+} from '../data-dimensions/ordinal/ordinal';
 import {
   PercentOverDomainPaddingOptions,
   VicPercentOverDomainPadding,
-} from '../data-dimensions/domain-padding/percent-over';
+} from '../data-dimensions/quantitative/domain-padding/percent-over';
 import {
   VicPixelDomainPadding,
   VicPixelDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/pixel';
+} from '../data-dimensions/quantitative/domain-padding/pixel';
 import {
   VicRoundUpToIntervalDomainPadding,
   VicRoundUpToIntervalDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/round-to-interval';
+} from '../data-dimensions/quantitative/domain-padding/round-to-interval';
 import {
   VicRoundUpDomainPadding,
   VicRoundUpDomainPaddingOptions,
-} from '../data-dimensions/domain-padding/round-up';
+} from '../data-dimensions/quantitative/domain-padding/round-up';
 import {
-  VicOrdinalDimension,
-  VicOrdinalDimensionOptions,
-} from '../data-dimensions/ordinal-dimension';
-import {
-  VicQuantitativeDimension,
-  VicQuantitativeDimensionOptions,
-} from '../data-dimensions/quantitative-dimension';
+  VicDimensionQuantitative,
+  VicDimensionQuantitativeOptions,
+} from '../data-dimensions/quantitative/quantitative';
 import {
   VicCategoricalAttributeDataDimension,
   VicCategoricalAttributeDataDimensionOptions,
@@ -169,8 +169,8 @@ export class Vic {
     TCategoricalValue extends VicDataValue = string
   >(
     options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
-  ): VicCategoricalDimension<Datum, TCategoricalValue> {
-    return new VicCategoricalDimension(options);
+  ): VicDimensionCategorical<Datum, TCategoricalValue> {
+    return new VicDimensionCategorical(options);
   }
 
   static dimensionDate<Datum>(
@@ -180,15 +180,15 @@ export class Vic {
   }
 
   static dimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>(
-    options: Partial<VicOrdinalDimensionOptions<Datum, TOrdinalValue>>
-  ): VicOrdinalDimension<Datum, TOrdinalValue> {
-    return new VicOrdinalDimension(options);
+    options: Partial<VicDimensionOrdinalOptions<Datum, TOrdinalValue>>
+  ): VicDimensionOrdinal<Datum, TOrdinalValue> {
+    return new VicDimensionOrdinal(options);
   }
 
   static dimensionQuantitative<Datum>(
-    options: Partial<VicQuantitativeDimensionOptions<Datum>>
-  ): VicQuantitativeDimension<Datum> {
-    return new VicQuantitativeDimension(options);
+    options: Partial<VicDimensionQuantitativeOptions<Datum>>
+  ): VicDimensionQuantitative<Datum> {
+    return new VicDimensionQuantitative(options);
   }
 
   static domainPaddingPercentOver(
