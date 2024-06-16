@@ -10,7 +10,7 @@ import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
 import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../chart/chart.module';
 import { Vic } from '../config/vic';
-import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
+import { QnOCData, QnOCDatum } from '../testing/data/quant-ord-cat-data';
 import { VicXyChartModule } from '../xy-chart/xy-chart.module';
 import { VicBarsModule } from './bars.module';
 import { VicBarsConfig } from './config/bars.config';
@@ -67,7 +67,7 @@ const getYTransform = ($barGroup) => {
   styles: [],
 })
 class TestHorizontalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
+  @Input() barsConfig: VicBarsConfig<QnOCDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = horizontalMargin;
@@ -76,7 +76,7 @@ class TestHorizontalBarsComponent {
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: VicBarsConfig<QOCDatum, string>
+  barsConfig: VicBarsConfig<QnOCDatum, string>
 ): void => {
   const xAxisConfig = Vic.axisXQuantitative({
     tickFormat: '.0f',
@@ -134,7 +134,7 @@ const mountHorizontalBarsComponent = (
   styles: [],
 })
 class TestVerticalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
+  @Input() barsConfig: VicBarsConfig<QnOCDatum, string>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = verticalMargin;
@@ -143,7 +143,7 @@ class TestVerticalBarsComponent {
 }
 
 const mountVerticalBarsComponent = (
-  barsConfig: VicBarsConfig<QOCDatum, string>
+  barsConfig: VicBarsConfig<QnOCDatum, string>
 ): void => {
   const xAxisConfig = Vic.axisXOrdinal();
   const yAxisConfig = Vic.axisYQuantitative({
@@ -175,14 +175,14 @@ const mountVerticalBarsComponent = (
 // Creating the correct bars in the correct order - functionality is agnostic to direction
 // ***********************************************************
 describe('it creates the correct bars in the correct order for the data', () => {
-  let barsConfig: VicBarsConfig<QOCDatum, string>;
+  let barsConfig: VicBarsConfig<QnOCDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
   describe('if a user does not provide an explicit ordinal domain', () => {
     it('creates one bar and one ordinal axis tick per datum when data has no repeated ordinal values', () => {
       barsConfig = Vic.barsHorizontal({
-        data: QOCData,
+        data: QnOCData,
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
@@ -196,23 +196,23 @@ describe('it creates the correct bars in the correct order for the data', () => 
         }),
       });
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').should('have.length', QOCData.length);
-      cy.get('.vic-bar').should('have.length', QOCData.length);
+      cy.get('.vic-bar-group').should('have.length', QnOCData.length);
+      cy.get('.vic-bar').should('have.length', QnOCData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      const reversedData = QOCData.slice().reverse();
+      const reversedData = QnOCData.slice().reverse();
       cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       cy.get('.vic-bar-label').each(($label, index) => {
-        expect($label.text()).to.equal(QOCData[index].area.toString());
+        expect($label.text()).to.equal(QnOCData[index].area.toString());
       });
     });
     it('creates one bar and one ordinal axis tick per unique ordinal value and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
       barsConfig = Vic.barsHorizontal({
         data: [
-          QOCData[0],
+          QnOCData[0],
           { country: 'Afghanistan', area: 300000, continent: 'Asia' },
-          ...QOCData.slice(1),
+          ...QnOCData.slice(1),
         ],
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
@@ -227,16 +227,16 @@ describe('it creates the correct bars in the correct order for the data', () => 
         }),
       });
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').should('have.length', QOCData.length);
-      cy.get('.vic-bar').should('have.length', QOCData.length);
+      cy.get('.vic-bar-group').should('have.length', QnOCData.length);
+      cy.get('.vic-bar').should('have.length', QnOCData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      const reversedData = QOCData.slice().reverse();
+      const reversedData = QnOCData.slice().reverse();
       cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       // Below tests that it did not use the second Afghanistan value
       cy.get('.vic-bar-label').each(($label, index) => {
-        expect($label.text()).to.equal(QOCData[index].area.toString());
+        expect($label.text()).to.equal(QnOCData[index].area.toString());
       });
     });
   });
@@ -244,7 +244,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
     const ordinalDomain = ['Afghanistan', 'Albania', 'Angola'];
     beforeEach(() => {
       barsConfig = Vic.barsVertical({
-        data: QOCData,
+        data: QnOCData,
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
           domain: ordinalDomain,
@@ -276,14 +276,14 @@ describe('it creates the correct bars in the correct order for the data', () => 
         const lastTickValue = ticks[ticks.length - 1].innerHTML;
         // expect "above" because we are adding 20 px of padding to the domain
         expect(parseFloat(lastTickValue)).to.be.above(
-          max(QOCData.map((d) => d.area))
+          max(QnOCData.map((d) => d.area))
         );
       });
     });
     it('creates one bar and one ordinal axis tick per ordinal value in the domain and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
       barsConfig = Vic.barsVertical({
         data: [
-          ...QOCData,
+          ...QnOCData,
           { country: 'Afghanistan', area: 300000, continent: 'Asia' },
         ],
         ordinal: Vic.dimensionOrdinal({
@@ -332,11 +332,11 @@ describe('it creates the correct bars in the correct order for the data', () => 
   },
 ].forEach(({ mountFunction, barsFunction, orientation, barAttr }) => {
   describe('bars have the expected size in the quantitative dimension', () => {
-    let barsConfig: VicBarsConfig<QOCDatum, string>;
-    let testData: QOCDatum[];
+    let barsConfig: VicBarsConfig<QnOCDatum, string>;
+    let testData: QnOCDatum[];
     beforeEach(() => {
       barsConfig = undefined;
-      testData = cloneDeep(QOCData);
+      testData = cloneDeep(QnOCData);
     });
     describe(`bars are ${orientation}`, () => {
       it(`a bar has a ${barAttr} of 0 if the quantitative value is 0`, () => {
@@ -344,10 +344,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[zeroIndex].area = 0;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+          ordinal: Vic.dimensionOrdinal<QnOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QnOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -371,10 +371,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[nonNumericIndex].area = undefined;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+          ordinal: Vic.dimensionOrdinal<QnOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QnOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -398,10 +398,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+          ordinal: Vic.dimensionOrdinal<QnOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QnOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -423,10 +423,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+          ordinal: Vic.dimensionOrdinal<QnOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QnOCDatum>({
             valueAccessor: (d) => d.area,
             domain: [0, 700000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -456,10 +456,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+          ordinal: Vic.dimensionOrdinal<QnOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
+          quantitative: Vic.dimensionQuantitativeNumeric<QnOCDatum>({
             valueAccessor: (d) => d.area,
             domain: [0, 1000000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -482,17 +482,17 @@ describe('it creates the correct bars in the correct order for the data', () => 
     });
   });
   describe('bars all have the same size in the ordinal dimension', () => {
-    let barsConfig: VicBarsConfig<QOCDatum, string>;
+    let barsConfig: VicBarsConfig<QnOCDatum, string>;
     beforeEach(() => {
       barsConfig = undefined;
     });
     it(`bars are ${orientation} and have the same ${barAttr}`, () => {
       barsConfig = Vic[barsFunction]({
-        data: QOCData,
-        ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+        data: QnOCData,
+        ordinal: Vic.dimensionOrdinal<QnOCDatum, string>({
           valueAccessor: (d) => d.country,
         }),
-        quantitative: Vic.dimensionQuantitativeNumeric<QOCDatum>({
+        quantitative: Vic.dimensionQuantitativeNumeric<QnOCDatum>({
           valueAccessor: (d) => d.area,
           domainPadding: Vic.domainPaddingPixel(),
         }),
@@ -518,11 +518,11 @@ describe('it creates the correct bars in the correct order for the data', () => 
 // Bars are correctly positioned in the quantitative dimension
 // ***********************************************************
 describe('bars have the expected origin in the quantitative dimension', () => {
-  let barsConfig: VicBarsConfig<QOCDatum, string>;
-  let testData: QOCDatum[];
+  let barsConfig: VicBarsConfig<QnOCDatum, string>;
+  let testData: QnOCDatum[];
   beforeEach(() => {
     barsConfig = undefined;
-    testData = cloneDeep(QOCData);
+    testData = cloneDeep(QnOCData);
     cy.viewport(800, 600);
   });
   describe('all values are positive', () => {

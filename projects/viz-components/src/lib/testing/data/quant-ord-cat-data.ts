@@ -1,6 +1,7 @@
-export type QOCDatum = { country: string; area: number; continent: string };
+// Quant Number, Ordinal, Cat
+export type QnOCDatum = { country: string; area: number; continent: string };
 
-export const QOCData = [
+export const QnOCData = [
   { country: 'Afghanistan', area: 252072, continent: 'Asia' },
   { country: 'Albania', area: 11100, continent: 'Europe' },
   { country: 'Algeria', area: 919595, continent: 'Africa' },
