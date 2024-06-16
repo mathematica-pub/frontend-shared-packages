@@ -1,30 +1,20 @@
 import { Component, Input } from '@angular/core';
-import { max, schemeTableau10 } from 'd3';
+import { max } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
-import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
-import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
-import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
-import { VicXQuantitativeAxisModule } from '../../axes/x-quantitative/x-quantitative-axis.module';
-import { VicYOrdinalAxisModule } from '../../axes/y-ordinal/y-ordinal-axis.module';
-import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
-import { VicChartModule } from '../../chart/chart.module';
-import { Vic } from '../../config/vic';
-import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
-import { VicBarsModule } from '../bars.module';
-import { VicBarsConfig } from '../config/bars.config';
+import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis.config';
+import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis.config';
+import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
+import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
+import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
+import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
+import { VicChartModule } from '../chart/chart.module';
+import { Vic } from '../config/vic';
+import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
+import { VicXyChartModule } from '../xy-chart/xy-chart.module';
+import { VicBarsModule } from './bars.module';
+import { VicBarsConfig } from './config/bars.config';
 
-type Datum = { country: string; area: number; continent: string };
-const defaultData = [
-  { country: 'Afghanistan', area: 252072, continent: 'Asia' },
-  { country: 'Albania', area: 11100, continent: 'Europe' },
-  { country: 'Algeria', area: 919595, continent: 'Africa' },
-  { country: 'Angola', area: 481350, continent: 'Africa' },
-  { country: 'Antigua and Barbuda', area: 171, continent: 'North America' },
-  { country: 'Argentina', area: 1073500, continent: 'South America' },
-];
-const dotsPatternMagenta = 'dotsMagenta';
-const dotsPatternTeal = 'dotsTeal';
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
@@ -59,28 +49,6 @@ const getYTransform = ($barGroup) => {
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
-      <ng-container svg-defs>
-        <svg:pattern
-          [id]="dotsPatternMagenta"
-          x="2"
-          y="2"
-          width="5"
-          height="5"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect x="3" y="3" width="2" height="2" fill="magenta" />
-        </svg:pattern>
-        <svg:pattern
-          [id]="dotsPatternTeal"
-          x="2"
-          y="2"
-          width="5"
-          height="5"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect x="3" y="3" width="2" height="2" fill="teal" />
-        </svg:pattern>
-      </ng-container>
       <ng-container svg-elements>
         <svg:g
           vic-x-quantitative-axis
@@ -99,18 +67,16 @@ const getYTransform = ($barGroup) => {
   styles: [],
 })
 class TestHorizontalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<Datum, string>;
+  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = horizontalMargin;
-  dotsPatternMagenta = dotsPatternMagenta;
-  dotsPatternTeal = dotsPatternTeal;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: VicBarsConfig<Datum, string>
+  barsConfig: VicBarsConfig<QOCDatum, string>
 ): void => {
   const xAxisConfig = Vic.axisXQuantitative({
     tickFormat: '.0f',
@@ -134,7 +100,7 @@ const mountHorizontalBarsComponent = (
       yOrdinalAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100);
+  cy.wait(100); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
@@ -150,28 +116,6 @@ const mountHorizontalBarsComponent = (
       [width]="chartWidth"
       [scaleChartWithContainerWidth]="{ width: true, height: false }"
     >
-      <ng-container svg-defs>
-        <svg:pattern
-          [id]="dotsPatternMagenta"
-          x="2"
-          y="2"
-          width="5"
-          height="5"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect x="3" y="3" width="2" height="2" fill="magenta" />
-        </svg:pattern>
-        <svg:pattern
-          [id]="dotsPatternTeal"
-          x="2"
-          y="2"
-          width="5"
-          height="5"
-          patternUnits="userSpaceOnUse"
-        >
-          <rect x="3" y="3" width="2" height="2" fill="teal" />
-        </svg:pattern>
-      </ng-container>
       <ng-container svg-elements>
         <svg:g
           vic-x-ordinal-axis
@@ -190,18 +134,16 @@ const mountHorizontalBarsComponent = (
   styles: [],
 })
 class TestVerticalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<Datum, string>;
+  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = verticalMargin;
-  dotsPatternMagenta = dotsPatternMagenta;
-  dotsPatternTeal = dotsPatternTeal;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
 }
 
 const mountVerticalBarsComponent = (
-  barsConfig: VicBarsConfig<Datum, string>
+  barsConfig: VicBarsConfig<QOCDatum, string>
 ): void => {
   const xAxisConfig = Vic.axisXOrdinal();
   const yAxisConfig = Vic.axisYQuantitative({
@@ -226,21 +168,21 @@ const mountVerticalBarsComponent = (
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100);
+  cy.wait(100); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
 // Creating the correct bars in the correct order - functionality is agnostic to direction
 // ***********************************************************
 describe('it creates the correct bars in the correct order for the data', () => {
-  let barsConfig: VicBarsConfig<Datum, string>;
+  let barsConfig: VicBarsConfig<QOCDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
   describe('if a user does not provide an explicit ordinal domain', () => {
     it('creates one bar and one ordinal axis tick per datum when data has no repeated ordinal values', () => {
       barsConfig = Vic.barsHorizontal({
-        data: defaultData,
+        data: QOCData,
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
         }),
@@ -254,23 +196,23 @@ describe('it creates the correct bars in the correct order for the data', () => 
         }),
       });
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').should('have.length', defaultData.length);
-      cy.get('.vic-bar').should('have.length', defaultData.length);
+      cy.get('.vic-bar-group').should('have.length', QOCData.length);
+      cy.get('.vic-bar').should('have.length', QOCData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      const reversedData = defaultData.slice().reverse();
+      const reversedData = QOCData.slice().reverse();
       cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       cy.get('.vic-bar-label').each(($label, index) => {
-        expect($label.text()).to.equal(defaultData[index].area.toString());
+        expect($label.text()).to.equal(QOCData[index].area.toString());
       });
     });
     it('creates one bar and one ordinal axis tick per unique ordinal value and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
       barsConfig = Vic.barsHorizontal({
         data: [
-          defaultData[0],
+          QOCData[0],
           { country: 'Afghanistan', area: 300000, continent: 'Asia' },
-          ...defaultData.slice(1),
+          ...QOCData.slice(1),
         ],
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
@@ -285,16 +227,16 @@ describe('it creates the correct bars in the correct order for the data', () => 
         }),
       });
       mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar-group').should('have.length', defaultData.length);
-      cy.get('.vic-bar').should('have.length', defaultData.length);
+      cy.get('.vic-bar-group').should('have.length', QOCData.length);
+      cy.get('.vic-bar').should('have.length', QOCData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      const reversedData = defaultData.slice().reverse();
+      const reversedData = QOCData.slice().reverse();
       cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       // Below tests that it did not use the second Afghanistan value
       cy.get('.vic-bar-label').each(($label, index) => {
-        expect($label.text()).to.equal(defaultData[index].area.toString());
+        expect($label.text()).to.equal(QOCData[index].area.toString());
       });
     });
   });
@@ -302,7 +244,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
     const ordinalDomain = ['Afghanistan', 'Albania', 'Angola'];
     beforeEach(() => {
       barsConfig = Vic.barsVertical({
-        data: defaultData,
+        data: QOCData,
         ordinal: Vic.dimensionOrdinal({
           valueAccessor: (d) => d.country,
           domain: ordinalDomain,
@@ -334,14 +276,14 @@ describe('it creates the correct bars in the correct order for the data', () => 
         const lastTickValue = ticks[ticks.length - 1].innerHTML;
         // expect "above" because we are adding 20 px of padding to the domain
         expect(parseFloat(lastTickValue)).to.be.above(
-          max(defaultData.map((d) => d.area))
+          max(QOCData.map((d) => d.area))
         );
       });
     });
     it('creates one bar and one ordinal axis tick per ordinal value in the domain and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
       barsConfig = Vic.barsVertical({
         data: [
-          ...defaultData,
+          ...QOCData,
           { country: 'Afghanistan', area: 300000, continent: 'Asia' },
         ],
         ordinal: Vic.dimensionOrdinal({
@@ -370,7 +312,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
 });
 
 // Note: We do not test the functionality of the D3 scale, per policy of not testing external libs
-// This means that we do not attempt to assert that the height/width is the correct height/width for the data value, not do we test the ordinal dimension of the bar.
+// This means that we do not attempt to assert that the height/width is the correct height/width for the data value, not do we test the value of the ordinal dimension of the bar.
 // Additionally, we test setting the quantitative domain under various conditions -- user-specified domain, user-specified includeZeroInDomain -- in the quantitative domain tests.
 // ***********************************************************
 // Bars are the correct size in the quantitative dimension
@@ -390,11 +332,11 @@ describe('it creates the correct bars in the correct order for the data', () => 
   },
 ].forEach(({ mountFunction, barsFunction, orientation, barAttr }) => {
   describe('bars have the expected size in the quantitative dimension', () => {
-    let barsConfig: VicBarsConfig<Datum, string>;
-    let testData: Datum[];
+    let barsConfig: VicBarsConfig<QOCDatum, string>;
+    let testData: QOCDatum[];
     beforeEach(() => {
       barsConfig = undefined;
-      testData = cloneDeep(defaultData);
+      testData = cloneDeep(QOCData);
     });
     describe(`bars are ${orientation}`, () => {
       it(`a bar has a ${barAttr} of 0 if the quantitative value is 0`, () => {
@@ -402,10 +344,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[zeroIndex].area = 0;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<Datum, string>({
+          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<Datum>({
+          quantitative: Vic.dimensionQuantitative<QOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -429,10 +371,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[nonNumericIndex].area = undefined;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<Datum, string>({
+          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<Datum>({
+          quantitative: Vic.dimensionQuantitative<QOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -456,10 +398,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<Datum, string>({
+          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<Datum>({
+          quantitative: Vic.dimensionQuantitative<QOCDatum>({
             valueAccessor: (d) => d.area,
             domainPadding: Vic.domainPaddingPixel(),
           }),
@@ -481,10 +423,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<Datum, string>({
+          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<Datum>({
+          quantitative: Vic.dimensionQuantitative<QOCDatum>({
             valueAccessor: (d) => d.area,
             domain: [0, 700000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -514,10 +456,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
         barsConfig = Vic[barsFunction]({
           data: testData,
-          ordinal: Vic.dimensionOrdinal<Datum, string>({
+          ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
             valueAccessor: (d) => d.country,
           }),
-          quantitative: Vic.dimensionQuantitative<Datum>({
+          quantitative: Vic.dimensionQuantitative<QOCDatum>({
             valueAccessor: (d) => d.area,
             domain: [0, 1000000],
             domainPadding: Vic.domainPaddingPixel(),
@@ -539,17 +481,48 @@ describe('it creates the correct bars in the correct order for the data', () => 
       });
     });
   });
+  describe('bars all have the same size in the ordinal dimension', () => {
+    let barsConfig: VicBarsConfig<QOCDatum, string>;
+    beforeEach(() => {
+      barsConfig = undefined;
+    });
+    it(`bars are ${orientation} and have the same ${barAttr}`, () => {
+      barsConfig = Vic[barsFunction]({
+        data: QOCData,
+        ordinal: Vic.dimensionOrdinal<QOCDatum, string>({
+          valueAccessor: (d) => d.country,
+        }),
+        quantitative: Vic.dimensionQuantitative<QOCDatum>({
+          valueAccessor: (d) => d.area,
+          domainPadding: Vic.domainPaddingPixel(),
+        }),
+        categorical: Vic.dimensionCategorical(),
+        labels: Vic.barsLabels({
+          display: true,
+        }),
+      });
+      mountFunction(barsConfig);
+      cy.get('.vic-bar').then(($bars) => {
+        const sizes = [];
+        cy.wrap($bars).each(($bar) => {
+          const size = parseFloat($bar.attr(barAttr));
+          sizes.push(size);
+        });
+        expect(sizes.every((size) => size === sizes[0])).to.be.true;
+      });
+    });
+  });
 });
 
 // ***********************************************************
 // Bars are correctly positioned in the quantitative dimension
 // ***********************************************************
 describe('bars have the expected origin in the quantitative dimension', () => {
-  let barsConfig: VicBarsConfig<Datum, string>;
-  let testData: Datum[];
+  let barsConfig: VicBarsConfig<QOCDatum, string>;
+  let testData: QOCDatum[];
   beforeEach(() => {
     barsConfig = undefined;
-    testData = cloneDeep(defaultData);
+    testData = cloneDeep(QOCData);
     cy.viewport(800, 600);
   });
   describe('all values are positive', () => {
@@ -753,303 +726,6 @@ describe('bars have the expected origin in the quantitative dimension', () => {
   });
 });
 
-const customCategoricalScale = (d: string) => {
-  switch (d) {
-    case 'Asia':
-      return 'red';
-    case 'Europe':
-      return 'blue';
-    case 'Africa':
-      return 'green';
-    case 'North America':
-      return 'yellow';
-    case 'South America':
-      return 'purple';
-    default:
-      return 'chartreuse';
-  }
-};
-
 // ***********************************************************
-// Bar fill is correct -- functionality is agnostic to direction
+// Fill of bars tested under categorical.cy.ts
 // ***********************************************************
-describe('bars have expected fill', () => {
-  let barsConfig: VicBarsConfig<Datum, string>;
-  beforeEach(() => {
-    barsConfig = undefined;
-  });
-  describe('user does not specify a categorical valueAccessor or a custom scale', () => {
-    it('colors every bar by first color in user-provided range if user provides range of length >= 1', () => {
-      const color = 'chartreuse';
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          range: [color, 'red', 'yellow'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar) => {
-        expect($bar.attr('fill')).to.equal(color);
-      });
-    });
-    it('colors every bar by first color in the default range if user provides no range and no custom scale', () => {
-      const color = schemeTableau10[0];
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical(),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar) => {
-        expect($bar.attr('fill')).to.equal(color);
-      });
-    });
-  });
-  describe('user provides a valueAccessor for the categorical dimension', () => {
-    it('colors every bar according to the valueAccessor using default color array', () => {
-      const color = schemeTableau10;
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: (d) => d.continent,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
-        switch (defaultData[i].continent) {
-          case 'Asia':
-            expect($bar.attr('fill')).to.equal(color[0]);
-            break;
-          case 'Europe':
-            expect($bar.attr('fill')).to.equal(color[1]);
-            break;
-          case 'Africa':
-            expect($bar.attr('fill')).to.equal(color[2]);
-            break;
-          case 'North America':
-            expect($bar.attr('fill')).to.equal(color[3]);
-            break;
-          case 'South America':
-            expect($bar.attr('fill')).to.equal(color[4]);
-            break;
-          default:
-            expect($bar.attr('fill')).to.equal(color[5]);
-        }
-      });
-    });
-  });
-  describe('user provides a custom scale for the categorical dimension', () => {
-    it('colors every bar according to the custom scale when user also provides a value accessor', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: (d) => d.continent,
-          scale: customCategoricalScale,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
-        switch (defaultData[i].continent) {
-          case 'Asia':
-            expect($bar.attr('fill')).to.equal('red');
-            break;
-          case 'Europe':
-            expect($bar.attr('fill')).to.equal('blue');
-            break;
-          case 'Africa':
-            expect($bar.attr('fill')).to.equal('green');
-            break;
-          case 'North America':
-            expect($bar.attr('fill')).to.equal('yellow');
-            break;
-          case 'South America':
-            expect($bar.attr('fill')).to.equal('purple');
-            break;
-          default:
-            expect($bar.attr('fill')).to.equal('chartreuse');
-        }
-      });
-    });
-    it('colors every bar according to the custom scales behavior with empty string arg when user does not provide a value accessor', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          scale: customCategoricalScale,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar) => {
-        expect($bar.attr('fill')).to.equal('chartreuse');
-      });
-    });
-  });
-  describe('user provides a fill pattern', () => {
-    it('sets bar fill with either the pattern name or the regular fill according to usePattern function', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          fillPatterns: [
-            {
-              name: dotsPatternMagenta,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-          ],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
-        if (i === 2) {
-          expect($bar.attr('fill')).to.equal(`url(#${dotsPatternMagenta})`);
-        } else {
-          expect($bar.attr('fill')).to.equal(schemeTableau10[0]);
-        }
-      });
-    });
-    it('sets bar fill with either the pattern name or the regular fill according to usePattern function when user provides a scale and valueAccessor', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          fillPatterns: [
-            {
-              name: dotsPatternMagenta,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-          ],
-          valueAccessor: (d) => d.continent,
-          scale: customCategoricalScale,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
-        if (i === 2) {
-          expect($bar.attr('fill')).to.equal(`url(#${dotsPatternMagenta})`);
-        } else {
-          switch (defaultData[i].continent) {
-            case 'Asia':
-              expect($bar.attr('fill')).to.equal('red');
-              break;
-            case 'Europe':
-              expect($bar.attr('fill')).to.equal('blue');
-              break;
-            case 'Africa':
-              expect($bar.attr('fill')).to.equal('green');
-              break;
-            case 'North America':
-              expect($bar.attr('fill')).to.equal('yellow');
-              break;
-            case 'South America':
-              expect($bar.attr('fill')).to.equal('purple');
-              break;
-            default:
-              expect($bar.attr('fill')).to.equal('chartreuse');
-          }
-        }
-      });
-    });
-    it('sets bar fill with the last matching pattern in fillPatterns array if two patterns match', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: defaultData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitative({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          fillPatterns: [
-            {
-              name: dotsPatternMagenta,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-            {
-              name: dotsPatternTeal,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 700000,
-            },
-          ],
-          range: ['lightcoral'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
-      mountHorizontalBarsComponent(barsConfig);
-      cy.get('.vic-bar').each(($bar, i) => {
-        if (i === 2) {
-          expect($bar.attr('fill')).to.equal(`url(#${dotsPatternTeal})`);
-        } else {
-          expect($bar.attr('fill')).to.equal('lightcoral');
-        }
-      });
-    });
-  });
-});
