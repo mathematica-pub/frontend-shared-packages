@@ -138,7 +138,7 @@ export class LinesExampleComponent implements OnInit {
       categorical: Vic.dimensionCategorical<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.division,
       }),
-      pointMarkers: Vic.linesPointMarkers({ radius: 2 }),
+      pointMarkers: Vic.pointMarkers({ radius: 2 }),
     });
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     return {

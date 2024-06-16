@@ -89,10 +89,7 @@ import {
   VicGroupedBarsConfig,
   VicGroupedBarsOptions,
 } from '../grouped-bars/config/grouped-bars.config';
-import {
-  VicLinesStroke,
-  VicLinesStrokeOptions,
-} from '../lines/config/lines-stroke';
+import { VicStroke, VicStrokeOptions } from '../lines/config/lines-stroke';
 import { VicLinesConfig, VicLinesOptions } from '../lines/config/lines.config';
 import {
   VicPointMarkers,
@@ -342,11 +339,7 @@ export class Vic {
     return new VicLinesConfig(options);
   }
 
-  static linesStroke(options: Partial<VicLinesStrokeOptions>) {
-    return new VicLinesStroke(options);
-  }
-
-  static linesPointMarkers(options: Partial<VicPointMarkersOptions>) {
+  static pointMarkers(options: Partial<VicPointMarkersOptions>) {
     return new VicPointMarkers(options);
   }
 
@@ -366,5 +359,9 @@ export class Vic {
     options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
   ): VicStackedBarsConfig<Datum, TOrdinalValue> {
     return new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
+  }
+
+  static stroke(options: Partial<VicStrokeOptions>) {
+    return new VicStroke(options);
   }
 }
