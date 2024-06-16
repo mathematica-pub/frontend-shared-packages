@@ -5,7 +5,7 @@ const DEFAULT = {
   scaleFn: scaleUtc,
 };
 
-export interface VicDimensionDateOptions<Datum>
+export interface VicDimensionQuantitativeDateOptions<Datum>
   extends VicDataDimensionOptions<Datum, Date> {
   domain: [Date, Date];
   scaleFn: (
@@ -14,9 +14,9 @@ export interface VicDimensionDateOptions<Datum>
   ) => ScaleTime<number, number>;
 }
 
-export class VicDimensionDate<Datum>
+export class VicDimensionQuantitativeDate<Datum>
   extends VicDataDimension<Datum, Date>
-  implements VicDimensionDateOptions<Datum>
+  implements VicDimensionQuantitativeDateOptions<Datum>
 {
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
@@ -27,7 +27,7 @@ export class VicDimensionDate<Datum>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly valueAccessor: (d: Datum, ...args: any) => Date;
 
-  constructor(options: Partial<VicDimensionDate<Datum>>) {
+  constructor(options: Partial<VicDimensionQuantitativeDate<Datum>>) {
     super();
     Object.assign(this, options);
     this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn<number, number>;

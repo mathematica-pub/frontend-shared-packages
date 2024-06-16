@@ -2,7 +2,7 @@
 import { Vic } from '../../config/vic';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
-import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicBarsConfig } from './bars.config';
 
 type Datum = { value: number; state: string };
@@ -17,7 +17,7 @@ const data = [
 function getNewConfig(): VicBarsConfig<Datum, string> {
   return Vic.barsHorizontal<Datum, string>({
     data,
-    quantitative: Vic.dimensionQuantitative<Datum>({
+    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (d) => d.value,
     }),
     ordinal: Vic.dimensionOrdinal<Datum, string>({
@@ -60,7 +60,10 @@ describe('BarsConfig', () => {
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(VicDimensionQuantitative.prototype as any, 'setPropertiesFromData');
+      spyOn(
+        VicDimensionQuantitativeNumeric.prototype as any,
+        'setPropertiesFromData'
+      );
       spyOn(VicDimensionOrdinal.prototype as any, 'setPropertiesFromData');
       spyOn(VicDimensionCategorical.prototype as any, 'setPropertiesFromData');
       config = getNewConfig();
@@ -97,7 +100,7 @@ describe('BarsConfig', () => {
     it('sets valueIndicies to the correct array when ordinal domain is limited by user', () => {
       config = Vic.barsHorizontal({
         data,
-        quantitative: Vic.dimensionQuantitative<Datum>({
+        quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
           valueAccessor: (d) => d.value,
         }),
         ordinal: Vic.dimensionOrdinal<Datum, string>({

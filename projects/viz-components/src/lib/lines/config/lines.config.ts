@@ -1,8 +1,8 @@
 import { CurveFactory, curveLinear, group, range, schemeTableau10 } from 'd3';
 import { isDate, isNumber } from '../../core/utilities/type-guards';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionDate } from '../../data-dimensions/date/date-dimension';
-import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
+import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { Marker } from '../lines.component';
@@ -80,11 +80,13 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
   /**
    * A config for the behavior of the chart's x dimension
    */
-  x: VicDimensionDate<Datum> | VicDimensionQuantitative<Datum>;
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
   /**
    * A config for the behavior of the chart's y dimension
    */
-  y: VicDimensionQuantitative<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
 }
 
 export class VicLinesConfig<Datum>
@@ -106,8 +108,10 @@ export class VicLinesConfig<Datum>
   stroke: VicStroke;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined: (d: Datum, i: number, ...args: any) => any;
-  x: VicDimensionDate<Datum> | VicDimensionQuantitative<Datum>;
-  y: VicDimensionQuantitative<Datum>;
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
 
   constructor(options: Partial<VicLinesOptions<Datum>>) {
     super();

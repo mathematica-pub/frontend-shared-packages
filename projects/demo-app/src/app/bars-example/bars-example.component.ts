@@ -79,7 +79,7 @@ export class BarsExampleComponent implements OnInit {
     const yAxisConfig = Vic.axisYOrdinal<string>();
     const dataConfig = Vic.barsHorizontal<MetroUnemploymentDatum, string>({
       data: filteredData,
-      quantitative: Vic.dimensionQuantitative<MetroUnemploymentDatum>({
+      quantitative: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
         valueFormat: (d) => this.getQuantitativeValueFormat(d),
         domainPadding: Vic.domainPaddingPixel(),

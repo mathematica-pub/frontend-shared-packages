@@ -23,7 +23,7 @@ const data = [
 function horizontalConfig(): VicBarsConfig<Datum, string> {
   return Vic.barsHorizontal<Datum, string>({
     data,
-    quantitative: Vic.dimensionQuantitative<Datum>({
+    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (x) => x.value,
     }),
     ordinal: Vic.dimensionOrdinal<Datum, string>({
@@ -42,7 +42,7 @@ function horizontalConfig(): VicBarsConfig<Datum, string> {
 function verticalConfig(): VicBarsConfig<Datum, string> {
   return Vic.barsVertical<Datum, string>({
     data,
-    quantitative: Vic.dimensionQuantitative<Datum>({
+    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (x) => x.value,
     }),
     ordinal: Vic.dimensionOrdinal<Datum, string>({
