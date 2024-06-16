@@ -28,6 +28,8 @@ export interface VicCategoricalDimensionOptions<
   range: string[];
   /**
    * A user-defined function that transforms a categorical value into a graphical value.
+   * User must also provide their own implementation of `valueAccessor`.
+   * If a custom valueAccessor function is not provided, this function will not be used (due to default value of `valueAccessor`).
    */
   scale: (category: TCategoricalValue) => string;
   valueFormat: never;

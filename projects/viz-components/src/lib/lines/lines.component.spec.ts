@@ -59,6 +59,8 @@ describe('LineChartComponent', () => {
         categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
         pointMarkers: Vic.pointMarkers(),
       });
+      component.drawMarks();
+      expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
     it('does not call drawPointMarkers once if config.pointMarkers is undefined', () => {
       component.drawMarks();
