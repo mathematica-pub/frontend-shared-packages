@@ -2,7 +2,7 @@
 import { Vic } from '../../config/vic';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
-import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
 import { VicBarsConfig } from './bars.config';
 
 type Datum = { value: number; state: string };
@@ -60,7 +60,7 @@ describe('BarsConfig', () => {
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(VicQuantitativeDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(VicDimensionQuantitative.prototype as any, 'setPropertiesFromData');
       spyOn(VicDimensionOrdinal.prototype as any, 'setPropertiesFromData');
       spyOn(VicDimensionCategorical.prototype as any, 'setPropertiesFromData');
       config = getNewConfig();
