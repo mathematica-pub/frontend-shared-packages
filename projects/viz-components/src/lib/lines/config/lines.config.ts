@@ -10,7 +10,6 @@ import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {
   curve: curveLinear,
-  pointMarkers: new VicPointMarkers(),
   hoverDot: new VicPointMarkers({ radius: 4, display: false }),
   stroke: new VicStroke(),
   pointerDetectionRadius: 80,
@@ -97,25 +96,25 @@ export class VicLinesConfig<Datum>
   extends VicXyDataMarksConfig<Datum>
   implements VicLinesOptions<Datum>
 {
-  categorical: VicDimensionCategorical<Datum, string>;
+  readonly categorical: VicDimensionCategorical<Datum, string>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  curve: (x: any) => any;
-  hoverDot: VicPointMarkers;
-  labelLines: boolean;
-  lineLabelsFormat: (d: string) => string;
+  readonly curve: (x: any) => any;
+  readonly hoverDot: VicPointMarkers;
+  readonly labelLines: boolean;
+  readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction;
   markersD3Data;
   markersKeyFunction;
-  pointerDetectionRadius: number;
-  pointMarkers: VicPointMarkers;
-  stroke: VicStroke;
+  readonly pointerDetectionRadius: number;
+  readonly pointMarkers: VicPointMarkers;
+  readonly stroke: VicStroke;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined: (d: Datum, i: number, ...args: any) => any;
-  x:
+  readonly x:
     | VicDimensionQuantitativeDate<Datum>
     | VicDimensionQuantitativeNumeric<Datum>;
-  y: VicDimensionQuantitativeNumeric<Datum>;
+  readonly y: VicDimensionQuantitativeNumeric<Datum>;
 
   constructor(options: Partial<VicLinesOptions<Datum>>) {
     super();
