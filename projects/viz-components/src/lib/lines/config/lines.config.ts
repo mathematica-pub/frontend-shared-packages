@@ -1,5 +1,4 @@
 import { CurveFactory, curveLinear, group, range, schemeTableau10 } from 'd3';
-import { isDate, isNumber } from '../../core/utilities/type-guards';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
@@ -10,10 +9,7 @@ import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {
   curve: curveLinear,
-  hoverDot: new VicPointMarkers({
-    radius: 4,
-    display: false,
-  }),
+  hoverDot: new VicPointMarkers({ radius: 4, display: false }),
   stroke: new VicStroke(),
   pointerDetectionRadius: 80,
   lineLabelsFormat: (d: string) => d,
@@ -75,15 +71,6 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
    */
   stroke: VicStroke;
   /**
-   * A function that returns a boolean indicating whether a value in the data is defined.
-   *  If a value is not defined, it will not be plotted.
-   *
-   * Used, in conjunction with a check that the value is a number of a Date, with D3's
-   *  [line.defined()]{@link https://github.com/d3/d3-shape#line_defined} method.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  valueIsDefined: (d: Datum, i: number, ...args: any) => any;
-  /**
    * A config for the behavior of the chart's x dimension
    */
   x:
@@ -99,7 +86,7 @@ export class VicLinesConfig<Datum>
   extends VicXyDataMarksConfig<Datum>
   implements VicLinesOptions<Datum>
 {
-  categorical: VicDimensionCategorical<Datum, string>;
+  readonly categorical: VicDimensionCategorical<Datum, string>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly curve: (x: any) => any;
   readonly hoverDot: VicPointMarkers;
@@ -112,12 +99,10 @@ export class VicLinesConfig<Datum>
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: VicPointMarkers;
   readonly stroke: VicStroke;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  valueIsDefined: (d: Datum, i: number, ...args: any) => any;
-  x:
+  readonly x:
     | VicDimensionQuantitativeDate<Datum>
     | VicDimensionQuantitativeNumeric<Datum>;
-  y: VicDimensionQuantitativeNumeric<Datum>;
+  readonly y: VicDimensionQuantitativeNumeric<Datum>;
 
   constructor(options: Partial<VicLinesOptions<Datum>>) {
     super();
@@ -149,14 +134,10 @@ export class VicLinesConfig<Datum>
   private setLinesD3Data(): void {
     const definedIndices = this.valueIndicies.filter(
       (i) =>
-        this.canBeDrawnByPath(this.x.values[i]) &&
-        this.canBeDrawnByPath(this.y.values[i])
+        this.x.isValidValue(this.x.values[i]) &&
+        this.y.isValidValue(this.y.values[i])
     );
     this.linesD3Data = group(definedIndices, (i) => this.categorical.values[i]);
-  }
-
-  canBeDrawnByPath(x: unknown): boolean {
-    return (isNumber(x) || isDate(x)) && x !== null && x !== undefined;
   }
 
   private setLinesKeyFunction(): void {
@@ -170,8 +151,8 @@ export class VicLinesConfig<Datum>
       })
       .filter(
         (marker: Marker) =>
-          this.canBeDrawnByPath(this.x.values[marker.index]) &&
-          this.canBeDrawnByPath(this.y.values[marker.index])
+          this.x.isValidValue(this.x.values[marker.index]) &&
+          this.y.isValidValue(this.y.values[marker.index])
       );
   }
 

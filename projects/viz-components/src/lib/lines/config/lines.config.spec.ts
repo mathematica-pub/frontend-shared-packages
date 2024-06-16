@@ -64,35 +64,4 @@ describe('LinesConfig', () => {
       expect((config as any).setMarkersKeyFunction).toHaveBeenCalledTimes(1);
     });
   });
-
-  describe('canBeDrawnByPath()', () => {
-    beforeEach(() => {
-      spyOn(VicLinesConfig.prototype as any, 'initPropertiesFromData');
-      config = createConfig();
-    });
-    it('integration: returns true if value is a number', () => {
-      expect(config.canBeDrawnByPath(1)).toEqual(true);
-    });
-    it('integration: returns true if value is a Date', () => {
-      expect(config.canBeDrawnByPath(new Date())).toEqual(true);
-    });
-    it('integration: returns false if value is undefined', () => {
-      expect(config.canBeDrawnByPath(undefined)).toEqual(false);
-    });
-    it('integration: returns false if value is a string', () => {
-      expect(config.canBeDrawnByPath('string')).toEqual(false);
-    });
-    it('integration: returns false if value is null', () => {
-      expect(config.canBeDrawnByPath(null)).toEqual(false);
-    });
-    it('integration: returns false if value is an object', () => {
-      expect(config.canBeDrawnByPath({ oops: 'not a num' })).toEqual(false);
-    });
-    it('integration: returns false if value is an array', () => {
-      expect(config.canBeDrawnByPath(['not a num'])).toEqual(false);
-    });
-    it('integration: returns false if value is boolean', () => {
-      expect(config.canBeDrawnByPath(true)).toEqual(false);
-    });
-  });
 });

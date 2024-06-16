@@ -52,7 +52,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   lineLabelsRef: ElementRef<SVGSVGElement>;
   line: (x: any[]) => any;
   markerClass = 'vic-lines-datum-marker';
-  hoverDotClass = 'vic-hover-dot';
+  hoverDotClass = 'vic-lines-hover-dot';
   markerIndexAttr = 'index';
 
   private zone = inject(NgZone);
@@ -93,18 +93,19 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   }
 
   setLine(): void {
-    if (this.config.valueIsDefined === undefined) {
-      this.config.valueIsDefined = (d, i) =>
-        this.config.canBeDrawnByPath(this.config.x.values[i]) &&
-        this.config.canBeDrawnByPath(this.config.y.values[i]);
-    }
-    const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
+    const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.line = line()
-      .defined((i: any) => isDefinedValues[i] as boolean)
+      .defined((i: any) => isValid[i] as boolean)
       .curve(this.config.curve)
       .x((i: any) => this.scales.x(this.config.x.values[i]))
       .y((i: any) => this.scales.y(this.config.y.values[i]));
+  }
+
+  isValidValue(d: Datum): boolean {
+    const xIsValid = this.config.x.isValidValue(this.config.x.valueAccessor(d));
+    const yIsValid = this.config.y.isValidValue(this.config.y.valueAccessor(d));
+    return xIsValid && yIsValid;
   }
 
   drawLines(transitionDuration: number): void {

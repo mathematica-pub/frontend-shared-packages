@@ -66,7 +66,7 @@ describe('LineChartComponent', () => {
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
-    it('calls drawHoverDot once with the correct argument if config.pointMarkers is false and display hover dot is true', () => {
+    it('calls drawHoverDot once with the correct argument if config.pointMarkersis undefined and hoverDot is defined', () => {
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
