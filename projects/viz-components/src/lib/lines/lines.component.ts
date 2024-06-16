@@ -117,12 +117,13 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       (enter) =>
         enter
           .append('path')
-          .attr('key', ([category]) => category)
+          .attr('category', ([category]) => category)
           .attr('class', 'vic-line')
           .attr('stroke', ([category]) => this.scales.categorical(category))
           .attr('d', ([, lineData]) => this.line(lineData)),
       (update) =>
         update
+          .attr('category', ([category]) => category)
           .attr('stroke', ([category]) => this.scales.categorical(category))
           .call((update) =>
             update
@@ -158,6 +159,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
               `${this.config.pointMarkers.class} ${this.markerClass}`
             )
             .attr('key', (d) => d.key)
+            .attr('category', (d) => d.category)
             .attr(this.markerIndexAttr, (d) => d.index)
             .style('mix-blend-mode', this.config.mixBlendMode)
             .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))

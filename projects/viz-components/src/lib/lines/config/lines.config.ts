@@ -21,6 +21,7 @@ const DEFAULT = {
 interface Marker {
   key: string;
   index: number;
+  category: string;
 }
 
 export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
@@ -147,7 +148,11 @@ export class VicLinesConfig<Datum>
   private setMarkersD3Data(): void {
     this.markersD3Data = this.valueIndicies
       .map((i) => {
-        return { key: this.getMarkerKey(i), index: i };
+        return {
+          key: this.getMarkerKey(i),
+          index: i,
+          category: this.categorical.values[i],
+        };
       })
       .filter(
         (marker: Marker) =>

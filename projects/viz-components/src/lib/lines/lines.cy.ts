@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { curveBasis, schemeTableau10 } from 'd3';
 import { cy, describe, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
 import {
   Vic,
   VicChartModule,
@@ -112,43 +113,172 @@ function mountNumberLinesComponent(
 // ***********************************************************
 // Creating the correct lines
 // ***********************************************************
-describe('it creates the correct lines', () => {
-  describe('when the x axis values are Dates', () => {
-    it('should draw the correct number of lines', () => {
-      const linesConfig = Vic.lines<QdQnCDatum>({
-        data: dateData,
-        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-          valueAccessor: (d) => d.year,
-        }),
-        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-          valueAccessor: (d) => d.population,
-        }),
-        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-          valueAccessor: (d) => d.continent,
-        }),
-      });
-      mountDateLinesComponent(linesConfig);
-      cy.get('.vic-line').should('have.length', 6);
+describe('it creates the correct lines - x axis values are Dates', () => {
+  it('should draw the correct number of lines', () => {
+    const linesConfig = Vic.lines<QdQnCDatum>({
+      data: dateData,
+      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
     });
+    mountDateLinesComponent(linesConfig);
+    const categories = [];
+    cy.get('.vic-line')
+      .each(($lines) => {
+        categories.push($lines.attr('category'));
+      })
+      .then(() => {
+        expect(categories).to.have.members([
+          ...new Set(dateData.map((d) => d.continent)),
+        ]);
+      });
   });
-  describe('when the x axis values are a Numbers', () => {
-    it('should draw the correct number of lines', () => {
-      const linesConfig = Vic.lines<QnQnCDatum>({
-        data: numericData,
-        x: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.year,
-          includeZeroInDomain: false,
-        }),
-        y: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.population,
-        }),
-        categorical: Vic.dimensionCategorical<QnQnCDatum, string>({
-          valueAccessor: (d) => d.continent,
-        }),
-      });
-      mountNumberLinesComponent(linesConfig);
-      cy.get('.vic-line').should('have.length', 6);
+  it('handles the case when a user inputs data with null values for y axis', () => {
+    const testData = cloneDeep(dateData);
+    testData[2].population = null;
+    const markersCounts = testData.reduce((acc, d) => {
+      if (!acc[d.continent]) {
+        acc[d.continent] = { expect: 0, actual: 0 };
+      }
+      if (d.population !== null) {
+        acc[d.continent].expect += 1;
+      }
+      return acc;
+    }, {});
+    const linesConfig = Vic.lines<QdQnCDatum>({
+      data: testData,
+      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+      pointMarkers: Vic.pointMarkers({ class: 'test-point-marker' }),
     });
+    mountDateLinesComponent(linesConfig);
+    cy.get('.test-point-marker')
+      .each(($pointMarker) => {
+        const category = $pointMarker.attr('category');
+        markersCounts[category].actual += 1;
+      })
+      .then(() => {
+        Object.keys(markersCounts).forEach((key) => {
+          expect(markersCounts[key].expect).to.equal(markersCounts[key].actual);
+        });
+      });
+  });
+  // Example situation for the below: the API returns data and we think everything is a number but...it's not
+  it('handles the case when a user inputs data with y axis value of the wrong type', () => {
+    const testData = cloneDeep(dateData);
+    testData[2].population = 'hello';
+    const markersCounts = testData.reduce((acc, d) => {
+      if (!acc[d.continent]) {
+        acc[d.continent] = { expect: 0, actual: 0 };
+      }
+      if (d.population !== 'hello') {
+        acc[d.continent].expect += 1;
+      }
+      return acc;
+    }, {});
+    const linesConfig = Vic.lines<QdQnCDatum>({
+      data: testData,
+      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+      pointMarkers: Vic.pointMarkers({ class: 'test-point-marker' }),
+    });
+    mountDateLinesComponent(linesConfig);
+    cy.get('.test-point-marker')
+      .each(($pointMarker) => {
+        const category = $pointMarker.attr('category');
+        markersCounts[category].actual += 1;
+      })
+      .then(() => {
+        Object.keys(markersCounts).forEach((key) => {
+          expect(markersCounts[key].expect).to.equal(markersCounts[key].actual);
+        });
+      });
+  });
+  // Example situation for the below: the API returns data and we think everything is a number but...it's not
+  it('handles the case when a user inputs data with x axis value of the wrong type', () => {
+    const testData = cloneDeep(dateData);
+    testData[6].year = 'hello';
+    const markersCounts = testData.reduce((acc, d) => {
+      if (!acc[d.continent]) {
+        acc[d.continent] = { expect: 0, actual: 0 };
+      }
+      if (d.year !== 'hello') {
+        acc[d.continent].expect += 1;
+      }
+      return acc;
+    }, {});
+    const linesConfig = Vic.lines<QdQnCDatum>({
+      data: testData,
+      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+      pointMarkers: Vic.pointMarkers({ class: 'test-point-marker' }),
+    });
+    mountDateLinesComponent(linesConfig);
+    cy.get('.test-point-marker')
+      .each(($pointMarker) => {
+        const category = $pointMarker.attr('category');
+        markersCounts[category].actual += 1;
+      })
+      .then(() => {
+        Object.keys(markersCounts).forEach((key) => {
+          expect(markersCounts[key].expect).to.equal(markersCounts[key].actual);
+        });
+      });
+  });
+});
+describe('it creates the correct lines - x axis values are Numbers', () => {
+  it('should draw the correct number of lines, one for each category', () => {
+    const linesConfig = Vic.lines<QnQnCDatum>({
+      data: numericData,
+      x: Vic.dimensionQuantitativeNumeric({
+        valueAccessor: (d) => d.year,
+        includeZeroInDomain: false,
+      }),
+      y: Vic.dimensionQuantitativeNumeric({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<QnQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+    });
+    mountNumberLinesComponent(linesConfig);
+    const categories = [];
+    cy.get('.vic-line')
+      .each(($lines) => {
+        categories.push($lines.attr('category'));
+      })
+      .then(() => {
+        expect(categories).to.have.members([
+          ...new Set(numericData.map((d) => d.continent)),
+        ]);
+      });
   });
 });
 
@@ -234,6 +364,34 @@ describe('it creates lines with the correct properties per config', () => {
       cy.get(`.${markerClass}`).each(($pointMarker) => {
         cy.wrap($pointMarker).should('have.attr', 'r', radius.toString());
       });
+    });
+  });
+  describe('stroke', () => {
+    it('draws lines with the correct properties', () => {
+      const linesConfig = Vic.lines<QdQnCDatum>({
+        data: dateData,
+        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+          valueAccessor: (d) => d.year,
+        }),
+        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+          valueAccessor: (d) => d.population,
+        }),
+        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+          valueAccessor: (d) => d.continent,
+        }),
+        pointMarkers: Vic.pointMarkers(),
+        stroke: Vic.stroke({
+          width: 3,
+          opacity: 0.5,
+          linecap: 'square',
+          linejoin: 'miter',
+        }),
+      });
+      mountDateLinesComponent(linesConfig);
+      cy.get('.vic-lines-g').should('have.attr', 'stroke-width', '3');
+      cy.get('.vic-lines-g').should('have.attr', 'stroke-opacity', '0.5');
+      cy.get('.vic-lines-g').should('have.attr', 'stroke-linecap', 'square');
+      cy.get('.vic-lines-g').should('have.attr', 'stroke-linejoin', 'miter');
     });
   });
 });
