@@ -238,7 +238,7 @@ describe('LinesHoverMoveDirective', () => {
     });
     describe('pointerDetectionRadius is not null', () => {
       beforeEach(() => {
-        directive.lines.config.pointerDetectionRadius = 80;
+        (directive.lines.config as any).pointerDetectionRadius = 80;
       });
       it('calls getPointerDistanceFromPoint once', () => {
         directive.pointerIsInsideShowTooltipRadius(2, 100, 200);

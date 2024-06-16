@@ -52,6 +52,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   lineLabelsRef: ElementRef<SVGSVGElement>;
   line: (x: any[]) => any;
   markerClass = 'vic-lines-datum-marker';
+  hoverDotClass = 'vic-hover-dot';
   markerIndexAttr = 'index';
 
   private zone = inject(NgZone);
@@ -81,9 +82,9 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
-    if (this.config.pointMarkers.display) {
+    if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.hoverDot.display) {
+    } else if (this.config.hoverDot) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -134,7 +135,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   drawHoverDot(): void {
     select(this.dotRef.nativeElement)
       .append('circle')
-      .attr('class', 'vic-hover-dot')
+      .attr('class', `${this.config.hoverDot.class} ${this.hoverDotClass}`)
       .attr('r', this.config.hoverDot.radius)
       .attr('fill', '#222')
       .attr('display', 'none');
@@ -151,7 +152,10 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
         (enter) =>
           enter
             .append('circle')
-            .attr('class', `${this.markerClass} vic-point-marker`)
+            .attr(
+              'class',
+              `${this.config.pointMarkers.class} ${this.markerClass}`
+            )
             .attr('key', (d) => d.key)
             .attr(this.markerIndexAttr, (d) => d.index)
             .style('mix-blend-mode', this.config.mixBlendMode)

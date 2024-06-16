@@ -10,8 +10,10 @@ import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {
   curve: curveLinear,
-  pointMarkers: new VicPointMarkers(),
-  hoverDot: new VicPointMarkers({ radius: 4, display: false }),
+  hoverDot: new VicPointMarkers({
+    radius: 4,
+    display: false,
+  }),
   stroke: new VicStroke(),
   pointerDetectionRadius: 80,
   lineLabelsFormat: (d: string) => d,

@@ -12,23 +12,28 @@ export interface VicPointMarkersOptions {
    */
   display: boolean;
   /**
-   * A value for the radius of the point marker, in px.
-   *
-   * Default is 3.
+   * A class to be applied to the point markers.
    */
-  radius: number;
+  class: string;
   /**
    * A value by which the point marker will expand on hover, in px.
    *
    * Default is 1.
    */
   growByOnHover: number;
+  /**
+   * A value for the radius of the point marker, in px.
+   *
+   * Default is 3.
+   */
+  radius: number;
 }
 
 export class VicPointMarkers implements VicPointMarkersOptions {
   readonly display: boolean;
-  readonly radius: number;
+  readonly class: string;
   readonly growByOnHover: number;
+  readonly radius: number;
 
   constructor(options?: Partial<VicPointMarkers>) {
     Object.assign(this, DEFAULT, options);
