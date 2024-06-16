@@ -1,13 +1,13 @@
 import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
-import { VicDataDimension, VicDataDimensionOptions } from './data-dimension';
+import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
 
-const DEFAULT: Partial<VicQuantitativeDimensionOptions<unknown>> = {
+const DEFAULT: Partial<VicDimensionQuantitativeOptions<unknown>> = {
   includeZeroInDomain: true,
   scaleFn: scaleLinear,
 };
 
-export interface VicQuantitativeDimensionOptions<Datum>
+export interface VicDimensionQuantitativeOptions<Datum>
   extends VicDataDimensionOptions<Datum, number> {
   /**
    * An optional, user-provided range of values that is used as the domain of the dimension's scale.
@@ -32,9 +32,9 @@ export interface VicQuantitativeDimensionOptions<Datum>
   ) => ScaleContinuousNumeric<number, number>;
 }
 
-export class VicQuantitativeDimension<Datum>
+export class VicDimensionQuantitative<Datum>
   extends VicDataDimension<Datum, number>
-  implements VicQuantitativeDimensionOptions<Datum>
+  implements VicDimensionQuantitativeOptions<Datum>
 {
   private calculatedDomain: [number, number];
   readonly domain: [number, number];
@@ -47,7 +47,7 @@ export class VicQuantitativeDimension<Datum>
   ) => ScaleContinuousNumeric<number, number>;
   readonly valueAccessor: (d: Datum) => number;
 
-  constructor(options: Partial<VicQuantitativeDimensionOptions<Datum>>) {
+  constructor(options: Partial<VicDimensionQuantitativeOptions<Datum>>) {
     super();
     Object.assign(this, options);
     this.includeZeroInDomain =

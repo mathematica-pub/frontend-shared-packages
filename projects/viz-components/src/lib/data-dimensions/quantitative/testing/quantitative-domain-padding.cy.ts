@@ -10,10 +10,10 @@ import { VicBarsModule } from '../../../bars/bars.module';
 import { VicChartModule } from '../../../chart/chart.module';
 import { Vic } from '../../../config/vic';
 import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
-import { VicPercentOverDomainPadding } from '../percent-over';
-import { VicPixelDomainPadding } from '../pixel';
-import { VicRoundUpToIntervalDomainPadding } from '../round-to-interval';
-import { VicRoundUpDomainPadding } from '../round-up';
+import { VicPercentOverDomainPadding } from '../domain-padding/percent-over';
+import { VicPixelDomainPadding } from '../domain-padding/pixel';
+import { VicRoundUpToIntervalDomainPadding } from '../domain-padding/round-to-interval';
+import { VicRoundUpDomainPadding } from '../domain-padding/round-up';
 import { expectDomain } from './expect-domain';
 
 type Datum = { state: string; value: number };

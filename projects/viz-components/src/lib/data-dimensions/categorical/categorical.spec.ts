@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../config/vic';
-import { VicCategoricalDimension } from './categorical-dimension';
+import { Vic } from '../../config/vic';
+import { VicDimensionCategorical } from './categorical';
 
-describe('VicCategoricalDimension', () => {
-  let dimension: VicCategoricalDimension<string>;
+describe('VicDimensionCategorical', () => {
+  let dimension: VicDimensionCategorical<string>;
   beforeEach(() => {
     dimension = Vic.dimensionCategorical({
       valueAccessor: (d) => d,

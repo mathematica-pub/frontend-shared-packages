@@ -1,9 +1,9 @@
 import { VicDataValue } from '../../../core/types/values';
+import { VicFillPattern } from '../../../data-dimensions/categorical/fill-pattern';
 import {
   VicDataDimension,
   VicDataDimensionOptions,
-} from '../../../data-dimensions/data-dimension';
-import { VicFillPattern } from '../../../data-dimensions/fill-pattern';
+} from '../../../data-dimensions/dimension';
 
 export interface VicAttributeDataDimensionOptions<
   Datum,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../config/vic';
-import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { VicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
 import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicBarsConfig } from './bars.config';
 
@@ -61,8 +61,8 @@ describe('BarsConfig', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
       spyOn(VicQuantitativeDimension.prototype as any, 'setPropertiesFromData');
-      spyOn(VicOrdinalDimension.prototype as any, 'setPropertiesFromData');
-      spyOn(VicCategoricalDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(VicDimensionOrdinal.prototype as any, 'setPropertiesFromData');
+      spyOn(VicDimensionCategorical.prototype as any, 'setPropertiesFromData');
       config = getNewConfig();
       (config as any).setDimensionPropertiesFromData();
     });

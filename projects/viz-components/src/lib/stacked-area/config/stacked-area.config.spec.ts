@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../config/vic';
-import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { VicDateDimension } from '../../data-dimensions/date-dimension';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDateDimension } from '../../data-dimensions/date/date-dimension';
 import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
 import { VicStackedAreaConfig } from './stacked-area.config';
 
@@ -71,7 +71,7 @@ describe('StackedAreaConfig', () => {
       spyOn(VicStackedAreaConfig.prototype as any, 'initPropertiesFromData');
       spyOn(VicDateDimension.prototype, 'setPropertiesFromData');
       spyOn(VicQuantitativeDimension.prototype, 'setPropertiesFromData');
-      spyOn(VicCategoricalDimension.prototype, 'setPropertiesFromData');
+      spyOn(VicDimensionCategorical.prototype, 'setPropertiesFromData');
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
     });

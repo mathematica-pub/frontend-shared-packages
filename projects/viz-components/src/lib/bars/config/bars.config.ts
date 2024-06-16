@@ -1,8 +1,8 @@
 import { min, range } from 'd3';
 import { VicDataValue } from '../../core/types/values';
-import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { VicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
+import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { VicBarsDimensions } from './bars-dimensions';
@@ -13,9 +13,9 @@ export interface VicBarsOptions<
   TOrdinalValue extends VicDataValue,
   TCategoricalValue extends VicDataValue = string
 > extends VicDataMarksOptions<Datum> {
-  categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
-  ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
-  quantitative: VicQuantitativeDimension<Datum>;
+  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
+  ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
+  quantitative: VicDimensionQuantitative<Datum>;
   labels: VicBarsLabels<Datum>;
 }
 
@@ -24,12 +24,12 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   implements VicBarsOptions<Datum, TOrdinalValue>
 {
   barsKeyFunction: (i: number) => string;
-  readonly categorical: VicCategoricalDimension<Datum, string>;
+  readonly categorical: VicDimensionCategorical<Datum, string>;
   readonly dimensions: VicBarsDimensions;
   hasNegativeValues: boolean;
   readonly labels: VicBarsLabels<Datum>;
-  readonly ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
-  readonly quantitative: VicQuantitativeDimension<Datum>;
+  readonly ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
+  readonly quantitative: VicDimensionQuantitative<Datum>;
 
   constructor(
     dimensions: VicBarsDimensions,
