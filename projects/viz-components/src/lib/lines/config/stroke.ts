@@ -5,7 +5,7 @@ const DEFAULT = {
   width: 2,
 };
 
-export interface VicLinesStrokeOptions {
+export interface VicStrokeOptions {
   /**
    * A value for the line's [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
    *  attribute.
@@ -38,13 +38,13 @@ export interface VicLinesStrokeOptions {
    */
   width: number;
 }
-export class VicLinesStroke implements VicLinesStrokeOptions {
+export class VicStroke implements VicStrokeOptions {
   linecap: string;
   linejoin: string;
   opacity: number;
   width: number;
 
-  constructor(options?: Partial<VicLinesStrokeOptions>) {
+  constructor(options?: Partial<VicStrokeOptions>) {
     Object.assign(this, DEFAULT, options);
   }
 }

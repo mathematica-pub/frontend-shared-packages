@@ -139,7 +139,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   drawHoverDot(): void {
     select(this.dotRef.nativeElement)
       .append('circle')
-      .attr('class', 'vic-tooltip-dot')
+      .attr('class', 'vic-hover-dot')
       .attr('r', this.config.hoverDot.radius)
       .attr('fill', '#222')
       .attr('display', 'none');
@@ -156,7 +156,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
         (enter) =>
           enter
             .append('circle')
-            .attr('class', this.markerClass)
+            .attr('class', `${this.markerClass} vic-point-marker`)
             .attr('key', (d) => d.key)
             .attr(this.markerIndexAttr, (d) => d.index)
             .style('mix-blend-mode', this.config.mixBlendMode)

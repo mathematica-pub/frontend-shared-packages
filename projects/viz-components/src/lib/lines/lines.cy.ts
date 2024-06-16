@@ -1,16 +1,16 @@
 import { Component, Input } from '@angular/core';
-import { curveBasis } from 'd3';
+import { curveBasis, schemeTableau10 } from 'd3';
 import { cy, describe, it } from 'local-cypress';
 import {
+  Vic,
   VicChartModule,
+  VicLinesConfig,
   VicLinesModule,
+  VicQuantitativeAxisConfig,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
-import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
-import { Vic } from '../../config/vic';
-import { VicLinesConfig } from '../config/lines.config';
 
 type DateDatum = { continent: string; population: number; year: Date };
 type NumberDatum = { continent: string; population: number; year: number };
@@ -210,8 +210,27 @@ describe('it creates the correct lines', () => {
 // ***********************************************************
 // Tests of various config properties
 // ***********************************************************
-describe('can use different D3curve functions', () => {
-  it('should draw the correct number of lines', () => {
+describe('it creates lines with the correct properties per config', () => {
+  // More rigorous testing of categorical dimension in categorical tests
+  it('draws lines with the correct colors', () => {
+    const linesConfig = Vic.lines<DateDatum>({
+      data: defaultDateData,
+      x: Vic.dimensionDate<DateDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitative<DateDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<DateDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+    });
+    mountDateLinesComponent(linesConfig);
+    cy.get('.vic-line').each(($line, i) => {
+      cy.wrap($line).should('have.attr', 'stroke', schemeTableau10[i]);
+    });
+  });
+  it('draws the correct number of lines if a user provides a custom curve function', () => {
     const linesConfig = Vic.lines<DateDatum>({
       data: defaultDateData,
       x: Vic.dimensionDate<DateDatum>({
@@ -227,5 +246,43 @@ describe('can use different D3curve functions', () => {
     });
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').should('have.length', 6);
+  });
+  describe('pointMarkers', () => {
+    it('draws the correct number of point markers', () => {
+      const linesConfig = Vic.lines<DateDatum>({
+        data: defaultDateData,
+        x: Vic.dimensionDate<DateDatum>({
+          valueAccessor: (d) => d.year,
+        }),
+        y: Vic.dimensionQuantitative<DateDatum>({
+          valueAccessor: (d) => d.population,
+        }),
+        categorical: Vic.dimensionCategorical<DateDatum, string>({
+          valueAccessor: (d) => d.continent,
+        }),
+        pointMarkers: Vic.pointMarkers(),
+      });
+      mountDateLinesComponent(linesConfig);
+      cy.get('.vic-point-marker').should('have.length', 24);
+    });
+    it('draws point markers with the correct radius - user provides custom radius', () => {
+      const linesConfig = Vic.lines<DateDatum>({
+        data: defaultDateData,
+        x: Vic.dimensionDate<DateDatum>({
+          valueAccessor: (d) => d.year,
+        }),
+        y: Vic.dimensionQuantitative<DateDatum>({
+          valueAccessor: (d) => d.population,
+        }),
+        categorical: Vic.dimensionCategorical<DateDatum, string>({
+          valueAccessor: (d) => d.continent,
+        }),
+        pointMarkers: Vic.pointMarkers({ radius: 4 }),
+      });
+      mountDateLinesComponent(linesConfig);
+      cy.get('.vic-point-marker').each(($pointMarker) => {
+        cy.wrap($pointMarker).should('have.attr', 'r', '4');
+      });
+    });
   });
 });

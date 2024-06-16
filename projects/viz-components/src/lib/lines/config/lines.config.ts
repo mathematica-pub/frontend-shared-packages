@@ -6,14 +6,14 @@ import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/qua
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { Marker } from '../lines.component';
-import { VicLinesStroke } from './lines-stroke';
 import { VicPointMarkers } from './point-markers';
+import { VicStroke } from './stroke';
 
 const DEFAULT = {
   curve: curveLinear,
   pointMarkers: new VicPointMarkers(),
   hoverDot: new VicPointMarkers({ radius: 4, display: false }),
-  stroke: new VicLinesStroke(),
+  stroke: new VicStroke(),
   pointerDetectionRadius: 80,
   lineLabelsFormat: (d: string) => d,
   categorical: {
@@ -67,7 +67,7 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
   /**
    * A config for the behavior of the line stroke.
    */
-  stroke: VicLinesStroke;
+  stroke: VicStroke;
   /**
    * A function that returns a boolean indicating whether a value in the data is defined.
    *  If a value is not defined, it will not be plotted.
@@ -103,7 +103,7 @@ export class VicLinesConfig<Datum>
   markersKeyFunction;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: VicPointMarkers;
-  readonly stroke: VicLinesStroke;
+  readonly stroke: VicStroke;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined: (d: Datum, i: number, ...args: any) => any;
   x: VicDimensionDate<Datum> | VicDimensionQuantitative<Datum>;
