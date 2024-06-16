@@ -1,5 +1,5 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { VicValueExtent } from '../../core/types/values';
+import { VicValueExtent } from '../../../core/types/values';
 import { VicPercentOverDomainPadding } from './percent-over';
 import { VicPixelDomainPadding } from './pixel';
 import { VicRoundUpToIntervalDomainPadding } from './round-to-interval';

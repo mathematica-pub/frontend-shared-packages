@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicCategoricalDimension } from '../../../data-dimensions/categorical-dimension';
+import { VicDimensionCategorical } from '../../../data-dimensions/categorical/categorical';
 import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographiesLabels } from '../geographies-labels';
 import {
@@ -18,7 +18,7 @@ export interface VicGeographiesNoDataLayerOptions<
   TGeometry extends Geometry = MultiPolygon | Polygon,
   TCategoricalValue extends string = string
 > extends VicBaseDataGeographyOptions<TProperties, TGeometry> {
-  categorical: VicCategoricalDimension<
+  categorical: VicDimensionCategorical<
     VicGeographiesFeature<TProperties, TGeometry>,
     TCategoricalValue
   >;
@@ -43,7 +43,7 @@ export class VicGeographiesNoDataLayer<
     VicGeographiesNoDataLayerOptions<TProperties, TGeometry, TCategoricalValue>
 {
   override readonly hasAttributeData: false;
-  readonly categorical: VicCategoricalDimension<
+  readonly categorical: VicDimensionCategorical<
     VicGeographiesFeature<TProperties, TGeometry>,
     TCategoricalValue
   >;

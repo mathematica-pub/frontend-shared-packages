@@ -1,8 +1,8 @@
 import { CurveFactory, curveLinear, group, range, schemeTableau10 } from 'd3';
 import { isDate, isNumber } from '../../core/utilities/type-guards';
-import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { VicDateDimension } from '../../data-dimensions/date-dimension';
-import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDateDimension } from '../../data-dimensions/date/date-dimension';
+import { VicDimensionQuantitative } from '../../data-dimensions/quantitative/quantitative';
 import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { Marker } from '../lines.component';
@@ -27,7 +27,7 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
    *
    * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
    */
-  categorical: VicCategoricalDimension<Datum, string>;
+  categorical: VicDimensionCategorical<Datum, string>;
   /**
    * A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
    *  method.
@@ -80,18 +80,18 @@ export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
   /**
    * A config for the behavior of the chart's x dimension
    */
-  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
+  x: VicDateDimension<Datum> | VicDimensionQuantitative<Datum>;
   /**
    * A config for the behavior of the chart's y dimension
    */
-  y: VicQuantitativeDimension<Datum>;
+  y: VicDimensionQuantitative<Datum>;
 }
 
 export class VicLinesConfig<Datum>
   extends VicXyDataMarksConfig<Datum>
   implements VicLinesOptions<Datum>
 {
-  readonly categorical: VicCategoricalDimension<Datum, string>;
+  categorical: VicDimensionCategorical<Datum, string>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly curve: (x: any) => any;
   readonly hoverDot: VicPointMarkers;
@@ -106,8 +106,8 @@ export class VicLinesConfig<Datum>
   readonly stroke: VicLinesStroke;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined: (d: Datum, i: number, ...args: any) => any;
-  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
-  y: VicQuantitativeDimension<Datum>;
+  x: VicDateDimension<Datum> | VicDimensionQuantitative<Datum>;
+  y: VicDimensionQuantitative<Datum>;
 
   constructor(options: Partial<VicLinesOptions<Datum>>) {
     super();

@@ -1,5 +1,5 @@
 import { ScaleTime, max, min, scaleUtc } from 'd3';
-import { VicDataDimension, VicDataDimensionOptions } from './data-dimension';
+import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
 
 const DEFAULT = {
   scaleFn: scaleUtc,
