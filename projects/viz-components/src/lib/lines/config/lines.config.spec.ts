@@ -36,7 +36,7 @@ describe('LinesConfig', () => {
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(VicLinesConfig.prototype as any, 'setDimensionPropertiesFromData');
-      spyOn(VicLinesConfig.prototype as any, 'setValueIndicies');
+      spyOn(VicLinesConfig.prototype as any, 'setValueIndices');
       spyOn(VicLinesConfig.prototype as any, 'setLinesD3Data');
       spyOn(VicLinesConfig.prototype as any, 'setLinesKeyFunction');
       config = createConfig();
@@ -46,8 +46,8 @@ describe('LinesConfig', () => {
         (config as any).setDimensionPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
-    it('calls setValueIndicies once', () => {
-      expect((config as any).setValueIndicies).toHaveBeenCalledTimes(1);
+    it('calls setValueIndices once', () => {
+      expect((config as any).setValueIndices).toHaveBeenCalledTimes(1);
     });
     it('calls setLinesD3Data once', () => {
       expect((config as any).setLinesD3Data).toHaveBeenCalledTimes(1);

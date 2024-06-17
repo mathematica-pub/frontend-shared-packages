@@ -112,7 +112,7 @@ export class VicLinesConfig<Datum>
 
   protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
+    this.setValueIndices();
     this.setLinesD3Data();
     this.setLinesKeyFunction();
   }
@@ -123,7 +123,7 @@ export class VicLinesConfig<Datum>
     this.categorical.setPropertiesFromData(this.data);
   }
 
-  private setValueIndicies(): void {
+  private setValueIndices(): void {
     this.valueIndices = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
