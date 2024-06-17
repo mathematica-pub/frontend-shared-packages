@@ -89,6 +89,7 @@ function mountDateLinesComponent(
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
+  cy.wait(100); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(
@@ -108,6 +109,7 @@ function mountNumberLinesComponent(
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
+  cy.wait(100); // have to wait for axes to render
 }
 
 // ***********************************************************
@@ -398,6 +400,7 @@ describe('it creates lines with the correct properties per config', () => {
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').should('have.length', 6);
   });
+
   describe('pointMarkers', () => {
     const markerClass = 'test-point-marker';
     it('draws the correct number of point markers', () => {
@@ -442,6 +445,7 @@ describe('it creates lines with the correct properties per config', () => {
       });
     });
   });
+
   describe('stroke', () => {
     it('draws lines with the correct properties', () => {
       const linesConfig = Vic.lines<QdQnCDatum>({
@@ -468,6 +472,35 @@ describe('it creates lines with the correct properties per config', () => {
       cy.get('.vic-lines-g').should('have.attr', 'stroke-opacity', '0.5');
       cy.get('.vic-lines-g').should('have.attr', 'stroke-linecap', 'square');
       cy.get('.vic-lines-g').should('have.attr', 'stroke-linejoin', 'miter');
+    });
+  });
+
+  describe('line labels', () => {
+    it('draws the correct number of line labels', () => {
+      const linesConfig = Vic.lines<QdQnCDatum>({
+        data: dateData,
+        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+          valueAccessor: (d) => d.year,
+        }),
+        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+          valueAccessor: (d) => d.population,
+        }),
+        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+          valueAccessor: (d) => d.continent,
+        }),
+        labelLines: true,
+      });
+      mountDateLinesComponent(linesConfig);
+      const labels = [];
+      cy.get('.vic-line-label')
+        .each(($label) => {
+          labels.push($label.text());
+        })
+        .then(() => {
+          expect(labels).to.have.members([
+            ...new Set(dateData.map((d) => d.continent)),
+          ]);
+        });
     });
   });
 });
