@@ -59,11 +59,11 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
+  hoverDotClass = 'vic-lines-hover-dot';
+  line: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
-  line: (x: any[]) => any;
   markerClass = 'vic-lines-datum-marker';
-  hoverDotClass = 'vic-lines-hover-dot';
   markerIndexAttr = 'index';
   private zone = inject(NgZone);
 
