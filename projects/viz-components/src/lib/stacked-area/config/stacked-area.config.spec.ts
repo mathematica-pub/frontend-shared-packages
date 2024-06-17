@@ -94,7 +94,7 @@ describe('StackedAreaConfig', () => {
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
+      expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
       config = Vic.stackedArea({
@@ -112,7 +112,7 @@ describe('StackedAreaConfig', () => {
       });
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2]);
+      expect(config.valueIndices).toEqual([0, 1, 2]);
     });
   });
 });

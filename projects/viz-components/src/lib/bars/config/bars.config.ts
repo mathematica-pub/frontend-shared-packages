@@ -43,7 +43,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
+    this.setValueIndices();
     this.setHasNegativeValues();
     this.setBarsKeyFunction();
   }
@@ -54,8 +54,8 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     this.categorical.setPropertiesFromData(this.data);
   }
 
-  protected setValueIndicies(): void {
-    this.valueIndicies = range(this.data.length).filter((i) => {
+  protected setValueIndices(): void {
+    this.valueIndices = range(this.data.length).filter((i) => {
       if (!this.ordinal.domainIncludes(this.ordinal.values[i])) {
         return false;
       } else {

@@ -39,8 +39,6 @@ describe('LinesConfig', () => {
       spyOn(VicLinesConfig.prototype as any, 'setValueIndicies');
       spyOn(VicLinesConfig.prototype as any, 'setLinesD3Data');
       spyOn(VicLinesConfig.prototype as any, 'setLinesKeyFunction');
-      spyOn(VicLinesConfig.prototype as any, 'setMarkersD3Data');
-      spyOn(VicLinesConfig.prototype as any, 'setMarkersKeyFunction');
       config = createConfig();
     });
     it('calls setDimensionPropertiesFromData once', () => {
@@ -56,12 +54,6 @@ describe('LinesConfig', () => {
     });
     it('calls setLinesKeyFunction once', () => {
       expect((config as any).setLinesKeyFunction).toHaveBeenCalledTimes(1);
-    });
-    it('calls setMarkersD3Data once', () => {
-      expect((config as any).setMarkersD3Data).toHaveBeenCalledTimes(1);
-    });
-    it('calls setMarkersKeyFunction once', () => {
-      expect((config as any).setMarkersKeyFunction).toHaveBeenCalledTimes(1);
     });
   });
 });
