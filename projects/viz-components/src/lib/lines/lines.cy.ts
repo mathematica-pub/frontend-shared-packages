@@ -26,7 +26,7 @@ const dateData = QdQnCData;
 const numericData = QnQnCData;
 
 // ***********************************************************
-// Horizontal bar chart component set up
+// Set up Lines component -- can use with Date or numeric values for x axis
 // ***********************************************************
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
