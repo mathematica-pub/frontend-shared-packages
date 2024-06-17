@@ -36,7 +36,7 @@ describe('BarsConfig', () => {
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'setDimensionPropertiesFromData');
-      spyOn(VicBarsConfig.prototype as any, 'setValueIndicies');
+      spyOn(VicBarsConfig.prototype as any, 'setValueIndices');
       spyOn(VicBarsConfig.prototype as any, 'setHasNegativeValues');
       spyOn(VicBarsConfig.prototype as any, 'setBarsKeyFunction');
       config = getNewConfig();
@@ -46,8 +46,8 @@ describe('BarsConfig', () => {
         (config as any).setDimensionPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
-    it('calls setValueIndicies once', () => {
-      expect((config as any).setValueIndicies).toHaveBeenCalledTimes(1);
+    it('calls setValueIndices once', () => {
+      expect((config as any).setValueIndices).toHaveBeenCalledTimes(1);
     });
     it('calls setHasNegativeValues once', () => {
       expect((config as any).setHasNegativeValues).toHaveBeenCalledTimes(1);
@@ -87,17 +87,17 @@ describe('BarsConfig', () => {
     });
   });
 
-  describe('setValueIndicies()', () => {
+  describe('setValueIndices()', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
     });
-    it('returns the value indicies of datums with unique ordinal values', () => {
+    it('returns the value indices of datums with unique ordinal values', () => {
       config = getNewConfig();
       (config as any).setDimensionPropertiesFromData();
-      (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4]);
+      (config as any).setValueIndices();
+      expect(config.valueIndices).toEqual([0, 1, 2, 3, 4]);
     });
-    it('sets valueIndicies to the correct array when ordinal domain is limited by user', () => {
+    it('sets valueIndices to the correct array when ordinal domain is limited by user', () => {
       config = Vic.barsHorizontal({
         data,
         quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
@@ -110,8 +110,8 @@ describe('BarsConfig', () => {
         categorical: Vic.dimensionCategorical<Datum, string>({}),
       });
       (config as any).setDimensionPropertiesFromData();
-      (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 2, 3]);
+      (config as any).setValueIndices();
+      expect(config.valueIndices).toEqual([0, 2, 3]);
     });
   });
 

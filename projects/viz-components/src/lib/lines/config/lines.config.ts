@@ -126,13 +126,13 @@ export class VicLinesConfig<Datum>
   }
 
   private setValueIndicies(): void {
-    this.valueIndicies = range(this.x.values.length).filter((i) =>
+    this.valueIndices = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
   }
 
   private setLinesD3Data(): void {
-    const definedIndices = this.valueIndicies.filter(
+    const definedIndices = this.valueIndices.filter(
       (i) =>
         this.x.isValidValue(this.x.values[i]) &&
         this.y.isValidValue(this.y.values[i])
@@ -145,7 +145,7 @@ export class VicLinesConfig<Datum>
   }
 
   private setMarkersD3Data(): void {
-    this.markersD3Data = this.valueIndicies
+    this.markersD3Data = this.valueIndices
       .map((i) => {
         return { key: this.getMarkerKey(i), index: i };
       })

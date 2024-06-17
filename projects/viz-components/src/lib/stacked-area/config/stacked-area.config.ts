@@ -110,14 +110,14 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   }
 
   private setValueIndicies(): void {
-    this.valueIndicies = range(this.x.values.length).filter((i) =>
+    this.valueIndices = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
   }
 
   private setSeries(): void {
     const rolledUpData = rollup(
-      this.valueIndicies,
+      this.valueIndices,
       ([i]) => i,
       (i) => this.x.values[i],
       (i) => this.categorical.values[i]

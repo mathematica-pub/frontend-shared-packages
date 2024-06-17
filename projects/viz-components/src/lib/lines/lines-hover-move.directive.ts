@@ -96,7 +96,7 @@ export class LinesHoverMoveDirective<
   }
 
   getClosestPointIndex(): number {
-    return least(this.lines.config.valueIndicies, (i) =>
+    return least(this.lines.config.valueIndices, (i) =>
       this.getPointerDistanceFromPoint(
         this.lines.config.x.values[i],
         this.lines.config.y.values[i],
