@@ -1,6 +1,8 @@
+import { select } from 'd3';
 import { HoverMoveEventEffect } from '../events/effect';
+import { LinesMarkerDatum } from './config/lines.config';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
-import { LinesComponent } from './lines.component';
+import { LinesComponent, LinesGroupSelectionDatum } from './lines.component';
 
 export class LinesHoverMoveDefaultStylesConfig {
   growMarkerDimension: number;
@@ -26,27 +28,34 @@ export class LinesHoverMoveDefaultLinesStyles<
   applyEffect(
     directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
-    directive.lines.lines
-      .style('stroke', ([category]): string =>
-        directive.lines.config.categorical.values[
-          directive.closestPointIndex
-        ] === category
-          ? null
-          : '#ddd'
-      )
+    directive.lines.lineGroups
       .filter(
-        ([category]): boolean =>
+        ([category]) =>
           directive.lines.config.categorical.values[
             directive.closestPointIndex
           ] === category
       )
-      .raise();
+      .raise()
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', null);
+
+    directive.lines.lineGroups
+      .filter(
+        ([category]) =>
+          directive.lines.config.categorical.values[
+            directive.closestPointIndex
+          ] !== category
+      )
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', '#ddd');
   }
 
   removeEffect(
     directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
-    directive.lines.lines.style('stroke', null);
+    directive.lines.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', null);
   }
 }
 
@@ -70,15 +79,16 @@ export class LinesHoverMoveDefaultMarkersStyles<
   applyEffect(
     directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
-    directive.lines.markers
-      .style('fill', (d): string =>
-        directive.lines.config.categorical.values[
-          directive.closestPointIndex
-        ] === directive.lines.config.categorical.values[d.index]
-          ? null
-          : 'transparent'
+    directive.lines.lineGroups
+      .filter(
+        ([category]) =>
+          directive.lines.config.categorical.values[
+            directive.closestPointIndex
+          ] === category
       )
-      .attr('r', (d): number => {
+      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .style('fill', null)
+      .attr('r', (d) => {
         let r = directive.lines.config.pointMarkers.radius;
         if (directive.closestPointIndex === d.index) {
           r =
@@ -87,23 +97,26 @@ export class LinesHoverMoveDefaultMarkersStyles<
         }
         return r;
       })
+      .raise();
+
+    directive.lines.lineGroups
       .filter(
-        (d): boolean =>
+        ([category]) =>
           directive.lines.config.categorical.values[
             directive.closestPointIndex
-          ] === directive.lines.config.categorical.values[d.index]
+          ] !== category
       )
-      .raise();
+      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .style('fill', 'transparent');
   }
 
   removeEffect(
     directive: LinesHoverMoveDirective<Datum, TLinesComponent>
   ): void {
-    directive.lines.markers.style('fill', null);
-    directive.lines.markers.attr(
-      'r',
-      () => directive.lines.config.pointMarkers.radius
-    );
+    directive.lines.lineGroups
+      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .style('fill', null)
+      .attr('r', () => directive.lines.config.pointMarkers.radius);
   }
 }
 
@@ -121,7 +134,8 @@ export class LinesHoverMoveDefaultHoverDotStyles<
     HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
   applyEffect(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
-    directive.lines.hoverDot
+    select(directive.lines.dotRef.nativeElement)
+      .selectAll('circle')
       .style('display', null)
       .attr(
         'fill',
@@ -144,7 +158,9 @@ export class LinesHoverMoveDefaultHoverDotStyles<
   }
 
   removeEffect(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
-    directive.lines.hoverDot.style('display', 'none');
+    select(directive.lines.dotRef.nativeElement)
+      .selectAll('circle')
+      .style('display', 'none');
   }
 }
 

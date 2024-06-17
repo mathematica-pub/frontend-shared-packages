@@ -1,6 +1,10 @@
 import { InputEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
-import { LinesComponent } from 'projects/viz-components/src/lib/lines/lines.component';
+import {
+  LinesComponent,
+  LinesGroupSelectionDatum,
+} from 'projects/viz-components/src/lib/lines/lines.component';
+import { LinesMarkerDatum } from 'projects/viz-components/src/public-api';
 
 export class HighlightLineForLabel<
   Datum,
@@ -12,14 +16,19 @@ export class HighlightLineForLabel<
     event: LinesInputEventDirective<Datum, ExtendedLineComponent>,
     label: string
   ): void {
-    event.lines.lines
-      .style('stroke', ([category]): string =>
-        label === category ? null : '#ddd'
-      )
+    event.lines.lineGroups
       .filter(([category]): boolean => label === category)
-      .raise();
+      .raise()
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', null);
 
-    event.lines.markers
+    event.lines.lineGroups
+      .filter(([category]): boolean => label !== category)
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', '#ddd');
+
+    event.lines.lineGroups
+      .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
       .style('fill', (d): string =>
         label === event.lines.config.categorical.values[d.index]
           ? null
@@ -34,7 +43,11 @@ export class HighlightLineForLabel<
   removeEffect(
     event: LinesInputEventDirective<Datum, ExtendedLineComponent>
   ): void {
-    event.lines.lines.style('stroke', null);
-    event.lines.markers.style('fill', null);
+    event.lines.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', null);
+    event.lines.lineGroups
+      .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
+      .style('fill', null);
   }
 }

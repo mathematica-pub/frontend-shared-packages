@@ -10,6 +10,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { line, map, select, Transition } from 'd3';
+import { Selection } from 'd3-selection';
 import { ChartComponent } from '../chart/chart.component';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -23,6 +24,15 @@ export class LinesTooltipData {
   y: string;
   categorical: string;
 }
+
+export type LinesGroupSelection = Selection<
+  SVGGElement,
+  LinesGroupSelectionDatum,
+  SVGSVGElement,
+  unknown
+>;
+
+export type LinesGroupSelectionDatum = [string, number[]];
 
 export const LINES = new InjectionToken<LinesComponent<unknown>>(
   'LinesComponent'
@@ -51,23 +61,11 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('lineLabels', { static: true })
   lineLabelsRef: ElementRef<SVGSVGElement>;
   line: (x: any[]) => any;
+  lineGroups: LinesGroupSelection;
   markerClass = 'vic-lines-datum-marker';
   hoverDotClass = 'vic-lines-hover-dot';
   markerIndexAttr = 'index';
-
   private zone = inject(NgZone);
-
-  get lines(): any {
-    return select(this.linesRef.nativeElement).selectAll('path');
-  }
-
-  get hoverDot(): any {
-    return select(this.dotRef.nativeElement).selectAll('circle');
-  }
-
-  get markers(): any {
-    return select(this.markersRef.nativeElement).selectAll('circle');
-  }
 
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
@@ -113,24 +111,40 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.lines.data(this.config.linesD3Data, this.config.linesKeyFunction).join(
-      (enter) =>
-        enter
-          .append('path')
-          .attr('key', ([category]) => category)
-          .attr('class', 'vic-line')
-          .attr('stroke', ([category]) => this.scales.categorical(category))
-          .attr('d', ([, lineData]) => this.line(lineData)),
-      (update) =>
-        update
-          .attr('stroke', ([category]) => this.scales.categorical(category))
-          .call((update) =>
-            update
-              .transition(t as any)
-              .attr('d', ([, lineData]) => this.line(lineData))
-          ),
-      (exit) => exit.remove()
-    );
+    this.lineGroups = select(this.linesRef.nativeElement)
+      .selectAll<SVGGElement, LinesGroupSelectionDatum>('.vic-line-group')
+      .data<LinesGroupSelectionDatum>(
+        this.config.linesD3Data,
+        this.config.linesKeyFunction
+      )
+      .join(
+        (enter) => enter.append('g').attr('class', 'vic-line-group'),
+        (update) => update.transition(t as any),
+        (exit) => exit.remove()
+      );
+
+    this.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('.vic-line')
+      .data<LinesGroupSelectionDatum>((d) => [d])
+      .join(
+        (enter) =>
+          enter
+            .append('path')
+            .attr('category', ([category]) => category)
+            .attr('class', 'vic-line')
+            .attr('stroke', ([category]) => this.scales.categorical(category))
+            .attr('d', ([, lineData]) => this.line(lineData)),
+        (update) =>
+          update
+            .attr('category', ([category]) => category)
+            .attr('stroke', ([category]) => this.scales.categorical(category))
+            .call((update) =>
+              update
+                .transition(t as any)
+                .attr('d', ([, lineData]) => this.line(lineData))
+            ),
+        (exit) => exit.remove()
+      );
   }
 
   drawHoverDot(): void {
@@ -147,8 +161,9 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.markers
-      .data(this.config.markersD3Data, this.config.markersKeyFunction)
+    this.lineGroups
+      .selectAll('circle')
+      .data(([, indices]) => this.config.getMarkersData(indices))
       .join(
         (enter) =>
           enter
@@ -158,8 +173,8 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
               `${this.config.pointMarkers.class} ${this.markerClass}`
             )
             .attr('key', (d) => d.key)
+            .attr('category', (d) => d.category)
             .attr(this.markerIndexAttr, (d) => d.index)
-            .style('mix-blend-mode', this.config.mixBlendMode)
             .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
             .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
             .attr('r', this.config.pointMarkers.radius)

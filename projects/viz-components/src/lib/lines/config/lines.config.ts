@@ -6,6 +6,7 @@ import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicPointMarkers } from '../../marks/point-markers';
 import { VicStroke } from '../../marks/stroke';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
+import { LinesGroupSelectionDatum } from '../lines.component';
 
 const DEFAULT = {
   curve: curveLinear,
@@ -18,9 +19,10 @@ const DEFAULT = {
   },
 };
 
-interface Marker {
+export interface LinesMarkerDatum {
   key: string;
   index: number;
+  category: string;
 }
 
 export interface VicLinesOptions<Datum> extends VicDataMarksOptions<Datum> {
@@ -93,9 +95,7 @@ export class VicLinesConfig<Datum>
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
-  linesKeyFunction;
-  markersD3Data;
-  markersKeyFunction;
+  linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: VicPointMarkers;
   readonly stroke: VicStroke;
@@ -115,8 +115,6 @@ export class VicLinesConfig<Datum>
     this.setValueIndicies();
     this.setLinesD3Data();
     this.setLinesKeyFunction();
-    this.setMarkersD3Data();
-    this.setMarkersKeyFunction();
   }
 
   private setDimensionPropertiesFromData(): void {
@@ -144,23 +142,17 @@ export class VicLinesConfig<Datum>
     this.linesKeyFunction = (d): string => d[0];
   }
 
-  private setMarkersD3Data(): void {
-    this.markersD3Data = this.valueIndices
-      .map((i) => {
-        return { key: this.getMarkerKey(i), index: i };
-      })
-      .filter(
-        (marker: Marker) =>
-          this.x.isValidValue(this.x.values[marker.index]) &&
-          this.y.isValidValue(this.y.values[marker.index])
-      );
+  getMarkersData(indices: number[]): LinesMarkerDatum[] {
+    return indices.map((i) => {
+      return {
+        key: this.getMarkerKey(i),
+        index: i,
+        category: this.categorical.values[i],
+      };
+    });
   }
 
   private getMarkerKey(i: number): string {
     return `${this.categorical.values[i]}-${this.x.values[i]}`;
-  }
-
-  private setMarkersKeyFunction(): void {
-    this.markersKeyFunction = (d) => (d as Marker).key;
   }
 }
