@@ -38,7 +38,7 @@ describe('StackedBarsConfig', () => {
         VicStackedBarsConfig.prototype as any,
         'setDimensionPropertiesFromData'
       );
-      spyOn(VicStackedBarsConfig.prototype as any, 'setValueIndicies');
+      spyOn(VicStackedBarsConfig.prototype as any, 'setValueIndices');
       spyOn(VicStackedBarsConfig.prototype as any, 'setHasNegativeValues');
       spyOn(VicStackedBarsConfig.prototype as any, 'constructStackedData');
       spyOn(
@@ -52,8 +52,8 @@ describe('StackedBarsConfig', () => {
         (config as any).setDimensionPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
-    it('calls setValueIndicies once', () => {
-      expect((config as any).setValueIndicies).toHaveBeenCalledTimes(1);
+    it('calls setValueIndices once', () => {
+      expect((config as any).setValueIndices).toHaveBeenCalledTimes(1);
     });
     it('calls setHasNegativeValues once', () => {
       expect((config as any).setHasNegativeValues).toHaveBeenCalledTimes(1);
@@ -68,12 +68,12 @@ describe('StackedBarsConfig', () => {
     });
   });
 
-  describe('setValueIndicies()', () => {
-    it('returns an array of indicies when ordinal and categorical domains are not specified by user', () => {
+  describe('setValueIndices()', () => {
+    it('returns an array of indices when ordinal and categorical domains are not specified by user', () => {
       config = getNewConfig();
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
-    it('returns an array of indicies when ordinal domain is limited by user', () => {
+    it('returns an array of indices when ordinal domain is limited by user', () => {
       config = Vic.stackedBarsHorizontal<Datum, string>({
         data,
         ordinal: Vic.dimensionOrdinal<Datum, string>({
@@ -89,7 +89,7 @@ describe('StackedBarsConfig', () => {
       });
       expect(config.valueIndices).toEqual([0, 2, 3]);
     });
-    it('returns an array of indicies when categorical domain is limited by user', () => {
+    it('returns an array of indices when categorical domain is limited by user', () => {
       config = Vic.stackedBarsHorizontal<Datum, string>({
         data,
         ordinal: Vic.dimensionOrdinal<Datum, string>({
@@ -105,7 +105,7 @@ describe('StackedBarsConfig', () => {
       });
       expect(config.valueIndices).toEqual([0, 1, 2]);
     });
-    it('returns an array of indicies when both ordinal and categorical domains are limited by user', () => {
+    it('returns an array of indices when both ordinal and categorical domains are limited by user', () => {
       config = Vic.stackedBarsHorizontal<Datum, string>({
         data,
         ordinal: Vic.dimensionOrdinal<Datum, string>({

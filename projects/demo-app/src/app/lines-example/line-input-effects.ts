@@ -17,15 +17,18 @@ export class HighlightLineForLabel<
     label: string
   ): void {
     event.lines.lineGroups
-      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
-      .style('stroke', ([category]): string =>
-        label === category ? null : '#ddd'
-      )
       .filter(([category]): boolean => label === category)
-      .raise();
+      .raise()
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', null);
 
     event.lines.lineGroups
-      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .filter(([category]): boolean => label !== category)
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', '#ddd');
+
+    event.lines.lineGroups
+      .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
       .style('fill', (d): string =>
         label === event.lines.config.categorical.values[d.index]
           ? null
@@ -40,7 +43,11 @@ export class HighlightLineForLabel<
   removeEffect(
     event: LinesInputEventDirective<Datum, ExtendedLineComponent>
   ): void {
-    event.lines.lineGroups.selectAll('path').style('stroke', null);
-    event.lines.lineGroups.selectAll('circle').style('fill', null);
+    event.lines.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
+      .style('stroke', null);
+    event.lines.lineGroups
+      .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
+      .style('fill', null);
   }
 }

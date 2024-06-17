@@ -63,14 +63,14 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     // if statement ensure that this prevent this method is only called at the end of this class's constructor
     if (this.stackOffset !== undefined && this.stackOrder !== undefined) {
       this.setDimensionPropertiesFromData();
-      this.setValueIndicies();
+      this.setValueIndices();
       this.setHasNegativeValues();
       this.constructStackedData();
       this.initQuantitativeDomainFromStack();
     }
   }
 
-  override setValueIndicies(): void {
+  override setValueIndices(): void {
     this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
