@@ -197,26 +197,50 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   }
 
   drawLineLabels(): void {
-    const lastPoints = [];
-    this.config.linesD3Data.forEach((values, key) => {
-      const lastPoint = values[values.length - 1];
-      lastPoints.push({ category: key, index: lastPoint });
-    });
     // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
-    select(this.lineLabelsRef.nativeElement)
+    this.lineGroups
       .selectAll('text')
-      .data(lastPoints)
-      .join('text')
-      .attr('class', 'vic-line-label')
-      .attr('text-anchor', 'end')
-      .attr('fill', (d) =>
-        this.scales.categorical(this.config.categorical.values[d.index])
-      )
-      .attr('x', (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`)
-      .attr(
-        'y',
-        (d) => `${this.scales.y(this.config.y.values[d.index]) - 12}px`
-      )
-      .text((d) => this.config.lineLabelsFormat(d.category));
+      .data(([category, indices]) => {
+        return [
+          {
+            category,
+            index: indices[indices.length - 1],
+          },
+        ];
+      })
+      .join(
+        (enter) =>
+          enter
+            .append('text')
+            .attr('class', 'vic-line-label')
+            .attr('text-anchor', 'end')
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .attr(
+              'x',
+              (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`
+            )
+            .attr(
+              'y',
+              (d) => `${this.scales.y(this.config.y.values[d.index]) - 12}px`
+            )
+            .text((d) => this.config.lineLabelsFormat(d.category)),
+        (update) =>
+          update
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .attr(
+              'x',
+              (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`
+            )
+            .attr(
+              'y',
+              (d) => `${this.scales.y(this.config.y.values[d.index]) - 12}px`
+            )
+            .text((d) => this.config.lineLabelsFormat(d.category)),
+        (exit) => exit.remove()
+      );
   }
 }
