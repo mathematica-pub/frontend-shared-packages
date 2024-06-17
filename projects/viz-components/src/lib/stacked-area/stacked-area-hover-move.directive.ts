@@ -104,13 +104,13 @@ export class StackedAreaHoverMoveDirective<
       Math.abs(this.stackedArea.scales.x(x) - this.pointerX)
     );
     if (isDate(closestXValue)) {
-      return this.stackedArea.config.valueIndicies.filter(
+      return this.stackedArea.config.valueIndices.filter(
         (i) =>
           (this.stackedArea.config.x.values[i] as Date).getTime() ===
           closestXValue.getTime()
       );
     } else {
-      return this.stackedArea.config.valueIndicies.filter(
+      return this.stackedArea.config.valueIndices.filter(
         (i) => this.stackedArea.config.x.values[i] === closestXValue
       );
     }

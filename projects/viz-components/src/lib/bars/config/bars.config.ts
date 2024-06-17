@@ -55,7 +55,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   }
 
   protected setValueIndicies(): void {
-    this.valueIndicies = range(this.data.length).filter((i) => {
+    this.valueIndices = range(this.data.length).filter((i) => {
       if (!this.ordinal.domainIncludes(this.ordinal.values[i])) {
         return false;
       } else {

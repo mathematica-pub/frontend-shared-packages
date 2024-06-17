@@ -111,7 +111,7 @@ export class BarsComponent<
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll<SVGGElement, number>('.vic-bar-group')
-      .data<number>(this.config.valueIndicies, this.config.barsKeyFunction)
+      .data<number>(this.config.valueIndices, this.config.barsKeyFunction)
       .join(
         (enter) =>
           enter

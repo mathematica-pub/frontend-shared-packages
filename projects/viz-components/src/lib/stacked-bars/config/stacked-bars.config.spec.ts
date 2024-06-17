@@ -71,7 +71,7 @@ describe('StackedBarsConfig', () => {
   describe('setValueIndicies()', () => {
     it('returns an array of indicies when ordinal and categorical domains are not specified by user', () => {
       config = getNewConfig();
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
+      expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('returns an array of indicies when ordinal domain is limited by user', () => {
       config = Vic.stackedBarsHorizontal<Datum, string>({
@@ -87,7 +87,7 @@ describe('StackedBarsConfig', () => {
           valueAccessor: (d) => d.category,
         }),
       });
-      expect(config.valueIndicies).toEqual([0, 2, 3]);
+      expect(config.valueIndices).toEqual([0, 2, 3]);
     });
     it('returns an array of indicies when categorical domain is limited by user', () => {
       config = Vic.stackedBarsHorizontal<Datum, string>({
@@ -103,7 +103,7 @@ describe('StackedBarsConfig', () => {
           domain: ['a'],
         }),
       });
-      expect(config.valueIndicies).toEqual([0, 1, 2]);
+      expect(config.valueIndices).toEqual([0, 1, 2]);
     });
     it('returns an array of indicies when both ordinal and categorical domains are limited by user', () => {
       config = Vic.stackedBarsHorizontal<Datum, string>({
@@ -120,7 +120,7 @@ describe('StackedBarsConfig', () => {
           domain: ['a'],
         }),
       });
-      expect(config.valueIndicies).toEqual([0, 2]);
+      expect(config.valueIndices).toEqual([0, 2]);
     });
   });
 });

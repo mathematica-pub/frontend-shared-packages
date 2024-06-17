@@ -30,7 +30,7 @@ export class VicGroupedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   }
 
   override setValueIndicies(): void {
-    this.valueIndicies = range(this.ordinal.values.length).filter((i) => {
+    this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
         this.categorical.domainIncludes(this.categorical.values[i])

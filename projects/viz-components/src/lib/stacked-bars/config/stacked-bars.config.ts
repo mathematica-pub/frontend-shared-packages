@@ -71,7 +71,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   }
 
   override setValueIndicies(): void {
-    this.valueIndicies = range(this.ordinal.values.length).filter((i) => {
+    this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
         this.categorical.domainIncludes(this.categorical.values[i])
@@ -88,7 +88,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
       .order(this.stackOrder)
       .offset(this.stackOffset)(
       rollup(
-        this.valueIndicies,
+        this.valueIndices,
         ([i]) => i,
         (i) => this.ordinal.values[i],
         (i) => this.categorical.values[i]

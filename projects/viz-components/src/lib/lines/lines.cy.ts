@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { curveBasis, schemeTableau10 } from 'd3';
-import { cy, describe, it } from 'local-cypress';
+import { cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
   Vic,
@@ -19,7 +19,7 @@ import {
   QnQnCDatum,
 } from '../testing/data/quant-quant-cat-data';
 
-const margin = { top: 20, right: 20, bottom: 40, left: 40 };
+const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
 const chartWidth = 600;
 const dateData = QdQnCData;
@@ -111,9 +111,9 @@ function mountNumberLinesComponent(
 }
 
 // ***********************************************************
-// Creating the correct lines
+// Creating the correct marks from the right values
 // ***********************************************************
-describe('it creates the correct lines - x axis values are Dates', () => {
+describe('it creates the correct marks - x axis values are Dates', () => {
   it('should draw the correct number of lines', () => {
     const linesConfig = Vic.lines<QdQnCDatum>({
       data: dateData,
@@ -139,7 +139,7 @@ describe('it creates the correct lines - x axis values are Dates', () => {
         ]);
       });
   });
-  it('handles the case when a user inputs data with null values for y axis', () => {
+  it('draws line but omits value when a user inputs data with a null value for y axis', () => {
     const testData = cloneDeep(dateData);
     testData[2].population = null;
     const markersCounts = testData.reduce((acc, d) => {
@@ -177,7 +177,7 @@ describe('it creates the correct lines - x axis values are Dates', () => {
       });
   });
   // Example situation for the below: the API returns data and we think everything is a number but...it's not
-  it('handles the case when a user inputs data with y axis value of the wrong type', () => {
+  it('draws line but omits value when a user inputs data with y axis value of the wrong type', () => {
     const testData = cloneDeep(dateData);
     testData[2].population = 'hello';
     const markersCounts = testData.reduce((acc, d) => {
@@ -215,7 +215,7 @@ describe('it creates the correct lines - x axis values are Dates', () => {
       });
   });
   // Example situation for the below: the API returns data and we think everything is a number but...it's not
-  it('handles the case when a user inputs data with x axis value of the wrong type', () => {
+  it('draws line but omits value when a user inputs data with x axis value of the wrong type', () => {
     const testData = cloneDeep(dateData);
     testData[6].year = 'hello';
     const markersCounts = testData.reduce((acc, d) => {
@@ -278,6 +278,82 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
         expect(categories).to.have.members([
           ...new Set(numericData.map((d) => d.continent)),
         ]);
+      });
+  });
+});
+
+// ***********************************************************
+// Tests of domains
+// ***********************************************************
+describe('if the user specifies a y domain that is smaller than max value', () => {
+  it('should draw the lines with the correct y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
+    const linesConfig = Vic.lines<QdQnCDatum>({
+      data: dateData,
+      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
+        valueAccessor: (d) => d.year,
+      }),
+      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
+        valueAccessor: (d) => d.population,
+        domain: [0, 4900000000],
+      }),
+      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+    });
+    mountDateLinesComponent(linesConfig);
+    const categories = [];
+    cy.get('.vic-line')
+      .each(($lines) => {
+        categories.push($lines.attr('category'));
+      })
+      .then(() => {
+        expect(categories).to.have.members([
+          ...new Set(dateData.map((d) => d.continent)),
+        ]);
+      });
+    cy.get('.vic-y')
+      .find('.tick text')
+      .each(($tick) => {
+        const tickValue = parseInt($tick.text());
+        expect(tickValue).to.be.gte(0);
+        expect(tickValue).to.be.lte(4900000000);
+      });
+  });
+});
+
+describe('if the user specifies an x domain that is smaller than max value', () => {
+  it('should draw the lines with the correct y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
+    const linesConfig = Vic.lines<QnQnCDatum>({
+      data: numericData,
+      x: Vic.dimensionQuantitativeNumeric<QnQnCDatum>({
+        valueAccessor: (d) => d.year,
+        domain: [2020, 2080],
+        includeZeroInDomain: false,
+      }),
+      y: Vic.dimensionQuantitativeNumeric<QnQnCDatum>({
+        valueAccessor: (d) => d.population,
+      }),
+      categorical: Vic.dimensionCategorical<QnQnCDatum, string>({
+        valueAccessor: (d) => d.continent,
+      }),
+    });
+    mountNumberLinesComponent(linesConfig);
+    const categories = [];
+    cy.get('.vic-line')
+      .each(($lines) => {
+        categories.push($lines.attr('category'));
+      })
+      .then(() => {
+        expect(categories).to.have.members([
+          ...new Set(dateData.map((d) => d.continent)),
+        ]);
+      });
+    cy.get('.vic-x')
+      .find('.tick text')
+      .each(($tick) => {
+        const tickValue = parseInt($tick.text());
+        expect(tickValue).to.be.gte(2020);
+        expect(tickValue).to.be.lte(2080);
       });
   });
 });

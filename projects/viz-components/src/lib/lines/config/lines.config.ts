@@ -18,7 +18,7 @@ const DEFAULT = {
   },
 };
 
-interface Marker {
+export interface LinesMarkerDatum {
   key: string;
   index: number;
   category: string;
@@ -127,13 +127,13 @@ export class VicLinesConfig<Datum>
   }
 
   private setValueIndicies(): void {
-    this.valueIndicies = range(this.x.values.length).filter((i) =>
+    this.valueIndices = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
   }
 
   private setLinesD3Data(): void {
-    const definedIndices = this.valueIndicies.filter(
+    const definedIndices = this.valueIndices.filter(
       (i) =>
         this.x.isValidValue(this.x.values[i]) &&
         this.y.isValidValue(this.y.values[i])
@@ -146,7 +146,7 @@ export class VicLinesConfig<Datum>
   }
 
   private setMarkersD3Data(): void {
-    this.markersD3Data = this.valueIndicies
+    this.markersD3Data = this.valueIndices
       .map((i) => {
         return {
           key: this.getMarkerKey(i),
@@ -155,10 +155,20 @@ export class VicLinesConfig<Datum>
         };
       })
       .filter(
-        (marker: Marker) =>
+        (marker: LinesMarkerDatum) =>
           this.x.isValidValue(this.x.values[marker.index]) &&
           this.y.isValidValue(this.y.values[marker.index])
       );
+  }
+
+  getMarkersData(indices: number[]): LinesMarkerDatum[] {
+    return indices.map((i) => {
+      return {
+        key: this.getMarkerKey(i),
+        index: i,
+        category: this.categorical.values[i],
+      };
+    });
   }
 
   private getMarkerKey(i: number): string {
@@ -166,6 +176,6 @@ export class VicLinesConfig<Datum>
   }
 
   private setMarkersKeyFunction(): void {
-    this.markersKeyFunction = (d) => (d as Marker).key;
+    this.markersKeyFunction = (d) => (d as LinesMarkerDatum).key;
   }
 }

@@ -95,7 +95,7 @@ describe('BarsConfig', () => {
       config = getNewConfig();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4]);
+      expect(config.valueIndices).toEqual([0, 1, 2, 3, 4]);
     });
     it('sets valueIndicies to the correct array when ordinal domain is limited by user', () => {
       config = Vic.barsHorizontal({
@@ -111,7 +111,7 @@ describe('BarsConfig', () => {
       });
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 2, 3]);
+      expect(config.valueIndices).toEqual([0, 2, 3]);
     });
   });
 
