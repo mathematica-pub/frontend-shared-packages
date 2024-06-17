@@ -18,8 +18,8 @@ import {
   VicDataMarksOptions,
 } from '../../data-marks/data-marks.config';
 import { VicGeographiesFeature } from '../geographies-feature';
-import { VicGeographiesDataLayer } from './dimensions/data-layer';
-import { VicGeographiesNoDataLayer } from './dimensions/no-data-layer';
+import { VicGeographiesDataLayer } from './layers/data-layer';
+import { VicGeographiesNoDataLayer } from './layers/no-data-layer';
 
 export class MapDataValues {
   attributeValuesByGeographyIndex: InternMap;

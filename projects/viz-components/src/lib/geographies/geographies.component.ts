@@ -16,10 +16,10 @@ import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { PatternUtilities } from '../shared/pattern-utilities';
-import { VicGeographiesDataLayer } from './config/dimensions/data-layer';
-import { VicGeographiesNoDataLayer } from './config/dimensions/no-data-layer';
 import { VicGeographiesLabels } from './config/geographies-labels';
 import { VicGeographiesConfig } from './config/geographies.config';
+import { VicGeographiesDataLayer } from './config/layers/data-layer';
+import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
 import { VicGeographiesFeature } from './geographies-feature';
 
 function isAttributeDataConfig<

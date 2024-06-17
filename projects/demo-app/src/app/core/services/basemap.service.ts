@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-layer';
+import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/layers/no-data-layer';
 import { Vic } from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';

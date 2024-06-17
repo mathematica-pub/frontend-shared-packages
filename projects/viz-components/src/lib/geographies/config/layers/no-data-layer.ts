@@ -3,9 +3,9 @@ import { VicDimensionCategorical } from '../../../data-dimensions/categorical/ca
 import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographiesLabels } from '../geographies-labels';
 import {
-  VicBaseDataGeographyConfig,
-  VicBaseDataGeographyOptions,
-} from './base-data-geographies';
+  VicGeographiesLayer,
+  VicGeographiesLayerOptions,
+} from './geographies-layer';
 
 const DEFAULT = {
   strokeColor: 'dimgray',
@@ -17,7 +17,7 @@ export interface VicGeographiesNoDataLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
   TCategoricalValue extends string = string
-> extends VicBaseDataGeographyOptions<TProperties, TGeometry> {
+> extends VicGeographiesLayerOptions<TProperties, TGeometry> {
   categorical: VicDimensionCategorical<
     VicGeographiesFeature<TProperties, TGeometry>,
     TCategoricalValue
@@ -34,7 +34,7 @@ export class VicGeographiesNoDataLayer<
     TGeometry extends Geometry = MultiPolygon | Polygon,
     TCategoricalValue extends string = string
   >
-  extends VicBaseDataGeographyConfig<
+  extends VicGeographiesLayer<
     VicGeographiesFeature<TProperties, TGeometry>,
     TProperties,
     TGeometry

@@ -61,10 +61,6 @@ import {
   VicCustomBreaksAttributeDataDimensionOptions,
 } from '../geographies/config/dimensions/custom-breaks-bins';
 import {
-  VicGeographiesDataLayer,
-  VicGeographiesDataLayerOptions,
-} from '../geographies/config/dimensions/data-layer';
-import {
   VicEqualNumObservationsAttributeDataDimension,
   VicEqualNumObservationsAttributeDataDimensionOptions,
 } from '../geographies/config/dimensions/equal-num-observations-bins';
@@ -74,10 +70,6 @@ import {
 } from '../geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
 import {
-  VicGeographiesNoDataLayer,
-  VicGeographiesNoDataLayerOptions,
-} from '../geographies/config/dimensions/no-data-layer';
-import {
   VicGeographiesLabels,
   VicGeographiesLabelsOptions,
 } from '../geographies/config/geographies-labels';
@@ -85,6 +77,14 @@ import {
   VicGeographiesConfig,
   VicGeographiesOptions,
 } from '../geographies/config/geographies.config';
+import {
+  VicGeographiesDataLayer,
+  VicGeographiesDataLayerOptions,
+} from '../geographies/config/layers/data-layer';
+import {
+  VicGeographiesNoDataLayer,
+  VicGeographiesNoDataLayerOptions,
+} from '../geographies/config/layers/no-data-layer';
 import {
   VicGroupedBarsConfig,
   VicGroupedBarsOptions,
