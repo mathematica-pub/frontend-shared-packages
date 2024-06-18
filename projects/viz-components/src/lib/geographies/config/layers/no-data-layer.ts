@@ -1,11 +1,8 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicDimensionCategorical } from '../../../data-dimensions/categorical/categorical';
 import { VicGeographiesFeature } from '../../geographies-feature';
-import { VicGeographiesLabels } from '../geographies-labels';
-import {
-  VicGeographiesLayer,
-  VicGeographiesLayerOptions,
-} from './geographies-layer';
+import { VicGeographiesLabels } from './geographies-labels';
+import { GeographiesLayer, GeographiesLayerOptions } from './geographies-layer';
 
 const DEFAULT = {
   strokeColor: 'dimgray',
@@ -17,7 +14,7 @@ export interface VicGeographiesNoDataLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
   TCategoricalValue extends string = string
-> extends VicGeographiesLayerOptions<TProperties, TGeometry> {
+> extends GeographiesLayerOptions<TProperties, TGeometry> {
   categorical: VicDimensionCategorical<
     VicGeographiesFeature<TProperties, TGeometry>,
     TCategoricalValue
@@ -34,7 +31,7 @@ export class VicGeographiesNoDataLayer<
     TGeometry extends Geometry = MultiPolygon | Polygon,
     TCategoricalValue extends string = string
   >
-  extends VicGeographiesLayer<
+  extends GeographiesLayer<
     VicGeographiesFeature<TProperties, TGeometry>,
     TProperties,
     TGeometry

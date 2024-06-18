@@ -4,11 +4,8 @@ import { VicCustomBreaksAttributeDataDimension } from '../dimensions/custom-brea
 import { VicEqualNumObservationsAttributeDataDimension } from '../dimensions/equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimension } from '../dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../dimensions/no-bins';
-import { VicGeographiesLabels } from '../geographies-labels';
-import {
-  VicGeographiesLayer,
-  VicGeographiesLayerOptions,
-} from './geographies-layer';
+import { VicGeographiesLabels } from './geographies-labels';
+import { GeographiesLayer, GeographiesLayerOptions } from './geographies-layer';
 
 const DEFAULT = {
   attributeData: new VicEqualValuesAttributeDataDimension(),
@@ -26,7 +23,7 @@ export interface VicGeographiesDataLayerOptions<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicGeographiesLayerOptions<TProperties, TGeometry> {
+> extends GeographiesLayerOptions<TProperties, TGeometry> {
   attributeData:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
@@ -46,7 +43,7 @@ export class VicGeographiesDataLayer<
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
-  extends VicGeographiesLayer<Datum, TProperties, TGeometry>
+  extends GeographiesLayer<Datum, TProperties, TGeometry>
   implements VicGeographiesDataLayerOptions<Datum, TProperties, TGeometry>
 {
   readonly attributeData:

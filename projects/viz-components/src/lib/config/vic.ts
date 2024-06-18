@@ -70,10 +70,6 @@ import {
 } from '../geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
 import {
-  VicGeographiesLabels,
-  VicGeographiesLabelsOptions,
-} from '../geographies/config/geographies-labels';
-import {
   VicGeographiesConfig,
   VicGeographiesOptions,
 } from '../geographies/config/geographies.config';
@@ -81,6 +77,10 @@ import {
   VicGeographiesDataLayer,
   VicGeographiesDataLayerOptions,
 } from '../geographies/config/layers/data-layer';
+import {
+  VicGeographiesLabels,
+  VicGeographiesLabelsOptions,
+} from '../geographies/config/layers/geographies-labels';
 import {
   VicGeographiesNoDataLayer,
   VicGeographiesNoDataLayerOptions,

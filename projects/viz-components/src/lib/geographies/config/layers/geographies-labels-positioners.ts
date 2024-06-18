@@ -1,8 +1,8 @@
 import { GeoPath, GeoProjection, maxIndex, polygonArea } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import polylabel from 'polylabel';
-import { VicPosition } from '../../core/types/layout';
-import { VicGeographiesFeature } from '../geographies-feature';
+import { VicPosition } from '../../../core/types/layout';
+import { VicGeographiesFeature } from '../../geographies-feature';
 
 export class VicGeographiesLabelsPositioners {
   static positionAtCentroid<TProperties, TGeometry extends Geometry>(

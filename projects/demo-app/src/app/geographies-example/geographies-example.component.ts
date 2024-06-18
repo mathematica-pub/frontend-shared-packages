@@ -11,10 +11,7 @@ import { VicCustomBreaksAttributeDataDimension } from 'projects/viz-components/s
 import { VicEqualNumObservationsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-bins';
-import { VicGeographiesLabels } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
-import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
-import { VicGeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies.config';
-import { VicGeographiesDataLayer } from 'projects/viz-components/src/lib/geographies/config/layers/data-layer';
+import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/layers/geographies-labels-positioners';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
@@ -28,6 +25,9 @@ import {
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
 import {
   Vic,
+  VicGeographiesConfig,
+  VicGeographiesDataLayer,
+  VicGeographiesLabels,
   VicGeographiesNoDataLayer,
 } from 'projects/viz-components/src/public-api';
 import {

@@ -1,13 +1,13 @@
 import { Geometry } from 'geojson';
 import { VicGeographiesFeature } from '../../geographies-feature';
-import { VicGeographiesLabels } from '../geographies-labels';
+import { VicGeographiesLabels } from './geographies-labels';
 
 /**
  * Base configuration object for geographies that can be used with or without attribute data.
  *
  * The generic parameters are the same as those in VicGeographiesConfig.
  */
-export interface VicGeographiesLayerOptions<
+export interface GeographiesLayerOptions<
   TProperties,
   TGeometry extends Geometry
 > {
@@ -31,8 +31,8 @@ export interface VicGeographiesLayerOptions<
   strokeWidth: string;
 }
 
-export class VicGeographiesLayer<Datum, TProperties, TGeometry extends Geometry>
-  implements VicGeographiesLayerOptions<TProperties, TGeometry>
+export class GeographiesLayer<Datum, TProperties, TGeometry extends Geometry>
+  implements GeographiesLayerOptions<TProperties, TGeometry>
 {
   hasAttributeData: boolean;
   geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
