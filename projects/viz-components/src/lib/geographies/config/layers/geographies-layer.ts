@@ -1,5 +1,7 @@
+import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
 import { VicGeographiesFeature } from '../../geographies-feature';
+import { VicGeographiesTooltipOutput } from '../../geographies-tooltip-data';
 import { VicGeographiesLabels } from './geographies-labels';
 
 /**
@@ -16,6 +18,10 @@ export interface GeographiesLayerOptions<
    */
   class: string;
   /**
+   * Whether the layer can use viz-components pointer effects. If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
+   */
+  enableEffects: boolean;
+  /**
    * GeoJSON features that define the geographies to be drawn.
    */
   geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
@@ -31,13 +37,41 @@ export interface GeographiesLayerOptions<
   strokeWidth: string;
 }
 
-export class GeographiesLayer<Datum, TProperties, TGeometry extends Geometry>
-  implements GeographiesLayerOptions<TProperties, TGeometry>
+export abstract class GeographiesLayer<
+  Datum,
+  TProperties,
+  TGeometry extends Geometry
+> implements GeographiesLayerOptions<TProperties, TGeometry>
 {
-  hasAttributeData: boolean;
+  enableEffects: boolean;
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
   geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
   labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
   class: string;
   strokeColor: string;
   strokeWidth: string;
+
+  setFeatureIndexAccessor(
+    accessor: (d: VicGeographiesFeature<TProperties, TGeometry>) => string
+  ): void {
+    this.featureIndexAccessor = accessor;
+  }
+
+  abstract getFill(
+    feature: VicGeographiesFeature<TProperties, TGeometry>
+  ): string;
+
+  abstract getLabelColor(
+    feature: VicGeographiesFeature<TProperties, TGeometry>
+  ): CSSType.Property.Fill;
+
+  abstract getLabelFontWeight(
+    feature: VicGeographiesFeature<TProperties, TGeometry>
+  ): CSSType.Property.FontWeight;
+
+  abstract getTooltipData(
+    path: SVGPathElement
+  ): VicGeographiesTooltipOutput<Datum | undefined>;
 }

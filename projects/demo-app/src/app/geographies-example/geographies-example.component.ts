@@ -52,6 +52,20 @@ type AttributeData =
   | VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>
   | VicCustomBreaksAttributeDataDimension<StateIncomeDatum>;
 
+const polylabelStates = ['CA', 'ID', 'MN', 'LA', 'MI', 'KY', 'FL', 'VA', 'NY'];
+const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
+const smallSquareStates = [
+  'CT',
+  'DE',
+  'DC',
+  'MD',
+  'MA',
+  'NH',
+  'NJ',
+  'RI',
+  'VT',
+];
+
 @Component({
   selector: 'app-geographies-example',
   templateUrl: './geographies-example.component.html',
@@ -162,6 +176,9 @@ export class GeographiesExampleComponent implements OnInit {
       }),
       labels: Vic.geographiesLabels({
         valueAccessor: (d) => d.properties.id,
+        display: (featureIndex) =>
+          !unlabelledTerritories.includes(featureIndex) &&
+          !smallSquareStates.includes(featureIndex),
         color: () => 'magenta',
         fontWeight: () => 700,
       }),
@@ -219,7 +236,7 @@ export class GeographiesExampleComponent implements OnInit {
   }) {
     return Vic.geographiesDataDimensionNoBins<StateIncomeDatum>({
       valueAccessor: (d) => d.income,
-      valueFormat: `$${valueFormat.integer}`,
+      formatSpecifier: `$${valueFormat.integer}`,
       range: [colors.white, colors.highlight.default],
       geoAccessor: properties.geoAccessor,
       fillPatterns: properties.fillPatterns,
@@ -247,7 +264,7 @@ export class GeographiesExampleComponent implements OnInit {
     const config =
       Vic.geographiesDataDimensionEqualValueRanges<StateIncomeDatum>({
         valueAccessor: (d) => d.income,
-        valueFormat: `$${valueFormat.integer}`,
+        formatSpecifier: `$${valueFormat.integer}`,
         numBins: 6,
         range: [colors.white, colors.highlight.default],
         geoAccessor: properties.geoAccessor,
@@ -263,7 +280,7 @@ export class GeographiesExampleComponent implements OnInit {
     const config =
       Vic.geographiesDataDimensionEqualNumObservations<StateIncomeDatum>({
         valueAccessor: (d) => d.income,
-        valueFormat: `$${valueFormat.integer}`,
+        formatSpecifier: `$${valueFormat.integer}`,
         numBins: 6,
         range: [colors.white, colors.highlight.default],
         geoAccessor: properties.geoAccessor,
@@ -278,7 +295,7 @@ export class GeographiesExampleComponent implements OnInit {
   }) {
     const config = Vic.geographiesDataDimensionCustomBreaks<StateIncomeDatum>({
       valueAccessor: (d) => d.income,
-      valueFormat: `$${valueFormat.integer}`,
+      formatSpecifier: `$${valueFormat.integer}`,
       breakValues: [45000, 55000, 65000, 75000, 100000],
       range: [colors.white, colors.highlight.default],
       geoAccessor: properties.geoAccessor,
@@ -291,29 +308,6 @@ export class GeographiesExampleComponent implements OnInit {
     StateIncomeDatum,
     MapGeometryProperties
   > {
-    const polylabelStates = [
-      'CA',
-      'ID',
-      'MN',
-      'LA',
-      'MI',
-      'KY',
-      'FL',
-      'VA',
-      'NY',
-    ];
-    const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
-    const smallSquareStates = [
-      'CT',
-      'DE',
-      'DC',
-      'MD',
-      'MA',
-      'NH',
-      'NJ',
-      'RI',
-      'VT',
-    ];
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     const valueAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>

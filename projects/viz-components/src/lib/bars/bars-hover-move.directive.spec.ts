@@ -47,17 +47,24 @@ describe('BarsHoverMoveDirective', () => {
   describe('elementPointerEnter', () => {
     let event;
     let el;
+    let datum;
     beforeEach(() => {
       el = document.createElement('div');
       el.id = 'bar-4';
+      datum = {
+        index: 5,
+        categorical: 'categorical',
+        quantitative: 2,
+        ordinal: 'ordinal',
+      };
       event = {
         target: el,
       };
-      spyOn(directive, 'getBarIndex').and.returnValue(4);
+      spyOn(directive, 'getBarDatum').and.returnValue(datum);
     });
-    it('sets barIndex to the correct value', () => {
+    it('sets barDatum to the correct value', () => {
       directive.onElementPointerEnter(event);
-      expect(directive.barIndex).toEqual(4);
+      expect(directive.barDatum).toEqual(datum);
     });
     it('sets elRef to the correct value', () => {
       directive.onElementPointerEnter(event);
@@ -150,10 +157,15 @@ describe('BarsHoverMoveDirective', () => {
       expect(removeASpy).not.toHaveBeenCalled();
       expect(removeBSpy).not.toHaveBeenCalled();
     });
-    it('sets barIndex to undefined', () => {
-      directive.barIndex = 1;
+    it('sets barDatum to undefined', () => {
+      directive.barDatum = {
+        index: 1,
+        categorical: 'categorical',
+        quantitative: 2,
+        ordinal: 'ordinal',
+      };
       directive.onElementPointerLeave();
-      expect(directive.barIndex).toBeUndefined();
+      expect(directive.barDatum).toBeUndefined();
     });
     it('sets elRef to undefined', () => {
       directive.elRef = 'elRef' as any;

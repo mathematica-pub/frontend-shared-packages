@@ -1,11 +1,22 @@
 import { extent, interpolateLab, scaleLinear } from 'd3';
-import { AttributeDataDimension } from './attribute-data';
+import {
+  AttributeDataDimension,
+  VicAttributeDataDimensionOptions,
+} from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
 
 const DEFAULT = {
   interpolator: interpolateLab,
   scale: scaleLinear,
 };
+
+export interface VicNoBinsAttributeDataDimensionOptions<Datum>
+  extends VicAttributeDataDimensionOptions<Datum, number> {
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
+}
 
 /**
  * Configuration object for attribute data that is quantitative.
@@ -17,6 +28,10 @@ export class VicNoBinsAttributeDataDimension<
 > extends AttributeDataDimension<Datum, number> {
   readonly binType: VicValuesBin.none;
   domain: [number, number];
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   readonly valueAccessor: (d: Datum, ...args: any) => number;
 

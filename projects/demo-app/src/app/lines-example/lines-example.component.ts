@@ -129,7 +129,7 @@ export class LinesExampleComponent implements OnInit {
       data,
       x: Vic.dimensionQuantitativeDate<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.date,
-        valueFormat: '%a %B %d %Y',
+        formatSpecifier: '%a %B %d %Y',
       }),
       y: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,

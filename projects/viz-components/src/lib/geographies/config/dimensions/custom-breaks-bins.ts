@@ -1,9 +1,7 @@
 import { interpolateLab, range, scaleLinear, scaleThreshold } from 'd3';
-import {
-  AttributeDataDimension,
-  VicAttributeDataDimensionOptions,
-} from './attribute-data';
+import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
+import { CalculatedRangeBinsAttributeDataDimensionOptions } from './calculated-bins';
 
 const DEFAULT = {
   interpolator: interpolateLab,
@@ -13,8 +11,12 @@ const DEFAULT = {
 export interface VicCustomBreaksAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
-> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+> extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
   breakValues: number[];
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
 }
 
 /**
@@ -35,6 +37,7 @@ export class VicCustomBreaksAttributeDataDimension<
   readonly breakValues: number[];
   private calculatedNumBins: number;
   private domain: number[];
+  readonly formatSpecifier: string;
   readonly valueAccessor: (d: Datum) => number;
 
   constructor(

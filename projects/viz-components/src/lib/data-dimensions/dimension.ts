@@ -1,6 +1,5 @@
 import { map } from 'd3';
 import { VicDataValue } from '../core/types/values';
-import { VicFormatSpecifier } from '../core/utilities/value-format';
 
 export interface VicDataDimensionOptions<
   Datum,
@@ -11,9 +10,9 @@ export interface VicDataDimensionOptions<
    */
   valueAccessor: (d: Datum) => TDataValue;
   /**
-   * A formatter (function or string) for the values of this dimension.
+   * A function that will be applied to the value of this dimension for display purposes. If provided, this function will be used instead of the format specifier (available only for quantitative dimensions)
    */
-  valueFormat: VicFormatSpecifier<Datum>;
+  formatFunction: (d: Datum) => string;
 }
 
 export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
@@ -21,7 +20,7 @@ export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
 {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract readonly valueAccessor: (d: Datum) => TDataValue;
-  readonly valueFormat: VicFormatSpecifier<Datum>;
+  readonly formatFunction: (d: Datum) => string;
   /**
    * An array of values for this dimension, extracted from the data using the value accessor.
    * @see {@link valueAccessor}

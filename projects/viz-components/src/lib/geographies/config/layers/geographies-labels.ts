@@ -104,7 +104,6 @@ export class VicGeographiesLabels<
         TProperties,
         TGeometry
       >(d, path);
-    Object.assign(this, DEFAULT);
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
   }
 }
