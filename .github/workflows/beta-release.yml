@@ -3,7 +3,7 @@ name: Beta Release Workflow
 on:
   push:
     branches:
-      - 'beta-release-*'
+      - '*beta-release*'
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
