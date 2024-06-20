@@ -4,7 +4,6 @@ import { Vic } from '../../../config/vic';
 import { VicGeographiesDataLayer } from './data-layer';
 
 type Datum = { value: number; state: string };
-type FeatureProperties = { name: string };
 const data = [
   { value: 1, state: 'AL' },
   { value: 2, state: 'AK' },
@@ -12,13 +11,6 @@ const data = [
   { value: 4, state: 'CA' },
   { value: 5, state: 'CO' },
   { value: 6, state: 'CO' },
-];
-const features = [
-  { name: 'Alabama' },
-  { name: 'Alaska' },
-  { name: 'Arizona' },
-  { name: 'California' },
-  { name: 'Colorado' },
 ];
 function createLayer(): VicGeographiesDataLayer<Datum, { name: string }, any> {
   return Vic.geographiesDataLayer<Datum, { name: string }, any>({
