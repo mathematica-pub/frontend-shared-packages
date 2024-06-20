@@ -23,11 +23,14 @@ export interface VicCategoricalAttributeDataDimensionOptions<
  * The generic parameter is the type of the attribute data.
  */
 export class VicCategoricalAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string
-> extends AttributeDataDimension<Datum, string> {
+    Datum,
+    RangeValue extends string | number = string
+  >
+  extends AttributeDataDimension<Datum, string>
+  implements VicCategoricalAttributeDataDimensionOptions<Datum, string>
+{
   readonly binType: VicValuesBin.categorical;
-  private calculatedDomain: string[];
+  calculatedDomain: string[];
   readonly domain: string[];
   override interpolator: never;
   readonly valueAccessor: (d: Datum) => string;
@@ -42,6 +45,10 @@ export class VicCategoricalAttributeDataDimension<
     this.range = DEFAULT.range;
     this.scale = DEFAULT.scale;
     Object.assign(this, options);
+  }
+
+  getDomain(): string[] {
+    return this.calculatedDomain;
   }
 
   setPropertiesFromData(data: Datum[]): void {

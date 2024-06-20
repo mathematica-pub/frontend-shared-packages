@@ -26,7 +26,7 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegendContent<
 > {
   getValuesFromScale(): string[] | number[] {
     if (this.config.binType === VicValuesBin.categorical) {
-      return this.config.domain;
+      return this.config.getDomain();
     } else {
       return this.getQuantitativeValuesFromScale();
     }

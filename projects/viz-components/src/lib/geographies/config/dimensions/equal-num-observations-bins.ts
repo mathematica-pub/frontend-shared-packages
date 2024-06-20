@@ -1,7 +1,9 @@
 import { interpolateLab, scaleQuantile } from 'd3';
-import { VicAttributeDataDimensionOptions } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
-import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
+import {
+  CalculatedRangeBinsAttributeDataDimension,
+  CalculatedRangeBinsAttributeDataDimensionOptions,
+} from './calculated-bins';
 
 const DEFAULT = {
   interpolator: interpolateLab,
@@ -12,7 +14,11 @@ const DEFAULT = {
 export interface VicEqualNumObservationsAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
-> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+> extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
   numBins: number;
 }
 

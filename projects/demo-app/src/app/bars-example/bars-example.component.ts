@@ -107,7 +107,7 @@ export class BarsExampleComponent implements OnInit {
       data: filteredData,
       quantitative: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
         valueAccessor: (d) => d.value,
-        valueFormat: (d) => this.getQuantitativeValueFormat(d),
+        formatFunction: (d) => this.getQuantitativeValueFormat(d),
         domainPadding: Vic.domainPaddingPixel(),
       }),
       categorical: Vic.dimensionCategorical<MetroUnemploymentDatum, string>({

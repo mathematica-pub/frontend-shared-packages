@@ -45,14 +45,24 @@ export function getStackedAreaTooltipData<
     );
     return {
       datum: originalDatum,
-      x: ValueUtilities.formatValue(
-        stackedArea.config.x.valueAccessor(originalDatum),
-        stackedArea.config.x.valueFormat
-      ),
-      y: ValueUtilities.formatValue(
-        stackedArea.config.y.valueAccessor(originalDatum),
-        stackedArea.config.y.valueFormat
-      ),
+      x: stackedArea.config.x.formatFunction
+        ? ValueUtilities.customFormat(
+            originalDatum,
+            stackedArea.config.x.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            stackedArea.config.x.valueAccessor(originalDatum),
+            stackedArea.config.x.formatSpecifier
+          ),
+      y: stackedArea.config.y.formatFunction
+        ? ValueUtilities.customFormat(
+            originalDatum,
+            stackedArea.config.y.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            stackedArea.config.y.valueAccessor(originalDatum),
+            stackedArea.config.y.formatSpecifier
+          ),
       category: stackedArea.config.categorical.valueAccessor(originalDatum),
       color: stackedArea.scales.categorical(
         stackedArea.config.categorical.valueAccessor(originalDatum)

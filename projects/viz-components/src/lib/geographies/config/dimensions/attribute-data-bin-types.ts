@@ -15,6 +15,8 @@ export enum VicValuesBin {
   customBreaks = 'customBreaks',
 }
 
+export type VicNumberValuesBin = Omit<VicValuesBin, VicValuesBin.categorical>;
+
 export type VicAttributeDataDimensionConfig<Datum> =
   | VicCategoricalAttributeDataDimension<Datum>
   | VicNoBinsAttributeDataDimension<Datum>

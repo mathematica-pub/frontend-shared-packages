@@ -9,6 +9,10 @@ const DEFAULT = {
 export interface VicDimensionQuantitativeDateOptions<Datum>
   extends VicDataDimensionOptions<Datum, Date> {
   domain: [Date, Date];
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  readonly formatSpecifier: string;
   scaleFn: (
     domain?: Iterable<Date>,
     range?: Iterable<number>
@@ -21,6 +25,7 @@ export class VicDimensionQuantitativeDate<Datum>
 {
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
+  readonly formatSpecifier: string;
   scaleFn: (
     domain?: Iterable<Date>,
     range?: Iterable<number>

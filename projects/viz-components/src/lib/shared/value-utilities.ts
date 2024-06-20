@@ -2,7 +2,8 @@ import { format, timeFormat } from 'd3';
 
 import { VicValueExtent } from '../core/types/values';
 import { isDate } from '../core/utilities/type-guards';
-import { VicFormatSpecifier } from '../core/utilities/value-format';
+
+export type VicFormatSpecifier<Datum> = string | ((x: Datum) => string);
 
 /**
  * @internal
@@ -169,21 +170,18 @@ export class ValueUtilities {
     return round(value / interval) * interval;
   }
 
-  static formatValue<T>(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    value: any,
-    formatSpecifier: VicFormatSpecifier<T>
+  static d3Format(value: Date | number, formatter: string): string {
+    return formatter
+      ? isDate(value)
+        ? timeFormat(formatter)(value)
+        : format(formatter)(value)
+      : value.toString();
+  }
+
+  static customFormat<Datum>(
+    value: Datum,
+    formatter: (x: Datum) => string
   ): string {
-    if (formatSpecifier && typeof formatSpecifier === 'function') {
-      return formatSpecifier(value);
-    } else if (value === null || value === undefined) {
-      return '';
-    } else if (formatSpecifier && typeof formatSpecifier === 'string') {
-      return isDate(value)
-        ? timeFormat(formatSpecifier)(value)
-        : format(formatSpecifier)(value);
-    } else {
-      return value.toString();
-    }
+    return formatter ? formatter(value) : value.toString();
   }
 }

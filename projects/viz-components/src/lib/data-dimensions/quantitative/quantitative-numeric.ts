@@ -17,6 +17,10 @@ export interface VicDimensionQuantitativeNumericOptions<Datum>
    */
   domain: [number, number];
   /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
+  /**
    * A user-configurable boolean that indicates whether the domain of the dimension's scale should include zero.
    */
   includeZeroInDomain: boolean;
@@ -41,6 +45,7 @@ export class VicDimensionQuantitativeNumeric<Datum>
   readonly domain: [number, number];
   domainIncludesZero: boolean;
   readonly domainPadding?: VicDomainPaddingConfig;
+  readonly formatSpecifier: string;
   readonly includeZeroInDomain: boolean;
   readonly scaleFn: (
     domain?: Iterable<number>,

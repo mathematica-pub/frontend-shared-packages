@@ -17,7 +17,7 @@ export class BarsHoverShowLabels<
     directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
   ): void {
     directive.bars.barGroups
-      .filter((d) => d === directive.barIndex)
+      .filter((d) => d === directive.barDatum.index)
       .select('text')
       .style('display', null);
   }
@@ -26,7 +26,7 @@ export class BarsHoverShowLabels<
     directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
   ): void {
     directive.bars.barGroups
-      .filter((d) => d === directive.barIndex)
+      .filter((d) => d === directive.barDatum.index)
       .select('text')
       .style('display', 'none');
   }
