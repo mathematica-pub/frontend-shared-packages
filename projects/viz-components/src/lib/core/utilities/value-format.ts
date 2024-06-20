@@ -1,5 +1,3 @@
-export type VicFormatSpecifier<T> = string | ((x: T) => string);
-
 export interface VicValueFormats {
   integer: string;
   integerNoComma: string;

@@ -33,7 +33,7 @@ describe('BarsConfig', () => {
     config = undefined;
   });
 
-  describe('initPropertiesFromData()', () => {
+  describe('init()', () => {
     beforeEach(() => {
       spyOn(VicBarsConfig.prototype as any, 'setDimensionPropertiesFromData');
       spyOn(VicBarsConfig.prototype as any, 'setValueIndices');

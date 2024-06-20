@@ -5,7 +5,6 @@ import {
   geoAlbersUsa,
   GeoGeometryObjects,
   GeoProjection,
-  InternMap,
 } from 'd3';
 import {
   GeoJsonProperties,
@@ -20,11 +19,6 @@ import {
 import { VicGeographiesFeature } from '../geographies-feature';
 import { VicGeographiesDataLayer } from './layers/data-layer';
 import { VicGeographiesNoDataLayer } from './layers/no-data-layer';
-
-export class MapDataValues {
-  attributeValuesByGeographyIndex: InternMap;
-  datumsByGeographyIndex: InternMap;
-}
 
 const DEFAULT = {
   projection: geoAlbersUsa(),
@@ -91,9 +85,12 @@ export class VicGeographiesConfig<
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
+  layers: (
+    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesNoDataLayer<TProperties, TGeometry>
+  )[];
   readonly noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
   readonly projection: GeoProjection;
-  readonly values: MapDataValues = new MapDataValues();
 
   constructor(
     options: Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>
@@ -105,40 +102,21 @@ export class VicGeographiesConfig<
   }
 
   protected initPropertiesFromData(): void {
-    const uniqueDatums = this.getUniqueDatumsByGeoAccessor();
-    this.dataLayer.attributeData.setPropertiesFromData(uniqueDatums);
+    this.dataLayer.initPropertiesFromData(this.data);
+    this.setLayers();
+    this.setLayerFeatureIndexAccessors();
+  }
+
+  private setLayers(): void {
+    this.layers = [this.dataLayer];
     if (this.noDataLayers) {
-      this.noDataLayers.forEach((config) => {
-        config.categorical.setPropertiesFromData(config.geographies);
-      });
+      this.layers.push(...this.noDataLayers);
     }
-    this.setAttributeData(uniqueDatums);
   }
 
-  private getUniqueDatumsByGeoAccessor(): Datum[] {
-    const uniqueByGeoAccessor = (arr: Datum[], set = new Set()) =>
-      arr.filter(
-        (x) =>
-          !set.has(this.dataLayer.attributeData.geoAccessor(x)) &&
-          set.add(this.dataLayer.attributeData.geoAccessor(x))
-      );
-    return uniqueByGeoAccessor(this.data);
-  }
-
-  private setAttributeData(uniqueDatums: Datum[]): void {
-    this.values.attributeValuesByGeographyIndex = new InternMap(
-      uniqueDatums.map((d) => {
-        const value = this.dataLayer.attributeData.valueAccessor(d);
-        return [
-          this.dataLayer.attributeData.geoAccessor(d),
-          value === null || value === undefined ? NaN : value,
-        ];
-      })
-    );
-    this.values.datumsByGeographyIndex = new InternMap(
-      uniqueDatums.map((d) => {
-        return [this.dataLayer.attributeData.geoAccessor(d), d];
-      })
+  private setLayerFeatureIndexAccessors(): void {
+    this.layers.forEach((layer) =>
+      layer.setFeatureIndexAccessor(this.featureIndexAccessor)
     );
   }
 }

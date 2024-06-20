@@ -7,11 +7,12 @@ import { Feature, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { filter } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
+import { VicGeographiesDataLayer } from './config/layers/data-layer';
+import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
 import { VicGeographiesFeature } from './geographies-feature';
 import {
   VicGeographiesEventOutput,
   VicGeographiesTooltipOutput,
-  getGeographiesTooltipData,
 } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
@@ -43,8 +44,11 @@ export class GeographiesHoverDirective<
   @Output('vicGeographiesHoverOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
-  feature: VicGeographiesFeature<TProperties, TGeometry>;
   bounds: [[number, number], [number, number]];
+  layer:
+    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesNoDataLayer<TProperties, TGeometry>;
+  path: SVGPathElement;
   positionX: number;
   positionY: number;
 
@@ -53,22 +57,28 @@ export class GeographiesHoverDirective<
   }
 
   setListenedElements(): void {
-    this.geographies.dataGeographies$
+    this.geographies.pathsByLayer$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((geoSels) => !!geoSels)
+        takeUntilDestroyed(this.geographies.destroyRef),
+        filter((layers) => !!layers)
       )
-      .subscribe((geoSels) => {
-        this.elements = geoSels.nodes();
+      .subscribe((layers) => {
+        this.elements = layers.flatMap((selections) => selections.nodes());
         this.setListeners();
       });
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    const d = select(
-      event.target as SVGPathElement
-    ).datum() as VicGeographiesFeature<TProperties, TGeometry>;
-    this.feature = d;
+    this.path = event.target as SVGPathElement;
+    const layerIndex = parseFloat(this.path.getAttribute('layer-index'));
+    this.layer =
+      layerIndex === 0
+        ? this.geographies.config.dataLayer
+        : this.geographies.config.noDataLayers[layerIndex - 1];
+    const d = select(this.path).datum() as VicGeographiesFeature<
+      TProperties,
+      TGeometry
+    >;
     this.bounds = this.geographies.path.bounds(d);
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
@@ -81,13 +91,8 @@ export class GeographiesHoverDirective<
     }
   }
 
-  getEventOutput(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >(this.feature, this.geographies);
+  getEventOutput(): VicGeographiesEventOutput<Datum | undefined> {
+    const tooltipData = this.layer.getTooltipData(this.path);
     this.positionX = (this.bounds[1][0] + this.bounds[0][0]) / 2;
     this.positionY = (this.bounds[1][1] + this.bounds[0][1] * 2) / 3;
     return {

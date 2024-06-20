@@ -1,11 +1,25 @@
 import { extent, range, scaleLinear } from 'd3';
-import { AttributeDataDimension } from './attribute-data';
+import {
+  AttributeDataDimension,
+  VicAttributeDataDimensionOptions,
+} from './attribute-data';
+
+export interface CalculatedRangeBinsAttributeDataDimensionOptions<
+  Datum,
+  RangeValue extends string | number = string
+> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+  formatSpecifier: string;
+}
 
 export abstract class CalculatedRangeBinsAttributeDataDimension<
   Datum,
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, number, RangeValue> {
   protected calculatedNumBins: number;
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  readonly formatSpecifier: string;
   readonly valueAccessor: (d: Datum) => number;
 
   protected setRange(): void {

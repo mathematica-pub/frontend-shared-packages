@@ -1,13 +1,8 @@
-import { Geometry } from 'geojson';
-import { ValueUtilities } from '../shared/value-utilities';
-import { VicGeographiesFeature } from './geographies-feature';
-import { GeographiesComponent } from './geographies.component';
-
 export interface VicGeographiesTooltipOutput<Datum> {
-  datum: Datum;
+  datum?: Datum;
   color: string;
   geography: string;
-  attributeValue: string;
+  attributeValue?: string;
 }
 
 export interface VicGeographiesEventOutput<Datum>
@@ -16,30 +11,85 @@ export interface VicGeographiesEventOutput<Datum>
   positionY: number;
 }
 
-export function getGeographiesTooltipData<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry,
-  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
->(
-  geography: VicGeographiesFeature<TProperties, TGeometry>,
-  component: TComponent
-): VicGeographiesTooltipOutput<Datum> {
-  const geographyName = component.config.featureIndexAccessor(geography);
-  const datum =
-    component.config.values.datumsByGeographyIndex.get(geographyName);
-  const value =
-    component.config.values.attributeValuesByGeographyIndex.get(geographyName);
+// export function getGeographiesTooltipData<
+//   Datum,
+//   TProperties,
+//   TGeometry extends Geometry,
+//   TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
+// >(
+//   path: SVGPathElement,
+//   component: TComponent
+// ): VicGeographiesTooltipOutput<Datum> {
+//   const config =
+// //     component.config.noDataLayers[
+// //       parseFloat(path.getAttribute('layer-index')) - 1
+// //     ];
+//   const feature = select(path).datum() as VicGeographiesFeature<
+//     TProperties,
+//     TGeometry
+//   >;
+//   const hasAttributeData = path.getAttribute('has-attribute-data') === 'true';
+//   const featureIndex = component.config.featureIndexAccessor(feature);
+//   return hasAttributeData
+//     ? getTooltipDataForAttributeDataPath(featureIndex, component)
+//     : getTooltipDataForNoAttributeDataPath(
+//         path,
+//         feature,
+//         featureIndex,
+//         component
+//       );
+// }
 
-  const tooltipData: VicGeographiesTooltipOutput<Datum> = {
-    datum,
-    geography: component.config.dataLayer.attributeData.geoAccessor(datum),
-    attributeValue: ValueUtilities.formatValue(
-      value,
-      component.config.dataLayer.attributeData.valueFormat
-    ),
-    color: component.getAttributeFill(geographyName),
-  };
+// function getTooltipDataForAttributeDataPath<
+//   Datum,
+//   TProperties,
+//   TGeometry extends Geometry,
+//   TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
+// >(
+//   featureIndex: string,
+//   component: TComponent
+// ): VicGeographiesTooltipOutput<Datum> {
+//   const datum = component.config.dataLayer.datumsByGeographyIndex.get(featureIndex);
+//   const value =
+//     component.config.attributeValuesByGeographyIndex.get(featureIndex);
 
-  return tooltipData;
-}
+//   const tooltipData: VicGeographiesTooltipOutput<Datum> = {
+//     datum,
+//     geography: component.config.dataLayer.attributeData.geoAccessor(datum),
+//     attributeValue: ValueUtilities.formatValue(
+//       value,
+//       component.config.dataLayer.attributeData.valueFormat
+//     ),
+//     color: component.config.dataLayer.getAttributeFill(
+//       featureIndex,
+//       component.attributeDataScale
+//     ),
+//   };
+
+//   return tooltipData;
+// }
+
+// function getTooltipDataForNoAttributeDataPath<
+//   Datum,
+//   TProperties,
+//   TGeometry extends Geometry,
+//   TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
+// >(
+//   path: SVGPathElement,
+//   feature: VicGeographiesFeature<TProperties, TGeometry>,
+//   featureIndex: string,
+//   component: TComponent
+// ): VicGeographiesTooltipOutput<Datum> {
+//   const config =
+//     component.config.noDataLayers[
+//       parseFloat(path.getAttribute('layer-index')) - 1
+//     ];
+//   const tooltipData: VicGeographiesTooltipOutput<Datum> = {
+//     datum: undefined,
+//     geography: featureIndex,
+//     attributeValue: undefined,
+//     color: config.getFill(feature, component.config.featureIndexAccessor),
+//   };
+
+//   return tooltipData;
+// }

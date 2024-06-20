@@ -1,3 +1,11 @@
+const DEFAULT = {
+  defaultLabelColor: '#000000',
+  display: true,
+  noValueFunction: () => 'N/A',
+  offset: 4,
+  withinBarAlternativeLabelColor: '#ffffff',
+};
+
 export class VicBarsLabels<Datum> {
   /**
    * The default label color is used for a label positioned outside of a bar. Additionally, if its contrast ratio with the bar color is higher than that of the withinBarAlternativeLabelColor, it is used for a label positioned within a bar.
@@ -31,11 +39,6 @@ export class VicBarsLabels<Datum> {
   withinBarAlternativeLabelColor: string;
 
   constructor(options?: Partial<VicBarsLabels<Datum>>) {
-    this.defaultLabelColor = '#000000';
-    this.display = true;
-    this.offset = 4;
-    this.noValueFunction = () => 'N/A';
-    this.withinBarAlternativeLabelColor = '#ffffff';
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
   }
 }
