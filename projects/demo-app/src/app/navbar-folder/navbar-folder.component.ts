@@ -26,6 +26,7 @@ export class NavbarFolderComponent {
       this.selected[key] = !this.selected[key];
     }
   }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   addPartToBaseString(key: any): string {
     return `${this.baseString}/${key}`;

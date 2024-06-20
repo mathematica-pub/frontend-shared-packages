@@ -2,25 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { format } from 'd3';
-import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
-import { BarsHoverMoveDirective } from 'projects/viz-components/src/lib/bars/bars-hover-move.directive';
-import { VicBarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-tooltip-data';
 import {
-  VicBarsConfig,
-  VicBarsLabelsConfig,
-  VicHorizontalBarsDimensionsConfig,
-} from 'projects/viz-components/src/lib/bars/bars.config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
-import {
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import {
+  BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
+  HoverMoveEventEffect,
+  VicAxisConfig,
+  VicBarsConfig,
+  VicBarsEventOutput,
+  VicBarsLabelsConfig,
   VicBarsModule,
   VicChartModule,
+  VicElementSpacing,
+  VicHorizontalBarsDimensionsConfig,
+  VicHtmlTooltipConfig,
   VicHtmlTooltipModule,
+  VicHtmlTooltipOffsetFromOriginPosition,
   VicPixelDomainPaddingConfig,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
