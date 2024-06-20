@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/layers/no-data-layer';
-import { Vic } from 'projects/viz-components/src/public-api';
+import {
+  Vic,
+  VicGeographiesFeature,
+} from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
 import { DataResource } from '../resources/data.resource';
@@ -14,7 +17,10 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicGeographiesNoDataLayer<MapGeometryProperties>;
+  usOutlineConfig: VicGeographiesNoDataLayer<
+    MapGeometryProperties,
+    MultiPolygon | Polygon
+  >;
 
   constructor(private data: DataResource) {}
 
@@ -35,7 +41,7 @@ export class BasemapService {
     this.us = topojson.feature(
       this.map,
       this.map.objects.country
-    ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+    ) as FeatureCollection<MultiPolygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
   }
 
   private setStatesGeoJson(): void {
@@ -50,7 +56,9 @@ export class BasemapService {
       geographies: this.us.features,
       strokeColor: colors.base,
       strokeWidth: '1',
-      categorical: Vic.dimensionCategorical({
+      categorical: Vic.dimensionCategorical<
+        VicGeographiesFeature<MapGeometryProperties, MultiPolygon | Polygon>
+      >({
         valueAccessor: (d) => d.properties.name,
         range: ['none'],
       }),

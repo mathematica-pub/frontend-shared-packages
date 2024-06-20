@@ -48,4 +48,33 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
       expect((dimension as any).calculatedNumBins).toEqual(4);
     });
   });
+
+  describe('integration: the scale generates the expected color for a value with the default scale (D3 scaleThreshold)', () => {
+    type IceCream = { price: number; flavor: string; state: string };
+    let dimension: VicCustomBreaksAttributeDataDimension<IceCream>;
+    const data: IceCream[] = [
+      { price: 7.99, flavor: 'chocolate', state: 'AL' },
+      { price: 5, flavor: 'chocolate', state: 'AK' },
+      { price: 3.98, flavor: 'chocolate', state: 'AR' },
+      { price: 8, flavor: 'vanilla', state: 'AZ' },
+      { price: 11, flavor: 'vanilla', state: 'CA' },
+      { price: 4.99, flavor: 'strawberry', state: 'CO' },
+      { price: 4.5, flavor: 'strawberry', state: 'CT' },
+      { price: 7, flavor: 'strawberry', state: 'DE' },
+    ];
+    it('using custom break values and one color per bin provided as range', () => {
+      dimension = Vic.geographiesDataDimensionCustomBreaks<IceCream>({
+        valueAccessor: (d) => d.price,
+        breakValues: [2.5, 5, 7.5, 10, 12.5],
+        range: ['red', 'blue', 'yellow', 'green'],
+      });
+      dimension.setPropertiesFromData();
+      const scale = dimension.getScale('black');
+      expect(scale(data[0].price)).toEqual('yellow');
+      expect(scale(data[1].price)).toEqual('blue');
+      expect(scale(data[2].price)).toEqual('red');
+      expect(scale(data[3].price)).toEqual('yellow');
+      expect(scale(data[4].price)).toEqual('green');
+    });
+  });
 });

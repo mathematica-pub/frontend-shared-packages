@@ -14,8 +14,7 @@ import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { VicDataValue } from '../core/types/values';
-import { isFunction, isNumber } from '../core/utilities/type-guards';
-import { VicFormatSpecifier } from '../core/utilities/value-format';
+import { isNumber } from '../core/utilities/type-guards';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicColorUtilities } from '../shared/color-utilities';
 import { PatternUtilities } from '../shared/pattern-utilities';
@@ -50,7 +49,7 @@ export type BarLabelSelection = Selection<
 >;
 
 export type BarDatum<T> = {
-  i: number;
+  index: number;
   quantitative: number;
   ordinal: T;
   categorical: string;
@@ -155,7 +154,7 @@ export class BarsComponent<
 
   getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {
     return {
-      i,
+      index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
       categorical: this.config.categorical.values[i],
@@ -184,7 +183,7 @@ export class BarsComponent<
       .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>('text')
       .data<BarDatum<TOrdinalValue>>((i: number) => [
         {
-          i,
+          index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
           categorical: this.config.categorical.values[i],
@@ -327,7 +326,7 @@ export class BarsComponent<
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
     const patterns = this.config.categorical.fillPatterns;
-    return PatternUtilities.getFill(this.config.data[d.i], color, patterns);
+    return PatternUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
@@ -335,19 +334,19 @@ export class BarsComponent<
   }
 
   getBarLabelText(d: BarDatum<TOrdinalValue>): string {
-    const fullDatum = this.config.data[d.i];
+    const datum = this.config.data[d.index];
     if (!isNumber(d.quantitative)) {
-      return this.config.labels.noValueFunction(fullDatum);
+      return this.config.labels.noValueFunction(datum);
     } else {
-      const datumArg = isFunction<VicFormatSpecifier<Datum>, Datum>(
-        this.config.quantitative.valueFormat
-      )
-        ? fullDatum
-        : d.quantitative;
-      return ValueUtilities.formatValue(
-        datumArg,
-        this.config.quantitative.valueFormat
-      );
+      return this.config.quantitative.formatFunction
+        ? ValueUtilities.customFormat(
+            datum,
+            this.config.quantitative.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            d.quantitative,
+            this.config.quantitative.formatSpecifier
+          );
     }
   }
 
@@ -436,7 +435,7 @@ export class BarsComponent<
   getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
     const selection = selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
       '.vic-bar-label'
-    ).filter((datum) => datum.i === d.i);
+    ).filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }
 
@@ -526,11 +525,11 @@ export class BarsComponent<
     const bars = select(this.barsRef.nativeElement).selectAll<
       SVGRectElement,
       number
-    >('rect');
+    >('.vic-bar');
     const barLabels = select(this.barsRef.nativeElement).selectAll<
       SVGTextElement,
       number
-    >('text');
+    >('.vic-bar-label');
     this.bars.next(bars);
     this.barLabels.next(barLabels);
   }

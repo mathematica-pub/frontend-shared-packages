@@ -32,7 +32,6 @@ export interface VicCategoricalDimensionOptions<
    * If a custom valueAccessor function is not provided, this function will not be used (due to default value of `valueAccessor`).
    */
   scale: (category: TCategoricalValue) => string;
-  valueFormat: never;
 }
 
 export class VicDimensionCategorical<

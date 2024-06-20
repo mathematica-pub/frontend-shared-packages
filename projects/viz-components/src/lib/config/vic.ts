@@ -302,17 +302,10 @@ export class Vic {
 
   static geographiesNoDataLayer<
     TProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon,
-    TCategoricalValue extends string = string
+    TGeometry extends Geometry = MultiPolygon | Polygon
   >(
-    options?: Partial<
-      VicGeographiesNoDataLayerOptions<
-        TProperties,
-        TGeometry,
-        TCategoricalValue
-      >
-    >
-  ) {
+    options?: Partial<VicGeographiesNoDataLayerOptions<TProperties, TGeometry>>
+  ): VicGeographiesNoDataLayer<TProperties, TGeometry> {
     return new VicGeographiesNoDataLayer(options);
   }
 
