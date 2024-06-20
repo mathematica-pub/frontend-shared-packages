@@ -6,7 +6,7 @@ export interface VicDataDimensionOptions<
   TDataValue extends VicDataValue
 > {
   /**
-   * A user-provided method that extracts the value for this dimension from a datum.
+   * A user-provided method that extracts the value for this dimension from a datum. If the dimension is continuous (number of Date), a user *must* provide this method.
    */
   valueAccessor: (d: Datum) => TDataValue;
   /**
@@ -18,9 +18,9 @@ export interface VicDataDimensionOptions<
 export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
   implements VicDataDimensionOptions<Datum, TDataValue>
 {
+  readonly formatFunction: (d: Datum) => string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract readonly valueAccessor: (d: Datum) => TDataValue;
-  readonly formatFunction: (d: Datum) => string;
   /**
    * An array of values for this dimension, extracted from the data using the value accessor.
    * @see {@link valueAccessor}
