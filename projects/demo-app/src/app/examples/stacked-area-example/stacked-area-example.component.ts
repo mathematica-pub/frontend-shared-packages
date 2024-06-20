@@ -2,16 +2,23 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
+  HoverMoveEventEffect,
+  StackedAreaHoverMoveDirective,
+  StackedAreaHoverMoveEmitTooltipData,
   VicAxisConfig,
   VicChartModule,
+  VicHtmlTooltipConfig,
+  VicHtmlTooltipModule,
+  VicHtmlTooltipOffsetFromOriginPosition,
   VicStackedAreaConfig,
+  VicStackedAreaEventOutput,
   VicStackedAreaModule,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
-import { Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../../core/models/data';
 import { DataService } from '../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
@@ -20,6 +27,14 @@ interface ViewModel {
   dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum>;
   xAxisConfig: VicAxisConfig;
   yAxisConfig: VicAxisConfig;
+}
+
+class StackedAreaExampleTooltipConfig extends VicHtmlTooltipConfig {
+  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
+    super();
+    this.size.minWidth = 130;
+    Object.assign(this, config);
+  }
 }
 
 @Component({
@@ -34,6 +49,7 @@ interface ViewModel {
     VicXyBackgroundModule,
     VicXQuantitativeAxisModule,
     VicYQuantitativeAxisModule,
+    VicHtmlTooltipModule,
   ],
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
@@ -47,6 +63,20 @@ export class StackedAreaExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-area-example';
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
+      new VicHtmlTooltipConfig(new StackedAreaExampleTooltipConfig())
+    );
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<
+    VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  > = new BehaviorSubject<VicStackedAreaEventOutput<IndustryUnemploymentDatum>>(
+    null
+  );
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverAndMoveEffects: HoverMoveEventEffect<
+    StackedAreaHoverMoveDirective<IndustryUnemploymentDatum>
+  >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 
   constructor(private dataService: DataService) {}
 
@@ -72,5 +102,34 @@ export class StackedAreaExampleComponent implements OnInit {
       xAxisConfig,
       yAxisConfig,
     };
+  }
+
+  updateTooltipForNewOutput(
+    data: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  ): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(
+    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  ): void {
+    this.tooltipData.next(output);
+  }
+
+  updateTooltipConfig(
+    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum>
+  ): void {
+    const config = new StackedAreaExampleTooltipConfig();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
+    if (output && output.hoveredDatum !== undefined) {
+      config.position.offsetX = output.positionX;
+      config.position.offsetY = output.categoryYMin - 5;
+      config.show = true;
+    } else {
+      config.show = false;
+      config.origin = undefined;
+    }
+    this.tooltipConfig.next(config);
   }
 }

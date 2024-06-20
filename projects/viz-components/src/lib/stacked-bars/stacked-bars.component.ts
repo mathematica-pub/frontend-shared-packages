@@ -41,7 +41,7 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
     this.setValueArrays();
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
+    this.setChartHasNegativeMinValue();
     this.constructStackedData();
     this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
@@ -91,12 +91,14 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll('g')
       .data(this.stackedData)
       .join('g')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr('fill', ([{ i }]: any) =>
         this.scales.category(this.values.category[i])
       )
@@ -113,6 +115,7 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
         (update) =>
           update.call((update) =>
             update
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .transition(t as any)
               .attr('x', (d) => this.getStackElementX(d))
               .attr('y', (d) => this.getStackElementY(d))
@@ -121,11 +124,13 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
           ),
         (exit) =>
           exit // fancy exit needs to be tested with actual/any data
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .delay((_, i) => i * 20)
             .attr('y', this.scales.y(0))
             .attr('height', 0)
             .remove()
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ) as any;
   }
 
@@ -147,6 +152,7 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
 
   getStackElementWidth(datum: VicStackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.x as any).bandwidth();
     } else {
       return Math.abs(this.scales.x(datum[0]) - this.scales.x(datum[1]));
@@ -157,6 +163,7 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
     if (this.config.dimensions.ordinal === 'x') {
       return Math.abs(this.scales.y(datum[0]) - this.scales.y(datum[1]));
     } else {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.y as any).bandwidth();
     }
   }

@@ -16,9 +16,11 @@ export abstract class MapLegendContent<
   @Input() height: number;
   @Input() orientation: keyof typeof VicOrientation;
   @Input() valuesSide: keyof typeof VicSide;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() scale: any;
   @Input() config: TAttributeDataConfig;
   @Input() outlineColor: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   values: any[];
   colors: string[];
   startValueSpace: number;

@@ -17,6 +17,7 @@ export abstract class MapDataMarksBase<
   extends DataMarksBase<Datum, ExtendedDataMarksConfig>
   implements OnInit
 {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attributeDataScale: any;
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;
   public override chart = inject(MapChartComponent);

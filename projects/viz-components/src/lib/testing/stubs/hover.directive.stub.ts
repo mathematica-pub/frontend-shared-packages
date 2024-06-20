@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HoverDirective } from '../../events/hover.directive';
 
 export class HoverDirectiveStub extends HoverDirective {

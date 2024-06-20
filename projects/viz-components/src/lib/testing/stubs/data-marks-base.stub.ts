@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { DataMarksBase } from '../../data-marks/data-marks-base';
 import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
 

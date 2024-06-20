@@ -156,10 +156,14 @@ export class VicDataGeographyConfig<
 abstract class AttributeDataDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geoAccessor: (d: Datum, ...args: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   range: any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   colorScale: (...args: any) => any;
   colors?: string[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   patternPredicates?: VicPatternPredicate<Datum>[];
 }

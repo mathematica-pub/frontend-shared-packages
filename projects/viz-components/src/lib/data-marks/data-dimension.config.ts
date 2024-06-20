@@ -17,7 +17,9 @@ export enum VicDimension {
 }
 
 export class VicDataDimensionConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueAccessor: (d: Datum, ...args: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   domain?: any;
   valueFormat?: VicFormatSpecifier;
   constructor(init?: Partial<VicDataDimensionConfig<Datum>>) {
@@ -28,6 +30,7 @@ export class VicDataDimensionConfig<Datum> {
 export class VicQuantitativeDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override valueAccessor: (d: Datum, ...args: any) => number;
   override domain?: [number, number];
   type: VicDimension.quantitative = VicDimension.quantitative;
@@ -41,6 +44,7 @@ export class VicQuantitativeDimensionConfig<
   constructor(init?: Partial<VicQuantitativeDimensionConfig<Datum>>) {
     super();
     this.scaleFn = scaleLinear;
+    this.domainIncludesZero = true;
     Object.assign(this, init);
   }
 }
@@ -48,6 +52,7 @@ export class VicQuantitativeDimensionConfig<
 export class VicDateDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override valueAccessor: (d: Datum, ...args: any) => Date;
   override domain?: [Date, Date];
   type: VicDimension.date = VicDimension.date;
@@ -69,7 +74,9 @@ export class VicDateDimensionConfig<
 export class VicCategoricalColorDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override domain?: any[] | InternSet;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   colorScale?: (...args: any) => any;
   colors?: string[];
   constructor(init?: Partial<VicCategoricalColorDimensionConfig<Datum>>) {
@@ -81,6 +88,7 @@ export class VicCategoricalColorDimensionConfig<
 export class VicOrdinalDimensionConfig<
   Datum
 > extends VicDataDimensionConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override domain?: any[] | InternSet;
   type: VicDimension.ordinal = VicDimension.ordinal;
   scaleFn: (
@@ -116,6 +124,7 @@ export type VicDomainPaddingConfig =
 
 export class VicRoundUpDomainPaddingConfig {
   type: DomainPadding.roundUp = DomainPadding.roundUp;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   sigDigits: (d: any) => number;
 
   constructor(init?: Partial<VicRoundUpDomainPaddingConfig>) {

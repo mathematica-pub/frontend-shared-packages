@@ -2,7 +2,9 @@ import { schemeTableau10, stackOffsetDiverging, stackOrderNone } from 'd3';
 import { VicBarsConfig } from '../bars/bars.config';
 
 export class VicStackedBarsConfig<Datum> extends VicBarsConfig<Datum> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   order: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   offset: any;
 
   constructor(init?: Partial<VicStackedBarsConfig<Datum>>) {

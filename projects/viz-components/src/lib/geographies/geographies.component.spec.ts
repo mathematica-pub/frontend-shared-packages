@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternMap } from 'd3';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MainServiceStub } from '../testing/stubs/services/main.service.stub';
 import { GeographiesComponent, MapDataValues } from './geographies.component';
 import {
   VicCategoricalAttributeDataDimensionConfig,
@@ -19,10 +18,8 @@ import {
 describe('GeographiesComponent', () => {
   let component: GeographiesComponent<any, any, any>;
   let fixture: ComponentFixture<GeographiesComponent<any, any, any>>;
-  let mainServiceStub: MainServiceStub;
 
   beforeEach(async () => {
-    mainServiceStub = new MainServiceStub();
     await TestBed.configureTestingModule({
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [GeographiesComponent],
