@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { VicXOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis.config';
-import { VicYQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis.config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicStackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars.config';
-import { Vic } from 'projects/viz-components/src/public-api';
+import {
+  Vic,
+  VicElementSpacing,
+  VicStackedBarsConfig,
+  VicXOrdinalAxisConfig,
+  VicYQuantitativeAxisConfig,
+} from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

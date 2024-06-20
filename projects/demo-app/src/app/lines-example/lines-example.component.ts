@@ -6,35 +6,29 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicPixelDomainPadding } from 'projects/viz-components/src/lib/data-dimensions/quantitative/domain-padding/pixel';
 import {
   EventEffect,
   HoverMoveEventEffect,
-} from 'projects/viz-components/src/lib/events/effect';
-import {
-  VicColumnConfig,
-  VicDataExportConfig,
-} from 'projects/viz-components/src/lib/export-data/data-export.config';
-import { VicExportDataService } from 'projects/viz-components/src/lib/export-data/export-data.service';
-import { VicJpegImageConfig } from 'projects/viz-components/src/lib/image-download/image.config';
-import { VicImageService } from 'projects/viz-components/src/lib/image-download/image.service';
-import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/config/lines.config';
-import { LinesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/lines/lines-click-effects';
-import { LinesClickDirective } from 'projects/viz-components/src/lib/lines/lines-click.directive';
-import {
+  LinesClickDirective,
+  LinesClickEmitTooltipDataPauseHoverMoveEffects,
   LinesHoverMoveDefaultStyles,
   LinesHoverMoveDefaultStylesConfig,
+  LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
-} from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
-import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
-import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import {
+  Vic,
+  VicColumnConfig,
+  VicDataExportConfig,
+  VicElementSpacing,
+  VicExportDataService,
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
-} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { Vic } from 'projects/viz-components/src/public-api';
+  VicImageService,
+  VicJpegImageConfig,
+  VicLinesConfig,
+  VicLinesEventOutput,
+  VicPixelDomainPadding,
+  VicQuantitativeAxisConfig,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

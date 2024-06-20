@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { VicStackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area.config';
-import { StackedAreaHoverMoveEmitTooltipData } from 'projects/viz-components/src/lib/stacked-area/stacked-area-hover-move-effects';
-import { StackedAreaHoverMoveDirective } from 'projects/viz-components/src/lib/stacked-area/stacked-area-hover-move.directive';
-import { VicStackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/stacked-area-tooltip-data';
 import {
+  HoverMoveEventEffect,
+  StackedAreaHoverMoveDirective,
+  StackedAreaHoverMoveEmitTooltipData,
+  Vic,
+  VicElementSpacing,
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
-} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { Vic } from 'projects/viz-components/src/public-api';
+  VicQuantitativeAxisConfig,
+  VicStackedAreaConfig,
+  VicStackedAreaEventOutput,
+} from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';

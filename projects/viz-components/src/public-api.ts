@@ -111,6 +111,7 @@ export * from './lib/map-legend/map-legend.component';
 export * from './lib/map-legend/map-legend.module';
 export * from './lib/marks/point-markers';
 export * from './lib/marks/stroke';
+export * from './lib/shared/color-utilities';
 export * from './lib/stacked-area/config/stacked-area.config';
 export * from './lib/stacked-area/stacked-area-hover-move-effects';
 export * from './lib/stacked-area/stacked-area-hover-move.directive';
