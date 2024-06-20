@@ -1,8 +1,8 @@
 import type * as CSSType from 'csstype';
 import { GeoPath, GeoProjection, ScaleLinear, scaleLinear } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicPosition } from '../../core/types/layout';
-import { VicGeographiesFeature } from '../geographies-feature';
+import { VicPosition } from '../../../core/types/layout';
+import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographiesLabelsPositioners } from './geographies-labels-positioners';
 
 const DEFAULT = {
@@ -104,7 +104,6 @@ export class VicGeographiesLabels<
         TProperties,
         TGeometry
       >(d, path);
-    Object.assign(this, DEFAULT);
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
   }
 }

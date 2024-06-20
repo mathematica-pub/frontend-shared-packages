@@ -64,7 +64,7 @@ export class VicDataExportConfig {
           title: key !== this.flippedHeaderKey ? this.convertToTitle(key) : key,
           valueAccessor: (x) =>
             x[key] instanceof Date
-              ? ValueUtilities.formatValue(x[key], valueFormat.monthYear)
+              ? ValueUtilities.d3Format(x[key], valueFormat.monthYear)
               : x[key],
         })
       );

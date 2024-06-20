@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Vic } from '../../config/vic';
-import { VicEqualValuesAttributeDataDimension } from './dimensions/equal-value-ranges-bins';
 import { VicGeographiesConfig } from './geographies.config';
+import { VicGeographiesDataLayer } from './layers/data-layer';
+import { GeographiesLayer } from './layers/geographies-layer';
 
 type Datum = { value: number; state: string };
 type FeatureProperties = { name: string };
@@ -49,48 +50,51 @@ describe('GeographiesConfig', () => {
     config = undefined;
   });
 
-  describe('initPropertiesFromData()', () => {
+  describe('init()', () => {
     beforeEach(() => {
+      spyOn(VicGeographiesDataLayer.prototype as any, 'initPropertiesFromData');
+      spyOn(VicGeographiesConfig.prototype as any, 'setLayers');
       spyOn(
         VicGeographiesConfig.prototype as any,
-        'getUniqueDatumsByGeoAccessor'
-      ).and.returnValue(data);
-      spyOn(VicGeographiesConfig.prototype as any, 'setAttributeData');
-      spyOn(
-        VicEqualValuesAttributeDataDimension.prototype as any,
-        'setPropertiesFromData'
+        'setLayerFeatureIndexAccessors'
       );
       config = createConfig();
     });
-    it('calls getUniqueDatumsByGeoAccessor once', () => {
+    it('calls initPropertiesFromData once', () => {
       expect(
-        (config as any).getUniqueDatumsByGeoAccessor
+        (config as any).dataLayer.initPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
-    it('calls dataGeographies.attributeData.setPropertiesFromData once', () => {
-      expect(
-        config.dataLayer.attributeData.setPropertiesFromData
-      ).toHaveBeenCalledOnceWith(data);
+    it('calls setLayers once', () => {
+      expect((config as any).setLayers).toHaveBeenCalledTimes(1);
     });
-    it('calls setAttributeData once', () => {
-      expect((config as any).setAttributeData).toHaveBeenCalledOnceWith(data);
+    it('calls setLayerFeatureIndexAccessors once', () => {
+      expect(
+        (config as any).setLayerFeatureIndexAccessors
+      ).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('getUniqueDatumsByGeoAccessor()', () => {
+  describe('setLayers()', () => {
     beforeEach(() => {
-      spyOn(VicGeographiesConfig.prototype as any, 'initPropertiesFromData');
       config = createConfig();
     });
-    it('returns the unique datums by geoAccessor', () => {
-      const result = (config as any).getUniqueDatumsByGeoAccessor();
-      expect(result).toEqual([
-        { value: 1, state: 'AL' },
-        { value: 2, state: 'AK' },
-        { value: 3, state: 'AZ' },
-        { value: 4, state: 'CA' },
-        { value: 5, state: 'CO' },
-      ]);
+    it('sets layers to an array with dataLayer and noDataLayers', () => {
+      expect(config.layers.length).toBe(2);
+    });
+  });
+
+  describe('setLayerFeatureIndexAccessors()', () => {
+    let featureAccessorSpy: jasmine.Spy;
+    beforeEach(() => {
+      featureAccessorSpy = spyOn(
+        GeographiesLayer.prototype as any,
+        'setFeatureIndexAccessor'
+      );
+      config = createConfig();
+    });
+    it('calls setFeatureValueAccessor once per layer', () => {
+      expect(featureAccessorSpy).toHaveBeenCalledTimes(2);
     });
   });
 });

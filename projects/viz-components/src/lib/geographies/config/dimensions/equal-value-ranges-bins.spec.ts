@@ -7,7 +7,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
   beforeEach(() => {
     dimension = Vic.geographiesDataDimensionEqualValueRanges({
       numBins: 3,
-      valueFormat: '.1f',
+      formatSpecifier: '.1f',
       range: ['red', 'blue', 'yellow', 'green'],
       domain: [0, 20],
       valueAccessor: (d) => d,
@@ -47,7 +47,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
     it('sets the domain to values if there is no user provided domain', () => {
       dimension = Vic.geographiesDataDimensionEqualValueRanges({
         numBins: 3,
-        valueFormat: '.1f',
+        formatSpecifier: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
         valueAccessor: (d) => d,
       });
@@ -80,7 +80,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
     beforeEach(() => {
       dimension = Vic.geographiesDataDimensionEqualValueRanges({
         numBins: 4,
-        valueFormat: '.1f',
+        formatSpecifier: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
         valueAccessor: (d) => d,
       });

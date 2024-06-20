@@ -8,14 +8,10 @@ import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-types';
 import { VicCategoricalAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/custom-breaks-bins';
-import { VicGeographiesDataLayer } from 'projects/viz-components/src/lib/geographies/config/dimensions/data-layer';
 import { VicEqualNumObservationsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-num-observations-bins';
 import { VicEqualValuesAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-bins';
-import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-layer';
-import { VicGeographiesLabels } from 'projects/viz-components/src/lib/geographies/config/geographies-labels';
-import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/geographies-labels-positioners';
-import { VicGeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies.config';
+import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/config/layers/geographies-labels-positioners';
 import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
 import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
 import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
@@ -27,7 +23,13 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
 } from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { Vic } from 'projects/viz-components/src/public-api';
+import {
+  Vic,
+  VicGeographiesConfig,
+  VicGeographiesDataLayer,
+  VicGeographiesLabels,
+  VicGeographiesNoDataLayer,
+} from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -49,6 +51,20 @@ type AttributeData =
   | VicEqualValuesAttributeDataDimension<StateIncomeDatum>
   | VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>
   | VicCustomBreaksAttributeDataDimension<StateIncomeDatum>;
+
+const polylabelStates = ['CA', 'ID', 'MN', 'LA', 'MI', 'KY', 'FL', 'VA', 'NY'];
+const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
+const smallSquareStates = [
+  'CT',
+  'DE',
+  'DC',
+  'MD',
+  'MA',
+  'NH',
+  'NJ',
+  'RI',
+  'VT',
+];
 
 @Component({
   selector: 'app-geographies-example',
@@ -135,14 +151,12 @@ export class GeographiesExampleComponent implements OnInit {
   getDataMarksConfig(
     data: StateIncomeDatum[]
   ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
-    const noDataStatesConfig = this.getNoDataLayer(data);
-    console.log(noDataStatesConfig);
     const config = Vic.geographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       data,
       featureIndexAccessor: this.featureIndexAccessor,
-      noDataLayers: [this.basemap.usOutlineConfig, noDataStatesConfig],
-      dataLayer: this.getDataLayerConfig(data),
+      noDataLayers: [this.basemap.usOutlineConfig, this.getNoDataLayer(data)],
+      dataLayer: this.getDataLayer(data),
     });
     return config;
   }
@@ -162,13 +176,16 @@ export class GeographiesExampleComponent implements OnInit {
       }),
       labels: Vic.geographiesLabels({
         valueAccessor: (d) => d.properties.id,
+        display: (featureIndex) =>
+          !unlabelledTerritories.includes(featureIndex) &&
+          !smallSquareStates.includes(featureIndex),
         color: () => 'magenta',
         fontWeight: () => 700,
       }),
     });
   }
 
-  getDataLayerConfig(
+  getDataLayer(
     data: StateIncomeDatum[]
   ): VicGeographiesDataLayer<StateIncomeDatum, MapGeometryProperties> {
     return Vic.geographiesDataLayer<StateIncomeDatum, MapGeometryProperties>({
@@ -219,7 +236,7 @@ export class GeographiesExampleComponent implements OnInit {
   }) {
     return Vic.geographiesDataDimensionNoBins<StateIncomeDatum>({
       valueAccessor: (d) => d.income,
-      valueFormat: `$${valueFormat.integer}`,
+      formatSpecifier: `$${valueFormat.integer}`,
       range: [colors.white, colors.highlight.default],
       geoAccessor: properties.geoAccessor,
       fillPatterns: properties.fillPatterns,
@@ -247,7 +264,7 @@ export class GeographiesExampleComponent implements OnInit {
     const config =
       Vic.geographiesDataDimensionEqualValueRanges<StateIncomeDatum>({
         valueAccessor: (d) => d.income,
-        valueFormat: `$${valueFormat.integer}`,
+        formatSpecifier: `$${valueFormat.integer}`,
         numBins: 6,
         range: [colors.white, colors.highlight.default],
         geoAccessor: properties.geoAccessor,
@@ -263,7 +280,7 @@ export class GeographiesExampleComponent implements OnInit {
     const config =
       Vic.geographiesDataDimensionEqualNumObservations<StateIncomeDatum>({
         valueAccessor: (d) => d.income,
-        valueFormat: `$${valueFormat.integer}`,
+        formatSpecifier: `$${valueFormat.integer}`,
         numBins: 6,
         range: [colors.white, colors.highlight.default],
         geoAccessor: properties.geoAccessor,
@@ -278,7 +295,7 @@ export class GeographiesExampleComponent implements OnInit {
   }) {
     const config = Vic.geographiesDataDimensionCustomBreaks<StateIncomeDatum>({
       valueAccessor: (d) => d.income,
-      valueFormat: `$${valueFormat.integer}`,
+      formatSpecifier: `$${valueFormat.integer}`,
       breakValues: [45000, 55000, 65000, 75000, 100000],
       range: [colors.white, colors.highlight.default],
       geoAccessor: properties.geoAccessor,
@@ -291,29 +308,6 @@ export class GeographiesExampleComponent implements OnInit {
     StateIncomeDatum,
     MapGeometryProperties
   > {
-    const polylabelStates = [
-      'CA',
-      'ID',
-      'MN',
-      'LA',
-      'MI',
-      'KY',
-      'FL',
-      'VA',
-      'NY',
-    ];
-    const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
-    const smallSquareStates = [
-      'CT',
-      'DE',
-      'DC',
-      'MD',
-      'MA',
-      'NH',
-      'NJ',
-      'RI',
-      'VT',
-    ];
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     const valueAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>

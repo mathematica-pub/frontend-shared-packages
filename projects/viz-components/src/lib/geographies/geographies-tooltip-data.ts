@@ -1,45 +1,12 @@
-import { Geometry } from 'geojson';
-import { ValueUtilities } from '../shared/value-utilities';
-import { VicGeographiesFeature } from './geographies-feature';
-import { GeographiesComponent } from './geographies.component';
-
 export interface VicGeographiesTooltipOutput<Datum> {
-  datum: Datum;
+  datum?: Datum;
   color: string;
   geography: string;
-  attributeValue: string;
+  attributeValue?: string;
 }
 
 export interface VicGeographiesEventOutput<Datum>
   extends VicGeographiesTooltipOutput<Datum> {
   positionX: number;
   positionY: number;
-}
-
-export function getGeographiesTooltipData<
-  Datum,
-  TProperties,
-  TGeometry extends Geometry,
-  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
->(
-  geography: VicGeographiesFeature<TProperties, TGeometry>,
-  component: TComponent
-): VicGeographiesTooltipOutput<Datum> {
-  const geographyName = component.config.featureIndexAccessor(geography);
-  const datum =
-    component.config.values.datumsByGeographyIndex.get(geographyName);
-  const value =
-    component.config.values.attributeValuesByGeographyIndex.get(geographyName);
-
-  const tooltipData: VicGeographiesTooltipOutput<Datum> = {
-    datum,
-    geography: component.config.dataLayer.attributeData.geoAccessor(datum),
-    attributeValue: ValueUtilities.formatValue(
-      value,
-      component.config.dataLayer.attributeData.valueFormat
-    ),
-    color: component.getAttributeFill(geographyName),
-  };
-
-  return tooltipData;
 }

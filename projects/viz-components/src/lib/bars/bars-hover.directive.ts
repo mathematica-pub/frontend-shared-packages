@@ -15,7 +15,7 @@ import { VicDataValue } from '../core/types/values';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
-import { BARS, BarsComponent } from './bars.component';
+import { BARS, BarDatum, BarsComponent } from './bars.component';
 
 @Directive({
   selector: '[vicBarsHoverEffects]',
@@ -35,7 +35,7 @@ export class BarsHoverDirective<
   @Output('vicBarsHoverOutput') eventOutput = new EventEmitter<
     VicBarsEventOutput<Datum, TOrdinalValue>
   >();
-  barIndex: number;
+  barDatum: BarDatum<TOrdinalValue>;
   elRef: ElementRef;
   positionX: number;
   positionY: number;
@@ -57,7 +57,9 @@ export class BarsHoverDirective<
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    this.barIndex = select(event.target as SVGRectElement).datum() as number;
+    this.barDatum = select(
+      event.target as SVGRectElement
+    ).datum() as BarDatum<TOrdinalValue>;
     this.elRef = new ElementRef(event.target);
     const barRect = this.elRef.nativeElement.getBoundingClientRect();
     this.positionX = barRect.x + barRect.width / 2;
@@ -75,7 +77,7 @@ export class BarsHoverDirective<
 
   getEventOutput(): VicBarsEventOutput<Datum, TOrdinalValue> {
     const tooltipData = getBarsTooltipData(
-      this.barIndex,
+      this.barDatum,
       this.elRef,
       this.bars
     );

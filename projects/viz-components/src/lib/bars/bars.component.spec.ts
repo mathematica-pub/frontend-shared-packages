@@ -192,7 +192,7 @@ describe('BarsComponent', () => {
     });
     it('returns the correct value', () => {
       expect(component.getBarDatumFromIndex(1)).toEqual({
-        i: 1,
+        index: 1,
         quantitative: 2,
         ordinal: 'AK',
         categorical: 'avocado',
@@ -723,31 +723,34 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      spyOn(ValueUtilities, 'formatValue').and.returnValue('formatted value');
+      spyOn(ValueUtilities, 'customFormat').and.returnValue(
+        'custom formatted value'
+      );
+      spyOn(ValueUtilities, 'd3Format').and.returnValue('d3 formatted value');
     });
     it('returns the correct value if value is not a number', () => {
       datum.quantitative = undefined;
       component.config.labels.noValueFunction = () => 'nope';
       expect(component.getBarLabelText(datum)).toEqual('nope');
     });
-    it('calls formatValue once with full datum if valueFormat is a function', () => {
-      (component.config.quantitative as any).valueFormat = (d) =>
+    it('calls customFormat once with full datum if formatFunction exists', () => {
+      (component.config.quantitative as any).formatFunction = (d) =>
         d.quantitative + '!';
       component.getBarLabelText(datum);
-      expect(ValueUtilities.formatValue).toHaveBeenCalledOnceWith(
+      expect(ValueUtilities.customFormat).toHaveBeenCalledOnceWith(
         data[2],
-        component.config.quantitative.valueFormat
+        component.config.quantitative.formatFunction
       );
     });
-    it('calls formatValue once with the correct value if valueFormat is a string', () => {
+    it('calls formatValue once with the correct value if formatFunction does not exist', () => {
       component.getBarLabelText(datum);
-      expect(ValueUtilities.formatValue).toHaveBeenCalledOnceWith(
+      expect(ValueUtilities.d3Format).toHaveBeenCalledOnceWith(
         3,
-        component.config.quantitative.valueFormat
+        component.config.quantitative.formatSpecifier
       );
     });
     it('returns the formatted value', () => {
-      expect(component.getBarLabelText(datum)).toEqual('formatted value');
+      expect(component.getBarLabelText(datum)).toEqual('d3 formatted value');
     });
   });
 
