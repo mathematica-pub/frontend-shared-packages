@@ -288,7 +288,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
 // Tests of domains
 // ***********************************************************
 describe('if the user specifies a y domain that is smaller than max value', () => {
-  it('should draw the lines with the correct y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
+  it('should draw the lines with the user's specified y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
     const linesConfig = Vic.lines<QdQnCDatum>({
       data: dateData,
       x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
