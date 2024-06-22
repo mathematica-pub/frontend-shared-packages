@@ -324,7 +324,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
 });
 
 describe('if the user specifies an x domain that is smaller than max value', () => {
-  it('should draw the lines with the correct y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
+  it('should draw the lines with the user's specified x domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
     const linesConfig = Vic.lines<QnQnCDatum>({
       data: numericData,
       x: Vic.dimensionQuantitativeNumeric<QnQnCDatum>({
