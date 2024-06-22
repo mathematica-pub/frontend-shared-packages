@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { InternSet } from 'd3';
 import { QuantitativeDomainUtilities } from '../../public-api';
-import { VicColorUtilities } from '../shared/color-utilities.class';
+import { VicColorUtilities } from '../core/utilities/colors';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarsComponent } from './bars.component';
 import {
