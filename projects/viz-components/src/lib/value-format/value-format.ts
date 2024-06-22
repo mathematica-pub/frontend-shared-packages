@@ -26,6 +26,7 @@ export const valueFormat: VicValueFormats = {
 };
 
 export function formatValue(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   value: any,
   formatSpecifier: VicFormatSpecifier
 ): string {

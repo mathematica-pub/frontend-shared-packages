@@ -67,12 +67,8 @@ describe('BarsHoverMoveDirective', () => {
     let applyBSpy: jasmine.Spy;
     let removeBSpy: jasmine.Spy;
     let event: any;
-    let pointerValuesSpy: jasmine.Spy;
     beforeEach(() => {
-      pointerValuesSpy = spyOn(
-        directive,
-        'getPointerValuesArray'
-      ).and.returnValue([1, 2]);
+      spyOn(directive, 'getPointerValuesArray').and.returnValue([1, 2]);
       event = 'event';
       applyASpy = jasmine.createSpy('applyEffect');
       removeASpy = jasmine.createSpy('removeEffect');

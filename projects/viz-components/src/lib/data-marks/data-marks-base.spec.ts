@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DataMarksBaseStub } from '../testing/stubs/data-marks-base.stub';
@@ -194,7 +195,7 @@ describe('DataMarksBase abstract class', () => {
     });
     it('correctly handles values that are are arrays of functions', () => {
       const obj = {
-        a: [(x) => 1, (x) => 2],
+        a: [() => 1, () => 2],
       };
       abstractClass.deepCloneObject(obj);
       expect(abstractClass.deepCloneObject).toHaveBeenCalledTimes(1);

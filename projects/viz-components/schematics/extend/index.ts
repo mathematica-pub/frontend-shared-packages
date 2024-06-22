@@ -1,16 +1,15 @@
 import {
-  Rule,
-  Tree,
-  SchematicContext,
-  mergeWith,
-  SchematicsException,
-  chain,
-  applyTemplates,
-  url,
-  apply,
-  move,
-  externalSchematic,
   MergeStrategy,
+  Rule,
+  SchematicsException,
+  Tree,
+  apply,
+  applyTemplates,
+  chain,
+  externalSchematic,
+  mergeWith,
+  move,
+  url,
 } from '@angular-devkit/schematics';
 
 import {
@@ -23,7 +22,7 @@ import {
 import { Schema as ExtendSchema } from './schema';
 
 export function extend(options: ExtendSchema): Rule {
-  return async (tree: Tree, _context: SchematicContext) => {
+  return async (tree: Tree) => {
     if (!options.name || !options.extend) {
       throw new SchematicsException(
         'Options name and extends are both required.'

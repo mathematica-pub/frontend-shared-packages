@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ClickDirective } from '../../events/click.directive';
 import { ListenElement } from '../../events/event.directive';
 

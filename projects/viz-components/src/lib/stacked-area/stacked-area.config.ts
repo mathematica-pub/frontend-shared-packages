@@ -18,12 +18,16 @@ export class VicStackedAreaConfig<Datum> extends VicDataMarksConfig<Datum> {
     new VicQuantitativeDimensionConfig();
   category: VicCategoricalColorDimensionConfig<Datum> =
     new VicCategoricalColorDimensionConfig();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueIsDefined?: (...args: any) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   curve: (x: any) => any;
   stackOffsetFunction: (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     series: Series<any, any>,
     order: Iterable<number>
   ) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   stackOrderFunction: (x: any) => any;
   categoryOrder?: string[];
 

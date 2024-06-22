@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -22,6 +23,7 @@ import {
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
+import { VicColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/fill-patterns';
 import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
 import { DATA_MARKS } from '../data-marks/data-marks.token';
@@ -72,7 +74,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
 > {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   @Output() tooltipData = new EventEmitter<VicBarsTooltipData>();
-  hasBarsWithNegativeValues: boolean;
+  chartHasNegativeMinValue: boolean;
   barGroups: BarGroupSelection;
   barsKeyFunction: (i: number) => string;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
@@ -88,7 +90,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     this.setValueArrays();
     this.initNonQuantitativeDomains();
     this.setValueIndicies();
-    this.setHasBarsWithNegativeValues();
+    this.setChartHasNegativeMinValue();
     this.initUnpaddedQuantitativeDomain();
     this.initCategoryScale();
     this.setBarsKeyFunction();
@@ -119,7 +121,8 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     const ordinalDomain =
       this.config.dimensions.ordinal === 'x'
         ? this.config.ordinal.domain
-        : (this.config.ordinal.domain as any[]).slice().reverse();
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (this.config.ordinal.domain as any[]).slice().reverse();
     this.config.ordinal.domain = new InternSet(ordinalDomain);
     this.config.category.domain = new InternSet(this.config.category.domain);
   }
@@ -134,14 +137,14 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     );
   }
 
-  setHasBarsWithNegativeValues(): void {
+  setChartHasNegativeMinValue(): void {
     let dataMin;
     if (this.config.quantitative.domain === undefined) {
       dataMin = min([min(this.values[this.config.dimensions.quantitative]), 0]);
     } else {
       dataMin = this.config.quantitative.domain[0];
     }
-    this.hasBarsWithNegativeValues = dataMin < 0;
+    this.chartHasNegativeMinValue = dataMin < 0;
   }
 
   initUnpaddedQuantitativeDomain(): void {
@@ -199,6 +202,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getOrdinalScale(): any {
     return this.config.ordinal
       .scaleFn()
@@ -209,6 +213,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       .align(this.config.ordinal.align);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getQuantitativeScale(): any {
     const domain = this.config.quantitative.domainPadding
       ? this.getPaddedQuantitativeDomain()
@@ -232,6 +237,8 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
+    // Do not check if config.labels.display is defined here because labels
+    // may be drawn but not immediately displayed (e.g., revealed on hover).
     if (this.config.labels) {
       this.drawBarLabels(transitionDuration);
     }
@@ -241,6 +248,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
@@ -254,6 +262,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
             .attr('transform', (i) => this.getBarGroupTransform(i)),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('transform', (i) => this.getBarGroupTransform(i)),
         (exit) => exit.remove()
@@ -273,6 +282,7 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
             .attr('fill', (i) => this.getBarFill(i)),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('width', (i) => this.getBarWidth(i))
             .attr('height', (i) => this.getBarHeight(i))
@@ -297,9 +307,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
       : this.getBarColor(i);
   }
 
-  drawBarLabels(transitionDuration): void {
+  drawBarLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
@@ -314,46 +325,25 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
             .attr('x', (i) => this.getBarLabelX(i))
-            .attr('y', (i) => this.getBarLabelY(i)),
+            .attr('y', (i) => this.getBarLabelY(i))
+            .attr('text-anchor', (i) => this.getBarLabelTextAnchor(i))
+            .attr('dominant-baseline', (i) =>
+              this.getBarLabelDominantBaseline(i)
+            ),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .text((i) => this.getBarLabelText(i))
             .style('fill', (i) => this.getBarLabelColor(i))
             .attr('x', (i) => this.getBarLabelX(i))
-            .attr('y', (i) => this.getBarLabelY(i)),
+            .attr('y', (i) => this.getBarLabelY(i))
+            .attr('text-anchor', (i) => this.getBarLabelTextAnchor(i))
+            .attr('dominant-baseline', (i) =>
+              this.getBarLabelDominantBaseline(i)
+            ),
         (exit) => exit.remove()
       );
-  }
-
-  getBarLabelText(i: number): string {
-    const value = this.values[this.config.dimensions.quantitative][i];
-    const datum = this.config.data[i];
-    if (value === null || value === undefined) {
-      return this.config.labels.noValueFunction(datum);
-    } else if (typeof this.config.quantitative.valueFormat === 'function') {
-      return formatValue(datum, this.config.quantitative.valueFormat);
-    } else {
-      return formatValue(value, this.config.quantitative.valueFormat);
-    }
-  }
-
-  getBarLabelColor(i: number): string {
-    return this.config.labels.color ?? this.getBarColor(i);
-  }
-
-  getBarColor(i: number): string {
-    return this.scales.category(this.values[this.config.dimensions.ordinal][i]);
-  }
-
-  getBarPattern(i: number): string {
-    const color = this.getBarColor(i);
-    const predicates = this.config.patternPredicates;
-    return PatternUtilities.getPatternFill(
-      this.config.data[i],
-      color,
-      predicates
-    );
   }
 
   getBarX(i: number): number {
@@ -369,7 +359,10 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarXQuantitative(i: number): number {
-    if (this.hasBarsWithNegativeValues) {
+    if (isNaN(parseFloat(this.values.x[i]))) {
+      const origin = this.getBarQuantitativeOrigin();
+      return this.scales.x(origin);
+    } else if (this.chartHasNegativeMinValue) {
       if (this.values.x[i] < 0) {
         return this.scales.x(this.values.x[i]);
       } else {
@@ -385,81 +378,278 @@ export class BarsComponent<Datum> extends XyDataMarksBase<
   }
 
   getBarY(i: number): number {
+    if (this.config.dimensions.ordinal === 'y') {
+      return this.getBarYOrdinal(i);
+    } else {
+      return this.getBarYQuantitative(i);
+    }
+  }
+
+  getBarYOrdinal(i: number): number {
     return this.scales.y(this.values.y[i]);
   }
 
-  getBarWidth(i: number): number {
-    let width;
-    if (this.config.dimensions.ordinal === 'x') {
-      width = this.getBarWidthOrdinal(i);
-    } else {
-      width = this.getBarWidthQuantitative(i);
-    }
-    if (!width || isNaN(width)) {
-      width = 0;
-    }
-    return width;
-  }
-
-  getBarLabelX(i: number): number {
-    if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarWidthOrdinal(i) / 2;
-    } else {
-      let barWidth = this.getBarWidthQuantitative(i);
-      if (!barWidth || isNaN(barWidth)) {
-        barWidth = 0;
+  getBarYQuantitative(i: number): number {
+    if (isNaN(parseFloat(this.values.y[i]))) {
+      const origin = this.getBarQuantitativeOrigin();
+      return this.scales.y(origin);
+    } else if (this.values.y[i] < 0) {
+      if (this.config.quantitative.domainIncludesZero) {
+        return this.scales.y(0);
+      } else {
+        return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
       }
-      return barWidth + this.config.labels.offset;
+    } else {
+      return this.scales.y(this.values.y[i]);
     }
   }
 
-  getBarWidthOrdinal(i: number): number {
+  getBarWidth(i: number): number {
+    if (this.config.dimensions.ordinal === 'x') {
+      return this.getBarWidthOrdinal();
+    } else {
+      return this.getBarWidthQuantitative(i);
+    }
+  }
+
+  getBarWidthOrdinal(): number {
     return (this.scales.x as any).bandwidth();
   }
 
   getBarWidthQuantitative(i: number): number {
-    let origin;
-    if (this.config.quantitative.domainIncludesZero) {
-      origin = this.hasBarsWithNegativeValues
-        ? 0
-        : this.getQuantitativeDomainFromScale()[0];
-    } else {
-      origin = this.hasBarsWithNegativeValues
-        ? this.getQuantitativeDomainFromScale()[1]
-        : this.getQuantitativeDomainFromScale()[0];
-    }
-    return Math.abs(this.scales.x(this.values.x[i]) - this.scales.x(origin));
+    const origin = this.getBarQuantitativeOrigin();
+    const width = Math.abs(
+      this.scales.x(this.values.x[i]) - this.scales.x(origin)
+    );
+    return !width || isNaN(width) ? 0 : width;
   }
 
   getBarHeight(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
       return this.getBarHeightQuantitative(i);
     } else {
-      return this.getBarHeightOrdinal(i);
+      return this.getBarHeightOrdinal();
+    }
+  }
+
+  getBarHeightOrdinal(): number {
+    return (this.scales.y as any).bandwidth();
+  }
+
+  getBarHeightQuantitative(i: number): number {
+    const origin = this.getBarQuantitativeOrigin();
+    const height = Math.abs(
+      this.scales.y(origin) - this.scales.y(this.values.y[i])
+    );
+    return !height || isNaN(height) ? 0 : height;
+  }
+
+  getBarQuantitativeOrigin(): number {
+    if (this.config.quantitative.domainIncludesZero) {
+      return 0;
+    } else {
+      return this.chartHasNegativeMinValue
+        ? this.getQuantitativeDomainFromScale()[1]
+        : this.getQuantitativeDomainFromScale()[0];
+    }
+  }
+
+  getBarPattern(i: number): string {
+    const color = this.getBarColor(i);
+    const predicates = this.config.patternPredicates;
+    return PatternUtilities.getPatternFill(
+      this.config.data[i],
+      color,
+      predicates
+    );
+  }
+
+  getBarColor(i: number): string {
+    return this.scales.category(this.values[this.config.dimensions.ordinal][i]);
+  }
+
+  getBarLabelText(i: number): string {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    const datum = this.config.data[i];
+    if (isNaN(parseFloat(value))) {
+      return this.config.labels.noValueFunction(datum);
+    } else if (typeof this.config.quantitative.valueFormat === 'function') {
+      return formatValue(datum, this.config.quantitative.valueFormat);
+    } else {
+      return formatValue(value, this.config.quantitative.valueFormat);
+    }
+  }
+
+  getBarLabelTextAnchor(i: number): 'start' | 'middle' | 'end' {
+    if (this.config.dimensions.ordinal === 'x') {
+      return 'middle';
+    } else {
+      return this.alignTextInPositiveDirection(i) ? 'start' : 'end';
+    }
+  }
+
+  getBarLabelDominantBaseline(
+    i: number
+  ): 'text-after-edge' | 'text-before-edge' | 'central' {
+    if (this.config.dimensions.ordinal === 'y') {
+      return 'central';
+    } else {
+      return this.alignTextInPositiveDirection(i)
+        ? 'text-after-edge'
+        : 'text-before-edge';
+    }
+  }
+
+  alignTextInPositiveDirection(i: number): boolean {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    if (this.valueIsZeroOrNonnumeric(value)) {
+      return this.positionZeroOrNonnumericValueLabelInPositiveDirection();
+    }
+    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(i);
+    const isPositiveValue = value > 0;
+    return placeLabelOutsideBar ? isPositiveValue : !isPositiveValue;
+  }
+
+  getBarLabelColor(i: number): string {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    if (this.valueIsZeroOrNonnumeric(value) || this.barLabelFitsOutsideBar(i)) {
+      return this.config.labels.defaultLabelColor;
+    } else {
+      const barColor = this.getBarColor(i);
+      return VicColorUtilities.getHigherContrastColorForBackground(
+        barColor,
+        this.config.labels.defaultLabelColor,
+        this.config.labels.withinBarAlternativeLabelColor
+      );
+    }
+  }
+
+  barLabelFitsOutsideBar(i: number): boolean {
+    let distance: number;
+    const value = this.values[this.config.dimensions.quantitative][i];
+    const isPositiveValue = value > 0;
+    // This approach assumes that the bar labels do not wrap.
+    if (this.config.dimensions.ordinal === 'x') {
+      distance = this.getBarToChartEdgeDistance(
+        isPositiveValue,
+        this.ranges.y,
+        this.scales.y(this.values.y[i])
+      );
+      return distance > this.getBarLabelHeight(i);
+    } else {
+      distance = this.getBarToChartEdgeDistance(
+        isPositiveValue,
+        this.ranges.x,
+        this.scales.x(this.values.x[i])
+      );
+      return distance > this.getBarLabelWidth(i);
+    }
+  }
+
+  getBarToChartEdgeDistance(
+    isPositiveValue: boolean,
+    range: [number, number],
+    barValue: number
+  ): number {
+    return isPositiveValue
+      ? Math.abs(range[1] - barValue)
+      : Math.abs(barValue - range[0]);
+  }
+
+  getBarLabelWidth(i: number): number {
+    const width = this.getLabelDomRect(i).width;
+    return width + this.config.labels.offset;
+  }
+
+  getBarLabelHeight(i: number): number {
+    const height = this.getLabelDomRect(i).height;
+    return height + this.config.labels.offset;
+  }
+
+  getLabelDomRect(i: number): DOMRect {
+    const selection = select(this.barsRef.nativeElement)
+      .selectAll('.vic-bar-label')
+      .filter((_, j: number) => j === i);
+    return (selection.node() as Element).getBoundingClientRect();
+  }
+
+  getBarLabelX(i: number): number {
+    if (this.config.dimensions.ordinal === 'x') {
+      return this.getBarWidthOrdinal() / 2;
+    } else {
+      return this.getBarLabelQuantitativeAxisPosition(i);
     }
   }
 
   getBarLabelY(i: number): number {
     if (this.config.dimensions.ordinal === 'x') {
-      let barHeight = this.getBarHeightQuantitative(i);
-      if (isNaN(barHeight)) {
-        barHeight = 0;
-      }
-      return barHeight + this.config.labels.offset;
+      return this.getBarLabelQuantitativeAxisPosition(i);
     } else {
-      return this.getBarHeightOrdinal(i) / 2;
+      return this.getBarHeightOrdinal() / 2;
     }
   }
 
-  getBarHeightOrdinal(i: number): number {
-    return (this.scales.y as any).bandwidth();
+  getBarLabelQuantitativeAxisPosition(i: number): number {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    if (this.valueIsZeroOrNonnumeric(value)) {
+      return this.getBarLabelPositionForZeroOrNonnumericValue();
+    } else {
+      return this.getBarLabelPositionForNumericValue(i);
+    }
   }
 
-  getBarHeightQuantitative(i: number): number {
-    const origin = this.hasBarsWithNegativeValues
-      ? 0
-      : this.getQuantitativeDomainFromScale()[0];
-    return Math.abs(this.scales.y(origin - this.values.y[i]));
+  getBarLabelPositionForZeroOrNonnumericValue(): number {
+    const positionInPositiveDirection =
+      this.positionZeroOrNonnumericValueLabelInPositiveDirection();
+    return (positionInPositiveDirection &&
+      this.config.dimensions.ordinal === 'y') ||
+      (!positionInPositiveDirection && this.config.dimensions.ordinal === 'x')
+      ? this.config.labels.offset
+      : -this.config.labels.offset;
+  }
+
+  getBarLabelPositionForNumericValue(i: number): number {
+    const value = this.values[this.config.dimensions.quantitative][i];
+    const isPositiveValue = value > 0;
+    const origin = this.getBarLabelOrigin(i, isPositiveValue);
+    const placeLabelOutsideBar = this.barLabelFitsOutsideBar(i);
+    if (
+      (this.config.dimensions.ordinal === 'x' && placeLabelOutsideBar) ||
+      (this.config.dimensions.ordinal === 'y' && !placeLabelOutsideBar)
+    ) {
+      return isPositiveValue
+        ? origin - this.config.labels.offset
+        : origin + this.config.labels.offset;
+    } else {
+      return isPositiveValue
+        ? origin + this.config.labels.offset
+        : origin - this.config.labels.offset;
+    }
+  }
+
+  getBarLabelOrigin(i: number, isPositiveValue: boolean): number {
+    if (this.config.dimensions.ordinal === 'x') {
+      return isPositiveValue ? 0 : this.getBarHeightQuantitative(i);
+    } else {
+      return isPositiveValue ? this.getBarWidthQuantitative(i) : 0;
+    }
+  }
+
+  positionZeroOrNonnumericValueLabelInPositiveDirection(): boolean {
+    const quantitativeValues = this.values[this.config.dimensions.quantitative];
+    const someValuesArePositive = quantitativeValues.some((x) => x > 0);
+    const domainMaxIsPositive = this.getQuantitativeDomainFromScale()[1] > 0;
+    const everyValueIsEitherZeroOrNonnumeric = quantitativeValues.every((x) =>
+      this.valueIsZeroOrNonnumeric(x)
+    );
+    return (
+      someValuesArePositive ||
+      (everyValueIsEitherZeroOrNonnumeric && domainMaxIsPositive)
+    );
+  }
+
+  valueIsZeroOrNonnumeric(value: any): boolean {
+    return isNaN(parseFloat(value)) || value === 0;
   }
 
   updateBarElements(): void {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   VicCategoricalColorDimensionConfig,
   VicOrdinalDimensionConfig,
@@ -12,6 +13,9 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
   ordinal: VicOrdinalDimensionConfig<Datum> = new VicOrdinalDimensionConfig();
   quantitative: VicQuantitativeDimensionConfig<Datum> =
     new VicQuantitativeDimensionConfig();
+  /**
+   * The `colors` property must be an array of hex codes or rgb colors to be compatible with color utilities.
+   */
   category: VicCategoricalColorDimensionConfig<Datum> =
     new VicCategoricalColorDimensionConfig();
   dimensions: VicBarsDimensionsConfig;
@@ -31,12 +35,18 @@ export class VicBarsConfig<Datum> extends VicDataMarksConfig<Datum> {
 export class VicBarsLabelsConfig<Datum> {
   display: boolean;
   offset: number;
-  color?: string;
+  defaultLabelColor: string;
+  /**
+   *  The alternative label color is used for a label positioned within a bar if it and the bar color have a higher contrast ratio than the default label color and the bar color.
+   */
+  withinBarAlternativeLabelColor: string;
   noValueFunction: (d: Datum, ...args: any) => string;
 
   constructor(init?: Partial<VicBarsLabelsConfig<Datum>>) {
     this.display = true;
     this.offset = 4;
+    this.defaultLabelColor = '#000000';
+    this.withinBarAlternativeLabelColor = '#ffffff';
     this.noValueFunction = () => 'N/A';
     Object.assign(this, init);
   }
@@ -80,6 +90,7 @@ export class VicVerticalBarsDimensionsConfig extends VicBarsDimensionsConfig {
 }
 
 export class VicBarsTooltipData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   datum: any;
   value: string;
 }

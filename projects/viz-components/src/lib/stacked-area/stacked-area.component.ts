@@ -105,10 +105,13 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
       ? this.config.categoryOrder.slice().reverse()
       : this.config.category.domain;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.series = stack<any, InternMap<any, number>, any>()
       .keys(keys)
-      .value(([x, I]: any, category) => this.values.y[I.get(category)])
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .value(([, I]: any, category) => this.values.y[I.get(category)])
       .order(this.config.stackOrderFunction)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .offset(this.config.stackOffsetFunction)(rolledUpData as any)
       .map((s) =>
         s.map((d) =>
@@ -153,6 +156,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
   setArea(): void {
     this.area = area()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .x(({ i }: any) => this.scales.x(this.values.x[i]))
       .y0(([y1]) => this.scales.y(y1))
       .y1(([, y2]) => this.scales.y(y2))
@@ -162,6 +166,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
   drawAreas(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.areas = select(this.areasRef.nativeElement)
@@ -179,6 +184,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
         (update) =>
           update.call((update) =>
             update
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>

@@ -56,6 +56,7 @@ export class QuantitativeDomainUtilities {
   static getPaddedDomain(
     unpaddedDomain: [number, number],
     domainPadding: VicDomainPaddingConfig,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     scaleType?: any,
     chartRange?: [number, number]
   ): [number, number] {
