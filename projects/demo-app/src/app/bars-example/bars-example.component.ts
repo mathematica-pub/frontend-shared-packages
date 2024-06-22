@@ -102,7 +102,9 @@ export class BarsExampleComponent implements OnInit {
             tickFormat: '.0f',
           });
     const method =
-      orientation === 'horizontal' ? 'barsHorizontal' : 'barsVertical';
+      orientation === Orientation.horizontal
+        ? 'barsHorizontal'
+        : 'barsVertical';
     const dataConfig = Vic[method]<MetroUnemploymentDatum, string>({
       data: filteredData,
       quantitative: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
