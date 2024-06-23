@@ -48,6 +48,11 @@ export class VicEqualNumObservationsAttributeDataDimension<
     super();
     this.binType = VicValuesBin.equalNumObservations;
     Object.assign(this, DEFAULT, options);
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for EqualNumObservationsAttributeDataDimension'
+      );
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {

@@ -9,6 +9,7 @@ const DEFAULT = {
   nullColor: 'whitesmoke',
   range: ['white', 'lightslategray'],
   scale: scaleOrdinal,
+  valueAccessor: () => '',
 };
 
 export interface VicCategoricalAttributeDataDimensionOptions<
@@ -34,7 +35,6 @@ export class VicCategoricalAttributeDataDimension<
   calculatedDomain: string[];
   readonly domain: string[];
   override interpolator: never;
-  readonly valueAccessor: (d: Datum) => string;
 
   constructor(
     options?: Partial<

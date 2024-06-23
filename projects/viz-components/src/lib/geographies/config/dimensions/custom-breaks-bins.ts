@@ -39,7 +39,6 @@ export class VicCustomBreaksAttributeDataDimension<
   private calculatedNumBins: number;
   private calculatedDomain: number[];
   readonly formatSpecifier: string;
-  readonly valueAccessor: (d: Datum) => number;
 
   constructor(
     options?: Partial<
@@ -50,6 +49,11 @@ export class VicCustomBreaksAttributeDataDimension<
     this.binType = VicValuesBin.customBreaks;
     Object.assign(this, DEFAULT, options);
     this.calculatedNumBins = undefined;
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for CustomBreaksAttributeDataDimension'
+      );
+    }
   }
 
   setPropertiesFromData(): void {

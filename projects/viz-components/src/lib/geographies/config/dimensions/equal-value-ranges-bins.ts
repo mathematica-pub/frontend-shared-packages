@@ -50,6 +50,11 @@ export class VicEqualValuesAttributeDataDimension<
     super();
     this.binType = VicValuesBin.equalValueRanges;
     Object.assign(this, DEFAULT, options);
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for EqualValuesAttributeDataDimension'
+      );
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {

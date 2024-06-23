@@ -38,7 +38,6 @@ export class VicDimensionQuantitativeDate<Datum>
     domain?: Iterable<Date>,
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
-  readonly valueAccessor: (d: Datum) => Date;
 
   constructor(options: Partial<VicDimensionQuantitativeDate<Datum>>) {
     super();

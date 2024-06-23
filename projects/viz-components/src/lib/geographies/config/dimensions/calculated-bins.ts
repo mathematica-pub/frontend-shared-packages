@@ -20,7 +20,6 @@ export abstract class CalculatedRangeBinsAttributeDataDimension<
    * A format specifier that will be applied to the value of this dimension for display purposes.
    */
   readonly formatSpecifier: string;
-  readonly valueAccessor: (d: Datum) => number;
 
   protected setRange(): void {
     if (this.shouldCalculateBinColors(this.calculatedNumBins, this.range)) {

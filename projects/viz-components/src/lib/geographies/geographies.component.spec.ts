@@ -31,9 +31,9 @@ describe('GeographiesComponent', () => {
           attributeDimension:
             Vic.geographiesDataDimensionEqualValueRanges<Datum>({
               valueAccessor: (d) => d.value,
-              geoAccessor: (d) => d.state,
               numBins: 5,
             }),
+          geographyIndexAccessor: (d) => d.state,
           data: [
             { value: 1, state: 'AL' },
             { value: 2, state: 'AK' },
@@ -87,10 +87,10 @@ describe('GeographiesComponent', () => {
             { value: 5, state: 'CO' },
             { value: 6, state: 'CO' },
           ],
+          geographyIndexAccessor: (d) => d.state,
           attributeDimension:
             Vic.geographiesDataDimensionEqualValueRanges<Datum>({
               valueAccessor: (d) => d.value,
-              geoAccessor: (d) => d.state,
               numBins: 5,
               nullColor: 'red',
             }),
