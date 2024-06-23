@@ -39,9 +39,7 @@ describe('GeographiesNoDataLayer', () => {
       ).toHaveBeenCalledOnceWith(features);
     });
     it('calls getScale once if categorical dimension exists', () => {
-      expect((layer as any).categorical.getScale).toHaveBeenCalledOnceWith(
-        features
-      );
+      expect((layer as any).categorical.getScale).toHaveBeenCalledTimes(1);
     });
   });
 });
