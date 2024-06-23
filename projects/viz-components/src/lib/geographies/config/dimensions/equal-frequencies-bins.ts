@@ -37,7 +37,7 @@ export class VicEqualFrequenciesAttributeDataDimension<
   implements
     VicEqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: VicValuesBin.equalNumObservations;
+  readonly binType: VicValuesBin.equalFrequencies;
   private calculatedDomain: number[];
   readonly numBins: number;
 
@@ -47,7 +47,7 @@ export class VicEqualFrequenciesAttributeDataDimension<
     >
   ) {
     super();
-    this.binType = VicValuesBin.equalNumObservations;
+    this.binType = VicValuesBin.equalFrequencies;
     Object.assign(this, DEFAULT, options);
     if (!this.valueAccessor) {
       console.error(

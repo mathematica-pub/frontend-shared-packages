@@ -105,7 +105,7 @@ export class GeographiesExampleComponent implements OnInit {
     VicValuesBin.none,
     VicValuesBin.categorical,
     VicValuesBin.equalValueRanges,
-    VicValuesBin.equalNumObservations,
+    VicValuesBin.equalFrequencies,
     VicValuesBin.customBreaks,
   ];
 
@@ -218,8 +218,8 @@ export class GeographiesExampleComponent implements OnInit {
         return this.getCategoricalDimension(fillPatterns);
       case VicValuesBin.equalValueRanges:
         return this.getEqualValuesDimension(fillPatterns);
-      case VicValuesBin.equalNumObservations:
-        return this.getEqualNumObservationsDimension(fillPatterns);
+      case VicValuesBin.equalFrequencies:
+        return this.getEqualFrequenciesDimension(fillPatterns);
       case VicValuesBin.customBreaks:
       default:
         return this.getCustomBreaksDimension(fillPatterns);
@@ -257,7 +257,7 @@ export class GeographiesExampleComponent implements OnInit {
     return config;
   }
 
-  getEqualNumObservationsDimension(
+  getEqualFrequenciesDimension(
     fillPatterns: VicFillPattern<StateIncomeDatum>[]
   ) {
     const config =

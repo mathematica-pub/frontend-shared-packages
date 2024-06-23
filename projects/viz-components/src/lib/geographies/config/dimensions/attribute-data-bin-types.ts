@@ -11,7 +11,7 @@ export enum VicValuesBin {
   none = 'none',
   categorical = 'categorical',
   equalValueRanges = 'equalValueRanges',
-  equalNumObservations = 'equalNumObservations',
+  equalFrequencies = 'equalFrequencies',
   customBreaks = 'customBreaks',
 }
 
