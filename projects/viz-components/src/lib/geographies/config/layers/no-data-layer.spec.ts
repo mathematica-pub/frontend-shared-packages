@@ -30,12 +30,18 @@ describe('GeographiesNoDataLayer', () => {
   describe('initPropertiesFromGeographies()', () => {
     beforeEach(() => {
       spyOn(VicDimensionCategorical.prototype as any, 'setPropertiesFromData');
+      spyOn(VicDimensionCategorical.prototype as any, 'getScale');
       layer = createLayer();
     });
-    it('calls initPropertiesFromData once', () => {
+    it('calls setPropertiesFromData once if categorical dimension exists', () => {
       expect(
         (layer as any).categorical.setPropertiesFromData
       ).toHaveBeenCalledOnceWith(features);
+    });
+    it('calls getScale once if categorical dimension exists', () => {
+      expect((layer as any).categorical.getScale).toHaveBeenCalledOnceWith(
+        features
+      );
     });
   });
 });

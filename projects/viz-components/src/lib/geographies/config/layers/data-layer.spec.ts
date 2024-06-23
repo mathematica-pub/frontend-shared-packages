@@ -37,6 +37,7 @@ describe('GeographiesConfig', () => {
         'uniqueValues' as any
       );
       spyOn(layer.attributeDimension, 'setPropertiesFromData');
+      spyOn(layer.attributeDimension, 'getScale');
       spyOn(layer as any, 'setAttributeDataMaps');
       layer.initPropertiesFromData();
     });
@@ -54,6 +55,9 @@ describe('GeographiesConfig', () => {
       expect((layer as any).setAttributeDataMaps).toHaveBeenCalledOnceWith(
         'uniqueValues' as any
       );
+    });
+    it('calls getScale once', () => {
+      expect(layer.attributeDimension.getScale).toHaveBeenCalledTimes(1);
     });
   });
 
