@@ -86,6 +86,7 @@ export class VicGeographiesDataLayer<
     if (this.attributeDimension === undefined) {
       console.error('Attribute dimension is required for data layers');
     }
+    this.class = `vic-geographies-data-layer ${this.class ?? ''}`;
     this.initPropertiesFromData();
   }
 
