@@ -15,11 +15,15 @@ describe('VicDateDimension', () => {
       spyOn(dimension as any, 'setDomain');
     });
     it('calls setValues once', () => {
-      dimension.setPropertiesFromData([new Date(), new Date(), new Date()]);
+      dimension.setPropertiesFromData([
+        new Date(2000, 2),
+        new Date(2001, 2),
+        new Date(2002, 2),
+      ]);
       expect((dimension as any).setValues).toHaveBeenCalledOnceWith([
-        new Date(),
-        new Date(),
-        new Date(),
+        new Date(2000, 2),
+        new Date(2001, 2),
+        new Date(2002, 2),
       ]);
     });
     it('calls setDomain once', () => {
