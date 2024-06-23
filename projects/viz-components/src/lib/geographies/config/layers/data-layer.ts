@@ -70,6 +70,8 @@ export class VicGeographiesDataLayer<
     | VicEqualValueRangesAttributeDataDimension<Datum>
     | VicEqualFrequenciesAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  attributeScale: any;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
@@ -97,6 +99,7 @@ export class VicGeographiesDataLayer<
     const uniqueDatums = this.getUniqueDatumsByGeoAccessor(this.data);
     this.attributeDimension.setPropertiesFromData(uniqueDatums);
     this.setAttributeDataMaps(uniqueDatums);
+    this.attributeScale = this.attributeDimension.getScale();
   }
 
   private getUniqueDatumsByGeoAccessor(data: Datum[]): Datum[] {
@@ -144,7 +147,7 @@ export class VicGeographiesDataLayer<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAttributeFill(geographyIndex: string): string {
     const dataValue = this.attributeValuesByGeographyIndex.get(geographyIndex);
-    return this.attributeDimension.getScale()(dataValue);
+    return this.attributeScale(dataValue);
   }
 
   getLabelColor(

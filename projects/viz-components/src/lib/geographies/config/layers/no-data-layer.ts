@@ -41,6 +41,8 @@ export class VicGeographiesNoDataLayer<
     VicGeographiesFeature<TProperties, TGeometry>,
     string
   >;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private categoricalScale: any;
   override labels: VicGeographiesLabels<string, TProperties, TGeometry>;
 
   constructor(
@@ -54,6 +56,7 @@ export class VicGeographiesNoDataLayer<
   private initPropertiesFromGeographies(): void {
     if (this.categorical) {
       this.categorical.setPropertiesFromData(this.geographies);
+      this.categoricalScale = this.categorical.getScale();
     }
   }
 
@@ -62,7 +65,7 @@ export class VicGeographiesNoDataLayer<
       return DEFAULT.fill;
     }
     const featureIndex = this.featureIndexAccessor(feature);
-    const defaultFill = this.categorical.getScale()(featureIndex);
+    const defaultFill = this.categoricalScale(featureIndex);
     return this.categorical.fillPatterns
       ? PatternUtilities.getFill(
           feature,

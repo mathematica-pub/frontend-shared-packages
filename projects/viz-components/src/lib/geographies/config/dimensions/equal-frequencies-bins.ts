@@ -8,7 +8,8 @@ import {
 const DEFAULT = {
   interpolator: interpolateLab,
   nullColor: 'whitesmoke',
-  numBins: 5,
+  numBins: 4,
+  range: ['white', 'blue'],
   scale: scaleQuantile,
 };
 
