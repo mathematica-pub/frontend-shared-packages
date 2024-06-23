@@ -61,12 +61,12 @@ import {
   VicCustomBreaksAttributeDataDimensionOptions,
 } from '../geographies/config/dimensions/custom-breaks-bins';
 import {
-  VicEqualNumObservationsAttributeDataDimension,
-  VicEqualNumObservationsAttributeDataDimensionOptions,
-} from '../geographies/config/dimensions/equal-num-observations-bins';
+  VicEqualFrequenciesAttributeDataDimension,
+  VicEqualFrequenciesAttributeDataDimensionOptions,
+} from '../geographies/config/dimensions/equal-frequencies-bins';
 import {
-  VicEqualValuesAttributeDataDimension,
-  VicEqualValuesAttributeDataDimensionOptions,
+  VicEqualValueRangesAttributeDataDimension,
+  VicEqualValueRangesAttributeDataDimensionOptions,
 } from '../geographies/config/dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
 import {
@@ -246,15 +246,15 @@ export class Vic {
     );
   }
 
-  static geographiesDataDimensionEqualNumObservations<
+  static geographiesDataDimensionEqualFrequencies<
     Datum,
     RangeValue extends string | number = string
   >(
     options?: Partial<
-      VicEqualNumObservationsAttributeDataDimensionOptions<Datum, RangeValue>
+      VicEqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
     >
-  ): VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue> {
-    return new VicEqualNumObservationsAttributeDataDimension<Datum, RangeValue>(
+  ): VicEqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
+    return new VicEqualFrequenciesAttributeDataDimension<Datum, RangeValue>(
       options
     );
   }
@@ -264,10 +264,12 @@ export class Vic {
     RangeValue extends string | number = string
   >(
     options?: Partial<
-      VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
+      VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
     >
-  ): VicEqualValuesAttributeDataDimension<Datum, RangeValue> {
-    return new VicEqualValuesAttributeDataDimension<Datum, RangeValue>(options);
+  ): VicEqualValueRangesAttributeDataDimension<Datum, RangeValue> {
+    return new VicEqualValueRangesAttributeDataDimension<Datum, RangeValue>(
+      options
+    );
   }
 
   static geographiesDataDimensionNoBins<Datum>(

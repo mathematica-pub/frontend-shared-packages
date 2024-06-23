@@ -12,8 +12,8 @@ import {
   VicColorUtilities,
   VicCustomBreaksAttributeDataDimension,
   VicElementSpacing,
-  VicEqualNumObservationsAttributeDataDimension,
-  VicEqualValuesAttributeDataDimension,
+  VicEqualFrequenciesAttributeDataDimension,
+  VicEqualValueRangesAttributeDataDimension,
   VicFillPattern,
   VicGeographiesConfig,
   VicGeographiesDataLayer,
@@ -46,8 +46,8 @@ import { DataService } from '../core/services/data.service';
 type AttributeData =
   | VicNoBinsAttributeDataDimension<StateIncomeDatum>
   | VicCategoricalAttributeDataDimension<StateIncomeDatum>
-  | VicEqualValuesAttributeDataDimension<StateIncomeDatum>
-  | VicEqualNumObservationsAttributeDataDimension<StateIncomeDatum>
+  | VicEqualValueRangesAttributeDataDimension<StateIncomeDatum>
+  | VicEqualFrequenciesAttributeDataDimension<StateIncomeDatum>
   | VicCustomBreaksAttributeDataDimension<StateIncomeDatum>;
 
 const polylabelStates = ['CA', 'ID', 'MN', 'LA', 'MI', 'KY', 'FL', 'VA', 'NY'];
@@ -261,7 +261,7 @@ export class GeographiesExampleComponent implements OnInit {
     fillPatterns: VicFillPattern<StateIncomeDatum>[]
   ) {
     const config =
-      Vic.geographiesDataDimensionEqualNumObservations<StateIncomeDatum>({
+      Vic.geographiesDataDimensionEqualFrequencies<StateIncomeDatum>({
         valueAccessor: (d) => d.income,
         formatSpecifier: `$${valueFormat.integer}`,
         numBins: 6,

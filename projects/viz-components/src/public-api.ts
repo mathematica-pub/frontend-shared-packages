@@ -65,7 +65,7 @@ export * from './lib/geographies/config/dimensions/attribute-data-dimension';
 export * from './lib/geographies/config/dimensions/calculated-bins';
 export * from './lib/geographies/config/dimensions/categorical-bins';
 export * from './lib/geographies/config/dimensions/custom-breaks-bins';
-export * from './lib/geographies/config/dimensions/equal-num-observations-bins';
+export * from './lib/geographies/config/dimensions/equal-frequencies-bins';
 export * from './lib/geographies/config/dimensions/equal-value-ranges-bins';
 export * from './lib/geographies/config/dimensions/no-bins';
 export * from './lib/geographies/config/geographies.config';

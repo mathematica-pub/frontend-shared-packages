@@ -13,7 +13,7 @@ const DEFAULT = {
   scale: scaleQuantize,
 };
 
-export interface VicEqualValuesAttributeDataDimensionOptions<
+export interface VicEqualValueRangesAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
 > extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
@@ -30,12 +30,13 @@ export interface VicEqualValuesAttributeDataDimensionOptions<
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicEqualValuesAttributeDataDimension<
+export class VicEqualValueRangesAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
   extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
-  implements VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
+  implements
+    VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: VicValuesBin.equalValueRanges;
   private calculatedDomain: [number, number];
@@ -44,7 +45,7 @@ export class VicEqualValuesAttributeDataDimension<
 
   constructor(
     options?: Partial<
-      VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
+      VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
     >
   ) {
     super();

@@ -100,6 +100,7 @@ export class VicCustomBreaksAttributeDataDimension<
   }
 
   getScale() {
+    // the D3.ScaleThreshold domain is an array of naturally ordered values, which are typically numbers but could also be strings. Thus if scale is called with a string value here, it scale will return the first value of the range, not the nullColor. See https://d3js.org/d3-scale/threshold#threshold_domain.
     return this.scale()
       .domain(this.calculatedDomain)
       .range(this.range)

@@ -12,8 +12,8 @@ import { VicGeographiesTooltipOutput } from '../../geographies-tooltip-data';
 import { VicValuesBin } from '../dimensions/attribute-data-bin-types';
 import { VicCategoricalAttributeDataDimension } from '../dimensions/categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from '../dimensions/custom-breaks-bins';
-import { VicEqualNumObservationsAttributeDataDimension } from '../dimensions/equal-num-observations-bins';
-import { VicEqualValuesAttributeDataDimension } from '../dimensions/equal-value-ranges-bins';
+import { VicEqualFrequenciesAttributeDataDimension } from '../dimensions/equal-frequencies-bins';
+import { VicEqualValueRangesAttributeDataDimension } from '../dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../dimensions/no-bins';
 import { VicGeographiesLabels } from './geographies-labels';
 import { GeographiesLayer, GeographiesLayerOptions } from './geographies-layer';
@@ -38,8 +38,8 @@ export interface VicGeographiesDataLayerOptions<
   attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
-    | VicEqualValuesAttributeDataDimension<Datum>
-    | VicEqualNumObservationsAttributeDataDimension<Datum>
+    | VicEqualValueRangesAttributeDataDimension<Datum>
+    | VicEqualFrequenciesAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
   /**
    * The data that will be used to color the geographies.
@@ -67,8 +67,8 @@ export class VicGeographiesDataLayer<
   readonly attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
-    | VicEqualValuesAttributeDataDimension<Datum>
-    | VicEqualNumObservationsAttributeDataDimension<Datum>
+    | VicEqualValueRangesAttributeDataDimension<Datum>
+    | VicEqualFrequenciesAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
   readonly data: Datum[];
