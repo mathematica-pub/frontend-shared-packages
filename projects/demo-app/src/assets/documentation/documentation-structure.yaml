@@ -67,7 +67,7 @@ data-marks-components:
         no-bins: 'classes/VicNoBinsAttributeDataDimension.html'
         categorical: 'classes/VicCategoricalAttributeDataDimension.html'
         equal-frequencies: 'classes/VicEqualFrequenciesAttributeDataDimension.html'
-        equal-value-ranges: 'classes/VicEqualValuesAttributeDataDimension.html'
+        equal-value-ranges: 'classes/VicEqualValueRangesAttributeDataDimension.html'
         custom-breaks: 'classes/VicCustomBreaksAttributeDataDimension.html'
     geographies-config: 'classes/VicGeographiesConfig.html'
     geographies-labels-config: 'classes/VicGeographiesLabels.html'
