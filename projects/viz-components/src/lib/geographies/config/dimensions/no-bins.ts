@@ -21,7 +21,7 @@ export interface VicNoBinsAttributeDataDimensionOptions<Datum>
 }
 
 /**
- * Configuration object for attribute data that is quantitative.
+ * Configuration object for attribute data that is quantitative and does not have bins.
  *
  * The generic parameter is the type of the attribute data.
  */

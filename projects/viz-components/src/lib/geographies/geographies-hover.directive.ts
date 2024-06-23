@@ -70,7 +70,7 @@ export class GeographiesHoverDirective<
 
   onElementPointerEnter(event: PointerEvent): void {
     this.path = event.target as SVGPathElement;
-    const layerIndex = parseFloat(this.path.getAttribute('layer-index'));
+    const layerIndex = parseFloat(this.path.dataset['layerIndex']);
     this.layer =
       layerIndex === 0
         ? this.geographies.config.dataLayer

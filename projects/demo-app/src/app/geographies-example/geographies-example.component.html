@@ -112,7 +112,8 @@
     <div class="values-container">
       <p class="tooltip-label x">
         <span class="value-label">Income</span>
-        {{ (tooltipData$ | async).attributeValue }}
+        @if ((tooltipData$ | async).datum) { {{ (tooltipData$ |
+        async).attributeValue }} } @else { No data available }
       </p>
     </div>
   </div>

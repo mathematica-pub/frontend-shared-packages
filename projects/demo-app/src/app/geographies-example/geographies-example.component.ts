@@ -179,6 +179,7 @@ export class GeographiesExampleComponent implements OnInit {
         color: () => 'magenta',
         fontWeight: () => 700,
       }),
+      enableEffects: true,
     });
   }
 
@@ -341,6 +342,7 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipData(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
+    console.log(data);
     this.tooltipData.next(data);
   }
 
