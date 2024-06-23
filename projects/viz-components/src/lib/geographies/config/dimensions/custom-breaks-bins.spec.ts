@@ -37,7 +37,7 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
       (dimension as any).setDomain();
     });
     it('sets the domain to the correct value', () => {
-      expect((dimension as any).domain).toEqual([2, 5, 10, 50]);
+      expect((dimension as any).calculatedDomain).toEqual([2, 5, 10, 50]);
     });
   });
 
