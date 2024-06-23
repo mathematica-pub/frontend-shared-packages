@@ -151,7 +151,6 @@ export class GeographiesExampleComponent implements OnInit {
   ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
     const config = Vic.geographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
-      data,
       featureIndexAccessor: this.featureIndexAccessor,
       noDataLayers: [this.basemap.usOutlineConfig, this.getNoDataLayer(data)],
       dataLayer: this.getDataLayer(data),
@@ -187,8 +186,9 @@ export class GeographiesExampleComponent implements OnInit {
     data: StateIncomeDatum[]
   ): VicGeographiesDataLayer<StateIncomeDatum, MapGeometryProperties> {
     return Vic.geographiesDataLayer<StateIncomeDatum, MapGeometryProperties>({
+      data,
       geographies: this.getDataGeographiesFeatures(data),
-      attributeData: this.getAttributeDataDimension({
+      attributeDimension: this.getAttributeDataDimension({
         geoAccessor: (d) => d.state,
         fillPatterns: [
           {

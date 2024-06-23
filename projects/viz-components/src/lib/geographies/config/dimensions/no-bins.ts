@@ -1,9 +1,9 @@
 import { extent, interpolateLab, scaleLinear } from 'd3';
+import { VicValuesBin } from './attribute-data-bin-types';
 import {
   AttributeDataDimension,
   VicAttributeDataDimensionOptions,
-} from './attribute-data';
-import { VicValuesBin } from './attribute-data-bin-types';
+} from './attribute-data-dimension';
 
 const DEFAULT = {
   interpolator: interpolateLab,
@@ -53,10 +53,10 @@ export class VicNoBinsAttributeDataDimension<
     this.domain = extent(domainValues);
   }
 
-  getScale(nullColor: string) {
+  getScale() {
     return this.scale()
       .domain(this.domain)
       .range(this.range)
-      .unknown(nullColor);
+      .unknown(this.nullColor);
   }
 }

@@ -1,10 +1,11 @@
 import { interpolateLab, range, scaleLinear, scaleThreshold } from 'd3';
-import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
+import { AttributeDataDimension } from './attribute-data-dimension';
 import { CalculatedRangeBinsAttributeDataDimensionOptions } from './calculated-bins';
 
 const DEFAULT = {
   interpolator: interpolateLab,
+  nullColor: 'whitesmoke',
   scale: scaleThreshold,
 };
 
@@ -36,7 +37,7 @@ export class VicCustomBreaksAttributeDataDimension<
   readonly binType: VicValuesBin.customBreaks;
   readonly breakValues: number[];
   private calculatedNumBins: number;
-  private domain: number[];
+  private calculatedDomain: number[];
   readonly formatSpecifier: string;
   readonly valueAccessor: (d: Datum) => number;
 
@@ -47,9 +48,7 @@ export class VicCustomBreaksAttributeDataDimension<
   ) {
     super();
     this.binType = VicValuesBin.customBreaks;
-    this.scale = DEFAULT.scale;
-    this.interpolator = DEFAULT.interpolator;
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
     this.calculatedNumBins = undefined;
   }
 
@@ -60,7 +59,7 @@ export class VicCustomBreaksAttributeDataDimension<
   }
 
   protected setDomain(): void {
-    this.domain = this.breakValues.slice(1);
+    this.calculatedDomain = this.breakValues.slice(1);
   }
 
   private setNumBins(): void {
@@ -76,10 +75,10 @@ export class VicCustomBreaksAttributeDataDimension<
     }
   }
 
-  getScale(nullColor: string) {
+  getScale() {
     return this.scale()
-      .domain(this.domain)
+      .domain(this.calculatedDomain)
       .range(this.range)
-      .unknown(nullColor);
+      .unknown(this.nullColor);
   }
 }

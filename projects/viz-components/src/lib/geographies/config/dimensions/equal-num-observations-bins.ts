@@ -7,6 +7,7 @@ import {
 
 const DEFAULT = {
   interpolator: interpolateLab,
+  nullColor: 'whitesmoke',
   numBins: 5,
   scale: scaleQuantile,
 };
@@ -46,10 +47,7 @@ export class VicEqualNumObservationsAttributeDataDimension<
   ) {
     super();
     this.binType = VicValuesBin.equalNumObservations;
-    this.scale = scaleQuantile;
-    this.interpolator = DEFAULT.interpolator;
-    this.numBins = DEFAULT.numBins;
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -67,10 +65,10 @@ export class VicEqualNumObservationsAttributeDataDimension<
     this.calculatedNumBins = this.numBins;
   }
 
-  getScale(nullColor: string) {
+  getScale() {
     return this.scale()
       .domain(this.calculatedDomain)
       .range(this.range)
-      .unknown(nullColor);
+      .unknown(this.nullColor);
   }
 }

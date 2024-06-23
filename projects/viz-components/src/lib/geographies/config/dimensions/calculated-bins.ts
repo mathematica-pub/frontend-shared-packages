@@ -2,7 +2,7 @@ import { extent, range, scaleLinear } from 'd3';
 import {
   AttributeDataDimension,
   VicAttributeDataDimensionOptions,
-} from './attribute-data';
+} from './attribute-data-dimension';
 
 export interface CalculatedRangeBinsAttributeDataDimensionOptions<
   Datum,

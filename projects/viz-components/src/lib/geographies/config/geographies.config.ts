@@ -37,6 +37,7 @@ export interface VicGeographiesOptions<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
+  data: never;
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
@@ -81,6 +82,7 @@ export class VicGeographiesConfig<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
+  override data: never;
   readonly dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
@@ -102,13 +104,18 @@ export class VicGeographiesConfig<
   }
 
   protected initPropertiesFromData(): void {
-    this.dataLayer.initPropertiesFromData(this.data);
     this.setLayers();
     this.setLayerFeatureIndexAccessors();
   }
 
   private setLayers(): void {
-    this.layers = [this.dataLayer];
+    if (!this.dataLayer && !this.noDataLayers) {
+      console.error('Geographies config requires at least one layer');
+    }
+    this.layers = [];
+    if (this.dataLayer) {
+      this.layers.push(this.dataLayer);
+    }
     if (this.noDataLayers) {
       this.layers.push(...this.noDataLayers);
     }
