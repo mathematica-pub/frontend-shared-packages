@@ -59,13 +59,14 @@ data-marks-components:
     stacked-bars: 'components/StackedBarsComponent.html'
     stacked-bars-config: 'classes/VicStackedBarsConfig.html'
   geographies:
-    dimensions:
+    layers:
       data-layer: 'classes/VicGeographiesDataLayer.html'
       no-data-layer: 'classes/VicGeographiesNoDataLayer.html'
+    dimensions:
       attribute-data:
         no-bins: 'classes/VicNoBinsAttributeDataDimension.html'
         categorical: 'classes/VicCategoricalAttributeDataDimension.html'
-        equal-num-observations: 'classes/VicEqualNumObservationsAttributeDataDimension.html'
+        equal-frequencies: 'classes/VicEqualFrequenciesAttributeDataDimension.html'
         equal-value-ranges: 'classes/VicEqualValuesAttributeDataDimension.html'
         custom-breaks: 'classes/VicCustomBreaksAttributeDataDimension.html'
     geographies-config: 'classes/VicGeographiesConfig.html'
