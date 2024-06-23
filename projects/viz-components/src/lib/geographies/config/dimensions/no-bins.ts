@@ -7,6 +7,8 @@ import {
 
 const DEFAULT = {
   interpolator: interpolateLab,
+  nullColor: 'whitesmoke',
+  range: ['white', 'slategray'],
   scale: scaleLinear,
 };
 
@@ -19,7 +21,7 @@ export interface VicNoBinsAttributeDataDimensionOptions<Datum>
 }
 
 /**
- * Configuration object for attribute data that is quantitative.
+ * Configuration object for attribute data that is quantitative and does not have bins.
  *
  * The generic parameter is the type of the attribute data.
  */
@@ -32,15 +34,17 @@ export class VicNoBinsAttributeDataDimension<
    * A format specifier that will be applied to the value of this dimension for display purposes.
    */
   formatSpecifier: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly valueAccessor: (d: Datum, ...args: any) => number;
 
   constructor(options?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
     super();
     this.binType = VicValuesBin.none;
     this.scale = DEFAULT.scale;
-    this.interpolator = DEFAULT.interpolator;
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for NoBinsAttributeDataDimension'
+      );
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {

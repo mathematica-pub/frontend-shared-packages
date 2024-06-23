@@ -20,7 +20,7 @@ export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
 {
   readonly formatFunction: (d: Datum) => string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  abstract readonly valueAccessor: (d: Datum) => TDataValue;
+  readonly valueAccessor: (d: Datum) => TDataValue;
   /**
    * An array of values for this dimension, extracted from the data using the value accessor.
    * @see {@link valueAccessor}

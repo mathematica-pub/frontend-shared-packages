@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../../config/vic';
-import { VicEqualValuesAttributeDataDimension } from './equal-value-ranges-bins';
+import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
 
 describe('VicEqualValuesAttributeDataDimension', () => {
-  let dimension: VicEqualValuesAttributeDataDimension<any>;
+  let dimension: VicEqualValueRangesAttributeDataDimension<any>;
   beforeEach(() => {
     dimension = Vic.geographiesDataDimensionEqualValueRanges({
       numBins: 3,

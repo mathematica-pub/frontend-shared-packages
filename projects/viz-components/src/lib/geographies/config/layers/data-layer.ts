@@ -12,14 +12,13 @@ import { VicGeographiesTooltipOutput } from '../../geographies-tooltip-data';
 import { VicValuesBin } from '../dimensions/attribute-data-bin-types';
 import { VicCategoricalAttributeDataDimension } from '../dimensions/categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from '../dimensions/custom-breaks-bins';
-import { VicEqualNumObservationsAttributeDataDimension } from '../dimensions/equal-num-observations-bins';
-import { VicEqualValuesAttributeDataDimension } from '../dimensions/equal-value-ranges-bins';
+import { VicEqualFrequenciesAttributeDataDimension } from '../dimensions/equal-frequencies-bins';
+import { VicEqualValueRangesAttributeDataDimension } from '../dimensions/equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from '../dimensions/no-bins';
 import { VicGeographiesLabels } from './geographies-labels';
 import { GeographiesLayer, GeographiesLayerOptions } from './geographies-layer';
 
 const DEFAULT = {
-  attributeData: new VicEqualValuesAttributeDataDimension(),
   nullColor: '#dcdcdc',
   strokeColor: 'dimgray',
   strokeWidth: '1',
@@ -39,10 +38,17 @@ export interface VicGeographiesDataLayerOptions<
   attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
-    | VicEqualValuesAttributeDataDimension<Datum>
-    | VicEqualNumObservationsAttributeDataDimension<Datum>
+    | VicEqualValueRangesAttributeDataDimension<Datum>
+    | VicEqualFrequenciesAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
+  /**
+   * The data that will be used to color the geographies.
+   */
   data: Datum[];
+  /**
+   * The accessor function that returns a value from a Datum that must match the value returned by featureIndexAccessor.
+   */
+  geographyIndexAccessor: (d: Datum) => string;
   /**
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
@@ -61,13 +67,16 @@ export class VicGeographiesDataLayer<
   readonly attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
-    | VicEqualValuesAttributeDataDimension<Datum>
-    | VicEqualNumObservationsAttributeDataDimension<Datum>
+    | VicEqualValueRangesAttributeDataDimension<Datum>
+    | VicEqualFrequenciesAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
-  readonly data: Datum[];
-  override labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  attributeScale: any;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
+  readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
+  geographyIndexAccessor: (d: Datum) => string;
+  override labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 
   constructor(
     options?: Partial<
@@ -76,6 +85,13 @@ export class VicGeographiesDataLayer<
   ) {
     super();
     Object.assign(this, DEFAULT, options);
+    if (this.attributeDimension === undefined) {
+      console.error('Attribute dimension is required for data layers');
+    }
+    if (this.geographyIndexAccessor === undefined) {
+      console.error('Geography index accessor is required for data layers');
+    }
+    this.class = `vic-geographies-data-layer ${this.class ?? ''}`;
     this.initPropertiesFromData();
   }
 
@@ -83,14 +99,15 @@ export class VicGeographiesDataLayer<
     const uniqueDatums = this.getUniqueDatumsByGeoAccessor(this.data);
     this.attributeDimension.setPropertiesFromData(uniqueDatums);
     this.setAttributeDataMaps(uniqueDatums);
+    this.attributeScale = this.attributeDimension.getScale();
   }
 
   private getUniqueDatumsByGeoAccessor(data: Datum[]): Datum[] {
     const uniqueByGeoAccessor = (arr: Datum[], set = new Set()) =>
       arr.filter(
         (x) =>
-          !set.has(this.attributeDimension.geoAccessor(x)) &&
-          set.add(this.attributeDimension.geoAccessor(x))
+          !set.has(this.geographyIndexAccessor(x)) &&
+          set.add(this.geographyIndexAccessor(x))
       );
     return uniqueByGeoAccessor(data);
   }
@@ -100,14 +117,14 @@ export class VicGeographiesDataLayer<
       uniqueDatums.map((d) => {
         const value = this.attributeDimension.valueAccessor(d);
         return [
-          this.attributeDimension.geoAccessor(d),
+          this.geographyIndexAccessor(d),
           value === null || value === undefined ? undefined : value,
         ];
       })
     );
     this.datumsByGeographyIndex = new InternMap(
       uniqueDatums.map((d) => {
-        return [this.attributeDimension.geoAccessor(d), d];
+        return [this.geographyIndexAccessor(d), d];
       })
     );
   }
@@ -130,7 +147,7 @@ export class VicGeographiesDataLayer<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAttributeFill(geographyIndex: string): string {
     const dataValue = this.attributeValuesByGeographyIndex.get(geographyIndex);
-    return this.attributeDimension.getScale()(dataValue);
+    return this.attributeScale(dataValue);
   }
 
   getLabelColor(
@@ -179,7 +196,7 @@ export class VicGeographiesDataLayer<
     const value = this.attributeValuesByGeographyIndex.get(featureIndex);
     const tooltipData: VicGeographiesTooltipOutput<Datum> = {
       datum,
-      geography: this.attributeDimension.geoAccessor(datum),
+      geography: this.geographyIndexAccessor(datum),
       attributeValue: this.attributeDimension.formatFunction
         ? ValueUtilities.customFormat(
             datum,

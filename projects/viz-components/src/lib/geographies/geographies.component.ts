@@ -68,6 +68,7 @@ export class GeographiesComponent<
       VicGeographiesFeature<TProperties, TGeometry>
     >[]
   > = this.pathsByLayer.asObservable();
+  formatForClassName = (s: string): string => s.replace(/\s/g, '-');
 
   constructor(public zone: NgZone, public elRef: ElementRef) {
     super();
@@ -133,7 +134,16 @@ export class GeographiesComponent<
         )
         .data<VicGeographiesFeature<TProperties, TGeometry>>(layer.geographies)
         .join(
-          (enter) => enter.append('g').attr('class', 'vic-geography-g'),
+          (enter) =>
+            enter
+              .append('g')
+              .attr(
+                'class',
+                (d) =>
+                  `vic-geography-g ${this.formatForClassName(
+                    layer.featureIndexAccessor(d)
+                  )}`
+              ),
           (update) => update,
           (exit) => exit.remove()
         );
@@ -149,15 +159,21 @@ export class GeographiesComponent<
             enter
               .append('path')
               .attr('d', this.path)
-              .attr('layer-index', i)
+              .attr('class', (d) =>
+                this.formatForClassName(layer.featureIndexAccessor(d))
+              )
+              // layer-index is used on event directives
+              .attr('data-layer-index', i)
               .attr('stroke', layer.strokeColor)
               .attr('stroke-width', layer.strokeWidth)
               .attr('fill', (d) => layer.getFill(d)),
           (update) =>
             update.call((update) =>
               update
-                .attr('d', this.path)
-                .attr('layer-index', i)
+                .attr('class', (d) =>
+                  this.formatForClassName(layer.featureIndexAccessor(d))
+                )
+                .attr('data-layer-index', i)
                 .attr('stroke', layer.strokeColor)
                 .attr('stroke-width', layer.strokeWidth)
                 .transition(t)
@@ -179,7 +195,8 @@ export class GeographiesComponent<
               enter
                 .append('text')
                 .attr('class', 'vic-geography-label')
-                .attr('layer-index', i)
+                // layer-index is used on event directives
+                .attr('data-layer-index', i)
                 .attr('text-anchor', layer.labels.textAnchor)
                 .attr('alignment-baseline', layer.labels.alignmentBaseline)
                 .attr('dominant-baseline', layer.labels.dominantBaseline)

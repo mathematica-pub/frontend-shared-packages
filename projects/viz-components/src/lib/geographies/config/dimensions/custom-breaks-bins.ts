@@ -13,6 +13,16 @@ export interface VicCustomBreaksAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
 > extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
+  /**
+   * An array of values to specify bin ranges. This array should include both the lowest and highest values and must have at least two values.
+   *
+   * An array of [0, 2, 5, 10, 50] will create bins [0, 2], [2, 5], [5, 10], [10, 50].
+   *
+   * Values should be in ascending order.
+   *
+   * Values below the first value will be colored with the color for the first bin. Values above the last value will be colored with the color for the last bin. In this sense, the first and last values are primarily used for 
+   in a legend, should one be displayed. In order for the legend to be accurate, users should ensure that the first and last values are the minimum and maximum values in the data.
+   */
   breakValues: number[];
   /**
    * A format specifier that will be applied to the value of this dimension for display purposes.
@@ -39,7 +49,6 @@ export class VicCustomBreaksAttributeDataDimension<
   private calculatedNumBins: number;
   private calculatedDomain: number[];
   readonly formatSpecifier: string;
-  readonly valueAccessor: (d: Datum) => number;
 
   constructor(
     options?: Partial<
@@ -49,7 +58,22 @@ export class VicCustomBreaksAttributeDataDimension<
     super();
     this.binType = VicValuesBin.customBreaks;
     Object.assign(this, DEFAULT, options);
-    this.calculatedNumBins = undefined;
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for CustomBreaksAttributeDataDimension'
+      );
+    }
+    if (!this.breakValues) {
+      console.error(
+        'breakValues are required for CustomBreaksAttributeDataDimension'
+      );
+    }
+    if (this.breakValues.length < 2) {
+      console.error(
+        'breakValues must have at least two values for CustomBreaksAttributeDataDimension'
+      );
+    }
+    this.breakValues = this.breakValues.slice().sort((a, b) => a - b);
   }
 
   setPropertiesFromData(): void {
@@ -76,6 +100,7 @@ export class VicCustomBreaksAttributeDataDimension<
   }
 
   getScale() {
+    // the D3.ScaleThreshold domain is an array of naturally ordered values, which are typically numbers but could also be strings. Thus if scale is called with a string value here, it scale will return the first value of the range, not the nullColor. See https://d3js.org/d3-scale/threshold#threshold_domain.
     return this.scale()
       .domain(this.calculatedDomain)
       .range(this.range)

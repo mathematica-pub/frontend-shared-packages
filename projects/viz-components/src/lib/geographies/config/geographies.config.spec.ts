@@ -27,9 +27,9 @@ function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
     dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
       attributeDimension: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
         valueAccessor: (d) => d.value,
-        geoAccessor: (d) => d.state,
         numBins: 5,
       }),
+      geographyIndexAccessor: (d) => d.state,
       data,
     }),
     noDataLayers: [

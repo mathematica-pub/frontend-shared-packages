@@ -44,7 +44,6 @@ export class VicDimensionCategorical<
   private internSetDomain: InternSet<TCategoricalValue>;
   readonly range: string[];
   private scale: (category: TCategoricalValue) => string;
-  readonly valueAccessor: (d: Datum) => TCategoricalValue;
 
   constructor(
     options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
