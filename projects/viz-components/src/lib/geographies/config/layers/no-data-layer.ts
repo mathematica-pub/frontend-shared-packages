@@ -52,10 +52,15 @@ export class VicGeographiesNoDataLayer<
   }
 
   private initPropertiesFromGeographies(): void {
-    this.categorical.setPropertiesFromData(this.geographies);
+    if (this.categorical) {
+      this.categorical.setPropertiesFromData(this.geographies);
+    }
   }
 
   getFill(feature: VicGeographiesFeature<TProperties, TGeometry>): string {
+    if (!this.categorical) {
+      return DEFAULT.fill;
+    }
     const featureIndex = this.featureIndexAccessor(feature);
     const defaultFill = this.categorical.getScale()(featureIndex);
     return this.categorical.fillPatterns

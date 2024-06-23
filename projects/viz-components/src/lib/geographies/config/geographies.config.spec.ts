@@ -24,13 +24,13 @@ const features = [
 ];
 function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
   return Vic.geographies({
-    data: data,
     dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
-      attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
+      attributeDimension: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
         valueAccessor: (d) => d.value,
         geoAccessor: (d) => d.state,
         numBins: 5,
       }),
+      data,
     }),
     noDataLayers: [
       Vic.geographiesNoDataLayer<FeatureProperties>({

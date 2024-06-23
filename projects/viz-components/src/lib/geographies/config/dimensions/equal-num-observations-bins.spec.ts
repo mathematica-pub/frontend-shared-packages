@@ -10,6 +10,7 @@ describe('VicEqualNumObservationsBins', () => {
       numBins: 4,
       range: ['red', 'blue', 'yellow', 'green'],
       valueAccessor: (d) => d,
+      nullColor: 'black',
     });
   });
   describe('setPropertiesFromData', () => {
@@ -54,7 +55,7 @@ describe('VicEqualNumObservationsBins', () => {
     let scale: any;
     beforeEach(() => {
       dimension.setPropertiesFromData([0, 2, 4, 6]);
-      scale = dimension.getScale('black');
+      scale = dimension.getScale();
     });
     it('correctly sets the domain', () => {
       expect(scale.domain()).toEqual([0, 2, 4, 6]);

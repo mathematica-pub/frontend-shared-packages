@@ -36,18 +36,18 @@ export interface VicGeographiesDataLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
-  attributeData:
+  attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
     | VicEqualValuesAttributeDataDimension<Datum>
     | VicEqualNumObservationsAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
+  data: Datum[];
   /**
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
   labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
-  nullColor: string;
 }
 
 export class VicGeographiesDataLayer<
@@ -58,13 +58,13 @@ export class VicGeographiesDataLayer<
   extends GeographiesLayer<Datum, TProperties, TGeometry>
   implements VicGeographiesDataLayerOptions<Datum, TProperties, TGeometry>
 {
-  readonly attributeData:
+  readonly attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
     | VicNoBinsAttributeDataDimension<Datum>
     | VicEqualValuesAttributeDataDimension<Datum>
     | VicEqualNumObservationsAttributeDataDimension<Datum>
     | VicCustomBreaksAttributeDataDimension<Datum>;
-  readonly nullColor: string;
+  readonly data: Datum[];
   override labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
   datumsByGeographyIndex: InternMap<string, Datum>;
@@ -76,11 +76,12 @@ export class VicGeographiesDataLayer<
   ) {
     super();
     Object.assign(this, DEFAULT, options);
+    this.initPropertiesFromData();
   }
 
-  initPropertiesFromData(data: Datum[]): void {
-    const uniqueDatums = this.getUniqueDatumsByGeoAccessor(data);
-    this.attributeData.setPropertiesFromData(uniqueDatums);
+  initPropertiesFromData(): void {
+    const uniqueDatums = this.getUniqueDatumsByGeoAccessor(this.data);
+    this.attributeDimension.setPropertiesFromData(uniqueDatums);
     this.setAttributeDataMaps(uniqueDatums);
   }
 
@@ -88,8 +89,8 @@ export class VicGeographiesDataLayer<
     const uniqueByGeoAccessor = (arr: Datum[], set = new Set()) =>
       arr.filter(
         (x) =>
-          !set.has(this.attributeData.geoAccessor(x)) &&
-          set.add(this.attributeData.geoAccessor(x))
+          !set.has(this.attributeDimension.geoAccessor(x)) &&
+          set.add(this.attributeDimension.geoAccessor(x))
       );
     return uniqueByGeoAccessor(data);
   }
@@ -97,23 +98,23 @@ export class VicGeographiesDataLayer<
   private setAttributeDataMaps(uniqueDatums: Datum[]): void {
     this.attributeValuesByGeographyIndex = new InternMap(
       uniqueDatums.map((d) => {
-        const value = this.attributeData.valueAccessor(d);
+        const value = this.attributeDimension.valueAccessor(d);
         return [
-          this.attributeData.geoAccessor(d),
+          this.attributeDimension.geoAccessor(d),
           value === null || value === undefined ? undefined : value,
         ];
       })
     );
     this.datumsByGeographyIndex = new InternMap(
       uniqueDatums.map((d) => {
-        return [this.attributeData.geoAccessor(d), d];
+        return [this.attributeDimension.geoAccessor(d), d];
       })
     );
   }
 
   getFill(feature: VicGeographiesFeature<TProperties, TGeometry>): string {
     const geographyIndex = this.featureIndexAccessor(feature);
-    return this.attributeData.fillPatterns
+    return this.attributeDimension.fillPatterns
       ? this.getPatternFill(geographyIndex)
       : this.getAttributeFill(geographyIndex);
   }
@@ -122,14 +123,14 @@ export class VicGeographiesDataLayer<
   getPatternFill(geographyIndex: string): string {
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
-    const patterns = this.attributeData.fillPatterns;
+    const patterns = this.attributeDimension.fillPatterns;
     return PatternUtilities.getFill(datum, geographyFill, patterns);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getAttributeFill(geographyIndex: string): string {
     const dataValue = this.attributeValuesByGeographyIndex.get(geographyIndex);
-    return this.attributeData.getScale(this.nullColor)(dataValue);
+    return this.attributeDimension.getScale()(dataValue);
   }
 
   getLabelColor(
@@ -178,13 +179,16 @@ export class VicGeographiesDataLayer<
     const value = this.attributeValuesByGeographyIndex.get(featureIndex);
     const tooltipData: VicGeographiesTooltipOutput<Datum> = {
       datum,
-      geography: this.attributeData.geoAccessor(datum),
-      attributeValue: this.attributeData.formatFunction
-        ? ValueUtilities.customFormat(datum, this.attributeData.formatFunction)
-        : this.attributeData.binType !== VicValuesBin.categorical
+      geography: this.attributeDimension.geoAccessor(datum),
+      attributeValue: this.attributeDimension.formatFunction
+        ? ValueUtilities.customFormat(
+            datum,
+            this.attributeDimension.formatFunction
+          )
+        : this.attributeDimension.binType !== VicValuesBin.categorical
         ? ValueUtilities.d3Format(
             value as number,
-            this.attributeData.formatSpecifier
+            this.attributeDimension.formatSpecifier
           )
         : (value as string),
       color: this.getAttributeFill(featureIndex),

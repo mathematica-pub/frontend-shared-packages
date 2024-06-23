@@ -14,11 +14,12 @@ const data = [
 ];
 function createLayer(): VicGeographiesDataLayer<Datum, { name: string }, any> {
   return Vic.geographiesDataLayer<Datum, { name: string }, any>({
-    attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
+    attributeDimension: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
       valueAccessor: (d) => d.value,
       geoAccessor: (d) => d.state,
       numBins: 5,
     }),
+    data,
   });
 }
 
@@ -35,9 +36,9 @@ describe('GeographiesConfig', () => {
       spyOn(layer as any, 'getUniqueDatumsByGeoAccessor').and.returnValue(
         'uniqueValues' as any
       );
-      spyOn(layer.attributeData, 'setPropertiesFromData');
+      spyOn(layer.attributeDimension, 'setPropertiesFromData');
       spyOn(layer as any, 'setAttributeDataMaps');
-      layer.initPropertiesFromData(data);
+      layer.initPropertiesFromData();
     });
     it('calls getUniqueDatumsByGeoAccessor once', () => {
       expect(
@@ -46,7 +47,7 @@ describe('GeographiesConfig', () => {
     });
     it('calls setPropertiesFromData once', () => {
       expect(
-        layer.attributeData.setPropertiesFromData
+        layer.attributeDimension.setPropertiesFromData
       ).toHaveBeenCalledOnceWith('uniqueValues' as any);
     });
     it('calls setAttributeDataMaps once', () => {

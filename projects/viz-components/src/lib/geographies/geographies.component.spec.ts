@@ -27,20 +27,21 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
       component.config = Vic.geographies({
-        data: [
-          { value: 1, state: 'AL' },
-          { value: 2, state: 'AK' },
-          { value: 3, state: 'AZ' },
-          { value: 4, state: 'CA' },
-          { value: 5, state: 'CO' },
-          { value: 6, state: 'CO' },
-        ],
         dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
-          attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-            valueAccessor: (d) => d.value,
-            geoAccessor: (d) => d.state,
-            numBins: 5,
-          }),
+          attributeDimension:
+            Vic.geographiesDataDimensionEqualValueRanges<Datum>({
+              valueAccessor: (d) => d.value,
+              geoAccessor: (d) => d.state,
+              numBins: 5,
+            }),
+          data: [
+            { value: 1, state: 'AL' },
+            { value: 2, state: 'AK' },
+            { value: 3, state: 'AZ' },
+            { value: 4, state: 'CA' },
+            { value: 5, state: 'CO' },
+            { value: 6, state: 'CO' },
+          ],
         }),
       });
     });
@@ -77,33 +78,34 @@ describe('GeographiesComponent', () => {
         ),
       } as any;
       component.config = Vic.geographies({
-        data: [
-          { value: 1, state: 'AL' },
-          { value: 2, state: 'AK' },
-          { value: 3, state: 'AZ' },
-          { value: 4, state: 'CA' },
-          { value: 5, state: 'CO' },
-          { value: 6, state: 'CO' },
-        ],
         dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
-          nullColor: 'red',
-          attributeData: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-            valueAccessor: (d) => d.value,
-            geoAccessor: (d) => d.state,
-            numBins: 5,
-          }),
+          data: [
+            { value: 1, state: 'AL' },
+            { value: 2, state: 'AK' },
+            { value: 3, state: 'AZ' },
+            { value: 4, state: 'CA' },
+            { value: 5, state: 'CO' },
+            { value: 6, state: 'CO' },
+          ],
+          attributeDimension:
+            Vic.geographiesDataDimensionEqualValueRanges<Datum>({
+              valueAccessor: (d) => d.value,
+              geoAccessor: (d) => d.state,
+              numBins: 5,
+              nullColor: 'red',
+            }),
         }),
       });
       spyOn(
-        component.config.dataLayer.attributeData,
+        component.config.dataLayer.attributeDimension,
         'getScale'
       ).and.returnValue('attribute data scale');
     });
     it('calls getScale once', () => {
       component.updateChartAttributeProperties();
       expect(
-        component.config.dataLayer.attributeData.getScale
-      ).toHaveBeenCalledOnceWith('red');
+        component.config.dataLayer.attributeDimension.getScale
+      ).toHaveBeenCalledOnceWith();
     });
     it('calls updateAttributeProperties once with the correct value', () => {
       component.updateChartAttributeProperties();
@@ -111,7 +113,7 @@ describe('GeographiesComponent', () => {
         component.chart.updateAttributeProperties
       ).toHaveBeenCalledOnceWith({
         scale: 'attribute data scale' as any,
-        config: component.config.dataLayer.attributeData,
+        config: component.config.dataLayer.attributeDimension,
       });
     });
   });

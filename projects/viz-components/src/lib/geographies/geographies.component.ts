@@ -75,7 +75,11 @@ export class GeographiesComponent<
 
   override initFromConfig(): void {
     this.setPropertiesFromRanges();
-    this.updateChartAttributeProperties();
+    if (this.config.dataLayer) {
+      this.updateChartAttributeProperties();
+    } else {
+      this.drawMarks();
+    }
   }
 
   setPropertiesFromRanges(): void {
@@ -97,10 +101,8 @@ export class GeographiesComponent<
   updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
-        scale: this.config.dataLayer.attributeData.getScale(
-          this.config.dataLayer.nullColor
-        ),
-        config: this.config.dataLayer.attributeData,
+        scale: this.config.dataLayer.attributeDimension.getScale(),
+        config: this.config.dataLayer.attributeDimension,
       });
     });
   }
@@ -131,7 +133,7 @@ export class GeographiesComponent<
         )
         .data<VicGeographiesFeature<TProperties, TGeometry>>(layer.geographies)
         .join(
-          (enter) => enter.append('g').attr('class', '.geography-g'),
+          (enter) => enter.append('g').attr('class', 'vic-geography-g'),
           (update) => update,
           (exit) => exit.remove()
         );

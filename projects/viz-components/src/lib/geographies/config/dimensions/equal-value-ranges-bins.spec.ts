@@ -83,9 +83,10 @@ describe('VicEqualValuesAttributeDataDimension', () => {
         formatSpecifier: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
         valueAccessor: (d) => d,
+        nullColor: 'black',
       });
       dimension.setPropertiesFromData([0, 2, 4, 6, 8]);
-      scale = dimension.getScale('black');
+      scale = dimension.getScale();
     });
     it('correctly sets the domain', () => {
       expect(scale.domain()).toEqual([0, 8]);

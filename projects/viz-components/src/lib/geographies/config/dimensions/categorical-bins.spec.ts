@@ -66,33 +66,36 @@ describe('VicCategoricalAttributeDataDimension', () => {
     it('using default properties', () => {
       dimension = Vic.geographiesDataDimensionCategorical<IceCream>({
         valueAccessor: (d) => d.flavor,
+        nullColor: 'pink',
       });
       dimension.setPropertiesFromData(data);
-      const scale = dimension.getScale('black');
+      const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('white');
       expect(scale('vanilla')).toEqual('lightslategray');
       expect(scale('strawberry')).toEqual('white');
-      expect(scale('cookie dough')).toEqual('black');
+      expect(scale('cookie dough')).toEqual('pink');
     });
     it('using user provided range', () => {
       dimension = Vic.geographiesDataDimensionCategorical<IceCream>({
         valueAccessor: (d) => d.flavor,
         range: ['red', 'white', 'blue'],
+        nullColor: 'pink',
       });
       dimension.setPropertiesFromData(data);
-      const scale = dimension.getScale('yellow');
+      const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('red');
       expect(scale('vanilla')).toEqual('white');
       expect(scale('strawberry')).toEqual('blue');
-      expect(scale('cookie dough')).toEqual('yellow');
+      expect(scale('cookie dough')).toEqual('pink');
     });
     it('using user provided domain', () => {
       dimension = Vic.geographiesDataDimensionCategorical<IceCream>({
         valueAccessor: (d) => d.flavor,
         domain: ['cookie dough', 'rocky road', 'butter pecan'],
+        nullColor: 'pink',
       });
       dimension.setPropertiesFromData(data);
-      const scale = dimension.getScale('pink');
+      const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('pink');
       expect(scale('vanilla')).toEqual('pink');
       expect(scale('strawberry')).toEqual('pink');

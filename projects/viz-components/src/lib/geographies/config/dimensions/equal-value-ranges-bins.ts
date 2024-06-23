@@ -7,9 +7,10 @@ import {
 
 const DEFAULT = {
   interpolator: interpolateLab,
+  nullColor: 'whitesmoke',
   numBins: 3,
-  scale: scaleQuantize,
   range: ['white', 'pink', 'red'],
+  scale: scaleQuantize,
 };
 
 export interface VicEqualValuesAttributeDataDimensionOptions<
@@ -48,11 +49,7 @@ export class VicEqualValuesAttributeDataDimension<
   ) {
     super();
     this.binType = VicValuesBin.equalValueRanges;
-    this.scale = DEFAULT.scale;
-    this.interpolator = DEFAULT.interpolator;
-    this.numBins = DEFAULT.numBins;
-    this.range = DEFAULT.range as RangeValue[];
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -101,10 +98,10 @@ export class VicEqualValuesAttributeDataDimension<
     return validated;
   }
 
-  getScale(nullColor: string) {
+  getScale() {
     return this.scale()
       .domain(this.calculatedDomain)
       .range(this.range)
-      .unknown(nullColor);
+      .unknown(this.nullColor);
   }
 }
