@@ -25,6 +25,18 @@ import {
   stateIncomePopulationData,
 } from '../testing/stubs/data/states_population_income';
 
+const statesWithoutLabels = [
+  'NH',
+  'VT',
+  'MA',
+  'RI',
+  'CT',
+  'NJ',
+  'MD',
+  'DE',
+  'DC',
+  'PR',
+];
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
 const chartWidth = 600;
@@ -337,3 +349,105 @@ describe('drawing the geography paths for various layers', () => {
 // ***********************************************************
 // Tests of coloring by data values are in individual attribute dimension tests
 // ***********************************************************
+
+// ***********************************************************
+// Test geography labels
+// ***********************************************************
+describe('drawing the geography labels various layers', () => {
+  let geographiesConfig: VicGeographiesConfig<
+    StateInComePopulationDatum,
+    TestMapGeometryProperties
+  >;
+  beforeEach(() => {
+    geographiesConfig = undefined;
+  });
+  describe('layers: dataLayer: true, noDataLayers: 1', () => {
+    it('it draws a map with labels on both data and non-data layers', () => {
+      cy.fixture('usMap.json').then((response) => {
+        const usMap: TestUsMapTopology = response;
+        const usBoundary = topojson.feature(
+          usMap,
+          usMap.objects.country
+        ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+        const states = topojson.feature(
+          usMap,
+          usMap.objects.states
+        ) as FeatureCollection<
+          MultiPolygon | Polygon,
+          TestMapGeometryProperties
+        >;
+        geographiesConfig = Vic.geographies<
+          StateInComePopulationDatum,
+          TestMapGeometryProperties
+        >({
+          boundary: usBoundary,
+          featureIndexAccessor: (d) => d.properties.name,
+          dataLayer: Vic.geographiesDataLayer<
+            StateInComePopulationDatum,
+            TestMapGeometryProperties
+          >({
+            data: attributeData,
+            geographies: states.features.filter(
+              (x) => x.properties.name[x.properties.name.length - 1] !== 'a'
+            ),
+            geographyIndexAccessor: (d) => d.state,
+            attributeDimension:
+              Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
+                valueAccessor: (d) => d.income,
+                range: ['white', 'orangered'],
+              }),
+            strokeColor: 'black',
+            strokeWidth: '1',
+            class: 'test-data-layer',
+            labels: Vic.geographiesLabels<
+              StateInComePopulationDatum,
+              TestMapGeometryProperties
+            >({
+              valueAccessor: (feature) => feature.properties.id,
+              color: 'black',
+            }),
+          }),
+          noDataLayers: [
+            Vic.geographiesNoDataLayer<TestMapGeometryProperties>({
+              geographies: states.features.filter(
+                (x) => x.properties.name[x.properties.name.length - 1] === 'a'
+              ),
+              categorical: Vic.dimensionCategorical({
+                range: ['darkblue'],
+              }),
+              class: 'test-no-data-layer',
+              strokeWidth: '1',
+              labels: Vic.geographiesLabels({
+                valueAccessor: (feature) => `${feature.properties.id}*`,
+                color: 'chartreuse',
+              }),
+            }),
+          ],
+        });
+        mountGeographiesComponent(geographiesConfig);
+        cy.get('.vic-geography-g').then((groups) => {
+          expect(groups).to.have.length(states.features.length);
+          cy.wrap(groups)
+            .find('text')
+            .then((labels) => {
+              expect(labels).to.have.length(states.features.length);
+            });
+        });
+        cy.get('.test-data-layer .vic-geography-g').then((groups) => {
+          cy.wrap(groups).each((group) => {
+            const label = group.find('text');
+            expect(label.text().length).to.equal(2);
+            expect(label.attr('fill')).to.eq('black');
+          });
+        });
+        cy.get('.test-no-data-layer .vic-geography-g').then((groups) => {
+          cy.wrap(groups).each((group) => {
+            const label = group.find('text');
+            expect(label.text().length).to.equal(3);
+            expect(label.attr('fill')).to.eq('chartreuse');
+          });
+        });
+      });
+    });
+  });
+});
