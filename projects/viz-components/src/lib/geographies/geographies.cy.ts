@@ -444,6 +444,7 @@ describe('drawing the geography labels various layers', () => {
           cy.wrap(groups).each((group) => {
             const label = group.find('text');
             expect(label.text().length).to.equal(3);
+            expect(label.text()[2]).to.equal('*');
             expect(label.attr('fill')).to.eq('chartreuse');
           });
         });

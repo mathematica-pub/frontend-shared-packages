@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { ascending, max } from 'd3';
 import {
   FeatureCollection,
   GeoJsonProperties,
@@ -7,7 +6,6 @@ import {
   Polygon,
 } from 'geojson';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { uniqBy } from 'lodash-es';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
@@ -94,7 +92,7 @@ const mountGeographiesComponent = (
 // ***********************************************************
 // Test dimension
 // ***********************************************************
-describe('the Equal Frequencies Bins Attribute Data dimension', () => {
+describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
   let geographiesConfig: VicGeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
@@ -127,7 +125,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
           geographies: states.features,
           geographyIndexAccessor: (d) => d.state,
           attributeDimension:
-            Vic.geographiesDataDimensionEqualFrequencies<StateInComePopulationDatum>(
+            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
               {
                 valueAccessor: (d) => d.income,
               }
@@ -135,144 +133,32 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         }),
       });
       mountGeographiesComponent(geographiesConfig);
-      // see https://d3js.org/d3-scale/quantile#quantile_domain for how d3 quantile works
-      const sortedAttributeData = attributeData
-        .filter((x) => {
-          const coerced = Number(x.income);
-          return !(isNaN(coerced) || coerced === null || coerced === undefined);
-        })
-        .sort((a, b) => ascending(Number(a.income), Number(b.income)));
-      const binMaxValues = [
-        ...geographiesConfig.dataLayer.attributeDimension
-          .getScale()
-          ['quantiles'](),
-        max(sortedAttributeData.map((x) => x.income)),
-      ];
-      const statesByBin = sortedAttributeData.reduce((acc, d) => {
-        const binNumber = binMaxValues.reduce((acc, maxValue, i) => {
-          if (
-            (d.income < maxValue || i === binMaxValues.length - 1) &&
-            acc === null
-          ) {
-            acc = i;
-            return acc;
-          } else {
-            return acc;
-          }
-        }, null);
-        if (!acc[binNumber]) {
-          acc[binNumber] = [];
-        }
-        acc[binNumber].push(d.state);
-        return acc;
-      }, []);
+      const scale = geographiesConfig.dataLayer.attributeDimension.getScale();
+      const ranges = {
+        white: scale.invertExtent('white'),
+        pink: scale.invertExtent('pink'),
+        red: scale.invertExtent('red'),
+      };
+      const whiteRange = ranges.white[1] - ranges.white[0];
+      const pinkRange = ranges.pink[1] - ranges.pink[0];
+      const redRange = ranges.red[1] - ranges.red[0];
+      expect(whiteRange).to.be.closeTo(pinkRange, 1);
+      expect(pinkRange).to.be.closeTo(redRange, 1);
       cy.get('.vic-geography-g path').then((states) => {
-        // get unique bin colors for geographies in attribute data
-        const binColors = uniqBy(
-          states
-            .filter(
-              (i, el) =>
-                !!attributeData.find(
-                  (x) => x.state.split(' ').join('-') === el.classList[0]
-                )
-            )
-            .map((i, el) => {
-              const rg = el.getAttribute('fill').split('(')[1].split(',');
-              return { r: rg[0].trim(), g: rg[1].trim() };
-            }),
-          (x) => x.r
-        )
-          .sort((a, b) => b.r - a.r)
-          .map((x) => `rgb(${x.r}, ${x.g}, 255)`);
-        binColors.forEach((color, i) => {
-          // check that the states in each bin have the same color
-          statesByBin[i].forEach((state) => {
-            cy.get(`.vic-geography-g path.${state.split(' ').join('-')}`).then(
-              (path) => {
-                expect(path.attr('fill')).to.eq(color);
-              }
-            );
-          });
-        });
-      });
-    });
-  });
-
-  it('Colors the data with provided range when a user provides a range of the same length as num bins', () => {
-    const range = ['red', 'orange', 'yellow', 'green', 'blue'];
-    cy.fixture('usMap.json').then((response) => {
-      const usMap: TestUsMapTopology = response;
-      const usBoundary = topojson.feature(
-        usMap,
-        usMap.objects.country
-      ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
-      const states = topojson.feature(
-        usMap,
-        usMap.objects.states
-      ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
-        StateInComePopulationDatum,
-        TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualFrequencies<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                numBins: 5,
-                range,
-              }
-            ),
-        }),
-      });
-      mountGeographiesComponent(geographiesConfig);
-      // see https://d3js.org/d3-scale/quantile#quantile_domain for how d3 quantile works
-      const sortedAttributeData = attributeData
-        .filter((x) => {
-          const coerced = Number(x.income);
-          return !(isNaN(coerced) || coerced === null || coerced === undefined);
-        })
-        .sort((a, b) => ascending(Number(a.income), Number(b.income)));
-      const binMaxValues = [
-        ...geographiesConfig.dataLayer.attributeDimension
-          .getScale()
-          ['quantiles'](),
-        max(sortedAttributeData.map((x) => x.income)),
-      ];
-      const statesByBin = sortedAttributeData.reduce((acc, d) => {
-        const binNumber = binMaxValues.reduce((acc, maxValue, i) => {
-          if (
-            (d.income < maxValue || i === binMaxValues.length - 1) &&
-            acc === null
-          ) {
-            acc = i;
-            return acc;
-          } else {
-            return acc;
-          }
-        }, null);
-        if (!acc[binNumber]) {
-          acc[binNumber] = [];
-        }
-        acc[binNumber].push(d.state);
-        return acc;
-      }, []);
-      range.forEach((color, i) => {
-        // check that the states in each bin have the same color
-        statesByBin[i].forEach((state) => {
-          cy.get(`.vic-geography-g path.${state.split(' ').join('-')}`).then(
-            (path) => {
-              expect(path.attr('fill')).to.eq(color);
-            }
+        states.each((index, state) => {
+          const fill = state.getAttribute('fill');
+          const datum = attributeData.find(
+            (d) => d.state === state.classList[0].split('-').join(' ')
           );
+          if (datum) {
+            if (datum.income < ranges.white[1]) {
+              expect(fill).to.equal('white');
+            } else if (datum.income < ranges.pink[1]) {
+              expect(fill).to.equal('pink');
+            } else {
+              expect(fill).to.equal('red');
+            }
+          }
         });
       });
     });
