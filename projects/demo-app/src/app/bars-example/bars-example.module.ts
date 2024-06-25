@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { VicXOrdinalAxisModule } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis.module';
 import { VicXQuantitativeAxisModule } from 'projects/viz-components/src/lib/axes/x-quantitative/x-quantitative-axis.module';
 import { VicYOrdinalAxisModule } from 'projects/viz-components/src/lib/axes/y-ordinal/y-ordinal-axis.module';
@@ -24,12 +25,15 @@ import { BarsExampleComponent } from './bars-example.component';
     VicXyChartModule,
     VicXyBackgroundModule,
     VicXOrdinalAxisModule,
+    VicXQuantitativeAxisModule,
+    VicYOrdinalAxisModule,
     VicYQuantitativeAxisModule,
     VicYOrdinalAxisModule,
     VicXQuantitativeAxisModule,
     SharedModule,
     VicHtmlTooltipModule,
     MatButtonModule,
+    MatButtonToggleModule,
   ],
 })
 export class BarsModule {}
