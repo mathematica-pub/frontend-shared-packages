@@ -28,7 +28,7 @@ jobs:
 
       - name: Check package.json for beta
         run: |
-          if ! grep "\"version\": \"beta-"  projects/viz-components/package.json; then
+          if ! grep "\"version\": \"-beta"  projects/viz-components/package.json; then
             echo "The package.json must contain 'beta' in the version."
             exit 1
           fi
