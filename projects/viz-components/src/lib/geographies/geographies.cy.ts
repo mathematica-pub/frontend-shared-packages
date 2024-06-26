@@ -25,18 +25,6 @@ import {
   stateIncomePopulationData,
 } from '../testing/stubs/data/states_population_income';
 
-const statesWithoutLabels = [
-  'NH',
-  'VT',
-  'MA',
-  'RI',
-  'CT',
-  'NJ',
-  'MD',
-  'DE',
-  'DC',
-  'PR',
-];
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
 const chartWidth = 600;
