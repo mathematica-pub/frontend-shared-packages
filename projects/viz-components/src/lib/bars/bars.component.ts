@@ -14,9 +14,8 @@ import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { VicDataValue } from '../core/types/values';
-import { isFunction, isNumber } from '../core/utilities/type-guards';
-import { VicFormatSpecifier } from '../core/utilities/value-format';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { isNumber } from '../core/utilities/type-guards';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicColorUtilities } from '../shared/color-utilities';
 import { PatternUtilities } from '../shared/pattern-utilities';
 import { ValueUtilities } from '../shared/value-utilities';
@@ -50,7 +49,7 @@ export type BarLabelSelection = Selection<
 >;
 
 export type BarDatum<T> = {
-  i: number;
+  index: number;
   quantitative: number;
   ordinal: T;
   categorical: string;
@@ -88,7 +87,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.categorical.scale;
+    const categorical = this.config.categorical.getScale();
     this.zone.run(() => {
       this.chart.updateScales({ x, y, categorical, useTransition });
     });
@@ -106,11 +105,12 @@ export class BarsComponent<
   drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll<SVGGElement, number>('.vic-bar-group')
-      .data<number>(this.config.valueIndicies, this.config.barsKeyFunction)
+      .data<number>(this.config.valueIndices, this.config.barsKeyFunction)
       .join(
         (enter) =>
           enter
@@ -121,6 +121,7 @@ export class BarsComponent<
             ),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('transform', (i) =>
               this.getBarGroupTransform(this.getBarDatumFromIndex(i))
@@ -142,6 +143,7 @@ export class BarsComponent<
             .attr('fill', (d) => this.getBarFill(d)),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('width', (d) => this.getBarWidth(d))
             .attr('height', (d) => this.getBarHeight(d))
@@ -152,7 +154,7 @@ export class BarsComponent<
 
   getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {
     return {
-      i,
+      index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
       categorical: this.config.categorical.values[i],
@@ -174,13 +176,14 @@ export class BarsComponent<
   drawBarLabels(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.barGroups
       .selectAll<SVGTextElement, BarDatum<TOrdinalValue>>('text')
       .data<BarDatum<TOrdinalValue>>((i: number) => [
         {
-          i,
+          index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
           categorical: this.config.categorical.values[i],
@@ -202,6 +205,7 @@ export class BarsComponent<
             ),
         (update) =>
           update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .text((d) => this.getBarLabelText(d))
             .style('fill', (d) => this.getBarLabelColor(d))
@@ -322,11 +326,7 @@ export class BarsComponent<
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
     const patterns = this.config.categorical.fillPatterns;
-    return PatternUtilities.getPatternFill(
-      this.config.data[d.i],
-      color,
-      patterns
-    );
+    return PatternUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
@@ -334,19 +334,19 @@ export class BarsComponent<
   }
 
   getBarLabelText(d: BarDatum<TOrdinalValue>): string {
-    const fullDatum = this.config.data[d.i];
+    const datum = this.config.data[d.index];
     if (!isNumber(d.quantitative)) {
-      return this.config.labels.noValueFunction(fullDatum);
+      return this.config.labels.noValueFunction(datum);
     } else {
-      const datumArg = isFunction<VicFormatSpecifier<Datum>, Datum>(
-        this.config.quantitative.valueFormat
-      )
-        ? fullDatum
-        : d.quantitative;
-      return ValueUtilities.formatValue(
-        datumArg,
-        this.config.quantitative.valueFormat
-      );
+      return this.config.quantitative.formatFunction
+        ? ValueUtilities.customFormat(
+            datum,
+            this.config.quantitative.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            d.quantitative,
+            this.config.quantitative.formatSpecifier
+          );
     }
   }
 
@@ -435,7 +435,7 @@ export class BarsComponent<
   getLabelDomRect(d: BarDatum<TOrdinalValue>): DOMRect {
     const selection = selectAll<SVGTextElement, BarDatum<TOrdinalValue>>(
       '.vic-bar-label'
-    ).filter((datum) => datum.i === d.i);
+    ).filter((datum) => datum.index === d.index);
     return selection.node().getBoundingClientRect();
   }
 
@@ -495,11 +495,10 @@ export class BarsComponent<
     d: BarDatum<TOrdinalValue>,
     isPositiveValue: boolean
   ): number {
-    const selection = selectAll('.vic-bar').filter((_, j: number) => j === d.i);
-    if (this.config.dimensions.ordinal === 'x') {
-      return isPositiveValue ? 0 : parseFloat(selection.attr('height'));
+    if (this.config.dimensions.isHorizontal) {
+      return isPositiveValue ? this.getBarDimensionQuantitative(d, 'x') : 0;
     } else {
-      return isPositiveValue ? parseFloat(selection.attr('width')) : 0;
+      return isPositiveValue ? 0 : this.getBarDimensionQuantitative(d, 'y');
     }
   }
 
@@ -526,11 +525,11 @@ export class BarsComponent<
     const bars = select(this.barsRef.nativeElement).selectAll<
       SVGRectElement,
       number
-    >('rect');
+    >('.vic-bar');
     const barLabels = select(this.barsRef.nativeElement).selectAll<
       SVGTextElement,
       number
-    >('text');
+    >('.vic-bar-label');
     this.bars.next(bars);
     this.barLabels.next(barLabels);
   }

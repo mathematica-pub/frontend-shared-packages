@@ -39,14 +39,11 @@ describe('LinesHoverMoveDirective', () => {
   });
 
   describe('elementPointerMove()', () => {
-    let valuesSpy: jasmine.Spy;
     let chartAreaSpy: jasmine.Spy;
     let event: any;
     beforeEach(() => {
       event = 'event';
-      valuesSpy = spyOn(directive, 'getPointerValuesArray').and.returnValue([
-        1, 2,
-      ]);
+      spyOn(directive, 'getPointerValuesArray').and.returnValue([1, 2]);
       chartAreaSpy = spyOn(directive, 'pointerIsInChartArea').and.returnValue(
         true
       );
@@ -137,7 +134,6 @@ describe('LinesHoverMoveDirective', () => {
   });
 
   describe('determineHoverStyles()', () => {
-    let pointSpy: jasmine.Spy;
     let ttRadiusSpy: jasmine.Spy;
     let effectA: any;
     let applyASpy: jasmine.Spy;
@@ -146,7 +142,7 @@ describe('LinesHoverMoveDirective', () => {
     let applyBSpy: jasmine.Spy;
     let removeBSpy: jasmine.Spy;
     beforeEach(() => {
-      pointSpy = spyOn(directive, 'getClosestPointIndex').and.returnValue(8);
+      spyOn(directive, 'getClosestPointIndex').and.returnValue(8);
       ttRadiusSpy = spyOn(
         directive,
         'pointerIsInsideShowTooltipRadius'
@@ -242,7 +238,7 @@ describe('LinesHoverMoveDirective', () => {
     });
     describe('pointerDetectionRadius is not null', () => {
       beforeEach(() => {
-        directive.lines.config.pointerDetectionRadius = 80;
+        (directive.lines.config as any).pointerDetectionRadius = 80;
       });
       it('calls getPointerDistanceFromPoint once', () => {
         directive.pointerIsInsideShowTooltipRadius(2, 100, 200);

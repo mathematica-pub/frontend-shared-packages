@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { MapChartComponent } from './map-chart.component';
 
 describe('MapChartComponent', () => {

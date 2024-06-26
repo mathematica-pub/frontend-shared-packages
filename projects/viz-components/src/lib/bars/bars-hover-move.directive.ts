@@ -15,7 +15,7 @@ import { VicDataValue } from '../core/types/values';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
-import { BARS, BarsComponent } from './bars.component';
+import { BARS, BarDatum, BarsComponent } from './bars.component';
 
 @Directive({
   selector: '[vicBarsHoverMoveEffects]',
@@ -35,7 +35,7 @@ export class BarsHoverMoveDirective<
   @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
     VicBarsEventOutput<Datum, TOrdinalValue>
   >();
-  barIndex: number;
+  barDatum: BarDatum<TOrdinalValue>;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
@@ -58,7 +58,7 @@ export class BarsHoverMoveDirective<
 
   onElementPointerEnter(event: PointerEvent): void {
     if (!this.preventEffect) {
-      this.barIndex = this.getBarIndex(event);
+      this.barDatum = this.getBarDatum(event);
       this.elRef = new ElementRef(event.target);
     }
     if (this.effects && !this.preventEffect) {
@@ -70,8 +70,10 @@ export class BarsHoverMoveDirective<
     }
   }
 
-  getBarIndex(event: PointerEvent): number {
-    return select(event.target as SVGRectElement).datum() as number;
+  getBarDatum(event: PointerEvent): BarDatum<TOrdinalValue> {
+    return select(
+      event.target as SVGRectElement
+    ).datum() as BarDatum<TOrdinalValue>;
   }
 
   onElementPointerMove(event: PointerEvent) {
@@ -85,13 +87,13 @@ export class BarsHoverMoveDirective<
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
-    this.barIndex = undefined;
+    this.barDatum = undefined;
     this.elRef = undefined;
   }
 
   getEventOutput(): VicBarsEventOutput<Datum, TOrdinalValue> {
     const tooltipData = getBarsTooltipData(
-      this.barIndex,
+      this.barDatum,
       this.elRef,
       this.bars
     );

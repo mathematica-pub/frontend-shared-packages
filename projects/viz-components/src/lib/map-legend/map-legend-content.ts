@@ -4,6 +4,7 @@ import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
 } from '../geographies/config/dimensions/attribute-data-bin-types';
+import { CalculatedRangeBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins';
 import { ValueUtilities } from '../shared/value-utilities';
 
 @Directive()
@@ -16,9 +17,11 @@ export abstract class MapLegendContent<
   @Input() height: number;
   @Input() orientation: keyof typeof VicOrientation;
   @Input() valuesSide: keyof typeof VicSide;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() scale: any;
   @Input() config: AttributeDimensionConfig;
   @Input() outlineColor: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   values: any[];
   colors: string[];
   startValueSpace: number;
@@ -40,15 +43,34 @@ export abstract class MapLegendContent<
   }
 
   setValues(): void {
-    let values;
-    values = this.getValuesFromScale();
+    if (this.config.binType !== VicValuesBin.categorical) {
+      this.setQuantitativeValues();
+    } else {
+      this.setCategoricalValues();
+    }
+  }
+
+  setQuantitativeValues(): void {
+    let values = this.getValuesFromScale() as number[];
     if (this.orientation === VicOrientation.vertical) {
       values = values.slice().reverse();
     }
-    this.setValueSpaces(values);
-    if (this.config.valueFormat) {
-      values = this.getFormattedValues(values);
+    this.setQuantitativeValueSpaces(values);
+    this.values = values.map((d) =>
+      ValueUtilities.d3Format(
+        d,
+        (this.config as CalculatedRangeBinsAttributeDataDimension<Datum>)
+          .formatSpecifier
+      )
+    );
+  }
+
+  setCategoricalValues(): void {
+    let values = this.getValuesFromScale() as string[];
+    if (this.orientation === VicOrientation.vertical) {
+      values = values.slice().reverse();
     }
+    this.setCategoricalValueSpaces();
     this.values = values;
   }
 
@@ -56,20 +78,6 @@ export abstract class MapLegendContent<
     this.colors = this.config.range;
     if (this.orientation === VicOrientation.vertical) {
       this.colors = this.colors.slice().reverse();
-    }
-  }
-
-  getFormattedValues(values: number[]): string[] {
-    return values.map((d) =>
-      ValueUtilities.formatValue(d, this.config.valueFormat)
-    );
-  }
-
-  setValueSpaces(values: number[]): void {
-    if (this.config.binType !== VicValuesBin.categorical) {
-      this.setQuantitativeValueSpaces(values);
-    } else {
-      this.setCategoricalValueSpaces();
     }
   }
 

@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicEqualValuesAttributeDataDimension,
-  vicEqualValuesAttributeDataDimension,
-} from './equal-value-ranges-bins';
+import { Vic } from '../../../config/vic';
+import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
 
 describe('VicEqualValuesAttributeDataDimension', () => {
-  let dimension: VicEqualValuesAttributeDataDimension<any>;
+  let dimension: VicEqualValueRangesAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = vicEqualValuesAttributeDataDimension({
+    dimension = Vic.geographiesDataDimensionEqualValueRanges({
       numBins: 3,
-      valueFormat: '.1f',
+      formatSpecifier: '.1f',
       range: ['red', 'blue', 'yellow', 'green'],
       domain: [0, 20],
       valueAccessor: (d) => d,
@@ -47,9 +45,9 @@ describe('VicEqualValuesAttributeDataDimension', () => {
       expect((dimension as any).calculatedDomain).toEqual([0, 20]);
     });
     it('sets the domain to values if there is no user provided domain', () => {
-      dimension = vicEqualValuesAttributeDataDimension({
+      dimension = Vic.geographiesDataDimensionEqualValueRanges({
         numBins: 3,
-        valueFormat: '.1f',
+        formatSpecifier: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
         valueAccessor: (d) => d,
       });
@@ -80,14 +78,15 @@ describe('VicEqualValuesAttributeDataDimension', () => {
   describe('integration: getScale', () => {
     let scale: any;
     beforeEach(() => {
-      dimension = vicEqualValuesAttributeDataDimension({
+      dimension = Vic.geographiesDataDimensionEqualValueRanges({
         numBins: 4,
-        valueFormat: '.1f',
+        formatSpecifier: '.1f',
         range: ['red', 'blue', 'yellow', 'green'],
         valueAccessor: (d) => d,
+        nullColor: 'black',
       });
       dimension.setPropertiesFromData([0, 2, 4, 6, 8]);
-      scale = dimension.getScale('black');
+      scale = dimension.getScale();
     });
     it('correctly sets the domain', () => {
       expect(scale.domain()).toEqual([0, 8]);

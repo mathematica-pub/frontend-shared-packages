@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { VicCategoricalAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins';
-import { VicEqualValuesAttributeDataDimension } from '../geographies/config/dimensions/equal-value-ranges-bins';
+import { VicEqualValueRangesAttributeDataDimension } from '../geographies/config/dimensions/equal-value-ranges-bins';
+import { ValueUtilities } from '../shared/value-utilities';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {
@@ -27,44 +28,90 @@ describe('the MapLegendContent abstract class', () => {
 
   describe('setValues', () => {
     beforeEach(() => {
-      spyOn(directive, 'getValuesFromScale').and.returnValue([1, 2]);
-      spyOn(directive, 'setValueSpaces');
-      spyOn(directive, 'getFormattedValues').and.returnValue(['1%', '2%']);
-      directive.orientation = 'horizontal';
-      directive.config = new VicEqualValuesAttributeDataDimension();
-      (directive.config as any).valueFormat = 'test formatter';
+      spyOn(directive, 'setCategoricalValues');
+      spyOn(directive, 'setQuantitativeValues');
     });
-
-    it('calls getValuesFromScale once', () => {
+    it('calls setCategoricalValues once if binType is categorical', () => {
+      directive.config = new VicCategoricalAttributeDataDimension();
       directive.setValues();
+      expect(directive.setCategoricalValues).toHaveBeenCalledTimes(1);
+    });
+    it('calls setQuantitativeValues once if binType is not categorical', () => {
+      directive.config = new VicEqualValueRangesAttributeDataDimension();
+      directive.setValues();
+      expect(directive.setQuantitativeValues).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setQuantitativeValues', () => {
+    let formatSpy: jasmine.Spy;
+    beforeEach(() => {
+      spyOn(directive, 'getValuesFromScale').and.returnValue([0.01, 0.02]);
+      spyOn(directive, 'setQuantitativeValueSpaces');
+      formatSpy = spyOn(ValueUtilities, 'd3Format').and.callThrough();
+      directive.orientation = 'horizontal';
+      directive.config = new VicEqualValueRangesAttributeDataDimension({
+        formatSpecifier: '.0%',
+      });
+    });
+    it('calls getValuesFromScale once', () => {
+      directive.setQuantitativeValues();
       expect(directive.getValuesFromScale).toHaveBeenCalledTimes(1);
     });
-
-    it('calls setValueSpaces once with the correct values if orientation is horizontal', () => {
-      directive.setValues();
-      expect(directive.setValueSpaces).toHaveBeenCalledWith([1, 2] as any);
+    it('calls setQuantitativeValueSpaces once with the correct values if orientation is horizontal', () => {
+      directive.setQuantitativeValues();
+      expect(directive.setQuantitativeValueSpaces).toHaveBeenCalledWith([
+        0.01, 0.02,
+      ]);
     });
-
-    it('calls setValueSpaces once with the correct values if orientation is vertical', () => {
+    it('calls d3Format once with the correct values if orientation is horizontal', () => {
+      directive.setQuantitativeValues();
+      expect(formatSpy.calls.allArgs()).toEqual([
+        [0.01, '.0%'],
+        [0.02, '.0%'],
+      ]);
+    });
+    it('calls d3Format once with the correct values if orientation is vertical', () => {
       directive.orientation = 'vertical';
-      directive.setValues();
-      expect(directive.setValueSpaces).toHaveBeenCalledWith([2, 1] as any);
+      directive.setQuantitativeValues();
+      expect(formatSpy.calls.allArgs()).toEqual([
+        [0.02, '.0%'],
+        [0.01, '.0%'],
+      ]);
     });
-
-    it('calls getFormattedValues once with the correct values if formatter is truthy', () => {
-      directive.setValues();
-      expect(directive.getFormattedValues).toHaveBeenCalledWith([1, 2]);
-    });
-
-    it('does not call getFormattedValues if formatter is falsy', () => {
-      (directive.config as any).valueFormat = null;
-      directive.setValues();
-      expect(directive.getFormattedValues).not.toHaveBeenCalled();
-    });
-
-    it('integration: set value to the correct values', () => {
-      directive.setValues();
+    it('sets values to the correct values - orientation is horizontal', () => {
+      directive.setQuantitativeValues();
       expect(directive.values).toEqual(['1%', '2%']);
+    });
+    it('sets values to the correct values - orientation is vertical', () => {
+      directive.orientation = 'vertical';
+      directive.setQuantitativeValues();
+      expect(directive.values).toEqual(['2%', '1%']);
+    });
+  });
+
+  describe('setCategoricalValues', () => {
+    beforeEach(() => {
+      spyOn(directive, 'getValuesFromScale').and.returnValue(['a', 'b'] as any);
+      spyOn(directive, 'setCategoricalValueSpaces');
+      directive.orientation = 'horizontal';
+    });
+    it('calls getValuesFromScale once', () => {
+      directive.setCategoricalValues();
+      expect(directive.getValuesFromScale).toHaveBeenCalledTimes(1);
+    });
+    it('calls setCategoricalValueSpaces once', () => {
+      directive.setCategoricalValues();
+      expect(directive.setCategoricalValueSpaces).toHaveBeenCalledTimes(1);
+    });
+    it('sets values to the correct values - orientation is horizontal', () => {
+      directive.setCategoricalValues();
+      expect(directive.values).toEqual(['a', 'b']);
+    });
+    it('sets values to the correct values - orientation is vertical', () => {
+      directive.orientation = 'vertical';
+      directive.setCategoricalValues();
+      expect(directive.values).toEqual(['b', 'a']);
     });
   });
 
@@ -84,23 +131,6 @@ describe('the MapLegendContent abstract class', () => {
       directive.orientation = 'vertical';
       directive.setColors();
       expect(directive.colors).toEqual(['blue', 'red']);
-    });
-  });
-
-  describe('setValueSpaces', () => {
-    beforeEach(() => {
-      spyOn(directive, 'setQuantitativeValueSpaces');
-      spyOn(directive, 'setCategoricalValueSpaces');
-    });
-    it('calls setQuantitativeValueSpaces once if binType is not categorical', () => {
-      directive.config = new VicEqualValuesAttributeDataDimension();
-      directive.setValueSpaces([1, 2]);
-      expect(directive.setQuantitativeValueSpaces).toHaveBeenCalledTimes(1);
-    });
-    it('calls setCategoricalValueSpaces once if binType is categorical', () => {
-      directive.config = new VicCategoricalAttributeDataDimension();
-      directive.setValueSpaces([1, 2]);
-      expect(directive.setCategoricalValueSpaces).toHaveBeenCalledTimes(1);
     });
   });
 

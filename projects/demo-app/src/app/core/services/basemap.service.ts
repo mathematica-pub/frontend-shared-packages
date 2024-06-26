@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicNoDataGeographies } from 'projects/viz-components/src/lib/geographies/config/dimensions/no-data-geographies';
+import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/layers/no-data-layer';
+import {
+  Vic,
+  VicGeographiesFeature,
+} from 'projects/viz-components/src/public-api';
 import * as topojson from 'topojson-client';
 import { colors } from '../constants/colors.constants';
-import { StateIncomeDatum } from '../models/data';
 import { DataResource } from '../resources/data.resource';
 import { MapGeometryProperties, UsMapTopology } from './basemap';
 
@@ -14,9 +17,9 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicNoDataGeographies<
-    StateIncomeDatum,
-    MapGeometryProperties
+  usOutlineConfig: VicGeographiesNoDataLayer<
+    MapGeometryProperties,
+    MultiPolygon | Polygon
   >;
 
   constructor(private data: DataResource) {}
@@ -38,7 +41,7 @@ export class BasemapService {
     this.us = topojson.feature(
       this.map,
       this.map.objects.country
-    ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+    ) as FeatureCollection<MultiPolygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
   }
 
   private setStatesGeoJson(): void {
@@ -49,13 +52,16 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    const outlineGeography = new VicNoDataGeographies<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >();
-    outlineGeography.geographies = this.us.features;
-    outlineGeography.strokeWidth = '1';
-    outlineGeography.strokeColor = colors.base;
-    this.usOutlineConfig = outlineGeography;
+    this.usOutlineConfig = Vic.geographiesNoDataLayer<MapGeometryProperties>({
+      geographies: this.us.features,
+      strokeColor: colors.base,
+      strokeWidth: '1',
+      categorical: Vic.dimensionCategorical<
+        VicGeographiesFeature<MapGeometryProperties, MultiPolygon | Polygon>
+      >({
+        valueAccessor: (d) => d.properties.name,
+        range: ['none'],
+      }),
+    });
   }
 }

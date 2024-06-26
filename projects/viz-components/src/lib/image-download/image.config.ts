@@ -1,5 +1,5 @@
 import { VicImage } from './image.enums';
-// (partial) config options from documentation: https://www.npmjs.com/package/html-to-image
+
 export class VicImageServiceConfig {
   filter: (domNode: HTMLElement) => boolean;
   containerNode: HTMLElement;

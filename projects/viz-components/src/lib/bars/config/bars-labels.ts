@@ -1,3 +1,11 @@
+const DEFAULT = {
+  defaultLabelColor: '#000000',
+  display: true,
+  noValueFunction: () => 'N/A',
+  offset: 4,
+  withinBarAlternativeLabelColor: '#ffffff',
+};
+
 export class VicBarsLabels<Datum> {
   /**
    * The default label color is used for a label positioned outside of a bar. Additionally, if its contrast ratio with the bar color is higher than that of the withinBarAlternativeLabelColor, it is used for a label positioned within a bar.
@@ -13,10 +21,10 @@ export class VicBarsLabels<Datum> {
   display: boolean;
   /**
    * The noValueFunction is used to determine the text of the label when the value of the bar is null or undefined.
-   * @default (d: Datum, ...args: any) => 'N/A'
-   * @type {(d: Datum, ...args: any) => string}
+   * @default (d: Datum) => 'N/A'
+   * @type {(d: Datum) => string}
    */
-  noValueFunction: (d: Datum, ...args: any) => string;
+  noValueFunction: (d: Datum) => string;
   /**
    * The distance between the label and the end of the bar.
    * @default 4
@@ -31,17 +39,6 @@ export class VicBarsLabels<Datum> {
   withinBarAlternativeLabelColor: string;
 
   constructor(options?: Partial<VicBarsLabels<Datum>>) {
-    this.defaultLabelColor = '#000000';
-    this.display = true;
-    this.offset = 4;
-    this.noValueFunction = () => 'N/A';
-    this.withinBarAlternativeLabelColor = '#ffffff';
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
   }
-}
-
-export function vicBarsLabels<Datum>(
-  options: Partial<VicBarsLabels<Datum>>
-): VicBarsLabels<Datum> {
-  return new VicBarsLabels(options);
 }

@@ -8,6 +8,9 @@ export interface VicStackedAreaEventOutput<
 > {
   data: VicStackedAreaEventDatum<Datum, TCategoricalValue>[];
   positionX: number;
+  categoryYMin: number;
+  categoryYMax: number;
+  hoveredDatum: VicStackedAreaEventDatum<Datum, TCategoricalValue>;
   svgHeight?: number;
 }
 
@@ -27,6 +30,9 @@ export function getStackedAreaTooltipData<
   TCategoricalValue extends VicDataValue
 >(
   closestXIndicies: number[],
+  categoryYMin: number,
+  categoryYMax: number,
+  categoryIndex: number,
   stackedArea: StackedAreaComponent<Datum, TCategoricalValue>
 ): VicStackedAreaEventOutput<Datum, TCategoricalValue> {
   const data = closestXIndicies.map((i) => {
@@ -39,14 +45,24 @@ export function getStackedAreaTooltipData<
     );
     return {
       datum: originalDatum,
-      x: ValueUtilities.formatValue(
-        stackedArea.config.x.valueAccessor(originalDatum),
-        stackedArea.config.x.valueFormat
-      ),
-      y: ValueUtilities.formatValue(
-        stackedArea.config.y.valueAccessor(originalDatum),
-        stackedArea.config.y.valueFormat
-      ),
+      x: stackedArea.config.x.formatFunction
+        ? ValueUtilities.customFormat(
+            originalDatum,
+            stackedArea.config.x.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            stackedArea.config.x.valueAccessor(originalDatum),
+            stackedArea.config.x.formatSpecifier
+          ),
+      y: stackedArea.config.y.formatFunction
+        ? ValueUtilities.customFormat(
+            originalDatum,
+            stackedArea.config.y.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            stackedArea.config.y.valueAccessor(originalDatum),
+            stackedArea.config.y.formatSpecifier
+          ),
       category: stackedArea.config.categorical.valueAccessor(originalDatum),
       color: stackedArea.scales.categorical(
         stackedArea.config.categorical.valueAccessor(originalDatum)
@@ -60,11 +76,15 @@ export function getStackedAreaTooltipData<
         stackedArea.config.categoricalOrder.indexOf(b.category)
       );
     });
+    categoryIndex = closestXIndicies.length - categoryIndex;
   }
   return {
     data,
     positionX: stackedArea.scales.x(
       stackedArea.config.x.values[closestXIndicies[0]]
     ),
+    categoryYMin: categoryYMin,
+    categoryYMax: categoryYMax,
+    hoveredDatum: data[categoryIndex],
   };
 }

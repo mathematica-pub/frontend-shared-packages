@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { XyAxisElement } from '../../xy-chart-space/xy-axis.class';
 
 export class XyAxisElementStub extends XyAxisElement {

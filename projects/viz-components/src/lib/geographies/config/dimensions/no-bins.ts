@@ -1,14 +1,27 @@
 import { extent, interpolateLab, scaleLinear } from 'd3';
-import { AttributeDataDimension } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
+import {
+  AttributeDataDimension,
+  VicAttributeDataDimensionOptions,
+} from './attribute-data-dimension';
 
 const DEFAULT = {
   interpolator: interpolateLab,
+  nullColor: 'whitesmoke',
+  range: ['white', 'slategray'],
   scale: scaleLinear,
 };
 
+export interface VicNoBinsAttributeDataDimensionOptions<Datum>
+  extends VicAttributeDataDimensionOptions<Datum, number> {
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
+}
+
 /**
- * Configuration object for attribute data that is quantitative.
+ * Configuration object for attribute data that is quantitative and does not have bins.
  *
  * The generic parameter is the type of the attribute data.
  */
@@ -17,15 +30,21 @@ export class VicNoBinsAttributeDataDimension<
 > extends AttributeDataDimension<Datum, number> {
   readonly binType: VicValuesBin.none;
   domain: [number, number];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly valueAccessor: (d: Datum, ...args: any) => number;
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
 
   constructor(options?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
     super();
     this.binType = VicValuesBin.none;
     this.scale = DEFAULT.scale;
-    this.interpolator = DEFAULT.interpolator;
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for NoBinsAttributeDataDimension'
+      );
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -38,16 +57,10 @@ export class VicNoBinsAttributeDataDimension<
     this.domain = extent(domainValues);
   }
 
-  getScale(nullColor: string) {
+  getScale() {
     return this.scale()
       .domain(this.domain)
       .range(this.range)
-      .unknown(nullColor);
+      .unknown(this.nullColor);
   }
-}
-
-export function vicNoBinsAttributeDataDimension<Datum>(
-  options?: Partial<VicNoBinsAttributeDataDimension<Datum>>
-): VicNoBinsAttributeDataDimension<Datum> {
-  return new VicNoBinsAttributeDataDimension<Datum>(options);
 }

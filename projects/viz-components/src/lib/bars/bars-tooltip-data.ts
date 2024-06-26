@@ -1,7 +1,7 @@
 import { ElementRef } from '@angular/core';
 import { VicDataValue } from '../core/types/values';
 import { ValueUtilities } from '../shared/value-utilities';
-import { BarsComponent } from './bars.component';
+import { BarDatum, BarsComponent } from './bars.component';
 
 export interface VicBarsTooltipOutput<
   Datum,
@@ -22,29 +22,33 @@ export interface VicBarsEventOutput<Datum, TOrdinalValue extends VicDataValue>
 }
 
 export function getBarsTooltipData<Datum, TOrdinalValue extends VicDataValue>(
-  barIndex: number,
+  barDatum: BarDatum<TOrdinalValue>,
   elRef: ElementRef,
   bars: BarsComponent<Datum, TOrdinalValue>
 ): VicBarsTooltipOutput<Datum, TOrdinalValue> {
   const datum = bars.config.data.find(
     (d) =>
-      bars.config.quantitative.values[barIndex] ===
+      bars.config.quantitative.values[barDatum.index] ===
         bars.config.quantitative.valueAccessor(d) &&
-      bars.config.ordinal.values[barIndex] ===
+      bars.config.ordinal.values[barDatum.index] ===
         bars.config.ordinal.valueAccessor(d)
   );
 
   const tooltipData: VicBarsTooltipOutput<Datum, TOrdinalValue> = {
     datum,
-    color: bars.getBarColor(bars.getBarDatumFromIndex(barIndex)),
+    color: bars.getBarColor(barDatum),
     ordinal: bars.config.ordinal.valueAccessor(datum),
-    quantitative: ValueUtilities.formatValue(
-      bars.config.quantitative.valueAccessor(datum),
-      bars.config.quantitative.valueFormat
-    ),
+    quantitative: bars.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          bars.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          bars.config.quantitative.valueAccessor(datum),
+          bars.config.quantitative.formatSpecifier
+        ),
     category: bars.config.categorical.valueAccessor(datum),
     elRef: elRef,
   };
-
   return tooltipData;
 }

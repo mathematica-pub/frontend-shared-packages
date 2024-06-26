@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, shareReplay } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map, shareReplay } from 'rxjs';
 import {
   IndustryUnemploymentDatum,
   MetroUnemploymentDatum,

@@ -22,15 +22,17 @@ chart-components:
     y-quantitative-axis-config: 'classes/VicYQuantitativeAxisConfig.html'
     tick-wrap-config: 'classes/VicTickWrapConfig.html'
 dimensions:
-  categorical: 'classes/VicCategoricalDimension.html'
-  date: 'classes/VicDateDimension.html'
-  ordinal: 'classes/VicOrdinalDimension.html'
-  quantitative: 'classes/VicQuantitativeDimension.html'
-  domain-padding:
-    round-up: 'classes/VicRoundUpDomainPadding.html'
-    round-to-interval: 'classes/VicRoundUpToIntervalDomainPadding.html'
-    percent-over: 'classes/VicPercentOverDomainPadding.html'
-    pixel: 'classes/VicPixelDomainPadding.html'
+  categorical:
+    categorical: 'classes/VicDimensionCategorical.html'
+    domain-padding:
+      round-up: 'classes/VicRoundUpDomainPadding.html'
+      round-to-interval: 'classes/VicRoundUpToIntervalDomainPadding.html'
+      percent-over: 'classes/VicPercentOverDomainPadding.html'
+      pixel: 'classes/VicPixelDomainPadding.html'
+  ordinal: 'classes/VicDimensionOrdinal.html'
+  quantitative:
+    numeric: 'classes/VicDimensionQuantitativeNumeric.html'
+    date: 'classes/VicDimensionQuantitativeDate.html'
 data-marks-components:
   shared:
     html-tooltip: 'directives/VicHtmlTooltipDirective.html'
@@ -57,14 +59,15 @@ data-marks-components:
     stacked-bars: 'components/StackedBarsComponent.html'
     stacked-bars-config: 'classes/VicStackedBarsConfig.html'
   geographies:
+    layers:
+      data-layer: 'classes/VicGeographiesDataLayer.html'
+      no-data-layer: 'classes/VicGeographiesNoDataLayer.html'
     dimensions:
-      data-geographies: 'classes/VicDataGeographies.html'
-      no-data-geographies: 'classes/VicNoDataGeographies.html'
       attribute-data:
         no-bins: 'classes/VicNoBinsAttributeDataDimension.html'
         categorical: 'classes/VicCategoricalAttributeDataDimension.html'
-        equal-num-observations: 'classes/VicEqualNumObservationsAttributeDataDimension.html'
-        equal-value-ranges: 'classes/VicEqualValuesAttributeDataDimension.html'
+        equal-frequencies: 'classes/VicEqualFrequenciesAttributeDataDimension.html'
+        equal-value-ranges: 'classes/VicEqualValueRangesAttributeDataDimension.html'
         custom-breaks: 'classes/VicCustomBreaksAttributeDataDimension.html'
     geographies-config: 'classes/VicGeographiesConfig.html'
     geographies-labels-config: 'classes/VicGeographiesLabels.html'
@@ -79,8 +82,6 @@ data-marks-components:
       geographies-hover-move-emit-tooltip-data: 'classes/GeographiesHoverMoveEmitTooltipData.html'
   lines:
     lines-config: 'classes/VicLinesConfig.html'
-    lines-stroke: 'classes/VicLinesStroke.html'
-    point-markers: 'classes/VicPointMarkers.html'
     events:
       lines-click: 'directives/LinesClickDirective.html'
       lines-marker-click: 'directives/LinesMarkerClickDirective.html'
@@ -104,6 +105,9 @@ data-marks-components:
       stacked-area-input-event: 'directives/StackedAreaInputEventDirective.html'
     event-effects:
       stacked-area-hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
+marks:
+  stroke: 'classes/VicStroke.html'
+  pointMarkers: 'classes/VicPointMarkers.html'
 utilities:
   svg-text-wrap-config: 'classes/VicSvgTextWrapConfig.html'
 library-internals:

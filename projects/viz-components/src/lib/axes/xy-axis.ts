@@ -20,6 +20,7 @@ import { VicXyAxisConfig } from './xy-axis.config';
 
 export type XyAxisScale = {
   useTransition: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: GenericScale<any, any>;
 };
 
@@ -35,15 +36,20 @@ export abstract class XyAxis<TickValue extends VicDataValue>
    */
   @Input() config: VicXyAxisConfig<TickValue>;
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisFunction: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axis: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
 
   constructor(public chart: XyChartComponent, public destroyRef: DestroyRef) {}
 
   abstract getScale(): Observable<XyAxisScale>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxis(axisFunction: any): void;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -67,7 +73,7 @@ export abstract class XyAxis<TickValue extends VicDataValue>
         this.onScaleUpdate(scale.scale, scale.useTransition);
       });
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onScaleUpdate(scale: GenericScale<any, any>, useTransition: boolean): void {
     const transitionDuration = useTransition
       ? this.chart.transitionDuration
@@ -88,6 +94,7 @@ export abstract class XyAxis<TickValue extends VicDataValue>
       .duration(transitionDuration);
 
     select(this.axisRef.nativeElement)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .transition(t as any)
       .call(this.axis)
       .on('end', (d, i, nodes) => {
@@ -101,10 +108,12 @@ export abstract class XyAxis<TickValue extends VicDataValue>
       });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setTickFontSize(tickTextSelection: any): void {
     tickTextSelection.attr('font-size', this.config.tickLabelFontSize);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   wrapAxisTickText(tickTextSelection: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { wrapWidth, ...properties } = this.config.wrap;

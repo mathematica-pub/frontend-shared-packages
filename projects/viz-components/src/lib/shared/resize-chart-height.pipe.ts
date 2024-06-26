@@ -6,6 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'resizeChartHeight',
 })
 export class ResizeChartHeightPipe implements PipeTransform {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   transform(divWidth: any, maxHeight: number, maxWidth: number): any {
     if (typeof divWidth !== 'number') {
       return divWidth;

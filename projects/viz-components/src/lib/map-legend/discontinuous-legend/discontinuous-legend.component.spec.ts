@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
+import { Vic } from '../../config/vic';
 import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-types';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
@@ -20,14 +21,15 @@ describe('DiscontinuousLegendComponent', () => {
   });
 
   describe('getValuesFromScale', () => {
+    beforeEach(() => {
+      component.config = Vic.geographiesDataDimensionCategorical({
+        domain: ['one', 'two', 'three'],
+      });
+      spyOn(component.config, 'getDomain').and.returnValue('domain' as any);
+    });
     it('integration: should return this.config.domain if binType == categorical', () => {
-      component.config = {
-        binType: VicValuesBin.categorical,
-        domain: 'domain',
-      } as any;
       expect(component.getValuesFromScale()).toEqual('domain' as any);
     });
-
     it('integration: should return breakValues if binType == customBreaks', () => {
       component.config = {
         binType: VicValuesBin.customBreaks,
@@ -35,7 +37,6 @@ describe('DiscontinuousLegendComponent', () => {
       } as any;
       expect(component.getValuesFromScale()).toEqual([1, 2, 3] as any);
     });
-
     it('integration: should return custom values based on scale if binType not specified', () => {
       component.config = {} as any;
       component.config.range = ['white', 'gray', 'black'];

@@ -13,10 +13,10 @@ import {
   stackOrderNone,
 } from 'd3';
 import { VicContinuousValue, VicDataValue } from '../../core/types/values';
-import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { VicDateDimension } from '../../data-dimensions/date-dimension';
-import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {
@@ -33,9 +33,11 @@ export interface VicStackedAreaOptions<
   TCategoricalValue extends VicDataValue
 > extends VicDataMarksOptions<Datum>,
     VicDataMarksOptions<Datum> {
-  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
-  y: VicQuantitativeDimension<Datum>;
-  categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
+  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
   curve: CurveFactory;
   stackOffset: (
     series: Series<
@@ -57,9 +59,11 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   extends VicXyDataMarksConfig<Datum>
   implements VicDataMarksOptions<Datum>
 {
-  x: VicDateDimension<Datum> | VicQuantitativeDimension<Datum>;
-  y: VicQuantitativeDimension<Datum>;
-  categorical: VicCategoricalDimension<Datum, TCategoricalValue>;
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
+  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
   curve: CurveFactory;
   stackOffset: (
     series: Series<
@@ -106,14 +110,14 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   }
 
   private setValueIndicies(): void {
-    this.valueIndicies = range(this.x.values.length).filter((i) =>
+    this.valueIndices = range(this.x.values.length).filter((i) =>
       this.categorical.domainIncludes(this.categorical.values[i])
     );
   }
 
   private setSeries(): void {
     const rolledUpData = rollup(
-      this.valueIndicies,
+      this.valueIndices,
       ([i]) => i,
       (i) => this.x.values[i],
       (i) => this.categorical.values[i]
@@ -145,10 +149,4 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
       this.y.setDomain(extent(this.series.flat(2)));
     }
   }
-}
-
-export function vicStackedArea<Datum, TCategoricalValue extends VicDataValue>(
-  options: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
-): VicStackedAreaConfig<Datum, TCategoricalValue> {
-  return new VicStackedAreaConfig(options);
 }

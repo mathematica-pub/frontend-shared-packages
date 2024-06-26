@@ -1,20 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vicCategoricalDimension } from '../data-dimensions/categorical-dimension';
-import { vicOrdinalDimension } from '../data-dimensions/ordinal-dimension';
-import { vicQuantitativeDimension } from '../data-dimensions/quantitative-dimension';
+import { Vic } from '../config/vic';
 import { VicColorUtilities } from '../shared/color-utilities';
 import { PatternUtilities } from '../shared/pattern-utilities';
 import { ValueUtilities } from '../shared/value-utilities';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
-import { vicBarsLabels } from './config/bars-labels';
-import {
-  VicBarsConfig,
-  vicHorizontalBars,
-  vicVerticalBars,
-} from './config/bars.config';
+import { VicBarsConfig } from './config/bars.config';
 
 type Datum = { value: number; state: string; fruit: string };
 
@@ -28,39 +21,39 @@ const data = [
 ];
 
 function horizontalConfig(): VicBarsConfig<Datum, string> {
-  return vicHorizontalBars<Datum, string>({
+  return Vic.barsHorizontal<Datum, string>({
     data,
-    quantitative: vicQuantitativeDimension<Datum>({
+    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (x) => x.value,
     }),
-    ordinal: vicOrdinalDimension<Datum, string>({
+    ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (x) => x.state,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (x) => x.fruit,
       range: ['red', 'blue', 'green', 'yellow', 'purple'],
     }),
-    labels: vicBarsLabels({
-      noValueFunction: (d) => 'no value',
+    labels: Vic.barsLabels({
+      noValueFunction: () => 'no value',
     }),
   });
 }
 
 function verticalConfig(): VicBarsConfig<Datum, string> {
-  return vicVerticalBars<Datum, string>({
+  return Vic.barsVertical<Datum, string>({
     data,
-    quantitative: vicQuantitativeDimension<Datum>({
+    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (x) => x.value,
     }),
-    ordinal: vicOrdinalDimension<Datum, string>({
+    ordinal: Vic.dimensionOrdinal<Datum, string>({
       valueAccessor: (x) => x.state,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (x) => x.fruit,
       range: ['red', 'blue', 'green', 'yellow', 'purple'],
     }),
-    labels: vicBarsLabels({
-      noValueFunction: (d) => 'no value',
+    labels: Vic.barsLabels({
+      noValueFunction: () => 'no value',
     }),
   });
 }
@@ -95,7 +88,9 @@ describe('BarsComponent', () => {
     describe('chart is horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
-        component.config.categorical.scale = 'categorical scale' as any;
+        spyOn(component.config.categorical, 'getScale').and.returnValue(
+          'categorical scale' as any
+        );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
           'ordinal scale' as any
         );
@@ -129,7 +124,9 @@ describe('BarsComponent', () => {
     describe('chart is vertical', () => {
       beforeEach(() => {
         component.config = verticalConfig();
-        component.config.categorical.scale = 'categorical scale' as any;
+        spyOn(component.config.categorical, 'getScale').and.returnValue(
+          'categorical scale' as any
+        );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
           'ordinal scale' as any
         );
@@ -178,7 +175,7 @@ describe('BarsComponent', () => {
       component.drawMarks();
       expect(component.drawBarLabels).toHaveBeenCalledOnceWith(100);
     });
-    it('does not call drawBarLabels if config.labels is falsey', () => {
+    it('does not call drawBarLabels if config.labels is falsy', () => {
       (component.config as any).labels = undefined;
       component.drawMarks();
       expect(component.drawBarLabels).not.toHaveBeenCalled();
@@ -195,7 +192,7 @@ describe('BarsComponent', () => {
     });
     it('returns the correct value', () => {
       expect(component.getBarDatumFromIndex(1)).toEqual({
-        i: 1,
+        index: 1,
         quantitative: 2,
         ordinal: 'AK',
         categorical: 'avocado',
@@ -237,7 +234,7 @@ describe('BarsComponent', () => {
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
       (component.config.categorical as any).fillPatterns = [
-        { name: 'pattern', predicate: (d) => true },
+        { name: 'pattern', usePattern: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
     });
@@ -678,13 +675,11 @@ describe('BarsComponent', () => {
     let datum: BarDatum<string>;
     const pattern = {
       name: 'pattern1',
-      predicate: (d) => d.fruit === 'avocado',
+      usePattern: (d) => d.fruit === 'avocado',
     };
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
-      spyOn(PatternUtilities, 'getPatternFill').and.returnValue(
-        'return-pattern'
-      );
+      spyOn(PatternUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
       (component.config.categorical as any).fillPatterns = [pattern];
@@ -695,7 +690,7 @@ describe('BarsComponent', () => {
     });
     it('calls getPatternFill once with the correct values', () => {
       component.getBarPattern(datum);
-      expect(PatternUtilities.getPatternFill).toHaveBeenCalledOnceWith(
+      expect(PatternUtilities.getFill).toHaveBeenCalledOnceWith(
         data[2],
         'blue',
         [pattern]
@@ -728,31 +723,34 @@ describe('BarsComponent', () => {
     beforeEach(() => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      spyOn(ValueUtilities, 'formatValue').and.returnValue('formatted value');
+      spyOn(ValueUtilities, 'customFormat').and.returnValue(
+        'custom formatted value'
+      );
+      spyOn(ValueUtilities, 'd3Format').and.returnValue('d3 formatted value');
     });
     it('returns the correct value if value is not a number', () => {
       datum.quantitative = undefined;
-      component.config.labels.noValueFunction = (d) => 'nope';
+      component.config.labels.noValueFunction = () => 'nope';
       expect(component.getBarLabelText(datum)).toEqual('nope');
     });
-    it('calls formatValue once with full datum if valueFormat is a function', () => {
-      (component.config.quantitative as any).valueFormat = (d) =>
+    it('calls customFormat once with full datum if formatFunction exists', () => {
+      (component.config.quantitative as any).formatFunction = (d) =>
         d.quantitative + '!';
       component.getBarLabelText(datum);
-      expect(ValueUtilities.formatValue).toHaveBeenCalledOnceWith(
+      expect(ValueUtilities.customFormat).toHaveBeenCalledOnceWith(
         data[2],
-        component.config.quantitative.valueFormat
+        component.config.quantitative.formatFunction
       );
     });
-    it('calls formatValue once with the correct value if valueFormat is a string', () => {
+    it('calls formatValue once with the correct value if formatFunction does not exist', () => {
       component.getBarLabelText(datum);
-      expect(ValueUtilities.formatValue).toHaveBeenCalledOnceWith(
+      expect(ValueUtilities.d3Format).toHaveBeenCalledOnceWith(
         3,
-        component.config.quantitative.valueFormat
+        component.config.quantitative.formatSpecifier
       );
     });
     it('returns the formatted value', () => {
-      expect(component.getBarLabelText(datum)).toEqual('formatted value');
+      expect(component.getBarLabelText(datum)).toEqual('d3 formatted value');
     });
   });
 
@@ -1195,7 +1193,7 @@ describe('BarsComponent', () => {
         component.getBarLabelQuantitativeAxisPosition(datum);
         expect(
           component.getBarLabelPositionForNumericValue
-        ).toHaveBeenCalledTimes(1);
+        ).toHaveBeenCalledOnceWith(datum);
       });
       it('returns the value from getBarLabelPositionForNumericValue', () => {
         expect(component.getBarLabelQuantitativeAxisPosition(datum)).toEqual(
@@ -1261,10 +1259,9 @@ describe('BarsComponent', () => {
 
   describe('getBarLabelPositionForNumericValue()', () => {
     let datum: BarDatum<string>;
-    let originSpy: jasmine.Spy;
     let fitsOutsideSpy: jasmine.Spy;
     beforeEach(() => {
-      originSpy = spyOn(component, 'getBarLabelOrigin').and.returnValue(50);
+      spyOn(component, 'getBarLabelOrigin').and.returnValue(50);
       fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
     });
     describe('bars are horizontal', () => {
@@ -1274,6 +1271,13 @@ describe('BarsComponent', () => {
         component.config.labels.offset = 20;
       });
       describe('quantitative value is positive', () => {
+        it('calls barLabelFitsOutsideBar once', () => {
+          component.getBarLabelPositionForNumericValue(datum);
+          expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
+            datum,
+            true
+          );
+        });
         it('returns the origin plus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
           expect(component.getBarLabelPositionForNumericValue(datum)).toEqual(
@@ -1290,6 +1294,13 @@ describe('BarsComponent', () => {
       describe('quantitative value is negative', () => {
         beforeEach(() => {
           datum.quantitative = -1;
+        });
+        it('calls barLabelFitsOutsideBar once', () => {
+          component.getBarLabelPositionForNumericValue(datum);
+          expect(component.getBarLabelOrigin).toHaveBeenCalledOnceWith(
+            datum,
+            false
+          );
         });
         it('returns the origin minus the offset if the label fits outside the bar', () => {
           fitsOutsideSpy.and.returnValue(true);
@@ -1341,6 +1352,53 @@ describe('BarsComponent', () => {
             30
           );
         });
+      });
+    });
+  });
+
+  describe('getBarLabelOrigin', () => {
+    let datum: BarDatum<string>;
+    beforeEach(() => {
+      spyOn(component, 'getBarDimensionQuantitative').and.returnValue(10);
+    });
+    describe('if bars are horizontal', () => {
+      beforeEach(() => {
+        component.config = horizontalConfig();
+        datum = component.getBarDatumFromIndex(2);
+        component.config.labels.offset = 20;
+      });
+      it('calls getBarDimensionQuantitative once with datum and x if value is positive', () => {
+        component.getBarLabelOrigin(datum, true);
+        expect(component.getBarDimensionQuantitative).toHaveBeenCalledOnceWith(
+          datum,
+          'x'
+        );
+      });
+      it('returns the value from getBarHeightQuantitative for positive values', () => {
+        expect(component.getBarLabelOrigin(datum, true)).toBe(10);
+      });
+      it('returns zero for values that are not positive', () => {
+        expect(component.getBarLabelOrigin(datum, false)).toBe(0);
+      });
+    });
+    describe('if bars are vertical', () => {
+      beforeEach(() => {
+        component.config = verticalConfig();
+        datum = component.getBarDatumFromIndex(2);
+        component.config.labels.offset = 20;
+      });
+      it('calls getBarDimensionQuantitative once with datum and y if value is negative', () => {
+        component.getBarLabelOrigin(datum, false);
+        expect(component.getBarDimensionQuantitative).toHaveBeenCalledOnceWith(
+          datum,
+          'y'
+        );
+      });
+      it('returns zero for positive values', () => {
+        expect(component.getBarLabelOrigin(datum, true)).toBe(0);
+      });
+      it('returns the value from getBarHeightQuantitative for negative values', () => {
+        expect(component.getBarLabelOrigin(datum, false)).toBe(10);
       });
     });
   });

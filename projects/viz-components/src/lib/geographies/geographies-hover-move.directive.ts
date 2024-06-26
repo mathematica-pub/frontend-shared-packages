@@ -2,16 +2,13 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { select } from 'd3';
 import { Geometry } from 'geojson';
 import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
-import { VicGeographiesFeature } from './geographies-feature';
-import {
-  VicGeographiesEventOutput,
-  getGeographiesTooltipData,
-} from './geographies-tooltip-data';
+import { VicGeographiesDataLayer } from './config/layers/data-layer';
+import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
+import { VicGeographiesEventOutput } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 @Directive({
@@ -34,28 +31,37 @@ export class GeographiesHoverMoveDirective<
   @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
+  layer:
+    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesNoDataLayer<TProperties, TGeometry>;
+  path: SVGPathElement;
   pointerX: number;
   pointerY: number;
-  feature: VicGeographiesFeature<TProperties, TGeometry>;
 
   constructor(@Inject(GEOGRAPHIES) public geographies: TComponent) {
     super();
   }
 
   setListenedElements(): void {
-    this.geographies.dataGeographies$
+    this.geographies.pathsByLayer$
       .pipe(
         takeUntilDestroyed(this.geographies.destroyRef),
-        filter((geoSels) => !!geoSels)
+        filter((layers) => !!layers)
       )
-      .subscribe((geoSels) => {
-        this.elements = geoSels.nodes();
+      .subscribe((layers) => {
+        this.elements = layers.flatMap((selections) => selections.nodes());
         this.setListeners();
       });
   }
 
-  onElementPointerEnter(): void {
+  onElementPointerEnter(event: PointerEvent): void {
     if (this.effects && !this.preventEffect) {
+      this.path = event.target as SVGPathElement;
+      const layerIndex = parseFloat(this.path.dataset['layerIndex']);
+      this.layer =
+        layerIndex === 0
+          ? this.geographies.config.dataLayer
+          : this.geographies.config.noDataLayers[layerIndex - 1];
       this.effects.forEach((effect) => {
         if (effect.initializeEffect) {
           effect.initializeEffect(this);
@@ -66,9 +72,6 @@ export class GeographiesHoverMoveDirective<
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    this.feature = select(
-      event.target as Element
-    ).datum() as VicGeographiesFeature<TProperties, TGeometry>;
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.applyEffect(this));
     }
@@ -80,13 +83,8 @@ export class GeographiesHoverMoveDirective<
     }
   }
 
-  getEventOutput(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >(this.feature, this.geographies);
+  getEventOutput(): VicGeographiesEventOutput<Datum | undefined> {
+    const tooltipData = this.layer.getTooltipData(this.path);
     const output = {
       ...tooltipData,
       positionX: this.pointerX,

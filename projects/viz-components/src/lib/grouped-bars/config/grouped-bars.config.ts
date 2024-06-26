@@ -1,20 +1,10 @@
 import { range } from 'd3';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicBarsDimensions,
-} from '../../bars/config/bars-dimensions';
+import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
 import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
 import { VicDataValue } from '../../core/types/values';
 
-const GROUPED_BARS_DEFAULTS = {
-  root: {
-    mixBlendMode: 'normal',
-    intraGroupPadding: 0.05,
-  },
-  categorical: {
-    range: ['lightslategray'],
-  },
+const DEFAULT = {
+  intraGroupPadding: 0.05,
 };
 
 export interface VicGroupedBarsOptions<
@@ -35,36 +25,16 @@ export class VicGroupedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
   ) {
     super(dimensions, options);
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
     this.initPropertiesFromData();
   }
 
-  override setValueIndicies(): void {
-    this.valueIndicies = range(this.ordinal.values.length).filter((i) => {
+  override setValueIndices(): void {
+    this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
         this.categorical.domainIncludes(this.categorical.values[i])
       );
     });
   }
-}
-
-export function vicVerticalGroupedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
-): VicGroupedBarsConfig<Datum, TOrdinalValue> {
-  const config = new VicGroupedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
-  return config;
-}
-
-export function vicHorizontalGroupedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicGroupedBarsOptions<Datum, TOrdinalValue>>
-): VicGroupedBarsConfig<Datum, TOrdinalValue> {
-  const config = new VicGroupedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-  return config;
 }

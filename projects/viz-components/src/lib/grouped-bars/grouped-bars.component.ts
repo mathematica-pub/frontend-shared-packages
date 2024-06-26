@@ -7,7 +7,7 @@ import {
 import { scaleBand } from 'd3';
 import { BarDatum, BarsComponent } from '../bars/bars.component';
 import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicGroupedBarsConfig } from './config/grouped-bars.config';
 
 @Component({
@@ -25,6 +25,7 @@ export class GroupedBarsComponent<
 > extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override config: VicGroupedBarsConfig<Datum, TOrdinalValue>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupScale: any;
 
   override drawMarks(): void {
@@ -36,10 +37,12 @@ export class GroupedBarsComponent<
     if (this.config.dimensions.ordinal === 'x') {
       this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
         0,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
       this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.y as any).bandwidth(),
         0,
       ]).padding(this.config.intraGroupPadding);
@@ -71,10 +74,12 @@ export class GroupedBarsComponent<
   }
 
   override getBarWidthOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.groupScale as any).bandwidth();
   }
 
   override getBarHeightOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.groupScale as any).bandwidth();
   }
 }

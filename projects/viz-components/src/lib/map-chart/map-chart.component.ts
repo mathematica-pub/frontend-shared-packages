@@ -35,12 +35,14 @@ import { VicAttributeDataDimensionConfig } from '../geographies/config/dimension
 export class MapChartComponent<Datum> extends ChartComponent implements Chart {
   private attributeProperties: BehaviorSubject<{
     config: VicAttributeDataDimensionConfig<Datum>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     scale: any;
   }> = new BehaviorSubject({ config: undefined, scale: undefined });
   attributeProperties$ = this.attributeProperties.asObservable();
 
   updateAttributeProperties(properties: {
     config: VicAttributeDataDimensionConfig<Datum>;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     scale: any;
   }): void {
     this.attributeProperties.next({

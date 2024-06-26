@@ -18,6 +18,7 @@ export function mixinQuantitativeAxis<
   abstract class Mixin extends Base {
     @Input() override config: VicQuantitativeAxisConfig<TickValue>;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {
       this.axis = axisFunction(this.scale);
       this.setTicks(this.config.tickFormat);

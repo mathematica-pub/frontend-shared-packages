@@ -2,11 +2,11 @@
 import { axisLeft, axisRight } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
+import { Vic } from '../../config/vic';
 import { VicSide } from '../../core/types/layout';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
-import { vicYQuantitativeAxis } from '../y-quantitative-axis/y-quantitative-axis.config';
 
 describe('the YAxis mixin', () => {
   let abstractClass: YAxisStub<number>;
@@ -31,7 +31,7 @@ describe('the YAxis mixin', () => {
     });
     it('calls getTranslateDistance once', () => {
       abstractClass.translate$
-        .subscribe((str) => {
+        .subscribe(() => {
           expect(abstractClass.getTranslateDistance).toHaveBeenCalledOnceWith(
             testRanges
           );
@@ -54,14 +54,14 @@ describe('the YAxis mixin', () => {
       spyOn(abstractClass, 'getRightTranslate').and.returnValue(60);
     });
     it('returns the correct value for the left side', () => {
-      abstractClass.config = vicYQuantitativeAxis({
+      abstractClass.config = Vic.axisYQuantitative({
         side: VicSide.left,
       });
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
 
     it('returns the correct value for the right side', () => {
-      abstractClass.config = vicYQuantitativeAxis({
+      abstractClass.config = Vic.axisYQuantitative({
         side: VicSide.right,
       });
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
@@ -103,7 +103,7 @@ describe('the YAxis mixin', () => {
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.config = vicYQuantitativeAxis({
+      abstractClass.config = Vic.axisYQuantitative({
         side: VicSide.left,
       });
       abstractClass.setAxisFunction();
@@ -111,7 +111,7 @@ describe('the YAxis mixin', () => {
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.config = vicYQuantitativeAxis({
+      abstractClass.config = Vic.axisYQuantitative({
         side: VicSide.right,
       });
       abstractClass.setAxisFunction();

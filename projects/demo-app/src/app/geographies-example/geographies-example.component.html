@@ -13,6 +13,7 @@
             aria-label="Selected Year"
             [value]="selectedYear$ | async"
             (change)="setYear($event)"
+            [hideSingleSelectionIndicator]="true"
           >
             <mat-button-toggle value="2020">2020</mat-button-toggle>
             <mat-button-toggle value="2010">2010</mat-button-toggle>
@@ -27,16 +28,17 @@
             aria-label="Selected Year"
             [value]="attributeDataBinType$ | async"
             (change)="setBinType($event)"
+            [hideSingleSelectionIndicator]="true"
           >
             <mat-button-toggle [value]="binTypes[0]">No Bins</mat-button-toggle>
             <mat-button-toggle [value]="binTypes[1]"
               >Categorical</mat-button-toggle
             >
             <mat-button-toggle [value]="binTypes[2]"
-              >Equal Num Observations</mat-button-toggle
+              >Equal Value Ranges</mat-button-toggle
             >
             <mat-button-toggle [value]="binTypes[3]"
-              >Equal Value Ranges</mat-button-toggle
+              >Equal Frequencies</mat-button-toggle
             >
             <mat-button-toggle [value]="binTypes[4]"
               >Custom Breaks</mat-button-toggle
@@ -110,7 +112,8 @@
     <div class="values-container">
       <p class="tooltip-label x">
         <span class="value-label">Income</span>
-        {{ (tooltipData$ | async).attributeValue }}
+        @if ((tooltipData$ | async).datum) { {{ (tooltipData$ |
+        async).attributeValue }} } @else { No data available }
       </p>
     </div>
   </div>

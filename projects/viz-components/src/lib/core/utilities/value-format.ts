@@ -1,5 +1,3 @@
-export type VicFormatSpecifier<T> = string | ((x: T) => string);
-
 export interface VicValueFormats {
   integer: string;
   integerNoComma: string;
@@ -21,19 +19,3 @@ export const valueFormat: VicValueFormats = {
   monthYear: '%b %Y',
   monthFullYear: '%B %Y',
 };
-
-// export function formatValue<T>(
-//   value: any,
-//   formatSpecifier: VicFormatSpecifier<T>
-// ): string {
-//   if (formatSpecifier && typeof formatSpecifier === 'function') {
-//     return formatSpecifier(value);
-//   } else if (value === null || value === undefined) {
-//     return '';
-//   } else if (formatSpecifier && typeof formatSpecifier === 'string') {
-//     const formatter = isDate(value) ? timeFormat : format;
-//     return formatter(formatSpecifier)(value);
-//   } else {
-//     return value.toString();
-//   }
-// }

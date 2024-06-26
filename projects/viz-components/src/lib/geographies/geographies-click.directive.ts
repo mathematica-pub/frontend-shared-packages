@@ -10,9 +10,12 @@ import {
   Self,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
+import {
+  VicGeographiesDataLayer,
+  VicGeographiesNoDataLayer,
+} from '../../public-api';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
 import { GeographiesEventDirective } from './geographies-event-directive';
@@ -20,10 +23,7 @@ import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
-import {
-  VicGeographiesEventOutput,
-  getGeographiesTooltipData,
-} from './geographies-tooltip-data';
+import { VicGeographiesEventOutput } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
 @Directive({
@@ -48,9 +48,13 @@ export class GeographiesClickDirective<
   @Output('vicGeographiesClickOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
+  feature: VicGeographiesFeature<TProperties, TGeometry>;
+  layer:
+    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesNoDataLayer<TProperties, TGeometry>;
+  path: SVGPathElement;
   pointerX: number;
   pointerY: number;
-  feature: VicGeographiesFeature<TProperties, TGeometry>;
 
   constructor(
     @Inject(GEOGRAPHIES) public geographies: TComponent,
@@ -83,22 +87,25 @@ export class GeographiesClickDirective<
   }
 
   setListenedElements(): void {
-    this.geographies.dataGeographies$
+    this.geographies.pathsByLayer$
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((dataGeographies) => !!dataGeographies)
+        takeUntilDestroyed(this.geographies.destroyRef),
+        filter((layers) => !!layers)
       )
-      .subscribe((dataGeographies) => {
-        this.elements = dataGeographies.nodes();
+      .subscribe((layers) => {
+        this.elements = layers.flatMap((selections) => selections.nodes());
         this.setListeners();
       });
   }
 
   onElementClick(event: PointerEvent): void {
+    this.path = event.target as SVGPathElement;
+    const layerIndex = parseFloat(this.path.dataset['layerIndex']);
+    this.layer =
+      layerIndex === 0
+        ? this.geographies.config.dataLayer
+        : this.geographies.config.noDataLayers[layerIndex - 1];
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    this.feature = select(
-      event.target as Element
-    ).datum() as VicGeographiesFeature<TProperties, TGeometry>;
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
       this.pointerY = this.hoverDirective.positionY;
@@ -113,13 +120,8 @@ export class GeographiesClickDirective<
     this.feature = undefined;
   }
 
-  getOutputData(): VicGeographiesEventOutput<Datum> {
-    const tooltipData = getGeographiesTooltipData<
-      Datum,
-      TProperties,
-      TGeometry,
-      TComponent
-    >(this.feature, this.geographies);
+  getOutputData(): VicGeographiesEventOutput<Datum | undefined> {
+    const tooltipData = this.layer.getTooltipData(this.path);
     return {
       ...tooltipData,
       positionX: this.pointerX,

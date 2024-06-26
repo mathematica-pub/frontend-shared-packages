@@ -23,14 +23,18 @@ export function getLinesTooltipDataFromDatum<Datum>(
   );
   return {
     datum,
-    x: ValueUtilities.formatValue(
-      lines.config.x.valueAccessor(datum),
-      lines.config.x.valueFormat
-    ),
-    y: ValueUtilities.formatValue(
-      lines.config.y.valueAccessor(datum),
-      lines.config.y.valueFormat
-    ),
+    x: lines.config.x.formatFunction
+      ? ValueUtilities.customFormat(datum, lines.config.x.formatFunction)
+      : ValueUtilities.d3Format(
+          lines.config.x.valueAccessor(datum),
+          lines.config.x.formatSpecifier
+        ),
+    y: lines.config.y.formatFunction
+      ? ValueUtilities.customFormat(datum, lines.config.y.formatFunction)
+      : ValueUtilities.d3Format(
+          lines.config.y.valueAccessor(datum),
+          lines.config.y.formatSpecifier
+        ),
     category: lines.config.categorical.valueAccessor(datum),
     color: lines.scales.categorical(
       lines.config.categorical.valueAccessor(datum)

@@ -9,11 +9,7 @@ import {
   stackOffsetDiverging,
   stackOrderNone,
 } from 'd3';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicBarsDimensions,
-} from '../../bars/config/bars-dimensions';
+import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
 import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
 import { VicDataValue } from '../../core/types/values';
 import { VicStackDatum } from '../stacked-bars.component';
@@ -67,15 +63,15 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     // if statement ensure that this prevent this method is only called at the end of this class's constructor
     if (this.stackOffset !== undefined && this.stackOrder !== undefined) {
       this.setDimensionPropertiesFromData();
-      this.setValueIndicies();
+      this.setValueIndices();
       this.setHasNegativeValues();
       this.constructStackedData();
       this.initQuantitativeDomainFromStack();
     }
   }
 
-  override setValueIndicies(): void {
-    this.valueIndicies = range(this.ordinal.values.length).filter((i) => {
+  override setValueIndices(): void {
+    this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
         this.categorical.domainIncludes(this.categorical.values[i])
@@ -92,7 +88,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
       .order(this.stackOrder)
       .offset(this.stackOffset)(
       rollup(
-        this.valueIndicies,
+        this.valueIndices,
         ([i]) => i,
         (i) => this.ordinal.values[i],
         (i) => this.categorical.values[i]
@@ -113,22 +109,4 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     const extents = extent(this.stackedData.flat(2));
     this.quantitative.setDomain(extents);
   }
-}
-
-export function vicHorizontalStackedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
-): VicStackedBarsConfig<Datum, TOrdinalValue> {
-  return new VicStackedBarsConfig(HORIZONTAL_BARS_DIMENSIONS, options);
-}
-
-export function vicVerticalStackedBars<
-  Datum,
-  TOrdinalValue extends VicDataValue
->(
-  options: Partial<VicStackedBarsOptions<Datum, TOrdinalValue>>
-): VicStackedBarsConfig<Datum, TOrdinalValue> {
-  return new VicStackedBarsConfig(VERTICAL_BARS_DIMENSIONS, options);
 }

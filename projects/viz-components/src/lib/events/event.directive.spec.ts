@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { DataMarksStub } from '../testing/stubs/data-marks.stub';
 import { EventDirectiveStub } from '../testing/stubs/event.directive.stub';
 

@@ -5,7 +5,6 @@ import {
   geoAlbersUsa,
   GeoGeometryObjects,
   GeoProjection,
-  InternMap,
 } from 'd3';
 import {
   GeoJsonProperties,
@@ -16,14 +15,10 @@ import {
 import {
   VicDataMarksConfig,
   VicDataMarksOptions,
-} from '../../data-marks/data-marks-types';
-import { VicDataGeographies } from './dimensions/data-geographies';
-import { VicNoDataGeographies } from './dimensions/no-data-geographies';
-
-export class MapDataValues {
-  attributeValuesByGeographyIndex: InternMap;
-  datumsByGeographyIndex: InternMap;
-}
+} from '../../data-marks/data-marks.config';
+import { VicGeographiesFeature } from '../geographies-feature';
+import { VicGeographiesDataLayer } from './layers/data-layer';
+import { VicGeographiesNoDataLayer } from './layers/no-data-layer';
 
 const DEFAULT = {
   projection: geoAlbersUsa(),
@@ -42,14 +37,21 @@ export interface VicGeographiesOptions<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
+  data: never;
   /**
    * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
    */
-  dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
+  dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
+  /**
+   * A function that derives an identifying string from the GeoJson feature.
+   */
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
   /**
    * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
    */
-  noDataGeographies: VicNoDataGeographies<Datum, TProperties, TGeometry>[];
+  noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
   /**
    * A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
    * @default: d3.geoAlbersUsa().
@@ -80,14 +82,17 @@ export class VicGeographiesConfig<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  readonly dataGeographies: VicDataGeographies<Datum, TProperties, TGeometry>;
-  readonly noDataGeographies: VicNoDataGeographies<
-    Datum,
-    TProperties,
-    TGeometry
-  >[];
+  override data: never;
+  readonly dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
+  featureIndexAccessor: (
+    d: VicGeographiesFeature<TProperties, TGeometry>
+  ) => string;
+  layers: (
+    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesNoDataLayer<TProperties, TGeometry>
+  )[];
+  readonly noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
   readonly projection: GeoProjection;
-  readonly values: MapDataValues = new MapDataValues();
 
   constructor(
     options: Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>
@@ -99,55 +104,26 @@ export class VicGeographiesConfig<
   }
 
   protected initPropertiesFromData(): void {
-    const uniqueDatums = this.getUniqueDatumsByGeoAccessor();
-    this.dataGeographies.attributeData.setPropertiesFromData(uniqueDatums);
-    this.setAttributeData(uniqueDatums);
+    this.setLayers();
+    this.setLayerFeatureIndexAccessors();
   }
 
-  private getUniqueDatumsByGeoAccessor(): Datum[] {
-    const uniqueByGeoAccessor = (arr: Datum[], set = new Set()) =>
-      arr.filter(
-        (x) =>
-          !set.has(this.dataGeographies.attributeData.geoAccessor(x)) &&
-          set.add(this.dataGeographies.attributeData.geoAccessor(x))
-      );
-    return uniqueByGeoAccessor(this.data);
+  private setLayers(): void {
+    if (!this.dataLayer && !this.noDataLayers) {
+      console.error('Geographies config requires at least one layer');
+    }
+    this.layers = [];
+    if (this.dataLayer) {
+      this.layers.push(this.dataLayer);
+    }
+    if (this.noDataLayers) {
+      this.layers.push(...this.noDataLayers);
+    }
   }
 
-  private setAttributeData(uniqueDatums: Datum[]): void {
-    this.values.attributeValuesByGeographyIndex = new InternMap(
-      uniqueDatums.map((d) => {
-        const value = this.dataGeographies.attributeData.valueAccessor(d);
-        return [
-          this.dataGeographies.attributeData.geoAccessor(d),
-          value === null || value === undefined ? NaN : value,
-        ];
-      })
-    );
-    this.values.datumsByGeographyIndex = new InternMap(
-      uniqueDatums.map((d) => {
-        return [this.dataGeographies.attributeData.geoAccessor(d), d];
-      })
+  private setLayerFeatureIndexAccessors(): void {
+    this.layers.forEach((layer) =>
+      layer.setFeatureIndexAccessor(this.featureIndexAccessor)
     );
   }
-}
-
-/**
- * A factory function to create a geographies configuration object to be used with vic-data-marks-geographies component.
- * @param {Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>} options - **REQUIRED**
- * @param {ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection} options.boundary: ExtendedFeature | ExtendedFeatureCollection | GeoGeometryObjects | ExtendedGeometryCollection - **REQUIRED** - A feature or geometry object or collection that defines the extents of the map to be drawn. Used for scaling the map.
- * @param {VicDataGeographies<Datum, TProperties, TGeometry>} options.dataGeographies - **REQUIRED** - set with vicDataGeographies function.
- * @param {VicNoDataGeographies<Datum, TProperties, TGeometry>[]} options.noDataGeographies - **REQUIRED** - set with vicNoDataGeographies function.
- * @param {GeoProjection} options.projection - A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space. Default is d3.geoAlbersUsa().
- * @returns
- */
-
-export function vicGeographies<
-  Datum,
-  TProperties extends GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
->(
-  options: Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>
-): VicGeographiesConfig<Datum, TProperties, TGeometry> {
-  return new VicGeographiesConfig(options);
 }

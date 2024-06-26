@@ -1,7 +1,7 @@
 import { VicCategoricalAttributeDataDimension } from './categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
-import { VicEqualNumObservationsAttributeDataDimension } from './equal-num-observations-bins';
-import { VicEqualValuesAttributeDataDimension } from './equal-value-ranges-bins';
+import { VicEqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
+import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
 import { VicNoBinsAttributeDataDimension } from './no-bins';
 
 /**
@@ -11,13 +11,15 @@ export enum VicValuesBin {
   none = 'none',
   categorical = 'categorical',
   equalValueRanges = 'equalValueRanges',
-  equalNumObservations = 'equalNumObservations',
+  equalFrequencies = 'equalFrequencies',
   customBreaks = 'customBreaks',
 }
+
+export type VicNumberValuesBin = Omit<VicValuesBin, VicValuesBin.categorical>;
 
 export type VicAttributeDataDimensionConfig<Datum> =
   | VicCategoricalAttributeDataDimension<Datum>
   | VicNoBinsAttributeDataDimension<Datum>
-  | VicEqualValuesAttributeDataDimension<Datum>
-  | VicEqualNumObservationsAttributeDataDimension<Datum>
+  | VicEqualValueRangesAttributeDataDimension<Datum>
+  | VicEqualFrequenciesAttributeDataDimension<Datum>
   | VicCustomBreaksAttributeDataDimension<Datum>;

@@ -1,13 +1,25 @@
 import { extent, range, scaleLinear } from 'd3';
-import { AttributeDataDimension } from './attribute-data';
+import {
+  AttributeDataDimension,
+  VicAttributeDataDimensionOptions,
+} from './attribute-data-dimension';
+
+export interface CalculatedRangeBinsAttributeDataDimensionOptions<
+  Datum,
+  RangeValue extends string | number = string
+> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+  formatSpecifier: string;
+}
 
 export abstract class CalculatedRangeBinsAttributeDataDimension<
   Datum,
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, number, RangeValue> {
   protected calculatedNumBins: number;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  readonly valueAccessor: (d: Datum, ...args: any) => number;
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  readonly formatSpecifier: string;
 
   protected setRange(): void {
     if (this.shouldCalculateBinColors(this.calculatedNumBins, this.range)) {
@@ -25,6 +37,7 @@ export abstract class CalculatedRangeBinsAttributeDataDimension<
     return numBins > 1 && range.length !== numBins;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getColorGenerator(binIndicies: number[]): any {
     return scaleLinear<RangeValue>()
       .domain(extent(binIndicies))

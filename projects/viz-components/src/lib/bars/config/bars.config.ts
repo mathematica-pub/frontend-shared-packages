@@ -1,22 +1,21 @@
 import { min, range } from 'd3';
 import { VicDataValue } from '../../core/types/values';
-import { VicCategoricalDimension } from '../../data-dimensions/categorical-dimension';
-import { VicOrdinalDimension } from '../../data-dimensions/ordinal-dimension';
-import { VicQuantitativeDimension } from '../../data-dimensions/quantitative-dimension';
-import { VicDataMarksOptions } from '../../data-marks/data-marks-types';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicBarsDimensions,
-} from './bars-dimensions';
+import { VicBarsDimensions } from './bars-dimensions';
 import { VicBarsLabels } from './bars-labels';
 
-export interface VicBarsOptions<Datum, TOrdinalValue extends VicDataValue>
-  extends VicDataMarksOptions<Datum> {
-  categorical: VicCategoricalDimension<Datum, string>;
-  ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
-  quantitative: VicQuantitativeDimension<Datum>;
+export interface VicBarsOptions<
+  Datum,
+  TOrdinalValue extends VicDataValue,
+  TCategoricalValue extends VicDataValue = string
+> extends VicDataMarksOptions<Datum> {
+  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
+  ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
+  quantitative: VicDimensionQuantitativeNumeric<Datum>;
   labels: VicBarsLabels<Datum>;
 }
 
@@ -25,12 +24,12 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   implements VicBarsOptions<Datum, TOrdinalValue>
 {
   barsKeyFunction: (i: number) => string;
-  readonly categorical: VicCategoricalDimension<Datum, string>;
+  readonly categorical: VicDimensionCategorical<Datum, string>;
   readonly dimensions: VicBarsDimensions;
   hasNegativeValues: boolean;
   readonly labels: VicBarsLabels<Datum>;
-  readonly ordinal: VicOrdinalDimension<Datum, TOrdinalValue>;
-  readonly quantitative: VicQuantitativeDimension<Datum>;
+  readonly ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
+  readonly quantitative: VicDimensionQuantitativeNumeric<Datum>;
 
   constructor(
     dimensions: VicBarsDimensions,
@@ -44,7 +43,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   protected initPropertiesFromData(): void {
     this.setDimensionPropertiesFromData();
-    this.setValueIndicies();
+    this.setValueIndices();
     this.setHasNegativeValues();
     this.setBarsKeyFunction();
   }
@@ -55,10 +54,16 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     this.categorical.setPropertiesFromData(this.data);
   }
 
-  protected setValueIndicies(): void {
-    this.valueIndicies = range(this.ordinal.values.length).filter((i) =>
-      this.ordinal.domainIncludes(this.ordinal.values[i])
-    );
+  protected setValueIndices(): void {
+    this.valueIndices = range(this.data.length).filter((i) => {
+      if (!this.ordinal.domainIncludes(this.ordinal.values[i])) {
+        return false;
+      } else {
+        const ordinalValue = this.ordinal.values[i];
+        const firstIndex = this.ordinal.values.indexOf(ordinalValue);
+        return i === firstIndex;
+      }
+    });
   }
 
   protected setHasNegativeValues(): void {
@@ -68,41 +73,4 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   protected setBarsKeyFunction(): void {
     this.barsKeyFunction = (i: number): string => `${this.ordinal.values[i]}`;
   }
-}
-
-function vicBars<Datum, TOrdinalValue extends VicDataValue>(
-  dimensions: VicBarsDimensions,
-  options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
-): VicBarsConfig<Datum, TOrdinalValue> {
-  return new VicBarsConfig(dimensions, options);
-}
-
-/**
- * A function to create a horizontal bars configuration to be used with vic-data-marks-bars component
- * @param {Partial<VicBarsOptions<Datum, TOrdinalValue>>} options - **REQUIRED**
- * @param {VicCategoricalDimension<Datum, string>} options.categorical - **REQUIRED** - specify using vicCategoricalDimension
- * @param {VicOrdinalDimension<Datum, TOrdinalValue>} options.ordinal - **REQUIRED** - specify using vicOrdinalDimension
- * @param {VicQuantitativeDimension<Datum>} options.quantitative - **REQUIRED** - specify using vicQuantitativeDimension
- * @param {VicBarsLabels<Datum>} options.labels - specify using vicBarsLabels
- * @returns
- */
-export function vicHorizontalBars<Datum, TOrdinalValue extends VicDataValue>(
-  options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
-): VicBarsConfig<Datum, TOrdinalValue> {
-  return vicBars(HORIZONTAL_BARS_DIMENSIONS, options);
-}
-
-/**
- * A function to create a vertical bars configuration to be used with vic-data-marks-bars component
- * @param {Partial<VicBarsOptions<Datum, TOrdinalValue>>} options - **REQUIRED**
- * @param {VicCategoricalDimension<Datum, string>} options.categorical - **REQUIRED** - specify using vicCategoricalDimension
- * @param {VicOrdinalDimension<Datum, TOrdinalValue>} options.ordinal - **REQUIRED** - specify using vicOrdinalDimension
- * @param {VicQuantitativeDimension<Datum>} options.quantitative - **REQUIRED** - specify using vicQuantitativeDimension
- * @param {VicBarsLabels<Datum>} options.labels - specify using vicBarsLabels
- * @returns
- */
-export function vicVerticalBars<Datum, TOrdinalValue extends VicDataValue>(
-  options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
-): VicBarsConfig<Datum, TOrdinalValue> {
-  return vicBars(VERTICAL_BARS_DIMENSIONS, options);
 }

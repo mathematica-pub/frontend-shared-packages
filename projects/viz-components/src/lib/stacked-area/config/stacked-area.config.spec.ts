@@ -1,17 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  VicCategoricalDimension,
-  vicCategoricalDimension,
-} from '../../data-dimensions/categorical-dimension';
-import {
-  VicDateDimension,
-  vicDateDimension,
-} from '../../data-dimensions/date-dimension';
-import {
-  VicQuantitativeDimension,
-  vicQuantitativeDimension,
-} from '../../data-dimensions/quantitative-dimension';
-import { VicStackedAreaConfig, vicStackedArea } from './stacked-area.config';
+import { Vic } from '../../config/vic';
+import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
+import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
+import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { VicStackedAreaConfig } from './stacked-area.config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [
@@ -23,15 +15,15 @@ const data = [
   { date: new Date('2020-01-03'), value: 6, category: 'b' },
 ];
 function createConfig(): VicStackedAreaConfig<Datum, string> {
-  return vicStackedArea({
+  return Vic.stackedArea({
     data,
-    x: vicDateDimension<Datum>({
+    x: Vic.dimensionQuantitativeDate<Datum>({
       valueAccessor: (d) => d.date,
     }),
-    y: vicQuantitativeDimension<Datum>({
+    y: Vic.dimensionQuantitativeNumeric<Datum>({
       valueAccessor: (d) => d.value,
     }),
-    categorical: vicCategoricalDimension<Datum, string>({
+    categorical: Vic.dimensionCategorical<Datum, string>({
       valueAccessor: (d) => d.category,
     }),
   });
@@ -77,9 +69,9 @@ describe('StackedAreaConfig', () => {
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(VicStackedAreaConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(VicDateDimension.prototype, 'setPropertiesFromData');
-      spyOn(VicQuantitativeDimension.prototype, 'setPropertiesFromData');
-      spyOn(VicCategoricalDimension.prototype, 'setPropertiesFromData');
+      spyOn(VicDimensionQuantitativeDate.prototype, 'setPropertiesFromData');
+      spyOn(VicDimensionQuantitativeNumeric.prototype, 'setPropertiesFromData');
+      spyOn(VicDimensionCategorical.prototype, 'setPropertiesFromData');
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
     });
@@ -102,25 +94,25 @@ describe('StackedAreaConfig', () => {
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2, 3, 4, 5]);
+      expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
-      config = vicStackedArea({
+      config = Vic.stackedArea({
         data,
-        x: vicDateDimension<Datum>({
+        x: Vic.dimensionQuantitativeDate<Datum>({
           valueAccessor: (d) => d.date,
         }),
-        y: vicQuantitativeDimension<Datum>({
+        y: Vic.dimensionQuantitativeNumeric<Datum>({
           valueAccessor: (d) => d.value,
         }),
-        categorical: vicCategoricalDimension<Datum, string>({
+        categorical: Vic.dimensionCategorical<Datum, string>({
           valueAccessor: (d) => d.category,
           domain: ['a'],
         }),
       });
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
-      expect(config.valueIndicies).toEqual([0, 1, 2]);
+      expect(config.valueIndices).toEqual([0, 1, 2]);
     });
   });
 });

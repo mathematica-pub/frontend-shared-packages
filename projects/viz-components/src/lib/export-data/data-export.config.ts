@@ -3,6 +3,7 @@ import { ValueUtilities } from '../shared/value-utilities';
 
 export class VicColumnConfig {
   title: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   valueAccessor: (x: any) => any;
 
   constructor(options?: Partial<VicColumnConfig>) {
@@ -54,7 +55,7 @@ export class VicDataExportConfig {
   marginBottom = 0;
   constructor(config?: Partial<VicDataExportConfig>) {
     Object.assign(this, config);
-    if (this.includeAllKeysAsDefault) {
+    if (this.includeAllKeysAsDefault && this.data) {
       this.defaultColumnList = Object.keys(this.data[0]);
     }
     this.defaultColumnList.forEach((key) => {
@@ -63,7 +64,7 @@ export class VicDataExportConfig {
           title: key !== this.flippedHeaderKey ? this.convertToTitle(key) : key,
           valueAccessor: (x) =>
             x[key] instanceof Date
-              ? ValueUtilities.formatValue(x[key], valueFormat.monthYear)
+              ? ValueUtilities.d3Format(x[key], valueFormat.monthYear)
               : x[key],
         })
       );

@@ -1,20 +1,27 @@
 import { extent, interpolateLab, scaleQuantize } from 'd3';
-import { VicAttributeDataDimensionOptions } from './attribute-data';
 import { VicValuesBin } from './attribute-data-bin-types';
-import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
+import {
+  CalculatedRangeBinsAttributeDataDimension,
+  CalculatedRangeBinsAttributeDataDimensionOptions,
+} from './calculated-bins';
 
 const DEFAULT = {
   interpolator: interpolateLab,
+  nullColor: 'whitesmoke',
   numBins: 3,
-  scale: scaleQuantize,
   range: ['white', 'pink', 'red'],
+  scale: scaleQuantize,
 };
 
-export interface VicEqualValuesAttributeDataDimensionOptions<
+export interface VicEqualValueRangesAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
-> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+> extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
   domain: [number, number];
+  /**
+   * A format specifier that will be applied to the value of this dimension for display purposes.
+   */
+  formatSpecifier: string;
   numBins: number;
 }
 
@@ -23,12 +30,13 @@ export interface VicEqualValuesAttributeDataDimensionOptions<
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicEqualValuesAttributeDataDimension<
+export class VicEqualValueRangesAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
   extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
-  implements VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
+  implements
+    VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: VicValuesBin.equalValueRanges;
   private calculatedDomain: [number, number];
@@ -37,16 +45,17 @@ export class VicEqualValuesAttributeDataDimension<
 
   constructor(
     options?: Partial<
-      VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
+      VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
     >
   ) {
     super();
     this.binType = VicValuesBin.equalValueRanges;
-    this.scale = DEFAULT.scale;
-    this.interpolator = DEFAULT.interpolator;
-    this.numBins = DEFAULT.numBins;
-    this.range = DEFAULT.range as RangeValue[];
-    Object.assign(this, options);
+    Object.assign(this, DEFAULT, options);
+    if (!this.valueAccessor) {
+      console.error(
+        'Value accessor is required for EqualValuesAttributeDataDimension'
+      );
+    }
   }
 
   setPropertiesFromData(data: Datum[]): void {
@@ -75,11 +84,7 @@ export class VicEqualValuesAttributeDataDimension<
   }
 
   protected valueFormatIsInteger(): boolean {
-    return (
-      this.valueFormat &&
-      typeof this.valueFormat === 'string' &&
-      this.valueFormat.includes('0f')
-    );
+    return this.formatSpecifier && this.formatSpecifier.includes('0f');
   }
 
   protected getValidatedNumBinsAndDomainForIntegerValues(
@@ -99,21 +104,10 @@ export class VicEqualValuesAttributeDataDimension<
     return validated;
   }
 
-  getScale(nullColor: string) {
+  getScale() {
     return this.scale()
       .domain(this.calculatedDomain)
       .range(this.range)
-      .unknown(nullColor);
+      .unknown(this.nullColor);
   }
-}
-
-export function vicEqualValuesAttributeDataDimension<
-  Datum,
-  RangeValue extends string | number = string
->(
-  options?: Partial<
-    VicEqualValuesAttributeDataDimensionOptions<Datum, RangeValue>
-  >
-): VicEqualValuesAttributeDataDimension<Datum, RangeValue> {
-  return new VicEqualValuesAttributeDataDimension<Datum, RangeValue>(options);
 }

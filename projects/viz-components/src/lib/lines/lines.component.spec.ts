@@ -1,11 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { vicCategoricalDimension } from '../data-dimensions/categorical-dimension';
-import { vicDateDimension } from '../data-dimensions/date-dimension';
-import { vicQuantitativeDimension } from '../data-dimensions/quantitative-dimension';
+import { Vic } from '../config/vic';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicLinesConfig } from './config/lines.config';
 import { LinesComponent } from './lines.component';
 
 describe('LineChartComponent', () => {
@@ -34,11 +31,12 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
-      component.config = new VicLinesConfig({
+      component.config = Vic.lines({
         data: [],
-        x: vicDateDimension({ valueAccessor: () => null }),
-        y: vicQuantitativeDimension({ valueAccessor: () => null }),
-        categorical: vicCategoricalDimension({ valueAccessor: () => null }),
+        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
+        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
+        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
+        hoverDot: Vic.pointMarkers(), // applied as a default but showing here for clarity
       });
     });
     it('calls setLine once', () => {
@@ -53,29 +51,45 @@ describe('LineChartComponent', () => {
       component.drawMarks();
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
-    it('calls drawPointMarkers once with the correct argument if config.pointMarkers.display is truthy', () => {
-      component.config.pointMarkers.display = true;
+    it('calls drawPointMarkers once with the correct argument if config.pointMarkers is truthy', () => {
+      component.config = Vic.lines({
+        data: [],
+        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
+        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
+        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
+        pointMarkers: Vic.pointMarkers(),
+      });
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
-    it('does not call drawPointMarkers once if config.pointMarkers.display is falsy', () => {
-      component.config.pointMarkers.display = false;
+    it('does not call drawPointMarkers once if config.pointMarkers is undefined', () => {
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
-    it('calls drawHoverDot once with the correct argument if config.pointMarkers.display is false and display hover dot is true', () => {
-      component.config.pointMarkers.display = false;
-      component.config.hoverDot.display = true;
+    it('calls drawHoverDot once with the correct argument if config.pointMarkersis undefined and hoverDot is defined', () => {
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
-    it('does not call drawHoverDot once if config.pointMarkers.display is true', () => {
-      component.config.pointMarkers.display = true;
+    it('does not call drawHoverDot once if config.pointMarkers is true', () => {
+      component.config = Vic.lines({
+        data: [],
+        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
+        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
+        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
+        pointMarkers: Vic.pointMarkers(),
+        hoverDot: Vic.pointMarkers(),
+      });
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
     });
     it('calls drawLineLabels once if config.labelLines is true', () => {
-      component.config.labelLines = true;
+      component.config = Vic.lines({
+        data: [],
+        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
+        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
+        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
+        labelLines: true,
+      });
       component.drawMarks();
       expect(component.drawLineLabels).toHaveBeenCalledTimes(1);
     });

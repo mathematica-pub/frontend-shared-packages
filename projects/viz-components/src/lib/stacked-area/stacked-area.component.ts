@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
 import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { VicStackedAreaConfig } from './config/stacked-area.config';
 
@@ -48,7 +48,7 @@ export class StackedAreaComponent<
   setPropertiesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.categorical.scale;
+    const categorical = this.config.categorical.getScale();
     this.zone.run(() => {
       this.chart.updateScales({ x, y, categorical, useTransition });
     });
