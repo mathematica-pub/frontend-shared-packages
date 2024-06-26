@@ -1,5 +1,5 @@
 import { SimpleChanges } from '@angular/core';
-import { get, isEqual } from 'lodash';
+import { get, isEqual } from 'lodash-es';
 
 export class NgOnChangesUtilities {
   static inputObjectChangedNotFirstTime(
