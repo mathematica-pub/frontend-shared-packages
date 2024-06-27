@@ -15,6 +15,7 @@ export function mixinOrdinalAxisConfig<
     extends Base
     implements VicOrdinalAxisOptions<TickValue>
   {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
       Object.assign(this, args[0]);
