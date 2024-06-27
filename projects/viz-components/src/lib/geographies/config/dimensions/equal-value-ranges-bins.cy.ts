@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
+import { color } from 'd3';
 import {
   FeatureCollection,
   GeoJsonProperties,
@@ -145,7 +147,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       expect(whiteRange).to.be.closeTo(pinkRange, 1);
       expect(pinkRange).to.be.closeTo(redRange, 1);
       cy.get('.vic-geography-g path').then((states) => {
-        states.each((index, state) => {
+        states.each((_, state) => {
           const fill = state.getAttribute('fill');
           const datum = attributeData.find(
             (d) => d.state === state.classList[0].split('-').join(' ')
@@ -160,6 +162,163 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
             }
           }
         });
+      });
+    });
+  });
+
+  it('colors values lower than user-provided domain with first bin color and values higher than user-provided domain with last bin color', () => {
+    cy.fixture('usMap.json').then((response) => {
+      const usMap: TestUsMapTopology = response;
+      const usBoundary = topojson.feature(
+        usMap,
+        usMap.objects.country
+      ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+      const states = topojson.feature(
+        usMap,
+        usMap.objects.states
+      ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
+      geographiesConfig = Vic.geographies<
+        StateInComePopulationDatum,
+        TestMapGeometryProperties
+      >({
+        boundary: usBoundary,
+        featureIndexAccessor: (d) => d.properties.name,
+        dataLayer: Vic.geographiesDataLayer<
+          StateInComePopulationDatum,
+          TestMapGeometryProperties
+        >({
+          data: attributeData,
+          geographies: states.features,
+          geographyIndexAccessor: (d) => d.state,
+          attributeDimension:
+            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
+              {
+                valueAccessor: (d) => d.income,
+                domain: [50000, 80000],
+              }
+            ),
+        }),
+      });
+      mountGeographiesComponent(geographiesConfig);
+      cy.get('.vic-geography-g path').then((states) => {
+        states.each((_, state) => {
+          const fill = state.getAttribute('fill');
+          const datum = attributeData.find(
+            (d) => d.state === state.classList[0].split('-').join(' ')
+          );
+          if (datum) {
+            if (datum.income < 50000) {
+              expect(fill).to.equal('white');
+            }
+            if (datum.income > 80000) {
+              expect(fill).to.equal('red');
+            }
+          }
+        });
+      });
+    });
+  });
+
+  it('colors the map with the number of bins specified in numBins and a null color even if the range provides fewer colors', () => {
+    cy.fixture('usMap.json').then((response) => {
+      const numBins = 6;
+      const nullColor = 'navajowhite';
+      const usMap: TestUsMapTopology = response;
+      const usBoundary = topojson.feature(
+        usMap,
+        usMap.objects.country
+      ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+      const states = topojson.feature(
+        usMap,
+        usMap.objects.states
+      ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
+      geographiesConfig = Vic.geographies<
+        StateInComePopulationDatum,
+        TestMapGeometryProperties
+      >({
+        boundary: usBoundary,
+        featureIndexAccessor: (d) => d.properties.name,
+        dataLayer: Vic.geographiesDataLayer<
+          StateInComePopulationDatum,
+          TestMapGeometryProperties
+        >({
+          data: attributeData,
+          geographies: states.features,
+          geographyIndexAccessor: (d) => d.state,
+          attributeDimension:
+            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
+              {
+                valueAccessor: (d) => d.income,
+                numBins,
+                nullColor,
+              }
+            ),
+        }),
+      });
+      mountGeographiesComponent(geographiesConfig);
+      const colors = [];
+      cy.get('.vic-geography-g path').then((states) => {
+        states.each((_, state) => {
+          const fill = state.getAttribute('fill');
+          if (!colors.includes(fill)) {
+            colors.push(fill);
+          }
+        });
+        expect(colors.length).to.equal(numBins + 1);
+        expect(colors).to.include(nullColor);
+      });
+    });
+  });
+
+  it('colors the map with the first numBins colors in the range and the nullColor if numBins is a smaller number than the length of the range', () => {
+    cy.fixture('usMap.json').then((response) => {
+      const numBins = 2;
+      const nullColor = 'navajowhite';
+      const usMap: TestUsMapTopology = response;
+      const usBoundary = topojson.feature(
+        usMap,
+        usMap.objects.country
+      ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+      const states = topojson.feature(
+        usMap,
+        usMap.objects.states
+      ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
+      geographiesConfig = Vic.geographies<
+        StateInComePopulationDatum,
+        TestMapGeometryProperties
+      >({
+        boundary: usBoundary,
+        featureIndexAccessor: (d) => d.properties.name,
+        dataLayer: Vic.geographiesDataLayer<
+          StateInComePopulationDatum,
+          TestMapGeometryProperties
+        >({
+          data: attributeData,
+          geographies: states.features,
+          geographyIndexAccessor: (d) => d.state,
+          attributeDimension:
+            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
+              {
+                valueAccessor: (d) => d.income,
+                numBins,
+                nullColor,
+              }
+            ),
+        }),
+      });
+      mountGeographiesComponent(geographiesConfig);
+      const colors = [];
+      cy.get('.vic-geography-g path').then((states) => {
+        states.each((_, state) => {
+          const fill = state.getAttribute('fill');
+          if (!colors.includes(fill)) {
+            colors.push(fill);
+          }
+        });
+        expect(colors.length).to.equal(numBins + 1);
+        expect(colors).to.include(nullColor);
+        expect(colors).to.include(color('white').formatRgb());
+        expect(colors).to.include(color('pink').formatRgb());
       });
     });
   });

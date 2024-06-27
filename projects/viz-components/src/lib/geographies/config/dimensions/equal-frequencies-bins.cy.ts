@@ -277,4 +277,100 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       });
     });
   });
+
+  it('Colors the data with interpolated colors when a user provides a range of lesser length than num bins', () => {
+    const range = ['red', 'white'];
+    const numBins = 5;
+    cy.fixture('usMap.json').then((response) => {
+      const usMap: TestUsMapTopology = response;
+      const usBoundary = topojson.feature(
+        usMap,
+        usMap.objects.country
+      ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+      const states = topojson.feature(
+        usMap,
+        usMap.objects.states
+      ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
+      geographiesConfig = Vic.geographies<
+        StateInComePopulationDatum,
+        TestMapGeometryProperties
+      >({
+        boundary: usBoundary,
+        featureIndexAccessor: (d) => d.properties.name,
+        dataLayer: Vic.geographiesDataLayer<
+          StateInComePopulationDatum,
+          TestMapGeometryProperties
+        >({
+          data: attributeData,
+          geographies: states.features,
+          geographyIndexAccessor: (d) => d.state,
+          attributeDimension:
+            Vic.geographiesDataDimensionEqualFrequencies<StateInComePopulationDatum>(
+              {
+                valueAccessor: (d) => d.income,
+                numBins,
+                range,
+              }
+            ),
+        }),
+      });
+      mountGeographiesComponent(geographiesConfig);
+      // see https://d3js.org/d3-scale/quantile#quantile_domain for how d3 quantile works
+      const sortedAttributeData = attributeData
+        .filter((x) => {
+          const coerced = Number(x.income);
+          return !(isNaN(coerced) || coerced === null || coerced === undefined);
+        })
+        .sort((a, b) => ascending(Number(a.income), Number(b.income)));
+      const binMaxValues = [
+        ...geographiesConfig.dataLayer.attributeDimension
+          .getScale()
+          ['quantiles'](),
+        max(sortedAttributeData.map((x) => x.income)),
+      ];
+      const statesByBin = sortedAttributeData.reduce((acc, d) => {
+        const binNumber = binMaxValues.reduce((acc, maxValue, i) => {
+          if (
+            (d.income < maxValue || i === binMaxValues.length - 1) &&
+            acc === null
+          ) {
+            acc = i;
+            return acc;
+          } else {
+            return acc;
+          }
+        }, null);
+        if (!acc[binNumber]) {
+          acc[binNumber] = [];
+        }
+        acc[binNumber].push(d.state);
+        return acc;
+      }, []);
+      let colors = [];
+      cy.get('.vic-geography-g path').then((paths) => {
+        paths.each((i, el) => {
+          const path = el as unknown as SVGPathElement;
+          const fill = path.getAttribute('fill');
+          if (!colors.includes(fill)) {
+            colors.push(fill);
+          }
+        });
+        expect(colors).to.have.lengthOf(numBins + 1);
+        colors = colors.filter((x) => x[0] === 'r'); // filter out null color 'whitesmoke'
+        colors.sort((a, b) =>
+          ascending(a.split(',')[1].trim(), b.split(',')[1].trim())
+        );
+        paths.each((i, el) => {
+          const path = el as unknown as SVGPathElement;
+          const state = path.classList[0].split('-').join(' ');
+          const binIndex = statesByBin.findIndex((bin) => bin.includes(state));
+          if (binIndex > -1) {
+            expect(path.getAttribute('fill')).to.eq(colors[binIndex]);
+          } else {
+            expect(path.getAttribute('fill')).to.eq('whitesmoke');
+          }
+        });
+      });
+    });
+  });
 });
