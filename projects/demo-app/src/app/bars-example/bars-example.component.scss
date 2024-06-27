@@ -4,6 +4,37 @@
 @use 'color';
 
 .bars-example {
+  /* I think we should reconsider making the component-demo a 100% width flex column overall */
+  /* Overwriting it here locally for the time being */
+  .component-demo {
+    display: block;
+    width: initial;
+
+    .demo-container {
+      display: block;
+      width: initial;
+    }
+  }
+
+  .ui-instructions {
+    padding-bottom: grid(2);
+  }
+
+  .direction-toggle-group {
+    margin-bottom: grid(4);
+    display: inline-grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .margin-change-button {
+    display: block;
+    margin-bottom: grid(4);
+  }
+
+  .xy-chart {
+    display: block;
+  }
+
   .vic-bar-label {
     font-size: 12px;
   }
