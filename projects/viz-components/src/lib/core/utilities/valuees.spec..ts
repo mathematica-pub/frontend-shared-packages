@@ -1,5 +1,5 @@
-import { VicValueExtent } from '../core/types/values';
-import { ValueUtilities } from './value-utilities.class';
+import { VicValueExtent } from '../types/values';
+import { ValueUtilities } from './values';
 
 describe('ValueUtilities', () => {
   describe('integration: getValueRoundedToNSignificantDigits', () => {

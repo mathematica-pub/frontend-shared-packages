@@ -1,4 +1,4 @@
-import { VicColorUtilities } from './color-utilities.class';
+import { VicColorUtilities } from './colors';
 
 describe('getContrastRatio', () => {
   // https://webaim.org/resources/contrastchecker/
