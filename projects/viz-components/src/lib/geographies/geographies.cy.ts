@@ -164,7 +164,7 @@ describe('drawing the geography paths for various layers', () => {
   beforeEach(() => {
     geographiesConfig = undefined;
   });
-  describe('layers: dataLayer: true, noDataLayers: 0', () => {
+  describe('layers: attributeDataLayer: true, geojsonPropertiesLayers: 0', () => {
     it('it draws a map with one geography per geography in geojson', () => {
       cy.fixture('usMap.json').then((response) => {
         const usMap: TestUsMapTopology = response;
@@ -213,7 +213,7 @@ describe('drawing the geography paths for various layers', () => {
     });
   });
 
-  describe('layers: dataLayer: false, noDataLayers: 2', () => {
+  describe('layers: attributeDataLayer: false, geojsonPropertiesLayers: 2', () => {
     it('it draws a map with one geography per geography in geojson', () => {
       cy.fixture('usMap.json').then((response) => {
         const usMap: TestUsMapTopology = response;
@@ -270,7 +270,7 @@ describe('drawing the geography paths for various layers', () => {
     });
   });
 
-  describe('layers: dataLayer: true, noDataLayers: 1', () => {
+  describe('layers: attributeDataLayer: true, geojsonPropertiesLayers: 1', () => {
     it('it draws a map with one geography per geography in geojson', () => {
       cy.fixture('usMap.json').then((response) => {
         const usMap: TestUsMapTopology = response;
@@ -349,7 +349,7 @@ describe('drawing the geography labels various layers', () => {
   beforeEach(() => {
     geographiesConfig = undefined;
   });
-  describe('layers: dataLayer: true, noDataLayers: 1', () => {
+  describe('layers: attributeDataLayer: true, geojsonPropertiesLayers: 1', () => {
     it('it draws a map with labels on both data and non-data layers', () => {
       cy.fixture('usMap.json').then((response) => {
         const usMap: TestUsMapTopology = response;

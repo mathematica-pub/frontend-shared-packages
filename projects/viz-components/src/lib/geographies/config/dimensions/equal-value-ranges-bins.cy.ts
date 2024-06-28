@@ -135,7 +135,8 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         }),
       });
       mountGeographiesComponent(geographiesConfig);
-      const scale = geographiesConfig.dataLayer.attributeDimension.getScale();
+      const scale =
+        geographiesConfig.attributeDataLayer.attributeDimension.getScale();
       const ranges = {
         white: scale.invertExtent('white'),
         pink: scale.invertExtent('pink'),

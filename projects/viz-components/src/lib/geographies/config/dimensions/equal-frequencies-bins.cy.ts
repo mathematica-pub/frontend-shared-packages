@@ -143,7 +143,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         })
         .sort((a, b) => ascending(Number(a.income), Number(b.income)));
       const binMaxValues = [
-        ...geographiesConfig.dataLayer.attributeDimension
+        ...geographiesConfig.attributeDataLayer.attributeDimension
           .getScale()
           ['quantiles'](),
         max(sortedAttributeData.map((x) => x.income)),
@@ -242,7 +242,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         })
         .sort((a, b) => ascending(Number(a.income), Number(b.income)));
       const binMaxValues = [
-        ...geographiesConfig.dataLayer.attributeDimension
+        ...geographiesConfig.attributeDataLayer.attributeDimension
           .getScale()
           ['quantiles'](),
         max(sortedAttributeData.map((x) => x.income)),
@@ -323,7 +323,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         })
         .sort((a, b) => ascending(Number(a.income), Number(b.income)));
       const binMaxValues = [
-        ...geographiesConfig.dataLayer.attributeDimension
+        ...geographiesConfig.attributeDataLayer.attributeDimension
           .getScale()
           ['quantiles'](),
         max(sortedAttributeData.map((x) => x.income)),
