@@ -19,9 +19,9 @@ import {
   VicGeographiesDataLayer,
   VicGeographiesEventOutput,
   VicGeographiesFeature,
+  VicGeographiesGeojsonPropertiesLayer,
   VicGeographiesLabels,
   VicGeographiesLabelsPositioners,
-  VicGeographiesNoDataLayer,
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
   VicNoBinsAttributeDataDimension,
@@ -152,20 +152,23 @@ export class GeographiesExampleComponent implements OnInit {
     const config = Vic.geographies<StateIncomeDatum, MapGeometryProperties>({
       boundary: this.basemap.us,
       featureIndexAccessor: this.featureIndexAccessor,
-      noDataLayers: [this.basemap.usOutlineConfig, this.getNoDataLayer(data)],
-      dataLayer: this.getDataLayer(data),
+      geojsonPropertiesLayers: [
+        this.basemap.usOutlineConfig,
+        this.getNoDataLayer(data),
+      ],
+      attributeDataLayer: this.getDataLayer(data),
     });
     return config;
   }
 
   getNoDataLayer(
     data: StateIncomeDatum[]
-  ): VicGeographiesNoDataLayer<MapGeometryProperties> {
+  ): VicGeographiesGeojsonPropertiesLayer<MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
     );
-    return Vic.geographiesNoDataLayer<MapGeometryProperties>({
+    return Vic.geographiesNonAttributeDataLayer<MapGeometryProperties>({
       geographies: features,
       categorical: Vic.dimensionCategorical({
         range: ['lightgray'],

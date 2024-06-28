@@ -19,7 +19,7 @@ const DEFAULT = {
   enableEffects: false,
 };
 
-export interface VicGeographiesNoDataLayerOptions<
+export interface VicGeographiesGeojsonPropertiesLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
@@ -30,12 +30,13 @@ export interface VicGeographiesNoDataLayerOptions<
   labels: VicGeographiesLabels<string, TProperties, TGeometry>;
 }
 
-export class VicGeographiesNoDataLayer<
+export class VicGeographiesGeojsonPropertiesLayer<
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
   extends GeographiesLayer<string, TProperties, TGeometry>
-  implements VicGeographiesNoDataLayerOptions<TProperties, TGeometry>
+  implements
+    VicGeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
 {
   readonly categorical: VicDimensionCategorical<
     VicGeographiesFeature<TProperties, TGeometry>,
@@ -46,7 +47,9 @@ export class VicGeographiesNoDataLayer<
   override labels: VicGeographiesLabels<string, TProperties, TGeometry>;
 
   constructor(
-    options?: Partial<VicGeographiesNoDataLayerOptions<TProperties, TGeometry>>
+    options?: Partial<
+      VicGeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
+    >
   ) {
     super();
     Object.assign(this, DEFAULT, options);

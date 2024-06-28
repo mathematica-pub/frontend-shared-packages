@@ -10,12 +10,27 @@ export interface VicAttributeDataDimensionOptions<
   AttributeValue extends VicDataValue,
   RangeValue extends string | number = string
 > extends VicDataDimensionOptions<Datum, AttributeValue> {
+  /**
+   * A color that will be used if there are any geojson features provided in this dimension's geographies that do not have attribute data.
+   */
   nullColor: string;
+  /**
+   * An array of values that will be used as the range in the attribute data scale.
+   */
   range: RangeValue[];
+  /**
+   * A function that will be used to create the scale for the attribute data.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: (...args: any) => string;
+  /**
+   * A function that will be used to create the a new range for the attribute data scale if the user's specified numBins is greater than the values in the user's specified range.
+   */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
+  /**
+   * An array of fill patterns that will be applied to the features in this layer with attribute data.
+   */
   fillPatterns: VicFillPattern<Datum>[];
 }
 

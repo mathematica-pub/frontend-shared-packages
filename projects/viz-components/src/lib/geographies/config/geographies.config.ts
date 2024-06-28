@@ -18,7 +18,7 @@ import {
 } from '../../data-marks/data-marks.config';
 import { VicGeographiesFeature } from '../geographies-feature';
 import { VicGeographiesDataLayer } from './layers/data-layer';
-import { VicGeographiesNoDataLayer } from './layers/no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './layers/no-data-layer';
 
 const DEFAULT = {
   projection: geoAlbersUsa(),
@@ -39,9 +39,9 @@ export interface VicGeographiesOptions<
     | ExtendedGeometryCollection;
   data: never;
   /**
-   * A configuration object that pertains to geographies that have attribute data, for example, states in the US each of which have a value for % unemployment.
+   * A configuration object that pertains to geographies should be styled according to a provided array of attribute data -- for example, states in the US each of which have a value for % unemployment.
    */
-  dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
+  attributeDataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
   /**
    * A function that derives an identifying string from the GeoJson feature.
    */
@@ -49,9 +49,12 @@ export interface VicGeographiesOptions<
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
   /**
-   * A configuration object that pertains to geographies that a user wants to draw without attribute data, for example the outline of a country.
+   * A configuration object that pertains to geographies that will be drawn and styled using solely the properties on a geojson feature. This might be used for to draw the outline of a country, for example. If events are enabled, the geojson properties will be used to populate the tooltip.
    */
-  noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
+  geojsonPropertiesLayers: VicGeographiesGeojsonPropertiesLayer<
+    TProperties,
+    TGeometry
+  >[];
   /**
    * A projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
    * @default: d3.geoAlbersUsa().
@@ -89,9 +92,12 @@ export class VicGeographiesConfig<
   ) => string;
   layers: (
     | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesNoDataLayer<TProperties, TGeometry>
+    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
   )[];
-  readonly noDataLayers: VicGeographiesNoDataLayer<TProperties, TGeometry>[];
+  readonly noDataLayers: VicGeographiesGeojsonPropertiesLayer<
+    TProperties,
+    TGeometry
+  >[];
   readonly projection: GeoProjection;
 
   constructor(

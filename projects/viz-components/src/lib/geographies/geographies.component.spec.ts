@@ -27,7 +27,11 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
       component.config = Vic.geographies({
-        dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+        attributeDataLayer: Vic.geographiesDataLayer<
+          Datum,
+          { name: string },
+          any
+        >({
           attributeDimension:
             Vic.geographiesDataDimensionEqualValueRanges<Datum>({
               valueAccessor: (d) => d.value,
@@ -78,7 +82,11 @@ describe('GeographiesComponent', () => {
         ),
       } as any;
       component.config = Vic.geographies({
-        dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+        attributeDataLayer: Vic.geographiesDataLayer<
+          Datum,
+          { name: string },
+          any
+        >({
           data: [
             { value: 1, state: 'AL' },
             { value: 2, state: 'AK' },

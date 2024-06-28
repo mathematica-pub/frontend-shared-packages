@@ -17,7 +17,7 @@ import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { VicGeographiesConfig } from './config/geographies.config';
 import { VicGeographiesDataLayer } from './config/layers/data-layer';
 import { VicGeographiesLabels } from './config/layers/geographies-labels';
-import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/no-data-layer';
 import { VicGeographiesFeature } from './geographies-feature';
 
 export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
@@ -129,11 +129,11 @@ export class GeographiesComponent<
       .selectAll<
         SVGGElement,
         | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
-        | VicGeographiesNoDataLayer<TProperties, TGeometry>
+        | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
       >('.vic-geographies-layer')
       .data<
         | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
-        | VicGeographiesNoDataLayer<TProperties, TGeometry>
+        | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
       >(this.config.layers, (layer) => layer.id)
       .join(
         (enter) =>

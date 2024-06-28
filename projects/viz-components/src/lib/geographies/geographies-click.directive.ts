@@ -14,7 +14,7 @@ import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
 import {
   VicGeographiesDataLayer,
-  VicGeographiesNoDataLayer,
+  VicGeographiesGeojsonPropertiesLayer,
 } from '../../public-api';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
@@ -51,7 +51,7 @@ export class GeographiesClickDirective<
   feature: VicGeographiesFeature<TProperties, TGeometry>;
   layer:
     | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesNoDataLayer<TProperties, TGeometry>;
+    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   pointerX: number;
   pointerY: number;
