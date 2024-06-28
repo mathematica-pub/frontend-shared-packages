@@ -185,7 +185,7 @@ describe('drawing the geography paths for various layers', () => {
         >({
           boundary: usBoundary,
           featureIndexAccessor: (d) => d.properties.name,
-          dataLayer: Vic.geographiesDataLayer<
+          attributeDataLayer: Vic.geographiesDataLayer<
             StateInComePopulationDatum,
             TestMapGeometryProperties
           >({
@@ -234,13 +234,13 @@ describe('drawing the geography paths for various layers', () => {
         >({
           boundary: usBoundary,
           featureIndexAccessor: (d) => d.properties.name,
-          noDataLayers: [
-            Vic.geographiesNoDataLayer<TestMapGeometryProperties>({
+          geojsonPropertiesLayers: [
+            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
               geographies: states.features,
               strokeColor: 'black',
               strokeWidth: '1',
             }),
-            Vic.geographiesNoDataLayer<TestMapGeometryProperties>({
+            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
               geographies: usBoundary.features,
               strokeColor: 'red',
               strokeWidth: '1',
@@ -291,7 +291,7 @@ describe('drawing the geography paths for various layers', () => {
         >({
           boundary: usBoundary,
           featureIndexAccessor: (d) => d.properties.name,
-          dataLayer: Vic.geographiesDataLayer<
+          attributeDataLayer: Vic.geographiesDataLayer<
             StateInComePopulationDatum,
             TestMapGeometryProperties
           >({
@@ -305,8 +305,8 @@ describe('drawing the geography paths for various layers', () => {
             strokeColor: 'black',
             strokeWidth: '1',
           }),
-          noDataLayers: [
-            Vic.geographiesNoDataLayer<TestMapGeometryProperties>({
+          geojsonPropertiesLayers: [
+            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
               geographies: usBoundary.features,
               strokeColor: 'red',
               strokeWidth: '1',
@@ -370,7 +370,7 @@ describe('drawing the geography labels various layers', () => {
         >({
           boundary: usBoundary,
           featureIndexAccessor: (d) => d.properties.name,
-          dataLayer: Vic.geographiesDataLayer<
+          attributeDataLayer: Vic.geographiesDataLayer<
             StateInComePopulationDatum,
             TestMapGeometryProperties
           >({
@@ -395,8 +395,8 @@ describe('drawing the geography labels various layers', () => {
               color: 'black',
             }),
           }),
-          noDataLayers: [
-            Vic.geographiesNoDataLayer<TestMapGeometryProperties>({
+          geojsonPropertiesLayers: [
+            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
               geographies: states.features.filter(
                 (x) => x.properties.name[x.properties.name.length - 1] === 'a'
               ),

@@ -119,7 +119,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -216,7 +216,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -297,7 +297,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({

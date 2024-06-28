@@ -119,7 +119,7 @@ describe('the No Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -189,7 +189,7 @@ describe('the No Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -238,7 +238,7 @@ describe('the No Bins Attribute Data dimension', () => {
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
         projection: geoMercator(),
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({

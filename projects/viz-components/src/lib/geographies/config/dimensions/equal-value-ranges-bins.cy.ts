@@ -119,7 +119,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -183,7 +183,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -219,7 +219,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
     });
   });
 
-  it('colors the map with the number of bins specified in numBins and a null color even if the range provides fewer colors', () => {
+  it('colors the map with the number of bins specified in numBins for features with attribute data and a null color for features without attribute data even if the range provides fewer colors', () => {
     cy.fixture('usMap.json').then((response) => {
       const numBins = 6;
       const nullColor = 'navajowhite';
@@ -238,7 +238,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -270,7 +270,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
     });
   });
 
-  it('colors the map with the first numBins colors in the range and the nullColor if numBins is a smaller number than the length of the range', () => {
+  it('colors the map with the first numBins colors in the range for features with attribute data and the nullColor for features without attribute data if numBins is a smaller number than the length of the range', () => {
     cy.fixture('usMap.json').then((response) => {
       const numBins = 2;
       const nullColor = 'navajowhite';
@@ -289,7 +289,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({

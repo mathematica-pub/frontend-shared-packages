@@ -102,7 +102,6 @@ describe('the Custom Breaks Attribute Data dimension', () => {
     geographiesConfig = undefined;
   });
   it('User provides break values - it colors states according to break values', () => {
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     const breakValues = [40000, 55000, 70000, 85000, 100000];
     const rangeValues = ['red', 'orange', 'yellow', 'green'];
     cy.fixture('usMap.json').then((response) => {
@@ -121,7 +120,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -157,7 +156,6 @@ describe('the Custom Breaks Attribute Data dimension', () => {
   it('User provides break values that do not cover full data range -- values below first value use first color, values above last value use last color', () => {
     const breakValues = [50000, 60000, 70000, 80000];
     const rangeValues = ['red', 'orange', 'yellow'];
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     cy.fixture('usMap.json').then((response) => {
       const usMap: TestUsMapTopology = response;
       const usBoundary = topojson.feature(
@@ -174,7 +172,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -212,7 +210,6 @@ describe('the Custom Breaks Attribute Data dimension', () => {
   });
 
   it('User provides break values that are not in order - it colors states according to break values as though they were in ascending order', () => {
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     const breakValues = [40000, 55000, 70000, 85000, 100000];
     const rangeValues = ['red', 'orange', 'yellow', 'green'];
     cy.fixture('usMap.json').then((response) => {
@@ -231,7 +228,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -301,7 +298,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >({
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
@@ -334,7 +331,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
 
   it('it colors geographies not in attribute data with the null color', () => {
     // island territories like American Samoa, Guam, etc. are not in the attribute data but are in the geojson
-    // they wil be drawn with any projection but let's use geoMercator to make them a bit more visible-ish
+    // they will be drawn with any projection but let's use geoMercator to make them a bit more visible-ish
     const breakValues = [40000, 55000, 70000, 85000, 100000];
     const rangeValues = ['red', 'orange', 'yellow', 'green'];
     cy.fixture('usMap.json').then((response) => {
@@ -355,7 +352,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         boundary: usBoundary,
         featureIndexAccessor: (d) => d.properties.name,
         projection: geoMercator(),
-        dataLayer: Vic.geographiesDataLayer<
+        attributeDataLayer: Vic.geographiesDataLayer<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >({
