@@ -212,7 +212,6 @@ describe('the Custom Breaks Attribute Data dimension', () => {
   });
 
   it('User provides break values that are not in order - it colors states according to break values as though they were in ascending order', () => {
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     const breakValues = [40000, 55000, 70000, 85000, 100000];
     const rangeValues = ['red', 'orange', 'yellow', 'green'];
     cy.fixture('usMap.json').then((response) => {
