@@ -17,8 +17,8 @@ import {
   VicDataMarksOptions,
 } from '../../data-marks/data-marks.config';
 import { VicGeographiesFeature } from '../geographies-feature';
-import { VicGeographiesDataLayer } from './layers/data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './layers/no-data-layer';
+import { VicGeographiesAttributeDataLayer } from './layers/data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer';
 
 const DEFAULT = {
   projection: geoAlbersUsa(),
@@ -41,7 +41,11 @@ export interface VicGeographiesOptions<
   /**
    * A configuration object that pertains to geographies should be styled according to a provided array of attribute data -- for example, states in the US each of which have a value for % unemployment.
    */
-  attributeDataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
+  attributeDataLayer: VicGeographiesAttributeDataLayer<
+    Datum,
+    TProperties,
+    TGeometry
+  >;
   /**
    * A function that derives an identifying string from the GeoJson feature.
    */
@@ -86,7 +90,7 @@ export class VicGeographiesConfig<
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   override data: never;
-  readonly attributeDataLayer: VicGeographiesDataLayer<
+  readonly attributeDataLayer: VicGeographiesAttributeDataLayer<
     Datum,
     TProperties,
     TGeometry
@@ -95,7 +99,7 @@ export class VicGeographiesConfig<
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
   layers: (
-    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
     | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
   )[];
   readonly geojsonPropertiesLayers: VicGeographiesGeojsonPropertiesLayer<

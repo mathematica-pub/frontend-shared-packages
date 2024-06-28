@@ -73,7 +73,7 @@ export * from './lib/geographies/config/layers/data-layer';
 export * from './lib/geographies/config/layers/geographies-labels';
 export * from './lib/geographies/config/layers/geographies-labels-positioners';
 export * from './lib/geographies/config/layers/geographies-layer';
-export * from './lib/geographies/config/layers/no-data-layer';
+export * from './lib/geographies/config/layers/geojson-properties-layer';
 export * from './lib/geographies/geographies-click-effects';
 export * from './lib/geographies/geographies-click.directive';
 export * from './lib/geographies/geographies-event-directive';

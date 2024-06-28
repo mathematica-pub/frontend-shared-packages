@@ -60,8 +60,8 @@ data-marks-components:
     stacked-bars-config: 'classes/VicStackedBarsConfig.html'
   geographies:
     layers:
-      data-layer: 'classes/VicGeographiesDataLayer.html'
-      no-data-layer: 'classes/VicGeographiesNoDataLayer.html'
+      attribute-data-layer: 'classes/VicGeographiesAttributeDataLayer.html'
+      geojson-properties-layer: 'classes/VicGeographiesGeojsonPropertiesLayer.html'
     dimensions:
       attribute-data:
         no-bins: 'classes/VicNoBinsAttributeDataDimension.html'

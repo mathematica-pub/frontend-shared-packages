@@ -6,8 +6,8 @@ import { Geometry } from 'geojson';
 import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
-import { VicGeographiesDataLayer } from './config/layers/data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/no-data-layer';
+import { VicGeographiesAttributeDataLayer } from './config/layers/data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer';
 import { VicGeographiesEventOutput } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
@@ -32,7 +32,7 @@ export class GeographiesHoverMoveDirective<
     VicGeographiesEventOutput<Datum>
   >();
   layer:
-    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
     | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   pointerX: number;
