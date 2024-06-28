@@ -119,6 +119,9 @@ export class VicGeographiesConfig<
     if (this.noDataLayers) {
       this.layers.push(...this.noDataLayers);
     }
+    this.layers.forEach((layer, i) => {
+      layer.id = i;
+    });
   }
 
   private setLayerFeatureIndexAccessors(): void {

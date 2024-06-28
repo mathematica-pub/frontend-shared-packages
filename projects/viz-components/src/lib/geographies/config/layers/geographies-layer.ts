@@ -43,13 +43,14 @@ export abstract class GeographiesLayer<
   TGeometry extends Geometry
 > implements GeographiesLayerOptions<TProperties, TGeometry>
 {
+  class: string;
   enableEffects: boolean;
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
   geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  id: number;
   labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
-  class: string;
   strokeColor: string;
   strokeWidth: string;
 

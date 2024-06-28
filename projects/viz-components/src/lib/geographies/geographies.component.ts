@@ -15,7 +15,9 @@ import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
 import { VicGeographiesConfig } from './config/geographies.config';
+import { VicGeographiesDataLayer } from './config/layers/data-layer';
 import { VicGeographiesLabels } from './config/layers/geographies-labels';
+import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
 import { VicGeographiesFeature } from './geographies-feature';
 
 export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
@@ -123,29 +125,45 @@ export class GeographiesComponent<
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawLayers(t: any): void {
-    this.config.layers.forEach((layer, i) => {
-      const layerGroup = select(this.elRef.nativeElement)
-        .append('g')
-        .attr('class', `vic-geographies-layer layer-${i} ${layer.class ?? ''}`);
+    const layerGroup = select(this.elRef.nativeElement)
+      .selectAll<
+        SVGGElement,
+        | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+        | VicGeographiesNoDataLayer<TProperties, TGeometry>
+      >('.vic-geographies-layer')
+      .data<
+        | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+        | VicGeographiesNoDataLayer<TProperties, TGeometry>
+      >(this.config.layers, (layer) => layer.id)
+      .join(
+        (enter) =>
+          enter
+            .append('g')
+            .attr(
+              'class',
+              (d) => `vic-geographies-layer layer-${d.id} ${d.class ?? ''}`
+            ),
+        (update) => update,
+        (exit) => exit.remove()
+      );
 
+    this.config.layers.forEach((layer) => {
       const geographyGroup = layerGroup
+        .filter((d) => d.id === layer.id)
         .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
-          `.geography-g`
+          `.vic-geography-g`
         )
-        .data<VicGeographiesFeature<TProperties, TGeometry>>(layer.geographies)
-        .join(
-          (enter) =>
-            enter
-              .append('g')
-              .attr(
-                'class',
-                (d) =>
-                  `vic-geography-g ${this.formatForClassName(
-                    layer.featureIndexAccessor(d)
-                  )}`
-              ),
-          (update) => update,
-          (exit) => exit.remove()
+        .data<VicGeographiesFeature<TProperties, TGeometry>>(
+          (d) => d.geographies,
+          (d) => this.config.featureIndexAccessor(d)
+        )
+        .join('g')
+        .attr(
+          'class',
+          (d) =>
+            `vic-geography-g ${this.formatForClassName(
+              this.config.featureIndexAccessor(d)
+            )}`
         );
 
       geographyGroup
@@ -153,73 +171,96 @@ export class GeographiesComponent<
           SVGPathElement,
           VicGeographiesFeature<TProperties, TGeometry>
         >('path')
-        .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+        .data<VicGeographiesFeature<TProperties, TGeometry>>(
+          (d) => [d],
+          (d) => this.config.featureIndexAccessor(d)
+        )
         .join(
           (enter) =>
             enter
               .append('path')
-              .attr('d', this.path)
-              .attr('class', (d) =>
-                this.formatForClassName(layer.featureIndexAccessor(d))
+              .attr('d', (feature) => this.path(feature))
+              .attr('class', (feature) =>
+                this.formatForClassName(layer.featureIndexAccessor(feature))
               )
               // layer-index is used on event directives
-              .attr('data-layer-index', i)
+              .attr('data-layer-index', layer.id)
               .attr('stroke', layer.strokeColor)
               .attr('stroke-width', layer.strokeWidth)
-              .attr('fill', (d) => layer.getFill(d)),
+              .attr('fill', (feature) => layer.getFill(feature)),
           (update) =>
             update.call((update) =>
               update
-                .attr('class', (d) =>
-                  this.formatForClassName(layer.featureIndexAccessor(d))
+                .attr('d', (feature) => this.path(feature))
+                .attr('class', (feature) =>
+                  this.formatForClassName(layer.featureIndexAccessor(feature))
                 )
-                .attr('data-layer-index', i)
                 .attr('stroke', layer.strokeColor)
                 .attr('stroke-width', layer.strokeWidth)
                 .transition(t)
-                .attr('fill', (d) => layer.getFill(d))
+                .attr('fill', (feature) => layer.getFill(feature))
             ),
           (exit) => exit.remove()
         );
 
       if (layer.labels) {
         geographyGroup
-          .filter((d) => layer.labels.display(layer.labels.valueAccessor(d)))
+          .filter((feature) =>
+            layer.labels.display(layer.labels.valueAccessor(feature))
+          )
           .selectAll<
             SVGTextElement,
             VicGeographiesFeature<TProperties, TGeometry>
           >('.vic-geography-label')
-          .data<VicGeographiesFeature<TProperties, TGeometry>>((d) => [d])
+          .data<VicGeographiesFeature<TProperties, TGeometry>>(
+            (d) => [d],
+            (d) => this.config.featureIndexAccessor(d)
+          )
           .join(
             (enter) =>
               enter
                 .append('text')
                 .attr('class', 'vic-geography-label')
                 // layer-index is used on event directives
-                .attr('data-layer-index', i)
+                .attr('data-layer-index', layer.id)
                 .attr('text-anchor', layer.labels.textAnchor)
                 .attr('alignment-baseline', layer.labels.alignmentBaseline)
                 .attr('dominant-baseline', layer.labels.dominantBaseline)
                 .style('cursor', layer.labels.cursor)
                 .attr('pointer-events', layer.labels.pointerEvents)
-                .text((d) => layer.labels.valueAccessor(d))
-                .attr('x', (d) => this.getLabelPosition(d, layer.labels).x)
-                .attr('y', (d) => this.getLabelPosition(d, layer.labels).y)
+                .text((feature) => layer.labels.valueAccessor(feature))
+                .attr(
+                  'x',
+                  (feature) => this.getLabelPosition(feature, layer.labels).x
+                )
+                .attr(
+                  'y',
+                  (feature) => this.getLabelPosition(feature, layer.labels).y
+                )
                 .attr('font-size', layer.labels.fontScale(this.ranges.x[1]))
-                .attr('fill', (d) => layer.getLabelColor(d))
-                .attr('font-weight', (d) => layer.getLabelFontWeight(d)),
+                .attr('fill', (feature) => layer.getLabelColor(feature))
+                .attr('font-weight', (feature) =>
+                  layer.getLabelFontWeight(feature)
+                ),
             (update) =>
               update.call((update) =>
                 update
-                  .text((d) => layer.labels.valueAccessor(d))
-                  .attr('layer-index', i)
-                  .attr('y', (d) => this.getLabelPosition(d, layer.labels).y)
-                  .attr('x', (d) => this.getLabelPosition(d, layer.labels).x)
+                  .text((feature) => layer.labels.valueAccessor(feature))
+                  .attr(
+                    'y',
+                    (feature) => this.getLabelPosition(feature, layer.labels).y
+                  )
+                  .attr(
+                    'x',
+                    (feature) => this.getLabelPosition(feature, layer.labels).x
+                  )
                   .attr('font-size', layer.labels.fontScale(this.ranges.x[1]))
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   .transition(t as any)
-                  .attr('fill', (d) => layer.getLabelColor(d))
-                  .attr('font-weight', (d) => layer.getLabelFontWeight(d))
+                  .attr('fill', (feature) => layer.getLabelColor(feature))
+                  .attr('font-weight', (feature) =>
+                    layer.getLabelFontWeight(feature)
+                  )
               ),
             (exit) => exit.remove()
           );
