@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { beforeEach } from 'local-cypress';
 import { Vic } from '../../../config/vic';
-import { VicGeographiesDataLayer } from './data-layer';
+import { VicGeographiesAttributeDataLayer } from './data-layer';
 
 type Datum = { value: number; state: string };
 const data = [
@@ -12,7 +12,11 @@ const data = [
   { value: 5, state: 'CO' },
   { value: 6, state: 'CO' },
 ];
-function createLayer(): VicGeographiesDataLayer<Datum, { name: string }, any> {
+function createLayer(): VicGeographiesAttributeDataLayer<
+  Datum,
+  { name: string },
+  any
+> {
   return Vic.geographiesDataLayer<Datum, { name: string }, any>({
     attributeDimension: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
       valueAccessor: (d) => d.value,
@@ -24,7 +28,7 @@ function createLayer(): VicGeographiesDataLayer<Datum, { name: string }, any> {
 }
 
 describe('GeographiesConfig', () => {
-  let layer: VicGeographiesDataLayer<Datum, { name: string }, any>;
+  let layer: VicGeographiesAttributeDataLayer<Datum, { name: string }, any>;
 
   beforeEach(() => {
     layer = undefined;

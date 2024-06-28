@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../../config/vic';
 import { VicDimensionCategorical } from '../../../data-dimensions/categorical/categorical';
-import { VicGeographiesGeojsonPropertiesLayer } from './no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 
 type FeatureProperties = { name: string };
 const features = [

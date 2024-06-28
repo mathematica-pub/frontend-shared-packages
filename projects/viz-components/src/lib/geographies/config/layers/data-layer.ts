@@ -30,7 +30,7 @@ const DEFAULT = {
  *
  * The generic parameters are the same as those in VicGeographiesConfig.
  */
-export interface VicGeographiesDataLayerOptions<
+export interface VicGeographiesAttributeDataLayerOptions<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
@@ -56,13 +56,14 @@ export interface VicGeographiesDataLayerOptions<
   labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 }
 
-export class VicGeographiesDataLayer<
+export class VicGeographiesAttributeDataLayer<
     Datum,
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
   extends GeographiesLayer<Datum, TProperties, TGeometry>
-  implements VicGeographiesDataLayerOptions<Datum, TProperties, TGeometry>
+  implements
+    VicGeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
 {
   readonly attributeDimension:
     | VicCategoricalAttributeDataDimension<Datum>
@@ -80,7 +81,7 @@ export class VicGeographiesDataLayer<
 
   constructor(
     options?: Partial<
-      VicGeographiesDataLayerOptions<Datum, TProperties, TGeometry>
+      VicGeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
     >
   ) {
     super();

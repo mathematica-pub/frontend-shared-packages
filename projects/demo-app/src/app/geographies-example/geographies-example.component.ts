@@ -15,8 +15,8 @@ import {
   VicEqualFrequenciesAttributeDataDimension,
   VicEqualValueRangesAttributeDataDimension,
   VicFillPattern,
+  VicGeographiesAttributeDataLayer,
   VicGeographiesConfig,
-  VicGeographiesDataLayer,
   VicGeographiesEventOutput,
   VicGeographiesFeature,
   VicGeographiesGeojsonPropertiesLayer,
@@ -188,7 +188,7 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataLayer(
     data: StateIncomeDatum[]
-  ): VicGeographiesDataLayer<StateIncomeDatum, MapGeometryProperties> {
+  ): VicGeographiesAttributeDataLayer<StateIncomeDatum, MapGeometryProperties> {
     return Vic.geographiesDataLayer<StateIncomeDatum, MapGeometryProperties>({
       data,
       geographies: this.getDataGeographiesFeatures(data),

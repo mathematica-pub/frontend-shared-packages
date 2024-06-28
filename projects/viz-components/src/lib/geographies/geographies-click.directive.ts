@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
 import {
-  VicGeographiesDataLayer,
+  VicGeographiesAttributeDataLayer,
   VicGeographiesGeojsonPropertiesLayer,
 } from '../../public-api';
 import { ClickDirective } from '../events/click.directive';
@@ -50,7 +50,7 @@ export class GeographiesClickDirective<
   >();
   feature: VicGeographiesFeature<TProperties, TGeometry>;
   layer:
-    | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
+    | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
     | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   pointerX: number;

@@ -74,8 +74,8 @@ import {
   VicGeographiesOptions,
 } from '../geographies/config/geographies.config';
 import {
-  VicGeographiesDataLayer,
-  VicGeographiesDataLayerOptions,
+  VicGeographiesAttributeDataLayer,
+  VicGeographiesAttributeDataLayerOptions,
 } from '../geographies/config/layers/data-layer';
 import {
   VicGeographiesLabels,
@@ -84,7 +84,7 @@ import {
 import {
   VicGeographiesGeojsonPropertiesLayer,
   VicGeographiesGeojsonPropertiesLayerOptions,
-} from '../geographies/config/layers/no-data-layer';
+} from '../geographies/config/layers/geojson-properties-layer';
 import {
   VicGroupedBarsConfig,
   VicGroupedBarsOptions,
@@ -284,10 +284,10 @@ export class Vic {
     TGeometry extends Geometry = MultiPolygon | Polygon
   >(
     options?: Partial<
-      VicGeographiesDataLayerOptions<Datum, TProperties, TGeometry>
+      VicGeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
     >
-  ): VicGeographiesDataLayer<Datum, TProperties, TGeometry> {
-    return new VicGeographiesDataLayer(options);
+  ): VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
+    return new VicGeographiesAttributeDataLayer(options);
   }
 
   static geographiesLabels<

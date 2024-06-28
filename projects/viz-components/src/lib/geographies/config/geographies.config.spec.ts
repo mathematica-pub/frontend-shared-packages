@@ -2,7 +2,7 @@
 
 import { Vic } from '../../config/vic';
 import { VicGeographiesConfig } from './geographies.config';
-import { VicGeographiesDataLayer } from './layers/data-layer';
+import { VicGeographiesAttributeDataLayer } from './layers/data-layer';
 import { GeographiesLayer } from './layers/geographies-layer';
 
 type Datum = { value: number; state: string };
@@ -52,7 +52,10 @@ describe('GeographiesConfig', () => {
 
   describe('init()', () => {
     beforeEach(() => {
-      spyOn(VicGeographiesDataLayer.prototype as any, 'initPropertiesFromData');
+      spyOn(
+        VicGeographiesAttributeDataLayer.prototype as any,
+        'initPropertiesFromData'
+      );
       spyOn(VicGeographiesConfig.prototype as any, 'setLayers');
       spyOn(
         VicGeographiesConfig.prototype as any,
