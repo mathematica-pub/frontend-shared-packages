@@ -102,7 +102,6 @@ describe('the Custom Breaks Attribute Data dimension', () => {
     geographiesConfig = undefined;
   });
   it('User provides break values - it colors states according to break values', () => {
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     const breakValues = [40000, 55000, 70000, 85000, 100000];
     const rangeValues = ['red', 'orange', 'yellow', 'green'];
     cy.fixture('usMap.json').then((response) => {
