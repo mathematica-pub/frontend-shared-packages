@@ -28,6 +28,13 @@ export interface VicXyAxisOptions<TickValue> {
    */
   tickLabelFontSize: number;
   /**
+   * A value that is passed to D3's [tickSizeOuter]{@link https://github.com/d3/d3-axis#axis_tickSizeOuter}
+   *  method.
+   *
+   * If not provided, value will be set to 0.
+   */
+  tickSizeOuter: number;
+  /**
    * A config object to specify how tick labels should wrap.
    *
    * Note: In `Bars`, bar labels are tick labels.
@@ -41,6 +48,7 @@ export abstract class VicXyAxisConfig<TickValue> {
   removeTicks: boolean;
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
+  tickSizeOuter: number;
   wrap: VicTickWrapConfig;
 
   abstract getSuggestedNumTicksFromChartDimension(dimensions: {
