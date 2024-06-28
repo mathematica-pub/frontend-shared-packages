@@ -157,7 +157,6 @@ describe('the Custom Breaks Attribute Data dimension', () => {
   it('User provides break values that do not cover full data range -- values below first value use first color, values above last value use last color', () => {
     const breakValues = [50000, 60000, 70000, 80000];
     const rangeValues = ['red', 'orange', 'yellow'];
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     cy.fixture('usMap.json').then((response) => {
       const usMap: TestUsMapTopology = response;
       const usBoundary = topojson.feature(
