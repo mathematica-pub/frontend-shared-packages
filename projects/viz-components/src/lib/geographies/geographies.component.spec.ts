@@ -105,14 +105,14 @@ describe('GeographiesComponent', () => {
         }),
       });
       spyOn(
-        component.config.dataLayer.attributeDimension,
+        component.config.attributeDataLayer.attributeDimension,
         'getScale'
       ).and.returnValue('attribute data scale');
     });
     it('calls getScale once', () => {
       component.updateChartAttributeProperties();
       expect(
-        component.config.dataLayer.attributeDimension.getScale
+        component.config.attributeDataLayer.attributeDimension.getScale
       ).toHaveBeenCalledOnceWith();
     });
     it('calls updateAttributeProperties once with the correct value', () => {
@@ -121,7 +121,7 @@ describe('GeographiesComponent', () => {
         component.chart.updateAttributeProperties
       ).toHaveBeenCalledOnceWith({
         scale: 'attribute data scale' as any,
-        config: component.config.dataLayer.attributeDimension,
+        config: component.config.attributeDataLayer.attributeDimension,
       });
     });
   });

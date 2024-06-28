@@ -62,7 +62,7 @@ describe('GeographiesConfig', () => {
     });
     it('calls initPropertiesFromData once', () => {
       expect(
-        (config as any).dataLayer.initPropertiesFromData
+        (config as any).attributeDataLayer.initPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
     it('calls setLayers once', () => {

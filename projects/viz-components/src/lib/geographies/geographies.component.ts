@@ -78,7 +78,7 @@ export class GeographiesComponent<
 
   override initFromConfig(): void {
     this.setPropertiesFromRanges();
-    if (this.config.dataLayer) {
+    if (this.config.attributeDataLayer) {
       this.updateChartAttributeProperties();
     } else {
       this.drawMarks();
@@ -104,8 +104,8 @@ export class GeographiesComponent<
   updateChartAttributeProperties(): void {
     this.zone.run(() => {
       this.chart.updateAttributeProperties({
-        scale: this.config.dataLayer.attributeDimension.getScale(),
-        config: this.config.dataLayer.attributeDimension,
+        scale: this.config.attributeDataLayer.attributeDimension.getScale(),
+        config: this.config.attributeDataLayer.attributeDimension,
       });
     });
   }

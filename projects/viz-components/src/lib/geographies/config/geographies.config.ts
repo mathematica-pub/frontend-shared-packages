@@ -78,7 +78,7 @@ export class VicGeographiesConfig<
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
   extends VicDataMarksConfig<Datum>
-  implements VicDataMarksOptions<Datum>
+  implements VicGeographiesOptions<Datum, TProperties, TGeometry>
 {
   readonly boundary:
     | ExtendedFeature
@@ -86,7 +86,11 @@ export class VicGeographiesConfig<
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   override data: never;
-  readonly dataLayer: VicGeographiesDataLayer<Datum, TProperties, TGeometry>;
+  readonly attributeDataLayer: VicGeographiesDataLayer<
+    Datum,
+    TProperties,
+    TGeometry
+  >;
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
@@ -94,7 +98,7 @@ export class VicGeographiesConfig<
     | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
     | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
   )[];
-  readonly noDataLayers: VicGeographiesGeojsonPropertiesLayer<
+  readonly geojsonPropertiesLayers: VicGeographiesGeojsonPropertiesLayer<
     TProperties,
     TGeometry
   >[];
@@ -115,15 +119,15 @@ export class VicGeographiesConfig<
   }
 
   private setLayers(): void {
-    if (!this.dataLayer && !this.noDataLayers) {
+    if (!this.attributeDataLayer && !this.geojsonPropertiesLayers) {
       console.error('Geographies config requires at least one layer');
     }
     this.layers = [];
-    if (this.dataLayer) {
-      this.layers.push(this.dataLayer);
+    if (this.attributeDataLayer) {
+      this.layers.push(this.attributeDataLayer);
     }
-    if (this.noDataLayers) {
-      this.layers.push(...this.noDataLayers);
+    if (this.geojsonPropertiesLayers) {
+      this.layers.push(...this.geojsonPropertiesLayers);
     }
     this.layers.forEach((layer, i) => {
       layer.id = i;

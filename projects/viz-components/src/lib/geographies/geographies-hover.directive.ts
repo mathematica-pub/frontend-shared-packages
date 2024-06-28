@@ -73,8 +73,8 @@ export class GeographiesHoverDirective<
     const layerIndex = parseFloat(this.path.dataset['layerIndex']);
     this.layer =
       layerIndex === 0
-        ? this.geographies.config.dataLayer
-        : this.geographies.config.noDataLayers[layerIndex - 1];
+        ? this.geographies.config.attributeDataLayer
+        : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
     const d = select(this.path).datum() as VicGeographiesFeature<
       TProperties,
       TGeometry

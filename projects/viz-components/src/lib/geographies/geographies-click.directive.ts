@@ -103,8 +103,8 @@ export class GeographiesClickDirective<
     const layerIndex = parseFloat(this.path.dataset['layerIndex']);
     this.layer =
       layerIndex === 0
-        ? this.geographies.config.dataLayer
-        : this.geographies.config.noDataLayers[layerIndex - 1];
+        ? this.geographies.config.attributeDataLayer
+        : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
