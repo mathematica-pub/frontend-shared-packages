@@ -103,7 +103,6 @@ describe('the Categorical Bins Attribute Data dimension', () => {
     geographiesConfig = undefined;
   });
   it('User provides domain and range - colors states by domain and range in 1:1 relationship', () => {
-    // Note: use colors where only one rbg color channel varies so that it's possible to test data values.
     const binValues = [50000, 75000];
     const rangeValues = ['red', 'violet', 'blue'];
     cy.fixture('usMap.json').then((response) => {
