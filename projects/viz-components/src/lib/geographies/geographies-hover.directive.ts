@@ -8,7 +8,7 @@ import { filter } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import { VicGeographiesDataLayer } from './config/layers/data-layer';
-import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/no-data-layer';
 import { VicGeographiesFeature } from './geographies-feature';
 import {
   VicGeographiesEventOutput,
@@ -47,7 +47,7 @@ export class GeographiesHoverDirective<
   bounds: [[number, number], [number, number]];
   layer:
     | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesNoDataLayer<TProperties, TGeometry>;
+    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   positionX: number;
   positionY: number;
@@ -73,8 +73,8 @@ export class GeographiesHoverDirective<
     const layerIndex = parseFloat(this.path.dataset['layerIndex']);
     this.layer =
       layerIndex === 0
-        ? this.geographies.config.dataLayer
-        : this.geographies.config.noDataLayers[layerIndex - 1];
+        ? this.geographies.config.attributeDataLayer
+        : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
     const d = select(this.path).datum() as VicGeographiesFeature<
       TProperties,
       TGeometry

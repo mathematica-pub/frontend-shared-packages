@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../../config/vic';
 import { VicDimensionCategorical } from '../../../data-dimensions/categorical/categorical';
-import { VicGeographiesNoDataLayer } from './no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './no-data-layer';
 
 type FeatureProperties = { name: string };
 const features = [
@@ -11,8 +11,11 @@ const features = [
   { name: 'California' },
   { name: 'Colorado' },
 ];
-function createLayer(): VicGeographiesNoDataLayer<{ name: string }, any> {
-  return Vic.geographiesNoDataLayer<FeatureProperties>({
+function createLayer(): VicGeographiesGeojsonPropertiesLayer<
+  { name: string },
+  any
+> {
+  return Vic.geographiesNonAttributeDataLayer<FeatureProperties>({
     geographies: features as any,
     categorical: Vic.dimensionCategorical({
       range: ['lime'],
@@ -21,7 +24,7 @@ function createLayer(): VicGeographiesNoDataLayer<{ name: string }, any> {
 }
 
 describe('GeographiesNoDataLayer', () => {
-  let layer: VicGeographiesNoDataLayer<{ name: string }, any>;
+  let layer: VicGeographiesGeojsonPropertiesLayer<{ name: string }, any>;
 
   beforeEach(() => {
     layer = undefined;

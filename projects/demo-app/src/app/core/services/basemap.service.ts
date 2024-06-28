@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicGeographiesNoDataLayer } from 'projects/viz-components/src/lib/geographies/config/layers/no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/no-data-layer';
 import {
   Vic,
   VicGeographiesFeature,
@@ -17,7 +17,7 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicGeographiesNoDataLayer<
+  usOutlineConfig: VicGeographiesGeojsonPropertiesLayer<
     MapGeometryProperties,
     MultiPolygon | Polygon
   >;
@@ -52,16 +52,17 @@ export class BasemapService {
   }
 
   private setUsOutlineConfig(): void {
-    this.usOutlineConfig = Vic.geographiesNoDataLayer<MapGeometryProperties>({
-      geographies: this.us.features,
-      strokeColor: colors.base,
-      strokeWidth: '1',
-      categorical: Vic.dimensionCategorical<
-        VicGeographiesFeature<MapGeometryProperties, MultiPolygon | Polygon>
-      >({
-        valueAccessor: (d) => d.properties.name,
-        range: ['none'],
-      }),
-    });
+    this.usOutlineConfig =
+      Vic.geographiesNonAttributeDataLayer<MapGeometryProperties>({
+        geographies: this.us.features,
+        strokeColor: colors.base,
+        strokeWidth: '1',
+        categorical: Vic.dimensionCategorical<
+          VicGeographiesFeature<MapGeometryProperties, MultiPolygon | Polygon>
+        >({
+          valueAccessor: (d) => d.properties.name,
+          range: ['none'],
+        }),
+      });
   }
 }

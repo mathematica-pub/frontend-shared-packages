@@ -7,7 +7,7 @@ import { filter } from 'rxjs';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import { VicGeographiesDataLayer } from './config/layers/data-layer';
-import { VicGeographiesNoDataLayer } from './config/layers/no-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/no-data-layer';
 import { VicGeographiesEventOutput } from './geographies-tooltip-data';
 import { GEOGRAPHIES, GeographiesComponent } from './geographies.component';
 
@@ -33,7 +33,7 @@ export class GeographiesHoverMoveDirective<
   >();
   layer:
     | VicGeographiesDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesNoDataLayer<TProperties, TGeometry>;
+    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   pointerX: number;
   pointerY: number;
@@ -60,8 +60,8 @@ export class GeographiesHoverMoveDirective<
       const layerIndex = parseFloat(this.path.dataset['layerIndex']);
       this.layer =
         layerIndex === 0
-          ? this.geographies.config.dataLayer
-          : this.geographies.config.noDataLayers[layerIndex - 1];
+          ? this.geographies.config.attributeDataLayer
+          : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
       this.effects.forEach((effect) => {
         if (effect.initializeEffect) {
           effect.initializeEffect(this);

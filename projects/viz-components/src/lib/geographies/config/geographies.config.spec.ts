@@ -24,7 +24,7 @@ const features = [
 ];
 function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
   return Vic.geographies({
-    dataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
+    attributeDataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
       attributeDimension: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
         valueAccessor: (d) => d.value,
         numBins: 5,
@@ -32,8 +32,8 @@ function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
       geographyIndexAccessor: (d) => d.state,
       data,
     }),
-    noDataLayers: [
-      Vic.geographiesNoDataLayer<FeatureProperties>({
+    geojsonPropertiesLayers: [
+      Vic.geographiesNonAttributeDataLayer<FeatureProperties>({
         geographies: features as any,
         categorical: Vic.dimensionCategorical({
           range: ['lime'],
@@ -62,7 +62,7 @@ describe('GeographiesConfig', () => {
     });
     it('calls initPropertiesFromData once', () => {
       expect(
-        (config as any).dataLayer.initPropertiesFromData
+        (config as any).attributeDataLayer.initPropertiesFromData
       ).toHaveBeenCalledTimes(1);
     });
     it('calls setLayers once', () => {
