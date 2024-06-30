@@ -12,9 +12,7 @@ This project has the following requirements for the developer's/virtual machine:
 
 Viz-components supports beta-releases so that we can test library code on real projects before officially making a feature stable and merging to main. This lets us make sure we can have rigorous tests and decent documentation for new features without slowing down project work too much.
 
-Developers can update `viz-components/package.json` to have a version suffixed with `-beta`, then push to any branch entitled `beta-release-[branch-description-here]`, and our beta-release deployment script will run. If developers want to update the beta-released package, simply bump the package version number and push to the beta-release branch you created again.
-
-Before a beta-release feature is merged to main, rename your branch (so there's no `beta-release` in it), remove `-beta` from the package version name, and bump the official version of the package.
+On any open PR add a comment that says `beta-release-bot: my-awesome-release` and a beta-release job will be deployed. If the current package version in `projects/viz-components/package.json` is `1.0.6`, the beta-released version will be `1.0.6-my-awesome-release`. To redeploy, add another comment with a new release name (e.g. `beta-release-bot: my-awesome-release-trying-this-again`).
 
 ## Locally generating compodoc documentation
 

@@ -1,9 +1,8 @@
 name: Beta Release Workflow
 
 on:
-  push:
-    branches:
-      - '*beta-release*'
+  issue_comment:
+    types: [created]
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -13,6 +12,7 @@ env:
 
 jobs:
   beta-release:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot')
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -26,12 +26,15 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Check package.json for beta
+      - name: Update package.json with beta
         run: |
-          if ! grep "\"version\": \".*-beta"  projects/viz-components/package.json; then
-            echo "The package.json must contain 'beta' in the version."
-            exit 1
-          fi
+          BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot: \(.*\)/\1/p' | tr -d ' ')
+          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          echo "Current version: $PACKAGE_VERSION"
+          NEW_VERSION="$PACKAGE_VERSION-$BETA_APPEND_STRING"
+          echo "New version: $NEW_VERSION"
+          jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' package.json > package.json.tmp
+          mv package.json.tmp package.json
 
       - name: Install Dependencies
         run: npm ci
