@@ -34,7 +34,7 @@ jobs:
       - name: Update package.json with beta
         run: |
           BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot: \(.*\)/\1/p' | tr -d ' ')
-          PACKAGE_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_VERSION=$(node -p "require('./projects/viz-components/package.json').version")
           echo "Current version: $PACKAGE_VERSION"
           NEW_VERSION="$PACKAGE_VERSION-$BETA_APPEND_STRING"
           echo "New version: $NEW_VERSION"
