@@ -42,8 +42,8 @@ jobs:
           echo "Current version: $PACKAGE_VERSION"
           NEW_VERSION="$PACKAGE_VERSION-$BETA_APPEND_STRING"
           echo "New version: $NEW_VERSION"
-          jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' package.json > package.json.tmp
-          mv package.json.tmp package.json
+          jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' ./projects/viz-components/package.json > ./projects/viz-components/package.json.tmp
+          mv ./projects/viz-components/package.json.tmp ./projects/viz-components/package.json
 
       - name: Install Dependencies
         run: npm ci
