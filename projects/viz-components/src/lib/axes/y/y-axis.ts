@@ -40,7 +40,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     getRightTranslate(ranges: Ranges): number {
-      return ranges.x[1] - ranges.x[0] - this.chart.margin.right;
+      return ranges.x[1] + this.chart.margin.right;
     }
 
     getScale(): Observable<XyAxisScale> {

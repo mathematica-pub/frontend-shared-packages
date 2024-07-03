@@ -3,10 +3,10 @@ import {
   DomainPadding,
   VicDomainPaddingConfig,
 } from '../../data-marks/data-dimension.config';
-import { ValueUtilities } from '../../shared/value-utilities.class';
 import { ToArray } from '../types/utility';
 import { VicValueExtent } from '../types/values';
 import { isNumberArray } from './type-guard';
+import { ValueUtilities } from './values';
 
 export type DomainExtent = 'max' | 'min';
 

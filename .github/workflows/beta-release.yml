@@ -1,0 +1,48 @@
+name: Beta Release Workflow
+
+on:
+  push:
+    branches:
+      - '*beta-release*'
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_OUTPUT: json
+
+jobs:
+  beta-release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Check package.json for beta
+        run: |
+          if ! grep "\"version\": \".*-beta"  projects/viz-components/package.json; then
+            echo "The package.json must contain 'beta' in the version."
+            exit 1
+          fi
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Library
+        run: npm run build:lib
+
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+
+      - name: Deploy to codeartifact
+        run: |
+          cd ./dist/viz-components
+          npm publish
