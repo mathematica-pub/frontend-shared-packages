@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ascending, extent, scaleLinear } from 'd3';
 import {
   FeatureCollection,
   GeoJsonProperties,
@@ -353,7 +354,7 @@ describe('drawing the geography paths for various layers', () => {
     geographiesConfig = undefined;
   });
   describe('layers: attributeDataLayer: false, geojsonPropertiesLayers: 2', () => {
-    it('it draws a map with one geography per geography in geojson', () => {
+    it('it colors geographies in a geoJsonProperties layer by value returned from valueAccessor', () => {
       cy.fixture('usMap.json').then((response) => {
         const usMap: TestUsMapTopology = response;
         const usBoundary = topojson.feature(
@@ -367,6 +368,19 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
+        // Colors state by the length of the name
+        const stateNames = states.features
+          .map((x) => x.properties.name)
+          .filter(
+            (x) =>
+              !x.includes('District') &&
+              !x.includes('Islands') &&
+              !x.includes('Samoa')
+          )
+          .sort((a, b) => ascending(a.length, b.length));
+        const stateNamesScale = scaleLinear<string>()
+          .domain(extent(stateNames.map((x) => x.length)))
+          .range(['white', 'magenta']);
         geographiesConfig = Vic.geographies<
           StateInComePopulationDatum,
           TestMapGeometryProperties
@@ -379,14 +393,14 @@ describe('drawing the geography paths for various layers', () => {
               strokeColor: 'black',
               strokeWidth: '1',
               categorical: Vic.dimensionCategorical({
-                domain: states.features.map((x) => x.properties.name),
-                valueAccessor: (d) => d.properties.name,
-                range: ['white', 'magenta'],
+                scale: (stateNameLength) =>
+                  stateNamesScale(+stateNameLength.length),
+                valueAccessor: (d) => d.properties.name.length.toString(),
               }),
             }),
             Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
               geographies: usBoundary.features,
-              strokeColor: 'red',
+              strokeColor: 'blue',
               strokeWidth: '1',
             }),
           ],
@@ -406,8 +420,19 @@ describe('drawing the geography paths for various layers', () => {
         cy.get('.layer-1 path').then((paths) => {
           expect(paths).to.have.length(usBoundary.features.length);
           cy.wrap(paths).each((path) => {
-            expect(path.attr('stroke')).to.eq('red');
+            expect(path.attr('stroke')).to.eq('blue');
             expect(path.attr('stroke-width')).to.eq('1');
+          });
+        });
+        const colors = [255];
+        stateNames.forEach((d, i) => {
+          const state = d.replace(/\s/g, '-');
+          cy.get(`.vic-geography-g path.${state}`).then((path) => {
+            const color = parseInt(
+              path.attr('fill').split('(')[1].split(',')[1]
+            );
+            expect(color).to.be.lte(colors[i]);
+            colors.push(color);
           });
         });
       });
