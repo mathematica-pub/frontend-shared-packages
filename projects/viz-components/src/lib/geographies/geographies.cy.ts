@@ -335,8 +335,85 @@ describe('drawing the geography paths for various layers', () => {
 });
 
 // ***********************************************************
-// Tests of coloring by data values are in individual attribute dimension tests
+// Tests of coloring by attribute data values are in individual attribute dimension tests
 // ***********************************************************
+
+// ***********************************************************
+// Tests of coloring geojsonProperties with categorical dimension
+// ***********************************************************
+// ***********************************************************
+// Drawing the map
+// ***********************************************************
+describe('drawing the geography paths for various layers', () => {
+  let geographiesConfig: VicGeographiesConfig<
+    StateInComePopulationDatum,
+    TestMapGeometryProperties
+  >;
+  beforeEach(() => {
+    geographiesConfig = undefined;
+  });
+  describe('layers: attributeDataLayer: false, geojsonPropertiesLayers: 2', () => {
+    it('it draws a map with one geography per geography in geojson', () => {
+      cy.fixture('usMap.json').then((response) => {
+        const usMap: TestUsMapTopology = response;
+        const usBoundary = topojson.feature(
+          usMap,
+          usMap.objects.country
+        ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+        const states = topojson.feature(
+          usMap,
+          usMap.objects.states
+        ) as FeatureCollection<
+          MultiPolygon | Polygon,
+          TestMapGeometryProperties
+        >;
+        geographiesConfig = Vic.geographies<
+          StateInComePopulationDatum,
+          TestMapGeometryProperties
+        >({
+          boundary: usBoundary,
+          featureIndexAccessor: (d) => d.properties.name,
+          geojsonPropertiesLayers: [
+            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
+              geographies: states.features,
+              strokeColor: 'black',
+              strokeWidth: '1',
+              categorical: Vic.dimensionCategorical({
+                domain: states.features.map((x) => x.properties.name),
+                valueAccessor: (d) => d.properties.name,
+                range: ['white', 'magenta'],
+              }),
+            }),
+            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
+              geographies: usBoundary.features,
+              strokeColor: 'red',
+              strokeWidth: '1',
+            }),
+          ],
+        });
+        mountGeographiesComponent(geographiesConfig);
+        cy.get('.vic-geography-g path').should(
+          'have.length',
+          states.features.length + usBoundary.features.length
+        );
+        cy.get('.layer-0 path').then((paths) => {
+          expect(paths).to.have.length(states.features.length);
+          cy.wrap(paths).each((path) => {
+            expect(path.attr('stroke')).to.eq('black');
+            expect(path.attr('stroke-width')).to.eq('1');
+          });
+        });
+        cy.get('.layer-1 path').then((paths) => {
+          expect(paths).to.have.length(usBoundary.features.length);
+          cy.wrap(paths).each((path) => {
+            expect(path.attr('stroke')).to.eq('red');
+            expect(path.attr('stroke-width')).to.eq('1');
+          });
+        });
+      });
+    });
+  });
+});
 
 // ***********************************************************
 // Test geography labels
