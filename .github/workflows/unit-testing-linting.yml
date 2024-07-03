@@ -46,7 +46,7 @@ jobs:
         run: npm ci
 
       - name: Unit Test Library
-        run: npm run test:lib:ci
+        run: npm run test:ci
 
   cypress-test:
     runs-on: ubuntu-latest
