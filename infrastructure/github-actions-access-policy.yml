@@ -58,14 +58,6 @@ Resources:
               - sns:Unsubscribe
               - sns:TagResource
             Resource: '*'
-          - Sid: WafActions
-            Effect: Allow
-            Action:
-              - wafv2:GetWebACL
-              - wafv2:GetWebACLForResource
-              - wafv2:AssociateWebACL
-              - wafv2:DisassociateWebACL
-            Resource: '*'
       Users:
         - !Ref GithubUser
 
