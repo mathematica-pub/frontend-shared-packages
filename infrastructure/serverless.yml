@@ -22,7 +22,7 @@ resources:
         - CloudFrontDistribution
       Type: AWS::WAFv2::WebACLAssociation
       Properties:
-        ResourceArn: !Sub arn:aws:cloudfront:${AWS::AccountId}:distribution/${CloudFrontDistribution}
+        ResourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}
         WebACLArn: ${self.custom.appConfig.config.${self.provider.stage}.web-acl-arn}
 
     ServerlessDeploymentBucketPolicy:
