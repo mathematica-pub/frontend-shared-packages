@@ -3,6 +3,7 @@ config:
   stack-description: vizcolib demo application stack - in shared devops
   logging-format: '{ "requestId":"$context.requestId", "extendedRequestId":"$context.extendedRequestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime",  "httpMethod":"$context.httpMethod",  "path": "$context.path", "status":"$context.status",  "protocol":"$context.protocol",  "responseLength":"$context.responseLength"}'
   dev:
+    web-acl-arn: arn:aws:wafv2:us-east-1:922539530544:global/webacl/CloudFront-CoreWAFPolicy-AllowOnlyFromMPR-2023/9785caed-5f7e-404d-b508-3bb402d022b8
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
     kmsKeyArn: arn:aws:kms:us-east-1:838494257041:key/15cd3869-0eda-44ef-aa2c-1d9d66dc6a84
@@ -12,6 +13,7 @@ config:
       subnet2: subnet-051a68cecc8c597ae
 
   release:
+    web-acl-arn: arn:aws:wafv2:us-east-1:922539530544:global/webacl/CloudFront-CoreWAFPolicy-AllowOnlyFromMPR-2023/9785caed-5f7e-404d-b508-3bb402d022b8
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
     kmsKeyArn: arn:aws:kms:us-east-1:838494257041:key/15cd3869-0eda-44ef-aa2c-1d9d66dc6a84
