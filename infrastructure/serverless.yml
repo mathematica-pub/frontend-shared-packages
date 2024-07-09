@@ -17,13 +17,13 @@ resources:
   Description: ${self:custom.appConfig.config.stack-description} for ${opt:stage}
 
   Resources:
-    WebAclAssociation:
-      DependsOn:
-        - CloudFrontDistribution
-      Type: AWS::WAFv2::WebACLAssociation
-      Properties:
-        ResourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}
-        WebACLArn: ${self.custom.appConfig.config.${self.provider.stage}.web-acl-arn}
+    # WebAclAssociation:
+    #   DependsOn:
+    #     - CloudFrontDistribution
+    #   Type: AWS::WAFv2::WebACLAssociation
+    #   Properties:
+    #     ResourceArn: !Sub arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}
+    #     WebACLArn: ${self.custom.appConfig.config.${self.provider.stage}.web-acl-arn}
 
     ServerlessDeploymentBucketPolicy:
       Type: AWS::S3::BucketPolicy
@@ -184,6 +184,7 @@ resources:
               RestrictionType: whitelist
               Locations:
                 - US
+          WebAclId: ${self.custom.appConfig.config.${self.provider.stage}.web-acl-arn}
 
     CloudFrontHttpHeaderResponseFunction:
       Type: AWS::CloudFront::Function
