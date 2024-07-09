@@ -176,7 +176,7 @@ resources:
               RestrictionType: whitelist
               Locations:
                 - US
-          WebACLId: !Sub ${self.custom.appConfig.config.webAclArn}
+          WebACLId: !Sub '${self:custom.appConfig.config.webAcl}'
 
     CloudFrontHttpHeaderResponseFunction:
       Type: AWS::CloudFront::Function
