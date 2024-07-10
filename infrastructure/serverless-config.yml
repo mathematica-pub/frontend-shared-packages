@@ -2,6 +2,7 @@ config:
   appName: viz-components-demo-app-github-version
   stack-description: vizcolib demo application stack - in shared devops
   logging-format: '{ "requestId":"$context.requestId", "extendedRequestId":"$context.extendedRequestId", "ip": "$context.identity.sourceIp", "caller":"$context.identity.caller", "user":"$context.identity.user", "requestTime":"$context.requestTime",  "httpMethod":"$context.httpMethod",  "path": "$context.path", "status":"$context.status",  "protocol":"$context.protocol",  "responseLength":"$context.responseLength"}'
+  webAcl: arn:aws:wafv2:us-east-1:922539530544:global/webacl/CloudFront-CoreWAFPolicy-AllowOnlyFromMPR-2023/9785caed-5f7e-404d-b508-3bb402d022b8
   dev:
     region: us-east-1
     operatorEmail: tcoile@mathematica-mpr.com
