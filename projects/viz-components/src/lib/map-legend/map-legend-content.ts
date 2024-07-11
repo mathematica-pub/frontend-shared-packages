@@ -1,11 +1,11 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { VicOrientation, VicSide } from '../core/types/layout';
+import { ValueUtilities } from '../core/utilities/value-utilities';
 import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
 } from '../geographies/config/dimensions/attribute-data-bin-types';
 import { CalculatedRangeBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins';
-import { ValueUtilities } from '../shared/value-utilities';
 
 @Directive()
 export abstract class MapLegendContent<

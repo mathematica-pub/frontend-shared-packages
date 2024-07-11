@@ -1,12 +1,12 @@
 import * as CSSType from 'csstype';
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { PatternUtilities } from '../../../core/utilities/pattern-utilities';
 import {
   isFunction,
   isPrimitiveType,
 } from '../../../core/utilities/type-guards';
 import { VicDimensionCategorical } from '../../../data-dimensions/categorical/categorical';
-import { PatternUtilities } from '../../../shared/pattern-utilities';
 import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../geographies-tooltip-data';
 import { VicGeographiesLabels } from './geographies-labels';

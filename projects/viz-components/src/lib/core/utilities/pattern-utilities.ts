@@ -1,4 +1,4 @@
-import { VicFillPattern } from '../data-dimensions/categorical/fill-pattern';
+import { VicFillPattern } from '../../data-dimensions/categorical/fill-pattern';
 
 /**
  * @internal

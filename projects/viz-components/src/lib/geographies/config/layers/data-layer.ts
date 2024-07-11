@@ -1,12 +1,12 @@
 import * as CSSType from 'csstype';
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { PatternUtilities } from '../../../core/utilities/pattern-utilities';
 import {
   isFunction,
   isPrimitiveType,
 } from '../../../core/utilities/type-guards';
-import { PatternUtilities } from '../../../shared/pattern-utilities';
-import { ValueUtilities } from '../../../shared/value-utilities';
+import { ValueUtilities } from '../../../core/utilities/value-utilities';
 import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../geographies-tooltip-data';
 import { VicValuesBin } from '../dimensions/attribute-data-bin-types';

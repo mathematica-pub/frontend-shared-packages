@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
+import { VicColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
 import {
   EventEffect,
   GeographiesClickDirective,
@@ -9,7 +10,6 @@ import {
   GeographiesHoverEmitTooltipData,
   Vic,
   VicCategoricalAttributeDataDimension,
-  VicColorUtilities,
   VicCustomBreaksAttributeDataDimension,
   VicElementSpacing,
   VicEqualFrequenciesAttributeDataDimension,

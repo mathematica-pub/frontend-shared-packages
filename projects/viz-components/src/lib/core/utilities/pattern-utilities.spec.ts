@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicFillPattern } from '../data-dimensions/categorical/fill-pattern';
+import { VicFillPattern } from 'projects/viz-components/src/public-api';
 import { PatternUtilities } from './pattern-utilities';
 
 describe('PatternUtilities', () => {

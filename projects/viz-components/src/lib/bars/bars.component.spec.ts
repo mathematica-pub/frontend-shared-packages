@@ -2,9 +2,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Vic } from '../config/vic';
-import { VicColorUtilities } from '../shared/color-utilities';
-import { PatternUtilities } from '../shared/pattern-utilities';
-import { ValueUtilities } from '../shared/value-utilities';
+import { VicColorUtilities } from '../core/utilities/colors';
+import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
 import { VicBarsConfig } from './config/bars.config';

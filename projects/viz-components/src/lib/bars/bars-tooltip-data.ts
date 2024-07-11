@@ -1,6 +1,6 @@
 import { ElementRef } from '@angular/core';
 import { VicDataValue } from '../core/types/values';
-import { ValueUtilities } from '../shared/value-utilities';
+import { ValueUtilities } from '../core/utilities/value-utilities';
 import { BarDatum, BarsComponent } from './bars.component';
 
 export interface VicBarsTooltipOutput<

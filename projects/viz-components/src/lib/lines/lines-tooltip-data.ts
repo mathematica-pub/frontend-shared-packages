@@ -1,4 +1,4 @@
-import { ValueUtilities } from '../shared/value-utilities';
+import { ValueUtilities } from '../core/utilities/value-utilities';
 import { LinesComponent } from './lines.component';
 
 export interface VicLinesEventOutput<Datum> {

@@ -1,5 +1,5 @@
 import { VicDataValue } from '../core/types/values';
-import { ValueUtilities } from '../shared/value-utilities';
+import { ValueUtilities } from '../core/utilities/value-utilities';
 import { StackedAreaComponent } from './stacked-area.component';
 
 export interface VicStackedAreaEventOutput<

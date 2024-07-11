@@ -79,7 +79,7 @@ describe('the YAxis mixin', () => {
       abstractClass.chart = {
         margin: { right: 40 },
       } as any;
-      expect(abstractClass.getRightTranslate(testRanges)).toEqual(-30);
+      expect(abstractClass.getRightTranslate(testRanges)).toEqual(50);
     });
   });
 

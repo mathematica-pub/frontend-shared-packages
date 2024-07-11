@@ -1,8 +1,6 @@
 import { format, timeFormat } from 'd3';
-
-import { VicValueExtent } from '../core/types/values';
-import { isDate } from '../core/utilities/type-guards';
-
+import { VicValueExtent } from '../types/values';
+import { isDate } from './type-guards';
 export type VicFormatSpecifier<Datum> = string | ((x: Datum) => string);
 
 /**
