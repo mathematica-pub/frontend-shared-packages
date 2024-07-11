@@ -17,7 +17,7 @@ import { VicDataValue } from '../core/types/values';
 import { VicColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { isNumber } from '../core/utilities/type-guards';
-import { ValueUtilities } from '../core/utilities/value-utilities';
+import { ValueUtilities } from '../core/utilities/values';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';

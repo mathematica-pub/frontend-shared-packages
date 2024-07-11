@@ -6,7 +6,7 @@ import {
   isFunction,
   isPrimitiveType,
 } from '../../../core/utilities/type-guards';
-import { ValueUtilities } from '../../../core/utilities/value-utilities';
+import { ValueUtilities } from '../../../core/utilities/values';
 import { VicGeographiesFeature } from '../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../geographies-tooltip-data';
 import { VicValuesBin } from '../dimensions/attribute-data-bin-types';

@@ -1,5 +1,5 @@
 import { valueFormat } from '../core/utilities/value-format';
-import { ValueUtilities } from '../core/utilities/value-utilities';
+import { ValueUtilities } from '../core/utilities/values';
 
 export class VicColumnConfig {
   title: string;

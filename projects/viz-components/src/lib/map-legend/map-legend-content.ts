@@ -1,6 +1,6 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { VicOrientation, VicSide } from '../core/types/layout';
-import { ValueUtilities } from '../core/utilities/value-utilities';
+import { ValueUtilities } from '../core/utilities/values';
 import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
