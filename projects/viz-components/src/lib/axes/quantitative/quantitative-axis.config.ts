@@ -2,7 +2,8 @@ import { Directive } from '@angular/core';
 import { AxisTimeInterval } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { VicDataValue } from '../../core/types/values';
-import { VicXyAxisConfig, VicXyAxisOptions } from '../xy-axis.config';
+import { VicXyAxisOptions } from '../xy-axis-options';
+import { VicXyAxisConfig } from '../xy-axis.config';
 
 const DEFAULT = {
   tickFormat: ',.1f',

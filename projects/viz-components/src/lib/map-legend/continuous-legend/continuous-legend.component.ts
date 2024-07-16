@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
 import { VicOrientation } from '../../core/types/layout';
-import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins';
+import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
 import { MapLegendContent } from '../map-legend-content';
 
 /**

@@ -1,23 +1,7 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
 import { VicDataValue } from '../../core/types/values';
-import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
-
-const DEFAULT = {
-  align: 0.5,
-  paddingInner: 0.1,
-  paddingOuter: 0.1,
-  valueAccessor: (d, i) => i,
-};
-
-export interface VicDimensionOrdinalOptions<
-  Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicDataDimensionOptions<Datum, TOrdinalValue> {
-  align: number;
-  domain: TOrdinalValue[];
-  paddingInner: number;
-  paddingOuter: number;
-}
+import { VicDataDimension } from '../dimension';
+import { VicDimensionOrdinalOptions } from './ordinal-options';
 
 export class VicDimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>
   extends VicDataDimension<Datum, TOrdinalValue>
@@ -42,10 +26,6 @@ export class VicDimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>
     super();
     this.scaleFn = scaleBand;
     Object.assign(this, options);
-    this.align = this.align ?? DEFAULT.align;
-    this.paddingInner = this.paddingInner ?? DEFAULT.paddingInner;
-    this.paddingOuter = this.paddingOuter ?? DEFAULT.paddingOuter;
-    this.valueAccessor = this.valueAccessor ?? DEFAULT.valueAccessor;
   }
 
   get calculatedDomain(): TOrdinalValue[] {

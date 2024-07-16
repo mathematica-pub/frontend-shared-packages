@@ -1,7 +1,8 @@
 import { Directive } from '@angular/core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { VicDataValue } from '../../core/types/values';
-import { VicXyAxisConfig, VicXyAxisOptions } from '../xy-axis.config';
+import { VicXyAxisOptions } from '../xy-axis-options';
+import { VicXyAxisConfig } from '../xy-axis.config';
 
 export type VicOrdinalAxisOptions<TickValue extends VicDataValue> =
   VicXyAxisOptions<TickValue>;

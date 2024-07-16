@@ -1,8 +1,8 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
+import { VicDataMarksOptions } from '../data-marks/config/data-marks-options';
 import { VicDataMarks } from '../data-marks/data-marks';
-import { VicDataMarksOptions } from '../data-marks/data-marks.config';
 import {
   XyChartComponent,
   XyChartScales,

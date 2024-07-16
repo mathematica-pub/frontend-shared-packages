@@ -16,7 +16,7 @@ import { VicContinuousValue, VicDataValue } from '../../core/types/values';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 
 const DEFAULT = {

@@ -14,10 +14,10 @@ import { ChartComponent } from '../chart/chart.component';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
-import { VicGeographiesConfig } from './config/geographies.config';
-import { VicGeographiesAttributeDataLayer } from './config/layers/data-layer';
-import { VicGeographiesLabels } from './config/layers/geographies-labels';
-import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer';
+import { VicGeographiesConfig } from './config/geographies-config';
+import { VicGeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
+import { VicGeographiesLabels } from './config/layers/labels/geographies-labels';
 import { VicGeographiesFeature } from './geographies-feature';
 
 export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;

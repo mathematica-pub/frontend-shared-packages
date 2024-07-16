@@ -21,7 +21,7 @@ import { ValueUtilities } from '../core/utilities/values';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicBarsConfig } from './config/bars.config';
+import { VicBarsConfig } from './config/bars-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
@@ -386,13 +386,13 @@ export class BarsComponent<
       this.isZeroOrNonNumeric(d.quantitative) ||
       this.barLabelFitsOutsideBar(d)
     ) {
-      return this.config.labels.defaultLabelColor;
+      return this.config.labels.color.default;
     } else {
       const barColor = this.getBarColor(d);
       return VicColorUtilities.getHigherContrastColorForBackground(
         barColor,
-        this.config.labels.defaultLabelColor,
-        this.config.labels.withinBarAlternativeLabelColor
+        this.config.labels.color.default,
+        this.config.labels.color.withinBarAlternative
       );
     }
   }

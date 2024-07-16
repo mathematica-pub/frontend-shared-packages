@@ -1,38 +1,8 @@
-import { InternSet, scaleOrdinal, schemeTableau10 } from 'd3';
+import { InternSet, scaleOrdinal } from 'd3';
 import { VicDataValue } from '../../core/types/values';
-import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
+import { VicDataDimension } from '../dimension';
+import { VicCategoricalDimensionOptions } from './categorical-options';
 import { VicFillPattern } from './fill-pattern';
-
-const DEFAULT = {
-  range: schemeTableau10 as string[],
-  valueAccessor: () => '',
-};
-
-export interface VicCategoricalDimensionOptions<
-  Datum,
-  TCategoricalValue extends VicDataValue = string
-> extends VicDataDimensionOptions<Datum, TCategoricalValue> {
-  domain: TCategoricalValue[];
-  fillPatterns: VicFillPattern<Datum>[];
-  /**
-   * An array of visual values that will be the output from D3 scale ordinal.
-   *
-   * For example, this could be an array of colors or sizes.
-   *
-   * Default is D3's schemeTableau10.
-   *
-   * To have all items have the same visual value, use an array with a single element.
-   *
-   * Will not be used if `scale` is provided.
-   */
-  range: string[];
-  /**
-   * A user-defined function that transforms a categorical value into a graphical value.
-   * User must also provide their own implementation of `valueAccessor`.
-   * If a custom valueAccessor function is not provided, this function will not be used (due to default value of `valueAccessor`).
-   */
-  scale: (category: TCategoricalValue) => string;
-}
 
 export class VicDimensionCategorical<
   Datum,
@@ -49,7 +19,7 @@ export class VicDimensionCategorical<
     options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
   ) {
     super();
-    Object.assign(this, DEFAULT, options);
+    Object.assign(this, options);
   }
 
   get calculatedDomain(): TCategoricalValue[] {

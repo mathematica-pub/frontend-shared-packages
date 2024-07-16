@@ -5,7 +5,7 @@ import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
 } from '../geographies/config/dimensions/attribute-data-bin-types';
-import { CalculatedRangeBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins';
+import { CalculatedRangeBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins/calculated-bins';
 
 @Directive()
 export abstract class MapLegendContent<

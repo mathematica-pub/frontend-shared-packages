@@ -12,22 +12,19 @@ import { VicXAxisOptions } from '../axes/x/x-axis.config';
 import { VicYOrdinalAxisConfig } from '../axes/y-ordinal/y-ordinal-axis.config';
 import { VicYQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis.config';
 import { VicYAxisOptions } from '../axes/y/y-axis.config';
+import { VicBarsConfig } from '../bars/config/bars-config';
 import {
   HORIZONTAL_BARS_DIMENSIONS,
   VERTICAL_BARS_DIMENSIONS,
   VicBarsDimensions,
 } from '../bars/config/bars-dimensions';
-import { VicBarsLabels } from '../bars/config/bars-labels';
-import { VicBarsConfig, VicBarsOptions } from '../bars/config/bars.config';
+import { VicBarsOptions } from '../bars/config/bars-options';
+import { VicBarsLabels } from '../bars/config/labels/bars-labels';
 import { VicDataValue } from '../core/types/values';
-import {
-  VicCategoricalDimensionOptions,
-  VicDimensionCategorical,
-} from '../data-dimensions/categorical/categorical';
-import {
-  VicDimensionOrdinal,
-  VicDimensionOrdinalOptions,
-} from '../data-dimensions/ordinal/ordinal';
+import { VicDimensionCategorical } from '../data-dimensions/categorical/categorical';
+import { VicCategoricalDimensionOptions } from '../data-dimensions/categorical/categorical-options';
+import { VicDimensionOrdinal } from '../data-dimensions/ordinal/ordinal';
+import { VicDimensionOrdinalOptions } from '../data-dimensions/ordinal/ordinal-options';
 import {
   PercentOverDomainPaddingOptions,
   VicPercentOverDomainPadding,
@@ -44,47 +41,27 @@ import {
   VicRoundUpDomainPadding,
   VicRoundUpDomainPaddingOptions,
 } from '../data-dimensions/quantitative/domain-padding/round-up';
-import {
-  VicDimensionQuantitativeDate,
-  VicDimensionQuantitativeDateOptions,
-} from '../data-dimensions/quantitative/quantitative-date';
-import {
-  VicDimensionQuantitativeNumeric,
-  VicDimensionQuantitativeNumericOptions,
-} from '../data-dimensions/quantitative/quantitative-numeric';
-import {
-  VicCategoricalAttributeDataDimension,
-  VicCategoricalAttributeDataDimensionOptions,
-} from '../geographies/config/dimensions/categorical-bins';
-import {
-  VicCustomBreaksAttributeDataDimension,
-  VicCustomBreaksAttributeDataDimensionOptions,
-} from '../geographies/config/dimensions/custom-breaks-bins';
-import {
-  VicEqualFrequenciesAttributeDataDimension,
-  VicEqualFrequenciesAttributeDataDimensionOptions,
-} from '../geographies/config/dimensions/equal-frequencies-bins';
-import {
-  VicEqualValueRangesAttributeDataDimension,
-  VicEqualValueRangesAttributeDataDimensionOptions,
-} from '../geographies/config/dimensions/equal-value-ranges-bins';
-import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins';
-import {
-  VicGeographiesConfig,
-  VicGeographiesOptions,
-} from '../geographies/config/geographies.config';
-import {
-  VicGeographiesAttributeDataLayer,
-  VicGeographiesAttributeDataLayerOptions,
-} from '../geographies/config/layers/data-layer';
-import {
-  VicGeographiesLabels,
-  VicGeographiesLabelsOptions,
-} from '../geographies/config/layers/geographies-labels';
-import {
-  VicGeographiesGeojsonPropertiesLayer,
-  VicGeographiesGeojsonPropertiesLayerOptions,
-} from '../geographies/config/layers/geojson-properties-layer';
+import { VicDimensionQuantitativeDate } from '../data-dimensions/quantitative/quantitative-date';
+import { VicDimensionQuantitativeDateOptions } from '../data-dimensions/quantitative/quantitative-date-options';
+import { VicDimensionQuantitativeNumeric } from '../data-dimensions/quantitative/quantitative-numeric';
+import { VicDimensionQuantitativeNumericOptions } from '../data-dimensions/quantitative/quantitative-numeric-options';
+import { VicCategoricalAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins/categorical-bins';
+import { VicCategoricalAttributeDataDimensionOptions } from '../geographies/config/dimensions/categorical-bins/categorical-bins-options';
+import { VicCustomBreaksAttributeDataDimension } from '../geographies/config/dimensions/custom-breaks/custom-breaks-bins';
+import { VicCustomBreaksAttributeDataDimensionOptions } from '../geographies/config/dimensions/custom-breaks/custom-breaks-bins-options';
+import { VicEqualFrequenciesAttributeDataDimension } from '../geographies/config/dimensions/equal-frequencies-bins/equal-frequencies-bins';
+import { VicEqualFrequenciesAttributeDataDimensionOptions } from '../geographies/config/dimensions/equal-frequencies-bins/equal-frequencies-bins-options';
+import { VicEqualValueRangesAttributeDataDimension } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
+import { VicEqualValueRangesAttributeDataDimensionOptions } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-options';
+import { VicNoBinsAttributeDataDimension } from '../geographies/config/dimensions/no-bins/no-bins';
+import { VicGeographiesConfig } from '../geographies/config/geographies-config';
+import { VicGeographiesOptions } from '../geographies/config/geographies-options';
+import { VicGeographiesAttributeDataLayer } from '../geographies/config/layers/attribute-data-layer/attribute-data-layer';
+import { VicGeographiesAttributeDataLayerOptions } from '../geographies/config/layers/attribute-data-layer/attribute-data-layer-options';
+import { VicGeographiesGeojsonPropertiesLayer } from '../geographies/config/layers/geojson-properties-layer/geojson-properties-layer';
+import { VicGeographiesGeojsonPropertiesLayerOptions } from '../geographies/config/layers/geojson-properties-layer/geojson-properties-layer-options';
+import { VicGeographiesLabels } from '../geographies/config/layers/labels/geographies-labels';
+import { VicGeographiesLabelsOptions } from '../geographies/config/layers/labels/geographies-labels-options';
 import {
   VicGroupedBarsConfig,
   VicGroupedBarsOptions,

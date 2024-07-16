@@ -12,12 +12,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
-import {
-  VicGeographiesAttributeDataLayer,
-  VicGeographiesGeojsonPropertiesLayer,
-} from '../../public-api';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
+import { VicGeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesEventDirective } from './geographies-event-directive';
 import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';

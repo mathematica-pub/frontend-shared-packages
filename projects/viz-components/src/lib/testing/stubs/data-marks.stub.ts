@@ -1,5 +1,5 @@
+import { VicDataMarksOptions } from '../../data-marks/config/data-marks-config';
 import { VicDataMarks } from '../../data-marks/data-marks';
-import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
 
 export class DataMarksStub<Datum> extends VicDataMarks<
   Datum,

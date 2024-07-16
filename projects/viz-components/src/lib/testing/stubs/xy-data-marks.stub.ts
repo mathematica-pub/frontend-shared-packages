@@ -1,4 +1,4 @@
-import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../../data-marks/config/data-marks-config';
 import { VicXyDataMarks } from '../../xy-data-marks/xy-data-marks';
 
 export class XyDataMarksStub<Datum> extends VicXyDataMarks<

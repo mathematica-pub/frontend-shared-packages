@@ -7,7 +7,7 @@ import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { ValueUtilities } from '../core/utilities/values';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
-import { VicBarsConfig } from './config/bars.config';
+import { VicBarsConfig } from './config/bars-config';
 
 type Datum = { value: number; state: string; fruit: string };
 
@@ -895,16 +895,16 @@ describe('BarsComponent', () => {
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
     });
-    it('returns the defaultLabelColor if quant value is non-numeric', () => {
+    it('returns the default color if quant value is non-numeric', () => {
       datum.quantitative = undefined;
       expect(component.getBarLabelColor(datum)).toEqual(
-        component.config.labels.defaultLabelColor
+        component.config.labels.color.default
       );
     });
-    it('returns the defaultLabelColor if quant value is 0', () => {
+    it('returns the default color if quant value is 0', () => {
       datum.quantitative = 0;
       expect(component.getBarLabelColor(datum)).toEqual(
-        component.config.labels.defaultLabelColor
+        component.config.labels.color.default
       );
     });
     describe('quant value is not 0 or non-numeric', () => {
@@ -912,10 +912,10 @@ describe('BarsComponent', () => {
         component.getBarLabelColor(datum);
         expect(fitsOutsideSpy).toHaveBeenCalledTimes(1);
       });
-      it('returns the defaultLabelColor if barLabelFitsOutsideBar returns true', () => {
+      it('returns the default color if barLabelFitsOutsideBar returns true', () => {
         fitsOutsideSpy.and.returnValue(true);
         expect(component.getBarLabelColor(datum)).toEqual(
-          component.config.labels.defaultLabelColor
+          component.config.labels.color.default
         );
       });
       describe('barLabelFitsOutsideBar returns false', () => {
@@ -932,8 +932,8 @@ describe('BarsComponent', () => {
             VicColorUtilities.getHigherContrastColorForBackground
           ).toHaveBeenCalledOnceWith(
             'blue',
-            component.config.labels.defaultLabelColor,
-            component.config.labels.withinBarAlternativeLabelColor
+            component.config.labels.color.default,
+            component.config.labels.color.withinBarAlternative
           );
         });
         it('returns the result of getHigherContrastColorForBackground', () => {

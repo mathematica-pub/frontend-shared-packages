@@ -1,6 +1,7 @@
 import { range } from 'd3';
+import { VicBarsConfig } from '../../bars/config/bars-config';
 import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
-import { VicBarsConfig, VicBarsOptions } from '../../bars/config/bars.config';
+import { VicBarsOptions } from '../../bars/config/bars-options';
 import { VicDataValue } from '../../core/types/values';
 
 const DEFAULT = {

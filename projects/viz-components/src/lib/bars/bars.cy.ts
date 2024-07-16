@@ -13,7 +13,7 @@ import { Vic } from '../config/vic';
 import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
 import { VicXyChartModule } from '../xy-chart/xy-chart.module';
 import { VicBarsModule } from './bars.module';
-import { VicBarsConfig } from './config/bars.config';
+import { VicBarsConfig } from './config/bars-config';
 
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };

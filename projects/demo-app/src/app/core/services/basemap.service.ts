@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicGeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer';
+import { VicGeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer';
 import {
   Vic,
   VicGeographiesFeature,

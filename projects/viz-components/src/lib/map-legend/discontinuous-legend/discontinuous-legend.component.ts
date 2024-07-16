@@ -4,7 +4,7 @@ import {
   VicAttributeDataDimensionConfig,
   VicValuesBin,
 } from '../../geographies/config/dimensions/attribute-data-bin-types';
-import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins';
+import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
 import { MapLegendContent } from '../map-legend-content';
 
 type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<

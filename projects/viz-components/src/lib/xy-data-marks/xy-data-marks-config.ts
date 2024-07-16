@@ -1,4 +1,4 @@
-import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { VicDataMarksConfig } from '../data-marks/config/data-marks-config';
 
 export abstract class VicXyDataMarksConfig<
   Datum

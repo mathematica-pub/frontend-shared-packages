@@ -4,7 +4,7 @@ import 'cypress/support/component';
 import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsModule } from '../../bars/bars.module';
-import { VicBarsOptions } from '../../bars/config/bars.config';
+import { VicBarsOptions } from '../../bars/config/bars-config';
 import { VicChartModule } from '../../chart/chart.module';
 import { Vic } from '../../config/vic';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';

@@ -10,7 +10,7 @@ import {
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { VicDataMarksOptions } from './data-marks.config';
+import { VicDataMarksOptions } from './config/data-marks-options';
 
 export interface VicICommon {
   chart: Chart;

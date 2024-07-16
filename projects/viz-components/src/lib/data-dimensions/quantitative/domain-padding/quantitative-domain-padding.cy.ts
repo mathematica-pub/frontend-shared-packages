@@ -2,7 +2,7 @@
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
-import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/config/bars.config';
+import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
 import { BehaviorSubject } from 'rxjs';
 import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quantitative-axis.module';
 import { BarsComponent } from '../../../bars/bars.component';

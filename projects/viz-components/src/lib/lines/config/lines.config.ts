@@ -2,7 +2,7 @@ import { CurveFactory, curveLinear, group, range, schemeTableau10 } from 'd3';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { VicDataMarksOptions } from '../../data-marks/data-marks.config';
+import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { VicPointMarkers } from '../../marks/point-markers';
 import { VicStroke } from '../../marks/stroke';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';

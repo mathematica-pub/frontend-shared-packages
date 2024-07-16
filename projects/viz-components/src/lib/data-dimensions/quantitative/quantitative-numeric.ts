@@ -1,41 +1,8 @@
-import { ScaleContinuousNumeric, max, min, scaleLinear } from 'd3';
+import { ScaleContinuousNumeric, max, min } from 'd3';
 import { isNumber } from '../../core/utilities/type-guards';
-import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
+import { VicDataDimension } from '../dimension';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
-
-const DEFAULT: Partial<VicDimensionQuantitativeNumericOptions<unknown>> = {
-  includeZeroInDomain: true,
-  scaleFn: scaleLinear,
-};
-
-export interface VicDimensionQuantitativeNumericOptions<Datum>
-  extends VicDataDimensionOptions<Datum, number> {
-  /**
-   * An optional, user-provided range of values that is used as the domain of the dimension's scale.
-   *
-   * If not provided by the user, it remains undefined.
-   */
-  domain: [number, number];
-  /**
-   * A format specifier that will be applied to the value of this dimension for display purposes.
-   */
-  formatSpecifier: string;
-  /**
-   * A user-configurable boolean that indicates whether the domain of the dimension's scale should include zero.
-   */
-  includeZeroInDomain: boolean;
-  /**
-   * The padding configuration for the dimension's domain.
-   */
-  domainPadding?: VicDomainPaddingConfig;
-  /**
-   * The scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
-   */
-  scaleFn: (
-    domain?: Iterable<number>,
-    range?: Iterable<number>
-  ) => ScaleContinuousNumeric<number, number>;
-}
+import { VicDimensionQuantitativeNumericOptions } from './quantitative-numeric-options';
 
 export class VicDimensionQuantitativeNumeric<Datum>
   extends VicDataDimension<Datum, number>
@@ -55,9 +22,6 @@ export class VicDimensionQuantitativeNumeric<Datum>
   constructor(options: Partial<VicDimensionQuantitativeNumericOptions<Datum>>) {
     super();
     Object.assign(this, options);
-    this.includeZeroInDomain =
-      this.includeZeroInDomain ?? DEFAULT.includeZeroInDomain;
-    this.scaleFn = this.scaleFn ?? DEFAULT.scaleFn;
     if (this.valueAccessor === undefined) {
       throw new Error('A value accessor function is required.');
     }
