@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../config/vic';
-import { VicStackedBarsConfig } from './stacked-bars.config';
+import { VicStackedBarsConfig } from './stacked-bars-config';
 
 type Datum = { country: string; value: number; category: string };
 const data = [

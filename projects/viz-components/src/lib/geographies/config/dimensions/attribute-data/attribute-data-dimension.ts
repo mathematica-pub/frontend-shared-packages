@@ -17,13 +17,13 @@ export abstract class AttributeDataDimension<
   implements
     VicAttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {
+  fillPatterns: VicFillPattern<Datum>[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  interpolator: (...args: any) => any;
   nullColor: string;
   range: RangeValue[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: (...args: any) => any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  interpolator: (...args: any) => any;
-  fillPatterns: VicFillPattern<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract getScale(): any;
 }

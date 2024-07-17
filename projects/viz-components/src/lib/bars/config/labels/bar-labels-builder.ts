@@ -11,7 +11,7 @@ const DEFAULT = {
   _offset: 4,
 };
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class BarsLabelsBuilder<Datum> {
   private _color: { default: string; withinBarAlternative: string };
   private _display: boolean;

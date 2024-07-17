@@ -9,7 +9,7 @@ import {
 import { ValueUtilities } from '../../../../core/utilities/values';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
-import { VicValuesBin } from '../../dimensions/attribute-data-bin-types';
+import { VicValuesBin } from '../../dimensions/attribute-data-bin-enums';
 import { VicCategoricalAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
 import { VicCustomBreaksAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
 import { VicEqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
@@ -20,10 +20,10 @@ import { VicGeographiesLabels } from '../labels/geographies-labels';
 import { VicGeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
 
 const DEFAULT = {
-  nullColor: '#dcdcdc',
-  strokeColor: 'dimgray',
-  strokeWidth: '1',
-  enableEffects: true,
+  _nullColor: '#dcdcdc',
+  _strokeColor: 'dimgray',
+  _strokeWidth: '1',
+  _enableEffects: true,
 };
 
 export class VicGeographiesAttributeDataLayer<
@@ -50,8 +50,10 @@ export class VicGeographiesAttributeDataLayer<
   override labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
 
   constructor(
-    options?: Partial<
-      VicGeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
+    options: VicGeographiesAttributeDataLayerOptions<
+      Datum,
+      TProperties,
+      TGeometry
     >
   ) {
     super();

@@ -1,17 +1,14 @@
-import { Injectable } from '@angular/core';
 import { ScaleTime, scaleUtc } from 'd3';
 import { DataDimensionBuilder } from '../dimension-builder';
 import { VicDimensionQuantitativeDate } from './quantitative-date';
 
 const DEFAULT = {
-  scaleFn: scaleUtc,
+  _scaleFn: scaleUtc,
 };
 
-@Injectable({ providedIn: 'root' })
-export class QuantitativeDateBuilder<Datum> extends DataDimensionBuilder<
-  Datum,
-  Date
-> {
+export class QuantitativeDateDimensionBuilder<
+  Datum
+> extends DataDimensionBuilder<Datum, Date> {
   private _domain: [Date, Date];
   private _formatSpecifier: string;
   private _scaleFn: (

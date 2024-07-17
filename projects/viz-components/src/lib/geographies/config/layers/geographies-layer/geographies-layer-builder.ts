@@ -1,6 +1,11 @@
 import { Geometry } from 'geojson';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 
+const DEFAULT = {
+  _strokeColor: 'dimgray',
+  _strokeWidth: '1',
+};
+
 export abstract class GeographiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry
@@ -9,11 +14,11 @@ export abstract class GeographiesLayerBuilder<
   protected _enableEffects: boolean;
   protected _geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
   protected _strokeColor: string;
-
-  /**
-   * The width of the stroke for the geography.
-   */
   protected _strokeWidth: string;
+
+  constructor() {
+    Object.assign(this, DEFAULT);
+  }
 
   /**
    * The class to be applied to the geography layer.

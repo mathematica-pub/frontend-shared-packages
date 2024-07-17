@@ -1,5 +1,5 @@
 import { extent } from 'd3';
-import { VicValuesBin } from '../attribute-data-bin-types';
+import { VicValuesBin } from '../attribute-data-bin-enums';
 import { CalculatedRangeBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
 import { VicEqualValueRangesAttributeDataDimensionOptions } from './equal-value-ranges-bins-options';
 
@@ -22,9 +22,7 @@ export class VicEqualValueRangesAttributeDataDimension<
   readonly numBins: number;
 
   constructor(
-    options?: Partial<
-      VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
-    >
+    options: VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
     this.binType = VicValuesBin.equalValueRanges;

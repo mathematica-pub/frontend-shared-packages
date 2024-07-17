@@ -2,15 +2,8 @@ import {
   DomainPadding,
   PaddedDomainArguments,
   VicDomainPadding,
-} from './domain-padding';
-
-const DEFAULT = {
-  percentOver: 0.1,
-};
-
-export interface PercentOverDomainPaddingOptions {
-  percentOver: number;
-}
+} from '../domain-padding';
+import { PercentOverDomainPaddingOptions } from './percent-over-options';
 
 export class VicPercentOverDomainPadding
   extends VicDomainPadding
@@ -23,7 +16,6 @@ export class VicPercentOverDomainPadding
     super();
     Object.assign(this, options);
     this.type = DomainPadding.percentOver;
-    this.percentOver = this.percentOver ?? DEFAULT.percentOver;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {

@@ -1,14 +1,8 @@
-import { Injectable } from '@angular/core';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicCategoricalAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
 import { VicCategoricalBinsBuilder } from '../../dimensions/categorical-bins/categorical-bins-builder';
-import { VicCustomBreaksAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
 import { VicCustomBreaksBuilder } from '../../dimensions/custom-breaks/custom-breaks-bins-builder';
-import { VicEqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
 import { VicEqualFrequenciesBinsBuilder } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins-builder';
-import { VicEqualValueRangesAttributeDataDimension } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
 import { VicEqualValueRangesBinsBuilder } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
-import { VicNoBinsAttributeDataDimension } from '../../dimensions/no-bins/no-bins';
 import { VicNoBinsBuilder } from '../../dimensions/no-bins/no-bins-builder';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { VicGeographiesLabels } from '../labels/geographies-labels';
@@ -17,39 +11,29 @@ import { VicGeographiesAttributeDataLayer } from './attribute-data-layer';
 
 const DEFAULT = {
   _enableEffects: true,
-  _nullColor: '#dcdcdc',
-  _strokeColor: 'dimgray',
-  _strokeWidth: '1',
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicGeographiesAttributeDataLayerBuilder<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
-  private _attributeDimension:
-    | VicCategoricalAttributeDataDimension<Datum>
-    | VicNoBinsAttributeDataDimension<Datum>
-    | VicEqualValueRangesAttributeDataDimension<Datum>
-    | VicEqualFrequenciesAttributeDataDimension<Datum>
-    | VicCustomBreaksAttributeDataDimension<Datum>;
   private _data: Datum[];
   private _geographyIndexAccessor: (d: Datum) => string;
-  private _labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  private labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  private labelsBuilder: VicGeographiesLabelsBuilder<
+    Datum,
+    TProperties,
+    TGeometry
+  >;
+  private binsBuilder:
+    | VicCategoricalBinsBuilder<Datum>
+    | VicCustomBreaksBuilder<Datum>
+    | VicEqualFrequenciesBinsBuilder<Datum>
+    | VicEqualValueRangesBinsBuilder<Datum>
+    | VicNoBinsBuilder<Datum>;
 
-  constructor(
-    public categoricalBinsBuilder: VicCategoricalBinsBuilder<Datum>,
-    public customBreaksBuilder: VicCustomBreaksBuilder<Datum>,
-    public equalFrequenciesBinsBuilder: VicEqualFrequenciesBinsBuilder<Datum>,
-    public equalValueRangesBinsBuilder: VicEqualValueRangesBinsBuilder<Datum>,
-    public noBinsBuilder: VicNoBinsBuilder<Datum>,
-    public labelsBuilder: VicGeographiesLabelsBuilder<
-      Datum,
-      TProperties,
-      TGeometry
-    >
-  ) {
+  constructor() {
     super();
     Object.assign(this, DEFAULT);
   }
@@ -57,15 +41,43 @@ export class VicGeographiesAttributeDataLayerBuilder<
   /**
    * The dimension that will be used to color the geographies based on attribute data.
    */
-  attributeDimension(
-    dimension:
-      | VicCategoricalAttributeDataDimension<Datum>
-      | VicNoBinsAttributeDataDimension<Datum>
-      | VicEqualValueRangesAttributeDataDimension<Datum>
-      | VicEqualFrequenciesAttributeDataDimension<Datum>
-      | VicCustomBreaksAttributeDataDimension<Datum>
+  createCategoricalBinsDimension(
+    setProperties: (builder: VicCategoricalBinsBuilder<Datum>) => void
   ): this {
-    this._attributeDimension = dimension;
+    this.binsBuilder = new VicCategoricalBinsBuilder<Datum, string>();
+    setProperties(this.binsBuilder);
+    return this;
+  }
+
+  createCustomBreaksBinsDimension(
+    setProperties: (builder: VicCustomBreaksBuilder<Datum>) => void
+  ): this {
+    this.binsBuilder = new VicCustomBreaksBuilder();
+    setProperties(this.binsBuilder);
+    return this;
+  }
+
+  createNoBinsDimension(
+    setProperties: (builder: VicNoBinsBuilder<Datum>) => void
+  ): this {
+    this.binsBuilder = new VicNoBinsBuilder();
+    setProperties(this.binsBuilder);
+    return this;
+  }
+
+  createEqualValueRangesBinsDimension(
+    setProperties: (builder: VicEqualValueRangesBinsBuilder<Datum>) => void
+  ): this {
+    this.binsBuilder = new VicEqualValueRangesBinsBuilder();
+    setProperties(this.binsBuilder);
+    return this;
+  }
+
+  createEqualFrequenciesBinsDimension(
+    setProperties: (builder: VicEqualFrequenciesBinsBuilder<Datum>) => void
+  ): this {
+    this.binsBuilder = new VicEqualFrequenciesBinsBuilder();
+    setProperties(this.binsBuilder);
     return this;
   }
 
@@ -89,17 +101,28 @@ export class VicGeographiesAttributeDataLayerBuilder<
    * VicGeographyLabelConfig that define the labels to be shown.
    * If not defined, no labels will be drawn.
    */
-  labels(labels: VicGeographiesLabels<Datum, TProperties, TGeometry>): this {
-    this._labels = labels;
+  createLabels(
+    setProperties: (
+      builder: VicGeographiesLabelsBuilder<Datum, TProperties, TGeometry>
+    ) => void
+  ): this {
+    this.labelsBuilder = new VicGeographiesLabelsBuilder();
+    setProperties(this.labelsBuilder);
+    this.labels = this.labelsBuilder.build();
     return this;
   }
 
   build(): VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
     return new VicGeographiesAttributeDataLayer({
-      attributeDimension: this._attributeDimension,
+      attributeDimension: this.binsBuilder.build(),
+      class: this._class,
       data: this._data,
+      enableEffects: this._enableEffects,
+      geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
-      labels: this._labels,
+      labels: this.labels,
+      strokeColor: this._strokeColor,
+      strokeWidth: this._strokeWidth,
     });
   }
 }

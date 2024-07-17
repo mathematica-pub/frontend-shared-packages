@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { scaleOrdinal } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { VicCategoricalAttributeDataDimension } from './categorical-bins';
@@ -10,7 +9,6 @@ const DEFAULT = {
   _valueAccessor: () => '',
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicCategoricalBinsBuilder<
   Datum,
   RangeValue extends string | number = string
@@ -31,10 +29,12 @@ export class VicCategoricalBinsBuilder<
     return new VicCategoricalAttributeDataDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,
+      formatFunction: this._formatFunction,
       interpolator: this._interpolator,
       nullColor: this._nullColor,
       range: this._range,
       scale: this._scale,
+      valueAccessor: this._valueAccessor,
     });
   }
 }

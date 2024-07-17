@@ -1,20 +1,20 @@
-import { Injectable } from '@angular/core';
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { DataDimensionBuilder } from '../dimension-builder';
 import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
+import { VicPercentOverDomainPaddingBuilder } from './domain-padding/percent-over/percent-over-builder';
+import { VicPixelDomainPaddingBuilder } from './domain-padding/pixel/pixel-builder';
+import { VicRoundUpToIntervalDomainPaddingBuilder } from './domain-padding/round-to-interval/round-to-interval-builder';
+import { VicRoundUpDomainPaddingBuilder } from './domain-padding/round-up/round-up-builder';
 import { VicDimensionQuantitativeNumeric } from './quantitative-numeric';
-import { VicDimensionQuantitativeNumericOptions } from './quantitative-numeric-options';
 
-const DEFAULT: Partial<VicDimensionQuantitativeNumericOptions<unknown>> = {
-  includeZeroInDomain: true,
-  scaleFn: scaleLinear,
+const DEFAULT = {
+  _includeZeroInDomain: true,
+  _scaleFn: scaleLinear,
 };
 
-@Injectable({ providedIn: 'root' })
-export class QuantitativeNumericBuilder<Datum> extends DataDimensionBuilder<
-  Datum,
-  number
-> {
+export class QuantitativeNumericDimensionBuilder<
+  Datum
+> extends DataDimensionBuilder<Datum, number> {
   private _domain: [number, number];
   private _formatSpecifier: string;
   private _includeZeroInDomain: boolean;
@@ -23,6 +23,10 @@ export class QuantitativeNumericBuilder<Datum> extends DataDimensionBuilder<
     domain?: Iterable<number>,
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
+  private pixelDomainPaddingBuilder: VicPixelDomainPaddingBuilder;
+  private percentOverDomainPaddingBuilder: VicPercentOverDomainPaddingBuilder;
+  private roundUpDomainPaddingBuilder: VicRoundUpDomainPaddingBuilder;
+  private roundUpToIntervalDomainPaddingBuilder: VicRoundUpToIntervalDomainPaddingBuilder;
 
   constructor() {
     super();
@@ -58,8 +62,58 @@ export class QuantitativeNumericBuilder<Datum> extends DataDimensionBuilder<
   /**
    * Sets the padding of the domain of the dimension's scale.
    */
-  domainPadding(domainPadding: VicDomainPaddingConfig): this {
-    this._domainPadding = domainPadding;
+  createPixelDomainPadding(
+    setProperties?: (padding: VicPixelDomainPaddingBuilder) => void
+  ): this {
+    this.pixelDomainPaddingBuilder = new VicPixelDomainPaddingBuilder();
+    if (setProperties) {
+      setProperties(this.pixelDomainPaddingBuilder);
+    }
+    this._domainPadding = this.pixelDomainPaddingBuilder.build();
+    return this;
+  }
+
+  /**
+   * Sets the padding of the domain of the dimension's scale.
+   */
+  createPercentOverDomainPadding(
+    setProperties?: (padding: VicPercentOverDomainPaddingBuilder) => void
+  ): this {
+    this.percentOverDomainPaddingBuilder =
+      new VicPercentOverDomainPaddingBuilder();
+    if (setProperties) {
+      setProperties(this.percentOverDomainPaddingBuilder);
+    }
+    this._domainPadding = this.percentOverDomainPaddingBuilder.build();
+    return this;
+  }
+
+  /**
+   * Sets the padding of the domain of the dimension's scale.
+   */
+  createRoundUpDomainPadding(
+    setProperties?: (padding: VicRoundUpDomainPaddingBuilder) => void
+  ): this {
+    this.roundUpDomainPaddingBuilder = new VicRoundUpDomainPaddingBuilder();
+    if (setProperties) {
+      setProperties(this.roundUpDomainPaddingBuilder);
+    }
+    this._domainPadding = this.roundUpDomainPaddingBuilder.build();
+    return this;
+  }
+
+  /**
+   * Sets the padding of the domain of the dimension's scale.
+   */
+  createRoundUpToIntervalDomainPadding(
+    setProperties?: (padding: VicRoundUpToIntervalDomainPaddingBuilder) => void
+  ): this {
+    this.roundUpToIntervalDomainPaddingBuilder =
+      new VicRoundUpToIntervalDomainPaddingBuilder();
+    if (setProperties) {
+      setProperties(this.roundUpToIntervalDomainPaddingBuilder);
+    }
+    this._domainPadding = this.roundUpToIntervalDomainPaddingBuilder.build();
     return this;
   }
 

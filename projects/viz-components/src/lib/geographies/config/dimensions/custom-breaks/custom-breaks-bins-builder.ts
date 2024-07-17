@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { interpolateLab, scaleThreshold } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
@@ -9,7 +8,6 @@ const DEFAULT = {
   _scale: scaleThreshold,
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicCustomBreaksBuilder<
   Datum,
   RangeValue extends string | number = string
@@ -48,6 +46,8 @@ export class VicCustomBreaksBuilder<
   build(): VicCustomBreaksAttributeDataDimension<Datum, RangeValue> {
     return new VicCustomBreaksAttributeDataDimension({
       breakValues: this._breakValues,
+      fillPatterns: this._fillPatterns,
+      formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,
       nullColor: this._nullColor,

@@ -30,7 +30,7 @@ export class VicGeographiesConfig<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  override data: never;
+  override data: null;
   readonly attributeDataLayer: VicGeographiesAttributeDataLayer<
     Datum,
     TProperties,
@@ -49,9 +49,7 @@ export class VicGeographiesConfig<
   >[];
   readonly projection: GeoProjection;
 
-  constructor(
-    options: Partial<VicGeographiesOptions<Datum, TProperties, TGeometry>>
-  ) {
+  constructor(options: VicGeographiesOptions<Datum, TProperties, TGeometry>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();

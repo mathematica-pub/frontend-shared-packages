@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import type * as CSSType from 'csstype';
 import {
   GeoPath,
@@ -27,7 +26,6 @@ const DEFAULT = {
   _valueAccessor: (feature) => feature,
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicGeographiesLabelsBuilder<
   Datum,
   TProperties,

@@ -1,16 +1,12 @@
 import {
   CurveFactory,
-  curveLinear,
   extent,
   InternMap,
   range,
   rollup,
-  schemeTableau10,
   Series,
   SeriesPoint,
   stack,
-  stackOffsetNone,
-  stackOrderNone,
 } from 'd3';
 import { VicContinuousValue, VicDataValue } from '../../core/types/values';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
@@ -18,53 +14,21 @@ import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
-
-const DEFAULT = {
-  curve: curveLinear,
-  stackOrder: stackOrderNone,
-  stackOffset: stackOffsetNone,
-  categorical: {
-    range: schemeTableau10 as string[],
-  },
-};
-
-export interface VicStackedAreaOptions<
-  Datum,
-  TCategoricalValue extends VicDataValue
-> extends VicDataMarksOptions<Datum>,
-    VicDataMarksOptions<Datum> {
-  x:
-    | VicDimensionQuantitativeDate<Datum>
-    | VicDimensionQuantitativeNumeric<Datum>;
-  y: VicDimensionQuantitativeNumeric<Datum>;
-  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
-  curve: CurveFactory;
-  stackOffset: (
-    series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
-    >,
-    order: number[]
-  ) => void;
-  stackOrder: (
-    series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
-    >
-  ) => Iterable<number>;
-  categoricalOrder: TCategoricalValue[];
-}
+import { VicStackedAreaOptions } from './stacked-area-options';
 
 export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
   extends VicXyDataMarksConfig<Datum>
   implements VicDataMarksOptions<Datum>
 {
-  x:
-    | VicDimensionQuantitativeDate<Datum>
-    | VicDimensionQuantitativeNumeric<Datum>;
-  y: VicDimensionQuantitativeNumeric<Datum>;
   categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
+  categoricalOrder: TCategoricalValue[];
   curve: CurveFactory;
+  stackOrder: (
+    series: Series<
+      [VicContinuousValue, InternMap<TCategoricalValue, number>],
+      TCategoricalValue
+    >
+  ) => Iterable<number>;
   stackOffset: (
     series: Series<
       [VicContinuousValue, InternMap<TCategoricalValue, number>],
@@ -72,27 +36,19 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
     >,
     order: number[]
   ) => void;
-  stackOrder: (
-    series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
-    >
-  ) => Iterable<number>;
-  categoricalOrder: TCategoricalValue[];
+  x:
+    | VicDimensionQuantitativeDate<Datum>
+    | VicDimensionQuantitativeNumeric<Datum>;
+  y: VicDimensionQuantitativeNumeric<Datum>;
   series: (SeriesPoint<
     [VicContinuousValue, InternMap<TCategoricalValue, number>]
   > & {
     i: number;
   })[][];
 
-  constructor(
-    options?: Partial<VicStackedAreaOptions<Datum, TCategoricalValue>>
-  ) {
+  constructor(options: VicStackedAreaOptions<Datum, TCategoricalValue>) {
     super();
     Object.assign(this, options);
-    this.curve = this.curve ?? DEFAULT.curve;
-    this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
-    this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
     this.initPropertiesFromData();
   }
 

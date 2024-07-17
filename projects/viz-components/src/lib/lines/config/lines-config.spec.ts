@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Vic } from '../../config/vic';
-import { VicLinesConfig } from './lines.config';
+import { VicLinesConfig } from './lines-config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [

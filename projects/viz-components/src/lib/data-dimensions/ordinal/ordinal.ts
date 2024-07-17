@@ -20,9 +20,7 @@ export class VicDimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
 
-  constructor(
-    options?: Partial<VicDimensionOrdinalOptions<Datum, TOrdinalValue>>
-  ) {
+  constructor(options: VicDimensionOrdinalOptions<Datum, TOrdinalValue>) {
     super();
     this.scaleFn = scaleBand;
     Object.assign(this, options);

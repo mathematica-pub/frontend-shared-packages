@@ -1,4 +1,4 @@
-import { VicValuesBin } from '../attribute-data-bin-types';
+import { VicValuesBin } from '../attribute-data-bin-enums';
 import { CalculatedRangeBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
 import { VicEqualFrequenciesAttributeDataDimensionOptions } from './equal-frequencies-bins-options';
 
@@ -20,9 +20,7 @@ export class VicEqualFrequenciesAttributeDataDimension<
   readonly numBins: number;
 
   constructor(
-    options?: Partial<
-      VicEqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
-    >
+    options: VicEqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
     this.binType = VicValuesBin.equalFrequencies;

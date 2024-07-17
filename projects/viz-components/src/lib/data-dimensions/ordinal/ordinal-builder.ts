@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import {
   VicDataValue,
   VicDimensionOrdinal,
@@ -6,13 +5,12 @@ import {
 import { DataDimensionBuilder } from '../dimension-builder';
 
 const DEFAULT = {
-  align: 0.5,
-  paddingInner: 0.1,
-  paddingOuter: 0.1,
-  valueAccessor: (d, i) => i,
+  _align: 0.5,
+  _paddingInner: 0.1,
+  _paddingOuter: 0.1,
+  _valueAccessor: (d, i) => i,
 };
 
-@Injectable({ providedIn: 'root' })
 export class OrdinalDimensionBuilder<
   Datum,
   TOrdinalValue extends VicDataValue

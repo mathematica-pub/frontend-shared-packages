@@ -1,67 +1,96 @@
 import { Injectable } from '@angular/core';
 import { VicDataValue } from '../../core/types/values';
-import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
 import { OrdinalDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-builder';
-import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
 import { VicBarsConfig } from './bars-config';
 import {
   HORIZONTAL_BARS_DIMENSIONS,
   VERTICAL_BARS_DIMENSIONS,
 } from './bars-dimensions';
-import { VicBarsLabels } from './labels/bars-labels';
+import { BarsLabelsBuilder } from './labels/bar-labels-builder';
 
-@Injectable({ providedIn: 'root' })
-export class BarsBuilder<
+const DEFAULT = {
+  _orientation: 'horizontal',
+};
+
+@Injectable()
+export class VicBarsBuilder<
   Datum,
   TOrdinalValue extends VicDataValue
 > extends DataMarksBuilder<Datum> {
-  private _categorical: VicDimensionCategorical<Datum, string>;
-  private _ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
-  private _quantitative: VicDimensionQuantitativeNumeric<Datum>;
-  private _labels: VicBarsLabels<Datum>;
+  protected _orientation: 'horizontal' | 'vertical';
+  protected categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
+  protected ordinalDimensionBuilder: OrdinalDimensionBuilder<
+    Datum,
+    TOrdinalValue
+  >;
+  protected quantitativeDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  protected labelsBuilder: BarsLabelsBuilder<Datum>;
 
-  constructor(
-    public categoricalBuilder: CategoricalDimensionBuilder<Datum>,
-    public ordinalBuilder: OrdinalDimensionBuilder<Datum, TOrdinalValue>
-  ) {
+  constructor() {
     super();
+    Object.assign(this, DEFAULT);
   }
 
-  categorical(categorical: VicDimensionCategorical<Datum, string>): this {
-    this._categorical = categorical;
+  createCategoricalDimension(
+    setProperties: (dimension: CategoricalDimensionBuilder<Datum>) => void
+  ): this {
+    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
+    setProperties(this.categoricalDimensionBuilder);
     return this;
   }
 
-  ordinal(ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>): this {
-    this._ordinal = ordinal;
+  createOrdinalDimension(
+    setProperties: (
+      dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
+    ) => void
+  ): this {
+    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder<
+      Datum,
+      TOrdinalValue
+    >();
+    setProperties(this.ordinalDimensionBuilder);
     return this;
   }
 
-  quantitative(quantitative: VicDimensionQuantitativeNumeric<Datum>): this {
-    this._quantitative = quantitative;
+  orientation(orientation: 'horizontal' | 'vertical'): this {
+    this._orientation = orientation;
     return this;
   }
 
-  labels(labels: VicBarsLabels<Datum>): this {
-    this._labels = labels;
+  createQuantitativeDimension(
+    setProperties: (
+      dimension: QuantitativeNumericDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.quantitativeDimensionBuilder =
+      new QuantitativeNumericDimensionBuilder<Datum>();
+    setProperties(this.quantitativeDimensionBuilder);
     return this;
   }
 
-  build(
-    direction: 'horizontal' | 'vertical'
-  ): VicBarsConfig<Datum, TOrdinalValue> {
+  createLabels(
+    setProperties: (dimension: BarsLabelsBuilder<Datum>) => void
+  ): this {
+    this.labelsBuilder = new BarsLabelsBuilder<Datum>();
+    setProperties(this.labelsBuilder);
+    return this;
+  }
+
+  build(): VicBarsConfig<Datum, TOrdinalValue> {
     const dimensions =
-      direction === 'horizontal'
+      this._orientation === 'horizontal'
         ? HORIZONTAL_BARS_DIMENSIONS
         : VERTICAL_BARS_DIMENSIONS;
     return new VicBarsConfig(dimensions, {
-      categorical: this._categorical,
-      ordinal: this._ordinal,
-      quantitative: this._quantitative,
-      labels: this._labels,
+      categorical: this.categoricalDimensionBuilder.build(),
+      data: this._data,
+      labels: this.labelsBuilder ? this.labelsBuilder.build() : undefined,
+      mixBlendMode: this._mixBlendMode,
+      ordinal: this.ordinalDimensionBuilder.build(),
+      quantitative: this.quantitativeDimensionBuilder.build(),
     });
   }
 }

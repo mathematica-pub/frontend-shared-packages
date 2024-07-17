@@ -1,6 +1,7 @@
 import { extent } from 'd3';
-import { VicValuesBin } from '../attribute-data-bin-types';
+import { VicValuesBin } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
+import { VicNoBinsAttributeDataDimensionOptions } from './no-bins-options';
 
 export class VicNoBinsAttributeDataDimension<
   Datum
@@ -9,7 +10,7 @@ export class VicNoBinsAttributeDataDimension<
   domain: [number, number];
   formatSpecifier: string;
 
-  constructor(options?: Partial<VicNoBinsAttributeDataDimension<Datum>>) {
+  constructor(options: VicNoBinsAttributeDataDimensionOptions<Datum>) {
     super();
     this.binType = VicValuesBin.none;
     Object.assign(this, options);

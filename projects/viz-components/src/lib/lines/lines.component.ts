@@ -12,10 +12,10 @@ import {
 import { line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-component';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicLinesConfig } from './config/lines.config';
+import { VicLinesConfig } from './config/lines-config';
 
 export class LinesTooltipData {
   datum: any;

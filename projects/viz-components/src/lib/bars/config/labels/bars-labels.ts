@@ -4,7 +4,7 @@ export class VicBarsLabels<Datum> {
   noValueFunction: (d: Datum) => string;
   offset: number;
 
-  constructor(options?: Partial<VicBarsLabels<Datum>>) {
+  constructor(options: VicBarsLabels<Datum>) {
     Object.assign(this, options);
   }
 }

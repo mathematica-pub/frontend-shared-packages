@@ -1,3 +1,5 @@
+import { VicStroke } from './stroke';
+
 const DEFAULT = {
   linecap: 'round',
   linejoin: 'round',
@@ -5,14 +7,26 @@ const DEFAULT = {
   width: 2,
 };
 
-export interface VicStrokeOptions {
+export class VicStrokeBuilder {
+  private _linecap: string;
+  private _linejoin: string;
+  private _opacity: number;
+  private _width: number;
+
+  constructor() {
+    Object.assign(this, DEFAULT);
+  }
+
   /**
    * A value for the line's [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
    *  attribute.
    *
    * Default is 'round'.
    */
-  linecap: string;
+  linecap(linecap: string): this {
+    this._linecap = linecap;
+    return this;
+  }
 
   /**
    * A value for the line's [stroke-linejoin]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin}
@@ -20,7 +34,10 @@ export interface VicStrokeOptions {
    *
    * Default is 'round'.
    */
-  linejoin: string;
+  linejoin(linejoin: string): this {
+    this._linejoin = linejoin;
+    return this;
+  }
 
   /**
    * A value for the line's [stroke-opacity]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity}
@@ -28,7 +45,10 @@ export interface VicStrokeOptions {
    *
    * Default is 1.
    */
-  opacity: number;
+  opacity(opacity: number): this {
+    this._opacity = opacity;
+    return this;
+  }
 
   /**
    * A value for the line's [stroke-width]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width}
@@ -36,15 +56,17 @@ export interface VicStrokeOptions {
    *
    * Default is 2.
    */
-  width: number;
-}
-export class VicStroke implements VicStrokeOptions {
-  linecap: string;
-  linejoin: string;
-  opacity: number;
-  width: number;
+  width(width: number): this {
+    this._width = width;
+    return this;
+  }
 
-  constructor(options?: Partial<VicStrokeOptions>) {
-    Object.assign(this, DEFAULT, options);
+  build(): VicStroke {
+    return new VicStroke({
+      linecap: this._linecap,
+      linejoin: this._linejoin,
+      opacity: this._opacity,
+      width: this._width,
+    });
   }
 }

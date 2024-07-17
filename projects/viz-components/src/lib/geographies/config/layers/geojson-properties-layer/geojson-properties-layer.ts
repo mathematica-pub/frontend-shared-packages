@@ -13,13 +13,6 @@ import { GeographiesLayer } from '../geographies-layer/geographies-layer';
 import { VicGeographiesLabels } from '../labels/geographies-labels';
 import { VicGeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
 
-const DEFAULT = {
-  strokeColor: 'dimgray',
-  strokeWidth: '1',
-  fill: 'none',
-  enableEffects: false,
-};
-
 export class VicGeographiesGeojsonPropertiesLayer<
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
@@ -32,33 +25,29 @@ export class VicGeographiesGeojsonPropertiesLayer<
     VicGeographiesFeature<TProperties, TGeometry>,
     string
   >;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private categoricalScale: any;
+  readonly fill: string;
   override labels: VicGeographiesLabels<string, TProperties, TGeometry>;
 
   constructor(
-    options?: Partial<
-      VicGeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
-    >
+    options: VicGeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
   ) {
     super();
-    Object.assign(this, DEFAULT, options);
+    Object.assign(this, options);
     this.initPropertiesFromGeographies();
   }
 
   private initPropertiesFromGeographies(): void {
     if (this.categorical) {
       this.categorical.setPropertiesFromData(this.geographies);
-      this.categoricalScale = this.categorical.getScale();
     }
   }
 
   getFill(feature: VicGeographiesFeature<TProperties, TGeometry>): string {
     if (!this.categorical) {
-      return DEFAULT.fill;
+      return this.fill;
     }
     const featureIndex = this.featureIndexAccessor(feature);
-    const defaultFill = this.categoricalScale(featureIndex);
+    const defaultFill = this.categorical.getScale()(featureIndex);
     return this.categorical.fillPatterns
       ? PatternUtilities.getFill(
           feature,

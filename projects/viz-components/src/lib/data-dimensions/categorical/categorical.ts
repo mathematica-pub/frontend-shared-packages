@@ -16,7 +16,7 @@ export class VicDimensionCategorical<
   private scale: (category: TCategoricalValue) => string;
 
   constructor(
-    options?: Partial<VicCategoricalDimensionOptions<Datum, TCategoricalValue>>
+    options: VicCategoricalDimensionOptions<Datum, TCategoricalValue>
   ) {
     super();
     Object.assign(this, options);

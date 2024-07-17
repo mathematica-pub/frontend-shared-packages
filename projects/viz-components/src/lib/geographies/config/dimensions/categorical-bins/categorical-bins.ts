@@ -1,4 +1,4 @@
-import { VicValuesBin } from '../attribute-data-bin-types';
+import { VicValuesBin } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { VicCategoricalAttributeDataDimensionOptions } from './categorical-bins-options';
 
@@ -20,9 +20,7 @@ export class VicCategoricalAttributeDataDimension<
   override interpolator: never;
 
   constructor(
-    options?: Partial<
-      VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
-    >
+    options: VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
     this.binType = VicValuesBin.categorical;

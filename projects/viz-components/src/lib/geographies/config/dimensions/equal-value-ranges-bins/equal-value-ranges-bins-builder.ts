@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { interpolateLab, scaleQuantize } from 'd3';
 import { CalculatedBinsBuilder } from '../calculated-bins/calculated-bins-builder';
 import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
@@ -11,7 +10,6 @@ const DEFAULT = {
   _scale: scaleQuantize,
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicEqualValueRangesBinsBuilder<
   Datum,
   RangeValue extends string | number = string
@@ -43,6 +41,9 @@ export class VicEqualValueRangesBinsBuilder<
   build(): VicEqualValueRangesAttributeDataDimension<Datum, RangeValue> {
     return new VicEqualValueRangesAttributeDataDimension({
       domain: this._domain,
+      fillPatterns: this._fillPatterns,
+      formatFunction: this._formatFunction,
+      formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,
       nullColor: this._nullColor,
       numBins: this._numBins,

@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { interpolateLab, scaleQuantile } from 'd3';
 import { CalculatedBinsBuilder } from '../calculated-bins/calculated-bins-builder';
 import { VicEqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
@@ -11,7 +10,6 @@ const DEFAULT = {
   _scale: scaleQuantile,
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicEqualFrequenciesBinsBuilder<
   Datum,
   RangeValue extends string | number = string
@@ -33,6 +31,9 @@ export class VicEqualFrequenciesBinsBuilder<
 
   build(): VicEqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
     return new VicEqualFrequenciesAttributeDataDimension({
+      fillPatterns: this._fillPatterns,
+      formatFunction: this._formatFunction,
+      formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,
       nullColor: this._nullColor,
       numBins: this._numBins,

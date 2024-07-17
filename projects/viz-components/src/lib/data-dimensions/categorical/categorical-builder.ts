@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { schemeTableau10 } from 'd3';
 import {
   VicDataValue,
@@ -8,19 +7,18 @@ import {
 import { DataDimensionBuilder } from '../dimension-builder';
 
 const DEFAULT = {
-  range: schemeTableau10 as string[],
-  valueAccessor: () => '',
+  _range: schemeTableau10 as string[],
+  _valueAccessor: () => '',
 };
 
-@Injectable({ providedIn: 'root' })
 export class CategoricalDimensionBuilder<
   Datum,
   TCategoricalValue extends VicDataValue = string
 > extends DataDimensionBuilder<Datum, TCategoricalValue> {
-  _domain: TCategoricalValue[];
-  _fillPatterns: VicFillPattern<Datum>[];
-  _range: string[];
-  _scale: (category: TCategoricalValue) => string;
+  private _domain: TCategoricalValue[];
+  private _fillPatterns: VicFillPattern<Datum>[];
+  private _range: string[];
+  private _scale: (category: TCategoricalValue) => string;
 
   constructor() {
     super();

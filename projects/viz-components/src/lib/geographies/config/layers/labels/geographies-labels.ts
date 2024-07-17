@@ -40,7 +40,7 @@ export class VicGeographiesLabels<
   ) => string;
 
   constructor(
-    options: Partial<VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>>
+    options: VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>
   ) {
     Object.assign(this, options);
   }

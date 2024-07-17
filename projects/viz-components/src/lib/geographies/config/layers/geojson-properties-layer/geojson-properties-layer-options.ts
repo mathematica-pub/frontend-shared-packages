@@ -12,5 +12,6 @@ export interface VicGeographiesGeojsonPropertiesLayerOptions<
     VicGeographiesFeature<TProperties, TGeometry>,
     string
   >;
+  fill: string;
   labels: VicGeographiesLabels<string, TProperties, TGeometry>;
 }

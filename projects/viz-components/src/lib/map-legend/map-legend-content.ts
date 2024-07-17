@@ -1,10 +1,8 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { VicOrientation, VicSide } from '../core/types/layout';
 import { ValueUtilities } from '../core/utilities/values';
-import {
-  VicAttributeDataDimensionConfig,
-  VicValuesBin,
-} from '../geographies/config/dimensions/attribute-data-bin-types';
+import { VicValuesBin } from '../geographies/config/dimensions/attribute-data-bin-enums';
+import { VicAttributeDataDimensionConfig } from '../geographies/config/dimensions/attribute-data-bin-types';
 import { CalculatedRangeBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins/calculated-bins';
 
 @Directive()

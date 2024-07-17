@@ -3,15 +3,8 @@ import {
   DomainPadding,
   PaddedDomainArguments,
   VicDomainPadding,
-} from './domain-padding';
-
-const DEFAULT = {
-  numPixels: 40,
-};
-
-export interface VicPixelDomainPaddingOptions {
-  numPixels: number;
-}
+} from '../domain-padding';
+import { VicPixelDomainPaddingOptions } from './pixel-options';
 
 export class VicPixelDomainPadding
   extends VicDomainPadding
@@ -24,7 +17,6 @@ export class VicPixelDomainPadding
     super();
     Object.assign(this, options);
     this.type = DomainPadding.numPixels;
-    this.numPixels = this.numPixels ?? DEFAULT.numPixels;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {

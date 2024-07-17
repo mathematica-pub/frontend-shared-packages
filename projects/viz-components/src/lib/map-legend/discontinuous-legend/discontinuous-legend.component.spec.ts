@@ -2,7 +2,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
 import { Vic } from '../../config/vic';
-import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-types';
+import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-enums';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {

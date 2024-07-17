@@ -15,7 +15,7 @@ export class VicDimensionQuantitativeDate<Datum>
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
 
-  constructor(options: Partial<VicDimensionQuantitativeDate<Datum>>) {
+  constructor(options: VicDimensionQuantitativeDateOptions<Datum>) {
     super();
     Object.assign(this, options);
     if (this.valueAccessor === undefined) {

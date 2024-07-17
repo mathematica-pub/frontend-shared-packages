@@ -1,5 +1,5 @@
 import { range, scaleLinear } from 'd3';
-import { VicValuesBin } from '../attribute-data-bin-types';
+import { VicValuesBin } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { VicCustomBreaksAttributeDataDimensionOptions } from './custom-breaks-bins-options';
 
@@ -24,9 +24,7 @@ export class VicCustomBreaksAttributeDataDimension<
   readonly formatSpecifier: string;
 
   constructor(
-    options?: Partial<
-      VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
-    >
+    options: VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
     this.binType = VicValuesBin.customBreaks;

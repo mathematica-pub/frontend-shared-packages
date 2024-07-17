@@ -24,9 +24,9 @@ import {
   VicHtmlTooltipOffsetFromOriginPosition,
   VicImageService,
   VicJpegImageConfig,
+  VicLinesBuilder,
   VicLinesConfig,
   VicLinesEventOutput,
-  VicPixelDomainPadding,
   VicQuantitativeAxisConfig,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
@@ -54,6 +54,7 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
   selector: 'app-lines-example',
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
+  providers: [VicLinesBuilder],
 })
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
@@ -100,7 +101,8 @@ export class LinesExampleComponent implements OnInit {
   private imageService = inject(VicImageService);
   constructor(
     private dataService: DataService,
-    public downloadService: VicExportDataService
+    public downloadService: VicExportDataService,
+    public lines: VicLinesBuilder<MetroUnemploymentDatum>
   ) {}
 
   ngOnInit(): void {
@@ -119,21 +121,22 @@ export class LinesExampleComponent implements OnInit {
       tickFormat: '%Y',
     });
     const yAxisConfig = Vic.axisYQuantitative<number>();
-    const dataConfig = Vic.lines<MetroUnemploymentDatum>({
-      data,
-      x: Vic.dimensionQuantitativeDate<MetroUnemploymentDatum>({
-        valueAccessor: (d) => d.date,
-        formatSpecifier: '%a %B %d %Y',
-      }),
-      y: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
-        valueAccessor: (d) => d.value,
-        domainPadding: new VicPixelDomainPadding({ numPixels: 20 }),
-      }),
-      categorical: Vic.dimensionCategorical<MetroUnemploymentDatum>({
-        valueAccessor: (d) => d.division,
-      }),
-      pointMarkers: Vic.pointMarkers({ radius: 2 }),
-    });
+    const dataConfig = this.lines
+      .data(data)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createYDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.value)
+          .createPixelDomainPadding((padding) => padding.numPixels(20))
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.division)
+      )
+      .createPointMarkers((markers) => markers.radius(2))
+      .build();
+
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
     return {
       dataConfig,

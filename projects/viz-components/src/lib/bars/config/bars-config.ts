@@ -22,7 +22,7 @@ export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   constructor(
     dimensions: VicBarsDimensions,
-    options: Partial<VicBarsOptions<Datum, TOrdinalValue>>
+    options: VicBarsOptions<Datum, TOrdinalValue>
   ) {
     super();
     Object.assign(this, options);

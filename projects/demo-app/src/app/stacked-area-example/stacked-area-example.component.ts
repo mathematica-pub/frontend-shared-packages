@@ -8,6 +8,7 @@ import {
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
   VicQuantitativeAxisConfig,
+  VicStackedAreaBuilder,
   VicStackedAreaConfig,
   VicStackedAreaEventOutput,
 } from 'projects/viz-components/src/public-api';
@@ -33,6 +34,7 @@ class StackedAreaExampleTooltipConfig extends VicHtmlTooltipConfig {
   selector: 'app-stacked-area-example',
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
+  providers: [VicStackedAreaBuilder],
 })
 export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -58,7 +60,13 @@ export class StackedAreaExampleComponent implements OnInit {
     StackedAreaHoverMoveDirective<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private stackedArea: VicStackedAreaBuilder<
+      IndustryUnemploymentDatum,
+      string
+    >
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(
@@ -74,18 +82,16 @@ export class StackedAreaExampleComponent implements OnInit {
     const yAxisConfig = Vic.axisYQuantitative<number>({
       tickFormat: ',.0f',
     });
-    const dataConfig = Vic.stackedArea<IndustryUnemploymentDatum, string>({
-      data,
-      x: Vic.dimensionQuantitativeDate({
-        valueAccessor: (d) => d.date,
-      }),
-      y: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-      }),
-      categorical: Vic.dimensionCategorical({
-        valueAccessor: (d) => d.industry,
-      }),
-    });
+    const dataConfig = this.stackedArea
+      .data(data)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.industry)
+      )
+      .build();
     return {
       dataConfig,
       xAxisConfig,

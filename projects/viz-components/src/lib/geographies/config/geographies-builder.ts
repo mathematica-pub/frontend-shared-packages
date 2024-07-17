@@ -10,9 +10,7 @@ import {
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicGeographiesFeature } from '../geographies-feature';
 import { VicGeographiesConfig } from './geographies-config';
-import { VicGeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
 import { VicGeographiesAttributeDataLayerBuilder } from './layers/attribute-data-layer/attribute-data-layer-builder';
-import { VicGeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
 import { VicGeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
 
 const DEFAULT = {
@@ -26,17 +24,12 @@ const DEFAULT = {
  *
  * The third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson.
  */
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class VicGeographiesBuilder<
   Datum,
   TProperties extends GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > {
-  private _attributeDataLayer: VicGeographiesAttributeDataLayer<
-    Datum,
-    TProperties,
-    TGeometry
-  >;
   private _boundary:
     | ExtendedFeature
     | ExtendedFeatureCollection
@@ -45,34 +38,20 @@ export class VicGeographiesBuilder<
   private _featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
-  private _geojsonPropertiesLayers: VicGeographiesGeojsonPropertiesLayer<
+  private _mixBlendMode: string;
+  private _projection: GeoProjection;
+  private attributeDataBuilder: VicGeographiesAttributeDataLayerBuilder<
+    Datum,
     TProperties,
     TGeometry
-  >[];
-  private _projection: GeoProjection;
+  >;
+  public geojsonBuilders: VicGeographiesGeojsonPropertiesLayerBuilder<
+    TProperties,
+    TGeometry
+  >[] = [];
 
-  constructor(
-    public attributeDataLayerBuilder: VicGeographiesAttributeDataLayerBuilder<
-      Datum,
-      TProperties,
-      TGeometry
-    >,
-    public geojsonPropertiesLayerBuilder: VicGeographiesGeojsonPropertiesLayerBuilder<
-      TProperties,
-      TGeometry
-    >
-  ) {
+  constructor() {
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * Sets a configuration object that pertains to geographies should be styled according to a provided array of attribute data -- for example, states in the US each of which have a value for % unemployment.
-   */
-  attributeDataLayer(
-    layer: VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-  ): this {
-    this._attributeDataLayer = layer;
-    return this;
   }
 
   /** Sets a feature or geometry object or collection that defines the extents of the map to be drawn.
@@ -99,13 +78,46 @@ export class VicGeographiesBuilder<
     return this;
   }
 
+  createGeojsonPropertiesLayer(
+    callback: (
+      builder: VicGeographiesGeojsonPropertiesLayerBuilder<
+        TProperties,
+        TGeometry
+      >
+    ) => void
+  ): this {
+    const builder = new VicGeographiesGeojsonPropertiesLayerBuilder<
+      TProperties,
+      TGeometry
+    >();
+    callback(builder);
+    this.geojsonBuilders.push(builder);
+    return this;
+  }
+
+  createAttributeDataLayer(
+    callback: (
+      builder: VicGeographiesAttributeDataLayerBuilder<
+        Datum,
+        TProperties,
+        TGeometry
+      >
+    ) => void
+  ): this {
+    this.attributeDataBuilder = new VicGeographiesAttributeDataLayerBuilder<
+      Datum,
+      TProperties,
+      TGeometry
+    >();
+    callback(this.attributeDataBuilder);
+    return this;
+  }
   /**
    * Sets a configuration object that pertains to geographies that will be drawn and styled using solely the properties on a geojson feature. This might be used for to draw the outline of a country, for example. If events are enabled, the geojson properties will be used to populate the tooltip.
    */
-  geojsonPropertiesLayers(
-    layers: VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>[]
-  ): this {
-    this._geojsonPropertiesLayers = layers;
+
+  mixBlendMode(mixBlendMode: string): this {
+    this._mixBlendMode = mixBlendMode;
     return this;
   }
 
@@ -121,10 +133,14 @@ export class VicGeographiesBuilder<
 
   build(): VicGeographiesConfig<Datum, TProperties, TGeometry> {
     return new VicGeographiesConfig<Datum, TProperties, TGeometry>({
-      attributeDataLayer: this._attributeDataLayer,
+      attributeDataLayer: this.attributeDataBuilder.build(),
       boundary: this._boundary,
+      data: null,
+      mixBlendMode: this._mixBlendMode,
       featureIndexAccessor: this._featureIndexAccessor,
-      geojsonPropertiesLayers: this._geojsonPropertiesLayers,
+      geojsonPropertiesLayers: this.geojsonBuilders.map((builder) =>
+        builder.build()
+      ),
       projection: this._projection,
     });
   }

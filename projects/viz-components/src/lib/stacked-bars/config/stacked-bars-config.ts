@@ -11,9 +11,9 @@ import {
 } from 'd3';
 import { VicBarsConfig } from '../../bars/config/bars-config';
 import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
-import { VicBarsOptions } from '../../bars/config/bars-options';
 import { VicDataValue } from '../../core/types/values';
 import { VicStackDatum } from '../stacked-bars.component';
+import { VicStackedBarsOptions } from './stacked-bars-options';
 
 const DEFAULT = {
   stackOrder: stackOrderNone,
@@ -22,19 +22,6 @@ const DEFAULT = {
     range: schemeTableau10 as string[],
   },
 };
-
-export interface VicStackedBarsOptions<
-  Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicBarsOptions<Datum, TOrdinalValue> {
-  stackOffset: (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    series: Series<any, any>,
-    order: Iterable<number>
-  ) => void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  stackOrder: (x: any) => any;
-}
 
 export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   extends VicBarsConfig<Datum, TOrdinalValue>
@@ -51,7 +38,7 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
 
   constructor(
     dimensions: VicBarsDimensions,
-    options: Partial<VicStackedBarsConfig<Datum, TOrdinalValue>>
+    options: VicStackedBarsOptions<Datum, TOrdinalValue>
   ) {
     super(dimensions, options);
     this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;

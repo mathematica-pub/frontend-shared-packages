@@ -1,6 +1,6 @@
 import { select } from 'd3';
 import { HoverMoveEventEffect } from '../events/effect';
-import { LinesMarkerDatum } from './config/lines.config';
+import { LinesMarkerDatum } from './config/lines-config';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesComponent, LinesGroupSelectionDatum } from './lines.component';
 

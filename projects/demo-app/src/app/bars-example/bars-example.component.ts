@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
+import { VicBarsBuilder } from 'projects/viz-components/src/lib/bars/config/bars-builder';
 import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
@@ -40,6 +41,7 @@ enum Orientation {
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [VicBarsBuilder],
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -70,7 +72,10 @@ export class BarsExampleComponent implements OnInit {
   orientation$ = this.orientation.asObservable();
   Orientation = Orientation;
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private bars: VicBarsBuilder<MetroUnemploymentDatum, string>
+  ) {}
 
   ngOnInit(): void {
     const data$ = this.dataService.metroUnemploymentData$.pipe(
@@ -101,27 +106,24 @@ export class BarsExampleComponent implements OnInit {
         : Vic.axisYQuantitative<number>({
             tickFormat: '.0f',
           });
-    const method =
-      orientation === Orientation.horizontal
-        ? 'barsHorizontal'
-        : 'barsVertical';
-    const dataConfig = Vic[method]<MetroUnemploymentDatum, string>({
-      data: filteredData,
-      quantitative: Vic.dimensionQuantitativeNumeric<MetroUnemploymentDatum>({
-        valueAccessor: (d) => d.value,
-        formatFunction: (d) => this.getQuantitativeValueFormat(d),
-        domainPadding: Vic.domainPaddingPixel(),
-      }),
-      categorical: Vic.dimensionCategorical<MetroUnemploymentDatum, string>({
-        range: ['slategray'],
-      }),
-      ordinal: Vic.dimensionOrdinal<MetroUnemploymentDatum, string>({
-        valueAccessor: (d) => d.division,
-      }),
-      labels: Vic.barsLabels({
-        display: true,
-      }),
-    });
+    const dataConfig = this.bars
+      .data(filteredData)
+      .orientation(
+        orientation === Orientation.horizontal ? 'horizontal' : 'vertical'
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.value)
+          .formatFunction((d) => this.getQuantitativeValueFormat(d))
+          .createPixelDomainPadding()
+      )
+      .createCategoricalDimension((dimension) => dimension.range(['slategray']))
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.division)
+      )
+      .createLabels((labels) => labels.display(true).build())
+      .build();
+
     return {
       dataConfig,
       xAxisConfig,

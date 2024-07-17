@@ -4,7 +4,7 @@ import { ViewContainerRef } from '@angular/core';
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { VIC_DATA_MARKS } from '../../data-marks/data-marks';
+import { VIC_DATA_MARKS } from '../../data-marks/data-marks-component';
 import { DataMarksStub } from '../../testing/stubs/data-marks.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfig } from './html-tooltip.config';

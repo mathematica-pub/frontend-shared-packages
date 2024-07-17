@@ -3,7 +3,7 @@ import { Vic } from '../../config/vic';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { VicStackedAreaConfig } from './stacked-area.config';
+import { VicStackedAreaConfig } from './stacked-area-config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [

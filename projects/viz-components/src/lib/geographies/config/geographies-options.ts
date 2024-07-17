@@ -21,7 +21,6 @@ export interface VicGeographiesOptions<
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  data: never;
   attributeDataLayer: VicGeographiesAttributeDataLayer<
     Datum,
     TProperties,

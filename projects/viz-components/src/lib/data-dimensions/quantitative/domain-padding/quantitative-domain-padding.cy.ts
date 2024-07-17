@@ -11,10 +11,10 @@ import { VicChartModule } from '../../../chart/chart.module';
 import { Vic } from '../../../config/vic';
 import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
 import { expectDomain } from './domain-test-utility';
-import { VicPercentOverDomainPadding } from './percent-over';
-import { VicPixelDomainPadding } from './pixel';
+import { VicPercentOverDomainPadding } from './percent-over/percent-over';
+import { VicPixelDomainPadding } from './pixel/pixel';
 import { VicRoundUpToIntervalDomainPadding } from './round-to-interval';
-import { VicRoundUpDomainPadding } from './round-up';
+import { VicRoundUpDomainPadding } from './round-up/round-up';
 
 type Datum = { state: string; value: number };
 @Component({

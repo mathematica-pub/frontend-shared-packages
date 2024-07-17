@@ -2,7 +2,7 @@ import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { VicDataMarksOptions } from '../data-marks/config/data-marks-options';
-import { VicDataMarks } from '../data-marks/data-marks';
+import { VicDataMarks } from '../data-marks/data-marks-component';
 import { VicAttributeDataDimensionConfig } from '../geographies/config/dimensions/attribute-data-bin-types';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 

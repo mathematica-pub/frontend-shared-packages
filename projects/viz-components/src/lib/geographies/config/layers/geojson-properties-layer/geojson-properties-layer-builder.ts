@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { CategoricalDimensionBuilder } from 'projects/viz-components/src/lib/data-dimensions/categorical/categorical-builder';
 import { VicDimensionCategorical } from '../../../../data-dimensions/categorical/categorical';
@@ -11,55 +10,72 @@ import { VicGeographiesGeojsonPropertiesLayer } from './geojson-properties-layer
 const DEFAULT = {
   _fill: 'none',
   _enableEffects: false,
-  _strokeColor: 'dimgray',
-  _strokeWidth: '1',
 };
 
-@Injectable({ providedIn: 'root' })
 export class VicGeographiesGeojsonPropertiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
-  private _categorical: VicDimensionCategorical<
+  private categorical: VicDimensionCategorical<
     VicGeographiesFeature<TProperties, TGeometry>,
     string
   >;
+  private categoricalBuilder: CategoricalDimensionBuilder<
+    VicGeographiesFeature<TProperties, TGeometry>,
+    string
+  >;
+  private _fill: string;
   private _labels: VicGeographiesLabels<string, TProperties, TGeometry>;
+  private labelsBuilder: VicGeographiesLabelsBuilder<
+    string,
+    TProperties,
+    TGeometry
+  > = new VicGeographiesLabelsBuilder();
 
-  constructor(
-    public categoricalDimensionBuilder: CategoricalDimensionBuilder<
-      VicGeographiesFeature<TProperties, TGeometry>,
-      string
-    >,
-    public labelsBuilder: VicGeographiesLabelsBuilder<
-      string,
-      TProperties,
-      TGeometry
-    >
-  ) {
+  constructor() {
     super();
     Object.assign(this, DEFAULT);
   }
 
-  categorical(
-    categorical: VicDimensionCategorical<
-      VicGeographiesFeature<TProperties, TGeometry>,
-      string
-    >
-  ): this {
-    this._categorical = categorical;
+  fill(fill: string): this {
+    this._fill = fill;
     return this;
   }
 
-  labels(labels: VicGeographiesLabels<string, TProperties, TGeometry>): this {
-    this._labels = labels;
+  createCategoricalDimension(
+    callback: (
+      builder: CategoricalDimensionBuilder<
+        VicGeographiesFeature<TProperties, TGeometry>,
+        string
+      >
+    ) => void
+  ): this {
+    this.categoricalBuilder = new CategoricalDimensionBuilder();
+    callback(this.categoricalBuilder);
+    return this;
+  }
+
+  createLabels(
+    callback: (
+      builder: VicGeographiesLabelsBuilder<string, TProperties, TGeometry>
+    ) => void
+  ): this {
+    this.labelsBuilder = new VicGeographiesLabelsBuilder();
+    callback(this.labelsBuilder);
+    this._labels = this.labelsBuilder.build();
     return this;
   }
 
   build(): VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
     return new VicGeographiesGeojsonPropertiesLayer({
-      categorical: this._categorical,
+      categorical: this.categoricalBuilder.build(),
+      class: this._class,
+      enableEffects: this._enableEffects,
+      fill: this._fill,
+      geographies: this._geographies,
       labels: this._labels,
+      strokeColor: this._strokeColor,
+      strokeWidth: this._strokeWidth,
     });
   }
 }

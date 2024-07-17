@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { VicStackedBarsBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
 import {
   Vic,
   VicElementSpacing,
@@ -21,6 +22,7 @@ interface ViewModel {
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [VicStackedBarsBuilder],
 })
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -32,7 +34,10 @@ export class StackedBarsExampleComponent implements OnInit {
   };
   folderName = 'stacked-bars-example';
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private stackedBars: VicStackedBarsBuilder<IndustryUnemploymentDatum, Date>
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(
@@ -51,20 +56,20 @@ export class StackedBarsExampleComponent implements OnInit {
     const yAxisConfig = Vic.axisYQuantitative<number>({
       tickFormat: ',.0f',
     });
-    const dataConfig = Vic.stackedBarsVertical<IndustryUnemploymentDatum, Date>(
-      {
-        data: yearlyData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.date,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: (d) => d.industry,
-        }),
-      }
-    );
+    const dataConfig = this.stackedBars
+      .data(yearlyData)
+      .orientation('vertical')
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.industry)
+      )
+      .build();
+
     return {
       dataConfig,
       xAxisConfig,

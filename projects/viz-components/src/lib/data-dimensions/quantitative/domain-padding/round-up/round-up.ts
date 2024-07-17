@@ -1,17 +1,10 @@
-import { ValueUtilities } from '../../../core/utilities/values';
+import { ValueUtilities } from '../../../../core/utilities/values';
 import {
   DomainPadding,
   PaddedDomainArguments,
   VicDomainPadding,
-} from './domain-padding';
-
-const DEFAULT = {
-  sigDigits: () => 1,
-};
-
-export interface VicRoundUpDomainPaddingOptions {
-  sigDigits: (d: number) => number;
-}
+} from '../domain-padding';
+import { VicRoundUpDomainPaddingOptions } from './round-up-options';
 
 export class VicRoundUpDomainPadding
   extends VicDomainPadding
@@ -24,7 +17,6 @@ export class VicRoundUpDomainPadding
     super();
     Object.assign(this, options);
     this.type = DomainPadding.roundUp;
-    this.sigDigits = this.sigDigits ?? DEFAULT.sigDigits;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {

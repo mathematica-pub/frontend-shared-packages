@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { interpolateLab, scaleLinear } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
 import { VicNoBinsAttributeDataDimension } from './no-bins';
@@ -15,7 +14,6 @@ const DEFAULT = {
  *
  * The generic parameter is the type of the attribute data.
  */
-@Injectable({ providedIn: 'root' })
 export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
   Datum,
   number
@@ -37,11 +35,14 @@ export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
 
   build(): VicNoBinsAttributeDataDimension<Datum> {
     return new VicNoBinsAttributeDataDimension({
+      fillPatterns: this._fillPatterns,
+      formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,
       nullColor: this._nullColor,
       range: this._range,
       scale: this._scale,
+      valueAccessor: this._valueAccessor,
     });
   }
 }

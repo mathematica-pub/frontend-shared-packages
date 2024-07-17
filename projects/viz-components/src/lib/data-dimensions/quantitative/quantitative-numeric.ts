@@ -19,7 +19,7 @@ export class VicDimensionQuantitativeNumeric<Datum>
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
 
-  constructor(options: Partial<VicDimensionQuantitativeNumericOptions<Datum>>) {
+  constructor(options: VicDimensionQuantitativeNumericOptions<Datum>) {
     super();
     Object.assign(this, options);
     if (this.valueAccessor === undefined) {

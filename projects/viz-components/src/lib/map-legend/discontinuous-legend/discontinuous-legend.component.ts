@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { VicOrientation } from '../../core/types/layout';
-import {
-  VicAttributeDataDimensionConfig,
-  VicValuesBin,
-} from '../../geographies/config/dimensions/attribute-data-bin-types';
+import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-enums';
+import { VicAttributeDataDimensionConfig } from '../../geographies/config/dimensions/attribute-data-bin-types';
 import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
 import { MapLegendContent } from '../map-legend-content';
 
