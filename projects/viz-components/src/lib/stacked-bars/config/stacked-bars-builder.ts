@@ -78,7 +78,7 @@ export class VicStackedBarsBuilder<
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder.build(),
       quantitative: this.quantitativeDimensionBuilder.build(),
-      labels: this.labelsBuilder ? this.labelsBuilder.build() : undefined,
+      labels: this.labelsBuilder?.build(),
       stackOffset: this._stackOffset,
       stackOrder: this._stackOrder,
     });

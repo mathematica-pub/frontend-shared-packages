@@ -14,8 +14,7 @@ export class VicYOrdinalAxisConfig<
   TickValue extends VicDataValue
 > extends AbstractYOrdinalConfig<TickValue> {
   constructor(
-    options?: Partial<VicYAxisOptions<TickValue>> &
-      Partial<VicOrdinalAxisOptions<TickValue>>
+    options: VicYAxisOptions<TickValue> & VicOrdinalAxisOptions<TickValue>
   ) {
     super();
     Object.assign(this, options);

@@ -37,7 +37,7 @@ export class VicGroupedBarsBuilder<
       categorical: this.categoricalDimensionBuilder.build(),
       data: this._data,
       intraGroupPadding: this._intraGroupPadding,
-      labels: this.labelsBuilder ? this.labelsBuilder.build() : undefined,
+      labels: this.labelsBuilder?.build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder.build(),
       quantitative: this.quantitativeDimensionBuilder.build(),

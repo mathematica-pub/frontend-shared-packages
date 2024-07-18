@@ -15,7 +15,6 @@ import {
   LinesHoverMoveDefaultStylesConfig,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
-  Vic,
   VicColumnConfig,
   VicDataExportConfig,
   VicElementSpacing,
@@ -28,6 +27,8 @@ import {
   VicLinesConfig,
   VicLinesEventOutput,
   VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisBuilder,
+  VicYQuantitativeAxisBuilder,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
@@ -102,7 +103,9 @@ export class LinesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     public downloadService: VicExportDataService,
-    public lines: VicLinesBuilder<MetroUnemploymentDatum>
+    public lines: VicLinesBuilder<MetroUnemploymentDatum>,
+    private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>
   ) {}
 
   ngOnInit(): void {
@@ -117,10 +120,8 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = Vic.axisXQuantitative<Date>({
-      tickFormat: '%Y',
-    });
-    const yAxisConfig = Vic.axisYQuantitative<number>();
+    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').build();
+    const yAxisConfig = this.yAxisQuantitative.build();
     const dataConfig = this.lines
       .data(data)
       .createXDateDimension((dimension) =>

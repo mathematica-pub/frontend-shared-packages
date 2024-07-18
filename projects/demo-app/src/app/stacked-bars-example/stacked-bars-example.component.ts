@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { VicStackedBarsBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
 import {
-  Vic,
   VicElementSpacing,
   VicStackedBarsConfig,
+  VicXOrdinalAxisBuilder,
   VicXOrdinalAxisConfig,
+  VicYQuantitativeAxisBuilder,
   VicYQuantitativeAxisConfig,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
@@ -36,7 +37,9 @@ export class StackedBarsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private stackedBars: VicStackedBarsBuilder<IndustryUnemploymentDatum, Date>
+    private stackedBars: VicStackedBarsBuilder<IndustryUnemploymentDatum, Date>,
+    private xAxisOrdinal: VicXOrdinalAxisBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>
   ) {}
 
   ngOnInit(): void {
@@ -50,12 +53,8 @@ export class StackedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
-    const xAxisConfig = Vic.axisXOrdinal<Date>({
-      tickFormat: '%Y',
-    });
-    const yAxisConfig = Vic.axisYQuantitative<number>({
-      tickFormat: ',.0f',
-    });
+    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').build();
+    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').build();
     const dataConfig = this.stackedBars
       .data(yearlyData)
       .orientation('vertical')

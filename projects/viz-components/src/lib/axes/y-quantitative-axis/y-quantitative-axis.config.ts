@@ -14,9 +14,7 @@ export class VicYQuantitativeAxisConfig<
   TickValue extends VicDataValue
 > extends AbstractYQuantitativeConfig<TickValue> {
   constructor(
-    options?: Partial<
-      VicYAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>
-    >
+    options: VicYAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>
   ) {
     super();
     Object.assign(this, options);

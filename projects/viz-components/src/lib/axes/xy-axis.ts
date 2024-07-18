@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 import { VicDataValue } from '../core/types/values';
 import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
-import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-wrap.config';
+import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-text-wrap-config';
 import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyAxisConfig } from './xy-axis.config';
 
@@ -117,10 +117,7 @@ export abstract class XyAxis<TickValue extends VicDataValue>
   wrapAxisTickText(tickTextSelection: any): void {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { wrapWidth, ...properties } = this.config.wrap;
-    const config = Object.assign(
-      new VicSvgTextWrapConfig(),
-      properties
-    ) as VicSvgTextWrapConfig;
+
     let width: number;
     if (this.config.wrap.wrapWidth === 'bandwidth') {
       width = this.scale.bandwidth();
@@ -133,7 +130,7 @@ export abstract class XyAxis<TickValue extends VicDataValue>
     } else {
       width = this.config.wrap.wrapWidth;
     }
-    config.width = width;
+    const config = new VicSvgTextWrapConfig({ ...properties, width });
     tickTextSelection.call(svgTextWrap, config);
   }
 

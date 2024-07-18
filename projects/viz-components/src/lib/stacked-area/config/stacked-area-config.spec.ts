@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../config/vic';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { VicStackedAreaBuilder } from './stacked-area-builder';
 import { VicStackedAreaConfig } from './stacked-area-config';
 
 type Datum = { date: Date; value: number; category: string };
@@ -15,18 +15,14 @@ const data = [
   { date: new Date('2020-01-03'), value: 6, category: 'b' },
 ];
 function createConfig(): VicStackedAreaConfig<Datum, string> {
-  return Vic.stackedArea({
-    data,
-    x: Vic.dimensionQuantitativeDate<Datum>({
-      valueAccessor: (d) => d.date,
-    }),
-    y: Vic.dimensionQuantitativeNumeric<Datum>({
-      valueAccessor: (d) => d.value,
-    }),
-    categorical: Vic.dimensionCategorical<Datum, string>({
-      valueAccessor: (d) => d.category,
-    }),
-  });
+  return new VicStackedAreaBuilder<Datum, string>()
+    .data(data)
+    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
+    .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))
+    .createCategoricalDimension((dimension) =>
+      dimension.valueAccessor((d) => d.category)
+    )
+    .build();
 }
 
 describe('StackedAreaConfig', () => {
@@ -97,19 +93,18 @@ describe('StackedAreaConfig', () => {
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
-      config = Vic.stackedArea({
-        data,
-        x: Vic.dimensionQuantitativeDate<Datum>({
-          valueAccessor: (d) => d.date,
-        }),
-        y: Vic.dimensionQuantitativeNumeric<Datum>({
-          valueAccessor: (d) => d.value,
-        }),
-        categorical: Vic.dimensionCategorical<Datum, string>({
-          valueAccessor: (d) => d.category,
-          domain: ['a'],
-        }),
-      });
+      config = new VicStackedAreaBuilder<Datum, string>()
+        .data(data)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.date)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.value)
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.category).domain(['a'])
+        )
+        .build();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndicies();
       expect(config.valueIndices).toEqual([0, 1, 2]);

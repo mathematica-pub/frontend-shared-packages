@@ -1,13 +1,14 @@
-import { VicTickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
+import { VicTickWrapBuilder } from './tick-wrap/tick-wrap-builder';
 
-export abstract class VicXyAxisConfigBuilder<TickValue> {
+export abstract class VicXyAxisBuilder<TickValue> {
   protected _removeDomain: boolean;
   protected _removeTickMarks: boolean;
   protected _removeTicks: boolean;
   protected _tickFormat: string | ((value: TickValue) => string);
   protected _tickLabelFontSize: number;
   protected _tickSizeOuter: number;
-  protected _wrap: VicTickWrapConfig;
+  protected tickWrapBuilder: VicTickWrapBuilder;
+
   /**
    * If true, the default line that D3 creates for the axis will be removed.
    */
@@ -64,8 +65,9 @@ export abstract class VicXyAxisConfigBuilder<TickValue> {
    *
    * Note: In `Bars`, bar labels are tick labels.
    */
-  wrap(value: VicTickWrapConfig): this {
-    this._wrap = value;
+  createTickWrap(setProperties: (wrap: VicTickWrapBuilder) => void): this {
+    this.tickWrapBuilder = new VicTickWrapBuilder();
+    setProperties(this.tickWrapBuilder);
     return this;
   }
 }

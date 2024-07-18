@@ -4,10 +4,7 @@ export class VicSvgTextWrapConfig {
   maintainYPosition: boolean;
   lineHeight: number;
 
-  constructor(options?: Partial<VicSvgTextWrapConfig>) {
-    this.maintainXPosition = false;
-    this.maintainYPosition = false;
-    this.lineHeight = 1.1;
+  constructor(options: VicSvgTextWrapConfig) {
     Object.assign(this, options);
   }
 }

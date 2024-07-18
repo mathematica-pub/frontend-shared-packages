@@ -37,9 +37,13 @@ export class VicBarsBuilder<
   createCategoricalDimension(
     setProperties: (dimension: CategoricalDimensionBuilder<Datum>) => void
   ): this {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
+    this.initCategoricalDimensionBuilder();
     setProperties(this.categoricalDimensionBuilder);
     return this;
+  }
+
+  private initCategoricalDimensionBuilder() {
+    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder();
   }
 
   createOrdinalDimension(
@@ -47,12 +51,15 @@ export class VicBarsBuilder<
       dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
     ) => void
   ): this {
-    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder<
-      Datum,
-      TOrdinalValue
-    >();
-    setProperties(this.ordinalDimensionBuilder);
+    this.initOrdinalDimensionBuilder();
+    if (setProperties) {
+      setProperties(this.ordinalDimensionBuilder);
+    }
     return this;
+  }
+
+  private initOrdinalDimensionBuilder() {
+    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder();
   }
 
   orientation(orientation: 'horizontal' | 'vertical'): this {
@@ -65,17 +72,25 @@ export class VicBarsBuilder<
       dimension: QuantitativeNumericDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.quantitativeDimensionBuilder =
-      new QuantitativeNumericDimensionBuilder<Datum>();
-    setProperties(this.quantitativeDimensionBuilder);
+    this.initQuantitativeDimensionBuilder();
+    if (setProperties) {
+      setProperties(this.quantitativeDimensionBuilder);
+    }
     return this;
+  }
+
+  private initQuantitativeDimensionBuilder() {
+    this.quantitativeDimensionBuilder =
+      new QuantitativeNumericDimensionBuilder();
   }
 
   createLabels(
     setProperties: (dimension: BarsLabelsBuilder<Datum>) => void
   ): this {
     this.labelsBuilder = new BarsLabelsBuilder<Datum>();
-    setProperties(this.labelsBuilder);
+    if (setProperties) {
+      setProperties(this.labelsBuilder);
+    }
     return this;
   }
 
@@ -84,10 +99,21 @@ export class VicBarsBuilder<
       this._orientation === 'horizontal'
         ? HORIZONTAL_BARS_DIMENSIONS
         : VERTICAL_BARS_DIMENSIONS;
+    if (!this.categoricalDimensionBuilder) {
+      this.initCategoricalDimensionBuilder();
+    }
+    if (!this.ordinalDimensionBuilder) {
+      this.initOrdinalDimensionBuilder();
+    }
+    if (!this.quantitativeDimensionBuilder) {
+      throw new Error(
+        'Quantitative dimension is required. Please use method `createQuantitativeDimension` to create dimension.'
+      );
+    }
     return new VicBarsConfig(dimensions, {
       categorical: this.categoricalDimensionBuilder.build(),
       data: this._data,
-      labels: this.labelsBuilder ? this.labelsBuilder.build() : undefined,
+      labels: this.labelsBuilder?.build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder.build(),
       quantitative: this.quantitativeDimensionBuilder.build(),

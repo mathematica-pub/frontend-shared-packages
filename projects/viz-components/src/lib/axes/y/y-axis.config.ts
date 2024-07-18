@@ -1,6 +1,5 @@
 import { Directive } from '@angular/core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicSide } from '../../core/types/layout';
 import { VicDataValue } from '../../core/types/values';
 import { VicXyAxisOptions } from '../xy-axis-options';
 import { VicXyAxisConfig } from '../xy-axis.config';
@@ -10,7 +9,7 @@ export interface VicYAxisOptions<TickValue extends VicDataValue>
   /**
    * The side of the chart on which the axis will be placed.
    */
-  side: VicSide.left | VicSide.right;
+  side: 'left' | 'right';
 }
 
 export function mixinYAxisConfig<
@@ -19,13 +18,13 @@ export function mixinYAxisConfig<
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base implements VicYAxisOptions<TickValue> {
-    side: VicSide.left | VicSide.right;
+    side: 'left' | 'right';
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
       Object.assign(this, args[0]);
-      this.side = this.side ?? VicSide.left;
+      this.side = this.side ?? 'left';
     }
 
     getSuggestedNumTicksFromChartDimension(dimensions: {

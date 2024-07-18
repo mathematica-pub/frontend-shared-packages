@@ -5,7 +5,6 @@ import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
   HoverMoveEventEffect,
-  Vic,
   VicBarsConfig,
   VicBarsEventOutput,
   VicElementSpacing,
@@ -13,6 +12,10 @@ import {
   VicHtmlTooltipOffsetFromOriginPosition,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
+  VicXOrdinalAxisBuilder,
+  VicXQuantitativeAxisBuilder,
+  VicYOrdinalAxisBuilder,
+  VicYQuantitativeAxisBuilder,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../core/models/data';
@@ -41,7 +44,13 @@ enum Orientation {
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [VicBarsBuilder],
+  providers: [
+    VicBarsBuilder,
+    VicXOrdinalAxisBuilder,
+    VicXQuantitativeAxisBuilder,
+    VicYOrdinalAxisBuilder,
+    VicYQuantitativeAxisBuilder,
+  ],
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -74,7 +83,11 @@ export class BarsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private bars: VicBarsBuilder<MetroUnemploymentDatum, string>
+    private bars: VicBarsBuilder<MetroUnemploymentDatum, string>,
+    private xOrdinalAxis: VicXOrdinalAxisBuilder<string>,
+    private xQuantitativeAxis: VicXQuantitativeAxisBuilder<number>,
+    private yOrdinalAxis: VicYOrdinalAxisBuilder<string>,
+    private yQuantitativeAxis: VicYQuantitativeAxisBuilder<number>
   ) {}
 
   ngOnInit(): void {
@@ -96,16 +109,13 @@ export class BarsExampleComponent implements OnInit {
     );
     const xAxisConfig =
       orientation === Orientation.horizontal
-        ? Vic.axisXQuantitative<number>({
-            tickFormat: '.0f',
-          })
-        : Vic.axisXOrdinal<string>();
+        ? this.xQuantitativeAxis.tickFormat('.0f').build()
+        : this.xOrdinalAxis.build();
     const yAxisConfig =
       orientation === Orientation.horizontal
-        ? Vic.axisYOrdinal<string>()
-        : Vic.axisYQuantitative<number>({
-            tickFormat: '.0f',
-          });
+        ? this.yOrdinalAxis.build()
+        : this.yQuantitativeAxis.tickFormat('.0f').build();
+
     const dataConfig = this.bars
       .data(filteredData)
       .orientation(
@@ -121,7 +131,7 @@ export class BarsExampleComponent implements OnInit {
       .createOrdinalDimension((dimension) =>
         dimension.valueAccessor((d) => d.division)
       )
-      .createLabels((labels) => labels.display(true).build())
+      .createLabels((labels) => labels.display(true))
       .build();
 
     return {

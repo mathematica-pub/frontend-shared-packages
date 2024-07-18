@@ -3,7 +3,6 @@ import { axisLeft, axisRight } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicSide } from '../../core/types/layout';
 import { VicDataValue } from '../../core/types/values';
 import { XyAxis, XyAxisScale } from '../xy-axis';
 import { VicYAxisConfig } from './y-axis.config';
@@ -35,7 +34,7 @@ export function mixinYAxis<
     }
 
     getTranslateDistance(ranges: Ranges): number {
-      return this.config.side === VicSide.left
+      return this.config.side === 'left'
         ? this.getLeftTranslate(ranges)
         : this.getRightTranslate(ranges);
     }
@@ -59,8 +58,7 @@ export function mixinYAxis<
     }
 
     setAxisFunction(): void {
-      this.axisFunction =
-        this.config.side === VicSide.left ? axisLeft : axisRight;
+      this.axisFunction = this.config.side === 'left' ? axisLeft : axisRight;
     }
 
     initNumTicks(): number {

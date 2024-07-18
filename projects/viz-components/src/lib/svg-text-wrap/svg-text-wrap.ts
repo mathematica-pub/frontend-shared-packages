@@ -1,5 +1,5 @@
 import { select } from 'd3';
-import { VicSvgTextWrapConfig } from './svg-wrap.config';
+import { VicSvgTextWrapConfig } from './svg-text-wrap-config';
 
 export function svgTextWrap(textSelection, options: VicSvgTextWrapConfig) {
   const { width, maintainXPosition, maintainYPosition, lineHeight } = options;

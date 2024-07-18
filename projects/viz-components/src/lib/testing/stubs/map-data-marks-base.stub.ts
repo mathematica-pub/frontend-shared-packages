@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { VicDataMarksOptions } from '../../data-marks/config/data-marks-config';
+import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { VicMapDataMarks } from '../../map-data-marks/map-data-marks';
 
 export class MapDataMarksBaseStub<Datum> extends VicMapDataMarks<

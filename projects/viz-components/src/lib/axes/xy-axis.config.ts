@@ -1,4 +1,4 @@
-import { VicTickWrapConfig } from '../svg-text-wrap/tick-wrap.config';
+import { VicTickWrapConfig } from './tick-wrap/tick-wrap-config';
 
 export abstract class VicXyAxisConfig<TickValue> {
   removeDomain: boolean;

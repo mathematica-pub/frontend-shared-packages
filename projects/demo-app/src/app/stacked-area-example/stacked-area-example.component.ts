@@ -3,7 +3,6 @@ import {
   HoverMoveEventEffect,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
-  Vic,
   VicElementSpacing,
   VicHtmlTooltipConfig,
   VicHtmlTooltipOffsetFromOriginPosition,
@@ -11,6 +10,8 @@ import {
   VicStackedAreaBuilder,
   VicStackedAreaConfig,
   VicStackedAreaEventOutput,
+  VicXQuantitativeAxisBuilder,
+  VicYQuantitativeAxisBuilder,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
@@ -65,7 +66,9 @@ export class StackedAreaExampleComponent implements OnInit {
     private stackedArea: VicStackedAreaBuilder<
       IndustryUnemploymentDatum,
       string
-    >
+    >,
+    private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>
   ) {}
 
   ngOnInit(): void {
@@ -76,12 +79,8 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = Vic.axisXQuantitative<Date>({
-      tickFormat: '%Y',
-    });
-    const yAxisConfig = Vic.axisYQuantitative<number>({
-      tickFormat: ',.0f',
-    });
+    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').build();
+    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').build();
     const dataConfig = this.stackedArea
       .data(data)
       .createXDateDimension((dimension) =>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../config/vic';
+import { VicLinesBuilder } from './lines-builder';
 import { VicLinesConfig } from './lines-config';
 
 type Datum = { date: Date; value: number; category: string };
@@ -13,18 +13,14 @@ const data = [
 ];
 
 function createConfig(): VicLinesConfig<Datum> {
-  return Vic.lines({
-    data,
-    x: Vic.dimensionQuantitativeDate<Datum>({
-      valueAccessor: (d) => d.date,
-    }),
-    y: Vic.dimensionQuantitativeNumeric<Datum>({
-      valueAccessor: (d) => d.value,
-    }),
-    categorical: Vic.dimensionCategorical<Datum, string>({
-      valueAccessor: (d) => d.category,
-    }),
-  });
+  return new VicLinesBuilder<Datum>()
+    .data(data)
+    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
+    .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))
+    .createCategoricalDimension((dimension) =>
+      dimension.valueAccessor((d) => d.category)
+    )
+    .build();
 }
 
 describe('LinesConfig', () => {

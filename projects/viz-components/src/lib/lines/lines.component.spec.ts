@@ -1,8 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Vic } from '../config/vic';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { VicLinesBuilder } from './config/lines-builder';
 import { LinesComponent } from './lines.component';
 
 describe('LineChartComponent', () => {
@@ -31,13 +31,17 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
-      component.config = Vic.lines({
-        data: [],
-        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
-        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
-        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
-        hoverDot: Vic.pointMarkers(), // applied as a default but showing here for clarity
-      });
+      component.config = new VicLinesBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createHoverDot() // applied as a default but showing here for clarity
+        .build();
     });
     it('calls setLine once', () => {
       component.drawMarks();
@@ -52,13 +56,17 @@ describe('LineChartComponent', () => {
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
     it('calls drawPointMarkers once with the correct argument if config.pointMarkers is truthy', () => {
-      component.config = Vic.lines({
-        data: [],
-        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
-        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
-        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
-        pointMarkers: Vic.pointMarkers(),
-      });
+      component.config = new VicLinesBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createPointMarkers()
+        .build();
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
@@ -71,25 +79,33 @@ describe('LineChartComponent', () => {
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
     it('does not call drawHoverDot once if config.pointMarkers is true', () => {
-      component.config = Vic.lines({
-        data: [],
-        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
-        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
-        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
-        pointMarkers: Vic.pointMarkers(),
-        hoverDot: Vic.pointMarkers(),
-      });
+      component.config = new VicLinesBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createPointMarkers()
+        .createHoverDot()
+        .build();
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
     });
     it('calls drawLineLabels once if config.labelLines is true', () => {
-      component.config = Vic.lines({
-        data: [],
-        x: Vic.dimensionQuantitativeDate({ valueAccessor: () => null }),
-        y: Vic.dimensionQuantitativeNumeric({ valueAccessor: () => null }),
-        categorical: Vic.dimensionCategorical({ valueAccessor: () => null }),
-        labelLines: true,
-      });
+      component.config = new VicLinesBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .labelLines(true)
+        .build();
       component.drawMarks();
       expect(component.drawLineLabels).toHaveBeenCalledTimes(1);
     });
