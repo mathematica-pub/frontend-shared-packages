@@ -1,7 +1,9 @@
 import { Component, Input } from '@angular/core';
+import 'cypress-real-events';
 import { max } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
+import { BehaviorSubject } from 'rxjs';
 import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis.config';
 import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis.config';
 import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
@@ -10,8 +12,17 @@ import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
 import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../chart/chart.module';
 import { Vic } from '../config/vic';
+import { HoverMoveEventEffect } from '../events/effect';
 import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
+import {
+  VicHtmlTooltipConfig,
+  VicHtmlTooltipOffsetFromOriginPosition,
+} from '../tooltips/html-tooltip/html-tooltip.config';
+import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
 import { VicXyChartModule } from '../xy-chart/xy-chart.module';
+import { BarsHoverMoveEmitTooltipData } from './bars-hover-move-effects';
+import { BarsHoverMoveDirective } from './bars-hover-move.directive';
+import { VicBarsEventOutput } from './bars-tooltip-data';
 import { VicBarsModule } from './bars.module';
 import { VicBarsConfig } from './config/bars.config';
 
@@ -60,9 +71,23 @@ const getYTransform = ($barGroup) => {
           [config]="yOrdinalAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g
+          vic-data-marks-bars
+          [config]="barsConfig"
+          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
+          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
       </ng-container>
     </vic-xy-chart>
+
+    <ng-template #htmlTooltip>
+      <p>{{ (tooltipData$ | async).quantitative }}</p>
+    </ng-template>
   `,
   styles: [],
 })
@@ -73,6 +98,41 @@ class TestHorizontalBarsComponent {
   margin = horizontalMargin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
+      new VicHtmlTooltipConfig({ show: false })
+    );
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<VicBarsEventOutput<QOCDatum, string>> =
+    new BehaviorSubject<VicBarsEventOutput<QOCDatum, string>>(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverAndMoveEffects: HoverMoveEventEffect<
+    BarsHoverMoveDirective<QOCDatum, string>
+  >[] = [new BarsHoverMoveEmitTooltipData()];
+
+  updateTooltipForNewOutput(data: VicBarsEventOutput<QOCDatum, string>): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: VicBarsEventOutput<QOCDatum, string>): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: VicBarsEventOutput<QOCDatum, string>): void {
+    const config = new VicHtmlTooltipConfig();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
+    if (data) {
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 10;
+      config.show = true;
+      config.origin = data.elRef;
+    } else {
+      config.show = false;
+      config.origin = undefined;
+    }
+    this.tooltipConfig.next(config);
+  }
 }
 
 const mountHorizontalBarsComponent = (
@@ -89,6 +149,7 @@ const mountHorizontalBarsComponent = (
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
     VicXyChartModule,
+    VicHtmlTooltipModule,
   ];
 
   cy.mount(TestHorizontalBarsComponent, {
@@ -127,9 +188,23 @@ const mountHorizontalBarsComponent = (
           [config]="yQuantitativeAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g
+          vic-data-marks-bars
+          [config]="barsConfig"
+          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
+          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
       </ng-container>
     </vic-xy-chart>
+
+    <ng-template #htmlTooltip>
+      <p>{{ (tooltipData$ | async).quantitative }}</p>
+    </ng-template>
   `,
   styles: [],
 })
@@ -140,6 +215,42 @@ class TestVerticalBarsComponent {
   margin = verticalMargin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
+  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
+    new BehaviorSubject<VicHtmlTooltipConfig>(
+      new VicHtmlTooltipConfig({ show: false })
+    );
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<VicBarsEventOutput<QOCDatum, string>> =
+    new BehaviorSubject<VicBarsEventOutput<QOCDatum, string>>(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverAndMoveEffects: HoverMoveEventEffect<
+    BarsHoverMoveDirective<QOCDatum, string>
+  >[] = [new BarsHoverMoveEmitTooltipData()];
+
+  updateTooltipForNewOutput(data: VicBarsEventOutput<QOCDatum, string>): void {
+    console.log('update');
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: VicBarsEventOutput<QOCDatum, string>): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: VicBarsEventOutput<QOCDatum, string>): void {
+    const config = new VicHtmlTooltipConfig();
+    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
+    if (data) {
+      config.position.offsetX = data.positionX;
+      config.position.offsetY = data.positionY - 10;
+      config.show = true;
+      config.origin = data.elRef;
+    } else {
+      config.show = false;
+      config.origin = undefined;
+    }
+    this.tooltipConfig.next(config);
+  }
 }
 
 const mountVerticalBarsComponent = (
@@ -157,6 +268,7 @@ const mountVerticalBarsComponent = (
     VicXOrdinalAxisModule,
     VicYQuantitativeAxisModule,
     VicXyChartModule,
+    VicHtmlTooltipModule,
   ];
 
   cy.mount(TestVerticalBarsComponent, {
@@ -720,6 +832,67 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         cy.wrap($barGroups).each(($barGroup) => {
           const origin = getYTransform($barGroup);
           expect(origin).to.equal(verticalMargin.top);
+        });
+      });
+    });
+  });
+});
+
+// ***********************************************************
+// Tests of tooltips
+// ***********************************************************
+describe('displays tooltips for correct data per hover position', () => {
+  beforeEach(() => {
+    const barsConfig = Vic.barsHorizontal({
+      data: QOCData,
+      ordinal: Vic.dimensionOrdinal({
+        valueAccessor: (d: QOCDatum) => d.country,
+      }),
+      quantitative: Vic.dimensionQuantitativeNumeric({
+        valueAccessor: (d: QOCDatum) => d.area,
+        domainPadding: Vic.domainPaddingPixel(),
+      }),
+      categorical: Vic.dimensionCategorical(),
+      labels: Vic.barsLabels({
+        display: true,
+      }),
+    });
+    mountHorizontalBarsComponent(barsConfig);
+  });
+
+  QOCData.forEach((_, i) => {
+    describe(`Data point at index ${i}`, () => {
+      beforeEach(() => {
+        cy.get('.vic-bar').eq(i).realHover();
+      });
+
+      it('displays a tooltip', () => {
+        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+      });
+
+      it('tooltip displays correct data', () => {
+        cy.get('.vic-html-tooltip-overlay p').should(
+          'have.text',
+          QOCData[i].area
+        );
+      });
+
+      it('tooltip appears at the correct position', () => {
+        cy.get('.vic-html-tooltip-overlay').then(($el) => {
+          const tooltipBox = $el[0].getBoundingClientRect();
+          cy.get('.vic-bar')
+            .eq(i)
+            .then(($el) => {
+              const barBox = $el[0].getBoundingClientRect();
+              expect((tooltipBox.left + tooltipBox.right) / 2).to.be.closeTo(
+                (barBox.left + barBox.right) / 2,
+                1
+              );
+              expect(tooltipBox.bottom).to.be.closeTo(
+                (barBox.top + barBox.bottom) / 2,
+                10
+              );
+            });
         });
       });
     });
