@@ -82,7 +82,7 @@ describe('GeographiesConfig', () => {
     beforeEach(() => {
       config = createConfig();
     });
-    it('sets layers to an array with dataLayer and noDataLayers', () => {
+    it('sets layers to an array with attributeDataLayer and geojsonPropertiesLayers', () => {
       expect(config.layers.length).toBe(2);
     });
   });

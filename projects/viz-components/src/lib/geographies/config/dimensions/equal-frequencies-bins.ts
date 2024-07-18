@@ -18,7 +18,7 @@ export interface VicEqualFrequenciesAttributeDataDimensionOptions<
   RangeValue extends string | number = string
 > extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
   /**
-   * A format specifier that will be applied to the value of this dimension for display purposes.
+   * A format specifier that will be applied to the value of this dimension for display purposes, for example, in the tooltip.
    */
   formatSpecifier: string;
   numBins: number;
