@@ -572,8 +572,11 @@ describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
     const linesConfig = Vic.lines<QdQnCDatum>({
       data: dateData,
+      // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
+      // Padded the x and y domains to avoid this issue
       x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
         valueAccessor: (d) => d.year,
+        domain: [new Date('2020-01-02'), new Date('2104-01-02')],
       }),
       y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
         valueAccessor: (d) => d.population,
