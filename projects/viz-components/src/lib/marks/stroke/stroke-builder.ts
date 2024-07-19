@@ -1,10 +1,10 @@
 import { VicStroke } from './stroke';
 
 const DEFAULT = {
-  linecap: 'round',
-  linejoin: 'round',
-  opacity: 1,
-  width: 2,
+  _linecap: 'round',
+  _linejoin: 'round',
+  _opacity: 1,
+  _width: 2,
 };
 
 export class VicStrokeBuilder {

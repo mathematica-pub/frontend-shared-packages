@@ -5,13 +5,15 @@ import {
   VicBarsConfig,
   VicBarsModule,
   VicChartModule,
+  VicXQuantitativeAxisBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
+  VicYOrdinalAxisBuilder,
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
-import { Vic } from '../../config/vic';
+import { VicBarsBuilder } from '../../bars/config/bars-builder';
 import { QOCData, QOCDatum } from '../../testing/data/quant-ord-cat-data';
 
 const dotsPatternMagenta = 'dotsMagenta';
@@ -102,10 +104,10 @@ class TestHorizontalBarsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: VicBarsConfig<QOCDatum, string>
 ): void => {
-  const xAxisConfig = Vic.axisXQuantitative({
-    tickFormat: '.0f',
-  });
-  const yAxisConfig = Vic.axisYOrdinal();
+  const xAxisConfig = new VicXQuantitativeAxisBuilder()
+    .tickFormat('.0f')
+    .build();
+  const yAxisConfig = new VicYOrdinalAxisBuilder().build();
   const declarations = [TestHorizontalBarsComponent];
   const imports = [
     VicChartModule,
@@ -137,22 +139,20 @@ describe('marks have expected fill', () => {
   describe('user does not specify a categorical valueAccessor or a custom scale', () => {
     it('colors every mark by first color in user-provided range if user provides range of length >= 1', () => {
       const color = 'chartreuse';
-      barsConfig = Vic.barsHorizontal({
-        data: QOCData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          range: [color, 'red', 'yellow'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        .orientation('horizontal')
+        .data(QOCData)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.country)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension.valueAccessor((d) => d.area)
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.range([color, 'red', 'yellow'])
+        )
+        .createLabels((labels) => labels.display(true))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
         expect($bar.attr('fill')).to.equal(color);
@@ -160,20 +160,17 @@ describe('marks have expected fill', () => {
     });
     it('colors every mark by first color in the default range if user provides no range and no custom scale', () => {
       const color = schemeTableau10[0];
-      barsConfig = Vic.barsHorizontal({
-        data: QOCData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical(),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        .orientation('horizontal')
+        .data(QOCData)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.country)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        )
+        .createLabels((labels) => labels.display(true))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
         expect($bar.attr('fill')).to.equal(color);
@@ -183,22 +180,20 @@ describe('marks have expected fill', () => {
   describe('user provides a valueAccessor for the categorical dimension', () => {
     it('colors every mark according to the valueAccessor using default color array', () => {
       const color = schemeTableau10;
-      barsConfig = Vic.barsHorizontal({
-        data: QOCData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: (d) => d.continent,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        .orientation('horizontal')
+        .data(QOCData)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.country)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createLabels((labels) => labels.display(true))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
         switch (QOCData[i].continent) {
@@ -225,23 +220,22 @@ describe('marks have expected fill', () => {
   });
   describe('user provides a custom scale for the categorical dimension', () => {
     it('colors every mark according to the custom scale when user also provides a value accessor', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: QOCData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: (d) => d.continent,
-          scale: customCategoricalScale,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        .orientation('horizontal')
+        .data(QOCData)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.country)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.continent)
+            .scale(customCategoricalScale)
+        )
+        .createLabels((labels) => labels.display(true))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
         switch (QOCData[i].continent) {
@@ -266,22 +260,20 @@ describe('marks have expected fill', () => {
       });
     });
     it('colors every mark according to the custom scales behavior with empty string arg when user does not provide a value accessor', () => {
-      barsConfig = Vic.barsHorizontal({
-        data: QOCData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.country,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.area,
-          domainPadding: Vic.domainPaddingPixel(),
-        }),
-        categorical: Vic.dimensionCategorical({
-          scale: customCategoricalScale,
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        .orientation('horizontal')
+        .data(QOCData)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.country)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.scale(customCategoricalScale)
+        )
+        .createLabels((labels) => labels.display(true))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
         expect($bar.attr('fill')).to.equal('chartreuse');
@@ -299,27 +291,25 @@ describe('user provides a fill pattern', () => {
     barsConfig = undefined;
   });
   it('sets bar fill with either the pattern name or the regular fill according to usePattern function', () => {
-    barsConfig = Vic.barsHorizontal({
-      data: QOCData,
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.country,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.area,
-        domainPadding: Vic.domainPaddingPixel(),
-      }),
-      categorical: Vic.dimensionCategorical({
-        fillPatterns: [
+    barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      .orientation('horizontal')
+      .data(QOCData)
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.country)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.fillPatterns([
           {
             name: dotsPatternMagenta,
             usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
           },
-        ],
-      }),
-      labels: Vic.barsLabels({
-        display: true,
-      }),
-    });
+        ])
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
       if (i === 2) {
@@ -330,29 +320,28 @@ describe('user provides a fill pattern', () => {
     });
   });
   it('sets bar fill with either the pattern name or the regular fill according to usePattern function when user provides a scale and valueAccessor', () => {
-    barsConfig = Vic.barsHorizontal({
-      data: QOCData,
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.country,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.area,
-        domainPadding: Vic.domainPaddingPixel(),
-      }),
-      categorical: Vic.dimensionCategorical({
-        fillPatterns: [
-          {
-            name: dotsPatternMagenta,
-            usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
-          },
-        ],
-        valueAccessor: (d) => d.continent,
-        scale: customCategoricalScale,
-      }),
-      labels: Vic.barsLabels({
-        display: true,
-      }),
-    });
+    barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      .orientation('horizontal')
+      .data(QOCData)
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.country)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension
+          .fillPatterns([
+            {
+              name: dotsPatternMagenta,
+              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
+            },
+          ])
+          .valueAccessor((d) => d.continent)
+          .scale(customCategoricalScale)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
       if (i === 2) {
@@ -381,32 +370,31 @@ describe('user provides a fill pattern', () => {
     });
   });
   it('sets bar fill with the last matching pattern in fillPatterns array if two patterns match', () => {
-    barsConfig = Vic.barsHorizontal({
-      data: QOCData,
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.country,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.area,
-        domainPadding: Vic.domainPaddingPixel(),
-      }),
-      categorical: Vic.dimensionCategorical({
-        fillPatterns: [
-          {
-            name: dotsPatternMagenta,
-            usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
-          },
-          {
-            name: dotsPatternTeal,
-            usePattern: (d) => d.continent === 'Africa' && d.area > 700000,
-          },
-        ],
-        range: ['lightcoral'],
-      }),
-      labels: Vic.barsLabels({
-        display: true,
-      }),
-    });
+    barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      .orientation('horizontal')
+      .data(QOCData)
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.country)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension
+          .fillPatterns([
+            {
+              name: dotsPatternMagenta,
+              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
+            },
+            {
+              name: dotsPatternTeal,
+              usePattern: (d) => d.continent === 'Africa' && d.area > 700000,
+            },
+          ])
+          .range(['lightcoral'])
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
       if (i === 2) {

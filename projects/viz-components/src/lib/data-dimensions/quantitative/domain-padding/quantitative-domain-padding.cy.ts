@@ -4,17 +4,22 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis.config';
 import { VicBarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
 import { BehaviorSubject } from 'rxjs';
+import { VicXQuantitativeAxisBuilder } from '../../../axes/x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quantitative-axis.module';
 import { BarsComponent } from '../../../bars/bars.component';
 import { VicBarsModule } from '../../../bars/bars.module';
+import { VicBarsBuilder } from '../../../bars/config/bars-builder';
 import { VicChartModule } from '../../../chart/chart.module';
-import { Vic } from '../../../config/vic';
 import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
 import { expectDomain } from './domain-test-utility';
 import { VicPercentOverDomainPadding } from './percent-over/percent-over';
+import { VicPercentOverDomainPaddingBuilder } from './percent-over/percent-over-builder';
 import { VicPixelDomainPadding } from './pixel/pixel';
-import { VicRoundUpToIntervalDomainPadding } from './round-to-interval';
+import { VicPixelDomainPaddingBuilder } from './pixel/pixel-builder';
+import { VicRoundUpToIntervalDomainPadding } from './round-to-interval/round-to-interval';
+import { VicRoundUpToIntervalDomainPaddingBuilder } from './round-to-interval/round-to-interval-builder';
 import { VicRoundUpDomainPadding } from './round-up/round-up';
+import { VicRoundUpDomainPaddingBuilder } from './round-up/round-up-builder';
 
 type Datum = { state: string; value: number };
 @Component({
@@ -99,24 +104,24 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = Vic.barsHorizontal({
-      data: [
+    barsConfig = new VicBarsBuilder<Datum, string>()
+      .orientation('horizontal')
+      .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
-      ],
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.state,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-      }),
-      categorical: Vic.dimensionCategorical(),
-      labels: Vic.barsLabels({ display: true }),
-    });
-    axisConfig = Vic.axisXQuantitative({
-      tickFormat: '.0f',
-    });
+      ])
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.state)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
+    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .tickFormat('.0f')
+      .build();
   });
   describe('X domain is the default: 0, max value', () => {
     beforeEach(() => {
@@ -137,11 +142,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 1,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 1).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -159,11 +161,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 2,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 2).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -182,7 +181,9 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       (barsConfig.quantitative as any).domainPadding =
-        Vic.domainPaddingRoundUpToInterval({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingBuilder()
+          .interval(() => 5)
+          .build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -202,9 +203,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 20;
       (barsConfig.quantitative as any).domainPadding =
-        Vic.domainPaddingPercentOver({
-          percentOver: 0.05,
-        });
+        new VicPercentOverDomainPaddingBuilder().percentOver(0.05).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -223,9 +222,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   describe('pixel domain padding', () => {
     const numPixels = 50;
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingPixel({
-        numPixels: numPixels,
-      });
+      (barsConfig.quantitative as any).domainPadding =
+        new VicPixelDomainPaddingBuilder().numPixels(numPixels).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -252,25 +250,24 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = Vic.barsHorizontal({
-      data: [
+    barsConfig = new VicBarsBuilder<Datum, string>()
+      .orientation('horizontal')
+      .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
-      ],
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.state,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-        includeZeroInDomain: false,
-      }),
-      categorical: Vic.dimensionCategorical(),
-      labels: Vic.barsLabels({ display: true }),
-    });
-    axisConfig = Vic.axisXQuantitative({
-      tickFormat: '.0f',
-    });
+      ])
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.state)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
+    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .tickFormat('.0f')
+      .build();
   });
   describe('X domain is default/not padded', () => {
     beforeEach(() => {
@@ -291,11 +288,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 1,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 1).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -313,11 +307,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 2,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 2).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -336,7 +327,9 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       (barsConfig.quantitative as any).domainPadding =
-        Vic.domainPaddingRoundUpToInterval({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingBuilder()
+          .interval(() => 5)
+          .build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -356,9 +349,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = 20;
       (barsConfig.quantitative as any).domainPadding =
-        Vic.domainPaddingPercentOver({
-          percentOver: 0.05,
-        });
+        new VicPercentOverDomainPaddingBuilder().percentOver(0.05).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -377,9 +368,8 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   describe('pixel domain padding', () => {
     const numPixels = 50;
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingPixel({
-        numPixels: numPixels,
-      });
+      (barsConfig.quantitative as any).domainPadding =
+        new VicPixelDomainPaddingBuilder().numPixels(numPixels).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -406,24 +396,24 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = Vic.barsHorizontal({
-      data: [
+    barsConfig = new VicBarsBuilder<Datum, string>()
+      .orientation('horizontal')
+      .data([
         { state: 'Alabama', value: -1.1 },
         { state: 'Alaska', value: -2.2 },
         { state: 'Arizona', value: -30.3 },
-      ],
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.state,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-      }),
-      categorical: Vic.dimensionCategorical(),
-      labels: Vic.barsLabels({ display: true }),
-    });
-    axisConfig = Vic.axisXQuantitative({
-      tickFormat: '.0f',
-    });
+      ])
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.state)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
+    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .tickFormat('.0f')
+      .build();
   });
   describe('X domain is the default: min value, 0', () => {
     beforeEach(() => {
@@ -462,11 +452,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 1,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 1).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -484,11 +471,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 2,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 2).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -507,7 +491,9 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       (barsConfig.quantitative as any).domainPadding =
-        Vic.domainPaddingRoundUpToInterval({ interval: () => 5 });
+        new VicRoundUpToIntervalDomainPaddingBuilder()
+          .interval(() => 5)
+          .build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -527,9 +513,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     beforeEach(() => {
       barsConfig.data.find((d) => d.state === 'Arizona').value = -20;
       (barsConfig.quantitative as any).domainPadding =
-        Vic.domainPaddingPercentOver({
-          percentOver: 0.05,
-        });
+        new VicPercentOverDomainPaddingBuilder().percentOver(0.05).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -548,9 +532,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   describe('pixel domain padding', () => {
     const numPixels = 40;
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingPixel({
-        numPixels: numPixels,
-      });
+      (barsConfig.quantitative as any).domainPadding =
+        new VicPixelDomainPaddingBuilder().numPixels(numPixels).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -577,25 +560,24 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = Vic.barsHorizontal({
-      data: [
+    barsConfig = new VicBarsBuilder<Datum, string>()
+      .orientation('horizontal')
+      .data([
         { state: 'Alabama', value: -1.1 },
         { state: 'Alaska', value: -2.2 },
         { state: 'Arizona', value: -30.3 },
-      ],
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.state,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-        includeZeroInDomain: false,
-      }),
-      categorical: Vic.dimensionCategorical(),
-      labels: Vic.barsLabels({ display: true }),
-    });
-    axisConfig = Vic.axisXQuantitative({
-      tickFormat: '.0f',
-    });
+      ])
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.state)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
+    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .tickFormat('.0f')
+      .build();
   });
   describe('X domain turns off including 0', () => {
     beforeEach(() => {
@@ -616,11 +598,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 1,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 1).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -638,11 +617,8 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   });
   describe('roundUp domain padding - 2 sig digits', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 2,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 2).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -732,26 +708,26 @@ describe('it correctly sets quantitative domain - values are positive and negati
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = Vic.barsHorizontal({
-      data: [
+    barsConfig = new VicBarsBuilder<Datum, string>()
+      .orientation('horizontal')
+      .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
         { state: 'Arkansas', value: -2.2 },
         { state: 'California', value: -60.6 },
-      ],
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.state,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-      }),
-      categorical: Vic.dimensionCategorical(),
-      labels: Vic.barsLabels({ display: true }),
-    });
-    axisConfig = Vic.axisXQuantitative({
-      tickFormat: '.0f',
-    });
+      ])
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.state)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
+    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .tickFormat('.0f')
+      .build();
   });
   describe('X domain is the default: min value, 0', () => {
     beforeEach(() => {
@@ -790,11 +766,8 @@ describe('it correctly sets quantitative domain - values are positive and negati
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 1,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 1).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -914,24 +887,24 @@ describe('it correctly sets quantitative domain - all values are positive and le
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = Vic.barsHorizontal({
-      data: [
+    barsConfig = new VicBarsBuilder<Datum, string>()
+      .orientation('horizontal')
+      .data([
         { state: 'Alabama', value: 0.01 },
         { state: 'Alaska', value: 0.22 },
         { state: 'Arizona', value: 0.303 },
-      ],
-      ordinal: Vic.dimensionOrdinal({
-        valueAccessor: (d) => d.state,
-      }),
-      quantitative: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.value,
-      }),
-      categorical: Vic.dimensionCategorical(),
-      labels: Vic.barsLabels({ display: true }),
-    });
-    axisConfig = Vic.axisXQuantitative({
-      tickFormat: '.0f',
-    });
+      ])
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.state)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createLabels((labels) => labels.display(true))
+      .build();
+    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .tickFormat('.0f')
+      .build();
   });
   describe('X domain is the default: 0, max value', () => {
     beforeEach(() => {
@@ -952,11 +925,8 @@ describe('it correctly sets quantitative domain - all values are positive and le
   });
   describe('roundUp domain padding - 1 sig digit', () => {
     beforeEach(() => {
-      (barsConfig.quantitative as any).domainPadding = Vic.domainPaddingRoundUp(
-        {
-          sigDigits: () => 1,
-        }
-      );
+      (barsConfig.quantitative as any).domainPadding =
+        new VicRoundUpDomainPaddingBuilder().sigDigits(() => 1).build();
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,

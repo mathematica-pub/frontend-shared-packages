@@ -2,17 +2,23 @@
 import { Component, Input } from '@angular/core';
 import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
-import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
-import { VicXOrdinalAxisModule } from '../../axes/x-ordinal/x-ordinal-axis.module';
-import { VicXQuantitativeAxisModule } from '../../axes/x-quantitative/x-quantitative-axis.module';
-import { VicYOrdinalAxisModule } from '../../axes/y-ordinal/y-ordinal-axis.module';
-import { VicYQuantitativeAxisModule } from '../../axes/y-quantitative-axis/y-quantitative-axis.module';
-import { VicChartModule } from '../../chart/chart.module';
-import { Vic } from '../../config/vic';
-import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
-import { VicBarsModule } from '../bars.module';
-import { VicBarsConfig } from '../config/bars.config';
+import {
+  VicBarsConfig,
+  VicBarsModule,
+  VicChartModule,
+  VicOrdinalAxisConfig,
+  VicQuantitativeAxisConfig,
+  VicXOrdinalAxisBuilder,
+  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisModule,
+  VicXyChartModule,
+  VicYOrdinalAxisBuilder,
+  VicYOrdinalAxisModule,
+  VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisModule,
+} from 'projects/viz-components/src/public-api';
+import { VicBarsBuilder } from '../bars-builder';
 
 type Datum = { state: string; value: number };
 
@@ -76,7 +82,7 @@ const assertPositionOfBarAndDataLabel = (
   checkPositionBeforeAndAfterWindowResize(assertionFn);
 };
 
-const assertPositionOfZeroAxisAndDataLabel = (
+const assertPositionOfTickForZeroAndDataLabel = (
   axis: 'x' | 'y',
   assertions: (tickPosition: DOMRect, labelPosition: DOMRect) => void,
   indices?: number[]
@@ -163,10 +169,10 @@ class TestVerticalBarsWithLabelsComponent {
 const mountVerticalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = Vic.axisXOrdinal();
-  const yAxisConfig = Vic.axisYQuantitative({
-    tickFormat: '.0f',
-  });
+  const xAxisConfig = new VicXOrdinalAxisBuilder().build();
+  const yAxisConfig = new VicYQuantitativeAxisBuilder()
+    .tickFormat('.0f')
+    .build();
 
   const declarations = [TestVerticalBarsWithLabelsComponent];
   const imports = [
@@ -192,26 +198,22 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   let barsConfig: VicBarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = Vic.barsVertical({
-        data: dataWithAllValueTypes,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.state,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-          domainPadding: Vic.domainPaddingPixel({
-            numPixels: -4,
-          }),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: () => '',
-          range: ['#000080'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-          offset: labelOffset,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<Datum, string>()
+        .orientation('vertical')
+        .data(dataWithAllValueTypes)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .createPixelDomainPadding((padding) => padding.numPixels(-4))
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => '').range(['#000080'])
+        )
+        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .build();
       mountVerticalBarsComponent(barsConfig);
     });
     it('centers all data labels with respect to their x-axis tick', () => {
@@ -302,7 +304,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
     describe('when the data label is for a zero or non-numeric value', () => {
       it('offsets data label above scales.y(0)', () => {
-        assertPositionOfZeroAxisAndDataLabel(
+        assertPositionOfTickForZeroAndDataLabel(
           'y',
           (tickPosition: DOMRect, labelPosition: DOMRect) => {
             distanceBetweenElementAndDataLabelIsOffset(
@@ -320,30 +322,26 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
   describe('for bar data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = Vic.barsVertical({
-        data: dataWithNegativeZeroAndNonnumericValues,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.state,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-          domainPadding: Vic.domainPaddingPixel({
-            numPixels: -4,
-          }),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: () => '',
-          range: ['#000080'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-          offset: labelOffset,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<Datum, string>()
+        .orientation('vertical')
+        .data(dataWithNegativeZeroAndNonnumericValues)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .createPixelDomainPadding((padding) => padding.numPixels(-4))
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => '').range(['#000080'])
+        )
+        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .build();
       mountVerticalBarsComponent(barsConfig);
     });
     it('offsets data label for zero and non-numerics value below scales.y(0)', () => {
-      assertPositionOfZeroAxisAndDataLabel(
+      assertPositionOfTickForZeroAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
           distanceBetweenElementAndDataLabelIsOffset(
@@ -360,30 +358,26 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = Vic.barsVertical({
-        data: dataWithPositiveZeroAndNonnumericValues,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.state,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-          domainPadding: Vic.domainPaddingPixel({
-            numPixels: -4,
-          }),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: () => '',
-          range: ['#000080'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-          offset: labelOffset,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<Datum, string>()
+        .orientation('vertical')
+        .data(dataWithPositiveZeroAndNonnumericValues)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .createPixelDomainPadding((padding) => padding.numPixels(-4))
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => '').range(['#000080'])
+        )
+        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .build();
       mountVerticalBarsComponent(barsConfig);
     });
     it('offsets data label for zero and non-numeric values above scales.y(0)', () => {
-      assertPositionOfZeroAxisAndDataLabel(
+      assertPositionOfTickForZeroAndDataLabel(
         'y',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
           distanceBetweenElementAndDataLabelIsOffset(
@@ -409,31 +403,27 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       describe('when the domain maximum is greater than 0', () => {
         beforeEach(() => {
-          barsConfig = Vic.barsVertical({
-            data: item.data,
-            ordinal: Vic.dimensionOrdinal({
-              valueAccessor: (d) => d.state,
-            }),
-            quantitative: Vic.dimensionQuantitativeNumeric({
-              valueAccessor: (d) => d.value,
-              domain: [-10, 10],
-              domainPadding: Vic.domainPaddingPixel({
-                numPixels: -4,
-              }),
-            }),
-            categorical: Vic.dimensionCategorical({
-              valueAccessor: () => '',
-              range: ['#000080'],
-            }),
-            labels: Vic.barsLabels({
-              display: true,
-              offset: labelOffset,
-            }),
-          });
+          barsConfig = new VicBarsBuilder<Datum, string>()
+            .orientation('vertical')
+            .data(item.data)
+            .createOrdinalDimension((dimension) =>
+              dimension.valueAccessor((d) => d.state)
+            )
+            .createQuantitativeDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.value)
+                .domain([-10, 10])
+                .createPixelDomainPadding((padding) => padding.numPixels(-4))
+            )
+            .createCategoricalDimension((dimension) =>
+              dimension.valueAccessor(() => '').range(['#000080'])
+            )
+            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .build();
           mountVerticalBarsComponent(barsConfig);
         });
         it('offsets data label above scales.y(0)', () => {
-          assertPositionOfZeroAxisAndDataLabel(
+          assertPositionOfTickForZeroAndDataLabel(
             'y',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
               distanceBetweenElementAndDataLabelIsOffset(
@@ -448,31 +438,27 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       });
       describe('when the domain maximum is not greater than 0', () => {
         beforeEach(() => {
-          barsConfig = Vic.barsVertical({
-            data: item.data,
-            ordinal: Vic.dimensionOrdinal({
-              valueAccessor: (d) => d.state,
-            }),
-            quantitative: Vic.dimensionQuantitativeNumeric({
-              valueAccessor: (d) => d.value,
-              domain: [-10, 0],
-              domainPadding: Vic.domainPaddingPixel({
-                numPixels: -4,
-              }),
-            }),
-            categorical: Vic.dimensionCategorical({
-              valueAccessor: () => '',
-              range: ['#000080'],
-            }),
-            labels: Vic.barsLabels({
-              display: true,
-              offset: labelOffset,
-            }),
-          });
+          barsConfig = new VicBarsBuilder<Datum, string>()
+            .orientation('vertical')
+            .data(item.data)
+            .createOrdinalDimension((dimension) =>
+              dimension.valueAccessor((d) => d.state)
+            )
+            .createQuantitativeDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.value)
+                .domain([-10, 0])
+                .createPixelDomainPadding((padding) => padding.numPixels(-4))
+            )
+            .createCategoricalDimension((dimension) =>
+              dimension.valueAccessor(() => '').range(['#000080'])
+            )
+            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .build();
           mountVerticalBarsComponent(barsConfig);
         });
         it('offsets data label below scales.y(0)', () => {
-          assertPositionOfZeroAxisAndDataLabel(
+          assertPositionOfTickForZeroAndDataLabel(
             'y',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
               distanceBetweenElementAndDataLabelIsOffset(
@@ -528,10 +514,10 @@ class TestHorizontalBarsWithLabelsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: VicBarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = Vic.axisXQuantitative({
-    tickFormat: '.0f',
-  });
-  const yAxisConfig = Vic.axisYOrdinal();
+  const xAxisConfig = new VicXQuantitativeAxisBuilder()
+    .tickFormat('.0f')
+    .build();
+  const yAxisConfig = new VicYOrdinalAxisBuilder().build();
 
   const declarations = [TestHorizontalBarsWithLabelsComponent];
   const imports = [
@@ -557,26 +543,22 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   let barsConfig: VicBarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = Vic.barsHorizontal({
-        data: dataWithAllValueTypes,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.state,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-          domainPadding: Vic.domainPaddingPixel({
-            numPixels: 4,
-          }),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: () => '',
-          range: ['#000080'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-          offset: labelOffset,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<Datum, string>()
+        .orientation('horizontal')
+        .data(dataWithAllValueTypes)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .createPixelDomainPadding((padding) => padding.numPixels(4))
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => '').range(['#000080'])
+        )
+        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
     });
     it('centers all data labels with respect to their y-axis tick', () => {
@@ -668,7 +650,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
     describe('for zero or non-numeric values', () => {
       it('offsets data label to the right of scales.x(0)', () => {
-        assertPositionOfZeroAxisAndDataLabel(
+        assertPositionOfTickForZeroAndDataLabel(
           'x',
           (tickPosition: DOMRect, labelPosition: DOMRect) => {
             distanceBetweenElementAndDataLabelIsOffset(
@@ -686,30 +668,26 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
   describe('for data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = Vic.barsHorizontal({
-        data: dataWithNegativeZeroAndNonnumericValues,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.state,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-          domainPadding: Vic.domainPaddingPixel({
-            numPixels: 4,
-          }),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: () => '',
-          range: ['#000080'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-          offset: labelOffset,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<Datum, string>()
+        .orientation('horizontal')
+        .data(dataWithNegativeZeroAndNonnumericValues)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .createPixelDomainPadding((padding) => padding.numPixels(4))
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => '').range(['#000080'])
+        )
+        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
     });
     it('offsets data label for the non-numeric value to the left of scales.x(0)', () => {
-      assertPositionOfZeroAxisAndDataLabel(
+      assertPositionOfTickForZeroAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
           distanceBetweenElementAndDataLabelIsOffset(
@@ -726,30 +704,26 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = Vic.barsHorizontal({
-        data: dataWithPositiveZeroAndNonnumericValues,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.state,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-          domainPadding: Vic.domainPaddingPixel({
-            numPixels: 4,
-          }),
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: () => '',
-          range: ['#000080'],
-        }),
-        labels: Vic.barsLabels({
-          display: true,
-          offset: labelOffset,
-        }),
-      });
+      barsConfig = new VicBarsBuilder<Datum, string>()
+        .orientation('horizontal')
+        .data(dataWithPositiveZeroAndNonnumericValues)
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .createPixelDomainPadding((padding) => padding.numPixels(4))
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => '').range(['#000080'])
+        )
+        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .build();
       mountHorizontalBarsComponent(barsConfig);
     });
     it('offsets data label for the non-numeric value to the right of scales.x(0)', () => {
-      assertPositionOfZeroAxisAndDataLabel(
+      assertPositionOfTickForZeroAndDataLabel(
         'x',
         (tickPosition: DOMRect, labelPosition: DOMRect) => {
           distanceBetweenElementAndDataLabelIsOffset(
@@ -775,31 +749,27 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       describe('when the domain maximum value is positive', () => {
         beforeEach(() => {
-          barsConfig = Vic.barsHorizontal({
-            data: item.data,
-            ordinal: Vic.dimensionOrdinal({
-              valueAccessor: (d) => d.state,
-            }),
-            quantitative: Vic.dimensionQuantitativeNumeric({
-              valueAccessor: (d) => d.value,
-              domain: [-10, 10],
-              domainPadding: Vic.domainPaddingPixel({
-                numPixels: 4,
-              }),
-            }),
-            categorical: Vic.dimensionCategorical({
-              valueAccessor: () => '',
-              range: ['#000080'],
-            }),
-            labels: Vic.barsLabels({
-              display: true,
-              offset: labelOffset,
-            }),
-          });
+          barsConfig = new VicBarsBuilder<Datum, string>()
+            .orientation('horizontal')
+            .data(item.data)
+            .createOrdinalDimension((dimension) =>
+              dimension.valueAccessor((d) => d.state)
+            )
+            .createQuantitativeDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.value)
+                .domain([-10, 10])
+                .createPixelDomainPadding((padding) => padding.numPixels(-4))
+            )
+            .createCategoricalDimension((dimension) =>
+              dimension.valueAccessor(() => '').range(['#000080'])
+            )
+            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .build();
           mountHorizontalBarsComponent(barsConfig);
         });
         it('offsets data label to the right of scales.x(0)', () => {
-          assertPositionOfZeroAxisAndDataLabel(
+          assertPositionOfTickForZeroAndDataLabel(
             'x',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
               distanceBetweenElementAndDataLabelIsOffset(
@@ -814,31 +784,27 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       });
       describe('when the domain maximum value is not greater than 0', () => {
         beforeEach(() => {
-          barsConfig = Vic.barsHorizontal({
-            data: item.data,
-            ordinal: Vic.dimensionOrdinal({
-              valueAccessor: (d) => d.state,
-            }),
-            quantitative: Vic.dimensionQuantitativeNumeric({
-              valueAccessor: (d) => d.value,
-              domain: [-10, 0],
-              domainPadding: Vic.domainPaddingPixel({
-                numPixels: 4,
-              }),
-            }),
-            categorical: Vic.dimensionCategorical({
-              valueAccessor: () => '',
-              range: ['#000080'],
-            }),
-            labels: Vic.barsLabels({
-              display: true,
-              offset: labelOffset,
-            }),
-          });
+          barsConfig = new VicBarsBuilder<Datum, string>()
+            .orientation('horizontal')
+            .data(item.data)
+            .createOrdinalDimension((dimension) =>
+              dimension.valueAccessor((d) => d.state)
+            )
+            .createQuantitativeDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.value)
+                .domain([-10, 0])
+                .createPixelDomainPadding((padding) => padding.numPixels(4))
+            )
+            .createCategoricalDimension((dimension) =>
+              dimension.valueAccessor(() => '').range(['#000080'])
+            )
+            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .build();
           mountHorizontalBarsComponent(barsConfig);
         });
         it('offsets data label to the left of scales.x(0)', () => {
-          assertPositionOfZeroAxisAndDataLabel(
+          assertPositionOfTickForZeroAndDataLabel(
             'x',
             (tickPosition: DOMRect, labelPosition: DOMRect) => {
               distanceBetweenElementAndDataLabelIsOffset(
