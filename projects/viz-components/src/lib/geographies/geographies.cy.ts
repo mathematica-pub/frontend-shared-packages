@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { ascending, extent, scaleLinear } from 'd3';
+import 'cypress-real-events';
+import { ascending, extent, mean, scaleLinear } from 'd3';
 import {
   FeatureCollection,
   GeoJsonProperties,
@@ -12,6 +13,9 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
+  EventEffect,
+  GeographiesHoverDirective,
+  GeographiesHoverEmitTooltipData,
   VicGeographiesConfig,
   VicGeographiesEventOutput,
   VicGeographiesModule,
@@ -105,6 +109,14 @@ class TestGeographiesComponent {
   tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
+  hoverEffects: EventEffect<
+    GeographiesHoverDirective<StateIncomeDatum, TestMapGeometryProperties>
+  >[] = [
+    new GeographiesHoverEmitTooltipData<
+      StateIncomeDatum,
+      TestMapGeometryProperties
+    >(),
+  ];
 
   updateTooltipForNewOutput(
     data: VicGeographiesEventOutput<StateIncomeDatum>
@@ -541,4 +553,88 @@ describe('drawing the geography labels various layers', () => {
       });
     });
   });
+});
+
+// ***********************************************************
+// Tests of tooltips
+// ***********************************************************
+const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
+  const usMap: TestUsMapTopology = json;
+  const usBoundary = topojson.feature(
+    usMap,
+    usMap.objects.country
+  ) as FeatureCollection<MultiPolygon, TestMapGeometryProperties>;
+  const states = topojson.feature(
+    usMap,
+    usMap.objects.states
+  ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
+  const geographiesConfig = Vic.geographies<
+    StateInComePopulationDatum,
+    TestMapGeometryProperties
+  >({
+    boundary: usBoundary,
+    featureIndexAccessor: (d) => d.properties.name,
+    attributeDataLayer: Vic.geographiesDataLayer<
+      StateInComePopulationDatum,
+      TestMapGeometryProperties
+    >({
+      data: attributeData,
+      geographies: states.features,
+      geographyIndexAccessor: (d) => d.state,
+      attributeDimension:
+        Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
+          valueAccessor: (d) => d.income,
+        }),
+      strokeColor: 'black',
+      strokeWidth: '1',
+    }),
+  });
+  mountGeographiesComponent(geographiesConfig);
+};
+describe('displays tooltips for correct data per hover position', () => {
+  // The "center" of some selected state elements that gets hovered is technically not within the state
+  // Excluding these exceptions from the test
+  const statesWithCenterOutsideOfPath = [
+    'District of Columbia',
+    'Florida',
+    'Hawaii',
+    'Maryland',
+    'Michigan',
+    'New Jersey',
+  ];
+  attributeData
+    .filter((d) => !statesWithCenterOutsideOfPath.includes(d.state))
+    .forEach((stateDatum) => {
+      it(`State: ${stateDatum.state}`, () => {
+        cy.fixture('usMap.json').then((response) => {
+          mountGeographiesForTooltipTests(response);
+          cy.get(
+            `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
+          ).realHover();
+          cy.get('.vic-html-tooltip-overlay').should('be.visible');
+          cy.get('.vic-html-tooltip-overlay p')
+            .eq(0)
+            .should('contain.text', stateDatum.state);
+          cy.get('.vic-html-tooltip-overlay p')
+            .eq(1)
+            .should('contain.text', `Income ${stateDatum.income}`);
+          cy.get('.vic-html-tooltip-overlay').then(($el) => {
+            const tooltipBox = $el[0].getBoundingClientRect();
+            cy.get(
+              `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
+            ).then(($el) => {
+              const stateBox = $el[0].getBoundingClientRect();
+              expect(mean([tooltipBox.left, tooltipBox.right])).to.be.closeTo(
+                mean([stateBox.left, stateBox.right]),
+                1
+              );
+              expect(tooltipBox.bottom).to.be.closeTo(
+                mean([stateBox.top, stateBox.bottom]),
+                20
+              );
+            });
+          });
+        });
+      });
+    });
 });
