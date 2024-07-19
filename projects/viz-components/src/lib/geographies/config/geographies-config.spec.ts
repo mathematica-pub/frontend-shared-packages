@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Vic } from '../../config/vic';
+import { VicGeographiesBuilder } from './geographies-builder';
 import { VicGeographiesConfig } from './geographies-config';
 import { VicGeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesLayer } from './layers/geographies-layer/geographies-layer';
@@ -23,24 +22,22 @@ const features = [
   { name: 'Colorado' },
 ];
 function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
-  return Vic.geographies({
-    attributeDataLayer: Vic.geographiesDataLayer<Datum, { name: string }, any>({
-      attributeDimension: Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-        valueAccessor: (d) => d.value,
-        numBins: 5,
-      }),
-      geographyIndexAccessor: (d) => d.state,
-      data,
-    }),
-    geojsonPropertiesLayers: [
-      Vic.geographiesNonAttributeDataLayer<FeatureProperties>({
-        geographies: features as any,
-        categorical: Vic.dimensionCategorical({
-          range: ['lime'],
-        }),
-      }),
-    ],
-  });
+  return new VicGeographiesBuilder<Datum, { name: string }>()
+    .createAttributeDataLayer((layer) =>
+      layer
+        .createEqualValueRangesBinsDimension((dimension) =>
+          dimension.valueAccessor((d) => d.value).numBins(5)
+        )
+        .geographyIndexAccessor((d) => d.state)
+        .data(data)
+    )
+    .createGeojsonPropertiesLayer((layer) =>
+      layer
+        .geographies(features as any)
+        .createCategoricalDimension((dimension) => dimension.range(['lime']))
+        .fill('lime')
+    )
+    .build();
 }
 
 describe('GeographiesConfig', () => {

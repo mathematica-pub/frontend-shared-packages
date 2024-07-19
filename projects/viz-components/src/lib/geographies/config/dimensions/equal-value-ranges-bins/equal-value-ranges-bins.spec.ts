@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../../../config/vic';
 import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
+import { VicEqualValueRangesBinsBuilder } from './equal-value-ranges-bins-builder';
 
 describe('VicEqualValuesAttributeDataDimension', () => {
   let dimension: VicEqualValueRangesAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = Vic.geographiesDataDimensionEqualValueRanges({
-      numBins: 3,
-      formatSpecifier: '.1f',
-      range: ['red', 'blue', 'yellow', 'green'],
-      domain: [0, 20],
-      valueAccessor: (d) => d,
-    });
+    dimension = new VicEqualValueRangesBinsBuilder<any>()
+      .numBins(3)
+      .formatSpecifier('.1f')
+      .range(['red', 'blue', 'yellow', 'green'])
+      .domain([0, 20])
+      .valueAccessor((d) => d)
+      .build();
   });
 
   describe('setPropertiesFromData', () => {
@@ -45,12 +45,12 @@ describe('VicEqualValuesAttributeDataDimension', () => {
       expect((dimension as any).calculatedDomain).toEqual([0, 20]);
     });
     it('sets the domain to values if there is no user provided domain', () => {
-      dimension = Vic.geographiesDataDimensionEqualValueRanges({
-        numBins: 3,
-        formatSpecifier: '.1f',
-        range: ['red', 'blue', 'yellow', 'green'],
-        valueAccessor: (d) => d,
-      });
+      dimension = new VicEqualValueRangesBinsBuilder<any>()
+        .numBins(3)
+        .formatSpecifier('.1f')
+        .range(['red', 'blue', 'yellow', 'green'])
+        .valueAccessor((d) => d)
+        .build();
       (dimension as any).setDomain([1, 2, 3, 4, 5, 6, 7, 8, 9]);
       expect((dimension as any).calculatedDomain).toEqual([1, 9]);
     });
@@ -78,13 +78,13 @@ describe('VicEqualValuesAttributeDataDimension', () => {
   describe('integration: getScale', () => {
     let scale: any;
     beforeEach(() => {
-      dimension = Vic.geographiesDataDimensionEqualValueRanges({
-        numBins: 4,
-        formatSpecifier: '.1f',
-        range: ['red', 'blue', 'yellow', 'green'],
-        valueAccessor: (d) => d,
-        nullColor: 'black',
-      });
+      dimension = new VicEqualValueRangesBinsBuilder<any>()
+        .numBins(4)
+        .formatSpecifier('.1f')
+        .range(['red', 'blue', 'yellow', 'green'])
+        .valueAccessor((d) => d)
+        .nullColor('black')
+        .build();
       dimension.setPropertiesFromData([0, 2, 4, 6, 8]);
       scale = dimension.getScale();
     });

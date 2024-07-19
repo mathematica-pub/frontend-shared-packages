@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../../../config/vic';
 import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
+import { VicCustomBreaksBuilder } from './custom-breaks-bins-builder';
 
 describe('VicCustomBreaksAttributeDataDimension', () => {
   let dimension: VicCustomBreaksAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = Vic.geographiesDataDimensionCustomBreaks({
-      breakValues: [0, 2, 5, 10, 50],
-      range: ['red', 'blue', 'yellow', 'green'],
-    });
+    dimension = new VicCustomBreaksBuilder<any>()
+      .breakValues([0, 2, 5, 10, 50])
+      .range(['red', 'blue', 'yellow', 'green'])
+      .valueAccessor((d) => d)
+      .build();
   });
 
   describe('setPropertiesFromData', () => {
@@ -63,12 +64,12 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
       { price: 7, flavor: 'strawberry', state: 'DE' },
     ];
     it('using custom break values and one color per bin provided as range', () => {
-      dimension = Vic.geographiesDataDimensionCustomBreaks<IceCream>({
-        valueAccessor: (d) => d.price,
-        breakValues: [2.5, 5, 7.5, 10, 12.5],
-        range: ['red', 'blue', 'yellow', 'green'],
-        nullColor: 'black',
-      });
+      dimension = new VicCustomBreaksBuilder<IceCream>()
+        .valueAccessor((d) => d.price)
+        .breakValues([2.5, 5, 7.5, 10, 12.5])
+        .range(['red', 'blue', 'yellow', 'green'])
+        .nullColor('black')
+        .build();
       dimension.setPropertiesFromData();
       const scale = dimension.getScale();
       expect(scale(data[0].price)).toEqual('yellow');

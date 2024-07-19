@@ -35,10 +35,12 @@ export class VicBarsBuilder<
   }
 
   createCategoricalDimension(
-    setProperties: (dimension: CategoricalDimensionBuilder<Datum>) => void
+    setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
   ): this {
     this.initCategoricalDimensionBuilder();
-    setProperties(this.categoricalDimensionBuilder);
+    if (setProperties) {
+      setProperties(this.categoricalDimensionBuilder);
+    }
     return this;
   }
 
@@ -47,7 +49,7 @@ export class VicBarsBuilder<
   }
 
   createOrdinalDimension(
-    setProperties: (
+    setProperties?: (
       dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
     ) => void
   ): this {
@@ -73,9 +75,7 @@ export class VicBarsBuilder<
     ) => void
   ): this {
     this.initQuantitativeDimensionBuilder();
-    if (setProperties) {
-      setProperties(this.quantitativeDimensionBuilder);
-    }
+    setProperties(this.quantitativeDimensionBuilder);
     return this;
   }
 
@@ -85,7 +85,7 @@ export class VicBarsBuilder<
   }
 
   createLabels(
-    setProperties: (dimension: BarsLabelsBuilder<Datum>) => void
+    setProperties?: (dimension: BarsLabelsBuilder<Datum>) => void
   ): this {
     this.labelsBuilder = new BarsLabelsBuilder<Datum>();
     if (setProperties) {

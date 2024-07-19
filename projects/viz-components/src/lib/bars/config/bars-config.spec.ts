@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../config/vic';
 import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
 import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
 import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { VicBarsBuilder } from './bars-builder';
 import { VicBarsConfig } from './bars-config';
 
 type Datum = { value: number; state: string };
@@ -15,16 +15,15 @@ const data = [
   { value: 6, state: 'CO' },
 ];
 function getNewConfig(): VicBarsConfig<Datum, string> {
-  return Vic.barsHorizontal<Datum, string>({
-    data,
-    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
-      valueAccessor: (d) => d.value,
-    }),
-    ordinal: Vic.dimensionOrdinal<Datum, string>({
-      valueAccessor: (d) => d.state,
-    }),
-    categorical: Vic.dimensionCategorical<Datum, string>({}),
-  });
+  return new VicBarsBuilder<Datum, string>()
+    .data(data)
+    .createQuantitativeDimension((dimension) =>
+      dimension.valueAccessor((d) => d.value)
+    )
+    .createOrdinalDimension((dimension) =>
+      dimension.valueAccessor((d) => d.state)
+    )
+    .build();
 }
 
 describe('BarsConfig', () => {
@@ -98,17 +97,15 @@ describe('BarsConfig', () => {
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4]);
     });
     it('sets valueIndices to the correct array when ordinal domain is limited by user', () => {
-      config = Vic.barsHorizontal({
-        data,
-        quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
-          valueAccessor: (d) => d.value,
-        }),
-        ordinal: Vic.dimensionOrdinal<Datum, string>({
-          valueAccessor: (d) => d.state,
-          domain: ['AL', 'AZ', 'CA'],
-        }),
-        categorical: Vic.dimensionCategorical<Datum, string>({}),
-      });
+      config = new VicBarsBuilder<Datum, string>()
+        .data(data)
+        .createQuantitativeDimension((dimension) =>
+          dimension.valueAccessor((d) => d.value)
+        )
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.state).domain(['AL', 'AZ', 'CA'])
+        )
+        .build();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndices();
       expect(config.valueIndices).toEqual([0, 2, 3]);

@@ -4,9 +4,7 @@ import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/c
 import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
-import { VicPointMarkers } from '../../marks/point-markers/point-markers';
 import { PointMarkersBuilder } from '../../marks/point-markers/point-markers-builder';
-import { VicStroke } from '../../marks/stroke/stroke';
 import { VicStrokeBuilder } from '../../marks/stroke/stroke-builder';
 import { VicLinesConfig } from './lines-config';
 
@@ -19,13 +17,13 @@ const DEFAULT = {
 @Injectable()
 export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   private _curve: CurveFactory;
-  private hoverDot: VicPointMarkers;
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private pointMarkers: VicPointMarkers;
-  private _stroke: VicStroke;
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
+  private hoverDotBuilder: PointMarkersBuilder;
+  private pointMarkersBuilder: PointMarkersBuilder;
+  private strokeBuilder: VicStrokeBuilder;
   private xDimensionBuilder:
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
@@ -44,10 +42,14 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   createCategoricalDimension(
     setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
   ): this {
+    this.initCatetgoricalBuilder();
+    setProperties?.(this.categoricalDimensionBuilder);
+    return this;
+  }
+
+  private initCatetgoricalBuilder(): void {
     this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
     this.categoricalDimensionBuilder.range(schemeTableau10 as string[]);
-    setProperties(this.categoricalDimensionBuilder);
-    return this;
   }
 
   /**
@@ -69,11 +71,10 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   createHoverDot(
     setProperties?: (pointMarkers: PointMarkersBuilder) => void
   ): this {
-    const pointMarkersBuilder = new PointMarkersBuilder();
-    pointMarkersBuilder.radius(4);
-    pointMarkersBuilder.display(false);
-    setProperties(pointMarkersBuilder);
-    this.hoverDot = pointMarkersBuilder.build();
+    this.hoverDotBuilder = new PointMarkersBuilder();
+    this.hoverDotBuilder.radius(4);
+    this.hoverDotBuilder.display(false);
+    setProperties?.(this.hoverDotBuilder);
     return this;
   }
 
@@ -114,9 +115,8 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   createPointMarkers(
     setProperties?: (pointMarkers: PointMarkersBuilder) => void
   ): this {
-    const pointMarkersBuilder = new PointMarkersBuilder();
-    setProperties(pointMarkersBuilder);
-    this.pointMarkers = pointMarkersBuilder.build();
+    this.pointMarkersBuilder = new PointMarkersBuilder();
+    setProperties?.(this.pointMarkersBuilder);
     return this;
   }
 
@@ -124,10 +124,13 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
    * A config for the behavior of the line stroke.
    */
   createStroke(setProperties?: (stroke: VicStrokeBuilder) => void): this {
-    const strokeBuilder = new VicStrokeBuilder();
-    setProperties(strokeBuilder);
-    this._stroke = strokeBuilder.build();
+    this.initStroke();
+    setProperties?.(this.strokeBuilder);
     return this;
+  }
+
+  private initStroke(): void {
+    this.strokeBuilder = new VicStrokeBuilder();
   }
 
   /**
@@ -165,20 +168,20 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   build(): VicLinesConfig<Datum> {
-    if (this._stroke === undefined) {
-      this._stroke = new VicStrokeBuilder().build();
+    if (this.strokeBuilder === undefined) {
+      this.initStroke();
     }
     return new VicLinesConfig({
       categorical: this.categoricalDimensionBuilder.build(),
       curve: this._curve,
       data: this._data,
-      hoverDot: this.hoverDot,
+      hoverDot: this.hoverDotBuilder?.build(),
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,
       pointerDetectionRadius: this._pointerDetectionRadius,
-      pointMarkers: this.pointMarkers,
-      stroke: this._stroke,
+      pointMarkers: this.pointMarkersBuilder?.build(),
+      stroke: this.strokeBuilder.build(),
       x: this.xDimensionBuilder.build(),
       y: this.yDimensionBuilder.build(),
     });

@@ -40,7 +40,6 @@ describe('LineChartComponent', () => {
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => null)
         )
-        .createHoverDot() // applied as a default but showing here for clarity
         .build();
     });
     it('calls setLine once', () => {
@@ -75,6 +74,17 @@ describe('LineChartComponent', () => {
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
     it('calls drawHoverDot once with the correct argument if config.pointMarkersis undefined and hoverDot is defined', () => {
+      component.config = new VicLinesBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createHoverDot()
+        .build();
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });

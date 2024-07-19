@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { it } from 'local-cypress';
-import { Vic } from '../../../../config/vic';
 import { VicEqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
+import { VicEqualFrequenciesBinsBuilder } from './equal-frequencies-bins-builder';
 
 describe('VicEqualNumObservationsBins', () => {
   let dimension: VicEqualFrequenciesAttributeDataDimension<any, string>;
   beforeEach(() => {
-    dimension = Vic.geographiesDataDimensionEqualFrequencies({
-      numBins: 4,
-      range: ['red', 'blue', 'yellow', 'green'],
-      valueAccessor: (d) => d,
-      nullColor: 'black',
-    });
+    dimension = new VicEqualFrequenciesBinsBuilder<any, string>()
+      .numBins(4)
+      .range(['red', 'blue', 'yellow', 'green'])
+      .valueAccessor((d) => d)
+      .nullColor('black')
+      .build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

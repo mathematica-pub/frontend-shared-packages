@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../../../config/vic';
 import { VicCategoricalAttributeDataDimension } from './categorical-bins';
+import { VicCategoricalBinsBuilder } from './categorical-bins-builder';
 
 describe('VicCategoricalAttributeDataDimension', () => {
   let dimension: VicCategoricalAttributeDataDimension<string>;
   beforeEach(() => {
-    dimension = Vic.geographiesDataDimensionCategorical({
-      valueAccessor: (d) => d,
-    });
+    dimension = new VicCategoricalBinsBuilder<string>()
+      .valueAccessor((d) => d)
+      .build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {
@@ -30,10 +30,10 @@ describe('VicCategoricalAttributeDataDimension', () => {
       expect((dimension as any).calculatedDomain).toEqual(['a', 'b', 'c']);
     });
     it('sets the domain to uniqued user values if specified', () => {
-      dimension = Vic.geographiesDataDimensionCategorical({
-        valueAccessor: (d) => d,
-        domain: ['c', 'd', 'b', 'a', 'd'],
-      });
+      dimension = new VicCategoricalBinsBuilder<string>()
+        .valueAccessor((d) => d)
+        .domain(['c', 'd', 'b', 'a', 'd'])
+        .build();
       dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
       expect((dimension as any).calculatedDomain).toEqual(['c', 'd', 'b', 'a']);
     });
@@ -41,10 +41,10 @@ describe('VicCategoricalAttributeDataDimension', () => {
 
   describe('setRange', () => {
     it('sets the range to the correct values/length', () => {
-      dimension = Vic.geographiesDataDimensionCategorical({
-        valueAccessor: (d) => d,
-        range: ['red', 'blue', 'green', 'yellow', 'purple'],
-      });
+      dimension = new VicCategoricalBinsBuilder<string>()
+        .valueAccessor((d) => d)
+        .range(['red', 'blue', 'green', 'yellow', 'purple'])
+        .build();
       dimension.setPropertiesFromData(['a', 'b', 'c']);
       expect(dimension.range).toEqual(['red', 'blue', 'green']);
     });
@@ -64,10 +64,10 @@ describe('VicCategoricalAttributeDataDimension', () => {
       { price: 7, flavor: 'strawberry', brand: 'regional' },
     ];
     it('using default properties', () => {
-      dimension = Vic.geographiesDataDimensionCategorical<IceCream>({
-        valueAccessor: (d) => d.flavor,
-        nullColor: 'pink',
-      });
+      dimension = new VicCategoricalBinsBuilder<IceCream>()
+        .valueAccessor((d) => d.flavor)
+        .nullColor('pink')
+        .build();
       dimension.setPropertiesFromData(data);
       const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('white');
@@ -76,11 +76,11 @@ describe('VicCategoricalAttributeDataDimension', () => {
       expect(scale('cookie dough')).toEqual('pink');
     });
     it('using user provided range', () => {
-      dimension = Vic.geographiesDataDimensionCategorical<IceCream>({
-        valueAccessor: (d) => d.flavor,
-        range: ['red', 'white', 'blue'],
-        nullColor: 'pink',
-      });
+      dimension = new VicCategoricalBinsBuilder<IceCream>()
+        .valueAccessor((d) => d.flavor)
+        .range(['red', 'white', 'blue'])
+        .nullColor('pink')
+        .build();
       dimension.setPropertiesFromData(data);
       const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('red');
@@ -89,11 +89,11 @@ describe('VicCategoricalAttributeDataDimension', () => {
       expect(scale('cookie dough')).toEqual('pink');
     });
     it('using user provided domain', () => {
-      dimension = Vic.geographiesDataDimensionCategorical<IceCream>({
-        valueAccessor: (d) => d.flavor,
-        domain: ['cookie dough', 'rocky road', 'butter pecan'],
-        nullColor: 'pink',
-      });
+      dimension = new VicCategoricalBinsBuilder<IceCream>()
+        .valueAccessor((d) => d.flavor)
+        .domain(['cookie dough', 'rocky road', 'butter pecan'])
+        .nullColor('pink')
+        .build();
       dimension.setPropertiesFromData(data);
       const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('pink');

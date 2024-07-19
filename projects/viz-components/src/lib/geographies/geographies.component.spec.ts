@@ -2,6 +2,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
+import { VicGeographiesBuilder } from './config/geographies-builder';
 import { GeographiesComponent } from './geographies.component';
 
 type Datum = { value: number; state: string };
@@ -25,28 +26,23 @@ describe('GeographiesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
-      component.config = Vic.geographies({
-        attributeDataLayer: Vic.geographiesDataLayer<
-          Datum,
-          { name: string },
-          any
-        >({
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-              valueAccessor: (d) => d.value,
-              numBins: 5,
-            }),
-          geographyIndexAccessor: (d) => d.state,
-          data: [
-            { value: 1, state: 'AL' },
-            { value: 2, state: 'AK' },
-            { value: 3, state: 'AZ' },
-            { value: 4, state: 'CA' },
-            { value: 5, state: 'CO' },
-            { value: 6, state: 'CO' },
-          ],
-        }),
-      });
+      component.config = new VicGeographiesBuilder<Datum, { name: string }>()
+        .createAttributeDataLayer((layer) =>
+          layer
+            .createEqualValueRangesBinsDimension((dimension) =>
+              dimension.valueAccessor((d) => d.value).numBins(5)
+            )
+            .geographyIndexAccessor((d) => d.state)
+            .data([
+              { value: 1, state: 'AL' },
+              { value: 2, state: 'AK' },
+              { value: 3, state: 'AZ' },
+              { value: 4, state: 'CA' },
+              { value: 5, state: 'CO' },
+              { value: 6, state: 'CO' },
+            ])
+        )
+        .build();
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
@@ -80,29 +76,26 @@ describe('GeographiesComponent', () => {
           'updateAttributeProperties'
         ),
       } as any;
-      component.config = Vic.geographies({
-        attributeDataLayer: Vic.geographiesDataLayer<
-          Datum,
-          { name: string },
-          any
-        >({
-          data: [
-            { value: 1, state: 'AL' },
-            { value: 2, state: 'AK' },
-            { value: 3, state: 'AZ' },
-            { value: 4, state: 'CA' },
-            { value: 5, state: 'CO' },
-            { value: 6, state: 'CO' },
-          ],
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualValueRanges<Datum>({
-              valueAccessor: (d) => d.value,
-              numBins: 5,
-              nullColor: 'red',
-            }),
-        }),
-      });
+      component.config = new VicGeographiesBuilder<Datum, { name: string }>()
+        .createAttributeDataLayer((layer) =>
+          layer
+            .createEqualValueRangesBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.value)
+                .numBins(5)
+                .nullColor('red')
+            )
+            .geographyIndexAccessor((d) => d.state)
+            .data([
+              { value: 1, state: 'AL' },
+              { value: 2, state: 'AK' },
+              { value: 3, state: 'AZ' },
+              { value: 4, state: 'CA' },
+              { value: 5, state: 'CO' },
+              { value: 6, state: 'CO' },
+            ])
+        )
+        .build();
       spyOn(
         component.config.attributeDataLayer.attributeDimension,
         'getScale'

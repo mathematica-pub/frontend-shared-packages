@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ValueUtilities } from '../core/utilities/values';
 import { VicCategoricalAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins/categorical-bins';
+import { VicCategoricalBinsBuilder } from '../geographies/config/dimensions/categorical-bins/categorical-bins-builder';
 import { VicCategoricalAttributeDataDimensionOptions } from '../geographies/config/dimensions/categorical-bins/categorical-bins-options';
-import { VicEqualValueRangesAttributeDataDimension } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
-import { VicEqualValueRangesAttributeDataDimensionOptions } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-options';
+import { VicEqualValueRangesBinsBuilder } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {
@@ -34,16 +34,16 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setQuantitativeValues');
     });
     it('calls setCategoricalValues once if binType is categorical', () => {
-      directive.config = new VicCategoricalAttributeDataDimension(
-        {} as VicCategoricalAttributeDataDimensionOptions<any>
-      );
+      directive.config = new VicCategoricalBinsBuilder<string>()
+        .valueAccessor((d) => d)
+        .build();
       directive.setValues();
       expect(directive.setCategoricalValues).toHaveBeenCalledTimes(1);
     });
     it('calls setQuantitativeValues once if binType is not categorical', () => {
-      directive.config = new VicEqualValueRangesAttributeDataDimension(
-        {} as VicEqualValueRangesAttributeDataDimensionOptions<any>
-      );
+      directive.config = new VicEqualValueRangesBinsBuilder<number>()
+        .valueAccessor((d) => d)
+        .build();
       directive.setValues();
       expect(directive.setQuantitativeValues).toHaveBeenCalledTimes(1);
     });
@@ -56,9 +56,10 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setQuantitativeValueSpaces');
       formatSpy = spyOn(ValueUtilities, 'd3Format').and.callThrough();
       directive.orientation = 'horizontal';
-      directive.config = new VicEqualValueRangesAttributeDataDimension({
-        formatSpecifier: '.0%',
-      } as VicEqualValueRangesAttributeDataDimensionOptions<any>);
+      directive.config = new VicEqualValueRangesBinsBuilder<number>()
+        .valueAccessor((d) => d)
+        .formatSpecifier('.0%')
+        .build();
     });
     it('calls getValuesFromScale once', () => {
       directive.setQuantitativeValues();

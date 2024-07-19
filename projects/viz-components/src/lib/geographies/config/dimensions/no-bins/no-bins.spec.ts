@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../../../config/vic';
 import { VicNoBinsAttributeDataDimension } from './no-bins';
+import { VicNoBinsBuilder } from './no-bins-builder';
 
 describe('VicNoBinsAttributeDataDimension', () => {
   let dimension: VicNoBinsAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = Vic.geographiesDataDimensionNoBins({
-      valueAccessor: (d) => d,
-    });
+    dimension = new VicNoBinsBuilder<any>().valueAccessor((d) => d).build();
   });
 
   describe('setPropertiesFromData', () => {
@@ -24,17 +22,15 @@ describe('VicNoBinsAttributeDataDimension', () => {
 
   describe('setDomain', () => {
     it('sets the domain to the users value if it exists', () => {
-      dimension = Vic.geographiesDataDimensionNoBins({
-        domain: [0, 5],
-        valueAccessor: (d) => d,
-      });
+      dimension = new VicNoBinsBuilder<any>()
+        .valueAccessor((d) => d)
+        .domain([0, 5])
+        .build();
       (dimension as any).setDomain([1, 2, 3, 4, 5, 6, 7, 8, 9]);
       expect((dimension as any).domain).toEqual([0, 5]);
     });
     it('sets the domain to values if there is no user provided domain', () => {
-      dimension = Vic.geographiesDataDimensionNoBins({
-        valueAccessor: (d) => d,
-      });
+      dimension = new VicNoBinsBuilder<any>().valueAccessor((d) => d).build();
       (dimension as any).setDomain([1, 2, 3, 4, 5, 6, 7, 8, 9]);
       expect((dimension as any).domain).toEqual([1, 9]);
     });

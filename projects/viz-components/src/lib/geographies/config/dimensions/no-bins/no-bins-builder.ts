@@ -18,11 +18,20 @@ export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
   Datum,
   number
 > {
+  private _domain: [number, number];
   private _formatSpecifier: string;
 
   constructor() {
     super();
     Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * The domain of the scale.
+   */
+  domain(domain: [number, number]): this {
+    this._domain = domain;
+    return this;
   }
 
   /**
@@ -35,6 +44,7 @@ export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
 
   build(): VicNoBinsAttributeDataDimension<Datum> {
     return new VicNoBinsAttributeDataDimension({
+      domain: this._domain,
       fillPatterns: this._fillPatterns,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,

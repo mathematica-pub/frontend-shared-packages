@@ -1,27 +1,9 @@
-import {
-  InternMap,
-  Series,
-  extent,
-  range,
-  rollup,
-  schemeTableau10,
-  stack,
-  stackOffsetDiverging,
-  stackOrderNone,
-} from 'd3';
+import { InternMap, Series, extent, range, rollup, stack } from 'd3';
 import { VicBarsConfig } from '../../bars/config/bars-config';
 import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
 import { VicDataValue } from '../../core/types/values';
 import { VicStackDatum } from '../stacked-bars.component';
 import { VicStackedBarsOptions } from './stacked-bars-options';
-
-const DEFAULT = {
-  stackOrder: stackOrderNone,
-  stackOffset: stackOffsetDiverging,
-  categorical: {
-    range: schemeTableau10 as string[],
-  },
-};
 
 export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   extends VicBarsConfig<Datum, TOrdinalValue>
@@ -41,14 +23,11 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
     options: VicStackedBarsOptions<Datum, TOrdinalValue>
   ) {
     super(dimensions, options);
-    this.stackOffset = this.stackOffset ?? DEFAULT.stackOffset;
-    this.stackOrder = this.stackOrder ?? DEFAULT.stackOrder;
-    this.initPropertiesFromData();
   }
 
   override initPropertiesFromData(): void {
     // parent class will call this method during this class's super call
-    // if statement ensure that this prevent this method is only called at the end of this class's constructor
+    // if statement ensures that code in this method is only called at the end of this class's constructor
     if (this.stackOffset !== undefined && this.stackOrder !== undefined) {
       this.setDimensionPropertiesFromData();
       this.setValueIndices();

@@ -1,6 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { CategoricalDimensionBuilder } from 'projects/viz-components/src/lib/data-dimensions/categorical/categorical-builder';
-import { VicDimensionCategorical } from '../../../../data-dimensions/categorical/categorical';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { VicGeographiesLabels } from '../labels/geographies-labels';
@@ -16,10 +15,6 @@ export class VicGeographiesGeojsonPropertiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
-  private categorical: VicDimensionCategorical<
-    VicGeographiesFeature<TProperties, TGeometry>,
-    string
-  >;
   private categoricalBuilder: CategoricalDimensionBuilder<
     VicGeographiesFeature<TProperties, TGeometry>,
     string
@@ -37,31 +32,47 @@ export class VicGeographiesGeojsonPropertiesLayerBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  /**
+   * Set a fill color for all geographies in the layer.
+   *
+   * To set a fill color based on a geography's geojson properties, use the `createCategoricalDimension` method.
+   *
+   * @default 'none'
+   */
   fill(fill: string): this {
     this._fill = fill;
     return this;
   }
 
   createCategoricalDimension(
-    callback: (
+    setProperties: (
       builder: CategoricalDimensionBuilder<
         VicGeographiesFeature<TProperties, TGeometry>,
         string
       >
     ) => void
   ): this {
-    this.categoricalBuilder = new CategoricalDimensionBuilder();
-    callback(this.categoricalBuilder);
+    this.initCategricalBuilder();
+    if (setProperties) {
+      setProperties(this.categoricalBuilder);
+    }
+    setProperties(this.categoricalBuilder);
     return this;
   }
 
+  private initCategricalBuilder(): void {
+    this.categoricalBuilder = new CategoricalDimensionBuilder();
+  }
+
   createLabels(
-    callback: (
+    setProperties: (
       builder: VicGeographiesLabelsBuilder<string, TProperties, TGeometry>
     ) => void
   ): this {
     this.labelsBuilder = new VicGeographiesLabelsBuilder();
-    callback(this.labelsBuilder);
+    if (setProperties) {
+      setProperties(this.labelsBuilder);
+    }
     this._labels = this.labelsBuilder.build();
     return this;
   }
