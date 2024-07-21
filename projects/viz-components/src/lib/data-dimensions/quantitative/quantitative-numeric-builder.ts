@@ -149,7 +149,7 @@ export class QuantitativeNumericDimensionBuilder<
     });
   }
 
-  protected validateBuilder(): void {
+  private validateBuilder(): void {
     if (!this._valueAccessor) {
       throw new Error(
         'Quantitative Numeric Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'

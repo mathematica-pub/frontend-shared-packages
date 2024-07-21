@@ -304,7 +304,7 @@ describe('HtmlTooltipDirective', () => {
     it('calls updateVisibility once', () => {
       changesSpy.and.returnValues(false, false, false, false);
       directive.updateForConfigChanges('changes' as any);
-      expect(directive.updateVisibility).toHaveBeenCalledTimes;
+      expect(directive.updateVisibility).toHaveBeenCalledTimes(1);
     });
   });
 

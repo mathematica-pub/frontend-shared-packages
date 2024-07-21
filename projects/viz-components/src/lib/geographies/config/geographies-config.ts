@@ -61,9 +61,6 @@ export class GeographiesConfig<
   }
 
   private setLayers(): void {
-    if (!this.attributeDataLayer && !this.geojsonPropertiesLayers) {
-      console.error('Geographies config requires at least one layer');
-    }
     this.layers = [];
     if (this.attributeDataLayer) {
       this.layers.push(this.attributeDataLayer);

@@ -159,16 +159,29 @@ export class VicGeographiesBuilder<
    * REQUIRED. Builds the GeographiesConfig object.
    */
   build(): GeographiesConfig<Datum, TProperties, TGeometry> {
+    this.validateBuilder();
     return new GeographiesConfig<Datum, TProperties, TGeometry>({
       attributeDataLayer: this.attributeDataBuilder._build(),
       boundary: this._boundary,
       data: null,
       mixBlendMode: this._mixBlendMode,
       featureIndexAccessor: this._featureIndexAccessor,
-      geojsonPropertiesLayers: this.geojsonBuilders.map((builder) =>
-        builder._build()
-      ),
+      geojsonPropertiesLayers: this.geojsonBuilders.length
+        ? this.geojsonBuilders.map((builder) => builder._build())
+        : undefined,
       projection: this._projection,
     });
+  }
+
+  private validateBuilder(): void {
+    if (!this._boundary) {
+      throw new Error('Boundary is required');
+    }
+    if (!this._featureIndexAccessor) {
+      throw new Error('Feature index accessor is required');
+    }
+    if (!this.attributeDataBuilder && !this.geojsonBuilders.length) {
+      throw new Error('At least one layer is required');
+    }
   }
 }

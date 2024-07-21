@@ -103,7 +103,7 @@ export class VicHtmlTooltipBuilder {
     });
   }
 
-  validateBuilder(): void {
+  private validateBuilder(): void {
     if (!this.sizeBuilder) {
       this.initSizeBuilder();
     }
@@ -112,7 +112,7 @@ export class VicHtmlTooltipBuilder {
     }
   }
 
-  getPanelClasses(): string[] {
+  private getPanelClasses(): string[] {
     const userClasses = this._panelClass ? [this._panelClass].flat() : [];
     const panelClasses = ['vic-html-tooltip-overlay', ...userClasses].flat();
     if (this._applyEventsDisabledClass) {

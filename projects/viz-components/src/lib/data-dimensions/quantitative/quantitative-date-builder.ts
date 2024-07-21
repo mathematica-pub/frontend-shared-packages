@@ -73,7 +73,7 @@ export class QuantitativeDateDimensionBuilder<
     });
   }
 
-  protected validateBuilder(): void {
+  private validateBuilder(): void {
     if (!this._valueAccessor) {
       throw new Error(
         'Quantitative Date Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'

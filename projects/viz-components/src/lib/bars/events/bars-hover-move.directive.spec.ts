@@ -1,9 +1,9 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
+import { BarsComponentStub } from '../../testing/stubs/bars.component.stub';
+import { BARS, BarsComponent } from '../bars.component';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
-import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsHoverMoveDirective', () => {
   let directive: BarsHoverMoveDirective<

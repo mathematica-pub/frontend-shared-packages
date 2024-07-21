@@ -118,6 +118,7 @@ export class GeographiesAttributeDataLayerBuilder<
   }
 
   _build(): GeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
+    this.validateBuilder();
     return new GeographiesAttributeDataLayer({
       attributeDimension: this.binsBuilder._build(),
       class: this._class,
@@ -125,9 +126,21 @@ export class GeographiesAttributeDataLayerBuilder<
       enableEffects: this._enableEffects,
       geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
-      labels: this.labelsBuilder._build(),
+      labels: this.labelsBuilder?._build(),
       strokeColor: this._strokeColor,
       strokeWidth: this._strokeWidth,
     });
+  }
+
+  private validateBuilder(): void {
+    if (!this._data) {
+      throw new Error('Data must be provided');
+    }
+    if (!this._geographyIndexAccessor) {
+      throw new Error('Geography index accessor must be provided');
+    }
+    if (!this.binsBuilder) {
+      throw new Error('Bins builder must be provided');
+    }
   }
 }

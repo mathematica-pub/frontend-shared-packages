@@ -1,8 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
-import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
+import { BarsComponentStub } from '../../testing/stubs/bars.component.stub';
+import { BARS, BarsComponent } from '../bars.component';
 import { BarsInputEventDirective } from './bars-input-event.directive';
-import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsInputDirective', () => {
   let directive: BarsInputEventDirective<

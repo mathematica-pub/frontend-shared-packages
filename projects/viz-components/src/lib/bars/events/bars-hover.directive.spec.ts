@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { HoverDirective } from '../events/hover.directive';
-import { BarsComponentStub } from '../testing/stubs/bars.component.stub';
-import { HoverDirectiveStub } from '../testing/stubs/hover.directive.stub';
+import { HoverDirective } from '../../events/hover.directive';
+import { BarsComponentStub } from '../../testing/stubs/bars.component.stub';
+import { HoverDirectiveStub } from '../../testing/stubs/hover.directive.stub';
+import { BARS, BarsComponent } from '../bars.component';
 import { BarsHoverDirective } from './bars-hover.directive';
-import { BARS, BarsComponent } from './bars.component';
 
 describe('BarsHoverDirective', () => {
   let directive: BarsHoverDirective<any, string, BarsComponent<any, string>>;

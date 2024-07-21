@@ -27,6 +27,8 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
       component.config = new VicGeographiesBuilder<Datum, { name: string }>()
+        .boundary('boundary' as any)
+        .featureIndexAccessor((d) => d.properties.name)
         .createAttributeDataLayer((layer) =>
           layer
             .createEqualValueRangesBinsDimension((dimension) =>
@@ -77,6 +79,8 @@ describe('GeographiesComponent', () => {
         ),
       } as any;
       component.config = new VicGeographiesBuilder<Datum, { name: string }>()
+        .boundary('boundary' as any)
+        .featureIndexAccessor((d) => d.properties.name)
         .createAttributeDataLayer((layer) =>
           layer
             .createEqualValueRangesBinsDimension((dimension) =>

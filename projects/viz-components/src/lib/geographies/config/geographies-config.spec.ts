@@ -22,6 +22,8 @@ const features = [
 ];
 function createConfig(): GeographiesConfig<Datum, { name: string }, any> {
   return new VicGeographiesBuilder<Datum, { name: string }>()
+    .boundary('boundary' as any)
+    .featureIndexAccessor((d) => d.properties.name)
     .createAttributeDataLayer((layer) =>
       layer
         .createEqualValueRangesBinsDimension((dimension) =>
