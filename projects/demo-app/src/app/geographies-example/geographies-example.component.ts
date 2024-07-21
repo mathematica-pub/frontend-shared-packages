@@ -5,13 +5,13 @@ import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layou
 import { ColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
 import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { BinStrategy } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-enums';
 import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
 import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
+import { BinStrategy } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
 import { GeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder';
 import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
+import { GeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/events/geographies-event-output';
 import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
-import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
   GeographiesClickDirective,
@@ -68,8 +68,8 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
+  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
+    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverEffects: EventEffect<
     GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
@@ -406,19 +406,19 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicGeographiesEventOutput<StateIncomeDatum>,
+    data: GeographiesEventOutput<StateIncomeDatum>,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
+  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: VicGeographiesEventOutput<StateIncomeDatum>,
+    data: GeographiesEventOutput<StateIncomeDatum>,
     eventContext: 'hover' | 'click'
   ): void {
     const config = this.tooltip

@@ -7,17 +7,17 @@ import {
   isPrimitiveType,
 } from '../../../../core/utilities/type-guards';
 import { ValueUtilities } from '../../../../core/utilities/values';
+import { GeographiesTooltipOutput } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
-import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
-import { BinStrategy } from '../../dimensions/attribute-data-bin-enums';
-import { CategoricalBinsAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
-import { CustomBreaksBinsAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
-import { EqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
-import { VicEqualValueRangesAttributeDataDimension } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
-import { NoBinsAttributeDataDimension } from '../../dimensions/no-bins/no-bins';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
 import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
+import { BinStrategy } from './dimensions/attribute-data-bin-enums';
+import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
+import { CustomBreaksBinsAttributeDataDimension } from './dimensions/custom-breaks/custom-breaks-bins';
+import { EqualFrequenciesAttributeDataDimension } from './dimensions/equal-frequencies-bins/equal-frequencies-bins';
+import { VicEqualValueRangesAttributeDataDimension } from './dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
+import { NoBinsAttributeDataDimension } from './dimensions/no-bins/no-bins';
 
 const DEFAULT = {
   _nullColor: '#dcdcdc',
@@ -155,7 +155,7 @@ export class GeographiesAttributeDataLayer<
     return fontProperty;
   }
 
-  getTooltipData(path: SVGPathElement): VicGeographiesTooltipOutput<Datum> {
+  getTooltipData(path: SVGPathElement): GeographiesTooltipOutput<Datum> {
     const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
@@ -163,7 +163,7 @@ export class GeographiesAttributeDataLayer<
     const featureIndex = this.featureIndexAccessor(feature);
     const datum = this.datumsByGeographyIndex.get(featureIndex);
     const value = this.attributeValuesByGeographyIndex.get(featureIndex);
-    const tooltipData: VicGeographiesTooltipOutput<Datum> = {
+    const tooltipData: GeographiesTooltipOutput<Datum> = {
       datum,
       geography: this.geographyIndexAccessor(datum),
       attributeValue: this.attributeDimension.formatFunction

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ValueUtilities } from '../core/utilities/values';
-import { CategoricalBinsAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins/categorical-bins';
-import { CategoricalBinsBuilder } from '../geographies/config/dimensions/categorical-bins/categorical-bins-builder';
-import { CategoricalBinsOptions } from '../geographies/config/dimensions/categorical-bins/categorical-bins-options';
-import { VicEqualValueRangesBinsBuilder } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
+import { CategoricalBinsAttributeDataDimension } from '../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins';
+import { CategoricalBinsBuilder } from '../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-builder';
+import { CategoricalBinsOptions } from '../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-options';
+import { VicEqualValueRangesBinsBuilder } from '../geographies/config/layers/attribute-data-layer/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {

@@ -3,13 +3,13 @@ import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
+import { VicStackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
   HtmlTooltipConfig,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
   VicStackedAreaBuilder,
-  VicStackedAreaEventOutput,
   VicXQuantitativeAxisBuilder,
   VicYQuantitativeAxisBuilder,
 } from 'projects/viz-components/src/public-api';

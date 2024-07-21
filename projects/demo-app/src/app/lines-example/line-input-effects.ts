@@ -1,6 +1,6 @@
 import { InputEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { LinesMarkerDatum } from 'projects/viz-components/src/lib/lines/config/lines-config';
-import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/lines-input-event.directive';
+import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/events/lines-input-event.directive';
 import {
   LinesComponent,
   LinesGroupSelectionDatum,

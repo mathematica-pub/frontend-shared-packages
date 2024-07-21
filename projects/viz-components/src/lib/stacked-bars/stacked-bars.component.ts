@@ -10,7 +10,7 @@ import { DataValue } from '../core/types/values';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { StackedBarsConfig } from './config/stacked-bars-config';
 
-export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
+export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
   i: number;
 };
 
@@ -75,7 +75,7 @@ export class StackedBarsComponent<
       ) as any;
   }
 
-  getStackElementX(datum: VicStackDatum): number {
+  getStackElementX(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       return this.scales.x(
         this.config[this.config.dimensions.x].values[datum.i]
@@ -85,7 +85,7 @@ export class StackedBarsComponent<
     }
   }
 
-  getStackElementY(datum: VicStackDatum): number {
+  getStackElementY(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       return Math.min(this.scales.y(datum[0]), this.scales.y(datum[1]));
     } else {
@@ -95,7 +95,7 @@ export class StackedBarsComponent<
     }
   }
 
-  getStackElementWidth(datum: VicStackDatum): number {
+  getStackElementWidth(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.x as any).bandwidth();
@@ -104,7 +104,7 @@ export class StackedBarsComponent<
     }
   }
 
-  getStackElementHeight(datum: VicStackDatum): number {
+  getStackElementHeight(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       return Math.abs(this.scales.y(datum[0]) - this.scales.y(datum[1]));
     } else {

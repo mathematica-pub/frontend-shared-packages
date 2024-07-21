@@ -8,7 +8,7 @@ import {
   inject,
 } from '@angular/core';
 import { Orientation, Side } from '../core/types/layout';
-import { BinStrategy } from '../geographies/config/dimensions/attribute-data-bin-enums';
+import { BinStrategy } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
 import { MapChartComponent } from '../map-chart/map-chart.component';
 
 export enum VicLegendType {

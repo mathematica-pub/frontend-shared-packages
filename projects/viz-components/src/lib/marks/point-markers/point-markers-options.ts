@@ -1,4 +1,4 @@
-export interface VicPointMarkersOptions {
+export interface PointMarkersOptions {
   display: boolean;
   class: string;
   growByOnHover: number;

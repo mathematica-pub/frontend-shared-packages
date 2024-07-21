@@ -1,12 +1,12 @@
-import { VicPointMarkersOptions } from './point-markers-options';
+import { PointMarkersOptions } from './point-markers-options';
 
-export class VicPointMarkers implements VicPointMarkersOptions {
+export class VicPointMarkers implements PointMarkersOptions {
   readonly display: boolean;
   readonly class: string;
   readonly growByOnHover: number;
   readonly radius: number;
 
-  constructor(options: VicPointMarkersOptions) {
+  constructor(options: PointMarkersOptions) {
     Object.assign(this, options);
   }
 }

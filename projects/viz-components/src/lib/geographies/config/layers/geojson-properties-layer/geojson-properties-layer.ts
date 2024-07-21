@@ -7,8 +7,8 @@ import {
   isPrimitiveType,
 } from '../../../../core/utilities/type-guards';
 import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
+import { GeographiesTooltipOutput } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
-import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
 import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
@@ -86,13 +86,13 @@ export class GeographiesGeojsonPropertiesLayer<
     return fontProperty;
   }
 
-  getTooltipData(path: SVGPathElement): VicGeographiesTooltipOutput<undefined> {
+  getTooltipData(path: SVGPathElement): GeographiesTooltipOutput<undefined> {
     const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
     >;
     const featureIndex = this.featureIndexAccessor(feature);
-    const tooltipData: VicGeographiesTooltipOutput<undefined> = {
+    const tooltipData: GeographiesTooltipOutput<undefined> = {
       datum: undefined,
       geography: featureIndex,
       attributeValue: undefined,

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
-import { BinStrategy } from '../../geographies/config/dimensions/attribute-data-bin-enums';
-import { CategoricalBinsAttributeDataDimension } from '../../geographies/config/dimensions/categorical-bins/categorical-bins';
-import { CategoricalBinsOptions } from '../../geographies/config/dimensions/categorical-bins/categorical-bins-options';
+import { BinStrategy } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
+import { CategoricalBinsAttributeDataDimension } from '../../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins';
+import { CategoricalBinsOptions } from '../../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-options';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {

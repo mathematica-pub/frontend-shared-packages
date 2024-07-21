@@ -1,9 +1,9 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
 import { Orientation, Side } from '../core/types/layout';
 import { ValueUtilities } from '../core/utilities/values';
-import { BinStrategy } from '../geographies/config/dimensions/attribute-data-bin-enums';
-import { VicAttributeDataDimensionConfig } from '../geographies/config/dimensions/attribute-data-bin-types';
-import { CalculatedBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins/calculated-bins';
+import { BinStrategy } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
+import { VicAttributeDataDimensionConfig } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
+import { CalculatedBinsAttributeDataDimension } from '../geographies/config/layers/attribute-data-layer/dimensions/calculated-bins/calculated-bins';
 
 @Directive()
 export abstract class MapLegend<

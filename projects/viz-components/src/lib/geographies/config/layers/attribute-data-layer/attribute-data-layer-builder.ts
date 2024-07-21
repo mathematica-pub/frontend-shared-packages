@@ -1,12 +1,12 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { CategoricalBinsBuilder } from '../../dimensions/categorical-bins/categorical-bins-builder';
-import { CustomBreaksBinsAttributeDataDimensionBuilder } from '../../dimensions/custom-breaks/custom-breaks-bins-builder';
-import { EqualFrequenciesAttributeDataDimensionBuilder } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins-builder';
-import { VicEqualValueRangesBinsBuilder } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
-import { NoBinsAttributeDataDimensionBuilder } from '../../dimensions/no-bins/no-bins-builder';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
+import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';
+import { CustomBreaksBinsAttributeDataDimensionBuilder } from './dimensions/custom-breaks/custom-breaks-bins-builder';
+import { EqualFrequenciesAttributeDataDimensionBuilder } from './dimensions/equal-frequencies-bins/equal-frequencies-bins-builder';
+import { VicEqualValueRangesBinsBuilder } from './dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
+import { NoBinsAttributeDataDimensionBuilder } from './dimensions/no-bins/no-bins-builder';
 
 const DEFAULT = {
   _enableEffects: true,

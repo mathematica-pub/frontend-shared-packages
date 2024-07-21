@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Orientation } from '../../core/types/layout';
-import { BinStrategy } from '../../geographies/config/dimensions/attribute-data-bin-enums';
-import { VicAttributeDataDimensionConfig } from '../../geographies/config/dimensions/attribute-data-bin-types';
-import { NoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
+import { BinStrategy } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
+import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
+import { NoBinsAttributeDataDimension } from '../../geographies/config/layers/attribute-data-layer/dimensions/no-bins/no-bins';
 import { MapLegend } from '../map-legend-base';
 
 type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<

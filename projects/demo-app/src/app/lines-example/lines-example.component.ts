@@ -13,20 +13,19 @@ import {
   HoverMoveEventEffect,
 } from 'projects/viz-components/src/lib/events/effect';
 import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-config';
-import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
+import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/events/lines-event-output';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
   HtmlTooltipConfig,
   LinesClickDirective,
   LinesClickEmitTooltipDataPauseHoverMoveEffects,
   LinesHoverMoveDefaultStyles,
-  LinesHoverMoveDefaultStylesConfig,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
   VicColumnConfig,
+  VicDataExport,
   VicDataExportConfig,
-  VicExportDataService,
-  VicImageService,
+  VicImageDownload,
   VicJpegImageConfig,
   VicLinesBuilder,
   VicXQuantitativeAxisBuilder,
@@ -68,8 +67,8 @@ export class LinesExampleComponent implements OnInit {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>>(null);
+  tooltipData: BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
@@ -79,11 +78,7 @@ export class LinesExampleComponent implements OnInit {
   hoverEffects: HoverMoveEventEffect<
     LinesHoverMoveDirective<MetroUnemploymentDatum>
   >[] = [
-    new LinesHoverMoveDefaultStyles(
-      new LinesHoverMoveDefaultStylesConfig({
-        growMarkerDimension: 3,
-      })
-    ),
+    new LinesHoverMoveDefaultStyles(),
     new LinesHoverMoveEmitTooltipData(),
   ];
   clickEffects: EventEffect<LinesClickDirective<MetroUnemploymentDatum>>[] = [
@@ -96,10 +91,10 @@ export class LinesExampleComponent implements OnInit {
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
 
-  private imageService = inject(VicImageService);
+  private imageService = inject(VicImageDownload);
   constructor(
     private dataService: DataService,
-    public downloadService: VicExportDataService,
+    public downloadService: VicDataExport,
     public lines: VicLinesBuilder<MetroUnemploymentDatum>,
     private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
     private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>,
@@ -131,7 +126,7 @@ export class LinesExampleComponent implements OnInit {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.division)
       )
-      .createPointMarkers((markers) => markers.radius(2))
+      .createPointMarkers((markers) => markers.radius(2).growByOnHover(3))
       .build();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
@@ -144,14 +139,14 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicLinesEventOutput<MetroUnemploymentDatum>,
+    data: LinesEventOutput<MetroUnemploymentDatum>,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(tooltipEvent);
   }
 
-  updateTooltipData(data: VicLinesEventOutput<MetroUnemploymentDatum>): void {
+  updateTooltipData(data: LinesEventOutput<MetroUnemploymentDatum>): void {
     this.tooltipData.next(data);
   }
 

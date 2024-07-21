@@ -2,7 +2,7 @@ import { InternMap, Series, extent, range, rollup, stack } from 'd3';
 import { BarsConfig } from '../../bars/config/bars-config';
 import { BarsDimensions } from '../../bars/config/bars-dimensions';
 import { DataValue } from '../../core/types/values';
-import { VicStackDatum } from '../stacked-bars.component';
+import { StackDatum } from '../stacked-bars.component';
 import { StackedBarsOptions } from './stacked-bars-options';
 
 export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
@@ -16,7 +16,7 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
   ) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   stackOrder: (x: any) => any;
-  stackedData: VicStackDatum[][];
+  stackedData: StackDatum[][];
 
   constructor(
     dimensions: BarsDimensions,
@@ -67,7 +67,7 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
         Object.assign(d, {
           i: d.data[1].get(series.key),
         });
-        return d as unknown as VicStackDatum;
+        return d as unknown as StackDatum;
       })
     );
   }
