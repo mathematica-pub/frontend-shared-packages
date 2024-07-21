@@ -1,8 +1,8 @@
 import type * as CSSType from 'csstype';
 import { GeoPath, GeoProjection, ScaleLinear } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicPosition } from '../../../../core/types/layout';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { Position } from '../../../../core/types/layout';
+import { GeographiesFeature } from '../../../geographies-feature';
 
 /**
  * Configuration object for displaying labels on map.
@@ -33,12 +33,12 @@ export interface GeographiesLabelsOptions<
     | CSSType.Property.FontWeight;
   pointerEvents: CSSType.Property.PointerEvents;
   position: (
-    d: VicGeographiesFeature<TProperties, TGeometry>,
+    d: GeographiesFeature<TProperties, TGeometry>,
     path: GeoPath,
     projection: GeoProjection
-  ) => VicPosition;
+  ) => Position;
   textAnchor: CSSType.Property.TextAnchor;
   valueAccessor: (
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ) => string;
 }

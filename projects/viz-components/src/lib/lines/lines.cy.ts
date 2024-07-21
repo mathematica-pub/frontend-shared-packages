@@ -3,23 +3,24 @@ import { curveBasis, schemeTableau10 } from 'd3';
 import { cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
-  LinesConfig,
   VicChartModule,
   VicLinesBuilder,
   VicLinesModule,
-  VicQuantitativeAxisConfig,
   VicXQuantitativeAxisBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
   VicYQuantitativeAxisBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
+import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
+import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import {
   QdQnCData,
   QdQnCDatum,
   QnQnCData,
   QnQnCDatum,
 } from '../testing/data/quant-quant-cat-data';
+import { LinesConfig } from './config/lines-config';
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
@@ -59,8 +60,8 @@ const numericData = QnQnCData;
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<QuantAxisType>;
+  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;

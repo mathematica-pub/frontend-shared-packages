@@ -7,7 +7,7 @@ describe('VicDimensionCategorical', () => {
   beforeEach(() => {
     dimension = new CategoricalDimensionBuilder<string>()
       .valueAccessor((d) => d)
-      .build();
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

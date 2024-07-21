@@ -8,7 +8,7 @@ import {
   GeoProjection,
 } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicGeographiesFeature } from '../geographies-feature';
+import { GeographiesFeature } from '../geographies-feature';
 import { GeographiesConfig } from './geographies-config';
 import { GeographiesAttributeDataLayerBuilder } from './layers/attribute-data-layer/attribute-data-layer-builder';
 import { GeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
@@ -39,7 +39,7 @@ export class VicGeographiesBuilder<
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   private _featureIndexAccessor: (
-    d: VicGeographiesFeature<TProperties, TGeometry>
+    d: GeographiesFeature<TProperties, TGeometry>
   ) => string;
   private _mixBlendMode: string;
   private _projection: GeoProjection;
@@ -77,7 +77,7 @@ export class VicGeographiesBuilder<
    * REQUIRED. Sets a function that derives an identifying string from the GeoJson feature.
    */
   featureIndexAccessor(
-    accessor: (d: VicGeographiesFeature<TProperties, TGeometry>) => string
+    accessor: (d: GeographiesFeature<TProperties, TGeometry>) => string
   ): this {
     this._featureIndexAccessor = accessor;
     return this;
@@ -160,13 +160,13 @@ export class VicGeographiesBuilder<
    */
   build(): GeographiesConfig<Datum, TProperties, TGeometry> {
     return new GeographiesConfig<Datum, TProperties, TGeometry>({
-      attributeDataLayer: this.attributeDataBuilder.build(),
+      attributeDataLayer: this.attributeDataBuilder._build(),
       boundary: this._boundary,
       data: null,
       mixBlendMode: this._mixBlendMode,
       featureIndexAccessor: this._featureIndexAccessor,
       geojsonPropertiesLayers: this.geojsonBuilders.map((builder) =>
-        builder.build()
+        builder._build()
       ),
       projection: this._projection,
     });

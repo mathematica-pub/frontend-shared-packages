@@ -33,7 +33,7 @@ export class HtmlTooltipOffsetFromOriginPositionBuilder {
     return this;
   }
 
-  build(): HtmlTooltipOffsetFromOriginPosition {
+  _build(): HtmlTooltipOffsetFromOriginPosition {
     return new HtmlTooltipOffsetFromOriginPosition({
       offsetX: this._offsetX,
       offsetY: this._offsetY,

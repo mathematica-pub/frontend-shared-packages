@@ -9,7 +9,7 @@ import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
 import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
-import { VicGeographiesFeature } from './geographies-feature';
+import { GeographiesFeature } from './geographies-feature';
 import {
   VicGeographiesEventOutput,
   VicGeographiesTooltipOutput,
@@ -75,7 +75,7 @@ export class GeographiesHoverDirective<
       layerIndex === 0
         ? this.geographies.config.attributeDataLayer
         : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
-    const d = select(this.path).datum() as VicGeographiesFeature<
+    const d = select(this.path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
     >;

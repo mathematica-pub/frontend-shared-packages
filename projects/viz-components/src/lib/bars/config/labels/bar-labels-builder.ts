@@ -71,7 +71,7 @@ export class BarsLabelsBuilder<Datum> {
    * @internal
    * This function is for internal use only and should never be called by the user.
    */
-  build(): BarsLabels<Datum> {
+  _build(): BarsLabels<Datum> {
     return new BarsLabels({
       color: this._color,
       display: this._display,

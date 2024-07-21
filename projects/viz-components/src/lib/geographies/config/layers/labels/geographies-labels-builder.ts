@@ -9,8 +9,8 @@ import {
 } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import polylabel from 'polylabel';
-import { VicPosition } from '../../../../core/types/layout';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { Position } from '../../../../core/types/layout';
+import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabels } from './geographies-labels';
 
 const DEFAULT = {
@@ -50,13 +50,13 @@ export class GeographiesLabelsBuilder<
   private _fontScale: ScaleLinear<number, number, never>;
   private _pointerEvents: CSSType.Property.PointerEvents;
   private _position: (
-    d: VicGeographiesFeature<TProperties, TGeometry>,
+    d: GeographiesFeature<TProperties, TGeometry>,
     path: GeoPath,
     projection?: GeoProjection
-  ) => VicPosition;
+  ) => Position;
   private _textAnchor: CSSType.Property.TextAnchor;
   private _valueAccessor: (
-    featureIndex: VicGeographiesFeature<TProperties, TGeometry>
+    featureIndex: GeographiesFeature<TProperties, TGeometry>
   ) => string;
 
   constructor() {
@@ -150,10 +150,10 @@ export class GeographiesLabelsBuilder<
    */
   position(
     position: (
-      d: VicGeographiesFeature<TProperties, TGeometry>,
+      d: GeographiesFeature<TProperties, TGeometry>,
       path: GeoPath,
       projection: GeoProjection
-    ) => VicPosition
+    ) => Position
   ): this {
     this._position = position;
     return this;
@@ -172,14 +172,14 @@ export class GeographiesLabelsBuilder<
    */
   valueAccessor(
     valueAccessor: (
-      featureIndex: VicGeographiesFeature<TProperties, TGeometry>
+      featureIndex: GeographiesFeature<TProperties, TGeometry>
     ) => string
   ): this {
     this._valueAccessor = valueAccessor;
     return this;
   }
 
-  build(): GeographiesLabels<Datum, TProperties, TGeometry> {
+  _build(): GeographiesLabels<Datum, TProperties, TGeometry> {
     return new GeographiesLabels<Datum, TProperties, TGeometry>({
       alignmentBaseline: this._alignmentBaseline,
       color: this._color,
@@ -199,9 +199,9 @@ export class GeographiesLabelsBuilder<
    * A function to position something at the centroid of a feature.
    */
   positionAtCentroid<TProperties, TGeometry extends Geometry>(
-    feature: VicGeographiesFeature<TProperties, TGeometry>,
+    feature: GeographiesFeature<TProperties, TGeometry>,
     path: GeoPath
-  ): VicPosition {
+  ): Position {
     const c = path.centroid(feature);
     return { x: c[0], y: c[1] };
   }
@@ -210,9 +210,9 @@ export class GeographiesLabelsBuilder<
    * A function to position a label for Hawaii on a GeoAlbersUsa projection.
    */
   positionHawaiiOnGeoAlbersUsa<TProperties>(
-    feature: VicGeographiesFeature<TProperties, MultiPolygon>,
+    feature: GeographiesFeature<TProperties, MultiPolygon>,
     projection: GeoProjection
-  ): VicPosition {
+  ): Position {
     const startPolygon =
       // we need to cast because Position can return two or three numbers but GeoProjection
       // can only handle [number, number]
@@ -240,9 +240,9 @@ export class GeographiesLabelsBuilder<
     TProperties,
     TGeometry extends MultiPolygon | Polygon = MultiPolygon | Polygon
   >(
-    feature: VicGeographiesFeature<TProperties, TGeometry>,
+    feature: GeographiesFeature<TProperties, TGeometry>,
     projection: GeoProjection
-  ): VicPosition {
+  ): Position {
     const isMultiPolygon = feature.geometry.coordinates.length > 1;
     let largestIndex = 0;
     let largestPolygon: [number, number][];

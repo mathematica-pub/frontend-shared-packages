@@ -7,7 +7,7 @@ describe('VicQuantitativeDimension', () => {
   beforeEach(() => {
     dimension = new QuantitativeNumericDimensionBuilder<number>()
       .valueAccessor((d) => d)
-      .build();
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

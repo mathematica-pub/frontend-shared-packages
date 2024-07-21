@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   EventEffect,
   HoverMoveEventEffect,
@@ -59,7 +59,7 @@ const includeFiles = ['line-input-effects.ts'];
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 8,
     right: 4,
     bottom: 36,

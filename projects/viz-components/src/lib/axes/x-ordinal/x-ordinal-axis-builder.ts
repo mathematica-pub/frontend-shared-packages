@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
-import { VicXyAxisBuilder } from '../xy-axis-builder';
-import { VicXOrdinalAxisConfig } from './x-ordinal-axis-config';
+import { VicXyAxisBuilder } from '../config/xy-axis-builder';
+import { XOrdinalAxisConfig } from './x-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'bottom',
@@ -23,8 +23,8 @@ export class VicXOrdinalAxisBuilder<
     return this;
   }
 
-  build(): VicXOrdinalAxisConfig<TickValue> {
-    return new VicXOrdinalAxisConfig<TickValue>({
+  build(): XOrdinalAxisConfig<TickValue> {
+    return new XOrdinalAxisConfig<TickValue>({
       removeDomain: this._removeDomain,
       removeTickMarks: this._removeTickMarks,
       removeTicks: this._removeTicks,

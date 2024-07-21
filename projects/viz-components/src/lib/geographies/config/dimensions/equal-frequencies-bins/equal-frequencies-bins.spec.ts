@@ -11,7 +11,7 @@ describe('VicEqualNumObservationsBins', () => {
       .range(['red', 'blue', 'yellow', 'green'])
       .valueAccessor((d) => d)
       .nullColor('black')
-      .build();
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

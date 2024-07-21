@@ -1,16 +1,16 @@
 import { DataValue } from '../../core/types/values';
+import { XyAxisConfig } from '../config/xy-axis-config';
 import {
   VicQuantitativeAxisOptions,
   mixinQuantitativeAxisConfig,
 } from '../quantitative/quantitative-axis-config';
-import { VicXyAxisConfig } from '../xy-axis.config';
 import { VicYAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
 
 const AbstractYQuantitativeConfig = mixinYAxisConfig(
-  mixinQuantitativeAxisConfig(VicXyAxisConfig)
+  mixinQuantitativeAxisConfig(XyAxisConfig)
 );
 
-export class VicYQuantitativeAxisConfig<
+export class YQuantitativeAxisConfig<
   TickValue extends DataValue
 > extends AbstractYQuantitativeConfig<TickValue> {
   constructor(

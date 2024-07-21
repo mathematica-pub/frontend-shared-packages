@@ -49,9 +49,7 @@ export class VicBarsBuilder<
     setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
   ): this {
     this.initCategoricalDimensionBuilder();
-    if (setProperties) {
-      setProperties(this.categoricalDimensionBuilder);
-    }
+    setProperties?.(this.categoricalDimensionBuilder);
     return this;
   }
 
@@ -68,9 +66,7 @@ export class VicBarsBuilder<
     ) => void
   ): this {
     this.initOrdinalDimensionBuilder();
-    if (setProperties) {
-      setProperties(this.ordinalDimensionBuilder);
-    }
+    setProperties?.(this.ordinalDimensionBuilder);
     return this;
   }
 
@@ -115,9 +111,7 @@ export class VicBarsBuilder<
     setProperties?: (dimension: BarsLabelsBuilder<Datum>) => void
   ): this {
     this.labelsBuilder = new BarsLabelsBuilder<Datum>();
-    if (setProperties) {
-      setProperties(this.labelsBuilder);
-    }
+    setProperties?.(this.labelsBuilder);
     return this;
   }
 
@@ -133,12 +127,12 @@ export class VicBarsBuilder<
   build(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
-      categorical: this.categoricalDimensionBuilder.build(),
+      categorical: this.categoricalDimensionBuilder._build(),
       data: this._data,
-      labels: this.labelsBuilder?.build(),
+      labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
-      ordinal: this.ordinalDimensionBuilder.build(),
-      quantitative: this.quantitativeDimensionBuilder.build(),
+      ordinal: this.ordinalDimensionBuilder._build(),
+      quantitative: this.quantitativeDimensionBuilder._build(),
     });
   }
 

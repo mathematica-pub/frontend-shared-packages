@@ -1,6 +1,6 @@
-import { TickWrap } from './tick-wrap/tick-wrap-config';
+import { TickWrap } from '../tick-wrap/tick-wrap-config';
 
-export interface VicXyAxisOptions<TickValue> {
+export interface XyAxisOptions<TickValue> {
   removeDomain: boolean;
   removeTickMarks: boolean;
   removeTicks: boolean;

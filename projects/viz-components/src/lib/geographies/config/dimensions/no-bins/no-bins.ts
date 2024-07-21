@@ -1,5 +1,5 @@
 import { extent } from 'd3';
-import { VicValuesBin } from '../attribute-data-bin-enums';
+import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { NoBinsAttributeDataDimensionOptions } from './no-bins-options';
 
@@ -7,13 +7,13 @@ export class NoBinsAttributeDataDimension<Datum> extends AttributeDataDimension<
   Datum,
   number
 > {
-  readonly binType: VicValuesBin.none;
+  readonly binType: BinStrategy.none;
   domain: [number, number];
   formatSpecifier: string;
 
   constructor(options: NoBinsAttributeDataDimensionOptions<Datum>) {
     super();
-    this.binType = VicValuesBin.none;
+    this.binType = BinStrategy.none;
     Object.assign(this, options);
     if (!this.valueAccessor) {
       console.error(

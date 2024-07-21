@@ -1,5 +1,5 @@
 import { Geometry } from 'geojson';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { GeographiesFeature } from '../../../geographies-feature';
 
 const DEFAULT = {
   _strokeColor: 'dimgray',
@@ -12,7 +12,7 @@ export abstract class GeographiesLayerBuilder<
 > {
   protected _class: string;
   protected _enableEffects: boolean;
-  protected _geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   protected _strokeColor: string;
   protected _strokeWidth: string;
 
@@ -44,9 +44,7 @@ export abstract class GeographiesLayerBuilder<
   /**
    * REQUIRED. GeoJSON features that define the geographies to be drawn.
    */
-  geographies(
-    value: Array<VicGeographiesFeature<TProperties, TGeometry>>
-  ): this {
+  geographies(value: Array<GeographiesFeature<TProperties, TGeometry>>): this {
     this._geographies = value;
     return this;
   }

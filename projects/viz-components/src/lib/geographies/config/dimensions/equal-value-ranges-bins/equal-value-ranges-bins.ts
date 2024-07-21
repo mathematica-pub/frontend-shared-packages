@@ -1,5 +1,5 @@
 import { extent } from 'd3';
-import { VicValuesBin } from '../attribute-data-bin-enums';
+import { BinStrategy } from '../attribute-data-bin-enums';
 import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
 import { VicEqualValueRangesAttributeDataDimensionOptions } from './equal-value-ranges-bins-options';
 
@@ -16,7 +16,7 @@ export class VicEqualValueRangesAttributeDataDimension<
   implements
     VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: VicValuesBin.equalValueRanges;
+  readonly binType: BinStrategy.equalValueRanges;
   private calculatedDomain: [number, number];
   readonly domain: [number, number];
   readonly numBins: number;
@@ -25,7 +25,7 @@ export class VicEqualValueRangesAttributeDataDimension<
     options: VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
-    this.binType = VicValuesBin.equalValueRanges;
+    this.binType = BinStrategy.equalValueRanges;
     Object.assign(this, options);
     if (!this.valueAccessor) {
       console.error(

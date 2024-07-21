@@ -82,7 +82,7 @@ export class VicHtmlTooltipBuilder {
   ): this {
     const builder = new HtmlTooltipOffsetFromOriginPositionBuilder();
     setProperties?.(builder);
-    this._position = builder.build();
+    this._position = builder._build();
     return this;
   }
 
@@ -99,7 +99,7 @@ export class VicHtmlTooltipBuilder {
       origin: this._origin,
       position: this._position,
       show: this._show,
-      size: this.sizeBuilder.build(),
+      size: this.sizeBuilder._build(),
     });
   }
 

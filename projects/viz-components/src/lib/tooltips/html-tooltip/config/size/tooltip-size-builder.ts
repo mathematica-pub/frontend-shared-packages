@@ -38,7 +38,7 @@ export class HtmlTooltipSizeBuilder {
     return this;
   }
 
-  build(): HtmlTooltipSize {
+  _build(): HtmlTooltipSize {
     return new HtmlTooltipSize({
       width: this._width,
       height: this._height,

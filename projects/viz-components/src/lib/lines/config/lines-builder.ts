@@ -187,18 +187,18 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   build(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      categorical: this.categoricalDimensionBuilder.build(),
+      categorical: this.categoricalDimensionBuilder._build(),
       curve: this._curve,
       data: this._data,
-      hoverDot: this.hoverDotBuilder?.build(),
+      hoverDot: this.hoverDotBuilder?._build(),
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,
       pointerDetectionRadius: this._pointerDetectionRadius,
-      pointMarkers: this.pointMarkersBuilder?.build(),
-      stroke: this.strokeBuilder.build(),
-      x: this.xDimensionBuilder.build(),
-      y: this.yDimensionBuilder.build(),
+      pointMarkers: this.pointMarkersBuilder?._build(),
+      stroke: this.strokeBuilder._build(),
+      x: this.xDimensionBuilder._build(),
+      y: this.yDimensionBuilder._build(),
     });
   }
 

@@ -7,7 +7,7 @@ describe('VicDateDimension', () => {
   beforeEach(() => {
     dimension = new QuantitativeDateDimensionBuilder<Date>()
       .valueAccessor((d) => d)
-      .build();
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

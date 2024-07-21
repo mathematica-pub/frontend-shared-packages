@@ -7,7 +7,7 @@ import {
   isPrimitiveType,
 } from '../../../../core/utilities/type-guards';
 import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { GeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
 import { GeographiesLabels } from '../labels/geographies-labels';
@@ -21,7 +21,7 @@ export class GeographiesGeojsonPropertiesLayer<
   implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
 {
   readonly categorical: CategoricalDimension<
-    VicGeographiesFeature<TProperties, TGeometry>,
+    GeographiesFeature<TProperties, TGeometry>,
     string
   >;
   readonly fill: string;
@@ -41,7 +41,7 @@ export class GeographiesGeojsonPropertiesLayer<
     }
   }
 
-  getFill(feature: VicGeographiesFeature<TProperties, TGeometry>): string {
+  getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     if (!this.categorical) {
       return this.fill;
     }
@@ -57,7 +57,7 @@ export class GeographiesGeojsonPropertiesLayer<
   }
 
   getLabelColor(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ): CSSType.Property.Fill {
     const featureIndex = this.featureIndexAccessor(feature);
     const pathColor = this.getFill(feature);
@@ -71,7 +71,7 @@ export class GeographiesGeojsonPropertiesLayer<
   }
 
   getLabelFontWeight(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ): CSSType.Property.FontWeight {
     const featureIndex = this.featureIndexAccessor(feature);
     const pathColor = this.getFill(feature);
@@ -87,7 +87,7 @@ export class GeographiesGeojsonPropertiesLayer<
   }
 
   getTooltipData(path: SVGPathElement): VicGeographiesTooltipOutput<undefined> {
-    const feature = select(path).datum() as VicGeographiesFeature<
+    const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
     >;

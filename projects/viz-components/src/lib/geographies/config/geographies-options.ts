@@ -7,7 +7,7 @@ import {
 } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
-import { VicGeographiesFeature } from '../geographies-feature';
+import { GeographiesFeature } from '../geographies-feature';
 import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
 
@@ -27,7 +27,7 @@ export interface GeographiesOptions<
     TGeometry
   >;
   featureIndexAccessor: (
-    d: VicGeographiesFeature<TProperties, TGeometry>
+    d: GeographiesFeature<TProperties, TGeometry>
   ) => string;
   geojsonPropertiesLayers: GeographiesGeojsonPropertiesLayer<
     TProperties,

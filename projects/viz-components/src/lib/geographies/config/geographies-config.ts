@@ -12,7 +12,7 @@ import {
   Polygon,
 } from 'geojson';
 import { DataMarksConfig } from '../../data-marks/config/data-marks-config';
-import { VicGeographiesFeature } from '../geographies-feature';
+import { GeographiesFeature } from '../geographies-feature';
 import { GeographiesOptions } from './geographies-options';
 import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
@@ -37,7 +37,7 @@ export class GeographiesConfig<
     TGeometry
   >;
   featureIndexAccessor: (
-    d: VicGeographiesFeature<TProperties, TGeometry>
+    d: GeographiesFeature<TProperties, TGeometry>
   ) => string;
   layers: (
     | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>

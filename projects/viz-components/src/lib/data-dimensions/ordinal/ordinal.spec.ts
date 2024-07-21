@@ -18,7 +18,7 @@ describe('VicDimensionOrdinal', () => {
       string
     >()
       .valueAccessor((d) => d.category)
-      .build();
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

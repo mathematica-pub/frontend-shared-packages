@@ -4,7 +4,7 @@ import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
-import { XyAxis, XyAxisScale } from '../xy-axis';
+import { XyAxis, XyAxisScale } from '../xy-axis-base';
 import { VicYAxisConfig } from './y-axis-config';
 
 /**

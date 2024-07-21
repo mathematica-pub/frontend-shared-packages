@@ -5,7 +5,6 @@ import { EqualFrequenciesAttributeDataDimensionBuilder } from '../../dimensions/
 import { VicEqualValueRangesBinsBuilder } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
 import { NoBinsAttributeDataDimensionBuilder } from '../../dimensions/no-bins/no-bins-builder';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
-import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 
@@ -20,7 +19,6 @@ export class GeographiesAttributeDataLayerBuilder<
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private _data: Datum[];
   private _geographyIndexAccessor: (d: Datum) => string;
-  private labels: GeographiesLabels<Datum, TProperties, TGeometry>;
   private labelsBuilder: GeographiesLabelsBuilder<
     Datum,
     TProperties,
@@ -116,19 +114,18 @@ export class GeographiesAttributeDataLayerBuilder<
   ): this {
     this.labelsBuilder = new GeographiesLabelsBuilder();
     setProperties(this.labelsBuilder);
-    this.labels = this.labelsBuilder.build();
     return this;
   }
 
-  build(): GeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
+  _build(): GeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
     return new GeographiesAttributeDataLayer({
-      attributeDimension: this.binsBuilder.build(),
+      attributeDimension: this.binsBuilder._build(),
       class: this._class,
       data: this._data,
       enableEffects: this._enableEffects,
       geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
-      labels: this.labels,
+      labels: this.labelsBuilder._build(),
       strokeColor: this._strokeColor,
       strokeWidth: this._strokeWidth,
     });

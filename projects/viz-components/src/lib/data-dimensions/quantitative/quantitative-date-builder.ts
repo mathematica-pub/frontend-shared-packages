@@ -62,7 +62,7 @@ export class QuantitativeDateDimensionBuilder<
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  build(): QuantitativeDateDimension<Datum> {
+  _build(): QuantitativeDateDimension<Datum> {
     this.validateBuilder();
     return new QuantitativeDateDimension<Datum>({
       domain: this._domain,

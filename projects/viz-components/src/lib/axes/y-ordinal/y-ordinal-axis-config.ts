@@ -1,16 +1,16 @@
 import { DataValue } from '../../core/types/values';
+import { XyAxisConfig } from '../config/xy-axis-config';
 import {
   VicOrdinalAxisOptions,
   mixinOrdinalAxisConfig,
 } from '../ordinal/ordinal-axis-config';
-import { VicXyAxisConfig } from '../xy-axis.config';
 import { VicYAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
 
 const AbstractYOrdinalConfig = mixinYAxisConfig(
-  mixinOrdinalAxisConfig(VicXyAxisConfig)
+  mixinOrdinalAxisConfig(XyAxisConfig)
 );
 
-export class VicYOrdinalAxisConfig<
+export class YOrdinalAxisConfig<
   TickValue extends DataValue
 > extends AbstractYOrdinalConfig<TickValue> {
   constructor(

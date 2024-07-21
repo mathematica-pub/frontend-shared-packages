@@ -43,7 +43,7 @@ export class VicEqualValueRangesBinsBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): VicEqualValueRangesAttributeDataDimension<Datum, RangeValue> {
+  _build(): VicEqualValueRangesAttributeDataDimension<Datum, RangeValue> {
     return new VicEqualValueRangesAttributeDataDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,

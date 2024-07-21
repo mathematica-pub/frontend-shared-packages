@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
@@ -36,7 +36,7 @@ interface ViewModel {
 })
 export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 8,
     right: 0,
     bottom: 36,

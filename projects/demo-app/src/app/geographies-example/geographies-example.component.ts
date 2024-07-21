@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { ColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
 import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-enums';
+import { BinStrategy } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-enums';
 import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
 import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
 import { GeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder';
 import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
-import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
+import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
 import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
@@ -63,7 +63,7 @@ export class GeographiesExampleComponent implements OnInit {
   >;
   width = 700;
   height = 400;
-  margin: VicElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
@@ -84,15 +84,15 @@ export class GeographiesExampleComponent implements OnInit {
   selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
   selectedYear$ = this.selectedYear.asObservable();
   attributeDataBinType: BehaviorSubject<string> = new BehaviorSubject<string>(
-    VicValuesBin.equalValueRanges
+    BinStrategy.equalValueRanges
   );
   attributeDataBinType$ = this.attributeDataBinType.asObservable();
   binTypes = [
-    VicValuesBin.none,
-    VicValuesBin.categorical,
-    VicValuesBin.equalValueRanges,
-    VicValuesBin.equalFrequencies,
-    VicValuesBin.customBreaks,
+    BinStrategy.none,
+    BinStrategy.categorical,
+    BinStrategy.equalValueRanges,
+    BinStrategy.equalFrequencies,
+    BinStrategy.customBreaks,
   ];
 
   clickEffects: EventEffect<
@@ -105,7 +105,7 @@ export class GeographiesExampleComponent implements OnInit {
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  featureIndexAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>
+  featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
     d.properties.name;
 
   constructor(
@@ -170,7 +170,7 @@ export class GeographiesExampleComponent implements OnInit {
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
     );
-    const valueAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>
+    const valueAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
       d.properties.id;
     return layer
       .geographies(features)
@@ -207,16 +207,16 @@ export class GeographiesExampleComponent implements OnInit {
         usePattern: (d) => !!d && d.population < 1000000,
       },
     ];
-    if (this.attributeDataBinType.value === VicValuesBin.categorical) {
+    if (this.attributeDataBinType.value === BinStrategy.categorical) {
       return this.getCategoricalLayer(data, layer, fillPatterns);
-    } else if (this.attributeDataBinType.value === VicValuesBin.customBreaks) {
+    } else if (this.attributeDataBinType.value === BinStrategy.customBreaks) {
       return this.getCustomBreaksLayer(data, layer, fillPatterns);
     } else if (
-      this.attributeDataBinType.value === VicValuesBin.equalFrequencies
+      this.attributeDataBinType.value === BinStrategy.equalFrequencies
     ) {
       return this.getEqualFrequenciesLayer(data, layer, fillPatterns);
     } else if (
-      this.attributeDataBinType.value === VicValuesBin.equalValueRanges
+      this.attributeDataBinType.value === BinStrategy.equalValueRanges
     ) {
       return this.getEqualValueRangesLayer(data, layer, fillPatterns);
     } else {
@@ -374,7 +374,7 @@ export class GeographiesExampleComponent implements OnInit {
       .position((d, path, projection) => {
         if (valueAccessor(d) === 'HI') {
           return labels.positionHawaiiOnGeoAlbersUsa(
-            d as VicGeographiesFeature<MapGeometryProperties, MultiPolygon>,
+            d as GeographiesFeature<MapGeometryProperties, MultiPolygon>,
             projection
           );
         } else if (polylabelStates.includes(valueAccessor(d))) {
@@ -386,7 +386,7 @@ export class GeographiesExampleComponent implements OnInit {
       .color((d, backgroundColor) => {
         return backgroundColor.slice(0, 3) === 'url'
           ? darkColor
-          : VicColorUtilities.getHigherContrastColorForBackground(
+          : ColorUtilities.getHigherContrastColorForBackground(
               backgroundColor,
               darkColor,
               lightColor
@@ -395,7 +395,7 @@ export class GeographiesExampleComponent implements OnInit {
       .fontWeight((d, backgroundColor) => {
         return backgroundColor.slice(0, 3) === 'url'
           ? 700
-          : VicColorUtilities.getHigherContrastColorForBackground(
+          : ColorUtilities.getHigherContrastColorForBackground(
               backgroundColor,
               darkColor,
               lightColor

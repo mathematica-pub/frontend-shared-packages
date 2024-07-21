@@ -9,7 +9,7 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
       .breakValues([0, 2, 5, 10, 50])
       .range(['red', 'blue', 'yellow', 'green'])
       .valueAccessor((d) => d)
-      .build();
+      ._build();
   });
 
   describe('setPropertiesFromData', () => {
@@ -69,7 +69,7 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
         .breakValues([2.5, 5, 7.5, 10, 12.5])
         .range(['red', 'blue', 'yellow', 'green'])
         .nullColor('black')
-        .build();
+        ._build();
       dimension.setPropertiesFromData();
       const scale = dimension.getScale();
       expect(scale(data[0].price)).toEqual('yellow');

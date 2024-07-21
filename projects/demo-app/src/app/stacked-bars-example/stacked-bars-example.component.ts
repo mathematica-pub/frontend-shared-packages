@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { VicXOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
-import { VicYQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { XOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
+import { YQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { VicStackedBarsBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
 import { StackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-config';
 import {
@@ -14,8 +14,8 @@ import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: VicXOrdinalAxisConfig<Date>;
-  yAxisConfig: VicYQuantitativeAxisConfig<number>;
+  xAxisConfig: XOrdinalAxisConfig<Date>;
+  yAxisConfig: YQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -31,7 +31,7 @@ interface ViewModel {
 })
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 8,
     right: 0,
     bottom: 36,

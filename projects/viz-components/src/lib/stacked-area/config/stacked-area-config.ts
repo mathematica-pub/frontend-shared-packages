@@ -13,11 +13,11 @@ import { CategoricalDimension } from '../../data-dimensions/categorical/categori
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
-import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
+import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
 
 export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
-  extends VicXyDataMarksConfig<Datum>
+  extends XyDataMarksConfig<Datum>
   implements DataMarksOptions<Datum>
 {
   categorical: CategoricalDimension<Datum, TCategoricalValue>;

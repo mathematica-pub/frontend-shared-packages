@@ -17,7 +17,7 @@ import { EventEffect } from '../events/effect';
 import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesEventDirective } from './geographies-event-directive';
-import { VicGeographiesFeature } from './geographies-feature';
+import { GeographiesFeature } from './geographies-feature';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
 import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
@@ -46,7 +46,7 @@ export class GeographiesClickDirective<
   @Output('vicGeographiesClickOutput') eventOutput = new EventEmitter<
     VicGeographiesEventOutput<Datum>
   >();
-  feature: VicGeographiesFeature<TProperties, TGeometry>;
+  feature: GeographiesFeature<TProperties, TGeometry>;
   layer:
     | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
     | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;

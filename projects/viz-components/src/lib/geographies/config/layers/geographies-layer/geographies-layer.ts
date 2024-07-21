@@ -1,6 +1,6 @@
 import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { GeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
 import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesLayerOptions } from './geographies-layer-options';
@@ -14,30 +14,28 @@ export abstract class GeographiesLayer<
   class: string;
   enableEffects: boolean;
   featureIndexAccessor: (
-    d: VicGeographiesFeature<TProperties, TGeometry>
+    d: GeographiesFeature<TProperties, TGeometry>
   ) => string;
-  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   id: number;
   labels: GeographiesLabels<Datum, TProperties, TGeometry>;
   strokeColor: string;
   strokeWidth: string;
 
   setFeatureIndexAccessor(
-    accessor: (d: VicGeographiesFeature<TProperties, TGeometry>) => string
+    accessor: (d: GeographiesFeature<TProperties, TGeometry>) => string
   ): void {
     this.featureIndexAccessor = accessor;
   }
 
-  abstract getFill(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
-  ): string;
+  abstract getFill(feature: GeographiesFeature<TProperties, TGeometry>): string;
 
   abstract getLabelColor(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ): CSSType.Property.Fill;
 
   abstract getLabelFontWeight(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ): CSSType.Property.FontWeight;
 
   abstract getTooltipData(

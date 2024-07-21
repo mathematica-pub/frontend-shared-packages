@@ -1,4 +1,4 @@
-import { VicValuesBin } from '../attribute-data-bin-enums';
+import { BinStrategy } from '../attribute-data-bin-enums';
 import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
 import { EqualFrequenciesAttributeDataDimensionOptions } from './equal-frequencies-bins-options';
 
@@ -14,7 +14,7 @@ export class EqualFrequenciesAttributeDataDimension<
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
   implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: VicValuesBin.equalFrequencies;
+  readonly binType: BinStrategy.equalFrequencies;
   private calculatedDomain: number[];
   readonly numBins: number;
 
@@ -22,7 +22,7 @@ export class EqualFrequenciesAttributeDataDimension<
     options: EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
-    this.binType = VicValuesBin.equalFrequencies;
+    this.binType = BinStrategy.equalFrequencies;
     Object.assign(this, options);
     if (!this.valueAccessor) {
       console.error(

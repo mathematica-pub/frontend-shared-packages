@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { VicOrientation } from '../../core/types/layout';
-import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-enums';
+import { Orientation } from '../../core/types/layout';
+import { BinStrategy } from '../../geographies/config/dimensions/attribute-data-bin-enums';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/dimensions/attribute-data-bin-types';
 import { NoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
 import { MapLegend } from '../map-legend-base';
@@ -23,7 +23,7 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegend<
   DiscontinuousAttributeDataDimensionConfig<Datum>
 > {
   getValuesFromScale(): string[] | number[] {
-    if (this.config.binType === VicValuesBin.categorical) {
+    if (this.config.binType === BinStrategy.categorical) {
       return this.config.getDomain();
     } else {
       return this.getQuantitativeValuesFromScale();
@@ -33,7 +33,7 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegend<
   getQuantitativeValuesFromScale(): number[] {
     const binColors = this.config.range;
     const values =
-      this.config.binType === VicValuesBin.customBreaks
+      this.config.binType === BinStrategy.customBreaks
         ? this.config.breakValues
         : [
             ...new Set(
@@ -44,7 +44,7 @@ export class DiscontinuousLegendComponent<Datum> extends MapLegend<
   }
 
   getLeftOffset(values: number[]): number {
-    if (this.orientation === VicOrientation.horizontal) {
+    if (this.orientation === Orientation.horizontal) {
       const colorHalfWidth = this.width / (values.length * 2);
       if (colorHalfWidth > this.largerValueSpace) {
         return (colorHalfWidth - this.startValueSpace) * -1;

@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { schemeTableau10 } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
-  BarsConfig,
   VicBarsModule,
   VicChartModule,
   VicXQuantitativeAxisBuilder,
@@ -14,6 +13,7 @@ import {
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis-config';
 import { VicBarsBuilder } from '../../bars/config/bars-builder';
+import { BarsConfig } from '../../bars/config/bars-config';
 import { QOCData, QOCDatum } from '../../testing/data/quant-ord-cat-data';
 
 const dotsPatternMagenta = 'dotsMagenta';

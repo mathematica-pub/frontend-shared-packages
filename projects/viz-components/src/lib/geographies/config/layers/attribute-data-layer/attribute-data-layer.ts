@@ -7,9 +7,9 @@ import {
   isPrimitiveType,
 } from '../../../../core/utilities/type-guards';
 import { ValueUtilities } from '../../../../core/utilities/values';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { GeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
-import { VicValuesBin } from '../../dimensions/attribute-data-bin-enums';
+import { BinStrategy } from '../../dimensions/attribute-data-bin-enums';
 import { CategoricalBinsAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
 import { CustomBreaksBinsAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
 import { EqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
@@ -98,7 +98,7 @@ export class GeographiesAttributeDataLayer<
     );
   }
 
-  getFill(feature: VicGeographiesFeature<TProperties, TGeometry>): string {
+  getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     const geographyIndex = this.featureIndexAccessor(feature);
     return this.attributeDimension.fillPatterns
       ? this.getPatternFill(geographyIndex)
@@ -120,7 +120,7 @@ export class GeographiesAttributeDataLayer<
   }
 
   getLabelColor(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ): CSSType.Property.Fill {
     const featureIndex = this.featureIndexAccessor(feature);
     const pathColor = this.getFill(feature);
@@ -137,7 +137,7 @@ export class GeographiesAttributeDataLayer<
   }
 
   getLabelFontWeight(
-    feature: VicGeographiesFeature<TProperties, TGeometry>
+    feature: GeographiesFeature<TProperties, TGeometry>
   ): CSSType.Property.FontWeight {
     const featureIndex = this.featureIndexAccessor(feature);
     const pathColor = this.getFill(feature);
@@ -156,7 +156,7 @@ export class GeographiesAttributeDataLayer<
   }
 
   getTooltipData(path: SVGPathElement): VicGeographiesTooltipOutput<Datum> {
-    const feature = select(path).datum() as VicGeographiesFeature<
+    const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
     >;
@@ -171,7 +171,7 @@ export class GeographiesAttributeDataLayer<
             datum,
             this.attributeDimension.formatFunction
           )
-        : this.attributeDimension.binType !== VicValuesBin.categorical
+        : this.attributeDimension.binType !== BinStrategy.categorical
         ? ValueUtilities.d3Format(
             value as number,
             this.attributeDimension.formatSpecifier

@@ -1,5 +1,5 @@
 import { Geometry } from 'geojson';
-import { VicGeographiesFeature } from '../../../geographies-feature';
+import { GeographiesFeature } from '../../../geographies-feature';
 
 /**
  * Base configuration object for geographies that can be used with or without attribute data.
@@ -21,7 +21,7 @@ export interface GeographiesLayerOptions<
   /**
    * GeoJSON features that define the geographies to be drawn.
    */
-  geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
+  geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   /**
    * The color of the stroke for the geography.
    * @default: 'dimgray'.

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
-import { VicXyAxisBuilder } from '../xy-axis-builder';
-import { VicYQuantitativeAxisConfig } from './y-quantitative-axis-config';
+import { VicXyAxisBuilder } from '../config/xy-axis-builder';
+import { YQuantitativeAxisConfig } from './y-quantitative-axis-config';
 
 const DEFAULT = {
   _side: 'left',
@@ -36,8 +36,8 @@ export class VicYQuantitativeAxisBuilder<
     return this;
   }
 
-  build(): VicYQuantitativeAxisConfig<TickValue> {
-    return new VicYQuantitativeAxisConfig<TickValue>({
+  build(): YQuantitativeAxisConfig<TickValue> {
+    return new YQuantitativeAxisConfig<TickValue>({
       numTicks: this._numTicks,
       removeDomain: this._removeDomain,
       removeTickMarks: this._removeTickMarks,

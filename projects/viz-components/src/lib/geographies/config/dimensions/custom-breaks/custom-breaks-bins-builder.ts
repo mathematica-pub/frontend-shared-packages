@@ -49,7 +49,7 @@ export class CustomBreaksBinsAttributeDataDimensionBuilder<
     return this;
   }
 
-  build(): CustomBreaksBinsAttributeDataDimension<Datum, RangeValue> {
+  _build(): CustomBreaksBinsAttributeDataDimension<Datum, RangeValue> {
     return new CustomBreaksBinsAttributeDataDimension({
       breakValues: this._breakValues,
       fillPatterns: this._fillPatterns,

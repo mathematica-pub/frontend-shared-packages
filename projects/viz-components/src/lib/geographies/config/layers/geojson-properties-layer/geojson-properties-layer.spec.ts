@@ -18,7 +18,7 @@ function createLayer(): GeographiesGeojsonPropertiesLayer<
   return new GeographiesGeojsonPropertiesLayerBuilder<FeatureProperties>()
     .geographies(features as any)
     .createCategoricalDimension((dimension) => dimension.range(['lime']))
-    .build();
+    ._build();
 }
 
 describe('GeographiesGeojsonPropertiesLayer', () => {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
-import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-enums';
+import { BinStrategy } from '../../geographies/config/dimensions/attribute-data-bin-enums';
 import { CategoricalBinsAttributeDataDimension } from '../../geographies/config/dimensions/categorical-bins/categorical-bins';
 import { CategoricalBinsOptions } from '../../geographies/config/dimensions/categorical-bins/categorical-bins-options';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
@@ -33,7 +33,7 @@ describe('DiscontinuousLegendComponent', () => {
     });
     it('integration: should return breakValues if binType == customBreaks', () => {
       component.config = {
-        binType: VicValuesBin.customBreaks,
+        binType: BinStrategy.customBreaks,
         breakValues: [1, 2, 3],
       } as any;
       expect(component.getValuesFromScale()).toEqual([1, 2, 3] as any);

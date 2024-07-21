@@ -4,7 +4,7 @@ import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordin
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
 import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-event';
 import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
@@ -47,7 +47,7 @@ enum Orientation {
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 36,
     right: 0,
     bottom: 8,

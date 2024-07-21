@@ -1,4 +1,4 @@
-import { VicTickWrapBuilder } from './tick-wrap/tick-wrap-builder';
+import { VicTickWrapBuilder } from '../tick-wrap/tick-wrap-builder';
 
 export abstract class VicXyAxisBuilder<TickValue> {
   protected _removeDomain: boolean;

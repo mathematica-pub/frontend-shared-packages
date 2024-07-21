@@ -1,4 +1,4 @@
-import { VicValuesBin } from '../attribute-data-bin-enums';
+import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { CategoricalBinsOptions } from './categorical-bins-options';
 
@@ -14,14 +14,14 @@ export class CategoricalBinsAttributeDataDimension<
   extends AttributeDataDimension<Datum, string>
   implements CategoricalBinsOptions<Datum, string>
 {
-  readonly binType: VicValuesBin.categorical;
+  readonly binType: BinStrategy.categorical;
   calculatedDomain: string[];
   readonly domain: string[];
   override interpolator: never;
 
   constructor(options: CategoricalBinsOptions<Datum, RangeValue>) {
     super();
-    this.binType = VicValuesBin.categorical;
+    this.binType = BinStrategy.categorical;
     Object.assign(this, options);
   }
 

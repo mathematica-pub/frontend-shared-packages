@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VicColorUtilities } from '../core/utilities/colors';
+import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { ValueUtilities } from '../core/utilities/values';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
@@ -886,7 +886,7 @@ describe('BarsComponent', () => {
       fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
       spyOn(component, 'getBarColor').and.returnValue('blue');
       higherContrastSpy = spyOn(
-        VicColorUtilities,
+        ColorUtilities,
         'getHigherContrastColorForBackground'
       );
       component.config = horizontalConfig();
@@ -926,7 +926,7 @@ describe('BarsComponent', () => {
         it('calls getHigherContrastColorForBackground once with the correct values', () => {
           component.getBarLabelColor(datum);
           expect(
-            VicColorUtilities.getHigherContrastColorForBackground
+            ColorUtilities.getHigherContrastColorForBackground
           ).toHaveBeenCalledOnceWith(
             'blue',
             component.config.labels.color.default,

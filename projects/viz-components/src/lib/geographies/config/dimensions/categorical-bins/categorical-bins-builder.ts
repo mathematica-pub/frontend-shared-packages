@@ -31,7 +31,7 @@ export class CategoricalBinsBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): CategoricalBinsAttributeDataDimension<Datum, RangeValue> {
+  _build(): CategoricalBinsAttributeDataDimension<Datum, RangeValue> {
     return new CategoricalBinsAttributeDataDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,

@@ -46,7 +46,7 @@ export class NoBinsAttributeDataDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): NoBinsAttributeDataDimension<Datum> {
+  _build(): NoBinsAttributeDataDimension<Datum> {
     return new NoBinsAttributeDataDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,

@@ -11,7 +11,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
       .range(['red', 'blue', 'yellow', 'green'])
       .domain([0, 20])
       .valueAccessor((d) => d)
-      .build();
+      ._build();
   });
 
   describe('setPropertiesFromData', () => {
@@ -50,7 +50,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
         .formatSpecifier('.1f')
         .range(['red', 'blue', 'yellow', 'green'])
         .valueAccessor((d) => d)
-        .build();
+        ._build();
       (dimension as any).setDomain([1, 2, 3, 4, 5, 6, 7, 8, 9]);
       expect((dimension as any).calculatedDomain).toEqual([1, 9]);
     });
@@ -84,7 +84,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
         .range(['red', 'blue', 'yellow', 'green'])
         .valueAccessor((d) => d)
         .nullColor('black')
-        .build();
+        ._build();
       dimension.setPropertiesFromData([0, 2, 4, 6, 8]);
       scale = dimension.getScale();
     });

@@ -15,7 +15,7 @@ import { DataValue } from '../core/types/values';
 import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { SvgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyAxisConfig } from './xy-axis.config';
+import { XyAxisConfig } from './config/xy-axis-config';
 
 export type XyAxisScale = {
   useTransition: boolean;
@@ -33,7 +33,7 @@ export abstract class XyAxis<TickValue extends DataValue>
   /**
    * The configuration for the axis.
    */
-  @Input() config: VicXyAxisConfig<TickValue>;
+  @Input() config: XyAxisConfig<TickValue>;
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisFunction: any;

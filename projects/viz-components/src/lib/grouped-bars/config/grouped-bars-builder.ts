@@ -44,13 +44,13 @@ export class VicGroupedBarsBuilder<
   override build(): GroupedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
-      categorical: this.categoricalDimensionBuilder.build(),
+      categorical: this.categoricalDimensionBuilder._build(),
       data: this._data,
       intraGroupPadding: this._intraGroupPadding,
-      labels: this.labelsBuilder?.build(),
+      labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
-      ordinal: this.ordinalDimensionBuilder.build(),
-      quantitative: this.quantitativeDimensionBuilder.build(),
+      ordinal: this.ordinalDimensionBuilder._build(),
+      quantitative: this.quantitativeDimensionBuilder._build(),
     });
   }
 }

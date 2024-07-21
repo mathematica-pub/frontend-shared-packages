@@ -1,7 +1,7 @@
 import { Directive, Input, OnChanges, OnInit } from '@angular/core';
-import { VicOrientation, VicSide } from '../core/types/layout';
+import { Orientation, Side } from '../core/types/layout';
 import { ValueUtilities } from '../core/utilities/values';
-import { VicValuesBin } from '../geographies/config/dimensions/attribute-data-bin-enums';
+import { BinStrategy } from '../geographies/config/dimensions/attribute-data-bin-enums';
 import { VicAttributeDataDimensionConfig } from '../geographies/config/dimensions/attribute-data-bin-types';
 import { CalculatedBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins/calculated-bins';
 
@@ -13,8 +13,8 @@ export abstract class MapLegend<
 {
   @Input() width: number;
   @Input() height: number;
-  @Input() orientation: keyof typeof VicOrientation;
-  @Input() valuesSide: keyof typeof VicSide;
+  @Input() orientation: keyof typeof Orientation;
+  @Input() valuesSide: keyof typeof Side;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   @Input() scale: any;
   @Input() config: AttributeDimensionConfig;
@@ -26,7 +26,7 @@ export abstract class MapLegend<
   endValueSpace: number;
   largerValueSpace: number;
   leftOffset: number;
-  VicValuesBin: typeof VicValuesBin;
+  VicValuesBin: typeof BinStrategy;
 
   abstract getValuesFromScale(): string[] | number[];
   abstract getLeftOffset(values?: number[]): number;
@@ -37,11 +37,11 @@ export abstract class MapLegend<
   }
 
   ngOnInit(): void {
-    this.VicValuesBin = VicValuesBin;
+    this.VicValuesBin = BinStrategy;
   }
 
   setValues(): void {
-    if (this.config.binType !== VicValuesBin.categorical) {
+    if (this.config.binType !== BinStrategy.categorical) {
       this.setQuantitativeValues();
     } else {
       this.setCategoricalValues();
@@ -50,7 +50,7 @@ export abstract class MapLegend<
 
   setQuantitativeValues(): void {
     let values = this.getValuesFromScale() as number[];
-    if (this.orientation === VicOrientation.vertical) {
+    if (this.orientation === Orientation.vertical) {
       values = values.slice().reverse();
     }
     this.setQuantitativeValueSpaces(values);
@@ -65,7 +65,7 @@ export abstract class MapLegend<
 
   setCategoricalValues(): void {
     let values = this.getValuesFromScale() as string[];
-    if (this.orientation === VicOrientation.vertical) {
+    if (this.orientation === Orientation.vertical) {
       values = values.slice().reverse();
     }
     this.setCategoricalValueSpaces();
@@ -74,7 +74,7 @@ export abstract class MapLegend<
 
   setColors(): void {
     this.colors = this.config.range;
-    if (this.orientation === VicOrientation.vertical) {
+    if (this.orientation === Orientation.vertical) {
       this.colors = this.colors.slice().reverse();
     }
   }

@@ -72,7 +72,7 @@ export class OrdinalDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): OrdinalDimension<Datum, TOrdinalValue> {
+  _build(): OrdinalDimension<Datum, TOrdinalValue> {
     return new OrdinalDimension({
       align: this._align,
       domain: this._domain,

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { quantitativeAxisMixin } from '../quantitative/quantitative-axis';
 import { xAxisMixin } from '../x/x-axis';
-import { XyAxis } from '../xy-axis';
+import { XyAxis } from '../xy-axis-base';
 
 const XQuantitativeAxis = xAxisMixin(quantitativeAxisMixin(XyAxis));
 

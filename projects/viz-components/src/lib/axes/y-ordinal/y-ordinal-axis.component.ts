@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
-import { XyAxis } from '../xy-axis';
+import { XyAxis } from '../xy-axis-base';
 import { yAxisMixin } from '../y/y-axis';
 
 const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));

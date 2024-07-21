@@ -34,7 +34,7 @@ export class EqualFrequenciesAttributeDataDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): EqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
+  _build(): EqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
     return new EqualFrequenciesAttributeDataDimension({
       fillPatterns: this._fillPatterns,
       formatFunction: this._formatFunction,

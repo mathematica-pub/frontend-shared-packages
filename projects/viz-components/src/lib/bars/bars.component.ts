@@ -14,7 +14,7 @@ import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataValue } from '../core/types/values';
-import { VicColorUtilities } from '../core/utilities/colors';
+import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { isNumber } from '../core/utilities/type-guards';
 import { ValueUtilities } from '../core/utilities/values';
@@ -389,7 +389,7 @@ export class BarsComponent<
       return this.config.labels.color.default;
     } else {
       const barColor = this.getBarColor(d);
-      return VicColorUtilities.getHigherContrastColorForBackground(
+      return ColorUtilities.getHigherContrastColorForBackground(
         barColor,
         this.config.labels.color.default,
         this.config.labels.color.withinBarAlternative

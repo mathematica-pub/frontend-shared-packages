@@ -36,14 +36,14 @@ describe('the MapLegendContent abstract class', () => {
     it('calls setCategoricalValues once if binType is categorical', () => {
       directive.config = new CategoricalBinsBuilder<string>()
         .valueAccessor((d) => d)
-        .build();
+        ._build();
       directive.setValues();
       expect(directive.setCategoricalValues).toHaveBeenCalledTimes(1);
     });
     it('calls setQuantitativeValues once if binType is not categorical', () => {
       directive.config = new VicEqualValueRangesBinsBuilder<number>()
         .valueAccessor((d) => d)
-        .build();
+        ._build();
       directive.setValues();
       expect(directive.setQuantitativeValues).toHaveBeenCalledTimes(1);
     });
@@ -59,7 +59,7 @@ describe('the MapLegendContent abstract class', () => {
       directive.config = new VicEqualValueRangesBinsBuilder<number>()
         .valueAccessor((d) => d)
         .formatSpecifier('.0%')
-        .build();
+        ._build();
     });
     it('calls getValuesFromScale once', () => {
       directive.setQuantitativeValues();

@@ -64,7 +64,7 @@ export class VicStrokeBuilder {
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  build(): Stroke {
+  _build(): Stroke {
     return new Stroke({
       linecap: this._linecap,
       linejoin: this._linejoin,

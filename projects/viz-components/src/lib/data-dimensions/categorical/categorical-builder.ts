@@ -72,7 +72,7 @@ export class CategoricalDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): CategoricalDimension<Datum, TCategoricalValue> {
+  _build(): CategoricalDimension<Datum, TCategoricalValue> {
     return new CategoricalDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,

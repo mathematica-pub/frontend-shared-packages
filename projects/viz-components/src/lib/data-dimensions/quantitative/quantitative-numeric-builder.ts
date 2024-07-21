@@ -136,7 +136,7 @@ export class QuantitativeNumericDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  build(): QuantitativeNumericDimension<Datum> {
+  _build(): QuantitativeNumericDimension<Datum> {
     this.validateBuilder();
     return new QuantitativeNumericDimension({
       domain: this._domain,

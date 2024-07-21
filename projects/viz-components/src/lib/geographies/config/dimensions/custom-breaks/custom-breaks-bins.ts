@@ -1,5 +1,5 @@
 import { range, scaleLinear } from 'd3';
-import { VicValuesBin } from '../attribute-data-bin-enums';
+import { BinStrategy } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 import { CustomBreaksBinsAttributeDataDimensionOptions } from './custom-breaks-bins-options';
 
@@ -17,7 +17,7 @@ export class CustomBreaksBinsAttributeDataDimension<
   extends AttributeDataDimension<Datum, number, RangeValue>
   implements CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
 {
-  readonly binType: VicValuesBin.customBreaks;
+  readonly binType: BinStrategy.customBreaks;
   readonly breakValues: number[];
   private calculatedNumBins: number;
   private calculatedDomain: number[];
@@ -27,7 +27,7 @@ export class CustomBreaksBinsAttributeDataDimension<
     options: CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
-    this.binType = VicValuesBin.customBreaks;
+    this.binType = BinStrategy.customBreaks;
     Object.assign(this, options);
     if (!this.valueAccessor) {
       console.error(

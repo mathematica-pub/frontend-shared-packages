@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
-import { VicOrientation } from '../../core/types/layout';
+import { Orientation } from '../../core/types/layout';
 import { NoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
 import { MapLegend } from '../map-legend-base';
 
@@ -29,7 +29,7 @@ export class ContinuousLegendComponent<Datum>
   }
 
   getLeftOffset(): number {
-    if (this.orientation === VicOrientation.horizontal) {
+    if (this.orientation === Orientation.horizontal) {
       return (this.largerValueSpace - this.startValueSpace) * -1;
     } else {
       return 0;
@@ -41,7 +41,7 @@ export class ContinuousLegendComponent<Datum>
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     const ctx = canvas.getContext('2d');
-    if (this.orientation === VicOrientation.horizontal) {
+    if (this.orientation === Orientation.horizontal) {
       this.drawHorizontalGradient(canvas, ctx);
     } else {
       this.drawVerticalGradient(canvas, ctx);

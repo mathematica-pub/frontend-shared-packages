@@ -7,7 +7,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
   beforeEach(() => {
     dimension = new CategoricalBinsBuilder<string>()
       .valueAccessor((d) => d)
-      .build();
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {
@@ -33,7 +33,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       dimension = new CategoricalBinsBuilder<string>()
         .valueAccessor((d) => d)
         .domain(['c', 'd', 'b', 'a', 'd'])
-        .build();
+        ._build();
       dimension.setPropertiesFromData(['a', 'b', 'c', 'a', 'b']);
       expect((dimension as any).calculatedDomain).toEqual(['c', 'd', 'b', 'a']);
     });
@@ -44,7 +44,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       dimension = new CategoricalBinsBuilder<string>()
         .valueAccessor((d) => d)
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
-        .build();
+        ._build();
       dimension.setPropertiesFromData(['a', 'b', 'c']);
       expect(dimension.range).toEqual(['red', 'blue', 'green']);
     });
@@ -67,7 +67,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       dimension = new CategoricalBinsBuilder<IceCream>()
         .valueAccessor((d) => d.flavor)
         .nullColor('pink')
-        .build();
+        ._build();
       dimension.setPropertiesFromData(data);
       const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('white');
@@ -80,7 +80,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
         .valueAccessor((d) => d.flavor)
         .range(['red', 'white', 'blue'])
         .nullColor('pink')
-        .build();
+        ._build();
       dimension.setPropertiesFromData(data);
       const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('red');
@@ -93,7 +93,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
         .valueAccessor((d) => d.flavor)
         .domain(['cookie dough', 'rocky road', 'butter pecan'])
         .nullColor('pink')
-        .build();
+        ._build();
       dimension.setPropertiesFromData(data);
       const scale = dimension.getScale();
       expect(scale('chocolate')).toEqual('pink');

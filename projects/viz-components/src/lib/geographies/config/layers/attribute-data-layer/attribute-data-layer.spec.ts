@@ -23,7 +23,7 @@ function createLayer(): GeographiesAttributeDataLayer<
     )
     .geographyIndexAccessor((d) => d.state)
     .data(data)
-    .build();
+    ._build();
 }
 
 describe('GeographiesConfig', () => {
