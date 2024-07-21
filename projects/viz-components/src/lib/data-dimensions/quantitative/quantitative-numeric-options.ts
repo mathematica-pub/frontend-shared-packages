@@ -1,9 +1,9 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { VicDataDimensionOptions } from '../dimension-options';
-import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
+import { DataDimensionOptions } from '../dimension-options';
+import { ConcreteDomainPadding } from './domain-padding/domain-padding';
 
-export interface VicDimensionQuantitativeNumericOptions<Datum>
-  extends VicDataDimensionOptions<Datum, number> {
+export interface QuantitativeNumericDimensionOptions<Datum>
+  extends DataDimensionOptions<Datum, number> {
   domain: [number, number];
   formatSpecifier: string;
   /**
@@ -13,7 +13,7 @@ export interface VicDimensionQuantitativeNumericOptions<Datum>
   /**
    * The padding configuration for the dimension's domain.
    */
-  domainPadding?: VicDomainPaddingConfig;
+  domainPadding?: ConcreteDomainPadding;
   /**
    * The scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
    */

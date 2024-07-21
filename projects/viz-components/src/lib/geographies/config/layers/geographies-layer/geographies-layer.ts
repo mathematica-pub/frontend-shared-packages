@@ -2,7 +2,7 @@ import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
-import { VicGeographiesLabels } from '../labels/geographies-labels';
+import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesLayerOptions } from './geographies-layer-options';
 
 export abstract class GeographiesLayer<
@@ -18,7 +18,7 @@ export abstract class GeographiesLayer<
   ) => string;
   geographies: Array<VicGeographiesFeature<TProperties, TGeometry>>;
   id: number;
-  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  labels: GeographiesLabels<Datum, TProperties, TGeometry>;
   strokeColor: string;
   strokeWidth: string;
 

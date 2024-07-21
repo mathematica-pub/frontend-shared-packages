@@ -1,6 +1,6 @@
 import { interpolateLab, scaleLinear } from 'd3';
 import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-dimension-builder';
-import { VicNoBinsAttributeDataDimension } from './no-bins';
+import { NoBinsAttributeDataDimension } from './no-bins';
 
 const DEFAULT = {
   _interpolator: interpolateLab,
@@ -14,10 +14,9 @@ const DEFAULT = {
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
-  Datum,
-  number
-> {
+export class NoBinsAttributeDataDimensionBuilder<
+  Datum
+> extends AttributeDataDimensionBuilder<Datum, number> {
   private _domain: [number, number];
   private _formatSpecifier: string;
 
@@ -27,7 +26,7 @@ export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
   }
 
   /**
-   * The domain of the scale.
+   * OPTIONAL. The domain of the scale. If not set, the domain will be inferred from the data.
    */
   domain(domain: [number, number]): this {
     this._domain = domain;
@@ -35,15 +34,20 @@ export class VicNoBinsBuilder<Datum> extends AttributeDataDimensionBuilder<
   }
 
   /**
-   * A format specifier that will be applied to the value of this dimension for display purposes.
+   * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension using D3 format for display purposes.
+   *
+   * For example, this will format data values shown in a tooltip
    */
   formatSpecifier(formatSpecifier: string): this {
     this._formatSpecifier = formatSpecifier;
     return this;
   }
 
-  build(): VicNoBinsAttributeDataDimension<Datum> {
-    return new VicNoBinsAttributeDataDimension({
+  /**
+   * @internal This method is not intended to be used by consumers of this library.
+   */
+  build(): NoBinsAttributeDataDimension<Datum> {
+    return new NoBinsAttributeDataDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,
       formatFunction: this._formatFunction,

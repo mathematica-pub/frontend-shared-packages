@@ -1,11 +1,9 @@
 import { Series } from 'd3';
-import { VicDataValue } from 'projects/viz-components/src/public-api';
-import { VicBarsOptions } from '../../bars/config/bars-options';
+import { BarsOptions } from '../../bars/config/bars-options';
+import { DataValue } from '../../core/types/values';
 
-export interface VicStackedBarsOptions<
-  Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicBarsOptions<Datum, TOrdinalValue> {
+export interface StackedBarsOptions<Datum, TOrdinalValue extends DataValue>
+  extends BarsOptions<Datum, TOrdinalValue> {
   stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     series: Series<any, any>,

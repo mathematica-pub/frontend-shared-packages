@@ -1,14 +1,14 @@
 import { Directive } from '@angular/core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicDataValue } from '../../core/types/values';
+import { DataValue } from '../../core/types/values';
 import { VicXyAxisOptions } from '../xy-axis-options';
 import { VicXyAxisConfig } from '../xy-axis.config';
 
-export type VicOrdinalAxisOptions<TickValue extends VicDataValue> =
+export type VicOrdinalAxisOptions<TickValue extends DataValue> =
   VicXyAxisOptions<TickValue>;
 
 export function mixinOrdinalAxisConfig<
-  TickValue extends VicDataValue,
+  TickValue extends DataValue,
   T extends AbstractConstructor<VicXyAxisConfig<TickValue>>
 >(Base: T) {
   @Directive()
@@ -26,5 +26,5 @@ export function mixinOrdinalAxisConfig<
 }
 
 export class VicOrdinalAxisConfig<
-  TickValue extends VicDataValue
+  TickValue extends DataValue
 > extends mixinOrdinalAxisConfig(VicXyAxisConfig)<TickValue> {}

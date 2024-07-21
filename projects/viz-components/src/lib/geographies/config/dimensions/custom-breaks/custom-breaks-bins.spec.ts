@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicCustomBreaksAttributeDataDimension } from './custom-breaks-bins';
-import { VicCustomBreaksBuilder } from './custom-breaks-bins-builder';
+import { CustomBreaksBinsAttributeDataDimension } from './custom-breaks-bins';
+import { CustomBreaksBinsAttributeDataDimensionBuilder } from './custom-breaks-bins-builder';
 
 describe('VicCustomBreaksAttributeDataDimension', () => {
-  let dimension: VicCustomBreaksAttributeDataDimension<any>;
+  let dimension: CustomBreaksBinsAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = new VicCustomBreaksBuilder<any>()
+    dimension = new CustomBreaksBinsAttributeDataDimensionBuilder<any>()
       .breakValues([0, 2, 5, 10, 50])
       .range(['red', 'blue', 'yellow', 'green'])
       .valueAccessor((d) => d)
@@ -52,7 +52,7 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
 
   describe('integration: the scale generates the expected color for a value with the default scale (D3 scaleThreshold)', () => {
     type IceCream = { price: number; flavor: string; state: string };
-    let dimension: VicCustomBreaksAttributeDataDimension<IceCream>;
+    let dimension: CustomBreaksBinsAttributeDataDimension<IceCream>;
     const data: IceCream[] = [
       { price: 7.99, flavor: 'chocolate', state: 'AL' },
       { price: 5, flavor: 'chocolate', state: 'AK' },
@@ -64,7 +64,7 @@ describe('VicCustomBreaksAttributeDataDimension', () => {
       { price: 7, flavor: 'strawberry', state: 'DE' },
     ];
     it('using custom break values and one color per bin provided as range', () => {
-      dimension = new VicCustomBreaksBuilder<IceCream>()
+      dimension = new CustomBreaksBinsAttributeDataDimensionBuilder<IceCream>()
         .valueAccessor((d) => d.price)
         .breakValues([2.5, 5, 7.5, 10, 12.5])
         .range(['red', 'blue', 'yellow', 'green'])

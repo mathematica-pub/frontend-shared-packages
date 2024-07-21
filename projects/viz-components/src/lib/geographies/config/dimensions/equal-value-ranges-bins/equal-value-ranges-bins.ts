@@ -1,6 +1,6 @@
 import { extent } from 'd3';
 import { VicValuesBin } from '../attribute-data-bin-enums';
-import { CalculatedRangeBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
+import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
 import { VicEqualValueRangesAttributeDataDimensionOptions } from './equal-value-ranges-bins-options';
 
 /**
@@ -12,7 +12,7 @@ export class VicEqualValueRangesAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
-  extends CalculatedRangeBinsAttributeDataDimension<Datum, RangeValue>
+  extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
   implements
     VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
 {

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicDimensionCategorical } from './categorical';
+import { CategoricalDimension } from './categorical';
 import { CategoricalDimensionBuilder } from './categorical-builder';
 
 describe('VicDimensionCategorical', () => {
-  let dimension: VicDimensionCategorical<string>;
+  let dimension: CategoricalDimension<string>;
   beforeEach(() => {
     dimension = new CategoricalDimensionBuilder<string>()
       .valueAccessor((d) => d)

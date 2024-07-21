@@ -1,7 +1,7 @@
-import { VicAttributeDataDimensionOptions } from '../attribute-data/attribute-data-dimension-options';
+import { AttributeDataDimensionOptions } from '../attribute-data/attribute-data-dimension-options';
 
-export interface VicNoBinsAttributeDataDimensionOptions<Datum>
-  extends VicAttributeDataDimensionOptions<Datum, number> {
+export interface NoBinsAttributeDataDimensionOptions<Datum>
+  extends AttributeDataDimensionOptions<Datum, number> {
   domain: [number, number];
   formatSpecifier: string;
 }

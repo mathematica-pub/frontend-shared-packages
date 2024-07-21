@@ -11,19 +11,19 @@ import {
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { VicDataMarksConfig } from '../../data-marks/config/data-marks-config';
+import { DataMarksConfig } from '../../data-marks/config/data-marks-config';
 import { VicGeographiesFeature } from '../geographies-feature';
-import { VicGeographiesOptions } from './geographies-options';
-import { VicGeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesOptions } from './geographies-options';
+import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
 
-export class VicGeographiesConfig<
+export class GeographiesConfig<
     Datum,
     TProperties extends GeoJsonProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
-  extends VicDataMarksConfig<Datum>
-  implements VicGeographiesOptions<Datum, TProperties, TGeometry>
+  extends DataMarksConfig<Datum>
+  implements GeographiesOptions<Datum, TProperties, TGeometry>
 {
   readonly boundary:
     | ExtendedFeature
@@ -31,7 +31,7 @@ export class VicGeographiesConfig<
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
   override data: null;
-  readonly attributeDataLayer: VicGeographiesAttributeDataLayer<
+  readonly attributeDataLayer: GeographiesAttributeDataLayer<
     Datum,
     TProperties,
     TGeometry
@@ -40,16 +40,16 @@ export class VicGeographiesConfig<
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
   layers: (
-    | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
+    | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+    | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
   )[];
-  readonly geojsonPropertiesLayers: VicGeographiesGeojsonPropertiesLayer<
+  readonly geojsonPropertiesLayers: GeographiesGeojsonPropertiesLayer<
     TProperties,
     TGeometry
   >[];
   readonly projection: GeoProjection;
 
-  constructor(options: VicGeographiesOptions<Datum, TProperties, TGeometry>) {
+  constructor(options: GeographiesOptions<Datum, TProperties, TGeometry>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { VicDataValue } from '../../core/types/values';
-import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
-import { mixinXAxis } from '../x/x-axis';
+import { DataValue } from '../../core/types/values';
+import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
+import { xAxisMixin } from '../x/x-axis';
 import { XyAxis } from '../xy-axis';
 
-const XOrdinalAxis = mixinXAxis(OrdinalAxisMixin(XyAxis));
+const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
 
 /**
  * A component that is used to create an ordinal x-axis.
@@ -47,5 +47,5 @@ const XOrdinalAxis = mixinXAxis(OrdinalAxisMixin(XyAxis));
   inputs: ['side', 'config'],
 })
 export class XOrdinalAxisComponent<
-  TickValue extends VicDataValue
+  TickValue extends DataValue
 > extends XOrdinalAxis<TickValue> {}

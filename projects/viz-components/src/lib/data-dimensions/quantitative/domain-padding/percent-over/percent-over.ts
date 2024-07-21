@@ -1,21 +1,21 @@
 import {
   DomainPadding,
+  DomainPaddingType,
   PaddedDomainArguments,
-  VicDomainPadding,
 } from '../domain-padding';
 import { PercentOverDomainPaddingOptions } from './percent-over-options';
 
-export class VicPercentOverDomainPadding
-  extends VicDomainPadding
+export class PercentOverDomainPadding
+  extends DomainPadding
   implements PercentOverDomainPaddingOptions
 {
   readonly percentOver: number;
-  readonly type: DomainPadding.percentOver;
+  readonly type: DomainPaddingType.percentOver;
 
-  constructor(options?: Partial<VicPercentOverDomainPadding>) {
+  constructor(options: PercentOverDomainPaddingOptions) {
     super();
     Object.assign(this, options);
-    this.type = DomainPadding.percentOver;
+    this.type = DomainPaddingType.percentOver;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {

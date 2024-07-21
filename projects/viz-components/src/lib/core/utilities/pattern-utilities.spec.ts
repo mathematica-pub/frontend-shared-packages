@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicFillPattern } from 'projects/viz-components/src/public-api';
+import { FillPattern } from '../../data-dimensions/categorical/fill-pattern';
 import { PatternUtilities } from './pattern-utilities';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
-    const predicates: VicFillPattern<any>[] = [
+    const predicates: FillPattern<any>[] = [
       { name: 'pattern', usePattern: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {

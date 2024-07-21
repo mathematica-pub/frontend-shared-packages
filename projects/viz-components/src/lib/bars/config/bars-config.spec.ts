@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
-import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
+import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicBarsBuilder } from './bars-builder';
-import { VicBarsConfig } from './bars-config';
+import { BarsConfig } from './bars-config';
 
 type Datum = { value: number; state: string };
 const data = [
@@ -14,9 +14,10 @@ const data = [
   { value: 5, state: 'CO' },
   { value: 6, state: 'CO' },
 ];
-function getNewConfig(): VicBarsConfig<Datum, string> {
+function getNewConfig(): BarsConfig<Datum, string> {
   return new VicBarsBuilder<Datum, string>()
     .data(data)
+    .orientation('horizontal')
     .createQuantitativeDimension((dimension) =>
       dimension.valueAccessor((d) => d.value)
     )
@@ -27,17 +28,17 @@ function getNewConfig(): VicBarsConfig<Datum, string> {
 }
 
 describe('BarsConfig', () => {
-  let config: VicBarsConfig<Datum, string>;
+  let config: BarsConfig<Datum, string>;
   beforeEach(() => {
     config = undefined;
   });
 
   describe('init()', () => {
     beforeEach(() => {
-      spyOn(VicBarsConfig.prototype as any, 'setDimensionPropertiesFromData');
-      spyOn(VicBarsConfig.prototype as any, 'setValueIndices');
-      spyOn(VicBarsConfig.prototype as any, 'setHasNegativeValues');
-      spyOn(VicBarsConfig.prototype as any, 'setBarsKeyFunction');
+      spyOn(BarsConfig.prototype as any, 'setDimensionPropertiesFromData');
+      spyOn(BarsConfig.prototype as any, 'setValueIndices');
+      spyOn(BarsConfig.prototype as any, 'setHasNegativeValues');
+      spyOn(BarsConfig.prototype as any, 'setBarsKeyFunction');
       config = getNewConfig();
     });
     it('calls setDimensionPropertiesFromData once', () => {
@@ -58,13 +59,13 @@ describe('BarsConfig', () => {
 
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
-      spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
+      spyOn(BarsConfig.prototype as any, 'initPropertiesFromData');
       spyOn(
-        VicDimensionQuantitativeNumeric.prototype as any,
+        QuantitativeNumericDimension.prototype as any,
         'setPropertiesFromData'
       );
-      spyOn(VicDimensionOrdinal.prototype as any, 'setPropertiesFromData');
-      spyOn(VicDimensionCategorical.prototype as any, 'setPropertiesFromData');
+      spyOn(OrdinalDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(CategoricalDimension.prototype as any, 'setPropertiesFromData');
       config = getNewConfig();
       (config as any).setDimensionPropertiesFromData();
     });
@@ -88,7 +89,7 @@ describe('BarsConfig', () => {
 
   describe('setValueIndices()', () => {
     beforeEach(() => {
-      spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
+      spyOn(BarsConfig.prototype as any, 'initPropertiesFromData');
     });
     it('returns the value indices of datums with unique ordinal values', () => {
       config = getNewConfig();
@@ -99,6 +100,7 @@ describe('BarsConfig', () => {
     it('sets valueIndices to the correct array when ordinal domain is limited by user', () => {
       config = new VicBarsBuilder<Datum, string>()
         .data(data)
+        .orientation('horizontal')
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
@@ -114,7 +116,7 @@ describe('BarsConfig', () => {
 
   describe('setHasNegativeValues()', () => {
     beforeEach(() => {
-      spyOn(VicBarsConfig.prototype as any, 'initPropertiesFromData');
+      spyOn(BarsConfig.prototype as any, 'initPropertiesFromData');
       config = getNewConfig();
     });
     it('returns false if all values are positive', () => {

@@ -1,28 +1,27 @@
 import { Injectable } from '@angular/core';
-import {
-  schemeTableau10,
-  Series,
-  stackOffsetDiverging,
-  stackOrderNone,
-} from 'd3';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicDataValue,
-} from 'projects/viz-components/src/public-api';
+import { Series, stackOffsetDiverging, stackOrderNone } from 'd3';
 import { VicBarsBuilder } from '../../bars/config/bars-builder';
-import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { VicStackedBarsConfig } from './stacked-bars-config';
+import { DataValue } from '../../core/types/values';
+import { StackedBarsConfig } from './stacked-bars-config';
 
 const DEFAULT = {
   _stackOrder: stackOrderNone,
   _stackOffset: stackOffsetDiverging,
 };
 
+/**
+ * Builds a configuration object for a StackedBarsComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. `providers: [VicStackedBarsBuilder]` in the component decorator)
+ *
+ * The first generic parameter, Datum, is the type of the data that will be used to create the stacked bars.
+ *
+ * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
+ */
 @Injectable()
 export class VicStackedBarsBuilder<
   Datum,
-  TOrdinalValue extends VicDataValue
+  TOrdinalValue extends DataValue
 > extends VicBarsBuilder<Datum, TOrdinalValue> {
   private _stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -35,15 +34,6 @@ export class VicStackedBarsBuilder<
   constructor() {
     super();
     Object.assign(this, DEFAULT);
-  }
-
-  override createCategoricalDimension(
-    setProperties: (dimension: CategoricalDimensionBuilder<Datum>) => void
-  ): this {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
-    this.categoricalDimensionBuilder.range(schemeTableau10 as string[]);
-    setProperties(this.categoricalDimensionBuilder);
-    return this;
   }
 
   stackOffset(
@@ -67,12 +57,9 @@ export class VicStackedBarsBuilder<
     return this;
   }
 
-  override build(): VicStackedBarsConfig<Datum, TOrdinalValue> {
-    const dimensions =
-      this._orientation === 'horizontal'
-        ? HORIZONTAL_BARS_DIMENSIONS
-        : VERTICAL_BARS_DIMENSIONS;
-    return new VicStackedBarsConfig(dimensions, {
+  override build(): StackedBarsConfig<Datum, TOrdinalValue> {
+    this.validateBuilder('Stacked Bars');
+    return new StackedBarsConfig(this.dimensions, {
       categorical: this.categoricalDimensionBuilder.build(),
       data: this._data,
       mixBlendMode: this._mixBlendMode,

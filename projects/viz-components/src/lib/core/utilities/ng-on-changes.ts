@@ -19,15 +19,15 @@ export class NgOnChangesUtilities {
     inputName: string,
     property?: string
   ): boolean {
-    let prevString = `${inputName}.previousValue`;
-    let currString = `${inputName}.currentValue`;
+    let prevAccessor = `${inputName}.previousValue`;
+    let currAccessor = `${inputName}.currentValue`;
     if (property) {
-      prevString += `.${property}`;
-      currString += `.${property}`;
+      prevAccessor += `.${property}`;
+      currAccessor += `.${property}`;
     }
     return (
       changes[inputName] !== undefined &&
-      !isEqual(get(changes, prevString), get(changes, currString))
+      !isEqual(get(changes, prevAccessor), get(changes, currAccessor))
     );
   }
 }

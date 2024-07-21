@@ -1,23 +1,21 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { VicDataValue } from '../../core/types/values';
-import { VicDataDimension } from '../dimension';
-import { VicCategoricalDimensionOptions } from './categorical-options';
-import { VicFillPattern } from './fill-pattern';
+import { DataValue } from '../../core/types/values';
+import { DataDimension } from '../dimension';
+import { CategoricalDimensionOptions } from './categorical-options';
+import { FillPattern } from './fill-pattern';
 
-export class VicDimensionCategorical<
+export class CategoricalDimension<
   Datum,
-  TCategoricalValue extends VicDataValue = string
-> extends VicDataDimension<Datum, TCategoricalValue> {
+  TCategoricalValue extends DataValue = string
+> extends DataDimension<Datum, TCategoricalValue> {
   private _calculatedDomain: TCategoricalValue[];
   private readonly domain: TCategoricalValue[];
-  readonly fillPatterns: VicFillPattern<Datum>[];
+  readonly fillPatterns: FillPattern<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   readonly range: string[];
   private scale: (category: TCategoricalValue) => string;
 
-  constructor(
-    options: VicCategoricalDimensionOptions<Datum, TCategoricalValue>
-  ) {
+  constructor(options: CategoricalDimensionOptions<Datum, TCategoricalValue>) {
     super();
     Object.assign(this, options);
   }

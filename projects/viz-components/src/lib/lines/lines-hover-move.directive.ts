@@ -2,7 +2,7 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
-import { VicContinuousValue } from '../core/types/values';
+import { ContinuousValue } from '../core/types/values';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
 import {
@@ -56,7 +56,7 @@ export class LinesHoverMoveDirective<
     }
   }
 
-  onElementPointerLeave() {
+  onElementPointerLeave(): void {
     if (this.effects && !this.preventEffect) {
       this.effects.forEach((effect) => effect.removeEffect(this));
     }
@@ -107,7 +107,7 @@ export class LinesHoverMoveDirective<
   }
 
   getPointerDistanceFromPoint(
-    xValue: VicContinuousValue,
+    xValue: ContinuousValue,
     yValue: number,
     pointerX: number,
     pointerY: number

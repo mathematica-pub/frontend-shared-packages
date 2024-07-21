@@ -1,17 +1,17 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { format } from 'd3';
-import { VicBarsBuilder } from 'projects/viz-components/src/lib/bars/config/bars-builder';
+import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis-config';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
+import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/bars-event';
+import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
-  HoverMoveEventEffect,
-  VicBarsConfig,
-  VicBarsEventOutput,
-  VicElementSpacing,
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
+  HtmlTooltipConfig,
+  VicBarsBuilder,
   VicXOrdinalAxisBuilder,
   VicXQuantitativeAxisBuilder,
   VicYOrdinalAxisBuilder,
@@ -22,17 +22,9 @@ import { MetroUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicBarsConfig<MetroUnemploymentDatum, string>;
+  dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
-}
-
-class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
-  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
-    super();
-    this.size.minWidth = 130;
-    Object.assign(this, config);
-  }
 }
 
 enum Orientation {
@@ -50,6 +42,7 @@ enum Orientation {
     VicXQuantitativeAxisBuilder,
     VicYOrdinalAxisBuilder,
     VicYQuantitativeAxisBuilder,
+    VicHtmlTooltipBuilder,
   ],
 })
 export class BarsExampleComponent implements OnInit {
@@ -61,14 +54,12 @@ export class BarsExampleComponent implements OnInit {
     left: 300,
   };
   folderName = 'bars-example';
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new VicHtmlTooltipConfig(new BarsExampleTooltipConfig())
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    VicBarsEventOutput<MetroUnemploymentDatum, string>
-  > = new BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum, string>>(
+    BarsEventOutput<MetroUnemploymentDatum, string>
+  > = new BehaviorSubject<BarsEventOutput<MetroUnemploymentDatum, string>>(
     null
   );
   tooltipData$ = this.tooltipData.asObservable();
@@ -79,7 +70,6 @@ export class BarsExampleComponent implements OnInit {
     Orientation.horizontal as keyof typeof Orientation
   );
   orientation$ = this.orientation.asObservable();
-  Orientation = Orientation;
 
   constructor(
     private dataService: DataService,
@@ -87,7 +77,8 @@ export class BarsExampleComponent implements OnInit {
     private xOrdinalAxis: VicXOrdinalAxisBuilder<string>,
     private xQuantitativeAxis: VicXQuantitativeAxisBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisBuilder<string>,
-    private yQuantitativeAxis: VicYQuantitativeAxisBuilder<number>
+    private yQuantitativeAxis: VicYQuantitativeAxisBuilder<number>,
+    private tooltip: VicHtmlTooltipBuilder
   ) {}
 
   ngOnInit(): void {
@@ -102,7 +93,7 @@ export class BarsExampleComponent implements OnInit {
 
   getViewModel(
     data: MetroUnemploymentDatum[],
-    orientation: keyof typeof Orientation
+    orientation: 'horizontal' | 'vertical'
   ): ViewModel {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
@@ -118,14 +109,12 @@ export class BarsExampleComponent implements OnInit {
 
     const dataConfig = this.bars
       .data(filteredData)
-      .orientation(
-        orientation === Orientation.horizontal ? 'horizontal' : 'vertical'
-      )
+      .orientation(orientation)
       .createQuantitativeDimension((dimension) =>
         dimension
           .valueAccessor((d) => d.value)
           .formatFunction((d) => this.getQuantitativeValueFormat(d))
-          .createPixelDomainPadding()
+          .domainPaddingPixels()
       )
       .createCategoricalDimension((dimension) => dimension.range(['slategray']))
       .createOrdinalDimension((dimension) =>
@@ -150,32 +139,30 @@ export class BarsExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicBarsEventOutput<MetroUnemploymentDatum, string>
+    data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
   updateTooltipData(
-    data: VicBarsEventOutput<MetroUnemploymentDatum, string>
+    data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: VicBarsEventOutput<MetroUnemploymentDatum, string>
+    data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
-    const config = new BarsExampleTooltipConfig();
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY - 4;
-      config.show = true;
-      config.origin = data.elRef;
-    } else {
-      config.show = false;
-      config.origin = undefined;
-    }
+    const config = this.tooltip
+      .createOffsetFromOriginPosition((position) =>
+        position
+          .offsetX(data?.positionX)
+          .offsetY(data ? data.positionY - 4 : undefined)
+      )
+      .origin(data ? data.elRef : undefined)
+      .show(!!data)
+      .build();
     this.tooltipConfig.next(config);
   }
 

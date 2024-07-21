@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
 import { BARS, BarsComponent } from './bars.component';
@@ -19,7 +19,7 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsInputEventDirective<
   Datum,
-  TOrdinalValue extends VicDataValue,
+  TOrdinalValue extends DataValue,
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue

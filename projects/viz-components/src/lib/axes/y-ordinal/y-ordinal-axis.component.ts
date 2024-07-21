@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { VicDataValue } from '../../core/types/values';
-import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
+import { DataValue } from '../../core/types/values';
+import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
 import { XyAxis } from '../xy-axis';
-import { mixinYAxis } from '../y/y-axis';
+import { yAxisMixin } from '../y/y-axis';
 
-const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
+const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
 
 /**
  * A component that is used to create an ordinal y-axis.
@@ -47,5 +47,5 @@ const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
   inputs: ['side', 'config'],
 })
 export class YOrdinalAxisComponent<
-  TickValue extends VicDataValue
+  TickValue extends DataValue
 > extends YOrdinalAxis<TickValue> {}

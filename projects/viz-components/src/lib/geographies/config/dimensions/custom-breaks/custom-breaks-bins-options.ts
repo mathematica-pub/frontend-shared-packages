@@ -1,9 +1,9 @@
-import { CalculatedRangeBinsAttributeDataDimensionOptions } from '../calculated-bins/calculated-bins-options';
+import { CalculatedBinsAttributeDataDimensionOptions } from '../calculated-bins/calculated-bins-options';
 
-export interface VicCustomBreaksAttributeDataDimensionOptions<
+export interface CustomBreaksBinsAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
-> extends CalculatedRangeBinsAttributeDataDimensionOptions<Datum, RangeValue> {
+> extends CalculatedBinsAttributeDataDimensionOptions<Datum, RangeValue> {
   breakValues: number[];
   formatSpecifier: string;
 }

@@ -3,17 +3,17 @@ import { axisLeft, axisRight } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicDataValue } from '../../core/types/values';
+import { DataValue } from '../../core/types/values';
 import { XyAxis, XyAxisScale } from '../xy-axis';
-import { VicYAxisConfig } from './y-axis.config';
+import { VicYAxisConfig } from './y-axis-config';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for a y-axis.
  *
  * For internal library use only.
  */
-export function mixinYAxis<
-  TickValue extends VicDataValue,
+export function yAxisMixin<
+  TickValue extends DataValue,
   T extends AbstractConstructor<XyAxis<TickValue>>
 >(Base: T) {
   @Directive()

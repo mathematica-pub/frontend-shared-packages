@@ -1,13 +1,13 @@
-import { VicDataValue } from 'projects/viz-components/src/public-api';
-import { VicDataDimensionOptions } from '../dimension-options';
-import { VicFillPattern } from './fill-pattern';
+import { DataValue } from '../../core/types/values';
+import { DataDimensionOptions } from '../dimension-options';
+import { FillPattern } from './fill-pattern';
 
-export interface VicCategoricalDimensionOptions<
+export interface CategoricalDimensionOptions<
   Datum,
-  TCategoricalValue extends VicDataValue = string
-> extends VicDataDimensionOptions<Datum, TCategoricalValue> {
+  TCategoricalValue extends DataValue = string
+> extends DataDimensionOptions<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
-  fillPatterns: VicFillPattern<Datum>[];
+  fillPatterns: FillPattern<Datum>[];
   range: string[];
   scale: (category: TCategoricalValue) => string;
 }

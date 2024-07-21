@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
-import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
+import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicStackedAreaBuilder } from './stacked-area-builder';
-import { VicStackedAreaConfig } from './stacked-area-config';
+import { StackedAreaConfig } from './stacked-area-config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [
@@ -14,11 +14,13 @@ const data = [
   { date: new Date('2020-01-02'), value: 5, category: 'b' },
   { date: new Date('2020-01-03'), value: 6, category: 'b' },
 ];
-function createConfig(): VicStackedAreaConfig<Datum, string> {
+function createConfig(): StackedAreaConfig<Datum, string> {
   return new VicStackedAreaBuilder<Datum, string>()
     .data(data)
     .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
-    .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))
+    .createYNumericDimension((dimension) =>
+      dimension.valueAccessor((d) => d.value)
+    )
     .createCategoricalDimension((dimension) =>
       dimension.valueAccessor((d) => d.category)
     )
@@ -26,20 +28,20 @@ function createConfig(): VicStackedAreaConfig<Datum, string> {
 }
 
 describe('StackedAreaConfig', () => {
-  let config: VicStackedAreaConfig<Datum, string>;
+  let config: StackedAreaConfig<Datum, string>;
   beforeEach(() => {
     config = undefined;
   });
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(
-        VicStackedAreaConfig.prototype as any,
+        StackedAreaConfig.prototype as any,
         'setDimensionPropertiesFromData'
       );
-      spyOn(VicStackedAreaConfig.prototype as any, 'setValueIndicies');
-      spyOn(VicStackedAreaConfig.prototype as any, 'setSeries');
+      spyOn(StackedAreaConfig.prototype as any, 'setValueIndicies');
+      spyOn(StackedAreaConfig.prototype as any, 'setSeries');
       spyOn(
-        VicStackedAreaConfig.prototype as any,
+        StackedAreaConfig.prototype as any,
         'initQuantitativeDomainFromStack'
       );
       config = createConfig();
@@ -64,10 +66,10 @@ describe('StackedAreaConfig', () => {
 
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
-      spyOn(VicStackedAreaConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(VicDimensionQuantitativeDate.prototype, 'setPropertiesFromData');
-      spyOn(VicDimensionQuantitativeNumeric.prototype, 'setPropertiesFromData');
-      spyOn(VicDimensionCategorical.prototype, 'setPropertiesFromData');
+      spyOn(StackedAreaConfig.prototype as any, 'initPropertiesFromData');
+      spyOn(QuantitativeDateDimension.prototype, 'setPropertiesFromData');
+      spyOn(QuantitativeNumericDimension.prototype, 'setPropertiesFromData');
+      spyOn(CategoricalDimension.prototype, 'setPropertiesFromData');
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
     });
@@ -84,7 +86,7 @@ describe('StackedAreaConfig', () => {
 
   describe('setValueIndicies()', () => {
     beforeEach(() => {
-      spyOn(VicStackedAreaConfig.prototype as any, 'initPropertiesFromData');
+      spyOn(StackedAreaConfig.prototype as any, 'initPropertiesFromData');
     });
     it('sets valueIndicies to an array of length 6', () => {
       config = createConfig();
@@ -98,7 +100,7 @@ describe('StackedAreaConfig', () => {
         .createXDateDimension((dimension) =>
           dimension.valueAccessor((d) => d.date)
         )
-        .createYDimension((dimension) =>
+        .createYNumericDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
         .createCategoricalDimension((dimension) =>

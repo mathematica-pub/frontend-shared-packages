@@ -1,25 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
 import { MultiPolygon } from 'geojson';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { VicColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
-import { VicGeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
-import { VicGeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
-import { VicGeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder';
-import { VicGeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
+import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
+import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { VicValuesBin } from 'projects/viz-components/src/lib/geographies/config/dimensions/attribute-data-bin-enums';
+import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
+import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
+import { GeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder';
+import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
+import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
+import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
+import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
-  EventEffect,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
-  VicElementSpacing,
-  VicFillPattern,
+  HtmlTooltipConfig,
   VicGeographiesBuilder,
-  VicGeographiesEventOutput,
-  VicGeographiesFeature,
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-  VicValuesBin,
   valueFormat,
 } from 'projects/viz-components/src/public-api';
 import {
@@ -55,20 +55,18 @@ const smallSquareStates = [
   selector: 'app-geographies-example',
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
-  providers: [VicGeographiesBuilder],
+  providers: [VicGeographiesBuilder, VicHtmlTooltipBuilder],
 })
 export class GeographiesExampleComponent implements OnInit {
   dataMarksConfig$: Observable<
-    VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties>
+    GeographiesConfig<StateIncomeDatum, MapGeometryProperties>
   >;
   width = 700;
   height = 400;
   margin: VicElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new VicHtmlTooltipConfig({ show: false })
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
@@ -116,7 +114,8 @@ export class GeographiesExampleComponent implements OnInit {
     private geographies: VicGeographiesBuilder<
       StateIncomeDatum,
       MapGeometryProperties
-    >
+    >,
+    private tooltip: VicHtmlTooltipBuilder
   ) {}
 
   ngOnInit(): void {
@@ -140,7 +139,7 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataMarksConfig(
     data: StateIncomeDatum[]
-  ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
+  ): GeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
     const config = this.geographies
       .boundary(this.basemap.us)
       .featureIndexAccessor(this.featureIndexAccessor)
@@ -152,8 +151,8 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   getUsOutlineConfig(
-    layer: VicGeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
-  ): VicGeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
+  ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     return layer
       .geographies(this.basemap.us.features)
       .strokeColor(colors.base)
@@ -165,8 +164,8 @@ export class GeographiesExampleComponent implements OnInit {
 
   getNoDataLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
-  ): VicGeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
+  ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     const statesInData = data.map((x) => x.state);
     const features = this.basemap.states.features.filter(
       (x) => !statesInData.includes(x.properties.name)
@@ -194,11 +193,11 @@ export class GeographiesExampleComponent implements OnInit {
 
   getDataLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesAttributeDataLayerBuilder<
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >
-  ): VicGeographiesAttributeDataLayerBuilder<
+  ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
   > {
@@ -235,12 +234,12 @@ export class GeographiesExampleComponent implements OnInit {
 
   getCategoricalLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesAttributeDataLayerBuilder<
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: VicFillPattern<StateIncomeDatum>[]
-  ): VicGeographiesAttributeDataLayerBuilder<
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
   > {
@@ -261,12 +260,12 @@ export class GeographiesExampleComponent implements OnInit {
 
   getCustomBreaksLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesAttributeDataLayerBuilder<
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: VicFillPattern<StateIncomeDatum>[]
-  ): VicGeographiesAttributeDataLayerBuilder<
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
   > {
@@ -287,12 +286,12 @@ export class GeographiesExampleComponent implements OnInit {
 
   getEqualValueRangesLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesAttributeDataLayerBuilder<
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: VicFillPattern<StateIncomeDatum>[]
-  ): VicGeographiesAttributeDataLayerBuilder<
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
   > {
@@ -313,11 +312,11 @@ export class GeographiesExampleComponent implements OnInit {
 
   getEqualFrequenciesLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesAttributeDataLayerBuilder<
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: VicFillPattern<StateIncomeDatum>[]
+    fillPatterns: FillPattern<StateIncomeDatum>[]
   ) {
     return layer
       .data(data)
@@ -336,12 +335,12 @@ export class GeographiesExampleComponent implements OnInit {
 
   getNoBinsLayer(
     data: StateIncomeDatum[],
-    layer: VicGeographiesAttributeDataLayerBuilder<
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: VicFillPattern<StateIncomeDatum>[]
-  ): VicGeographiesAttributeDataLayerBuilder<
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
   > {
@@ -360,8 +359,8 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   getLabels(
-    labels: VicGeographiesLabelsBuilder<StateIncomeDatum, MapGeometryProperties>
-  ): VicGeographiesLabelsBuilder<StateIncomeDatum, MapGeometryProperties> {
+    labels: GeographiesLabelsBuilder<StateIncomeDatum, MapGeometryProperties>
+  ): GeographiesLabelsBuilder<StateIncomeDatum, MapGeometryProperties> {
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     const valueAccessor = (d) => d.properties.id;
@@ -422,18 +421,15 @@ export class GeographiesExampleComponent implements OnInit {
     data: VicGeographiesEventOutput<StateIncomeDatum>,
     eventContext: 'hover' | 'click'
   ): void {
-    const config = new VicHtmlTooltipConfig();
-    config.size.minWidth = 130;
-    config.hasBackdrop = eventContext === 'click';
-    config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY;
-      config.show = true;
-    } else {
-      config.show = false;
-    }
+    const config = this.tooltip
+      .setSize((size) => size.minWidth(130))
+      .createOffsetFromOriginPosition((position) =>
+        position.offsetX(data?.positionX).offsetY(data?.positionY)
+      )
+      .hasBackdrop(eventContext === 'click')
+      .show(!!data)
+      .build();
+
     this.tooltipConfig.next(config);
   }
 

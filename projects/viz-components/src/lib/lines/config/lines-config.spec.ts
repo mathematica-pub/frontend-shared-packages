@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { VicLinesBuilder } from './lines-builder';
-import { VicLinesConfig } from './lines-config';
+import { LinesConfig } from './lines-config';
 
 type Datum = { date: Date; value: number; category: string };
 const data = [
@@ -12,7 +12,7 @@ const data = [
   { date: new Date('2020-01-03'), value: 6, category: 'b' },
 ];
 
-function createConfig(): VicLinesConfig<Datum> {
+function createConfig(): LinesConfig<Datum> {
   return new VicLinesBuilder<Datum>()
     .data(data)
     .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
@@ -24,17 +24,17 @@ function createConfig(): VicLinesConfig<Datum> {
 }
 
 describe('LinesConfig', () => {
-  let config: VicLinesConfig<Datum>;
+  let config: LinesConfig<Datum>;
   beforeEach(() => {
     config = undefined;
   });
 
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
-      spyOn(VicLinesConfig.prototype as any, 'setDimensionPropertiesFromData');
-      spyOn(VicLinesConfig.prototype as any, 'setValueIndices');
-      spyOn(VicLinesConfig.prototype as any, 'setLinesD3Data');
-      spyOn(VicLinesConfig.prototype as any, 'setLinesKeyFunction');
+      spyOn(LinesConfig.prototype as any, 'setDimensionPropertiesFromData');
+      spyOn(LinesConfig.prototype as any, 'setValueIndices');
+      spyOn(LinesConfig.prototype as any, 'setLinesD3Data');
+      spyOn(LinesConfig.prototype as any, 'setLinesKeyFunction');
       config = createConfig();
     });
     it('calls setDimensionPropertiesFromData once', () => {

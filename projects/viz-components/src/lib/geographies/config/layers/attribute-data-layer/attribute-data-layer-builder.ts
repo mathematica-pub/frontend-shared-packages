@@ -1,37 +1,37 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicCategoricalBinsBuilder } from '../../dimensions/categorical-bins/categorical-bins-builder';
-import { VicCustomBreaksBuilder } from '../../dimensions/custom-breaks/custom-breaks-bins-builder';
-import { VicEqualFrequenciesBinsBuilder } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins-builder';
+import { CategoricalBinsBuilder } from '../../dimensions/categorical-bins/categorical-bins-builder';
+import { CustomBreaksBinsAttributeDataDimensionBuilder } from '../../dimensions/custom-breaks/custom-breaks-bins-builder';
+import { EqualFrequenciesAttributeDataDimensionBuilder } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins-builder';
 import { VicEqualValueRangesBinsBuilder } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
-import { VicNoBinsBuilder } from '../../dimensions/no-bins/no-bins-builder';
+import { NoBinsAttributeDataDimensionBuilder } from '../../dimensions/no-bins/no-bins-builder';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
-import { VicGeographiesLabels } from '../labels/geographies-labels';
-import { VicGeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
-import { VicGeographiesAttributeDataLayer } from './attribute-data-layer';
+import { GeographiesLabels } from '../labels/geographies-labels';
+import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
+import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 
 const DEFAULT = {
   _enableEffects: true,
 };
 
-export class VicGeographiesAttributeDataLayerBuilder<
+export class GeographiesAttributeDataLayerBuilder<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private _data: Datum[];
   private _geographyIndexAccessor: (d: Datum) => string;
-  private labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
-  private labelsBuilder: VicGeographiesLabelsBuilder<
+  private labels: GeographiesLabels<Datum, TProperties, TGeometry>;
+  private labelsBuilder: GeographiesLabelsBuilder<
     Datum,
     TProperties,
     TGeometry
   >;
   private binsBuilder:
-    | VicCategoricalBinsBuilder<Datum>
-    | VicCustomBreaksBuilder<Datum>
-    | VicEqualFrequenciesBinsBuilder<Datum>
+    | CategoricalBinsBuilder<Datum>
+    | CustomBreaksBinsAttributeDataDimensionBuilder<Datum>
+    | EqualFrequenciesAttributeDataDimensionBuilder<Datum>
     | VicEqualValueRangesBinsBuilder<Datum>
-    | VicNoBinsBuilder<Datum>;
+    | NoBinsAttributeDataDimensionBuilder<Datum>;
 
   constructor() {
     super();
@@ -39,28 +39,35 @@ export class VicGeographiesAttributeDataLayerBuilder<
   }
 
   /**
-   * The dimension that will be used to color the geographies based on attribute data.
+   * OPTIONAL. Creates a configuration object that maps data to colors by categorical values.
+   *
+   * For example, if the data for a set of U.S. states had a string property, 'region', this could be used to color the states by region.
    */
   createCategoricalBinsDimension(
-    setProperties: (builder: VicCategoricalBinsBuilder<Datum>) => void
+    setProperties: (builder: CategoricalBinsBuilder<Datum>) => void
   ): this {
-    this.binsBuilder = new VicCategoricalBinsBuilder<Datum, string>();
+    this.binsBuilder = new CategoricalBinsBuilder<Datum, string>();
     setProperties(this.binsBuilder);
     return this;
   }
 
+  /**
+   * OPTIONAL. Creates a configuration object that maps data to colors by custom breaks values for bins.
+   */
   createCustomBreaksBinsDimension(
-    setProperties: (builder: VicCustomBreaksBuilder<Datum>) => void
+    setProperties: (
+      builder: CustomBreaksBinsAttributeDataDimensionBuilder<Datum>
+    ) => void
   ): this {
-    this.binsBuilder = new VicCustomBreaksBuilder();
+    this.binsBuilder = new CustomBreaksBinsAttributeDataDimensionBuilder();
     setProperties(this.binsBuilder);
     return this;
   }
 
   createNoBinsDimension(
-    setProperties: (builder: VicNoBinsBuilder<Datum>) => void
+    setProperties: (builder: NoBinsAttributeDataDimensionBuilder<Datum>) => void
   ): this {
-    this.binsBuilder = new VicNoBinsBuilder();
+    this.binsBuilder = new NoBinsAttributeDataDimensionBuilder();
     setProperties(this.binsBuilder);
     return this;
   }
@@ -74,15 +81,17 @@ export class VicGeographiesAttributeDataLayerBuilder<
   }
 
   createEqualFrequenciesBinsDimension(
-    setProperties: (builder: VicEqualFrequenciesBinsBuilder<Datum>) => void
+    setProperties: (
+      builder: EqualFrequenciesAttributeDataDimensionBuilder<Datum>
+    ) => void
   ): this {
-    this.binsBuilder = new VicEqualFrequenciesBinsBuilder();
+    this.binsBuilder = new EqualFrequenciesAttributeDataDimensionBuilder();
     setProperties(this.binsBuilder);
     return this;
   }
 
   /**
-   * The data that will be used to color the geographies.
+   * REQUIRED. The data that will be used to color the geographies.
    */
   data(data: Datum[]): this {
     this._data = data;
@@ -90,7 +99,7 @@ export class VicGeographiesAttributeDataLayerBuilder<
   }
 
   /**
-   * The accessor function that returns a value from a Datum that must match the value returned by featureIndexAccessor.
+   * REQUIRED. The accessor function that returns a value from a Datum that must match the value returned by featureIndexAccessor.
    */
   geographyIndexAccessor(accessor: (d: Datum) => string): this {
     this._geographyIndexAccessor = accessor;
@@ -98,22 +107,21 @@ export class VicGeographiesAttributeDataLayerBuilder<
   }
 
   /**
-   * VicGeographyLabelConfig that define the labels to be shown.
-   * If not defined, no labels will be drawn.
+   * OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.
    */
   createLabels(
     setProperties: (
-      builder: VicGeographiesLabelsBuilder<Datum, TProperties, TGeometry>
+      builder: GeographiesLabelsBuilder<Datum, TProperties, TGeometry>
     ) => void
   ): this {
-    this.labelsBuilder = new VicGeographiesLabelsBuilder();
+    this.labelsBuilder = new GeographiesLabelsBuilder();
     setProperties(this.labelsBuilder);
     this.labels = this.labelsBuilder.build();
     return this;
   }
 
-  build(): VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
-    return new VicGeographiesAttributeDataLayer({
+  build(): GeographiesAttributeDataLayer<Datum, TProperties, TGeometry> {
+    return new GeographiesAttributeDataLayer({
       attributeDimension: this.binsBuilder.build(),
       class: this._class,
       data: this._data,

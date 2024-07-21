@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { VicOrientation } from '../../core/types/layout';
 import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-enums';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/dimensions/attribute-data-bin-types';
-import { VicNoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
-import { MapLegendContent } from '../map-legend-content';
+import { NoBinsAttributeDataDimension } from '../../geographies/config/dimensions/no-bins/no-bins';
+import { MapLegend } from '../map-legend-base';
 
 type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   VicAttributeDataDimensionConfig<Datum>,
-  VicNoBinsAttributeDataDimension<Datum>
+  NoBinsAttributeDataDimension<Datum>
 >;
 
 /**
@@ -18,7 +18,7 @@ type DiscontinuousAttributeDataDimensionConfig<Datum> = Exclude<
   templateUrl: './discontinuous-legend.component.html',
   styleUrls: ['./discontinuous-legend.component.scss'],
 })
-export class DiscontinuousLegendComponent<Datum> extends MapLegendContent<
+export class DiscontinuousLegendComponent<Datum> extends MapLegend<
   Datum,
   DiscontinuousAttributeDataDimensionConfig<Datum>
 > {

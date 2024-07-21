@@ -1,4 +1,4 @@
-import { VicTickWrapConfig } from './tick-wrap/tick-wrap-config';
+import { TickWrap } from './tick-wrap/tick-wrap-config';
 
 export interface VicXyAxisOptions<TickValue> {
   removeDomain: boolean;
@@ -7,5 +7,5 @@ export interface VicXyAxisOptions<TickValue> {
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;
-  wrap: VicTickWrapConfig;
+  wrap: TickWrap;
 }

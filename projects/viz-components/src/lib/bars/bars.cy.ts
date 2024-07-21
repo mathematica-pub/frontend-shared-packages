@@ -8,8 +8,8 @@ import {
   VicYOrdinalAxisBuilder,
   VicYQuantitativeAxisBuilder,
 } from '../../public-api';
-import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis.config';
-import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis.config';
+import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
+import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
 import { VicXOrdinalAxisModule } from '../axes/x-ordinal/x-ordinal-axis.module';
 import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitative-axis.module';
 import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
@@ -19,7 +19,7 @@ import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
 import { VicXyChartModule } from '../xy-chart/xy-chart.module';
 import { VicBarsModule } from './bars.module';
 import { VicBarsBuilder } from './config/bars-builder';
-import { VicBarsConfig } from './config/bars-config';
+import { BarsConfig } from './config/bars-config';
 
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
@@ -73,7 +73,7 @@ const getYTransform = ($barGroup) => {
   styles: [],
 })
 class TestHorizontalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<QOCDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = horizontalMargin;
@@ -82,7 +82,7 @@ class TestHorizontalBarsComponent {
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: VicBarsConfig<QOCDatum, string>
+  barsConfig: BarsConfig<QOCDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisBuilder()
     .tickFormat(',.0f')
@@ -140,7 +140,7 @@ const mountHorizontalBarsComponent = (
   styles: [],
 })
 class TestVerticalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<QOCDatum, string>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = verticalMargin;
@@ -149,7 +149,7 @@ class TestVerticalBarsComponent {
 }
 
 const mountVerticalBarsComponent = (
-  barsConfig: VicBarsConfig<QOCDatum, string>
+  barsConfig: BarsConfig<QOCDatum, string>
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisBuilder().build();
   const yAxisConfig = new VicYQuantitativeAxisBuilder()
@@ -181,7 +181,7 @@ const mountVerticalBarsComponent = (
 // Creating the correct bars in the correct order - functionality is agnostic to direction
 // ***********************************************************
 describe('it creates the correct bars in the correct order for the data', () => {
-  let barsConfig: VicBarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<QOCDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
@@ -194,7 +194,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -222,7 +222,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -250,9 +250,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.country).domain(ordinalDomain)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.area)
-            .createPixelDomainPadding((padding) => padding.numPixels(50))
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels(50)
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -287,7 +285,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.country).domain(ordinalDomain)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -322,7 +320,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
   },
 ].forEach(({ mountFunction, orientation, barAttr }) => {
   describe('bars have the expected size in the quantitative dimension', () => {
-    let barsConfig: VicBarsConfig<QOCDatum, string>;
+    let barsConfig: BarsConfig<QOCDatum, string>;
     let testData: QOCDatum[];
     beforeEach(() => {
       barsConfig = undefined;
@@ -339,7 +337,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension.valueAccessor((d) => d.country)
           )
           .createQuantitativeDimension((dimension) =>
-            dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+            dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
           .build();
@@ -363,7 +361,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension.valueAccessor((d) => d.country)
           )
           .createQuantitativeDimension((dimension) =>
-            dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+            dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
           .build();
@@ -387,7 +385,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension.valueAccessor((d) => d.country)
           )
           .createQuantitativeDimension((dimension) =>
-            dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+            dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
           .build();
@@ -412,7 +410,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension
               .valueAccessor((d) => d.area)
               .domain([0, 700000])
-              .createPixelDomainPadding()
+              .domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
           .build();
@@ -444,7 +442,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension
               .valueAccessor((d) => d.area)
               .domain([0, 1000000])
-              .createPixelDomainPadding()
+              .domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
           .build();
@@ -461,7 +459,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
     });
   });
   describe('bars all have the same size in the ordinal dimension', () => {
-    let barsConfig: VicBarsConfig<QOCDatum, string>;
+    let barsConfig: BarsConfig<QOCDatum, string>;
     beforeEach(() => {
       barsConfig = undefined;
     });
@@ -473,7 +471,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -494,7 +492,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
 // Bars are correctly positioned in the quantitative dimension
 // ***********************************************************
 describe('bars have the expected origin in the quantitative dimension', () => {
-  let barsConfig: VicBarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<QOCDatum, string>;
   let testData: QOCDatum[];
   beforeEach(() => {
     barsConfig = undefined;
@@ -510,7 +508,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -531,7 +529,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -563,7 +561,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -597,7 +595,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -639,7 +637,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -669,7 +667,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();

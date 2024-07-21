@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { VicStackedBarsBuilder } from './stacked-bars-builder';
-import { VicStackedBarsConfig } from './stacked-bars-config';
+import { StackedBarsConfig } from './stacked-bars-config';
 
 type Datum = { country: string; value: number; category: string };
 const data = [
@@ -12,7 +12,7 @@ const data = [
   { country: 'Russia', value: 6, category: 'b' },
 ];
 
-function getNewConfig(): VicStackedBarsConfig<Datum, string> {
+function getNewConfig(): StackedBarsConfig<Datum, string> {
   return new VicStackedBarsBuilder<Datum, string>()
     .orientation('horizontal')
     .data(data)
@@ -28,7 +28,7 @@ function getNewConfig(): VicStackedBarsConfig<Datum, string> {
     .build();
 }
 describe('StackedBarsConfig', () => {
-  let config: VicStackedBarsConfig<Datum, string>;
+  let config: StackedBarsConfig<Datum, string>;
   beforeEach(() => {
     config = undefined;
   });
@@ -36,14 +36,14 @@ describe('StackedBarsConfig', () => {
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(
-        VicStackedBarsConfig.prototype as any,
+        StackedBarsConfig.prototype as any,
         'setDimensionPropertiesFromData'
       );
-      spyOn(VicStackedBarsConfig.prototype as any, 'setValueIndices');
-      spyOn(VicStackedBarsConfig.prototype as any, 'setHasNegativeValues');
-      spyOn(VicStackedBarsConfig.prototype as any, 'constructStackedData');
+      spyOn(StackedBarsConfig.prototype as any, 'setValueIndices');
+      spyOn(StackedBarsConfig.prototype as any, 'setHasNegativeValues');
+      spyOn(StackedBarsConfig.prototype as any, 'constructStackedData');
       spyOn(
-        VicStackedBarsConfig.prototype as any,
+        StackedBarsConfig.prototype as any,
         'initQuantitativeDomainFromStack'
       );
       config = getNewConfig();

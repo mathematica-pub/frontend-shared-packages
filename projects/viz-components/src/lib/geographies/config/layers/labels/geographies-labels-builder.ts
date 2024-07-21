@@ -11,7 +11,7 @@ import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import polylabel from 'polylabel';
 import { VicPosition } from '../../../../core/types/layout';
 import { VicGeographiesFeature } from '../../../geographies-feature';
-import { VicGeographiesLabels } from './geographies-labels';
+import { GeographiesLabels } from './geographies-labels';
 
 const DEFAULT = {
   _alignmentBaseline: 'middle',
@@ -26,7 +26,7 @@ const DEFAULT = {
   _valueAccessor: (feature) => feature,
 };
 
-export class VicGeographiesLabelsBuilder<
+export class GeographiesLabelsBuilder<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
@@ -179,8 +179,8 @@ export class VicGeographiesLabelsBuilder<
     return this;
   }
 
-  build(): VicGeographiesLabels<Datum, TProperties, TGeometry> {
-    return new VicGeographiesLabels<Datum, TProperties, TGeometry>({
+  build(): GeographiesLabels<Datum, TProperties, TGeometry> {
+    return new GeographiesLabels<Datum, TProperties, TGeometry>({
       alignmentBaseline: this._alignmentBaseline,
       color: this._color,
       cursor: this._cursor,

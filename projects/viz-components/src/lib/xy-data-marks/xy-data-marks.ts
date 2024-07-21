@@ -1,8 +1,8 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { VicDataMarksOptions } from '../data-marks/config/data-marks-options';
-import { VicDataMarks } from '../data-marks/data-marks-component';
+import { DataMarksOptions } from '../data-marks/config/data-marks-options';
+import { DataMarks } from '../data-marks/data-marks-base';
 import {
   XyChartComponent,
   XyChartScales,
@@ -15,9 +15,9 @@ import {
 @Directive()
 export abstract class VicXyDataMarks<
     Datum,
-    TDataMarkConfig extends VicDataMarksOptions<Datum>
+    TDataMarkConfig extends DataMarksOptions<Datum>
   >
-  extends VicDataMarks<Datum, TDataMarkConfig>
+  extends DataMarks<Datum, TDataMarkConfig>
   implements OnInit
 {
   scales: XyChartScales;

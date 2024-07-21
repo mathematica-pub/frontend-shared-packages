@@ -1,6 +1,6 @@
 import { interpolateLab, scaleQuantile } from 'd3';
-import { CalculatedBinsBuilder } from '../calculated-bins/calculated-bins-builder';
-import { VicEqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
+import { CalculatedBinsAttributeDataDimensionBuilder } from '../calculated-bins/calculated-bins-builder';
+import { EqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
 
 const DEFAULT = {
   _interpolator: interpolateLab,
@@ -10,10 +10,10 @@ const DEFAULT = {
   _scale: scaleQuantile,
 };
 
-export class VicEqualFrequenciesBinsBuilder<
+export class EqualFrequenciesAttributeDataDimensionBuilder<
   Datum,
   RangeValue extends string | number = string
-> extends CalculatedBinsBuilder<Datum, RangeValue> {
+> extends CalculatedBinsAttributeDataDimensionBuilder<Datum, RangeValue> {
   private _numBins: number;
 
   constructor() {
@@ -22,15 +22,20 @@ export class VicEqualFrequenciesBinsBuilder<
   }
 
   /**
-   * The number of bins to create.
+   * OPTIONAL. The number of bins to create.
+   *
+   * @default 4
    */
   numBins(numBins: number): this {
     this._numBins = numBins;
     return this;
   }
 
-  build(): VicEqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
-    return new VicEqualFrequenciesAttributeDataDimension({
+  /**
+   * @internal This method is not intended to be used by consumers of this library.
+   */
+  build(): EqualFrequenciesAttributeDataDimension<Datum, RangeValue> {
+    return new EqualFrequenciesAttributeDataDimension({
       fillPatterns: this._fillPatterns,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,

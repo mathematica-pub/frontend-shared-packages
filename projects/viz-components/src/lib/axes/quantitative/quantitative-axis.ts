@@ -1,17 +1,17 @@
 import { Directive, Input } from '@angular/core';
 import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicContinuousValue } from '../../core/types/values';
+import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../xy-axis';
-import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
+import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for a quantitative axis.
  *
  * For internal library use only.
  */
-export function mixinQuantitativeAxis<
-  TickValue extends VicContinuousValue,
+export function quantitativeAxisMixin<
+  TickValue extends ContinuousValue,
   T extends AbstractConstructor<XyAxis<TickValue>>
 >(Base: T) {
   @Directive()

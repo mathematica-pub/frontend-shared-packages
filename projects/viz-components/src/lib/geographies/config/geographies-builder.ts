@@ -9,20 +9,23 @@ import {
 } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicGeographiesFeature } from '../geographies-feature';
-import { VicGeographiesConfig } from './geographies-config';
-import { VicGeographiesAttributeDataLayerBuilder } from './layers/attribute-data-layer/attribute-data-layer-builder';
-import { VicGeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
+import { GeographiesConfig } from './geographies-config';
+import { GeographiesAttributeDataLayerBuilder } from './layers/attribute-data-layer/attribute-data-layer-builder';
+import { GeographiesGeojsonPropertiesLayerBuilder } from './layers/geojson-properties-layer/geojson-properties-layer-builder';
 
 const DEFAULT = {
   _projection: geoAlbersUsa(),
 };
 
-/** Primary configuration object to specify a map with attribute data, intended to be used with GeographiesComponent.
+/** Builds a configuration object for a GeographiesComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. `providers: [VicGeographiesBuilder]` in the component decorator)
+ *
  * The first generic parameter, Datum, is the type of the attribute data that will be used to shade the map areas.
  *
  * The second generic parameter, TProperties, is the type of the properties object that is associated with the GeoJson.
  *
- * The third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson.
+ * The optional third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson. It defaults to MultiPolygon | Polygon if not provided.
  */
 @Injectable()
 export class VicGeographiesBuilder<
@@ -40,12 +43,12 @@ export class VicGeographiesBuilder<
   ) => string;
   private _mixBlendMode: string;
   private _projection: GeoProjection;
-  private attributeDataBuilder: VicGeographiesAttributeDataLayerBuilder<
+  private attributeDataBuilder: GeographiesAttributeDataLayerBuilder<
     Datum,
     TProperties,
     TGeometry
   >;
-  public geojsonBuilders: VicGeographiesGeojsonPropertiesLayerBuilder<
+  public geojsonBuilders: GeographiesGeojsonPropertiesLayerBuilder<
     TProperties,
     TGeometry
   >[] = [];
@@ -54,7 +57,9 @@ export class VicGeographiesBuilder<
     Object.assign(this, DEFAULT);
   }
 
-  /** Sets a feature or geometry object or collection that defines the extents of the map to be drawn.
+  /**
+   * REQUIRED. Sets a feature or geometry object or collection that defines the extents of the map to be drawn.
+   *
    * Used for scaling the map.
    */
   boundary(
@@ -69,7 +74,7 @@ export class VicGeographiesBuilder<
   }
 
   /**
-   * Sets a function that derives an identifying string from the GeoJson feature.
+   * REQUIRED. Sets a function that derives an identifying string from the GeoJson feature.
    */
   featureIndexAccessor(
     accessor: (d: VicGeographiesFeature<TProperties, TGeometry>) => string
@@ -78,61 +83,83 @@ export class VicGeographiesBuilder<
     return this;
   }
 
+  /**
+   * OPTIONAL. Creates a configuration object for a layer that will be drawn and styled using solely the properties on a geojson feature.
+   *
+   * This might be used for to draw the outline of a country, for example. It could also shade the area of a country based on a property of the geojson feature.
+   *
+   * If events are enabled, the geojson properties will be used to populate the tooltip.
+   *
+   * This method can be called multiple times to create multiple layers.
+   *
+   * The order in which layers are created will determine the order in which they are drawn.
+   *
+   * Multiple layers can be used to draw different parts of the map with different styles.
+   */
   createGeojsonPropertiesLayer(
-    callback: (
-      builder: VicGeographiesGeojsonPropertiesLayerBuilder<
-        TProperties,
-        TGeometry
-      >
+    setProperties: (
+      builder: GeographiesGeojsonPropertiesLayerBuilder<TProperties, TGeometry>
     ) => void
   ): this {
-    const builder = new VicGeographiesGeojsonPropertiesLayerBuilder<
+    const builder = new GeographiesGeojsonPropertiesLayerBuilder<
       TProperties,
       TGeometry
     >();
-    callback(builder);
+    setProperties?.(builder);
     this.geojsonBuilders.push(builder);
     return this;
   }
 
+  /**
+   * OPTIONAL. Creates a configuration object for a layer that will be drawn from geojson and styled using attribute data.
+   *
+   * This object provides various methods for transforming data values into colors / color bins.
+   *
+   * This method can be called only once.
+   */
   createAttributeDataLayer(
-    callback: (
-      builder: VicGeographiesAttributeDataLayerBuilder<
+    setProperties: (
+      builder: GeographiesAttributeDataLayerBuilder<
         Datum,
         TProperties,
         TGeometry
       >
     ) => void
   ): this {
-    this.attributeDataBuilder = new VicGeographiesAttributeDataLayerBuilder<
+    this.attributeDataBuilder = new GeographiesAttributeDataLayerBuilder<
       Datum,
       TProperties,
       TGeometry
     >();
-    callback(this.attributeDataBuilder);
+    setProperties?.(this.attributeDataBuilder);
     return this;
   }
-  /**
-   * Sets a configuration object that pertains to geographies that will be drawn and styled using solely the properties on a geojson feature. This might be used for to draw the outline of a country, for example. If events are enabled, the geojson properties will be used to populate the tooltip.
-   */
 
+  /**
+   * OPTIONAL. Sets the mix-blend-mode of the marks.
+   *
+   * @default 'normal'
+   */
   mixBlendMode(mixBlendMode: string): this {
     this._mixBlendMode = mixBlendMode;
     return this;
   }
 
   /**
-   * Sets a projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
+   * OPTIONAL. Sets a projection function that maps a point in the map's coordinate space to a point in the SVG's coordinate space.
    *
-   * If not set the default is d3.geoAlbersUsa().
+   * @default d3.geoAlbersUsa()
    */
   projection(projection: GeoProjection): this {
     this._projection = projection;
     return this;
   }
 
-  build(): VicGeographiesConfig<Datum, TProperties, TGeometry> {
-    return new VicGeographiesConfig<Datum, TProperties, TGeometry>({
+  /**
+   * REQUIRED. Builds the GeographiesConfig object.
+   */
+  build(): GeographiesConfig<Datum, TProperties, TGeometry> {
+    return new GeographiesConfig<Datum, TProperties, TGeometry>({
       attributeDataLayer: this.attributeDataBuilder.build(),
       boundary: this._boundary,
       data: null,

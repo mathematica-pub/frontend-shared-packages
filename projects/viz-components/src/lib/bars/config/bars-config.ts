@@ -1,28 +1,28 @@
 import { min, range } from 'd3';
-import { VicDataValue } from '../../core/types/values';
-import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionOrdinal } from '../../data-dimensions/ordinal/ordinal';
-import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { DataValue } from '../../core/types/values';
+import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
+import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
-import { VicBarsDimensions } from './bars-dimensions';
-import { VicBarsOptions } from './bars-options';
-import { VicBarsLabels } from './labels/bars-labels';
+import { BarsDimensions } from './bars-dimensions';
+import { BarsOptions } from './bars-options';
+import { BarsLabels } from './labels/bars-labels';
 
-export class VicBarsConfig<Datum, TOrdinalValue extends VicDataValue>
+export class BarsConfig<Datum, TOrdinalValue extends DataValue>
   extends VicXyDataMarksConfig<Datum>
-  implements VicBarsOptions<Datum, TOrdinalValue>
+  implements BarsOptions<Datum, TOrdinalValue>
 {
   barsKeyFunction: (i: number) => string;
-  readonly categorical: VicDimensionCategorical<Datum, string>;
-  readonly dimensions: VicBarsDimensions;
+  readonly categorical: CategoricalDimension<Datum, string>;
+  readonly dimensions: BarsDimensions;
   hasNegativeValues: boolean;
-  readonly labels: VicBarsLabels<Datum>;
-  readonly ordinal: VicDimensionOrdinal<Datum, TOrdinalValue>;
-  readonly quantitative: VicDimensionQuantitativeNumeric<Datum>;
+  readonly labels: BarsLabels<Datum>;
+  readonly ordinal: OrdinalDimension<Datum, TOrdinalValue>;
+  readonly quantitative: QuantitativeNumericDimension<Datum>;
 
   constructor(
-    dimensions: VicBarsDimensions,
-    options: VicBarsOptions<Datum, TOrdinalValue>
+    dimensions: BarsDimensions,
+    options: BarsOptions<Datum, TOrdinalValue>
   ) {
     super();
     Object.assign(this, options);

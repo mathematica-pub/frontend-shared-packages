@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  VicDataValue,
-  VicYOrdinalAxisConfig,
-} from 'projects/viz-components/src/public-api';
+import { DataValue } from '../../core/types/values';
 import { VicXyAxisBuilder } from '../xy-axis-builder';
+import { VicYOrdinalAxisConfig } from './y-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'left',
@@ -11,7 +9,7 @@ const DEFAULT = {
 
 @Injectable()
 export class VicYOrdinalAxisBuilder<
-  TickValue extends VicDataValue
+  TickValue extends DataValue
 > extends VicXyAxisBuilder<TickValue> {
   private _side: 'left' | 'right';
   constructor() {

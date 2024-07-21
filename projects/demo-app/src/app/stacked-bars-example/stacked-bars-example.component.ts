@@ -1,19 +1,19 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { VicXOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
+import { VicYQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { VicStackedBarsBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
+import { StackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-config';
 import {
-  VicElementSpacing,
-  VicStackedBarsConfig,
   VicXOrdinalAxisBuilder,
-  VicXOrdinalAxisConfig,
   VicYQuantitativeAxisBuilder,
-  VicYQuantitativeAxisConfig,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicStackedBarsConfig<IndustryUnemploymentDatum, Date>;
+  dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
   xAxisConfig: VicXOrdinalAxisConfig<Date>;
   yAxisConfig: VicYQuantitativeAxisConfig<number>;
 }
@@ -23,7 +23,11 @@ interface ViewModel {
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  providers: [VicStackedBarsBuilder],
+  providers: [
+    VicStackedBarsBuilder,
+    VicXOrdinalAxisBuilder,
+    VicYQuantitativeAxisBuilder,
+  ],
 })
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;

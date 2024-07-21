@@ -5,12 +5,12 @@ import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsModule } from '../../bars/bars.module';
 import { VicBarsBuilder } from '../../bars/config/bars-builder';
-import { VicBarsOptions } from '../../bars/config/bars-options';
+import { BarsOptions } from '../../bars/config/bars-options';
 import { VicChartModule } from '../../chart/chart.module';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
 import { VicXQuantitativeAxisBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
-import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
+import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 
 @Component({
   selector: 'vic-test-x-quantitative-axis',
@@ -33,13 +33,13 @@ import { VicQuantitativeAxisConfig } from './quantitative-axis.config';
   styles: [],
 })
 class TestXQuantitativeAxisComponent {
-  @Input() barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
+  @Input() barsConfig: BarsOptions<{ state: string; value: number }, string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = { top: 20, right: 20, bottom: 20, left: 20 };
 }
 
 describe('it correctly sets ticks', () => {
-  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
+  let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [
@@ -136,7 +136,7 @@ describe('it correctly sets ticks', () => {
 
 describe('integer formatted ticks', () => {
   let validFormatRegex: RegExp;
-  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
+  let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [
@@ -304,7 +304,7 @@ describe('integer formatted ticks', () => {
 
 describe('float formatted ticks', () => {
   let validFormatRegex: RegExp;
-  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
+  let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [
@@ -485,7 +485,7 @@ describe('float formatted ticks', () => {
 
 describe('percent formatted ticks', () => {
   let validFormatRegex: RegExp;
-  let barsConfig: VicBarsOptions<{ state: string; value: number }, string>;
+  let barsConfig: BarsOptions<{ state: string; value: number }, string>;
   let axisConfig: VicQuantitativeAxisConfig<number>;
   const declarations = [TestXQuantitativeAxisComponent];
   const imports = [

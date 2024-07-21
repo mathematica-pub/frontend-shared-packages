@@ -1,22 +1,22 @@
 import { range } from 'd3';
-import { VicBarsConfig } from '../../bars/config/bars-config';
-import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
-import { VicDataValue } from '../../core/types/values';
-import { VicGroupedBarsOptions } from './grouped-bars-options';
+import { BarsConfig } from '../../bars/config/bars-config';
+import { BarsDimensions } from '../../bars/config/bars-dimensions';
+import { DataValue } from '../../core/types/values';
+import { GroupedBarsOptions } from './grouped-bars-options';
 
 const DEFAULT = {
   intraGroupPadding: 0.05,
 };
 
-export class VicGroupedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
-  extends VicBarsConfig<Datum, TOrdinalValue>
-  implements VicGroupedBarsOptions<Datum, TOrdinalValue>
+export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
+  extends BarsConfig<Datum, TOrdinalValue>
+  implements GroupedBarsOptions<Datum, TOrdinalValue>
 {
   intraGroupPadding: number;
 
   constructor(
-    dimensions: VicBarsDimensions,
-    options: VicGroupedBarsOptions<Datum, TOrdinalValue>
+    dimensions: BarsDimensions,
+    options: GroupedBarsOptions<Datum, TOrdinalValue>
   ) {
     super(dimensions, options);
     Object.assign(this, DEFAULT, options);

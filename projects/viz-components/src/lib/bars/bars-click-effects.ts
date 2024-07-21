@@ -1,10 +1,10 @@
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { EventEffect } from '../events/effect';
 import { BarsClickDirective } from './bars-click.directive';
 
 export class BarsClickEmitTooltipDataPauseHoverMoveEffects<
   Datum,
-  TOrdinalValue extends VicDataValue
+  TOrdinalValue extends DataValue
 > implements EventEffect<BarsClickDirective<Datum, TOrdinalValue>>
 {
   applyEffect(directive: BarsClickDirective<Datum, TOrdinalValue>) {

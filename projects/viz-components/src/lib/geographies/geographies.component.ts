@@ -11,13 +11,13 @@ import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-component';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
-import { VicGeographiesConfig } from './config/geographies-config';
-import { VicGeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
-import { VicGeographiesLabels } from './config/layers/labels/geographies-labels';
+import { MapDataMarks } from '../map-data-marks/map-data-marks';
+import { GeographiesConfig } from './config/geographies-config';
+import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesLabels } from './config/layers/labels/geographies-labels';
 import { VicGeographiesFeature } from './geographies-feature';
 
 export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
@@ -48,9 +48,9 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicMapDataMarks<
+> extends MapDataMarks<
   Datum,
-  VicGeographiesConfig<Datum, TProperties, TGeometry>
+  GeographiesConfig<Datum, TProperties, TGeometry>
 > {
   projection: GeoProjection;
   path: GeoPath;
@@ -128,12 +128,12 @@ export class GeographiesComponent<
     const layerGroup = select(this.elRef.nativeElement)
       .selectAll<
         SVGGElement,
-        | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-        | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
+        | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+        | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
       >('.vic-geographies-layer')
       .data<
-        | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-        | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
+        | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+        | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
       >(this.config.layers, (layer) => layer.id)
       .join(
         (enter) =>
@@ -271,8 +271,8 @@ export class GeographiesComponent<
   getLabelPosition(
     d: VicGeographiesFeature<TProperties, TGeometry>,
     labels:
-      | VicGeographiesLabels<Datum, TProperties, TGeometry>
-      | VicGeographiesLabels<string, TProperties, TGeometry>
+      | GeographiesLabels<Datum, TProperties, TGeometry>
+      | GeographiesLabels<string, TProperties, TGeometry>
   ): { x: number; y: number } {
     if (!this.path || !this.projection) return { x: 0, y: 0 };
     return labels.position(d, this.path, this.projection);

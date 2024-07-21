@@ -3,9 +3,9 @@ import { curveBasis, schemeTableau10 } from 'd3';
 import { cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
+  LinesConfig,
   VicChartModule,
   VicLinesBuilder,
-  VicLinesConfig,
   VicLinesModule,
   VicQuantitativeAxisConfig,
   VicXQuantitativeAxisBuilder,
@@ -58,7 +58,7 @@ const numericData = QnQnCData;
   styles: [],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
-  @Input() linesConfig: VicLinesConfig<Datum>;
+  @Input() linesConfig: LinesConfig<Datum>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<QuantAxisType>;
   margin = margin;
@@ -74,9 +74,7 @@ const imports = [
   VicXyChartModule,
 ];
 
-function mountDateLinesComponent(
-  linesConfig: VicLinesConfig<QdQnCDatum>
-): void {
+function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
   const xAxisConfig = new VicXQuantitativeAxisBuilder<Date>()
     .tickFormat('%Y')
     .build();
@@ -94,9 +92,7 @@ function mountDateLinesComponent(
   cy.wait(100); // have to wait for axes to render
 }
 
-function mountNumberLinesComponent(
-  linesConfig: VicLinesConfig<QnQnCDatum>
-): void {
+function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
   const xAxisConfig = new VicXQuantitativeAxisBuilder<number>()
     .tickFormat('.0f')
     .build();

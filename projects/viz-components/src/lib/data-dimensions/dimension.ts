@@ -1,9 +1,9 @@
 import { map } from 'd3';
-import { VicDataValue } from '../core/types/values';
-import { VicDataDimensionOptions } from './dimension-options';
+import { DataValue } from '../core/types/values';
+import { DataDimensionOptions } from './dimension-options';
 
-export abstract class VicDataDimension<Datum, TDataValue extends VicDataValue>
-  implements VicDataDimensionOptions<Datum, TDataValue>
+export abstract class DataDimension<Datum, TDataValue extends DataValue>
+  implements DataDimensionOptions<Datum, TDataValue>
 {
   readonly formatFunction: (d: Datum) => string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

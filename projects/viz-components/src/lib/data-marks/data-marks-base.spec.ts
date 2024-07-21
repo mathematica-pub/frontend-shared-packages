@@ -3,7 +3,7 @@ import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { DataMarksStub } from '../testing/stubs/data-marks.stub';
 
-describe('DataMarksBase abstract class', () => {
+describe('DataMarks abstract class', () => {
   let abstractClass: DataMarksStub<any>;
 
   beforeEach(() => {

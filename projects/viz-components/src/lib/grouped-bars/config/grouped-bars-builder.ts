@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
-import {
-  HORIZONTAL_BARS_DIMENSIONS,
-  VERTICAL_BARS_DIMENSIONS,
-  VicDataValue,
-} from 'projects/viz-components/src/public-api';
 import { VicBarsBuilder } from '../../bars/config/bars-builder';
-import { VicGroupedBarsConfig } from './grouped-bars.config';
+import { DataValue } from '../../core/types/values';
+import { GroupedBarsConfig } from './grouped-bars-config';
 
 const DEFAULT = {
   intraGroupPadding: 0.05,
 };
 
+/**
+ * Builds a configuration object for a GroupedBarsComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. `providers: [VicGroupedBarsBuilder]` in the component decorator)
+ *
+ * The first generic parameter, Datum, is the type of the data that will be used to create the bars.
+ *
+ * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
+ */
 @Injectable()
 export class VicGroupedBarsBuilder<
   Datum,
-  TOrdinalValue extends VicDataValue
+  TOrdinalValue extends DataValue
 > extends VicBarsBuilder<Datum, TOrdinalValue> {
   private _intraGroupPadding: number;
 
@@ -23,17 +28,22 @@ export class VicGroupedBarsBuilder<
     Object.assign(this, DEFAULT);
   }
 
+  /**
+   * OPTIONAL. Set the padding between groups of bars. Passed to d3.scaleBand.padding.
+   *
+   * @default 0.05
+   */
   intraGroupPadding(padding: number): this {
     this._intraGroupPadding = padding;
     return this;
   }
 
-  override build(): VicGroupedBarsConfig<Datum, TOrdinalValue> {
-    const dimensions =
-      this._orientation === 'horizontal'
-        ? HORIZONTAL_BARS_DIMENSIONS
-        : VERTICAL_BARS_DIMENSIONS;
-    return new VicGroupedBarsConfig(dimensions, {
+  /**
+   * REQUIRED. Builds the configuration object for a GroupedBarsComponent.
+   */
+  override build(): GroupedBarsConfig<Datum, TOrdinalValue> {
+    this.validateBuilder('Grouped Bars');
+    return new GroupedBarsConfig(this.dimensions, {
       categorical: this.categoricalDimensionBuilder.build(),
       data: this._data,
       intraGroupPadding: this._intraGroupPadding,

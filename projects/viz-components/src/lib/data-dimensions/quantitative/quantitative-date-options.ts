@@ -1,8 +1,8 @@
 import { ScaleTime } from 'd3';
-import { VicDataDimensionOptions } from '../dimension-options';
+import { DataDimensionOptions } from '../dimension-options';
 
-export interface VicDimensionQuantitativeDateOptions<Datum>
-  extends VicDataDimensionOptions<Datum, Date> {
+export interface QuantitativeDateDimensionOptions<Datum>
+  extends DataDimensionOptions<Datum, Date> {
   /**
    * An optional, user-provided range of values that is used as the domain of the dimension's scale.
    *

@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { it } from 'local-cypress';
-import { VicEqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
-import { VicEqualFrequenciesBinsBuilder } from './equal-frequencies-bins-builder';
+import { EqualFrequenciesAttributeDataDimension } from './equal-frequencies-bins';
+import { EqualFrequenciesAttributeDataDimensionBuilder } from './equal-frequencies-bins-builder';
 
 describe('VicEqualNumObservationsBins', () => {
-  let dimension: VicEqualFrequenciesAttributeDataDimension<any, string>;
+  let dimension: EqualFrequenciesAttributeDataDimension<any, string>;
   beforeEach(() => {
-    dimension = new VicEqualFrequenciesBinsBuilder<any, string>()
+    dimension = new EqualFrequenciesAttributeDataDimensionBuilder<any, string>()
       .numBins(4)
       .range(['red', 'blue', 'yellow', 'green'])
       .valueAccessor((d) => d)

@@ -1,10 +1,8 @@
-import { VicDataValue } from 'projects/viz-components/src/public-api';
-import { VicDataDimensionOptions } from '../dimension-options';
+import { DataValue } from '../../core/types/values';
+import { DataDimensionOptions } from '../dimension-options';
 
-export interface VicDimensionOrdinalOptions<
-  Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicDataDimensionOptions<Datum, TOrdinalValue> {
+export interface OrdinalDimensionOptions<Datum, TOrdinalValue extends DataValue>
+  extends DataDimensionOptions<Datum, TOrdinalValue> {
   align: number;
   domain: TOrdinalValue[];
   paddingInner: number;

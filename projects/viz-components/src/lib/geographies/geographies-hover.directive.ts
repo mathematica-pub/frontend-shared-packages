@@ -7,8 +7,8 @@ import { Feature, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { filter } from 'rxjs';
 import { EventEffect } from '../events/effect';
 import { HoverDirective } from '../events/hover.directive';
-import { VicGeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
 import { VicGeographiesFeature } from './geographies-feature';
 import {
   VicGeographiesEventOutput,
@@ -46,8 +46,8 @@ export class GeographiesHoverDirective<
   >();
   bounds: [[number, number], [number, number]];
   layer:
-    | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
+    | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+    | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   positionX: number;
   positionY: number;

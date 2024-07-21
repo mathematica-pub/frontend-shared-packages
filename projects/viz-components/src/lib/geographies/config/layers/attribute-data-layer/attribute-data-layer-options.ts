@@ -1,24 +1,24 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicCategoricalAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
-import { VicCustomBreaksAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
-import { VicEqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
+import { CategoricalBinsAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
+import { CustomBreaksBinsAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
+import { EqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
 import { VicEqualValueRangesAttributeDataDimension } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
-import { VicNoBinsAttributeDataDimension } from '../../dimensions/no-bins/no-bins';
+import { NoBinsAttributeDataDimension } from '../../dimensions/no-bins/no-bins';
 import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-options';
-import { VicGeographiesLabels } from '../labels/geographies-labels';
+import { GeographiesLabels } from '../labels/geographies-labels';
 
-export interface VicGeographiesAttributeDataLayerOptions<
+export interface GeographiesAttributeDataLayerOptions<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
   attributeDimension:
-    | VicCategoricalAttributeDataDimension<Datum>
-    | VicNoBinsAttributeDataDimension<Datum>
+    | CategoricalBinsAttributeDataDimension<Datum>
+    | NoBinsAttributeDataDimension<Datum>
     | VicEqualValueRangesAttributeDataDimension<Datum>
-    | VicEqualFrequenciesAttributeDataDimension<Datum>
-    | VicCustomBreaksAttributeDataDimension<Datum>;
+    | EqualFrequenciesAttributeDataDimension<Datum>
+    | CustomBreaksBinsAttributeDataDimension<Datum>;
   data: Datum[];
   geographyIndexAccessor: (d: Datum) => string;
-  labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  labels: GeographiesLabels<Datum, TProperties, TGeometry>;
 }

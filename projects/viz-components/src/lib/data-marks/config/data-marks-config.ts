@@ -1,7 +1,7 @@
-import { VicDataMarksOptions } from './data-marks-options';
+import { DataMarksOptions } from './data-marks-options';
 
-export abstract class VicDataMarksConfig<Datum>
-  implements VicDataMarksOptions<Datum>
+export abstract class DataMarksConfig<Datum>
+  implements DataMarksOptions<Datum>
 {
   readonly data: Datum[];
   readonly mixBlendMode: string;

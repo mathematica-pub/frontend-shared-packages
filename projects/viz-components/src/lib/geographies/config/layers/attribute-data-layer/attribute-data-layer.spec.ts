@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { beforeEach } from 'local-cypress';
-import { VicGeographiesAttributeDataLayer } from './attribute-data-layer';
-import { VicGeographiesAttributeDataLayerBuilder } from './attribute-data-layer-builder';
+import { GeographiesAttributeDataLayer } from './attribute-data-layer';
+import { GeographiesAttributeDataLayerBuilder } from './attribute-data-layer-builder';
 
 type Datum = { value: number; state: string };
 const data = [
@@ -12,12 +12,12 @@ const data = [
   { value: 5, state: 'CO' },
   { value: 6, state: 'CO' },
 ];
-function createLayer(): VicGeographiesAttributeDataLayer<
+function createLayer(): GeographiesAttributeDataLayer<
   Datum,
   { name: string },
   any
 > {
-  return new VicGeographiesAttributeDataLayerBuilder<Datum, { name: string }>()
+  return new GeographiesAttributeDataLayerBuilder<Datum, { name: string }>()
     .createEqualValueRangesBinsDimension((dimension) =>
       dimension.valueAccessor((d) => d.value).numBins(5)
     )
@@ -27,7 +27,7 @@ function createLayer(): VicGeographiesAttributeDataLayer<
 }
 
 describe('GeographiesConfig', () => {
-  let layer: VicGeographiesAttributeDataLayer<Datum, { name: string }, any>;
+  let layer: GeographiesAttributeDataLayer<Datum, { name: string }, any>;
 
   beforeEach(() => {
     layer = undefined;

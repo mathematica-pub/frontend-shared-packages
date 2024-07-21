@@ -1,8 +1,8 @@
-import { VicAttributeDataDimensionOptions } from '../attribute-data/attribute-data-dimension-options';
+import { AttributeDataDimensionOptions } from '../attribute-data/attribute-data-dimension-options';
 
-export interface CalculatedRangeBinsAttributeDataDimensionOptions<
+export interface CalculatedBinsAttributeDataDimensionOptions<
   Datum,
   RangeValue extends string | number = string
-> extends VicAttributeDataDimensionOptions<Datum, number, RangeValue> {
+> extends AttributeDataDimensionOptions<Datum, number, RangeValue> {
   formatSpecifier: string;
 }

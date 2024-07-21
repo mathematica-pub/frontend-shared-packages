@@ -6,22 +6,22 @@ import {
   GeoProjection,
 } from 'd3';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
-import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
+import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { VicGeographiesFeature } from '../geographies-feature';
-import { VicGeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-layer/geojson-properties-layer';
 
-export interface VicGeographiesOptions<
+export interface GeographiesOptions<
   Datum,
   TProperties extends GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicDataMarksOptions<Datum> {
+> extends DataMarksOptions<Datum> {
   boundary:
     | ExtendedFeature
     | ExtendedFeatureCollection
     | GeoGeometryObjects
     | ExtendedGeometryCollection;
-  attributeDataLayer: VicGeographiesAttributeDataLayer<
+  attributeDataLayer: GeographiesAttributeDataLayer<
     Datum,
     TProperties,
     TGeometry
@@ -29,7 +29,7 @@ export interface VicGeographiesOptions<
   featureIndexAccessor: (
     d: VicGeographiesFeature<TProperties, TGeometry>
   ) => string;
-  geojsonPropertiesLayers: VicGeographiesGeojsonPropertiesLayer<
+  geojsonPropertiesLayers: GeographiesGeojsonPropertiesLayer<
     TProperties,
     TGeometry
   >[];

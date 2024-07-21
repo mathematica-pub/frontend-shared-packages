@@ -3,13 +3,13 @@ import { GeoPath, GeoProjection, ScaleLinear } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { VicPosition } from '../../../../core/types/layout';
 import { VicGeographiesFeature } from '../../../geographies-feature';
-import { VicGeographiesLabelsOptions } from './geographies-labels-options';
+import { GeographiesLabelsOptions } from './geographies-labels-options';
 
-export class VicGeographiesLabels<
+export class GeographiesLabels<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> implements VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>
+> implements GeographiesLabelsOptions<Datum, TProperties, TGeometry>
 {
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   color:
@@ -40,7 +40,7 @@ export class VicGeographiesLabels<
   ) => string;
 
   constructor(
-    options: VicGeographiesLabelsOptions<Datum, TProperties, TGeometry>
+    options: GeographiesLabelsOptions<Datum, TProperties, TGeometry>
   ) {
     Object.assign(this, options);
   }

@@ -3,7 +3,7 @@ import { VicPointMarkers } from './point-markers';
 const DEFAULT = {
   _display: true,
   _radius: 3,
-  _growByOnHover: 1,
+  _growByOnHover: 2,
 };
 
 export class PointMarkersBuilder {
@@ -17,9 +17,9 @@ export class PointMarkersBuilder {
   }
 
   /**
-   * A boolean to determine if point markers will be displayed.
+   * OPTIONAL. A boolean to determine if point markers will be displayed.
    *
-   * Default is true.
+   * @default true
    */
   display(display: boolean): this {
     this._display = display;
@@ -27,7 +27,7 @@ export class PointMarkersBuilder {
   }
 
   /**
-   * A class to be added to the point markers.
+   * OPTIONAL. A string to be added as a class to the point markers.
    */
   class(className: string): this {
     this._class = className;
@@ -35,9 +35,9 @@ export class PointMarkersBuilder {
   }
 
   /**
-   * A value by which the point marker will expand on hover, in px.
+   * OPTIONAL. A value by which the point marker will expand on hover, in px.
    *
-   * Default is 1.
+   * @default 2
    */
   growByOnHover(growByOnHover: number): this {
     this._growByOnHover = growByOnHover;
@@ -45,15 +45,18 @@ export class PointMarkersBuilder {
   }
 
   /**
-   * A value for the radius of the point marker, in px.
+   * OPTIONAL. A value for the radius of the point marker, in px.
    *
-   * Default is 3.
+   * @default 3
    */
   radius(radius: number): this {
     this._radius = radius;
     return this;
   }
 
+  /**
+   * @internal This function is for internal use only and should never be called by the user.
+   */
   build(): VicPointMarkers {
     return new VicPointMarkers({
       display: this._display,

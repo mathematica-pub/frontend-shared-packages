@@ -10,14 +10,14 @@ import { ValueUtilities } from '../../../../core/utilities/values';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
 import { VicValuesBin } from '../../dimensions/attribute-data-bin-enums';
-import { VicCategoricalAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
-import { VicCustomBreaksAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
-import { VicEqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
+import { CategoricalBinsAttributeDataDimension } from '../../dimensions/categorical-bins/categorical-bins';
+import { CustomBreaksBinsAttributeDataDimension } from '../../dimensions/custom-breaks/custom-breaks-bins';
+import { EqualFrequenciesAttributeDataDimension } from '../../dimensions/equal-frequencies-bins/equal-frequencies-bins';
 import { VicEqualValueRangesAttributeDataDimension } from '../../dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
-import { VicNoBinsAttributeDataDimension } from '../../dimensions/no-bins/no-bins';
+import { NoBinsAttributeDataDimension } from '../../dimensions/no-bins/no-bins';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
-import { VicGeographiesLabels } from '../labels/geographies-labels';
-import { VicGeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
+import { GeographiesLabels } from '../labels/geographies-labels';
+import { GeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
 
 const DEFAULT = {
   _nullColor: '#dcdcdc',
@@ -26,35 +26,31 @@ const DEFAULT = {
   _enableEffects: true,
 };
 
-export class VicGeographiesAttributeDataLayer<
+export class GeographiesAttributeDataLayer<
     Datum,
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
   extends GeographiesLayer<Datum, TProperties, TGeometry>
   implements
-    VicGeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
+    GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
 {
   readonly attributeDimension:
-    | VicCategoricalAttributeDataDimension<Datum>
-    | VicNoBinsAttributeDataDimension<Datum>
+    | CategoricalBinsAttributeDataDimension<Datum>
+    | NoBinsAttributeDataDimension<Datum>
     | VicEqualValueRangesAttributeDataDimension<Datum>
-    | VicEqualFrequenciesAttributeDataDimension<Datum>
-    | VicCustomBreaksAttributeDataDimension<Datum>;
+    | EqualFrequenciesAttributeDataDimension<Datum>
+    | CustomBreaksBinsAttributeDataDimension<Datum>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attributeScale: any;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
-  override labels: VicGeographiesLabels<Datum, TProperties, TGeometry>;
+  override labels: GeographiesLabels<Datum, TProperties, TGeometry>;
 
   constructor(
-    options: VicGeographiesAttributeDataLayerOptions<
-      Datum,
-      TProperties,
-      TGeometry
-    >
+    options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>
   ) {
     super();
     Object.assign(this, DEFAULT, options);

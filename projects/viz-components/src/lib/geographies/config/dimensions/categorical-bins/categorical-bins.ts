@@ -1,27 +1,25 @@
 import { VicValuesBin } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
-import { VicCategoricalAttributeDataDimensionOptions } from './categorical-bins-options';
+import { CategoricalBinsOptions } from './categorical-bins-options';
 
 /**
  * Configuration object for attribute data that is categorical.
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicCategoricalAttributeDataDimension<
+export class CategoricalBinsAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
   extends AttributeDataDimension<Datum, string>
-  implements VicCategoricalAttributeDataDimensionOptions<Datum, string>
+  implements CategoricalBinsOptions<Datum, string>
 {
   readonly binType: VicValuesBin.categorical;
   calculatedDomain: string[];
   readonly domain: string[];
   override interpolator: never;
 
-  constructor(
-    options: VicCategoricalAttributeDataDimensionOptions<Datum, RangeValue>
-  ) {
+  constructor(options: CategoricalBinsOptions<Datum, RangeValue>) {
     super();
     this.binType = VicValuesBin.categorical;
     Object.assign(this, options);

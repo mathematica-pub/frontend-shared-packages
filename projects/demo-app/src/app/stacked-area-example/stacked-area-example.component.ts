@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
+import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
-  HoverMoveEventEffect,
+  HtmlTooltipConfig,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
-  VicElementSpacing,
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-  VicQuantitativeAxisConfig,
   VicStackedAreaBuilder,
-  VicStackedAreaConfig,
   VicStackedAreaEventOutput,
   VicXQuantitativeAxisBuilder,
   VicYQuantitativeAxisBuilder,
@@ -18,24 +18,21 @@ import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicStackedAreaConfig<IndustryUnemploymentDatum, string>;
+  dataConfig: StackedAreaConfig<IndustryUnemploymentDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<Date>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
-}
-
-class StackedAreaExampleTooltipConfig extends VicHtmlTooltipConfig {
-  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
-    super();
-    this.size.minWidth = 130;
-    Object.assign(this, config);
-  }
 }
 
 @Component({
   selector: 'app-stacked-area-example',
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
-  providers: [VicStackedAreaBuilder],
+  providers: [
+    VicStackedAreaBuilder,
+    VicXQuantitativeAxisBuilder,
+    VicYQuantitativeAxisBuilder,
+    VicHtmlTooltipBuilder,
+  ],
 })
 export class StackedAreaExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
@@ -46,10 +43,8 @@ export class StackedAreaExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-area-example';
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new VicHtmlTooltipConfig(new StackedAreaExampleTooltipConfig())
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
     VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
@@ -68,7 +63,8 @@ export class StackedAreaExampleComponent implements OnInit {
       string
     >,
     private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>
+    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>,
+    private tooltip: VicHtmlTooltipBuilder
   ) {}
 
   ngOnInit(): void {
@@ -86,7 +82,9 @@ export class StackedAreaExampleComponent implements OnInit {
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.date)
       )
-      .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))
+      .createYNumericDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.industry)
       )
@@ -114,16 +112,15 @@ export class StackedAreaExampleComponent implements OnInit {
   updateTooltipConfig(
     output: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
-    const config = new StackedAreaExampleTooltipConfig();
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (output && output.hoveredDatum !== undefined) {
-      config.position.offsetX = output.positionX;
-      config.position.offsetY = output.categoryYMin - 5;
-      config.show = true;
-    } else {
-      config.show = false;
-      config.origin = undefined;
-    }
+    const config = this.tooltip
+      .setSize((size) => size.minWidth(130))
+      .createOffsetFromOriginPosition((position) =>
+        position
+          .offsetX(output?.positionX)
+          .offsetY(output ? output.categoryYMin - 5 : undefined)
+      )
+      .show(output?.hoveredDatum !== undefined)
+      .build();
     this.tooltipConfig.next(config);
   }
 }

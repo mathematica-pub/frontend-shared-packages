@@ -1,3 +1,3 @@
-export interface VicRoundUpToIntervalDomainPaddingOptions {
+export interface RoundUpToIntervalDomainPaddingOptions {
   interval: (maxValue: number) => number;
 }

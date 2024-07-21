@@ -1,13 +1,13 @@
 import { InternMap, Series, extent, range, rollup, stack } from 'd3';
-import { VicBarsConfig } from '../../bars/config/bars-config';
-import { VicBarsDimensions } from '../../bars/config/bars-dimensions';
-import { VicDataValue } from '../../core/types/values';
+import { BarsConfig } from '../../bars/config/bars-config';
+import { BarsDimensions } from '../../bars/config/bars-dimensions';
+import { DataValue } from '../../core/types/values';
 import { VicStackDatum } from '../stacked-bars.component';
-import { VicStackedBarsOptions } from './stacked-bars-options';
+import { StackedBarsOptions } from './stacked-bars-options';
 
-export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
-  extends VicBarsConfig<Datum, TOrdinalValue>
-  implements VicStackedBarsOptions<Datum, TOrdinalValue>
+export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
+  extends BarsConfig<Datum, TOrdinalValue>
+  implements StackedBarsOptions<Datum, TOrdinalValue>
 {
   stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,8 +19,8 @@ export class VicStackedBarsConfig<Datum, TOrdinalValue extends VicDataValue>
   stackedData: VicStackDatum[][];
 
   constructor(
-    dimensions: VicBarsDimensions,
-    options: VicStackedBarsOptions<Datum, TOrdinalValue>
+    dimensions: BarsDimensions,
+    options: StackedBarsOptions<Datum, TOrdinalValue>
   ) {
     super(dimensions, options);
   }

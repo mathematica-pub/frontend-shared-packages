@@ -1,26 +1,26 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { VicValueExtent } from '../../../core/types/values';
-import { VicPercentOverDomainPadding } from './percent-over/percent-over';
-import { VicPixelDomainPadding } from './pixel/pixel';
-import { VicRoundUpToIntervalDomainPadding } from './round-to-interval/round-to-interval';
-import { VicRoundUpDomainPadding } from './round-up/round-up';
+import { ValueExtent } from '../../../core/types/values';
+import { PercentOverDomainPadding } from './percent-over/percent-over';
+import { PixelDomainPadding } from './pixel/pixel';
+import { RoundUpToIntervalDomainPadding } from './round-to-interval/round-to-interval';
+import { RoundUpToSigFigDomainPadding } from './round-to-sig-fig/round-to-sig-fig';
 
-export enum DomainPadding {
+export enum DomainPaddingType {
   roundUp = 'roundUp',
   roundInterval = 'roundInterval',
   percentOver = 'percentOver',
   numPixels = 'numPixels',
 }
 
-export type VicDomainPaddingConfig =
-  | VicRoundUpDomainPadding
-  | VicRoundUpToIntervalDomainPadding
-  | VicPercentOverDomainPadding
-  | VicPixelDomainPadding;
+export type ConcreteDomainPadding =
+  | RoundUpToSigFigDomainPadding
+  | RoundUpToIntervalDomainPadding
+  | PercentOverDomainPadding
+  | PixelDomainPadding;
 
 export interface PaddedDomainArguments {
   value?: number;
-  valueType: keyof typeof VicValueExtent;
+  valueType: keyof typeof ValueExtent;
   scaleFn?: (
     domain?: Iterable<number>,
     range?: Iterable<number>
@@ -29,7 +29,7 @@ export interface PaddedDomainArguments {
   dimensionRange?: [number, number];
 }
 
-export abstract class VicDomainPadding {
+export abstract class DomainPadding {
   abstract getPaddedValue(args: PaddedDomainArguments): number;
 
   getPaddedDomain(

@@ -11,10 +11,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { HoverMoveEventEffect } from '../events/effect';
 import { HoverMoveDirective } from '../events/hover-move.directive';
-import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
+import { BarsEventOutput } from './bars-event';
+import { barsTooltipMixin } from './bars-tooltip';
 import { BARS, BarDatum, BarsComponent } from './bars.component';
 
 @Directive({
@@ -22,18 +23,18 @@ import { BARS, BarDatum, BarsComponent } from './bars.component';
 })
 export class BarsHoverMoveDirective<
   Datum,
-  TOrdinalValue extends VicDataValue,
+  TOrdinalValue extends DataValue,
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue
   >
-> extends HoverMoveDirective {
+> extends barsTooltipMixin(HoverMoveDirective) {
   @Input('vicBarsHoverMoveEffects')
   effects: HoverMoveEventEffect<
     BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
   @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
-    VicBarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, TOrdinalValue>
   >();
   barDatum: BarDatum<TOrdinalValue>;
   elRef: ElementRef;
@@ -91,8 +92,8 @@ export class BarsHoverMoveDirective<
     this.elRef = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput<Datum, TOrdinalValue> {
-    const tooltipData = getBarsTooltipData(
+  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+    const tooltipData = this.getBarsTooltipData(
       this.barDatum,
       this.elRef,
       this.bars

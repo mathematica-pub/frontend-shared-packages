@@ -1,3 +1,3 @@
-export interface VicPixelDomainPaddingOptions {
+export interface PixelDomainPaddingOptions {
   numPixels: number;
 }

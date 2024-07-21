@@ -1,4 +1,4 @@
-export interface VicFillPattern<Datum> {
+export interface FillPattern<Datum> {
   name: string;
   usePattern: (d: Datum) => boolean;
 }

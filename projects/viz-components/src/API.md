@@ -42,7 +42,7 @@ BarsConfig:
   - valueFormat: undefined ([options](https://github.com/d3/d3-format))
   - domainPadding: `new DomainPadding()`
     - type: round; options (round, percent, none)
-    - sigDigits: 2
+    - sigFigures: 2
     - percent: 0.1
 
 - categorical: `new CategoricalColorDimension()`

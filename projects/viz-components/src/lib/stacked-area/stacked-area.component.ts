@@ -6,15 +6,15 @@ import {
   NgZone,
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
-import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-component';
+import { DataValue } from '../core/types/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicStackedAreaConfig } from './config/stacked-area-config';
+import { StackedAreaConfig } from './config/stacked-area-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const STACKED_AREA = new InjectionToken<
-  StackedAreaComponent<unknown, VicDataValue>
+  StackedAreaComponent<unknown, DataValue>
 >('StackedAreaComponent');
 
 @Component({
@@ -30,11 +30,8 @@ export const STACKED_AREA = new InjectionToken<
 })
 export class StackedAreaComponent<
   Datum,
-  TCategoricalValue extends VicDataValue
-> extends VicXyDataMarks<
-  Datum,
-  VicStackedAreaConfig<Datum, TCategoricalValue>
-> {
+  TCategoricalValue extends DataValue
+> extends VicXyDataMarks<Datum, StackedAreaConfig<Datum, TCategoricalValue>> {
   area;
   areas;
 

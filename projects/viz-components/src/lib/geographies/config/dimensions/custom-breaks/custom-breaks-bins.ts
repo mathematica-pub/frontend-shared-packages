@@ -1,7 +1,7 @@
 import { range, scaleLinear } from 'd3';
 import { VicValuesBin } from '../attribute-data-bin-enums';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
-import { VicCustomBreaksAttributeDataDimensionOptions } from './custom-breaks-bins-options';
+import { CustomBreaksBinsAttributeDataDimensionOptions } from './custom-breaks-bins-options';
 
 /**
  * Configuration object for attribute data that is quantitative and will be binned into custom breaks.
@@ -10,12 +10,12 @@ import { VicCustomBreaksAttributeDataDimensionOptions } from './custom-breaks-bi
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicCustomBreaksAttributeDataDimension<
+export class CustomBreaksBinsAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
   extends AttributeDataDimension<Datum, number, RangeValue>
-  implements VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
+  implements CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: VicValuesBin.customBreaks;
   readonly breakValues: number[];
@@ -24,7 +24,7 @@ export class VicCustomBreaksAttributeDataDimension<
   readonly formatSpecifier: string;
 
   constructor(
-    options: VicCustomBreaksAttributeDataDimensionOptions<Datum, RangeValue>
+    options: CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
     this.binType = VicValuesBin.customBreaks;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { VicDataValue } from '../../core/types/values';
+import { DataValue } from '../../core/types/values';
 import { VicXyAxisBuilder } from '../xy-axis-builder';
-import { VicYQuantitativeAxisConfig } from './y-quantitative-axis.config';
+import { VicYQuantitativeAxisConfig } from './y-quantitative-axis-config';
 
 const DEFAULT = {
   _side: 'left',
@@ -10,7 +10,7 @@ const DEFAULT = {
 
 @Injectable()
 export class VicYQuantitativeAxisBuilder<
-  TickValue extends VicDataValue
+  TickValue extends DataValue
 > extends VicXyAxisBuilder<TickValue> {
   private _numTicks: number;
   private _side: 'left' | 'right';

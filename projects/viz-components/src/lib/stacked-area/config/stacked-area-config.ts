@@ -8,45 +8,43 @@ import {
   SeriesPoint,
   stack,
 } from 'd3';
-import { VicContinuousValue, VicDataValue } from '../../core/types/values';
-import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
-import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
+import { ContinuousValue, DataValue } from '../../core/types/values';
+import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
+import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
-import { VicStackedAreaOptions } from './stacked-area-options';
+import { StackedAreaOptions } from './stacked-area-options';
 
-export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
+export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
   extends VicXyDataMarksConfig<Datum>
-  implements VicDataMarksOptions<Datum>
+  implements DataMarksOptions<Datum>
 {
-  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
+  categorical: CategoricalDimension<Datum, TCategoricalValue>;
   categoricalOrder: TCategoricalValue[];
   curve: CurveFactory;
   stackOrder: (
     series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
+      [ContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >
   ) => Iterable<number>;
   stackOffset: (
     series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
+      [ContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >,
     order: number[]
   ) => void;
-  x:
-    | VicDimensionQuantitativeDate<Datum>
-    | VicDimensionQuantitativeNumeric<Datum>;
-  y: VicDimensionQuantitativeNumeric<Datum>;
+  x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
+  y: QuantitativeNumericDimension<Datum>;
   series: (SeriesPoint<
-    [VicContinuousValue, InternMap<TCategoricalValue, number>]
+    [ContinuousValue, InternMap<TCategoricalValue, number>]
   > & {
     i: number;
   })[][];
 
-  constructor(options: VicStackedAreaOptions<Datum, TCategoricalValue>) {
+  constructor(options: StackedAreaOptions<Datum, TCategoricalValue>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();
@@ -84,7 +82,7 @@ export class VicStackedAreaConfig<Datum, TCategoricalValue extends VicDataValue>
       : this.categorical.calculatedDomain;
 
     this.series = stack<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
+      [ContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >()
       .keys(keys)

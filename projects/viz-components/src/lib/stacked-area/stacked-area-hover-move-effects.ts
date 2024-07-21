@@ -1,11 +1,11 @@
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { HoverMoveEventEffect } from '../events/effect';
 import { StackedAreaHoverMoveDirective } from './stacked-area-hover-move.directive';
 import { StackedAreaComponent } from './stacked-area.component';
 
 export class StackedAreaHoverMoveEmitTooltipData<
   Datum,
-  TCategoricalValue extends VicDataValue,
+  TCategoricalValue extends DataValue,
   TStackedAreaComponent extends StackedAreaComponent<
     Datum,
     TCategoricalValue

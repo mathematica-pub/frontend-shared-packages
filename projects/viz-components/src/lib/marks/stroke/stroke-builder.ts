@@ -1,4 +1,4 @@
-import { VicStroke } from './stroke';
+import { Stroke } from './stroke';
 
 const DEFAULT = {
   _linecap: 'round',
@@ -18,10 +18,10 @@ export class VicStrokeBuilder {
   }
 
   /**
-   * A value for the line's [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
+   * OPTIONAL. A value for the line's [stroke-linecap]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linecap}
    *  attribute.
    *
-   * Default is 'round'.
+   * @default 'round'
    */
   linecap(linecap: string): this {
     this._linecap = linecap;
@@ -29,10 +29,10 @@ export class VicStrokeBuilder {
   }
 
   /**
-   * A value for the line's [stroke-linejoin]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin}
+   * OPTIONAL. A value for the line's [stroke-linejoin]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-linejoin}
    *  attribute.
    *
-   * Default is 'round'.
+   * @default 'round'
    */
   linejoin(linejoin: string): this {
     this._linejoin = linejoin;
@@ -40,10 +40,10 @@ export class VicStrokeBuilder {
   }
 
   /**
-   * A value for the line's [stroke-opacity]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity}
+   * OPTIONAL. A value for the line's [stroke-opacity]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity}
    *  attribute.
    *
-   * Default is 1.
+   * @default 1
    */
   opacity(opacity: number): this {
     this._opacity = opacity;
@@ -51,18 +51,21 @@ export class VicStrokeBuilder {
   }
 
   /**
-   * A value for the line's [stroke-width]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width}
-   *  attribute.
+   * OPTIONAL. A value for the line's [stroke-width]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width}
+   *  attribute, in px.
    *
-   * Default is 2.
+   * @default 2
    */
   width(width: number): this {
     this._width = width;
     return this;
   }
 
-  build(): VicStroke {
-    return new VicStroke({
+  /**
+   * @internal This function is for internal use only and should never be called by the user.
+   */
+  build(): Stroke {
+    return new Stroke({
       linecap: this._linecap,
       linejoin: this._linejoin,
       opacity: this._opacity,

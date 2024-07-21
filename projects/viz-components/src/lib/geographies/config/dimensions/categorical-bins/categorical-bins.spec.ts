@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicCategoricalAttributeDataDimension } from './categorical-bins';
-import { VicCategoricalBinsBuilder } from './categorical-bins-builder';
+import { CategoricalBinsAttributeDataDimension } from './categorical-bins';
+import { CategoricalBinsBuilder } from './categorical-bins-builder';
 
 describe('VicCategoricalAttributeDataDimension', () => {
-  let dimension: VicCategoricalAttributeDataDimension<string>;
+  let dimension: CategoricalBinsAttributeDataDimension<string>;
   beforeEach(() => {
-    dimension = new VicCategoricalBinsBuilder<string>()
+    dimension = new CategoricalBinsBuilder<string>()
       .valueAccessor((d) => d)
       .build();
   });
@@ -30,7 +30,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       expect((dimension as any).calculatedDomain).toEqual(['a', 'b', 'c']);
     });
     it('sets the domain to uniqued user values if specified', () => {
-      dimension = new VicCategoricalBinsBuilder<string>()
+      dimension = new CategoricalBinsBuilder<string>()
         .valueAccessor((d) => d)
         .domain(['c', 'd', 'b', 'a', 'd'])
         .build();
@@ -41,7 +41,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
 
   describe('setRange', () => {
     it('sets the range to the correct values/length', () => {
-      dimension = new VicCategoricalBinsBuilder<string>()
+      dimension = new CategoricalBinsBuilder<string>()
         .valueAccessor((d) => d)
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
         .build();
@@ -52,7 +52,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
 
   describe('integration: the scale generates the expected color for a value with the default scale (D3 scaleOrdinal)', () => {
     type IceCream = { price: number; flavor: string; brand: string };
-    let dimension: VicCategoricalAttributeDataDimension<IceCream>;
+    let dimension: CategoricalBinsAttributeDataDimension<IceCream>;
     const data: IceCream[] = [
       { price: 7.99, flavor: 'chocolate', brand: 'local' },
       { price: 5, flavor: 'chocolate', brand: 'national' },
@@ -64,7 +64,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       { price: 7, flavor: 'strawberry', brand: 'regional' },
     ];
     it('using default properties', () => {
-      dimension = new VicCategoricalBinsBuilder<IceCream>()
+      dimension = new CategoricalBinsBuilder<IceCream>()
         .valueAccessor((d) => d.flavor)
         .nullColor('pink')
         .build();
@@ -76,7 +76,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       expect(scale('cookie dough')).toEqual('pink');
     });
     it('using user provided range', () => {
-      dimension = new VicCategoricalBinsBuilder<IceCream>()
+      dimension = new CategoricalBinsBuilder<IceCream>()
         .valueAccessor((d) => d.flavor)
         .range(['red', 'white', 'blue'])
         .nullColor('pink')
@@ -89,7 +89,7 @@ describe('VicCategoricalAttributeDataDimension', () => {
       expect(scale('cookie dough')).toEqual('pink');
     });
     it('using user provided domain', () => {
-      dimension = new VicCategoricalBinsBuilder<IceCream>()
+      dimension = new CategoricalBinsBuilder<IceCream>()
         .valueAccessor((d) => d.flavor)
         .domain(['cookie dough', 'rocky road', 'butter pecan'])
         .nullColor('pink')

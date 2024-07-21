@@ -6,9 +6,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material/button-toggle';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
+import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
   EventEffect,
   HoverMoveEventEffect,
+} from 'projects/viz-components/src/lib/events/effect';
+import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-config';
+import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
+import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import {
+  HtmlTooltipConfig,
   LinesClickDirective,
   LinesClickEmitTooltipDataPauseHoverMoveEffects,
   LinesHoverMoveDefaultStyles,
@@ -17,16 +25,10 @@ import {
   LinesHoverMoveEmitTooltipData,
   VicColumnConfig,
   VicDataExportConfig,
-  VicElementSpacing,
   VicExportDataService,
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
   VicImageService,
   VicJpegImageConfig,
   VicLinesBuilder,
-  VicLinesConfig,
-  VicLinesEventOutput,
-  VicQuantitativeAxisConfig,
   VicXQuantitativeAxisBuilder,
   VicYQuantitativeAxisBuilder,
 } from 'projects/viz-components/src/public-api';
@@ -36,26 +38,23 @@ import { DataService } from '../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-effects';
 
 interface ViewModel {
-  dataConfig: VicLinesConfig<MetroUnemploymentDatum>;
+  dataConfig: LinesConfig<MetroUnemploymentDatum>;
   xAxisConfig: VicQuantitativeAxisConfig<Date>;
   yAxisConfig: VicQuantitativeAxisConfig<number>;
   labels: string[];
 }
 const includeFiles = ['line-input-effects.ts'];
 
-class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
-  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
-    super();
-    this.size.minWidth = 340;
-    Object.assign(this, config);
-  }
-}
-
 @Component({
   selector: 'app-lines-example',
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
-  providers: [VicLinesBuilder],
+  providers: [
+    VicLinesBuilder,
+    VicYQuantitativeAxisBuilder,
+    VicXQuantitativeAxisBuilder,
+    VicHtmlTooltipBuilder,
+  ],
 })
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
@@ -66,10 +65,8 @@ export class LinesExampleComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new LinesExampleTooltipConfig({ show: false })
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>> =
     new BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>>(null);
@@ -105,7 +102,8 @@ export class LinesExampleComponent implements OnInit {
     public downloadService: VicExportDataService,
     public lines: VicLinesBuilder<MetroUnemploymentDatum>,
     private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>
+    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>,
+    private tooltip: VicHtmlTooltipBuilder
   ) {}
 
   ngOnInit(): void {
@@ -122,15 +120,13 @@ export class LinesExampleComponent implements OnInit {
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
     const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').build();
     const yAxisConfig = this.yAxisQuantitative.build();
-    const dataConfig = this.lines
+    const dataConfig = new VicLinesBuilder<MetroUnemploymentDatum>()
       .data(data)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.date)
       )
       .createYDimension((dimension) =>
-        dimension
-          .valueAccessor((d) => d.value)
-          .createPixelDomainPadding((padding) => padding.numPixels(20))
+        dimension.valueAccessor((d) => d.value).domainPaddingPixels(20)
       )
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.division)
@@ -152,30 +148,25 @@ export class LinesExampleComponent implements OnInit {
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data, tooltipEvent);
+    this.updateTooltipConfig(tooltipEvent);
   }
 
   updateTooltipData(data: VicLinesEventOutput<MetroUnemploymentDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(
-    data: VicLinesEventOutput<MetroUnemploymentDatum>,
-    eventContext: 'click' | 'hover'
-  ): void {
-    const config = new LinesExampleTooltipConfig();
-    config.hasBackdrop = eventContext === 'click';
-    config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY - 16;
-      config.show = true;
-    } else {
-      config.position.offsetX = null;
-      config.position.offsetY = null;
-      config.show = false;
-    }
+  updateTooltipConfig(eventContext: 'click' | 'hover'): void {
+    const data = this.tooltipData.getValue();
+    const config = this.tooltip
+      .setSize((size) => size.minWidth(340))
+      .createOffsetFromOriginPosition((position) =>
+        position
+          .offsetX(data?.positionX)
+          .offsetY(data ? data.positionY - 16 : undefined)
+      )
+      .hasBackdrop(eventContext === 'click')
+      .show(!!data)
+      .build();
     this.tooltipConfig.next(config);
   }
 
@@ -185,6 +176,7 @@ export class LinesExampleComponent implements OnInit {
 
   onBackdropClick(): void {
     this.removeTooltipEvent.next();
+    this.updateTooltipConfig('hover');
   }
 
   async downloadImage(): Promise<void> {

@@ -14,8 +14,8 @@ import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
-import { VicGeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
-import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesEventDirective } from './geographies-event-directive';
 import { VicGeographiesFeature } from './geographies-feature';
 import { GeographiesHoverMoveDirective } from './geographies-hover-move.directive';
@@ -48,8 +48,8 @@ export class GeographiesClickDirective<
   >();
   feature: VicGeographiesFeature<TProperties, TGeometry>;
   layer:
-    | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-    | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
+    | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+    | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>;
   path: SVGPathElement;
   pointerX: number;
   pointerY: number;

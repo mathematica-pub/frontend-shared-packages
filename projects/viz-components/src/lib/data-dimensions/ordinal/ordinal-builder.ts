@@ -1,8 +1,6 @@
-import {
-  VicDataValue,
-  VicDimensionOrdinal,
-} from 'projects/viz-components/src/public-api';
+import { DataValue } from '../../core/types/values';
 import { DataDimensionBuilder } from '../dimension-builder';
+import { OrdinalDimension } from './ordinal';
 
 const DEFAULT = {
   _align: 0.5,
@@ -13,7 +11,7 @@ const DEFAULT = {
 
 export class OrdinalDimensionBuilder<
   Datum,
-  TOrdinalValue extends VicDataValue
+  TOrdinalValue extends DataValue
 > extends DataDimensionBuilder<Datum, TOrdinalValue> {
   _align: number;
   _domain: TOrdinalValue[];
@@ -26,11 +24,11 @@ export class OrdinalDimensionBuilder<
   }
 
   /**
-   * Sets the alignment of the ordinal scale.
+   * OPTIONAL. Sets the alignment of the ordinal scale and is provided to [D3's align method](https://d3js.org/d3-scale/band#band_align)
    *
    * The value must be between 0 and 1.
    *
-   * Default is 0.5.
+   * @default 0.5.
    */
   align(align: number): this {
     this._align = align;
@@ -38,7 +36,7 @@ export class OrdinalDimensionBuilder<
   }
 
   /**
-   * Sets an array of ordinal values that will be used to define the domain of the scale.
+   * OPTIONAL. Sets an array of ordinal values that will be used to define the domain of the scale.
    *
    * If not provided, the domain will be determined by the data.
    */
@@ -48,11 +46,11 @@ export class OrdinalDimensionBuilder<
   }
 
   /**
-   * Sets the inner padding of the ordinal scale.
+   * OPTIONAL. Sets the inner padding of the ordinal scale and is provided to [D3's paddingInner method](https://d3js.org/d3-scale/band#band_paddingInner)
    *
    * The value must be between 0 and 1.
    *
-   * Default is 0.1.
+   * @default 0.1.
    */
   paddingInner(paddingInner: number): this {
     this._paddingInner = paddingInner;
@@ -60,19 +58,22 @@ export class OrdinalDimensionBuilder<
   }
 
   /**
-   * Sets the outer padding of the ordinal scale.
+   * OPTIONAL. Sets the outer padding of the ordinal scale and is provided to [D3's paddingOuter method](https://d3js.org/d3-scale/band#band_paddingOuter)
    *
    * The value must be between 0 and 1.
    *
-   * Default is 0.1.
+   * @default 0.1.
    */
   paddingOuter(paddingOuter: number): this {
     this._paddingOuter = paddingOuter;
     return this;
   }
 
-  build(): VicDimensionOrdinal<Datum, TOrdinalValue> {
-    return new VicDimensionOrdinal({
+  /**
+   * @internal This method is not intended to be used by consumers of this library.
+   */
+  build(): OrdinalDimension<Datum, TOrdinalValue> {
+    return new OrdinalDimension({
       align: this._align,
       domain: this._domain,
       formatFunction: this._formatFunction,

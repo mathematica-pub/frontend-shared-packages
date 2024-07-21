@@ -1,17 +1,17 @@
 import { ScaleContinuousNumeric, max, min } from 'd3';
 import { isNumber } from '../../core/utilities/type-guards';
-import { VicDataDimension } from '../dimension';
-import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
-import { VicDimensionQuantitativeNumericOptions } from './quantitative-numeric-options';
+import { DataDimension } from '../dimension';
+import { ConcreteDomainPadding } from './domain-padding/domain-padding';
+import { QuantitativeNumericDimensionOptions } from './quantitative-numeric-options';
 
-export class VicDimensionQuantitativeNumeric<Datum>
-  extends VicDataDimension<Datum, number>
-  implements VicDimensionQuantitativeNumericOptions<Datum>
+export class QuantitativeNumericDimension<Datum>
+  extends DataDimension<Datum, number>
+  implements QuantitativeNumericDimensionOptions<Datum>
 {
   private calculatedDomain: [number, number];
   readonly domain: [number, number];
   domainIncludesZero: boolean;
-  readonly domainPadding?: VicDomainPaddingConfig;
+  readonly domainPadding?: ConcreteDomainPadding;
   readonly formatSpecifier: string;
   readonly includeZeroInDomain: boolean;
   readonly scaleFn: (
@@ -19,12 +19,9 @@ export class VicDimensionQuantitativeNumeric<Datum>
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
 
-  constructor(options: VicDimensionQuantitativeNumericOptions<Datum>) {
+  constructor(options: QuantitativeNumericDimensionOptions<Datum>) {
     super();
     Object.assign(this, options);
-    if (this.valueAccessor === undefined) {
-      throw new Error('A value accessor function is required.');
-    }
   }
 
   setPropertiesFromData(data: Datum[]): void {

@@ -7,7 +7,7 @@ import { ValueUtilities } from '../core/utilities/values';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
 import { VicBarsBuilder } from './config/bars-builder';
-import { VicBarsConfig } from './config/bars-config';
+import { BarsConfig } from './config/bars-config';
 
 type Datum = { value: number; state: string; fruit: string };
 
@@ -20,9 +20,10 @@ const data = [
   { value: 6, state: 'CO', fruit: 'durian' },
 ];
 
-function horizontalConfig(): VicBarsConfig<Datum, string> {
+function horizontalConfig(): BarsConfig<Datum, string> {
   return new VicBarsBuilder<Datum, string>()
     .data(data)
+    .orientation('horizontal')
     .createQuantitativeDimension((dimension) =>
       dimension.valueAccessor((d) => d.value)
     )
@@ -36,7 +37,7 @@ function horizontalConfig(): VicBarsConfig<Datum, string> {
     .build();
 }
 
-function verticalConfig(): VicBarsConfig<Datum, string> {
+function verticalConfig(): BarsConfig<Datum, string> {
   return new VicBarsBuilder<Datum, string>()
     .orientation('vertical')
     .data(data)

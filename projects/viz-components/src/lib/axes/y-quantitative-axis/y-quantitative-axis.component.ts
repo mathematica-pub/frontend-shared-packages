@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { mixinQuantitativeAxis } from '../quantitative/quantitative-axis';
+import { quantitativeAxisMixin } from '../quantitative/quantitative-axis';
 import { XyAxis } from '../xy-axis';
-import { mixinYAxis } from '../y/y-axis';
+import { yAxisMixin } from '../y/y-axis';
 
-const YQuantitativeAxis = mixinYAxis(mixinQuantitativeAxis(XyAxis));
+const YQuantitativeAxis = yAxisMixin(quantitativeAxisMixin(XyAxis));
 
 /**
  * A component that is used to create a quantitative y-axis.

@@ -1,7 +1,7 @@
 import { extent, range, scaleLinear } from 'd3';
 import { AttributeDataDimension } from '../attribute-data/attribute-data-dimension';
 
-export abstract class CalculatedRangeBinsAttributeDataDimension<
+export abstract class CalculatedBinsAttributeDataDimension<
   Datum,
   RangeValue extends string | number = string
 > extends AttributeDataDimension<Datum, number, RangeValue> {

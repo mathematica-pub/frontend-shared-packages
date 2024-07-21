@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Observable, of } from 'rxjs';
 import { XyAxis, XyAxisScale } from '../../axes/xy-axis';
-import { VicDataValue } from '../../core/types/values';
+import { DataValue } from '../../core/types/values';
 
-export class XyAxisStub<T extends VicDataValue> extends XyAxis<T> {
+export class XyAxisStub<T extends DataValue> extends XyAxis<T> {
   getScale(): Observable<XyAxisScale> {
     return of({ scale: 'scale', useTransition: false } as any);
   }

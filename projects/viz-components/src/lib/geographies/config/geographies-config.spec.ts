@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { VicGeographiesBuilder } from './geographies-builder';
-import { VicGeographiesConfig } from './geographies-config';
-import { VicGeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesConfig } from './geographies-config';
+import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesLayer } from './layers/geographies-layer/geographies-layer';
 
 type Datum = { value: number; state: string };
@@ -21,7 +21,7 @@ const features = [
   { name: 'California' },
   { name: 'Colorado' },
 ];
-function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
+function createConfig(): GeographiesConfig<Datum, { name: string }, any> {
   return new VicGeographiesBuilder<Datum, { name: string }>()
     .createAttributeDataLayer((layer) =>
       layer
@@ -41,7 +41,7 @@ function createConfig(): VicGeographiesConfig<Datum, { name: string }, any> {
 }
 
 describe('GeographiesConfig', () => {
-  let config: VicGeographiesConfig<Datum, { name: string }, any>;
+  let config: GeographiesConfig<Datum, { name: string }, any>;
 
   beforeEach(() => {
     config = undefined;
@@ -50,12 +50,12 @@ describe('GeographiesConfig', () => {
   describe('init()', () => {
     beforeEach(() => {
       spyOn(
-        VicGeographiesAttributeDataLayer.prototype as any,
+        GeographiesAttributeDataLayer.prototype as any,
         'initPropertiesFromData'
       );
-      spyOn(VicGeographiesConfig.prototype as any, 'setLayers');
+      spyOn(GeographiesConfig.prototype as any, 'setLayers');
       spyOn(
-        VicGeographiesConfig.prototype as any,
+        GeographiesConfig.prototype as any,
         'setLayerFeatureIndexAccessors'
       );
       config = createConfig();

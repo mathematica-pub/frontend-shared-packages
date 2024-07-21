@@ -1,11 +1,11 @@
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { EventEffect } from '../events/effect';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsComponent } from './bars.component';
 
 export class BarsHoverShowLabels<
   Datum,
-  TOrdinalValue extends VicDataValue,
+  TOrdinalValue extends DataValue,
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue

@@ -1,36 +1,29 @@
 import { CurveFactory, InternMap, Series } from 'd3';
-import {
-  VicContinuousValue,
-  VicDataValue,
-  VicDimensionCategorical,
-  VicDimensionQuantitativeDate,
-  VicDimensionQuantitativeNumeric,
-} from 'projects/viz-components/src/public-api';
-import { VicDataMarksOptions } from '../../data-marks/config/data-marks-options';
+import { ContinuousValue, DataValue } from '../../core/types/values';
+import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
+import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 
-export interface VicStackedAreaOptions<
-  Datum,
-  TCategoricalValue extends VicDataValue
-> extends VicDataMarksOptions<Datum>,
-    VicDataMarksOptions<Datum> {
-  categorical: VicDimensionCategorical<Datum, TCategoricalValue>;
+export interface StackedAreaOptions<Datum, TCategoricalValue extends DataValue>
+  extends DataMarksOptions<Datum>,
+    DataMarksOptions<Datum> {
+  categorical: CategoricalDimension<Datum, TCategoricalValue>;
   categoricalOrder: TCategoricalValue[];
   curve: CurveFactory;
   stackOrder: (
     series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
+      [ContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >
   ) => Iterable<number>;
   stackOffset: (
     series: Series<
-      [VicContinuousValue, InternMap<TCategoricalValue, number>],
+      [ContinuousValue, InternMap<TCategoricalValue, number>],
       TCategoricalValue
     >,
     order: number[]
   ) => void;
-  x:
-    | VicDimensionQuantitativeDate<Datum>
-    | VicDimensionQuantitativeNumeric<Datum>;
-  y: VicDimensionQuantitativeNumeric<Datum>;
+  x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
+  y: QuantitativeNumericDimension<Datum>;
 }

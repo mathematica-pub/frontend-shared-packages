@@ -12,10 +12,10 @@ import {
 import { line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-component';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicLinesConfig } from './config/lines-config';
+import { LinesConfig } from './config/lines-config';
 
 export class LinesTooltipData {
   datum: any;
@@ -53,7 +53,7 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
 })
 export class LinesComponent<Datum> extends VicXyDataMarks<
   Datum,
-  VicLinesConfig<Datum>
+  LinesConfig<Datum>
 > {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;

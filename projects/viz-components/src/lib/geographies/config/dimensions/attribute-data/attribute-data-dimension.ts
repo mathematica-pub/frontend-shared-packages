@@ -1,7 +1,7 @@
-import { VicDataValue } from '../../../../core/types/values';
-import { VicFillPattern } from '../../../../data-dimensions/categorical/fill-pattern';
-import { VicDataDimension } from '../../../../data-dimensions/dimension';
-import { VicAttributeDataDimensionOptions } from './attribute-data-dimension-options';
+import { DataValue } from '../../../../core/types/values';
+import { FillPattern } from '../../../../data-dimensions/categorical/fill-pattern';
+import { DataDimension } from '../../../../data-dimensions/dimension';
+import { AttributeDataDimensionOptions } from './attribute-data-dimension-options';
 
 /**
  * Configuration object for attribute data that will be used to shade the map.
@@ -10,14 +10,13 @@ import { VicAttributeDataDimensionOptions } from './attribute-data-dimension-opt
  */
 export abstract class AttributeDataDimension<
     Datum,
-    AttributeValue extends VicDataValue,
+    AttributeValue extends DataValue,
     RangeValue extends string | number = string
   >
-  extends VicDataDimension<Datum, AttributeValue>
-  implements
-    VicAttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
+  extends DataDimension<Datum, AttributeValue>
+  implements AttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {
-  fillPatterns: VicFillPattern<Datum>[];
+  fillPatterns: FillPattern<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   nullColor: string;

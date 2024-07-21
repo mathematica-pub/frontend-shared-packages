@@ -1,11 +1,11 @@
 import { ScaleTime, max, min } from 'd3';
 import { isDate } from '../../core/utilities/type-guards';
-import { VicDataDimension } from '../dimension';
-import { VicDimensionQuantitativeDateOptions } from './quantitative-date-options';
+import { DataDimension } from '../dimension';
+import { QuantitativeDateDimensionOptions } from './quantitative-date-options';
 
-export class VicDimensionQuantitativeDate<Datum>
-  extends VicDataDimension<Datum, Date>
-  implements VicDimensionQuantitativeDateOptions<Datum>
+export class QuantitativeDateDimension<Datum>
+  extends DataDimension<Datum, Date>
+  implements QuantitativeDateDimensionOptions<Datum>
 {
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
@@ -15,12 +15,9 @@ export class VicDimensionQuantitativeDate<Datum>
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
 
-  constructor(options: VicDimensionQuantitativeDateOptions<Datum>) {
+  constructor(options: QuantitativeDateDimensionOptions<Datum>) {
     super();
     Object.assign(this, options);
-    if (this.valueAccessor === undefined) {
-      throw new Error('A value accessor function is required.');
-    }
   }
 
   setPropertiesFromData(data: Datum[]): void {

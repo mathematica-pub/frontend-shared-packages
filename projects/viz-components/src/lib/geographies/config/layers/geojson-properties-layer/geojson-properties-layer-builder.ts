@@ -2,16 +2,16 @@ import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { CategoricalDimensionBuilder } from 'projects/viz-components/src/lib/data-dimensions/categorical/categorical-builder';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
-import { VicGeographiesLabels } from '../labels/geographies-labels';
-import { VicGeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
-import { VicGeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
+import { GeographiesLabels } from '../labels/geographies-labels';
+import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
+import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 
 const DEFAULT = {
   _fill: 'none',
   _enableEffects: false,
 };
 
-export class VicGeographiesGeojsonPropertiesLayerBuilder<
+export class GeographiesGeojsonPropertiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
@@ -20,12 +20,12 @@ export class VicGeographiesGeojsonPropertiesLayerBuilder<
     string
   >;
   private _fill: string;
-  private _labels: VicGeographiesLabels<string, TProperties, TGeometry>;
-  private labelsBuilder: VicGeographiesLabelsBuilder<
+  private _labels: GeographiesLabels<string, TProperties, TGeometry>;
+  private labelsBuilder: GeographiesLabelsBuilder<
     string,
     TProperties,
     TGeometry
-  > = new VicGeographiesLabelsBuilder();
+  > = new GeographiesLabelsBuilder();
 
   constructor() {
     super();
@@ -66,10 +66,10 @@ export class VicGeographiesGeojsonPropertiesLayerBuilder<
 
   createLabels(
     setProperties: (
-      builder: VicGeographiesLabelsBuilder<string, TProperties, TGeometry>
+      builder: GeographiesLabelsBuilder<string, TProperties, TGeometry>
     ) => void
   ): this {
-    this.labelsBuilder = new VicGeographiesLabelsBuilder();
+    this.labelsBuilder = new GeographiesLabelsBuilder();
     if (setProperties) {
       setProperties(this.labelsBuilder);
     }
@@ -77,8 +77,8 @@ export class VicGeographiesGeojsonPropertiesLayerBuilder<
     return this;
   }
 
-  build(): VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
-    return new VicGeographiesGeojsonPropertiesLayer({
+  build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
+    return new GeographiesGeojsonPropertiesLayer({
       categorical: this.categoricalBuilder.build(),
       class: this._class,
       enableEffects: this._enableEffects,

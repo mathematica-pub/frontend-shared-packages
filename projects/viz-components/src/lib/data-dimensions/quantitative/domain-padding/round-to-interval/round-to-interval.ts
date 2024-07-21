@@ -1,19 +1,19 @@
 import { ValueUtilities } from 'projects/viz-components/src/lib/core/utilities/values';
 import {
   DomainPadding,
+  DomainPaddingType,
   PaddedDomainArguments,
-  VicDomainPadding,
 } from '../domain-padding';
-import { VicRoundUpToIntervalDomainPaddingOptions } from './round-to-interval-options';
+import { RoundUpToIntervalDomainPaddingOptions } from './round-to-interval-options';
 
-export class VicRoundUpToIntervalDomainPadding extends VicDomainPadding {
-  readonly type: DomainPadding.roundInterval;
+export class RoundUpToIntervalDomainPadding extends DomainPadding {
+  readonly type: DomainPaddingType.roundInterval;
   readonly interval: (maxValue: number) => number;
 
-  constructor(options?: Partial<VicRoundUpToIntervalDomainPaddingOptions>) {
+  constructor(options: RoundUpToIntervalDomainPaddingOptions) {
     super();
     Object.assign(this, options);
-    this.type = DomainPadding.roundInterval;
+    this.type = DomainPaddingType.roundInterval;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {

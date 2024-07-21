@@ -3,10 +3,10 @@ import { VicOrientation, VicSide } from '../core/types/layout';
 import { ValueUtilities } from '../core/utilities/values';
 import { VicValuesBin } from '../geographies/config/dimensions/attribute-data-bin-enums';
 import { VicAttributeDataDimensionConfig } from '../geographies/config/dimensions/attribute-data-bin-types';
-import { CalculatedRangeBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins/calculated-bins';
+import { CalculatedBinsAttributeDataDimension } from '../geographies/config/dimensions/calculated-bins/calculated-bins';
 
 @Directive()
-export abstract class MapLegendContent<
+export abstract class MapLegend<
   Datum,
   AttributeDimensionConfig extends VicAttributeDataDimensionConfig<Datum>
 > implements OnChanges, OnInit
@@ -57,7 +57,7 @@ export abstract class MapLegendContent<
     this.values = values.map((d) =>
       ValueUtilities.d3Format(
         d,
-        (this.config as CalculatedRangeBinsAttributeDataDimension<Datum>)
+        (this.config as CalculatedBinsAttributeDataDimension<Datum>)
           .formatSpecifier
       )
     );

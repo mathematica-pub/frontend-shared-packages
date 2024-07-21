@@ -3,11 +3,8 @@ import { Component, Input } from '@angular/core';
 import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
-  VicBarsConfig,
   VicBarsModule,
   VicChartModule,
-  VicOrdinalAxisConfig,
-  VicQuantitativeAxisConfig,
   VicXOrdinalAxisBuilder,
   VicXOrdinalAxisModule,
   VicXQuantitativeAxisBuilder,
@@ -18,7 +15,10 @@ import {
   VicYQuantitativeAxisBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
+import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
+import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
 import { VicBarsBuilder } from '../bars-builder';
+import { BarsConfig } from '../bars-config';
 
 type Datum = { state: string; value: number };
 
@@ -160,14 +160,14 @@ const barLabelColorMatchesExpectedRgb = (
   styles: [],
 })
 class TestVerticalBarsWithLabelsComponent {
-  @Input() barsConfig: VicBarsConfig<Datum, string>;
+  @Input() barsConfig: BarsConfig<Datum, string>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = { top: 20, right: 20, bottom: 0, left: 40 };
 }
 
 const mountVerticalBarsComponent = (
-  barsConfig: VicBarsConfig<Datum, string>
+  barsConfig: BarsConfig<Datum, string>
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisBuilder().build();
   const yAxisConfig = new VicYQuantitativeAxisBuilder()
@@ -195,7 +195,7 @@ const mountVerticalBarsComponent = (
 };
 
 describe('it correctly positions the vertical bar chart data labels', () => {
-  let barsConfig: VicBarsConfig<Datum, string>;
+  let barsConfig: BarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsBuilder<Datum, string>()
@@ -205,9 +205,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           dimension.valueAccessor((d) => d.state)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .createPixelDomainPadding((padding) => padding.numPixels(-4))
+          dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
@@ -329,9 +327,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           dimension.valueAccessor((d) => d.state)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .createPixelDomainPadding((padding) => padding.numPixels(-4))
+          dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
@@ -365,9 +361,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           dimension.valueAccessor((d) => d.state)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .createPixelDomainPadding((padding) => padding.numPixels(-4))
+          dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
@@ -413,7 +407,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension
                 .valueAccessor((d) => d.value)
                 .domain([-10, 10])
-                .createPixelDomainPadding((padding) => padding.numPixels(-4))
+                .domainPaddingPixels(-4)
             )
             .createCategoricalDimension((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
@@ -448,7 +442,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension
                 .valueAccessor((d) => d.value)
                 .domain([-10, 0])
-                .createPixelDomainPadding((padding) => padding.numPixels(-4))
+                .domainPaddingPixels(-4)
             )
             .createCategoricalDimension((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
@@ -505,14 +499,14 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   styles: [],
 })
 class TestHorizontalBarsWithLabelsComponent {
-  @Input() barsConfig: VicBarsConfig<Datum, string>;
+  @Input() barsConfig: BarsConfig<Datum, string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   margin = { top: 20, right: 20, bottom: 20, left: 60 };
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: VicBarsConfig<Datum, string>
+  barsConfig: BarsConfig<Datum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisBuilder()
     .tickFormat('.0f')
@@ -540,7 +534,7 @@ const mountHorizontalBarsComponent = (
 };
 
 describe('it correctly positions the horizontal bar chart data labels', () => {
-  let barsConfig: VicBarsConfig<Datum, string>;
+  let barsConfig: BarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsBuilder<Datum, string>()
@@ -550,9 +544,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           dimension.valueAccessor((d) => d.state)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .createPixelDomainPadding((padding) => padding.numPixels(4))
+          dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
@@ -675,9 +667,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           dimension.valueAccessor((d) => d.state)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .createPixelDomainPadding((padding) => padding.numPixels(4))
+          dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
@@ -711,9 +701,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           dimension.valueAccessor((d) => d.state)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.value)
-            .createPixelDomainPadding((padding) => padding.numPixels(4))
+          dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
@@ -759,7 +747,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               dimension
                 .valueAccessor((d) => d.value)
                 .domain([-10, 10])
-                .createPixelDomainPadding((padding) => padding.numPixels(-4))
+                .domainPaddingPixels(-4)
             )
             .createCategoricalDimension((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
@@ -794,7 +782,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               dimension
                 .valueAccessor((d) => d.value)
                 .domain([-10, 0])
-                .createPixelDomainPadding((padding) => padding.numPixels(4))
+                .domainPaddingPixels(4)
             )
             .createCategoricalDimension((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])

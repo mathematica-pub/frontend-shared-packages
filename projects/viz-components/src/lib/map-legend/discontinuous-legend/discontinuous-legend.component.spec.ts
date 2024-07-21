@@ -2,8 +2,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
 import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-enums';
-import { VicCategoricalAttributeDataDimension } from '../../geographies/config/dimensions/categorical-bins/categorical-bins';
-import { VicCategoricalAttributeDataDimensionOptions } from '../../geographies/config/dimensions/categorical-bins/categorical-bins-options';
+import { CategoricalBinsAttributeDataDimension } from '../../geographies/config/dimensions/categorical-bins/categorical-bins';
+import { CategoricalBinsOptions } from '../../geographies/config/dimensions/categorical-bins/categorical-bins-options';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {
@@ -23,9 +23,9 @@ describe('DiscontinuousLegendComponent', () => {
 
   describe('getValuesFromScale', () => {
     beforeEach(() => {
-      component.config = new VicCategoricalAttributeDataDimension<any>({
+      component.config = new CategoricalBinsAttributeDataDimension<any>({
         domain: ['one', 'two', 'three'],
-      } as VicCategoricalAttributeDataDimensionOptions<any>);
+      } as CategoricalBinsOptions<any>);
       spyOn(component.config, 'getDomain').and.returnValue('domain' as any);
     });
     it('integration: should return this.config.domain if binType == categorical', () => {

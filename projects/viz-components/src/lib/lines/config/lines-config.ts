@@ -1,12 +1,12 @@
 import { CurveFactory, group, range } from 'd3';
-import { VicStroke } from 'projects/viz-components/src/public-api';
-import { VicDimensionCategorical } from '../../data-dimensions/categorical/categorical';
-import { VicDimensionQuantitativeDate } from '../../data-dimensions/quantitative/quantitative-date';
-import { VicDimensionQuantitativeNumeric } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
+import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { VicPointMarkers } from '../../marks/point-markers/point-markers';
+import { Stroke } from '../../marks/stroke/stroke';
 import { VicXyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
-import { VicLinesOptions } from './lines-options';
+import { LinesOptions } from './lines-options';
 
 export interface LinesMarkerDatum {
   key: string;
@@ -14,11 +14,11 @@ export interface LinesMarkerDatum {
   category: string;
 }
 
-export class VicLinesConfig<Datum>
+export class LinesConfig<Datum>
   extends VicXyDataMarksConfig<Datum>
-  implements VicLinesOptions<Datum>
+  implements LinesOptions<Datum>
 {
-  readonly categorical: VicDimensionCategorical<Datum, string>;
+  readonly categorical: CategoricalDimension<Datum, string>;
   readonly curve: CurveFactory;
   readonly hoverDot: VicPointMarkers;
   readonly labelLines: boolean;
@@ -27,13 +27,13 @@ export class VicLinesConfig<Datum>
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: VicPointMarkers;
-  readonly stroke: VicStroke;
+  readonly stroke: Stroke;
   readonly x:
-    | VicDimensionQuantitativeDate<Datum>
-    | VicDimensionQuantitativeNumeric<Datum>;
-  readonly y: VicDimensionQuantitativeNumeric<Datum>;
+    | QuantitativeDateDimension<Datum>
+    | QuantitativeNumericDimension<Datum>;
+  readonly y: QuantitativeNumericDimension<Datum>;
 
-  constructor(options: VicLinesOptions<Datum>) {
+  constructor(options: LinesOptions<Datum>) {
     super();
     Object.assign(this, options);
     this.initPropertiesFromData();

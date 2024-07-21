@@ -1,13 +1,13 @@
-import { VicDataValue } from '../../../../core/types/values';
-import { VicFillPattern } from '../../../../data-dimensions/categorical/fill-pattern';
-import { VicDataDimensionOptions } from '../../../../data-dimensions/dimension-options';
+import { DataValue } from '../../../../core/types/values';
+import { FillPattern } from '../../../../data-dimensions/categorical/fill-pattern';
+import { DataDimensionOptions } from '../../../../data-dimensions/dimension-options';
 
-export interface VicAttributeDataDimensionOptions<
+export interface AttributeDataDimensionOptions<
   Datum,
-  AttributeValue extends VicDataValue,
+  AttributeValue extends DataValue,
   RangeValue extends string | number = string
-> extends VicDataDimensionOptions<Datum, AttributeValue> {
-  fillPatterns: VicFillPattern<Datum>[];
+> extends DataDimensionOptions<Datum, AttributeValue> {
+  fillPatterns: FillPattern<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   nullColor: string;

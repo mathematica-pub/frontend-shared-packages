@@ -10,7 +10,7 @@ import {
 import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
-import { VicDataMarksOptions } from './config/data-marks-options';
+import { DataMarksOptions } from './config/data-marks-options';
 
 export interface VicICommon {
   chart: Chart;
@@ -51,14 +51,14 @@ export interface VicIMarks extends VicICommon {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const VIC_DATA_MARKS = new InjectionToken<VicDataMarks<unknown, any>>(
+export const VIC_DATA_MARKS = new InjectionToken<DataMarks<unknown, any>>(
   'DataMarks'
 );
 
 @Directive()
-export abstract class VicDataMarks<
+export abstract class DataMarks<
   Datum,
-  TDataMarksConfig extends VicDataMarksOptions<Datum>
+  TDataMarksConfig extends DataMarksOptions<Datum>
 > implements VicIData, VicIMarks, OnChanges
 {
   @Input() config: TDataMarksConfig;

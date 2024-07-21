@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CurveFactory, curveLinear, schemeTableau10 } from 'd3';
+import { CurveFactory, curveLinear } from 'd3';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
 import { PointMarkersBuilder } from '../../marks/point-markers/point-markers-builder';
 import { VicStrokeBuilder } from '../../marks/stroke/stroke-builder';
-import { VicLinesConfig } from './lines-config';
+import { LinesConfig } from './lines-config';
 
 const DEFAULT = {
   _curve: curveLinear,
@@ -14,6 +14,13 @@ const DEFAULT = {
   _lineLabelsFormat: (d: string) => d,
 };
 
+/**
+ * Builds a configuration object for a LinesComponent.
+ *
+ * Must be added to a providers array in or above the component that consumes it if it is injected via the constructor. (e.g. `providers: [VicLinesBuilder]` in the component decorator)
+ *
+ * The generic parameter, Datum, is the type of the data that will be used to create the lines.
+ */
 @Injectable()
 export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   private _curve: CurveFactory;
@@ -35,9 +42,9 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A config for the behavior of the chart's categorical dimension.
+   * OPTIONAL. A config for the behavior of the chart's categorical dimension.
    *
-   * Default colors array is D3's [schemeTableau10]{@link https://github.com/d3/d3-scale-chromatic#schemeTableau10}.
+   * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   createCategoricalDimension(
     setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
@@ -49,14 +56,13 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
 
   private initCatetgoricalBuilder(): void {
     this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
-    this.categoricalDimensionBuilder.range(schemeTableau10 as string[]);
   }
 
   /**
-   * A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
+   * OPTIONAL. A function passed to D3's [line.curve()]{@link https://github.com/d3/d3-shape#line_curve}
    *  method.
    *
-   * Default is [curveLinear]{@link https://github.com/d3/d3-shape#curveLinear}.
+   * @default [curveLinear]{@link https://github.com/d3/d3-shape#curveLinear}.
    */
   curve(curve: CurveFactory): this {
     this._curve = curve;
@@ -64,9 +70,14 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A config for a dot that will appear on hover of a line. Intended to be used when there
-   *  are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
-   *  data will be displayed. Will not be displayed if pointMarkers.display is true.
+   * OPTIONAL. A config for a dot that will appear on hover of a line.
+   *
+   * Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
+   *  data will be displayed.
+   *
+   * Will not be displayed if pointMarkers.display is true.
+   *
+   * @default radius: 4, display: false
    */
   createHoverDot(
     setProperties?: (pointMarkers: PointMarkersBuilder) => void
@@ -79,7 +90,7 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A boolean to determine if the line will be labeled.
+   * OPTIONAL. A boolean to determine if the line will be labeled.
    */
   labelLines(labelLines: boolean): this {
     this._labelLines = labelLines;
@@ -87,10 +98,10 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A function that returns a string to be used as the label for a line. Can be used to modify the
+   * OPTIONAL. A function that returns a string to be used as the label for a line. Can be used to modify the
    * line label string as needed.
    *
-   * Default is the identity function.
+   * @default identity function.
    */
   lineLabelsFormat(lineLabelsFormat: (d: string) => string): this {
     this._lineLabelsFormat = lineLabelsFormat;
@@ -98,10 +109,11 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * The distance from a line in which a hover event will trigger a tooltip, in px.
-   *  Default is 80.
+   * OPTIONAL. The distance from a line in which a hover event will trigger a tooltip, in px.
    *
    * This is used to ensure that a tooltip is triggered only when a user's pointer is close to lines.
+   *
+   * @default 80
    */
   pointerDetectionRadius(pointerDetectionRadius: number): this {
     this._pointerDetectionRadius = pointerDetectionRadius;
@@ -109,9 +121,8 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A config for the behavior of markers for each datum on the line.
+   * OPTIONAL. A config for the behavior of markers for each datum on the line.
    */
-
   createPointMarkers(
     setProperties?: (pointMarkers: PointMarkersBuilder) => void
   ): this {
@@ -121,20 +132,20 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A config for the behavior of the line stroke.
+   * OPTIONAL. A config for the behavior of the line stroke.
    */
   createStroke(setProperties?: (stroke: VicStrokeBuilder) => void): this {
-    this.initStroke();
+    this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
   }
 
-  private initStroke(): void {
+  private initStrokeBuilder(): void {
     this.strokeBuilder = new VicStrokeBuilder();
   }
 
   /**
-   * A config for the behavior of the chart's x dimension.
+   * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
   createXNumericDimension(
     setProperties: (
@@ -146,6 +157,9 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
     return this;
   }
 
+  /**
+   * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
+   */
   createXDateDimension(
     setProperties: (dimension: QuantitativeDateDimensionBuilder<Datum>) => void
   ): this {
@@ -155,7 +169,7 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
-   * A config for the behavior of the chart's y dimension.
+   * REQUIRED. A config for the behavior of the chart's y dimension.
    */
   createYDimension(
     setProperties: (
@@ -167,11 +181,12 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
     return this;
   }
 
-  build(): VicLinesConfig<Datum> {
-    if (this.strokeBuilder === undefined) {
-      this.initStroke();
-    }
-    return new VicLinesConfig({
+  /**
+   * REQUIRED. Builds the configuration object for the LinesComponent.
+   */
+  build(): LinesConfig<Datum> {
+    this.validateBuilder();
+    return new LinesConfig({
       categorical: this.categoricalDimensionBuilder.build(),
       curve: this._curve,
       data: this._data,
@@ -185,5 +200,25 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
       x: this.xDimensionBuilder.build(),
       y: this.yDimensionBuilder.build(),
     });
+  }
+
+  protected override validateBuilder(): void {
+    super.validateBuilder('Lines');
+    if (this.strokeBuilder === undefined) {
+      this.initStrokeBuilder();
+    }
+    if (!this.categoricalDimensionBuilder) {
+      this.initCatetgoricalBuilder();
+    }
+    if (!this.xDimensionBuilder) {
+      throw new Error(
+        'Lines Builder: X dimension is required. Please use method `createXNumericDimension` or `createXDateDimension` to set it.'
+      );
+    }
+    if (!this.yDimensionBuilder) {
+      throw new Error(
+        'Lines Builder: Y dimension is required. Please use method `createYDimension` to set it.'
+      );
+    }
   }
 }

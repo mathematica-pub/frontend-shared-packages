@@ -14,14 +14,15 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Observable, filter } from 'rxjs';
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { ClickDirective } from '../events/click.directive';
 import { EventEffect } from '../events/effect';
+import { BarsEventOutput } from './bars-event';
 import { BarsEventDirective } from './bars-event-directive';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
-import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
+import { barsTooltipMixin } from './bars-tooltip';
 import { BARS, BarDatum, BarsComponent } from './bars.component';
 
 @Directive({
@@ -29,12 +30,12 @@ import { BARS, BarDatum, BarsComponent } from './bars.component';
 })
 export class BarsClickDirective<
   Datum,
-  TOrdinalValue extends VicDataValue,
+  TOrdinalValue extends DataValue,
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue
   >
-> extends ClickDirective {
+> extends barsTooltipMixin(ClickDirective) {
   @Input('vicBarsClickEffects')
   effects: EventEffect<
     BarsClickDirective<Datum, TOrdinalValue, TBarsComponent>
@@ -42,7 +43,7 @@ export class BarsClickDirective<
   @Input('vicBarsClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicBarsClickOutput') eventOutput = new EventEmitter<
-    VicBarsEventOutput<Datum, TOrdinalValue>
+    BarsEventOutput<Datum, TOrdinalValue>
   >();
   barDatum: BarDatum<TOrdinalValue>;
   elRef: ElementRef;
@@ -109,8 +110,8 @@ export class BarsClickDirective<
     this.pointerY = undefined;
   }
 
-  getEventOutput(): VicBarsEventOutput<Datum, TOrdinalValue> {
-    const data = getBarsTooltipData(this.barDatum, this.elRef, this.bars);
+  getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
+    const data = this.getBarsTooltipData(this.barDatum, this.elRef, this.bars);
     const extras = {
       positionX: this.pointerX,
       positionY: this.pointerY,

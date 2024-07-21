@@ -1,22 +1,22 @@
 import { ScaleContinuousNumeric } from 'd3';
 import {
   DomainPadding,
+  DomainPaddingType,
   PaddedDomainArguments,
-  VicDomainPadding,
 } from '../domain-padding';
-import { VicPixelDomainPaddingOptions } from './pixel-options';
+import { PixelDomainPaddingOptions } from './pixel-options';
 
-export class VicPixelDomainPadding
-  extends VicDomainPadding
-  implements VicPixelDomainPaddingOptions
+export class PixelDomainPadding
+  extends DomainPadding
+  implements PixelDomainPaddingOptions
 {
   readonly numPixels: number;
-  readonly type: DomainPadding.numPixels = DomainPadding.numPixels;
+  readonly type: DomainPaddingType.numPixels = DomainPaddingType.numPixels;
 
-  constructor(options?: Partial<VicPixelDomainPaddingOptions>) {
+  constructor(options: PixelDomainPaddingOptions) {
     super();
     Object.assign(this, options);
-    this.type = DomainPadding.numPixels;
+    this.type = DomainPaddingType.numPixels;
   }
 
   getPaddedValue(args: PaddedDomainArguments): number {

@@ -1,10 +1,10 @@
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { ValueUtilities } from '../core/utilities/values';
 import { StackedAreaComponent } from './stacked-area.component';
 
 export interface VicStackedAreaEventOutput<
   Datum,
-  TCategoricalValue extends VicDataValue
+  TCategoricalValue extends DataValue
 > {
   data: VicStackedAreaEventDatum<Datum, TCategoricalValue>[];
   positionX: number;
@@ -16,7 +16,7 @@ export interface VicStackedAreaEventOutput<
 
 export interface VicStackedAreaEventDatum<
   Datum,
-  TCategoricalValue extends VicDataValue
+  TCategoricalValue extends DataValue
 > {
   datum: Datum;
   color: string;
@@ -27,7 +27,7 @@ export interface VicStackedAreaEventDatum<
 
 export function getStackedAreaTooltipData<
   Datum,
-  TCategoricalValue extends VicDataValue
+  TCategoricalValue extends DataValue
 >(
   closestXIndicies: number[],
   categoryYMin: number,

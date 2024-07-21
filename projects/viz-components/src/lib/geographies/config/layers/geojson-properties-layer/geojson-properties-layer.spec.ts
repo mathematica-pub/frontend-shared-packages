@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicDimensionCategorical } from '../../../../data-dimensions/categorical/categorical';
-import { VicGeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
-import { VicGeographiesGeojsonPropertiesLayerBuilder } from './geojson-properties-layer-builder';
+import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
+import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
+import { GeographiesGeojsonPropertiesLayerBuilder } from './geojson-properties-layer-builder';
 
 type FeatureProperties = { name: string };
 const features = [
@@ -11,18 +11,18 @@ const features = [
   { name: 'California' },
   { name: 'Colorado' },
 ];
-function createLayer(): VicGeographiesGeojsonPropertiesLayer<
+function createLayer(): GeographiesGeojsonPropertiesLayer<
   { name: string },
   any
 > {
-  return new VicGeographiesGeojsonPropertiesLayerBuilder<FeatureProperties>()
+  return new GeographiesGeojsonPropertiesLayerBuilder<FeatureProperties>()
     .geographies(features as any)
     .createCategoricalDimension((dimension) => dimension.range(['lime']))
     .build();
 }
 
 describe('GeographiesGeojsonPropertiesLayer', () => {
-  let layer: VicGeographiesGeojsonPropertiesLayer<{ name: string }, any>;
+  let layer: GeographiesGeojsonPropertiesLayer<{ name: string }, any>;
 
   beforeEach(() => {
     layer = undefined;
@@ -30,7 +30,7 @@ describe('GeographiesGeojsonPropertiesLayer', () => {
 
   describe('initPropertiesFromGeographies()', () => {
     beforeEach(() => {
-      spyOn(VicDimensionCategorical.prototype as any, 'setPropertiesFromData');
+      spyOn(CategoricalDimension.prototype as any, 'setPropertiesFromData');
       layer = createLayer();
     });
     it('calls setPropertiesFromData once if categorical dimension exists', () => {

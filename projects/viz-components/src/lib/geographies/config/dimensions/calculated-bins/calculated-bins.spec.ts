@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { interpolateLab } from 'd3';
-import { CalculatedRangeBinsAttributeDataDimension } from './calculated-bins';
+import { CalculatedBinsAttributeDataDimension } from './calculated-bins';
 
-class ConcreteCalculatedBins extends CalculatedRangeBinsAttributeDataDimension<
+class ConcreteCalculatedBins extends CalculatedBinsAttributeDataDimension<
   any,
   string
 > {

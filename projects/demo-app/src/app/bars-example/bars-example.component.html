@@ -7,11 +7,8 @@
       [hideSingleSelectionIndicator]="true"
       [value]="orientation$ | async"
       (change)="updateOrientation($event.value)"
-      ><mat-button-toggle [value]="Orientation.horizontal"
-        >Horizontal</mat-button-toggle
-      ><mat-button-toggle [value]="Orientation.vertical"
-        >Vertical</mat-button-toggle
-      >
+      ><mat-button-toggle value="horizontal">Horizontal</mat-button-toggle
+      ><mat-button-toggle value="vertical">Vertical</mat-button-toggle>
     </mat-button-toggle-group>
     <button
       mat-stroked-button
@@ -27,7 +24,7 @@
     >
       <ng-container svg-elements>
         <svg:g vic-xy-background></svg:g>
-        @if ((orientation$ | async) === Orientation.horizontal) {
+        @if ((orientation$ | async) === 'horizontal') {
         <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
         <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
         } @else {

@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 import { SeriesPoint, Transition, select } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-component';
-import { VicStackedBarsConfig } from './config/stacked-bars-config';
+import { DataValue } from '../core/types/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { StackedBarsConfig } from './config/stacked-bars-config';
 
 export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
   i: number;
@@ -25,9 +25,9 @@ export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
 })
 export class StackedBarsComponent<
   Datum,
-  TOrdinalValue extends VicDataValue
+  TOrdinalValue extends DataValue
 > extends BarsComponent<Datum, TOrdinalValue> {
-  @Input() override config: VicStackedBarsConfig<Datum, TOrdinalValue>;
+  @Input() override config: StackedBarsConfig<Datum, TOrdinalValue>;
 
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicDimensionOrdinal } from './ordinal';
+import { OrdinalDimension } from './ordinal';
 import { OrdinalDimensionBuilder } from './ordinal-builder';
 
 const data = [
@@ -11,10 +11,7 @@ const data = [
 ];
 
 describe('VicDimensionOrdinal', () => {
-  let dimension: VicDimensionOrdinal<
-    { value: number; category: string },
-    string
-  >;
+  let dimension: OrdinalDimension<{ value: number; category: string }, string>;
   beforeEach(() => {
     dimension = new OrdinalDimensionBuilder<
       { value: number; category: string },

@@ -21,7 +21,7 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * The class to be applied to the geography layer.
+   * OPTIONAL. The class to be applied to an SVGGElement that holds all geographies and labels for the layer.
    */
   class(value: string): this {
     this._class = value;
@@ -29,7 +29,12 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * Whether the layer can use viz-components pointer effects. If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
+   * OPTIONAL. Determines whether the layer can use viz-components pointer effects.
+   *
+   * If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
+   *
+   * @default true for Attribute Data layer
+   * @default false for Geojson Properties layers
    */
   enableEffects(value: boolean): this {
     this._enableEffects = value;
@@ -37,7 +42,7 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * GeoJSON features that define the geographies to be drawn.
+   * REQUIRED. GeoJSON features that define the geographies to be drawn.
    */
   geographies(
     value: Array<VicGeographiesFeature<TProperties, TGeometry>>
@@ -47,7 +52,9 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * The color of the stroke for the geography.
+   * OPTIONAL. The color of the stroke for the geography.
+   *
+   * @default 'dimgray'
    */
   strokeColor(value: string): this {
     this._strokeColor = value;
@@ -55,7 +62,9 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * The width of the stroke for the geography.
+   * OPTIONAL. The width of the stroke for the geography.
+   *
+   * @default '1'
    */
   strokeWidth(value: string): this {
     this._strokeWidth = value;

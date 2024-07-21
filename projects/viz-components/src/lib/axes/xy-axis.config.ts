@@ -1,4 +1,4 @@
-import { VicTickWrapConfig } from './tick-wrap/tick-wrap-config';
+import { TickWrap } from './tick-wrap/tick-wrap-config';
 
 export abstract class VicXyAxisConfig<TickValue> {
   removeDomain: boolean;
@@ -7,7 +7,7 @@ export abstract class VicXyAxisConfig<TickValue> {
   tickFormat: string | ((value: TickValue) => string);
   tickLabelFontSize: number;
   tickSizeOuter: number;
-  wrap: VicTickWrapConfig;
+  wrap: TickWrap;
 
   abstract getSuggestedNumTicksFromChartDimension(dimensions: {
     height: number;

@@ -6,30 +6,29 @@ import {
   isFunction,
   isPrimitiveType,
 } from '../../../../core/utilities/type-guards';
-import { VicDimensionCategorical } from '../../../../data-dimensions/categorical/categorical';
+import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
 import { VicGeographiesFeature } from '../../../geographies-feature';
 import { VicGeographiesTooltipOutput } from '../../../geographies-tooltip-data';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
-import { VicGeographiesLabels } from '../labels/geographies-labels';
-import { VicGeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
+import { GeographiesLabels } from '../labels/geographies-labels';
+import { GeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
 
-export class VicGeographiesGeojsonPropertiesLayer<
+export class GeographiesGeojsonPropertiesLayer<
     TProperties,
     TGeometry extends Geometry = MultiPolygon | Polygon
   >
   extends GeographiesLayer<string, TProperties, TGeometry>
-  implements
-    VicGeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
+  implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
 {
-  readonly categorical: VicDimensionCategorical<
+  readonly categorical: CategoricalDimension<
     VicGeographiesFeature<TProperties, TGeometry>,
     string
   >;
   readonly fill: string;
-  override labels: VicGeographiesLabels<string, TProperties, TGeometry>;
+  override labels: GeographiesLabels<string, TProperties, TGeometry>;
 
   constructor(
-    options: VicGeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
+    options: GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
   ) {
     super();
     Object.assign(this, options);

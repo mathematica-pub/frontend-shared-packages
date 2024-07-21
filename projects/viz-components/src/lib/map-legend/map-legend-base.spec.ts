@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ValueUtilities } from '../core/utilities/values';
-import { VicCategoricalAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins/categorical-bins';
-import { VicCategoricalBinsBuilder } from '../geographies/config/dimensions/categorical-bins/categorical-bins-builder';
-import { VicCategoricalAttributeDataDimensionOptions } from '../geographies/config/dimensions/categorical-bins/categorical-bins-options';
+import { CategoricalBinsAttributeDataDimension } from '../geographies/config/dimensions/categorical-bins/categorical-bins';
+import { CategoricalBinsBuilder } from '../geographies/config/dimensions/categorical-bins/categorical-bins-builder';
+import { CategoricalBinsOptions } from '../geographies/config/dimensions/categorical-bins/categorical-bins-options';
 import { VicEqualValueRangesBinsBuilder } from '../geographies/config/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
@@ -34,7 +34,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setQuantitativeValues');
     });
     it('calls setCategoricalValues once if binType is categorical', () => {
-      directive.config = new VicCategoricalBinsBuilder<string>()
+      directive.config = new CategoricalBinsBuilder<string>()
         .valueAccessor((d) => d)
         .build();
       directive.setValues();
@@ -124,8 +124,8 @@ describe('the MapLegendContent abstract class', () => {
 
   describe('setColors', () => {
     beforeEach(() => {
-      directive.config = new VicCategoricalAttributeDataDimension(
-        {} as VicCategoricalAttributeDataDimensionOptions<any>
+      directive.config = new CategoricalBinsAttributeDataDimension(
+        {} as CategoricalBinsOptions<any>
       );
       (directive.config as any).domain = ['a', 'b'];
       directive.config.range = ['red', 'blue'];

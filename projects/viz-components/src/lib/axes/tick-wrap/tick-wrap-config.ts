@@ -1,9 +1,10 @@
-import { VicSvgTextWrapConfig } from '../../svg-text-wrap/svg-text-wrap-config';
+import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
+import { TickWrapOptions } from './tick-wrap-options';
 
 /**
  * A config that specifies how axis tick labels should wrap.
  */
-export class VicTickWrapConfig extends VicSvgTextWrapConfig {
+export class TickWrap extends SvgTextWrap {
   /**
    * The max-width for the tick labels.
    *
@@ -21,8 +22,8 @@ export class VicTickWrapConfig extends VicSvgTextWrapConfig {
     | ((chartWidth: number, numOfTicks: number) => number);
   override width: null;
 
-  constructor(options: VicTickWrapConfig) {
-    super(options);
+  constructor(options: TickWrapOptions) {
+    super({ width: null, ...options });
     Object.assign(this, options);
   }
 }

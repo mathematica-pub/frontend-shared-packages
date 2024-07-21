@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicGeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer';
 import * as topojson from 'topojson-client';
 import { DataResource } from '../resources/data.resource';
 import { MapGeometryProperties, UsMapTopology } from './basemap';
@@ -12,7 +12,7 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicGeographiesGeojsonPropertiesLayer<
+  usOutlineConfig: GeographiesGeojsonPropertiesLayer<
     MapGeometryProperties,
     MultiPolygon | Polygon
   >;

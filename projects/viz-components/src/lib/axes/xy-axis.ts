@@ -11,10 +11,9 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
-import { svgTextWrap } from '../svg-text-wrap/svg-text-wrap';
-import { VicSvgTextWrapConfig } from '../svg-text-wrap/svg-text-wrap-config';
+import { SvgTextWrap } from '../svg-text-wrap/svg-text-wrap';
 import { GenericScale, XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyAxisConfig } from './xy-axis.config';
 
@@ -28,7 +27,7 @@ export type XyAxisScale = {
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis<TickValue extends VicDataValue>
+export abstract class XyAxis<TickValue extends DataValue>
   implements OnInit, OnChanges
 {
   /**
@@ -130,8 +129,8 @@ export abstract class XyAxis<TickValue extends VicDataValue>
     } else {
       width = this.config.wrap.wrapWidth;
     }
-    const config = new VicSvgTextWrapConfig({ ...properties, width });
-    tickTextSelection.call(svgTextWrap, config);
+    const config = new SvgTextWrap({ ...properties, width });
+    tickTextSelection.call(config.wrap);
   }
 
   processAxisFeatures(): void {

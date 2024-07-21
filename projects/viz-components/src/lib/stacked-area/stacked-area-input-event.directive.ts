@@ -9,7 +9,7 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
 import { InputEventEffect } from '../events/effect';
 import { InputEventDirective } from '../events/input-event.directive';
 import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
@@ -19,7 +19,7 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 })
 export class StackedAreaInputEventDirective<
   Datum,
-  TCategoricalValue extends VicDataValue,
+  TCategoricalValue extends DataValue,
   TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue>
 > extends InputEventDirective {
   @Input('vicStackedAreaInputEffects')

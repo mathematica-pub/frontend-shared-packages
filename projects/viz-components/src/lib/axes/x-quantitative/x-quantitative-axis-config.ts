@@ -1,9 +1,9 @@
-import { VicDataValue } from '../../core/types/values';
+import { DataValue } from '../../core/types/values';
 import {
   VicQuantitativeAxisOptions,
   mixinQuantitativeAxisConfig,
-} from '../quantitative/quantitative-axis.config';
-import { VicXAxisOptions, mixinXAxisConfig } from '../x/x-axis.config';
+} from '../quantitative/quantitative-axis-config';
+import { VicXAxisOptions, mixinXAxisConfig } from '../x/x-axis-config';
 import { VicXyAxisConfig } from '../xy-axis.config';
 
 const AbstractXQuantitativeConfig = mixinXAxisConfig(
@@ -11,7 +11,7 @@ const AbstractXQuantitativeConfig = mixinXAxisConfig(
 );
 
 export class VicXQuantitativeAxisConfig<
-  TickValue extends VicDataValue
+  TickValue extends DataValue
 > extends AbstractXQuantitativeConfig<TickValue> {
   constructor(
     options: VicXAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>

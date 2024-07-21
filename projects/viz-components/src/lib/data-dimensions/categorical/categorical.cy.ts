@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { schemeTableau10 } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
-  VicBarsConfig,
+  BarsConfig,
   VicBarsModule,
   VicChartModule,
   VicXQuantitativeAxisBuilder,
@@ -11,8 +11,8 @@ import {
   VicYOrdinalAxisBuilder,
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
-import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis.config';
-import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis.config';
+import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis-config';
+import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis-config';
 import { VicBarsBuilder } from '../../bars/config/bars-builder';
 import { QOCData, QOCDatum } from '../../testing/data/quant-ord-cat-data';
 
@@ -91,7 +91,7 @@ const customCategoricalScale = (d: string) => {
   styles: [],
 })
 class TestHorizontalBarsComponent {
-  @Input() barsConfig: VicBarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<QOCDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = horizontalMargin;
@@ -102,7 +102,7 @@ class TestHorizontalBarsComponent {
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: VicBarsConfig<QOCDatum, string>
+  barsConfig: BarsConfig<QOCDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisBuilder()
     .tickFormat('.0f')
@@ -132,7 +132,7 @@ const mountHorizontalBarsComponent = (
 // Marks fill/stroke is correct
 // ***********************************************************
 describe('marks have expected fill', () => {
-  let barsConfig: VicBarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<QOCDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
@@ -167,7 +167,7 @@ describe('marks have expected fill', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
         .build();
@@ -187,7 +187,7 @@ describe('marks have expected fill', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor((d) => d.continent)
@@ -227,7 +227,7 @@ describe('marks have expected fill', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createCategoricalDimension((dimension) =>
           dimension
@@ -267,7 +267,7 @@ describe('marks have expected fill', () => {
           dimension.valueAccessor((d) => d.country)
         )
         .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createCategoricalDimension((dimension) =>
           dimension.scale(customCategoricalScale)
@@ -286,7 +286,7 @@ describe('marks have expected fill', () => {
 // Marks fill/stroke is correct - testing Fill Pattern
 // ***********************************************************
 describe('user provides a fill pattern', () => {
-  let barsConfig: VicBarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<QOCDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
@@ -298,7 +298,7 @@ describe('user provides a fill pattern', () => {
         dimension.valueAccessor((d) => d.country)
       )
       .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
       .createCategoricalDimension((dimension) =>
         dimension.fillPatterns([
@@ -327,7 +327,7 @@ describe('user provides a fill pattern', () => {
         dimension.valueAccessor((d) => d.country)
       )
       .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
       .createCategoricalDimension((dimension) =>
         dimension
@@ -377,7 +377,7 @@ describe('user provides a fill pattern', () => {
         dimension.valueAccessor((d) => d.country)
       )
       .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.area).createPixelDomainPadding()
+        dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
       .createCategoricalDimension((dimension) =>
         dimension

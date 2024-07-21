@@ -1,15 +1,22 @@
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { DataDimensionBuilder } from '../dimension-builder';
-import { VicDomainPaddingConfig } from './domain-padding/domain-padding';
-import { VicPercentOverDomainPaddingBuilder } from './domain-padding/percent-over/percent-over-builder';
-import { VicPixelDomainPaddingBuilder } from './domain-padding/pixel/pixel-builder';
-import { VicRoundUpToIntervalDomainPaddingBuilder } from './domain-padding/round-to-interval/round-to-interval-builder';
-import { VicRoundUpDomainPaddingBuilder } from './domain-padding/round-up/round-up-builder';
-import { VicDimensionQuantitativeNumeric } from './quantitative-numeric';
+import { ConcreteDomainPadding } from './domain-padding/domain-padding';
+import { PercentOverDomainPadding } from './domain-padding/percent-over/percent-over';
+import { PixelDomainPadding } from './domain-padding/pixel/pixel';
+import { RoundUpToIntervalDomainPadding } from './domain-padding/round-to-interval/round-to-interval';
+import { RoundUpToSigFigDomainPadding } from './domain-padding/round-to-sig-fig/round-to-sig-fig';
+import { QuantitativeNumericDimension } from './quantitative-numeric';
 
 const DEFAULT = {
   _includeZeroInDomain: true,
   _scaleFn: scaleLinear,
+};
+
+const DEFAULT_PADDING = {
+  pixels: 40,
+  percentOver: 0.1,
+  roundInterval: () => 1,
+  roundUp: () => 1,
 };
 
 export class QuantitativeNumericDimensionBuilder<
@@ -18,15 +25,11 @@ export class QuantitativeNumericDimensionBuilder<
   private _domain: [number, number];
   private _formatSpecifier: string;
   private _includeZeroInDomain: boolean;
-  private _domainPadding: VicDomainPaddingConfig;
+  private _domainPadding: ConcreteDomainPadding;
   private _scaleFn: (
     domain?: Iterable<number>,
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
-  private pixelDomainPaddingBuilder: VicPixelDomainPaddingBuilder;
-  private percentOverDomainPaddingBuilder: VicPercentOverDomainPaddingBuilder;
-  private roundUpDomainPaddingBuilder: VicRoundUpDomainPaddingBuilder;
-  private roundUpToIntervalDomainPaddingBuilder: VicRoundUpToIntervalDomainPaddingBuilder;
 
   constructor() {
     super();
@@ -34,7 +37,7 @@ export class QuantitativeNumericDimensionBuilder<
   }
 
   /**
-   * Sets the domain of the scale.
+   * OPTIONAL. Sets the domain of the scale.
    *
    * If not provided, the domain will be determined by the data.
    */
@@ -44,7 +47,7 @@ export class QuantitativeNumericDimensionBuilder<
   }
 
   /**
-   * Sets a format specifier that will be applied to the value of this dimension for display purposes.
+   * OPTIONAL. Sets a format specifier that will be applied to the value of this dimension for display purposes.
    */
   formatSpecifier(formatSpecifier: string): this {
     this._formatSpecifier = formatSpecifier;
@@ -52,7 +55,9 @@ export class QuantitativeNumericDimensionBuilder<
   }
 
   /**
-   * Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
+   * OPTIONAL. Sets a boolean that indicates whether the domain of the dimension's scale should include zero.
+   *
+   * @default true
    */
   includeZeroInDomain(includeZeroInDomain: boolean): this {
     this._includeZeroInDomain = includeZeroInDomain;
@@ -60,65 +65,63 @@ export class QuantitativeNumericDimensionBuilder<
   }
 
   /**
-   * Sets the padding of the domain of the dimension's scale.
+   * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value of the quantitative domain.
+   *
+   * For example, if the domain is [0, 100] and the percent is 0.1, the new domain will be [0, 110].
+   *
+   * @default 0.1
    */
-  createPixelDomainPadding(
-    setProperties?: (padding: VicPixelDomainPaddingBuilder) => void
+  domainPaddingPercentOver(
+    percentOver: number = DEFAULT_PADDING.percentOver
   ): this {
-    this.pixelDomainPaddingBuilder = new VicPixelDomainPaddingBuilder();
-    if (setProperties) {
-      setProperties(this.pixelDomainPaddingBuilder);
-    }
-    this._domainPadding = this.pixelDomainPaddingBuilder.build();
+    this._domainPadding = new PercentOverDomainPadding({
+      percentOver,
+    });
     return this;
   }
 
   /**
-   * Sets the padding of the domain of the dimension's scale.
+   * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value of the quantitative domain so that it exceeds its original value by the specified number of pixels.
+   *
+   * @default 40
    */
-  createPercentOverDomainPadding(
-    setProperties?: (padding: VicPercentOverDomainPaddingBuilder) => void
-  ): this {
-    this.percentOverDomainPaddingBuilder =
-      new VicPercentOverDomainPaddingBuilder();
-    if (setProperties) {
-      setProperties(this.percentOverDomainPaddingBuilder);
-    }
-    this._domainPadding = this.percentOverDomainPaddingBuilder.build();
+  domainPaddingPixels(numPixels: number = DEFAULT_PADDING.pixels): this {
+    this._domainPadding = new PixelDomainPadding({ numPixels });
     return this;
   }
 
   /**
-   * Sets the padding of the domain of the dimension's scale.
+   * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value to a number that is rounded up to the specified interval.
+   *
+   * @default () => 1
    */
-  createRoundUpDomainPadding(
-    setProperties?: (padding: VicRoundUpDomainPaddingBuilder) => void
+  domainPaddingRoundUpToInterval(
+    interval: (d: number) => number = DEFAULT_PADDING.roundInterval
   ): this {
-    this.roundUpDomainPaddingBuilder = new VicRoundUpDomainPaddingBuilder();
-    if (setProperties) {
-      setProperties(this.roundUpDomainPaddingBuilder);
-    }
-    this._domainPadding = this.roundUpDomainPaddingBuilder.build();
+    this._domainPadding = new RoundUpToIntervalDomainPadding({
+      interval,
+    });
     return this;
   }
 
   /**
-   * Sets the padding of the domain of the dimension's scale.
+   * OPTIONAL. Adds additional space between data values and the edge of a chart by increasing the max value to a number that is rounded up to the specified number of significant figures.
+   *
+   * @default () => 1
    */
-  createRoundUpToIntervalDomainPadding(
-    setProperties?: (padding: VicRoundUpToIntervalDomainPaddingBuilder) => void
+  domainPaddingRoundUpToSigFig(
+    sigFigures: (d: number) => number = DEFAULT_PADDING.roundUp
   ): this {
-    this.roundUpToIntervalDomainPaddingBuilder =
-      new VicRoundUpToIntervalDomainPaddingBuilder();
-    if (setProperties) {
-      setProperties(this.roundUpToIntervalDomainPaddingBuilder);
-    }
-    this._domainPadding = this.roundUpToIntervalDomainPaddingBuilder.build();
+    this._domainPadding = new RoundUpToSigFigDomainPadding({
+      sigFigures,
+    });
     return this;
   }
 
   /**
-   * Sets the scale function for the dimension. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   * OPTIONAL. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   *
+   * @default d3.scaleLinear
    */
   scaleFn(
     scaleFn: (
@@ -130,8 +133,12 @@ export class QuantitativeNumericDimensionBuilder<
     return this;
   }
 
-  build(): VicDimensionQuantitativeNumeric<Datum> {
-    return new VicDimensionQuantitativeNumeric({
+  /**
+   * @internal This method is not intended to be used by consumers of this library.
+   */
+  build(): QuantitativeNumericDimension<Datum> {
+    this.validateBuilder();
+    return new QuantitativeNumericDimension({
       domain: this._domain,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
@@ -140,5 +147,13 @@ export class QuantitativeNumericDimensionBuilder<
       scaleFn: this._scaleFn,
       valueAccessor: this._valueAccessor,
     });
+  }
+
+  protected validateBuilder(): void {
+    if (!this._valueAccessor) {
+      throw new Error(
+        'Quantitative Numeric Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
+      );
+    }
   }
 }
