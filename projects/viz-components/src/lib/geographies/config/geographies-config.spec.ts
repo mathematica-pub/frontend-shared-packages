@@ -5,7 +5,6 @@ import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/att
 import { GeographiesLayer } from './layers/geographies-layer/geographies-layer';
 
 type Datum = { value: number; state: string };
-type FeatureProperties = { name: string };
 const data = [
   { value: 1, state: 'AL' },
   { value: 2, state: 'AK' },
