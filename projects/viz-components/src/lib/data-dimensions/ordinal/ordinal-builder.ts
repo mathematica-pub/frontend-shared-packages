@@ -13,10 +13,10 @@ export class OrdinalDimensionBuilder<
   Datum,
   TOrdinalValue extends DataValue
 > extends DataDimensionBuilder<Datum, TOrdinalValue> {
-  _align: number;
-  _domain: TOrdinalValue[];
-  _paddingInner: number;
-  _paddingOuter: number;
+  private _align: number;
+  private _domain: TOrdinalValue[];
+  private _paddingInner: number;
+  private _paddingOuter: number;
 
   constructor() {
     super();

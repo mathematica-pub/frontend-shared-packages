@@ -60,8 +60,8 @@ export class VicHtmlTooltipBuilder {
     return this;
   }
 
-  applyEventsDisabledClass(): this {
-    this._applyEventsDisabledClass = true;
+  applyEventsDisabledClass(apply: boolean): this {
+    this._applyEventsDisabledClass = apply;
     return this;
   }
 

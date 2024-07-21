@@ -23,7 +23,91 @@ Our library code reflects this conception, in some ways intentionally, but also 
 
 ### Configuring visualizations - user perspective
 
-Each viz-components _component_ that accepts any user input will have one `@Input` property called `config`. These are the only classes that we refer to as "config". If a config requires nested classes, those classes will use different terms than config and generally should name the thing that they do. (BarLabels, QuantitativeDataDimension, etc.). Classes that govern the transformation from a value to a visual variable are referred to as `dimension`. Maps may also have classes referred to as `layer`s that govern the association of specific geojson geometries with visual attributes and, for one `DataLayer`, attribute data. (These layers in turn have dimension objects on them.)
+Each viz-components _component_ that accepts any user input will have one `@Input` property called `config`. Users can generate these configs using builder classes that the library provides to easily and correctly construct configs for the components. The library provides the following builders:
+
+#### For Data Marks Components
+
+- `VicBarsBuilder`
+- `VicGeographiesBuilder`
+- `VicGroupedBarsBuilder`
+- `VicLinesBuilder`
+- `VicStackedAreaBuilder`
+- `VicStackedBarsBuilder`
+
+#### For Axis Components
+
+- `VicXOrdinalAxisBuilder`
+- `VicXQuantitativeAxisBuilder`
+- `VicYOrdinalAxisBuilder`
+- `VicYQuantitativeAxisBuilder`
+
+#### Other
+
+- `VicHtmlTooltipBuilder`
+
+The builders provide a set of chainable methods that allow the user to specify the properties of the config. Methods may be called in any order, but the user must call the `build` method at the end of the chain to get the configuration object to pass to the Data Marks component.
+
+Methods on the builder that have the name of a property can be used to set that property though the method's argument. Methods that start with a verb such as `create` or `set` require the user to pass a function that will be called with the property as an argument. Many of these methods allow the user to configure data dimensions, such as a quantitative or ordinal dimension, or for geographies, layers.
+
+_Example_
+
+```ts
+this.barsBuilder
+  .orientation('horizontal')
+  .data(data)
+  .createQuantitativeDimension((dimension) => dimension.valueAccessor((d) => d.value))
+  .createOrdinalDimension((dimension) => dimension.valueAccessor((d) => d.state))
+  .createCategoricalDimension((dimension) => dimension.valueAccessor((d) => d.fruit).range(['red', 'blue']))
+  .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+  .build();
+```
+
+The user can use the builders either through providing the builder the providers array of a component and declaring the it in the component's constructor or by new-ing the class themselves.
+
+_Using providers array_
+
+```ts
+import { VicLinesBuilder } from '@hsi/viz-components';
+
+@Component({
+  ...
+  providers: [
+    VicLinesBuilder,
+  ],
+})
+export class MyAppLinesComponent {
+
+  constructor(private linesBuilder: VicLinesBuilder) {}
+
+  getConfig(): LinesConfig {
+    const config = this.linesBuilder
+      ...
+      .build();
+  }
+}
+```
+
+_New-ing the class_
+
+```ts
+import { VicLinesBuilder } from '@hsi/viz-components';
+
+export class MyAppLinesComponent {
+
+  constructor() {}
+
+  getConfig(): LinesConfig {
+    const linesBuilder = new VicLinesBuilder();
+    const config = linesBuilder
+      ...
+      .build();
+  }
+}
+```
+
+Note that builders are stateful classes.
+
+These are the only classes that we refer to as "config". If a config requires nested classes, those classes will use different terms than config and generally should name the thing that they do. (BarLabels, QuantitativeDataDimension, etc.). Classes that govern the transformation from a value to a visual variable are referred to as `dimension`. Maps may also have classes referred to as `layer`s that govern the association of specific geojson geometries with visual attributes and, for one `DataLayer`, attribute data. (These layers in turn have dimension objects on them.)
 
 The library exports a class `Vic` which a user can import into their code and use to generate the requisite config(s). That code may look like the following:
 
@@ -56,6 +140,8 @@ The library provides default values to be used in the case that the user does no
 Currently, there is no default value for `QuantitativeDimension.valueAccessor` and `DateDimension.valueAccessor`. If a user does not provide values for those properties, an error will be thrown in the console.
 
 ### Configuration classes - architecture perspective
+
+For each
 
 A `config` for a Data Marks component (type `VicDataMarksConfig`), with the various data dimension configs it includes, handles all of the parsing and manipulation of the user's data to create values and methods needed for creating a chart. This parsing and setting of properties occurs on class construction. The Data Marks _components_ should never have to manipulate the user's provided data to get the information it needs to draw its marks.
 

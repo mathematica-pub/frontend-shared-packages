@@ -96,7 +96,7 @@ describe('HtmlTooltipDirective', () => {
       directive.config = new VicHtmlTooltipBuilder()
         .hasBackdrop(true)
         .createOffsetFromOriginPosition()
-        .applyEventsDisabledClass()
+        .applyEventsDisabledClass(true)
         .setSize((size) => size.width(100))
         .build();
     });
@@ -149,7 +149,7 @@ describe('HtmlTooltipDirective', () => {
       directive.config = new VicHtmlTooltipBuilder()
         .hasBackdrop(true)
         .createOffsetFromOriginPosition()
-        .applyEventsDisabledClass()
+        .applyEventsDisabledClass(true)
         .setSize((size) => size.width(100))
         .build();
       spyOn(directive.config.position, 'getPositionStrategy').and.returnValue(
