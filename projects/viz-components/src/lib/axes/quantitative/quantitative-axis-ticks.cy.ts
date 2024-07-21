@@ -50,6 +50,7 @@ describe('it correctly sets ticks', () => {
   ];
   beforeEach(() => {
     barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
@@ -147,6 +148,7 @@ describe('integer formatted ticks', () => {
   ];
   beforeEach(() => {
     barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
@@ -212,6 +214,7 @@ describe('integer formatted ticks', () => {
         { state: string; value: number },
         string
       >()
+        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 1.1 },
           { state: 'Alaska', value: 2.2 },
@@ -259,6 +262,7 @@ describe('integer formatted ticks', () => {
         { state: string; value: number },
         string
       >()
+        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 0.1 },
           { state: 'Alaska', value: 0.4 },
@@ -315,6 +319,7 @@ describe('float formatted ticks', () => {
   ];
   beforeEach(() => {
     barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
@@ -381,6 +386,7 @@ describe('float formatted ticks', () => {
         { state: string; value: number },
         string
       >()
+        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 1.1 },
           { state: 'Alaska', value: 2.2 },
@@ -440,6 +446,7 @@ describe('float formatted ticks', () => {
         { state: string; value: number },
         string
       >()
+        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 0.01 },
           { state: 'Alaska', value: 0.04 },
@@ -496,6 +503,7 @@ describe('percent formatted ticks', () => {
   ];
   beforeEach(() => {
     barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 0.011 },
         { state: 'Alaska', value: 0.022 },
@@ -604,6 +612,7 @@ describe('percent formatted ticks', () => {
         { state: string; value: number },
         string
       >()
+        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 0.001 },
           { state: 'Alaska', value: 0.004 },
