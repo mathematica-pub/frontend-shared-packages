@@ -5,18 +5,10 @@ chart-components:
   internal:
     chart: 'components/ChartComponent.html'
 data-marks-components:
-  bars: 
+  bars:
     component: 'components/BarsComponent.html'
     builder: 'classes/VicBarsBuilder.html'
-      internal:
-        config: 'classes/BarsConfig.html'
-        dimensions: 'interfaces/BarsDimensions.html'
-        options: 'interfaces/BarsOptions.html'
-        labels: 
-          labels-builder: 'classes/BarsLabelsBuilder.html'
-          labels: 'classes/BarsLabels.html'
-          labels-options: 'interfaces/BarsLabelsOptions.html'  
-    events: 
+    events:
       click: 'directives/BarsClickDirective.html'
       hover: 'directives/BarsHoverDirective.html'
       hover-move: 'directives/BarsHoverMoveDirective.html'
@@ -28,29 +20,17 @@ data-marks-components:
       internal:
         tooltip-output: 'interfaces/BarsTooltipOutput.html'
         event-output: 'interfaces/BarsEventOutput.html'
+    internal:
+      config: 'classes/BarsConfig.html'
+      dimensions: 'interfaces/BarsDimensions.html'
+      options: 'interfaces/BarsOptions.html'
+      labels:
+        labels-builder: 'classes/BarsLabelsBuilder.html'
+        labels: 'classes/BarsLabels.html'
+        labels-options: 'interfaces/BarsLabelsOptions.html'
   geographies:
     component: 'component/GeographiesComponent.html'
     builder: 'classes/VicGeographiesBuilder.html'
-      internal:
-        config: 'classes/GeographiesConfig.html'
-        options: 'interfaces/GeographiesOptions.html'
-        layers:
-          attribute-data-layer:
-            builder: 'classes/GeographiesAttributeDataLayerBuilder.html'
-            layer: 'classes/GeographiesAttributeDataLayer.html'
-            options: 'interfaces/GeographiesAttributeDataLayerOptions.html'
-          geojson-properties-layer: 
-            builder: 'classes/GeographiesGeojsonPropertiesLayerBuilder.html'
-            layer: 'classes/GeographiesGeojsonPropertiesLayer.html'
-            options: 'interfaces/GeographiesGeojsonPropertiesLayerOptions.html'
-          labels: 
-            builder: 'classes/GeographiesLabelsBuilder.html'
-            labels: 'classes/GeographiesLabels.html'
-            options: 'interfaces/GeographiesLabelsOptions.html'
-          geographies-layer:
-            builder: 'classes/GeographiesLayerBuilder.html'
-            layer: 'classes/GeographiesLayer.html'
-            options: 'interfaces/GeographiesLayerOptions.html'
     events:
       click: 'directives/GeographiesClickDirective.html'
       hover: 'directives/GeographiesHoverDirective.html'
@@ -63,18 +43,35 @@ data-marks-components:
       internal:
         tooltip-data: 'interfaces/GeographiesTooltipData.html'
         event-output: 'interfaces/GeographiesEventOutput.html'
-  grouped-bars: 
+    internal:
+      config: 'classes/GeographiesConfig.html'
+      options: 'interfaces/GeographiesOptions.html'
+      layers:
+        attribute-data-layer:
+          builder: 'classes/GeographiesAttributeDataLayerBuilder.html'
+          layer: 'classes/GeographiesAttributeDataLayer.html'
+          options: 'interfaces/GeographiesAttributeDataLayerOptions.html'
+        geojson-properties-layer:
+          builder: 'classes/GeographiesGeojsonPropertiesLayerBuilder.html'
+          layer: 'classes/GeographiesGeojsonPropertiesLayer.html'
+          options: 'interfaces/GeographiesGeojsonPropertiesLayerOptions.html'
+        labels:
+          builder: 'classes/GeographiesLabelsBuilder.html'
+          labels: 'classes/GeographiesLabels.html'
+          options: 'interfaces/GeographiesLabelsOptions.html'
+        geographies-layer:
+          builder: 'classes/GeographiesLayerBuilder.html'
+          layer: 'classes/GeographiesLayer.html'
+          options: 'interfaces/GeographiesLayerOptions.html'
+  grouped-bars:
     component: 'components/GroupedBarsComponent.html'
     builder: 'classes/VicGroupedBarsBuilder.html'
-      internal:
-        config: 'classes/GroupedBarsConfig.html'
-        options: 'interfaces/GroupedBarsOptions.html'
-  lines: 
+    internal:
+      config: 'classes/GroupedBarsConfig.html'
+      options: 'interfaces/GroupedBarsOptions.html'
+  lines:
     component: 'components/LinesComponent.html'
     builder: 'classes/VicLinesBuilder.html'
-      internal:
-        config: 'classes/LinesConfig.html'
-        options: 'interfaces/LinesOptions.html'
     events:
       click: 'directives/LinesClickDirective.html'
       hover: 'directives/LinesHoverDirective.html'
@@ -91,12 +88,12 @@ data-marks-components:
       internal:
         tooltip-output: 'interfaces/LinesTooltipOutput.html'
         event-output: 'interfaces/LinesEventOutput.html'
+    internal:
+      config: 'classes/LinesConfig.html'
+      options: 'interfaces/LinesOptions.html'
   stacked-area:
     component: 'components/StackedAreaComponent.html'
     builder: 'classes/VicStackedAreaBuilder.html'
-      internal: 
-        config: 'classes/StackedAreaConfig.html'
-        options: 'interfaces/StackedAreaOptions.html'
     events:
       hover-move: 'directives/StackedAreaHoverMoveDirective.html'
       input-event: 'directives/StackedAreaInputEventDirective.html'
@@ -105,14 +102,17 @@ data-marks-components:
       internal:
         tooltip-output: 'interfaces/StackedAreaTooltipData.html'
         event-output: 'interfaces/StackedAreaEventOutput.html'
+    internal:
+      config: 'classes/StackedAreaConfig.html'
+      options: 'interfaces/StackedAreaOptions.html'
   stacked-bars:
     component: 'components/StackedBarsComponent.html'
     builder: 'classes/VicStackedBarsBuilder.html'
-      internal:
-        config: 'classes/StackedBarsConfig.html'
-        options: 'interfaces/StackedBarsOptions.html'
+    internal:
+      config: 'classes/StackedBarsConfig.html'
+      options: 'interfaces/StackedBarsOptions.html'
 axis-components:
-  x-ordinal-axis: 
+  x-ordinal-axis:
     component: 'components/XOrdinalAxisComponent.html'
     builder: 'classes/VicXOrdinalAxisBuilder.html'
   x-quantitative-axis:
@@ -137,7 +137,7 @@ other-components:
   map-legend:
     component: 'components/MapLegendComponent.html'
     builder: 'classes/VicMapLegendBuilder.html'
-    internal: 
+    internal:
       continuous-component: 'components/ContinuousLegendComponent.html'
       discontinuous-component: 'components/DiscontinuousLegendComponent.html'
   xy-background:
@@ -175,16 +175,16 @@ internals:
         dimension: 'classes/DateDimension.html'
         options: 'interfaces/DateDimensionOptions.html'
         domain-padding:
-          round-up: 
+          round-up:
             padding: 'classes/RoundUpDomainPadding.html'
             options: 'interfaces/RoundUpDomainPaddingOptions.html'
-          round-to-interval: 
+          round-to-interval:
             padding: 'classes/RoundUpToIntervalDomainPadding.html'
             options: 'interfaces/RoundUpToIntervalDomainPaddingOptions.html'
-          percent-over: 
+          percent-over:
             padding: 'classes/PercentOverDomainPadding.html'
             options: 'interfaces/PercentOverDomainPaddingOptions.html'
-          pixel: 
+          pixel:
             padding: 'classes/PixelDomainPadding.html'
             options: 'interfaces/PixelDomainPaddingOptions.html'
     internals:
@@ -201,7 +201,7 @@ internals:
     hover: 'directives/HoverDirective.html'
     hover-move: 'directives/HoverMoveDirective.html'
     input-event: 'directives/InputEventDirective.html'
-    effects: 
+    effects:
       event: 'interfaces/EventEffect.html'
       hover-move: 'interfaces/HoverMoveEventEffect.html'
       input-event: 'interfaces/InputEventEffect.html'

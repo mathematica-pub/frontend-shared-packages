@@ -1,11 +1,11 @@
 import { Directive } from '@angular/core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
-import { XyAxisConfig } from '../config/xy-axis-config';
-import { XyAxisOptions } from '../config/xy-axis-options';
+import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
+import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
 
 export interface VicYAxisOptions<TickValue extends DataValue>
-  extends XyAxisOptions<TickValue> {
+  extends XyAxisBaseOptions<TickValue> {
   /**
    * The side of the chart on which the axis will be placed.
    */
@@ -14,7 +14,7 @@ export interface VicYAxisOptions<TickValue extends DataValue>
 
 export function mixinYAxisConfig<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisConfig<TickValue>>
+  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base implements VicYAxisOptions<TickValue> {
@@ -40,4 +40,4 @@ export function mixinYAxisConfig<
 
 export class VicYAxisConfig<
   TickValue extends DataValue
-> extends mixinYAxisConfig(XyAxisConfig)<TickValue> {}
+> extends mixinYAxisConfig(XyAxisBaseConfig)<TickValue> {}

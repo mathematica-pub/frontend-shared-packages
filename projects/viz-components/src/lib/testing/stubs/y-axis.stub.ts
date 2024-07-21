@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { XyAxis } from '../../axes/xy-axis-base';
+import { XyAxis } from '../../axes/base/xy-axis-base';
 import { yAxisMixin } from '../../axes/y/y-axis';
 import { DataValue } from '../../core/types/values';
 

@@ -2,7 +2,7 @@ import { Directive, Input } from '@angular/core';
 import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
-import { XyAxis } from '../xy-axis-base';
+import { XyAxis } from '../base/xy-axis-base';
 import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 
 /**

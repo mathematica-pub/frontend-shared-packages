@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
-import { VicXyAxisBuilder } from '../config/xy-axis-builder';
+import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
 import { XOrdinalAxisConfig } from './x-ordinal-axis-config';
 
 const DEFAULT = {
@@ -10,7 +10,7 @@ const DEFAULT = {
 @Injectable()
 export class VicXOrdinalAxisBuilder<
   TickValue extends DataValue
-> extends VicXyAxisBuilder<TickValue> {
+> extends XyAxisBaseBuilder<TickValue> {
   private _side: 'top' | 'bottom';
 
   constructor() {

@@ -2,11 +2,11 @@ import { Directive } from '@angular/core';
 import { AxisTimeInterval } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
-import { XyAxisConfig } from '../config/xy-axis-config';
-import { XyAxisOptions } from '../config/xy-axis-options';
+import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
+import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
 
 export interface VicQuantitativeAxisOptions<TickValue extends DataValue>
-  extends XyAxisOptions<TickValue> {
+  extends XyAxisBaseOptions<TickValue> {
   /**
    * A value that will be sent to D3's [ticks]{@link https://github.com/d3/d3-axis#axis_ticks}
    *  method.
@@ -29,14 +29,14 @@ export interface VicQuantitativeAxisOptions<TickValue extends DataValue>
    *  method.
    *
    * Values will be formatted with either the provided value for
-   *  [tickFormat]{@link XyAxisConfig.tickFormat} or the default format.
+   *  [tickFormat]{@link XyAxisBaseConfig.tickFormat} or the default format.
    */
   tickValues: TickValue[];
 }
 
 export function mixinQuantitativeAxisConfig<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisConfig<TickValue>>
+  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>
 >(Base: T) {
   @Directive()
   abstract class Mixin
@@ -57,4 +57,4 @@ export function mixinQuantitativeAxisConfig<
 
 export class VicQuantitativeAxisConfig<
   TickValue extends DataValue
-> extends mixinQuantitativeAxisConfig(XyAxisConfig)<TickValue> {}
+> extends mixinQuantitativeAxisConfig(XyAxisBaseConfig)<TickValue> {}

@@ -1,6 +1,8 @@
-import { VicTickWrapBuilder } from '../tick-wrap/tick-wrap-builder';
+import { VicTickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
-export abstract class VicXyAxisBuilder<TickValue> {
+export abstract class XyAxisBaseBuilder<TickValue> {
+  protected _axis: 'x' | 'y';
+  protected _dimension: 'ordinal' | 'quantitative';
   protected _removeDomain: boolean;
   protected _removeTickMarks: boolean;
   protected _removeTicks: boolean;

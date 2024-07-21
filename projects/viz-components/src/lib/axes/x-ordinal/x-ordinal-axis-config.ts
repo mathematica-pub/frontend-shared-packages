@@ -1,5 +1,5 @@
 import { DataValue } from '../../core/types/values';
-import { XyAxisConfig } from '../config/xy-axis-config';
+import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
 import {
   VicOrdinalAxisOptions,
   mixinOrdinalAxisConfig,
@@ -7,7 +7,7 @@ import {
 import { VicXAxisOptions, mixinXAxisConfig } from '../x/x-axis-config';
 
 const AbstractXOrdinalConfig = mixinXAxisConfig(
-  mixinOrdinalAxisConfig(XyAxisConfig)
+  mixinOrdinalAxisConfig(XyAxisBaseConfig)
 );
 
 export class XOrdinalAxisConfig<

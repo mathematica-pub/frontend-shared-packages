@@ -1,6 +1,6 @@
-import { TickWrap } from '../tick-wrap/tick-wrap-config';
+import { TickWrap } from '../../tick-wrap/tick-wrap-config';
 
-export abstract class XyAxisConfig<TickValue> {
+export abstract class XyAxisBaseConfig<TickValue> {
   removeDomain: boolean;
   removeTickMarks: boolean;
   removeTicks: boolean;
