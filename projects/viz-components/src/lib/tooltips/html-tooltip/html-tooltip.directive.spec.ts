@@ -180,7 +180,6 @@ describe('HtmlTooltipDirective', () => {
       spyOn(directive.backdropClick, 'emit');
     });
     it('calls backdropClick.emit once if subscription emits', () => {
-      console.log('directive', directive);
       directive.subscribeToBackdropClick();
       click.next('click');
       expect(directive.backdropClick.emit).toHaveBeenCalledTimes(1);
