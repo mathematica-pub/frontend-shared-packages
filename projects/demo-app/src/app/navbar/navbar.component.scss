@@ -7,6 +7,10 @@
   width: 250px;
 }
 
+:host {
+  width: 250px;
+}
+
 .nav-container {
   display: flex;
   flex-direction: column;
@@ -29,7 +33,7 @@
 }
 
 .active-link {
-  background-color: color.$primary-6;
+  background-color: color.$primary-7;
 }
 
 .link-container:hover {
