@@ -17,14 +17,6 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { LinesConfig } from './config/lines-config';
 
-export class LinesTooltipData {
-  datum: any;
-  color: string;
-  x: string;
-  y: string;
-  categorical: string;
-}
-
 export type LinesGroupSelection = Selection<
   SVGGElement,
   LinesGroupSelectionDatum,

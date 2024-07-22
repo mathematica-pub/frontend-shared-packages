@@ -25,19 +25,19 @@ import { Subject, takeUntil } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { DataMarks, VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
-import { HtmlTooltipConfig } from './config/html-tooltip';
+import { HtmlTooltip } from './config/html-tooltip';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class VicHtmlTooltipDirective<
+export class HtmlTooltipDirective<
   Datum,
   TDataMarksConfig extends DataMarksOptions<Datum>
 > implements OnChanges, OnDestroy
 {
   @Input() template: TemplateRef<HTMLElement>;
-  @Input() config: HtmlTooltipConfig;
+  @Input() config: HtmlTooltip;
   @Output() backdropClick = new EventEmitter<void>();
   backdropUnsubscribe: Subject<void> = new Subject<void>();
   overlayRef: OverlayRef;
@@ -173,10 +173,7 @@ export class VicHtmlTooltipDirective<
     this.createOverlayRef();
   }
 
-  configChanged(
-    changes: SimpleChanges,
-    property: keyof HtmlTooltipConfig
-  ): boolean {
+  configChanged(changes: SimpleChanges, property: keyof HtmlTooltip): boolean {
     return NgOnChangesUtilities.inputObjectChanged(changes, 'config', property);
   }
 

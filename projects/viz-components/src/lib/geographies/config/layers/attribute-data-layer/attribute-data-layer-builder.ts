@@ -5,7 +5,7 @@ import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';
 import { CustomBreaksBinsAttributeDataDimensionBuilder } from './dimensions/custom-breaks/custom-breaks-bins-builder';
 import { EqualFrequenciesAttributeDataDimensionBuilder } from './dimensions/equal-frequencies-bins/equal-frequencies-bins-builder';
-import { VicEqualValueRangesBinsBuilder } from './dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
+import { EqualValueRangesBinsBuilder } from './dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
 import { NoBinsAttributeDataDimensionBuilder } from './dimensions/no-bins/no-bins-builder';
 
 const DEFAULT = {
@@ -28,7 +28,7 @@ export class GeographiesAttributeDataLayerBuilder<
     | CategoricalBinsBuilder<Datum>
     | CustomBreaksBinsAttributeDataDimensionBuilder<Datum>
     | EqualFrequenciesAttributeDataDimensionBuilder<Datum>
-    | VicEqualValueRangesBinsBuilder<Datum>
+    | EqualValueRangesBinsBuilder<Datum>
     | NoBinsAttributeDataDimensionBuilder<Datum>;
 
   constructor() {
@@ -71,9 +71,9 @@ export class GeographiesAttributeDataLayerBuilder<
   }
 
   createEqualValueRangesBinsDimension(
-    setProperties: (builder: VicEqualValueRangesBinsBuilder<Datum>) => void
+    setProperties: (builder: EqualValueRangesBinsBuilder<Datum>) => void
   ): this {
-    this.binsBuilder = new VicEqualValueRangesBinsBuilder();
+    this.binsBuilder = new EqualValueRangesBinsBuilder();
     setProperties(this.binsBuilder);
     return this;
   }

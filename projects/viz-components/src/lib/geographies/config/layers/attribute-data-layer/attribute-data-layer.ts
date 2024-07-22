@@ -7,7 +7,7 @@ import {
   isPrimitiveType,
 } from '../../../../core/utilities/type-guards';
 import { ValueUtilities } from '../../../../core/utilities/values';
-import { GeographiesTooltipOutput } from '../../../events/geographies-event-output';
+import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
 import { GeographiesLabels } from '../labels/geographies-labels';
@@ -16,7 +16,7 @@ import { BinStrategy } from './dimensions/attribute-data-bin-enums';
 import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
 import { CustomBreaksBinsAttributeDataDimension } from './dimensions/custom-breaks/custom-breaks-bins';
 import { EqualFrequenciesAttributeDataDimension } from './dimensions/equal-frequencies-bins/equal-frequencies-bins';
-import { VicEqualValueRangesAttributeDataDimension } from './dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
+import { EqualValueRangesAttributeDataDimension } from './dimensions/equal-value-ranges-bins/equal-value-ranges-bins';
 import { NoBinsAttributeDataDimension } from './dimensions/no-bins/no-bins';
 
 const DEFAULT = {
@@ -38,7 +38,7 @@ export class GeographiesAttributeDataLayer<
   readonly attributeDimension:
     | CategoricalBinsAttributeDataDimension<Datum>
     | NoBinsAttributeDataDimension<Datum>
-    | VicEqualValueRangesAttributeDataDimension<Datum>
+    | EqualValueRangesAttributeDataDimension<Datum>
     | EqualFrequenciesAttributeDataDimension<Datum>
     | CustomBreaksBinsAttributeDataDimension<Datum>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -155,7 +155,7 @@ export class GeographiesAttributeDataLayer<
     return fontProperty;
   }
 
-  getTooltipData(path: SVGPathElement): GeographiesTooltipOutput<Datum> {
+  getTooltipData(path: SVGPathElement): GeographiesTooltipData<Datum> {
     const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
@@ -163,7 +163,7 @@ export class GeographiesAttributeDataLayer<
     const featureIndex = this.featureIndexAccessor(feature);
     const datum = this.datumsByGeographyIndex.get(featureIndex);
     const value = this.attributeValuesByGeographyIndex.get(featureIndex);
-    const tooltipData: GeographiesTooltipOutput<Datum> = {
+    const tooltipData: GeographiesTooltipData<Datum> = {
       datum,
       geography: this.geographyIndexAccessor(datum),
       attributeValue: this.attributeDimension.formatFunction

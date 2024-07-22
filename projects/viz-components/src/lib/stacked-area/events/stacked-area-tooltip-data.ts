@@ -2,7 +2,7 @@ import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { ValueUtilities } from '../../core/utilities/values';
 import { StackedAreaComponent } from '../stacked-area.component';
-import { VicStackedAreaEventOutput } from './stacked-area-event-output';
+import { StackedAreaEventOutput } from './stacked-area-event-output';
 
 export interface StackedAreaTooltip {
   getStackedAreaTooltipData<Datum, TCategoricalValue extends DataValue>(
@@ -11,7 +11,7 @@ export interface StackedAreaTooltip {
     categoryYMax: number,
     categoryIndex: number,
     stackedArea: StackedAreaComponent<Datum, TCategoricalValue>
-  ): VicStackedAreaEventOutput<Datum, TCategoricalValue>;
+  ): StackedAreaEventOutput<Datum, TCategoricalValue>;
 }
 
 // TODO: have this extend a specific class so that we don't need to pass everything in as an argument
@@ -25,7 +25,7 @@ export function stackedAreaTooltipMixin<T extends AbstractConstructor>(
       categoryYMax: number,
       categoryIndex: number,
       stackedArea: StackedAreaComponent<Datum, TCategoricalValue>
-    ): VicStackedAreaEventOutput<Datum, TCategoricalValue> {
+    ): StackedAreaEventOutput<Datum, TCategoricalValue> {
       const data = closestXIndicies.map((i) => {
         const originalDatum = stackedArea.config.data.find(
           (d) =>

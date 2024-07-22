@@ -1,6 +1,6 @@
 import { interpolateLab, scaleQuantize } from 'd3';
 import { CalculatedBinsAttributeDataDimensionBuilder } from '../calculated-bins/calculated-bins-builder';
-import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
+import { EqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
 
 const DEFAULT = {
   _interpolator: interpolateLab,
@@ -10,7 +10,7 @@ const DEFAULT = {
   _scale: scaleQuantize,
 };
 
-export class VicEqualValueRangesBinsBuilder<
+export class EqualValueRangesBinsBuilder<
   Datum,
   RangeValue extends string | number = string
 > extends CalculatedBinsAttributeDataDimensionBuilder<Datum, RangeValue> {
@@ -43,8 +43,8 @@ export class VicEqualValueRangesBinsBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  _build(): VicEqualValueRangesAttributeDataDimension<Datum, RangeValue> {
-    return new VicEqualValueRangesAttributeDataDimension({
+  _build(): EqualValueRangesAttributeDataDimension<Datum, RangeValue> {
+    return new EqualValueRangesAttributeDataDimension({
       domain: this._domain,
       fillPatterns: this._fillPatterns,
       formatFunction: this._formatFunction,

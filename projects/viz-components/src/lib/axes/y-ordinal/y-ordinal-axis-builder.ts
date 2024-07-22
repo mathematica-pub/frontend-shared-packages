@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { XyAxisBaseBuilder } from '../base/config/xy-axis-builder';
-import { YOrdinalAxisConfig } from './y-ordinal-axis-config';
+import { YOrdinalAxis } from './y-ordinal-axis-config';
 
 const DEFAULT = {
   _side: 'left',
@@ -22,8 +22,8 @@ export class VicYOrdinalAxisBuilder<
     return this;
   }
 
-  build(): YOrdinalAxisConfig<TickValue> {
-    return new YOrdinalAxisConfig<TickValue>({
+  build(): YOrdinalAxis<TickValue> {
+    return new YOrdinalAxis<TickValue>({
       removeDomain: this._removeDomain,
       removeTickMarks: this._removeTickMarks,
       removeTicks: this._removeTicks,

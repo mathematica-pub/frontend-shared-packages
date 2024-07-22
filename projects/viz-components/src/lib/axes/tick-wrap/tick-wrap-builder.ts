@@ -7,7 +7,7 @@ const DEFAULT = {
   _lineHeight: 1.1,
 };
 
-export class VicTickWrapBuilder {
+export class TickWrapBuilder {
   _wrapWidth:
     | 'bandwidth'
     | number

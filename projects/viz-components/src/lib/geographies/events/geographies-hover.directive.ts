@@ -13,7 +13,7 @@ import { GeographiesFeature } from '../geographies-feature';
 import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
 import {
   GeographiesEventOutput,
-  GeographiesTooltipOutput,
+  GeographiesTooltipData,
 } from './geographies-event-output';
 
 interface GeographiesHoverExtras {
@@ -21,7 +21,7 @@ interface GeographiesHoverExtras {
   bounds: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput<Datum> = GeographiesTooltipOutput<Datum> &
+export type GeographiesHoverOutput<Datum> = GeographiesTooltipData<Datum> &
   GeographiesHoverExtras;
 
 @Directive({

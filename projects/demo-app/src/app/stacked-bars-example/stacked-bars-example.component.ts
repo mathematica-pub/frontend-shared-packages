@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { XOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
-import { YQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
+import { XOrdinalAxis } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
+import { YQuantitativeAxis } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { VicStackedBarsBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
 import { StackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-config';
@@ -14,8 +14,8 @@ import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: XOrdinalAxisConfig<Date>;
-  yAxisConfig: YQuantitativeAxisConfig<number>;
+  xAxisConfig: XOrdinalAxis<Date>;
+  yAxisConfig: YQuantitativeAxis<number>;
 }
 
 @Component({

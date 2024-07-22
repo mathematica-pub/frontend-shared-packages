@@ -1,4 +1,4 @@
-export interface GeographiesTooltipOutput<Datum> {
+export interface GeographiesTooltipData<Datum> {
   datum?: Datum;
   color: string;
   geography: string;
@@ -6,7 +6,7 @@ export interface GeographiesTooltipOutput<Datum> {
 }
 
 export interface GeographiesEventOutput<Datum>
-  extends GeographiesTooltipOutput<Datum> {
+  extends GeographiesTooltipData<Datum> {
   positionX: number;
   positionY: number;
 }

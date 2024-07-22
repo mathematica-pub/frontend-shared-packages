@@ -3,10 +3,10 @@ import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
-import { VicStackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
+import { StackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
-  HtmlTooltipConfig,
+  HtmlTooltip,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
   VicStackedAreaBuilder,
@@ -43,13 +43,13 @@ export class StackedAreaExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-area-example';
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltip> =
+    new BehaviorSubject<HtmlTooltip>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
-    VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   > = new BehaviorSubject<
-    VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveEffects: HoverMoveEventEffect<
@@ -97,20 +97,20 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
   updateTooltipData(
-    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     this.tooltipData.next(output);
   }
 
   updateTooltipConfig(
-    output: VicStackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    output: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
       .setSize((size) => size.minWidth(130))

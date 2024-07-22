@@ -119,10 +119,6 @@ export class VicBarsBuilder<
    * REQUIRED. Validates and builds the configuration object for the bars that can be passed to BarsComponent.
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
-   *
-   * @throws If the orientation is not set.
-   * @throws If the ordinal dimension is not set.
-   * @throws If the quantitative dimension is not set.
    */
   build(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');

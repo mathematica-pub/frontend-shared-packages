@@ -5,7 +5,7 @@ import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis, XyAxisScale } from '../base/xy-axis-base';
-import { VicYAxisConfig } from './y-axis-config';
+import { YAxisConfig } from './y-axis-config';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for a y-axis.
@@ -21,7 +21,7 @@ export function yAxisMixin<
     /**
      * The side of the chart on which the axis will be rendered.
      */
-    @Input() override config: VicYAxisConfig<TickValue>;
+    @Input() override config: YAxisConfig<TickValue>;
     translate$: Observable<string>;
 
     setTranslate(): void {

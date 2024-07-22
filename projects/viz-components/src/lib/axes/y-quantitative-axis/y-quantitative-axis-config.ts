@@ -4,17 +4,17 @@ import {
   VicQuantitativeAxisOptions,
   mixinQuantitativeAxisConfig,
 } from '../quantitative/quantitative-axis-config';
-import { VicYAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
+import { YAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
 
-const AbstractYQuantitativeConfig = mixinYAxisConfig(
+const AbstractYQuantitative = mixinYAxisConfig(
   mixinQuantitativeAxisConfig(XyAxisBaseConfig)
 );
 
-export class YQuantitativeAxisConfig<
+export class YQuantitativeAxis<
   TickValue extends DataValue
-> extends AbstractYQuantitativeConfig<TickValue> {
+> extends AbstractYQuantitative<TickValue> {
   constructor(
-    options: VicYAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>
+    options: YAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>
   ) {
     super();
     Object.assign(this, options);

@@ -5,20 +5,15 @@ import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis, XyAxisScale } from '../base/xy-axis-base';
-import { VicXAxisConfig } from './x-axis-config';
+import { XAxisConfig } from './x-axis-config';
 
-/**
- * A mixin that extends `XyAxis` with the functionality needed for an x-axis.
- *
- * For internal library use only.
- */
 export function xAxisMixin<
   TickValue extends DataValue,
   T extends AbstractConstructor<XyAxis<TickValue>>
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: VicXAxisConfig<TickValue>;
+    @Input() override config: XAxisConfig<TickValue>;
     translate$: Observable<string>;
 
     setTranslate(): void {

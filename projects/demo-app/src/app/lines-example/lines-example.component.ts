@@ -16,7 +16,7 @@ import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-
 import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/events/lines-event-output';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import {
-  HtmlTooltipConfig,
+  HtmlTooltip,
   LinesClickDirective,
   LinesClickEmitTooltipDataPauseHoverMoveEffects,
   LinesHoverMoveDefaultStyles,
@@ -64,8 +64,8 @@ export class LinesExampleComponent implements OnInit {
     bottom: 36,
     left: 64,
   };
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltip> =
+    new BehaviorSubject<HtmlTooltip>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>> =
     new BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>>(null);

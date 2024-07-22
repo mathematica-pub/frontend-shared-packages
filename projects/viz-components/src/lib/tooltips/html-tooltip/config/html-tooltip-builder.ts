@@ -1,6 +1,6 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
-import { HtmlTooltipConfig } from './html-tooltip';
+import { HtmlTooltip } from './html-tooltip';
 import {
   HtmlTooltipCdkManagedPosition,
   HtmlTooltipOffsetFromOriginPosition,
@@ -91,9 +91,9 @@ export class VicHtmlTooltipBuilder {
     return this;
   }
 
-  build(): HtmlTooltipConfig {
+  build(): HtmlTooltip {
     this.validateBuilder();
-    return new HtmlTooltipConfig({
+    return new HtmlTooltip({
       hasBackdrop: this._hasBackdrop,
       panelClass: this.getPanelClasses(),
       origin: this._origin,

@@ -4,7 +4,7 @@ import { DataValue } from '../../core/types/values';
 import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
 import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
 
-export interface VicXAxisOptions<TickValue extends DataValue>
+export interface XAxisOptions<TickValue extends DataValue>
   extends XyAxisBaseOptions<TickValue> {
   /**
    * The side of the chart on which the axis will be placed.
@@ -37,6 +37,6 @@ export function mixinXAxisConfig<
   return Mixin;
 }
 
-export class VicXAxisConfig<
-  TickValue extends DataValue
-> extends mixinXAxisConfig(XyAxisBaseConfig)<TickValue> {}
+export class XAxisConfig<TickValue extends DataValue> extends mixinXAxisConfig(
+  XyAxisBaseConfig
+)<TickValue> {}

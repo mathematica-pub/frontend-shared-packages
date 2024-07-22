@@ -4,17 +4,17 @@ import {
   VicOrdinalAxisOptions,
   mixinOrdinalAxisConfig,
 } from '../ordinal/ordinal-axis-config';
-import { VicYAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
+import { YAxisOptions, mixinYAxisConfig } from '../y/y-axis-config';
 
-const AbstractYOrdinalConfig = mixinYAxisConfig(
+const AbstractYOrdinalAxis = mixinYAxisConfig(
   mixinOrdinalAxisConfig(XyAxisBaseConfig)
 );
 
-export class YOrdinalAxisConfig<
+export class YOrdinalAxis<
   TickValue extends DataValue
-> extends AbstractYOrdinalConfig<TickValue> {
+> extends AbstractYOrdinalAxis<TickValue> {
   constructor(
-    options: VicYAxisOptions<TickValue> & VicOrdinalAxisOptions<TickValue>
+    options: YAxisOptions<TickValue> & VicOrdinalAxisOptions<TickValue>
   ) {
     super();
     Object.assign(this, options);

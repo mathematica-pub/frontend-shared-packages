@@ -4,7 +4,7 @@ import { DataValue } from '../../core/types/values';
 import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
 import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
 
-export interface VicYAxisOptions<TickValue extends DataValue>
+export interface YAxisOptions<TickValue extends DataValue>
   extends XyAxisBaseOptions<TickValue> {
   /**
    * The side of the chart on which the axis will be placed.
@@ -17,7 +17,7 @@ export function mixinYAxisConfig<
   T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>
 >(Base: T) {
   @Directive()
-  abstract class Mixin extends Base implements VicYAxisOptions<TickValue> {
+  abstract class Mixin extends Base implements YAxisOptions<TickValue> {
     side: 'left' | 'right';
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,6 +38,6 @@ export function mixinYAxisConfig<
   return Mixin;
 }
 
-export class VicYAxisConfig<
-  TickValue extends DataValue
-> extends mixinYAxisConfig(XyAxisBaseConfig)<TickValue> {}
+export class YAxisConfig<TickValue extends DataValue> extends mixinYAxisConfig(
+  XyAxisBaseConfig
+)<TickValue> {}

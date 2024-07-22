@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicEqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
-import { VicEqualValueRangesBinsBuilder } from './equal-value-ranges-bins-builder';
+import { EqualValueRangesAttributeDataDimension } from './equal-value-ranges-bins';
+import { EqualValueRangesBinsBuilder } from './equal-value-ranges-bins-builder';
 
 describe('VicEqualValuesAttributeDataDimension', () => {
-  let dimension: VicEqualValueRangesAttributeDataDimension<any>;
+  let dimension: EqualValueRangesAttributeDataDimension<any>;
   beforeEach(() => {
-    dimension = new VicEqualValueRangesBinsBuilder<any>()
+    dimension = new EqualValueRangesBinsBuilder<any>()
       .numBins(3)
       .formatSpecifier('.1f')
       .range(['red', 'blue', 'yellow', 'green'])
@@ -45,7 +45,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
       expect((dimension as any).calculatedDomain).toEqual([0, 20]);
     });
     it('sets the domain to values if there is no user provided domain', () => {
-      dimension = new VicEqualValueRangesBinsBuilder<any>()
+      dimension = new EqualValueRangesBinsBuilder<any>()
         .numBins(3)
         .formatSpecifier('.1f')
         .range(['red', 'blue', 'yellow', 'green'])
@@ -78,7 +78,7 @@ describe('VicEqualValuesAttributeDataDimension', () => {
   describe('integration: getScale', () => {
     let scale: any;
     beforeEach(() => {
-      dimension = new VicEqualValueRangesBinsBuilder<any>()
+      dimension = new EqualValueRangesBinsBuilder<any>()
         .numBins(4)
         .formatSpecifier('.1f')
         .range(['red', 'blue', 'yellow', 'green'])

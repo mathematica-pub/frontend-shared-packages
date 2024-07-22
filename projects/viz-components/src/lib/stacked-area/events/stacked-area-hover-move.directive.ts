@@ -7,7 +7,7 @@ import { isDate } from '../../core/utilities/type-guards';
 import { HoverMoveEventEffect } from '../../events/effect';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
-import { VicStackedAreaEventOutput } from './stacked-area-event-output';
+import { StackedAreaEventOutput } from './stacked-area-event-output';
 import { stackedAreaTooltipMixin } from './stacked-area-tooltip-data';
 
 @Directive({
@@ -30,7 +30,7 @@ export class StackedAreaHoverMoveDirective<
     >
   >[];
   @Output('vicStackedAreaHoverMoveOutput') eventOutput = new EventEmitter<
-    VicStackedAreaEventOutput<Datum, TCategoricalValue>
+    StackedAreaEventOutput<Datum, TCategoricalValue>
   >();
   pointerX: number;
   pointerY: number;
@@ -135,7 +135,7 @@ export class StackedAreaHoverMoveDirective<
     this.categoryIndex = closestDatum ? closestDatumIndex : undefined;
   }
 
-  getTooltipData(): VicStackedAreaEventOutput<Datum, TCategoricalValue> {
+  getTooltipData(): StackedAreaEventOutput<Datum, TCategoricalValue> {
     const tooltipData = this.getStackedAreaTooltipData(
       this.closestXIndicies,
       this.categoryYMin,

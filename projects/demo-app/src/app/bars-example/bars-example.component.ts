@@ -10,7 +10,7 @@ import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/
 import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
-  HtmlTooltipConfig,
+  HtmlTooltip,
   VicBarsBuilder,
   VicXOrdinalAxisBuilder,
   VicXQuantitativeAxisBuilder,
@@ -54,8 +54,8 @@ export class BarsExampleComponent implements OnInit {
     left: 300,
   };
   folderName = 'bars-example';
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltip> =
+    new BehaviorSubject<HtmlTooltip>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
     BarsEventOutput<MetroUnemploymentDatum, string>

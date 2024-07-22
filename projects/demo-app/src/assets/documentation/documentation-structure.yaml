@@ -7,7 +7,7 @@ chart-components:
 data-marks-components:
   bars:
     component: 'components/BarsComponent.html'
-    builder: 'classes/VicBarsBuilder.html'
+    builder: 'injectables/VicBarsBuilder.html'
     events:
       click: 'directives/BarsClickDirective.html'
       hover: 'directives/BarsHoverDirective.html'
@@ -18,7 +18,7 @@ data-marks-components:
         hover-show-labels: 'classes/BarsHoverShowLabels.html'
         hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-output: 'interfaces/BarsTooltipOutput.html'
+        tooltip-data: 'interfaces/BarsTooltipData.html'
         event-output: 'interfaces/BarsEventOutput.html'
     internal:
       config: 'classes/BarsConfig.html'
@@ -29,8 +29,8 @@ data-marks-components:
         labels: 'classes/BarsLabels.html'
         labels-options: 'interfaces/BarsLabelsOptions.html'
   geographies:
-    component: 'component/GeographiesComponent.html'
-    builder: 'classes/VicGeographiesBuilder.html'
+    component: 'components/GeographiesComponent.html'
+    builder: 'injectables/VicGeographiesBuilder.html'
     events:
       click: 'directives/GeographiesClickDirective.html'
       hover: 'directives/GeographiesHoverDirective.html'
@@ -65,13 +65,13 @@ data-marks-components:
           options: 'interfaces/GeographiesLayerOptions.html'
   grouped-bars:
     component: 'components/GroupedBarsComponent.html'
-    builder: 'classes/VicGroupedBarsBuilder.html'
+    builder: 'injectables/VicGroupedBarsBuilder.html'
     internal:
       config: 'classes/GroupedBarsConfig.html'
       options: 'interfaces/GroupedBarsOptions.html'
   lines:
     component: 'components/LinesComponent.html'
-    builder: 'classes/VicLinesBuilder.html'
+    builder: 'injectables/VicLinesBuilder.html'
     events:
       click: 'directives/LinesClickDirective.html'
       hover: 'directives/LinesHoverDirective.html'
@@ -86,74 +86,73 @@ data-marks-components:
         hover-move-default-styles: 'classes/LinesHoverMoveDefaultStyles.html'
         hover-move-emit-tooltip-data: 'classes/LinesHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-output: 'interfaces/LinesTooltipOutput.html'
+        tooltip-data: 'interfaces/LinesTooltipData.html'
         event-output: 'interfaces/LinesEventOutput.html'
     internal:
       config: 'classes/LinesConfig.html'
       options: 'interfaces/LinesOptions.html'
   stacked-area:
     component: 'components/StackedAreaComponent.html'
-    builder: 'classes/VicStackedAreaBuilder.html'
+    builder: 'injectables/VicStackedAreaBuilder.html'
     events:
       hover-move: 'directives/StackedAreaHoverMoveDirective.html'
       input-event: 'directives/StackedAreaInputEventDirective.html'
       effects:
         hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
       internal:
-        tooltip-output: 'interfaces/StackedAreaTooltipData.html'
+        tooltip-data: 'interfaces/StackedAreaTooltipData.html'
         event-output: 'interfaces/StackedAreaEventOutput.html'
     internal:
       config: 'classes/StackedAreaConfig.html'
       options: 'interfaces/StackedAreaOptions.html'
   stacked-bars:
     component: 'components/StackedBarsComponent.html'
-    builder: 'classes/VicStackedBarsBuilder.html'
+    builder: 'injectables/VicStackedBarsBuilder.html'
     internal:
       config: 'classes/StackedBarsConfig.html'
       options: 'interfaces/StackedBarsOptions.html'
 axis-components:
   x-ordinal-axis:
     component: 'components/XOrdinalAxisComponent.html'
-    builder: 'classes/VicXOrdinalAxisBuilder.html'
+    builder: 'injectables/VicXOrdinalAxisBuilder.html'
   x-quantitative-axis:
     component: 'components/XQuantitativeAxisComponent.html'
-    builder: 'classes/VicXQuantitativeAxisBuilder.html'
+    builder: 'injectables/VicXQuantitativeAxisBuilder.html'
   y-ordinal-axis:
     component: 'components/YOrdinalAxisComponent.html'
-    builder: 'classes/VicYOrdinalAxisBuilder.html'
+    builder: 'injectables/VicYOrdinalAxisBuilder.html'
   y-quantitative-axis:
     component: 'components/YQuantitativeAxisComponent.html'
-    builder: 'classes/VicYQuantitativeAxisBuilder.html'
+    builder: 'injectables/VicYQuantitativeAxisBuilder.html'
   internal:
-    base: 'classes/XyAxis.html'
+    base: 'directives/XyAxis.html'
     tick-wrap:
-      builder: 'classes/SvgTickWrapBuilder.html'
-      tick-wrap: 'classes/SvgTickWrap.html'
-      options: 'interfaces/SvgTickWrapOptions.html'
+      builder: 'classes/TickWrapBuilder.html'
+      tick-wrap: 'classes/TickWrap.html'
+      options: 'interfaces/TickWrapOptions.html'
 other-components:
   html-tooltip:
-    directive: 'directives/HtmlTooltipComponent.html'
-    builder: 'classes/VicHtmlTooltipBuilder.html'
+    directive: 'directives/HtmlTooltipDirective.html'
+    builder: 'injectables/VicHtmlTooltipBuilder.html'
   map-legend:
     component: 'components/MapLegendComponent.html'
-    builder: 'classes/VicMapLegendBuilder.html'
     internal:
+      base: 'directives/MapLegend.html'
       continuous-component: 'components/ContinuousLegendComponent.html'
       discontinuous-component: 'components/DiscontinuousLegendComponent.html'
   xy-background:
     component: 'components/XyBackgroundComponent.html'
-    builder: 'classes/VicXyBackgroundBuilder.html'
 services:
   data-export:
     config: 'classes/VicDataExportConfig.html'
-    column-config: 'interfaces/VicColumnConfig.html'
-    service: 'services/VicDataExport.html'
+    column-config: 'classes/VicColumnConfig.html'
+    service: 'injectables/VicDataExport.html'
   image-download:
     config: 'classes/VicImageDownloadConfig.html'
     jpeg-config: 'classes/VicJpegImageConfig.html'
     png-config: 'classes/VicPngImageConfig.html'
     svg-config: 'classes/VicSvgImageConfig.html'
-    service: 'services/ImageDownload.html'
+    service: 'injectables/VicImageDownload.html'
 internals:
   data-dimensions:
     categorical:
@@ -167,17 +166,17 @@ internals:
       options: 'interfaces/OrdinalDimensionOptions.html'
     quantitative:
       numeric:
-        builder: 'classes/NumericDimensionBuilder.html'
-        dimension: 'classes/NumericDimension.html'
-        options: 'interfaces/NumericDimensionOptions.html'
+        builder: 'classes/QuantitativeNumericDimensionBuilder.html'
+        dimension: 'classes/QuantitativeNumericDimension.html'
+        options: 'interfaces/QuantitativeNumericDimensionOptions.html'
       date:
-        builder: 'classes/DateDimensionBuilder.html'
-        dimension: 'classes/DateDimension.html'
-        options: 'interfaces/DateDimensionOptions.html'
+        builder: 'classes/QuantitativeDateDimensionBuilder.html'
+        dimension: 'classes/QuantitativeDateDimension.html'
+        options: 'interfaces/QuantitativeDateDimensionOptions.html'
         domain-padding:
           round-up:
-            padding: 'classes/RoundUpDomainPadding.html'
-            options: 'interfaces/RoundUpDomainPaddingOptions.html'
+            padding: 'classes/RoundUpToSigFigDomainPadding.html'
+            options: 'interfaces/RoundUpToSigFigDomainPaddingOptions.html'
           round-to-interval:
             padding: 'classes/RoundUpToIntervalDomainPadding.html'
             options: 'interfaces/RoundUpToIntervalDomainPaddingOptions.html'
@@ -192,7 +191,7 @@ internals:
       data-dimension: 'classes/DataDimension.html'
       data-dimension-options: 'interfaces/DataDimensionOptions.html'
   data-marks:
-    base: 'classes/DataMarks.html'
+    base: 'directives/DataMarks.html'
     builder: 'classes/DataMarksBuilder.html'
     config: 'classes/DataMarksConfig.html'
     options: 'interfaces/DataMarksOptions.html'

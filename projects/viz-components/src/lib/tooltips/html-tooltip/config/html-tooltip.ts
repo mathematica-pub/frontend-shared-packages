@@ -1,5 +1,5 @@
 import { ElementRef } from '@angular/core';
-import { VicTooltipConfig } from '../../tooltip.config';
+import { Tooltip } from '../../config/tooltip';
 import { HtmlTooltipOptions } from './html-tooltip-options';
 import {
   HtmlTooltipCdkManagedPosition,
@@ -7,10 +7,7 @@ import {
 } from './position/tooltip-position';
 import { HtmlTooltipSize } from './size/tooltip-size';
 
-export class HtmlTooltipConfig
-  extends VicTooltipConfig
-  implements HtmlTooltipOptions
-{
+export class HtmlTooltip extends Tooltip implements HtmlTooltipOptions {
   override type: 'html';
   applyEventsDisabledClass: boolean;
   hasBackdrop: boolean;

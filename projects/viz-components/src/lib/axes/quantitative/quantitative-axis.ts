@@ -3,20 +3,15 @@ import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { ContinuousValue } from '../../core/types/values';
 import { XyAxis } from '../base/xy-axis-base';
-import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
+import { VicQuantitativeAxisConfig as QuantitativeAxisConfig } from './quantitative-axis-config';
 
-/**
- * A mixin that extends `XyAxis` with the functionality needed for a quantitative axis.
- *
- * For internal library use only.
- */
 export function quantitativeAxisMixin<
   TickValue extends ContinuousValue,
   T extends AbstractConstructor<XyAxis<TickValue>>
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: VicQuantitativeAxisConfig<TickValue>;
+    @Input() override config: QuantitativeAxisConfig<TickValue>;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {

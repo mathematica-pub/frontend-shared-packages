@@ -5,7 +5,7 @@ import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantita
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
 import { PointMarkersBuilder } from '../../marks/point-markers/point-markers-builder';
-import { VicStrokeBuilder } from '../../marks/stroke/stroke-builder';
+import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
 import { LinesConfig } from './lines-config';
 
 const DEFAULT = {
@@ -30,7 +30,7 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
   private hoverDotBuilder: PointMarkersBuilder;
   private pointMarkersBuilder: PointMarkersBuilder;
-  private strokeBuilder: VicStrokeBuilder;
+  private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
@@ -134,14 +134,14 @@ export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  createStroke(setProperties?: (stroke: VicStrokeBuilder) => void): this {
+  createStroke(setProperties?: (stroke: StrokeBuilder) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
   }
 
   private initStrokeBuilder(): void {
-    this.strokeBuilder = new VicStrokeBuilder();
+    this.strokeBuilder = new StrokeBuilder();
   }
 
   /**

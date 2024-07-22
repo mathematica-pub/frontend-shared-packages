@@ -18,7 +18,7 @@ import {
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
-  HtmlTooltipConfig,
+  HtmlTooltip,
   VicGeographiesBuilder,
   valueFormat,
 } from 'projects/viz-components/src/public-api';
@@ -65,8 +65,8 @@ export class GeographiesExampleComponent implements OnInit {
   height = 400;
   margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
-  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltip> =
+    new BehaviorSubject<HtmlTooltip>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);

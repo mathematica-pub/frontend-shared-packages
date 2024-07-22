@@ -1,18 +1,18 @@
 import { DataValue } from '../../core/types/values';
 
-export interface VicStackedAreaEventOutput<
+export interface StackedAreaEventOutput<
   Datum,
   TCategoricalValue extends DataValue
 > {
-  data: VicStackedAreaTooltipData<Datum, TCategoricalValue>[];
+  data: StackedAreaTooltipData<Datum, TCategoricalValue>[];
   positionX: number;
   categoryYMin: number;
   categoryYMax: number;
-  hoveredDatum: VicStackedAreaTooltipData<Datum, TCategoricalValue>;
+  hoveredDatum: StackedAreaTooltipData<Datum, TCategoricalValue>;
   svgHeight?: number;
 }
 
-export interface VicStackedAreaTooltipData<
+export interface StackedAreaTooltipData<
   Datum,
   TCategoricalValue extends DataValue
 > {

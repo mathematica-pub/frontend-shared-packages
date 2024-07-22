@@ -7,7 +7,7 @@ const DEFAULT = {
   _width: 2,
 };
 
-export class VicStrokeBuilder {
+export class StrokeBuilder {
   private _linecap: string;
   private _linejoin: string;
   private _opacity: number;

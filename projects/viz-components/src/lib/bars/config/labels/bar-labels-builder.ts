@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { BarsLabels } from './bars-labels';
 
 const DEFAULT = {
@@ -11,7 +10,6 @@ const DEFAULT = {
   _offset: 4,
 };
 
-@Injectable()
 export class BarsLabelsBuilder<Datum> {
   private _color: { default: string; withinBarAlternative: string };
   private _display: boolean;

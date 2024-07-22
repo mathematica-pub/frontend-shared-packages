@@ -2,7 +2,7 @@ import { CurveFactory, group, range } from 'd3';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { VicPointMarkers } from '../../marks/point-markers/point-markers';
+import { PointMarkers } from '../../marks/point-markers/point-markers';
 import { Stroke } from '../../marks/stroke/stroke';
 import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
@@ -20,13 +20,13 @@ export class LinesConfig<Datum>
 {
   readonly categorical: CategoricalDimension<Datum, string>;
   readonly curve: CurveFactory;
-  readonly hoverDot: VicPointMarkers;
+  readonly hoverDot: PointMarkers;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
   readonly pointerDetectionRadius: number;
-  readonly pointMarkers: VicPointMarkers;
+  readonly pointMarkers: PointMarkers;
   readonly stroke: Stroke;
   readonly x:
     | QuantitativeDateDimension<Datum>

@@ -1,6 +1,6 @@
 import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
-import { GeographiesTooltipOutput } from '../../../events/geographies-event-output';
+import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesLayerOptions } from './geographies-layer-options';
@@ -40,5 +40,5 @@ export abstract class GeographiesLayer<
 
   abstract getTooltipData(
     path: SVGPathElement
-  ): GeographiesTooltipOutput<Datum | undefined>;
+  ): GeographiesTooltipData<Datum | undefined>;
 }

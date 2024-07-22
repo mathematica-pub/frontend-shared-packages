@@ -1,4 +1,4 @@
-import { VicPointMarkers } from './point-markers';
+import { PointMarkers } from './point-markers';
 
 const DEFAULT = {
   _display: true,
@@ -57,8 +57,8 @@ export class PointMarkersBuilder {
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): VicPointMarkers {
-    return new VicPointMarkers({
+  _build(): PointMarkers {
+    return new PointMarkers({
       display: this._display,
       class: this._class,
       growByOnHover: this._growByOnHover,

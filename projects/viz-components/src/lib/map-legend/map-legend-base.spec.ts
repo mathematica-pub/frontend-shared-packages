@@ -3,7 +3,7 @@ import { ValueUtilities } from '../core/utilities/values';
 import { CategoricalBinsAttributeDataDimension } from '../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins';
 import { CategoricalBinsBuilder } from '../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-builder';
 import { CategoricalBinsOptions } from '../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-options';
-import { VicEqualValueRangesBinsBuilder } from '../geographies/config/layers/attribute-data-layer/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
+import { EqualValueRangesBinsBuilder } from '../geographies/config/layers/attribute-data-layer/dimensions/equal-value-ranges-bins/equal-value-ranges-bins-builder';
 import { MapLegendContentStub } from '../testing/stubs/map-legend-content.stub';
 
 describe('the MapLegendContent abstract class', () => {
@@ -41,7 +41,7 @@ describe('the MapLegendContent abstract class', () => {
       expect(directive.setCategoricalValues).toHaveBeenCalledTimes(1);
     });
     it('calls setQuantitativeValues once if binType is not categorical', () => {
-      directive.config = new VicEqualValueRangesBinsBuilder<number>()
+      directive.config = new EqualValueRangesBinsBuilder<number>()
         .valueAccessor((d) => d)
         ._build();
       directive.setValues();
@@ -56,7 +56,7 @@ describe('the MapLegendContent abstract class', () => {
       spyOn(directive, 'setQuantitativeValueSpaces');
       formatSpy = spyOn(ValueUtilities, 'd3Format').and.callThrough();
       directive.orientation = 'horizontal';
-      directive.config = new VicEqualValueRangesBinsBuilder<number>()
+      directive.config = new EqualValueRangesBinsBuilder<number>()
         .valueAccessor((d) => d)
         .formatSpecifier('.0%')
         ._build();

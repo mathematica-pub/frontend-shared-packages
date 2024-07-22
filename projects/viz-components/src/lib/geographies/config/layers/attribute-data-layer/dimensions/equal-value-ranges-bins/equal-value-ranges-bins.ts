@@ -1,20 +1,19 @@
 import { extent } from 'd3';
 import { BinStrategy } from '../attribute-data-bin-enums';
 import { CalculatedBinsAttributeDataDimension } from '../calculated-bins/calculated-bins';
-import { VicEqualValueRangesAttributeDataDimensionOptions } from './equal-value-ranges-bins-options';
+import { EqualValueRangesAttributeDataDimensionOptions } from './equal-value-ranges-bins-options';
 
 /**
  * Configuration object for attribute data that is quantitative and will be binned into equal value ranges. For example, if the data is [0, 1, 2, 4, 60, 100] and numBins is 2, the bin ranges will be [0, 49] and [50, 100].
  *
  * The generic parameter is the type of the attribute data.
  */
-export class VicEqualValueRangesAttributeDataDimension<
+export class EqualValueRangesAttributeDataDimension<
     Datum,
     RangeValue extends string | number = string
   >
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
-  implements
-    VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
+  implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
 {
   readonly binType: BinStrategy.equalValueRanges;
   private calculatedDomain: [number, number];
@@ -22,7 +21,7 @@ export class VicEqualValueRangesAttributeDataDimension<
   readonly numBins: number;
 
   constructor(
-    options: VicEqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
+    options: EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>
   ) {
     super();
     this.binType = BinStrategy.equalValueRanges;
