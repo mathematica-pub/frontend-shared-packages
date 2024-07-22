@@ -1,0 +1,65 @@
+<app-example-display [folderName]="folderName" class="bars-example">
+  <span title>Bars</span>
+  <ng-container demo *ngIf="vm$ | async as vm; else loading">
+    <p class="ui-instructions">Select a bars direction</p>
+    <mat-button-toggle-group
+      class="direction-toggle-group"
+      [hideSingleSelectionIndicator]="true"
+      [value]="orientation$ | async"
+      (change)="updateOrientation($event.value)"
+      ><mat-button-toggle value="horizontal">Horizontal</mat-button-toggle
+      ><mat-button-toggle value="vertical">Vertical</mat-button-toggle>
+    </mat-button-toggle-group>
+    <button
+      mat-stroked-button
+      (click)="changeMargin()"
+      class="margin-change-button"
+      >Change chart left margin</button
+    >
+    <vic-xy-chart
+      class="xy-chart"
+      [margin]="margin"
+      [height]="800"
+      [scaleChartWithContainerWidth]="{width: true, height: false}"
+    >
+      <ng-container svg-elements>
+        <svg:g vic-xy-background></svg:g>
+        @if ((orientation$ | async) === 'horizontal') {
+        <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
+        } @else {
+        <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig"></svg:g>
+        <svg:g
+          vic-y-quantitative-axis
+          [config]="vm.yAxisConfig"
+          side="left"
+        ></svg:g>
+        }
+        <svg:g
+          vic-data-marks-bars
+          [config]="vm.dataConfig"
+          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
+          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="(tooltipConfig$ | async)"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
+      </ng-container>
+    </vic-xy-chart>
+  </ng-container>
+  <ng-template #loading>Loading...</ng-template>
+</app-example-display>
+
+<ng-template #htmlTooltip>
+  <div [style.--color]="(tooltipData$ | async).color" class="tooltip-container">
+    <p class="tooltip-label category"> {{ (tooltipData$ | async).ordinal }} </p>
+    <div class="values-container">
+      <p class="tooltip-label y">
+        <span class="value-label">Value</span>
+        {{ (tooltipData$ | async).quantitative }}
+      </p>
+    </div>
+  </div>
+</ng-template>

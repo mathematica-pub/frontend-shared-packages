@@ -3,42 +3,42 @@
 @use 'color';
 
 /* ------- TYPOGRAPHY ------- */
-%typography-headline-1 {
+%typography-h1 {
   font-family: $sans-font;
   font-size: 96px;
   font-weight: $font-weight-light;
   letter-spacing: -1.5px;
 }
 
-%typography-headline-2 {
+%typography-h2 {
   font-family: $sans-font;
   font-size: 60px;
   font-weight: $font-weight-light;
   letter-spacing: -0.5px;
 }
 
-%typography-headline-3 {
+%typography-h3 {
   font-family: $sans-font;
   font-size: 48px;
   font-weight: $font-weight-regular;
   letter-spacing: 0;
 }
 
-%typography-headline-4 {
+%typography-h4 {
   font-family: $sans-font;
   font-size: 34px;
   font-weight: $font-weight-regular;
   letter-spacing: 0.25px;
 }
 
-%typography-headline-5 {
+%typography-h5 {
   font-family: $sans-font;
   font-size: 24px;
   font-weight: $font-weight-regular;
   letter-spacing: 0;
 }
 
-%typography-headline-6 {
+%typography-h6 {
   font-family: $sans-font;
   font-size: 20px;
   font-weight: $font-weight-medium;
@@ -135,4 +135,67 @@
   padding: grid(2);
   border: 1px solid color.$primary-6;
   width: 100%;
+}
+
+%markdown-styles {
+  code {
+    font-family: $code-font;
+  }
+
+  code:not(.language-html) {
+    color: color.$highlight-code;
+    background-color: color.$primary-7;
+    padding: grid(0.75) grid(1.25);
+    white-space: normal;
+    border-radius: grid(1);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  h1 {
+    @extend %typography-h1;
+  }
+
+  h2 {
+    @extend %typography-h4;
+
+    &:not(:first-child) {
+      padding-top: grid(8);
+    }
+  }
+
+  h3 {
+    @extend %typography-h5;
+    padding-top: grid(4);
+    padding-bottom: grid(2);
+  }
+
+  h2 + h3 {
+    padding-top: grid(2);
+  }
+
+  h4 {
+    @extend %typography-h6;
+    font-size: 18px;
+    padding-top: grid(2);
+    padding-bottom: grid(1);
+  }
+
+  pre {
+    margin: grid(1) 0;
+  }
+
+  p {
+    line-height: 1.6;
+    padding-bottom: grid(2);
+  }
+
+  h2 + p {
+    padding-top: grid(2);
+  }
+
+  ul {
+    margin: 0;
+    padding-bottom: grid(2);
+  }
 }

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { ComponentDocumentationComponent } from './shared/component-documentation/component-documentation.component';
-import { RenderFileComponent } from './shared/render-file/render-file.component';
 
 const routes: Routes = [
   {
@@ -12,45 +10,46 @@ const routes: Routes = [
   },
   {
     path: 'overview',
-    component: RenderFileComponent,
+    loadComponent: () =>
+      import('./overview/overview.component').then((m) => m.OverviewComponent),
   },
   {
     path: 'examples',
     children: [
       {
         path: 'bars',
-        loadChildren: () =>
-          import('./bars-example/bars-example.module').then(
-            (m) => m.BarsModule
-          ),
-      },
-      {
-        path: 'lines',
-        loadChildren: () =>
-          import('./lines-example/lines-example.module').then(
-            (m) => m.LinesModule
-          ),
-      },
-      {
-        path: 'stacked-area',
-        loadChildren: () =>
-          import('./stacked-area-example/stacked-area-example.module').then(
-            (m) => m.StackedAreaModule
-          ),
-      },
-      {
-        path: 'stacked-bars',
-        loadChildren: () =>
-          import('./stacked-bars-example/stacked-bars-example.module').then(
-            (m) => m.StackedBarsModule
+        loadComponent: () =>
+          import('./examples/bars-example/bars-example.component').then(
+            (m) => m.BarsExampleComponent
           ),
       },
       {
         path: 'geographies',
-        loadChildren: () =>
-          import('./geographies-example/geographies-example.module').then(
-            (m) => m.GeographiesExampleModule
+        loadComponent: () =>
+          import(
+            './examples/geographies-example/geographies-example.component'
+          ).then((m) => m.GeographiesExampleComponent),
+      },
+      {
+        path: 'lines',
+        loadComponent: () =>
+          import('./examples/lines-example/lines-example.component').then(
+            (m) => m.LinesExampleComponent
           ),
+      },
+      {
+        path: 'stacked-area',
+        loadComponent: () =>
+          import(
+            './examples/stacked-area-example/stacked-area-example.component'
+          ).then((m) => m.StackedAreaExampleComponent),
+      },
+      {
+        path: 'stacked-bars',
+        loadComponent: () =>
+          import(
+            './examples/stacked-bars-example/stacked-bars-example.component'
+          ).then((m) => m.StackedBarsExampleComponent),
       },
     ],
   },
@@ -59,7 +58,10 @@ const routes: Routes = [
     children: [
       {
         path: '**',
-        component: ComponentDocumentationComponent,
+        loadComponent: () =>
+          import(
+            './documentation-display/documentation-display.component'
+          ).then((m) => m.DocumentationDisplayComponent),
       },
     ],
   },

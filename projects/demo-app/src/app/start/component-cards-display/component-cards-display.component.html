@@ -1,8 +1,0 @@
-<h2 class="cards-title">Data Marks Components</h2>
-<div class="cards-container">
-  <ng-container *ngFor="let component of dataMarksComponents">
-    <a [routerLink]="'/' + component.name" routerLinkActive="active">
-      <app-component-card [component]="component"></app-component-card>
-    </a>
-  </ng-container>
-</div>
