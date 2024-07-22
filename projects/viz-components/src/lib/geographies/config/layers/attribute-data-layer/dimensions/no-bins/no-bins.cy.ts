@@ -10,15 +10,15 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  Vic,
-  VicGeographiesConfig,
+  VicGeographiesBuilder,
   VicGeographiesModule,
   VicMapChartModule,
-} from '../../../../public-api';
+} from '../../../../../../../public-api';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
-} from '../../../testing/stubs/data/states_population_income';
+} from '../../../../../../testing/stubs/data/states_population_income';
+import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
@@ -63,7 +63,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   styles: [],
 })
 class TestGeographiesComponent {
-  @Input() geographiesConfig: VicGeographiesConfig<
+  @Input() geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -73,7 +73,7 @@ class TestGeographiesComponent {
 }
 
 const mountGeographiesComponent = (
-  geographiesConfig: VicGeographiesConfig<
+  geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >
@@ -94,7 +94,7 @@ const mountGeographiesComponent = (
 // Test dimension
 // ***********************************************************
 describe('the No Bins Attribute Data dimension', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -113,26 +113,24 @@ describe('the No Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
-              valueAccessor: (d) => d.income,
-              range: ['white', '#ff00ff'],
-            }),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createNoBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .range(['white', '#ff00ff'])
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const sortedData = attributeData
         .slice()
@@ -183,27 +181,25 @@ describe('the No Bins Attribute Data dimension', () => {
         }
       });
       const nullColor = 'chartreuse';
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: dataWithFalsyValues,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
-              valueAccessor: (d) => d.income,
-              range: ['white', '#ff00ff'],
-              nullColor,
-            }),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(dataWithFalsyValues)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createNoBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .range(['white', '#ff00ff'])
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       cy.get(`.vic-geography-g path.Florida`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
@@ -231,28 +227,26 @@ describe('the No Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       const nullColor = 'chartreuse';
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        projection: geoMercator(),
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
-              valueAccessor: (d) => d.income,
-              range: ['white', '#ff00ff'],
-              nullColor,
-            }),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .projection(geoMercator())
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createNoBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => d.income)
+                .range(['white', '#ff00ff'])
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const geographiesNotInAttributeData = states.features
         .filter(

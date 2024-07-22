@@ -11,15 +11,15 @@ import { range } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  Vic,
-  VicGeographiesConfig,
+  VicGeographiesBuilder,
   VicGeographiesModule,
   VicMapChartModule,
-} from '../../../../public-api';
+} from '../../../../../../../public-api';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
-} from '../../../testing/stubs/data/states_population_income';
+} from '../../../../../../testing/stubs/data/states_population_income';
+import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
@@ -64,7 +64,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   styles: [],
 })
 class TestGeographiesComponent {
-  @Input() geographiesConfig: VicGeographiesConfig<
+  @Input() geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -74,7 +74,7 @@ class TestGeographiesComponent {
 }
 
 const mountGeographiesComponent = (
-  geographiesConfig: VicGeographiesConfig<
+  geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >
@@ -95,7 +95,7 @@ const mountGeographiesComponent = (
 // Test dimension
 // ***********************************************************
 describe('the Categorical Bins Attribute Data dimension', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -115,23 +115,20 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCategorical<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => {
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCategoricalBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
                     return 'Low';
                   } else if (d.income < binValues[1]) {
@@ -139,13 +136,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                   } else {
                     return 'High';
                   }
-                },
-                domain: ['Low', 'Medium', 'High'],
-                range: rangeValues,
-              }
-            ),
-        }),
-      });
+                })
+                .domain(['Low', 'Medium', 'High'])
+                .range(rangeValues)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       rangeValues.forEach((color, i) => {
         const statesInAttributeData = attributeData
@@ -180,23 +176,20 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCategorical<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => {
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCategoricalBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
                     return 'Low';
                   } else if (d.income < binValues[1]) {
@@ -204,12 +197,11 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                   } else {
                     return 'High';
                   }
-                },
-                range: ['red', 'violet', 'blue'],
-              }
-            ),
-        }),
-      });
+                })
+                .range(['red', 'violet', 'blue'])
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const lowStates = attributeData // first state in this group: Arkansas - uses third color
         .filter((d) => d.income < binValues[0])
@@ -248,23 +240,20 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCategorical<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => {
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCategoricalBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
                     return 'Low';
                   } else if (d.income < binValues[1]) {
@@ -274,13 +263,12 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                   } else {
                     return 'Very High';
                   }
-                },
-                domain: ['Low', 'Medium', 'High', 'Very High'],
-                range: rangeValues,
-              }
-            ),
-        }),
-      });
+                })
+                .domain(['Low', 'Medium', 'High', 'Very High'])
+                .range(rangeValues)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       range(binValues.length + 1).forEach((i) => {
         const statesInAttributeData = attributeData
@@ -329,23 +317,20 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         }
       });
       const nullColor = 'chartreuse';
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: dataWithFalsyValues,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCategorical<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => {
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(dataWithFalsyValues)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCategoricalBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => {
                   if (
                     d.income === undefined ||
                     d.income === null ||
@@ -359,14 +344,13 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                   } else {
                     return 'High';
                   }
-                },
-                domain: ['Low', 'Medium', 'High'],
-                range: rangeValues,
-                nullColor,
-              }
-            ),
-        }),
-      });
+                })
+                .domain(['Low', 'Medium', 'High'])
+                .range(rangeValues)
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       cy.get(`.vic-geography-g path.Florida`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
@@ -396,24 +380,21 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       const nullColor = 'chartreuse';
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        projection: geoMercator(),
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCategorical<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => {
+      >()
+        .boundary(usBoundary)
+        .projection(geoMercator())
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((layer) =>
+          layer
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCategoricalBinsDimension((dimension) =>
+              dimension
+                .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
                     return 'Low';
                   } else if (d.income < binValues[1]) {
@@ -421,14 +402,13 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                   } else {
                     return 'High';
                   }
-                },
-                domain: ['Low', 'Medium', 'High'],
-                range: rangeValues,
-                nullColor,
-              }
-            ),
-        }),
-      });
+                })
+                .domain(['Low', 'Medium', 'High'])
+                .range(rangeValues)
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const geographiesNotInAttributeData = states.features
         .filter(

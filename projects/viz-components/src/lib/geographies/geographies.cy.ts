@@ -12,19 +12,19 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  VicGeographiesConfig,
-  VicGeographiesEventOutput,
+  HtmlTooltip,
+  VicGeographiesBuilder,
   VicGeographiesModule,
-  VicHtmlTooltipConfig,
   VicHtmlTooltipModule,
-  VicHtmlTooltipOffsetFromOriginPosition,
   VicMapChartModule,
 } from '../../public-api';
-import { Vic } from '../config/vic';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
 } from '../testing/stubs/data/states_population_income';
+import { VicHtmlTooltipBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
+import { GeographiesConfig } from './config/geographies-config';
+import { GeographiesEventOutput } from './events/geographies-event-output';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
@@ -90,50 +90,45 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   styles: [],
 })
 class TestGeographiesComponent {
-  @Input() geographiesConfig: VicGeographiesConfig<
+  @Input() geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new VicHtmlTooltipConfig({ show: false })
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltip> =
+    new BehaviorSubject<HtmlTooltip>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
+  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
+    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
 
   updateTooltipForNewOutput(
-    data: VicGeographiesEventOutput<StateIncomeDatum>
+    data: GeographiesEventOutput<StateIncomeDatum>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
+  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
-    const config = new VicHtmlTooltipConfig();
-    config.size.minWidth = 130;
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY;
-      config.show = true;
-    } else {
-      config.show = false;
-    }
+  updateTooltipConfig(data: GeographiesEventOutput<StateIncomeDatum>): void {
+    const config = new VicHtmlTooltipBuilder()
+      .setSize((size) => size.minWidth(130))
+      .createOffsetFromOriginPosition((position) =>
+        position.offsetX(data?.positionX).offsetY(data?.positionY)
+      )
+      .show(!!data)
+      .build();
     this.tooltipConfig.next(config);
   }
 }
 
 const mountGeographiesComponent = (
-  geographiesConfig: VicGeographiesConfig<
+  geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >
@@ -158,7 +153,7 @@ const mountGeographiesComponent = (
 // Drawing the map
 // ***********************************************************
 describe('drawing the geography paths for various layers', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -180,27 +175,26 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = Vic.geographies<
+        geographiesConfig = new VicGeographiesBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
-        >({
-          boundary: usBoundary,
-          featureIndexAccessor: (d) => d.properties.name,
-          attributeDataLayer: Vic.geographiesDataLayer<
-            StateInComePopulationDatum,
-            TestMapGeometryProperties
-          >({
-            data: attributeData,
-            geographies: states.features,
-            geographyIndexAccessor: (d) => d.state,
-            attributeDimension:
-              Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
-                valueAccessor: (d) => d.income,
-              }),
-            strokeColor: 'black',
-            strokeWidth: '1',
-          }),
-        });
+        >()
+          .boundary(usBoundary)
+          .featureIndexAccessor((d) => d.properties.name)
+          .createAttributeDataLayer((layer) =>
+            layer
+              .data(attributeData)
+              .geographies(states.features)
+              .geographyIndexAccessor((d) => d.state)
+              .createNoBinsDimension((dimension) =>
+                dimension
+                  .valueAccessor((d) => d.income)
+                  .range(['white', 'orangered'])
+              )
+              .strokeColor('black')
+              .strokeWidth('1')
+          )
+          .build();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
@@ -229,25 +223,25 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = Vic.geographies<
+        geographiesConfig = new VicGeographiesBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
-        >({
-          boundary: usBoundary,
-          featureIndexAccessor: (d) => d.properties.name,
-          geojsonPropertiesLayers: [
-            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
-              geographies: states.features,
-              strokeColor: 'black',
-              strokeWidth: '1',
-            }),
-            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
-              geographies: usBoundary.features,
-              strokeColor: 'red',
-              strokeWidth: '1',
-            }),
-          ],
-        });
+        >()
+          .boundary(usBoundary)
+          .featureIndexAccessor((d) => d.properties.name)
+          .createGeojsonPropertiesLayer((layer) =>
+            layer
+              .geographies(states.features)
+              .strokeColor('black')
+              .strokeWidth('1')
+          )
+          .createGeojsonPropertiesLayer((layer) =>
+            layer
+              .geographies(usBoundary.features)
+              .strokeColor('red')
+              .strokeWidth('1')
+          )
+          .build();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g path').should(
           'have.length',
@@ -286,34 +280,32 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = Vic.geographies<
+        geographiesConfig = new VicGeographiesBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
-        >({
-          boundary: usBoundary,
-          featureIndexAccessor: (d) => d.properties.name,
-          attributeDataLayer: Vic.geographiesDataLayer<
-            StateInComePopulationDatum,
-            TestMapGeometryProperties
-          >({
-            data: attributeData,
-            geographies: states.features,
-            geographyIndexAccessor: (d) => d.state,
-            attributeDimension:
-              Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
-                valueAccessor: (d) => d.income,
-              }),
-            strokeColor: 'black',
-            strokeWidth: '1',
-          }),
-          geojsonPropertiesLayers: [
-            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
-              geographies: usBoundary.features,
-              strokeColor: 'red',
-              strokeWidth: '1',
-            }),
-          ],
-        });
+        >()
+          .boundary(usBoundary)
+          .featureIndexAccessor((d) => d.properties.name)
+          .createAttributeDataLayer((layer) =>
+            layer
+              .data(attributeData)
+              .geographies(states.features)
+              .geographyIndexAccessor((d) => d.state)
+              .createNoBinsDimension((dimension) =>
+                dimension
+                  .valueAccessor((d) => d.income)
+                  .range(['white', 'orangered'])
+              )
+              .strokeColor('black')
+              .strokeWidth('1')
+          )
+          .createGeojsonPropertiesLayer((layer) =>
+            layer
+              .geographies(usBoundary.features)
+              .strokeColor('red')
+              .strokeWidth('1')
+          )
+          .build();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geographies-data-layer path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
@@ -346,7 +338,7 @@ describe('drawing the geography paths for various layers', () => {
 // Drawing the map
 // ***********************************************************
 describe('drawing the geography paths for various layers', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -381,30 +373,32 @@ describe('drawing the geography paths for various layers', () => {
         const stateNamesScale = scaleLinear<string>()
           .domain(extent(stateNames.map((x) => x.length)))
           .range(['white', 'magenta']);
-        geographiesConfig = Vic.geographies<
+        geographiesConfig = new VicGeographiesBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
-        >({
-          boundary: usBoundary,
-          featureIndexAccessor: (d) => d.properties.name,
-          geojsonPropertiesLayers: [
-            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
-              geographies: states.features,
-              strokeColor: 'black',
-              strokeWidth: '1',
-              categorical: Vic.dimensionCategorical({
-                scale: (stateNameLength) =>
-                  stateNamesScale(+stateNameLength.length),
-                valueAccessor: (d) => d.properties.name.length.toString(),
-              }),
-            }),
-            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
-              geographies: usBoundary.features,
-              strokeColor: 'blue',
-              strokeWidth: '1',
-            }),
-          ],
-        });
+        >()
+          .boundary(usBoundary)
+          .featureIndexAccessor((d) => d.properties.name)
+          .createGeojsonPropertiesLayer((layer) =>
+            layer
+              .geographies(states.features)
+              .strokeColor('black')
+              .strokeWidth('1')
+              .createCategoricalDimension((dimension) =>
+                dimension
+                  .scale((stateNameLength) =>
+                    stateNamesScale(+stateNameLength.length)
+                  )
+                  .valueAccessor((d) => d.properties.name.length.toString())
+              )
+          )
+          .createGeojsonPropertiesLayer((layer) =>
+            layer
+              .geographies(usBoundary.features)
+              .strokeColor('blue')
+              .strokeWidth('1')
+          )
+          .build();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g path').should(
           'have.length',
@@ -444,7 +438,7 @@ describe('drawing the geography paths for various layers', () => {
 // Test geography labels
 // ***********************************************************
 describe('drawing the geography labels various layers', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -466,54 +460,52 @@ describe('drawing the geography labels various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = Vic.geographies<
+        geographiesConfig = new VicGeographiesBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
-        >({
-          boundary: usBoundary,
-          featureIndexAccessor: (d) => d.properties.name,
-          attributeDataLayer: Vic.geographiesDataLayer<
-            StateInComePopulationDatum,
-            TestMapGeometryProperties
-          >({
-            data: attributeData,
-            geographies: states.features.filter(
-              (x) => x.properties.name[x.properties.name.length - 1] !== 'a'
-            ),
-            geographyIndexAccessor: (d) => d.state,
-            attributeDimension:
-              Vic.geographiesDataDimensionNoBins<StateInComePopulationDatum>({
-                valueAccessor: (d) => d.income,
-                range: ['white', 'orangered'],
-              }),
-            strokeColor: 'black',
-            strokeWidth: '1',
-            class: 'test-data-layer',
-            labels: Vic.geographiesLabels<
-              StateInComePopulationDatum,
-              TestMapGeometryProperties
-            >({
-              valueAccessor: (feature) => feature.properties.id,
-              color: 'black',
-            }),
-          }),
-          geojsonPropertiesLayers: [
-            Vic.geographiesNonAttributeDataLayer<TestMapGeometryProperties>({
-              geographies: states.features.filter(
-                (x) => x.properties.name[x.properties.name.length - 1] === 'a'
-              ),
-              categorical: Vic.dimensionCategorical({
-                range: ['darkblue'],
-              }),
-              class: 'test-no-data-layer',
-              strokeWidth: '1',
-              labels: Vic.geographiesLabels({
-                valueAccessor: (feature) => `${feature.properties.id}*`,
-                color: 'chartreuse',
-              }),
-            }),
-          ],
-        });
+        >()
+          .boundary(usBoundary)
+          .featureIndexAccessor((d) => d.properties.name)
+          .createAttributeDataLayer((layer) =>
+            layer
+              .data(attributeData)
+              .geographies(
+                states.features.filter(
+                  (x) => x.properties.name[x.properties.name.length - 1] !== 'a'
+                )
+              )
+              .geographyIndexAccessor((d) => d.state)
+              .createNoBinsDimension((dimension) =>
+                dimension
+                  .valueAccessor((d) => d.income)
+                  .range(['white', 'orangered'])
+              )
+              .class('test-data-layer')
+              .strokeColor('black')
+              .strokeWidth('1')
+              .createLabels((labels) =>
+                labels.valueAccessor((d) => d.properties.id).color('black')
+              )
+          )
+          .createGeojsonPropertiesLayer((layer) =>
+            layer
+              .geographies(
+                states.features.filter(
+                  (x) => x.properties.name[x.properties.name.length - 1] === 'a'
+                )
+              )
+              .createCategoricalDimension((dimension) =>
+                dimension.range(['darkblue'])
+              )
+              .class('test-no-data-layer')
+              .strokeWidth('1')
+              .createLabels((labels) =>
+                labels
+                  .valueAccessor((d) => `${d.properties.id}*`)
+                  .color('chartreuse')
+              )
+          )
+          .build();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g').then((groups) => {
           expect(groups).to.have.length(states.features.length);

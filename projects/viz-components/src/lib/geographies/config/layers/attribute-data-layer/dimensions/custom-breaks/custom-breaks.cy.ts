@@ -10,15 +10,15 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  Vic,
-  VicGeographiesConfig,
+  VicGeographiesBuilder,
   VicGeographiesModule,
   VicMapChartModule,
-} from '../../../../public-api';
+} from '../../../../../../../public-api';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
-} from '../../../testing/stubs/data/states_population_income';
+} from '../../../../../../testing/stubs/data/states_population_income';
+import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
@@ -63,7 +63,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   styles: [],
 })
 class TestGeographiesComponent {
-  @Input() geographiesConfig: VicGeographiesConfig<
+  @Input() geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -73,7 +73,7 @@ class TestGeographiesComponent {
 }
 
 const mountGeographiesComponent = (
-  geographiesConfig: VicGeographiesConfig<
+  geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >
@@ -94,7 +94,7 @@ const mountGeographiesComponent = (
 // Test dimension
 // ***********************************************************
 describe('the Custom Breaks Attribute Data dimension', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -114,29 +114,25 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCustomBreaks<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                breakValues,
-                range: rangeValues,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCustomBreaksBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .breakValues(breakValues)
+                .range(rangeValues)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       rangeValues.forEach((color, i) => {
         const statesInAttributeData = attributeData
@@ -166,29 +162,25 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCustomBreaks<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                breakValues,
-                range: rangeValues,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCustomBreaksBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .breakValues(breakValues)
+                .range(rangeValues)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const belowValues = attributeData
         .filter((d) => d.income < breakValues[0])
@@ -222,35 +214,31 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCustomBreaks<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                breakValues: [
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCustomBreaksBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .breakValues([
                   breakValues[1],
                   breakValues[0],
                   breakValues[2],
                   breakValues[4],
                   breakValues[3],
-                ],
-                range: rangeValues,
-              }
-            ),
-        }),
-      });
+                ])
+                .range(rangeValues)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       rangeValues.forEach((color, i) => {
         const statesInAttributeData = attributeData
@@ -292,30 +280,26 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         }
       });
       const nullColor = 'chartreuse';
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: dataWithFalsyValues,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCustomBreaks<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                breakValues,
-                range: rangeValues,
-                nullColor,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(dataWithFalsyValues)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCustomBreaksBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .breakValues(breakValues)
+                .range(rangeValues)
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       cy.get(`.vic-geography-g path.Florida`).then((path) => {
         expect(path.attr('fill')).to.eq(rangeValues[0]);
@@ -345,31 +329,27 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       const nullColor = 'chartreuse';
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        projection: geoMercator(),
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionCustomBreaks<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                breakValues,
-                range: rangeValues,
-                nullColor,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .projection(geoMercator())
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createCustomBreaksBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .breakValues(breakValues)
+                .range(rangeValues)
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const geographiesNotInAttributeData = states.features
         .filter(

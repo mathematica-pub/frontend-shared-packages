@@ -79,7 +79,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
 
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
     return new GeographiesGeojsonPropertiesLayer({
-      categorical: this.categoricalBuilder._build(),
+      categorical: this.categoricalBuilder?._build(),
       class: this._class,
       enableEffects: this._enableEffects,
       fill: this._fill,

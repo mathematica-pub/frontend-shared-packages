@@ -11,15 +11,15 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  Vic,
-  VicGeographiesConfig,
+  VicGeographiesBuilder,
   VicGeographiesModule,
   VicMapChartModule,
-} from '../../../../public-api';
+} from '../../../../../../../public-api';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
-} from '../../../testing/stubs/data/states_population_income';
+} from '../../../../../../testing/stubs/data/states_population_income';
+import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;
@@ -64,7 +64,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
   styles: [],
 })
 class TestGeographiesComponent {
-  @Input() geographiesConfig: VicGeographiesConfig<
+  @Input() geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -74,7 +74,7 @@ class TestGeographiesComponent {
 }
 
 const mountGeographiesComponent = (
-  geographiesConfig: VicGeographiesConfig<
+  geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >
@@ -95,7 +95,7 @@ const mountGeographiesComponent = (
 // Test dimension
 // ***********************************************************
 describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
-  let geographiesConfig: VicGeographiesConfig<
+  let geographiesConfig: GeographiesConfig<
     StateInComePopulationDatum,
     TestMapGeometryProperties
   >;
@@ -113,27 +113,22 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createEqualValueRangesBinsDimension((bins) =>
+              bins.valueAccessor((d) => d.income)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const scale =
         geographiesConfig.attributeDataLayer.attributeDimension.getScale();
@@ -178,28 +173,22 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                domain: [50000, 80000],
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createEqualValueRangesBinsDimension((bins) =>
+              bins.valueAccessor((d) => d.income).domain([50000, 80000])
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       cy.get('.vic-geography-g path').then((states) => {
         states.each((_, state) => {
@@ -233,29 +222,25 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                numBins,
-                nullColor,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createEqualValueRangesBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .numBins(numBins)
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const colors = [];
       cy.get('.vic-geography-g path').then((states) => {
@@ -284,29 +269,25 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = Vic.geographies<
+      geographiesConfig = new VicGeographiesBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
-      >({
-        boundary: usBoundary,
-        featureIndexAccessor: (d) => d.properties.name,
-        attributeDataLayer: Vic.geographiesDataLayer<
-          StateInComePopulationDatum,
-          TestMapGeometryProperties
-        >({
-          data: attributeData,
-          geographies: states.features,
-          geographyIndexAccessor: (d) => d.state,
-          attributeDimension:
-            Vic.geographiesDataDimensionEqualValueRanges<StateInComePopulationDatum>(
-              {
-                valueAccessor: (d) => d.income,
-                numBins,
-                nullColor,
-              }
-            ),
-        }),
-      });
+      >()
+        .boundary(usBoundary)
+        .featureIndexAccessor((d) => d.properties.name)
+        .createAttributeDataLayer((dimension) =>
+          dimension
+            .data(attributeData)
+            .geographies(states.features)
+            .geographyIndexAccessor((d) => d.state)
+            .createEqualValueRangesBinsDimension((bins) =>
+              bins
+                .valueAccessor((d) => d.income)
+                .numBins(numBins)
+                .nullColor(nullColor)
+            )
+        )
+        .build();
       mountGeographiesComponent(geographiesConfig);
       const colors = [];
       cy.get('.vic-geography-g path').then((states) => {
