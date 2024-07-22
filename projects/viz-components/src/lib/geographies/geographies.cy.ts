@@ -12,7 +12,6 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  HtmlTooltip,
   VicGeographiesBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
@@ -23,6 +22,7 @@ import {
   stateIncomePopulationData,
 } from '../testing/stubs/data/states_population_income';
 import { VicHtmlTooltipBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
+import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesEventOutput } from './events/geographies-event-output';
 
@@ -97,8 +97,8 @@ class TestGeographiesComponent {
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
-  tooltipConfig: BehaviorSubject<HtmlTooltip> =
-    new BehaviorSubject<HtmlTooltip>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
