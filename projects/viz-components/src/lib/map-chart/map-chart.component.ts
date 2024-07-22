@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
-import { VicAttributeDataDimensionConfig } from '../geographies/config/dimensions/attribute-data-bin-types';
+import { VicAttributeDataDimensionConfig } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 
 /**
  * A `Chart` component to be used with a `Geographies` `DataMarks` component.

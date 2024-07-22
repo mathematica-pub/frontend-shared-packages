@@ -1,4 +1,4 @@
-import { VicFillPattern } from '../../data-dimensions/categorical/fill-pattern';
+import { FillPattern } from '../../data-dimensions/categorical/fill-pattern';
 
 /**
  * @internal
@@ -7,10 +7,10 @@ export class PatternUtilities {
   static getFill<Datum>(
     datum: Datum,
     defaultColor: string,
-    patterns: VicFillPattern<Datum>[]
+    patterns: FillPattern<Datum>[]
   ): string {
     if (patterns) {
-      patterns.forEach((pattern: VicFillPattern<Datum>) => {
+      patterns.forEach((pattern: FillPattern<Datum>) => {
         if (pattern.usePattern(datum)) {
           defaultColor = `url(#${pattern.name})`;
         }

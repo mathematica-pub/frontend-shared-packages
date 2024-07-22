@@ -1,10 +1,10 @@
 [
   {
     "title": "Data Marks",
-    "file": "./projects/viz-components/src/lib/data-marks/DATA_MARKS_DESIGN.md"
+    "file": "./docs/library-architecture/data-marks-design.md"
   },
   {
-    "title": "API",
-    "file": "./projects/viz-components/src/API.md"
+    "title": "Using the library",
+    "file": "./docs/library-architecture/user-experience.md"
   }
 ]

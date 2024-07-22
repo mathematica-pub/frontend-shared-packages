@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BarsClickDirective } from './bars-click.directive';
-import { BarsHoverMoveDirective } from './bars-hover-move.directive';
-import { BarsHoverDirective } from './bars-hover.directive';
-import { BarsInputEventDirective } from './bars-input-event.directive';
 import { BarsComponent } from './bars.component';
+import { BarsClickDirective } from './events/bars-click.directive';
+import { BarsHoverMoveDirective } from './events/bars-hover-move.directive';
+import { BarsHoverDirective } from './events/bars-hover.directive';
+import { BarsInputEventDirective } from './events/bars-input-event.directive';
 
 @NgModule({
   declarations: [

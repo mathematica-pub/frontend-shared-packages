@@ -1,19 +1,21 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { XOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
+import { YQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { VicStackedBarsBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
+import { StackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-config';
 import {
-  Vic,
-  VicElementSpacing,
-  VicStackedBarsConfig,
-  VicXOrdinalAxisConfig,
-  VicYQuantitativeAxisConfig,
+  VicXOrdinalAxisBuilder,
+  VicYQuantitativeAxisBuilder,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
 import { IndustryUnemploymentDatum } from '../core/models/data';
 import { DataService } from '../core/services/data.service';
 
 interface ViewModel {
-  dataConfig: VicStackedBarsConfig<IndustryUnemploymentDatum, Date>;
-  xAxisConfig: VicXOrdinalAxisConfig<Date>;
-  yAxisConfig: VicYQuantitativeAxisConfig<number>;
+  dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
+  xAxisConfig: XOrdinalAxisConfig<Date>;
+  yAxisConfig: YQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -21,10 +23,15 @@ interface ViewModel {
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    VicStackedBarsBuilder,
+    VicXOrdinalAxisBuilder,
+    VicYQuantitativeAxisBuilder,
+  ],
 })
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 8,
     right: 0,
     bottom: 36,
@@ -32,7 +39,12 @@ export class StackedBarsExampleComponent implements OnInit {
   };
   folderName = 'stacked-bars-example';
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private stackedBars: VicStackedBarsBuilder<IndustryUnemploymentDatum, Date>,
+    private xAxisOrdinal: VicXOrdinalAxisBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(
@@ -45,26 +57,22 @@ export class StackedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
-    const xAxisConfig = Vic.axisXOrdinal<Date>({
-      tickFormat: '%Y',
-    });
-    const yAxisConfig = Vic.axisYQuantitative<number>({
-      tickFormat: ',.0f',
-    });
-    const dataConfig = Vic.stackedBarsVertical<IndustryUnemploymentDatum, Date>(
-      {
-        data: yearlyData,
-        ordinal: Vic.dimensionOrdinal({
-          valueAccessor: (d) => d.date,
-        }),
-        quantitative: Vic.dimensionQuantitativeNumeric({
-          valueAccessor: (d) => d.value,
-        }),
-        categorical: Vic.dimensionCategorical({
-          valueAccessor: (d) => d.industry,
-        }),
-      }
-    );
+    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').build();
+    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').build();
+    const dataConfig = this.stackedBars
+      .data(yearlyData)
+      .orientation('vertical')
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.industry)
+      )
+      .build();
+
     return {
       dataConfig,
       xAxisConfig,

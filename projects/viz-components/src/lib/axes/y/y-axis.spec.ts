@@ -2,11 +2,10 @@
 import { axisLeft, axisRight } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
-import { Vic } from '../../config/vic';
-import { VicSide } from '../../core/types/layout';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
+import { VicYQuantitativeAxisBuilder } from '../y-quantitative-axis/y-quantitative-axis-builder';
 
 describe('the YAxis mixin', () => {
   let abstractClass: YAxisStub<number>;
@@ -54,16 +53,16 @@ describe('the YAxis mixin', () => {
       spyOn(abstractClass, 'getRightTranslate').and.returnValue(60);
     });
     it('returns the correct value for the left side', () => {
-      abstractClass.config = Vic.axisYQuantitative({
-        side: VicSide.left,
-      });
+      abstractClass.config = new VicYQuantitativeAxisBuilder()
+        .side('left')
+        .build();
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
 
     it('returns the correct value for the right side', () => {
-      abstractClass.config = Vic.axisYQuantitative({
-        side: VicSide.right,
-      });
+      abstractClass.config = new VicYQuantitativeAxisBuilder()
+        .side('right')
+        .build();
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -103,17 +102,17 @@ describe('the YAxis mixin', () => {
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.config = Vic.axisYQuantitative({
-        side: VicSide.left,
-      });
+      abstractClass.config = new VicYQuantitativeAxisBuilder()
+        .side('left')
+        .build();
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisLeft);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.config = Vic.axisYQuantitative({
-        side: VicSide.right,
-      });
+      abstractClass.config = new VicYQuantitativeAxisBuilder()
+        .side('right')
+        .build();
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisRight);
     });

@@ -12,18 +12,10 @@ import {
 import { line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicLinesConfig } from './config/lines.config';
-
-export class LinesTooltipData {
-  datum: any;
-  color: string;
-  x: string;
-  y: string;
-  categorical: string;
-}
+import { LinesConfig } from './config/lines-config';
 
 export type LinesGroupSelection = Selection<
   SVGGElement,
@@ -53,7 +45,7 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
 })
 export class LinesComponent<Datum> extends VicXyDataMarks<
   Datum,
-  VicLinesConfig<Datum>
+  LinesConfig<Datum>
 > {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;

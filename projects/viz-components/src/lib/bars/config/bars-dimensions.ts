@@ -1,4 +1,4 @@
-export interface VicBarsDimensions {
+export interface BarsDimensions {
   x: 'ordinal' | 'quantitative';
   y: 'ordinal' | 'quantitative';
   ordinal: 'x' | 'y';
@@ -8,7 +8,7 @@ export interface VicBarsDimensions {
   isVertical: boolean;
 }
 
-export const HORIZONTAL_BARS_DIMENSIONS: VicBarsDimensions = {
+export const HORIZONTAL_BARS_DIMENSIONS: BarsDimensions = {
   x: 'quantitative',
   y: 'ordinal',
   ordinal: 'y',
@@ -18,7 +18,7 @@ export const HORIZONTAL_BARS_DIMENSIONS: VicBarsDimensions = {
   isVertical: false,
 };
 
-export const VERTICAL_BARS_DIMENSIONS: VicBarsDimensions = {
+export const VERTICAL_BARS_DIMENSIONS: BarsDimensions = {
   x: 'ordinal',
   y: 'quantitative',
   ordinal: 'x',

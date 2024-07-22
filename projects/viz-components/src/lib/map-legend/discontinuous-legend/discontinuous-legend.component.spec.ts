@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { scaleQuantize } from 'd3';
-import { Vic } from '../../config/vic';
-import { VicValuesBin } from '../../geographies/config/dimensions/attribute-data-bin-types';
+import { BinStrategy } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
+import { CategoricalBinsAttributeDataDimension } from '../../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins';
+import { CategoricalBinsOptions } from '../../geographies/config/layers/attribute-data-layer/dimensions/categorical-bins/categorical-bins-options';
 import { DiscontinuousLegendComponent } from './discontinuous-legend.component';
 
 describe('DiscontinuousLegendComponent', () => {
@@ -22,9 +23,9 @@ describe('DiscontinuousLegendComponent', () => {
 
   describe('getValuesFromScale', () => {
     beforeEach(() => {
-      component.config = Vic.geographiesDataDimensionCategorical({
+      component.config = new CategoricalBinsAttributeDataDimension<any>({
         domain: ['one', 'two', 'three'],
-      });
+      } as CategoricalBinsOptions<any>);
       spyOn(component.config, 'getDomain').and.returnValue('domain' as any);
     });
     it('integration: should return this.config.domain if binType == categorical', () => {
@@ -32,7 +33,7 @@ describe('DiscontinuousLegendComponent', () => {
     });
     it('integration: should return breakValues if binType == customBreaks', () => {
       component.config = {
-        binType: VicValuesBin.customBreaks,
+        binType: BinStrategy.customBreaks,
         breakValues: [1, 2, 3],
       } as any;
       expect(component.getValuesFromScale()).toEqual([1, 2, 3] as any);

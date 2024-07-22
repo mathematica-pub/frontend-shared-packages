@@ -1,22 +1,17 @@
 import { Directive, Input } from '@angular/core';
 import { format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicDataValue } from '../../core/types/values';
-import { XyAxis } from '../xy-axis';
-import { VicOrdinalAxisConfig } from './ordinal-axis.config';
+import { DataValue } from '../../core/types/values';
+import { XyAxis } from '../base/xy-axis-base';
+import { VicOrdinalAxisConfig as OrdinalAxisConfig } from './ordinal-axis-config';
 
-/**
- * A mixin that extends `XyAxis` with the functionality needed for an ordinal axis.
- *
- * For internal library use only.
- */
-export function OrdinalAxisMixin<
-  TickValue extends VicDataValue,
+export function ordinalAxisMixin<
+  TickValue extends DataValue,
   T extends AbstractConstructor<XyAxis<TickValue>>
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() override config: VicOrdinalAxisConfig<TickValue>;
+    @Input() override config: OrdinalAxisConfig<TickValue>;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {

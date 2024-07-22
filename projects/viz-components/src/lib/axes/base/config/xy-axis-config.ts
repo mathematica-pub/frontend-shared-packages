@@ -1,0 +1,23 @@
+import { TickWrap } from '../../tick-wrap/tick-wrap-config';
+
+export abstract class XyAxisBaseConfig<TickValue> {
+  removeDomain: boolean;
+  removeTickMarks: boolean;
+  removeTicks: boolean;
+  tickFormat: string | ((value: TickValue) => string);
+  tickLabelFontSize: number;
+  tickSizeOuter: number;
+  wrap: TickWrap;
+
+  abstract getSuggestedNumTicksFromChartDimension(dimensions: {
+    height: number;
+    width: number;
+  }): number;
+
+  getValidatedNumTicks(numTicks: number): number {
+    if (numTicks < 1) {
+      return 1;
+    }
+    return Math.floor(numTicks);
+  }
+}

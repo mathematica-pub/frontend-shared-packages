@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Vic } from '../config/vic';
-import { VicColorUtilities } from '../core/utilities/colors';
+import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { ValueUtilities } from '../core/utilities/values';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
-import { VicBarsConfig } from './config/bars.config';
+import { VicBarsBuilder } from './config/bars-builder';
+import { BarsConfig } from './config/bars-config';
 
 type Datum = { value: number; state: string; fruit: string };
 
@@ -20,42 +20,40 @@ const data = [
   { value: 6, state: 'CO', fruit: 'durian' },
 ];
 
-function horizontalConfig(): VicBarsConfig<Datum, string> {
-  return Vic.barsHorizontal<Datum, string>({
-    data,
-    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
-      valueAccessor: (x) => x.value,
-    }),
-    ordinal: Vic.dimensionOrdinal<Datum, string>({
-      valueAccessor: (x) => x.state,
-    }),
-    categorical: Vic.dimensionCategorical<Datum, string>({
-      valueAccessor: (x) => x.fruit,
-      range: ['red', 'blue', 'green', 'yellow', 'purple'],
-    }),
-    labels: Vic.barsLabels({
-      noValueFunction: () => 'no value',
-    }),
-  });
+function horizontalConfig(): BarsConfig<Datum, string> {
+  return new VicBarsBuilder<Datum, string>()
+    .data(data)
+    .orientation('horizontal')
+    .createQuantitativeDimension((dimension) =>
+      dimension.valueAccessor((d) => d.value)
+    )
+    .createOrdinalDimension((dimension) =>
+      dimension.valueAccessor((d) => d.state)
+    )
+    .createCategoricalDimension((dimension) =>
+      dimension.valueAccessor((d) => d.fruit)
+    )
+    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .build();
 }
 
-function verticalConfig(): VicBarsConfig<Datum, string> {
-  return Vic.barsVertical<Datum, string>({
-    data,
-    quantitative: Vic.dimensionQuantitativeNumeric<Datum>({
-      valueAccessor: (x) => x.value,
-    }),
-    ordinal: Vic.dimensionOrdinal<Datum, string>({
-      valueAccessor: (x) => x.state,
-    }),
-    categorical: Vic.dimensionCategorical<Datum, string>({
-      valueAccessor: (x) => x.fruit,
-      range: ['red', 'blue', 'green', 'yellow', 'purple'],
-    }),
-    labels: Vic.barsLabels({
-      noValueFunction: () => 'no value',
-    }),
-  });
+function verticalConfig(): BarsConfig<Datum, string> {
+  return new VicBarsBuilder<Datum, string>()
+    .orientation('vertical')
+    .data(data)
+    .createQuantitativeDimension((dimension) =>
+      dimension.valueAccessor((d) => d.value)
+    )
+    .createOrdinalDimension((dimension) =>
+      dimension.valueAccessor((d) => d.state)
+    )
+    .createCategoricalDimension((dimension) =>
+      dimension
+        .valueAccessor((d) => d.fruit)
+        .range(['red', 'blue', 'green', 'yellow', 'purple'])
+    )
+    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .build();
 }
 
 describe('BarsComponent', () => {
@@ -730,8 +728,7 @@ describe('BarsComponent', () => {
     });
     it('returns the correct value if value is not a number', () => {
       datum.quantitative = undefined;
-      component.config.labels.noValueFunction = () => 'nope';
-      expect(component.getBarLabelText(datum)).toEqual('nope');
+      expect(component.getBarLabelText(datum)).toEqual('no value');
     });
     it('calls customFormat once with full datum if formatFunction exists', () => {
       (component.config.quantitative as any).formatFunction = (d) =>
@@ -889,22 +886,22 @@ describe('BarsComponent', () => {
       fitsOutsideSpy = spyOn(component, 'barLabelFitsOutsideBar');
       spyOn(component, 'getBarColor').and.returnValue('blue');
       higherContrastSpy = spyOn(
-        VicColorUtilities,
+        ColorUtilities,
         'getHigherContrastColorForBackground'
       );
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
     });
-    it('returns the defaultLabelColor if quant value is non-numeric', () => {
+    it('returns the default color if quant value is non-numeric', () => {
       datum.quantitative = undefined;
       expect(component.getBarLabelColor(datum)).toEqual(
-        component.config.labels.defaultLabelColor
+        component.config.labels.color.default
       );
     });
-    it('returns the defaultLabelColor if quant value is 0', () => {
+    it('returns the default color if quant value is 0', () => {
       datum.quantitative = 0;
       expect(component.getBarLabelColor(datum)).toEqual(
-        component.config.labels.defaultLabelColor
+        component.config.labels.color.default
       );
     });
     describe('quant value is not 0 or non-numeric', () => {
@@ -912,10 +909,10 @@ describe('BarsComponent', () => {
         component.getBarLabelColor(datum);
         expect(fitsOutsideSpy).toHaveBeenCalledTimes(1);
       });
-      it('returns the defaultLabelColor if barLabelFitsOutsideBar returns true', () => {
+      it('returns the default color if barLabelFitsOutsideBar returns true', () => {
         fitsOutsideSpy.and.returnValue(true);
         expect(component.getBarLabelColor(datum)).toEqual(
-          component.config.labels.defaultLabelColor
+          component.config.labels.color.default
         );
       });
       describe('barLabelFitsOutsideBar returns false', () => {
@@ -929,11 +926,11 @@ describe('BarsComponent', () => {
         it('calls getHigherContrastColorForBackground once with the correct values', () => {
           component.getBarLabelColor(datum);
           expect(
-            VicColorUtilities.getHigherContrastColorForBackground
+            ColorUtilities.getHigherContrastColorForBackground
           ).toHaveBeenCalledOnceWith(
             'blue',
-            component.config.labels.defaultLabelColor,
-            component.config.labels.withinBarAlternativeLabelColor
+            component.config.labels.color.default,
+            component.config.labels.color.withinBarAlternative
           );
         });
         it('returns the result of getHigherContrastColorForBackground', () => {

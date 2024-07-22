@@ -1,27 +1,11 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
-import { VicDataValue } from '../../core/types/values';
-import { VicDataDimension, VicDataDimensionOptions } from '../dimension';
+import { DataValue } from '../../core/types/values';
+import { DataDimension } from '../dimension';
+import { OrdinalDimensionOptions } from './ordinal-options';
 
-const DEFAULT = {
-  align: 0.5,
-  paddingInner: 0.1,
-  paddingOuter: 0.1,
-  valueAccessor: (d, i) => i,
-};
-
-export interface VicDimensionOrdinalOptions<
-  Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicDataDimensionOptions<Datum, TOrdinalValue> {
-  align: number;
-  domain: TOrdinalValue[];
-  paddingInner: number;
-  paddingOuter: number;
-}
-
-export class VicDimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>
-  extends VicDataDimension<Datum, TOrdinalValue>
-  implements VicDimensionOrdinalOptions<Datum, TOrdinalValue>
+export class OrdinalDimension<Datum, TOrdinalValue extends DataValue>
+  extends DataDimension<Datum, TOrdinalValue>
+  implements OrdinalDimensionOptions<Datum, TOrdinalValue>
 {
   readonly align: number;
   private _calculatedDomain: TOrdinalValue[];
@@ -36,16 +20,10 @@ export class VicDimensionOrdinal<Datum, TOrdinalValue extends VicDataValue>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
 
-  constructor(
-    options?: Partial<VicDimensionOrdinalOptions<Datum, TOrdinalValue>>
-  ) {
+  constructor(options: OrdinalDimensionOptions<Datum, TOrdinalValue>) {
     super();
     this.scaleFn = scaleBand;
     Object.assign(this, options);
-    this.align = this.align ?? DEFAULT.align;
-    this.paddingInner = this.paddingInner ?? DEFAULT.paddingInner;
-    this.paddingOuter = this.paddingOuter ?? DEFAULT.paddingOuter;
-    this.valueAccessor = this.valueAccessor ?? DEFAULT.valueAccessor;
   }
 
   get calculatedDomain(): TOrdinalValue[] {

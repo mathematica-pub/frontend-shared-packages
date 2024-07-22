@@ -3,21 +3,24 @@ import { curveBasis, schemeTableau10 } from 'd3';
 import { cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
-  Vic,
   VicChartModule,
-  VicLinesConfig,
+  VicLinesBuilder,
   VicLinesModule,
-  VicQuantitativeAxisConfig,
+  VicXQuantitativeAxisBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
+  VicYQuantitativeAxisBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
+import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
+import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import {
   QdQnCData,
   QdQnCDatum,
   QnQnCData,
   QnQnCDatum,
 } from '../testing/data/quant-quant-cat-data';
+import { LinesConfig } from './config/lines-config';
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
@@ -56,9 +59,9 @@ const numericData = QnQnCData;
   styles: [],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
-  @Input() linesConfig: VicLinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<string>;
-  @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<QuantAxisType>;
+  @Input() linesConfig: LinesConfig<Datum>;
+  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
@@ -72,13 +75,11 @@ const imports = [
   VicXyChartModule,
 ];
 
-function mountDateLinesComponent(
-  linesConfig: VicLinesConfig<QdQnCDatum>
-): void {
-  const xAxisConfig = Vic.axisXQuantitative({
-    tickFormat: '%Y',
-  });
-  const yAxisConfig = Vic.axisYQuantitative();
+function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
+  const xAxisConfig = new VicXQuantitativeAxisBuilder<Date>()
+    .tickFormat('%Y')
+    .build();
+  const yAxisConfig = new VicYQuantitativeAxisBuilder<number>().build();
   const declarations = [TestLinesComponent<QdQnCDatum, Date>];
   cy.mount(TestLinesComponent<QdQnCDatum, Date>, {
     declarations,
@@ -92,13 +93,11 @@ function mountDateLinesComponent(
   cy.wait(100); // have to wait for axes to render
 }
 
-function mountNumberLinesComponent(
-  linesConfig: VicLinesConfig<QnQnCDatum>
-): void {
-  const xAxisConfig = Vic.axisXQuantitative({
-    tickFormat: '.0f',
-  });
-  const yAxisConfig = Vic.axisYQuantitative();
+function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
+  const xAxisConfig = new VicXQuantitativeAxisBuilder<number>()
+    .tickFormat('.0f')
+    .build();
+  const yAxisConfig = new VicYQuantitativeAxisBuilder<number>().build();
   const declarations = [TestLinesComponent<QnQnCDatum, number>];
   cy.mount(TestLinesComponent<QnQnCDatum, number>, {
     declarations,
@@ -117,18 +116,18 @@ function mountNumberLinesComponent(
 // ***********************************************************
 describe('it creates the correct marks - x axis values are Dates', () => {
   it('should draw the correct number of lines', () => {
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: dateData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(dateData)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .build();
     mountDateLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -153,19 +152,19 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       }
       return acc;
     }, {});
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: testData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-      pointMarkers: Vic.pointMarkers({ class: 'test-point-marker' }),
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(testData)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .createPointMarkers((markers) => markers.class('test-point-marker'))
+      .build();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
       .each(($pointMarker) => {
@@ -191,19 +190,19 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       }
       return acc;
     }, {});
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: testData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-      pointMarkers: Vic.pointMarkers({ class: 'test-point-marker' }),
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(testData)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .createPointMarkers((markers) => markers.class('test-point-marker'))
+      .build();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
       .each(($pointMarker) => {
@@ -229,19 +228,19 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       }
       return acc;
     }, {});
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: testData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-      pointMarkers: Vic.pointMarkers({ class: 'test-point-marker' }),
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(testData)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .createPointMarkers((markers) => markers.class('test-point-marker'))
+      .build();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
       .each(($pointMarker) => {
@@ -257,19 +256,18 @@ describe('it creates the correct marks - x axis values are Dates', () => {
 });
 describe('it creates the correct lines - x axis values are Numbers', () => {
   it('should draw the correct number of lines, one for each category', () => {
-    const linesConfig = Vic.lines<QnQnCDatum>({
-      data: numericData,
-      x: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.year,
-        includeZeroInDomain: false,
-      }),
-      y: Vic.dimensionQuantitativeNumeric({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QnQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-    });
+    const linesConfig = new VicLinesBuilder<QnQnCDatum>()
+      .data(numericData)
+      .createXNumericDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .build();
     mountNumberLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -289,19 +287,18 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
 // ***********************************************************
 describe('if the user specifies a y domain that is smaller than max value', () => {
   it('should draw the lines with the users specified y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: dateData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-        domain: [0, 4900000000],
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(dateData)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .build();
     mountDateLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -325,20 +322,21 @@ describe('if the user specifies a y domain that is smaller than max value', () =
 
 describe('if the user specifies an x domain that is smaller than max value', () => {
   it('should draw the lines with the users specified x domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-    const linesConfig = Vic.lines<QnQnCDatum>({
-      data: numericData,
-      x: Vic.dimensionQuantitativeNumeric<QnQnCDatum>({
-        valueAccessor: (d) => d.year,
-        domain: [2020, 2080],
-        includeZeroInDomain: false,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QnQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QnQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-    });
+    const linesConfig = new VicLinesBuilder<QnQnCDatum>()
+      .data(numericData)
+      .createXNumericDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.year)
+          .includeZeroInDomain(false)
+          .domain([2020, 2080])
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .build();
     mountNumberLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -366,37 +364,37 @@ describe('if the user specifies an x domain that is smaller than max value', () 
 describe('it creates lines with the correct properties per config', () => {
   // More rigorous testing of categorical dimension in categorical tests
   it('draws lines with the correct colors', () => {
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: dateData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(dateData)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .build();
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').each(($line, i) => {
       cy.wrap($line).should('have.attr', 'stroke', schemeTableau10[i]);
     });
   });
   it('draws the correct number of lines if a user provides a custom curve function', () => {
-    const linesConfig = Vic.lines<QdQnCDatum>({
-      data: dateData,
-      x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-        valueAccessor: (d) => d.year,
-      }),
-      y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-        valueAccessor: (d) => d.population,
-      }),
-      categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-        valueAccessor: (d) => d.continent,
-      }),
-      curve: curveBasis,
-    });
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(dateData)
+      .curve(curveBasis)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.year)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .build();
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').should('have.length', 6);
   });
@@ -404,41 +402,40 @@ describe('it creates lines with the correct properties per config', () => {
   describe('pointMarkers', () => {
     const markerClass = 'test-point-marker';
     it('draws the correct number of point markers', () => {
-      const linesConfig = Vic.lines<QdQnCDatum>({
-        data: dateData,
-        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-          valueAccessor: (d) => d.year,
-        }),
-        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-          valueAccessor: (d) => d.population,
-        }),
-        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-          valueAccessor: (d) => d.continent,
-        }),
-        pointMarkers: Vic.pointMarkers({ class: markerClass }),
-      });
+      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+        .data(dateData)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createPointMarkers((markers) => markers.class(markerClass))
+        .build();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
     });
     it('draws point markers with the correct radius - user provides custom radius', () => {
       const markerClass = 'test-point-marker';
       const radius = 4;
-      const linesConfig = Vic.lines<QdQnCDatum>({
-        data: dateData,
-        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-          valueAccessor: (d) => d.year,
-        }),
-        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-          valueAccessor: (d) => d.population,
-        }),
-        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-          valueAccessor: (d) => d.continent,
-        }),
-        pointMarkers: Vic.pointMarkers({
-          radius,
-          class: markerClass,
-        }),
-      });
+      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+        .data(dateData)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createPointMarkers((markers) =>
+          markers.class(markerClass).radius(radius)
+        )
+        .build();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).each(($pointMarker) => {
         cy.wrap($pointMarker).should('have.attr', 'r', radius.toString());
@@ -448,25 +445,22 @@ describe('it creates lines with the correct properties per config', () => {
 
   describe('stroke', () => {
     it('draws lines with the correct properties', () => {
-      const linesConfig = Vic.lines<QdQnCDatum>({
-        data: dateData,
-        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-          valueAccessor: (d) => d.year,
-        }),
-        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-          valueAccessor: (d) => d.population,
-        }),
-        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-          valueAccessor: (d) => d.continent,
-        }),
-        pointMarkers: Vic.pointMarkers(),
-        stroke: Vic.stroke({
-          width: 3,
-          opacity: 0.5,
-          linecap: 'square',
-          linejoin: 'miter',
-        }),
-      });
+      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+        .data(dateData)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createPointMarkers()
+        .createStroke((stroke) =>
+          stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
+        )
+        .build();
       mountDateLinesComponent(linesConfig);
       cy.get('.vic-lines-g').should('have.attr', 'stroke-width', '3');
       cy.get('.vic-lines-g').should('have.attr', 'stroke-opacity', '0.5');
@@ -477,19 +471,19 @@ describe('it creates lines with the correct properties per config', () => {
 
   describe('line labels', () => {
     it('draws the correct number of line labels', () => {
-      const linesConfig = Vic.lines<QdQnCDatum>({
-        data: dateData,
-        x: Vic.dimensionQuantitativeDate<QdQnCDatum>({
-          valueAccessor: (d) => d.year,
-        }),
-        y: Vic.dimensionQuantitativeNumeric<QdQnCDatum>({
-          valueAccessor: (d) => d.population,
-        }),
-        categorical: Vic.dimensionCategorical<QdQnCDatum, string>({
-          valueAccessor: (d) => d.continent,
-        }),
-        labelLines: true,
-      });
+      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+        .data(dateData)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .labelLines(true)
+        .build();
       mountDateLinesComponent(linesConfig);
       const labels = [];
       cy.get('.vic-line-label')

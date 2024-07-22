@@ -1,28 +1,28 @@
-export enum VicOrientation {
+export enum Orientation {
   horizontal = 'horizontal',
   vertical = 'vertical',
 }
 
-export enum VicSide {
+export enum Side {
   top = 'top',
   right = 'right',
   bottom = 'bottom',
   left = 'left',
 }
 
-export interface VicElementSpacing {
+export interface ElementSpacing {
   top: number;
   right: number;
   bottom: number;
   left: number;
 }
 
-export interface VicDimensions {
+export interface Dimensions {
   width: number;
   height: number;
 }
 
-export interface VicPosition {
+export interface Position {
   x: number;
   y: number;
 }

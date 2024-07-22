@@ -1,4 +1,7 @@
 {
-    "include": ["projects/viz-components/src/**/*.ts"],
-    "exclude": ["projects/viz-components/src/**/*.spec.ts"]
+  "include": ["projects/viz-components/src/**/*.ts"],
+  "exclude": [
+    "projects/viz-components/src/**/*.spec.ts",
+    "projects/viz-components/src/**/*.cy.ts"
+  ]
 }

@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
-import { TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Subject } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { VIC_DATA_MARKS } from '../../data-marks/data-marks';
+import { VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
 import { DataMarksStub } from '../../testing/stubs/data-marks.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
-import { VicHtmlTooltipConfig } from './html-tooltip.config';
-import { VicHtmlTooltipDirective } from './html-tooltip.directive';
+import { VicHtmlTooltipBuilder } from './config/html-tooltip-builder';
+import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
-  let directive: VicHtmlTooltipDirective<any, any>;
+  let directive: HtmlTooltipDirective<any, any>;
   let mainServiceStub: MainServiceStub;
   let destroySpy: jasmine.Spy;
 
@@ -22,7 +22,7 @@ describe('HtmlTooltipDirective', () => {
         ViewContainerRef,
         Overlay,
         OverlayPositionBuilder,
-        VicHtmlTooltipDirective,
+        HtmlTooltipDirective,
         {
           provide: VIC_DATA_MARKS,
           useClass: DataMarksStub,
@@ -33,50 +33,31 @@ describe('HtmlTooltipDirective', () => {
         },
       ],
     });
-    directive = TestBed.inject(VicHtmlTooltipDirective);
+    directive = TestBed.inject(HtmlTooltipDirective);
     destroySpy = spyOn(directive, 'ngOnDestroy');
-  });
-
-  describe('ngOnInit', () => {
-    beforeEach(() => {
-      spyOn(directive, 'init');
-    });
-    it('calls init() if config is defined', () => {
-      directive.config = 'hello' as any;
-      directive.ngOnInit();
-      expect(directive.init).toHaveBeenCalledTimes(1);
-    });
-    it('does not call init() if config is undefined', () => {
-      directive.ngOnInit();
-      expect(directive.init).not.toHaveBeenCalled();
-    });
   });
 
   describe('init()', () => {
     beforeEach(() => {
-      spyOn(directive, 'createOverlay');
+      spyOn(directive, 'createOverlayRef');
     });
     it('calls createOverlay once if overlayRef is falsy', () => {
       directive.init();
-      expect(directive.createOverlay).toHaveBeenCalledTimes(1);
+      expect(directive.createOverlayRef).toHaveBeenCalledTimes(1);
     });
     it('does not call createOverlay if overlayRef is truthy', () => {
       directive.overlayRef = 'hello' as any;
       directive.init();
-      expect(directive.createOverlay).not.toHaveBeenCalled();
+      expect(directive.createOverlayRef).not.toHaveBeenCalled();
     });
   });
 
   describe('ngOnChanges', () => {
     let changes: any;
     beforeEach(() => {
-      spyOn(directive, 'checkPositionChanges');
-      spyOn(directive, 'checkClassChanges');
-      spyOn(directive, 'checkSizeChanges');
-      spyOn(directive, 'checkBackdropChanges');
-      spyOn(directive, 'updateVisibility');
+      spyOn(directive, 'updateForConfigChanges');
       spyOn(directive, 'init');
-      directive.config = new VicHtmlTooltipConfig();
+      directive.config = 'config' as any;
       changes = {};
     });
     describe('if overlayRef and config are truthy', () => {
@@ -84,54 +65,20 @@ describe('HtmlTooltipDirective', () => {
         directive.overlayRef = 'overlay' as any;
         directive.config = 'hello' as any;
       });
-      it('calls checkPositionChanges once with the correct value', () => {
+      it('calls updateForConfigChanges once with the correct value', () => {
         directive.ngOnChanges(changes);
-        expect(directive.checkPositionChanges).toHaveBeenCalledOnceWith(
+        expect(directive.updateForConfigChanges).toHaveBeenCalledOnceWith(
           changes
         );
-      });
-      it('calls checkClassChanges once with the correct value', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.checkClassChanges).toHaveBeenCalledOnceWith(changes);
-      });
-      it('calls checkSizeChanges once with the correct value', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.checkSizeChanges).toHaveBeenCalledOnceWith(changes);
-      });
-      it('calls checkBackdropChanges once with the correct value', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.checkBackdropChanges).toHaveBeenCalledOnceWith(
-          changes
-        );
-      });
-      it('calls updateVisibility once', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.updateVisibility).toHaveBeenCalledTimes(1);
       });
     });
     describe('if overlayRef is falsy and config is truthy', () => {
       beforeEach(() => {
         directive.config = 'hello' as any;
       });
-      it('does not call checkClassChanges', () => {
+      it('does not call updateForConfigChanges', () => {
         directive.ngOnChanges(changes);
-        expect(directive.checkClassChanges).not.toHaveBeenCalled();
-      });
-      it('does not call checkPositionChanges', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.checkPositionChanges).not.toHaveBeenCalled();
-      });
-      it('does not call checkSizeChanges', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.checkSizeChanges).not.toHaveBeenCalled();
-      });
-      it('does not call checkBackdropChanges', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.checkBackdropChanges).not.toHaveBeenCalled();
-      });
-      it('does not call updateVisibility', () => {
-        directive.ngOnChanges(changes);
-        expect(directive.updateVisibility).not.toHaveBeenCalled();
+        expect(directive.updateForConfigChanges).not.toHaveBeenCalled();
       });
       it('calls init', () => {
         directive.ngOnChanges(changes);
@@ -140,193 +87,104 @@ describe('HtmlTooltipDirective', () => {
     });
   });
 
-  describe('configChanged', () => {
-    let changesSpy: jasmine.Spy;
+  describe('createOverlayRef', () => {
     beforeEach(() => {
-      changesSpy = spyOn(NgOnChangesUtilities, 'inputObjectChanged');
+      spyOn(directive, 'getPositionStrategy');
+      spyOn(directive, 'subscribeToBackdropClick');
+      spyOn(directive, 'updateVisibility');
+      mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
+      directive.config = new VicHtmlTooltipBuilder()
+        .hasBackdrop(true)
+        .createOffsetFromOriginPosition()
+        .applyEventsDisabledClass(true)
+        .setSize((size) => size.width(100))
+        .build();
     });
-    it('calls objectOnNgChangesChanged once with the correct value', () => {
-      directive.configChanged('changes' as any, 'show');
-      expect(NgOnChangesUtilities.inputObjectChanged).toHaveBeenCalledOnceWith(
-        'changes' as any,
-        'config',
-        'show'
+
+    it('calls overlay.create once with the correct values', fakeAsync(() => {
+      directive.createOverlayRef();
+      tick();
+      expect(mainServiceStub.overlayStub.create).toHaveBeenCalledTimes(1);
+    }));
+    it('calls getPositionStrategy once', fakeAsync(() => {
+      directive.createOverlayRef();
+      tick();
+      expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
+    }));
+    it('sets overlayRef to the correct value', fakeAsync(() => {
+      directive.createOverlayRef();
+      tick();
+      expect(directive.overlayRef).toEqual('test ref' as any);
+    }));
+    it('calls listenForBackdropClicks once if config hasBackdrop is true', fakeAsync(() => {
+      directive.config.hasBackdrop = true;
+      directive.createOverlayRef();
+      tick();
+      expect(directive.subscribeToBackdropClick).toHaveBeenCalledTimes(1);
+    }));
+    it('does not call listenForBackdropClicks if config hasBackdrop is false', fakeAsync(() => {
+      directive.config.hasBackdrop = false;
+      directive.createOverlayRef();
+      tick();
+      expect(directive.subscribeToBackdropClick).not.toHaveBeenCalled();
+    }));
+    it('calls updateVisibility', fakeAsync(() => {
+      directive.createOverlayRef();
+      tick();
+      expect(directive.updateVisibility).toHaveBeenCalledTimes(1);
+    }));
+  });
+
+  describe('getPositionStrategy', () => {
+    beforeEach(() => {
+      (directive as any).overlayPositionBuilder = 'builder' as any;
+      (directive as any).document = 'document' as any;
+      (directive as any).dataMarks = {
+        chart: {
+          svgRef: {
+            nativeElement: 'element' as any,
+          },
+        },
+      };
+      directive.config = new VicHtmlTooltipBuilder()
+        .hasBackdrop(true)
+        .createOffsetFromOriginPosition()
+        .applyEventsDisabledClass(true)
+        .setSize((size) => size.width(100))
+        .build();
+      spyOn(directive.config.position, 'getPositionStrategy').and.returnValue(
+        'position' as any
       );
     });
-    it('returns the correct value', () => {
-      changesSpy.and.returnValue(true);
-      expect(directive.configChanged('changes' as any, 'show')).toEqual(true);
-    });
-  });
-
-  describe('checkPositionChanges', () => {
-    let changedSpy: jasmine.Spy;
-    beforeEach(() => {
-      changedSpy = spyOn(directive, 'configChanged');
-      spyOn(directive, 'updatePosition');
-    });
-    it('calls updatePosition once if position changed', () => {
-      changedSpy.and.returnValue(true);
-      directive.checkPositionChanges('changes' as any);
-      expect(directive.updatePosition).toHaveBeenCalledTimes(1);
-    });
-    it('does not call updatePosition if position did not change', () => {
-      changedSpy.and.returnValue(false);
-      directive.checkPositionChanges('changes' as any);
-      expect(directive.updatePosition).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('checkClassChanges', () => {
-    let changedSpy: jasmine.Spy;
-    beforeEach(() => {
-      changedSpy = spyOn(directive, 'configChanged');
-      spyOn(directive, 'updateClasses');
-    });
-    it('calls updatePanelClasses once if panelClass changed', () => {
-      changedSpy.and.returnValue(true);
-      directive.checkClassChanges('changes' as any);
-      expect(directive.updateClasses).toHaveBeenCalledTimes(1);
-    });
-    it('calls updatePanelClasses once if disableEventsOnTooltip changed', () => {
-      changedSpy.and.returnValues(false, true);
-      directive.checkClassChanges('changes' as any);
-      expect(directive.updateClasses).toHaveBeenCalledTimes(1);
-    });
-    it('does not call updatePanelClasses if neither panelClass nor disableEventsOnTooltip changed', () => {
-      changedSpy.and.returnValues(false, false);
-      directive.checkClassChanges('changes' as any);
-      expect(directive.updateClasses).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('checkSizeChanges', () => {
-    let changedSpy: jasmine.Spy;
-    beforeEach(() => {
-      changedSpy = spyOn(directive, 'configChanged');
-      spyOn(directive, 'updateSize');
-    });
-    it('calls updateSize once if size changed', () => {
-      changedSpy.and.returnValue(true);
-      directive.checkSizeChanges('changes' as any);
-      expect(directive.updateSize).toHaveBeenCalledTimes(1);
-    });
-    it('does not call updateSize if size did not change', () => {
-      changedSpy.and.returnValue(false);
-      directive.checkSizeChanges('changes' as any);
-      expect(directive.updateSize).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('checkBackdropChanges', () => {
-    let changedSpy: jasmine.Spy;
-    beforeEach(() => {
-      changedSpy = spyOn(directive, 'configChanged');
-      spyOn(directive, 'updateForNewBackdropProperties');
-    });
-    it('calls updateForNewBackdropProperties once if hasBackdrop changed', () => {
-      changedSpy.and.returnValue(true);
-      directive.checkBackdropChanges('changes' as any);
-      expect(directive.updateForNewBackdropProperties).toHaveBeenCalledTimes(1);
-    });
-    it('calls updateForNewBackdropProperties once if closeOnBackdropClick changed', () => {
-      changedSpy.and.returnValues(false, true);
-      directive.checkBackdropChanges('changes' as any);
-      expect(directive.updateForNewBackdropProperties).toHaveBeenCalledTimes(1);
-    });
-    it('does not call updateForNewBackdropProperties if neither hasBackdrop nor closeOnBackdropClick changed', () => {
-      changedSpy.and.returnValues(false, false);
-      directive.checkBackdropChanges('changes' as any);
-      expect(directive.updateForNewBackdropProperties).toHaveBeenCalledTimes(0);
-    });
-  });
-
-  describe('updatePosition', () => {
-    beforeEach(() => {
-      spyOn(directive, 'setPositionStrategy');
-      directive.overlayRef = {
-        updatePositionStrategy: jasmine.createSpy('updatePositionStrategy'),
-      } as any;
-      directive.positionStrategy = 'test strategy' as any;
-    });
-    it('calls setPositionStrategy once', () => {
-      directive.updatePosition();
-      expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
-    });
-    it('calls updatePositionStrategy once with the correct value', () => {
-      directive.updatePosition();
-      expect(directive.overlayRef.updatePositionStrategy).toHaveBeenCalledWith(
-        'test strategy' as any
+    it('calls getPositionStrategy once with the correct value', () => {
+      directive.getPositionStrategy();
+      expect(
+        directive.config.position.getPositionStrategy
+      ).toHaveBeenCalledOnceWith(
+        'element' as any,
+        'builder' as any,
+        'document' as any
       );
     });
   });
 
-  describe('updateClasses', () => {
+  describe('subscribeToBackdropClick', () => {
+    const click = new Subject<string>();
+    const click$ = click.asObservable();
     beforeEach(() => {
-      spyOn(directive, 'setPanelClasses');
-      directive.overlayRef = {
-        addPanelClass: jasmine.createSpy('addPanelClass'),
-        removePanelClass: jasmine.createSpy('removePanelClass'),
+      const overlayRef = {
+        backdropClick: () => click$,
       } as any;
-      directive.panelClass = ['two'];
+      directive.overlayRef = overlayRef;
+      directive.backdropUnsubscribe = new Subject<void>();
+      spyOn(directive.backdropClick, 'emit');
     });
-    it('calls removePanelClass once with the correct value', () => {
-      directive.updateClasses();
-      expect(directive.overlayRef.removePanelClass).toHaveBeenCalledOnceWith([
-        'two',
-      ]);
-    });
-    it('calls setPanelClasses once', () => {
-      directive.updateClasses();
-      expect(directive.setPanelClasses).toHaveBeenCalledTimes(1);
-    });
-    it('calls addPanelClass once with the correct value', () => {
-      directive.updateClasses();
-      expect(directive.overlayRef.addPanelClass).toHaveBeenCalledOnceWith([
-        'two',
-      ]);
-    });
-  });
-
-  describe('updateSize', () => {
-    beforeEach(() => {
-      directive.config = {
-        size: 'size',
-      } as any;
-      directive.overlayRef = {
-        updateSize: jasmine.createSpy('updateSize'),
-      } as any;
-    });
-    it('calls updateSize on overlayRef with the correct value', () => {
-      directive.updateSize();
-      expect(directive.overlayRef.updateSize).toHaveBeenCalledOnceWith(
-        'size' as any
-      );
-    });
-  });
-
-  describe('updateForNewBackdropProperties', () => {
-    beforeEach(() => {
-      spyOn(directive, 'destroyBackdropSubscription');
-      spyOn(directive, 'destroyOverlay');
-      spyOn(directive, 'createOverlay');
-      spyOn(directive, 'hide');
-    });
-    it('calls destroyBackdropSubscription once', () => {
-      directive.updateForNewBackdropProperties();
-      expect(directive.destroyBackdropSubscription).toHaveBeenCalledTimes(1);
-    });
-    it('calls destroyOverlay once', () => {
-      directive.updateForNewBackdropProperties();
-      expect(directive.destroyOverlay).toHaveBeenCalledTimes(1);
-    });
-    it('calls createOverlay once', () => {
-      directive.updateForNewBackdropProperties();
-      expect(directive.createOverlay).toHaveBeenCalledTimes(1);
-    });
-    it('calls hide once', () => {
-      directive.updateForNewBackdropProperties();
-      expect(directive.hide).toHaveBeenCalledTimes(1);
+    it('calls backdropClick.emit once if subscription emits', () => {
+      directive.subscribeToBackdropClick();
+      click.next('click');
+      expect(directive.backdropClick.emit).toHaveBeenCalledTimes(1);
+      directive.backdropUnsubscribe.next();
+      directive.backdropUnsubscribe.complete();
     });
   });
 
@@ -405,127 +263,153 @@ describe('HtmlTooltipDirective', () => {
     });
   });
 
-  describe('createOverlay', () => {
+  describe('updateForConfigChanges', () => {
+    let changesSpy: jasmine.Spy;
+    const changes = {
+      config: {
+        previousValue: {
+          panelClass: ['old'],
+        },
+      },
+    };
     beforeEach(() => {
-      spyOn(directive, 'setPanelClasses');
-      spyOn(directive, 'setPositionStrategy');
-      spyOn(directive, 'listenForBackdropClicks');
+      spyOn(directive, 'updatePosition');
+      spyOn(directive, 'updateClasses');
+      spyOn(directive, 'updateSize');
+      spyOn(directive, 'updateBackdrop');
       spyOn(directive, 'updateVisibility');
-      directive.panelClass = ['one', 'two'];
-      directive.positionStrategy = 'positionStrategy' as any;
-      mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
-      directive.config = {
-        hasBackdrop: true,
-        size: { width: 100 },
-      } as any;
+      changesSpy = spyOn(directive, 'configChanged');
     });
-    it('calls setPanelClasses once', fakeAsync(() => {
-      directive.createOverlay();
-      tick();
-      expect(directive.setPanelClasses).toHaveBeenCalledTimes(1);
-    }));
-    it('calls setPositionStrategy once', fakeAsync(() => {
-      directive.createOverlay();
-      tick();
-      expect(directive.setPositionStrategy).toHaveBeenCalledTimes(1);
-    }));
-    it('calls overlay.create once with the correct values', fakeAsync(() => {
-      directive.createOverlay();
-      tick();
-      expect(mainServiceStub.overlayStub.create).toHaveBeenCalledOnceWith({
-        width: 100,
-        panelClass: ['one', 'two'],
-        scrollStrategy: 'close',
-        positionStrategy: 'positionStrategy',
-        hasBackdrop: true,
-        backdropClass: 'vic-html-tooltip-backdrop',
-      });
-    }));
-    it('sets overlayRef to the correct value', fakeAsync(() => {
-      directive.createOverlay();
-      tick();
-      expect(directive.overlayRef).toEqual('test ref' as any);
-    }));
-    it('calls listenForBackdropClicks once if config hasBackdrop and closeOnBackdropClick are true', fakeAsync(() => {
-      directive.config.closeOnBackdropClick = true;
-      directive.createOverlay();
-      tick();
-      expect(directive.listenForBackdropClicks).toHaveBeenCalledTimes(1);
-    }));
-    it('does not call listenForBackdropClicks if config hasBackdrop is false', fakeAsync(() => {
-      directive.config.hasBackdrop = false;
-      directive.createOverlay();
-      tick();
-      expect(directive.listenForBackdropClicks).not.toHaveBeenCalled();
-    }));
-    it('does not call listenForBackdropClicks if config closeOnBackdropClick is false', fakeAsync(() => {
-      directive.config.closeOnBackdropClick = false;
-      directive.createOverlay();
-      tick();
-      expect(directive.listenForBackdropClicks).not.toHaveBeenCalled();
-    }));
-    it('calls updateVisibility', fakeAsync(() => {
-      directive.createOverlay();
-      tick();
+    it('calls updatePosition once if position changed', () => {
+      changesSpy.and.returnValues(true, true, true, true);
+      directive.updateForConfigChanges(changes as any);
+      expect(directive.updatePosition).toHaveBeenCalledTimes(1);
+    });
+    it('calls updateClasses once if panelClass changed', () => {
+      changesSpy.and.returnValues(false, true, true, true);
+      directive.updateForConfigChanges(changes as any);
+      expect(directive.updateClasses).toHaveBeenCalledOnceWith(['old']);
+    });
+    it('calls updateSize once if size changed', () => {
+      changesSpy.and.returnValues(false, false, true, true);
+      directive.updateForConfigChanges(changes as any);
+      expect(directive.updateSize).toHaveBeenCalledTimes(1);
+    });
+    it('calls updateBackdrop once if hasBackdrop changed', () => {
+      changesSpy.and.returnValues(false, false, false, true);
+      directive.updateForConfigChanges(changes as any);
+      expect(directive.updateBackdrop).toHaveBeenCalledTimes(1);
+    });
+    it('calls updateVisibility once', () => {
+      changesSpy.and.returnValues(false, false, false, false);
+      directive.updateForConfigChanges('changes' as any);
       expect(directive.updateVisibility).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
 
-  describe('listenForBackdropClicks', () => {
+  describe('configChanged', () => {
+    let changesSpy: jasmine.Spy;
     beforeEach(() => {
-      spyOn(directive.backdropClick, 'emit');
+      changesSpy = spyOn(NgOnChangesUtilities, 'inputObjectChanged');
+    });
+    it('calls objectOnNgChangesChanged once with the correct value', () => {
+      directive.configChanged('changes' as any, 'show');
+      expect(NgOnChangesUtilities.inputObjectChanged).toHaveBeenCalledOnceWith(
+        'changes' as any,
+        'config',
+        'show'
+      );
+    });
+    it('returns the correct value', () => {
+      changesSpy.and.returnValue(true);
+      expect(directive.configChanged('changes' as any, 'show')).toEqual(true);
+    });
+  });
+
+  describe('updatePosition', () => {
+    beforeEach(() => {
+      spyOn(directive, 'getPositionStrategy').and.returnValue(
+        'test strategy' as any
+      );
       directive.overlayRef = {
-        backdropClick: () => of('click'),
+        updatePositionStrategy: jasmine.createSpy('updatePositionStrategy'),
       } as any;
     });
-    it('calls backdropClick.emit once if subscription emits', () => {
-      directive.listenForBackdropClicks();
-      expect(directive.backdropClick.emit).toHaveBeenCalledTimes(1);
+    it('calls getPositionStrategy once', () => {
+      directive.updatePosition();
+      expect(directive.getPositionStrategy).toHaveBeenCalledTimes(1);
+    });
+    it('calls updatePositionStrategy once with the correct value', () => {
+      directive.updatePosition();
+      expect(directive.overlayRef.updatePositionStrategy).toHaveBeenCalledWith(
+        'test strategy' as any
+      );
     });
   });
 
-  describe('setPanelClasses', () => {
-    describe('if addEventsDisabledClass is false', () => {
-      beforeEach(() => {
-        directive.config = new VicHtmlTooltipConfig();
-        directive.config.addEventsDisabledClass = false;
-      });
-      it('sets panel class to the correct value - case user provides single string', () => {
-        directive.config.panelClass = 'one';
-        directive.setPanelClasses();
-        expect(directive.panelClass).toEqual([
-          'vic-html-tooltip-overlay',
-          'one',
-        ]);
-      });
-      it('sets panel class to the correct value - case user provides string array', () => {
-        directive.config.panelClass = ['one', 'two'];
-        directive.setPanelClasses();
-        expect(directive.panelClass).toEqual([
-          'vic-html-tooltip-overlay',
-          'one',
-          'two',
-        ]);
-      });
-      it('sets panel class to the correct value - case user does not provide class', () => {
-        directive.setPanelClasses();
-        expect(directive.panelClass).toEqual(['vic-html-tooltip-overlay']);
-      });
+  describe('updateClasses', () => {
+    beforeEach(() => {
+      directive.overlayRef = {
+        addPanelClass: jasmine.createSpy('addPanelClass'),
+        removePanelClass: jasmine.createSpy('removePanelClass'),
+      } as any;
+      directive.config = {
+        panelClass: ['two'],
+      } as any;
     });
-    describe('if addEventsDisabledClass is true', () => {
-      beforeEach(() => {
-        directive.config = new VicHtmlTooltipConfig();
-        directive.config.addEventsDisabledClass = true;
-      });
-      it('sets panel class to the correct value - case user provides single string', () => {
-        directive.config.panelClass = 'one';
-        directive.setPanelClasses();
-        expect(directive.panelClass).toEqual([
-          'vic-html-tooltip-overlay',
-          'one',
-          'events-disabled',
-        ]);
-      });
+    it('calls removePanelClass once with the correct value', () => {
+      directive.updateClasses(['old']);
+      expect(directive.overlayRef.removePanelClass).toHaveBeenCalledOnceWith([
+        'old',
+      ]);
+    });
+    it('calls addPanelClass once with the correct value', () => {
+      directive.updateClasses(['old']);
+      expect(directive.overlayRef.addPanelClass).toHaveBeenCalledOnceWith([
+        'two',
+      ]);
+    });
+  });
+
+  describe('updateSize', () => {
+    beforeEach(() => {
+      directive.config = {
+        size: 'size',
+      } as any;
+      directive.overlayRef = {
+        updateSize: jasmine.createSpy('updateSize'),
+      } as any;
+    });
+    it('calls updateSize on overlayRef with the correct value', () => {
+      directive.updateSize();
+      expect(directive.overlayRef.updateSize).toHaveBeenCalledOnceWith(
+        'size' as any
+      );
+    });
+  });
+
+  describe('updateBackdrop', () => {
+    beforeEach(() => {
+      spyOn(directive, 'destroyBackdropSubscription');
+      spyOn(directive, 'destroyOverlay');
+      spyOn(directive, 'createOverlayRef');
+      spyOn(directive, 'hide');
+    });
+    it('calls destroyBackdropSubscription once', () => {
+      directive.updateBackdrop();
+      expect(directive.destroyBackdropSubscription).toHaveBeenCalledTimes(1);
+    });
+    it('calls destroyOverlay once', () => {
+      directive.updateBackdrop();
+      expect(directive.destroyOverlay).toHaveBeenCalledTimes(1);
+    });
+    it('calls createOverlay once', () => {
+      directive.updateBackdrop();
+      expect(directive.createOverlayRef).toHaveBeenCalledTimes(1);
+    });
+    it('calls hide once', () => {
+      directive.updateBackdrop();
+      expect(directive.hide).toHaveBeenCalledTimes(1);
     });
   });
 

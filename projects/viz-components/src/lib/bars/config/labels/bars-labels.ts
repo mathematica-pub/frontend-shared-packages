@@ -1,0 +1,12 @@
+import { BarsLabelsOptions } from './bar-labels-options';
+
+export class BarsLabels<Datum> implements BarsLabelsOptions<Datum> {
+  color: { default: string; withinBarAlternative: string };
+  display: boolean;
+  noValueFunction: (d: Datum) => string;
+  offset: number;
+
+  constructor(options: BarsLabels<Datum>) {
+    Object.assign(this, options);
+  }
+}
