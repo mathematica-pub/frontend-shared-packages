@@ -345,7 +345,6 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   updateTooltipData(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
-    console.log(data);
     this.tooltipData.next(data);
   }
 
