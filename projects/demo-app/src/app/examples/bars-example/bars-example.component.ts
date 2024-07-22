@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { format } from 'd3';
 import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
@@ -18,6 +19,7 @@ import {
   VicHtmlTooltipBuilder,
   VicHtmlTooltipModule,
   VicXOrdinalAxisBuilder,
+  VicXOrdinalAxisModule,
   VicXQuantitativeAxisBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
@@ -25,6 +27,7 @@ import {
   VicYOrdinalAxisBuilder,
   VicYOrdinalAxisModule,
   VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../../core/models/data';
@@ -51,10 +54,13 @@ enum Orientation {
     VicBarsModule,
     VicXyChartModule,
     VicXyBackgroundModule,
-    VicYOrdinalAxisModule,
+    VicXOrdinalAxisModule,
     VicXQuantitativeAxisModule,
+    VicYOrdinalAxisModule,
+    VicYQuantitativeAxisModule,
     VicHtmlTooltipModule,
     MatButtonModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
