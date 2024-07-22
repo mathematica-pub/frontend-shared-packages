@@ -55,7 +55,101 @@ In the HTML, a minimial implementation of a visualization might look like this. 
 
 ### Providing configurations
 
-You will also need to provide the components with configuration objects.
+Each viz-components _component_ that accepts any user input will have one `@Input` property called `config`. Users can generate these configs using builder classes that the library provides to easily and correctly construct configs for the components. The library provides the following builders:
+
+#### For Data Marks Components
+
+- `VicBarsBuilder`
+- `VicGeographiesBuilder`
+- `VicGroupedBarsBuilder`
+- `VicLinesBuilder`
+- `VicStackedAreaBuilder`
+- `VicStackedBarsBuilder`
+
+#### For Axis Components
+
+- `VicXOrdinalAxisBuilder`
+- `VicXQuantitativeAxisBuilder`
+- `VicYOrdinalAxisBuilder`
+- `VicYQuantitativeAxisBuilder`
+
+#### Other
+
+- `VicHtmlTooltipBuilder`
+
+The builders provide a set of chainable methods that allow the user to specify the properties of the config. Methods may be called in any order, but the user must call the `build` method at the end of the chain to get the configuration object to pass to the Data Marks component.
+
+Methods on the builder that have the name of a property can be used to set that property though the method's argument. Methods that start with a verb such as `create` or `set` require the user to pass a function that will be called with the property as an argument. Many of these methods allow the user to configure data dimensions, such as a quantitative or ordinal dimension, or for geographies, layers.
+
+_Example_
+
+```ts
+this.barsBuilder
+  .orientation('horizontal')
+  .data(data)
+  .createQuantitativeDimension((dimension) => dimension.valueAccessor((d) => d.value))
+  .createOrdinalDimension((dimension) => dimension.valueAccessor((d) => d.state))
+  .createCategoricalDimension((dimension) => dimension.valueAccessor((d) => d.fruit).range(['red', 'blue']))
+  .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+  .build();
+```
+
+The user can use the builders either through providing the builder the providers array of a component and declaring the it in the component's constructor or by new-ing the class themselves.
+
+_Using providers array_
+
+```ts
+import { VicLinesBuilder } from '@hsi/viz-components';
+
+@Component({
+  ...
+  providers: [
+    VicLinesBuilder,
+  ],
+})
+export class MyAppLinesComponent {
+
+  constructor(private linesBuilder: VicLinesBuilder) {}
+
+  getConfig(): LinesConfig {
+    const config = this.linesBuilder
+      ...
+      .build();
+  }
+}
+```
+
+_New-ing the class_
+
+```ts
+import { VicLinesBuilder } from '@hsi/viz-components';
+
+export class MyAppLinesComponent {
+
+  constructor() {}
+
+  getConfig(): LinesConfig {
+    const linesBuilder = new VicLinesBuilder();
+    const config = linesBuilder
+      ...
+      .build();
+  }
+}
+```
+
+#### Builder classes are stateful
+
+Note that builders are stateful classes.
+
+If you create a single instance of the builder class in your component by injecting vis the constructor, set 5 properties, call `build`, and then at a later time set only one additional property, your original 5 properties will be retained. In this case, and in all cases, you will need to called `build` for your changes to be applied.
+
+If you create many new instances of the builder class by calling `new`, each instance will be independent of the others.
+
+#### Builders provide default values and throw errors for missing required properties
+
+The builders provide default values for properties whenever possible. The values for these defaults can be found in IntelliSense descriptions for builder methods. If the library provides a default value, the method to set that property is labeled as optional in IntelliSense.
+
+Some properties do not have default values, and are labeled as required in IntelliSense. If a required property is not set, the builder will throw an error when `build` is called.
 
 ## Library concepts
 

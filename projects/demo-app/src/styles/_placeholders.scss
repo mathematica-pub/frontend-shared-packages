@@ -142,7 +142,7 @@
     font-family: $code-font;
   }
 
-  code:not(.language-html) {
+  code:not(.language-html):not(.language-ts) {
     color: color.$highlight-code;
     background-color: color.$primary-7;
     padding: grid(0.75) grid(1.25);
