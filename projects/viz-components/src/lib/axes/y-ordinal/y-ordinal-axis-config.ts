@@ -10,7 +10,7 @@ const AbstractYOrdinalAxis = mixinYAxisConfig(
   mixinOrdinalAxisConfig(XyAxisBaseConfig)
 );
 
-export class YOrdinalAxis<
+export class YOrdinalAxisConfig<
   TickValue extends DataValue
 > extends AbstractYOrdinalAxis<TickValue> {
   constructor(

@@ -75,7 +75,7 @@ export * from './lib/stacked-area/stacked-area.module';
 export * from './lib/stacked-bars/config/stacked-bars-builder';
 export * from './lib/stacked-bars/stacked-bars.component';
 export * from './lib/stacked-bars/stacked-bars.module';
-export * from './lib/tooltips/html-tooltip/config/html-tooltip';
+export * from './lib/tooltips/html-tooltip/config/html-tooltip-builder';
 export * from './lib/tooltips/html-tooltip/html-tooltip.directive';
 export * from './lib/tooltips/html-tooltip/html-tooltip.module';
 export * from './lib/xy-background/xy-background.component';

@@ -6,12 +6,12 @@ import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-con
 import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/events/bars-event-output';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
-  HtmlTooltip,
   VicBarsBuilder,
+  VicHtmlTooltipBuilder,
   VicXOrdinalAxisBuilder,
   VicXQuantitativeAxisBuilder,
   VicYOrdinalAxisBuilder,
@@ -54,8 +54,8 @@ export class BarsExampleComponent implements OnInit {
     left: 300,
   };
   folderName = 'bars-example';
-  tooltipConfig: BehaviorSubject<HtmlTooltip> =
-    new BehaviorSubject<HtmlTooltip>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
     BarsEventOutput<MetroUnemploymentDatum, string>

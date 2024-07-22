@@ -7,7 +7,7 @@ import {
 } from './position/tooltip-position';
 import { HtmlTooltipSize } from './size/tooltip-size';
 
-export class HtmlTooltip extends Tooltip implements HtmlTooltipOptions {
+export class HtmlTooltipConfig extends Tooltip implements HtmlTooltipOptions {
   override type: 'html';
   applyEventsDisabledClass: boolean;
   hasBackdrop: boolean;

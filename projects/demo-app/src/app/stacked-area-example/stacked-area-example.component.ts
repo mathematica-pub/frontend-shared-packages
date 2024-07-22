@@ -5,8 +5,8 @@ import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/eff
 import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
 import { StackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
-  HtmlTooltip,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
   VicStackedAreaBuilder,
@@ -43,8 +43,8 @@ export class StackedAreaExampleComponent implements OnInit {
     left: 64,
   };
   folderName = 'stacked-area-example';
-  tooltipConfig: BehaviorSubject<HtmlTooltip> =
-    new BehaviorSubject<HtmlTooltip>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<
     StackedAreaEventOutput<IndustryUnemploymentDatum, string>

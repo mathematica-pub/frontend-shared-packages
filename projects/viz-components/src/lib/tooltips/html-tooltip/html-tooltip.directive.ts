@@ -25,7 +25,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { DataMarks, VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
-import { HtmlTooltip } from './config/html-tooltip';
+import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -37,7 +37,7 @@ export class HtmlTooltipDirective<
 > implements OnChanges, OnDestroy
 {
   @Input() template: TemplateRef<HTMLElement>;
-  @Input() config: HtmlTooltip;
+  @Input() config: HtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
   backdropUnsubscribe: Subject<void> = new Subject<void>();
   overlayRef: OverlayRef;
@@ -173,7 +173,10 @@ export class HtmlTooltipDirective<
     this.createOverlayRef();
   }
 
-  configChanged(changes: SimpleChanges, property: keyof HtmlTooltip): boolean {
+  configChanged(
+    changes: SimpleChanges,
+    property: keyof HtmlTooltipConfig
+  ): boolean {
     return NgOnChangesUtilities.inputObjectChanged(changes, 'config', property);
   }
 

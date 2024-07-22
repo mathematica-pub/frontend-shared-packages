@@ -12,8 +12,8 @@ import {
   VicYQuantitativeAxisBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
-import { XQuantitativeAxis } from '../axes/x-quantitative/x-quantitative-axis-config';
-import { YQuantitativeAxis } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
+import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
+import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import {
   QdQnCData,
   QdQnCDatum,
@@ -60,8 +60,8 @@ const numericData = QnQnCData;
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
-  @Input() yQuantitativeAxisConfig: YQuantitativeAxis<number>;
-  @Input() xQuantitativeAxisConfig: XQuantitativeAxis<QuantAxisType>;
+  @Input() yQuantitativeAxisConfig: YQuantitativeAxisConfig<number>;
+  @Input() xQuantitativeAxisConfig: XQuantitativeAxisConfig<QuantAxisType>;
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;

@@ -13,12 +13,12 @@ import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geogra
 import { GeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/events/geographies-event-output';
 import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
 import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
-  HtmlTooltip,
   VicGeographiesBuilder,
   valueFormat,
 } from 'projects/viz-components/src/public-api';
@@ -65,8 +65,8 @@ export class GeographiesExampleComponent implements OnInit {
   height = 400;
   margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
-  tooltipConfig: BehaviorSubject<HtmlTooltip> =
-    new BehaviorSubject<HtmlTooltip>(null);
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
   tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);

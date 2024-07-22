@@ -134,6 +134,8 @@ other-components:
   html-tooltip:
     directive: 'directives/HtmlTooltipDirective.html'
     builder: 'injectables/VicHtmlTooltipBuilder.html'
+    internal:
+      config: 'classes/HtmlTooltipConfig.html'
   map-legend:
     component: 'components/MapLegendComponent.html'
     internal:

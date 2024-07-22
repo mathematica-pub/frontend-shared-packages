@@ -10,7 +10,7 @@ const AbstractXQuantitativeAxis = mixinXAxisConfig(
   mixinQuantitativeAxisConfig(XyAxisBaseConfig)
 );
 
-export class XQuantitativeAxis<
+export class XQuantitativeAxisConfig<
   TickValue extends DataValue
 > extends AbstractXQuantitativeAxis<TickValue> {
   constructor(
