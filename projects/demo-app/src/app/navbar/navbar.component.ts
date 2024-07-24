@@ -1,12 +1,17 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { Observable, map } from 'rxjs';
 import { parse } from 'yaml';
 import { Example } from '../core/models/example';
+import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
+import { NavbarFolderComponent } from '../navbar-folder/navbar-folder.component';
 
 @Component({
   selector: 'app-navbar',
+  standalone: true,
+  imports: [CommonModule, RouterModule, NavbarFolderComponent, UndasherizePipe],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })

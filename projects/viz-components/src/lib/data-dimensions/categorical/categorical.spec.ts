@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../config/vic';
-import { VicDimensionCategorical } from './categorical';
+import { CategoricalDimension } from './categorical';
+import { CategoricalDimensionBuilder } from './categorical-builder';
 
 describe('VicDimensionCategorical', () => {
-  let dimension: VicDimensionCategorical<string>;
+  let dimension: CategoricalDimension<string>;
   beforeEach(() => {
-    dimension = Vic.dimensionCategorical({
-      valueAccessor: (d) => d,
-    });
+    dimension = new CategoricalDimensionBuilder<string>()
+      .valueAccessor((d) => d)
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

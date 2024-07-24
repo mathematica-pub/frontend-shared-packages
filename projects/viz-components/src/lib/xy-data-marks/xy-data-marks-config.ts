@@ -1,7 +1,5 @@
-import { VicDataMarksConfig } from '../data-marks/data-marks.config';
+import { DataMarksConfig } from '../data-marks/config/data-marks-config';
 
-export abstract class VicXyDataMarksConfig<
-  Datum
-> extends VicDataMarksConfig<Datum> {
+export abstract class XyDataMarksConfig<Datum> extends DataMarksConfig<Datum> {
   valueIndices: number[];
 }

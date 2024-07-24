@@ -1,8 +1,8 @@
-export enum VicValueExtent {
+export enum ValueExtent {
   max = 'max',
   min = 'min',
 }
 
-export type VicContinuousValue = number | Date;
+export type ContinuousValue = number | Date;
 
-export type VicDataValue = number | string | Date;
+export type DataValue = number | string | Date;

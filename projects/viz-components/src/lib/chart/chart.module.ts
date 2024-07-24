@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '../shared/shared.module';
+import { ResizeChartHeightPipe } from '../core/pipes/resize-chart-height.pipe';
 import { ChartComponent } from './chart.component';
 
 @NgModule({
   declarations: [ChartComponent],
-  imports: [CommonModule, SharedModule],
+  imports: [CommonModule, ResizeChartHeightPipe],
   exports: [ChartComponent],
 })
 export class VicChartModule {}

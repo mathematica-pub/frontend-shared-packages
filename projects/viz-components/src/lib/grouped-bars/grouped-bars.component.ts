@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 import { scaleBand } from 'd3';
 import { BarDatum, BarsComponent } from '../bars/bars.component';
-import { VicDataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks';
-import { VicGroupedBarsConfig } from './config/grouped-bars.config';
+import { DataValue } from '../core/types/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { GroupedBarsConfig } from './config/grouped-bars-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -21,10 +21,10 @@ import { VicGroupedBarsConfig } from './config/grouped-bars.config';
 })
 export class GroupedBarsComponent<
   Datum,
-  TOrdinalValue extends VicDataValue
+  TOrdinalValue extends DataValue
 > extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override config: VicGroupedBarsConfig<Datum, TOrdinalValue>;
+  @Input('config') override config: GroupedBarsConfig<Datum, TOrdinalValue>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupScale: any;
 

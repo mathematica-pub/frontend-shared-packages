@@ -1,0 +1,77 @@
+name: Beta Release Workflow
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_DEFAULT_OUTPUT: json
+
+jobs:
+  beta-release:
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # - uses: xt0rted/pull-request-comment-branch@v2
+      #   id: comment-branch
+
+      - uses: actions/checkout@v3
+        # if: success()
+        # with:
+        #   ref: ${{ steps.comment-branch.outputs.head_ref }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Update package.json with beta
+        run: |
+          BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot: \(.*\)/\1/p' | tr -d ' ')
+          PACKAGE_VERSION=$(node -p "require('./projects/viz-components/package.json').version")
+          echo "Current version: $PACKAGE_VERSION"
+          NEW_VERSION="$PACKAGE_VERSION-$BETA_APPEND_STRING"
+          echo "New version: $NEW_VERSION"
+          jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' ./projects/viz-components/package.json > ./projects/viz-components/package.json.tmp
+          mv ./projects/viz-components/package.json.tmp ./projects/viz-components/package.json
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Library
+        run: npm run build:lib
+
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+
+      - name: Deploy to codeartifact
+        run: |
+          cd ./dist/viz-components
+          npm publish
+
+      - name: Add comment to PR
+        uses: actions/github-script@v6
+        if: always()
+        with:
+          script: |
+            const name = '${{ github.workflow  }}';
+            const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
+            const success = '${{ job.status }}' === 'success';
+            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            })

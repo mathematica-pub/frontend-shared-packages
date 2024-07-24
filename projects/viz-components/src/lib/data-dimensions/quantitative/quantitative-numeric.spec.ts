@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../config/vic';
-import { VicDimensionQuantitativeNumeric } from './quantitative-numeric';
+import { QuantitativeNumericDimension } from './quantitative-numeric';
+import { QuantitativeNumericDimensionBuilder } from './quantitative-numeric-builder';
 
 describe('VicQuantitativeDimension', () => {
-  let dimension: VicDimensionQuantitativeNumeric<number>;
+  let dimension: QuantitativeNumericDimension<number>;
   beforeEach(() => {
-    dimension = Vic.dimensionQuantitativeNumeric({
-      valueAccessor: (d) => d,
-    });
+    dimension = new QuantitativeNumericDimensionBuilder<number>()
+      .valueAccessor((d) => d)
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Vic } from '../../config/vic';
-import { VicDimensionQuantitativeDate } from './quantitative-date';
+import { QuantitativeDateDimension } from './quantitative-date';
+import { QuantitativeDateDimensionBuilder } from './quantitative-date-builder';
 
 describe('VicDateDimension', () => {
-  let dimension: VicDimensionQuantitativeDate<Date>;
+  let dimension: QuantitativeDateDimension<Date>;
   beforeEach(() => {
-    dimension = Vic.dimensionQuantitativeDate({
-      valueAccessor: (d) => d,
-    });
+    dimension = new QuantitativeDateDimensionBuilder<Date>()
+      .valueAccessor((d) => d)
+      ._build();
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

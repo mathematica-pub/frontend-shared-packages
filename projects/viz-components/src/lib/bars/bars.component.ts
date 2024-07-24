@@ -13,19 +13,19 @@ import { select, selectAll, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { VicDataValue } from '../core/types/values';
+import { DataValue } from '../core/types/values';
+import { ColorUtilities } from '../core/utilities/colors';
+import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { isNumber } from '../core/utilities/type-guards';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks';
-import { VicColorUtilities } from '../shared/color-utilities';
-import { PatternUtilities } from '../shared/pattern-utilities';
-import { ValueUtilities } from '../shared/value-utilities';
+import { ValueUtilities } from '../core/utilities/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { VicBarsConfig } from './config/bars.config';
+import { BarsConfig } from './config/bars-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const BARS = new InjectionToken<BarsComponent<unknown, VicDataValue>>(
+export const BARS = new InjectionToken<BarsComponent<unknown, DataValue>>(
   'BarsComponent'
 );
 
@@ -70,8 +70,8 @@ export type BarDatum<T> = {
 })
 export class BarsComponent<
   Datum,
-  TOrdinalValue extends VicDataValue
-> extends VicXyDataMarks<Datum, VicBarsConfig<Datum, TOrdinalValue>> {
+  TOrdinalValue extends DataValue
+> extends VicXyDataMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);
@@ -386,13 +386,13 @@ export class BarsComponent<
       this.isZeroOrNonNumeric(d.quantitative) ||
       this.barLabelFitsOutsideBar(d)
     ) {
-      return this.config.labels.defaultLabelColor;
+      return this.config.labels.color.default;
     } else {
       const barColor = this.getBarColor(d);
-      return VicColorUtilities.getHigherContrastColorForBackground(
+      return ColorUtilities.getHigherContrastColorForBackground(
         barColor,
-        this.config.labels.defaultLabelColor,
-        this.config.labels.withinBarAlternativeLabelColor
+        this.config.labels.color.default,
+        this.config.labels.color.withinBarAlternative
       );
     }
   }

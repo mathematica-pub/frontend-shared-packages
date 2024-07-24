@@ -3,6 +3,9 @@
 @use 'functions' as *;
 @use 'color';
 
+$title-height: 12vh;
+$content-height: 100vh - $title-height;
+
 :host {
   margin: 0px;
   height: 100%;
@@ -11,33 +14,31 @@
   overflow: hidden;
 }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  overflow: auto;
-}
-
-$title-height: 12vh;
-$content-height: 100vh - $title-height;
-
-.content-element {
-  overflow-y: scroll;
-  flex: 1 1 auto;
-  height: $content-height;
-  padding: grid(4) grid(8);
-}
-
-.content-fixed-element {
-  overflow-y: scroll;
-  flex: 0 0 auto;
-  height: $content-height;
-}
-
 .title {
   padding-left: grid(2);
-  @extend %typography-headline-2;
-  border-bottom: 1px solid color.$primary-7;
+  padding-top: grid(4);
+  @extend %typography-h2;
+  border-bottom: 1px solid color.$primary-6;
   flex: 0 0 auto;
   height: $title-height;
+  white-space: nowrap;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+  height: $content-height;
+}
+
+.navbar {
+  overflow-y: auto;
+  min-width: 260px;
+  flex: 1 0 auto;
+  border-right: 1px solid color.$primary-6;
+}
+
+.main-content {
+  overflow-y: auto;
+  flex: 10 1 auto;
+  padding: grid(8);
 }

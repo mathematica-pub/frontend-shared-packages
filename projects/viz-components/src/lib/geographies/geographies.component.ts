@@ -11,14 +11,14 @@ import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { VicMapDataMarks } from '../map-data-marks/map-data-marks';
-import { VicGeographiesConfig } from './config/geographies.config';
-import { VicGeographiesAttributeDataLayer } from './config/layers/data-layer';
-import { VicGeographiesLabels } from './config/layers/geographies-labels';
-import { VicGeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer';
-import { VicGeographiesFeature } from './geographies-feature';
+import { MapDataMarks } from '../map-data-marks/map-data-marks';
+import { GeographiesConfig } from './config/geographies-config';
+import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
+import { GeographiesLabels } from './config/layers/labels/geographies-labels';
+import { GeographiesFeature } from './geographies-feature';
 
 export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
 
@@ -48,26 +48,26 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> extends VicMapDataMarks<
+> extends MapDataMarks<
   Datum,
-  VicGeographiesConfig<Datum, TProperties, TGeometry>
+  GeographiesConfig<Datum, TProperties, TGeometry>
 > {
   projection: GeoProjection;
   path: GeoPath;
   pathsByLayer: BehaviorSubject<
     Selection<
       SVGPathElement,
-      VicGeographiesFeature<TProperties, TGeometry>,
+      GeographiesFeature<TProperties, TGeometry>,
       SVGGElement,
-      VicGeographiesFeature<TProperties, TGeometry>
+      GeographiesFeature<TProperties, TGeometry>
     >[]
   > = new BehaviorSubject(null);
   pathsByLayer$: Observable<
     Selection<
       SVGPathElement,
-      VicGeographiesFeature<TProperties, TGeometry>,
+      GeographiesFeature<TProperties, TGeometry>,
       SVGGElement,
-      VicGeographiesFeature<TProperties, TGeometry>
+      GeographiesFeature<TProperties, TGeometry>
     >[]
   > = this.pathsByLayer.asObservable();
   formatForClassName = (s: string): string => s.replace(/\s/g, '-');
@@ -128,12 +128,12 @@ export class GeographiesComponent<
     const layerGroup = select(this.elRef.nativeElement)
       .selectAll<
         SVGGElement,
-        | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-        | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
+        | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+        | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
       >('.vic-geographies-layer')
       .data<
-        | VicGeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
-        | VicGeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
+        | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
+        | GeographiesGeojsonPropertiesLayer<TProperties, TGeometry>
       >(this.config.layers, (layer) => layer.id)
       .join(
         (enter) =>
@@ -150,10 +150,10 @@ export class GeographiesComponent<
     this.config.layers.forEach((layer) => {
       const geographyGroup = layerGroup
         .filter((d) => d.id === layer.id)
-        .selectAll<SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>(
+        .selectAll<SVGGElement, GeographiesFeature<TProperties, TGeometry>>(
           `.vic-geography-g`
         )
-        .data<VicGeographiesFeature<TProperties, TGeometry>>(
+        .data<GeographiesFeature<TProperties, TGeometry>>(
           (d) => d.geographies,
           (d) => this.config.featureIndexAccessor(d)
         )
@@ -167,11 +167,10 @@ export class GeographiesComponent<
         );
 
       geographyGroup
-        .selectAll<
-          SVGPathElement,
-          VicGeographiesFeature<TProperties, TGeometry>
-        >('path')
-        .data<VicGeographiesFeature<TProperties, TGeometry>>(
+        .selectAll<SVGPathElement, GeographiesFeature<TProperties, TGeometry>>(
+          'path'
+        )
+        .data<GeographiesFeature<TProperties, TGeometry>>(
           (d) => [d],
           (d) => this.config.featureIndexAccessor(d)
         )
@@ -210,9 +209,9 @@ export class GeographiesComponent<
           )
           .selectAll<
             SVGTextElement,
-            VicGeographiesFeature<TProperties, TGeometry>
+            GeographiesFeature<TProperties, TGeometry>
           >('.vic-geography-label')
-          .data<VicGeographiesFeature<TProperties, TGeometry>>(
+          .data<GeographiesFeature<TProperties, TGeometry>>(
             (d) => [d],
             (d) => this.config.featureIndexAccessor(d)
           )
@@ -269,10 +268,10 @@ export class GeographiesComponent<
   }
 
   getLabelPosition(
-    d: VicGeographiesFeature<TProperties, TGeometry>,
+    d: GeographiesFeature<TProperties, TGeometry>,
     labels:
-      | VicGeographiesLabels<Datum, TProperties, TGeometry>
-      | VicGeographiesLabels<string, TProperties, TGeometry>
+      | GeographiesLabels<Datum, TProperties, TGeometry>
+      | GeographiesLabels<string, TProperties, TGeometry>
   ): { x: number; y: number } {
     if (!this.path || !this.projection) return { x: 0, y: 0 };
     return labels.position(d, this.path, this.projection);
@@ -286,7 +285,7 @@ export class GeographiesComponent<
         );
       }
       return paths;
-    }, [] as Selection<SVGPathElement, VicGeographiesFeature<TProperties, TGeometry>, SVGGElement, VicGeographiesFeature<TProperties, TGeometry>>[]);
+    }, [] as Selection<SVGPathElement, GeographiesFeature<TProperties, TGeometry>, SVGGElement, GeographiesFeature<TProperties, TGeometry>>[]);
     this.pathsByLayer.next(pathsByLayer);
   }
 }

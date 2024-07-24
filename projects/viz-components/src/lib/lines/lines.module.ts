@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LinesClickDirective } from './lines-click.directive';
-import { LinesHoverMoveDirective } from './lines-hover-move.directive';
-import { LinesHoverDirective } from './lines-hover.directive';
-import { LinesInputEventDirective } from './lines-input-event.directive';
-import { LinesMarkerClickDirective } from './lines-marker-click.directive';
+import { LinesClickDirective } from './events/lines-click.directive';
+import { LinesHoverMoveDirective } from './events/lines-hover-move.directive';
+import { LinesHoverDirective } from './events/lines-hover.directive';
+import { LinesInputEventDirective } from './events/lines-input-event.directive';
+import { LinesMarkerClickDirective } from './events/lines-marker-click.directive';
 import { LinesComponent } from './lines.component';
 
 @NgModule({
