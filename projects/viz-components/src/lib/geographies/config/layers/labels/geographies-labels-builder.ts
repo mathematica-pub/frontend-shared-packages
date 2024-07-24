@@ -12,6 +12,10 @@ import polylabel from 'polylabel';
 import { Position } from '../../../../core/types/layout';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabels } from './geographies-labels';
+import {
+  GeographiesLabelsColorOptions,
+  GeographiesLabelsFontWeightOptions,
+} from './geographies-labels-options';
 
 const DEFAULT = {
   _alignmentBaseline: 'middle',
@@ -32,20 +36,12 @@ export class GeographiesLabelsBuilder<
   TGeometry extends Geometry = MultiPolygon | Polygon
 > {
   private _alignmentBaseline: CSSType.Property.AlignmentBaseline;
-  private _color:
-    | ((
-        d: Datum,
-        backgroundColor: CSSType.Property.Fill
-      ) => CSSType.Property.Fill)
-    | CSSType.Property.Fill;
+  private _color: GeographiesLabelsColorOptions | CSSType.Property.Fill;
   private _cursor: CSSType.Property.Cursor;
   private _display: (featureIndex: string) => boolean;
   private _dominantBaseline: CSSType.Property.DominantBaseline;
   private _fontWeight:
-    | ((
-        d: Datum,
-        backgroundColor: CSSType.Property.Fill
-      ) => CSSType.Property.FontWeight)
+    | GeographiesLabelsFontWeightOptions
     | CSSType.Property.FontWeight;
   private _fontScale: ScaleLinear<number, number, never>;
   private _pointerEvents: CSSType.Property.PointerEvents;
@@ -66,7 +62,9 @@ export class GeographiesLabelsBuilder<
   }
 
   /**
-   * The alignment of the baseline of the text relative to the text's font.
+   * OPTIONAL. The alignment of the baseline of the text relative to the text's font.
+   *
+   * @default 'middle'
    */
   alignmentBaseline(
     alignmentBaseline: CSSType.Property.AlignmentBaseline
@@ -76,22 +74,23 @@ export class GeographiesLabelsBuilder<
   }
 
   /**
-   * The color of the text.
+   * OPTIONAL. The color of the text. If a string value is provided, that value will be used for all geographies on the layer.
+   *
+   * If an object is provided, the color between default and contrastAlternative that has the highest contrast ratio with the geography's background color will be used.
+   *
+   * If a value for `pattern` is provided, that value will be used for geographies with a fill pattern. If it is not provided, the default option will be used for geographies with a fill pattern.
+   *
+   * @default '#000'
    */
-  color(
-    color:
-      | ((
-          d: Datum,
-          backgroundColor: CSSType.Property.Fill
-        ) => CSSType.Property.Fill)
-      | CSSType.Property.Fill
-  ): this {
+  color(color: GeographiesLabelsColorOptions | CSSType.Property.Fill): this {
     this._color = color;
     return this;
   }
 
   /**
-   * The cursor to display when hovering over the text
+   * OPTIONAL. The cursor to display when hovering over the text
+   *
+   * @default 'default'
    */
   cursor(cursor: CSSType.Property.Cursor): this {
     this._cursor = cursor;
@@ -99,7 +98,9 @@ export class GeographiesLabelsBuilder<
   }
 
   /**
-   * A function that determines whether to display the label for a given feature.
+   * OPTIONAL, A function that determines whether to display the label for a given feature.
+   *
+   * @default () => true
    */
   display(display: (featureIndex: string) => boolean): this {
     this._display = display;
@@ -107,7 +108,9 @@ export class GeographiesLabelsBuilder<
   }
 
   /**
-   * The dominant baseline of the text.
+   * OPTIONAL. The dominant baseline of the text.
+   *
+   * @default 'middle'
    */
   dominantBaseline(dominantBaseline: CSSType.Property.DominantBaseline): this {
     this._dominantBaseline = dominantBaseline;
@@ -115,15 +118,14 @@ export class GeographiesLabelsBuilder<
   }
 
   /**
-   * The font weight of the text.
+   * OPTIONAL. The font weight of the text.
+   *
+   * If an object is provided, the font weight for each property on the object will be used when the corresponding color is used.
+   *
+   * @default 400
    */
   fontWeight(
-    fontWeight:
-      | ((
-          d: Datum,
-          backgroundColor: CSSType.Property.Fill
-        ) => CSSType.Property.FontWeight)
-      | CSSType.Property.FontWeight
+    fontWeight: GeographiesLabelsFontWeightOptions | CSSType.Property.FontWeight
   ): this {
     this._fontWeight = fontWeight;
     return this;

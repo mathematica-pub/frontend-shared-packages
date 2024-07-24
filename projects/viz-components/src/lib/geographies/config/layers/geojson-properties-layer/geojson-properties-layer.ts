@@ -1,11 +1,6 @@
-import * as CSSType from 'csstype';
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { PatternUtilities } from '../../../../core/utilities/pattern-utilities';
-import {
-  isFunction,
-  isPrimitiveType,
-} from '../../../../core/utilities/type-guards';
 import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -54,36 +49,6 @@ export class GeographiesGeojsonPropertiesLayer<
           this.categorical.fillPatterns
         )
       : defaultFill;
-  }
-
-  getLabelColor(
-    feature: GeographiesFeature<TProperties, TGeometry>
-  ): CSSType.Property.Fill {
-    const featureIndex = this.featureIndexAccessor(feature);
-    const pathColor = this.getFill(feature);
-    let fontColor: CSSType.Property.Fill;
-    if (isFunction<CSSType.Property.Fill>(this.labels.color)) {
-      fontColor = this.labels.color(featureIndex, pathColor);
-    } else if (isPrimitiveType<CSSType.Property.Fill>(this.labels.color)) {
-      fontColor = this.labels.color;
-    }
-    return fontColor;
-  }
-
-  getLabelFontWeight(
-    feature: GeographiesFeature<TProperties, TGeometry>
-  ): CSSType.Property.FontWeight {
-    const featureIndex = this.featureIndexAccessor(feature);
-    const pathColor = this.getFill(feature);
-    let fontProperty: CSSType.Property.FontWeight;
-    if (isFunction<CSSType.Property.FontWeight>(this.labels.fontWeight)) {
-      fontProperty = this.labels.fontWeight(featureIndex, pathColor);
-    } else if (
-      isPrimitiveType<CSSType.Property.FontWeight>(this.labels.fontWeight)
-    ) {
-      fontProperty = this.labels.fontWeight;
-    }
-    return fontProperty;
   }
 
   getTooltipData(path: SVGPathElement): GeographiesTooltipData<undefined> {

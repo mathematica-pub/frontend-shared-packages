@@ -7,7 +7,6 @@ import {
 import { MatSelectModule } from '@angular/material/select';
 import { MultiPolygon } from 'geojson';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { ColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
 import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
 import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
@@ -25,13 +24,11 @@ import {
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
   VicGeographiesBuilder,
-  valueFormat,
-} from 'projects/viz-components/src/public-api';
-import {
   VicGeographiesModule,
   VicHtmlTooltipModule,
   VicMapChartModule,
   VicMapLegendModule,
+  valueFormat,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
@@ -208,8 +205,8 @@ export class GeographiesExampleComponent implements OnInit {
               !unlabelledTerritories.includes(featureIndex) &&
               !smallSquareStates.includes(featureIndex)
           )
-          .color(() => 'magenta')
-          .fontWeight(() => 700)
+          .color('magenta')
+          .fontWeight(700)
       )
       .enableEffects(true);
   }
@@ -406,26 +403,12 @@ export class GeographiesExampleComponent implements OnInit {
           return labels.positionAtCentroid(d, path);
         }
       })
-      .color((d, backgroundColor) => {
-        return backgroundColor.slice(0, 3) === 'url'
-          ? darkColor
-          : ColorUtilities.getHigherContrastColorForBackground(
-              backgroundColor,
-              darkColor,
-              lightColor
-            );
+      .color({
+        default: darkColor,
+        contrastAlternative: lightColor,
+        pattern: darkColor,
       })
-      .fontWeight((d, backgroundColor) => {
-        return backgroundColor.slice(0, 3) === 'url'
-          ? 700
-          : ColorUtilities.getHigherContrastColorForBackground(
-              backgroundColor,
-              darkColor,
-              lightColor
-            ) === darkColor
-          ? 700
-          : 400;
-      });
+      .fontWeight({ default: 700, contrastAlternative: 400, pattern: 700 });
   }
 
   updateTooltipForNewOutput(

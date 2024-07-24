@@ -15,22 +15,12 @@ export interface GeographiesLabelsOptions<
   TGeometry extends Geometry = MultiPolygon | Polygon
 > {
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
-  color:
-    | ((
-        d: Datum,
-        backgroundColor: CSSType.Property.Fill
-      ) => CSSType.Property.Fill)
-    | CSSType.Property.Fill;
+  color: GeographiesLabelsColorOptions | CSSType.Property.Fill;
   cursor: CSSType.Property.Cursor;
   display: (featureIndex: string) => boolean;
   dominantBaseline: CSSType.Property.DominantBaseline;
   fontScale: ScaleLinear<number, number, never>;
-  fontWeight:
-    | ((
-        d: Datum,
-        backgroundColor: CSSType.Property.Fill
-      ) => CSSType.Property.FontWeight)
-    | CSSType.Property.FontWeight;
+  fontWeight: GeographiesLabelsFontWeightOptions | CSSType.Property.FontWeight;
   pointerEvents: CSSType.Property.PointerEvents;
   position: (
     d: GeographiesFeature<TProperties, TGeometry>,
@@ -41,4 +31,16 @@ export interface GeographiesLabelsOptions<
   valueAccessor: (
     feature: GeographiesFeature<TProperties, TGeometry>
   ) => string;
+}
+
+export interface GeographiesLabelsColorOptions {
+  default: CSSType.Property.Fill;
+  contrastAlternative: CSSType.Property.Fill;
+  pattern?: CSSType.Property.Fill;
+}
+
+export interface GeographiesLabelsFontWeightOptions {
+  default: CSSType.Property.FontWeight;
+  contrastAlternative: CSSType.Property.FontWeight;
+  pattern?: CSSType.Property.FontWeight;
 }
