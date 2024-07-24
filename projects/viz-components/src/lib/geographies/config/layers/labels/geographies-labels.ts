@@ -10,10 +10,9 @@ import {
 } from './geographies-labels-options';
 
 export class GeographiesLabels<
-  Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
-> implements GeographiesLabelsOptions<Datum, TProperties, TGeometry>
+> implements GeographiesLabelsOptions<TProperties, TGeometry>
 {
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   color: GeographiesLabelsColorOptions | CSSType.Property.Fill;
@@ -33,9 +32,7 @@ export class GeographiesLabels<
     feature: GeographiesFeature<TProperties, TGeometry>
   ) => string;
 
-  constructor(
-    options: GeographiesLabelsOptions<Datum, TProperties, TGeometry>
-  ) {
+  constructor(options: GeographiesLabelsOptions<TProperties, TGeometry>) {
     Object.assign(this, options);
   }
 }

@@ -5,7 +5,6 @@ import { CategoricalDimension } from '../../../../data-dimensions/categorical/ca
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
-import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-layer-options';
 
 export class GeographiesGeojsonPropertiesLayer<
@@ -20,7 +19,6 @@ export class GeographiesGeojsonPropertiesLayer<
     string
   >;
   readonly fill: string;
-  override labels: GeographiesLabels<string, TProperties, TGeometry>;
 
   constructor(
     options: GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>

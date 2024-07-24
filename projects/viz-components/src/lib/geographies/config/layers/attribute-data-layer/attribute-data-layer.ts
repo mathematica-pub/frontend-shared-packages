@@ -5,7 +5,6 @@ import { ValueUtilities } from '../../../../core/utilities/values';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
-import { GeographiesLabels } from '../labels/geographies-labels';
 import { GeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
 import { BinStrategy } from './dimensions/attribute-data-bin-enums';
 import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
@@ -42,7 +41,6 @@ export class GeographiesAttributeDataLayer<
   readonly data: Datum[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
-  override labels: GeographiesLabels<Datum, TProperties, TGeometry>;
 
   constructor(
     options: GeographiesAttributeDataLayerOptions<Datum, TProperties, TGeometry>

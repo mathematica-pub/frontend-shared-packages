@@ -379,8 +379,8 @@ export class GeographiesExampleComponent implements OnInit {
   }
 
   getLabels(
-    labels: GeographiesLabelsBuilder<StateIncomeDatum, MapGeometryProperties>
-  ): GeographiesLabelsBuilder<StateIncomeDatum, MapGeometryProperties> {
+    labels: GeographiesLabelsBuilder<MapGeometryProperties>
+  ): GeographiesLabelsBuilder<MapGeometryProperties> {
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
     const valueAccessor = (d) => d.properties.id;

@@ -1,5 +1,6 @@
 import { Geometry } from 'geojson';
 import { GeographiesFeature } from '../../../geographies-feature';
+import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
 
 const DEFAULT = {
   _strokeColor: 'dimgray',
@@ -13,6 +14,7 @@ export abstract class GeographiesLayerBuilder<
   protected _class: string;
   protected _enableEffects: boolean;
   protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
+  protected labelsBuilder: GeographiesLabelsBuilder<TProperties, TGeometry>;
   protected _strokeColor: string;
   protected _strokeWidth: string;
 
@@ -46,6 +48,19 @@ export abstract class GeographiesLayerBuilder<
    */
   geographies(value: Array<GeographiesFeature<TProperties, TGeometry>>): this {
     this._geographies = value;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.
+   */
+  createLabels(
+    setProperties: (
+      builder: GeographiesLabelsBuilder<TProperties, TGeometry>
+    ) => void
+  ): this {
+    this.labelsBuilder = new GeographiesLabelsBuilder();
+    setProperties(this.labelsBuilder);
     return this;
   }
 

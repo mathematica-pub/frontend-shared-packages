@@ -1,6 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-options';
-import { GeographiesLabels } from '../labels/geographies-labels';
 import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
 import { CustomBreaksBinsAttributeDataDimension } from './dimensions/custom-breaks/custom-breaks-bins';
 import { EqualFrequenciesAttributeDataDimension } from './dimensions/equal-frequencies-bins/equal-frequencies-bins';
@@ -20,5 +19,4 @@ export interface GeographiesAttributeDataLayerOptions<
     | CustomBreaksBinsAttributeDataDimension<Datum>;
   data: Datum[];
   geographyIndexAccessor: (d: Datum) => string;
-  labels: GeographiesLabels<Datum, TProperties, TGeometry>;
 }

@@ -23,7 +23,7 @@ export abstract class GeographiesLayer<
   ) => string;
   geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   id: number;
-  labels: GeographiesLabels<Datum, TProperties, TGeometry>;
+  labels: GeographiesLabels<TProperties, TGeometry>;
   strokeColor: string;
   strokeWidth: string;
 

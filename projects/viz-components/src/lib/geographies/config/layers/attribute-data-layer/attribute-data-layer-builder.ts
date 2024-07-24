@@ -1,6 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
-import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';
 import { CustomBreaksBinsAttributeDataDimensionBuilder } from './dimensions/custom-breaks/custom-breaks-bins-builder';
@@ -19,11 +18,7 @@ export class GeographiesAttributeDataLayerBuilder<
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private _data: Datum[];
   private _geographyIndexAccessor: (d: Datum) => string;
-  private labelsBuilder: GeographiesLabelsBuilder<
-    Datum,
-    TProperties,
-    TGeometry
-  >;
+
   private binsBuilder:
     | CategoricalBinsBuilder<Datum>
     | CustomBreaksBinsAttributeDataDimensionBuilder<Datum>
@@ -101,19 +96,6 @@ export class GeographiesAttributeDataLayerBuilder<
    */
   geographyIndexAccessor(accessor: (d: Datum) => string): this {
     this._geographyIndexAccessor = accessor;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.
-   */
-  createLabels(
-    setProperties: (
-      builder: GeographiesLabelsBuilder<Datum, TProperties, TGeometry>
-    ) => void
-  ): this {
-    this.labelsBuilder = new GeographiesLabelsBuilder();
-    setProperties(this.labelsBuilder);
     return this;
   }
 

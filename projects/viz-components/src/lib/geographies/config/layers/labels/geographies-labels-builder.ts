@@ -31,7 +31,6 @@ const DEFAULT = {
 };
 
 export class GeographiesLabelsBuilder<
-  Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > {
@@ -181,8 +180,8 @@ export class GeographiesLabelsBuilder<
     return this;
   }
 
-  _build(): GeographiesLabels<Datum, TProperties, TGeometry> {
-    return new GeographiesLabels<Datum, TProperties, TGeometry>({
+  _build(): GeographiesLabels<TProperties, TGeometry> {
+    return new GeographiesLabels<TProperties, TGeometry>({
       alignmentBaseline: this._alignmentBaseline,
       color: this._color,
       cursor: this._cursor,

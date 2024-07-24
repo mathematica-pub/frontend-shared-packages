@@ -10,7 +10,6 @@ import { GeographiesFeature } from '../../../geographies-feature';
  * The generic parameters are the same as those in VicGeographiesConfig.
  */
 export interface GeographiesLabelsOptions<
-  Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
 > {

@@ -2,7 +2,6 @@ import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { CategoricalDimension } from 'projects/viz-components/src/lib/data-dimensions/categorical/categorical';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-options';
-import { GeographiesLabels } from '../labels/geographies-labels';
 
 export interface GeographiesGeojsonPropertiesLayerOptions<
   TProperties,
@@ -13,5 +12,4 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
     string
   >;
   fill: string;
-  labels: GeographiesLabels<string, TProperties, TGeometry>;
 }

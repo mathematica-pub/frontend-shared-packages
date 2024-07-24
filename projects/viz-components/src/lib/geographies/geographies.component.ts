@@ -269,9 +269,7 @@ export class GeographiesComponent<
 
   getLabelPosition(
     d: GeographiesFeature<TProperties, TGeometry>,
-    labels:
-      | GeographiesLabels<Datum, TProperties, TGeometry>
-      | GeographiesLabels<string, TProperties, TGeometry>
+    labels: GeographiesLabels<TProperties, TGeometry>
   ): { x: number; y: number } {
     if (!this.path || !this.projection) return { x: 0, y: 0 };
     return labels.position(d, this.path, this.projection);
