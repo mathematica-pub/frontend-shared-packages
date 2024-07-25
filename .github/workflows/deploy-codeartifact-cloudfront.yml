@@ -44,8 +44,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build Library
-        run: npm run build:lib
+      - name: Build viz-components
+        run: npm run build:viz-components
+
+      - name: Build ui-components
+        run: npm run build:ui-components
 
       - name: Build Demo App
         run: npm run build:demo-app
@@ -69,7 +72,12 @@ jobs:
       - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
-      - name: Deploy to codeartifact
+      - name: Deploy viz-components to codeartifact
         run: |
           cd ./dist/viz-components
+          npm publish
+
+      - name: Deploy ui-components to codeartifact
+        run: |
+          cd ./dist/ui-components
           npm publish
