@@ -1,0 +1,7 @@
+<div #comboboxComponent class="combobox-component">
+  <ng-template
+    *ngIf="service.label$ | async as label"
+    [ngTemplateOutlet]="label.labelContent"
+  ></ng-template>
+  <ng-content></ng-content>
+</div>

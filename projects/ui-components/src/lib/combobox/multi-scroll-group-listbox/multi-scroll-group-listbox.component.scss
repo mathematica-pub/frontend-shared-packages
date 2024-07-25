@@ -1,0 +1,8 @@
+.multi-scroll-group {
+  .listbox-group.multi-scroll {
+    overflow-y: auto;
+    // position must be relative for listbox-group to be the offsetParent of listbox option, for scrolling
+    position: relative;
+    top: 0px;
+  }
+}

@@ -1,0 +1,28 @@
+<div
+  #box
+  class="combobox-textbox"
+  role="combobox"
+  tabindex="0"
+  [id]="service.id + '-textbox'"
+  data-cy="combobox-textbox"
+  (click)="handleClick()"
+  (blur)="handleBlur($event)"
+  (keydown)="handleKeydown($event)"
+  [attr.aria-label]="(service.label$ | async) === null ? ariaLabel : null"
+  [attr.aria-labelledby]="(service.label$ | async) !== null ? service.comboboxLabelId : null"
+  [attr.aria-activedescendant]="service.activeDescendant$ | async"
+  [attr.aria-expanded]="service.isOpen$ | async"
+  [attr.aria-controls]="service.id + '-listbox'"
+  aria-haspopup="listbox"
+  [class.open]="service.isOpen$ | async"
+  ><div
+    *ngIf="displaySelected && service.boxLabel$ | async; else staticLabel"
+    class="textbox-label"
+    data-cy="textbox-label"
+    >{{ service.boxLabel$ | async }}</div
+  ><div #boxIcon class="textbox-icon" [class.open]="service.isOpen$ | async"
+    ><ng-content select="[boxIcon]"></ng-content></div
+></div>
+<ng-template #staticLabel
+  ><div class="textbox-label"><ng-content select="[boxLabel]"></ng-content></div
+></ng-template>
