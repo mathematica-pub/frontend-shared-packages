@@ -1,9 +1,14 @@
 import { Component, Input } from '@angular/core';
+import 'cypress-real-events';
 import { curveBasis, schemeTableau10 } from 'd3';
-import { cy, describe, expect, it } from 'local-cypress';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
+  LinesHoverMoveDirective,
+  LinesHoverMoveEmitTooltipData,
   VicChartModule,
+  VicHtmlTooltipBuilder,
+  VicHtmlTooltipModule,
   VicLinesBuilder,
   VicLinesModule,
   VicXQuantitativeAxisBuilder,
@@ -12,15 +17,19 @@ import {
   VicYQuantitativeAxisBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
+import { BehaviorSubject } from 'rxjs';
 import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
 import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
+import { HoverMoveEventEffect } from '../events/effect';
 import {
   QdQnCData,
   QdQnCDatum,
   QnQnCData,
   QnQnCDatum,
 } from '../testing/data/quant-quant-cat-data';
+import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { LinesConfig } from './config/lines-config';
+import { LinesEventOutput } from './events/lines-event-output';
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
@@ -52,9 +61,27 @@ const numericData = QnQnCData;
           [config]="yQuantitativeAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-data-marks-lines [config]="linesConfig"></svg:g>
+        <svg:g
+          vic-data-marks-lines
+          [config]="linesConfig"
+          [vicLinesHoverMoveEffects]="hoverEffects"
+          (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
       </ng-container>
     </vic-xy-chart>
+
+    <ng-template #htmlTooltip>
+      <ng-container *ngIf="tooltipData$ | async as tooltipData">
+        <p>{{ tooltipData.category }}</p>
+        <p>{{ tooltipData.x }}</p>
+        <p>{{ tooltipData.y }}</p>
+      </ng-container>
+    </ng-template>
   `,
   styles: [],
 })
@@ -65,6 +92,38 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<LinesEventOutput<Datum>> = new BehaviorSubject<
+    LinesEventOutput<Datum>
+  >(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverEffects: HoverMoveEventEffect<LinesHoverMoveDirective<Datum>>[] = [
+    new LinesHoverMoveEmitTooltipData(),
+  ];
+
+  updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: LinesEventOutput<Datum>): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: LinesEventOutput<Datum>): void {
+    const config = new VicHtmlTooltipBuilder()
+      .setSize((size) => size.minWidth(340))
+      .createOffsetFromOriginPosition((position) =>
+        position
+          .offsetX(data?.positionX)
+          .offsetY(data ? data.positionY - 10 : undefined)
+      )
+      .show(!!data)
+      .build();
+    this.tooltipConfig.next(config);
+  }
 }
 
 const imports = [
@@ -73,6 +132,7 @@ const imports = [
   VicXQuantitativeAxisModule,
   VicYQuantitativeAxisModule,
   VicXyChartModule,
+  VicHtmlTooltipModule,
 ];
 
 function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
@@ -495,6 +555,79 @@ describe('it creates lines with the correct properties per config', () => {
             ...new Set(dateData.map((d) => d.continent)),
           ]);
         });
+    });
+  });
+});
+
+// ***********************************************************
+// Tests of tooltips
+// ***********************************************************
+describe('displays tooltips for correct data per hover position', () => {
+  beforeEach(() => {
+    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      .data(dateData)
+      .createXDateDimension((dimension) =>
+        // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
+        // Padded the x and y domains to avoid this issue
+        dimension
+          .valueAccessor((d) => d.year)
+          .domain([new Date('2020-01-02'), new Date('2104-01-02')])
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.population).domainPaddingPixels(100)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.continent)
+      )
+      .createPointMarkers()
+      .createStroke((stroke) =>
+        stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
+      )
+      .build();
+    mountDateLinesComponent(linesConfig);
+  });
+
+  dateData.forEach((_, i) => {
+    describe(`Data point at index ${i}`, () => {
+      beforeEach(() => {
+        cy.get('.vic-lines-datum-marker').eq(i).realHover();
+      });
+
+      it('displays a tooltip', () => {
+        cy.get('.vic-html-tooltip-overlay').should('be.visible');
+      });
+
+      it('tooltip displays correct data', () => {
+        cy.get('.vic-html-tooltip-overlay p')
+          .eq(0)
+          .should('have.text', dateData[i].continent);
+        cy.get('.vic-html-tooltip-overlay p')
+          .eq(1)
+          .then(($el) => {
+            expect(new Date($el.text()).getTime()).to.equal(
+              dateData[i].year.getTime()
+            );
+          });
+        cy.get('.vic-html-tooltip-overlay p')
+          .eq(2)
+          .should('have.text', dateData[i].population);
+      });
+
+      it('tooltip appears at the correct position', () => {
+        cy.get('.vic-html-tooltip-overlay').then(($el) => {
+          const tooltipBox = $el[0].getBoundingClientRect();
+          cy.get('.vic-lines-datum-marker')
+            .eq(i)
+            .then(($el) => {
+              const markerBox = $el[0].getBoundingClientRect();
+              expect((tooltipBox.left + tooltipBox.right) / 2).to.be.closeTo(
+                (markerBox.left + markerBox.right) / 2,
+                1
+              );
+              expect(tooltipBox.bottom).to.be.closeTo(markerBox.top, 10);
+            });
+        });
+      });
     });
   });
 });
