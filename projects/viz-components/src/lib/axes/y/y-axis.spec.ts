@@ -5,7 +5,7 @@ import { Ranges } from '../../chart/chart.component';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { YAxisStub } from '../../testing/stubs/y-axis.stub';
-import { VicYQuantitativeAxisBuilder } from '../y-quantitative-axis/y-quantitative-axis-builder';
+import { VicYQuantitativeAxisConfigBuilder } from '../y-quantitative-axis/y-quantitative-axis-builder';
 
 describe('the YAxis mixin', () => {
   let abstractClass: YAxisStub<number>;
@@ -53,16 +53,16 @@ describe('the YAxis mixin', () => {
       spyOn(abstractClass, 'getRightTranslate').and.returnValue(60);
     });
     it('returns the correct value for the left side', () => {
-      abstractClass.config = new VicYQuantitativeAxisBuilder()
+      abstractClass.config = new VicYQuantitativeAxisConfigBuilder()
         .side('left')
-        .build();
+        .getConfig();
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
 
     it('returns the correct value for the right side', () => {
-      abstractClass.config = new VicYQuantitativeAxisBuilder()
+      abstractClass.config = new VicYQuantitativeAxisConfigBuilder()
         .side('right')
-        .build();
+        .getConfig();
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -102,17 +102,17 @@ describe('the YAxis mixin', () => {
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.config = new VicYQuantitativeAxisBuilder()
+      abstractClass.config = new VicYQuantitativeAxisConfigBuilder()
         .side('left')
-        .build();
+        .getConfig();
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisLeft);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.config = new VicYQuantitativeAxisBuilder()
+      abstractClass.config = new VicYQuantitativeAxisConfigBuilder()
         .side('right')
-        .build();
+        .getConfig();
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisRight);
     });

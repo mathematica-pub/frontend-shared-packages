@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicGeographiesBuilder } from './geographies-builder';
+import { VicGeographiesConfigBuilder } from './geographies-builder';
 import { GeographiesConfig } from './geographies-config';
 import { GeographiesAttributeDataLayer } from './layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesLayer } from './layers/geographies-layer/geographies-layer';
@@ -21,7 +21,7 @@ const features = [
   { name: 'Colorado' },
 ];
 function createConfig(): GeographiesConfig<Datum, { name: string }, any> {
-  return new VicGeographiesBuilder<Datum, { name: string }>()
+  return new VicGeographiesConfigBuilder<Datum, { name: string }>()
     .boundary('boundary' as any)
     .featureIndexAccessor((d) => d.properties.name)
     .createAttributeDataLayer((layer) =>
@@ -38,7 +38,7 @@ function createConfig(): GeographiesConfig<Datum, { name: string }, any> {
         .createCategoricalDimension((dimension) => dimension.range(['lime']))
         .fill('lime')
     )
-    .build();
+    .getConfig();
 }
 
 describe('GeographiesConfig', () => {

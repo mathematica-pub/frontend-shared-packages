@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { VicBarsBuilder } from '../../bars/config/bars-builder';
+import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { DataValue } from '../../core/types/values';
 import { GroupedBarsConfig } from './grouped-bars-config';
 
@@ -17,10 +17,10 @@ const DEFAULT = {
  * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
  */
 @Injectable()
-export class VicGroupedBarsBuilder<
+export class VicGroupedBarsConfigBuilder<
   Datum,
   TOrdinalValue extends DataValue
-> extends VicBarsBuilder<Datum, TOrdinalValue> {
+> extends VicBarsConfigBuilder<Datum, TOrdinalValue> {
   private _intraGroupPadding: number;
 
   constructor() {
@@ -41,7 +41,7 @@ export class VicGroupedBarsBuilder<
   /**
    * REQUIRED. Builds the configuration object for a GroupedBarsComponent.
    */
-  override build(): GroupedBarsConfig<Datum, TOrdinalValue> {
+  override getConfig(): GroupedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Grouped Bars');
     return new GroupedBarsConfig(this.dimensions, {
       categorical: this.categoricalDimensionBuilder._build(),

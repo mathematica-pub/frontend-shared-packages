@@ -6,7 +6,7 @@ import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { ValueUtilities } from '../core/utilities/values';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
-import { VicBarsBuilder } from './config/bars-builder';
+import { VicBarsConfigBuilder } from './config/bars-builder';
 import { BarsConfig } from './config/bars-config';
 
 type Datum = { value: number; state: string; fruit: string };
@@ -21,7 +21,7 @@ const data = [
 ];
 
 function horizontalConfig(): BarsConfig<Datum, string> {
-  return new VicBarsBuilder<Datum, string>()
+  return new VicBarsConfigBuilder<Datum, string>()
     .data(data)
     .orientation('horizontal')
     .createQuantitativeDimension((dimension) =>
@@ -34,11 +34,11 @@ function horizontalConfig(): BarsConfig<Datum, string> {
       dimension.valueAccessor((d) => d.fruit)
     )
     .createLabels((labels) => labels.noValueFunction(() => 'no value'))
-    .build();
+    .getConfig();
 }
 
 function verticalConfig(): BarsConfig<Datum, string> {
-  return new VicBarsBuilder<Datum, string>()
+  return new VicBarsConfigBuilder<Datum, string>()
     .orientation('vertical')
     .data(data)
     .createQuantitativeDimension((dimension) =>
@@ -53,7 +53,7 @@ function verticalConfig(): BarsConfig<Datum, string> {
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
     )
     .createLabels((labels) => labels.noValueFunction(() => 'no value'))
-    .build();
+    .getConfig();
 }
 
 describe('BarsComponent', () => {

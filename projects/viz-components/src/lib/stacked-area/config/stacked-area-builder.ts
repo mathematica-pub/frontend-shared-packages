@@ -30,7 +30,7 @@ const DEFAULT = {
  * The second generic parameter, TCategoricalValue, is the type of the categorical data that will be used to stack the areas.
  */
 @Injectable()
-export class VicStackedAreaBuilder<
+export class VicStackedAreaConfigBuilder<
   Datum,
   TCategoricalValue extends DataValue
 > extends DataMarksBuilder<Datum> {
@@ -174,7 +174,7 @@ export class VicStackedAreaBuilder<
   /**
    * REQUIRED. Builds the configuration object for the stacked area chart.
    */
-  build(): StackedAreaConfig<Datum, TCategoricalValue> {
+  getConfig(): StackedAreaConfig<Datum, TCategoricalValue> {
     this.validateBuilder();
     return new StackedAreaConfig({
       categorical: this.categoricalDimensionBuilder._build(),

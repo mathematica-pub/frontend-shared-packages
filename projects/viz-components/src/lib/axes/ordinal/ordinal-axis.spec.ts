@@ -2,7 +2,7 @@
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
-import { VicXOrdinalAxisBuilder } from '../x-ordinal/x-ordinal-axis-builder';
+import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
 
 describe('the OrdinalAxis mixin', () => {
   let abstractClass: OrdinalAxisStub<string>;
@@ -26,9 +26,9 @@ describe('the OrdinalAxis mixin', () => {
         };
       };
       abstractClass.scale = 'class scale' as any;
-      abstractClass.config = new VicXOrdinalAxisBuilder()
+      abstractClass.config = new VicXOrdinalAxisConfigBuilder()
         .tickSizeOuter(3)
-        .build();
+        .getConfig();
     });
     it('calls tickSizeOuter once with the correct value', () => {
       abstractClass.setAxis(axisFunction);

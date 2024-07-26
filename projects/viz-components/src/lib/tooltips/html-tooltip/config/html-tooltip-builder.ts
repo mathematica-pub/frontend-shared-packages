@@ -13,7 +13,7 @@ const DEFAULT = {
 };
 
 @Injectable()
-export class VicHtmlTooltipBuilder {
+export class VicHtmlTooltipConfigBuilder {
   private _applyEventsDisabledClass: boolean;
   private sizeBuilder: HtmlTooltipSizeBuilder;
   private _panelClass: string | string[];
@@ -91,7 +91,7 @@ export class VicHtmlTooltipBuilder {
     return this;
   }
 
-  build(): HtmlTooltipConfig {
+  getConfig(): HtmlTooltipConfig {
     this.validateBuilder();
     return new HtmlTooltipConfig({
       hasBackdrop: this._hasBackdrop,

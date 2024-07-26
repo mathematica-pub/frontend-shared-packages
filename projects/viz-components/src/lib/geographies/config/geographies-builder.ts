@@ -28,7 +28,7 @@ const DEFAULT = {
  * The optional third generic parameter, TGeometry, is the type of the geometry object that is associated with the GeoJson. It defaults to MultiPolygon | Polygon if not provided.
  */
 @Injectable()
-export class VicGeographiesBuilder<
+export class VicGeographiesConfigBuilder<
   Datum,
   TProperties extends GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon
@@ -158,7 +158,7 @@ export class VicGeographiesBuilder<
   /**
    * REQUIRED. Builds the GeographiesConfig object.
    */
-  build(): GeographiesConfig<Datum, TProperties, TGeometry> {
+  getConfig(): GeographiesConfig<Datum, TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesConfig<Datum, TProperties, TGeometry>({
       attributeDataLayer: this.attributeDataBuilder?._build(),

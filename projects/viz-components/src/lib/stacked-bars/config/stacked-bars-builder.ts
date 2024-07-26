@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Series, stackOffsetDiverging, stackOrderNone } from 'd3';
-import { VicBarsBuilder } from '../../bars/config/bars-builder';
+import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { DataValue } from '../../core/types/values';
 import { StackedBarsConfig } from './stacked-bars-config';
 
@@ -19,10 +19,10 @@ const DEFAULT = {
  * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
  */
 @Injectable()
-export class VicStackedBarsBuilder<
+export class VicStackedBarsConfigBuilder<
   Datum,
   TOrdinalValue extends DataValue
-> extends VicBarsBuilder<Datum, TOrdinalValue> {
+> extends VicBarsConfigBuilder<Datum, TOrdinalValue> {
   private _stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     series: Series<any, any>,
@@ -57,7 +57,7 @@ export class VicStackedBarsBuilder<
     return this;
   }
 
-  override build(): StackedBarsConfig<Datum, TOrdinalValue> {
+  override getConfig(): StackedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
       categorical: this.categoricalDimensionBuilder._build(),

@@ -2,7 +2,7 @@
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { VicBarsBuilder } from './bars-builder';
+import { VicBarsConfigBuilder } from './bars-builder';
 import { BarsConfig } from './bars-config';
 
 type Datum = { value: number; state: string };
@@ -15,7 +15,7 @@ const data = [
   { value: 6, state: 'CO' },
 ];
 function getNewConfig(): BarsConfig<Datum, string> {
-  return new VicBarsBuilder<Datum, string>()
+  return new VicBarsConfigBuilder<Datum, string>()
     .data(data)
     .orientation('horizontal')
     .createQuantitativeDimension((dimension) =>
@@ -24,7 +24,7 @@ function getNewConfig(): BarsConfig<Datum, string> {
     .createOrdinalDimension((dimension) =>
       dimension.valueAccessor((d) => d.state)
     )
-    .build();
+    .getConfig();
 }
 
 describe('BarsConfig', () => {
@@ -98,7 +98,7 @@ describe('BarsConfig', () => {
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4]);
     });
     it('sets valueIndices to the correct array when ordinal domain is limited by user', () => {
-      config = new VicBarsBuilder<Datum, string>()
+      config = new VicBarsConfigBuilder<Datum, string>()
         .data(data)
         .orientation('horizontal')
         .createQuantitativeDimension((dimension) =>
@@ -107,7 +107,7 @@ describe('BarsConfig', () => {
         .createOrdinalDimension((dimension) =>
           dimension.valueAccessor((d) => d.state).domain(['AL', 'AZ', 'CA'])
         )
-        .build();
+        .getConfig();
       (config as any).setDimensionPropertiesFromData();
       (config as any).setValueIndices();
       expect(config.valueIndices).toEqual([0, 2, 3]);

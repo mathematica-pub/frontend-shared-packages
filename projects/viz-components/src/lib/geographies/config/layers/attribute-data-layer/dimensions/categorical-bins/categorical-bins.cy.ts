@@ -11,7 +11,7 @@ import { range } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  VicGeographiesBuilder,
+  VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicMapChartModule,
 } from '../../../../../../../public-api';
@@ -115,7 +115,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -141,7 +141,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                 .range(rangeValues)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       rangeValues.forEach((color, i) => {
         const statesInAttributeData = attributeData
@@ -176,7 +176,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -201,7 +201,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                 .range(['red', 'violet', 'blue'])
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       const lowStates = attributeData // first state in this group: Arkansas - uses third color
         .filter((d) => d.income < binValues[0])
@@ -240,7 +240,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -268,7 +268,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                 .range(rangeValues)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       range(binValues.length + 1).forEach((i) => {
         const statesInAttributeData = attributeData
@@ -317,7 +317,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         }
       });
       const nullColor = 'chartreuse';
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -350,7 +350,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                 .nullColor(nullColor)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       cy.get(`.vic-geography-g path.Florida`).then((path) => {
         expect(path.attr('fill')).to.eq(nullColor);
@@ -380,7 +380,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       const nullColor = 'chartreuse';
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -408,7 +408,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
                 .nullColor(nullColor)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       const geographiesNotInAttributeData = states.features
         .filter(

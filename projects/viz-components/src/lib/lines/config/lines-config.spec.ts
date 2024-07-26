@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicLinesBuilder } from './lines-builder';
+import { VicLinesConfigBuilder } from './lines-builder';
 import { LinesConfig } from './lines-config';
 
 type Datum = { date: Date; value: number; category: string };
@@ -13,7 +13,7 @@ const data = [
 ];
 
 function createConfig(): LinesConfig<Datum> {
-  return new VicLinesBuilder<Datum>()
+  return new VicLinesConfigBuilder<Datum>()
     .data(data)
     .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
     .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))

@@ -11,7 +11,7 @@ import { uniqBy } from 'lodash-es';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  VicGeographiesBuilder,
+  VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicMapChartModule,
 } from '../../../../../../../public-api';
@@ -113,7 +113,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -128,7 +128,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
               bins.valueAccessor((d) => d.income)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       // see https://d3js.org/d3-scale/quantile#quantile_domain for how d3 quantile works
       const sortedAttributeData = attributeData
@@ -205,7 +205,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -223,7 +223,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
                 .range(range)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       // see https://d3js.org/d3-scale/quantile#quantile_domain for how d3 quantile works
       const sortedAttributeData = attributeData
@@ -282,7 +282,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -300,7 +300,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
                 .range(range)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       // see https://d3js.org/d3-scale/quantile#quantile_domain for how d3 quantile works
       const sortedAttributeData = attributeData

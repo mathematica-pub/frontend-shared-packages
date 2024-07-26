@@ -16,14 +16,14 @@ import { GeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-component
 import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
 import { GeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/events/geographies-event-output';
 import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
-import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
-  VicGeographiesBuilder,
+  VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
   VicMapChartModule,
@@ -75,7 +75,7 @@ const smallSquareStates = [
   ],
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
-  providers: [VicGeographiesBuilder, VicHtmlTooltipBuilder],
+  providers: [VicGeographiesConfigBuilder, VicHtmlTooltipConfigBuilder],
 })
 export class GeographiesExampleComponent implements OnInit {
   dataMarksConfig$: Observable<
@@ -131,11 +131,11 @@ export class GeographiesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     private basemap: BasemapService,
-    private geographies: VicGeographiesBuilder<
+    private geographies: VicGeographiesConfigBuilder<
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    private tooltip: VicHtmlTooltipBuilder
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -166,7 +166,7 @@ export class GeographiesExampleComponent implements OnInit {
       .createGeojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
       .createGeojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
       .createAttributeDataLayer((layer) => this.getDataLayer(data, layer))
-      .build();
+      .getConfig();
     return config;
   }
 
@@ -434,7 +434,7 @@ export class GeographiesExampleComponent implements OnInit {
       )
       .hasBackdrop(eventContext === 'click')
       .show(!!data)
-      .build();
+      .getConfig();
 
     this.tooltipConfig.next(config);
   }

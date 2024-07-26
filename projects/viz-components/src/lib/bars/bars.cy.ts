@@ -3,10 +3,10 @@ import { max } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
-  VicXOrdinalAxisBuilder,
-  VicXQuantitativeAxisBuilder,
-  VicYOrdinalAxisBuilder,
-  VicYQuantitativeAxisBuilder,
+  VicXOrdinalAxisConfigBuilder,
+  VicXQuantitativeAxisConfigBuilder,
+  VicYOrdinalAxisConfigBuilder,
+  VicYQuantitativeAxisConfigBuilder,
 } from '../../public-api';
 import { VicOrdinalAxisConfig } from '../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../axes/quantitative/quantitative-axis-config';
@@ -18,7 +18,7 @@ import { VicChartModule } from '../chart/chart.module';
 import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
 import { VicXyChartModule } from '../xy-chart/xy-chart.module';
 import { VicBarsModule } from './bars.module';
-import { VicBarsBuilder } from './config/bars-builder';
+import { VicBarsConfigBuilder } from './config/bars-builder';
 import { BarsConfig } from './config/bars-config';
 
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
@@ -84,10 +84,10 @@ class TestHorizontalBarsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<QOCDatum, string>
 ): void => {
-  const xAxisConfig = new VicXQuantitativeAxisBuilder()
+  const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
     .tickFormat(',.0f')
-    .build();
-  const yAxisConfig = new VicYOrdinalAxisBuilder().build();
+    .getConfig();
+  const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const declarations = [TestHorizontalBarsComponent];
   const imports = [
     VicChartModule,
@@ -151,10 +151,10 @@ class TestVerticalBarsComponent {
 const mountVerticalBarsComponent = (
   barsConfig: BarsConfig<QOCDatum, string>
 ): void => {
-  const xAxisConfig = new VicXOrdinalAxisBuilder().build();
-  const yAxisConfig = new VicYQuantitativeAxisBuilder()
+  const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
+  const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
     .tickFormat('.0f')
-    .build();
+    .getConfig();
 
   const declarations = [TestVerticalBarsComponent];
   const imports = [
@@ -187,7 +187,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
   });
   describe('if a user does not provide an explicit ordinal domain', () => {
     it('creates one bar and one ordinal axis tick per datum when data has no repeated ordinal values', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -197,7 +197,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').should('have.length', QOCData.length);
       cy.get('.vic-bar').should('have.length', QOCData.length);
@@ -211,7 +211,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       });
     });
     it('creates one bar and one ordinal axis tick per unique ordinal value and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data([
           QOCData[0],
@@ -225,7 +225,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').should('have.length', QOCData.length);
       cy.get('.vic-bar').should('have.length', QOCData.length);
@@ -243,7 +243,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
   describe('if a user provides an explicit ordinal domain', () => {
     const ordinalDomain = ['Afghanistan', 'Albania', 'Angola'];
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('vertical')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -253,7 +253,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.area).domainPaddingPixels(50)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
     });
     it('creates one bar and one ordinal axis tick per value in the provided domain and does not create bars for data not in domain', () => {
       mountVerticalBarsComponent(barsConfig);
@@ -275,7 +275,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       });
     });
     it('creates one bar and one ordinal axis tick per ordinal value in the domain and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('vertical')
         .data([
           ...QOCData,
@@ -288,7 +288,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').should('have.length', ordinalDomain.length);
       cy.get('.vic-bar').should('have.length', ordinalDomain.length);
@@ -330,7 +330,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`a bar has a ${barAttr} of 0 if the quantitative value is 0`, () => {
         const zeroIndex = 2;
         testData[zeroIndex].area = 0;
-        barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
           .orientation(orientation as 'horizontal' | 'vertical')
           .data(testData)
           .createOrdinalDimension((dimension) =>
@@ -340,7 +340,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
-          .build();
+          .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').each(($bar, i) => {
           const size = parseFloat($bar.attr(barAttr));
@@ -354,7 +354,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`a bar has a ${barAttr} of 0 if the quantitative value is non numeric`, () => {
         const nonNumericIndex = 3;
         testData[nonNumericIndex].area = undefined;
-        barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
           .orientation(orientation as 'horizontal' | 'vertical')
           .data(testData)
           .createOrdinalDimension((dimension) =>
@@ -364,7 +364,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
-          .build();
+          .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').each(($bar, i) => {
           const size = parseFloat($bar.attr(barAttr));
@@ -378,7 +378,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`has bars with the correct ${barAttr} when some values are negative`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
-        barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
           .orientation(orientation as 'horizontal' | 'vertical')
           .data(testData)
           .createOrdinalDimension((dimension) =>
@@ -388,7 +388,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
             dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
-          .build();
+          .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').then(($bars) => {
           const sizes = [];
@@ -400,7 +400,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         });
       });
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-        barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
           .orientation(orientation as 'horizontal' | 'vertical')
           .data(testData)
           .createOrdinalDimension((dimension) =>
@@ -413,7 +413,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
               .domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
-          .build();
+          .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar')
           .eq(2)
@@ -432,7 +432,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`has bars with the correct ${barAttr} when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
-        barsConfig = new VicBarsBuilder<QOCDatum, string>()
+        barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
           .orientation(orientation as 'horizontal' | 'vertical')
           .data(testData)
           .createOrdinalDimension((dimension) =>
@@ -445,7 +445,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
               .domainPaddingPixels()
           )
           .createLabels((labels) => labels.display(true))
-          .build();
+          .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').then(($bars) => {
           const sizes = [];
@@ -464,7 +464,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
       barsConfig = undefined;
     });
     it(`bars are ${orientation} and have the same ${barAttr}`, () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation(orientation as 'horizontal' | 'vertical')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -474,7 +474,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountFunction(barsConfig);
       cy.get('.vic-bar').then(($bars) => {
         const sizes = [];
@@ -501,7 +501,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
   });
   describe('all values are positive', () => {
     it('has bars that start at the left chart margin if bars are horizontal', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(testData)
         .createOrdinalDimension((dimension) =>
@@ -511,7 +511,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
@@ -522,7 +522,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       });
     });
     it('has bars that start at the bottom chart margin if bars are vertical', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('vertical')
         .data(testData)
         .createOrdinalDimension((dimension) =>
@@ -532,7 +532,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
@@ -554,7 +554,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
     it('has bars whose negative bars end at the start of the positive bars - bars are horizontal', () => {
       negativeBarIndex = 2;
       testData[negativeBarIndex].area = -testData[negativeBarIndex].area;
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(testData)
         .createOrdinalDimension((dimension) =>
@@ -564,7 +564,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
         cy.wrap($barGroups)
@@ -588,7 +588,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
     it('has bars whose negative bars end at the start of the positive bars - bars are vertical', () => {
       negativeBarIndex = 2;
       testData[negativeBarIndex].area = -testData[negativeBarIndex].area;
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('vertical')
         .data(testData)
         .createOrdinalDimension((dimension) =>
@@ -598,7 +598,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
         cy.wrap($barGroups)
@@ -630,7 +630,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       testData.forEach((d) => {
         d.area = -d.area;
       });
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(testData)
         .createOrdinalDimension((dimension) =>
@@ -640,7 +640,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {
@@ -660,7 +660,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
       testData.forEach((d) => {
         d.area = -d.area;
       });
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('vertical')
         .data(testData)
         .createOrdinalDimension((dimension) =>
@@ -670,7 +670,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
         cy.wrap($barGroups).each(($barGroup) => {

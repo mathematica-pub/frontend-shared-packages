@@ -22,7 +22,7 @@ import { BarsLabelsBuilder } from './labels/bar-labels-builder';
  * The second generic parameter, TOrdinalValue, is the type of the ordinal data that will be used to position the bars.
  */
 @Injectable()
-export class VicBarsBuilder<
+export class VicBarsConfigBuilder<
   Datum,
   TOrdinalValue extends DataValue
 > extends DataMarksBuilder<Datum> {
@@ -120,7 +120,7 @@ export class VicBarsBuilder<
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
    */
-  build(): BarsConfig<Datum, TOrdinalValue> {
+  getConfig(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
       categorical: this.categoricalDimensionBuilder._build(),

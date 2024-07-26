@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicStackedAreaBuilder } from './config/stacked-area-builder';
+import { VicStackedAreaConfigBuilder } from './config/stacked-area-builder';
 import { StackedAreaComponent } from './stacked-area.component';
 
 type Datum = { date: Date; value: number; category: string };
@@ -20,7 +20,7 @@ describe('StackedAreaComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StackedAreaComponent<any, string>);
     component = fixture.componentInstance;
-    component.config = new VicStackedAreaBuilder<Datum, string>()
+    component.config = new VicStackedAreaConfigBuilder<Datum, string>()
       .data([
         { date: new Date('2020-01-01'), value: 1, category: 'a' },
         { date: new Date('2020-01-02'), value: 2, category: 'a' },
@@ -38,7 +38,7 @@ describe('StackedAreaComponent', () => {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.category)
       )
-      .build();
+      .getConfig();
   });
 
   it('should create', () => {

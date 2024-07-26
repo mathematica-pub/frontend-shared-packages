@@ -7,7 +7,7 @@ chart-components:
 data-marks-components:
   bars:
     component: 'components/BarsComponent.html'
-    builder: 'injectables/VicBarsBuilder.html'
+    builder: 'injectables/VicBarsConfigBuilder.html'
     events:
       click: 'directives/BarsClickDirective.html'
       hover: 'directives/BarsHoverDirective.html'
@@ -30,7 +30,7 @@ data-marks-components:
         labels-options: 'interfaces/BarsLabelsOptions.html'
   geographies:
     component: 'components/GeographiesComponent.html'
-    builder: 'injectables/VicGeographiesBuilder.html'
+    builder: 'injectables/VicGeographiesConfigBuilder.html'
     events:
       click: 'directives/GeographiesClickDirective.html'
       hover: 'directives/GeographiesHoverDirective.html'
@@ -65,13 +65,13 @@ data-marks-components:
           options: 'interfaces/GeographiesLayerOptions.html'
   grouped-bars:
     component: 'components/GroupedBarsComponent.html'
-    builder: 'injectables/VicGroupedBarsBuilder.html'
+    builder: 'injectables/VicGroupedBarsConfigBuilder.html'
     internal:
       config: 'classes/GroupedBarsConfig.html'
       options: 'interfaces/GroupedBarsOptions.html'
   lines:
     component: 'components/LinesComponent.html'
-    builder: 'injectables/VicLinesBuilder.html'
+    builder: 'injectables/VicLinesConfigBuilder.html'
     events:
       click: 'directives/LinesClickDirective.html'
       hover: 'directives/LinesHoverDirective.html'
@@ -93,7 +93,7 @@ data-marks-components:
       options: 'interfaces/LinesOptions.html'
   stacked-area:
     component: 'components/StackedAreaComponent.html'
-    builder: 'injectables/VicStackedAreaBuilder.html'
+    builder: 'injectables/VicStackedAreaConfigBuilder.html'
     events:
       hover-move: 'directives/StackedAreaHoverMoveDirective.html'
       input-event: 'directives/StackedAreaInputEventDirective.html'
@@ -114,16 +114,16 @@ data-marks-components:
 axis-components:
   x-ordinal-axis:
     component: 'components/XOrdinalAxisComponent.html'
-    builder: 'injectables/VicXOrdinalAxisBuilder.html'
+    builder: 'injectables/VicXOrdinalAxisConfigBuilder.html'
   x-quantitative-axis:
     component: 'components/XQuantitativeAxisComponent.html'
-    builder: 'injectables/VicXQuantitativeAxisBuilder.html'
+    builder: 'injectables/VicXQuantitativeAxisConfigBuilder.html'
   y-ordinal-axis:
     component: 'components/YOrdinalAxisComponent.html'
     builder: 'injectables/VicYOrdinalAxisBuilder.html'
   y-quantitative-axis:
     component: 'components/YQuantitativeAxisComponent.html'
-    builder: 'injectables/VicYQuantitativeAxisBuilder.html'
+    builder: 'injectables/VicYQuantitativeAxisConfigBuilder.html'
   internal:
     base: 'directives/XyAxis.html'
     tick-wrap:
@@ -133,7 +133,7 @@ axis-components:
 other-components:
   html-tooltip:
     directive: 'directives/HtmlTooltipDirective.html'
-    builder: 'injectables/VicHtmlTooltipBuilder.html'
+    builder: 'injectables/VicHtmlTooltipConfigBuilder.html'
     internal:
       config: 'classes/HtmlTooltipConfig.html'
   map-legend:

@@ -9,7 +9,7 @@ const DEFAULT = {
 };
 
 @Injectable()
-export class VicYQuantitativeAxisBuilder<
+export class VicYQuantitativeAxisConfigBuilder<
   TickValue extends DataValue
 > extends XyAxisBaseBuilder<TickValue> {
   private _numTicks: number;
@@ -36,7 +36,7 @@ export class VicYQuantitativeAxisBuilder<
     return this;
   }
 
-  build(): YQuantitativeAxisConfig<TickValue> {
+  getConfig(): YQuantitativeAxisConfig<TickValue> {
     return new YQuantitativeAxisConfig<TickValue>({
       numTicks: this._numTicks,
       removeDomain: this._removeDomain,

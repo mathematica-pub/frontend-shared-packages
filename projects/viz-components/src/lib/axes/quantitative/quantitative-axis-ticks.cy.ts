@@ -4,11 +4,11 @@ import 'cypress/support/component';
 import { extent } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsModule } from '../../bars/bars.module';
-import { VicBarsBuilder } from '../../bars/config/bars-builder';
+import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';
 import { VicChartModule } from '../../chart/chart.module';
 import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
-import { VicXQuantitativeAxisBuilder } from '../x-quantitative/x-quantitative-axis-builder';
+import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 
@@ -49,7 +49,10 @@ describe('it correctly sets ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+    barsConfig = new VicBarsConfigBuilder<
+      { state: string; value: number },
+      string
+    >()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
@@ -63,8 +66,10 @@ describe('it correctly sets ticks', () => {
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder().tickFormat('.0f').build();
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .tickFormat('.0f')
+      .getConfig();
   });
   describe('only tickFormat is specified by the user', () => {
     beforeEach(() => {
@@ -89,10 +94,10 @@ describe('it correctly sets ticks', () => {
   });
   describe('tick values are specified by user', () => {
     beforeEach(() => {
-      axisConfig = new VicXQuantitativeAxisBuilder()
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
         .tickValues([1, 2, 7, 21])
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -112,10 +117,10 @@ describe('it correctly sets ticks', () => {
   });
   describe('tick values are specified by user - tick values are outside of data range', () => {
     beforeEach(() => {
-      axisConfig = new VicXQuantitativeAxisBuilder()
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
         .tickValues([-1, 1, 2, 7, 21, 100])
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -147,7 +152,10 @@ describe('integer formatted ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+    barsConfig = new VicBarsConfigBuilder<
+      { state: string; value: number },
+      string
+    >()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
@@ -161,8 +169,10 @@ describe('integer formatted ticks', () => {
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder().tickFormat('.0f').build();
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .tickFormat('.0f')
+      .getConfig();
     validFormatRegex = /^\d+$/;
   });
   describe('only tickFormat is specified by the user', () => {
@@ -187,10 +197,10 @@ describe('integer formatted ticks', () => {
   });
   describe('tick values are specified by user - specified values are not integers', () => {
     beforeEach(() => {
-      axisConfig = new VicXQuantitativeAxisBuilder()
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
         .tickValues([1.1, 2.2, 7.7, 21.21])
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -210,7 +220,7 @@ describe('integer formatted ticks', () => {
   });
   describe('user specifies numTicks and data range has fewer integer values than numTicks', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<
+      barsConfig = new VicBarsConfigBuilder<
         { state: string; value: number },
         string
       >()
@@ -227,11 +237,11 @@ describe('integer formatted ticks', () => {
           dimension.valueAccessor((d) => d.value)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
-      axisConfig = new VicXQuantitativeAxisBuilder()
+        .getConfig();
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
         .numTicks(100)
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -258,7 +268,7 @@ describe('integer formatted ticks', () => {
   });
   describe('user specifies numTicks and data max is less than 1 (first possible value given formatter)', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<
+      barsConfig = new VicBarsConfigBuilder<
         { state: string; value: number },
         string
       >()
@@ -275,11 +285,11 @@ describe('integer formatted ticks', () => {
           dimension.valueAccessor((d) => d.value)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
-      axisConfig = new VicXQuantitativeAxisBuilder()
+        .getConfig();
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
         .numTicks(10)
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -318,7 +328,10 @@ describe('float formatted ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+    barsConfig = new VicBarsConfigBuilder<
+      { state: string; value: number },
+      string
+    >()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
@@ -332,8 +345,10 @@ describe('float formatted ticks', () => {
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder().tickFormat('.1f').build();
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .tickFormat('.1f')
+      .getConfig();
     validFormatRegex = /^(\d|[1-9]\d+)\.\d$/;
   });
   describe('only tickFormat is specified by the user', () => {
@@ -358,10 +373,10 @@ describe('float formatted ticks', () => {
   });
   describe('tick values are specified by user - specified values are not the correct format', () => {
     beforeEach(() => {
-      axisConfig = new VicXQuantitativeAxisBuilder()
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.1f')
         .tickValues([1, 2.27, 7.0, 21.21])
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -382,7 +397,7 @@ describe('float formatted ticks', () => {
   describe('user specifies numTicks and data range has fewer possible formatted values than numTicks', () => {
     let possibleValues: number;
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<
+      barsConfig = new VicBarsConfigBuilder<
         { state: string; value: number },
         string
       >()
@@ -399,11 +414,11 @@ describe('float formatted ticks', () => {
           dimension.valueAccessor((d) => d.value)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
-      axisConfig = new VicXQuantitativeAxisBuilder()
+        .getConfig();
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.1f')
         .numTicks(100)
-        .build();
+        .getConfig();
       const numDecimalPlaces = 1;
       possibleValues =
         extent(barsConfig.data.map((d) => d.value))[1] *
@@ -442,7 +457,7 @@ describe('float formatted ticks', () => {
   });
   describe('user specifies numTicks and data max is less than first possible value given formatter', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<
+      barsConfig = new VicBarsConfigBuilder<
         { state: string; value: number },
         string
       >()
@@ -459,11 +474,11 @@ describe('float formatted ticks', () => {
           dimension.valueAccessor((d) => d.value)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
-      axisConfig = new VicXQuantitativeAxisBuilder()
+        .getConfig();
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.1f')
         .numTicks(10)
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -502,7 +517,10 @@ describe('percent formatted ticks', () => {
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<{ state: string; value: number }, string>()
+    barsConfig = new VicBarsConfigBuilder<
+      { state: string; value: number },
+      string
+    >()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 0.011 },
@@ -516,8 +534,10 @@ describe('percent formatted ticks', () => {
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder().tickFormat('.0%').build();
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder()
+      .tickFormat('.0%')
+      .getConfig();
     validFormatRegex = /^(\d|[1-9]\d+)%$/;
   });
   describe('only tickFormat is specified by the user', () => {
@@ -542,10 +562,10 @@ describe('percent formatted ticks', () => {
   });
   describe('tick values are specified by user - specified values are not the correct format', () => {
     beforeEach(() => {
-      axisConfig = new VicXQuantitativeAxisBuilder()
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0%')
         .tickValues([0.01, 0.027, 0.07, 0.2121])
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,
@@ -566,10 +586,10 @@ describe('percent formatted ticks', () => {
   describe('user specifies numTicks and data range has fewer possible formatted values than numTicks', () => {
     let possibleValues: number;
     beforeEach(() => {
-      axisConfig = new VicXQuantitativeAxisBuilder()
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0%')
         .numTicks(100)
-        .build();
+        .getConfig();
       const numDecimalPlaces = 2;
       possibleValues =
         extent(barsConfig.data.map((d) => d.value))[1] *
@@ -608,7 +628,7 @@ describe('percent formatted ticks', () => {
   });
   describe('user specifies numTicks and data max is less than first possible value given formatter', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<
+      barsConfig = new VicBarsConfigBuilder<
         { state: string; value: number },
         string
       >()
@@ -625,11 +645,11 @@ describe('percent formatted ticks', () => {
           dimension.valueAccessor((d) => d.value)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
-      axisConfig = new VicXQuantitativeAxisBuilder()
+        .getConfig();
+      axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0%')
         .numTicks(10)
-        .build();
+        .getConfig();
       cy.mount(TestXQuantitativeAxisComponent, {
         declarations,
         imports,

@@ -13,20 +13,20 @@ import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html
 import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
-  VicBarsBuilder,
+  VicBarsConfigBuilder,
   VicBarsModule,
   VicChartModule,
-  VicHtmlTooltipBuilder,
+  VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicXOrdinalAxisBuilder,
+  VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
-  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
-  VicYOrdinalAxisBuilder,
+  VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
-  VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
@@ -66,12 +66,12 @@ enum Orientation {
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [
-    VicBarsBuilder,
-    VicXOrdinalAxisBuilder,
-    VicXQuantitativeAxisBuilder,
-    VicYOrdinalAxisBuilder,
-    VicYQuantitativeAxisBuilder,
-    VicHtmlTooltipBuilder,
+    VicBarsConfigBuilder,
+    VicXOrdinalAxisConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+    VicYOrdinalAxisConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
   ],
 })
 export class BarsExampleComponent implements OnInit {
@@ -102,12 +102,12 @@ export class BarsExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private bars: VicBarsBuilder<MetroUnemploymentDatum, string>,
-    private xOrdinalAxis: VicXOrdinalAxisBuilder<string>,
-    private xQuantitativeAxis: VicXQuantitativeAxisBuilder<number>,
-    private yOrdinalAxis: VicYOrdinalAxisBuilder<string>,
-    private yQuantitativeAxis: VicYQuantitativeAxisBuilder<number>,
-    private tooltip: VicHtmlTooltipBuilder
+    private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
+    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
+    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
+    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
+    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -129,12 +129,12 @@ export class BarsExampleComponent implements OnInit {
     );
     const xAxisConfig =
       orientation === Orientation.horizontal
-        ? this.xQuantitativeAxis.tickFormat('.0f').build()
-        : this.xOrdinalAxis.build();
+        ? this.xQuantitativeAxis.tickFormat('.0f').getConfig()
+        : this.xOrdinalAxis.getConfig();
     const yAxisConfig =
       orientation === Orientation.horizontal
-        ? this.yOrdinalAxis.build()
-        : this.yQuantitativeAxis.tickFormat('.0f').build();
+        ? this.yOrdinalAxis.getConfig()
+        : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
 
     const dataConfig = this.bars
       .data(filteredData)
@@ -150,7 +150,7 @@ export class BarsExampleComponent implements OnInit {
         dimension.valueAccessor((d) => d.division)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
+      .getConfig();
 
     return {
       dataConfig,
@@ -191,7 +191,7 @@ export class BarsExampleComponent implements OnInit {
       )
       .origin(data ? data.elRef : undefined)
       .show(!!data)
-      .build();
+      .getConfig();
     this.tooltipConfig.next(config);
   }
 

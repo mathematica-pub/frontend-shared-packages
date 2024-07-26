@@ -4,11 +4,11 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
 import { BehaviorSubject } from 'rxjs';
 import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
-import { VicXQuantitativeAxisBuilder } from '../../../axes/x-quantitative/x-quantitative-axis-builder';
+import { VicXQuantitativeAxisConfigBuilder } from '../../../axes/x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quantitative-axis.module';
 import { BarsComponent } from '../../../bars/bars.component';
 import { VicBarsModule } from '../../../bars/bars.module';
-import { VicBarsBuilder } from '../../../bars/config/bars-builder';
+import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
 import { VicChartModule } from '../../../chart/chart.module';
 import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
 import { expectDomain } from './domain-test-utility';
@@ -100,7 +100,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<Datum, string>()
+    barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
@@ -114,10 +114,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
-      .build();
+      .getConfig();
   });
   describe('X domain is the default: 0, max value', () => {
     beforeEach(() => {
@@ -253,7 +253,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<Datum, string>()
+    barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
@@ -267,10 +267,10 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
-      .build();
+      .getConfig();
   });
   describe('X domain is default/not padded', () => {
     beforeEach(() => {
@@ -406,7 +406,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<Datum, string>()
+    barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: -1.1 },
@@ -420,10 +420,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
-      .build();
+      .getConfig();
   });
   describe('X domain is the default: min value, 0', () => {
     beforeEach(() => {
@@ -577,7 +577,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<Datum, string>()
+    barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: -1.1 },
@@ -591,10 +591,10 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
-      .build();
+      .getConfig();
   });
   describe('X domain turns off including 0', () => {
     beforeEach(() => {
@@ -728,7 +728,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<Datum, string>()
+    barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
@@ -744,10 +744,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
-      .build();
+      .getConfig();
   });
   describe('X domain is the default: min value, 0', () => {
     beforeEach(() => {
@@ -908,7 +908,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
     VicXyChartModule,
   ];
   beforeEach(() => {
-    barsConfig = new VicBarsBuilder<Datum, string>()
+    barsConfig = new VicBarsConfigBuilder<Datum, string>()
       .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 0.01 },
@@ -922,10 +922,10 @@ describe('it correctly sets quantitative domain - all values are positive and le
         dimension.valueAccessor((d) => d.value)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
-    axisConfig = new VicXQuantitativeAxisBuilder<number>()
+      .getConfig();
+    axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
-      .build();
+      .getConfig();
   });
   describe('X domain is the default: 0, max value', () => {
     beforeEach(() => {

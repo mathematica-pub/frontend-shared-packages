@@ -8,7 +8,7 @@ const DEFAULT = {
 };
 
 @Injectable()
-export class VicYOrdinalAxisBuilder<
+export class VicYOrdinalAxisConfigBuilder<
   TickValue extends DataValue
 > extends XyAxisBaseBuilder<TickValue> {
   private _side: 'left' | 'right';
@@ -22,7 +22,7 @@ export class VicYOrdinalAxisBuilder<
     return this;
   }
 
-  build(): YOrdinalAxisConfig<TickValue> {
+  getConfig(): YOrdinalAxisConfig<TickValue> {
     return new YOrdinalAxisConfig<TickValue>({
       removeDomain: this._removeDomain,
       removeTickMarks: this._removeTickMarks,

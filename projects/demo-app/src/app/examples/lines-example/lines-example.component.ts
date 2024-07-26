@@ -18,7 +18,7 @@ import {
 } from 'projects/viz-components/src/lib/events/effect';
 import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-config';
 import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/events/lines-event-output';
-import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   LinesClickDirective,
@@ -33,13 +33,13 @@ import {
   VicHtmlTooltipModule,
   VicImageDownload,
   VicJpegImageConfig,
-  VicLinesBuilder,
+  VicLinesConfigBuilder,
   VicLinesModule,
-  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
-  VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
@@ -74,10 +74,10 @@ const includeFiles = ['line-input-effects.ts'];
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
   providers: [
-    VicLinesBuilder,
-    VicYQuantitativeAxisBuilder,
-    VicXQuantitativeAxisBuilder,
-    VicHtmlTooltipBuilder,
+    VicLinesConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
   ],
 })
 export class LinesExampleComponent implements OnInit {
@@ -120,10 +120,10 @@ export class LinesExampleComponent implements OnInit {
   constructor(
     private dataService: DataService,
     public downloadService: VicDataExport,
-    public lines: VicLinesBuilder<MetroUnemploymentDatum>,
-    private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>,
-    private tooltip: VicHtmlTooltipBuilder
+    public lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
+    private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -138,9 +138,9 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').build();
-    const yAxisConfig = this.yAxisQuantitative.build();
-    const dataConfig = new VicLinesBuilder<MetroUnemploymentDatum>()
+    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
+    const yAxisConfig = this.yAxisQuantitative.getConfig();
+    const dataConfig = this.lines
       .data(data)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.date)
@@ -186,7 +186,7 @@ export class LinesExampleComponent implements OnInit {
       )
       .hasBackdrop(eventContext === 'click')
       .show(!!data)
-      .build();
+      .getConfig();
     this.tooltipConfig.next(config);
   }
 

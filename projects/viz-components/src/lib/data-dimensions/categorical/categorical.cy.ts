@@ -4,15 +4,15 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   VicBarsModule,
   VicChartModule,
-  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
-  VicYOrdinalAxisBuilder,
+  VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis-config';
-import { VicBarsBuilder } from '../../bars/config/bars-builder';
+import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsConfig } from '../../bars/config/bars-config';
 import { QOCData, QOCDatum } from '../../testing/data/quant-ord-cat-data';
 
@@ -104,10 +104,10 @@ class TestHorizontalBarsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<QOCDatum, string>
 ): void => {
-  const xAxisConfig = new VicXQuantitativeAxisBuilder()
+  const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
     .tickFormat('.0f')
-    .build();
-  const yAxisConfig = new VicYOrdinalAxisBuilder().build();
+    .getConfig();
+  const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const declarations = [TestHorizontalBarsComponent];
   const imports = [
     VicChartModule,
@@ -139,7 +139,7 @@ describe('marks have expected fill', () => {
   describe('user does not specify a categorical valueAccessor or a custom scale', () => {
     it('colors every mark by first color in user-provided range if user provides range of length >= 1', () => {
       const color = 'chartreuse';
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -152,7 +152,7 @@ describe('marks have expected fill', () => {
           dimension.range([color, 'red', 'yellow'])
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
         expect($bar.attr('fill')).to.equal(color);
@@ -160,7 +160,7 @@ describe('marks have expected fill', () => {
     });
     it('colors every mark by first color in the default range if user provides no range and no custom scale', () => {
       const color = schemeTableau10[0];
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -170,7 +170,7 @@ describe('marks have expected fill', () => {
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
         expect($bar.attr('fill')).to.equal(color);
@@ -180,7 +180,7 @@ describe('marks have expected fill', () => {
   describe('user provides a valueAccessor for the categorical dimension', () => {
     it('colors every mark according to the valueAccessor using default color array', () => {
       const color = schemeTableau10;
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -193,7 +193,7 @@ describe('marks have expected fill', () => {
           dimension.valueAccessor((d) => d.continent)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
         switch (QOCData[i].continent) {
@@ -220,7 +220,7 @@ describe('marks have expected fill', () => {
   });
   describe('user provides a custom scale for the categorical dimension', () => {
     it('colors every mark according to the custom scale when user also provides a value accessor', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -235,7 +235,7 @@ describe('marks have expected fill', () => {
             .scale(customCategoricalScale)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
         switch (QOCData[i].continent) {
@@ -260,7 +260,7 @@ describe('marks have expected fill', () => {
       });
     });
     it('colors every mark according to the custom scales behavior with empty string arg when user does not provide a value accessor', () => {
-      barsConfig = new VicBarsBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
         .orientation('horizontal')
         .data(QOCData)
         .createOrdinalDimension((dimension) =>
@@ -273,7 +273,7 @@ describe('marks have expected fill', () => {
           dimension.scale(customCategoricalScale)
         )
         .createLabels((labels) => labels.display(true))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
         expect($bar.attr('fill')).to.equal('chartreuse');
@@ -291,7 +291,7 @@ describe('user provides a fill pattern', () => {
     barsConfig = undefined;
   });
   it('sets bar fill with either the pattern name or the regular fill according to usePattern function', () => {
-    barsConfig = new VicBarsBuilder<QOCDatum, string>()
+    barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
       .orientation('horizontal')
       .data(QOCData)
       .createOrdinalDimension((dimension) =>
@@ -309,7 +309,7 @@ describe('user provides a fill pattern', () => {
         ])
       )
       .createLabels((labels) => labels.display(true))
-      .build();
+      .getConfig();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
       if (i === 2) {
@@ -320,7 +320,7 @@ describe('user provides a fill pattern', () => {
     });
   });
   it('sets bar fill with either the pattern name or the regular fill according to usePattern function when user provides a scale and valueAccessor', () => {
-    barsConfig = new VicBarsBuilder<QOCDatum, string>()
+    barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
       .orientation('horizontal')
       .data(QOCData)
       .createOrdinalDimension((dimension) =>
@@ -341,7 +341,7 @@ describe('user provides a fill pattern', () => {
           .scale(customCategoricalScale)
       )
       .createLabels((labels) => labels.display(true))
-      .build();
+      .getConfig();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
       if (i === 2) {
@@ -370,7 +370,7 @@ describe('user provides a fill pattern', () => {
     });
   });
   it('sets bar fill with the last matching pattern in fillPatterns array if two patterns match', () => {
-    barsConfig = new VicBarsBuilder<QOCDatum, string>()
+    barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
       .orientation('horizontal')
       .data(QOCData)
       .createOrdinalDimension((dimension) =>
@@ -394,7 +394,7 @@ describe('user provides a fill pattern', () => {
           .range(['lightcoral'])
       )
       .createLabels((labels) => labels.display(true))
-      .build();
+      .getConfig();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
       if (i === 2) {

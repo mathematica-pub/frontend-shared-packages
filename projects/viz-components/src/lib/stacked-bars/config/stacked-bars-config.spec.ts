@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { VicStackedBarsBuilder } from './stacked-bars-builder';
+import { VicStackedBarsConfigBuilder } from './stacked-bars-builder';
 import { StackedBarsConfig } from './stacked-bars-config';
 
 type Datum = { country: string; value: number; category: string };
@@ -13,7 +13,7 @@ const data = [
 ];
 
 function getNewConfig(): StackedBarsConfig<Datum, string> {
-  return new VicStackedBarsBuilder<Datum, string>()
+  return new VicStackedBarsConfigBuilder<Datum, string>()
     .orientation('horizontal')
     .data(data)
     .createOrdinalDimension((dimension) =>
@@ -25,7 +25,7 @@ function getNewConfig(): StackedBarsConfig<Datum, string> {
     .createCategoricalDimension((dimension) =>
       dimension.valueAccessor((d) => d.category)
     )
-    .build();
+    .getConfig();
 }
 describe('StackedBarsConfig', () => {
   let config: StackedBarsConfig<Datum, string>;
@@ -75,7 +75,7 @@ describe('StackedBarsConfig', () => {
       expect(config.valueIndices).toEqual([0, 1, 2, 3, 4, 5]);
     });
     it('returns an array of indices when ordinal domain is limited by user', () => {
-      config = new VicStackedBarsBuilder<Datum, string>()
+      config = new VicStackedBarsConfigBuilder<Datum, string>()
         .orientation('horizontal')
         .data(data)
         .createOrdinalDimension((dimension) =>
@@ -89,11 +89,11 @@ describe('StackedBarsConfig', () => {
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor((d) => d.category)
         )
-        .build();
+        .getConfig();
       expect(config.valueIndices).toEqual([0, 2, 3]);
     });
     it('returns an array of indices when categorical domain is limited by user', () => {
-      config = new VicStackedBarsBuilder<Datum, string>()
+      config = new VicStackedBarsConfigBuilder<Datum, string>()
         .orientation('horizontal')
         .data(data)
         .createOrdinalDimension((dimension) =>
@@ -105,11 +105,11 @@ describe('StackedBarsConfig', () => {
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
-        .build();
+        .getConfig();
       expect(config.valueIndices).toEqual([0, 1, 2]);
     });
     it('returns an array of indices when both ordinal and categorical domains are limited by user', () => {
-      config = new VicStackedBarsBuilder<Datum, string>()
+      config = new VicStackedBarsConfigBuilder<Datum, string>()
         .orientation('horizontal')
         .data(data)
         .createOrdinalDimension((dimension) =>
@@ -123,7 +123,7 @@ describe('StackedBarsConfig', () => {
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
-        .build();
+        .getConfig();
       expect(config.valueIndices).toEqual([0, 2]);
     });
   });

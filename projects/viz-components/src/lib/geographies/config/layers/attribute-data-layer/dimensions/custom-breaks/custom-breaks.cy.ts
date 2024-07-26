@@ -10,7 +10,7 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  VicGeographiesBuilder,
+  VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicMapChartModule,
 } from '../../../../../../../public-api';
@@ -114,7 +114,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -132,7 +132,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
                 .range(rangeValues)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       rangeValues.forEach((color, i) => {
         const statesInAttributeData = attributeData
@@ -162,7 +162,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -180,7 +180,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
                 .range(rangeValues)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       const belowValues = attributeData
         .filter((d) => d.income < breakValues[0])
@@ -214,7 +214,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap,
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -238,7 +238,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
                 .range(rangeValues)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       rangeValues.forEach((color, i) => {
         const statesInAttributeData = attributeData
@@ -280,7 +280,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         }
       });
       const nullColor = 'chartreuse';
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -299,7 +299,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
                 .nullColor(nullColor)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       cy.get(`.vic-geography-g path.Florida`).then((path) => {
         expect(path.attr('fill')).to.eq(rangeValues[0]);
@@ -329,7 +329,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         usMap.objects.states
       ) as FeatureCollection<MultiPolygon | Polygon, TestMapGeometryProperties>;
       const nullColor = 'chartreuse';
-      geographiesConfig = new VicGeographiesBuilder<
+      geographiesConfig = new VicGeographiesConfigBuilder<
         StateInComePopulationDatum,
         TestMapGeometryProperties
       >()
@@ -349,7 +349,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
                 .nullColor(nullColor)
             )
         )
-        .build();
+        .getConfig();
       mountGeographiesComponent(geographiesConfig);
       const geographiesNotInAttributeData = states.features
         .filter(

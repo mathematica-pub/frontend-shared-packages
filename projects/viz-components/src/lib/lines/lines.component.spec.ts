@@ -2,7 +2,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicLinesBuilder } from './config/lines-builder';
+import { VicLinesConfigBuilder } from './config/lines-builder';
 import { LinesComponent } from './lines.component';
 
 describe('LineChartComponent', () => {
@@ -31,7 +31,7 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
-      component.config = new VicLinesBuilder()
+      component.config = new VicLinesConfigBuilder()
         .data([])
         .createXDateDimension((dimension) =>
           dimension.valueAccessor(() => null)
@@ -55,7 +55,7 @@ describe('LineChartComponent', () => {
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
     it('calls drawPointMarkers once with the correct argument if config.pointMarkers is truthy', () => {
-      component.config = new VicLinesBuilder()
+      component.config = new VicLinesConfigBuilder()
         .data([])
         .createXDateDimension((dimension) =>
           dimension.valueAccessor(() => null)
@@ -74,7 +74,7 @@ describe('LineChartComponent', () => {
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
     it('calls drawHoverDot once with the correct argument if config.pointMarkersis undefined and hoverDot is defined', () => {
-      component.config = new VicLinesBuilder()
+      component.config = new VicLinesConfigBuilder()
         .data([])
         .createXDateDimension((dimension) =>
           dimension.valueAccessor(() => null)
@@ -89,7 +89,7 @@ describe('LineChartComponent', () => {
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
     it('does not call drawHoverDot once if config.pointMarkers is true', () => {
-      component.config = new VicLinesBuilder()
+      component.config = new VicLinesConfigBuilder()
         .data([])
         .createXDateDimension((dimension) =>
           dimension.valueAccessor(() => null)
@@ -105,7 +105,7 @@ describe('LineChartComponent', () => {
       expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
     });
     it('calls drawLineLabels once if config.labelLines is true', () => {
-      component.config = new VicLinesBuilder()
+      component.config = new VicLinesConfigBuilder()
         .data([])
         .createXDateDimension((dimension) =>
           dimension.valueAccessor(() => null)

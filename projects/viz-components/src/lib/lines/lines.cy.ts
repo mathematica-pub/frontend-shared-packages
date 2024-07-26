@@ -4,12 +4,12 @@ import { cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import {
   VicChartModule,
-  VicLinesBuilder,
+  VicLinesConfigBuilder,
   VicLinesModule,
-  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
-  VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
@@ -76,10 +76,11 @@ const imports = [
 ];
 
 function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
-  const xAxisConfig = new VicXQuantitativeAxisBuilder<Date>()
+  const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<Date>()
     .tickFormat('%Y')
-    .build();
-  const yAxisConfig = new VicYQuantitativeAxisBuilder<number>().build();
+    .getConfig();
+  const yAxisConfig =
+    new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
   const declarations = [TestLinesComponent<QdQnCDatum, Date>];
   cy.mount(TestLinesComponent<QdQnCDatum, Date>, {
     declarations,
@@ -94,10 +95,11 @@ function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
 }
 
 function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
-  const xAxisConfig = new VicXQuantitativeAxisBuilder<number>()
+  const xAxisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
     .tickFormat('.0f')
-    .build();
-  const yAxisConfig = new VicYQuantitativeAxisBuilder<number>().build();
+    .getConfig();
+  const yAxisConfig =
+    new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
   const declarations = [TestLinesComponent<QnQnCDatum, number>];
   cy.mount(TestLinesComponent<QnQnCDatum, number>, {
     declarations,
@@ -116,7 +118,7 @@ function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
 // ***********************************************************
 describe('it creates the correct marks - x axis values are Dates', () => {
   it('should draw the correct number of lines', () => {
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.year)
@@ -152,7 +154,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       }
       return acc;
     }, {});
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.year)
@@ -190,7 +192,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       }
       return acc;
     }, {});
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.year)
@@ -228,7 +230,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       }
       return acc;
     }, {});
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.year)
@@ -256,7 +258,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
 });
 describe('it creates the correct lines - x axis values are Numbers', () => {
   it('should draw the correct number of lines, one for each category', () => {
-    const linesConfig = new VicLinesBuilder<QnQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
       .data(numericData)
       .createXNumericDimension((dimension) =>
         dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
@@ -287,7 +289,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
 // ***********************************************************
 describe('if the user specifies a y domain that is smaller than max value', () => {
   it('should draw the lines with the users specified y domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.year)
@@ -322,7 +324,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
 
 describe('if the user specifies an x domain that is smaller than max value', () => {
   it('should draw the lines with the users specified x domain - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-    const linesConfig = new VicLinesBuilder<QnQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
       .data(numericData)
       .createXNumericDimension((dimension) =>
         dimension
@@ -364,7 +366,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
 describe('it creates lines with the correct properties per config', () => {
   // More rigorous testing of categorical dimension in categorical tests
   it('draws lines with the correct colors', () => {
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
       .createXDateDimension((dimension) =>
         dimension.valueAccessor((d) => d.year)
@@ -382,7 +384,7 @@ describe('it creates lines with the correct properties per config', () => {
     });
   });
   it('draws the correct number of lines if a user provides a custom curve function', () => {
-    const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+    const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
       .curve(curveBasis)
       .createXDateDimension((dimension) =>
@@ -402,7 +404,7 @@ describe('it creates lines with the correct properties per config', () => {
   describe('pointMarkers', () => {
     const markerClass = 'test-point-marker';
     it('draws the correct number of point markers', () => {
-      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
         .createXDateDimension((dimension) =>
           dimension.valueAccessor((d) => d.year)
@@ -421,7 +423,7 @@ describe('it creates lines with the correct properties per config', () => {
     it('draws point markers with the correct radius - user provides custom radius', () => {
       const markerClass = 'test-point-marker';
       const radius = 4;
-      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
         .createXDateDimension((dimension) =>
           dimension.valueAccessor((d) => d.year)
@@ -445,7 +447,7 @@ describe('it creates lines with the correct properties per config', () => {
 
   describe('stroke', () => {
     it('draws lines with the correct properties', () => {
-      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
         .createXDateDimension((dimension) =>
           dimension.valueAccessor((d) => d.year)
@@ -471,7 +473,7 @@ describe('it creates lines with the correct properties per config', () => {
 
   describe('line labels', () => {
     it('draws the correct number of line labels', () => {
-      const linesConfig = new VicLinesBuilder<QdQnCDatum>()
+      const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
         .data(dateData)
         .createXDateDimension((dimension) =>
           dimension.valueAccessor((d) => d.year)

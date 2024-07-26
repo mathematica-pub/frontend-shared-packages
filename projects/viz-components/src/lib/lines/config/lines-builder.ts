@@ -22,7 +22,7 @@ const DEFAULT = {
  * The generic parameter, Datum, is the type of the data that will be used to create the lines.
  */
 @Injectable()
-export class VicLinesBuilder<Datum> extends DataMarksBuilder<Datum> {
+export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   private _curve: CurveFactory;
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;

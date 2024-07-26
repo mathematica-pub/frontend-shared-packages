@@ -12,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
-  VicGeographiesBuilder,
+  VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
   VicMapChartModule,
@@ -21,7 +21,7 @@ import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
 } from '../testing/stubs/data/states_population_income';
-import { VicHtmlTooltipBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
+import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesEventOutput } from './events/geographies-event-output';
@@ -116,13 +116,13 @@ class TestGeographiesComponent {
   }
 
   updateTooltipConfig(data: GeographiesEventOutput<StateIncomeDatum>): void {
-    const config = new VicHtmlTooltipBuilder()
+    const config = new VicHtmlTooltipConfigBuilder()
       .setSize((size) => size.minWidth(130))
       .createOffsetFromOriginPosition((position) =>
         position.offsetX(data?.positionX).offsetY(data?.positionY)
       )
       .show(!!data)
-      .build();
+      .getConfig();
     this.tooltipConfig.next(config);
   }
 }
@@ -175,7 +175,7 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = new VicGeographiesBuilder<
+        geographiesConfig = new VicGeographiesConfigBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >()
@@ -194,7 +194,7 @@ describe('drawing the geography paths for various layers', () => {
               .strokeColor('black')
               .strokeWidth('1')
           )
-          .build();
+          .getConfig();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
@@ -223,7 +223,7 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = new VicGeographiesBuilder<
+        geographiesConfig = new VicGeographiesConfigBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >()
@@ -241,7 +241,7 @@ describe('drawing the geography paths for various layers', () => {
               .strokeColor('red')
               .strokeWidth('1')
           )
-          .build();
+          .getConfig();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g path').should(
           'have.length',
@@ -280,7 +280,7 @@ describe('drawing the geography paths for various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = new VicGeographiesBuilder<
+        geographiesConfig = new VicGeographiesConfigBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >()
@@ -305,7 +305,7 @@ describe('drawing the geography paths for various layers', () => {
               .strokeColor('red')
               .strokeWidth('1')
           )
-          .build();
+          .getConfig();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geographies-data-layer path').then((paths) => {
           expect(paths).to.have.length(states.features.length);
@@ -373,7 +373,7 @@ describe('drawing the geography paths for various layers', () => {
         const stateNamesScale = scaleLinear<string>()
           .domain(extent(stateNames.map((x) => x.length)))
           .range(['white', 'magenta']);
-        geographiesConfig = new VicGeographiesBuilder<
+        geographiesConfig = new VicGeographiesConfigBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >()
@@ -398,7 +398,7 @@ describe('drawing the geography paths for various layers', () => {
               .strokeColor('blue')
               .strokeWidth('1')
           )
-          .build();
+          .getConfig();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g path').should(
           'have.length',
@@ -460,7 +460,7 @@ describe('drawing the geography labels various layers', () => {
           MultiPolygon | Polygon,
           TestMapGeometryProperties
         >;
-        geographiesConfig = new VicGeographiesBuilder<
+        geographiesConfig = new VicGeographiesConfigBuilder<
           StateInComePopulationDatum,
           TestMapGeometryProperties
         >()
@@ -505,7 +505,7 @@ describe('drawing the geography labels various layers', () => {
                   .color('chartreuse')
               )
           )
-          .build();
+          .getConfig();
         mountGeographiesComponent(geographiesConfig);
         cy.get('.vic-geography-g').then((groups) => {
           expect(groups).to.have.length(states.features.length);

@@ -2,7 +2,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapChartComponent } from '../map-chart/map-chart.component';
-import { VicGeographiesBuilder } from './config/geographies-builder';
+import { VicGeographiesConfigBuilder } from './config/geographies-builder';
 import { GeographiesComponent } from './geographies.component';
 
 type Datum = { value: number; state: string };
@@ -26,7 +26,10 @@ describe('GeographiesComponent', () => {
     beforeEach(() => {
       spyOn(component, 'setPropertiesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
-      component.config = new VicGeographiesBuilder<Datum, { name: string }>()
+      component.config = new VicGeographiesConfigBuilder<
+        Datum,
+        { name: string }
+      >()
         .boundary('boundary' as any)
         .featureIndexAccessor((d) => d.properties.name)
         .createAttributeDataLayer((layer) =>
@@ -44,7 +47,7 @@ describe('GeographiesComponent', () => {
               { value: 6, state: 'CO' },
             ])
         )
-        .build();
+        .getConfig();
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
@@ -78,7 +81,10 @@ describe('GeographiesComponent', () => {
           'updateAttributeProperties'
         ),
       } as any;
-      component.config = new VicGeographiesBuilder<Datum, { name: string }>()
+      component.config = new VicGeographiesConfigBuilder<
+        Datum,
+        { name: string }
+      >()
         .boundary('boundary' as any)
         .featureIndexAccessor((d) => d.properties.name)
         .createAttributeDataLayer((layer) =>
@@ -99,7 +105,7 @@ describe('GeographiesComponent', () => {
               { value: 6, state: 'CO' },
             ])
         )
-        .build();
+        .getConfig();
       spyOn(
         component.config.attributeDataLayer.attributeDimension,
         'getScale'

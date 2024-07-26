@@ -5,20 +5,20 @@ import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layou
 import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
 import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
 import { StackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
-import { VicHtmlTooltipBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
   VicChartModule,
   VicHtmlTooltipModule,
-  VicStackedAreaBuilder,
+  VicStackedAreaConfigBuilder,
   VicStackedAreaModule,
-  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
-  VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
@@ -49,10 +49,10 @@ interface ViewModel {
   templateUrl: './stacked-area-example.component.html',
   styleUrls: ['./stacked-area-example.component.scss'],
   providers: [
-    VicStackedAreaBuilder,
-    VicXQuantitativeAxisBuilder,
-    VicYQuantitativeAxisBuilder,
-    VicHtmlTooltipBuilder,
+    VicStackedAreaConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
   ],
 })
 export class StackedAreaExampleComponent implements OnInit {
@@ -79,13 +79,13 @@ export class StackedAreaExampleComponent implements OnInit {
 
   constructor(
     private dataService: DataService,
-    private stackedArea: VicStackedAreaBuilder<
+    private stackedArea: VicStackedAreaConfigBuilder<
       IndustryUnemploymentDatum,
       string
     >,
-    private xAxisQuantitative: VicXQuantitativeAxisBuilder<Date>,
-    private yAxisQuantitative: VicYQuantitativeAxisBuilder<number>,
-    private tooltip: VicHtmlTooltipBuilder
+    private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -96,8 +96,8 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   getViewModel(data: IndustryUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').build();
-    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').build();
+    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
+    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
     const dataConfig = this.stackedArea
       .data(data)
       .createXDateDimension((dimension) =>
@@ -109,7 +109,7 @@ export class StackedAreaExampleComponent implements OnInit {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.industry)
       )
-      .build();
+      .getConfig();
     return {
       dataConfig,
       xAxisConfig,
@@ -141,7 +141,7 @@ export class StackedAreaExampleComponent implements OnInit {
           .offsetY(output ? output.categoryYMin - 5 : undefined)
       )
       .show(output?.hoveredDatum !== undefined)
-      .build();
+      .getConfig();
     this.tooltipConfig.next(config);
   }
 }

@@ -7,7 +7,7 @@ import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
 import { DataMarksStub } from '../../testing/stubs/data-marks.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
-import { VicHtmlTooltipBuilder } from './config/html-tooltip-builder';
+import { VicHtmlTooltipConfigBuilder } from './config/html-tooltip-builder';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
@@ -93,12 +93,12 @@ describe('HtmlTooltipDirective', () => {
       spyOn(directive, 'subscribeToBackdropClick');
       spyOn(directive, 'updateVisibility');
       mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
-      directive.config = new VicHtmlTooltipBuilder()
+      directive.config = new VicHtmlTooltipConfigBuilder()
         .hasBackdrop(true)
         .createOffsetFromOriginPosition()
         .applyEventsDisabledClass(true)
         .setSize((size) => size.width(100))
-        .build();
+        .getConfig();
     });
 
     it('calls overlay.create once with the correct values', fakeAsync(() => {
@@ -146,12 +146,12 @@ describe('HtmlTooltipDirective', () => {
           },
         },
       };
-      directive.config = new VicHtmlTooltipBuilder()
+      directive.config = new VicHtmlTooltipConfigBuilder()
         .hasBackdrop(true)
         .createOffsetFromOriginPosition()
         .applyEventsDisabledClass(true)
         .setSize((size) => size.width(100))
-        .build();
+        .getConfig();
       spyOn(directive.config.position, 'getPositionStrategy').and.returnValue(
         'position' as any
       );

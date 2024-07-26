@@ -5,19 +5,19 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   VicBarsModule,
   VicChartModule,
-  VicXOrdinalAxisBuilder,
+  VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
-  VicXQuantitativeAxisBuilder,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
-  VicYOrdinalAxisBuilder,
+  VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
-  VicYQuantitativeAxisBuilder,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
-import { VicBarsBuilder } from '../bars-builder';
+import { VicBarsConfigBuilder } from '../bars-builder';
 import { BarsConfig } from '../bars-config';
 
 type Datum = { state: string; value: number };
@@ -169,10 +169,10 @@ class TestVerticalBarsWithLabelsComponent {
 const mountVerticalBarsComponent = (
   barsConfig: BarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = new VicXOrdinalAxisBuilder().build();
-  const yAxisConfig = new VicYQuantitativeAxisBuilder()
+  const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
+  const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
     .tickFormat('.0f')
-    .build();
+    .getConfig();
 
   const declarations = [TestVerticalBarsWithLabelsComponent];
   const imports = [
@@ -198,7 +198,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   let barsConfig: BarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<Datum, string>()
+      barsConfig = new VicBarsConfigBuilder<Datum, string>()
         .orientation('vertical')
         .data(dataWithAllValueTypes)
         .createOrdinalDimension((dimension) =>
@@ -211,7 +211,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .createLabels((labels) => labels.display(true).offset(labelOffset))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
     it('centers all data labels with respect to their x-axis tick', () => {
@@ -320,7 +320,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
   describe('for bar data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<Datum, string>()
+      barsConfig = new VicBarsConfigBuilder<Datum, string>()
         .orientation('vertical')
         .data(dataWithNegativeZeroAndNonnumericValues)
         .createOrdinalDimension((dimension) =>
@@ -333,7 +333,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .createLabels((labels) => labels.display(true).offset(labelOffset))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
     it('offsets data label for zero and non-numerics value below scales.y(0)', () => {
@@ -354,7 +354,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
 
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<Datum, string>()
+      barsConfig = new VicBarsConfigBuilder<Datum, string>()
         .orientation('vertical')
         .data(dataWithPositiveZeroAndNonnumericValues)
         .createOrdinalDimension((dimension) =>
@@ -367,7 +367,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .createLabels((labels) => labels.display(true).offset(labelOffset))
-        .build();
+        .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
     it('offsets data label for zero and non-numeric values above scales.y(0)', () => {
@@ -397,7 +397,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       describe('when the domain maximum is greater than 0', () => {
         beforeEach(() => {
-          barsConfig = new VicBarsBuilder<Datum, string>()
+          barsConfig = new VicBarsConfigBuilder<Datum, string>()
             .orientation('vertical')
             .data(item.data)
             .createOrdinalDimension((dimension) =>
@@ -413,7 +413,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .createLabels((labels) => labels.display(true).offset(labelOffset))
-            .build();
+            .getConfig();
           mountVerticalBarsComponent(barsConfig);
         });
         it('offsets data label above scales.y(0)', () => {
@@ -432,7 +432,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       });
       describe('when the domain maximum is not greater than 0', () => {
         beforeEach(() => {
-          barsConfig = new VicBarsBuilder<Datum, string>()
+          barsConfig = new VicBarsConfigBuilder<Datum, string>()
             .orientation('vertical')
             .data(item.data)
             .createOrdinalDimension((dimension) =>
@@ -448,7 +448,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .createLabels((labels) => labels.display(true).offset(labelOffset))
-            .build();
+            .getConfig();
           mountVerticalBarsComponent(barsConfig);
         });
         it('offsets data label below scales.y(0)', () => {
@@ -508,10 +508,10 @@ class TestHorizontalBarsWithLabelsComponent {
 const mountHorizontalBarsComponent = (
   barsConfig: BarsConfig<Datum, string>
 ): void => {
-  const xAxisConfig = new VicXQuantitativeAxisBuilder()
+  const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
     .tickFormat('.0f')
-    .build();
-  const yAxisConfig = new VicYOrdinalAxisBuilder().build();
+    .getConfig();
+  const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
 
   const declarations = [TestHorizontalBarsWithLabelsComponent];
   const imports = [
@@ -537,7 +537,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   let barsConfig: BarsConfig<Datum, string>;
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<Datum, string>()
+      barsConfig = new VicBarsConfigBuilder<Datum, string>()
         .orientation('horizontal')
         .data(dataWithAllValueTypes)
         .createOrdinalDimension((dimension) =>
@@ -550,7 +550,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .createLabels((labels) => labels.display(true).offset(labelOffset))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
     it('centers all data labels with respect to their y-axis tick', () => {
@@ -660,7 +660,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
   describe('for data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<Datum, string>()
+      barsConfig = new VicBarsConfigBuilder<Datum, string>()
         .orientation('horizontal')
         .data(dataWithNegativeZeroAndNonnumericValues)
         .createOrdinalDimension((dimension) =>
@@ -673,7 +673,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .createLabels((labels) => labels.display(true).offset(labelOffset))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
     it('offsets data label for the non-numeric value to the left of scales.x(0)', () => {
@@ -694,7 +694,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
 
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
-      barsConfig = new VicBarsBuilder<Datum, string>()
+      barsConfig = new VicBarsConfigBuilder<Datum, string>()
         .orientation('horizontal')
         .data(dataWithPositiveZeroAndNonnumericValues)
         .createOrdinalDimension((dimension) =>
@@ -707,7 +707,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .createLabels((labels) => labels.display(true).offset(labelOffset))
-        .build();
+        .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
     it('offsets data label for the non-numeric value to the right of scales.x(0)', () => {
@@ -737,7 +737,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
     describe(`for bar data that only has ${item.valueType} values`, () => {
       describe('when the domain maximum value is positive', () => {
         beforeEach(() => {
-          barsConfig = new VicBarsBuilder<Datum, string>()
+          barsConfig = new VicBarsConfigBuilder<Datum, string>()
             .orientation('horizontal')
             .data(item.data)
             .createOrdinalDimension((dimension) =>
@@ -753,7 +753,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .createLabels((labels) => labels.display(true).offset(labelOffset))
-            .build();
+            .getConfig();
           mountHorizontalBarsComponent(barsConfig);
         });
         it('offsets data label to the right of scales.x(0)', () => {
@@ -772,7 +772,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       });
       describe('when the domain maximum value is not greater than 0', () => {
         beforeEach(() => {
-          barsConfig = new VicBarsBuilder<Datum, string>()
+          barsConfig = new VicBarsConfigBuilder<Datum, string>()
             .orientation('horizontal')
             .data(item.data)
             .createOrdinalDimension((dimension) =>
@@ -788,7 +788,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .createLabels((labels) => labels.display(true).offset(labelOffset))
-            .build();
+            .getConfig();
           mountHorizontalBarsComponent(barsConfig);
         });
         it('offsets data label to the left of scales.x(0)', () => {

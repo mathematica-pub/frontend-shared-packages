@@ -5,7 +5,7 @@ import { Ranges } from '../../chart/chart.component';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
-import { VicXQuantitativeAxisBuilder } from '../x-quantitative/x-quantitative-axis-builder';
+import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 
 describe('the XAxis mixin', () => {
   let abstractClass: XAxisStub<number>;
@@ -52,15 +52,15 @@ describe('the XAxis mixin', () => {
       spyOn(abstractClass, 'getBottomTranslate').and.returnValue(60);
     });
     it('returns the correct value for the top side', () => {
-      abstractClass.config = new VicXQuantitativeAxisBuilder()
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('top')
-        .build();
+        .getConfig();
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
     });
     it('returns the correct value for the bottom side', () => {
-      abstractClass.config = new VicXQuantitativeAxisBuilder()
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
-        .build();
+        .getConfig();
       expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
     });
   });
@@ -100,17 +100,17 @@ describe('the XAxis mixin', () => {
 
   describe('setAxisFunction', () => {
     it('sets the axis function to the correct value if side is top', () => {
-      abstractClass.config = new VicXQuantitativeAxisBuilder()
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('top')
-        .build();
+        .getConfig();
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisTop);
     });
 
     it('sets the axis function to the correct value if side is bottom', () => {
-      abstractClass.config = new VicXQuantitativeAxisBuilder()
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
-        .build();
+        .getConfig();
       abstractClass.setAxisFunction();
       expect(abstractClass.axisFunction).toEqual(axisBottom);
     });
