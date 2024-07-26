@@ -107,7 +107,7 @@ data-marks-components:
       options: 'interfaces/StackedAreaOptions.html'
   stacked-bars:
     component: 'components/StackedBarsComponent.html'
-    builder: 'injectables/VicStackedBarsBuilder.html'
+    builder: 'injectables/VicStackedBarsConfigBuilder.html'
     internal:
       config: 'classes/StackedBarsConfig.html'
       options: 'interfaces/StackedBarsOptions.html'
