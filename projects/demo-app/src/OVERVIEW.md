@@ -94,7 +94,11 @@ this.barsBuilder
   .build();
 ```
 
-The user can use the builders either through providing the builder the providers array of a component and declaring the it in the component's constructor or by new-ing the class themselves.
+There are two different methods for instantiating a config builder.
+
+Generally, we recommend that users access the config builders by providing them in the providers array of a component and then declaring in the component's constructor, as shown in the code block below. We recommend this because this best matches common Angular and JavaScript patterns.
+
+However, if this approach is used, _the config must be supplied to its corresponding component as an observable or alias of an observable_, so that changes are detected in this object in the target component.
 
 _Using providers array_
 
@@ -109,15 +113,17 @@ import { VicLinesBuilder } from '@hsi/viz-components';
 })
 export class MyAppLinesComponent {
 
-  constructor(private linesBuilder: VicLinesBuilder) {}
+  constructor(private linesBuilder: VicLinesConfigBuilder) {}
 
   getConfig(): LinesConfig {
     const config = this.linesBuilder
       ...
-      .build();
+      .getConfig();
   }
 }
 ```
+
+Alternately, users can `new` a config builder themselves, as shown below.
 
 _New-ing the class_
 
@@ -129,10 +135,10 @@ export class MyAppLinesComponent {
   constructor() {}
 
   getConfig(): LinesConfig {
-    const linesBuilder = new VicLinesBuilder();
+    const linesBuilder = new VicLinesConfigBuilder();
     const config = linesBuilder
       ...
-      .build();
+      .getConfig();
   }
 }
 ```
