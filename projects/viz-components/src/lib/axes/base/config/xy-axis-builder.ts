@@ -30,7 +30,7 @@ export abstract class XyAxisBaseBuilder<TickValue> {
   /**
    * If true, all ticks (lines and tick values) will be removed.
    */
-  removeTicks(value: boolean): this {
+  removeTicks(value: boolean = true): this {
     this._removeTicks = value;
     return this;
   }
