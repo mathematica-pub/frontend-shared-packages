@@ -120,7 +120,7 @@ axis-components:
     builder: 'injectables/VicXQuantitativeAxisConfigBuilder.html'
   y-ordinal-axis:
     component: 'components/YOrdinalAxisComponent.html'
-    builder: 'injectables/VicYOrdinalAxisBuilder.html'
+    builder: 'injectables/VicYOrdinalAxisConfigBuilder.html'
   y-quantitative-axis:
     component: 'components/YQuantitativeAxisComponent.html'
     builder: 'injectables/VicYQuantitativeAxisConfigBuilder.html'
