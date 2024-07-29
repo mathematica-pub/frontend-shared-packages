@@ -8,7 +8,7 @@ import { LINES, LinesComponent } from '../lines.component';
 })
 export class LinesHoverDirective<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends HoverDirective {
   @Input('vicLinesHoverEffects')
   effects: EventEffect<LinesHoverDirective<Datum>>[];

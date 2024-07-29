@@ -5,7 +5,7 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
 
 export type LinesEventDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > =
   | LinesHoverDirective<Datum, ExtendedLinesComponent>
   | LinesHoverMoveDirective<Datum, ExtendedLinesComponent>

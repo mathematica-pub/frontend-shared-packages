@@ -45,7 +45,10 @@ export abstract class XyAxis<TickValue extends DataValue>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
 
-  constructor(public chart: XyChartComponent, public destroyRef: DestroyRef) {}
+  constructor(
+    public chart: XyChartComponent,
+    public destroyRef: DestroyRef
+  ) {}
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

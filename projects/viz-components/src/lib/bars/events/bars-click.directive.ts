@@ -1,6 +1,5 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 /* eslint-disable @angular-eslint/no-input-rename */
-
 import {
   Directive,
   ElementRef,
@@ -34,7 +33,7 @@ export class BarsClickDirective<
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue
-  >
+  >,
 > extends barsTooltipMixin(ClickDirective) {
   @Input('vicBarsClickEffects')
   effects: EventEffect<

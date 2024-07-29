@@ -14,7 +14,7 @@ import { linesTooltipMixin } from './lines-tooltip-data';
 })
 export class LinesHoverMoveDirective<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends linesTooltipMixin(HoverMoveDirective) {
   @Input('vicLinesHoverMoveEffects')
   effects: HoverMoveEventEffect<

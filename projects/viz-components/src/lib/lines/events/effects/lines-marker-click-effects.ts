@@ -5,7 +5,7 @@ import { LinesMarkerClickDirective } from '../lines-marker-click.directive';
 
 export class LinesMarkerClickEmitTooltipData<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     EventEffect<LinesMarkerClickDirective<Datum, ExtendedLinesComponent>>
 {

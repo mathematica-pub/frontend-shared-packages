@@ -18,7 +18,7 @@ import { LINES, LinesComponent } from '../lines.component';
 })
 export class LinesInputEventDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends InputEventDirective {
   @Input('vicLinesInputEffects')
   effects: InputEventEffect<

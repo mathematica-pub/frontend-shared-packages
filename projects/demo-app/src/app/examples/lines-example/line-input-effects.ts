@@ -8,7 +8,7 @@ import {
 
 export class HighlightLineForLabel<
   Datum,
-  ExtendedLineComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLineComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     InputEventEffect<LinesInputEventDirective<Datum, ExtendedLineComponent>>
 {

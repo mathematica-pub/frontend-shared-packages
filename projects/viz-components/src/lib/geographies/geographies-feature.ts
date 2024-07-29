@@ -12,5 +12,5 @@ import {
 
 export type GeographiesFeature<
   TProperties extends GeoJsonProperties = GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > = Feature<TGeometry, TProperties>;

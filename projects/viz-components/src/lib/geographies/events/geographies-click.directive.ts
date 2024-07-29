@@ -35,7 +35,7 @@ export class GeographiesClickDirective<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>
+  > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends ClickDirective {
   @Input('vicGeographiesClickEffects')
   effects: EventEffect<
