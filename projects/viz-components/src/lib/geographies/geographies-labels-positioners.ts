@@ -39,7 +39,7 @@ export class VicGeographiesLabelsPositioners {
 
   static positionWithPolylabel<
     TProperties,
-    TGeometry extends MultiPolygon | Polygon = MultiPolygon | Polygon
+    TGeometry extends MultiPolygon | Polygon = MultiPolygon | Polygon,
   >(
     feature: VicGeographiesFeature<TProperties, TGeometry>,
     projection: GeoProjection
