@@ -47,19 +47,17 @@ The code that creates configuration objects should be in a separate directory ca
 
 The "config" class (`config/my-viz-config.ts`) is a class that transforms a user's data and configuration specifications into methods and properties that the component can use to draw the visualization.
 
-For all `DataMarks` components, this should _extend_ a base `DataMarksConfig` and possibly and intermediary config like `XYDataMarksConfig`. The config class should _implement_ the corresponding "options" interface. The config class should also expect a required object of the options interface type (`MyVizOptions`). Config classes are expected to always be instantiated via the builder class.
+For all `DataMarks` components, this should _extend_ a base `DataMarksConfig` class and possibly and intermediary config like `XYDataMarksConfig`. The config class should _implement_ the corresponding "options" interface. The config class should also expect a required object of the options interface type (`MyVizOptions`). Config classes are expected to always be instantiated via the builder class.
 
-The options interface (`config/my-viz-options.ts`) represents the properties that a user should be able to provide values for. It should not include any properties on the config that a user cannot configure.
+The options interface (`config/my-viz-options.ts`) represents the properties that a user should be able to provide values for. It should not include any properties on the config that a user cannot configure. Options should always be an interface and never a class.
 
-We allow the user to provide values for these options in the builder class (`config/my-viz-builder.ts`). Each builder class should have a `build` method that returns a new config class for the component. All properties on the builder class should be `private` or, in the case that we extend the builder class for another component type, for example, with Bars and Stacked Bars, `protected.`
+We allow the user to provide values for these options in the builder class (`config/my-viz-builder.ts` / `MyVizConfigBuilder`). Each builder class that a user interacts with should have a `getConfig` method that returns a new config class for the component that a user must call. All properties on the builder class should be `private` or, in the case that we extend the builder class for another component type, for example, with Bars and Stacked Bars, `protected.`
 
 #### Sub-config configuration objects
 
 The builder classes should also allow users to set properties on any sub-config configurations that are necessary for the component, such as dimensions, layers, etc. The methods to set those objects should be named to help the user understand that they cannot directly provide a value as the method's argument, but instead should provide a callback that itself configures the properties. Those methods should new an instance of the builder object for the sub-config configuration object.
 
-The `build` methods on the sub-config objects should be called _by the library_ in the top level builder's build method. _Note: ideally the `build` methods on sub-config builder classes would be private, but right now we don't have a good solution to that. For the time being we prefix them with an underscore for visual distinction._
-
-Note that these sub-config configuration objects are never named or referred to as "config". That term is reserved for the classes that are used to directly create the
+The methods on the sub-configuration classes that return the sub-configuration object are never called by the user, and thus are named `_build.` These `_build` methods should instead be called _by the library_ in the top level builder's build method. _Note: ideally the `_build` methods on sub-config builder classes would be private, but right now we don't have a good solution to that. For the time being we prefix them with an underscore for visual distinction._
 
 #### Setting default values and validation
 
