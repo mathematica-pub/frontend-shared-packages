@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { DirItem, NavbarItem } from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 
 @Component({
@@ -11,13 +12,12 @@ import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
   styleUrls: ['./navbar-folder.component.scss'],
 })
 export class NavbarFolderComponent {
-  @Input() links;
+  @Input() links: NavbarItem[];
   @Input() baseString;
+  @Input() level: number;
+  @ViewChild(NavbarFolderComponent) child: NavbarFolderComponent;
   selected = {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  linkIsString(link: any): boolean {
-    return typeof link === 'string';
-  }
+  DirItem = DirItem;
 
   toggleSelected(key: string): void {
     if (this.selected[key] === undefined) {
@@ -27,15 +27,14 @@ export class NavbarFolderComponent {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  addPartToBaseString(key: any): string {
+  addPartToBaseString(key: string): string {
     return `${this.baseString}/${key}`;
   }
 
-  getArrow(key: string): string {
-    if (this.selected[key] === undefined || this.selected[key] == false) {
-      return 'arrow-down';
-    }
-    return 'arrow-up';
+  closeAll(): void {
+    Object.keys(this.selected).forEach((key) => {
+      this.selected[key] = false;
+    });
+    this.child?.closeAll();
   }
 }

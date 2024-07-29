@@ -9,6 +9,18 @@
   padding: grid(4) grid(2) grid(2) grid(4);
 }
 
+.section-label {
+  margin-top: grid(3);
+  margin-bottom: grid(1);
+  font-weight: $font-weight-medium;
+  font-size: 17px;
+  text-transform: uppercase;
+}
+
+.close-button {
+  cursor: pointer;
+}
+
 .link-container:not(:first-child) {
   padding-left: grid(2);
 }
@@ -29,13 +41,6 @@
 .link-container:hover {
   color: color.$highlight-default;
   transition: all 200ms;
-}
-
-h2 {
-  margin-top: grid(3);
-  margin-bottom: grid(1);
-  font-weight: $font-weight-medium;
-  font-size: 17px;
 }
 
 h3 {

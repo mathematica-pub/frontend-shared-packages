@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { parse } from 'yaml';
 import { EXAMPLES } from '../core/constants/examples.constants';
 import { Example } from '../core/models/example';
-import { NavbarItem, NestedStringObject } from '../core/models/navbar';
+import {
+  DirItem,
+  NavbarFolder,
+  NavbarItem,
+  NestedStringObject,
+} from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 import { NavbarFolderComponent } from '../navbar-folder/navbar-folder.component';
 
@@ -18,8 +23,8 @@ import { NavbarFolderComponent } from '../navbar-folder/navbar-folder.component'
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  documentationTree$: Observable<any>;
+  @ViewChild(NavbarFolderComponent) child: NavbarFolderComponent;
+  documentationTree$: Observable<NavbarItem[]>;
   examples: Example[] = EXAMPLES;
   baseFolder = '/documentation';
 
@@ -41,31 +46,36 @@ export class NavbarComponent implements OnInit {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getDocumentationTree(yaml: NestedStringObject): NavbarItem[] {
+  getDocumentationTree(yaml: NestedStringObject): NavbarFolder[] {
     const returnArray = Object.entries(yaml)
       .map(([key, value]) => {
         return {
           name: key,
           contents: value,
-          isFile: typeof value === 'string',
+          type: typeof value === 'string' ? DirItem.File : DirItem.Folder,
         };
       })
       .sort((a, b) => {
-        if (a.isFile && !b.isFile) return 1;
-        if (!a.isFile && b.isFile) return -1;
+        if (a.type === DirItem.File && b.type === DirItem.Folder) return 1;
+        if (a.type === DirItem.Folder && b.type === DirItem.File) return -1;
         return a.name.localeCompare(b.name);
       });
 
     const folderStructure = returnArray
-      .filter((entry) => !entry.isFile)
+      .filter((entry) => entry.type === DirItem.Folder)
       .map((entry) => {
         return {
-          ...entry,
+          name: entry.name,
+          type: DirItem.Folder,
           contents: this.getDocumentationTree(
             entry.contents as NestedStringObject
           ),
         };
       });
-    return folderStructure;
+    return folderStructure as NavbarFolder[];
+  }
+
+  closeAllDocumentation(): void {
+    this.child?.closeAll();
   }
 }
