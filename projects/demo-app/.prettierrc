@@ -25,13 +25,6 @@
       "options": {
         "parser": "scss"
       }
-    },
-    {
-      "files": "*.md",
-      "options": {
-        "printWidth": 100,
-        "proseWrap": "always"
-      }
     }
   ],
   "htmlWhitespaceSensitivity": "strict"
