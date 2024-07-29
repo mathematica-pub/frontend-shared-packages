@@ -4,7 +4,9 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { parse } from 'yaml';
+import { EXAMPLES } from '../core/constants/examples.constants';
 import { Example } from '../core/models/example';
+import { NavbarItem, NestedStringObject } from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 import { NavbarFolderComponent } from '../navbar-folder/navbar-folder.component';
 
@@ -17,21 +19,15 @@ import { NavbarFolderComponent } from '../navbar-folder/navbar-folder.component'
 })
 export class NavbarComponent implements OnInit {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  navbarConfig$: Observable<any>;
-  examples: Example[] = [
-    'bars',
-    'geographies',
-    'lines',
-    'stacked-area',
-    'stacked-bars',
-  ];
+  documentationTree$: Observable<any>;
+  examples: Example[] = EXAMPLES;
   baseFolder = '/documentation';
 
   private http = inject(HttpClient);
   router = inject(Router);
 
   ngOnInit(): void {
-    this.navbarConfig$ = this.http
+    this.documentationTree$ = this.http
       .get('assets/documentation/documentation-structure.yaml', {
         responseType: 'text',
       })
@@ -39,19 +35,19 @@ export class NavbarComponent implements OnInit {
         map((text) => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const yamlObject: any = parse(text);
-          return this.sortYaml(yamlObject);
+          return this.getDocumentationTree(yamlObject);
         })
       );
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sortYaml(yaml: any): any {
+  getDocumentationTree(yaml: NestedStringObject): NavbarItem[] {
     const returnArray = Object.entries(yaml)
-      .map((entry) => {
+      .map(([key, value]) => {
         return {
-          name: entry[0],
-          contents: entry[1],
-          isFile: typeof entry[1] === 'string',
+          name: key,
+          contents: value,
+          isFile: typeof value === 'string',
         };
       })
       .sort((a, b) => {
@@ -60,9 +56,16 @@ export class NavbarComponent implements OnInit {
         return a.name.localeCompare(b.name);
       });
 
-    returnArray
+    const folderStructure = returnArray
       .filter((entry) => !entry.isFile)
-      .forEach((entry) => (entry.contents = this.sortYaml(entry.contents)));
-    return returnArray;
+      .map((entry) => {
+        return {
+          ...entry,
+          contents: this.getDocumentationTree(
+            entry.contents as NestedStringObject
+          ),
+        };
+      });
+    return folderStructure;
   }
 }

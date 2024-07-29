@@ -1,22 +1,20 @@
-<div *ngFor="let link of links">
-  <a
-    *ngIf="link.isFile; else nestedDisplay"
-    [routerLink]="addPartToBaseString(link.name)"
-    routerLinkActive="active-link"
-    class="link"
-  >
-    {{$any(link.name) | undasherize | titlecase }}
-  </a>
-  <ng-template #nestedDisplay>
-    <div class="link-container" (click)="toggleSelected($any(link.name))">
-      <p class="nav-item">{{$any(link.name) | undasherize | titlecase}}</p>
-      <div [ngClass]="getArrow($any(link.name))"></div>
-    </div>
-    <app-navbar-folder
-      class="folder-elements"
-      *ngIf="selected[$any(link.name)]"
-      [baseString]="addPartToBaseString(link.name)"
-      [links]="link.contents"
-    ></app-navbar-folder>
-  </ng-template>
+@for (link of links; track $index) { @if (link.isFile) {
+<a
+  [routerLink]="addPartToBaseString(link.name)"
+  routerLinkActive="active-link"
+  class="link"
+>
+  {{link.name | undasherize | titlecase }}
+</a>
+} @else {
+<div class="link-container" (click)="toggleSelected($any(link.name))">
+  <p class="nav-item">{{$any(link.name) | undasherize | titlecase}}</p>
+  <div [ngClass]="getArrow($any(link.name))"></div>
 </div>
+<app-navbar-folder
+  class="folder-elements"
+  *ngIf="selected[$any(link.name)]"
+  [baseString]="addPartToBaseString(link.name)"
+  [links]="link.contents"
+></app-navbar-folder
+>} }
