@@ -19,17 +19,18 @@ must match the path name exactly or a build error will be thrown.
 
 `documentation-structure.yml` will need to be updated in the following cases:
 
-1. You want to add a new documentaton file to the Demo App. Add a new key and value.
-2. You deleted a symbol that had documentation in the library. Delete the key and value.
+1. You want to add a new documentaton file to the Demo App. **Action:** Add a new key and value.
+2. You deleted a symbol that had documentation in the library. **Action:** Delete the key and value.
 3. The name of the type/interface/class/etc that is in the current documentation structure changed
    in the library. For example, if documentation for `class MyVizConfig` was already in the
    documentation, and you modify the name of the class in the library to `class MyAwesomeVizConfig`,
    you will need to manually update the name of the .html file in the appropriate documentation
-   structure value.
+   structure value. **Action:** Edit value to reflect new name.
 4. You changed the type of the symbol that we already have documentation for in the documentation
    structure. For example, if `class MyVizConfig` became `interface MyVizConfig`, or if it became an
    Angular directive through the application of `@Directive()`. When Compodoc generates
-   documentation, it places files into the following directories:
+   documentation, it places files into the directories listed below.
+
    - additional-documentation
    - classes
    - components
@@ -42,7 +43,9 @@ must match the path name exactly or a build error will be thrown.
    - miscellaneous
    - modules
    - pipes
-   - styles Update the path in the appropriate documentation structure value.
+   - styles
+
+   **Action:** Edit value to reflect new path to file.
 
 ## Regenerating documentation
 
