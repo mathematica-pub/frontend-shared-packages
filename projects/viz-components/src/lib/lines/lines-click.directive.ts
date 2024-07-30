@@ -27,7 +27,7 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesClickDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends ClickDirective {
   @Input('vicLinesChartClickEffects')
   effects: EventEffect<LinesClickDirective<Datum, ExtendedLinesComponent>>[];

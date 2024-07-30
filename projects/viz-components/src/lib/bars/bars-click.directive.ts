@@ -1,6 +1,5 @@
 /* eslint-disable @angular-eslint/no-output-rename */
 /* eslint-disable @angular-eslint/no-input-rename */
-
 import {
   Directive,
   ElementRef,
@@ -22,13 +21,12 @@ import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
 import { VicBarsEventOutput, getBarsTooltipData } from './bars-tooltip-data';
 import { BARS, BarsComponent } from './bars.component';
-
 @Directive({
   selector: '[vicBarsClickEffects]',
 })
 export class BarsClickDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
 > extends ClickDirective {
   @Input('vicBarsClickEffects')
   effects: EventEffect<BarsClickDirective<Datum, ExtendedBarsComponent>>[];

@@ -21,7 +21,7 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsHoverMoveDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
 > extends HoverMoveDirective {
   @Input('vicBarsHoverMoveEffects')
   effects: HoverMoveEventEffect<

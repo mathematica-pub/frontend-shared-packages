@@ -40,7 +40,10 @@ export abstract class XyAxis implements OnInit, OnChanges {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
 
-  constructor(public chart: XyChartComponent, public destroyRef: DestroyRef) {}
+  constructor(
+    public chart: XyChartComponent,
+    public destroyRef: DestroyRef
+  ) {}
 
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

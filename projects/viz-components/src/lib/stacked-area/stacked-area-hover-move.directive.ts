@@ -16,7 +16,8 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 })
 export class StackedAreaHoverMoveDirective<
   Datum,
-  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum> = StackedAreaComponent<Datum>
+  ExtendedStackedAreaComponent extends
+    StackedAreaComponent<Datum> = StackedAreaComponent<Datum>,
 > extends HoverMoveDirective {
   @Input('vicStackedAreaHoverMoveEffects')
   effects: HoverMoveEventEffect<

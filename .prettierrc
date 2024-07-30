@@ -17,13 +17,20 @@
     {
       "files": "*.html",
       "options": {
-        "parser": "html"
+        "parser": "angular"
       }
     },
     {
       "files": "*.scss",
       "options": {
         "parser": "scss"
+      }
+    },
+    {
+      "files": "*.md",
+      "options": {
+        "printWidth": 100,
+        "proseWrap": "always"
       }
     }
   ],

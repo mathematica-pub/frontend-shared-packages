@@ -34,7 +34,7 @@ export class GeographiesHoverDirective<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>
+  > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends HoverDirective {
   @Input('vicGeographiesHoverEffects')
   effects: EventEffect<

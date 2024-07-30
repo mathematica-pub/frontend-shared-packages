@@ -9,7 +9,7 @@ import { formatValue } from '../value-format/value-format';
 @Directive()
 export abstract class MapLegendContent<
   Datum,
-  TAttributeDataConfig extends VicAttributeDataDimensionConfig<Datum>
+  TAttributeDataConfig extends VicAttributeDataDimensionConfig<Datum>,
 > implements OnChanges
 {
   @Input() width: number;
