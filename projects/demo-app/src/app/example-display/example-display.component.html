@@ -1,22 +1,51 @@
-<div class="example-container">
-  <div [formGroup]="form" class="file-select-bar">
-    @for (tab of tabList; track $index) {
-    <app-radio-input
-      class="tab"
-      [value]="$index"
-      [class.selected]="(selectedTabIndex$ | async) === $index"
-      formControlName="selected"
-      >{{tab.split('.').slice(-1)[0]}}</app-radio-input
-    >
-    }
-  </div>
-  <div class="main-display">
-    <div class="scroll-container">
-      @if ((tabContent$ | async) === null) {
-      <ng-content></ng-content>
-      } @else {
-      <app-code-display [fileData]="tabContent$ | async"></app-code-display>
+<ng-template #single>
+  <div class="example-container single">
+    <div [formGroup]="form" class="file-select-bar">
+      @for (tab of tabList; track $index) {
+      <app-radio-input
+        class="tab"
+        [value]="$index"
+        [class.selected]="(selectedTabIndex$ | async) === $index"
+        formControlName="selected"
+        >{{tab.split('.').slice(-1)[0]}}</app-radio-input
+      >
       }
-    </div></div
-  >
-</div>
+    </div>
+    <div class="main-display">
+      <div class="scroll-container">
+        @if ((tabContent$ | async) === null) {
+        <ng-content select="single"></ng-content>
+        } @else {
+        <app-code-display [fileData]="tabContent$ | async"></app-code-display>
+        }
+      </div></div
+    >
+  </div>
+</ng-template>
+
+<ng-template #split>
+  <div class="example-container split">
+    <div class="main-display">
+      <div class="scroll-container">
+        <ng-content select="split"></ng-content> </div
+    ></div>
+    <div class="main-display">
+      <div [formGroup]="form" class="file-select-bar">
+        @for (tab of tabList; track $index) {
+        <app-radio-input
+          class="tab"
+          [value]="$index"
+          [class.selected]="(selectedTabIndex$ | async) === $index"
+          formControlName="selected"
+          >{{tab.split('.').slice(-1)[0]}}</app-radio-input
+        >
+        }
+      </div>
+      <div class="scroll-container">
+        @if ((tabContent$ | async) === null) {
+        <app-code-display [fileData]="tabContent$ | async"></app-code-display>
+        }
+      </div></div
+    >
+  </div>
+</ng-template>

@@ -1,0 +1,24 @@
+<div class="example-container split">
+  <div class="main-display example">
+    <div class="scroll-container"> <ng-content></ng-content> </div
+  ></div>
+  <div class="slider" #slider></div>
+  <div class="main-display code">
+    <div [formGroup]="form" class="file-select-bar">
+      @for (tab of tabList; track $index) {
+      <app-radio-input
+        class="tab"
+        [value]="$index"
+        [class.selected]="(selectedTabIndex$ | async) === $index"
+        formControlName="selected"
+        >{{tab.split('.').slice(-1)[0]}}</app-radio-input
+      >
+      }
+    </div>
+    <div class="scroll-container">
+      @if ((tabContent$ | async) === null) {
+      <app-code-display [fileData]="tabContent$ | async"></app-code-display>
+      }
+    </div></div
+  >
+</div>

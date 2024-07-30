@@ -10,7 +10,8 @@ import {
   VicXyChartModule,
   VicYOrdinalAxisModule,
 } from 'projects/viz-components/src/public-api';
-import { ExampleDisplayComponent } from '../../example-display/example-display.component';
+import { SingleDisplayComponent } from '../../example-display/single-display/single-display.component';
+import { SplitDisplayComponent } from '../../example-display/split-display/split-display.component';
 import { BasicBarComponent } from './basic-bar/basic-bar.component';
 
 @Component({
@@ -18,7 +19,8 @@ import { BasicBarComponent } from './basic-bar/basic-bar.component';
   standalone: true,
   imports: [
     CommonModule,
-    ExampleDisplayComponent,
+    SingleDisplayComponent,
+    SplitDisplayComponent,
     VicChartModule,
     VicBarsModule,
     VicXyChartModule,
