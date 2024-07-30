@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
@@ -49,11 +54,19 @@ export interface XyChartScales {
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: CHART, useExisting: ChartComponent }],
 })
-export class XyChartComponent extends ChartComponent implements Chart, OnInit {
+export class XyChartComponent
+  extends ChartComponent
+  implements Chart, OnInit, OnDestroy
+{
   private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);
   scales$ = this.scales.asObservable();
 
   updateScales(scales: Partial<XyChartScales>): void {
     this.scales.next({ ...this.scales.value, ...scales });
+  }
+
+  ngOnDestroy(): void {
+    console.log('XyChartComponent destroyed');
+    this.scales.complete();
   }
 }

@@ -33,13 +33,4 @@ import { BasicBarComponent } from './basic-bar/basic-bar.component';
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BarsExampleComponent {
-  // changeMargin(): void {
-  //   this.margin = {
-  //     top: 36,
-  //     right: 0,
-  //     bottom: 8,
-  //     left: Math.random() * 500,
-  //   };
-  // }
-}
+export class BarsExampleComponent {}
