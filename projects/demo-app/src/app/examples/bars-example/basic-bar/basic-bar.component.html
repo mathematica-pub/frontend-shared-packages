@@ -1,0 +1,47 @@
+<div class="basic-bar" *ngIf="vm$ | async as vm; else loading">
+  <vic-xy-chart
+    [margin]="margin"
+    [height]="260"
+    [scaleChartWithContainerWidth]="{width: true, height: false}"
+  >
+    <ng-container svg-elements>
+      <svg:g vic-xy-background></svg:g>
+      <svg:g
+        vic-x-quantitative-axis
+        [config]="vm.xAxisConfig"
+        side="top"
+      ></svg:g>
+      <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
+      <svg:g
+        vic-data-marks-bars
+        [config]="vm.dataConfig"
+        [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
+        (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+      >
+        <vic-html-tooltip
+          [config]="(tooltipConfig$ | async)"
+          [template]="htmlTooltip"
+        ></vic-html-tooltip>
+      </svg:g>
+    </ng-container>
+  </vic-xy-chart>
+
+  <ng-template #htmlTooltip>
+    <div
+      [style.--color]="(tooltipData$ | async).color"
+      class="tooltip-container"
+    >
+      <p class="tooltip-label category">
+        {{ (tooltipData$ | async).ordinal }}
+      </p>
+      <div class="values-container">
+        <p class="tooltip-label y">
+          <span class="value-label">Value</span>
+          {{ (tooltipData$ | async).quantitative }}
+        </p>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<ng-template #loading>Loading...</ng-template>

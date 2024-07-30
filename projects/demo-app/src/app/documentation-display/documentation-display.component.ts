@@ -11,7 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { DocumentationService } from '../core/services/documentation.service';
+import { FilesService } from '../core/services/files.service';
 import { HighlightService } from '../core/services/highlight.service';
 
 @Component({
@@ -32,7 +32,7 @@ export class DocumentationDisplayComponent implements OnInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
   private highlightService = inject(HighlightService);
-  private documentationService = inject(DocumentationService);
+  private filesService = inject(FilesService);
   private sanitizer = inject(DomSanitizer);
   router = inject(Router);
   destroyRef = inject(DestroyRef);
@@ -40,7 +40,7 @@ export class DocumentationDisplayComponent implements OnInit {
 
   ngOnInit(): void {
     this.route = this.router.url;
-    this.documentationService
+    this.filesService
       .getDocumentation(this.route)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data: string) => {

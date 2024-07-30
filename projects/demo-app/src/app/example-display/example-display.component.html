@@ -1,23 +1,22 @@
-<div class="component-demo">
-  <h3 class="title"
-    ><ng-content select="[title]"></ng-content> Data Marks Component</h3
-  >
+<div class="example-container">
   <div [formGroup]="form" class="file-select-bar">
+    @for (tab of tabList; track $index) {
     <app-radio-input
-      *ngFor="let tab of tabList; let i = index"
-      [value]="i"
-      [class.selected]="(selectedTabIndex$ | async) === i"
+      class="tab"
+      [value]="$index"
+      [class.selected]="(selectedTabIndex$ | async) === $index"
       formControlName="selected"
-      >{{tab}}</app-radio-input
+      >{{tab.split('.').slice(-1)[0]}}</app-radio-input
     >
+    }
   </div>
-  <div class="demo-container" *ngIf="(selectedTabIndex$ | async) === 0">
-    <ng-content select="[demo]"></ng-content>
-  </div>
-  <ng-container *ngFor="let file of filesHtml; let i = index;">
-    <app-code-display
-      [fileData]="file"
-      *ngIf="(selectedTabIndex$ | async) === i + 1"
-    ></app-code-display>
-  </ng-container>
+  <div class="main-display">
+    <div class="scroll-container">
+      @if ((tabContent$ | async) === null) {
+      <ng-content></ng-content>
+      } @else {
+      <app-code-display [fileData]="tabContent$ | async"></app-code-display>
+      }
+    </div></div
+  >
 </div>

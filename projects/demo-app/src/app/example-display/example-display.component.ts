@@ -1,21 +1,26 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  DestroyRef,
   inject,
   Input,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
   FormGroup,
   FormGroupDirective,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { forkJoin, Observable, startWith, take } from 'rxjs';
-import { DocumentationService } from '../core/services/documentation.service';
+import {
+  forkJoin,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+  withLatestFrom,
+} from 'rxjs';
+import { FilesService } from '../core/services/files.service';
 import { RadioInputComponent } from '../radio-input/radio-input.component';
 import { CodeDisplayComponent } from './code-display/code-display.component';
 
@@ -35,49 +40,41 @@ import { CodeDisplayComponent } from './code-display/code-display.component';
 })
 export class ExampleDisplayComponent implements OnInit {
   @Input() includeFiles: string[];
-  @Input() folderName: string;
+  @Input() path: string;
   form: FormGroup<{ selected: FormControl<number> }>;
-  exampleLabel = 'Example';
+  exampleLabel = 'example';
   fileList: string[];
   tabList: string[];
-  filesHtml: string[];
-  fileData$: Observable<string[]>;
+  filesHtml$: Observable<string[]>;
   selectedTabIndex$: Observable<number>;
-  private documentationService = inject(DocumentationService);
-  private destroyRef = inject(DestroyRef);
+  tabContent$: Observable<string | null>;
+  private filesService = inject(FilesService);
 
   ngOnInit(): void {
-    this.getFilesForExample();
+    this.setFileList();
+    this.setFilesHtml();
     this.initTabs();
+    this.initTabContent();
   }
 
-  getFilesForExample(): void {
-    this.fileList = this.getFileList();
-    forkJoin(
-      this.fileList.map((fileName) =>
-        this.documentationService.getDocumentation(fileName)
-      )
-    )
-      .pipe(take(1))
-      .subscribe((fileData) => {
-        this.filesHtml = fileData;
-      });
-  }
-
-  getFileList(): string[] {
-    const baseName = `app/examples/${this.folderName}`;
-    const baseSourceUrl = `${baseName}/${this.folderName}.component`;
-    const fileList = [
-      `${baseSourceUrl}.ts`,
-      `${baseSourceUrl}.html`,
-      `${baseSourceUrl}.scss`,
-    ];
+  setFileList(): void {
+    const componentName = this.path.split('/').slice(-1)[0];
+    const baseSourceUrl = `${this.path}/${componentName}.component`;
+    const fileList = ['ts', 'html', 'scss'].map(
+      (extension) => `${baseSourceUrl}.${extension}`
+    );
     if (this.includeFiles !== undefined) {
       this.includeFiles.forEach((fileName) =>
-        fileList.push(`${baseName}/${fileName}`)
+        fileList.push(`${componentName}/${fileName}`)
       );
     }
-    return fileList;
+    this.fileList = fileList;
+  }
+
+  setFilesHtml(): void {
+    this.filesHtml$ = forkJoin(
+      this.fileList.map((fileName) => this.filesService.getCode(fileName))
+    );
   }
 
   initTabs(): void {
@@ -91,20 +88,22 @@ export class ExampleDisplayComponent implements OnInit {
     this.selectedTabIndex$ = this.form.controls.selected.valueChanges.pipe(
       startWith(0)
     );
-    // a hack to help the charts render along after switching back to it
-    // known problem, has to do with content projecting and ngif, not worth a different solution here imo
-    this.selectedTabIndex$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((index) => {
-        if (index === 0) {
-          setTimeout(() => {
-            return;
-          });
-        }
-      });
   }
 
   getFileDisplayName(fullFilePath: string): string {
     return fullFilePath.match(/([^/]+)$/)[0];
+  }
+
+  initTabContent(): void {
+    this.tabContent$ = this.selectedTabIndex$.pipe(
+      withLatestFrom(this.filesHtml$),
+      map(([index, filesHtml]) => {
+        if (index === 0) {
+          return null;
+        }
+        return filesHtml[index - 1];
+      }),
+      shareReplay(1)
+    );
   }
 }
