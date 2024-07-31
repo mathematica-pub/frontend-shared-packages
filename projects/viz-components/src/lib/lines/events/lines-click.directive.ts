@@ -25,7 +25,7 @@ import { linesTooltipMixin } from './lines-tooltip-data';
 })
 export class LinesClickDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends linesTooltipMixin(ClickDirective) {
   @Input('vicLinesChartClickEffects')
   effects: EventEffect<LinesClickDirective<Datum, ExtendedLinesComponent>>[];

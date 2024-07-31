@@ -57,9 +57,10 @@ export const VIC_DATA_MARKS = new InjectionToken<DataMarks<unknown, any>>(
 
 @Directive()
 export abstract class DataMarks<
-  Datum,
-  TDataMarksConfig extends DataMarksOptions<Datum>
-> implements VicIData, VicIMarks, OnChanges
+    Datum,
+    TDataMarksConfig extends DataMarksOptions<Datum>,
+  >
+  implements VicIData, VicIMarks, OnChanges
 {
   @Input() config: TDataMarksConfig;
   chart: Chart;

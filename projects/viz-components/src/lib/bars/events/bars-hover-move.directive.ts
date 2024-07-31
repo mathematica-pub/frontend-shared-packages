@@ -27,7 +27,7 @@ export class BarsHoverMoveDirective<
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue
-  >
+  >,
 > extends barsTooltipMixin(HoverMoveDirective) {
   @Input('vicBarsHoverMoveEffects')
   effects: HoverMoveEventEffect<

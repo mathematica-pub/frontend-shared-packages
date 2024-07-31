@@ -19,7 +19,7 @@ export class StackedAreaHoverMoveDirective<
   TStackedAreaComponent extends StackedAreaComponent<
     Datum,
     TCategoricalValue
-  > = StackedAreaComponent<Datum, TCategoricalValue>
+  > = StackedAreaComponent<Datum, TCategoricalValue>,
 > extends stackedAreaTooltipMixin(HoverMoveDirective) {
   @Input('vicStackedAreaHoverMoveEffects')
   effects: HoverMoveEventEffect<

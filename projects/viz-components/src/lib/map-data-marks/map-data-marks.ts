@@ -12,7 +12,7 @@ import { MapChartComponent } from '../map-chart/map-chart.component';
 @Directive()
 export abstract class MapDataMarks<
     Datum,
-    ExtendedDataMarksConfig extends DataMarksOptions<Datum>
+    ExtendedDataMarksConfig extends DataMarksOptions<Datum>,
   >
   extends DataMarks<Datum, ExtendedDataMarksConfig>
   implements OnInit

@@ -47,7 +47,7 @@ export const GEOGRAPHIES = new InjectionToken<
 export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends MapDataMarks<
   Datum,
   GeographiesConfig<Datum, TProperties, TGeometry>
@@ -72,7 +72,10 @@ export class GeographiesComponent<
   > = this.pathsByLayer.asObservable();
   formatForClassName = (s: string): string => s.replace(/\s/g, '-');
 
-  constructor(public zone: NgZone, public elRef: ElementRef) {
+  constructor(
+    public zone: NgZone,
+    public elRef: ElementRef
+  ) {
     super();
   }
 
@@ -276,14 +279,22 @@ export class GeographiesComponent<
   }
 
   updateGeographyElements(): void {
-    const pathsByLayer = this.config.layers.reduce((paths, layer, i) => {
-      if (layer.enableEffects) {
-        paths.push(
-          select(this.elRef.nativeElement).selectAll(`.layer-${i} path`)
-        );
-      }
-      return paths;
-    }, [] as Selection<SVGPathElement, GeographiesFeature<TProperties, TGeometry>, SVGGElement, GeographiesFeature<TProperties, TGeometry>>[]);
+    const pathsByLayer = this.config.layers.reduce(
+      (paths, layer, i) => {
+        if (layer.enableEffects) {
+          paths.push(
+            select(this.elRef.nativeElement).selectAll(`.layer-${i} path`)
+          );
+        }
+        return paths;
+      },
+      [] as Selection<
+        SVGPathElement,
+        GeographiesFeature<TProperties, TGeometry>,
+        SVGGElement,
+        GeographiesFeature<TProperties, TGeometry>
+      >[]
+    );
     this.pathsByLayer.next(pathsByLayer);
   }
 }

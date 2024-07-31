@@ -31,7 +31,7 @@ import { linesTooltipMixin } from './lines-tooltip-data';
 })
 export class LinesMarkerClickDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends linesTooltipMixin(ClickDirective) {
   /**
    * An array of user-provided [EventEffect]{@link EventEffect} instances.
