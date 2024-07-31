@@ -9,7 +9,7 @@ import { EqualFrequenciesAttributeDataDimensionOptions } from './equal-frequenci
  */
 export class EqualFrequenciesAttributeDataDimension<
     Datum,
-    RangeValue extends string | number = string
+    RangeValue extends string | number = string,
   >
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
   implements EqualFrequenciesAttributeDataDimensionOptions<Datum, RangeValue>

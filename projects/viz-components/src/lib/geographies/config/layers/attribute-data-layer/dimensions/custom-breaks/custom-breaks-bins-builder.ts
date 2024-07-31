@@ -10,7 +10,7 @@ const DEFAULT = {
 
 export class CustomBreaksBinsAttributeDataDimensionBuilder<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends AttributeDataDimensionBuilder<Datum, number, RangeValue> {
   private _breakValues: number[];
   private _formatSpecifier: string;

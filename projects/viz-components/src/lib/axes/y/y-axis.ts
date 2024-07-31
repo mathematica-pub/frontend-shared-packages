@@ -14,7 +14,7 @@ import { YAxisConfig } from './y-axis-config';
  */
 export function yAxisMixin<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>
+  T extends AbstractConstructor<XyAxis<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {

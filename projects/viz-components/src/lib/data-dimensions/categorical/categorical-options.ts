@@ -4,7 +4,7 @@ import { FillPattern } from './fill-pattern';
 
 export interface CategoricalDimensionOptions<
   Datum,
-  TCategoricalValue extends DataValue = string
+  TCategoricalValue extends DataValue = string,
 > extends DataDimensionOptions<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
   fillPatterns: FillPattern<Datum>[];

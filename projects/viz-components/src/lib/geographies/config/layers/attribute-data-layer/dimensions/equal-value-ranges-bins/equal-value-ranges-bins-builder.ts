@@ -12,7 +12,7 @@ const DEFAULT = {
 
 export class EqualValueRangesBinsBuilder<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends CalculatedBinsAttributeDataDimensionBuilder<Datum, RangeValue> {
   private _domain: [number, number];
   private _numBins: number;

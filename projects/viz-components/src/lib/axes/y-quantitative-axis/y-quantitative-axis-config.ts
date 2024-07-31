@@ -11,7 +11,7 @@ const AbstractYQuantitative = mixinYAxisConfig(
 );
 
 export class YQuantitativeAxisConfig<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends AbstractYQuantitative<TickValue> {
   constructor(
     options: YAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>

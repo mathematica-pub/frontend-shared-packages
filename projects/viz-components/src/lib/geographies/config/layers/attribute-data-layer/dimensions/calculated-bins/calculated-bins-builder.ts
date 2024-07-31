@@ -2,7 +2,7 @@ import { AttributeDataDimensionBuilder } from '../attribute-data/attribute-data-
 
 export abstract class CalculatedBinsAttributeDataDimensionBuilder<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends AttributeDataDimensionBuilder<Datum, number, RangeValue> {
   protected _formatSpecifier: string;
 

@@ -21,7 +21,7 @@ const DEFAULT = {
 @Injectable()
 export class VicStackedBarsConfigBuilder<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends VicBarsConfigBuilder<Datum, TOrdinalValue> {
   private _stackOffset: (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -10,7 +10,7 @@ import { EqualValueRangesAttributeDataDimensionOptions } from './equal-value-ran
  */
 export class EqualValueRangesAttributeDataDimension<
     Datum,
-    RangeValue extends string | number = string
+    RangeValue extends string | number = string,
   >
   extends CalculatedBinsAttributeDataDimension<Datum, RangeValue>
   implements EqualValueRangesAttributeDataDimensionOptions<Datum, RangeValue>

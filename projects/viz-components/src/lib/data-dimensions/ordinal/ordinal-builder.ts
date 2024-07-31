@@ -11,7 +11,7 @@ const DEFAULT = {
 
 export class OrdinalDimensionBuilder<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends DataDimensionBuilder<Datum, TOrdinalValue> {
   private _align: number;
   private _domain: TOrdinalValue[];

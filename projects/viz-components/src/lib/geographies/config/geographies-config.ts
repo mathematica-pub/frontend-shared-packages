@@ -20,7 +20,7 @@ import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-l
 export class GeographiesConfig<
     Datum,
     TProperties extends GeoJsonProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon
+    TGeometry extends Geometry = MultiPolygon | Polygon,
   >
   extends DataMarksConfig<Datum>
   implements GeographiesOptions<Datum, TProperties, TGeometry>

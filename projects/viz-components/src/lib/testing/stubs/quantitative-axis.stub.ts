@@ -3,7 +3,7 @@ import { DataValue } from '../../core/types/values';
 import { XyAxisStub } from './xy-axis.stub';
 
 export class QuantitativeAxisStub<
-  T extends DataValue
+  T extends DataValue,
 > extends quantitativeAxisMixin(XyAxisStub)<T> {
   setScale(): void {
     return;

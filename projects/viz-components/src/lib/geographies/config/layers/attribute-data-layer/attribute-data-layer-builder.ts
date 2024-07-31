@@ -14,7 +14,7 @@ const DEFAULT = {
 export class GeographiesAttributeDataLayerBuilder<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private _data: Datum[];
   private _geographyIndexAccessor: (d: Datum) => string;

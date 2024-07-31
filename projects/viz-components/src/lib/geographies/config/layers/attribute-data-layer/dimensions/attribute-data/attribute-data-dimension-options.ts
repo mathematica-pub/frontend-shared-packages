@@ -5,7 +5,7 @@ import { DataDimensionOptions } from '../../../../../../data-dimensions/dimensio
 export interface AttributeDataDimensionOptions<
   Datum,
   AttributeValue extends DataValue,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends DataDimensionOptions<Datum, AttributeValue> {
   fillPatterns: FillPattern<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

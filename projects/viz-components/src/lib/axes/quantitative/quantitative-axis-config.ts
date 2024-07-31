@@ -36,7 +36,7 @@ export interface VicQuantitativeAxisOptions<TickValue extends DataValue>
 
 export function mixinQuantitativeAxisConfig<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>
+  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin
@@ -56,5 +56,5 @@ export function mixinQuantitativeAxisConfig<
 }
 
 export class VicQuantitativeAxisConfig<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends mixinQuantitativeAxisConfig(XyAxisBaseConfig)<TickValue> {}

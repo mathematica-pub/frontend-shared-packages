@@ -47,5 +47,5 @@ const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
   inputs: ['side', 'config'],
 })
 export class YOrdinalAxisComponent<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends YOrdinalAxis<TickValue> {}

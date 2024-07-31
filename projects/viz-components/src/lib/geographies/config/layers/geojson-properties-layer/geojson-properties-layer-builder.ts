@@ -11,7 +11,7 @@ const DEFAULT = {
 
 export class GeographiesGeojsonPropertiesLayerBuilder<
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private categoricalBuilder: CategoricalDimensionBuilder<
     GeographiesFeature<TProperties, TGeometry>,

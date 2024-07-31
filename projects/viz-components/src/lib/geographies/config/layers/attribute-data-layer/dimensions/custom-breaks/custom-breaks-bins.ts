@@ -12,7 +12,7 @@ import { CustomBreaksBinsAttributeDataDimensionOptions } from './custom-breaks-b
  */
 export class CustomBreaksBinsAttributeDataDimension<
     Datum,
-    RangeValue extends string | number = string
+    RangeValue extends string | number = string,
   >
   extends AttributeDataDimension<Datum, number, RangeValue>
   implements CustomBreaksBinsAttributeDataDimensionOptions<Datum, RangeValue>

@@ -2,7 +2,7 @@ import { DataValue } from '../core/types/values';
 
 export abstract class DataDimensionBuilder<
   Datum,
-  TDataValue extends DataValue
+  TDataValue extends DataValue,
 > {
   protected _formatFunction: (d: Datum) => string;
   protected _valueAccessor: (d: Datum) => TDataValue;

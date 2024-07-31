@@ -11,7 +11,7 @@ const DEFAULT = {
 
 export class CategoricalDimensionBuilder<
   Datum,
-  TCategoricalValue extends DataValue = string
+  TCategoricalValue extends DataValue = string,
 > extends DataDimensionBuilder<Datum, TCategoricalValue> {
   private _domain: TCategoricalValue[];
   private _fillPatterns: FillPattern<Datum>[];

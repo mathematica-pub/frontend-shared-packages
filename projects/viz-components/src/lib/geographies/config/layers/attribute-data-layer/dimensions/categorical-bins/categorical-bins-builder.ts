@@ -11,7 +11,7 @@ const DEFAULT = {
 
 export class CategoricalBinsBuilder<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends AttributeDataDimensionBuilder<Datum, RangeValue> {
   private _domain: string[];
 

@@ -30,7 +30,7 @@ export const STACKED_AREA = new InjectionToken<
 })
 export class StackedAreaComponent<
   Datum,
-  TCategoricalValue extends DataValue
+  TCategoricalValue extends DataValue,
 > extends VicXyDataMarks<Datum, StackedAreaConfig<Datum, TCategoricalValue>> {
   area;
   areas;

@@ -11,7 +11,7 @@ const AbstractXOrdinalAxis = mixinXAxisConfig(
 );
 
 export class XOrdinalAxisConfig<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends AbstractXOrdinalAxis<TickValue> {
   constructor(
     options: XAxisOptions<TickValue> & VicOrdinalAxisOptions<TickValue>

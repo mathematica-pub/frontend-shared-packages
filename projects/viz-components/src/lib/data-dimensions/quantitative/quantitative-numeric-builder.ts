@@ -20,7 +20,7 @@ const DEFAULT_PADDING = {
 };
 
 export class QuantitativeNumericDimensionBuilder<
-  Datum
+  Datum,
 > extends DataDimensionBuilder<Datum, number> {
   private _domain: [number, number];
   private _formatSpecifier: string;

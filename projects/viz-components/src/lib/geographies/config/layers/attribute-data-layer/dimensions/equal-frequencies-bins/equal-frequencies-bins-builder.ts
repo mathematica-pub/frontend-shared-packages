@@ -12,7 +12,7 @@ const DEFAULT = {
 
 export class EqualFrequenciesAttributeDataDimensionBuilder<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends CalculatedBinsAttributeDataDimensionBuilder<Datum, RangeValue> {
   private _numBins: number;
 

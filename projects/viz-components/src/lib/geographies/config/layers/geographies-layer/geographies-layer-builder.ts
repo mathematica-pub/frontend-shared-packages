@@ -9,7 +9,7 @@ const DEFAULT = {
 
 export abstract class GeographiesLayerBuilder<
   TProperties,
-  TGeometry extends Geometry
+  TGeometry extends Geometry,
 > {
   protected _class: string;
   protected _enableEffects: boolean;

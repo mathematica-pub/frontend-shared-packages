@@ -2,7 +2,7 @@ import { AttributeDataDimensionOptions } from '../attribute-data/attribute-data-
 
 export interface CategoricalBinsOptions<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends AttributeDataDimensionOptions<Datum, RangeValue> {
   domain: string[];
 }

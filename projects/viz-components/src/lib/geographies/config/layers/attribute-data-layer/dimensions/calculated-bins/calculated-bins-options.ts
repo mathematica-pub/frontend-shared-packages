@@ -2,7 +2,7 @@ import { AttributeDataDimensionOptions } from '../attribute-data/attribute-data-
 
 export interface CalculatedBinsAttributeDataDimensionOptions<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends AttributeDataDimensionOptions<Datum, number, RangeValue> {
   formatSpecifier: string;
 }

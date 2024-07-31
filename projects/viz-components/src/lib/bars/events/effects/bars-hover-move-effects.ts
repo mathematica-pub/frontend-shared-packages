@@ -4,7 +4,7 @@ import { BarsHoverMoveDirective } from '../bars-hover-move.directive';
 
 export class BarsHoverMoveEmitTooltipData<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > implements HoverMoveEventEffect<BarsHoverMoveDirective<Datum, TOrdinalValue>>
 {
   applyEffect(directive: BarsHoverMoveDirective<Datum, TOrdinalValue>): void {

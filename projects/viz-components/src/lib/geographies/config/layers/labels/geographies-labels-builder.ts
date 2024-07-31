@@ -32,7 +32,7 @@ const DEFAULT = {
 
 export class GeographiesLabelsBuilder<
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > {
   private _alignmentBaseline: CSSType.Property.AlignmentBaseline;
   private _color: GeographiesLabelsColorOptions | CSSType.Property.Fill;
@@ -239,7 +239,7 @@ export class GeographiesLabelsBuilder<
    */
   positionWithPolylabel<
     TProperties,
-    TGeometry extends MultiPolygon | Polygon = MultiPolygon | Polygon
+    TGeometry extends MultiPolygon | Polygon = MultiPolygon | Polygon,
   >(
     feature: GeographiesFeature<TProperties, TGeometry>,
     projection: GeoProjection

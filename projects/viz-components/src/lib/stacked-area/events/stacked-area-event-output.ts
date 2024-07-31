@@ -2,7 +2,7 @@ import { DataValue } from '../../core/types/values';
 
 export interface StackedAreaEventOutput<
   Datum,
-  TCategoricalValue extends DataValue
+  TCategoricalValue extends DataValue,
 > {
   data: StackedAreaTooltipData<Datum, TCategoricalValue>[];
   positionX: number;
@@ -14,7 +14,7 @@ export interface StackedAreaEventOutput<
 
 export interface StackedAreaTooltipData<
   Datum,
-  TCategoricalValue extends DataValue
+  TCategoricalValue extends DataValue,
 > {
   datum: Datum;
   color: string;

@@ -14,7 +14,7 @@ export interface XAxisOptions<TickValue extends DataValue>
 
 export function mixinXAxisConfig<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>
+  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {

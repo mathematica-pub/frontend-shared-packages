@@ -21,7 +21,7 @@ import { GroupedBarsConfig } from './config/grouped-bars-config';
 })
 export class GroupedBarsComponent<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('config') override config: GroupedBarsConfig<Datum, TOrdinalValue>;

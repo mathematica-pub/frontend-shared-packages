@@ -23,7 +23,7 @@ const DEFAULT = {
 export class GeographiesAttributeDataLayer<
     Datum,
     TProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon
+    TGeometry extends Geometry = MultiPolygon | Polygon,
   >
   extends GeographiesLayer<Datum, TProperties, TGeometry>
   implements
@@ -129,11 +129,11 @@ export class GeographiesAttributeDataLayer<
             this.attributeDimension.formatFunction
           )
         : this.attributeDimension.binType !== BinStrategy.categorical
-        ? ValueUtilities.d3Format(
-            value as number,
-            this.attributeDimension.formatSpecifier
-          )
-        : (value as string),
+          ? ValueUtilities.d3Format(
+              value as number,
+              this.attributeDimension.formatSpecifier
+            )
+          : (value as string),
       color: this.getAttributeFill(featureIndex),
     };
 
