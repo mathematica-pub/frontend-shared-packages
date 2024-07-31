@@ -24,7 +24,7 @@ import { BarsLabelsBuilder } from './labels/bar-labels-builder';
 @Injectable()
 export class VicBarsConfigBuilder<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends DataMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';

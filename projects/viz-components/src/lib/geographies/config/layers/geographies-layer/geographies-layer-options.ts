@@ -9,7 +9,7 @@ import { GeographiesLabels } from '../labels/geographies-labels';
  */
 export interface GeographiesLayerOptions<
   TProperties,
-  TGeometry extends Geometry
+  TGeometry extends Geometry,
 > {
   /**
    * The class to be applied to the geography layer.

@@ -6,7 +6,7 @@ import { FillPattern } from './fill-pattern';
 
 export class CategoricalDimension<
   Datum,
-  TCategoricalValue extends DataValue = string
+  TCategoricalValue extends DataValue = string,
 > extends DataDimension<Datum, TCategoricalValue> {
   private _calculatedDomain: TCategoricalValue[];
   private readonly domain: TCategoricalValue[];

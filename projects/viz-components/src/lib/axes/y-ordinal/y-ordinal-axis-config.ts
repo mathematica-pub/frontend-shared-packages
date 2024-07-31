@@ -11,7 +11,7 @@ const AbstractYOrdinalAxis = mixinYAxisConfig(
 );
 
 export class YOrdinalAxisConfig<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends AbstractYOrdinalAxis<TickValue> {
   constructor(
     options: YAxisOptions<TickValue> & VicOrdinalAxisOptions<TickValue>

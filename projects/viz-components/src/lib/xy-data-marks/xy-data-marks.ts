@@ -15,7 +15,7 @@ import {
 @Directive()
 export abstract class VicXyDataMarks<
     Datum,
-    TDataMarkConfig extends DataMarksOptions<Datum>
+    TDataMarkConfig extends DataMarksOptions<Datum>,
   >
   extends DataMarks<Datum, TDataMarkConfig>
   implements OnInit

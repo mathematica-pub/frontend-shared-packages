@@ -7,5 +7,5 @@ export type OneOf<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   V extends any[],
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  NK extends keyof V = Exclude<keyof V, keyof any[]>
+  NK extends keyof V = Exclude<keyof V, keyof any[]>,
 > = { [K in NK]: T extends V[K] ? V[K] : never }[NK];

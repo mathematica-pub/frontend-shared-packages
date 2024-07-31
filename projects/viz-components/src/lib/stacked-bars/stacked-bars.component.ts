@@ -25,7 +25,7 @@ export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
 })
 export class StackedBarsComponent<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends BarsComponent<Datum, TOrdinalValue> {
   @Input() override config: StackedBarsConfig<Datum, TOrdinalValue>;
 

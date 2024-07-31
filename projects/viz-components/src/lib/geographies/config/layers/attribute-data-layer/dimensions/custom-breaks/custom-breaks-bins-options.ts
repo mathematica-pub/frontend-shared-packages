@@ -2,7 +2,7 @@ import { CalculatedBinsAttributeDataDimensionOptions } from '../calculated-bins/
 
 export interface CustomBreaksBinsAttributeDataDimensionOptions<
   Datum,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends CalculatedBinsAttributeDataDimensionOptions<Datum, RangeValue> {
   breakValues: number[];
   formatSpecifier: string;

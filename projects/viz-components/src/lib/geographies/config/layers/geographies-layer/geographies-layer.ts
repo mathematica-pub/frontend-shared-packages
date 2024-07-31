@@ -13,7 +13,7 @@ import { GeographiesLayerOptions } from './geographies-layer-options';
 export abstract class GeographiesLayer<
   Datum,
   TProperties,
-  TGeometry extends Geometry
+  TGeometry extends Geometry,
 > implements GeographiesLayerOptions<TProperties, TGeometry>
 {
   class: string;

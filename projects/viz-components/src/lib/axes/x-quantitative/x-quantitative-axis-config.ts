@@ -11,7 +11,7 @@ const AbstractXQuantitativeAxis = mixinXAxisConfig(
 );
 
 export class XQuantitativeAxisConfig<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends AbstractXQuantitativeAxis<TickValue> {
   constructor(
     options: XAxisOptions<TickValue> & VicQuantitativeAxisOptions<TickValue>

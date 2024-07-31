@@ -10,7 +10,7 @@ export type BarsEventDirective<
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue
-  >
+  >,
 > =
   | BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
   | BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>

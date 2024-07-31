@@ -9,7 +9,7 @@ import { CategoricalBinsOptions } from './categorical-bins-options';
  */
 export class CategoricalBinsAttributeDataDimension<
     Datum,
-    RangeValue extends string | number = string
+    RangeValue extends string | number = string,
   >
   extends AttributeDataDimension<Datum, string>
   implements CategoricalBinsOptions<Datum, string>

@@ -9,7 +9,7 @@ import { NoBinsAttributeDataDimension } from './dimensions/no-bins/no-bins';
 export interface GeographiesAttributeDataLayerOptions<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
   attributeDimension:
     | CategoricalBinsAttributeDataDimension<Datum>

@@ -9,7 +9,7 @@ export type VicOrdinalAxisOptions<TickValue extends DataValue> =
 
 export function mixinOrdinalAxisConfig<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>
+  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin
@@ -26,5 +26,5 @@ export function mixinOrdinalAxisConfig<
 }
 
 export class VicOrdinalAxisConfig<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends mixinOrdinalAxisConfig(XyAxisBaseConfig)<TickValue> {}

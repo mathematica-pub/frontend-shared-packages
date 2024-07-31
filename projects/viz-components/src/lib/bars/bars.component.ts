@@ -70,7 +70,7 @@ export type BarDatum<T> = {
 })
 export class BarsComponent<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends VicXyDataMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   barGroups: BarGroupSelection;

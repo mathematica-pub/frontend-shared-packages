@@ -10,7 +10,7 @@ const DEFAULT = {
 
 @Injectable()
 export class VicYQuantitativeAxisConfigBuilder<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends XyAxisBaseBuilder<TickValue> {
   private _numTicks: number;
   private _side: 'left' | 'right';

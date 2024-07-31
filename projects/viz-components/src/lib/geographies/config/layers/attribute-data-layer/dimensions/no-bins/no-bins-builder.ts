@@ -15,7 +15,7 @@ const DEFAULT = {
  * The generic parameter is the type of the attribute data.
  */
 export class NoBinsAttributeDataDimensionBuilder<
-  Datum
+  Datum,
 > extends AttributeDataDimensionBuilder<Datum, number> {
   private _domain: [number, number];
   private _formatSpecifier: string;

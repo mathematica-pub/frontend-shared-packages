@@ -9,7 +9,7 @@ import { GeographiesGeojsonPropertiesLayerOptions } from './geojson-properties-l
 
 export class GeographiesGeojsonPropertiesLayer<
     TProperties,
-    TGeometry extends Geometry = MultiPolygon | Polygon
+    TGeometry extends Geometry = MultiPolygon | Polygon,
   >
   extends GeographiesLayer<string, TProperties, TGeometry>
   implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>

@@ -5,7 +5,7 @@ import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-
 
 export interface GeographiesGeojsonPropertiesLayerOptions<
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
   categorical: CategoricalDimension<
     GeographiesFeature<TProperties, TGeometry>,

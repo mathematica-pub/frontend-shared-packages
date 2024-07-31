@@ -14,7 +14,7 @@ import { GeographiesGeojsonPropertiesLayer } from './layers/geojson-properties-l
 export interface GeographiesOptions<
   Datum,
   TProperties extends GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends DataMarksOptions<Datum> {
   boundary:
     | ExtendedFeature

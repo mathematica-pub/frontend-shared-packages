@@ -11,7 +11,7 @@ import { AttributeDataDimensionOptions } from './attribute-data-dimension-option
 export abstract class AttributeDataDimension<
     Datum,
     AttributeValue extends DataValue,
-    RangeValue extends string | number = string
+    RangeValue extends string | number = string,
   >
   extends DataDimension<Datum, AttributeValue>
   implements AttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>

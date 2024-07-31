@@ -32,7 +32,7 @@ const DEFAULT = {
 @Injectable()
 export class VicStackedAreaConfigBuilder<
   Datum,
-  TCategoricalValue extends DataValue
+  TCategoricalValue extends DataValue,
 > extends DataMarksBuilder<Datum> {
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<
     Datum,

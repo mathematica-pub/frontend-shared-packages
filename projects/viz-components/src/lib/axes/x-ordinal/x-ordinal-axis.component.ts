@@ -14,5 +14,5 @@ const XOrdinalAxis = xAxisMixin(ordinalAxisMixin(XyAxis));
   inputs: ['side', 'config'],
 })
 export class XOrdinalAxisComponent<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends XOrdinalAxis<TickValue> {}

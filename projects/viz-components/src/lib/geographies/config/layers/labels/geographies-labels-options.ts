@@ -11,7 +11,7 @@ import { GeographiesFeature } from '../../../geographies-feature';
  */
 export interface GeographiesLabelsOptions<
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > {
   alignmentBaseline: CSSType.Property.AlignmentBaseline;
   color: GeographiesLabelsColorOptions | CSSType.Property.Fill;

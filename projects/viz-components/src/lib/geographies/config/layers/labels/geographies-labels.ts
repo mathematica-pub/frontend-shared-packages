@@ -11,7 +11,7 @@ import {
 
 export class GeographiesLabels<
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > implements GeographiesLabelsOptions<TProperties, TGeometry>
 {
   alignmentBaseline: CSSType.Property.AlignmentBaseline;

@@ -9,7 +9,7 @@ export class BarsHoverShowLabels<
   TBarsComponent extends BarsComponent<Datum, TOrdinalValue> = BarsComponent<
     Datum,
     TOrdinalValue
-  >
+  >,
 > implements
     EventEffect<BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>>
 {

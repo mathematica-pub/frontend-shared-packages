@@ -9,7 +9,7 @@ const DEFAULT = {
 
 @Injectable()
 export class VicXOrdinalAxisConfigBuilder<
-  TickValue extends DataValue
+  TickValue extends DataValue,
 > extends XyAxisBaseBuilder<TickValue> {
   private _side: 'top' | 'bottom';
 

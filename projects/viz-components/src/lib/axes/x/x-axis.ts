@@ -9,7 +9,7 @@ import { XAxisConfig } from './x-axis-config';
 
 export function xAxisMixin<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>
+  T extends AbstractConstructor<XyAxis<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {

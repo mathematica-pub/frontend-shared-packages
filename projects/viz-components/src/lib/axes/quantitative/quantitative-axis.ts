@@ -7,7 +7,7 @@ import { VicQuantitativeAxisConfig as QuantitativeAxisConfig } from './quantitat
 
 export function quantitativeAxisMixin<
   TickValue extends ContinuousValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>
+  T extends AbstractConstructor<XyAxis<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {

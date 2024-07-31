@@ -32,9 +32,10 @@ import { HtmlTooltipConfig } from './config/html-tooltip-config';
   selector: 'vic-html-tooltip',
 })
 export class HtmlTooltipDirective<
-  Datum,
-  TDataMarksConfig extends DataMarksOptions<Datum>
-> implements OnChanges, OnDestroy
+    Datum,
+    TDataMarksConfig extends DataMarksOptions<Datum>,
+  >
+  implements OnChanges, OnDestroy
 {
   @Input() template: TemplateRef<HTMLElement>;
   @Input() config: HtmlTooltipConfig;

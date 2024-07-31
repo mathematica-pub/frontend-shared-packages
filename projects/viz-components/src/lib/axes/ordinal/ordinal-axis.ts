@@ -7,7 +7,7 @@ import { VicOrdinalAxisConfig as OrdinalAxisConfig } from './ordinal-axis-config
 
 export function ordinalAxisMixin<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxis<TickValue>>
+  T extends AbstractConstructor<XyAxis<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {

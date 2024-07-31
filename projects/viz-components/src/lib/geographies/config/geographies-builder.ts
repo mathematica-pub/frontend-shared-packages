@@ -31,7 +31,7 @@ const DEFAULT = {
 export class VicGeographiesConfigBuilder<
   Datum,
   TProperties extends GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > {
   private _boundary:
     | ExtendedFeature

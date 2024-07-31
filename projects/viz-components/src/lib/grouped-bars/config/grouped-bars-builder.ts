@@ -19,7 +19,7 @@ const DEFAULT = {
 @Injectable()
 export class VicGroupedBarsConfigBuilder<
   Datum,
-  TOrdinalValue extends DataValue
+  TOrdinalValue extends DataValue,
 > extends VicBarsConfigBuilder<Datum, TOrdinalValue> {
   private _intraGroupPadding: number;
 

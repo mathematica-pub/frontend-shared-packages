@@ -9,7 +9,7 @@ export class StackedAreaHoverMoveEmitTooltipData<
   TStackedAreaComponent extends StackedAreaComponent<
     Datum,
     TCategoricalValue
-  > = StackedAreaComponent<Datum, TCategoricalValue>
+  > = StackedAreaComponent<Datum, TCategoricalValue>,
 > implements
     HoverMoveEventEffect<
       StackedAreaHoverMoveDirective<

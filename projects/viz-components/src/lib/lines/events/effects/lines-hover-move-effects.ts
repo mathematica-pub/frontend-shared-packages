@@ -15,7 +15,7 @@ import { LinesHoverMoveDirective } from '../lines-hover-move.directive';
  */
 export class LinesHoverMoveDefaultLinesStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
@@ -62,7 +62,7 @@ export class LinesHoverMoveDefaultLinesStyles<
  */
 export class LinesHoverMoveDefaultMarkersStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
@@ -119,7 +119,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
  */
 export class LinesHoverMoveDefaultHoverDotStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
@@ -163,7 +163,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
  */
 export class LinesHoverMoveDefaultStyles<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {
@@ -204,7 +204,7 @@ export class LinesHoverMoveDefaultStyles<
 
 export class LinesHoverMoveEmitTooltipData<
   Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<LinesHoverMoveDirective<Datum, TLinesComponent>>
 {

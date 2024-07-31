@@ -8,7 +8,7 @@ const DEFAULT = {
 };
 
 export class QuantitativeDateDimensionBuilder<
-  Datum
+  Datum,
 > extends DataDimensionBuilder<Datum, Date> {
   private _domain: [Date, Date];
   private _formatSpecifier: string;

@@ -5,7 +5,7 @@ import { DataDimensionBuilder } from '../../../../../../data-dimensions/dimensio
 export abstract class AttributeDataDimensionBuilder<
   Datum,
   AttributeValue extends DataValue,
-  RangeValue extends string | number = string
+  RangeValue extends string | number = string,
 > extends DataDimensionBuilder<Datum, AttributeValue> {
   protected _fillPatterns: FillPattern<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
