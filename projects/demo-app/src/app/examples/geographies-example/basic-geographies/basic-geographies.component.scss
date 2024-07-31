@@ -1,0 +1,60 @@
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+
+.basic-geographies {
+  .header {
+    display: flex;
+    gap: grid(6);
+  }
+
+  .effect-title {
+    @extend %typography-subtitle-2;
+  }
+
+  .toggle-container {
+    padding-bottom: grid(4);
+  }
+
+  .chart-component {
+    padding-top: grid(6);
+    min-height: 300px;
+    display: block;
+  }
+
+  .data-binning-description .value {
+    font-weight: $font-weight-bold;
+  }
+
+  .fill-description {
+    font-size: 14px;
+  }
+
+  .legend-component {
+    display: block;
+    padding-top: grid(6);
+  }
+}
+
+.basic-geographies-tooltip-container {
+  @extend %tooltip-container-styles;
+
+  .geography {
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+    padding-bottom: grid(1);
+  }
+
+  .tooltip-label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tooltip-label:not(.geography) {
+    padding-top: grid(1);
+  }
+
+  .value-label {
+    @extend %typography-overline-large;
+  }
+}

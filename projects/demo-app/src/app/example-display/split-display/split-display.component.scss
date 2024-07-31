@@ -7,19 +7,6 @@
   display: flex;
   max-width: var(--max-width, 1200px);
 
-  .resizer {
-    display: flex;
-    justify-content: center;
-    width: grid(2);
-    margin: 0 grid(1);
-    border-radius: grid(2);
-    cursor: ew-resize;
-
-    &:hover {
-      background: color.$primary-7;
-    }
-  }
-
   .panel {
     border-radius: grid(3);
     border: 1px solid color.$primary-5;
@@ -36,28 +23,12 @@
     overflow-x: auto;
   }
 
-  .scroll-container {
-    max-height: 600px;
-    overflow-y: auto;
-  }
-
   .panel.example .scroll-container {
     display: flex;
     padding: grid(6) grid(4);
     flex-direction: column;
     justify-content: center;
     height: 100%;
-  }
-
-  .title-bar {
-    padding-top: grid(3);
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    border-top-left-radius: grid(3);
-    border-top-right-radius: grid(3);
-    background: color.$primary-8;
-    border-bottom: 1px solid color.$primary-6;
   }
 
   .example-label {
@@ -67,32 +38,16 @@
     line-height: initial;
   }
 
-  .file-select > .selected {
-    margin-bottom: -1px;
-  }
+  .resizer {
+    display: flex;
+    justify-content: center;
+    width: grid(2);
+    margin: 0 grid(1);
+    border-radius: grid(2);
+    cursor: ew-resize;
 
-  .tab:first-of-type .radio-input-container {
-    padding-left: grid(4);
-  }
-
-  .radio-input-label {
-    padding: grid(3) grid(4);
-    border-top-left-radius: grid(2);
-    border-top-right-radius: grid(2);
-    color: color.$highlight-default;
-  }
-
-  .radio-input-label:not(.selected):hover {
-    color: color.$highlight-default;
-    transition: all 200ms;
-    background-color: color.$primary-7;
-  }
-
-  .radio-input-label.selected {
-    border: 1px solid color.$primary-6;
-    border-bottom-color: white;
-    color: color.$primary-1;
-    background-color: white;
-    font-weight: $font-weight-semibold;
+    &:hover {
+      background: color.$primary-7;
+    }
   }
 }

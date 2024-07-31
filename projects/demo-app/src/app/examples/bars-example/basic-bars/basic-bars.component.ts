@@ -30,7 +30,6 @@ import {
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../../../core/models/data';
 import { DataService } from '../../../core/services/data.service';
-import { ExampleDisplayComponent } from '../../../example-display/example-display.component';
 
 interface ViewModel {
   dataConfig: VicBarsConfig<MetroUnemploymentDatum>;
@@ -47,11 +46,10 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
 }
 
 @Component({
-  selector: 'app-basic-bar',
+  selector: 'app-basic-bars',
   standalone: true,
   imports: [
     CommonModule,
-    ExampleDisplayComponent,
     VicChartModule,
     VicBarsModule,
     VicXyChartModule,
@@ -61,12 +59,12 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
     VicHtmlTooltipModule,
     MatButtonModule,
   ],
-  templateUrl: './basic-bar.component.html',
-  styleUrl: './basic-bar.component.scss',
+  templateUrl: './basic-bars.component.html',
+  styleUrls: ['./basic-bars.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class BasicBarComponent {
+export class BasicBarsComponent {
   vm$: Observable<ViewModel>;
   margin: VicElementSpacing = {
     top: 36,

@@ -1,16 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   VicAxisConfig,
+  VicChartModule,
+  VicElementSpacing,
   VicStackedBarsConfig,
+  VicStackedBarsModule,
   VicVerticalBarsDimensionsConfig,
+  VicXOrdinalAxisModule,
+  VicXyBackgroundModule,
+  VicXyChartModule,
+  VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
-import { IndustryUnemploymentDatum } from '../../core/models/data';
-import { DataService } from '../../core/services/data.service';
-import { SplitDisplayComponent } from '../../example-display/split-display/split-display.component';
-import { BasicStackedBarsComponent } from './basic-stacked-bars/basic-stacked-bars.component';
+import { IndustryUnemploymentDatum } from '../../../core/models/data';
+import { DataService } from '../../../core/services/data.service';
 
 interface ViewModel {
   dataConfig: VicStackedBarsConfig<IndustryUnemploymentDatum>;
@@ -19,13 +23,22 @@ interface ViewModel {
 }
 
 @Component({
-  selector: 'app-stacked-bars-example',
+  selector: 'app-basic-stacked-bars',
   standalone: true,
-  imports: [CommonModule, SplitDisplayComponent, BasicStackedBarsComponent],
-  templateUrl: './stacked-bars-example.component.html',
-  styleUrls: ['../examples.scss', './stacked-bars-example.component.scss'],
+  imports: [
+    CommonModule,
+    VicChartModule,
+    VicStackedBarsModule,
+    VicXyChartModule,
+    VicXyBackgroundModule,
+    VicYQuantitativeAxisModule,
+    VicXOrdinalAxisModule,
+  ],
+  templateUrl: './basic-stacked-bars.component.html',
+  styleUrls: ['./basic-stacked-bars.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StackedBarsExampleComponent implements OnInit {
+export class BasicStackedBarsComponent {
   vm$: Observable<ViewModel>;
   margin: VicElementSpacing = {
     top: 8,

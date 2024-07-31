@@ -1,58 +1,9 @@
-<!-- <app-example-display [folderName]="folderName">
-  <span title>Stacked Area</span>
-  <ng-container demo *ngIf="vm$ | async as vm; else loading">
-    <vic-xy-chart [margin]="margin">
-      <ng-container svg-elements>
-        <svg:g vic-xy-background></svg:g>
-        <svg:g
-          vic-x-quantitative-axis
-          [config]="vm.xAxisConfig"
-          side="bottom"
-        ></svg:g>
-        <svg:g
-          vic-y-quantitative-axis
-          [config]="vm.yAxisConfig"
-          side="left"
-        ></svg:g>
-        <svg:g
-          vic-data-marks-stacked-area
-          [config]="vm.dataConfig"
-          [vicStackedAreaHoverMoveEffects]="hoverAndMoveEffects"
-          (vicStackedAreaHoverMoveOutput)="updateTooltipForNewOutput($event)"
-        >
-          <vic-html-tooltip
-            [config]="(tooltipConfig$ | async)"
-            [template]="htmlTooltip"
-          ></vic-html-tooltip>
-        </svg:g>
-        <svg:g>
-          <line
-            *ngIf="(tooltipData$ | async) as tooltipData"
-            class="tooltip-line"
-            [attr.x1]="tooltipData.positionX"
-            [attr.x2]="tooltipData.positionX"
-            [attr.y1]="tooltipData.categoryYMin"
-            [attr.y2]="tooltipData.categoryYMax"
-          ></line>
-        </svg:g>
-      </ng-container>
-    </vic-xy-chart>
-  </ng-container>
-  <ng-template #loading>Loading...</ng-template>
-</app-example-display>
-
-<ng-template #htmlTooltip>
-  <div
-    *ngIf="(tooltipData$ | async).hoveredDatum as data"
-    [style.--color]="data.color"
-    class="tooltip-container"
-  >
-    <p class="tooltip-label category"> {{ data.category }} </p>
-    <div class="values-container">
-      <p class="tooltip-label y">
-        <span class="value-label">Value</span>
-        {{ data.datum.value }}
-      </p>
-    </div>
-  </div>
-</ng-template> -->
+<h2 class="main-title">Stacked Area Data Marks Component</h2>
+<app-split-display
+  path="app/examples/stacked-area-example/basic-stacked-area"
+  class="example"
+  label="stacked area example"
+  maxWidth="1400px"
+>
+  <app-basic-stacked-area></app-basic-stacked-area>
+</app-split-display>

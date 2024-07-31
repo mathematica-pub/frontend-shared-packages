@@ -2,10 +2,8 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ElementRef,
   Inject,
-  inject,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -29,7 +27,7 @@ import {
 } from 'rxjs';
 import { RadioInputComponent } from '../../radio-input/radio-input.component';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
-import { Example } from '../example';
+import { ExampleDisplay } from '../example-display';
 
 @Component({
   selector: 'app-split-display',
@@ -42,17 +40,16 @@ import { Example } from '../example';
   ],
   providers: [FormGroupDirective],
   templateUrl: './split-display.component.html',
-  styleUrl: './split-display.component.scss',
+  styleUrls: ['../example-display.scss', './split-display.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SplitDisplayComponent extends Example implements OnInit {
+export class SplitDisplayComponent extends ExampleDisplay implements OnInit {
   @ViewChild('resizer', { static: true }) resizer: ElementRef<HTMLDivElement>;
   @ViewChild('examplePanel', { static: true })
   examplePanel: ElementRef<HTMLDivElement>;
   exampleWidth: BehaviorSubject<number> = new BehaviorSubject<number>(null);
   exampleWidth$: Observable<string>;
-  private destroyRef = inject(DestroyRef);
 
   constructor(@Inject(DOCUMENT) private document: Document) {
     super();

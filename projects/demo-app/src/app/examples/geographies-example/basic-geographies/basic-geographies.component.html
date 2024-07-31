@@ -1,0 +1,95 @@
+<div
+  class="basic-geographies"
+  *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
+>
+  <div class="header">
+    <div
+      class="toggle-container"
+      [style.--mat-standard-button-toggle-height]="2.5"
+    >
+      <p class="effect-title">Select a year</p>
+      <mat-button-toggle-group
+        name="selectedYear"
+        aria-label="Selected Year"
+        [value]="selectedYear$ | async"
+        (change)="onYearChange($event)"
+      >
+        <mat-button-toggle value="2020">2020</mat-button-toggle>
+        <mat-button-toggle value="2010">2010</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+    <div class="map-info">
+      <p class="data-binning-description"
+        >Attribute Data Bin Type: <span class="value">Equal Values</span></p
+      >
+      <p class="fill-description"
+        >Patterned states: population less than 1,000,000 (visual legend to be
+        added)</p
+      >
+      <p class="fill-description"
+        >Gray states: missing data; state is part of NoDataGeographies</p
+      >
+    </div>
+  </div>
+  <vic-map-chart
+    class="chart-component"
+    [margin]="margin"
+    [height]="height"
+    [width]="width"
+  >
+    <ng-container html-elements-after>
+      <vic-map-legend
+        class="legend-component"
+        [width]="400"
+        [height]="20"
+        [outlineColor]="outlineColor"
+      ></vic-map-legend>
+    </ng-container>
+    <svg:pattern
+      svg-defs
+      [id]="patternName"
+      x="2"
+      y="2"
+      width="5"
+      height="5"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
+    </svg:pattern>
+    <svg:g
+      vic-data-marks-geographies
+      svg-elements
+      [config]="dataMarksConfig"
+      [vicGeographiesHoverEffects]="hoverEffects"
+      (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
+      [vicGeographiesClickEffects]="clickEffects"
+      [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
+      (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
+    >
+      <vic-html-tooltip
+        [config]="(tooltipConfig$ | async)"
+        [template]="htmlTooltip"
+        (backdropClick)="onBackdropClick()"
+      ></vic-html-tooltip>
+    </svg:g>
+  </vic-map-chart>
+</div>
+
+<ng-template #htmlTooltip>
+  <div
+    [style.--color]="(tooltipData$ | async).color"
+    class="basic-geographies-tooltip-container"
+  >
+    <p class="tooltip-label geography">
+      {{ (tooltipData$ | async).geography }}
+    </p>
+    <div class="values-container">
+      <p class="tooltip-label x">
+        <span class="value-label">Income</span>
+        {{ (tooltipData$ | async).attributeValue }}
+      </p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loading>Loading...</ng-template>

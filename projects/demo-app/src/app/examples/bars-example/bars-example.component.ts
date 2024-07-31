@@ -1,18 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import {
-  VicBarsModule,
-  VicChartModule,
-  VicHtmlTooltipModule,
-  VicXQuantitativeAxisModule,
-  VicXyBackgroundModule,
-  VicXyChartModule,
-  VicYOrdinalAxisModule,
-} from 'projects/viz-components/src/public-api';
 import { SingleDisplayComponent } from '../../example-display/single-display/single-display.component';
 import { SplitDisplayComponent } from '../../example-display/split-display/split-display.component';
-import { BasicBarComponent } from './basic-bar/basic-bar.component';
+import { BasicBarsComponent } from './basic-bars/basic-bars.component';
 
 @Component({
   selector: 'app-bars-example',
@@ -21,17 +11,9 @@ import { BasicBarComponent } from './basic-bar/basic-bar.component';
     CommonModule,
     SingleDisplayComponent,
     SplitDisplayComponent,
-    VicChartModule,
-    VicBarsModule,
-    VicXyChartModule,
-    VicXyBackgroundModule,
-    VicYOrdinalAxisModule,
-    VicXQuantitativeAxisModule,
-    VicHtmlTooltipModule,
-    MatButtonModule,
-    BasicBarComponent,
+    BasicBarsComponent,
   ],
   templateUrl: './bars-example.component.html',
-  styleUrls: ['./bars-example.component.scss'],
+  styleUrls: ['../examples.scss', './bars-example.component.scss'],
 })
 export class BarsExampleComponent {}

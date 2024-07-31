@@ -3,7 +3,7 @@
 @use 'functions' as *;
 @use 'color';
 
-.basic-bar {
+.basic-bars {
   .bars-example {
     .vic-bar-label {
       font-size: 12px;
@@ -11,7 +11,7 @@
   }
 }
 
-.tooltip-container {
+.basic-bars-tooltip-container {
   @extend %tooltip-container-styles;
 
   .tooltip-label {

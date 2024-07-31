@@ -8,11 +8,13 @@ export interface ExampleProperties {
 }
 
 @Directive()
-export abstract class Example implements OnInit {
+export abstract class ExampleDisplay implements OnInit {
   @Input() includeFiles: string[];
   @Input() path: string;
   @Input() label: string = 'example';
   @Input() maxWidth: string = '1200px';
+  @Input() maxHeight: string = '600px';
+  @Input() height: string = 'auto';
   fileList: string[];
   filesHtml$: Observable<string[]>;
   tabList: string[];
