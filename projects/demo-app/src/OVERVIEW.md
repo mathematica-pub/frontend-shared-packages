@@ -96,7 +96,7 @@ this.barsBuilder
 
 There are two different methods for instantiating a config builder.
 
-Generally, we recommend that users access the config builders by providing them in the providers array of a component and then declaring in the component's constructor, as shown in the code block below. We recommend this because this best matches common Angular and JavaScript patterns.
+Generally, we recommend that users access the config builders by providing them in the providers array of a component and then declaring in the component's constructor, as shown in the code block below. We recommend this because we anticipate that this method will feel more familiar to most developers, as it better matches Angular application development patterns as well as the patterns using most modern JavaScript libraries, and will create a more seamless development experience.
 
 However, if this approach is used, _the config must be supplied to its corresponding component as an observable or alias of an observable_, so that changes are detected in this object in the target component.
 
