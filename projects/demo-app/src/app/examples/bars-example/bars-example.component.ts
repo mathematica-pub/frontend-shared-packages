@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   VicBarsModule,
@@ -33,6 +33,5 @@ import { BasicBarComponent } from './basic-bar/basic-bar.component';
   ],
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class BarsExampleComponent {}

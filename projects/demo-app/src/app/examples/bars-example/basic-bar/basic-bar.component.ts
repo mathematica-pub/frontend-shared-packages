@@ -70,9 +70,9 @@ export class BasicBarComponent {
   vm$: Observable<ViewModel>;
   margin: VicElementSpacing = {
     top: 36,
-    right: 0,
+    right: 40,
     bottom: 8,
-    left: 300,
+    left: 240,
   };
   tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
     new BehaviorSubject<VicHtmlTooltipConfig>(

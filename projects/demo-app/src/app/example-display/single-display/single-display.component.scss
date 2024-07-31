@@ -8,7 +8,7 @@
   flex-direction: column;
   border: 1px solid color.$primary-5;
   border-radius: grid(3);
-  max-width: 1200px;
+  max-width: var(--max-width, 1200px);
 
   .file-select-bar {
     padding-top: grid(3);

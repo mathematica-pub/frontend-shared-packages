@@ -3,32 +3,18 @@
 @use 'functions' as *;
 @use 'color';
 
-.bars-example {
-  .vic-bar-label {
-    font-size: 12px;
-  }
+.main-title {
+  @extend %typography-h4;
+  padding-bottom: grid(4);
 }
 
-.tooltip-container {
-  @extend %tooltip-container-styles;
+.example-title {
+  @extend %typography-h5;
+  padding-bottom: grid(3);
+}
 
-  .tooltip-label {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tooltip-label:not(.category) {
-    padding-top: grid(1);
-  }
-
-  .category {
-    color: var(--color);
-    font-weight: $font-weight-bold;
-    line-height: 1.2;
-    padding-bottom: grid(1);
-  }
-
-  .value-label {
-    @extend %typography-overline-large;
-  }
+.example {
+  display: block;
+  padding-top: grid(6);
+  padding-bottom: grid(8);
 }

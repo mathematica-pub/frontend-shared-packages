@@ -11,6 +11,8 @@ export interface ExampleProperties {
 export abstract class Example implements OnInit {
   @Input() includeFiles: string[];
   @Input() path: string;
+  @Input() label: string = 'example';
+  @Input() maxWidth: string = '1200px';
   fileList: string[];
   filesHtml$: Observable<string[]>;
   tabList: string[];
@@ -23,7 +25,6 @@ export abstract class Example implements OnInit {
     this.setFileList();
     this.setFilesHtml();
     this.initTabs();
-    this.initTabContent();
   }
 
   setFileList(): void {
@@ -51,5 +52,4 @@ export abstract class Example implements OnInit {
   }
 
   abstract initTabs(): void;
-  abstract initTabContent(): void;
 }

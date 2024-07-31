@@ -1,4 +1,4 @@
-<div class="example-container single">
+<div class="example-container single" [style.--max-width]="maxWidth">
   <div [formGroup]="form" class="file-select-bar">
     @for (tab of tabList; track $index) {
     <app-radio-input

@@ -1,8 +1,20 @@
-<h2>Bars Data Marks Component</h2>
-<h3>Basic Example</h3>
-<app-single-display path="app/examples/bars-example/basic-bar">
-  <app-basic-bar></app-basic-bar>
-</app-single-display>
-<app-split-display path="app/examples/bars-example/basic-bar">
+<h2 class="main-title">Bars Data Marks Component</h2>
+<h3 class="example-title">Split panel example</h3>
+<p>Some explanatory text. Will CoPilot write some text for me here?</p>
+<app-split-display
+  path="app/examples/bars-example/basic-bar"
+  class="example"
+  label="simple bar"
+  maxWidth="1400px"
+>
   <app-basic-bar></app-basic-bar>
 </app-split-display>
+<h3 class="example-title">Single panel example</h3>
+<p>More explanatory text. Will CoPilot write some text for me here?</p>
+<app-single-display
+  path="app/examples/bars-example/basic-bar"
+  class="example"
+  label="second simple bar"
+>
+  <app-basic-bar></app-basic-bar>
+</app-single-display>

@@ -1,11 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
+  Inject,
   inject,
+  OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -15,7 +16,17 @@ import {
   FormGroupDirective,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { map, shareReplay, startWith, withLatestFrom } from 'rxjs';
+import {
+  BehaviorSubject,
+  combineLatest,
+  fromEvent,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+  switchMap,
+  takeUntil,
+} from 'rxjs';
 import { RadioInputComponent } from '../../radio-input/radio-input.component';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { Example } from '../example';
@@ -35,11 +46,22 @@ import { Example } from '../example';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SplitDisplayComponent extends Example implements AfterViewInit {
-  @ViewChild('slider') slider: ElementRef<HTMLDivElement>;
+export class SplitDisplayComponent extends Example implements OnInit {
+  @ViewChild('resizer', { static: true }) resizer: ElementRef<HTMLDivElement>;
+  @ViewChild('examplePanel', { static: true })
+  examplePanel: ElementRef<HTMLDivElement>;
+  exampleWidth: BehaviorSubject<number> = new BehaviorSubject<number>(null);
+  exampleWidth$: Observable<string>;
   private destroyRef = inject(DestroyRef);
 
-  ngAfterViewInit(): void {}
+  constructor(@Inject(DOCUMENT) private document: Document) {
+    super();
+  }
+
+  override ngOnInit(): void {
+    super.ngOnInit();
+    this.initResizer();
+  }
 
   initTabs(): void {
     this.tabList = [...this.fileList.map(this.getFileDisplayName)];
@@ -49,13 +71,37 @@ export class SplitDisplayComponent extends Example implements AfterViewInit {
     this.selectedTabIndex$ = this.form.controls.selected.valueChanges.pipe(
       startWith(0)
     );
-  }
-
-  initTabContent(): void {
-    this.tabContent$ = this.selectedTabIndex$.pipe(
-      withLatestFrom(this.filesHtml$),
+    this.tabContent$ = combineLatest([
+      this.selectedTabIndex$,
+      this.filesHtml$,
+    ]).pipe(
       map(([index, filesHtml]) => filesHtml[index]),
       shareReplay(1)
     );
+  }
+
+  initResizer(): void {
+    const mousedown$ = fromEvent<MouseEvent>(
+      this.resizer.nativeElement,
+      'mousedown'
+    );
+    const mousemove$ = fromEvent<MouseEvent>(this.document, 'mousemove');
+    const mouseup$ = fromEvent<MouseEvent>(this.document, 'mouseup');
+
+    this.exampleWidth$ = mousedown$.pipe(
+      switchMap((startEvent) => {
+        const startX = startEvent.clientX;
+        const startWidth = this.examplePanel.nativeElement.offsetWidth;
+
+        return mousemove$.pipe(
+          map((moveEvent) => {
+            const dx = moveEvent.clientX - startX;
+            return `${startWidth + dx}px`;
+          }),
+          takeUntil(mouseup$)
+        );
+      })
+    );
+    startWith('500px');
   }
 }

@@ -1,10 +1,15 @@
-<div class="example-container split">
-  <div class="main-display example">
-    <div class="scroll-container"> <ng-content></ng-content> </div
+<div class="example-container split" [style.--max-width]="maxWidth">
+  <div
+    class="panel example"
+    #examplePanel
+    [style.width]="exampleWidth$ | async"
+  >
+    <div class="title-bar"><p class="example-label">{{label}}</p></div>
+    <div class="scroll-container"><ng-content></ng-content> </div
   ></div>
-  <div class="slider" #slider></div>
-  <div class="main-display code">
-    <div [formGroup]="form" class="file-select-bar">
+  <div class="resizer" #resizer></div>
+  <div class="panel code">
+    <div [formGroup]="form" class="file-select title-bar">
       @for (tab of tabList; track $index) {
       <app-radio-input
         class="tab"
@@ -16,9 +21,8 @@
       }
     </div>
     <div class="scroll-container">
-      @if ((tabContent$ | async) === null) {
-      <app-code-display [fileData]="tabContent$ | async"></app-code-display>
-      }
-    </div></div
-  >
+      <app-code-display
+        [fileData]="tabContent$ | async"
+      ></app-code-display> </div
+  ></div>
 </div>
