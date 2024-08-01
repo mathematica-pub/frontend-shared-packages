@@ -57,48 +57,48 @@ describe('LinesHoverDirective', () => {
   });
 
   describe('elementPointerEnter()', () => {
-    let effectA: any;
-    let applyASpy: jasmine.Spy;
-    let effectB: any;
-    let applyBSpy: jasmine.Spy;
+    let actionA: any;
+    let onStartASpy: jasmine.Spy;
+    let actionB: any;
+    let onStartBSpy: jasmine.Spy;
     beforeEach(() => {
-      applyASpy = jasmine.createSpy('applyEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      effectA = {
-        applyEffect: applyASpy,
+      onStartASpy = jasmine.createSpy('onStart');
+      onStartBSpy = jasmine.createSpy('onStart');
+      actionA = {
+        onStart: onStartASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
+      actionB = {
+        onStart: onStartBSpy,
       };
-      directive.effects = [effectA, effectB] as any;
+      directive.actions = [actionA, actionB] as any;
     });
-    it('calls apply effect with the correct value', () => {
+    it('calls onStart with the correct value', () => {
       directive.onElementPointerEnter();
-      expect(applyASpy).toHaveBeenCalledWith(directive);
-      expect(applyBSpy).toHaveBeenCalledWith(directive);
+      expect(onStartASpy).toHaveBeenCalledWith(directive);
+      expect(onStartBSpy).toHaveBeenCalledWith(directive);
     });
   });
 
   describe('elementPointerLeave()', () => {
-    let effectA: any;
-    let removeASpy: jasmine.Spy;
-    let effectB: any;
-    let removeBSpy: jasmine.Spy;
+    let actionA: any;
+    let onEndASpy: jasmine.Spy;
+    let actionB: any;
+    let onEndBSpy: jasmine.Spy;
     beforeEach(() => {
-      removeASpy = jasmine.createSpy('removeEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        removeEffect: removeASpy,
+      onEndASpy = jasmine.createSpy('onEnd');
+      onEndBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onEnd: onEndASpy,
       };
-      effectB = {
-        removeEffect: removeBSpy,
+      actionB = {
+        onEnd: onEndBSpy,
       };
-      directive.effects = [effectA, effectB] as any;
+      directive.actions = [actionA, actionB] as any;
     });
-    it('calls remove effect with the correct value', () => {
+    it('calls onEnd with the correct value', () => {
       directive.onElementPointerLeave();
-      expect(removeASpy).toHaveBeenCalledWith(directive);
-      expect(removeBSpy).toHaveBeenCalledWith(directive);
+      expect(onEndASpy).toHaveBeenCalledWith(directive);
+      expect(onEndBSpy).toHaveBeenCalledWith(directive);
     });
   });
 });

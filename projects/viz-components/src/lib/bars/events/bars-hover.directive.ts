@@ -12,14 +12,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
 import { DataValue } from '../../core/types/values';
-import { EventEffect } from '../../events/effect';
+import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsEventOutput } from './bars-event-output';
 import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
-  selector: '[vicBarsHoverEffects]',
+  selector: '[vicBarsHoverActions]',
 })
 export class BarsHoverDirective<
   Datum,
@@ -30,7 +30,7 @@ export class BarsHoverDirective<
   >,
 > extends barsTooltipMixin(HoverDirective) {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsHoverEffects') effects: EventEffect<
+  @Input('vicBarsHoverActions') actions: EventAction<
     BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
   @Output('vicBarsHoverOutput') eventOutput = new EventEmitter<
@@ -65,14 +65,14 @@ export class BarsHoverDirective<
     const barRect = this.elRef.nativeElement.getBoundingClientRect();
     this.positionX = barRect.x + barRect.width / 2;
     this.positionY = barRect.y;
-    if (this.effects) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.actions) {
+      this.actions.forEach((action) => action.onStart(this));
     }
   }
 
   onElementPointerLeave(): void {
-    if (this.effects) {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.actions) {
+      this.actions.forEach((action) => action.onEnd(this));
     }
   }
 

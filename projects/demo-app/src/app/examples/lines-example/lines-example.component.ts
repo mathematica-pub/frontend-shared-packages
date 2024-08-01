@@ -13,16 +13,16 @@ import {
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
-  EventEffect,
-  HoverMoveEventEffect,
-} from 'projects/viz-components/src/lib/events/effect';
+  EventAction,
+  HoverMoveAction,
+} from 'projects/viz-components/src/lib/events/action';
 import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-config';
 import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/events/lines-event-output';
 import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   LinesClickDirective,
-  LinesClickEmitTooltipDataPauseHoverMoveEffects,
+  LinesClickEmitTooltipDataPauseHoverMoveActions,
   LinesHoverMoveDefaultStyles,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
@@ -46,7 +46,7 @@ import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../../core/models/data';
 import { DataService } from '../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
-import { HighlightLineForLabel } from './line-input-effects';
+import { HighlightLineForLabel } from './line-input-actions';
 
 interface ViewModel {
   dataConfig: LinesConfig<MetroUnemploymentDatum>;
@@ -54,7 +54,7 @@ interface ViewModel {
   yAxisConfig: VicQuantitativeAxisConfig<number>;
   labels: string[];
 }
-const includeFiles = ['line-input-effects.ts'];
+const includeFiles = ['line-input-actions.ts'];
 
 @Component({
   selector: 'app-lines-example',
@@ -99,15 +99,15 @@ export class LinesExampleComponent implements OnInit {
   chartInputEvent$ = this.chartInputEvent.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  highlightLineForLabelEffect = new HighlightLineForLabel();
-  hoverEffects: HoverMoveEventEffect<
+  highlightLineForLabelAction = new HighlightLineForLabel();
+  hoverActions: HoverMoveAction<
     LinesHoverMoveDirective<MetroUnemploymentDatum>
   >[] = [
     new LinesHoverMoveDefaultStyles(),
     new LinesHoverMoveEmitTooltipData(),
   ];
-  clickEffects: EventEffect<LinesClickDirective<MetroUnemploymentDatum>>[] = [
-    new LinesClickEmitTooltipDataPauseHoverMoveEffects(),
+  clickActions: EventAction<LinesClickDirective<MetroUnemploymentDatum>>[] = [
+    new LinesClickEmitTooltipDataPauseHoverMoveActions(),
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';

@@ -44,32 +44,32 @@ describe('BarsHoverDirective', () => {
   });
 
   describe('elementPointerEnter()', () => {
-    let effectA: any;
+    let actionA: any;
     let applyASpy: jasmine.Spy;
-    let effectB: any;
+    let actionB: any;
     let applyBSpy: jasmine.Spy;
     let event: any;
     beforeEach(() => {
       event = {
         target: document.createElement('div'),
       };
-      applyASpy = jasmine.createSpy('applyEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      effectA = {
-        applyEffect: applyASpy,
+      applyASpy = jasmine.createSpy('onStart');
+      applyBSpy = jasmine.createSpy('onStart');
+      actionA = {
+        onStart: applyASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
+      actionB = {
+        onStart: applyBSpy,
       };
-      directive.effects = [effectA, effectB] as any;
+      directive.actions = [actionA, actionB] as any;
     });
-    it('calls apply effect with the correct value if there are effects', () => {
+    it('calls onStart with the correct value if there are actions', () => {
       directive.onElementPointerEnter(event as any);
       expect(applyASpy).toHaveBeenCalledWith(directive);
       expect(applyBSpy).toHaveBeenCalledWith(directive);
     });
-    it('does not call apply effect with the correct value if there no effects', () => {
-      directive.effects = undefined;
+    it('does not call onStart with the correct value if there no actions', () => {
+      directive.actions = undefined;
       directive.onElementPointerEnter(event as any);
       expect(applyASpy).toHaveBeenCalledTimes(0);
       expect(applyBSpy).toHaveBeenCalledTimes(0);
@@ -77,29 +77,29 @@ describe('BarsHoverDirective', () => {
   });
 
   describe('elementPointerLeave()', () => {
-    let effectA: any;
+    let actionA: any;
     let removeASpy: jasmine.Spy;
-    let effectB: any;
+    let actionB: any;
     let removeBSpy: jasmine.Spy;
     beforeEach(() => {
-      removeASpy = jasmine.createSpy('removeEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        removeEffect: removeASpy,
+      removeASpy = jasmine.createSpy('onEnd');
+      removeBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onEnd: removeASpy,
       };
-      effectB = {
-        removeEffect: removeBSpy,
+      actionB = {
+        onEnd: removeBSpy,
       };
-      directive.effects = [effectA, effectB] as any;
+      directive.actions = [actionA, actionB] as any;
     });
-    it('calls remove effect with the correct value if effects exist', () => {
+    it('calls onEnd with the correct value if actions exist', () => {
       directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledWith(directive);
       expect(removeBSpy).toHaveBeenCalledWith(directive);
     });
 
-    it('calls does not call remove effect with the correct value if there are no effects', () => {
-      directive.effects = undefined;
+    it('calls does not call onEnd with the correct value if there are no actions', () => {
+      directive.actions = undefined;
       directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledTimes(0);
       expect(removeBSpy).toHaveBeenCalledTimes(0);

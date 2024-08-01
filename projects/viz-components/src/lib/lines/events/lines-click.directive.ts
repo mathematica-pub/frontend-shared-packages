@@ -10,8 +10,8 @@ import {
   Self,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
-import { EventEffect } from '../../events/effect';
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesEventDirective } from './lines-event-directive';
 import { LinesEventOutput } from './lines-event-output';
@@ -21,14 +21,14 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
 import { linesTooltipMixin } from './lines-tooltip-data';
 
 @Directive({
-  selector: '[vicLinesChartClickEffects]',
+  selector: '[vicLinesChartClickActions]',
 })
 export class LinesClickDirective<
   Datum,
   ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends linesTooltipMixin(ClickDirective) {
-  @Input('vicLinesChartClickEffects')
-  effects: EventEffect<LinesClickDirective<Datum, ExtendedLinesComponent>>[];
+  @Input('vicLinesChartClickActions')
+  actions: EventAction<LinesClickDirective<Datum, ExtendedLinesComponent>>[];
   @Input('vicLinesChartClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   @Output('vicLinesChartClickOutput') eventOutput = new EventEmitter<
@@ -62,11 +62,11 @@ export class LinesClickDirective<
   }
 
   onElementClick(): void {
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    this.actions.forEach((action) => action.onStart(this));
   }
 
   onClickRemove(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    this.actions.forEach((action) => action.onEnd(this));
   }
 
   getOutputData(): LinesEventOutput<Datum> {
@@ -86,48 +86,48 @@ export class LinesClickDirective<
     }
   }
 
-  preventHoverEffects(): void {
+  preventHoverActions(): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
-    hoverEventDirectives.forEach((directive) => this.disableEffect(directive));
+    hoverEventDirectives.forEach((directive) => this.disableAction(directive));
   }
 
-  resumeHoverEffects(removeEffects = true): void {
+  resumeHoverActions(cancelCurrentActions = true): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
     hoverEventDirectives.forEach((directive) =>
-      this.enableEffect(directive, removeEffects)
+      this.enableAction(directive, cancelCurrentActions)
     );
   }
 
-  preventInputEventEffects(): void {
-    this.disableEffect(this.inputEventDirective);
+  preventInputEventActions(): void {
+    this.disableAction(this.inputEventDirective);
   }
 
-  resumeInputEventEffects(removeEffects = true): void {
-    this.enableEffect(this.inputEventDirective, removeEffects);
+  resumeInputEventActions(cancelCurrentActions = true): void {
+    this.enableAction(this.inputEventDirective, cancelCurrentActions);
   }
 
-  disableEffect(
+  disableAction(
     directive: LinesEventDirective<Datum, ExtendedLinesComponent>
   ): void {
     if (directive) {
-      directive.preventEffect = true;
+      directive.preventAction = true;
     }
   }
 
-  enableEffect(
+  enableAction(
     directive: LinesEventDirective<Datum, ExtendedLinesComponent>,
-    removeEffects: boolean
+    cancelCurrentActions: boolean
   ): void {
     if (directive) {
-      directive.preventEffect = false;
-      if (removeEffects) {
-        directive.effects.forEach((effect) => effect.removeEffect(directive));
+      directive.preventAction = false;
+      if (cancelCurrentActions) {
+        directive.actions.forEach((action) => action.onEnd(directive));
       }
     }
   }

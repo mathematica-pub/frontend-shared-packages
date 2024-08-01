@@ -56,7 +56,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
         vic-data-marks-geographies
         svg-elements
         [config]="geographiesConfig"
-        [vicGeographiesHoverEffects]="hoverEffects"
+        [vicGeographiesHoverActions]="hoverActions"
         (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event)"
       ></svg:g>
     </vic-map-chart>

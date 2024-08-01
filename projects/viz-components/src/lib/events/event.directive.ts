@@ -12,7 +12,7 @@ export type ListenElement = HTMLElement | SVGElement;
 @Directive()
 export abstract class EventDirective implements AfterViewInit {
   elements: ListenElement[];
-  preventEffect = false;
+  preventAction = false;
   protected destroyRef = inject(DestroyRef);
   protected renderer = inject(Renderer2);
 

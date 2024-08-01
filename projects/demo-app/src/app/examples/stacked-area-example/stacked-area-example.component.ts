@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
 import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
 import { StackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
 import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
@@ -73,7 +73,7 @@ export class StackedAreaExampleComponent implements OnInit {
     StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: HoverMoveEventEffect<
+  hoverAndMoveActions: HoverMoveAction<
     StackedAreaHoverMoveDirective<IndustryUnemploymentDatum, string>
   >[] = [new StackedAreaHoverMoveEmitTooltipData()];
 

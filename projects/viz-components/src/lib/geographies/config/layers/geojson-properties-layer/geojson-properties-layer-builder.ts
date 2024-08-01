@@ -6,7 +6,7 @@ import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 
 const DEFAULT = {
   _fill: 'none',
-  _enableEffects: false,
+  _enableEventActions: false,
 };
 
 export class GeographiesGeojsonPropertiesLayerBuilder<
@@ -60,7 +60,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     return new GeographiesGeojsonPropertiesLayer({
       categorical: this.categoricalBuilder?._build(),
       class: this._class,
-      enableEffects: this._enableEffects,
+      enableEventActions: this._enableEventActions,
       fill: this._fill,
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),

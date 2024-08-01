@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 import { Geometry } from 'geojson';
 import { Observable } from 'rxjs';
-import { InputEventEffect } from '../../events/effect';
+import { InputEventAction } from '../../events/action';
 import { InputEventDirective } from '../../events/input-event.directive';
 import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
 
 @Directive({
-  selector: '[vicGeographiesInputEffects]',
+  selector: '[vicGeographiesInputActions]',
 })
 export class GeographiesInputEventDirective<
   Datum,
@@ -26,8 +26,8 @@ export class GeographiesInputEventDirective<
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicGeographiesInputEventEffects')
-  effects: InputEventEffect<
+  @Input('vicGeographiesInputEventActions')
+  actions: InputEventAction<
     GeographiesInputEventDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   // eslint-disable-next-line @angular-eslint/no-input-rename
@@ -43,9 +43,9 @@ export class GeographiesInputEventDirective<
 
   handleNewEvent(inputEvent: unknown): void {
     if (inputEvent) {
-      this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onStart(this, inputEvent));
     } else {
-      this.effects.forEach((effect) => effect.removeEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onEnd(this, inputEvent));
     }
   }
 }

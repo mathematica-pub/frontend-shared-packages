@@ -5,7 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Feature, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { filter } from 'rxjs';
-import { EventEffect } from '../../events/effect';
+import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
@@ -25,7 +25,7 @@ export type GeographiesHoverOutput<Datum> = GeographiesTooltipData<Datum> &
   GeographiesHoverExtras;
 
 @Directive({
-  selector: '[vicGeographiesHoverEffects]',
+  selector: '[vicGeographiesHoverActions]',
 })
 export class GeographiesHoverDirective<
   Datum,
@@ -37,8 +37,8 @@ export class GeographiesHoverDirective<
     TGeometry
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends HoverDirective {
-  @Input('vicGeographiesHoverEffects')
-  effects: EventEffect<
+  @Input('vicGeographiesHoverActions')
+  actions: EventAction<
     GeographiesHoverDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   @Output('vicGeographiesHoverOutput') eventOutput = new EventEmitter<
@@ -80,14 +80,14 @@ export class GeographiesHoverDirective<
       TGeometry
     >;
     this.bounds = this.geographies.path.bounds(d);
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onStart(this));
     }
   }
 
   onElementPointerLeave(): void {
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onEnd(this));
     }
   }
 

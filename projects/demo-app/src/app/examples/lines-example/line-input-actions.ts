@@ -1,4 +1,4 @@
-import { InputEventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { InputEventAction } from 'projects/viz-components/src/lib/events/action';
 import { LinesMarkerDatum } from 'projects/viz-components/src/lib/lines/config/lines-config';
 import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/events/lines-input-event.directive';
 import {
@@ -10,9 +10,9 @@ export class HighlightLineForLabel<
   Datum,
   ExtendedLineComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
-    InputEventEffect<LinesInputEventDirective<Datum, ExtendedLineComponent>>
+    InputEventAction<LinesInputEventDirective<Datum, ExtendedLineComponent>>
 {
-  applyEffect(
+  onStart(
     event: LinesInputEventDirective<Datum, ExtendedLineComponent>,
     label: string
   ): void {
@@ -40,9 +40,7 @@ export class HighlightLineForLabel<
       .raise();
   }
 
-  removeEffect(
-    event: LinesInputEventDirective<Datum, ExtendedLineComponent>
-  ): void {
+  onEnd(event: LinesInputEventDirective<Datum, ExtendedLineComponent>): void {
     event.lines.lineGroups
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', null);

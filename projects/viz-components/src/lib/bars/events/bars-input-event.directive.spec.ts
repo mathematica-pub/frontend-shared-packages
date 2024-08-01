@@ -27,46 +27,46 @@ describe('BarsInputDirective', () => {
   });
 
   describe('handleNewEvent', () => {
-    let effectA: any;
-    let applyASpy: jasmine.Spy;
-    let removeASpy: jasmine.Spy;
-    let effectB: any;
-    let applyBSpy: jasmine.Spy;
-    let removeBSpy: jasmine.Spy;
+    let actionA: any;
+    let onStartASpy: jasmine.Spy;
+    let onEndASpy: jasmine.Spy;
+    let actionB: any;
+    let onStartBSpy: jasmine.Spy;
+    let onEndBSpy: jasmine.Spy;
     beforeEach(() => {
-      applyASpy = jasmine.createSpy('applyEffect');
-      removeASpy = jasmine.createSpy('removeEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        applyEffect: applyASpy,
-        removeEffect: removeASpy,
+      onStartASpy = jasmine.createSpy('onStart');
+      onEndASpy = jasmine.createSpy('onEnd');
+      onStartBSpy = jasmine.createSpy('onStart');
+      onEndBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onStart: onStartASpy,
+        onEnd: onEndASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
-        removeEffect: removeBSpy,
+      actionB = {
+        onStart: onStartBSpy,
+        onEnd: onEndBSpy,
       };
-      directive.effects = [effectA, effectB];
+      directive.actions = [actionA, actionB];
     });
-    it('calls apply effect with the correct values if inputEvent is truthy', () => {
+    it('calls onStart with the correct values if inputEvent is truthy', () => {
       directive.handleNewEvent('hello');
-      expect(applyASpy).toHaveBeenCalledWith(directive, 'hello');
-      expect(applyBSpy).toHaveBeenCalledWith(directive, 'hello');
+      expect(onStartASpy).toHaveBeenCalledWith(directive, 'hello');
+      expect(onStartBSpy).toHaveBeenCalledWith(directive, 'hello');
     });
-    it('does not call remove effect if inputEvent is truthy', () => {
+    it('does not call onEnd if inputEvent is truthy', () => {
       directive.handleNewEvent('hello');
-      expect(removeASpy).not.toHaveBeenCalled();
-      expect(removeBSpy).not.toHaveBeenCalled();
+      expect(onEndASpy).not.toHaveBeenCalled();
+      expect(onEndBSpy).not.toHaveBeenCalled();
     });
-    it('calls remove effect with the correct values if inputEvent is falsy', () => {
+    it('calls onEnd with the correct values if inputEvent is falsy', () => {
       directive.handleNewEvent(null);
-      expect(removeASpy).toHaveBeenCalledWith(directive, null);
-      expect(removeBSpy).toHaveBeenCalledWith(directive, null);
+      expect(onEndASpy).toHaveBeenCalledWith(directive, null);
+      expect(onEndBSpy).toHaveBeenCalledWith(directive, null);
     });
-    it('does not call apply effect if inputEvent is falsy', () => {
+    it('does not call onStart if inputEvent is falsy', () => {
       directive.handleNewEvent(null);
-      expect(applyASpy).not.toHaveBeenCalled();
-      expect(applyBSpy).not.toHaveBeenCalled();
+      expect(onStartASpy).not.toHaveBeenCalled();
+      expect(onStartBSpy).not.toHaveBeenCalled();
     });
   });
 });

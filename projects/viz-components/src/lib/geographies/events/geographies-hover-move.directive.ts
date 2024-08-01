@@ -4,7 +4,7 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Geometry } from 'geojson';
 import { filter } from 'rxjs';
-import { HoverMoveEventEffect } from '../../events/effect';
+import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
@@ -12,7 +12,7 @@ import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
 import { GeographiesEventOutput } from './geographies-event-output';
 
 @Directive({
-  selector: '[vicGeographiesHoverMoveEffects]',
+  selector: '[vicGeographiesHoverMoveActions]',
 })
 export class GeographiesHoverMoveDirective<
   Datum,
@@ -24,8 +24,8 @@ export class GeographiesHoverMoveDirective<
     TGeometry
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends HoverMoveDirective {
-  @Input('vicGeographiesHoverMoveEffects')
-  effects: HoverMoveEventEffect<
+  @Input('vicGeographiesHoverMoveActions')
+  actions: HoverMoveAction<
     GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   @Output('vicGeographiesHoverMoveOutput') eventOutput = new EventEmitter<
@@ -55,16 +55,16 @@ export class GeographiesHoverMoveDirective<
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    if (this.effects && !this.preventEffect) {
+    if (this.actions && !this.preventAction) {
       this.path = event.target as SVGPathElement;
       const layerIndex = parseFloat(this.path.dataset['layerIndex']);
       this.layer =
         layerIndex === 0
           ? this.geographies.config.attributeDataLayer
           : this.geographies.config.geojsonPropertiesLayers[layerIndex - 1];
-      this.effects.forEach((effect) => {
-        if (effect.initializeEffect) {
-          effect.initializeEffect(this);
+      this.actions.forEach((action) => {
+        if (action.initialize) {
+          action.initialize(this);
         }
       });
     }
@@ -72,14 +72,14 @@ export class GeographiesHoverMoveDirective<
 
   onElementPointerMove(event: PointerEvent): void {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onStart(this));
     }
   }
 
   onElementPointerLeave(): void {
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onEnd(this));
     }
   }
 

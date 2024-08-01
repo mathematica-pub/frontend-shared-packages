@@ -14,8 +14,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Observable, filter } from 'rxjs';
 import { DataValue } from '../../core/types/values';
+import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
-import { EventEffect } from '../../events/effect';
 import { BARS, BarDatum, BarsComponent } from '../bars.component';
 import { BarsEventDirective } from './bars-event-directive';
 import { BarsEventOutput } from './bars-event-output';
@@ -25,7 +25,7 @@ import { BarsInputEventDirective } from './bars-input-event.directive';
 import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
-  selector: '[vicBarsClickEffects]',
+  selector: '[vicBarsClickActions]',
 })
 export class BarsClickDirective<
   Datum,
@@ -35,8 +35,8 @@ export class BarsClickDirective<
     TOrdinalValue
   >,
 > extends barsTooltipMixin(ClickDirective) {
-  @Input('vicBarsClickEffects')
-  effects: EventEffect<
+  @Input('vicBarsClickActions')
+  actions: EventAction<
     BarsClickDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
   @Input('vicBarsClickRemoveEvent$')
@@ -98,11 +98,11 @@ export class BarsClickDirective<
       this.pointerX = this.hoverDirective.positionX;
       this.pointerY = this.hoverDirective.positionY;
     }
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    this.actions.forEach((action) => action.onStart(this));
   }
 
   onClickRemove(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    this.actions.forEach((action) => action.onEnd(this));
     this.barDatum = undefined;
     this.elRef = undefined;
     this.pointerX = undefined;
@@ -118,48 +118,48 @@ export class BarsClickDirective<
     return { ...data, ...extras };
   }
 
-  preventHoverEffects(): void {
+  disableHoverActions(): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
-    hoverEventDirectives.forEach((directive) => this.disableEffect(directive));
+    hoverEventDirectives.forEach((directive) => this.disableAction(directive));
   }
 
-  resumeHoverEffects(removeEffects = true): void {
+  resumeHoverActions(cancelCurrentActions = true): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
     hoverEventDirectives.forEach((directive) =>
-      this.enableEffect(directive, removeEffects)
+      this.enableAction(directive, cancelCurrentActions)
     );
   }
 
-  preventInputEventEffects(): void {
-    this.disableEffect(this.inputEventDirective);
+  preventInputEventActions(): void {
+    this.disableAction(this.inputEventDirective);
   }
 
-  resumeInputEventEffects(removeEffects = true): void {
-    this.enableEffect(this.inputEventDirective, removeEffects);
+  resumeInputEventActions(cancelCurrentActions = true): void {
+    this.enableAction(this.inputEventDirective, cancelCurrentActions);
   }
 
-  disableEffect(
+  disableAction(
     directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>
   ): void {
     if (directive) {
-      directive.preventEffect = true;
+      directive.preventAction = true;
     }
   }
 
-  enableEffect(
+  enableAction(
     directive: BarsEventDirective<Datum, TOrdinalValue, TBarsComponent>,
-    removeEffects: boolean
+    cancelCurrentActions: boolean
   ): void {
     if (directive) {
-      directive.preventEffect = false;
-      if (removeEffects) {
-        directive.effects.forEach((effect) => effect.removeEffect(directive));
+      directive.preventAction = false;
+      if (cancelCurrentActions) {
+        directive.actions.forEach((action) => action.onEnd(directive));
       }
     }
   }

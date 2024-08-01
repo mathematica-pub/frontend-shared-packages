@@ -79,31 +79,31 @@ describe('LinesHoverMoveDirective', () => {
   });
 
   describe('elementPointerLeave', () => {
-    let effectA: any;
-    let applyASpy: jasmine.Spy;
-    let removeASpy: jasmine.Spy;
-    let effectB: any;
-    let applyBSpy: jasmine.Spy;
-    let removeBSpy: jasmine.Spy;
+    let actionA: any;
+    let onStartASpy: jasmine.Spy;
+    let onEndASpy: jasmine.Spy;
+    let actionB: any;
+    let onStartBSpy: jasmine.Spy;
+    let onEndBSpy: jasmine.Spy;
     beforeEach(() => {
-      applyASpy = jasmine.createSpy('applyEffect');
-      removeASpy = jasmine.createSpy('removeEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        applyEffect: applyASpy,
-        removeEffect: removeASpy,
+      onStartASpy = jasmine.createSpy('onStart');
+      onEndASpy = jasmine.createSpy('onEnd');
+      onStartBSpy = jasmine.createSpy('onStart');
+      onEndBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onStart: onStartASpy,
+        onEnd: onEndASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
-        removeEffect: removeBSpy,
+      actionB = {
+        onStart: onStartBSpy,
+        onEnd: onEndBSpy,
       };
-      directive.effects = [effectA, effectB];
+      directive.actions = [actionA, actionB];
     });
-    it('calls remove effect on each effect in effects array', () => {
+    it('calls onEnd on each action in actions array', () => {
       directive.onElementPointerLeave();
-      expect(removeASpy).toHaveBeenCalledOnceWith(directive);
-      expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
+      expect(onEndASpy).toHaveBeenCalledOnceWith(directive);
+      expect(onEndBSpy).toHaveBeenCalledOnceWith(directive);
     });
   });
 
@@ -135,12 +135,12 @@ describe('LinesHoverMoveDirective', () => {
 
   describe('determineHoverStyles()', () => {
     let ttRadiusSpy: jasmine.Spy;
-    let effectA: any;
-    let applyASpy: jasmine.Spy;
-    let removeASpy: jasmine.Spy;
-    let effectB: any;
-    let applyBSpy: jasmine.Spy;
-    let removeBSpy: jasmine.Spy;
+    let actionA: any;
+    let onStartASpy: jasmine.Spy;
+    let onEndASpy: jasmine.Spy;
+    let actionBB: any;
+    let onStartBSpy: jasmine.Spy;
+    let onEndBSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(directive, 'getClosestPointIndex').and.returnValue(8);
       ttRadiusSpy = spyOn(
@@ -149,19 +149,19 @@ describe('LinesHoverMoveDirective', () => {
       ).and.returnValue(true);
       directive.pointerX = 100;
       directive.pointerY = 200;
-      applyASpy = jasmine.createSpy('applyEffect');
-      removeASpy = jasmine.createSpy('removeEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        applyEffect: applyASpy,
-        removeEffect: removeASpy,
+      onStartASpy = jasmine.createSpy('onStart');
+      onEndASpy = jasmine.createSpy('onEnd');
+      onStartBSpy = jasmine.createSpy('onStart');
+      onEndBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onStart: onStartASpy,
+        onEnd: onEndASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
-        removeEffect: removeBSpy,
+      actionBB = {
+        onStart: onStartBSpy,
+        onEnd: onEndBSpy,
       };
-      directive.effects = [effectA, effectB];
+      directive.actions = [actionA, actionBB];
     });
     it('calls getClosestPointIndex once', () => {
       directive.determineHoverStyles();
@@ -177,38 +177,38 @@ describe('LinesHoverMoveDirective', () => {
         directive.pointerIsInsideShowTooltipRadius
       ).toHaveBeenCalledOnceWith(8, 100, 200);
     });
-    it('calls applyEffect on all effects if pointerIsInsideShowTooltipRadius returns true', () => {
+    it('calls onStart on all actions if pointerIsInsideShowTooltipRadius returns true', () => {
       directive.determineHoverStyles();
-      expect(applyASpy).toHaveBeenCalledOnceWith(directive);
-      expect(applyBSpy).toHaveBeenCalledOnceWith(directive);
+      expect(onStartASpy).toHaveBeenCalledOnceWith(directive);
+      expect(onStartBSpy).toHaveBeenCalledOnceWith(directive);
     });
-    it('sets effectApplied equal to true if pointerIsInsideShowTooltipRadius returns true', () => {
+    it('sets actionActive equal to true if pointerIsInsideShowTooltipRadius returns true', () => {
       directive.determineHoverStyles();
-      expect(directive.effectApplied).toEqual(true);
+      expect(directive.actionActive).toEqual(true);
     });
-    it('does not call applyEffect on all effects if pointerIsInsideShowTooltipRadius returns false', () => {
+    it('does not call onStart on all actions if pointerIsInsideShowTooltipRadius returns false', () => {
       ttRadiusSpy.and.returnValue(false);
       directive.determineHoverStyles();
-      expect(applyASpy).not.toHaveBeenCalled();
-      expect(applyBSpy).not.toHaveBeenCalled();
+      expect(onStartASpy).not.toHaveBeenCalled();
+      expect(onStartBSpy).not.toHaveBeenCalled();
     });
-    it('calls removeEffect on all effects if pointerIsInsideShowTooltipRadius returns false and effectApplied is true', () => {
+    it('calls onEnd on all actions if pointerIsInsideShowTooltipRadius returns false and actionActive is true', () => {
       ttRadiusSpy.and.returnValue(false);
-      directive.effectApplied = true;
+      directive.actionActive = true;
       directive.determineHoverStyles();
-      expect(removeASpy).toHaveBeenCalledOnceWith(directive);
-      expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
+      expect(onEndASpy).toHaveBeenCalledOnceWith(directive);
+      expect(onEndBSpy).toHaveBeenCalledOnceWith(directive);
     });
-    it('does not call removeEffect on all effects if pointerIsInsideShowTooltipRadius returns false and effectApplied is false', () => {
+    it('does not call onEnd on all actions if pointerIsInsideShowTooltipRadius returns false and actionActive is false', () => {
       ttRadiusSpy.and.returnValue(false);
       directive.determineHoverStyles();
-      expect(removeASpy).toHaveBeenCalledTimes(0);
-      expect(removeBSpy).toHaveBeenCalledTimes(0);
+      expect(onEndASpy).toHaveBeenCalledTimes(0);
+      expect(onEndBSpy).toHaveBeenCalledTimes(0);
     });
-    it('does not call removeEffect on all effects if pointerIsInsideShowTooltipRadius returns true', () => {
+    it('does not call onEnd on all actions if pointerIsInsideShowTooltipRadius returns true', () => {
       directive.determineHoverStyles();
-      expect(removeASpy).not.toHaveBeenCalled();
-      expect(removeBSpy).not.toHaveBeenCalled();
+      expect(onEndASpy).not.toHaveBeenCalled();
+      expect(onEndBSpy).not.toHaveBeenCalled();
     });
   });
 

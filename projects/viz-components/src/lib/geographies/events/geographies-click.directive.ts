@@ -12,8 +12,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { Observable, filter } from 'rxjs';
+import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
-import { EventEffect } from '../../events/effect';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesFeature } from '../geographies-feature';
@@ -25,7 +25,7 @@ import { GeographiesHoverDirective } from './geographies-hover.directive';
 import { GeographiesInputEventDirective } from './geographies-input-event.directive';
 
 @Directive({
-  selector: '[vicGeographiesClickEffects]',
+  selector: '[vicGeographiesClickActions]',
 })
 export class GeographiesClickDirective<
   Datum,
@@ -37,8 +37,8 @@ export class GeographiesClickDirective<
     TGeometry
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends ClickDirective {
-  @Input('vicGeographiesClickEffects')
-  effects: EventEffect<
+  @Input('vicGeographiesClickActions')
+  actions: EventAction<
     GeographiesClickDirective<Datum, TProperties, TGeometry, TComponent>
   >[];
   @Input('vicGeographiesClickRemoveEvent$')
@@ -108,11 +108,11 @@ export class GeographiesClickDirective<
       this.pointerX = this.hoverDirective.positionX;
       this.pointerY = this.hoverDirective.positionY;
     }
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    this.actions.forEach((action) => action.onStart(this));
   }
 
   onClickRemove(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    this.actions.forEach((action) => action.onEnd(this));
     this.pointerX = undefined;
     this.pointerY = undefined;
     this.feature = undefined;
@@ -127,33 +127,33 @@ export class GeographiesClickDirective<
     };
   }
 
-  preventHoverEffects(): void {
+  preventHoverActions(): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
-    hoverEventDirectives.forEach((directive) => this.disableEffect(directive));
+    hoverEventDirectives.forEach((directive) => this.disableAction(directive));
   }
 
-  resumeHoverEffects(removeEffects = true): void {
+  resumeHoverActions(cancelCurrentActions = true): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
     hoverEventDirectives.forEach((directive) =>
-      this.enableEffect(directive, removeEffects)
+      this.enableAction(directive, cancelCurrentActions)
     );
   }
 
-  preventInputEventEffects(): void {
-    this.disableEffect(this.inputEventDirective);
+  preventInputEventActions(): void {
+    this.disableAction(this.inputEventDirective);
   }
 
-  resumeInputEventEffects(removeEffects = true): void {
-    this.enableEffect(this.inputEventDirective, removeEffects);
+  resumeInputEventActions(cancelCurrentActions = true): void {
+    this.enableAction(this.inputEventDirective, cancelCurrentActions);
   }
 
-  disableEffect(
+  disableAction(
     directive: GeographiesEventDirective<
       Datum,
       TProperties,
@@ -162,23 +162,23 @@ export class GeographiesClickDirective<
     >
   ): void {
     if (directive) {
-      directive.preventEffect = true;
+      directive.preventAction = true;
     }
   }
 
-  enableEffect(
+  enableAction(
     directive: GeographiesEventDirective<
       Datum,
       TProperties,
       TGeometry,
       TComponent
     >,
-    removeEffects: boolean
+    cancelCurrentActions: boolean
   ): void {
     if (directive) {
-      directive.preventEffect = false;
-      if (removeEffects) {
-        directive.effects.forEach((effect) => effect.removeEffect(directive));
+      directive.preventAction = false;
+      if (cancelCurrentActions) {
+        directive.actions.forEach((action) => action.onEnd(directive));
       }
     }
   }

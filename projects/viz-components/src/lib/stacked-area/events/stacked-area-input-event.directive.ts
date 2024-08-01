@@ -10,20 +10,20 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
-import { InputEventEffect } from '../../events/effect';
+import { InputEventAction } from '../../events/action';
 import { InputEventDirective } from '../../events/input-event.directive';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 
 @Directive({
-  selector: '[vicStackedAreaInputEffects]',
+  selector: '[vicStackedAreaInputActions]',
 })
 export class StackedAreaInputEventDirective<
   Datum,
   TCategoricalValue extends DataValue,
   TStackedAreaComponent extends StackedAreaComponent<Datum, TCategoricalValue>,
 > extends InputEventDirective {
-  @Input('vicStackedAreaInputEffects')
-  effects: InputEventEffect<
+  @Input('vicStackedAreaInputActions')
+  actions: InputEventAction<
     StackedAreaInputEventDirective<
       Datum,
       TCategoricalValue,
@@ -45,9 +45,9 @@ export class StackedAreaInputEventDirective<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleNewEvent(inputEvent: any): void {
     if (inputEvent) {
-      this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onStart(this, inputEvent));
     } else {
-      this.effects.forEach((effect) => effect.removeEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onEnd(this, inputEvent));
     }
   }
 }

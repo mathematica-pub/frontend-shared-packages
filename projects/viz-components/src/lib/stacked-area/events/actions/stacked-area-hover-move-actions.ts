@@ -1,5 +1,5 @@
 import { DataValue } from '../../../core/types/values';
-import { HoverMoveEventEffect } from '../../../events/effect';
+import { HoverMoveAction } from '../../../events/action';
 import { StackedAreaComponent } from '../../stacked-area.component';
 import { StackedAreaHoverMoveDirective } from '../stacked-area-hover-move.directive';
 
@@ -11,7 +11,7 @@ export class StackedAreaHoverMoveEmitTooltipData<
     TCategoricalValue
   > = StackedAreaComponent<Datum, TCategoricalValue>,
 > implements
-    HoverMoveEventEffect<
+    HoverMoveAction<
       StackedAreaHoverMoveDirective<
         Datum,
         TCategoricalValue,
@@ -19,7 +19,7 @@ export class StackedAreaHoverMoveEmitTooltipData<
       >
     >
 {
-  applyEffect(
+  onStart(
     directive: StackedAreaHoverMoveDirective<
       Datum,
       TCategoricalValue,
@@ -30,7 +30,7 @@ export class StackedAreaHoverMoveEmitTooltipData<
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(
+  onEnd(
     event: StackedAreaHoverMoveDirective<
       Datum,
       TCategoricalValue,

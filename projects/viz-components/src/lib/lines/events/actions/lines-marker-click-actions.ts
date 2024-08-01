@@ -1,5 +1,5 @@
 import { select } from 'd3';
-import { EventEffect } from '../../../events/effect';
+import { EventAction } from '../../../events/action';
 import { LinesComponent } from '../../lines.component';
 import { LinesMarkerClickDirective } from '../lines-marker-click.directive';
 
@@ -7,13 +7,11 @@ export class LinesMarkerClickEmitTooltipData<
   Datum,
   ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
-    EventEffect<LinesMarkerClickDirective<Datum, ExtendedLinesComponent>>
+    EventAction<LinesMarkerClickDirective<Datum, ExtendedLinesComponent>>
 {
-  applyEffect(
-    directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
-  ) {
+  onStart(directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>) {
     const tooltipData = directive.getTooltipData();
-    directive.preventHoverEffects();
+    directive.preventHoverActions();
     select(directive.el)
       .attr('r', (): number => {
         const r =
@@ -25,14 +23,12 @@ export class LinesMarkerClickEmitTooltipData<
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(
-    directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
-  ) {
+  onEnd(directive: LinesMarkerClickDirective<Datum, ExtendedLinesComponent>) {
     select(directive.el).attr(
       'r',
       (): number => directive.lines.config.pointMarkers.radius
     );
-    directive.resumeHoverEffects();
+    directive.resumeHoverActions();
     directive.eventOutput.emit(null);
   }
 }

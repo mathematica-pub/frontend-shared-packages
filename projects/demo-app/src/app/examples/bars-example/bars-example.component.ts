@@ -8,7 +8,7 @@ import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/
 import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
 import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/events/bars-event-output';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveEventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   BarsHoverMoveDirective,
@@ -92,7 +92,7 @@ export class BarsExampleComponent implements OnInit {
     null
   );
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: HoverMoveEventEffect<
+  hoverAndMoveActions: HoverMoveAction<
     BarsHoverMoveDirective<MetroUnemploymentDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
   orientation: BehaviorSubject<keyof typeof Orientation> = new BehaviorSubject(
