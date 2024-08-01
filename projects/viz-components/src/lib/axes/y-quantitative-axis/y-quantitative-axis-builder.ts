@@ -39,7 +39,7 @@ export class VicYQuantitativeAxisConfigBuilder<
   getConfig(): YQuantitativeAxisConfig<TickValue> {
     return new YQuantitativeAxisConfig<TickValue>({
       numTicks: this._numTicks,
-      removeDomain: this._removeDomain,
+      removeDomainLine: this._removeDomainLine,
       removeTickMarks: this._removeTickMarks,
       removeTicks: this._removeTicks,
       side: this._side,

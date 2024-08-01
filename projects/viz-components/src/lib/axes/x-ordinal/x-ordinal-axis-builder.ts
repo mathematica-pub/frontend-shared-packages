@@ -25,7 +25,7 @@ export class VicXOrdinalAxisConfigBuilder<
 
   getConfig(): XOrdinalAxisConfig<TickValue> {
     return new XOrdinalAxisConfig<TickValue>({
-      removeDomain: this._removeDomain,
+      removeDomainLine: this._removeDomainLine,
       removeTickMarks: this._removeTickMarks,
       removeTicks: this._removeTicks,
       side: this._side,

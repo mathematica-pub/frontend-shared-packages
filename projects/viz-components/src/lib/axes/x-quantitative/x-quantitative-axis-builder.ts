@@ -39,7 +39,7 @@ export class VicXQuantitativeAxisConfigBuilder<
   getConfig(): XQuantitativeAxisConfig<TickValue> {
     return new XQuantitativeAxisConfig<TickValue>({
       numTicks: this._numTicks,
-      removeDomain: this._removeDomain,
+      removeDomainLine: this._removeDomainLine,
       removeTickMarks: this._removeTickMarks,
       removeTicks: this._removeTicks,
       side: this._side,

@@ -1,7 +1,7 @@
 import { TickWrap } from '../../tick-wrap/tick-wrap-config';
 
 export abstract class XyAxisBaseConfig<TickValue> {
-  removeDomain: boolean;
+  removeDomainLine: boolean;
   removeTickMarks: boolean;
   removeTicks: boolean;
   tickFormat: string | ((value: TickValue) => string);
