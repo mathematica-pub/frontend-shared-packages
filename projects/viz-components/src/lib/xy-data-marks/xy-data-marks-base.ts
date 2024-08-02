@@ -16,7 +16,7 @@ import { XyDataMarksValues } from './xy-data-marks';
 @Directive()
 export abstract class XyDataMarksBase<
     Datum,
-    ExtendedDataMarkConfig extends VicDataMarksConfig<Datum>
+    ExtendedDataMarkConfig extends VicDataMarksConfig<Datum>,
   >
   extends DataMarksBase<Datum, ExtendedDataMarkConfig>
   implements OnInit

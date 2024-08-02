@@ -25,7 +25,7 @@ export class GeographiesHoverMoveDirective<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>
+  > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends HoverMoveDirective {
   @Input('vicGeographiesHoverMoveEffects')
   effects: HoverMoveEventEffect<

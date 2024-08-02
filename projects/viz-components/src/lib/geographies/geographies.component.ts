@@ -65,7 +65,7 @@ export const GEOGRAPHIES = new InjectionToken<
 export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon
+  TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends MapDataMarksBase<
   Datum,
   VicGeographiesConfig<Datum, TProperties, TGeometry>
@@ -84,7 +84,10 @@ export class GeographiesComponent<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   noDataGeographies$: Observable<any> = this.noDataGeographies.asObservable();
 
-  constructor(public zone: NgZone, public elRef: ElementRef) {
+  constructor(
+    public zone: NgZone,
+    public elRef: ElementRef
+  ) {
     super();
   }
 

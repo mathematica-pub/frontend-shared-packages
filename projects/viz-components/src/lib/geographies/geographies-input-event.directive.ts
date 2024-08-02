@@ -23,7 +23,7 @@ export class GeographiesInputEventDirective<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>
+  > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicGeographiesInputEventEffects')

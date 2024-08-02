@@ -160,8 +160,8 @@ export class TableComponent<Datum> implements OnInit {
       return columnA.label === primaryColumnSort.label
         ? -1
         : columnB.label === primaryColumnSort.label
-        ? 1
-        : columnA.sortOrder - columnB.sortOrder;
+          ? 1
+          : columnA.sortOrder - columnB.sortOrder;
     });
 
     const sortedData = data.slice().sort((a, b) => {
