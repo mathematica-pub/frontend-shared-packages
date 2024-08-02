@@ -7,11 +7,10 @@ are located in `documentation.`
 We then use a custom python script to extract the .html files that we want from what Compodoc has
 generated, and assemble those files into a tree structure that we display in the Demo App navbar.
 
-The `documentation-structure.yml` file (in `projects/demo-app/assets/documentation`) governs which
-of the Compodoc-generated html files we make viewable in the demo app, and how they are titled and organized.
+The `documentation-structure.yml` file (in `projects/demo-app/assets/documentation`) determines which
+of the Compodoc-generated html files we make viewable in the `DOCUMENTATION` section of the demo app, and how they are titled and organized.
 
-The structure of this file/the keys are entirely arbitrary/can be designed to best organize the
-information. The string values of the keys -- for example -- 'classes/VicImageDownloadConfig.html'
+There are no technical constraints to the names of keys in this file or their hierarchical organization. However, the string values of the keys -- for example -- 'classes/VicImageDownloadConfig.html'
 refers to the file within the `documentation` directory at the top level of the project. This string
 must match the path name exactly or a build error will be thrown.
 
