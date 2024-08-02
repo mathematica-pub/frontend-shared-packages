@@ -8,7 +8,7 @@ We then use a custom python script to extract the .html files that we want from 
 generated, and assemble those files into a tree structure that we display in the Demo App navbar.
 
 The `documentation-structure.yml` file (in `projects/demo-app/assets/documentation`) governs which
-of the Compodoc-generated html files we make viewable, and how they are organized.
+of the Compodoc-generated html files we make viewable in the demo app, and how they are titled and organized.
 
 The structure of this file/the keys are entirely arbitrary/can be designed to best organize the
 information. The string values of the keys -- for example -- 'classes/VicImageDownloadConfig.html'
