@@ -17,17 +17,17 @@
         <svg:g
           vic-data-marks-stacked-area
           [config]="vm.dataConfig"
-          [vicStackedAreaHoverMoveEffects]="hoverAndMoveEffects"
+          [vicStackedAreaHoverMoveActions]="hoverAndMoveActions"
           (vicStackedAreaHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
-            [config]="(tooltipConfig$ | async)"
+            [config]="tooltipConfig$ | async"
             [template]="htmlTooltip"
           ></vic-html-tooltip>
         </svg:g>
         <svg:g>
           <line
-            *ngIf="(tooltipData$ | async) as tooltipData"
+            *ngIf="tooltipData$ | async as tooltipData"
             class="tooltip-line"
             [attr.x1]="tooltipData.positionX"
             [attr.x2]="tooltipData.positionX"

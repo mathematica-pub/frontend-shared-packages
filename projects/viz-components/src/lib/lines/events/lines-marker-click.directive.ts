@@ -10,8 +10,8 @@ import {
   Self,
 } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EventAction } from '../../events/action';
 import { ClickDirective } from '../../events/click.directive';
-import { EventEffect } from '../../events/effect';
 import { ListenElement } from '../../events/event.directive';
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesEventDirective } from './lines-event-directive';
@@ -22,38 +22,38 @@ import { LinesInputEventDirective } from './lines-input-event.directive';
 import { linesTooltipMixin } from './lines-tooltip-data';
 
 /**
- * A directive that allows users to provide custom effects on click events on lines markers.
+ * A directive that allows users to provide custom actions on click events on lines markers.
  *
  * Directive output ('vicLinesMarkerClickOutput') emits a LinesEmittedOutput object.
  */
 @Directive({
-  selector: '[vicLinesMarkerClickEffects]',
+  selector: '[vicLinesMarkerClickActions]',
 })
 export class LinesMarkerClickDirective<
   Datum,
   ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends linesTooltipMixin(ClickDirective) {
   /**
-   * An array of user-provided [EventEffect]{@link EventEffect} instances.
+   * An array of user-provided [EventAction]{@link EventAction} instances.
    *
-   * The `applyEffect` method will be called on click. The `removeEffect` method will be
+   * The `onStart` method will be called on click. The `onEnd` method will be
    *  called when the `clickRemoveEvent$` Observable emits.
    */
-  @Input('vicLinesMarkerClickEffects')
-  effects: EventEffect<
+  @Input('vicLinesMarkerClickActions')
+  actions: EventAction<
     LinesMarkerClickDirective<Datum, ExtendedLinesComponent>
   >[];
   /**
-   * A user-provided `Observable<void>` that triggers the `removeEffect` method of all user-provided
-   *  [EventEffect]{@link EventEffect} instances.
+   * A user-provided `Observable<void>` that triggers the `onEnd` method of all user-provided
+   *  [EventAction]{@link EventAction} instances.
    *
-   * Note that no `removeEffect` method will be called if this input is not provided.
+   * Note that no `onEnd` method will be called if this input is not provided.
    */
   @Input('vicLinesMarkerClickRemoveEvent$')
   override clickRemoveEvent$: Observable<void>;
   /**
    * An `EventEmitter` that emits a [LinesEmittedOutput]{@link VicLinesEventOutput} object if
-   *  an `applyEffect` or a `removeEffect` method calls `next` on it.
+   *  an `onStart` or a `onEnd` method calls `next` on it.
    */
   @Output('vicLinesMarkerClickOutput') eventOutput = new EventEmitter<
     LinesEventOutput<Datum>
@@ -96,11 +96,11 @@ export class LinesMarkerClickDirective<
   onElementClick(event: PointerEvent, el: ListenElement): void {
     this.el = el;
     this.pointIndex = +el.getAttribute(this.lines.markerIndexAttr);
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    this.actions.forEach((action) => action.onStart(this));
   }
 
   onClickRemove(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    this.actions.forEach((action) => action.onEnd(this));
   }
 
   getTooltipData(): LinesEventOutput<Datum> {
@@ -108,44 +108,44 @@ export class LinesMarkerClickDirective<
     return data;
   }
 
-  preventHoverEffects(): void {
+  preventHoverActions(): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
-    hoverEventDirectives.forEach((directive) => this.disableEffect(directive));
+    hoverEventDirectives.forEach((directive) => this.disableAction(directive));
   }
 
-  resumeHoverEffects(): void {
+  resumeHoverActions(): void {
     const hoverEventDirectives = [
       this.hoverDirective,
       this.hoverAndMoveDirective,
     ];
-    hoverEventDirectives.forEach((directive) => this.enableEffect(directive));
+    hoverEventDirectives.forEach((directive) => this.enableAction(directive));
   }
 
-  preventInputEventEffects(): void {
-    this.disableEffect(this.inputEventDirective);
+  preventInputEventActions(): void {
+    this.disableAction(this.inputEventDirective);
   }
 
-  resumeInputEventEffects(): void {
-    this.enableEffect(this.inputEventDirective);
+  resumeInputEventActions(): void {
+    this.enableAction(this.inputEventDirective);
   }
 
-  disableEffect(
+  disableAction(
     directive: LinesEventDirective<Datum, ExtendedLinesComponent>
   ): void {
     if (directive) {
-      directive.preventEffect = true;
+      directive.preventAction = true;
     }
   }
 
-  enableEffect(
+  enableAction(
     directive: LinesEventDirective<Datum, ExtendedLinesComponent>
   ): void {
     if (directive) {
-      directive.preventEffect = false;
-      directive.effects.forEach((effect) => effect.removeEffect(directive));
+      directive.preventAction = false;
+      directive.actions.forEach((action) => action.onEnd(directive));
     }
   }
 }

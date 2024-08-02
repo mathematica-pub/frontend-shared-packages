@@ -8,7 +8,7 @@ import { EqualValueRangesBinsBuilder } from './dimensions/equal-value-ranges-bin
 import { NoBinsAttributeDataDimensionBuilder } from './dimensions/no-bins/no-bins-builder';
 
 const DEFAULT = {
-  _enableEffects: true,
+  _enableEventActions: true,
 };
 
 export class GeographiesAttributeDataLayerBuilder<
@@ -105,7 +105,7 @@ export class GeographiesAttributeDataLayerBuilder<
       attributeDimension: this.binsBuilder._build(),
       class: this._class,
       data: this._data,
-      enableEffects: this._enableEffects,
+      enableEventActions: this._enableEventActions,
       geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
       labels: this.labelsBuilder?._build(),

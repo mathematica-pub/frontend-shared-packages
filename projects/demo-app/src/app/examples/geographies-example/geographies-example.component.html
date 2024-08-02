@@ -49,7 +49,7 @@
     </div>
     <p class="data-binning-description"
       >Attribute Data Bin Type:
-      <span class="value">{{attributeDataBinType$ | async}}</span></p
+      <span class="value">{{ attributeDataBinType$ | async }}</span></p
     >
     <p class="fill-description"
       >Patterned states: population less than 1,000,000 (visual legend to be
@@ -87,14 +87,14 @@
         vic-data-marks-geographies
         svg-elements
         [config]="dataMarksConfig"
-        [vicGeographiesHoverEffects]="hoverEffects"
+        [vicGeographiesHoverActions]="hoverActions"
         (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
-        [vicGeographiesClickEffects]="clickEffects"
+        [vicGeographiesClickActions]="clickActions"
         [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
         (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
       >
         <vic-html-tooltip
-          [config]="(tooltipConfig$ | async)"
+          [config]="tooltipConfig$ | async"
           [template]="htmlTooltip"
           (backdropClick)="onBackdropClick()"
         ></vic-html-tooltip>
@@ -112,8 +112,11 @@
     <div class="values-container">
       <p class="tooltip-label x">
         <span class="value-label">Income</span>
-        @if ((tooltipData$ | async).datum) { {{ (tooltipData$ |
-        async).attributeValue }} } @else { No data available }
+        @if ((tooltipData$ | async).datum) {
+          {{ (tooltipData$ | async).attributeValue }}
+        } @else {
+          No data available
+        }
       </p>
     </div>
   </div>

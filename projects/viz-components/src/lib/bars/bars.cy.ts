@@ -20,7 +20,7 @@ import { VicXQuantitativeAxisModule } from '../axes/x-quantitative/x-quantitativ
 import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
 import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../chart/chart.module';
-import { HoverMoveEventEffect } from '../events/effect';
+import { HoverMoveAction } from '../events/action';
 import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
@@ -78,7 +78,7 @@ const getYTransform = ($barGroup) => {
         <svg:g
           vic-data-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
+          [vicBarsHoverMoveActions]="hoverAndMoveActions"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
@@ -108,7 +108,7 @@ class TestHorizontalBarsComponent {
   tooltipData: BehaviorSubject<BarsEventOutput<QOCDatum, string>> =
     new BehaviorSubject<BarsEventOutput<QOCDatum, string>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: HoverMoveEventEffect<
+  hoverAndMoveActions: HoverMoveAction<
     BarsHoverMoveDirective<QOCDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
 
@@ -191,7 +191,7 @@ const mountHorizontalBarsComponent = (
         <svg:g
           vic-data-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverMoveEffects]="hoverAndMoveEffects"
+          [vicBarsHoverMoveActions]="hoverAndMoveActions"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
@@ -221,7 +221,7 @@ class TestVerticalBarsComponent {
   tooltipData: BehaviorSubject<BarsEventOutput<QOCDatum, string>> =
     new BehaviorSubject<BarsEventOutput<QOCDatum, string>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: HoverMoveEventEffect<
+  hoverAndMoveActions: HoverMoveAction<
     BarsHoverMoveDirective<QOCDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
 

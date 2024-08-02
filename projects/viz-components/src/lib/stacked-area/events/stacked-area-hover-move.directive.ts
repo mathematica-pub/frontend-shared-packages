@@ -4,14 +4,14 @@ import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { InternSet, least } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
 import { isDate } from '../../core/utilities/type-guards';
-import { HoverMoveEventEffect } from '../../events/effect';
+import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { STACKED_AREA, StackedAreaComponent } from '../stacked-area.component';
 import { StackedAreaEventOutput } from './stacked-area-event-output';
 import { stackedAreaTooltipMixin } from './stacked-area-tooltip-data';
 
 @Directive({
-  selector: '[vicStackedAreaHoverMoveEffects]',
+  selector: '[vicStackedAreaHoverMoveActions]',
 })
 export class StackedAreaHoverMoveDirective<
   Datum,
@@ -21,8 +21,8 @@ export class StackedAreaHoverMoveDirective<
     TCategoricalValue
   > = StackedAreaComponent<Datum, TCategoricalValue>,
 > extends stackedAreaTooltipMixin(HoverMoveDirective) {
-  @Input('vicStackedAreaHoverMoveEffects')
-  effects: HoverMoveEventEffect<
+  @Input('vicStackedAreaHoverMoveActions')
+  actions: HoverMoveAction<
     StackedAreaHoverMoveDirective<
       Datum,
       TCategoricalValue,
@@ -49,10 +49,10 @@ export class StackedAreaHoverMoveDirective<
   }
 
   onElementPointerEnter(): void {
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => {
-        if (effect.initializeEffect) {
-          effect.initializeEffect(this);
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => {
+        if (action.initialize) {
+          action.initialize(this);
         }
       });
     }
@@ -68,8 +68,8 @@ export class StackedAreaHoverMoveDirective<
   }
 
   onElementPointerLeave() {
-    if (this.effects) {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.actions) {
+      this.actions.forEach((action) => action.onEnd(this));
     }
   }
 
@@ -87,10 +87,10 @@ export class StackedAreaHoverMoveDirective<
   }
 
   determineHoverStyles(): void {
-    if (this.effects) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.actions) {
+      this.actions.forEach((action) => action.onStart(this));
     } else {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+      this.actions.forEach((action) => action.onEnd(this));
     }
   }
 

@@ -8,7 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MultiPolygon } from 'geojson';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
+import { EventAction } from 'projects/viz-components/src/lib/events/action';
 import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
 import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
 import { BinStrategy } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
@@ -20,7 +20,7 @@ import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/too
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveEffects,
+  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
   GeographiesHoverDirective,
   GeographiesHoverEmitTooltipData,
   VicGeographiesConfigBuilder,
@@ -91,7 +91,7 @@ export class GeographiesExampleComponent implements OnInit {
   tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: EventEffect<
+  hoverActions: EventAction<
     GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
   >[] = [
     new GeographiesHoverEmitTooltipData<
@@ -115,10 +115,10 @@ export class GeographiesExampleComponent implements OnInit {
     BinStrategy.customBreaks,
   ];
 
-  clickEffects: EventEffect<
+  clickActions: EventAction<
     GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
   >[] = [
-    new GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
+    new GeographiesClickEmitTooltipDataPauseHoverMoveActions<
       StateIncomeDatum,
       MapGeometryProperties
     >(),
@@ -208,7 +208,7 @@ export class GeographiesExampleComponent implements OnInit {
           .color('magenta')
           .fontWeight(700)
       )
-      .enableEffects(true);
+      .enableEventActions(true);
   }
 
   getDataLayer(

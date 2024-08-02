@@ -12,14 +12,14 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { filter } from 'rxjs';
 import { DataValue } from '../../core/types/values';
-import { HoverMoveEventEffect } from '../../events/effect';
+import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsEventOutput } from './bars-event-output';
 import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
-  selector: '[vicBarsHoverMoveEffects]',
+  selector: '[vicBarsHoverMoveActions]',
 })
 export class BarsHoverMoveDirective<
   Datum,
@@ -29,8 +29,8 @@ export class BarsHoverMoveDirective<
     TOrdinalValue
   >,
 > extends barsTooltipMixin(HoverMoveDirective) {
-  @Input('vicBarsHoverMoveEffects')
-  effects: HoverMoveEventEffect<
+  @Input('vicBarsHoverMoveActions')
+  actions: HoverMoveAction<
     BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
   @Output('vicBarsHoverMoveOutput') eventOutput = new EventEmitter<
@@ -58,14 +58,14 @@ export class BarsHoverMoveDirective<
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    if (!this.preventEffect) {
+    if (!this.preventAction) {
       this.barDatum = this.getBarDatum(event);
       this.elRef = new ElementRef(event.target);
     }
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => {
-        if (effect.initializeEffect) {
-          effect.initializeEffect(this);
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => {
+        if (action.initialize) {
+          action.initialize(this);
         }
       });
     }
@@ -79,14 +79,14 @@ export class BarsHoverMoveDirective<
 
   onElementPointerMove(event: PointerEvent) {
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.applyEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onStart(this));
     }
   }
 
   onElementPointerLeave() {
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onEnd(this));
     }
     this.barDatum = undefined;
     this.elRef = undefined;

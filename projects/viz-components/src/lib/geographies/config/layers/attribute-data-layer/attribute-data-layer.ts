@@ -17,7 +17,7 @@ const DEFAULT = {
   _nullColor: '#dcdcdc',
   _strokeColor: 'dimgray',
   _strokeWidth: '1',
-  _enableEffects: true,
+  _enableEventActions: true,
 };
 
 export class GeographiesAttributeDataLayer<

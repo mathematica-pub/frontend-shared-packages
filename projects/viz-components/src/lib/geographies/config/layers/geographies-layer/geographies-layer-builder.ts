@@ -12,7 +12,7 @@ export abstract class GeographiesLayerBuilder<
   TGeometry extends Geometry,
 > {
   protected _class: string;
-  protected _enableEffects: boolean;
+  protected _enableEventActions: boolean;
   protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   protected labelsBuilder: GeographiesLabelsBuilder<TProperties, TGeometry>;
   protected _strokeColor: string;
@@ -31,15 +31,15 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * OPTIONAL. Determines whether the layer can use viz-components pointer effects.
+   * OPTIONAL. Determines whether the layer can use viz-components event actions.
    *
    * If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
    *
    * @default true for Attribute Data layer
    * @default false for Geojson Properties layers
    */
-  enableEffects(value: boolean): this {
-    this._enableEffects = value;
+  enableEventActions(value: boolean): this {
+    this._enableEventActions = value;
     return this;
   }
 

@@ -1,9 +1,9 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { EventEffect } from '../../../events/effect';
+import { EventAction } from '../../../events/action';
 import { GeographiesComponent } from '../../geographies.component';
 import { GeographiesClickDirective } from '../geographies-click.directive';
 
-export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
+export class GeographiesClickEmitTooltipDataPauseHoverMoveActions<
   Datum,
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
@@ -13,11 +13,11 @@ export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
     TGeometry
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > implements
-    EventEffect<
+    EventAction<
       GeographiesClickDirective<Datum, TProperties, TGeometry, TComponent>
     >
 {
-  applyEffect(
+  onStart(
     directive: GeographiesClickDirective<
       Datum,
       TProperties,
@@ -26,11 +26,11 @@ export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
     >
   ) {
     const tooltipData = directive.getOutputData();
-    directive.preventHoverEffects();
+    directive.preventHoverActions();
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(
+  onEnd(
     directive: GeographiesClickDirective<
       Datum,
       TProperties,
@@ -38,7 +38,7 @@ export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
       TComponent
     >
   ) {
-    directive.resumeHoverEffects();
+    directive.resumeHoverActions();
     directive.eventOutput.emit(null);
   }
 }

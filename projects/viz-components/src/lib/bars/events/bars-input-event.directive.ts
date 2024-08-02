@@ -10,12 +10,12 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { DataValue } from '../../core/types/values';
-import { InputEventEffect } from '../../events/effect';
+import { InputEventAction } from '../../events/action';
 import { InputEventDirective } from '../../events/input-event.directive';
 import { BARS, BarsComponent } from '../bars.component';
 
 @Directive({
-  selector: '[vicBarsInputEventEffects]',
+  selector: '[vicBarsInputEventActions]',
 })
 export class BarsInputEventDirective<
   Datum,
@@ -26,8 +26,8 @@ export class BarsInputEventDirective<
   >,
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('vicBarsInputEventEffects')
-  effects: InputEventEffect<
+  @Input('vicBarsInputEventActions')
+  actions: InputEventAction<
     BarsInputEventDirective<Datum, TOrdinalValue, TBarsComponent>
   >[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,9 +45,9 @@ export class BarsInputEventDirective<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleNewEvent(inputEvent: any): void {
     if (inputEvent) {
-      this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onStart(this, inputEvent));
     } else {
-      this.effects.forEach((effect) => effect.removeEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onEnd(this, inputEvent));
     }
   }
 }

@@ -1,24 +1,24 @@
-import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { EventEffect } from '../../../events/effect';
+import { Geometry } from 'geojson';
+import { HoverMoveAction } from '../../../events/action';
 import { GeographiesComponent } from '../../geographies.component';
-import { GeographiesHoverDirective } from '../geographies-hover.directive';
+import { GeographiesHoverMoveDirective } from '../geographies-hover-move.directive';
 
-export class GeographiesHoverEmitTooltipData<
+export class GeographiesHoverMoveEmitTooltipData<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TGeometry extends Geometry,
   TComponent extends GeographiesComponent<
     Datum,
     TProperties,
     TGeometry
   > = GeographiesComponent<Datum, TProperties, TGeometry>,
 > implements
-    EventEffect<
-      GeographiesHoverDirective<Datum, TProperties, TGeometry, TComponent>
+    HoverMoveAction<
+      GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>
     >
 {
-  applyEffect(
-    directive: GeographiesHoverDirective<
+  onStart(
+    directive: GeographiesHoverMoveDirective<
       Datum,
       TProperties,
       TGeometry,
@@ -29,8 +29,8 @@ export class GeographiesHoverEmitTooltipData<
     directive.eventOutput.emit(tooltipData);
   }
 
-  removeEffect(
-    directive: GeographiesHoverDirective<
+  onEnd(
+    directive: GeographiesHoverMoveDirective<
       Datum,
       TProperties,
       TGeometry,

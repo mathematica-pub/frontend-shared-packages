@@ -1,17 +1,17 @@
 import { Directive, Inject, Input } from '@angular/core';
-import { EventEffect } from '../../events/effect';
+import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
 import { LINES, LinesComponent } from '../lines.component';
 
 @Directive({
-  selector: '[vicLinesHoverEffects]',
+  selector: '[vicLinesHoverActions]',
 })
 export class LinesHoverDirective<
   Datum,
   TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends HoverDirective {
-  @Input('vicLinesHoverEffects')
-  effects: EventEffect<LinesHoverDirective<Datum>>[];
+  @Input('vicLinesHoverActions')
+  actions: EventAction<LinesHoverDirective<Datum>>[];
 
   constructor(@Inject(LINES) public lines: TLinesComponent) {
     super();
@@ -23,10 +23,10 @@ export class LinesHoverDirective<
   }
 
   onElementPointerEnter(): void {
-    this.effects.forEach((effect) => effect.applyEffect(this));
+    this.actions.forEach((action) => action.onStart(this));
   }
 
   onElementPointerLeave(): void {
-    this.effects.forEach((effect) => effect.removeEffect(this));
+    this.actions.forEach((action) => action.onEnd(this));
   }
 }

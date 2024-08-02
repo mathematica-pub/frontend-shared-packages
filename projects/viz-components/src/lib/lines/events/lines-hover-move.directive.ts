@@ -3,30 +3,28 @@
 import { Directive, EventEmitter, Inject, Input, Output } from '@angular/core';
 import { least } from 'd3';
 import { ContinuousValue } from '../../core/types/values';
-import { HoverMoveEventEffect } from '../../events/effect';
+import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { LINES, LinesComponent } from '../lines.component';
 import { LinesEventOutput } from './lines-event-output';
 import { linesTooltipMixin } from './lines-tooltip-data';
 
 @Directive({
-  selector: '[vicLinesHoverMoveEffects]',
+  selector: '[vicLinesHoverMoveActions]',
 })
 export class LinesHoverMoveDirective<
   Datum,
   TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends linesTooltipMixin(HoverMoveDirective) {
-  @Input('vicLinesHoverMoveEffects')
-  effects: HoverMoveEventEffect<
-    LinesHoverMoveDirective<Datum, TLinesComponent>
-  >[];
+  @Input('vicLinesHoverMoveActions')
+  actions: HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>[];
   @Output('vicLinesHoverMoveOutput') eventOutput = new EventEmitter<
     LinesEventOutput<Datum>
   >();
   pointerX: number;
   pointerY: number;
   closestPointIndex: number;
-  effectApplied = false;
+  actionActive = false;
 
   constructor(@Inject(LINES) public lines: TLinesComponent) {
     super();
@@ -38,10 +36,10 @@ export class LinesHoverMoveDirective<
   }
 
   onElementPointerEnter(): void {
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => {
-        if (effect.initializeEffect) {
-          effect.initializeEffect(this);
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => {
+        if (action.initialize) {
+          action.initialize(this);
         }
       });
     }
@@ -55,8 +53,8 @@ export class LinesHoverMoveDirective<
   }
 
   onElementPointerLeave(): void {
-    if (this.effects && !this.preventEffect) {
-      this.effects.forEach((effect) => effect.removeEffect(this));
+    if (this.actions && !this.preventAction) {
+      this.actions.forEach((action) => action.onEnd(this));
     }
   }
 
@@ -71,7 +69,7 @@ export class LinesHoverMoveDirective<
 
   determineHoverStyles(): void {
     this.closestPointIndex = this.getClosestPointIndex();
-    if (this.effects && !this.preventEffect) {
+    if (this.actions && !this.preventAction) {
       if (
         this.pointerIsInsideShowTooltipRadius(
           this.closestPointIndex,
@@ -79,15 +77,15 @@ export class LinesHoverMoveDirective<
           this.pointerY
         )
       ) {
-        this.effects.forEach((effect) => {
-          effect.applyEffect(this);
+        this.actions.forEach((action) => {
+          action.onStart(this);
         });
-        this.effectApplied = true;
+        this.actionActive = true;
       } else {
         this.closestPointIndex = null;
-        if (this.effectApplied) {
-          this.effects.forEach((effect) => effect.removeEffect(this));
-          this.effectApplied = false;
+        if (this.actionActive) {
+          this.actions.forEach((action) => action.onEnd(this));
+          this.actionActive = false;
         }
       }
     }

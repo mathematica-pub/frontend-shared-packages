@@ -1,5 +1,5 @@
 import { DataValue } from '../../../core/types/values';
-import { EventEffect } from '../../../events/effect';
+import { EventAction } from '../../../events/action';
 import { BarsComponent } from '../../bars.component';
 import { BarsHoverDirective } from '../bars-hover.directive';
 
@@ -11,9 +11,9 @@ export class BarsHoverShowLabels<
     TOrdinalValue
   >,
 > implements
-    EventEffect<BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>>
+    EventAction<BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>>
 {
-  applyEffect(
+  onStart(
     directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
   ): void {
     directive.bars.barGroups
@@ -22,7 +22,7 @@ export class BarsHoverShowLabels<
       .style('display', null);
   }
 
-  removeEffect(
+  onEnd(
     directive: BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
   ): void {
     directive.bars.barGroups

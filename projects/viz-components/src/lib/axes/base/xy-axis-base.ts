@@ -140,7 +140,7 @@ export abstract class XyAxis<TickValue extends DataValue>
   }
 
   processAxisFeatures(): void {
-    if (this.config.removeDomain) {
+    if (this.config.removeDomainLine) {
       select(this.axisRef.nativeElement).call((g) =>
         g.select('.domain').remove()
       );

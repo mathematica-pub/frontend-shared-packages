@@ -281,7 +281,7 @@ export class GeographiesComponent<
   updateGeographyElements(): void {
     const pathsByLayer = this.config.layers.reduce(
       (paths, layer, i) => {
-        if (layer.enableEffects) {
+        if (layer.enableEventActions) {
           paths.push(
             select(this.elRef.nativeElement).selectAll(`.layer-${i} path`)
           );

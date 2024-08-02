@@ -3,7 +3,7 @@ import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 export abstract class XyAxisBaseBuilder<TickValue> {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
-  protected _removeDomain: boolean;
+  protected _removeDomainLine: boolean;
   protected _removeTickMarks: boolean;
   protected _removeTicks: boolean;
   protected _tickFormat: string | ((value: TickValue) => string);
@@ -14,8 +14,8 @@ export abstract class XyAxisBaseBuilder<TickValue> {
   /**
    * If true, the default line that D3 creates for the axis will be removed.
    */
-  removeDomain(value: boolean): this {
-    this._removeDomain = value;
+  removeDomainLine(value: boolean = true): this {
+    this._removeDomainLine = value;
     return this;
   }
   /**
@@ -23,7 +23,7 @@ export abstract class XyAxisBaseBuilder<TickValue> {
    *
    * Note: likely to be used with Bars ordinal axis.
    */
-  removeTickMarks(value: boolean): this {
+  removeTickMarks(value: boolean = true): this {
     this._removeTickMarks = value;
     return this;
   }

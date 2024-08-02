@@ -20,7 +20,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
 import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
-import { HoverMoveEventEffect } from '../events/effect';
+import { HoverMoveAction } from '../events/action';
 import {
   QdQnCData,
   QdQnCDatum,
@@ -64,7 +64,7 @@ const numericData = QnQnCData;
         <svg:g
           vic-data-marks-lines
           [config]="linesConfig"
-          [vicLinesHoverMoveEffects]="hoverEffects"
+          [vicLinesHoverMoveActions]="hoverActions"
           (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
@@ -99,7 +99,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
     LinesEventOutput<Datum>
   >(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: HoverMoveEventEffect<LinesHoverMoveDirective<Datum>>[] = [
+  hoverActions: HoverMoveAction<LinesHoverMoveDirective<Datum>>[] = [
     new LinesHoverMoveEmitTooltipData(),
   ];
 

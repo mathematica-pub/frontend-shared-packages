@@ -20,7 +20,7 @@ import {
   VicHtmlTooltipModule,
   VicMapChartModule,
 } from '../../public-api';
-import { EventEffect } from '../events/effect';
+import { EventAction } from '../events/action';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
@@ -65,7 +65,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
         vic-data-marks-geographies
         svg-elements
         [config]="geographiesConfig"
-        [vicGeographiesHoverEffects]="hoverEffects"
+        [vicGeographiesHoverActions]="hoverActions"
         (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event)"
       >
         <vic-html-tooltip
@@ -107,7 +107,7 @@ class TestGeographiesComponent {
   tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
     new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: EventEffect<
+  hoverActions: EventAction<
     GeographiesHoverDirective<StateIncomeDatum, TestMapGeometryProperties>
   >[] = [
     new GeographiesHoverEmitTooltipData<

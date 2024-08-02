@@ -73,29 +73,29 @@ describe('BarsHoverMoveDirective', () => {
   });
 
   describe('elementPointerMove()', () => {
-    let effectA: any;
+    let actionA: any;
     let applyASpy: jasmine.Spy;
     let removeASpy: jasmine.Spy;
-    let effectB: any;
+    let actionB: any;
     let applyBSpy: jasmine.Spy;
     let removeBSpy: jasmine.Spy;
     let event: any;
     beforeEach(() => {
       spyOn(directive, 'getPointerValuesArray').and.returnValue([1, 2]);
       event = 'event';
-      applyASpy = jasmine.createSpy('applyEffect');
-      removeASpy = jasmine.createSpy('removeEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        applyEffect: applyASpy,
-        removeEffect: removeASpy,
+      applyASpy = jasmine.createSpy('onStart');
+      removeASpy = jasmine.createSpy('onEnd');
+      applyBSpy = jasmine.createSpy('onStart');
+      removeBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onStart: applyASpy,
+        onEnd: removeASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
-        removeEffect: removeBSpy,
+      actionB = {
+        onStart: applyBSpy,
+        onEnd: removeBSpy,
       };
-      directive.effects = [effectA, effectB];
+      directive.actions = [actionA, actionB];
     });
     it('calls getPointerValuesArray once', () => {
       directive.onElementPointerMove(event as any);
@@ -111,13 +111,13 @@ describe('BarsHoverMoveDirective', () => {
       directive.onElementPointerMove(event as any);
       expect(directive.pointerY).toEqual(2);
     });
-    it('calls apply effect on each effect in effects array if effects exist', () => {
+    it('calls apply action on each action in actions array if actions exist', () => {
       directive.onElementPointerMove(event as any);
       expect(applyASpy).toHaveBeenCalledOnceWith(directive);
       expect(applyBSpy).toHaveBeenCalledOnceWith(directive);
     });
-    it('does not call apply effect on each effect in effects array if effects do not exist', () => {
-      directive.effects = undefined;
+    it('does not call apply action on each action in actions array if actions do not exist', () => {
+      directive.actions = undefined;
       directive.onElementPointerMove(event as any);
       expect(applyASpy).not.toHaveBeenCalled();
       expect(applyBSpy).not.toHaveBeenCalled();
@@ -125,34 +125,34 @@ describe('BarsHoverMoveDirective', () => {
   });
 
   describe('elementPointerLeave', () => {
-    let effectA: any;
+    let actionA: any;
     let applyASpy: jasmine.Spy;
     let removeASpy: jasmine.Spy;
-    let effectB: any;
+    let actionB: any;
     let applyBSpy: jasmine.Spy;
     let removeBSpy: jasmine.Spy;
     beforeEach(() => {
-      applyASpy = jasmine.createSpy('applyEffect');
-      removeASpy = jasmine.createSpy('removeEffect');
-      applyBSpy = jasmine.createSpy('applyEffect');
-      removeBSpy = jasmine.createSpy('removeEffect');
-      effectA = {
-        applyEffect: applyASpy,
-        removeEffect: removeASpy,
+      applyASpy = jasmine.createSpy('onStart');
+      removeASpy = jasmine.createSpy('onEnd');
+      applyBSpy = jasmine.createSpy('onStart');
+      removeBSpy = jasmine.createSpy('onEnd');
+      actionA = {
+        onStart: applyASpy,
+        onEnd: removeASpy,
       };
-      effectB = {
-        applyEffect: applyBSpy,
-        removeEffect: removeBSpy,
+      actionB = {
+        onStart: applyBSpy,
+        onEnd: removeBSpy,
       };
-      directive.effects = [effectA, effectB];
+      directive.actions = [actionA, actionB];
     });
-    it('calls remove effect on each effect in effects array', () => {
+    it('calls remove action on each action in actions array', () => {
       directive.onElementPointerLeave();
       expect(removeASpy).toHaveBeenCalledOnceWith(directive);
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
     });
-    it('does not call remove effect on each effect in effects array if effects do not exist', () => {
-      directive.effects = undefined;
+    it('does not call remove action on each action in actions array if actions do not exist', () => {
+      directive.actions = undefined;
       directive.onElementPointerLeave();
       expect(removeASpy).not.toHaveBeenCalled();
       expect(removeBSpy).not.toHaveBeenCalled();

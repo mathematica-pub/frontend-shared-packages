@@ -16,9 +16,9 @@ export interface GeographiesLayerOptions<
    */
   class: string;
   /**
-   * Whether the layer can use viz-components pointer effects. If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
+   * Whether the layer can use viz-components event actions. If true, the event listener that corresponds to the provided directive will be placed on that layer's paths.
    */
-  enableEffects: boolean;
+  enableEventActions: boolean;
   /**
    * A configuration object for the geographies labels on the layer.
    */

@@ -9,19 +9,19 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { InputEventEffect } from '../../events/effect';
+import { InputEventAction } from '../../events/action';
 import { InputEventDirective } from '../../events/input-event.directive';
 import { LINES, LinesComponent } from '../lines.component';
 
 @Directive({
-  selector: '[vicLinesInputEffects]',
+  selector: '[vicLinesInputActions]',
 })
 export class LinesInputEventDirective<
   Datum,
   ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > extends InputEventDirective {
-  @Input('vicLinesInputEffects')
-  effects: InputEventEffect<
+  @Input('vicLinesInputActions')
+  actions: InputEventAction<
     LinesInputEventDirective<Datum, ExtendedLinesComponent>
   >[];
   @Input('vicLinesInputEvent$') override inputEvent$: Observable<unknown>;
@@ -37,9 +37,9 @@ export class LinesInputEventDirective<
 
   handleNewEvent(inputEvent: unknown): void {
     if (inputEvent) {
-      this.effects.forEach((effect) => effect.applyEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onStart(this, inputEvent));
     } else {
-      this.effects.forEach((effect) => effect.removeEffect(this, inputEvent));
+      this.actions.forEach((action) => action.onEnd(this, inputEvent));
     }
   }
 }

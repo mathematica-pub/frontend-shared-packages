@@ -13,8 +13,8 @@ data-marks-components:
       hover: 'directives/BarsHoverDirective.html'
       hover-move: 'directives/BarsHoverMoveDirective.html'
       input-event: 'directives/BarsInputEventDirective.html'
-      effects:
-        click-emit-tooltip-data-pause-hover-move-effects: 'classes/BarsClickEmitTooltipDataPauseHoverMoveEffects.html'
+      actions:
+        click-emit-tooltip-data-pause-hover-move-actions: 'classes/BarsClickEmitTooltipDataPauseHoverMoveActions.html'
         hover-show-labels: 'classes/BarsHoverShowLabels.html'
         hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
       internal:
@@ -36,8 +36,8 @@ data-marks-components:
       hover: 'directives/GeographiesHoverDirective.html'
       hover-move: 'directives/GeographiesHoverMoveDirective.html'
       input-event: 'directives/GeographiesInputEventDirective.html'
-      effects:
-        click-emit-tooltip-data-pause-hover-move-effects: 'classes/GeographiesClickEmitTooltipDataPauseHoverMoveEffects.html'
+      actions:
+        click-emit-tooltip-data-pause-hover-move-actions: 'classes/GeographiesClickEmitTooltipDataPauseHoverMoveActions.html'
         hover-emit-tooltip-data: 'classes/GeographiesHoverEmitTooltipData.html'
         hover-move-emit-tooltip-data: 'classes/GeographiesHoverMoveEmitTooltipData.html'
       internal:
@@ -77,8 +77,8 @@ data-marks-components:
       hover: 'directives/LinesHoverDirective.html'
       hover-move: 'directives/LinesHoverMoveDirective.html'
       input-event: 'directives/LinesInputEventDirective.html'
-      effects:
-        click-emit-tooltip-data-pause-hover-move-effects: 'classes/LinesClickEmitTooltipDataPauseHoverMoveEffects.html'
+      actions:
+        click-emit-tooltip-data-pause-hover-move-actions: 'classes/LinesClickEmitTooltipDataPauseHoverMoveActions.html'
         marker-click-emit-tooltip-data: 'classes/LinesMarkerClickEmitTooltipData.html'
         hover-move-default-lines-styles: 'classes/LinesHoverMoveDefaultLinesStyles.html'
         hover-move-default-markers-styles: 'classes/LinesHoverMoveDefaultMarkersStyles.html'
@@ -97,7 +97,7 @@ data-marks-components:
     events:
       hover-move: 'directives/StackedAreaHoverMoveDirective.html'
       input-event: 'directives/StackedAreaInputEventDirective.html'
-      effects:
+      actions:
         hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
       internal:
         tooltip-data: 'interfaces/StackedAreaTooltipData.html'
@@ -202,10 +202,10 @@ internals:
     hover: 'directives/HoverDirective.html'
     hover-move: 'directives/HoverMoveDirective.html'
     input-event: 'directives/InputEventDirective.html'
-    effects:
-      event: 'interfaces/EventEffect.html'
-      hover-move: 'interfaces/HoverMoveEventEffect.html'
-      input-event: 'interfaces/InputEventEffect.html'
+    actions:
+      event: 'interfaces/EventAction.html'
+      hover-move: 'interfaces/HoverMoveAction.html'
+      input-event: 'interfaces/InputEventAction.html'
   svg-text-wrap:
     builder: 'classes/SvgTextWrapBuilder.html'
     svg-text-wrap: 'classes/SvgTextWrap.html'
