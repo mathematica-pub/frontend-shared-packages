@@ -14,7 +14,7 @@ export class VicGeographiesTooltipOutput<Datum> {
 }
 
 export class VicGeographiesEventOutput<
-  Datum,
+  Datum
 > extends VicGeographiesTooltipOutput<Datum> {
   positionX: number;
   positionY: number;
@@ -29,7 +29,7 @@ export function getGeographiesTooltipData<
   Datum,
   TProperties,
   TGeometry extends Geometry,
-  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>,
+  TComponent extends GeographiesComponent<Datum, TProperties, TGeometry>
 >(
   geography: VicGeographiesFeature<TProperties, TGeometry>,
   component: TComponent

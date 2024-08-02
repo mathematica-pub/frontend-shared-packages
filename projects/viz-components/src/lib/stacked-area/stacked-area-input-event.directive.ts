@@ -18,7 +18,7 @@ import { STACKED_AREA, StackedAreaComponent } from './stacked-area.component';
 })
 export class StackedAreaInputEventDirective<
   Datum,
-  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>,
+  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum>
 > extends InputEventDirective {
   @Input('vicStackedAreaInputEffects')
   effects: InputEventEffect<

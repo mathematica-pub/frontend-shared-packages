@@ -26,7 +26,7 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsClickDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > extends ClickDirective {
   @Input('vicBarsClickEffects')
   effects: EventEffect<BarsClickDirective<Datum, ExtendedBarsComponent>>[];

@@ -12,7 +12,7 @@ export type GeographiesEventDirective<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > =
   | GeographiesHoverDirective<Datum, TProperties, TGeometry, TComponent>
   | GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>

@@ -33,7 +33,7 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesMarkerClickDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends ClickDirective {
   /**
    * An array of user-provided [EventEffect]{@link EventEffect} instances.

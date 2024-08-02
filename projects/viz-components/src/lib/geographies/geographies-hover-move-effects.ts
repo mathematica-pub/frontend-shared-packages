@@ -11,7 +11,7 @@ export class GeographiesHoverMoveEmitTooltipData<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > implements
     HoverMoveEventEffect<
       GeographiesHoverMoveDirective<Datum, TProperties, TGeometry, TComponent>

@@ -15,7 +15,7 @@ import { LINES, LinesComponent } from './lines.component';
 })
 export class LinesHoverMoveDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > extends HoverMoveDirective {
   @Input('vicLinesHoverMoveEffects')
   effects: HoverMoveEventEffect<

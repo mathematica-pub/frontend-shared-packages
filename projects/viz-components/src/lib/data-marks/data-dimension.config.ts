@@ -28,7 +28,7 @@ export class VicDataDimensionConfig<Datum> {
 }
 
 export class VicQuantitativeDimensionConfig<
-  Datum,
+  Datum
 > extends VicDataDimensionConfig<Datum> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override valueAccessor: (d: Datum, ...args: any) => number;
@@ -50,7 +50,7 @@ export class VicQuantitativeDimensionConfig<
 }
 
 export class VicDateDimensionConfig<
-  Datum,
+  Datum
 > extends VicDataDimensionConfig<Datum> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override valueAccessor: (d: Datum, ...args: any) => Date;
@@ -72,7 +72,7 @@ export class VicDateDimensionConfig<
 }
 
 export class VicCategoricalColorDimensionConfig<
-  Datum,
+  Datum
 > extends VicDataDimensionConfig<Datum> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override domain?: any[] | InternSet;
@@ -86,7 +86,7 @@ export class VicCategoricalColorDimensionConfig<
 }
 
 export class VicOrdinalDimensionConfig<
-  Datum,
+  Datum
 > extends VicDataDimensionConfig<Datum> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override domain?: any[] | InternSet;

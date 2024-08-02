@@ -4,7 +4,7 @@ import { LinesComponent } from './lines.component';
 
 export class LinesClickEmitTooltipDataPauseHoverMoveEffects<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > implements EventEffect<LinesClickDirective<Datum, ExtendedLinesComponent>>
 {
   applyEffect(directive: LinesClickDirective<Datum, ExtendedLinesComponent>) {

@@ -11,7 +11,7 @@ export class GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
     Datum,
     TProperties,
     TGeometry
-  > = GeographiesComponent<Datum, TProperties, TGeometry>,
+  > = GeographiesComponent<Datum, TProperties, TGeometry>
 > implements
     EventEffect<
       GeographiesClickDirective<Datum, TProperties, TGeometry, TComponent>

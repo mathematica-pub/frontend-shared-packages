@@ -5,7 +5,7 @@ import { LinesComponent } from './lines.component';
 
 export type LinesEventDirective<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
 > =
   | LinesHoverDirective<Datum, ExtendedLinesComponent>
   | LinesHoverMoveDirective<Datum, ExtendedLinesComponent>

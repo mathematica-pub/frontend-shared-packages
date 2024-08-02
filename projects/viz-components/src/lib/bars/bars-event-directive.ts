@@ -5,7 +5,7 @@ import { BarsComponent } from './bars.component';
 
 export type BarsEventDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > =
   | BarsHoverDirective<Datum, ExtendedBarsComponent>
   | BarsHoverMoveDirective<Datum, ExtendedBarsComponent>

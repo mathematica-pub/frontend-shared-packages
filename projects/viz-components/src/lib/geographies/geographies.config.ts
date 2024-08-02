@@ -39,7 +39,7 @@ import { VicGeographyLabelConfig } from './geographies-labels';
 export class VicGeographiesConfig<
   Datum,
   TProperties extends GeoJsonProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > extends VicDataMarksConfig<Datum> {
   /** A feature or geometry object or collection that defines the extents of the map to be drawn.
    * Used for scaling the map.
@@ -91,7 +91,7 @@ export class VicGeographiesConfig<
 export class VicBaseDataGeographyConfig<
   Datum,
   TProperties,
-  TGeometry extends Geometry,
+  TGeometry extends Geometry
 > {
   /**
    * GeoJSON features that define the geographies to be drawn.
@@ -127,7 +127,7 @@ export class VicBaseDataGeographyConfig<
 export class VicDataGeographyConfig<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
   attributeDataConfig:
     | VicCategoricalAttributeDataDimensionConfig<Datum>
@@ -154,7 +154,7 @@ export class VicDataGeographyConfig<
  * The generic parameter is the type of the attribute data.
  */
 abstract class AttributeDataDimensionConfig<
-  Datum,
+  Datum
 > extends VicDataDimensionConfig<Datum> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   geoAccessor: (d: Datum, ...args: any) => any;
@@ -192,7 +192,7 @@ export type VicAttributeDataDimensionConfig<Datum> =
  * The generic parameter is the type of the attribute data.
  */
 export class VicCategoricalAttributeDataDimensionConfig<
-  Datum,
+  Datum
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.categorical = VicValuesBin.categorical;
   override interpolator: never;
@@ -214,7 +214,7 @@ export class VicCategoricalAttributeDataDimensionConfig<
  * The generic parameter is the type of the attribute data.
  */
 export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
-  Datum,
+  Datum
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.none = VicValuesBin.none;
 
@@ -234,7 +234,7 @@ export class VicNoBinsQuantitativeAttributeDataDimensionConfig<
  * The generic parameter is the type of the attribute data.
  */
 export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
-  Datum,
+  Datum
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.equalValueRanges = VicValuesBin.equalValueRanges;
   numBins: number;
@@ -258,7 +258,7 @@ export class VicEqualValuesQuantitativeAttributeDataDimensionConfig<
  * The generic parameter is the type of the attribute data.
  */
 export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
-  Datum,
+  Datum
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.equalNumObservations =
     VicValuesBin.equalNumObservations;
@@ -284,7 +284,7 @@ export class VicEqualNumbersQuantitativeAttributeDataDimensionConfig<
  */
 
 export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
-  Datum,
+  Datum
 > extends AttributeDataDimensionConfig<Datum> {
   binType: VicValuesBin.customBreaks = VicValuesBin.customBreaks;
   breakValues: number[];
@@ -305,7 +305,7 @@ export class VicCustomBreaksQuantitativeAttributeDataDimensionConfig<
 
 export interface VicGeographyNoDataPatternPredicate<
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > {
   patternName: string;
   predicate: (d: VicGeographiesFeature<TProperties, TGeometry>) => boolean;
@@ -314,7 +314,7 @@ export interface VicGeographyNoDataPatternPredicate<
 export class VicNoDataGeographyConfig<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > extends VicBaseDataGeographyConfig<Datum, TProperties, TGeometry> {
   /**
    * The pattern for noDataGeography. If provided, fill will be overridden.

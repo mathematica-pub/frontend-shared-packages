@@ -13,7 +13,7 @@ import { VicGeographiesLabelsPositioners } from './geographies-labels-positioner
 export class VicGeographyLabelConfig<
   Datum,
   TProperties,
-  TGeometry extends Geometry = MultiPolygon | Polygon,
+  TGeometry extends Geometry = MultiPolygon | Polygon
 > {
   /**
    * Function that determines whether a label should be shown on the GeoJSON feature

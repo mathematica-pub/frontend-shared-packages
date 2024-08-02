@@ -18,7 +18,7 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsInputEventDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > extends InputEventDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsInputEventEffects')

@@ -4,7 +4,7 @@ import { BarsComponent } from './bars.component';
 
 export class BarsHoverShowLabels<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
 > implements EventEffect<BarsHoverDirective<Datum, ExtendedBarsComponent>>
 {
   applyEffect(

@@ -4,8 +4,7 @@ import { StackedAreaComponent } from './stacked-area.component';
 
 export class StackedAreaHoverMoveEmitTooltipData<
   Datum,
-  ExtendedStackedAreaComponent extends
-    StackedAreaComponent<Datum> = StackedAreaComponent<Datum>,
+  ExtendedStackedAreaComponent extends StackedAreaComponent<Datum> = StackedAreaComponent<Datum>
 > implements
     HoverMoveEventEffect<
       StackedAreaHoverMoveDirective<Datum, ExtendedStackedAreaComponent>
