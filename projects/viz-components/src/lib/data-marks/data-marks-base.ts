@@ -15,9 +15,10 @@ import { VicDataMarksConfig } from './data-marks.config';
 
 @Directive()
 export abstract class DataMarksBase<
-  Datum,
-  ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>
-> implements DataMarks, OnChanges
+    Datum,
+    ExtendedDataMarksConfig extends VicDataMarksConfig<Datum>,
+  >
+  implements DataMarks, OnChanges
 {
   chart: Chart;
   ranges: Ranges;

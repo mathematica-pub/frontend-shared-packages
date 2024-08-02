@@ -21,7 +21,7 @@ import { BARS, BarsComponent } from './bars.component';
 })
 export class BarsHoverDirective<
   Datum,
-  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>
+  ExtendedBarsComponent extends BarsComponent<Datum> = BarsComponent<Datum>,
 > extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverEffects') effects: EventEffect<

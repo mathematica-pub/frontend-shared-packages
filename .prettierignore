@@ -5,17 +5,11 @@
 /tmp
 /out-tsc
 /bazel-out
-**/.serverless
 
 # Node
 /node_modules
 npm-debug.log
 yarn-error.log
-
-# Automated Documentation
-/documentation
-projects/demo-app/src/assets/documentation
-!projects/demo-app/src/assets/documentation/documentation-structure.yaml
 
 # IDEs and editors
 .idea/
@@ -25,17 +19,6 @@ projects/demo-app/src/assets/documentation
 *.launch
 .settings/
 *.sublime-workspace
-
-# unit test results
-test-results.xml
-
-# Cypress
-screenshots/
-videos/
-downloads/
-
-# Serverless
-.serverless/
 
 # Visual Studio Code
 .vscode/*
@@ -54,11 +37,10 @@ downloads/
 testem.log
 /typings
 
-__pycache__/
-
 # System files
 .DS_Store
 Thumbs.db
 
-.nx/cache
-.nx/workspace-data
+# Project files
+documentation
+projects/demo-app/src/assets/documentation/**/*.html

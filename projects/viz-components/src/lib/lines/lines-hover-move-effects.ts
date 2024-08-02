@@ -19,7 +19,7 @@ export class LinesHoverMoveDefaultStylesConfig {
  */
 export class LinesHoverMoveDefaultLinesStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<
       LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
@@ -59,7 +59,7 @@ export class LinesHoverMoveDefaultLinesStyles<
  */
 export class LinesHoverMoveDefaultMarkersStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<
       LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
@@ -116,7 +116,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
  */
 export class LinesHoverMoveDefaultHoverDotStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<
       LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
@@ -163,7 +163,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
  */
 export class LinesHoverMoveDefaultStyles<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<
       LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
@@ -214,7 +214,7 @@ export class LinesHoverMoveDefaultStyles<
 
 export class LinesHoverMoveEmitTooltipData<
   Datum,
-  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>
+  ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
 > implements
     HoverMoveEventEffect<
       LinesHoverMoveDirective<Datum, ExtendedLinesComponent>
