@@ -1,0 +1,29 @@
+.combobox-component {
+  display: block;
+  position: relative;
+
+  .combobox-textbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .combobox-listbox {
+    z-index: 100;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100%;
+    padding: 8px 0;
+  }
+
+  .scroll-container {
+    display: block;
+    max-height: var(--max-reveal-height, 300px);
+    overflow-y: auto;
+  }
+
+  .combobox-listbox:not(.open) {
+    display: none;
+  }
+}
