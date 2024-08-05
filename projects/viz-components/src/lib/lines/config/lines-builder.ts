@@ -184,7 +184,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   /**
    * REQUIRED. Builds the configuration object for the LinesComponent.
    */
-  build(): LinesConfig<Datum> {
+  getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
       categorical: this.categoricalDimensionBuilder._build(),
