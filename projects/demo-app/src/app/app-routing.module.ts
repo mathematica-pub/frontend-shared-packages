@@ -51,6 +51,13 @@ const routes: Routes = [
             './examples/stacked-bars-example/stacked-bars-example.component'
           ).then((m) => m.StackedBarsExampleComponent),
       },
+      {
+        path: 'stacked-area-and-line',
+        loadComponent: () =>
+          import(
+            './examples/stacked-area-and-line-example/stacked-area-and-line-example.component'
+          ).then((m) => m.StackedAreaAndLineExampleComponent),
+      },
     ],
   },
   {

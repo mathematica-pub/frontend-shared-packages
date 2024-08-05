@@ -3,4 +3,5 @@ export type Example =
   | 'stacked-area'
   | 'lines'
   | 'geographies'
-  | 'stacked-bars';
+  | 'stacked-bars'
+  | 'stacked-area-and-line';

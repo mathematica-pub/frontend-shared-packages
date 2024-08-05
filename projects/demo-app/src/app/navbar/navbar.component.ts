@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
     'lines',
     'stacked-area',
     'stacked-bars',
+    'stacked-area-and-line',
   ];
   baseFolder = '/documentation';
 
