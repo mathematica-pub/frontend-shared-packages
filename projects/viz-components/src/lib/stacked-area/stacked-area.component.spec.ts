@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { VicStackedAreaConfigBuilder } from './config/stacked-area-builder';
 import { StackedAreaComponent } from './stacked-area.component';
-import { VicStackedAreaConfig } from './stacked-area.config';
+
+type Datum = { date: Date; value: number; category: string };
 
 describe('StackedAreaComponent', () => {
-  let component: StackedAreaComponent<any>;
-  let fixture: ComponentFixture<StackedAreaComponent<any>>;
+  let component: StackedAreaComponent<any, string>;
+  let fixture: ComponentFixture<StackedAreaComponent<any, string>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -16,43 +18,30 @@ describe('StackedAreaComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StackedAreaComponent);
+    fixture = TestBed.createComponent(StackedAreaComponent<any, string>);
     component = fixture.componentInstance;
-    component.config = new VicStackedAreaConfig();
+    component.config = new VicStackedAreaConfigBuilder<Datum, string>()
+      .data([
+        { date: new Date('2020-01-01'), value: 1, category: 'a' },
+        { date: new Date('2020-01-02'), value: 2, category: 'a' },
+        { date: new Date('2020-01-03'), value: 3, category: 'a' },
+        { date: new Date('2020-01-01'), value: 4, category: 'b' },
+        { date: new Date('2020-01-02'), value: 5, category: 'b' },
+        { date: new Date('2020-01-03'), value: 6, category: 'b' },
+      ])
+      .createYNumericDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.category)
+      )
+      .getConfig();
   });
 
-  describe('setPropertiesFromConfig()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setValueArrays');
-      spyOn(component, 'initXAndCategoryDomains');
-      spyOn(component, 'setValueIndicies');
-      spyOn(component, 'setSeries');
-      spyOn(component, 'initYDomain');
-      spyOn(component, 'initCategoryScale');
-      component.setPropertiesFromConfig();
-    });
-    it('calls setValueArrays once', () => {
-      expect(component.setValueArrays).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initDomains once', () => {
-      expect(component.initXAndCategoryDomains).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setValueIndicies once', () => {
-      expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setSeries once', () => {
-      expect(component.setSeries).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initYDomain once', () => {
-      expect(component.initYDomain).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initCategoryScale once', () => {
-      expect(component.initCategoryScale).toHaveBeenCalledTimes(1);
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 });

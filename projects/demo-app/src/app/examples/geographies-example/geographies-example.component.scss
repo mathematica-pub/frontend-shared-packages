@@ -2,7 +2,12 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 
-.effect-title {
+.user-selections {
+  display: flex;
+  gap: grid(8);
+}
+
+.selection-title {
   @extend %typography-subtitle-2;
   padding-top: grid(2);
 }

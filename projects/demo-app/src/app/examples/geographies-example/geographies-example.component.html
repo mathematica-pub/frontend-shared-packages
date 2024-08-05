@@ -4,23 +4,52 @@
     demo
     *ngIf="dataMarksConfig$ | async as dataMarksConfig; else loading"
   >
-    <p class="effect-title">Select a year</p>
-    <div
-      class="toggle-container"
-      [style.--mat-standard-button-toggle-height]="2.5"
-    >
-      <mat-button-toggle-group
-        name="selectedYear"
-        aria-label="Selected Year"
-        [value]="selectedYear$ | async"
-        (change)="onYearChange($event)"
-      >
-        <mat-button-toggle value="2020">2020</mat-button-toggle>
-        <mat-button-toggle value="2010">2010</mat-button-toggle>
-      </mat-button-toggle-group>
+    <div class="user-selections">
+      <div class="user-selection year">
+        <p class="selection-title effect-title">Select a year</p>
+        <div class="toggle-container">
+          <mat-button-toggle-group
+            name="selectedYear"
+            aria-label="Selected Year"
+            [value]="selectedYear$ | async"
+            (change)="setYear($event)"
+            [hideSingleSelectionIndicator]="true"
+          >
+            <mat-button-toggle value="2020">2020</mat-button-toggle>
+            <mat-button-toggle value="2010">2010</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+      <div class="user-selection bins">
+        <p class="selection-title">Select a data binning strategy</p>
+        <div class="toggle-container">
+          <mat-button-toggle-group
+            name="selectedYear"
+            aria-label="Selected Year"
+            [value]="attributeDataBinType$ | async"
+            (change)="setBinType($event)"
+            [hideSingleSelectionIndicator]="true"
+          >
+            <mat-button-toggle [value]="binTypes[0]">No Bins</mat-button-toggle>
+            <mat-button-toggle [value]="binTypes[1]"
+              >Categorical</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[2]"
+              >Equal Value Ranges</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[3]"
+              >Equal Frequencies</mat-button-toggle
+            >
+            <mat-button-toggle [value]="binTypes[4]"
+              >Custom Breaks</mat-button-toggle
+            >
+          </mat-button-toggle-group>
+        </div>
+      </div>
     </div>
     <p class="data-binning-description"
-      >Attribute Data Bin Type: <span class="value">Equal Values</span></p
+      >Attribute Data Bin Type:
+      <span class="value">{{ attributeDataBinType$ | async }}</span></p
     >
     <p class="fill-description"
       >Patterned states: population less than 1,000,000 (visual legend to be
@@ -58,14 +87,14 @@
         vic-data-marks-geographies
         svg-elements
         [config]="dataMarksConfig"
-        [vicGeographiesHoverEffects]="hoverEffects"
+        [vicGeographiesHoverActions]="hoverActions"
         (vicGeographiesHoverOutput)="updateTooltipForNewOutput($event, 'hover')"
-        [vicGeographiesClickEffects]="clickEffects"
+        [vicGeographiesClickActions]="clickActions"
         [vicGeographiesClickRemoveEvent$]="removeTooltipEvent$"
         (vicGeographiesClickOutput)="updateTooltipForNewOutput($event, 'click')"
       >
         <vic-html-tooltip
-          [config]="(tooltipConfig$ | async)"
+          [config]="tooltipConfig$ | async"
           [template]="htmlTooltip"
           (backdropClick)="onBackdropClick()"
         ></vic-html-tooltip>
@@ -83,7 +112,11 @@
     <div class="values-container">
       <p class="tooltip-label x">
         <span class="value-label">Income</span>
-        {{ (tooltipData$ | async).attributeValue }}
+        @if ((tooltipData$ | async).datum) {
+          {{ (tooltipData$ | async).attributeValue }}
+        } @else {
+          No data available
+        }
       </p>
     </div>
   </div>

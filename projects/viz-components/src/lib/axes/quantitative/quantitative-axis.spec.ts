@@ -3,9 +3,10 @@ import { timeMonth } from 'd3';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { QuantitativeAxisStub } from '../../testing/stubs/quantitative-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
+import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 
 describe('the QuantitativeAxis mixin', () => {
-  let abstractClass: QuantitativeAxisStub;
+  let abstractClass: QuantitativeAxisStub<number>;
   let chart: XyChartComponentStub;
 
   beforeEach(() => {
@@ -24,32 +25,17 @@ describe('the QuantitativeAxis mixin', () => {
         .and.returnValue('a scale' as any);
       spyOn(abstractClass as any, 'setTicks');
       abstractClass.scale = 'class scale' as any;
-      abstractClass.defaultTickFormat = '0f';
-      abstractClass.config = {
-        tickFormat: 'a format',
-      } as any;
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
+        .tickFormat('.0f')
+        .getConfig();
     });
     it('calls axisFunction once with the correct value', () => {
       abstractClass.setAxis(axisFnSpy);
       expect(axisFnSpy).toHaveBeenCalledOnceWith('class scale');
     });
-
-    it('calls sets axis to the correct value', () => {
+    it('calls setTicks once with config.tickFormat', () => {
       abstractClass.setAxis(axisFnSpy);
-      expect(abstractClass.axis).toEqual('a scale');
-    });
-
-    it('calls setTicks once with tickFormat on config if that exists', () => {
-      abstractClass.setAxis(axisFnSpy);
-      expect((abstractClass as any).setTicks).toHaveBeenCalledOnceWith(
-        'a format'
-      );
-    });
-
-    it('calls setTicks once with defaultTickFormat is there is no tickFormat on config', () => {
-      (abstractClass as any).config = {};
-      abstractClass.setAxis(axisFnSpy);
-      expect((abstractClass as any).setTicks).toHaveBeenCalledOnceWith('0f');
+      expect((abstractClass as any).setTicks).toHaveBeenCalledOnceWith('.0f');
     });
   });
 
@@ -60,23 +46,23 @@ describe('the QuantitativeAxis mixin', () => {
     });
     describe('if tickValues exists on config', () => {
       it('calls setSpecifiedTickValues once with the correct value', () => {
-        abstractClass.config = {
-          tickValues: [1, 2, 3],
-        } as any;
-        (abstractClass as any).setTicks('format');
+        abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
+          .tickValues([1, 2, 3])
+          .getConfig();
+        (abstractClass as any).setTicks('.0f');
         expect(
           (abstractClass as any).setSpecifiedTickValues
-        ).toHaveBeenCalledOnceWith('format');
+        ).toHaveBeenCalledOnceWith('.0f');
       });
     });
-
     describe('if tickValues does not exist on config', () => {
       it('calls setUnspecifiedTickValues once with the correct value', () => {
-        abstractClass.config = {} as any;
-        (abstractClass as any).setTicks('format');
+        abstractClass.config =
+          new VicXQuantitativeAxisConfigBuilder().getConfig();
+        (abstractClass as any).setTicks('.0f');
         expect(
           (abstractClass as any).setUnspecifiedTickValues
-        ).toHaveBeenCalledOnceWith('format');
+        ).toHaveBeenCalledOnceWith('.0f');
       });
     });
   });
@@ -119,15 +105,15 @@ describe('the QuantitativeAxis mixin', () => {
       };
     });
     it('returns the original tickValues if all values are within the scale domain', () => {
-      abstractClass.config = {
-        tickValues: [0, 2, 4, 5],
-      } as any;
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
+        .tickValues([0, 2, 4, 5])
+        .getConfig();
       expect((abstractClass as any).getValidTickValues()).toEqual([0, 2, 4, 5]);
     });
     it('returns only values that are within the scale domain', () => {
-      abstractClass.config = {
-        tickValues: [-1, 0, 1, 2, 3, 4, 5, 6],
-      } as any;
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
+        .tickValues([-1, 0, 1, 2, 3, 4, 5, 6])
+        .getConfig();
       expect((abstractClass as any).getValidTickValues()).toEqual([
         0, 1, 2, 3, 4, 5,
       ]);
@@ -175,9 +161,9 @@ describe('the QuantitativeAxis mixin', () => {
         abstractClass as any,
         'getValidNumTicksForStringFormatter'
       ).and.returnValue(10);
-      abstractClass.config = {
-        numTicks: 1,
-      } as any;
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
+        .numTicks(1)
+        .getConfig();
     });
 
     it('calls getNumTicks once', () => {
@@ -187,10 +173,8 @@ describe('the QuantitativeAxis mixin', () => {
     });
 
     describe('if tickFormat is a string but has no period in it', () => {
-      beforeEach(() => {
-        tickFormat = '%Y';
-      });
       it('returns the result from getNumTicks', () => {
+        tickFormat = '%Y';
         expect((abstractClass as any).getValidNumTicks(tickFormat)).toEqual(8);
       });
     });
@@ -230,18 +214,25 @@ describe('the QuantitativeAxis mixin', () => {
 
   describe('getNumTicks', () => {
     beforeEach(() => {
-      spyOn(abstractClass as any, 'initNumTicks').and.returnValue(10);
+      abstractClass.chart = {
+        height: 50,
+        width: 100,
+      } as any;
     });
     it('returns the value from config.numTicks if it exists', () => {
-      abstractClass.config = {
-        numTicks: 1,
-      } as any;
-      expect((abstractClass as any).getNumTicks()).toEqual(1);
+      abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
+        .numTicks(17)
+        .getConfig();
+      expect((abstractClass as any).getNumTicks()).toEqual(17);
     });
-
-    it('returns the result from initNumTicks if config.numTicks does not exist', () => {
-      abstractClass.config = {} as any;
-      expect((abstractClass as any).getNumTicks()).toEqual(10);
+    it('returns the result from getSuggestedNumTicksFromChartDimension if config.numTicks does not exist', () => {
+      abstractClass.config =
+        new VicXQuantitativeAxisConfigBuilder().getConfig();
+      spyOn(
+        abstractClass.config,
+        'getSuggestedNumTicksFromChartDimension'
+      ).and.returnValue(22);
+      expect((abstractClass as any).getNumTicks()).toEqual(22);
     });
   });
 

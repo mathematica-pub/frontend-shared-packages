@@ -1,45 +1,48 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { format } from 'd3';
+import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis-config';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
+import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
+import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/events/bars-event-output';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
-  HoverMoveEventEffect,
-  VicAxisConfig,
-  VicBarsConfig,
-  VicBarsEventOutput,
-  VicBarsLabelsConfig,
+  VicBarsConfigBuilder,
   VicBarsModule,
   VicChartModule,
-  VicElementSpacing,
-  VicHorizontalBarsDimensionsConfig,
-  VicHtmlTooltipConfig,
+  VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicHtmlTooltipOffsetFromOriginPosition,
-  VicPixelDomainPaddingConfig,
+  VicXOrdinalAxisConfigBuilder,
+  VicXOrdinalAxisModule,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
+  VicYQuantitativeAxisConfigBuilder,
+  VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
-import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../../core/models/data';
 import { DataService } from '../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
 interface ViewModel {
-  dataConfig: VicBarsConfig<MetroUnemploymentDatum>;
-  xAxisConfig: VicAxisConfig;
-  yAxisConfig: VicAxisConfig;
+  dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
+  xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
+  yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
 }
 
-class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
-  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
-    super();
-    this.size.minWidth = 130;
-    Object.assign(this, config);
-  }
+enum Orientation {
+  vertical = 'vertical',
+  horizontal = 'horizontal',
 }
 @Component({
   selector: 'app-bars-example',
@@ -51,68 +54,104 @@ class BarsExampleTooltipConfig extends VicHtmlTooltipConfig {
     VicBarsModule,
     VicXyChartModule,
     VicXyBackgroundModule,
-    VicYOrdinalAxisModule,
+    VicXOrdinalAxisModule,
     VicXQuantitativeAxisModule,
+    VicYOrdinalAxisModule,
+    VicYQuantitativeAxisModule,
     VicHtmlTooltipModule,
     MatButtonModule,
+    MatButtonToggleModule,
   ],
   templateUrl: './bars-example.component.html',
   styleUrls: ['./bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    VicBarsConfigBuilder,
+    VicXOrdinalAxisConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+    VicYOrdinalAxisConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
+  ],
 })
 export class BarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 36,
     right: 0,
     bottom: 8,
     left: 300,
   };
   folderName = 'bars-example';
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new VicHtmlTooltipConfig(new BarsExampleTooltipConfig())
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<VicBarsEventOutput<MetroUnemploymentDatum>>(null);
+  tooltipData: BehaviorSubject<
+    BarsEventOutput<MetroUnemploymentDatum, string>
+  > = new BehaviorSubject<BarsEventOutput<MetroUnemploymentDatum, string>>(
+    null
+  );
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveEffects: HoverMoveEventEffect<
-    BarsHoverMoveDirective<MetroUnemploymentDatum>
+  hoverAndMoveActions: HoverMoveAction<
+    BarsHoverMoveDirective<MetroUnemploymentDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
+  orientation: BehaviorSubject<keyof typeof Orientation> = new BehaviorSubject(
+    Orientation.horizontal as keyof typeof Orientation
+  );
+  orientation$ = this.orientation.asObservable();
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private bars: VicBarsConfigBuilder<MetroUnemploymentDatum, string>,
+    private xOrdinalAxis: VicXOrdinalAxisConfigBuilder<string>,
+    private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
+    private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
+    private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.vm$ = this.dataService.metroUnemploymentData$.pipe(
-      filter((x) => !!x),
-      map((x) => this.getViewModel(x))
+    const data$ = this.dataService.metroUnemploymentData$.pipe(
+      filter((x) => !!x)
+    );
+
+    this.vm$ = combineLatest([data$, this.orientation$]).pipe(
+      map(([data, orientation]) => this.getViewModel(data, orientation))
     );
   }
 
-  getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
+  getViewModel(
+    data: MetroUnemploymentDatum[],
+    orientation: 'horizontal' | 'vertical'
+  ): ViewModel {
     const filteredData = data.filter(
       (d) => d.date.getFullYear() === 2008 && d.date.getMonth() === 3
     );
-    const xAxisConfig = new VicAxisConfig();
-    xAxisConfig.tickFormat = '.0f';
-    const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicBarsConfig<MetroUnemploymentDatum>();
-    dataConfig.labels = new VicBarsLabelsConfig();
-    dataConfig.labels.display = true;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    dataConfig.quantitative.valueFormat = (d: any) => {
-      const label =
-        d.value === undefined || d.value === null
-          ? 'N/A'
-          : format('.1f')(d.value);
-      return d.value > 8 ? `${label}*` : label;
-    };
-    dataConfig.data = filteredData;
-    dataConfig.dimensions = new VicHorizontalBarsDimensionsConfig();
-    dataConfig.ordinal.valueAccessor = (d) => d.division;
-    dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.quantitative.domainPadding = new VicPixelDomainPaddingConfig();
+    const xAxisConfig =
+      orientation === Orientation.horizontal
+        ? this.xQuantitativeAxis.tickFormat('.0f').getConfig()
+        : this.xOrdinalAxis.getConfig();
+    const yAxisConfig =
+      orientation === Orientation.horizontal
+        ? this.yOrdinalAxis.getConfig()
+        : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
+
+    const dataConfig = this.bars
+      .data(filteredData)
+      .orientation(orientation)
+      .createQuantitativeDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.value)
+          .formatFunction((d) => this.getQuantitativeValueFormat(d))
+          .domainPaddingPixels()
+      )
+      .createCategoricalDimension((dimension) => dimension.range(['slategray']))
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.division)
+      )
+      .createLabels((labels) => labels.display(true))
+      .getConfig();
+
     return {
       dataConfig,
       xAxisConfig,
@@ -120,29 +159,39 @@ export class BarsExampleComponent implements OnInit {
     };
   }
 
+  getQuantitativeValueFormat(d: MetroUnemploymentDatum): string {
+    const label =
+      d.value === undefined || d.value === null
+        ? 'N/A'
+        : format('.1f')(d.value);
+    return d.value > 8 ? `${label}*` : label;
+  }
+
   updateTooltipForNewOutput(
-    data: VicBarsEventOutput<MetroUnemploymentDatum>
+    data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: VicBarsEventOutput<MetroUnemploymentDatum>): void {
+  updateTooltipData(
+    data: BarsEventOutput<MetroUnemploymentDatum, string>
+  ): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: VicBarsEventOutput<MetroUnemploymentDatum>): void {
-    const config = new BarsExampleTooltipConfig();
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY;
-      config.show = true;
-      config.origin = data.elRef;
-    } else {
-      config.show = false;
-      config.origin = undefined;
-    }
+  updateTooltipConfig(
+    data: BarsEventOutput<MetroUnemploymentDatum, string>
+  ): void {
+    const config = this.tooltip
+      .createOffsetFromOriginPosition((position) =>
+        position
+          .offsetX(data?.positionX)
+          .offsetY(data ? data.positionY - 4 : undefined)
+      )
+      .origin(data ? data.elRef : undefined)
+      .show(!!data)
+      .getConfig();
     this.tooltipConfig.next(config);
   }
 
@@ -153,5 +202,9 @@ export class BarsExampleComponent implements OnInit {
       bottom: 8,
       left: Math.random() * 500,
     };
+  }
+
+  updateOrientation(value: keyof typeof Orientation): void {
+    this.orientation.next(value);
   }
 }

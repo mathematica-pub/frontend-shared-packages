@@ -1,24 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { VicDataMarksConfig } from '../../data-marks/data-marks.config';
-import { MapDataMarksBase } from '../../map-data-marks/map-data-marks-base';
+import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
+import { MapDataMarks } from '../../map-data-marks/map-data-marks';
 
-export class MapDataMarksBaseStub<Datum> extends MapDataMarksBase<
+export class MapDataMarksBaseStub<Datum> extends MapDataMarks<
   Datum,
-  VicDataMarksConfig<Datum>
+  DataMarksOptions<Datum>
 > {
-  override setPropertiesFromConfig(): void {
-    return;
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override setPropertiesFromRanges(useTransition: boolean): void {
     return;
   }
-  override setValueArrays(): void {
-    return;
-  }
   drawMarks(): void {
-    return;
-  }
-  resizeMarks(): void {
     return;
   }
 }

@@ -8,7 +8,7 @@ import { CHART } from '../chart/chart.token';
 export enum XyContentScale {
   x = 'x',
   y = 'y',
-  category = 'category',
+  categorical = 'categorical',
 }
 
 export interface GenericScale<Domain, Range> {
@@ -20,14 +20,14 @@ export interface GenericScale<Domain, Range> {
 export interface XyChartScales {
   [XyContentScale.x]: GenericScale<any, any>;
   [XyContentScale.y]: GenericScale<any, any>;
-  [XyContentScale.category]: GenericScale<any, any>;
+  [XyContentScale.categorical]: GenericScale<any, any>;
   useTransition: boolean;
 }
 
 /**
  * A `Chart` component to be used with `DataMarks` components that have X and Y axes, such as `Bars` and `Lines`.
  *
- * This component adds x, y, and category scales to the base `ChartComponent` that can
+ * This component adds x, y, and categorical scales to the base `ChartComponent` that can
  *  be used by any components projected into the chart.
  *
  * <p class="comment-slots">Content projection slots</p>

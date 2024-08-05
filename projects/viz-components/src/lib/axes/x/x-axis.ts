@@ -3,18 +3,17 @@ import { axisBottom, axisTop } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicSide } from '../../core/types/layout';
-import { XyAxis, XyAxisScale } from '../xy-axis';
+import { DataValue } from '../../core/types/values';
+import { XyAxis, XyAxisScale } from '../base/xy-axis-base';
+import { XAxisConfig } from './x-axis-config';
 
-/**
- * A mixin that extends `XyAxis` with the functionality needed for an x-axis.
- *
- * For internal library use only.
- */
-export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
+export function xAxisMixin<
+  TickValue extends DataValue,
+  T extends AbstractConstructor<XyAxis<TickValue>>,
+>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    @Input() side: VicSide.top | VicSide.bottom = VicSide.top;
+    @Input() override config: XAxisConfig<TickValue>;
     translate$: Observable<string>;
 
     setTranslate(): void {
@@ -27,7 +26,7 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     getTranslateDistance(ranges: Ranges): number {
-      return this.side === VicSide.top
+      return this.config.side === 'top'
         ? this.getTopTranslate(ranges)
         : this.getBottomTranslate(ranges);
     }
@@ -51,16 +50,7 @@ export function mixinXAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     setAxisFunction(): void {
-      this.axisFunction = this.side === VicSide.top ? axisTop : axisBottom;
-    }
-
-    initNumTicks(): number {
-      const d3ExampleDefault = this.chart.width / 40;
-      if (d3ExampleDefault < 1) {
-        return 1;
-      } else {
-        return Math.floor(d3ExampleDefault);
-      }
+      this.axisFunction = this.config.side === 'top' ? axisTop : axisBottom;
     }
   }
 

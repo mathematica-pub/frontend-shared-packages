@@ -1,26 +1,29 @@
-import { VicValueExtent } from '../types/values';
+import { format, timeFormat } from 'd3';
+import { ValueExtent } from '../types/values';
+import { isDate } from './type-guards';
+export type VicFormatSpecifier<Datum> = string | ((x: Datum) => string);
 
 /**
  * @internal
  */
 export class ValueUtilities {
-  static getValueRoundedToNSignificantDigits(
+  static getValueRoundedToNSignificantFigures(
     value: number,
-    sigDigits: number,
-    valueExtent: VicValueExtent
+    sigFigures: number,
+    valueExtent: keyof typeof ValueExtent
   ): number {
     // If the value type is VicValueExtent.max, rounds up if value is > 0 and down if value is < 0
     // If the value type is VicValueExtent.min, rounds down if value is > 0 and up if value is < 0
     // ex: 1234 => 1235, -1234 => -1235
     // SigDigits here means the first N non-zero as units holder values
-    // ex: 1234, sigDigits = 2, "1" and "2" are "significant"
-    // ex: 0.001234, sigDigits = 3, "1", "2", and "3" are "significant"
-    this.validateSigDigits(sigDigits);
+    // ex: 1234, sigFigures = 2, "1" and "2" are "significant"
+    // ex: 0.001234, sigFigures = 3, "1", "2", and "3" are "significant"
+    this.validateSigFigures(sigFigures);
     let absRoundedValue;
     if (Math.abs(value) < 1) {
       absRoundedValue = this.getRoundedDecimalLessThanOne(
         value,
-        sigDigits,
+        sigFigures,
         valueExtent
       );
     } else {
@@ -28,14 +31,14 @@ export class ValueUtilities {
       const decimalIndex = absValueStr.indexOf('.');
       let firstNDigits;
       let numZeros = 0;
-      if (decimalIndex < sigDigits && decimalIndex > -1) {
-        firstNDigits = absValueStr.substring(0, sigDigits + 1);
+      if (decimalIndex < sigFigures && decimalIndex > -1) {
+        firstNDigits = absValueStr.substring(0, sigFigures + 1);
       } else {
-        firstNDigits = absValueStr.substring(0, sigDigits);
+        firstNDigits = absValueStr.substring(0, sigFigures);
         if (decimalIndex > -1) {
-          numZeros = decimalIndex - sigDigits;
+          numZeros = decimalIndex - sigFigures;
         } else {
-          numZeros = absValueStr.length - sigDigits;
+          numZeros = absValueStr.length - sigFigures;
         }
         numZeros = numZeros < 0 ? 0 : numZeros;
       }
@@ -47,7 +50,7 @@ export class ValueUtilities {
           value,
           firstNDigits.split(''),
           absValueStr,
-          sigDigits,
+          sigFigures,
           valueExtent
         );
         if (firstNDigits[0] === '0') {
@@ -66,16 +69,16 @@ export class ValueUtilities {
       : -absRoundedValue;
   }
 
-  private static validateSigDigits(sigDigits: number): void {
-    if (sigDigits < 1) {
-      throw new Error('sigDigits must be greater than or equal to 1');
+  private static validateSigFigures(sigFigures: number): void {
+    if (sigFigures < 1) {
+      throw new Error('sigFigures must be greater than or equal to 1');
     }
   }
 
   private static getRoundedDecimalLessThanOne(
     value: number,
-    sigDigits: number,
-    valueExtent: VicValueExtent
+    sigFigures: number,
+    valueExtent: keyof typeof ValueExtent
   ): number {
     const valueStr = Math.abs(value).toString();
     let newValue = [];
@@ -86,9 +89,9 @@ export class ValueUtilities {
         newValue.push(char);
       } else {
         ++sigDigitsFound;
-        if (sigDigitsFound <= sigDigits) {
+        if (sigDigitsFound <= sigFigures) {
           let newDigit = '0';
-          if (sigDigitsFound === sigDigits || i === valueStr.length - 1) {
+          if (sigDigitsFound === sigFigures || i === valueStr.length - 1) {
             if (char === '9') {
               newValue = this.getNewValueForNine(
                 value,
@@ -101,7 +104,7 @@ export class ValueUtilities {
               const offset = this.getRoundingOffset(value, valueExtent);
               newDigit = `${Number(char) + offset}`;
             }
-          } else if (sigDigitsFound < sigDigits) {
+          } else if (sigDigitsFound < sigFigures) {
             newDigit = char;
           }
           newValue.push(newDigit);
@@ -116,7 +119,7 @@ export class ValueUtilities {
     newValue: string[],
     valueStr: string,
     i: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof ValueExtent
   ): string[] {
     const prevChar = valueStr[i - 1];
     if (prevChar === '9') {
@@ -145,10 +148,10 @@ export class ValueUtilities {
 
   private static getRoundingOffset(
     value: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof ValueExtent
   ): number {
-    return (value > 0 && valueExtent === VicValueExtent.max) ||
-      (value < 0 && valueExtent === VicValueExtent.min)
+    return (value > 0 && valueExtent === ValueExtent.max) ||
+      (value < 0 && valueExtent === ValueExtent.min)
       ? 1
       : 0;
   }
@@ -156,12 +159,27 @@ export class ValueUtilities {
   static getValueRoundedToInterval(
     value: number,
     interval: number,
-    valueExtent: VicValueExtent
+    valueExtent: keyof typeof ValueExtent
   ): number {
     if (interval === 0) {
       return value;
     }
-    const round = valueExtent === VicValueExtent.max ? Math.ceil : Math.floor;
+    const round = valueExtent === ValueExtent.max ? Math.ceil : Math.floor;
     return round(value / interval) * interval;
+  }
+
+  static d3Format(value: Date | number, formatter: string): string {
+    return formatter
+      ? isDate(value)
+        ? timeFormat(formatter)(value)
+        : format(formatter)(value)
+      : value.toString();
+  }
+
+  static customFormat<Datum>(
+    value: Datum,
+    formatter: (x: Datum) => string
+  ): string {
+    return formatter ? formatter(value) : value.toString();
   }
 }

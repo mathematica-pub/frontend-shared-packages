@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { VicNoDataGeographyConfig } from 'projects/viz-components/src/lib/geographies/geographies.config';
+import { GeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer';
 import * as topojson from 'topojson-client';
-import { colors } from '../constants/colors.constants';
-import { StateIncomeDatum } from '../models/data';
 import { DataResource } from '../resources/data.resource';
 import { MapGeometryProperties, UsMapTopology } from './basemap';
 
@@ -14,9 +12,9 @@ export class BasemapService {
   map: UsMapTopology;
   us: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
   states: FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>;
-  usOutlineConfig: VicNoDataGeographyConfig<
-    StateIncomeDatum,
-    MapGeometryProperties
+  usOutlineConfig: GeographiesGeojsonPropertiesLayer<
+    MapGeometryProperties,
+    MultiPolygon | Polygon
   >;
 
   constructor(private data: DataResource) {}
@@ -30,7 +28,6 @@ export class BasemapService {
       this.map = map;
       this.setUsGeoJson();
       this.setStatesGeoJson();
-      this.setUsOutlineConfig();
     });
   }
 
@@ -38,7 +35,7 @@ export class BasemapService {
     this.us = topojson.feature(
       this.map,
       this.map.objects.country
-    ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
+    ) as FeatureCollection<MultiPolygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
   }
 
   private setStatesGeoJson(): void {
@@ -46,16 +43,5 @@ export class BasemapService {
       this.map,
       this.map.objects.states
     ) as FeatureCollection<MultiPolygon | Polygon, MapGeometryProperties>; // topojson types make it not possible for this to be inferred
-  }
-
-  private setUsOutlineConfig(): void {
-    const outlineGeography = new VicNoDataGeographyConfig<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >();
-    outlineGeography.geographies = this.us.features;
-    outlineGeography.strokeWidth = '1';
-    outlineGeography.strokeColor = colors.base;
-    this.usOutlineConfig = outlineGeography;
   }
 }

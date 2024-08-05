@@ -5,31 +5,17 @@ import {
   InjectionToken,
   NgZone,
 } from '@angular/core';
-import {
-  InternMap,
-  InternSet,
-  SeriesPoint,
-  Transition,
-  area,
-  extent,
-  map,
-  range,
-  rollup,
-  scaleOrdinal,
-  select,
-  stack,
-} from 'd3';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
-import { VicStackedAreaConfig } from './stacked-area.config';
+import { Transition, area, select } from 'd3';
+import { DataValue } from '../core/types/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
+import { StackedAreaConfig } from './config/stacked-area-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
-export const STACKED_AREA = new InjectionToken<StackedAreaComponent<unknown>>(
-  'StackedAreaComponent'
-);
-
-type Key = string | number | Date;
+export const STACKED_AREA = new InjectionToken<
+  StackedAreaComponent<unknown, DataValue>
+>('StackedAreaComponent');
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -38,17 +24,14 @@ type Key = string | number | Date;
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: DATA_MARKS, useExisting: StackedAreaComponent },
+    { provide: VIC_DATA_MARKS, useExisting: StackedAreaComponent },
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
   ],
 })
-export class StackedAreaComponent<Datum> extends XyDataMarksBase<
+export class StackedAreaComponent<
   Datum,
-  VicStackedAreaConfig<Datum>
-> {
-  series: (SeriesPoint<InternMap<Key, number>> & {
-    i: number;
-  })[][];
+  TCategoricalValue extends DataValue,
+> extends VicXyDataMarks<Datum, StackedAreaConfig<Datum, TCategoricalValue>> {
   area;
   areas;
 
@@ -59,92 +42,12 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
     super();
   }
 
-  setPropertiesFromConfig(): void {
-    this.setValueArrays();
-    this.initXAndCategoryDomains();
-    this.setValueIndicies();
-    this.setSeries();
-    this.initYDomain();
-    this.initCategoryScale();
-  }
-
-  setValueArrays(): void {
-    this.values.x = map(this.config.data, this.config.x.valueAccessor);
-    this.values.y = map(this.config.data, this.config.y.valueAccessor);
-    this.values.category = map(
-      this.config.data,
-      this.config.category.valueAccessor
-    );
-  }
-
-  initXAndCategoryDomains(): void {
-    if (this.config.x.domain === undefined) {
-      this.config.x.domain = extent(this.values.x);
-    }
-    if (this.config.category.domain === undefined) {
-      this.config.category.domain = this.values.category;
-    }
-    this.config.category.domain = new InternSet(this.config.category.domain);
-  }
-
-  setValueIndicies(): void {
-    this.values.indicies = range(this.values.x.length).filter((i) =>
-      (this.config.category.domain as InternSet).has(this.values.category[i])
-    );
-  }
-
-  setSeries(): void {
-    const rolledUpData: InternMap<Key, InternMap<Key, number>> = rollup(
-      this.values.indicies,
-      ([i]) => i,
-      (i) => this.values.x[i],
-      (i) => this.values.category[i]
-    );
-
-    const keys = this.config.categoryOrder
-      ? this.config.categoryOrder.slice().reverse()
-      : this.config.category.domain;
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.series = stack<any, InternMap<any, number>, any>()
-      .keys(keys)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .value(([, I]: any, category) => this.values.y[I.get(category)])
-      .order(this.config.stackOrderFunction)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .offset(this.config.stackOffsetFunction)(rolledUpData as any)
-      .map((s) =>
-        s.map((d) =>
-          Object.assign(d, {
-            i: d.data[1].get(s.key),
-          })
-        )
-      );
-  }
-
-  initYDomain(): void {
-    if (this.config.y.domain === undefined) {
-      this.config.y.domain = extent(this.series.flat(2));
-      this.config.y.domain[0] = Math.floor(this.config.y.domain[0]);
-      this.config.y.domain[1] = Math.ceil(this.config.y.domain[1]);
-    }
-  }
-
-  initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
-    }
-  }
-
   setPropertiesFromRanges(useTransition: boolean): void {
-    const x = this.config.x.scaleFn(this.config.x.domain, this.ranges.x);
-    const y = this.config.y.scaleFn(this.config.y.domain, this.ranges.y);
-    const category = this.config.category.colorScale;
+    const x = this.config.x.getScaleFromRange(this.ranges.x);
+    const y = this.config.y.getScaleFromRange(this.ranges.y);
+    const categorical = this.config.categorical.getScale();
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, category, useTransition });
+      this.chart.updateScales({ x, y, categorical, useTransition });
     });
   }
 
@@ -157,7 +60,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
   setArea(): void {
     this.area = area()
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .x(({ i }: any) => this.scales.x(this.values.x[i]))
+      .x(({ i }: any) => this.scales.x(this.config.x.values[i]))
       .y0(([y1]) => this.scales.y(y1))
       .y1(([, y2]) => this.scales.y(y2))
       .curve(this.config.curve);
@@ -171,14 +74,14 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
 
     this.areas = select(this.areasRef.nativeElement)
       .selectAll('path')
-      .data(this.series)
+      .data(this.config.series)
       .join(
         (enter) =>
           enter
             .append('path')
-            .property('key', ([{ i }]) => this.values.category[i])
+            .property('key', ([{ i }]) => this.config.categorical.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.category(this.values.category[i])
+              this.scales.categorical(this.config.categorical.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -188,7 +91,7 @@ export class StackedAreaComponent<Datum> extends XyDataMarksBase<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.category(this.values.category[i])
+                this.scales.categorical(this.config.categorical.values[i])
               )
           ),
         (exit) => exit.remove()

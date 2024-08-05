@@ -4,21 +4,13 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  InternMap,
-  InternSet,
-  SeriesPoint,
-  Transition,
-  range,
-  rollup,
-  select,
-} from 'd3';
-import { stack } from 'd3-shape';
+import { SeriesPoint, Transition, select } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { VicStackedBarsConfig } from './stacked-bars.config';
+import { DataValue } from '../core/types/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { StackedBarsConfig } from './config/stacked-bars-config';
 
-export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
+export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
   i: number;
 };
 
@@ -29,64 +21,13 @@ export type VicStackDatum = SeriesPoint<{ [key: string]: number }> & {
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: StackedBarsComponent }],
+  providers: [{ provide: VIC_DATA_MARKS, useExisting: StackedBarsComponent }],
 })
-export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
-  // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicStackedBarsConfig<Datum>;
-  override config: VicStackedBarsConfig<Datum>;
-  stackedData: VicStackDatum[][];
-
-  override setPropertiesFromConfig(): void {
-    this.setValueArrays();
-    this.initNonQuantitativeDomains();
-    this.setValueIndicies();
-    this.setChartHasNegativeMinValue();
-    this.constructStackedData();
-    this.initUnpaddedQuantitativeDomain();
-    this.initCategoryScale();
-  }
-
-  override setValueIndicies(): void {
-    // no unit test
-    this.values.indicies = range(
-      this.values[this.config.dimensions.ordinal].length
-    ).filter((i) => {
-      return (
-        (this.config.ordinal.domain as InternSet).has(
-          this.values[this.config.dimensions.ordinal][i]
-        ) &&
-        (this.config.category.domain as InternSet).has(this.values.category[i])
-      );
-    });
-  }
-
-  constructStackedData(): void {
-    const stackedData = stack<[unknown, InternMap<string, number>]>()
-      .keys(this.config.category.domain)
-      .value(
-        (d, key) =>
-          this.values[this.config.dimensions.quantitative][d[1].get(key)]
-      )
-      .order(this.config.order)
-      .offset(this.config.offset)(
-      rollup(
-        this.values.indicies,
-        ([i]) => i,
-        (i) => this.values[this.config.dimensions.ordinal][i],
-        (i) => this.values.category[i]
-      )
-    );
-
-    this.stackedData = stackedData.map((series) =>
-      series.map((d) => {
-        Object.assign(d, {
-          i: d.data[1].get(series.key),
-        });
-        return d as unknown as VicStackDatum;
-      })
-    );
-  }
+export class StackedBarsComponent<
+  Datum,
+  TOrdinalValue extends DataValue,
+> extends BarsComponent<Datum, TOrdinalValue> {
+  @Input() override config: StackedBarsConfig<Datum, TOrdinalValue>;
 
   override drawBars(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
@@ -96,11 +37,11 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
 
     this.barGroups = select(this.barsRef.nativeElement)
       .selectAll('g')
-      .data(this.stackedData)
+      .data(this.config.stackedData)
       .join('g')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr('fill', ([{ i }]: any) =>
-        this.scales.category(this.values.category[i])
+        this.scales.categorical(this.config.categorical.values[i])
       )
       .selectAll('rect')
       .data((d) => d)
@@ -134,23 +75,27 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
       ) as any;
   }
 
-  getStackElementX(datum: VicStackDatum): number {
+  getStackElementX(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.scales.x(this.values.x[datum.i]);
+      return this.scales.x(
+        this.config[this.config.dimensions.x].values[datum.i]
+      );
     } else {
       return Math.min(this.scales.x(datum[0]), this.scales.x(datum[1]));
     }
   }
 
-  getStackElementY(datum: VicStackDatum): number {
+  getStackElementY(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       return Math.min(this.scales.y(datum[0]), this.scales.y(datum[1]));
     } else {
-      return this.scales.y(this.values.y[datum.i]);
+      return this.scales.y(
+        this.config[this.config.dimensions.y].values[datum.i]
+      );
     }
   }
 
-  getStackElementWidth(datum: VicStackDatum): number {
+  getStackElementWidth(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return (this.scales.x as any).bandwidth();
@@ -159,7 +104,7 @@ export class StackedBarsComponent<Datum> extends BarsComponent<Datum> {
     }
   }
 
-  getStackElementHeight(datum: VicStackDatum): number {
+  getStackElementHeight(datum: StackDatum): number {
     if (this.config.dimensions.ordinal === 'x') {
       return Math.abs(this.scales.y(datum[0]) - this.scales.y(datum[1]));
     } else {

@@ -1,108 +1,212 @@
 ---
 chart-components:
-  map-chart:
-    map-chart: 'components/MapChartComponent.html'
-    geographies: 'components/GeographiesComponent.html'
-    map-legend: 'components/MapLegendComponent.html'
-  xy-chart:
-    xy-chart: 'components/XyChartComponent.html'
-    bars: 'components/BarsComponent.html'
-    grouped-bars: 'components/GroupedBarsComponent.html'
-    lines: 'components/LinesComponent.html'
-    stacked-area: 'components/StackedAreaComponent.html'
-    stacked-bars: 'components/StackedBarsComponent.html'
-    xy-background: 'components/XyBackgroundComponent.html'
-    x-ordinal-axis: 'components/XOrdinalAxisComponent.html'
-    x-quantitative-axis: 'components/XQuantitativeAxisComponent.html'
-    y-ordinal-axis: 'components/YOrdinalAxisComponent.html'
-    y-quantitative-axis: 'components/YQuantitativeAxisComponent.html'
-    axis-config: 'classes/VicAxisConfig.html'
-    tick-wrap-config: 'classes/VicTickWrapConfig.html'
+  xy-chart: 'components/XyChartComponent.html'
+  map-chart: 'components/MapChartComponent.html'
+  internal:
+    chart: 'components/ChartComponent.html'
 data-marks-components:
-  shared:
-    html-tooltip: 'directives/HtmlTooltipDirective.html'
-    html-tooltip-config: 'classes/VicHtmlTooltipConfig.html'
-    data-marks-config: 'classes/VicDataMarksConfig.html'
-    categorical-color-dimension-config: 'classes/VicCategoricalColorDimensionConfig.html'
-    data-dimension-config: 'classes/VicDataDimensionConfig.html'
-    event-effect: 'interfaces/EventEffect.html'
-    input-event-effect: 'interfaces/InputEventEffect.html'
-  geographies:
-    geographies-config: 'classes/VicGeographiesConfig.html'
-    geographies-labels-config: 'classes/VicGeographyLabelConfig.html'
-    geographies-labels-positioners: 'classes/VicGeographiesLabelsPositioners.html'
-    no-data-geography-config: 'classes/VicNoDataGeographyConfig.html'
-    categorical-attribute-data-dimension-config: 'classes/VicCategoricalAttributeDataDimensionConfig.html'
-    no-bins-quantitative-attribute-data-dimension-config: 'classes/VicNoBinsQuantitativeAttributeDataDimensionConfig.html'
-    equal-numbers-quantitative-attribute-data-dimension-config: 'classes/VicEqualNumbersQuantitativeAttributeDataDimensionConfig.html'
-    equal-values-quantitative-attribute-data-dimension-config: 'classes/VicEqualValuesQuantitativeAttributeDataDimensionConfig.html'
-    custom-breaks-quantitative-attribute-data-dimension-config: 'classes/VicCustomBreaksQuantitativeAttributeDataDimensionConfig.html'
-    data-geography-config: 'classes/VicDataGeographyConfig.html'
-    events:
-      geographies-click: 'directives/GeographiesClickDirective.html'
-      geographies-hover: 'directives/GeographiesHoverDirective.html'
-      geographies-hover-and-move: 'directives/GeographiesHoverMoveDirective.html'
-      geographies-input-event: 'directives/GeographiesInputEventDirective.html'
-    event-effects:
-      geographies-hover-emit-tooltip-data: 'classes/GeographiesHoverEmitTooltipData.html'
-      geographies-hover-move-emit-tooltip-data: 'classes/GeographiesHoverMoveEmitTooltipData.html'
-  lines:
-    lines-config: 'classes/VicLinesConfig.html'
-    lines-stroke-config: 'classes/VicLinesStrokeConfig.html'
-    point-marker-config: 'classes/VicPointMarkerConfig.html'
-    events:
-      lines-click: 'directives/LinesClickDirective.html'
-      lines-marker-click: 'directives/LinesMarkerClickDirective.html'
-      lines-input-event: 'directives/LinesInputEventDirective.html'
-      lines-hover: 'directives/LinesHoverDirective.html'
-      lines-hover-move: 'directives/LinesHoverMoveDirective.html'
-    event-effects:
-      lines-click-emit-tooltip-data-pause-hover-move-effects: classes/LinesClickEmitTooltipDataPauseHoverMoveEffects.html
-      lines-marker-click-emit-tooltip-data: 'classes/LinesMarkerClickEmitTooltipData.html'
-      lines-marker-click-default-styles-config: 'classes/LinesMarkerClickDefaultStylesConfig.html'
-      lines-hover-move-default-lines-styles: 'classes/LinesHoverMoveDefaultLinesStyles.html'
-      lines-hover-move-default-markers-styles: 'classes/LinesHoverMoveDefaultMarkersStyles.html'
-      lines-hover-move-default-hover-dot-styles: 'classes/LinesHoverMoveDefaultHoverDotStyles.html'
-      lines-hover-move-default-styles: 'classes/LinesHoverMoveDefaultStyles.html'
-      lines-hover-move-default-styles-config: 'classes/LinesHoverMoveDefaultStylesConfig.html'
-      lines-hover-move-emit-tooltip-data: 'classes/LinesHoverMoveEmitTooltipData.html'
   bars:
-    bars-config: 'classes/VicBarsConfig.html'
-    quantitative-dimension-config: 'classes/VicQuantitativeDimensionConfig.html'
-    ordinal-dimension-config: 'classes/VicOrdinalDimensionConfig.html'
-    bars-labels-config: 'classes/VicBarsLabelsConfig.html'
+    component: 'components/BarsComponent.html'
+    builder: 'injectables/VicBarsConfigBuilder.html'
     events:
-      bars-click: 'directives/BarsClickDirective.html'
-      bars-hover: 'directives/BarsHoverDirective.html'
-      bars-hover-move: 'directives/BarsHoverMoveDirective.html'
-      bars-input-event: 'directives/BarsInputEventDirective.html'
-    event-effects:
-      bars-hover-show-labels: 'classes/BarsHoverShowLabels.html'
-      bars-hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
+      click: 'directives/BarsClickDirective.html'
+      hover: 'directives/BarsHoverDirective.html'
+      hover-move: 'directives/BarsHoverMoveDirective.html'
+      input-event: 'directives/BarsInputEventDirective.html'
+      actions:
+        click-emit-tooltip-data-pause-hover-move-actions: 'classes/BarsClickEmitTooltipDataPauseHoverMoveActions.html'
+        hover-show-labels: 'classes/BarsHoverShowLabels.html'
+        hover-move-emit-tooltip-data: 'classes/BarsHoverMoveEmitTooltipData.html'
+      internal:
+        tooltip-data: 'interfaces/BarsTooltipData.html'
+        event-output: 'interfaces/BarsEventOutput.html'
+    internal:
+      config: 'classes/BarsConfig.html'
+      dimensions: 'interfaces/BarsDimensions.html'
+      options: 'interfaces/BarsOptions.html'
+      labels:
+        labels-builder: 'classes/BarsLabelsBuilder.html'
+        labels: 'classes/BarsLabels.html'
+        labels-options: 'interfaces/BarsLabelsOptions.html'
+  geographies:
+    component: 'components/GeographiesComponent.html'
+    builder: 'injectables/VicGeographiesConfigBuilder.html'
+    events:
+      click: 'directives/GeographiesClickDirective.html'
+      hover: 'directives/GeographiesHoverDirective.html'
+      hover-move: 'directives/GeographiesHoverMoveDirective.html'
+      input-event: 'directives/GeographiesInputEventDirective.html'
+      actions:
+        click-emit-tooltip-data-pause-hover-move-actions: 'classes/GeographiesClickEmitTooltipDataPauseHoverMoveActions.html'
+        hover-emit-tooltip-data: 'classes/GeographiesHoverEmitTooltipData.html'
+        hover-move-emit-tooltip-data: 'classes/GeographiesHoverMoveEmitTooltipData.html'
+      internal:
+        tooltip-data: 'interfaces/GeographiesTooltipData.html'
+        event-output: 'interfaces/GeographiesEventOutput.html'
+    internal:
+      config: 'classes/GeographiesConfig.html'
+      options: 'interfaces/GeographiesOptions.html'
+      layers:
+        attribute-data-layer:
+          builder: 'classes/GeographiesAttributeDataLayerBuilder.html'
+          layer: 'classes/GeographiesAttributeDataLayer.html'
+          options: 'interfaces/GeographiesAttributeDataLayerOptions.html'
+        geojson-properties-layer:
+          builder: 'classes/GeographiesGeojsonPropertiesLayerBuilder.html'
+          layer: 'classes/GeographiesGeojsonPropertiesLayer.html'
+          options: 'interfaces/GeographiesGeojsonPropertiesLayerOptions.html'
+        labels:
+          builder: 'classes/GeographiesLabelsBuilder.html'
+          labels: 'classes/GeographiesLabels.html'
+          options: 'interfaces/GeographiesLabelsOptions.html'
+        geographies-layer:
+          builder: 'classes/GeographiesLayerBuilder.html'
+          layer: 'classes/GeographiesLayer.html'
+          options: 'interfaces/GeographiesLayerOptions.html'
   grouped-bars:
-    grouped-bars-config: 'classes/VicGroupedBarsConfig.html'
-  stacked-area:
-    stacked-area-config: 'classes/VicStackedAreaConfig.html'
+    component: 'components/GroupedBarsComponent.html'
+    builder: 'injectables/VicGroupedBarsConfigBuilder.html'
+    internal:
+      config: 'classes/GroupedBarsConfig.html'
+      options: 'interfaces/GroupedBarsOptions.html'
+  lines:
+    component: 'components/LinesComponent.html'
+    builder: 'injectables/VicLinesConfigBuilder.html'
     events:
-      stacked-area-hover-move: 'directives/StackedAreaHoverMoveDirective.html'
-      stacked-area-input-event: 'directives/StackedAreaInputEventDirective.html'
-    event-effects:
-      stacked-area-hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
+      click: 'directives/LinesClickDirective.html'
+      hover: 'directives/LinesHoverDirective.html'
+      hover-move: 'directives/LinesHoverMoveDirective.html'
+      input-event: 'directives/LinesInputEventDirective.html'
+      actions:
+        click-emit-tooltip-data-pause-hover-move-actions: 'classes/LinesClickEmitTooltipDataPauseHoverMoveActions.html'
+        marker-click-emit-tooltip-data: 'classes/LinesMarkerClickEmitTooltipData.html'
+        hover-move-default-lines-styles: 'classes/LinesHoverMoveDefaultLinesStyles.html'
+        hover-move-default-markers-styles: 'classes/LinesHoverMoveDefaultMarkersStyles.html'
+        hover-move-default-hover-dot-styles: 'classes/LinesHoverMoveDefaultHoverDotStyles.html'
+        hover-move-default-styles: 'classes/LinesHoverMoveDefaultStyles.html'
+        hover-move-emit-tooltip-data: 'classes/LinesHoverMoveEmitTooltipData.html'
+      internal:
+        tooltip-data: 'interfaces/LinesTooltipData.html'
+        event-output: 'interfaces/LinesEventOutput.html'
+    internal:
+      config: 'classes/LinesConfig.html'
+      options: 'interfaces/LinesOptions.html'
+  stacked-area:
+    component: 'components/StackedAreaComponent.html'
+    builder: 'injectables/VicStackedAreaConfigBuilder.html'
+    events:
+      hover-move: 'directives/StackedAreaHoverMoveDirective.html'
+      input-event: 'directives/StackedAreaInputEventDirective.html'
+      actions:
+        hover-move-emit-tooltip-data: 'classes/StackedAreaHoverMoveEmitTooltipData.html'
+      internal:
+        tooltip-data: 'interfaces/StackedAreaTooltipData.html'
+        event-output: 'interfaces/StackedAreaEventOutput.html'
+    internal:
+      config: 'classes/StackedAreaConfig.html'
+      options: 'interfaces/StackedAreaOptions.html'
   stacked-bars:
-    stacked-bars: 'components/StackedBarsComponent.html'
-    stacked-bars-config: 'classes/VicStackedBarsConfig.html'
-utilities:
-  svg-text-wrap-config: 'classes/VicSvgTextWrapConfig.html'
-library-internals:
-  chart: 'components/ChartComponent.html'
-  data-marks-base: 'directives/DataMarksBase.html'
+    component: 'components/StackedBarsComponent.html'
+    builder: 'injectables/VicStackedBarsConfigBuilder.html'
+    internal:
+      config: 'classes/StackedBarsConfig.html'
+      options: 'interfaces/StackedBarsOptions.html'
+axis-components:
+  x-ordinal-axis:
+    component: 'components/XOrdinalAxisComponent.html'
+    builder: 'injectables/VicXOrdinalAxisConfigBuilder.html'
+  x-quantitative-axis:
+    component: 'components/XQuantitativeAxisComponent.html'
+    builder: 'injectables/VicXQuantitativeAxisConfigBuilder.html'
+  y-ordinal-axis:
+    component: 'components/YOrdinalAxisComponent.html'
+    builder: 'injectables/VicYOrdinalAxisConfigBuilder.html'
+  y-quantitative-axis:
+    component: 'components/YQuantitativeAxisComponent.html'
+    builder: 'injectables/VicYQuantitativeAxisConfigBuilder.html'
+  internal:
+    base: 'directives/XyAxis.html'
+    tick-wrap:
+      builder: 'classes/TickWrapBuilder.html'
+      tick-wrap: 'classes/TickWrap.html'
+      options: 'interfaces/TickWrapOptions.html'
+other-components:
+  html-tooltip:
+    directive: 'directives/HtmlTooltipDirective.html'
+    builder: 'injectables/VicHtmlTooltipConfigBuilder.html'
+    internal:
+      config: 'classes/HtmlTooltipConfig.html'
+  map-legend:
+    component: 'components/MapLegendComponent.html'
+    internal:
+      base: 'directives/MapLegend.html'
+      continuous-component: 'components/ContinuousLegendComponent.html'
+      discontinuous-component: 'components/DiscontinuousLegendComponent.html'
+  xy-background:
+    component: 'components/XyBackgroundComponent.html'
+services:
+  data-export:
+    config: 'classes/VicDataExportConfig.html'
+    column-config: 'classes/VicColumnConfig.html'
+    service: 'injectables/VicDataExport.html'
+  image-download:
+    config: 'classes/VicImageDownloadConfig.html'
+    jpeg-config: 'classes/VicJpegImageConfig.html'
+    png-config: 'classes/VicPngImageConfig.html'
+    svg-config: 'classes/VicSvgImageConfig.html'
+    service: 'injectables/VicImageDownload.html'
+internals:
+  data-dimensions:
+    categorical:
+      builder: 'classes/CategoricalDimensionBuilder.html'
+      dimension: 'classes/CategoricalDimension.html'
+      options: 'interfaces/CategoricalDimensionOptions.html'
+      fill-pattern: 'interfaces/FillPattern.html'
+    ordinal:
+      builder: 'classes/OrdinalDimensionBuilder.html'
+      dimension: 'classes/OrdinalDimension.html'
+      options: 'interfaces/OrdinalDimensionOptions.html'
+    quantitative:
+      numeric:
+        builder: 'classes/QuantitativeNumericDimensionBuilder.html'
+        dimension: 'classes/QuantitativeNumericDimension.html'
+        options: 'interfaces/QuantitativeNumericDimensionOptions.html'
+      date:
+        builder: 'classes/QuantitativeDateDimensionBuilder.html'
+        dimension: 'classes/QuantitativeDateDimension.html'
+        options: 'interfaces/QuantitativeDateDimensionOptions.html'
+        domain-padding:
+          round-up:
+            padding: 'classes/RoundUpToSigFigDomainPadding.html'
+            options: 'interfaces/RoundUpToSigFigDomainPaddingOptions.html'
+          round-to-interval:
+            padding: 'classes/RoundUpToIntervalDomainPadding.html'
+            options: 'interfaces/RoundUpToIntervalDomainPaddingOptions.html'
+          percent-over:
+            padding: 'classes/PercentOverDomainPadding.html'
+            options: 'interfaces/PercentOverDomainPaddingOptions.html'
+          pixel:
+            padding: 'classes/PixelDomainPadding.html'
+            options: 'interfaces/PixelDomainPaddingOptions.html'
+    internals:
+      data-dimension-builder: 'classes/DataDimensionBuilder.html'
+      data-dimension: 'classes/DataDimension.html'
+      data-dimension-options: 'interfaces/DataDimensionOptions.html'
+  data-marks:
+    base: 'directives/DataMarks.html'
+    builder: 'classes/DataMarksBuilder.html'
+    config: 'classes/DataMarksConfig.html'
+    options: 'interfaces/DataMarksOptions.html'
   events:
-    event: 'directives/EventDirective.html'
+    click: 'directives/ClickDirective.html'
+    hover: 'directives/HoverDirective.html'
+    hover-move: 'directives/HoverMoveDirective.html'
     input-event: 'directives/InputEventDirective.html'
-  xy-chart:
-    xy-data-marks-base: 'directives/XyDataMarksBase.html'
-    xy-axis: 'directives/XyAxis.html'
-  map-chart:
-    map-data-marks-base: 'directives/MapDataMarksBase.html'
-    continuous-legend: 'components/ContinuousLegendComponent.html'
-    discontinuous-legend: 'components/DiscontinuousLegendComponent.html'
+    actions:
+      event: 'interfaces/EventAction.html'
+      hover-move: 'interfaces/HoverMoveAction.html'
+      input-event: 'interfaces/InputEventAction.html'
+  svg-text-wrap:
+    builder: 'classes/SvgTextWrapBuilder.html'
+    svg-text-wrap: 'classes/SvgTextWrap.html'
+    options: 'interfaces/SvgTextWrapOptions.html'

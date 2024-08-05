@@ -1,8 +1,8 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { Renderer2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { DataMarksBaseStub } from '../testing/stubs/data-marks-base.stub';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { DataMarksStub } from '../testing/stubs/data-marks.stub';
 import { EventDirectiveStub } from '../testing/stubs/event.directive.stub';
 
 describe('EventDirective', () => {
@@ -14,8 +14,8 @@ describe('EventDirective', () => {
         EventDirectiveStub,
         Renderer2,
         {
-          provide: DATA_MARKS,
-          useClass: DataMarksBaseStub,
+          provide: VIC_DATA_MARKS,
+          useClass: DataMarksStub,
         },
       ],
     });

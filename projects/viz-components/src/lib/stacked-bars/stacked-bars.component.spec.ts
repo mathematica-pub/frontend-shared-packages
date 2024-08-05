@@ -4,8 +4,8 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { StackedBarsComponent } from './stacked-bars.component';
 
 describe('StackedBarsComponent', () => {
-  let component: StackedBarsComponent<any>;
-  let fixture: ComponentFixture<StackedBarsComponent<any>>;
+  let component: StackedBarsComponent<any, string>;
+  let fixture: ComponentFixture<StackedBarsComponent<any, string>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('StackedBarsComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StackedBarsComponent);
+    fixture = TestBed.createComponent(StackedBarsComponent<any, string>);
     component = fixture.componentInstance;
   });
 

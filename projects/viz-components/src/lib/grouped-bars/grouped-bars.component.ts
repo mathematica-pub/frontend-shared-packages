@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { InternSet, range, scaleBand } from 'd3';
-import { BarsComponent } from '../bars/bars.component';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
-import { VicGroupedBarsConfig } from './grouped-bars.config';
+import { scaleBand } from 'd3';
+import { BarDatum, BarsComponent } from '../bars/bars.component';
+import { DataValue } from '../core/types/values';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { GroupedBarsConfig } from './config/grouped-bars-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -17,27 +17,16 @@ import { VicGroupedBarsConfig } from './grouped-bars.config';
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: DATA_MARKS, useExisting: GroupedBarsComponent }],
+  providers: [{ provide: VIC_DATA_MARKS, useExisting: GroupedBarsComponent }],
 })
-export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
+export class GroupedBarsComponent<
+  Datum,
+  TOrdinalValue extends DataValue,
+> extends BarsComponent<Datum, TOrdinalValue> {
   // eslint-disable-next-line @angular-eslint/no-input-rename
-  @Input('config') override userConfig: VicGroupedBarsConfig<Datum>;
-  override config: VicGroupedBarsConfig<Datum>;
+  @Input('config') override config: GroupedBarsConfig<Datum, TOrdinalValue>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   groupScale: any;
-
-  override setValueIndicies(): void {
-    this.values.indicies = range(
-      this.values[this.config.dimensions.ordinal].length
-    ).filter((i) => {
-      return (
-        (this.config.ordinal.domain as InternSet).has(
-          this.values[this.config.dimensions.ordinal][i]
-        ) &&
-        (this.config.category.domain as InternSet).has(this.values.category[i])
-      );
-    });
-  }
 
   override drawMarks(): void {
     this.setGroupScale();
@@ -46,13 +35,13 @@ export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
 
   setGroupScale(): void {
     if (this.config.dimensions.ordinal === 'x') {
-      this.groupScale = scaleBand(this.config.category.domain, [
+      this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
         0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
-      this.groupScale = scaleBand(this.config.category.domain, [
+      this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.y as any).bandwidth(),
         0,
@@ -60,39 +49,37 @@ export class GroupedBarsComponent<Datum> extends BarsComponent<Datum> {
     }
   }
 
-  override getBarColor(i: number): string {
-    return this.scales.category(this.values.category[i]);
+  override getBarColor(d: BarDatum<TOrdinalValue>): string {
+    return this.scales.categorical(d.categorical);
   }
 
-  override getBarXOrdinal(i: number): number {
-    return (
-      this.scales.x(this.values.x[i]) + this.groupScale(this.values.category[i])
-    );
+  override getBarXOrdinal(d: BarDatum<TOrdinalValue>): number {
+    return this.scales.x(d.ordinal) + this.groupScale(d.categorical);
   }
 
-  override getBarY(i: number): number {
+  override getBarY(d: BarDatum<TOrdinalValue>): number {
     if (this.config.dimensions.ordinal === 'x') {
-      return this.getBarYQuantitative(i);
+      return this.getBarYQuantitative(d);
     } else {
-      return this.getBarYOrdinal(i);
+      return this.getBarYOrdinal(d);
     }
   }
 
-  override getBarYOrdinal(i: number): number {
-    return (
-      this.scales.y(this.values.y[i]) + this.groupScale(this.values.category[i])
-    );
+  override getBarYOrdinal(d: BarDatum<TOrdinalValue>): number {
+    return this.scales.y(d.ordinal) + this.groupScale(d.categorical);
   }
 
-  override getBarYQuantitative(i: number): number {
-    return this.scales.y(this.values.y[i]);
+  override getBarYQuantitative(d: BarDatum<TOrdinalValue>): number {
+    return this.scales.y(d.quantitative);
   }
 
   override getBarWidthOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.groupScale as any).bandwidth();
   }
 
   override getBarHeightOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.groupScale as any).bandwidth();
   }
 }

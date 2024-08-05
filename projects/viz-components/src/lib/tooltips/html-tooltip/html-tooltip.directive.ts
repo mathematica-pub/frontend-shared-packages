@@ -4,6 +4,7 @@ import {
   Overlay,
   OverlayPositionBuilder,
   OverlayRef,
+  PositionStrategy,
 } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { DOCUMENT } from '@angular/common';
@@ -14,7 +15,6 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  OnInit,
   Optional,
   Output,
   SimpleChanges,
@@ -23,124 +23,90 @@ import {
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { DataMarks } from '../../data-marks/data-marks';
-import { DATA_MARKS } from '../../data-marks/data-marks.token';
-import {
-  VicHtmlTooltipCdkManagedFromOriginPosition,
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-} from './html-tooltip.config';
-
-const defaultPanelClass = 'vic-html-tooltip-overlay';
+import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
+import { DataMarks, VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
+import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
 })
-export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
-  @Input() template: TemplateRef<unknown>;
-  @Input() config: VicHtmlTooltipConfig;
+export class HtmlTooltipDirective<
+    Datum,
+    TDataMarksConfig extends DataMarksOptions<Datum>,
+  >
+  implements OnChanges, OnDestroy
+{
+  @Input() template: TemplateRef<HTMLElement>;
+  @Input() config: HtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
-  overlayRef: OverlayRef;
-  positionStrategy: FlexibleConnectedPositionStrategy | GlobalPositionStrategy;
-  panelClass: string[];
   backdropUnsubscribe: Subject<void> = new Subject<void>();
+  overlayRef: OverlayRef;
   portalAttached = false;
-  _document: Document;
+  positionStrategy: FlexibleConnectedPositionStrategy | GlobalPositionStrategy;
+  log: boolean = false;
 
   constructor(
-    // provisionally leaving as private per discussion here: https://github.com/mathematica-org/viz-components/pull/189
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    @Optional() @Inject(DATA_MARKS) private dataMarks: DataMarks,
-    @Optional() @Inject(DOCUMENT) document: Document
-  ) {
-    this._document = document;
-  }
-
-  ngOnInit(): void {
-    if (this.config) {
-      this.init();
-    }
-  }
+    @Optional()
+    @Inject(VIC_DATA_MARKS)
+    private dataMarks: DataMarks<Datum, TDataMarksConfig>,
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   init(): void {
     if (!this.overlayRef) {
-      this.createOverlay();
+      this.createOverlayRef();
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (this.overlayRef && this.config) {
-      this.checkPositionChanges(changes);
-      this.checkClassChanges(changes);
-      this.checkSizeChanges(changes);
-      this.checkBackdropChanges(changes);
-      this.updateVisibility();
+      this.updateForConfigChanges(changes);
     } else if (this.config) {
       this.init();
     }
   }
 
-  configChanged(
-    changes: SimpleChanges,
-    property: keyof VicHtmlTooltipConfig
-  ): boolean {
-    return NgOnChangesUtilities.inputObjectChanged(changes, 'config', property);
-  }
-
-  checkPositionChanges(changes: SimpleChanges): void {
-    if (this.configChanged(changes, 'position')) {
-      this.updatePosition();
-    }
-  }
-
-  checkClassChanges(changes: SimpleChanges): void {
-    if (
-      this.configChanged(changes, 'panelClass') ||
-      this.configChanged(changes, 'addEventsDisabledClass')
-    ) {
-      this.updateClasses();
-    }
-  }
-
-  checkSizeChanges(changes: SimpleChanges): void {
-    if (this.configChanged(changes, 'size')) {
-      this.updateSize();
-    }
-  }
-
-  checkBackdropChanges(changes: SimpleChanges): void {
-    if (
-      this.configChanged(changes, 'hasBackdrop') ||
-      this.configChanged(changes, 'closeOnBackdropClick')
-    ) {
-      this.updateForNewBackdropProperties();
-    }
-  }
-
-  updatePosition(): void {
-    this.setPositionStrategy();
-    this.overlayRef.updatePositionStrategy(this.positionStrategy);
-  }
-
-  updateClasses(): void {
-    this.overlayRef.removePanelClass(this.panelClass);
-    this.setPanelClasses();
-    this.overlayRef.addPanelClass(this.panelClass);
-  }
-
-  updateSize(): void {
-    this.overlayRef.updateSize(this.config.size);
-  }
-
-  updateForNewBackdropProperties(): void {
-    this.destroyBackdropSubscription();
-    this.hide();
-    this.destroyOverlay();
+  createOverlayRef(): void {
     this.backdropUnsubscribe = new Subject<void>();
-    this.createOverlay();
+    this.overlayRef = this.overlay.create({
+      ...this.config.size,
+      panelClass: this.config.panelClass,
+      scrollStrategy: this.overlay.scrollStrategies.close(),
+      positionStrategy: this.getPositionStrategy(),
+      hasBackdrop: this.config.hasBackdrop,
+      backdropClass: 'vic-html-tooltip-backdrop',
+    });
+    setTimeout(() => {
+      return;
+    }, 0);
+
+    if (this.config.hasBackdrop) {
+      this.subscribeToBackdropClick();
+    }
+
+    this.updateVisibility();
+  }
+
+  getPositionStrategy(): PositionStrategy {
+    const origin = this.config.origin ?? this.dataMarks.chart.svgRef;
+    return this.config.position.getPositionStrategy(
+      origin.nativeElement,
+      this.overlayPositionBuilder,
+      this.document
+    );
+  }
+
+  subscribeToBackdropClick(): void {
+    this.overlayRef
+      .backdropClick()
+      .pipe(takeUntil(this.backdropUnsubscribe))
+      .subscribe(() => {
+        this.backdropClick.emit();
+      });
   }
 
   updateVisibility(): void {
@@ -171,90 +137,48 @@ export class HtmlTooltipDirective implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  createOverlay(): void {
-    this.setPanelClasses();
-    this.setPositionStrategy();
-    this.overlayRef = this.overlay.create({
-      ...this.config.size,
-      panelClass: this.panelClass,
-      scrollStrategy: this.overlay.scrollStrategies.close(),
-      positionStrategy: this.positionStrategy,
-      hasBackdrop: this.config.hasBackdrop,
-      backdropClass: 'vic-html-tooltip-backdrop',
-    });
-    setTimeout(() => {
-      return;
-    }, 0);
-
-    if (this.config.hasBackdrop && this.config.closeOnBackdropClick) {
-      this.listenForBackdropClicks();
+  updateForConfigChanges(changes: SimpleChanges): void {
+    if (this.configChanged(changes, 'position')) {
+      this.updatePosition();
     }
-
+    if (this.configChanged(changes, 'panelClass')) {
+      this.updateClasses(changes['config'].previousValue.panelClass);
+    }
+    if (this.configChanged(changes, 'size')) {
+      this.updateSize();
+    }
+    if (this.configChanged(changes, 'hasBackdrop')) {
+      this.updateBackdrop();
+    }
     this.updateVisibility();
   }
 
-  listenForBackdropClicks(): void {
-    this.overlayRef
-      .backdropClick()
-      .pipe(takeUntil(this.backdropUnsubscribe))
-      .subscribe(() => {
-        this.backdropClick.emit();
-      });
+  updatePosition(): void {
+    const strategy = this.getPositionStrategy();
+    this.overlayRef.updatePositionStrategy(strategy);
   }
 
-  setPositionStrategy(): void {
-    const origin = this.config.origin ?? this.dataMarks.chart.svgRef;
-    if (this.config.position) {
-      if (this.config.position.type === 'connected') {
-        this.setConnectedPositionStrategy(
-          origin.nativeElement,
-          this.config.position
-        );
-      } else {
-        this.setGlobalPositionStrategy(
-          origin.nativeElement,
-          this.config.position
-        );
-      }
-    }
+  updateClasses(prevClass: string[]): void {
+    this.overlayRef.removePanelClass(prevClass);
+    this.overlayRef.addPanelClass(this.config.panelClass);
   }
 
-  setConnectedPositionStrategy(
-    origin: Element,
-    position: VicHtmlTooltipCdkManagedFromOriginPosition
-  ): void {
-    this.positionStrategy = this.overlayPositionBuilder
-      .flexibleConnectedTo(origin)
-      .withPositions([position.config]);
+  updateSize(): void {
+    this.overlayRef.updateSize(this.config.size);
   }
 
-  setGlobalPositionStrategy(
-    origin: Element,
-    position: VicHtmlTooltipOffsetFromOriginPosition
-  ): void {
-    // gets dims without scrollbar thickness if scrollbar is on html or body
-    const _window = this._document.defaultView || window;
-    const viewport = {
-      width: _window.document.body.clientWidth,
-      height: _window.document.body.clientHeight,
-    };
-    const originDims = origin.getBoundingClientRect();
-    this.positionStrategy = this.overlayPositionBuilder
-      .global()
-      .bottom(`${viewport.height - originDims.top - position.offsetY}px`)
-      .centerHorizontally(
-        `${-2 * (viewport.width / 2 - originDims.left - position.offsetX)}px`
-      );
+  updateBackdrop(): void {
+    this.destroyBackdropSubscription();
+    this.hide();
+    this.destroyOverlay();
+    this.createOverlayRef();
   }
 
-  setPanelClasses(): void {
-    const userClasses = this.config.panelClass
-      ? [this.config.panelClass].flat()
-      : [];
-    this.panelClass = [defaultPanelClass, ...userClasses].flat();
-    if (this.config.addEventsDisabledClass) {
-      this.panelClass.push('events-disabled');
-    }
+  configChanged(
+    changes: SimpleChanges,
+    property: keyof HtmlTooltipConfig
+  ): boolean {
+    return NgOnChangesUtilities.inputObjectChanged(changes, 'config', property);
   }
 
   ngOnDestroy(): void {

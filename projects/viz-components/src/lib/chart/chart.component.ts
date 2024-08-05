@@ -23,7 +23,7 @@ import {
   shareReplay,
   startWith,
 } from 'rxjs';
-import { VicDimensions, VicElementSpacing } from '../core/types/layout';
+import { Dimensions, ElementSpacing } from '../core/types/layout';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 
@@ -74,7 +74,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   /**
    * The margin that will be established between the edges of the svg and the svg's contents.
    */
-  @Input() margin: VicElementSpacing = {
+  @Input() margin: ElementSpacing = {
     top: 36,
     right: 36,
     bottom: 36,
@@ -93,7 +93,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   /**
    * A time duration for all transitions in the chart, in ms.
    */
-  @Input() transitionDuration?: number = 250;
+  @Input() transitionDuration = 250;
   /**
    * If chart size is dynamic, the maximum width of the chart.
    *
@@ -105,12 +105,12 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   aspectRatio: number;
   private _height: BehaviorSubject<number> = new BehaviorSubject(this.height);
   height$ = this._height.asObservable();
-  private _margin: BehaviorSubject<VicElementSpacing> = new BehaviorSubject(
+  private _margin: BehaviorSubject<ElementSpacing> = new BehaviorSubject(
     this.margin
   );
   margin$ = this._margin.asObservable();
   ranges$: Observable<Ranges>;
-  svgDimensions$: Observable<VicDimensions>;
+  svgDimensions$: Observable<Dimensions>;
   protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -199,7 +199,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       : this.height;
   }
 
-  getRangesFromSvgDimensions(dimensions: VicDimensions): Ranges {
+  getRangesFromSvgDimensions(dimensions: Dimensions): Ranges {
     const xRange: [number, number] = [
       this.margin.left,
       dimensions.width - this.margin.right,

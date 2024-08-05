@@ -6,33 +6,29 @@ import {
 } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MultiPolygon } from 'geojson';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
-import { EventEffect } from 'projects/viz-components/src/lib/events/effect';
-import { VicGeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies';
-import { GeographiesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/geographies/geographies-click-effects';
-import { GeographiesClickDirective } from 'projects/viz-components/src/lib/geographies/geographies-click.directive';
-import { GeographiesHoverEmitTooltipData } from 'projects/viz-components/src/lib/geographies/geographies-hover-effects';
-import { GeographiesHoverDirective } from 'projects/viz-components/src/lib/geographies/geographies-hover.directive';
-import { VicGeographyLabelConfig } from 'projects/viz-components/src/lib/geographies/geographies-labels';
-import { VicGeographiesLabelsPositioners } from 'projects/viz-components/src/lib/geographies/geographies-labels-positioners';
-import { VicGeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/geographies-tooltip-data';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
+import { EventAction } from 'projects/viz-components/src/lib/events/action';
+import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
+import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
+import { BinStrategy } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
+import { GeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder';
+import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
+import { GeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/events/geographies-event-output';
+import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
+import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
-  VicDataGeographyConfig,
-  VicEqualValuesQuantitativeAttributeDataDimensionConfig,
-  VicGeographiesConfig,
-  VicNoDataGeographyConfig,
-} from 'projects/viz-components/src/lib/geographies/geographies.config';
-import {
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import { valueFormat } from 'projects/viz-components/src/lib/value-format/value-format';
-import {
+  GeographiesClickDirective,
+  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
+  GeographiesHoverDirective,
+  GeographiesHoverEmitTooltipData,
+  VicGeographiesConfigBuilder,
   VicGeographiesModule,
   VicHtmlTooltipModule,
   VicMapChartModule,
   VicMapLegendModule,
+  valueFormat,
 } from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
@@ -50,6 +46,20 @@ import { BasemapService } from '../../core/services/basemap.service';
 import { DataService } from '../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
+const polylabelStates = ['CA', 'ID', 'MN', 'LA', 'MI', 'KY', 'FL', 'VA', 'NY'];
+const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
+const smallSquareStates = [
+  'CT',
+  'DE',
+  'DC',
+  'MD',
+  'MA',
+  'NH',
+  'NJ',
+  'RI',
+  'VT',
+];
+
 @Component({
   selector: 'app-geographies-example',
   standalone: true,
@@ -65,24 +75,23 @@ import { ExampleDisplayComponent } from '../../example-display/example-display.c
   ],
   templateUrl: './geographies-example.component.html',
   styleUrls: ['./geographies-example.component.scss'],
+  providers: [VicGeographiesConfigBuilder, VicHtmlTooltipConfigBuilder],
 })
 export class GeographiesExampleComponent implements OnInit {
   dataMarksConfig$: Observable<
-    VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties>
+    GeographiesConfig<StateIncomeDatum, MapGeometryProperties>
   >;
   width = 700;
   height = 400;
-  margin: VicElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
   outlineColor = colors.base;
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new VicHtmlTooltipConfig({ show: false })
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>> =
-    new BehaviorSubject<VicGeographiesEventOutput<StateIncomeDatum>>(null);
+  tooltipData: BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>> =
+    new BehaviorSubject<GeographiesEventOutput<StateIncomeDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverEffects: EventEffect<
+  hoverActions: EventAction<
     GeographiesHoverDirective<StateIncomeDatum, MapGeometryProperties>
   >[] = [
     new GeographiesHoverEmitTooltipData<
@@ -94,23 +103,39 @@ export class GeographiesExampleComponent implements OnInit {
   folderName = 'geographies-example';
   selectedYear: BehaviorSubject<string> = new BehaviorSubject<string>('2020');
   selectedYear$ = this.selectedYear.asObservable();
+  attributeDataBinType: BehaviorSubject<string> = new BehaviorSubject<string>(
+    BinStrategy.equalValueRanges
+  );
+  attributeDataBinType$ = this.attributeDataBinType.asObservable();
+  binTypes = [
+    BinStrategy.none,
+    BinStrategy.categorical,
+    BinStrategy.equalValueRanges,
+    BinStrategy.equalFrequencies,
+    BinStrategy.customBreaks,
+  ];
 
-  clickEffects: EventEffect<
+  clickActions: EventAction<
     GeographiesClickDirective<StateIncomeDatum, MapGeometryProperties>
   >[] = [
-    new GeographiesClickEmitTooltipDataPauseHoverMoveEffects<
+    new GeographiesClickEmitTooltipDataPauseHoverMoveActions<
       StateIncomeDatum,
       MapGeometryProperties
     >(),
   ];
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  featureIndexAccessor = (d: VicGeographiesFeature<MapGeometryProperties>) =>
+  featureIndexAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
     d.properties.name;
 
   constructor(
     private dataService: DataService,
-    private basemap: BasemapService
+    private basemap: BasemapService,
+    private geographies: VicGeographiesConfigBuilder<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -123,190 +148,303 @@ export class GeographiesExampleComponent implements OnInit {
       )
     );
 
-    this.dataMarksConfig$ = filteredData$.pipe(
-      map((data) => this.getDataMarksConfig(data)),
+    this.dataMarksConfig$ = combineLatest([
+      this.attributeDataBinType$,
+      filteredData$,
+    ]).pipe(
+      map(([, data]) => this.getDataMarksConfig(data)),
       shareReplay(1)
     );
   }
 
   getDataMarksConfig(
     data: StateIncomeDatum[]
-  ): VicGeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
-    const config = new VicGeographiesConfig<
-      StateIncomeDatum,
-      MapGeometryProperties
-    >();
-    config.boundary = this.basemap.us;
-    config.data = data;
-    config.featureIndexAccessor = this.featureIndexAccessor;
-    const noDataStatesConfig = this.getNoDataGeographyStatesConfig(data);
-    config.noDataGeographiesConfigs = [
-      this.basemap.usOutlineConfig,
-      noDataStatesConfig,
-    ];
-    config.dataGeographyConfig = this.getDataGeographyConfig(data);
+  ): GeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
+    const config = this.geographies
+      .boundary(this.basemap.us)
+      .featureIndexAccessor(this.featureIndexAccessor)
+      .createGeojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
+      .createGeojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
+      .createAttributeDataLayer((layer) => this.getDataLayer(data, layer))
+      .getConfig();
     return config;
   }
 
-  getDataGeographyConfig(
-    data: StateIncomeDatum[]
-  ): VicDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
-    const config = new VicDataGeographyConfig<
+  getUsOutlineConfig(
+    layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
+  ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    return layer
+      .geographies(this.basemap.us.features)
+      .strokeColor(colors.base)
+      .strokeWidth('1')
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.properties.name).range(['none'])
+      );
+  }
+
+  getNoDataLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties>
+  ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
+    const statesInData = data.map((x) => x.state);
+    const features = this.basemap.states.features.filter(
+      (x) => !statesInData.includes(x.properties.name)
+    );
+    const valueAccessor = (d: GeographiesFeature<MapGeometryProperties>) =>
+      d.properties.id;
+    return layer
+      .geographies(features)
+      .createCategoricalDimension((dimension) =>
+        dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
+      )
+      .createLabels((labels) =>
+        labels
+          .valueAccessor(valueAccessor)
+          .display(
+            (featureIndex) =>
+              !unlabelledTerritories.includes(featureIndex) &&
+              !smallSquareStates.includes(featureIndex)
+          )
+          .color('magenta')
+          .fontWeight(700)
+      )
+      .enableEventActions(true);
+  }
+
+  getDataLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
-    >();
-    config.geographies = this.getDataGeographyFeatures(data);
-    config.attributeDataConfig =
-      new VicEqualValuesQuantitativeAttributeDataDimensionConfig();
-    config.attributeDataConfig.geoAccessor = (d) => d.state;
-    config.attributeDataConfig.valueAccessor = (d) => d.income;
-    config.attributeDataConfig.valueFormat = `$${valueFormat.integer}`;
-    config.attributeDataConfig.colors = [
-      colors.white,
-      colors.highlight.default,
-    ];
-    config.attributeDataConfig.numBins = 6;
-    config.attributeDataConfig.patternPredicates = [
+    >
+  ): GeographiesAttributeDataLayerBuilder<
+    StateIncomeDatum,
+    MapGeometryProperties
+  > {
+    const fillPatterns = [
       {
-        patternName: this.patternName,
-        predicate: (d) => !!d && d.population < 1000000,
+        name: this.patternName,
+        usePattern: (d) => !!d && d.population < 1000000,
       },
     ];
-    config.labels = this.getGeographyLabelConfig();
-    return config;
+    if (this.attributeDataBinType.value === BinStrategy.categorical) {
+      return this.getCategoricalLayer(data, layer, fillPatterns);
+    } else if (this.attributeDataBinType.value === BinStrategy.customBreaks) {
+      return this.getCustomBreaksLayer(data, layer, fillPatterns);
+    } else if (
+      this.attributeDataBinType.value === BinStrategy.equalFrequencies
+    ) {
+      return this.getEqualFrequenciesLayer(data, layer, fillPatterns);
+    } else if (
+      this.attributeDataBinType.value === BinStrategy.equalValueRanges
+    ) {
+      return this.getEqualValueRangesLayer(data, layer, fillPatterns);
+    } else {
+      return this.getNoBinsLayer(data, layer, fillPatterns);
+    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getDataGeographyFeatures(data: StateIncomeDatum[]): any {
+  getDataGeographiesFeatures(data: StateIncomeDatum[]): any {
     const statesInData = data.map((x) => x.state);
     return this.basemap.states.features.filter((x) =>
       statesInData.includes(x.properties.name)
     );
   }
 
-  getNoDataGeographyStatesConfig(
-    data: StateIncomeDatum[]
-  ): VicNoDataGeographyConfig<StateIncomeDatum, MapGeometryProperties> {
-    const statesInData = data.map((x) => x.state);
-    const features = this.basemap.states.features.filter(
-      (x) => !statesInData.includes(x.properties.name)
-    );
-    const labels = this.getGeographyLabelConfig();
-    return new VicNoDataGeographyConfig<
+  getCategoricalLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
-    >({
-      geographies: features,
-      labels: labels,
-      fill: 'lightgray',
-    });
-  }
-
-  getGeographyLabelConfig(): VicGeographyLabelConfig<
+    >,
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
   > {
-    const polylabelStates = [
-      'CA',
-      'ID',
-      'MN',
-      'LA',
-      'MI',
-      'KY',
-      'FL',
-      'VA',
-      'NY',
-    ];
+    return layer
+      .data(data)
+      .geographies(this.getDataGeographiesFeatures(data))
+      .geographyIndexAccessor((d) => d.state)
+      .createCategoricalBinsDimension((dimension) =>
+        dimension
+          .valueAccessor((d) =>
+            d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low'
+          )
+          .range(['sandybrown', 'mediumseagreen', colors.highlight.default])
+          .fillPatterns(fillPatterns)
+      )
+      .createLabels((labels) => this.getLabels(labels));
+  }
 
-    const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
-    const smallSquareStates = [
-      'CT',
-      'DE',
-      'DC',
-      'MD',
-      'MA',
-      'NH',
-      'NJ',
-      'RI',
-      'VT',
-    ];
-    const labelConfig = new VicGeographyLabelConfig<
+  getCustomBreaksLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesAttributeDataLayerBuilder<
       StateIncomeDatum,
       MapGeometryProperties
-    >();
-    labelConfig.valueAccessor = (d) => d.properties.id;
-    labelConfig.display = (d) =>
-      !unlabelledTerritories.includes(labelConfig.valueAccessor(d)) &&
-      !smallSquareStates.includes(labelConfig.valueAccessor(d));
+    >,
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
+    StateIncomeDatum,
+    MapGeometryProperties
+  > {
+    return layer
+      .data(data)
+      .geographies(this.getDataGeographiesFeatures(data))
+      .geographyIndexAccessor((d) => d.state)
+      .createCustomBreaksBinsDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.income)
+          .formatSpecifier(`$${valueFormat.integer}`)
+          .breakValues([45000, 55000, 65000, 75000, 100000])
+          .range([colors.white, colors.highlight.default])
+          .fillPatterns(fillPatterns)
+      )
+      .createLabels((labels) => this.getLabels(labels));
+  }
 
-    labelConfig.position = (d, path, projection) => {
-      if (labelConfig.valueAccessor(d) === 'HI') {
-        return VicGeographiesLabelsPositioners.positionHawaiiOnGeoAlbersUsa(
-          d as VicGeographiesFeature<MapGeometryProperties, MultiPolygon>,
-          projection
-        );
-      } else if (polylabelStates.includes(labelConfig.valueAccessor(d))) {
-        return VicGeographiesLabelsPositioners.positionWithPolylabel(
-          d,
-          projection
-        );
-      } else {
-        return VicGeographiesLabelsPositioners.positionAtCentroid(d, path);
-      }
-    };
+  getEqualValueRangesLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesAttributeDataLayerBuilder<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >,
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
+    StateIncomeDatum,
+    MapGeometryProperties
+  > {
+    return layer
+      .data(data)
+      .geographies(this.getDataGeographiesFeatures(data))
+      .geographyIndexAccessor((d) => d.state)
+      .createEqualValueRangesBinsDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.income)
+          .formatSpecifier(`$${valueFormat.integer}`)
+          .numBins(6)
+          .range([colors.white, colors.highlight.default])
+          .fillPatterns(fillPatterns)
+      )
+      .createLabels((labels) => this.getLabels(labels));
+  }
+
+  getEqualFrequenciesLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesAttributeDataLayerBuilder<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >,
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ) {
+    return layer
+      .data(data)
+      .geographies(this.getDataGeographiesFeatures(data))
+      .geographyIndexAccessor((d) => d.state)
+      .createEqualFrequenciesBinsDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.income)
+          .formatSpecifier(`$${valueFormat.integer}`)
+          .numBins(6)
+          .range([colors.white, colors.highlight.default])
+          .fillPatterns(fillPatterns)
+      )
+      .createLabels((labels) => this.getLabels(labels));
+  }
+
+  getNoBinsLayer(
+    data: StateIncomeDatum[],
+    layer: GeographiesAttributeDataLayerBuilder<
+      StateIncomeDatum,
+      MapGeometryProperties
+    >,
+    fillPatterns: FillPattern<StateIncomeDatum>[]
+  ): GeographiesAttributeDataLayerBuilder<
+    StateIncomeDatum,
+    MapGeometryProperties
+  > {
+    return layer
+      .data(data)
+      .geographies(this.getDataGeographiesFeatures(data))
+      .geographyIndexAccessor((d) => d.state)
+      .createNoBinsDimension((dimension) =>
+        dimension
+          .valueAccessor((d) => d.income)
+          .formatSpecifier(`$${valueFormat.integer}`)
+          .range([colors.white, colors.highlight.default])
+          .fillPatterns(fillPatterns)
+      )
+      .createLabels((labels) => this.getLabels(labels));
+  }
+
+  getLabels(
+    labels: GeographiesLabelsBuilder<MapGeometryProperties>
+  ): GeographiesLabelsBuilder<MapGeometryProperties> {
     const darkColor = 'rgb(22,80,225)';
     const lightColor = '#FFFFFF';
-    labelConfig.color = (d, backgroundColor) =>
-      VicColorUtilities.getHigherContrastColorForBackground(
-        backgroundColor,
-        darkColor,
-        lightColor
-      );
-    labelConfig.fontWeight = (d, backgroundColor) =>
-      VicColorUtilities.getHigherContrastColorForBackground(
-        backgroundColor,
-        darkColor,
-        lightColor
-      ) === darkColor
-        ? 700
-        : 400;
-
-    return labelConfig;
+    const valueAccessor = (d) => d.properties.id;
+    return labels
+      .valueAccessor(valueAccessor)
+      .display(
+        (featureIndex) =>
+          !unlabelledTerritories.includes(featureIndex) &&
+          !smallSquareStates.includes(featureIndex)
+      )
+      .position((d, path, projection) => {
+        if (valueAccessor(d) === 'HI') {
+          return labels.positionHawaiiOnGeoAlbersUsa(
+            d as GeographiesFeature<MapGeometryProperties, MultiPolygon>,
+            projection
+          );
+        } else if (polylabelStates.includes(valueAccessor(d))) {
+          return labels.positionWithPolylabel(d, projection);
+        } else {
+          return labels.positionAtCentroid(d, path);
+        }
+      })
+      .color({
+        default: darkColor,
+        contrastAlternative: lightColor,
+        pattern: darkColor,
+      })
+      .fontWeight({ default: 700, contrastAlternative: 400, pattern: 700 });
   }
 
   updateTooltipForNewOutput(
-    data: VicGeographiesEventOutput<StateIncomeDatum>,
+    data: GeographiesEventOutput<StateIncomeDatum>,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data, tooltipEvent);
   }
 
-  updateTooltipData(data: VicGeographiesEventOutput<StateIncomeDatum>): void {
+  updateTooltipData(data: GeographiesEventOutput<StateIncomeDatum>): void {
     this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    data: VicGeographiesEventOutput<StateIncomeDatum>,
+    data: GeographiesEventOutput<StateIncomeDatum>,
     eventContext: 'hover' | 'click'
   ): void {
-    const config = new VicHtmlTooltipConfig();
-    config.size.minWidth = 130;
-    config.hasBackdrop = eventContext === 'click';
-    config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY;
-      config.show = true;
-    } else {
-      config.show = false;
-    }
+    const config = this.tooltip
+      .setSize((size) => size.minWidth(130))
+      .createOffsetFromOriginPosition((position) =>
+        position.offsetX(data?.positionX).offsetY(data?.positionY)
+      )
+      .hasBackdrop(eventContext === 'click')
+      .show(!!data)
+      .getConfig();
+
     this.tooltipConfig.next(config);
   }
 
-  onYearChange(change: MatButtonToggleChange): void {
+  setYear(change: MatButtonToggleChange): void {
     this.selectedYear.next(change.value);
+  }
+
+  setBinType(change: MatButtonToggleChange): void {
+    this.attributeDataBinType.next(change.value);
   }
 
   onBackdropClick(): void {

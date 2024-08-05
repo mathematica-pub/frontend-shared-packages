@@ -11,9 +11,9 @@ import {
 
 /**
  * A directive that listens for click events on a set of elements, intended to be used
- *  with one or more user-provided [EventEffect]{@link EventEffect}.
+ *  with one or more user-provided [EventAction]{@link EventAction}.
  *
- * In order to trigger the `removeEffect` method of the [EventEffect]{@link EventEffect},
+ * In order to trigger the `onEnd` method of the [EventAction]{@link EventAction},
  *  a user must supply an `Observable<void>` to the `clickRemoveEvent$` input.
  */
 @Directive()
@@ -22,8 +22,8 @@ export abstract class ClickDirective
   implements OnInit, OnDestroy
 {
   /**
-   * An `Observable<void>` that triggers the `removeEffect` method of all user-provided
-   *  [EventEffect]{@link EventEffect} instances.
+   * An `Observable<void>` that triggers the `onEnd` method of all user-provided
+   *  [EventAction]{@link EventAction} instances.
    */
   @Input('vicDataMarksClickRemoveEvent$') clickRemoveEvent$: Observable<void>;
   unlistenClick: UnlistenFunction[];

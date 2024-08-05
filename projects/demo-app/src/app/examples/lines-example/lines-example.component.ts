@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -9,66 +10,51 @@ import {
   MatButtonToggleChange,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
-import { VicAxisConfig } from 'projects/viz-components/src/lib/axes/axis.config';
+import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
-  EventEffect,
-  HoverMoveEventEffect,
-} from 'projects/viz-components/src/lib/events/effect';
-import { VicExportDataService } from 'projects/viz-components/src/lib/export-data/export-data.service';
-import { VicJpegImageConfig } from 'projects/viz-components/src/lib/image-download/image.config';
-import { VicImageService } from 'projects/viz-components/src/lib/image-download/image.service';
-import { LinesClickEmitTooltipDataPauseHoverMoveEffects } from 'projects/viz-components/src/lib/lines/lines-click-effects';
-import { LinesClickDirective } from 'projects/viz-components/src/lib/lines/lines-click.directive';
+  EventAction,
+  HoverMoveAction,
+} from 'projects/viz-components/src/lib/events/action';
+import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-config';
+import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/events/lines-event-output';
+import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
+import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
+  LinesClickDirective,
+  LinesClickEmitTooltipDataPauseHoverMoveActions,
   LinesHoverMoveDefaultStyles,
-  LinesHoverMoveDefaultStylesConfig,
+  LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
-} from 'projects/viz-components/src/lib/lines/lines-hover-move-effects';
-
-import { CommonModule } from '@angular/common';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import {
-  VicColumnConfig,
-  VicDataExportConfig,
-} from 'projects/viz-components/src/lib/export-data/data-export.config';
-import { LinesHoverMoveDirective } from 'projects/viz-components/src/lib/lines/lines-hover-move.directive';
-import { VicLinesEventOutput } from 'projects/viz-components/src/lib/lines/lines-tooltip-data';
-import { VicLinesConfig } from 'projects/viz-components/src/lib/lines/lines.config';
-import {
-  VicHtmlTooltipConfig,
-  VicHtmlTooltipOffsetFromOriginPosition,
-} from 'projects/viz-components/src/lib/tooltips/html-tooltip/html-tooltip.config';
-import {
   VicChartModule,
+  VicColumnConfig,
+  VicDataExport,
+  VicDataExportConfig,
   VicHtmlTooltipModule,
+  VicImageDownload,
+  VicJpegImageConfig,
+  VicLinesConfigBuilder,
   VicLinesModule,
-  VicPixelDomainPaddingConfig,
+  VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { MetroUnemploymentDatum } from '../../core/models/data';
 import { DataService } from '../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
-import { HighlightLineForLabel } from './line-input-effects';
+import { HighlightLineForLabel } from './line-input-actions';
 
 interface ViewModel {
-  dataConfig: VicLinesConfig<MetroUnemploymentDatum>;
-  xAxisConfig: VicAxisConfig;
-  yAxisConfig: VicAxisConfig;
+  dataConfig: LinesConfig<MetroUnemploymentDatum>;
+  xAxisConfig: VicQuantitativeAxisConfig<Date>;
+  yAxisConfig: VicQuantitativeAxisConfig<number>;
   labels: string[];
 }
-const includeFiles = ['line-input-effects.ts'];
-
-class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
-  constructor(config: Partial<VicHtmlTooltipConfig> = {}) {
-    super();
-    this.size.minWidth = 340;
-    Object.assign(this, config);
-  }
-}
+const includeFiles = ['line-input-actions.ts'];
 
 @Component({
   selector: 'app-lines-example',
@@ -87,41 +73,41 @@ class LinesExampleTooltipConfig extends VicHtmlTooltipConfig {
   ],
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
+  providers: [
+    VicLinesConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+    VicXQuantitativeAxisConfigBuilder,
+    VicHtmlTooltipConfigBuilder,
+  ],
 })
 export class LinesExampleComponent implements OnInit {
   @ViewChild('imageNode') imageNode: ElementRef<HTMLElement>;
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 8,
     right: 4,
     bottom: 36,
     left: 64,
   };
-  tooltipConfig: BehaviorSubject<VicHtmlTooltipConfig> =
-    new BehaviorSubject<VicHtmlTooltipConfig>(
-      new LinesExampleTooltipConfig({ show: false })
-    );
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>> =
-    new BehaviorSubject<VicLinesEventOutput<MetroUnemploymentDatum>>(null);
+  tooltipData: BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>> =
+    new BehaviorSubject<LinesEventOutput<MetroUnemploymentDatum>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   chartInputEvent: BehaviorSubject<string> = new BehaviorSubject<string>(null);
   chartInputEvent$ = this.chartInputEvent.asObservable();
   removeTooltipEvent: Subject<void> = new Subject<void>();
   removeTooltipEvent$ = this.removeTooltipEvent.asObservable();
-  highlightLineForLabelEffect = new HighlightLineForLabel();
-  hoverEffects: HoverMoveEventEffect<
+  highlightLineForLabelAction = new HighlightLineForLabel();
+  hoverActions: HoverMoveAction<
     LinesHoverMoveDirective<MetroUnemploymentDatum>
   >[] = [
-    new LinesHoverMoveDefaultStyles(
-      new LinesHoverMoveDefaultStylesConfig({
-        growMarkerDimension: 3,
-      })
-    ),
+    new LinesHoverMoveDefaultStyles(),
     new LinesHoverMoveEmitTooltipData(),
   ];
-  clickEffects: EventEffect<LinesClickDirective<MetroUnemploymentDatum>>[] = [
-    new LinesClickEmitTooltipDataPauseHoverMoveEffects(),
+  clickActions: EventAction<LinesClickDirective<MetroUnemploymentDatum>>[] = [
+    new LinesClickEmitTooltipDataPauseHoverMoveActions(),
   ];
   includeFiles = includeFiles;
   folderName = 'lines-example';
@@ -130,10 +116,14 @@ export class LinesExampleComponent implements OnInit {
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
 
-  private imageService = inject(VicImageService);
+  private imageService = inject(VicImageDownload);
   constructor(
     private dataService: DataService,
-    public downloadService: VicExportDataService
+    public downloadService: VicDataExport,
+    public lines: VicLinesConfigBuilder<MetroUnemploymentDatum>,
+    private xAxisQuantitative: VicXQuantitativeAxisConfigBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>,
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {
@@ -148,18 +138,23 @@ export class LinesExampleComponent implements OnInit {
   }
 
   getViewModel(data: MetroUnemploymentDatum[]): ViewModel {
-    const xAxisConfig = new VicAxisConfig();
-    xAxisConfig.tickFormat = '%Y';
-    const yAxisConfig = new VicAxisConfig();
-    const dataConfig = new VicLinesConfig<MetroUnemploymentDatum>();
-    dataConfig.data = data;
-    dataConfig.x.valueAccessor = (d) => d.date;
-    dataConfig.x.valueFormat = '%a %B %d %Y';
-    dataConfig.y.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.division;
-    dataConfig.pointMarkers.radius = 2;
+    const xAxisConfig = this.xAxisQuantitative.tickFormat('%Y').getConfig();
+    const yAxisConfig = this.yAxisQuantitative.getConfig();
+    const dataConfig = this.lines
+      .data(data)
+      .createXDateDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createYDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value).domainPaddingPixels(20)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.division)
+      )
+      .createPointMarkers((markers) => markers.radius(2).growByOnHover(3))
+      .build();
+
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
-    dataConfig.y.domainPadding = new VicPixelDomainPaddingConfig();
     return {
       dataConfig,
       xAxisConfig,
@@ -169,34 +164,29 @@ export class LinesExampleComponent implements OnInit {
   }
 
   updateTooltipForNewOutput(
-    data: VicLinesEventOutput<MetroUnemploymentDatum>,
+    data: LinesEventOutput<MetroUnemploymentDatum>,
     tooltipEvent: 'hover' | 'click'
   ): void {
     this.updateTooltipData(data);
-    this.updateTooltipConfig(data, tooltipEvent);
+    this.updateTooltipConfig(tooltipEvent);
   }
 
-  updateTooltipData(data: VicLinesEventOutput<MetroUnemploymentDatum>): void {
+  updateTooltipData(data: LinesEventOutput<MetroUnemploymentDatum>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(
-    data: VicLinesEventOutput<MetroUnemploymentDatum>,
-    eventContext: 'click' | 'hover'
-  ): void {
-    const config = new LinesExampleTooltipConfig();
-    config.hasBackdrop = eventContext === 'click';
-    config.closeOnBackdropClick = eventContext === 'click';
-    config.position = new VicHtmlTooltipOffsetFromOriginPosition();
-    if (data) {
-      config.position.offsetX = data.positionX;
-      config.position.offsetY = data.positionY - 16;
-      config.show = true;
-    } else {
-      config.position.offsetX = null;
-      config.position.offsetY = null;
-      config.show = false;
-    }
+  updateTooltipConfig(eventContext: 'click' | 'hover'): void {
+    const data = this.tooltipData.getValue();
+    const config = this.tooltip
+      .setSize((size) => size.minWidth(340))
+      .createOffsetFromOriginPosition((position) =>
+        position
+          .offsetX(data?.positionX)
+          .offsetY(data ? data.positionY - 16 : undefined)
+      )
+      .hasBackdrop(eventContext === 'click')
+      .show(!!data)
+      .getConfig();
     this.tooltipConfig.next(config);
   }
 
@@ -206,6 +196,7 @@ export class LinesExampleComponent implements OnInit {
 
   onBackdropClick(): void {
     this.removeTooltipEvent.next();
+    this.updateTooltipConfig('hover');
   }
 
   async downloadImage(): Promise<void> {

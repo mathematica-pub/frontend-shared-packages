@@ -4,8 +4,8 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { GroupedBarsComponent } from './grouped-bars.component';
 
 describe('GroupedBarsComponent', () => {
-  let component: GroupedBarsComponent<any>;
-  let fixture: ComponentFixture<GroupedBarsComponent<any>>;
+  let component: GroupedBarsComponent<any, string>;
+  let fixture: ComponentFixture<GroupedBarsComponent<any, string>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -15,7 +15,7 @@ describe('GroupedBarsComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GroupedBarsComponent);
+    fixture = TestBed.createComponent(GroupedBarsComponent<any, string>);
     component = fixture.componentInstance;
   });
 

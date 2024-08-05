@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { OrdinalAxisMixin } from '../ordinal/ordinal-axis';
-import { XyAxis } from '../xy-axis';
-import { mixinYAxis } from '../y/y-axis';
+import { DataValue } from '../../core/types/values';
+import { XyAxis } from '../base/xy-axis-base';
+import { ordinalAxisMixin } from '../ordinal/ordinal-axis';
+import { yAxisMixin } from '../y/y-axis';
 
-const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
+const YOrdinalAxis = yAxisMixin(ordinalAxisMixin(XyAxis));
 
 /**
  * A component that is used to create an ordinal y-axis.
@@ -45,4 +46,6 @@ const YOrdinalAxis = mixinYAxis(OrdinalAxisMixin(XyAxis));
   // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['side', 'config'],
 })
-export class YOrdinalAxisComponent extends YOrdinalAxis {}
+export class YOrdinalAxisComponent<
+  TickValue extends DataValue,
+> extends YOrdinalAxis<TickValue> {}

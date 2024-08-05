@@ -1,15 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { VicElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { XOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
+import { YQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
+import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
+import { VicStackedBarsConfigBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
+import { StackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-config';
 import {
-  VicAxisConfig,
   VicChartModule,
-  VicStackedBarsConfig,
   VicStackedBarsModule,
-  VicVerticalBarsDimensionsConfig,
+  VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
+  VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
@@ -18,9 +21,9 @@ import { DataService } from '../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
 interface ViewModel {
-  dataConfig: VicStackedBarsConfig<IndustryUnemploymentDatum>;
-  xAxisConfig: VicAxisConfig;
-  yAxisConfig: VicAxisConfig;
+  dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
+  xAxisConfig: XOrdinalAxisConfig<Date>;
+  yAxisConfig: YQuantitativeAxisConfig<number>;
 }
 
 @Component({
@@ -39,10 +42,15 @@ interface ViewModel {
   templateUrl: './stacked-bars-example.component.html',
   styleUrls: ['./stacked-bars-example.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    VicStackedBarsConfigBuilder,
+    VicXOrdinalAxisConfigBuilder,
+    VicYQuantitativeAxisConfigBuilder,
+  ],
 })
 export class StackedBarsExampleComponent implements OnInit {
   vm$: Observable<ViewModel>;
-  margin: VicElementSpacing = {
+  margin: ElementSpacing = {
     top: 8,
     right: 0,
     bottom: 36,
@@ -50,7 +58,15 @@ export class StackedBarsExampleComponent implements OnInit {
   };
   folderName = 'stacked-bars-example';
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private stackedBars: VicStackedBarsConfigBuilder<
+      IndustryUnemploymentDatum,
+      Date
+    >,
+    private xAxisOrdinal: VicXOrdinalAxisConfigBuilder<Date>,
+    private yAxisQuantitative: VicYQuantitativeAxisConfigBuilder<number>
+  ) {}
 
   ngOnInit(): void {
     this.vm$ = this.dataService.industryUnemploymentData$.pipe(
@@ -63,16 +79,22 @@ export class StackedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
-    const xAxisConfig = new VicAxisConfig();
-    xAxisConfig.tickFormat = '%Y';
-    const yAxisConfig = new VicAxisConfig();
-    yAxisConfig.tickFormat = ',.0f';
-    const dataConfig = new VicStackedBarsConfig<IndustryUnemploymentDatum>();
-    dataConfig.data = yearlyData;
-    dataConfig.dimensions = new VicVerticalBarsDimensionsConfig();
-    dataConfig.ordinal.valueAccessor = (d) => d.date;
-    dataConfig.quantitative.valueAccessor = (d) => d.value;
-    dataConfig.category.valueAccessor = (d) => d.industry;
+    const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
+    const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
+    const dataConfig = this.stackedBars
+      .data(yearlyData)
+      .orientation('vertical')
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.date)
+      )
+      .createQuantitativeDimension((dimension) =>
+        dimension.valueAccessor((d) => d.value)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.industry)
+      )
+      .getConfig();
+
     return {
       dataConfig,
       xAxisConfig,

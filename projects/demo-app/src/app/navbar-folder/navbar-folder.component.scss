@@ -31,6 +31,10 @@
   transition: all 200ms;
 }
 
+.nav-item {
+  padding-right: grid(2);
+}
+
 .active-link {
   background-color: color.$primary-6;
 }

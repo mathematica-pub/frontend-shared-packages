@@ -9,36 +9,22 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  group,
-  InternSet,
-  line,
-  map,
-  range,
-  scaleOrdinal,
-  select,
-  Transition,
-} from 'd3';
+import { line, map, select, Transition } from 'd3';
+import { Selection } from 'd3-selection';
 import { ChartComponent } from '../chart/chart.component';
-import { QuantitativeDomainUtilities } from '../core/utilities/quantitative-domain';
-import { isDate, isNumber } from '../core/utilities/type-guard';
-import { DATA_MARKS } from '../data-marks/data-marks.token';
+import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyDataMarksBase } from '../xy-data-marks/xy-data-marks-base';
-import { VicLinesConfig } from './lines.config';
+import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
+import { LinesConfig } from './config/lines-config';
 
-export interface Marker {
-  key: string;
-  index: number;
-}
+export type LinesGroupSelection = Selection<
+  SVGGElement,
+  LinesGroupSelectionDatum,
+  SVGSVGElement,
+  unknown
+>;
 
-export class LinesTooltipData {
-  datum: any;
-  color: string;
-  x: string;
-  y: string;
-  category: string;
-}
+export type LinesGroupSelectionDatum = [string, number[]];
 
 export const LINES = new InjectionToken<LinesComponent<unknown>>(
   'LinesComponent'
@@ -52,154 +38,33 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: DATA_MARKS, useExisting: LinesComponent },
+    { provide: VIC_DATA_MARKS, useExisting: LinesComponent },
     { provide: LINES, useExisting: LinesComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent<Datum> extends XyDataMarksBase<
+export class LinesComponent<Datum> extends VicXyDataMarks<
   Datum,
-  VicLinesConfig<Datum>
+  LinesConfig<Datum>
 > {
   @ViewChild('lines', { static: true }) linesRef: ElementRef<SVGSVGElement>;
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
-  lineLabelsRef: ElementRef<SVGSVGElement>;
+  hoverDotClass = 'vic-lines-hover-dot';
   line: (x: any[]) => any;
-  linesD3Data;
-  linesKeyFunction;
-  markersD3Data;
-  markersKeyFunction;
+  lineGroups: LinesGroupSelection;
+  lineLabelsRef: ElementRef<SVGSVGElement>;
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
-  unpaddedDomain: {
-    x: [number, number] | [Date, Date];
-    y: [number, number];
-  } = { x: undefined, y: undefined };
-
   private zone = inject(NgZone);
 
-  get lines(): any {
-    return select(this.linesRef.nativeElement).selectAll('path');
-  }
-
-  get hoverDot(): any {
-    return select(this.dotRef.nativeElement).selectAll('circle');
-  }
-
-  get markers(): any {
-    return select(this.markersRef.nativeElement).selectAll('circle');
-  }
-
-  setPropertiesFromConfig(): void {
-    this.setValueArrays();
-    this.initDomains();
-    this.setValueIndicies();
-    this.initCategoryScale();
-    this.setLinesD3Data();
-    this.setLinesKeyFunction();
-    this.setMarkersD3Data();
-    this.setMarkersKeyFunction();
-  }
-
-  setValueArrays(): void {
-    this.values.x = map(this.config.data, this.config.x.valueAccessor);
-    this.values.y = map(this.config.data, this.config.y.valueAccessor);
-    this.values.category = map(
-      this.config.data,
-      this.config.category.valueAccessor
-    );
-  }
-
-  initDomains(): void {
-    this.setUnpaddedDomains();
-    if (this.config.category.domain === undefined) {
-      this.config.category.domain = this.values.category;
-    }
-  }
-
-  setUnpaddedDomains(): void {
-    this.unpaddedDomain.x = QuantitativeDomainUtilities.getUnpaddedDomain(
-      this.config.x.domain,
-      this.values.x,
-      this.config.x.domainIncludesZero
-    );
-    this.unpaddedDomain.y = QuantitativeDomainUtilities.getUnpaddedDomain(
-      this.config.y.domain,
-      this.values.y,
-      this.config.y.domainIncludesZero
-    );
-  }
-
-  setValueIndicies(): void {
-    const domainInternSet = new InternSet(this.config.category.domain);
-    this.values.indicies = range(this.values.x.length).filter((i) =>
-      domainInternSet.has(this.values.category[i])
-    );
-  }
-
-  initCategoryScale(): void {
-    if (this.config.category.colorScale === undefined) {
-      this.config.category.colorScale = scaleOrdinal(
-        new InternSet(this.config.category.domain),
-        this.config.category.colors
-      );
-    }
-  }
-
-  setLinesD3Data(): void {
-    const definedIndices = this.values.indicies.filter(
-      (i) =>
-        this.canBeDrawnByPath(this.values.x[i]) &&
-        this.canBeDrawnByPath(this.values.y[i])
-    );
-    this.linesD3Data = group(definedIndices, (i) => this.values.category[i]);
-  }
-
-  canBeDrawnByPath(x: unknown): boolean {
-    return (isNumber(x) || isDate(x)) && x !== null && x !== undefined;
-  }
-
-  setLinesKeyFunction(): void {
-    this.linesKeyFunction = (d): string => d[0];
-  }
-
-  setMarkersD3Data(): void {
-    this.markersD3Data = this.values.indicies
-      .map((i) => {
-        return { key: this.getMarkerKey(i), index: i };
-      })
-      .filter(
-        (marker: Marker) =>
-          this.canBeDrawnByPath(this.values.x[marker.index]) &&
-          this.canBeDrawnByPath(this.values.y[marker.index])
-      );
-  }
-
-  getMarkerKey(i: number): string {
-    return `${this.values.category[i]}-${this.values.x[i]}`;
-  }
-
-  setMarkersKeyFunction(): void {
-    this.markersKeyFunction = (d) => (d as Marker).key;
-  }
-
   setPropertiesFromRanges(useTransition: boolean): void {
-    const xDomain = this.unpaddedDomain.x;
-    const yDomain = this.config.y.domainPadding
-      ? QuantitativeDomainUtilities.getPaddedDomain(
-          this.unpaddedDomain.y,
-          this.config.y.domainPadding,
-          this.config.y.scaleFn,
-          this.ranges.y
-        )
-      : this.unpaddedDomain.y;
-    const x = this.config.x.scaleFn().domain(xDomain).range(this.ranges.x);
-    const y = this.config.y.scaleFn().domain(yDomain).range(this.ranges.y);
-    const category = this.config.category.colorScale;
+    const x = this.config.x.getScaleFromRange(this.ranges.x);
+    const y = this.config.y.getScaleFromRange(this.ranges.y);
+    const categorical = this.config.categorical.getScale();
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, category, useTransition });
+      this.chart.updateScales({ x, y, categorical, useTransition });
     });
   }
 
@@ -207,9 +72,9 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
-    if (this.config.pointMarkers.display) {
+    if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.hoverDot.display) {
+    } else if (this.config.hoverDot) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
@@ -218,18 +83,19 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
   }
 
   setLine(): void {
-    if (this.config.valueIsDefined === undefined) {
-      this.config.valueIsDefined = (d, i) =>
-        this.canBeDrawnByPath(this.values.x[i]) &&
-        this.canBeDrawnByPath(this.values.y[i]);
-    }
-    const isDefinedValues = map(this.config.data, this.config.valueIsDefined);
+    const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.line = line()
-      .defined((i: any) => isDefinedValues[i] as boolean)
+      .defined((i: any) => isValid[i] as boolean)
       .curve(this.config.curve)
-      .x((i: any) => this.scales.x(this.values.x[i]))
-      .y((i: any) => this.scales.y(this.values.y[i]));
+      .x((i: any) => this.scales.x(this.config.x.values[i]))
+      .y((i: any) => this.scales.y(this.config.y.values[i]));
+  }
+
+  isValidValue(d: Datum): boolean {
+    const xIsValid = this.config.x.isValidValue(this.config.x.valueAccessor(d));
+    const yIsValid = this.config.y.isValidValue(this.config.y.valueAccessor(d));
+    return xIsValid && yIsValid;
   }
 
   drawLines(transitionDuration: number): void {
@@ -237,30 +103,46 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.lines.data(this.linesD3Data, this.linesKeyFunction).join(
-      (enter) =>
-        enter
-          .append('path')
-          .attr('key', ([category]) => category)
-          .attr('class', 'vic-line')
-          .attr('stroke', ([category]) => this.scales.category(category))
-          .attr('d', ([, lineData]) => this.line(lineData)),
-      (update) =>
-        update
-          .attr('stroke', ([category]) => this.scales.category(category))
-          .call((update) =>
-            update
-              .transition(t as any)
-              .attr('d', ([, lineData]) => this.line(lineData))
-          ),
-      (exit) => exit.remove()
-    );
+    this.lineGroups = select(this.linesRef.nativeElement)
+      .selectAll<SVGGElement, LinesGroupSelectionDatum>('.vic-line-group')
+      .data<LinesGroupSelectionDatum>(
+        this.config.linesD3Data,
+        this.config.linesKeyFunction
+      )
+      .join(
+        (enter) => enter.append('g').attr('class', 'vic-line-group'),
+        (update) => update.transition(t as any),
+        (exit) => exit.remove()
+      );
+
+    this.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('.vic-line')
+      .data<LinesGroupSelectionDatum>((d) => [d])
+      .join(
+        (enter) =>
+          enter
+            .append('path')
+            .attr('category', ([category]) => category)
+            .attr('class', 'vic-line')
+            .attr('stroke', ([category]) => this.scales.categorical(category))
+            .attr('d', ([, lineData]) => this.line(lineData)),
+        (update) =>
+          update
+            .attr('category', ([category]) => category)
+            .attr('stroke', ([category]) => this.scales.categorical(category))
+            .call((update) =>
+              update
+                .transition(t as any)
+                .attr('d', ([, lineData]) => this.line(lineData))
+            ),
+        (exit) => exit.remove()
+      );
   }
 
   drawHoverDot(): void {
     select(this.dotRef.nativeElement)
       .append('circle')
-      .attr('class', 'vic-tooltip-dot')
+      .attr('class', `${this.config.hoverDot.class} ${this.hoverDotClass}`)
       .attr('r', this.config.hoverDot.radius)
       .attr('fill', '#222')
       .attr('display', 'none');
@@ -271,51 +153,86 @@ export class LinesComponent<Datum> extends XyDataMarksBase<
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
-    this.markers.data(this.markersD3Data, this.markersKeyFunction).join(
-      (enter) =>
-        enter
-          .append('circle')
-          .attr('class', this.markerClass)
-          .attr('key', (d) => d.key)
-          .attr(this.markerIndexAttr, (d) => d.index)
-          .style('mix-blend-mode', this.config.mixBlendMode)
-          .attr('cx', (d) => this.scales.x(this.values.x[d.index]))
-          .attr('cy', (d) => this.scales.y(this.values.y[d.index]))
-          .attr('r', this.config.pointMarkers.radius)
-          .attr('fill', (d) =>
-            this.scales.category(this.values.category[d.index])
-          ),
-      (update) =>
-        update
-          .attr('fill', (d) =>
-            this.scales.category(this.values.category[d.index])
-          )
-          .call((update) =>
-            update
-              .transition(t as any)
-              .attr('cx', (d) => this.scales.x(this.values.x[d.index]))
-              .attr('cy', (d) => this.scales.y(this.values.y[d.index]))
-          ),
-      (exit) => exit.remove()
-    );
+    this.lineGroups
+      .selectAll('circle')
+      .data(([, indices]) => this.config.getMarkersData(indices))
+      .join(
+        (enter) =>
+          enter
+            .append('circle')
+            .attr(
+              'class',
+              `${this.config.pointMarkers.class} ${this.markerClass}`
+            )
+            .attr('key', (d) => d.key)
+            .attr('category', (d) => d.category)
+            .attr(this.markerIndexAttr, (d) => d.index)
+            .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
+            .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
+            .attr('r', this.config.pointMarkers.radius)
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            ),
+        (update) =>
+          update
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .call((update) =>
+              update
+                .transition(t as any)
+                .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
+                .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
+            ),
+        (exit) => exit.remove()
+      );
   }
 
   drawLineLabels(): void {
-    const lastPoints = [];
-    this.linesD3Data.forEach((values, key) => {
-      const lastPoint = values[values.length - 1];
-      lastPoints.push({ category: key, index: lastPoint });
-    });
     // TODO: make more flexible (or its own element? currently this only puts labels on the right side of the chart
-    select(this.lineLabelsRef.nativeElement)
+    this.lineGroups
       .selectAll('text')
-      .data(lastPoints)
-      .join('text')
-      .attr('class', 'vic-line-label')
-      .attr('text-anchor', 'end')
-      .attr('fill', (d) => this.scales.category(this.values.category[d.index]))
-      .attr('x', (d) => `${this.scales.x(this.values.x[d.index]) - 4}px`)
-      .attr('y', (d) => `${this.scales.y(this.values.y[d.index]) - 12}px`)
-      .text((d) => this.config.lineLabelsFormat(d.category));
+      .data(([category, indices]) => {
+        return [
+          {
+            category,
+            index: indices[indices.length - 1],
+          },
+        ];
+      })
+      .join(
+        (enter) =>
+          enter
+            .append('text')
+            .attr('class', 'vic-line-label')
+            .attr('text-anchor', 'end')
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .attr(
+              'x',
+              (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`
+            )
+            .attr(
+              'y',
+              (d) => `${this.scales.y(this.config.y.values[d.index]) - 12}px`
+            )
+            .text((d) => this.config.lineLabelsFormat(d.category)),
+        (update) =>
+          update
+            .attr('fill', (d) =>
+              this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .attr(
+              'x',
+              (d) => `${this.scales.x(this.config.x.values[d.index]) - 4}px`
+            )
+            .attr(
+              'y',
+              (d) => `${this.scales.y(this.config.y.values[d.index]) - 12}px`
+            )
+            .text((d) => this.config.lineLabelsFormat(d.category)),
+        (exit) => exit.remove()
+      );
   }
 }

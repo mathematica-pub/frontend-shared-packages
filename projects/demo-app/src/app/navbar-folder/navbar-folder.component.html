@@ -9,7 +9,7 @@
   </a>
   <ng-template #nestedDisplay>
     <div class="link-container" (click)="toggleSelected($any(link.name))">
-      <p>{{$any(link.name) | undasherize | titlecase}}</p>
+      <p class="nav-item">{{$any(link.name) | undasherize | titlecase}}</p>
       <div [ngClass]="getArrow($any(link.name))"></div>
     </div>
     <app-navbar-folder

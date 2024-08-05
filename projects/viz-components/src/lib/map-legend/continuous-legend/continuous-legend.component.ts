@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnChanges, ViewChild } from '@angular/core';
 import { scaleLinear } from 'd3';
-import { VicOrientation } from '../../core/types/layout';
-import { VicNoBinsQuantitativeAttributeDataDimensionConfig } from '../../geographies/geographies.config';
-import { MapLegendContent } from '../map-legend-content';
+import { Orientation } from '../../core/types/layout';
+import { NoBinsAttributeDataDimension } from '../../geographies/config/layers/attribute-data-layer/dimensions/no-bins/no-bins';
+import { MapLegend } from '../map-legend-base';
 
 /**
  * @internal
@@ -13,10 +13,7 @@ import { MapLegendContent } from '../map-legend-content';
   styleUrls: ['./continuous-legend.component.scss'],
 })
 export class ContinuousLegendComponent<Datum>
-  extends MapLegendContent<
-    Datum,
-    VicNoBinsQuantitativeAttributeDataDimensionConfig<Datum>
-  >
+  extends MapLegend<Datum, NoBinsAttributeDataDimension<Datum>>
   implements OnChanges
 {
   @ViewChild('canvas', { static: true })
@@ -32,7 +29,7 @@ export class ContinuousLegendComponent<Datum>
   }
 
   getLeftOffset(): number {
-    if (this.orientation === VicOrientation.horizontal) {
+    if (this.orientation === Orientation.horizontal) {
       return (this.largerValueSpace - this.startValueSpace) * -1;
     } else {
       return 0;
@@ -44,7 +41,7 @@ export class ContinuousLegendComponent<Datum>
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     const ctx = canvas.getContext('2d');
-    if (this.orientation === VicOrientation.horizontal) {
+    if (this.orientation === Orientation.horizontal) {
       this.drawHorizontalGradient(canvas, ctx);
     } else {
       this.drawVerticalGradient(canvas, ctx);
@@ -57,9 +54,11 @@ export class ContinuousLegendComponent<Datum>
   ): void {
     canvas.height = 1;
     canvas.width = this.width - this.startValueSpace - this.endValueSpace - 2;
-    const rectScale = scaleLinear([0, canvas.width], this.colors);
+    const rectScale = scaleLinear<string>()
+      .domain([0, canvas.width])
+      .range(this.colors);
     for (let i = 0; i < canvas.width; ++i) {
-      ctx.fillStyle = this.scale(rectScale(i));
+      ctx.fillStyle = rectScale(i);
       ctx.fillRect(i, 0, 1, 1);
     }
   }
@@ -70,9 +69,11 @@ export class ContinuousLegendComponent<Datum>
   ): void {
     canvas.height = this.height - 16;
     canvas.width = 1;
-    const rectScale = scaleLinear([0, canvas.height], this.colors);
+    const rectScale = scaleLinear<string>()
+      .domain([0, canvas.height])
+      .range(this.colors);
     for (let i = 0; i < canvas.height; ++i) {
-      ctx.fillStyle = this.scale(rectScale(i));
+      ctx.fillStyle = rectScale(i);
       ctx.fillRect(0, i, 1, 1);
     }
   }

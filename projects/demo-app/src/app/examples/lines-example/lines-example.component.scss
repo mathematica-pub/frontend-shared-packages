@@ -3,12 +3,12 @@
 @use 'functions' as *;
 @use 'color';
 
-.effect-title {
+.input-event-title {
   @extend %typography-subtitle-2;
   padding-top: grid(2);
 }
 
-.effect-instruction {
+.input-event-instruction {
   @extend %typography-caption;
   padding-bottom: grid(2);
 }

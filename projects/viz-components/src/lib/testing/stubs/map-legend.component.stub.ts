@@ -1,4 +1,4 @@
-import { VicCategoricalAttributeDataDimensionConfig } from '../../geographies/geographies.config';
+import { VicCategoricalAttributeDataDimensionConfig } from '../../geographies/config/geographies-config';
 
 export class MapLegendComponentStub {
   attributeDataConfig = new VicCategoricalAttributeDataDimensionConfig();

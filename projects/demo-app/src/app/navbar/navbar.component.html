@@ -4,7 +4,7 @@
     routerLink="/overview"
     routerLinkActive="active-link"
   >
-    <p>Overview</p>
+    <p class="nav-item">Overview</p>
   </a>
   <h2>EXAMPLES</h2>
   <ng-container *ngFor="let example of examples">
@@ -13,7 +13,7 @@
       [routerLink]="'/examples/' + example"
       routerLinkActive="active-link"
     >
-      <p>{{example | undasherize | titlecase}}</p>
+      <p class="nav-item">{{example | undasherize | titlecase}}</p>
     </a>
   </ng-container>
   <h2>DOCUMENTATION</h2>

@@ -2,8 +2,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { VicLinesConfigBuilder } from './config/lines-builder';
 import { LinesComponent } from './lines.component';
-import { VicLinesConfig } from './lines.config';
 
 describe('LineChartComponent', () => {
   let component: LinesComponent<any>;
@@ -20,86 +20,6 @@ describe('LineChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LinesComponent);
     component = fixture.componentInstance;
-    component.config = new VicLinesConfig();
-  });
-
-  describe('setPropertiesFromConfig()', () => {
-    beforeEach(() => {
-      spyOn(component, 'setValueArrays');
-      spyOn(component, 'initDomains');
-      spyOn(component, 'setValueIndicies');
-      spyOn(component, 'initCategoryScale');
-      spyOn(component, 'setLinesD3Data');
-      spyOn(component, 'setLinesKeyFunction');
-      spyOn(component, 'setMarkersD3Data');
-      spyOn(component, 'setMarkersKeyFunction');
-      component.setPropertiesFromConfig();
-    });
-    it('calls setValueArrays once', () => {
-      expect(component.setValueArrays).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initDomains once', () => {
-      expect(component.initDomains).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setValueIndicies once', () => {
-      expect(component.setValueIndicies).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls initCategoryScale once', () => {
-      expect(component.initCategoryScale).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setLinesD3Data once', () => {
-      expect(component.setLinesD3Data).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setLinesKeyFunction once', () => {
-      expect(component.setLinesKeyFunction).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setMarkersD3Data once', () => {
-      expect(component.setMarkersD3Data).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setMarkersKeyFunction once', () => {
-      expect(component.setMarkersKeyFunction).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('canBeDrawnByPath()', () => {
-    it('integration: returns true if value is a number', () => {
-      expect(component.canBeDrawnByPath(1)).toEqual(true);
-    });
-
-    it('integration: returns true if value is a Date', () => {
-      expect(component.canBeDrawnByPath(new Date())).toEqual(true);
-    });
-
-    it('integration: returns false if value is undefined', () => {
-      expect(component.canBeDrawnByPath(undefined)).toEqual(false);
-    });
-
-    it('integration: returns false if value is a string', () => {
-      expect(component.canBeDrawnByPath('string')).toEqual(false);
-    });
-
-    it('integration: returns false if value is null', () => {
-      expect(component.canBeDrawnByPath(null)).toEqual(false);
-    });
-
-    it('integration: returns false if value is an object', () => {
-      expect(component.canBeDrawnByPath({ oops: 'not a num' })).toEqual(false);
-    });
-
-    it('integration: returns false if value is an array', () => {
-      expect(component.canBeDrawnByPath(['not a num'])).toEqual(false);
-    });
-
-    it('integration: returns false if value is boolean', () => {
-      expect(component.canBeDrawnByPath(true)).toEqual(false);
-    });
   });
 
   describe('drawMarks()', () => {
@@ -111,7 +31,16 @@ describe('LineChartComponent', () => {
       spyOn(component, 'drawPointMarkers');
       spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
-      component.config = new VicLinesConfig();
+      component.config = new VicLinesConfigBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .build();
     });
     it('calls setLine once', () => {
       component.drawMarks();
@@ -125,29 +54,68 @@ describe('LineChartComponent', () => {
       component.drawMarks();
       expect(component.drawLines).toHaveBeenCalledOnceWith(duration);
     });
-    it('calls drawPointMarkers once with the correct argument if config.pointMarkers.display is truthy', () => {
-      component.config.pointMarkers.display = true;
+    it('calls drawPointMarkers once with the correct argument if config.pointMarkers is truthy', () => {
+      component.config = new VicLinesConfigBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createPointMarkers()
+        .build();
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
-    it('does not call drawPointMarkers once if config.pointMarkers.display is falsy', () => {
-      component.config.pointMarkers.display = false;
+    it('does not call drawPointMarkers once if config.pointMarkers is undefined', () => {
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
     });
-    it('calls drawHoverDot once with the correct argument if config.pointMarkers.display is false and display hover dot is true', () => {
-      component.config.pointMarkers.display = false;
-      component.config.hoverDot.display = true;
+    it('calls drawHoverDot once with the correct argument if config.pointMarkersis undefined and hoverDot is defined', () => {
+      component.config = new VicLinesConfigBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createHoverDot()
+        .build();
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
-    it('does not call drawHoverDot once if config.pointMarkers.display is true', () => {
-      component.config.pointMarkers.display = true;
+    it('does not call drawHoverDot once if config.pointMarkers is true', () => {
+      component.config = new VicLinesConfigBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createPointMarkers()
+        .createHoverDot()
+        .build();
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
     });
     it('calls drawLineLabels once if config.labelLines is true', () => {
-      component.config.labelLines = true;
+      component.config = new VicLinesConfigBuilder()
+        .data([])
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .createYDimension((dimension) => dimension.valueAccessor(() => null))
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor(() => null)
+        )
+        .labelLines(true)
+        .build();
       component.drawMarks();
       expect(component.drawLineLabels).toHaveBeenCalledTimes(1);
     });

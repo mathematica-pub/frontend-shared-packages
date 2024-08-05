@@ -3,21 +3,25 @@ import { axisLeft, axisRight } from 'd3';
 import { Observable, filter, map } from 'rxjs';
 import { Ranges } from '../../chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { VicSide } from '../../core/types/layout';
-import { XyAxis, XyAxisScale } from '../xy-axis';
+import { DataValue } from '../../core/types/values';
+import { XyAxis, XyAxisScale } from '../base/xy-axis-base';
+import { YAxisConfig } from './y-axis-config';
 
 /**
  * A mixin that extends `XyAxis` with the functionality needed for a y-axis.
  *
  * For internal library use only.
  */
-export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
+export function yAxisMixin<
+  TickValue extends DataValue,
+  T extends AbstractConstructor<XyAxis<TickValue>>,
+>(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
     /**
      * The side of the chart on which the axis will be rendered.
      */
-    @Input() side: VicSide.left | VicSide.right = VicSide.left;
+    @Input() override config: YAxisConfig<TickValue>;
     translate$: Observable<string>;
 
     setTranslate(): void {
@@ -30,7 +34,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     getTranslateDistance(ranges: Ranges): number {
-      return this.side === VicSide.left
+      return this.config.side === 'left'
         ? this.getLeftTranslate(ranges)
         : this.getRightTranslate(ranges);
     }
@@ -54,7 +58,7 @@ export function mixinYAxis<T extends AbstractConstructor<XyAxis>>(Base: T) {
     }
 
     setAxisFunction(): void {
-      this.axisFunction = this.side === VicSide.left ? axisLeft : axisRight;
+      this.axisFunction = this.config.side === 'left' ? axisLeft : axisRight;
     }
 
     initNumTicks(): number {

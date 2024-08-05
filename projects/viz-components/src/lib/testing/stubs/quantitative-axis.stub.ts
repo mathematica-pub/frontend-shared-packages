@@ -1,15 +1,15 @@
-import { mixinQuantitativeAxis } from '../../axes/quantitative/quantitative-axis';
+import { quantitativeAxisMixin } from '../../axes/quantitative/quantitative-axis';
+import { DataValue } from '../../core/types/values';
 import { XyAxisStub } from './xy-axis.stub';
 
-export class QuantitativeAxisStub extends mixinQuantitativeAxis(XyAxisStub) {
+export class QuantitativeAxisStub<
+  T extends DataValue,
+> extends quantitativeAxisMixin(XyAxisStub)<T> {
   setScale(): void {
     return;
   }
   setAxisFunction() {
     return;
-  }
-  initNumTicks(): number {
-    return 16;
   }
   setTranslate(): void {
     return;

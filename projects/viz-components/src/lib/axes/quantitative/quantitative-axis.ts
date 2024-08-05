@@ -1,26 +1,25 @@
+import { Directive, Input } from '@angular/core';
 import { AxisTimeInterval, format, timeFormat } from 'd3';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
-import { XyAxis } from '../xy-axis';
+import { ContinuousValue } from '../../core/types/values';
+import { XyAxis } from '../base/xy-axis-base';
+import { VicQuantitativeAxisConfig as QuantitativeAxisConfig } from './quantitative-axis-config';
 
-/**
- * A mixin that extends `XyAxis` with the functionality needed for a quantitative axis.
- *
- * For internal library use only.
- */
-export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
-  Base: T
-) {
+export function quantitativeAxisMixin<
+  TickValue extends ContinuousValue,
+  T extends AbstractConstructor<XyAxis<TickValue>>,
+>(Base: T) {
+  @Directive()
   abstract class Mixin extends Base {
-    defaultTickFormat = ',.1f';
+    @Input() override config: QuantitativeAxisConfig<TickValue>;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setAxis(axisFunction: any): void {
-      const tickFormat = this.config.tickFormat || this.defaultTickFormat;
       this.axis = axisFunction(this.scale);
-      this.setTicks(tickFormat);
+      this.setTicks(this.config.tickFormat);
     }
 
-    setTicks(tickFormat: string | ((value: number | Date) => string)): void {
+    setTicks(tickFormat: string | ((value: TickValue) => string)): void {
       if (this.config.tickValues) {
         this.setSpecifiedTickValues(tickFormat);
       } else {
@@ -29,8 +28,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     setSpecifiedTickValues(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tickFormat: string | ((value: any) => string)
+      tickFormat: string | ((value: TickValue) => string)
     ): void {
       const validTickValues = this.getValidTickValues();
       this.axis.tickValues(validTickValues);
@@ -42,7 +40,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
       });
     }
 
-    getValidTickValues(): number[] | Date[] {
+    getValidTickValues(): TickValue[] {
       const domain = this.scale.domain();
       const validValues = [];
       this.config.tickValues.forEach((value) => {
@@ -54,8 +52,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     setUnspecifiedTickValues(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tickFormat: string | ((value: any) => string)
+      tickFormat: string | ((value: TickValue) => string)
     ): void {
       const validNumTicks = this.getValidNumTicks(tickFormat);
       this.axis.ticks(validNumTicks);
@@ -68,8 +65,7 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     getValidNumTicks(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tickFormat: string | ((value: any) => string)
+      tickFormat: string | ((value: TickValue) => string)
     ): number | AxisTimeInterval {
       let numValidTicks = this.getNumTicks();
       if (typeof tickFormat === 'string' && typeof numValidTicks === 'number') {
@@ -88,7 +84,13 @@ export function mixinQuantitativeAxis<T extends AbstractConstructor<XyAxis>>(
     }
 
     getNumTicks(): number | AxisTimeInterval {
-      return this.config.numTicks || this.initNumTicks();
+      return (
+        this.config.numTicks ||
+        this.config.getSuggestedNumTicksFromChartDimension({
+          height: this.chart.height,
+          width: this.chart.width,
+        })
+      );
     }
 
     getValidNumTicksForStringFormatter(
