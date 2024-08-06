@@ -1,0 +1,35 @@
+name: Send Slack notification for open review period
+
+on:
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  approved:
+    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'throwaway-testing'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Calculate next weekday
+        id: next_weekday
+        run: |
+          get_next_weekday() {
+              date=$(date +%Y-%m-%d)
+              while true; do
+                  day_of_week=$(date -d "$date" +%u)
+                  if [ "$day_of_week" -lt 6 ]; then
+                      echo "$date"
+                      break
+                  fi
+                  date=$(date -d "$date + 1 day" +%Y-%m-%d)
+              done
+          }
+          next_weekday=$(get_next_weekday)
+          echo "::set-output name=date::$next_weekday"
+
+        # TODO: add check for if version has been incremented first
+
+      - name: Send Slack notification
+        run: |
+          export version=$(node -p "require('./projects/viz-components/package.json').version")
+          curl -X POST -H 'Content-type: application/json' --data '{"text": "`viz-components` v${{ env.VERSION }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
