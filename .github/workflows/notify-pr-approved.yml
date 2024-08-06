@@ -66,7 +66,7 @@ jobs:
           echo "Current version of viz-components: ${{ env.vic_version }}"
 
           if [[ "$latest_vic_version" != "${{ env.vic_version }}" ]]; then
-            curl -X POST -H 'Content-type: application/json' --data '{"text": "`viz-components` v${{ env.vic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text": "viz-components v${{ env.vic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
           fi
 
       # TODO: change $SLACK_WEBHOOK_URL to $SLACK_WEBHOOK_URL_VIC/UIC
@@ -87,5 +87,5 @@ jobs:
           echo "Current version of ui-components: ${{ env.uic_version }}"
 
           if [[ "$latest_uic_version" != "${{ env.uic_version }}" ]]; then
-            curl -X POST -H 'Content-type: application/json' --data '{"text": "`ui-components` v${{ env.uic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
+            curl -X POST -H 'Content-type: application/json' --data '{"text": "ui-components v${{ env.uic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
           fi
