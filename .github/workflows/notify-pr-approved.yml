@@ -1,4 +1,4 @@
-name: Send Slack notification for open review period
+name: Slack notification for open review
 
 on:
   pull_request_review:
@@ -6,6 +6,7 @@ on:
 
 jobs:
   approved:
+    # TODO: change base ref to main
     if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'throwaway-testing'
     runs-on: ubuntu-latest
 
@@ -36,9 +37,47 @@ jobs:
           next_weekday=$(get_next_weekday)
           echo "::set-output name=date::$next_weekday"
 
-        # TODO: add check for if version has been incremented first
-
-      - name: Send Slack notification
+      - name: Get package versions
         run: |
-          export version=$(node -p "require('./projects/viz-components/package.json').version")
-          curl -X POST -H 'Content-type: application/json' --data '{"text": "`viz-components` v${{ env.VERSION }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
+          vic_version=$(node -p "require('./projects/viz-components/package.json').version")
+          uic_version=$(node -p "require('./projects/ui-components/package.json').version")
+          echo "vic_version=$vic_version" >> $GITHUB_ENV
+          echo "uic_version=$uic_version" >> $GITHUB_ENV
+
+      - name: Send Slack notification for newly approved viz-components version
+        run: |
+          vic_output=$(aws codeartifact list-package-versions --package viz-components \
+              --domain shared-package-domain \
+              --domain-owner 922539530544 \
+              --repository shared-package-repository \
+              --format npm \
+              --output json)
+
+          latest_vic_version=$(echo "$vic_output" | jq -r '.versions[] | select(.version | contains("-beta") | not) | .version' | sort -V | tail -n 1)
+
+          echo "Latest version of viz-components: $latest_vic_version"
+          echo "Current version of viz-components: ${{ env.vic_version }}"
+
+          if [[ "$latest_vic_version" != "${{ env.vic_version }}" ]]; then
+            curl -X POST -H 'Content-type: application/json' --data '{"text": "`viz-components` v${{ env.vic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
+          fi
+
+      # TODO: change $SLACK_WEBHOOK_URL to $SLACK_WEBHOOK_URL_VIC/UIC
+
+      - name: Send Slack notification for newly approved ui-components version
+        run: |
+          uic_output=$(aws codeartifact list-package-versions --package ui-components \
+              --domain shared-package-domain \
+              --domain-owner 922539530544 \
+              --repository shared-package-repository \
+              --format npm \
+              --output json)
+
+          latest_uic_version=$(echo "$uic_output" | jq -r '.versions[] | select(.version | contains("-beta") | not) | .version' | sort -V | tail -n 1)
+
+          echo "Latest version of ui-components: $latest_uic_version"
+          echo "Current version of ui-components: ${{ env.uic_version }}"
+
+          if [[ "$latest_uic_version" != "${{ env.uic_version }}" ]]; then
+            curl -X POST -H 'Content-type: application/json' --data '{"text": "`ui-components` v${{ env.uic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!"}' $SLACK_WEBHOOK_URL
+          fi
