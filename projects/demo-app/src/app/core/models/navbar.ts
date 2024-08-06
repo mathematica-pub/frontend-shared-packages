@@ -8,9 +8,7 @@ export enum DirItem {
 }
 
 interface NavbarItemBase {
-  type: DirItem;
   name: string;
-  contents: string | NavbarItem[];
 }
 
 export interface NavbarFolder extends NavbarItemBase {

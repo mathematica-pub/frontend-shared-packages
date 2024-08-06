@@ -5,17 +5,17 @@ import { DirItem, NavbarItem } from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 
 @Component({
-  selector: 'app-navbar-folder',
+  selector: 'app-navbar-directory',
   standalone: true,
   imports: [CommonModule, RouterModule, UndasherizePipe],
-  templateUrl: './navbar-folder.component.html',
-  styleUrls: ['./navbar-folder.component.scss'],
+  templateUrl: './navbar-directory.component.html',
+  styleUrls: ['./navbar-directory.component.scss'],
 })
-export class NavbarFolderComponent {
-  @Input() links: NavbarItem[];
+export class NavbarDirectoryComponent {
+  @Input() items: NavbarItem[];
   @Input() baseString;
-  @Input() level: number;
-  @ViewChild(NavbarFolderComponent) child: NavbarFolderComponent;
+  @Input() level: number = 0;
+  @ViewChild(NavbarDirectoryComponent) child: NavbarDirectoryComponent;
   selected = {};
   DirItem = DirItem;
 

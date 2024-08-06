@@ -13,17 +13,23 @@ import {
   NestedStringObject,
 } from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
-import { NavbarFolderComponent } from '../navbar-folder/navbar-folder.component';
+import { NavbarDirectoryComponent } from '../navbar-directory/navbar-directory.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, NavbarFolderComponent, UndasherizePipe],
+  imports: [
+    CommonModule,
+    RouterModule,
+    NavbarDirectoryComponent,
+    UndasherizePipe,
+  ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  @ViewChild(NavbarFolderComponent) child: NavbarFolderComponent;
+  @ViewChild(NavbarDirectoryComponent)
+  documentationDirectory: NavbarDirectoryComponent;
   documentationTree$: Observable<NavbarItem[]>;
   examples: Example[] = EXAMPLES;
   baseFolder = '/documentation';
@@ -38,44 +44,46 @@ export class NavbarComponent implements OnInit {
       })
       .pipe(
         map((text) => {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          const yamlObject: any = parse(text);
-          return this.getDocumentationTree(yamlObject);
+          const yamlObject = parse(text);
+          const tree = this.getDocumentationTree(yamlObject);
+          return tree;
         })
       );
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  getDocumentationTree(yaml: NestedStringObject): NavbarFolder[] {
-    const returnArray = Object.entries(yaml)
-      .map(([key, value]) => {
+  getDocumentationTree(
+    yaml: NestedStringObject,
+    level: number = 0
+  ): NavbarFolder[] {
+    const returnArray = Object.entries(yaml).map(([key, value]) => {
+      if (typeof value === 'string') {
         return {
           name: key,
           contents: value,
-          type: typeof value === 'string' ? DirItem.File : DirItem.Folder,
+          type: DirItem.File,
         };
-      })
-      .sort((a, b) => {
+      } else {
+        return {
+          name: key,
+          contents: this.getDocumentationTree(value, level + 1),
+          type: DirItem.Folder,
+        };
+      }
+    });
+
+    // Documentation structure doc should determine the order for the top level
+    if (level !== 0) {
+      returnArray.sort((a, b) => {
         if (a.type === DirItem.File && b.type === DirItem.Folder) return 1;
         if (a.type === DirItem.Folder && b.type === DirItem.File) return -1;
         return a.name.localeCompare(b.name);
       });
+    }
 
-    const folderStructure = returnArray
-      .filter((entry) => entry.type === DirItem.Folder)
-      .map((entry) => {
-        return {
-          name: entry.name,
-          type: DirItem.Folder,
-          contents: this.getDocumentationTree(
-            entry.contents as NestedStringObject
-          ),
-        };
-      });
-    return folderStructure as NavbarFolder[];
+    return returnArray as NavbarFolder[];
   }
 
   closeAllDocumentation(): void {
-    this.child?.closeAll();
+    this.documentationDirectory?.closeAll();
   }
 }
