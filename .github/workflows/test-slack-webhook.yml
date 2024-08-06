@@ -1,0 +1,22 @@
+name: Test Slack webhook
+
+on:
+  push:
+    branches:
+      - throwaway-testing
+
+jobs:
+  fake-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Get Current Pull Request
+        uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
+
+      - name: Notify Success
+        if: success()
+        run: |
+          export version=$(node -p "require('./projects/viz-components/package.json').version")
+          curl -X POST -H 'Content-type: application/json' --data '{"text": "`viz-components` version ${{ env.VERSION }} published\n${{ steps.PR.outputs.pr }}"}' $SLACK_WEBHOOK_URL

@@ -10,9 +10,9 @@ env:
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
-  ENVTYPE: ${{ vars.ENVTYPE}}
-  S3WebsiteDeployBucket: ${{ vars.S3_WEBSITE_DEPLOY_BUCKET}}
-  CloudFrontDistributionId: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID}}
+  ENVTYPE: ${{ vars.ENVTYPE }}
+  S3WebsiteDeployBucket: ${{ vars.S3_WEBSITE_DEPLOY_BUCKET }}
+  CloudFrontDistributionId: ${{ vars.CLOUDFRONT_DISTRIBUTION_ID }}
 
 jobs:
   deploy-demo-app:
