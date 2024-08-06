@@ -55,6 +55,7 @@ jobs:
           vic_output=$(aws codeartifact list-package-versions --package viz-components \
               --domain shared-package-domain \
               --domain-owner 922539530544 \
+              --namespace hsi \
               --repository shared-package-repository \
               --format npm \
               --output json)
@@ -75,6 +76,7 @@ jobs:
           uic_output=$(aws codeartifact list-package-versions --package ui-components \
               --domain shared-package-domain \
               --domain-owner 922539530544 \
+              --namespace hsi \
               --repository shared-package-repository \
               --format npm \
               --output json)
