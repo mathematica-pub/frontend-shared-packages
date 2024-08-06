@@ -4,6 +4,10 @@ on:
   pull_request_review:
     types: [submitted]
 
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
+
 jobs:
   approved:
     # TODO: change base ref to main
