@@ -60,7 +60,7 @@ jobs:
               --format npm \
               --output json)
 
-          latest_vic_version=$(echo "$vic_output" | jq -r '.versions[] | select(.version | contains("-beta") | not) | .version' | sort -V | tail -n 1)
+          latest_vic_version=$(echo "$vic_output" | jq -r '.versions[] | select(.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")) | .version' | sort -V | tail -n 1)
 
           echo "Latest version of viz-components: $latest_vic_version"
           echo "Current version of viz-components: ${{ env.vic_version }}"
@@ -81,7 +81,7 @@ jobs:
               --format npm \
               --output json)
 
-          latest_uic_version=$(echo "$uic_output" | jq -r '.versions[] | select(.version | contains("-beta") | not) | .version' | sort -V | tail -n 1)
+          latest_uic_version=$(echo "$uic_output" | jq -r '.versions[] | select(.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")) | .version' | sort -V | tail -n 1)
 
           echo "Latest version of ui-components: $latest_uic_version"
           echo "Current version of ui-components: ${{ env.uic_version }}"
