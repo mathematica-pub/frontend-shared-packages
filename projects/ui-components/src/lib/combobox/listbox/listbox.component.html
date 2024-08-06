@@ -1,0 +1,82 @@
+<div
+  #listboxEl
+  class="combobox-listbox"
+  [id]="service.id + '-listbox'"
+  role="listbox"
+  tabindex="-1"
+  [class.open]="service.isOpen$ | async"
+  [style.--max-reveal-height.px]="maxHeight"
+  [attr.aria-labelledby]="(service.label$ | async) ? service.comboboxLabelId : label?.id"
+  [attr.aria-multiselectable]="isMultiSelect"
+>
+  <div class="scroll-container">
+    <ng-container
+      *ngTemplateOutlet="label?.labelContent || nullContent"
+    ></ng-container>
+    <ng-container *ngIf="(groups$ | async)?.length > 0; else listbox">
+      <ng-container *ngTemplateOutlet="listboxGroups"></ng-container>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #listbox>
+  <div
+    *ngFor="let option of options$ | async; let i = index; trackBy: trackByFn"
+    role="option"
+    class="listbox-option"
+    [ngClass]="'listbox-option-' + i"
+    data-cy="listbox-option"
+    [id]="service.id + '-listbox-option-' + i"
+    [attr.aria-selected]="((option.selected$ | async) || false)"
+    [class.selected]="option.selected$ | async"
+    [class.disabled]="option.disabled$ | async"
+    [class.multi]="isMultiSelect"
+    [class.current]="(activeIndex$ | async) === i && (option.disabled$ | async) !== true"
+    (click)="handleOptionClick($event, option, i)"
+    (mousedown)="handleOptionMousedown()"
+  >
+    <ng-container *ngTemplateOutlet="option.optionContent"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #listboxGroups>
+  <div
+    class="listbox-group-container"
+    *ngFor="let group of groups$ | async; let i = index"
+  >
+    <div
+      class="listbox-group"
+      [ngClass]="'listbox-group-' + i"
+      role="group"
+      [attr.aria-labelledby]="group.label?.id"
+    >
+      <div
+        class="listbox-group-label"
+        [ngClass]="'listbox-group-' + i + '-label'"
+        role="presentation"
+        [id]="group.label?.id"
+        *ngIf="group.label"
+      >
+        <ng-container
+          *ngTemplateOutlet="group.label?.labelContent || nullContent"
+        ></ng-container
+      ></div>
+      <div
+        *ngFor="let option of group.options$ | async; let j = index;"
+        role="option"
+        class="listbox-option"
+        [ngClass]="'listbox-option-' + getOptionIndexFromGroups(i, j)"
+        [id]="service.id + '-listbox-option-' + getOptionIndexFromGroups(i, j)"
+        [attr.aria-selected]="((option.selected$ | async) || false)"
+        [class.selected]="option.selected$ | async"
+        [class.disabled]="option.disabled$ | async"
+        [class.current]="(activeIndex$ | async) === getOptionIndexFromGroups(i, j)"
+        (click)="handleOptionClick($event, option, j, i)"
+        (mousedown)="handleOptionMousedown()"
+      >
+        <ng-container *ngTemplateOutlet="option.optionContent"></ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<ng-template #nullContent></ng-template>

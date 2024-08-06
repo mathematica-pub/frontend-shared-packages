@@ -1,0 +1,32 @@
+<ng-container *ngIf="service.activeTab$ | async as activeTab">
+  <div class="tab-list" role="tablist">
+    <div
+      *ngFor="let item of tabItems$ | async"
+      role="tab"
+      [tabindex]="activeTab === item ? 0 : -1"
+      class="tab-label-container"
+      (click)="selectTab(item)"
+      (keydown)="handleKeydown($event, item)"
+      [attr.aria-selected]="activeTab === item"
+      [class.active]="activeTab === item"
+      aria-controls="tabs-component-body"
+      data-cy="level"
+    >
+      <ng-container *ngIf="item.labelComponent">
+        <ng-container *ngTemplateOutlet="item.labelComponent.labelContent">
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div
+    class="tabs-body"
+    id="tabs-component-body"
+    role="tabpanel"
+    [attr.aria-labelledby]="activeTab?.labelComponent?.id"
+  >
+    <ng-container *ngIf="activeTab.bodyComponent">
+      <ng-container *ngTemplateOutlet="activeTab.bodyComponent.bodyContent">
+      </ng-container>
+    </ng-container>
+  </div>
+</ng-container>

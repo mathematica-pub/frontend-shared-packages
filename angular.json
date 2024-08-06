@@ -2,9 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ]
+    "schematicCollections": ["@angular-eslint/schematics"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -18,7 +16,7 @@
       },
       "root": "projects/viz-components",
       "sourceRoot": "projects/viz-components/src",
-      "prefix": "lib",
+      "prefix": "vic",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -54,6 +52,51 @@
         }
       }
     },
+    "ui-components": {
+      "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ui-components",
+      "sourceRoot": "projects/ui-components/src",
+      "prefix": "hsi-ui",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/ui-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ui-components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ui-components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ui-components/src/test.ts",
+            "tsConfig": "projects/ui-components/tsconfig.spec.json",
+            "karmaConfig": "projects/ui-components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ui-components/**/*.ts",
+              "projects/ui-components/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "demo-app": {
       "projectType": "application",
       "schematics": {
@@ -84,9 +127,7 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/demo-app/src/styles"
-              ]
+              "includePaths": ["projects/demo-app/src/styles"]
             },
             "scripts": []
           },
@@ -158,9 +199,7 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/demo-app/src/styles"
-              ]
+              "includePaths": ["projects/demo-app/src/styles"]
             },
             "scripts": []
           }
