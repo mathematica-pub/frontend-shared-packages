@@ -10,4 +10,4 @@ get_next_weekday() {
     done
 }
 next_weekday=$(get_next_weekday)
-echo "::set-output name=date::$next_weekday"
+echo "next_weekday=$next_weekday" >> $GITHUB_ENV

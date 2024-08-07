@@ -33,7 +33,7 @@ jobs:
         env:
           SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
           SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
-          next_weekday: ${{ steps.next_weekday.outputs.date }}
+          next_weekday: ${{ env.next_weekday }}
           pr_title: ${{ github.event.pull_request.title }}
           pr_url: ${{ github.event.pull_request.html_url }}
         run: bash scripts/notify_version_approved.sh
