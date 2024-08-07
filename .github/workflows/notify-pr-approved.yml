@@ -12,7 +12,7 @@ env:
 
 jobs:
   approved:
-    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
+    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'throwaway-testing'
     runs-on: ubuntu-latest
 
     steps:
@@ -27,58 +27,13 @@ jobs:
 
       - name: Calculate next weekday
         id: next_weekday
-        run: |
-          get_next_weekday() {
-              date=$(date +%m/%d/%Y)
-              while true; do
-                  day_of_week=$(date -d "$date" +%u)
-                  if [ "$day_of_week" -lt 6 ]; then
-                      echo "$date"
-                      break
-                  fi
-                  date=$(date -d "$date + 1 day" +%m/%d/%Y)
-              done
-          }
-          next_weekday=$(get_next_weekday)
-          echo "::set-output name=date::$next_weekday"
+        run: bash scripts/get_next_weekday.sh
 
       - name: Send Slack notification for newly approved package version
-        run: |
-          pkgs=("viz-components" "ui-components")
-          for pkg in "${pkgs[@]}"; do
-            output=$(aws codeartifact list-package-versions --package $pkg \
-                --domain shared-package-domain \
-                --domain-owner 922539530544 \
-                --namespace hsi \
-                --repository shared-package-repository \
-                --format npm \
-                --output json)
-
-            latest_version=$(echo "$output" | jq -r '.versions[] | select(.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")) | .version' | sort -V | tail -n 1)
-            current_version=$(node -p "require('./projects/$pkg/package.json').version")
-
-            echo "Latest version of $pkg: $latest_version"
-            echo "Current version of $pkg: $current_version"
-
-            curr_version_arr=(${current_version//./ })
-            latest_version_arr=(${latest_version//./ })
-
-            for i in {0..2}; do
-                if [ "${curr_version_arr[$i]}" -gt "${latest_version_arr[$i]}" ]; then
-                    if [ "$pkg" == "viz-components" ]; then
-                        SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL_VIC }}
-                    else
-                        SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL_UIC }}
-                    fi
-                    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$current_version (<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
-                    break
-                elif [ "${curr_version_arr[$i]}" -lt "${latest_version_arr[$i]}" ]; then
-                    echo "Current version of $pkg is less than latest version"
-                    break
-                fi
-            done
-
-            if [ "$latest_version" == "$current_version" ]; then
-                echo "$pkg version has not been updated"
-            fi
-          done
+        env:
+          SLACK_WEBHOOK_URL_VIC: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+          SLACK_WEBHOOK_URL_UIC: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+          next_weekday: ${{ steps.next_weekday.outputs.date }}
+          pr_title: ${{ github.event.pull_request.title }}
+          pr_url: ${{ github.event.pull_request.html_url }}
+        run: bash scripts/notify_version_approved.sh
