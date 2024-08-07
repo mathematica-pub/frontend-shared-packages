@@ -31,14 +31,14 @@ jobs:
         id: next_weekday
         run: |
           get_next_weekday() {
-              date=$(date +%Y-%m-%d)
+              date=$(date +%m/%d/%Y)
               while true; do
                   day_of_week=$(date -d "$date" +%u)
                   if [ "$day_of_week" -lt 6 ]; then
                       echo "$date"
                       break
                   fi
-                  date=$(date -d "$date + 1 day" +%Y-%m-%d)
+                  date=$(date -d "$date + 1 day" +%m/%d/%Y)
               done
           }
           next_weekday=$(get_next_weekday)
@@ -88,5 +88,5 @@ jobs:
           echo "Current version of ui-components: ${{ env.uic_version }}"
 
           if [[ "$latest_uic_version" != "${{ env.uic_version }}" ]]; then
-            curl -X POST -H "Content-type: application/json" --data "{\"text\": \"ui-components v${{ env.uic_version }} (<${{ github.event.review.pull_request_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
+            curl -X POST -H "Content-type: application/json" --data "{\"text\": \"ui-components v${{ env.uic_version }} (<${{ github.event.pull_request.url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
           fi
