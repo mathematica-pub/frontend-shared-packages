@@ -42,7 +42,7 @@ jobs:
           next_weekday=$(get_next_weekday)
           echo "::set-output name=date::$next_weekday"
 
-      - name: Send Slack notification for newly approved viz-components version
+      - name: Send Slack notification for newly approved package version
         run: |
           pkgs=("viz-components" "ui-components")
           for pkg in "${pkgs[@]}"; do
