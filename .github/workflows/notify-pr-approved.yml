@@ -1,4 +1,4 @@
-name: Slack notification for open review
+name: Notify open review
 
 on:
   pull_request_review:
@@ -69,7 +69,7 @@ jobs:
 
             for i in {0..2}; do
                 if [ "${curr_version_arr[$i]}" -gt "${latest_version_arr[$i]}" ]; then
-                    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$current_version (<${{ github.event.pull_request.url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
+                    curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$current_version (<${{ github.event.review._links.pull_request.href }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
                     break
                 elif [ "${curr_version_arr[$i]}" -lt "${latest_version_arr[$i]}" ]; then
                     echo "Current version of $pkg is less than latest version"
