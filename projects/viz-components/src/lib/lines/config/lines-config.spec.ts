@@ -20,7 +20,7 @@ function createConfig(): LinesConfig<Datum> {
     .createCategoricalDimension((dimension) =>
       dimension.valueAccessor((d) => d.category)
     )
-    .build();
+    .getConfig();
 }
 
 describe('LinesConfig', () => {
