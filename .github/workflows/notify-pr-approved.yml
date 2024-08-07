@@ -7,14 +7,12 @@ on:
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.SECRET_ACCESS_KEY }}
-  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
   AWS_DEFAULT_REGION: us-east-1
   AWS_DEFAULT_OUTPUT: json
 
 jobs:
   approved:
-    # TODO: change base ref to main
-    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'throwaway-testing'
+    if: github.event.review.state == 'APPROVED' && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
 
     steps:
@@ -44,8 +42,6 @@ jobs:
           next_weekday=$(get_next_weekday)
           echo "::set-output name=date::$next_weekday"
 
-      # TODO: change $SLACK_WEBHOOK_URL to $SLACK_WEBHOOK_URL_VIC/UIC
-
       - name: Send Slack notification for newly approved viz-components version
         run: |
           pkgs=("viz-components" "ui-components")
@@ -69,6 +65,11 @@ jobs:
 
             for i in {0..2}; do
                 if [ "${curr_version_arr[$i]}" -gt "${latest_version_arr[$i]}" ]; then
+                    if [ "$pkg" == "viz-components" ]; then
+                        SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+                    else
+                        SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+                    fi
                     curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$current_version (<${{ github.event.pull_request.html_url }}|${{ github.event.pull_request.title }}>) was approved and will be released on ${{ steps.next_weekday.outputs.date }}. Take a look if you'd like!\"}" $SLACK_WEBHOOK_URL
                     break
                 elif [ "${curr_version_arr[$i]}" -lt "${latest_version_arr[$i]}" ]; then
