@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DirItem, NavbarItem } from '../core/models/navbar';
+import { DirectoryItem, NavbarItem } from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 
 @Component({
@@ -17,7 +17,7 @@ export class NavbarDirectoryComponent {
   @Input() level: number = 0;
   @ViewChild(NavbarDirectoryComponent) child: NavbarDirectoryComponent;
   selected = {};
-  DirItem = DirItem;
+  DirItem = DirectoryItem;
 
   toggleSelected(key: string): void {
     if (this.selected[key] === undefined) {

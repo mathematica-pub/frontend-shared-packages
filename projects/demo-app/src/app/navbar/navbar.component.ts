@@ -7,8 +7,8 @@ import { parse } from 'yaml';
 import { EXAMPLES } from '../core/constants/examples.constants';
 import { Example } from '../core/models/example';
 import {
-  DirItem,
-  NavbarFolder,
+  DirectoryItem,
+  NavbarDirectory,
   NavbarItem,
   NestedStringObject,
 } from '../core/models/navbar';
@@ -54,19 +54,19 @@ export class NavbarComponent implements OnInit {
   getDocumentationTree(
     yaml: NestedStringObject,
     level: number = 0
-  ): NavbarFolder[] {
+  ): NavbarDirectory[] {
     const returnArray = Object.entries(yaml).map(([key, value]) => {
       if (typeof value === 'string') {
         return {
           name: key,
           contents: value,
-          type: DirItem.File,
+          type: DirectoryItem.File,
         };
       } else {
         return {
           name: key,
           contents: this.getDocumentationTree(value, level + 1),
-          type: DirItem.Folder,
+          type: DirectoryItem.Directory,
         };
       }
     });
@@ -74,13 +74,15 @@ export class NavbarComponent implements OnInit {
     // Documentation structure doc should determine the order for the top level
     if (level !== 0) {
       returnArray.sort((a, b) => {
-        if (a.type === DirItem.File && b.type === DirItem.Folder) return 1;
-        if (a.type === DirItem.Folder && b.type === DirItem.File) return -1;
+        if (a.type === DirectoryItem.File && b.type === DirectoryItem.Directory)
+          return 1;
+        if (a.type === DirectoryItem.Directory && b.type === DirectoryItem.File)
+          return -1;
         return a.name.localeCompare(b.name);
       });
     }
 
-    return returnArray as NavbarFolder[];
+    return returnArray as NavbarDirectory[];
   }
 
   closeAllDocumentation(): void {

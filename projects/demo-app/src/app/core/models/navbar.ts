@@ -2,23 +2,23 @@ export type NestedStringObject = {
   [key: string]: string | NestedStringObject;
 };
 
-export enum DirItem {
-  Folder = 'folder',
+export enum DirectoryItem {
+  Directory = 'directory',
   File = 'file',
 }
 
-interface NavbarItemBase {
+interface DirectoryItemBase {
   name: string;
 }
 
-export interface NavbarFolder extends NavbarItemBase {
-  type: DirItem.Folder;
+export interface NavbarDirectory extends DirectoryItemBase {
+  type: DirectoryItem.Directory;
   contents: NavbarItem[];
 }
 
-export interface NavbarFile extends NavbarItemBase {
-  type: DirItem.File;
+export interface NavbarFile extends DirectoryItemBase {
+  type: DirectoryItem.File;
   contents: string;
 }
 
-export type NavbarItem = NavbarFolder | NavbarFile;
+export type NavbarItem = NavbarDirectory | NavbarFile;
