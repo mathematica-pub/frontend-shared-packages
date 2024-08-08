@@ -33,6 +33,7 @@ $content-height: 100vh - $title-height;
 .navbar {
   overflow-y: auto;
   width: 300px;
+  min-width: 280px;
   border-right: 1px solid color.$primary-6;
 }
 
