@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
 pkgs=("viz-components" "ui-components")
 for pkg in "${pkgs[@]}"; do
 output=$(aws codeartifact list-package-versions --package $pkg \

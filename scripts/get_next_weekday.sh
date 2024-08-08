@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -e
+
 get_next_weekday() {
     date=$(date +%m/%d/%Y)
     while true; do
