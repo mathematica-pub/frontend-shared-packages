@@ -30,8 +30,8 @@ import {
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
-import { MetroUnemploymentDatum } from '../../core/models/data';
-import { DataService } from '../../core/services/data.service';
+import { MetroUnemploymentDatum } from '../../../core/models/data';
+import { DataService } from '../../../core/services/data.service';
 import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
 interface ViewModel {

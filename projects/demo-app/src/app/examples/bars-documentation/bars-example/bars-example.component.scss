@@ -4,17 +4,17 @@
 @use 'color';
 
 .bars-example {
-  /* I think we should reconsider making the component-demo a 100% width flex column overall */
-  /* Overwriting it here locally for the time being */
-  .component-demo {
-    display: block;
-    width: initial;
+  // /* I think we should reconsider making the component-demo a 100% width flex column overall */
+  // /* Overwriting it here locally for the time being */
+  // .component-demo {
+  //   display: block;
+  //   width: initial;
 
-    .demo-container {
-      display: block;
-      width: initial;
-    }
-  }
+  //   .demo-container {
+  //     display: block;
+  //     width: initial;
+  //   }
+  // }
 
   .ui-instructions {
     padding-bottom: grid(2);
@@ -40,7 +40,7 @@
   }
 }
 
-.tooltip-container {
+.bars-example-tooltip-container {
   @extend %tooltip-container-styles;
 
   .tooltip-label {

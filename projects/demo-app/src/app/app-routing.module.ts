@@ -19,9 +19,9 @@ const routes: Routes = [
       {
         path: 'bars',
         loadComponent: () =>
-          import('./examples/bars-example/bars-example.component').then(
-            (m) => m.BarsExampleComponent
-          ),
+          import(
+            './examples/bars-documentation/bars-documentation.component'
+          ).then((m) => m.BarsDocumentationComponent),
       },
       {
         path: 'geographies',
