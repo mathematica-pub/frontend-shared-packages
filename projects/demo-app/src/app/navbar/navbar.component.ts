@@ -71,7 +71,7 @@ export class NavbarComponent implements OnInit {
       }
     });
 
-    // Documentation structure doc should determine the order for the top level
+    // Documentation structure doc determines the order for the top level
     if (level !== 0) {
       returnArray.sort((a, b) => {
         if (a.type === DirectoryItem.File && b.type === DirectoryItem.Directory)
