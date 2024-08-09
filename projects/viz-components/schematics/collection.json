@@ -1,0 +1,11 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "$id": "SchematicsForVizComponents",
+  "schematics": {
+    "extend": {
+      "description": "Create a custom version of a component in the viz library",
+      "factory": "./extend/index#extend",
+      "schema": "./extend/schema.json"
+    }
+  }
+}
