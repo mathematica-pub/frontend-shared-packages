@@ -13,17 +13,13 @@ import { TabsModule } from 'projects/ui-components/src/public-api';
 import {
   BehaviorSubject,
   combineLatest,
-  fromEvent,
   map,
   Observable,
   shareReplay,
-  startWith,
-  switchMap,
-  takeUntil,
 } from 'rxjs';
-import { RadioInputComponent } from '../../radio-input/radio-input.component';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { ExampleDisplay } from '../example-display';
+import { resizerMixinAbstract } from '../resizer';
 
 @Component({
   selector: 'app-split-panel-example-display',
@@ -31,7 +27,6 @@ import { ExampleDisplay } from '../example-display';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RadioInputComponent,
     CodeDisplayComponent,
     TabsModule,
   ],
@@ -45,7 +40,7 @@ import { ExampleDisplay } from '../example-display';
   encapsulation: ViewEncapsulation.None,
 })
 export class SplitPanelExampleDisplayComponent
-  extends ExampleDisplay
+  extends resizerMixinAbstract(ExampleDisplay)
   implements OnInit
 {
   @ViewChild('resizer', { static: true }) resizer: ElementRef<HTMLDivElement>;
@@ -60,7 +55,11 @@ export class SplitPanelExampleDisplayComponent
 
   override ngOnInit(): void {
     super.ngOnInit();
-    this.initResizer();
+    this.initResizer(
+      this.resizer.nativeElement,
+      this.examplePanel.nativeElement,
+      this.document
+    );
   }
 
   initTabs(): void {
@@ -72,30 +71,5 @@ export class SplitPanelExampleDisplayComponent
       map(([index, filesHtml]) => filesHtml[index]),
       shareReplay(1)
     );
-  }
-
-  initResizer(): void {
-    const mousedown$ = fromEvent<MouseEvent>(
-      this.resizer.nativeElement,
-      'mousedown'
-    );
-    const mousemove$ = fromEvent<MouseEvent>(this.document, 'mousemove');
-    const mouseup$ = fromEvent<MouseEvent>(this.document, 'mouseup');
-
-    this.exampleWidth$ = mousedown$.pipe(
-      switchMap((startEvent) => {
-        const startX = startEvent.clientX;
-        const startWidth = this.examplePanel.nativeElement.offsetWidth;
-
-        return mousemove$.pipe(
-          map((moveEvent) => {
-            const dx = moveEvent.clientX - startX;
-            return `${startWidth + dx}px`;
-          }),
-          takeUntil(mouseup$)
-        );
-      })
-    );
-    startWith('500px');
   }
 }

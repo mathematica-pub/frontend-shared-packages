@@ -1,5 +1,4 @@
 import { Directive, inject, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { ExamplesFilesService } from '../core/services/examples-files.service';
 
@@ -17,11 +16,10 @@ export abstract class ExampleDisplay implements OnInit {
   @Input() height: string = 'auto';
   fileList: string[];
   filesHtml$: Observable<string[]>;
-  tabList: string[];
   selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   selectedTabIndex$ = this.selectedTabIndex.asObservable();
+  tabList: string[];
   tabContent$: Observable<string | null>;
-  form: FormGroup<{ selected: FormControl<number> }>;
   private filesService = inject(ExamplesFilesService);
 
   ngOnInit(): void {

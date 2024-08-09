@@ -8,7 +8,6 @@ import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TabsModule } from 'projects/ui-components/src/public-api';
 import { combineLatest, map, shareReplay } from 'rxjs';
-import { RadioInputComponent } from '../../radio-input/radio-input.component';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { ExampleDisplay } from '../example-display';
 
@@ -18,7 +17,6 @@ import { ExampleDisplay } from '../example-display';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RadioInputComponent,
     CodeDisplayComponent,
     TabsModule,
     MatTabsModule,
