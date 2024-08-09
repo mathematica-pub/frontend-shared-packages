@@ -16,9 +16,8 @@ import {
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { Observable, filter, map } from 'rxjs';
-import { IndustryUnemploymentDatum } from '../../core/models/data';
-import { DataService } from '../../core/services/data.service';
-import { ExampleDisplayComponent } from '../../example-display/example-display.component';
+import { IndustryUnemploymentDatum } from '../../../core/models/data';
+import { DataService } from '../../../core/services/data.service';
 
 interface ViewModel {
   dataConfig: StackedBarsConfig<IndustryUnemploymentDatum, Date>;
@@ -31,7 +30,6 @@ interface ViewModel {
   standalone: true,
   imports: [
     CommonModule,
-    ExampleDisplayComponent,
     VicChartModule,
     VicStackedBarsModule,
     VicXyChartModule,

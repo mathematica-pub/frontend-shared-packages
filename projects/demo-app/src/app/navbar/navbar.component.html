@@ -6,17 +6,17 @@
   >
     <p class="nav-item">Overview</p>
   </a>
-  <h2>EXAMPLES</h2>
+  <h2>COMPOSING CHARTS</h2>
   <ng-container *ngFor="let example of examples">
     <a
       class="link-container"
       [routerLink]="'/examples/' + example"
       routerLinkActive="active-link"
     >
-      <p class="nav-item">{{example | undasherize | titlecase}}</p>
+      <p class="nav-item">{{ example | undasherize | titlecase }}</p>
     </a>
   </ng-container>
-  <h2>DOCUMENTATION</h2>
+  <h2>AUTOMATED DOCUMENTATION</h2>
   <app-navbar-folder
     [links]="navbarConfig$ | async"
     [baseString]="baseFolder"

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SinglePanelDisplayComponent } from '../../example-display/single-panel-display/single-panel-display.component';
-import { SplitPanelDisplayComponent } from '../../example-display/split-panel-display/split-panel-display.component';
+import { SinglePanelExampleDisplayComponent } from '../../example-display/single-panel-example-display/single-panel-example-display.component';
+import { SplitPanelExampleDisplayComponent } from '../../example-display/split-panel-example-display/split-panel-example-display.component';
 import { BarsExampleComponent } from './bars-example/bars-example.component';
 
 @Component({
@@ -9,12 +9,12 @@ import { BarsExampleComponent } from './bars-example/bars-example.component';
   standalone: true,
   imports: [
     CommonModule,
-    SinglePanelDisplayComponent,
-    SplitPanelDisplayComponent,
+    SinglePanelExampleDisplayComponent,
+    SplitPanelExampleDisplayComponent,
     BarsExampleComponent,
   ],
   templateUrl: './bars-documentation.component.html',
-  styleUrl: './bars-documentation.component.scss',
+  styleUrls: ['../examples.scss', './bars-documentation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarsDocumentationComponent {}

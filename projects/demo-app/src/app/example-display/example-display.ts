@@ -1,7 +1,7 @@
 import { Directive, inject, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { forkJoin, Observable } from 'rxjs';
-import { FilesService } from '../core/services/files.service';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { ExamplesFilesService } from '../core/services/examples-files.service';
 
 export interface ExampleProperties {
   path: string;
@@ -18,10 +18,11 @@ export abstract class ExampleDisplay implements OnInit {
   fileList: string[];
   filesHtml$: Observable<string[]>;
   tabList: string[];
-  selectedTabIndex$: Observable<number>;
+  selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  selectedTabIndex$ = this.selectedTabIndex.asObservable();
   tabContent$: Observable<string | null>;
   form: FormGroup<{ selected: FormControl<number> }>;
-  private filesService = inject(FilesService);
+  private filesService = inject(ExamplesFilesService);
 
   ngOnInit(): void {
     this.setFileList();
@@ -37,7 +38,7 @@ export abstract class ExampleDisplay implements OnInit {
     );
     if (this.includeFiles !== undefined) {
       this.includeFiles.forEach((fileName) =>
-        fileList.push(`${componentName}/${fileName}`)
+        fileList.push(`${this.path}/${fileName}`)
       );
     }
     this.fileList = fileList;
@@ -45,12 +46,18 @@ export abstract class ExampleDisplay implements OnInit {
 
   setFilesHtml(): void {
     this.filesHtml$ = forkJoin(
-      this.fileList.map((fileName) => this.filesService.getCode(fileName))
+      this.fileList.map((fileName) =>
+        this.filesService.getComponentCode(fileName)
+      )
     );
   }
 
   getFileDisplayName(fullFilePath: string): string {
     return fullFilePath.match(/([^/]+)$/)[0];
+  }
+
+  onTabChange(index: number): void {
+    this.selectedTabIndex.next(index);
   }
 
   abstract initTabs(): void;

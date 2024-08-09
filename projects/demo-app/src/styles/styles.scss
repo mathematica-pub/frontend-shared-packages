@@ -22,6 +22,14 @@ body {
   color: color.$primary-text;
   font-family: $sans-font;
   font-size: 1rem;
+
+  ::-webkit-scrollbar {
+    width: $vertical-scrollbar-thickness-thin;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: color.$primary-6;
+  }
 }
 
 body,
@@ -136,4 +144,21 @@ html {
 
 .vic-html-tooltip-overlay.events-disabled {
   pointer-events: none;
+}
+
+// ------- Custom scrollbar -------
+::-webkit-scrollbar {
+  width: $vertical-scrollbar-thickness-thin;
+  height: $horizontal-scrollbar-thickness;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: color.$primary-6;
+  border-radius: grid(2);
 }

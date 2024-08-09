@@ -43,9 +43,8 @@ import {
   VicYQuantitativeAxisModule,
 } from 'projects/viz-components/src/public-api';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
-import { MetroUnemploymentDatum } from '../../core/models/data';
-import { DataService } from '../../core/services/data.service';
-import { ExampleDisplayComponent } from '../../example-display/example-display.component';
+import { MetroUnemploymentDatum } from '../../../core/models/data';
+import { DataService } from '../../../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-actions';
 
 interface ViewModel {
@@ -61,7 +60,6 @@ const includeFiles = ['line-input-actions.ts'];
   standalone: true,
   imports: [
     CommonModule,
-    ExampleDisplayComponent,
     VicChartModule,
     VicLinesModule,
     VicXyChartModule,
@@ -127,6 +125,7 @@ export class LinesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('lines-example.component.ts ngOnInit()');
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))

@@ -2,9 +2,7 @@
   "root": false,
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": [
           "projects/viz-components/tsconfig.lib.json",
@@ -29,6 +27,7 @@
             "style": "kebab-case"
           }
         ],
+        "@angular-eslint/directive-class-suffix": "off",
         "@angular-eslint/no-inputs-metadata-property": "warn"
       }
     }

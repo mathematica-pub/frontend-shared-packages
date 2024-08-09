@@ -27,29 +27,29 @@ const routes: Routes = [
         path: 'geographies',
         loadComponent: () =>
           import(
-            './examples/geographies-example/geographies-example.component'
-          ).then((m) => m.GeographiesExampleComponent),
+            './examples/geographies-documentation/geographies-documentation.component'
+          ).then((m) => m.GeographiesDocumentationComponent),
       },
       {
         path: 'lines',
         loadComponent: () =>
-          import('./examples/lines-example/lines-example.component').then(
-            (m) => m.LinesExampleComponent
-          ),
+          import(
+            './examples/lines-documentation/lines-documentation.component'
+          ).then((m) => m.LinesDocumentationComponent),
       },
       {
         path: 'stacked-area',
         loadComponent: () =>
           import(
-            './examples/stacked-area-example/stacked-area-example.component'
-          ).then((m) => m.StackedAreaExampleComponent),
+            './examples/stacked-area-documentation/stacked-area-documentation.component'
+          ).then((m) => m.StackedAreaDocumentationComponent),
       },
       {
         path: 'stacked-bars',
         loadComponent: () =>
           import(
-            './examples/stacked-bars-example/stacked-bars-example.component'
-          ).then((m) => m.StackedBarsExampleComponent),
+            './examples/stacked-bars-documentation/stacked-bars-documentation.component'
+          ).then((m) => m.StackedBarsDocumentationComponent),
       },
     ],
   },

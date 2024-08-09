@@ -8,12 +8,8 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
+import { TabsModule } from 'projects/ui-components/src/public-api';
 import {
   BehaviorSubject,
   combineLatest,
@@ -30,21 +26,25 @@ import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { ExampleDisplay } from '../example-display';
 
 @Component({
-  selector: 'app-split-panel-display',
+  selector: 'app-split-panel-example-display',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
     RadioInputComponent,
     CodeDisplayComponent,
+    TabsModule,
   ],
   providers: [FormGroupDirective],
-  templateUrl: './split-display.component.html',
-  styleUrls: ['../example-display.scss', './split-display.component.scss'],
+  templateUrl: './split-panel-example-display.component.html',
+  styleUrls: [
+    '../example-display.scss',
+    './split-panel-example-display.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SplitPanelDisplayComponent
+export class SplitPanelExampleDisplayComponent
   extends ExampleDisplay
   implements OnInit
 {
@@ -65,12 +65,6 @@ export class SplitPanelDisplayComponent
 
   initTabs(): void {
     this.tabList = [...this.fileList.map(this.getFileDisplayName)];
-    this.form = new FormGroup({
-      selected: new FormControl<number>(0),
-    });
-    this.selectedTabIndex$ = this.form.controls.selected.valueChanges.pipe(
-      startWith(0)
-    );
     this.tabContent$ = combineLatest([
       this.selectedTabIndex$,
       this.filesHtml$,

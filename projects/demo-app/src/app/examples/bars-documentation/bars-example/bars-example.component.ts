@@ -32,7 +32,6 @@ import {
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 import { MetroUnemploymentDatum } from '../../../core/models/data';
 import { DataService } from '../../../core/services/data.service';
-import { ExampleDisplayComponent } from '../../example-display/example-display.component';
 
 interface ViewModel {
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
@@ -49,7 +48,6 @@ enum Orientation {
   standalone: true,
   imports: [
     CommonModule,
-    ExampleDisplayComponent,
     VicChartModule,
     VicBarsModule,
     VicXyChartModule,

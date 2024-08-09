@@ -39,12 +39,11 @@ import {
   map,
   shareReplay,
 } from 'rxjs';
-import { colors } from '../../core/constants/colors.constants';
-import { StateIncomeDatum } from '../../core/models/data';
-import { MapGeometryProperties } from '../../core/services/basemap';
-import { BasemapService } from '../../core/services/basemap.service';
-import { DataService } from '../../core/services/data.service';
-import { ExampleDisplayComponent } from '../../example-display/example-display.component';
+import { colors } from '../../../core/constants/colors.constants';
+import { StateIncomeDatum } from '../../../core/models/data';
+import { MapGeometryProperties } from '../../../core/services/basemap';
+import { BasemapService } from '../../../core/services/basemap.service';
+import { DataService } from '../../../core/services/data.service';
 
 const polylabelStates = ['CA', 'ID', 'MN', 'LA', 'MI', 'KY', 'FL', 'VA', 'NY'];
 const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];
@@ -65,7 +64,6 @@ const smallSquareStates = [
   standalone: true,
   imports: [
     CommonModule,
-    ExampleDisplayComponent,
     VicMapChartModule,
     VicGeographiesModule,
     VicMapLegendModule,

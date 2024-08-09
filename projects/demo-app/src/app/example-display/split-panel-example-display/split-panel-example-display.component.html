@@ -1,0 +1,42 @@
+<div
+  class="example-container split"
+  [style.--max-width]="maxWidth"
+  [style.--max-height]="maxHeight"
+  [style.--height]="height"
+>
+  <div
+    class="panel example"
+    #examplePanel
+    [style.width]="exampleWidth$ | async"
+  >
+    <div class="title-bar"
+      ><p class="example-label">{{ label }}</p></div
+    >
+    <div class="scroll-container"><ng-content></ng-content> </div
+  ></div>
+  <div class="resizer" #resizer></div>
+  <div class="panel code">
+    <hsi-ui-tabs (tabChange)="onTabChange($event)">
+      @for (tab of tabList; track $index) {
+        <hsi-ui-tab-item [value]="$index">
+          <hsi-ui-tab-label
+            ><p>
+              @if ($index < 3) {
+                {{ tab.split('.').slice(-1)[0] }}
+              } @else {
+                {{ tab }}
+              }
+            </p></hsi-ui-tab-label
+          >
+          <hsi-ui-tab-body>
+            <div class="scroll-container">
+              <app-code-display
+                [fileData]="tabContent$ | async"
+              ></app-code-display>
+            </div>
+          </hsi-ui-tab-body>
+        </hsi-ui-tab-item>
+      }
+    </hsi-ui-tabs>
+  </div>
+</div>
