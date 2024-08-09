@@ -19,7 +19,7 @@ import {
 } from 'rxjs';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { ExampleDisplay } from '../example-display';
-import { resizerMixinAbstract } from '../resizer';
+import { resizerMixinAbstract } from './resizer';
 
 @Component({
   selector: 'app-split-panel-example-display',

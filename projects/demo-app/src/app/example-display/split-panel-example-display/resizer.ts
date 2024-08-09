@@ -2,7 +2,7 @@ import { fromEvent, map, Observable, switchMap, takeUntil } from 'rxjs';
 import {
   AbstractConstructor,
   Constructor,
-} from '../core/common-behaviors/constructor';
+} from '../../core/common-behaviors/constructor';
 
 export function resizerMixinAbstract<T extends AbstractConstructor>(Base: T) {
   abstract class Mixin extends Base {
