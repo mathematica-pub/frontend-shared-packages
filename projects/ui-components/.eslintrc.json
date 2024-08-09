@@ -15,7 +15,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "hsi-ui",
+            "prefix": "hsiUi",
             "style": "camelCase"
           }
         ],
