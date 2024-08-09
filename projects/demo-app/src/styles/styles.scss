@@ -146,6 +146,14 @@ html {
   pointer-events: none;
 }
 
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
 // ------- Custom scrollbar -------
 ::-webkit-scrollbar {
   width: $vertical-scrollbar-thickness-thin;
