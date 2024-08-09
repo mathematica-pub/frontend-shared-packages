@@ -1,5 +1,5 @@
 import { Component, ContentChild, TemplateRef, ViewChild } from '@angular/core';
-import { TabContent } from './tab-content';
+import { TabContentDirective } from './tab-content.directive';
 
 @Component({
   selector: 'hsi-ui-tab-body',
@@ -9,7 +9,7 @@ import { TabContent } from './tab-content';
 export class TabBodyComponent {
   @ViewChild(TemplateRef)
   bodyContent: TemplateRef<HTMLElement>;
-  @ContentChild(TabContent, { read: TemplateRef, static: true })
+  @ContentChild(TabContentDirective, { read: TemplateRef, static: true })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lazyLoadedContent: TemplateRef<any>;
 }

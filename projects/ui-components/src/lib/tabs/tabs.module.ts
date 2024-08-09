@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { TabBodyComponent } from './tab-body.component';
-import { TabContent } from './tab-content';
+import { TabContentDirective } from './tab-content.directive';
 import { TabItemComponent } from './tab-item.component';
 import { TabLabelComponent } from './tab-label.component';
 import { TabsComponent } from './tabs.component';
@@ -14,14 +14,14 @@ import { TabsComponent } from './tabs.component';
     TabLabelComponent,
     TabItemComponent,
     TabBodyComponent,
-    TabContent,
+    TabContentDirective,
   ],
   exports: [
     TabsComponent,
     TabLabelComponent,
     TabItemComponent,
     TabBodyComponent,
-    TabContent,
+    TabContentDirective,
   ],
 })
 export class TabsModule {}
