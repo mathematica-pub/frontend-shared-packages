@@ -1,5 +1,5 @@
 import { Component, ContentChild, TemplateRef, ViewChild } from '@angular/core';
-import { TabContentDirective } from './tab-content';
+import { TabContentDirective } from './tab-content.directive';
 
 @Component({
   selector: 'hsi-ui-tab-body',
