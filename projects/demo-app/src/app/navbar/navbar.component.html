@@ -1,24 +1,28 @@
-<header class="nav-container">
-  <a
-    class="link-container"
-    routerLink="/overview"
-    routerLinkActive="active-link"
-  >
-    <p class="nav-item">Overview</p>
+<aside class="nav-container">
+  <a class="nav-item" routerLink="/overview" routerLinkActive="active">
+    Overview
   </a>
-  <h2>EXAMPLES</h2>
+  <h2 class="section-label">Examples</h2>
   <ng-container *ngFor="let example of examples">
     <a
-      class="link-container"
+      class="nav-item"
       [routerLink]="'/examples/' + example"
-      routerLinkActive="active-link"
+      routerLinkActive="active"
     >
-      <p class="nav-item">{{example | undasherize | titlecase}}</p>
+      {{ example | undasherize | titlecase }}
     </a>
   </ng-container>
-  <h2>DOCUMENTATION</h2>
-  <app-navbar-folder
-    [links]="navbarConfig$ | async"
+  <h2
+    class="section-label documentation"
+    tabIndex="0"
+    role="button"
+    (click)="closeAllDocumentation()"
+    (enter)="closeAllDocumentation()"
+    >Documentation</h2
+  >
+  <app-navbar-directory
+    #navbarFolder
+    [items]="documentationTree$ | async"
     [baseString]="baseFolder"
-  ></app-navbar-folder>
-</header>
+  ></app-navbar-directory>
+</aside>
