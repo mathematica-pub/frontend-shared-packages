@@ -1,0 +1,27 @@
+<a class="nav-item" [routerLink]="'/overview/' + lib" routerLinkActive="active">
+  Overview
+</a>
+@if (manualDocumentation$ | async; as manualDocumentation) {
+  <h3 class="section-label">{{ manualDocumentation.title }}</h3>
+  <ng-container *ngFor="let item of manualDocumentation.items">
+    <a
+      class="nav-item"
+      [routerLink]="'/' + lib + '/' + item"
+      routerLinkActive="active"
+    >
+      {{ item | undasherize | titlecase }}
+    </a>
+  </ng-container>
+}
+<h3
+  class="section-label documentation"
+  tabIndex="0"
+  role="button"
+  (click)="closeAllDocumentation()"
+  (enter)="closeAllDocumentation()"
+  >Automated Documentation</h3
+>
+<app-docs-directory
+  [items]="automatedDocumentation$ | async"
+  [docPath]="automatedDocsPath + '/' + lib"
+></app-docs-directory>

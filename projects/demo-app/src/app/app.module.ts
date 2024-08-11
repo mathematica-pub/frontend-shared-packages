@@ -6,8 +6,8 @@ import { VicDataExport } from 'projects/viz-components/src/lib/data-export/data-
 import { VicImageDownload } from 'projects/viz-components/src/lib/image-download/image-download';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DirectoryComponent } from './navbar-directory/navbar-directory.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { DocsDirectoryComponent } from './sidebar/lib-docs/docs-directory/docs-directory.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,8 +16,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NavbarComponent,
-    DirectoryComponent,
+    SidebarComponent,
+    DocsDirectoryComponent,
   ],
   providers: [VicDataExport, VicImageDownload],
   bootstrap: [AppComponent],

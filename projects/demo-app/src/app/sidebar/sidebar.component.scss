@@ -1,0 +1,16 @@
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+  padding: grid(4) grid(2) grid(2) grid(4);
+}
+
+.lib-title {
+  padding-top: grid(8);
+  @extend %typography-h5;
+  padding-bottom: grid(1);
+}
