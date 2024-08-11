@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { map, Observable } from 'rxjs';
 import { parse } from 'yaml';
-import { EXAMPLES } from '../core/constants/examples.constants';
-import { Example } from '../core/models/example';
 import {
   DirectoryItem,
   NavbarDirectory,
@@ -14,23 +19,24 @@ import {
 } from '../core/models/navbar';
 import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
 import { DirectoryComponent } from '../navbar-directory/navbar-directory.component';
+import { Lib } from './libraries';
 
 @Component({
-  selector: 'app-navbar',
+  selector: 'app-lib-docs',
   standalone: true,
-  imports: [CommonModule, RouterModule, DirectoryComponent, UndasherizePipe],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+  imports: [CommonModule, RouterModule, UndasherizePipe],
+  templateUrl: './lib-docs.component.html',
+  styleUrls: ['./lib-docs.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavbarComponent implements OnInit {
+export class LibDocsComponent implements OnInit {
+  @Input() lib: keyof typeof Lib;
+  @Input() examples: string[];
   @ViewChild(DirectoryComponent)
   documentationDirectory: DirectoryComponent;
   documentationTree$: Observable<NavbarItem[]>;
-  examples: Example[] = EXAMPLES;
-  baseFolder = '/documentation/viz-components';
-
+  baseFolder = '/documentation';
   private http = inject(HttpClient);
-  router = inject(Router);
 
   ngOnInit(): void {
     this.documentationTree$ = this.http

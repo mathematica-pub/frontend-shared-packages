@@ -11,11 +11,11 @@ import { UndasherizePipe } from '../core/pipes/undasherize.pipe';
   templateUrl: './navbar-directory.component.html',
   styleUrls: ['./navbar-directory.component.scss'],
 })
-export class NavbarDirectoryComponent {
+export class DirectoryComponent {
   @Input() items: NavbarItem[];
-  @Input() baseString;
+  @Input() baseString: string;
   @Input() level: number = 0;
-  @ViewChild(NavbarDirectoryComponent) child: NavbarDirectoryComponent;
+  @ViewChild(DirectoryComponent) child: DirectoryComponent;
   selected = {};
   DirItem = DirectoryItem;
 

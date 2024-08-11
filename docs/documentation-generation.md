@@ -7,9 +7,9 @@ are located in `documentation.`
 We then use a custom python script to extract the .html files that we want from what Compodoc has
 generated, and assemble those files into a tree structure that we display in the Demo App navbar.
 
-The `documentation-structure.yml` file (in `projects/demo-app/assets/documentation`) determines
-which of the Compodoc-generated html files we make viewable in the `DOCUMENTATION` section of the
-demo app, and how they are titled and organized.
+The `documentation-structure.yml` file (in `projects/demo-app/assets/documentation/[lib]`)
+determines which of the Compodoc-generated html files we make viewable in the `DOCUMENTATION`
+section of the demo app, and how they are titled and organized.
 
 There are no technical constraints to the names of keys in this file or their hierarchical
 organization. However, the string values of the keys -- for example --
@@ -52,9 +52,13 @@ thrown.
 ## Regenerating documentation
 
 1. Remove the existing Compodoc generated documentation in your local branch by running:
-   `rm -rf documentation`
+   `rm -rf documentation/[lib]`
 2. Build documentation from the current library code with Compodoc by running:
-   `npm run compodoc:build`
-3. Ensure that `documentation-structure.yml` is up to date.
+   `npm run compodoc:build:viz-components` or `npm run compodoc:build:ui-components`
+3. Ensure that `documentation-structure.yml` for the library is up to date.
 4. Parse the newly generated Compodoc documentation in to documentation assets for the Demo App by
-   running: `pipenv run python projects/demo-app/documentation-generator/documentation-parser.py`
+   running:
+   `pipenv run python projects/demo-app/documentation-generator/documentation-parser.py --viz-components`
+   or
+   `pipenv run python projects/demo-app/documentation-generator/documentation-parser.py --ui-components`
+   depending on which library's documentation you want to build.

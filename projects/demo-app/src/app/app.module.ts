@@ -6,7 +6,7 @@ import { VicDataExport } from 'projects/viz-components/src/lib/data-export/data-
 import { VicImageDownload } from 'projects/viz-components/src/lib/image-download/image-download';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarDirectoryComponent } from './navbar-directory/navbar-directory.component';
+import { DirectoryComponent } from './navbar-directory/navbar-directory.component';
 import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     NavbarComponent,
-    NavbarDirectoryComponent,
+    DirectoryComponent,
   ],
   providers: [VicDataExport, VicImageDownload],
   bootstrap: [AppComponent],

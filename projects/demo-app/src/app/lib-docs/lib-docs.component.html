@@ -1,0 +1,30 @@
+<a
+  class="nav-item"
+  [routerLink]="'/' + lib + '/overview'"
+  routerLinkActive="active"
+>
+  Overview
+</a>
+<h2 class="section-label">Examples</h2>
+<ng-container *ngFor="let example of examples">
+  <a
+    class="nav-item"
+    [routerLink]="'/' + lib + '/examples/' + example"
+    routerLinkActive="active"
+  >
+    {{ example | undasherize | titlecase }}
+  </a>
+</ng-container>
+<h2
+  class="section-label documentation"
+  tabIndex="0"
+  role="button"
+  (click)="closeAllDocumentation()"
+  (enter)="closeAllDocumentation()"
+  >Documentation</h2
+>
+<app-navbar-directory
+  #navbarFolder
+  [items]="documentationTree$ | async"
+  [baseString]="baseFolder + '/' + lib"
+></app-navbar-directory>

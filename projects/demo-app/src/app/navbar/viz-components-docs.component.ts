@@ -22,19 +22,19 @@ import { DirectoryComponent } from '../navbar-directory/navbar-directory.compone
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class VizComponentsDocsComponent implements OnInit {
   @ViewChild(DirectoryComponent)
   documentationDirectory: DirectoryComponent;
   documentationTree$: Observable<NavbarItem[]>;
   examples: Example[] = EXAMPLES;
-  baseFolder = '/documentation/viz-components';
+  baseFolder = '/documentation';
 
   private http = inject(HttpClient);
   router = inject(Router);
 
   ngOnInit(): void {
     this.documentationTree$ = this.http
-      .get('assets/documentation/viz-components/documentation-structure.yaml', {
+      .get('assets/documentation/documentation-structure.yaml', {
         responseType: 'text',
       })
       .pipe(

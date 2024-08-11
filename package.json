@@ -14,7 +14,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "start:demo": "ng serve demo-app",
+    "start:demo-app": "ng serve demo-app",
     "build": "ng build",
     "build:viz-components": "ng build viz-components",
     "build:ui-components": "ng build ui-components",
@@ -30,9 +30,8 @@
     "lint:demo-app": "ng lint demo-app",
     "lint:viz-components": "ng lint viz-components",
     "lint:ui-components": "ng lint ui-components",
-    "compodoc:build": "npx compodoc -p tsconfig.doc.json",
-    "compodoc:build-and-serve": "npx compodoc -p tsconfig.doc.json -s",
-    "compodoc:serve": "npx compodoc -s",
+    "compodoc:build:viz-components": "npx compodoc -p projects/viz-components/tsconfig.doc.json -d documentation/viz-components",
+    "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d documentation/ui-components",
     "cypress:open": "cypress open",
     "cypress:component:ci": "cypress run --component --browser chrome"
   },

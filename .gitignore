@@ -15,7 +15,7 @@ yarn-error.log
 # Automated Documentation
 /documentation
 projects/demo-app/src/assets/documentation
-!projects/demo-app/src/assets/documentation/documentation-structure.yaml
+!projects/demo-app/src/assets/documentation/*/documentation-structure.yaml
 
 # IDEs and editors
 .idea/

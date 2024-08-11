@@ -1,6 +1,8 @@
 import re
 import time
-from os import listdir, path
+import argparse
+import sys
+from os import path
 from pathlib import Path
 from shutil import copy
 from typing import Dict
@@ -107,8 +109,29 @@ class DocumentationParser:
 
 
 if __name__ == "__main__":
+    arg_parser = argparse.ArgumentParser(description="Documentation parser script")
+    
+    # Add mutually exclusive group for the flags
+    group = arg_parser.add_mutually_exclusive_group(required=True)
+    group.add_argument('--viz-components', action='store_true', help="Parse Viz Components")
+    group.add_argument('--ui-components', action='store_true', help="Parse UI Components")
+    
+    # Parse arguments
+    args = arg_parser.parse_args()
+
+    # Determine directories based on the flag
+    if args.viz_components:
+        input_dir = "./documentation/viz-components"
+        output_dir = "./projects/demo-app/src/assets/documentation/viz-components"
+    elif args.ui_components:
+        input_dir = "./documentation/ui-components"
+        output_dir = "./projects/demo-app/src/assets/documentation/ui-components"
+    else:
+        print("Error: Either --viz-components or --ui-components must be specified.")
+        sys.exit(1)
+
     parser = DocumentationParser(
-        inputDirectory="./documentation",
-        outputDirectory="./projects/demo-app/src/assets/documentation",
+        inputDirectory=input_dir,
+        outputDirectory=output_dir,
     )
     parser.parse_directory()
