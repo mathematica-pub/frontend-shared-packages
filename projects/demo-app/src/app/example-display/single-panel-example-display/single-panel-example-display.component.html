@@ -1,7 +1,7 @@
 <div
   class="example-container single"
   [style.--max-width]="maxWidth"
-  [style.--max-height]="maxHeight"
+  [style.--max-height]="maxHeight > height ? maxHeight : height"
   [style.--height]="height"
 >
   <hsi-ui-tabs (tabChange)="onTabChange($event)">
