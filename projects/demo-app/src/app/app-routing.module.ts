@@ -17,43 +17,10 @@ const routes: Routes = [
   },
   {
     path: 'viz-components',
-    children: [
-      {
-        path: 'bars',
-        loadComponent: () =>
-          import(
-            './manual-documentation/viz-components/bars-documentation/bars-documentation.component'
-          ).then((m) => m.BarsDocumentationComponent),
-      },
-      {
-        path: 'geographies',
-        loadComponent: () =>
-          import(
-            './manual-documentation/viz-components/geographies-documentation/geographies-documentation.component'
-          ).then((m) => m.GeographiesDocumentationComponent),
-      },
-      {
-        path: 'lines',
-        loadComponent: () =>
-          import(
-            './manual-documentation/viz-components/lines-documentation/lines-documentation.component'
-          ).then((m) => m.LinesDocumentationComponent),
-      },
-      {
-        path: 'stacked-area',
-        loadComponent: () =>
-          import(
-            './manual-documentation/viz-components/stacked-area-documentation/stacked-area-documentation.component'
-          ).then((m) => m.StackedAreaDocumentationComponent),
-      },
-      {
-        path: 'stacked-bars',
-        loadComponent: () =>
-          import(
-            './manual-documentation/viz-components/stacked-bars-documentation/stacked-bars-documentation.component'
-          ).then((m) => m.StackedBarsDocumentationComponent),
-      },
-    ],
+    loadChildren: () =>
+      import(
+        './manual-documentation/viz-components/viz-components-routing.module'
+      ).then((m) => m.VizComponentsRoutingModule),
   },
   {
     path: 'documentation',

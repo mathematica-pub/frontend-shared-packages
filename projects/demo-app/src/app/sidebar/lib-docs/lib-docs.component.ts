@@ -49,7 +49,7 @@ export class LibDocsComponent implements OnInit {
   }
 
   initManualDocumentation(): void {
-    const path = `app/manual-documentation/${this.lib.id}/config.yml`;
+    const path = `app/manual-documentation/${this.lib.id}/config.yaml`;
     this.manualDocumentation$ = this.files.getYamlFile(path);
   }
 
