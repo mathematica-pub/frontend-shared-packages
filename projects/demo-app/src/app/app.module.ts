@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ManualDocumentationConfigService } from './manual-documentation/core/manual-documentation-config.service';
+import { ManualDocumentationConfigService } from './manual-documentation/core/routing/manual-documentation-config.service';
 import { DocsDirectoryComponent } from './sidebar/lib-docs/docs-directory/docs-directory.component';
 import { Library } from './sidebar/lib-docs/libraries';
 import { SidebarComponent } from './sidebar/sidebar.component';

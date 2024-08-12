@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SinglePanelExampleDisplayComponent } from '../../example-display/single-panel-example-display/single-panel-example-display.component';
-import { SplitPanelExampleDisplayComponent } from '../../example-display/split-panel-example-display/split-panel-example-display.component';
+import { SinglePanelExampleDisplayComponent } from '../../core/single-panel-example-display/single-panel-example-display.component';
+import { SplitPanelExampleDisplayComponent } from '../../core/split-panel-example-display/split-panel-example-display.component';
 import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars-example.component';
 
 @Component({

@@ -11,7 +11,7 @@ const routes: Routes = [
   {
     path: 'overview/:lib',
     loadComponent: () =>
-      import('./manual-documentation/overview/overview.component').then(
+      import('./manual-documentation/core/overview/overview.component').then(
         (m) => m.OverviewComponent
       ),
   },
@@ -19,7 +19,7 @@ const routes: Routes = [
     path: 'viz-components',
     loadChildren: () =>
       import(
-        './manual-documentation/viz-components/viz-components-routing.module'
+        './manual-documentation/core/routing/viz-components-routing.module'
       ).then((m) => m.VizComponentsRoutingModule),
   },
   {

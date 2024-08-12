@@ -11,8 +11,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, map } from 'rxjs';
-import { FileResource } from '../../core/resources/file.resource';
-import { HighlightService } from '../../core/services/highlight.service';
+import { FileResource } from '../../../core/resources/file.resource';
+import { HighlightService } from '../../../core/services/highlight.service';
 
 @Component({
   selector: 'app-overview',

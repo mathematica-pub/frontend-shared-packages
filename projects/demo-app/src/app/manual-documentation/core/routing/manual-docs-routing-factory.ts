@@ -1,7 +1,8 @@
 import { Routes } from '@angular/router';
-import { Library } from '../../sidebar/lib-docs/libraries';
+import { Library } from '../../../sidebar/lib-docs/libraries';
 import { ManualDocumentationConfigService } from './manual-documentation-config.service';
 
+// Any component that is provided this way must be explicitly added to files array in tsconfig.app.json
 export function manualDocumentationRoutesFactory(lib: Library) {
   return (configService: ManualDocumentationConfigService) => {
     const config = configService.configs[lib];

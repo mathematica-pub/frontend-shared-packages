@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs';
-import { FileResource } from '../../core/resources/file.resource';
-import { Library } from '../../sidebar/lib-docs/libraries';
-import { ManualDocumentationConfig } from '../viz-components/config';
+import { FileResource } from '../../../core/resources/file.resource';
+import { Library } from '../../../sidebar/lib-docs/libraries';
+import { ManualDocumentationConfig } from '../../viz-components/config';
 
 @Injectable({
   providedIn: 'root',

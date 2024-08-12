@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, ROUTES } from '@angular/router';
-import { Library } from '../../sidebar/lib-docs/libraries';
-import { manualDocumentationRoutesFactory } from '../core/dynamic-routing';
-import { ManualDocumentationConfigService } from '../core/manual-documentation-config.service';
+import { Library } from '../../../sidebar/lib-docs/libraries';
+import { manualDocumentationRoutesFactory } from './manual-docs-routing-factory';
+import { ManualDocumentationConfigService } from './manual-documentation-config.service';
 
 @NgModule({
   imports: [RouterModule.forChild([])],
