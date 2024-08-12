@@ -190,7 +190,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   getSvgDimensionsFromDivWidth(divWidth: number) {
     const width = this.getSvgWidthFromDivWidth(divWidth);
     const height = this.getSvgHeightFromWidth(width);
-    console.log('svgDimensions', { width, height });
     return { width, height };
   }
 
@@ -214,7 +213,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       dimensions.height - this.margin.bottom,
       this.margin.top,
     ];
-    console.log('ranges', { xRange, yRange });
     return { x: xRange, y: yRange };
   }
 }
