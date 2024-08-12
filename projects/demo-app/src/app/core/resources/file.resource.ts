@@ -12,7 +12,6 @@ export class FileResource {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getYamlFile(filePath: string): Observable<any> {
-    console.log('filePath', filePath);
     return this.http
       .get(filePath, {
         responseType: 'text',
