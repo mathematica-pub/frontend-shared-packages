@@ -36,7 +36,12 @@ export abstract class VicXyDataMarks<
 
   subscribeToRanges(): void {
     this.chart.ranges$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((ranges) =>
+          Object.values(ranges).every((range) => range[0] >= 0 && range[1] >= 0)
+        )
+      )
       .subscribe((ranges) => {
         this.ranges = ranges;
         if (
