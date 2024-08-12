@@ -1,6 +1,6 @@
 <ng-container *ngIf="chart.scales$ | async as scales">
   <svg:rect
-    *ngIf="scales.x && (scales.x.range()[1] - scales.x.range()[0] > 0) && scales.y && (scales.y.range()[0] - scales.y.range()[1] > 0)"
+    *ngIf="scales.x && scales.y"
     class="vic-xy-background"
     [attr.x]="scales.x.range()[0]"
     [attr.y]="scales.y.range()[1]"
