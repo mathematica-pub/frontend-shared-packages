@@ -5,12 +5,11 @@ import {
   inject,
   Input,
   OnChanges,
-  OnInit,
   SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { HighlightService } from '../../core/services/highlight.service';
+import { HighlightService } from '../../../core/services/highlight.service';
 
 @Component({
   selector: 'app-code-display',
@@ -20,17 +19,13 @@ import { HighlightService } from '../../core/services/highlight.service';
   styleUrls: ['./code-display.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class CodeDisplayComponent implements OnChanges, OnInit {
+export class CodeDisplayComponent implements OnChanges {
   @Input() fileData: string;
   private highlightService = inject(HighlightService);
   private sanitizer = inject(DomSanitizer);
   sanitizedDocumentation: SafeHtml;
   class: string;
   destroyRef = inject(DestroyRef);
-
-  ngOnInit(): void {
-    this.sanitizeAndHighlight(this.fileData);
-  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['fileData']) {

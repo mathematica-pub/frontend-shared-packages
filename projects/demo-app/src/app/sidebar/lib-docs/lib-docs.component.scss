@@ -7,6 +7,38 @@
   display: block;
 }
 
+.top-border {
+  border-top: 1px solid color.$primary-6;
+  margin-top: grid(4);
+  padding-top: grid(3);
+}
+
+.lib-title {
+  @extend %typography-h5;
+  padding: grid(1) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.lib-title:hover {
+  background-color: color.$primary-7;
+  transition: all 200ms;
+}
+
+.arrow {
+  transition: all 150ms;
+  color: color.$primary-6;
+  transform: scale(1.5) rotate(0);
+}
+
+.arrow.open {
+  transform: scale(1.5) rotate(90deg);
+  position: relative;
+  right: 4px;
+}
+
 .section-label {
   margin-top: grid(3);
   margin-bottom: grid(1);
@@ -19,7 +51,7 @@
   cursor: pointer;
 }
 
-.nav-item {
+.item {
   display: block;
   padding-right: grid(2);
   padding-top: grid(1);
@@ -28,13 +60,13 @@
   line-height: 1.2;
 }
 
-.nav-item:hover {
+.item:hover {
   cursor: pointer;
   background-color: color.$primary-7;
   transition: all 200ms;
 }
 
-.nav-item.active {
+.item.active {
   color: color.$highlight-default;
   background-color: color.$primary-7;
 }

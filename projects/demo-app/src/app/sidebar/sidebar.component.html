@@ -1,13 +1,15 @@
 <nav class="sidebar-container">
   <a
-    class="nav-item"
+    class="item"
     [routerLink]="'/overview/shared-packages'"
     routerLinkActive="active"
   >
     About Shared Packages
   </a>
-  <h2 class="lib-title">UI Components</h2>
-  <app-lib-docs [lib]="Library.UiComponents"></app-lib-docs>
-  <h2 class="lib-title">Viz Components</h2>
-  <app-lib-docs [lib]="Library.VizComponents"></app-lib-docs>
+  <app-lib-docs
+    [lib]="{ displayName: 'UI Components', id: Library.UiComponents }"
+  ></app-lib-docs>
+  <app-lib-docs
+    [lib]="{ displayName: 'Viz Components', id: Library.VizComponents }"
+  ></app-lib-docs>
 </nav>

@@ -9,8 +9,22 @@
   padding: grid(4) grid(2) grid(2) grid(4);
 }
 
-.lib-title {
-  padding-top: grid(8);
-  @extend %typography-h5;
+.item {
+  display: block;
+  padding-right: grid(2);
+  padding-top: grid(1);
   padding-bottom: grid(1);
+  margin: 1px 0;
+  line-height: 1.2;
+}
+
+.item:hover {
+  cursor: pointer;
+  background-color: color.$primary-7;
+  transition: all 200ms;
+}
+
+.item.active {
+  color: color.$highlight-default;
+  background-color: color.$primary-7;
 }

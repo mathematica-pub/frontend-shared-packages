@@ -34,13 +34,13 @@ import { Library } from './libraries';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LibDocsComponent implements OnInit {
-  @Input() lib: Library;
+  @Input() lib: { displayName: string; id: Library };
   @ViewChild(DocsDirectoryComponent)
   documentationDirectory: DocsDirectoryComponent;
   automatedDocumentation$: Observable<NavbarItem[]>;
   manualDocumentation$: Observable<{ title: string; items: string[] }>;
-
-  automatedDocsPath = '/automated-documentation';
+  automatedDocsPath = '/documentation';
+  expanded = true;
   private files = inject(FileResource);
 
   ngOnInit(): void {
@@ -49,12 +49,12 @@ export class LibDocsComponent implements OnInit {
   }
 
   initManualDocumentation(): void {
-    const path = `app/manual-documentation/${this.lib}/config.yml`;
+    const path = `app/manual-documentation/${this.lib.id}/config.yml`;
     this.manualDocumentation$ = this.files.getYamlFile(path);
   }
 
   initAutomatedDocumentation(): void {
-    const path = `assets/documentation/${this.lib}/documentation-structure.yaml`;
+    const path = `assets/documentation/${this.lib.id}/documentation-structure.yaml`;
     this.automatedDocumentation$ = this.files.getYamlFile(path).pipe(
       map((yamlObject) => {
         const tree = this.getDocumentationTree(yamlObject);
@@ -99,5 +99,9 @@ export class LibDocsComponent implements OnInit {
 
   closeAllDocumentation(): void {
     this.documentationDirectory?.closeAll();
+  }
+
+  toggleLibrary(): void {
+    this.expanded = !this.expanded;
   }
 }

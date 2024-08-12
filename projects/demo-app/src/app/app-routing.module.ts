@@ -56,7 +56,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'automated-documentation',
+    path: 'documentation',
     children: [
       {
         path: '**',

@@ -1,6 +1,6 @@
 import { Directive, inject, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
-import { ExamplesFilesService } from '../core/services/examples-files.service';
+import { ExamplesFilesService } from '../../core/services/examples-files.service';
 
 export interface ExampleProperties {
   path: string;
