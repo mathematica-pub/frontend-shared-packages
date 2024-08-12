@@ -17,6 +17,7 @@ import {
   Observable,
   combineLatest,
   distinctUntilChanged,
+  filter,
   map,
   merge,
   of,
@@ -164,6 +165,10 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
 
     this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
       map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
+      filter(
+        (ranges) =>
+          Object.values(ranges).every((range) => range[0] >= 0 && range[1] >= 0) // covers case when div width is 0 and range becomes negative due to margins -- happens when removing chart from DOM w/ lazy loading
+      ),
       shareReplay(1)
     );
   }
@@ -185,6 +190,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   getSvgDimensionsFromDivWidth(divWidth: number) {
     const width = this.getSvgWidthFromDivWidth(divWidth);
     const height = this.getSvgHeightFromWidth(width);
+    console.log('svgDimensions', { width, height });
     return { width, height };
   }
 
@@ -208,6 +214,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       dimensions.height - this.margin.bottom,
       this.margin.top,
     ];
+    console.log('ranges', { xRange, yRange });
     return { x: xRange, y: yRange };
   }
 }
