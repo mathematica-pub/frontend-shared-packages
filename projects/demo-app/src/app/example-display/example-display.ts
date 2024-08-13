@@ -2,28 +2,8 @@ import { Directive, inject, Input, OnInit } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { ExamplesFilesService } from '../core/services/examples-files.service';
 
-export interface ExampleProperties {
-  path: string;
-}
-
-export interface ExampleDisplayInterface {
-  includeFiles: string[];
-  path: string;
-  label: string;
-  maxWidth: string;
-  maxHeight: string;
-  height: string;
-  fileList: string[];
-  filesHtml$: Observable<string[]>;
-  selectedTabIndex: BehaviorSubject<number>;
-  selectedTabIndex$: Observable<number>;
-  tabList: string[];
-}
-
 @Directive()
-export abstract class ExampleDisplay
-  implements OnInit, ExampleDisplayInterface
-{
+export abstract class ExampleDisplay implements OnInit {
   @Input() includeFiles: string[];
   @Input() path: string;
   @Input() label: string = 'example';
