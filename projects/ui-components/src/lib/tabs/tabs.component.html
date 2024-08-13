@@ -24,9 +24,16 @@
     role="tabpanel"
     [attr.aria-labelledby]="activeTab?.labelComponent?.id"
   >
-    <ng-container *ngIf="activeTab.bodyComponent">
-      <ng-container *ngTemplateOutlet="activeTab.bodyComponent.bodyContent">
-      </ng-container>
-    </ng-container>
+    @if (activeTab.bodyComponent) {
+      @if (activeTab.bodyComponent?.lazyLoadedContent) {
+        <ng-container
+          *ngTemplateOutlet="activeTab.bodyComponent.lazyLoadedContent"
+        >
+        </ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="activeTab.bodyComponent.bodyContent">
+        </ng-container>
+      }
+    }
   </div>
 </ng-container>

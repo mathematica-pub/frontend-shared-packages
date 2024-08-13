@@ -21,6 +21,7 @@ export * from './lib/table/table.component';
 export * from './lib/table/table.config';
 export * from './lib/table/table.module';
 export * from './lib/tabs/tab-body.component';
+export * from './lib/tabs/tab-content.directive';
 export * from './lib/tabs/tab-item.component';
 export * from './lib/tabs/tab-label.component';
 export * from './lib/tabs/tabs.component';
