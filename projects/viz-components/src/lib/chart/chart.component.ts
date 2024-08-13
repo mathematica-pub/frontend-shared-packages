@@ -153,6 +153,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     const height$ = this.height$.pipe(startWith(this.height));
 
     this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
+      filter(([divWidth, height]) => divWidth > 0 && height > 0),
       map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
       shareReplay(1)
     );
@@ -165,10 +166,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
 
     this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
       map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
-      filter(
-        (ranges) =>
-          Object.values(ranges).every((range) => range[0] >= 0 && range[1] >= 0) // covers case when div width is 0 and range becomes negative due to margins -- happens when removing chart from DOM w/ lazy loading
-      ),
       shareReplay(1)
     );
   }
