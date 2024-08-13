@@ -18,8 +18,7 @@ import {
   shareReplay,
 } from 'rxjs';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
-import { ExampleDisplay } from '../example-display';
-import { resizerMixinAbstract } from './resizer';
+import { ResizableExampleDisplay } from './resizable-example-display';
 
 @Component({
   selector: 'app-split-panel-example-display',
@@ -33,14 +32,14 @@ import { resizerMixinAbstract } from './resizer';
   providers: [FormGroupDirective],
   templateUrl: './split-panel-example-display.component.html',
   styleUrls: [
-    '../example-display.scss',
+    '../example-display/example-display.scss',
     './split-panel-example-display.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class SplitPanelExampleDisplayComponent
-  extends resizerMixinAbstract(ExampleDisplay)
+  extends ResizableExampleDisplay
   implements OnInit
 {
   @ViewChild('resizer', { static: true }) resizer: ElementRef<HTMLDivElement>;

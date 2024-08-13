@@ -9,7 +9,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { TabsModule } from 'projects/ui-components/src/public-api';
 import { combineLatest, map, shareReplay } from 'rxjs';
 import { CodeDisplayComponent } from '../code-display/code-display.component';
-import { ExampleDisplay } from '../example-display';
+import { ExampleDisplay } from '../example-display/example-display';
 
 @Component({
   selector: 'app-single-panel-example-display',
@@ -24,7 +24,7 @@ import { ExampleDisplay } from '../example-display';
   providers: [FormGroupDirective],
   templateUrl: './single-panel-example-display.component.html',
   styleUrls: [
-    '../example-display.scss',
+    '../example-display/example-display.scss',
     './single-panel-example-display.component.scss',
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
