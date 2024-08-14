@@ -11,14 +11,14 @@ interface DirectoryItemBase {
   name: string;
 }
 
-export interface NavbarDirectory extends DirectoryItemBase {
+export interface DocsDirectory extends DirectoryItemBase {
   type: DirectoryItem.Directory;
-  contents: NavbarItem[];
+  contents: DocsItem[];
 }
 
-export interface NavbarFile extends DirectoryItemBase {
+export interface DocsFile extends DirectoryItemBase {
   type: DirectoryItem.File;
   contents: string;
 }
 
-export type NavbarItem = NavbarDirectory | NavbarFile;
+export type DocsItem = DocsDirectory | DocsFile;
