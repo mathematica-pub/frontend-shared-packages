@@ -5,7 +5,7 @@ library visible in a hosted site. Compodoc generates one file per symbol in the 
 are located in `documentation.`
 
 We then use a custom python script to extract the .html files that we want from what Compodoc has
-generated, and assemble those files into a tree structure that we display in the Demo App navbar.
+generated, and assemble those files into a tree structure that we display in the Demo App sidebar.
 
 The `documentation-structure.yaml` file (in `projects/demo-app/assets/documentation/[lib]`)
 determines which of the Compodoc-generated html files we make viewable in the `DOCUMENTATION`

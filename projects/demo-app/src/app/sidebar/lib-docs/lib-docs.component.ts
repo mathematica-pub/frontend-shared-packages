@@ -9,14 +9,14 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { map, Observable } from 'rxjs';
-import {
-  DirectoryItem,
-  NavbarDirectory,
-  NavbarItem,
-  NestedStringObject,
-} from '../../core/models/navbar';
 import { UndasherizePipe } from '../../core/pipes/undasherize.pipe';
 import { FileResource } from '../../core/resources/file.resource';
+import {
+  DirectoryItem,
+  DocsDirectory,
+  DocsItem,
+  NestedStringObject,
+} from './docs-directory/docs';
 import { DocsDirectoryComponent } from './docs-directory/docs-directory.component';
 import { Library } from './libraries';
 
@@ -37,7 +37,7 @@ export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
   @ViewChild(DocsDirectoryComponent)
   documentationDirectory: DocsDirectoryComponent;
-  automatedDocumentation$: Observable<NavbarItem[]>;
+  automatedDocumentation$: Observable<DocsItem[]>;
   manualDocumentation$: Observable<{ title: string; items: string[] }>;
   automatedDocsPath = '/documentation';
   expanded = true;
@@ -66,7 +66,7 @@ export class LibDocsComponent implements OnInit {
   getDocumentationTree(
     yaml: NestedStringObject,
     level: number = 0
-  ): NavbarDirectory[] {
+  ): DocsDirectory[] {
     const returnArray = Object.entries(yaml).map(([key, value]) => {
       if (typeof value === 'string') {
         return {
@@ -94,7 +94,7 @@ export class LibDocsComponent implements OnInit {
       });
     }
 
-    return returnArray as NavbarDirectory[];
+    return returnArray as DocsDirectory[];
   }
 
   closeAllDocumentation(): void {
