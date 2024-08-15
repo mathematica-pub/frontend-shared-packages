@@ -11,9 +11,9 @@ interface DirectoryItemBase {
   name: string;
 }
 
-export interface DocsDirectory extends DirectoryItemBase {
+export interface SidebarDirectory extends DirectoryItemBase {
   type: DirectoryItem.Directory;
-  contents: DocsItem[];
+  contents: SidebarItem[];
 }
 
 export interface DocsFile extends DirectoryItemBase {
@@ -21,4 +21,4 @@ export interface DocsFile extends DirectoryItemBase {
   contents: string;
 }
 
-export type DocsItem = DocsDirectory | DocsFile;
+export type SidebarItem = SidebarDirectory | DocsFile;

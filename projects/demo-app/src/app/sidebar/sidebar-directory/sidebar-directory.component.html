@@ -1,7 +1,7 @@
 @for (item of items; track $index) {
   @if (item.type === DirItem.File) {
     <a
-      [routerLink]="getDocPathForLevel(item.name)"
+      [routerLink]="getItemPathForLevel(item.name)"
       routerLinkActive="active"
       class="terminal-item"
       [style.--level]="level"
@@ -28,12 +28,12 @@
       </span>
     </div>
     @if (selected[item.name]) {
-      <app-docs-directory
+      <app-sidebar-directory
         class="directory"
-        [docPath]="getDocPathForLevel(item.name)"
+        [itemPath]="getItemPathForLevel(item.name)"
         [items]="item.contents"
         [level]="level + 1"
-      ></app-docs-directory>
+      ></app-sidebar-directory>
     }
   }
 }

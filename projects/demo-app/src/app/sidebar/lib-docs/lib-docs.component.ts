@@ -13,11 +13,11 @@ import { UndasherizePipe } from '../../core/pipes/undasherize.pipe';
 import { FileResource } from '../../core/resources/file.resource';
 import {
   DirectoryItem,
-  DocsDirectory,
-  DocsItem,
   NestedStringObject,
-} from './docs-directory/docs';
-import { DocsDirectoryComponent } from './docs-directory/docs-directory.component';
+  SidebarDirectory,
+  SidebarItem,
+} from '../sidebar-directory/sidebar-directory';
+import { SidebarDirectoryComponent } from '../sidebar-directory/sidebar-directory.component';
 import { Library } from './libraries';
 
 @Component({
@@ -27,7 +27,7 @@ import { Library } from './libraries';
     CommonModule,
     RouterModule,
     UndasherizePipe,
-    DocsDirectoryComponent,
+    SidebarDirectoryComponent,
   ],
   templateUrl: './lib-docs.component.html',
   styleUrls: ['./lib-docs.component.scss'],
@@ -35,9 +35,9 @@ import { Library } from './libraries';
 })
 export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
-  @ViewChild(DocsDirectoryComponent)
-  documentationDirectory: DocsDirectoryComponent;
-  automatedDocumentation$: Observable<DocsItem[]>;
+  @ViewChild(SidebarDirectoryComponent)
+  documentationDirectory: SidebarDirectoryComponent;
+  automatedDocumentation$: Observable<SidebarItem[]>;
   manualDocumentation$: Observable<{ title: string; items: string[] }>;
   automatedDocsPath = '/documentation';
   expanded = true;
@@ -66,7 +66,7 @@ export class LibDocsComponent implements OnInit {
   getDocumentationTree(
     yaml: NestedStringObject,
     level: number = 0
-  ): DocsDirectory[] {
+  ): SidebarDirectory[] {
     const returnArray = Object.entries(yaml).map(([key, value]) => {
       if (typeof value === 'string') {
         return {
@@ -94,7 +94,7 @@ export class LibDocsComponent implements OnInit {
       });
     }
 
-    return returnArray as DocsDirectory[];
+    return returnArray as SidebarDirectory[];
   }
 
   closeAllDocumentation(): void {

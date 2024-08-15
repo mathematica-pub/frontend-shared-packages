@@ -5,8 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ManualDocumentationConfigService } from './manual-documentation/core/routing/manual-documentation-config.service';
-import { DocsDirectoryComponent } from './sidebar/lib-docs/docs-directory/docs-directory.component';
 import { Library } from './sidebar/lib-docs/libraries';
+import { SidebarDirectoryComponent } from './sidebar/sidebar-directory/sidebar-directory.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     AppRoutingModule,
     BrowserAnimationsModule,
     SidebarComponent,
-    DocsDirectoryComponent,
+    SidebarDirectoryComponent,
   ],
   providers: [
     {
