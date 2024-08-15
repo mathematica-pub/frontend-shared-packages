@@ -3,7 +3,7 @@ name: Test Slack webhook
 on:
   push:
     branches:
-      - throwaway-testing
+      - throwaway-testing-2
 
 jobs:
   fake-deploy:
