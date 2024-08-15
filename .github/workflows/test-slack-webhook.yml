@@ -5,10 +5,11 @@ on:
     branches:
       - throwaway-testing-2
 
+permissions:
+  pull-requests: read
+
 jobs:
   fake-deploy:
-    # permissions:
-    #   pull-requests: read
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
