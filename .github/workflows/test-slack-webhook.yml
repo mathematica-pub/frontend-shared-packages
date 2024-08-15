@@ -7,8 +7,8 @@ on:
 
 jobs:
   fake-deploy:
-    permissions:
-      pull-requests: read
+    # permissions:
+    #   pull-requests: read
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
