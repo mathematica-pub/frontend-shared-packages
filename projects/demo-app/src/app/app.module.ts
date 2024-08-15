@@ -1,13 +1,13 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { VicDataExport } from 'projects/viz-components/src/lib/data-export/data-export';
-import { VicImageDownload } from 'projects/viz-components/src/lib/image-download/image-download';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavbarDirectoryComponent } from './navbar-directory/navbar-directory.component';
-import { NavbarComponent } from './navbar/navbar.component';
+import { ManualDocumentationConfigService } from './manual-documentation/core/routing/manual-documentation-config.service';
+import { DocsDirectoryComponent } from './sidebar/lib-docs/docs-directory/docs-directory.component';
+import { Library } from './sidebar/lib-docs/libraries';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,10 +16,21 @@ import { NavbarComponent } from './navbar/navbar.component';
     HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    NavbarComponent,
-    NavbarDirectoryComponent,
+    SidebarComponent,
+    DocsDirectoryComponent,
   ],
-  providers: [VicDataExport, VicImageDownload],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: (config: ManualDocumentationConfigService) => {
+        return () => {
+          config.initConfigs([Library.UiComponents, Library.VizComponents]);
+        };
+      },
+      deps: [ManualDocumentationConfigService],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

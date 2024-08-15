@@ -1,0 +1,40 @@
+<div class="top-border"></div>
+<h2 class="lib-title" (click)="toggleLibrary()" [class.open]="expanded"
+  >{{ lib.displayName
+  }}<span class="material-symbols-outlined arrow" [class.open]="expanded">
+    chevron_right
+  </span></h2
+>
+@if (expanded) {
+  <a
+    class="item"
+    [routerLink]="'/overview/' + lib.id"
+    routerLinkActive="active"
+  >
+    Overview
+  </a>
+  @if (manualDocumentation$ | async; as manualDocumentation) {
+    <h3 class="section-label">{{ manualDocumentation.title }}</h3>
+    <ng-container *ngFor="let item of manualDocumentation.items">
+      <a
+        class="item"
+        [routerLink]="'/' + lib.id + '/' + item"
+        routerLinkActive="active"
+      >
+        {{ item | undasherize | titlecase }}
+      </a>
+    </ng-container>
+  }
+  <h3
+    class="section-label documentation"
+    tabIndex="0"
+    role="button"
+    (click)="closeAllDocumentation()"
+    (enter)="closeAllDocumentation()"
+    >Automated Documentation</h3
+  >
+  <app-docs-directory
+    [items]="automatedDocumentation$ | async"
+    [docPath]="automatedDocsPath + '/' + lib.id"
+  ></app-docs-directory>
+}
