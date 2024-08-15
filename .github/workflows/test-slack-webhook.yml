@@ -37,5 +37,5 @@ jobs:
           pr_title: ${{ steps.PR.outputs.pr_title }}
           pr_url: ${{ steps.PR.outputs.pr_url }}
         run: |
-          export version=$(node -p "require('./projects/${pkg}/package.json').version")
+          export version=$(node -p "require('./projects/viz-components/package.json').version")
           curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v${{ env.version }} (<$pr_url|$pr_title>) has been released\"}" $SLACK_WEBHOOK_URL
