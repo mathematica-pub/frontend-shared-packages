@@ -22,7 +22,7 @@ export function manualDocumentationRoutesFactory(lib: Library) {
         path: item,
         loadComponent: () =>
           import(
-            `../${lib}/${item}-documentation/${item}-documentation.component`
+            `../../${lib}/${item}-documentation/${item}-documentation.component`
           ).then((m) => m[componentName]),
       });
     });
