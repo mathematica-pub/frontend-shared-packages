@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DirectoryItem, NavbarItem } from '../../../core/models/navbar';
 import { UndasherizePipe } from '../../../core/pipes/undasherize.pipe';
+import { DirectoryItem, DocsItem } from './docs';
 
 @Component({
   selector: 'app-docs-directory',
@@ -12,7 +12,7 @@ import { UndasherizePipe } from '../../../core/pipes/undasherize.pipe';
   styleUrls: ['./docs-directory.component.scss'],
 })
 export class DocsDirectoryComponent {
-  @Input() items: NavbarItem[];
+  @Input() items: DocsItem[];
   @Input() docPath: string;
   @Input() level: number = 0;
   @ViewChild(DocsDirectoryComponent) child: DocsDirectoryComponent;
