@@ -61,9 +61,9 @@ export class SelectAllListboxOptionComponent<T>
     // If there are groups, select all only works for its own group
     const groupId = this.listboxComponent.getGroupIndexFromOptionIndex(this.id);
     if (groupId > -1) {
-      const groups = this.listboxComponent.groups.toArray();
-      return groups[groupId].options
+      return this.listboxComponent.groups
         .toArray()
+        [groupId].options.toArray()
         .filter((option) => !option.isDisabled());
     } else {
       return [];

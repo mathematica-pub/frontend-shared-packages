@@ -28,11 +28,9 @@ export class MultiFiltersListboxComponent<T> extends ListboxComponent<T> {
     if (this.listboxGroupsEl !== undefined) {
       const indexEl = this.allOptionsArray[index].label?.nativeElement;
       const groupIndex = this.getGroupIndexFromOptionIndex(index);
-      const listboxGroupElNativeElementArray = this.listboxGroupsEl.toArray();
-      const listboxGroupElNativeElement =
-        listboxGroupElNativeElementArray[
-          groupIndex
-        ].nativeElement.querySelector('.listbox-group');
+      const listboxGroupElNativeElement = this.listboxGroupsEl
+        .toArray()
+        [groupIndex].nativeElement.querySelector('.listbox-group');
       if (this.scrolling.isScrollable(listboxGroupElNativeElement)) {
         this.scrolling.maintainScrollVisibility(
           indexEl,

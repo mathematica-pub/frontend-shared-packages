@@ -38,7 +38,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   constructor(
     public service: ComboboxService,
     private platform: Platform,
-    private destroyRef: DestroyRef
+    public destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {

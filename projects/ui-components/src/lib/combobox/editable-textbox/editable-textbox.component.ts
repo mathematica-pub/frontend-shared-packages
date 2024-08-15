@@ -35,7 +35,8 @@ export class EditableTextboxComponent
   @ViewChild('box') inputElRef: ElementRef<HTMLInputElement>;
   @Input() placeholder = '';
   @Input() inputType: 'text' | 'search' = 'text';
-  @Input() automaticSelection = false;
+  @Input() autoSelectionOnTextInput: 'empty' | 'character' | 'none' | 'both' =
+    'both';
   @Output() inputValue = new EventEmitter<string>();
   autocomplete: AutocompleteType = Autocomplete.list;
   moveFocusToTextboxKeys = ['RightArrow', 'LeftArrow', 'Home', 'End'];
@@ -47,6 +48,20 @@ export class EditableTextboxComponent
     this.service.autocomplete = this.autocomplete;
   }
 
+  get autoSelectWhenTextboxIsEmpty(): boolean {
+    return (
+      this.autoSelectionOnTextInput === 'empty' ||
+      this.autoSelectionOnTextInput === 'both'
+    );
+  }
+
+  get autoSelectWhenTextboxHasCharacters(): boolean {
+    return (
+      this.autoSelectionOnTextInput === 'character' ||
+      this.autoSelectionOnTextInput === 'both'
+    );
+  }
+
   setInputValue(value: string): void {
     this.inputElRef.nativeElement.value = value;
     if (value === '') {
@@ -56,7 +71,10 @@ export class EditableTextboxComponent
 
   onInputChange(value: string): void {
     if (value === '') {
-      this.service.emitOptionAction(OptionAction.nullActiveIndex);
+      const optionAction = this.autoSelectWhenTextboxIsEmpty
+        ? OptionAction.zeroActiveIndex
+        : OptionAction.nullActiveIndex;
+      this.service.emitOptionAction(optionAction);
     }
     this.inputValue.emit(value);
   }
@@ -66,7 +84,18 @@ export class EditableTextboxComponent
       this.service.closeListbox();
     } else {
       this.service.openListbox();
-      this.service.emitOptionAction(OptionAction.zeroActiveIndex);
+      const currentValue = this.inputElRef.nativeElement.value;
+      let optionAction: OptionAction;
+      if (currentValue === '') {
+        optionAction = this.autoSelectWhenTextboxIsEmpty
+          ? OptionAction.zeroActiveIndex
+          : OptionAction.nullActiveIndex;
+      } else {
+        optionAction = this.autoSelectWhenTextboxHasCharacters
+          ? OptionAction.zeroActiveIndex
+          : OptionAction.nullActiveIndex;
+      }
+      this.service.emitOptionAction(optionAction);
     }
     this.service.setVisualFocus(VisualFocus.textbox);
   }
@@ -92,7 +121,7 @@ export class EditableTextboxComponent
     } else if (
       event.key === Key.Enter &&
       this.service.visualFocus === VisualFocus.textbox &&
-      (this.automaticSelection ? !this.service.isOpen : true)
+      (this.autoSelectWhenTextboxHasCharacters ? !this.service.isOpen : true)
     ) {
       return ListboxAction.close;
     } else {
@@ -180,7 +209,10 @@ export class EditableTextboxComponent
           this.inputElRef.nativeElement.value.length
         );
       }
-      if (this.automaticSelection && action === TextboxAction.addChar) {
+      if (
+        this.autoSelectWhenTextboxHasCharacters &&
+        action === TextboxAction.addChar
+      ) {
         this.service.emitOptionAction(OptionAction.zeroActiveIndex);
       } else {
         this.service.emitOptionAction(OptionAction.nullActiveIndex);
