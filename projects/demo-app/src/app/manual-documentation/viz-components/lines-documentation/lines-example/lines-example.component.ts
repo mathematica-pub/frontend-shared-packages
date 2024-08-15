@@ -125,7 +125,6 @@ export class LinesExampleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log('lines-example.component.ts ngOnInit()');
     this.vm$ = this.dataService.metroUnemploymentData$.pipe(
       filter((x) => !!x),
       map((x) => this.getViewModel(x))
