@@ -189,7 +189,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.continent)
       )
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -226,7 +226,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
         dimension.valueAccessor((d) => d.continent)
       )
       .createPointMarkers((markers) => markers.class('test-point-marker'))
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
       .each(($pointMarker) => {
@@ -264,7 +264,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
         dimension.valueAccessor((d) => d.continent)
       )
       .createPointMarkers((markers) => markers.class('test-point-marker'))
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
       .each(($pointMarker) => {
@@ -302,7 +302,7 @@ describe('it creates the correct marks - x axis values are Dates', () => {
         dimension.valueAccessor((d) => d.continent)
       )
       .createPointMarkers((markers) => markers.class('test-point-marker'))
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.test-point-marker')
       .each(($pointMarker) => {
@@ -329,7 +329,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.continent)
       )
-      .build();
+      .getConfig();
     mountNumberLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -360,7 +360,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.continent)
       )
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -398,7 +398,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.continent)
       )
-      .build();
+      .getConfig();
     mountNumberLinesComponent(linesConfig);
     const categories = [];
     cy.get('.vic-line')
@@ -437,7 +437,7 @@ describe('it creates lines with the correct properties per config', () => {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.continent)
       )
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').each(($line, i) => {
       cy.wrap($line).should('have.attr', 'stroke', schemeTableau10[i]);
@@ -456,7 +456,7 @@ describe('it creates lines with the correct properties per config', () => {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.continent)
       )
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').should('have.length', 6);
   });
@@ -476,7 +476,7 @@ describe('it creates lines with the correct properties per config', () => {
           dimension.valueAccessor((d) => d.continent)
         )
         .createPointMarkers((markers) => markers.class(markerClass))
-        .build();
+        .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
     });
@@ -497,7 +497,7 @@ describe('it creates lines with the correct properties per config', () => {
         .createPointMarkers((markers) =>
           markers.class(markerClass).radius(radius)
         )
-        .build();
+        .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).each(($pointMarker) => {
         cy.wrap($pointMarker).should('have.attr', 'r', radius.toString());
@@ -522,7 +522,7 @@ describe('it creates lines with the correct properties per config', () => {
         .createStroke((stroke) =>
           stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
         )
-        .build();
+        .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get('.vic-lines-g').should('have.attr', 'stroke-width', '3');
       cy.get('.vic-lines-g').should('have.attr', 'stroke-opacity', '0.5');
@@ -545,7 +545,7 @@ describe('it creates lines with the correct properties per config', () => {
           dimension.valueAccessor((d) => d.continent)
         )
         .labelLines(true)
-        .build();
+        .getConfig();
       mountDateLinesComponent(linesConfig);
       const labels = [];
       cy.get('.vic-line-label')
@@ -585,7 +585,7 @@ describe('displays tooltips for correct data per hover position', () => {
       .createStroke((stroke) =>
         stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
       )
-      .build();
+      .getConfig();
     mountDateLinesComponent(linesConfig);
   });
 

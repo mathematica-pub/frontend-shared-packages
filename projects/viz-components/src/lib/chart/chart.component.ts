@@ -17,6 +17,7 @@ import {
   Observable,
   combineLatest,
   distinctUntilChanged,
+  filter,
   map,
   merge,
   of,
@@ -152,6 +153,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     const height$ = this.height$.pipe(startWith(this.height));
 
     this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
+      filter(([divWidth, height]) => divWidth > 0 && height > 0),
       map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
       shareReplay(1)
     );

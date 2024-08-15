@@ -40,7 +40,7 @@ describe('LineChartComponent', () => {
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor(() => null)
         )
-        .build();
+        .getConfig();
     });
     it('calls setLine once', () => {
       component.drawMarks();
@@ -65,7 +65,7 @@ describe('LineChartComponent', () => {
           dimension.valueAccessor(() => null)
         )
         .createPointMarkers()
-        .build();
+        .getConfig();
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
     });
@@ -84,7 +84,7 @@ describe('LineChartComponent', () => {
           dimension.valueAccessor(() => null)
         )
         .createHoverDot()
-        .build();
+        .getConfig();
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
@@ -100,7 +100,7 @@ describe('LineChartComponent', () => {
         )
         .createPointMarkers()
         .createHoverDot()
-        .build();
+        .getConfig();
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
     });
@@ -115,7 +115,7 @@ describe('LineChartComponent', () => {
           dimension.valueAccessor(() => null)
         )
         .labelLines(true)
-        .build();
+        .getConfig();
       component.drawMarks();
       expect(component.drawLineLabels).toHaveBeenCalledTimes(1);
     });

@@ -15,7 +15,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "hsi-ui",
+            "prefix": "hsiUi",
             "style": "camelCase"
           }
         ],
@@ -27,6 +27,7 @@
             "style": "kebab-case"
           }
         ],
+        "@angular-eslint/directive-class-suffix": "off",
         "@angular-eslint/no-inputs-metadata-property": "warn"
       }
     }
