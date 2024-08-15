@@ -28,8 +28,8 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
-  private hoverDotBuilder: PointMarkersBuilder;
-  private pointMarkersBuilder: PointMarkersBuilder;
+  private hoverDotBuilder: PointMarkersBuilder<Datum>;
+  private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | QuantitativeNumericDimensionBuilder<Datum>
@@ -80,11 +80,11 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    * @default radius: 4, display: false
    */
   createHoverDot(
-    setProperties?: (pointMarkers: PointMarkersBuilder) => void
+    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
   ): this {
     this.hoverDotBuilder = new PointMarkersBuilder();
     this.hoverDotBuilder.radius(4);
-    this.hoverDotBuilder.display(false);
+    this.hoverDotBuilder.display(() => false);
     setProperties?.(this.hoverDotBuilder);
     return this;
   }
@@ -124,7 +124,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    * OPTIONAL. A config for the behavior of markers for each datum on the line.
    */
   createPointMarkers(
-    setProperties?: (pointMarkers: PointMarkersBuilder) => void
+    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
   ): this {
     this.pointMarkersBuilder = new PointMarkersBuilder();
     setProperties?.(this.pointMarkersBuilder);

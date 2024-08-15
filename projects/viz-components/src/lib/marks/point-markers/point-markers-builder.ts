@@ -1,13 +1,13 @@
 import { PointMarkers } from './point-markers';
 
 const DEFAULT = {
-  _display: true,
+  _display: () => true,
   _radius: 3,
   _growByOnHover: 2,
 };
 
-export class PointMarkersBuilder {
-  private _display: boolean;
+export class PointMarkersBuilder<Datum> {
+  private _display: (d: Datum) => boolean;
   private _class: string;
   private _growByOnHover: number;
   private _radius: number;
@@ -19,9 +19,9 @@ export class PointMarkersBuilder {
   /**
    * OPTIONAL. A boolean to determine if point markers will be displayed.
    *
-   * @default true
+   * @default () => true
    */
-  display(display: boolean): this {
+  display(display: (d: Datum) => boolean): this {
     this._display = display;
     return this;
   }
@@ -57,7 +57,7 @@ export class PointMarkersBuilder {
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): PointMarkers {
+  _build(): PointMarkers<Datum> {
     return new PointMarkers({
       display: this._display,
       class: this._class,

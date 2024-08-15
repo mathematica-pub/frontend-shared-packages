@@ -20,13 +20,13 @@ export class LinesConfig<Datum>
 {
   readonly categorical: CategoricalDimension<Datum, string>;
   readonly curve: CurveFactory;
-  readonly hoverDot: PointMarkers;
+  readonly hoverDot: PointMarkers<Datum>;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
   readonly pointerDetectionRadius: number;
-  readonly pointMarkers: PointMarkers;
+  readonly pointMarkers: PointMarkers<Datum>;
   readonly stroke: Stroke;
   readonly x:
     | QuantitativeDateDimension<Datum>
