@@ -72,13 +72,19 @@ export class LinesConfig<Datum>
   }
 
   getMarkersData(indices: number[]): LinesMarkerDatum[] {
-    return indices.map((i) => {
-      return {
-        key: this.getMarkerKey(i),
-        index: i,
-        category: this.categorical.values[i],
-      };
-    });
+    return indices
+      .filter((i) =>
+        this.pointMarkers
+          ? this.pointMarkers.display(this.data[i])
+          : this.hoverDot.display(this.data[i])
+      )
+      .map((i) => {
+        return {
+          key: this.getMarkerKey(i),
+          index: i,
+          category: this.categorical.values[i],
+        };
+      });
   }
 
   private getMarkerKey(i: number): string {

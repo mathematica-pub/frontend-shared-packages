@@ -149,7 +149,12 @@ export class LinesExampleComponent implements OnInit {
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.division)
       )
-      .createPointMarkers((markers) => markers.radius(2).growByOnHover(3))
+      .createPointMarkers((markers) =>
+        markers
+          .radius(2)
+          .growByOnHover(3)
+          .display((d) => d.division.includes('Bethesda-Rockville'))
+      )
       .getConfig();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
