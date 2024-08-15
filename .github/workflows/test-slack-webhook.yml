@@ -32,10 +32,8 @@ jobs:
       - name: Notify Success
         if: success()
         env:
-          pkg: viz-components
+          pkg: ui-components
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_TESTING }}
           pr_title: ${{ steps.PR.outputs.pr_title }}
           pr_url: ${{ steps.PR.outputs.pr_url }}
-        run: |
-          version=$(node -p "require('./projects/$pkg/package.json').version")
-          curl -X POST -H "Content-type: application/json" --data "{\"text\": \"$pkg v$version (<$pr_url|$pr_title>) has been released\"}" $SLACK_WEBHOOK_URL
+        run: bash scripts/notify_version_released.sh
