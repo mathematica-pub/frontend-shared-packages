@@ -5,53 +5,22 @@ import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/overview',
+    redirectTo: '/overview/shared-packages',
     pathMatch: 'full',
   },
   {
-    path: 'overview',
+    path: 'overview/:lib',
     loadComponent: () =>
-      import('./overview/overview.component').then((m) => m.OverviewComponent),
+      import('./manual-documentation/core/overview/overview.component').then(
+        (m) => m.OverviewComponent
+      ),
   },
   {
-    path: 'examples',
-    children: [
-      {
-        path: 'bars',
-        loadComponent: () =>
-          import('./examples/bars-example/bars-example.component').then(
-            (m) => m.BarsExampleComponent
-          ),
-      },
-      {
-        path: 'geographies',
-        loadComponent: () =>
-          import(
-            './examples/geographies-example/geographies-example.component'
-          ).then((m) => m.GeographiesExampleComponent),
-      },
-      {
-        path: 'lines',
-        loadComponent: () =>
-          import('./examples/lines-example/lines-example.component').then(
-            (m) => m.LinesExampleComponent
-          ),
-      },
-      {
-        path: 'stacked-area',
-        loadComponent: () =>
-          import(
-            './examples/stacked-area-example/stacked-area-example.component'
-          ).then((m) => m.StackedAreaExampleComponent),
-      },
-      {
-        path: 'stacked-bars',
-        loadComponent: () =>
-          import(
-            './examples/stacked-bars-example/stacked-bars-example.component'
-          ).then((m) => m.StackedBarsExampleComponent),
-      },
-    ],
+    path: 'viz-components',
+    loadChildren: () =>
+      import(
+        './manual-documentation/core/routing/viz-components-routing.module'
+      ).then((m) => m.VizComponentsRoutingModule),
   },
   {
     path: 'documentation',
@@ -60,19 +29,24 @@ const routes: Routes = [
         path: '**',
         loadComponent: () =>
           import(
-            './documentation-display/documentation-display.component'
-          ).then((m) => m.DocumentationDisplayComponent),
+            './automated-documentation-display/automated-documentation-display.component'
+          ).then((m) => m.AutomatedDocumentationDisplayComponent),
       },
     ],
   },
   {
     path: '**',
-    redirectTo: '/overview',
+    redirectTo: '/overview/shared-packages',
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { anchorScrolling: 'enabled' })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      anchorScrolling: 'enabled',
+      bindToComponentInputs: true,
+    }),
+  ],
   exports: [RouterModule],
   providers: [
     {

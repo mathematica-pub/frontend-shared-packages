@@ -2,9 +2,7 @@
   "root": false,
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": [
           "projects/viz-components/tsconfig.lib.json",
