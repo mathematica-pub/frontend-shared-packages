@@ -5,14 +5,9 @@
     "outDir": "../../out-tsc/app",
     "types": []
   },
-  "files": [
-    "src/main.ts",
-    "src/polyfills.ts",
-    "src/app/manual-documentation/viz-components/bars-documentation/bars-documentation.component.ts",
-    "src/app/manual-documentation/viz-components/geographies-documentation/geographies-documentation.component.ts",
-    "src/app/manual-documentation/viz-components/lines-documentation/lines-documentation.component.ts",
-    "src/app/manual-documentation/viz-components/stacked-area-documentation/stacked-area-documentation.component.ts",
-    "src/app/manual-documentation/viz-components/stacked-bars-documentation/stacked-bars-documentation.component.ts"
-  ],
-  "include": ["src/**/*.d.ts"]
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "include": [
+    "src/**/*.d.ts",
+    "src/app/manual-documentation/viz-components/**/*.ts"
+  ]
 }
