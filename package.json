@@ -29,7 +29,6 @@
     "test:ui-components:ci": "ng test ui-components --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox",
     "lint:demo-app": "ng lint demo-app",
     "lint:viz-components": "ng lint viz-components",
-    "lint:viz-components:ci": "ng lint viz-components && exit 0",
     "lint:ui-components": "ng lint ui-components",
     "compodoc:build:viz-components": "npx compodoc -p projects/viz-components/tsconfig.doc.json -d compodoc-docs/viz-components",
     "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d compodoc-docs/ui-components",
