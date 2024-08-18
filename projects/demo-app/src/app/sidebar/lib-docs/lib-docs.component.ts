@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,10 +7,14 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { UndasherizePipe } from '../../core/pipes/undasherize.pipe';
 import { FileResource } from '../../core/resources/file.resource';
+import {
+  DirectoryComponent,
+  NewDirectoryItem,
+} from './directory/directory.component';
 import {
   DirectoryItem,
   DocsDirectory,
@@ -28,7 +32,10 @@ import { Library } from './libraries';
     RouterModule,
     UndasherizePipe,
     DocsDirectoryComponent,
+    DirectoryComponent,
+    TitleCasePipe,
   ],
+  providers: [TitleCasePipe],
   templateUrl: './lib-docs.component.html',
   styleUrls: ['./lib-docs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,10 +45,16 @@ export class LibDocsComponent implements OnInit {
   @ViewChild(DocsDirectoryComponent)
   documentationDirectory: DocsDirectoryComponent;
   automatedDocumentation$: Observable<DocsItem[]>;
+  automatedDocumentation2$: Observable<NewDirectoryItem[]>;
   manualDocumentation$: Observable<{ title: string; items: string[] }>;
   automatedDocsPath = '/documentation';
   expanded = true;
   private files = inject(FileResource);
+
+  constructor(
+    private titleCase: TitleCasePipe,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.initManualDocumentation();
@@ -57,7 +70,17 @@ export class LibDocsComponent implements OnInit {
     const path = `assets/documentation/${this.lib.id}/documentation-structure.yaml`;
     this.automatedDocumentation$ = this.files.getYamlFile(path).pipe(
       map((yamlObject) => {
+        console.log(yamlObject);
         const tree = this.getDocumentationTree(yamlObject);
+        console.log(tree);
+        return tree;
+      })
+    );
+    this.automatedDocumentation2$ = this.files.getYamlFile(path).pipe(
+      map((yamlObject) => {
+        console.log(yamlObject);
+        const tree = this.getDocumentationDirectories(yamlObject);
+        console.log(tree);
         return tree;
       })
     );
@@ -97,8 +120,47 @@ export class LibDocsComponent implements OnInit {
     return returnArray as DocsDirectory[];
   }
 
-  closeAllDocumentation(): void {
-    this.documentationDirectory?.closeAll();
+  getDocumentationDirectories(
+    yaml: NestedStringObject,
+    level: number = 0
+  ): NewDirectoryItem[] {
+    const returnArray = Object.entries(yaml).map(([key, value]) => {
+      if (typeof value === 'string') {
+        return {
+          name: this.creteDisplayName(key),
+          value: key,
+        };
+      } else {
+        return {
+          name: this.creteDisplayName(key),
+          value: key,
+          children: this.getDocumentationDirectories(value, level + 1),
+          type: DirectoryItem.Directory,
+        };
+      }
+    });
+
+    // Documentation structure doc determines the order for the top level
+    if (level !== 0) {
+      returnArray.sort((a, b) => {
+        if (!a.children && !!b.children) return 1;
+        if (!!a.children && !b.children) return -1;
+        return a.name.localeCompare(b.name);
+      });
+    }
+
+    return returnArray as NewDirectoryItem[];
+  }
+
+  creteDisplayName(str: string): string {
+    return this.titleCase.transform(str.replace(/-/g, ' '));
+  }
+
+  selectAutomatedDocsItem(item: string): void {
+    console.log('selectedItem', item);
+  }
+  selectAutomatedDocsPath(item: string): void {
+    console.log('activePath', item);
   }
 
   toggleLibrary(): void {

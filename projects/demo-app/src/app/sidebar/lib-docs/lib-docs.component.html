@@ -25,16 +25,14 @@
       </a>
     </ng-container>
   }
-  <h3
-    class="section-label documentation"
-    tabIndex="0"
-    role="button"
-    (click)="closeAllDocumentation()"
-    (enter)="closeAllDocumentation()"
-    >Automated Documentation</h3
-  >
+  <h3 class="section-label documentation">Automated Documentation</h3>
   <app-docs-directory
     [items]="automatedDocumentation$ | async"
     [docPath]="automatedDocsPath + '/' + lib.id"
   ></app-docs-directory>
+  <app-directory
+    [items]="automatedDocumentation2$ | async"
+    (itemSelected)="selectAutomatedDocsItem($event)"
+    (activePath)="selectAutomatedDocsPath($event)"
+  ></app-directory>
 }

@@ -6,6 +6,10 @@
   >
     About Shared Packages
   </a>
+  <app-directory
+    (itemSelected)="logItem($event)"
+    (activePath)="logItem($event)"
+  ></app-directory>
   <app-lib-docs
     [lib]="{ displayName: 'UI Components', id: Library.UiComponents }"
   ></app-lib-docs>
