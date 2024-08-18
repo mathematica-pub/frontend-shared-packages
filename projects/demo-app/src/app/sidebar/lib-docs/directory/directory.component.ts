@@ -75,7 +75,7 @@ export class DirectoryComponent implements OnChanges {
   // public events are emitted on leaf selection
   selectItem(item: DirectoryItem): void {
     const itemValue = item.value || item.name;
-    const activePath = `${this.path}/${itemValue}`;
+    const activePath = this.path ? `${this.path}/${itemValue}` : itemValue;
     if (this.level === 0) {
       this.selectionChanges.emit({
         activePath: activePath,
