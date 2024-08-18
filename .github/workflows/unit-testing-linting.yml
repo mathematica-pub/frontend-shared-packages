@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Lint viz-components
-        run: npm run lint:viz-components
+        run: npm run lint:viz-components -- --debug
 
       - name: Lint ui-components
         run: npm run lint:ui-components

@@ -27,7 +27,7 @@ class DocumentationParser {
     this.missingReferences = [];
   }
 
-  async parseDirectory() {
+  async parseDirectory(): Promise<void> {
     const documentationStructure = this.getDocumentationStructure();
 
     this.copiedFiles = await this.copyFilesToOutputDirAndGetRecord(
@@ -36,14 +36,15 @@ class DocumentationParser {
       documentationStructure
     );
 
-    await this.replaceCrossReferences(this.copiedFiles);
-
-    if (this.missingReferences.length > 0) {
-      console.log(
-        'WARNING: Compodoc created references to the following files but they are not included in the documentation:'
-      );
-      console.log(this.missingReferences.join('\n'));
-    }
+    await this.replaceCrossReferences(this.copiedFiles).then(() => {
+      console.log('Parsing has completed');
+      if (this.missingReferences.length > 0) {
+        console.log(
+          'WARNING: Compodoc created references to the following files but they are not included in the documentation:'
+        );
+        console.log(this.missingReferences.join('\n'));
+      }
+    });
   }
 
   getDocumentationStructure() {
