@@ -37,6 +37,15 @@ export class RouterStateService {
 
   getStateFromUrl(url: string): State {
     const fragments = url.split('/');
+    if (fragments.every((f) => !f)) {
+      // site will load before router redirect has taken place, so help this along by dedirecting to default if no fragments in url
+      // state-based styles won't load on first load if we don't do this
+      return {
+        lib: Library.SharedPackages,
+        section: Section.Overview,
+        contentPath: '',
+      };
+    }
     return {
       lib: fragments[1] as Library,
       section: fragments[2] as Section,
