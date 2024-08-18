@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Check Angular CLI version
-        run: ng version
+        run: npm run cli-version
 
       - name: Lint viz-components
         run: npm run lint:viz-components
