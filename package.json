@@ -19,7 +19,7 @@
     "build:viz-components": "ng build viz-components",
     "build:ui-components": "ng build ui-components",
     "build:demo-app": "ng build demo-app",
-    "build:documentation": "bash ./build-compodoc-documentation.sh",
+    "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
     "watch": "ng build --watch --configuration development",
     "watch:viz-components": "ng build viz-components --watch",
     "watch:ui-components": "ng build ui-components --watch",
