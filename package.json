@@ -34,6 +34,8 @@
     "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d compodoc-docs/ui-components",
     "process-docs:viz-components": "tsx projects/demo-app/documentation-generator/documentation-parser.ts --lib viz-components",
     "process-docs:ui-components": "tsx projects/demo-app/documentation-generator/documentation-parser.ts --lib ui-components",
+    "build:docs:viz-components": "npm run compodoc:build:viz-components && npm run process-docs:viz-components",
+    "build:docs:ui-components": "npm run compodoc:build:ui-components && npm run process-docs:ui-components",
     "cypress:open": "cypress open",
     "cypress:component:ci": "cypress run --component --browser chrome"
   },
