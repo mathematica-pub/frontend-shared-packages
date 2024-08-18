@@ -22,11 +22,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Check Angular CLI version
-        run: npm run cli-version
-
       - name: Lint viz-components
         run: npm run lint:viz-components
+
+      - name: Check for hanging processes
+        run: ps aux | grep node
 
       - name: Lint ui-components
         run: npm run lint:ui-components

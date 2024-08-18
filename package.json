@@ -16,7 +16,6 @@
     "start": "ng serve",
     "start:demo-app": "ng serve demo-app",
     "build": "ng build",
-    "cli-version": "ng version",
     "build:viz-components": "ng build viz-components",
     "build:ui-components": "ng build ui-components",
     "build:demo-app": "ng build demo-app",
