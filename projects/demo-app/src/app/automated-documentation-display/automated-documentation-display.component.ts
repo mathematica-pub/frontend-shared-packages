@@ -11,7 +11,13 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  withLatestFrom,
+} from 'rxjs';
 import { DocumentationFilesService } from '../core/services/documentation-files.service';
 import { HighlightService } from '../core/services/highlight.service';
 import { RouterStateService } from '../core/services/router-state/router-state.service';
@@ -45,33 +51,51 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
   ngOnInit(): void {
     this.routerState.state$
       .pipe(
+        filter((state) => !!state.lib && !!state.contentPath),
+        map((state) => ({ lib: state.lib, contentPath: state.contentPath })),
+        distinctUntilChanged((prev, curr) => {
+          // Don't make new API call if all that changed is the tab within the page, as indicated by the stuff after the hash
+          return (
+            prev.lib === curr.lib &&
+            prev.contentPath.split('#')[0] === curr.contentPath.split('#')[0]
+          );
+        }),
         switchMap((state) => {
-          const path = `/documentation/${state.lib}/${state.contentPath}`;
+          // strip off hash so that on reload, it just loads the front page
+          const path = `/documentation/${state.lib}/${state.contentPath.split('#')[0]}`;
           return this.filesService.getDocumentation(path);
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
+        withLatestFrom(this.routerState.state$)
       )
-      .subscribe((data: string) => {
+      .subscribe(([data, state]) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);
         setTimeout(() => {
           this.highlightService.highlightAll();
-          this.addClickListenersToTabs();
+          this.addClickListenersToTabs(state.contentPath);
           this.addClickListenersToCodeLinks();
         }, 0);
       });
   }
 
-  addClickListenersToTabs(): void {
+  addClickListenersToTabs(contentPath: string): void {
     this.docsDiv.nativeElement
       .querySelectorAll('[role=tab]')
       .forEach((element) =>
         element.addEventListener('click', this.activateTab.bind(this))
       );
 
-    Array.from(
-      this.docsDiv.nativeElement.querySelectorAll('[role=tab]')
-    )[0].parentElement.classList.add('active');
+    if (contentPath.includes('#')) {
+      const id = `${contentPath.split('#')[1]}-tab`;
+      this.activateTabUsingElement(
+        this.docsDiv.nativeElement.querySelectorAll(`[role=tab]#${id}`)[0]
+      );
+    } else {
+      Array.from(
+        this.docsDiv.nativeElement.querySelectorAll('[role=tab]')
+      )[0].parentElement.classList.add('active');
+    }
   }
 
   addClickListenersToCodeLinks(): void {
