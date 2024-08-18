@@ -22,8 +22,8 @@
         [terminalItemsAreSelectable]="terminalItemsAreSelectable"
         [path]="path.concat('/' + (item.value || item.name))"
         [class.invisible]="!open[item.name]"
-        (_activePath)="setActivePath($event)"
-        [activeItemPath]="_activeItemPath$ | async"
+        (stateChanges)="setState($event)"
+        [selection]="state$ | async"
       ></app-directory>
     </div>
   } @else {
@@ -31,15 +31,16 @@
     @if (terminalItemsAreSelectable) {
       <div
         class="item selectable"
+        [attr.role]="selectionElementRole"
+        tabindex="0"
         [style.--level]="level"
         [class.active]="
-          (_activeItemPath$ | async) === path + '/' + (item.value || item.name)
+          (state$ | async).activePath === path + '/' + (item.value || item.name)
         "
         (click)="selectItem(item)"
         (enter)="selectItem(item)"
       >
         <p class="name">{{ item.name }}</p>
-        <p class="name">{{ _activeItemPath$ | async }}</p>
       </div>
     } @else {
       <div class="item" [style.--level]="level">

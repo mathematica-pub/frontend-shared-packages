@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs';
 import { FileResource } from '../../../core/resources/file.resource';
-import { Library } from '../../../sidebar/lib-docs/libraries';
+import { Library } from '../../../core/services/router-state/state';
 import { ManualDocumentationConfig } from '../../viz-components/config';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class ManualDocumentationConfigService {
   configs: Record<Library, ManualDocumentationConfig> = {
     [Library.VizComponents]: {} as ManualDocumentationConfig,
     [Library.UiComponents]: {} as ManualDocumentationConfig,
+    [Library.SharedPackages]: {} as ManualDocumentationConfig,
   };
 
   constructor(private files: FileResource) {}

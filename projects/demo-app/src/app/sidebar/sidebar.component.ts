@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DirectoryComponent } from './lib-docs/directory/directory.component';
+import { RouterStateService } from '../core/services/router-state/router-state.service';
+import { Library, Section } from '../core/services/router-state/state';
+import {
+  DirectoryComponent,
+  DirectorySelection,
+} from './lib-docs/directory/directory.component';
 import { LibDocsComponent } from './lib-docs/lib-docs.component';
-import { Library } from './lib-docs/libraries';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,8 +18,18 @@ import { Library } from './lib-docs/libraries';
 })
 export class SidebarComponent {
   Library = Library;
+  Section = Section;
 
-  logItem(item: string): void {
+  constructor(public routerState: RouterStateService) {}
+
+  selectOverview(): void {
+    this.routerState.update({
+      section: Section.Overview,
+      lib: Library.SharedPackages,
+    });
+  }
+
+  logItem(item: DirectorySelection): void {
     console.log('Item selected:', item);
   }
 }

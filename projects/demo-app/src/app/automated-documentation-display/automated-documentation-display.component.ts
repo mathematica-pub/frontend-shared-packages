@@ -11,8 +11,10 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { DocumentationFilesService } from '../core/services/documentation-files.service';
 import { HighlightService } from '../core/services/highlight.service';
+import { RouterStateService } from '../core/services/router-state/router-state.service';
 
 @Component({
   selector: 'app-automated-documentation-display',
@@ -38,11 +40,17 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
   destroyRef = inject(DestroyRef);
   route: string;
 
+  constructor(private routerState: RouterStateService) {}
+
   ngOnInit(): void {
-    this.route = this.router.url;
-    this.filesService
-      .getDocumentation(this.route)
-      .pipe(takeUntilDestroyed(this.destroyRef))
+    this.routerState.state$
+      .pipe(
+        switchMap((state) => {
+          const path = `/documentation/${state.lib}/${state.contentPath}`;
+          return this.filesService.getDocumentation(path);
+        }),
+        takeUntilDestroyed(this.destroyRef)
+      )
       .subscribe((data: string) => {
         this.sanitizedDocumentation =
           this.sanitizer.bypassSecurityTrustHtml(data);

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Library } from '../../../sidebar/lib-docs/libraries';
+import { Library } from '../../../core/services/router-state/state';
 import { ManualDocumentationConfigService } from './manual-documentation-config.service';
 
 export function manualDocumentationRoutesFactory(lib: Library) {

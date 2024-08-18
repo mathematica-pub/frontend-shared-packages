@@ -8,13 +8,18 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { NgOnChangesUtilities } from 'projects/viz-components/src/lib/core/utilities/ng-on-changes';
 import { BehaviorSubject } from 'rxjs';
-import { DirectoryService } from './directory.service';
 
 export interface NewDirectoryItem {
   name: string;
   value?: string;
   children?: NewDirectoryItem[];
+}
+
+export interface DirectorySelection {
+  activePath: string;
+  selectedItem: string;
 }
 
 export const NESTED_DATA: NewDirectoryItem[] = [
@@ -41,7 +46,6 @@ export const NESTED_DATA: NewDirectoryItem[] = [
   selector: 'app-directory',
   standalone: true,
   imports: [CommonModule],
-  providers: [DirectoryService],
   templateUrl: './directory.component.html',
   styleUrls: ['./directory.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,33 +55,32 @@ export class DirectoryComponent implements OnChanges {
   @Input() level: number = 0;
   @Input() path: string = '';
   @Input() terminalItemsAreSelectable: boolean = true;
+  @Input() selectionElementRole: string = 'button';
   /**
-   * Emits the value, if provided of the selected item. If there is no value it emits the `name`.
+   * Sets the activePath and selectedItem.
    */
-  @Output() itemSelected = new EventEmitter<string>();
+  @Input() selection: DirectorySelection;
   /**
-   * Emits the path of the selected item. Constructed from the `value` of each item if provided, otherwise uses `name`.
+   * Emits the activePath and selectedItem when a leaf item is selected.
+   *
+   * Constructed from the `value` of each item if provided, otherwise uses `name`.
    */
-  @Output() activePath = new EventEmitter<string>();
+  @Output() selectionChanges = new EventEmitter<DirectorySelection>();
   /**
-   * Internal
+   * Internal, will have no effect if provided at root level.
    */
-  @Input() activeItemPath: string;
-  /**
-   * Internal
-   */
-  @Output() _activePath = new EventEmitter<string>();
+  @Output() stateChanges = new EventEmitter<DirectorySelection>();
+  state: BehaviorSubject<DirectorySelection> =
+    new BehaviorSubject<DirectorySelection>({
+      activePath: '',
+      selectedItem: '',
+    });
+  state$ = this.state.asObservable();
   open = {};
-  _activeItemPath: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  _activeItemPath$ = this._activeItemPath.asObservable();
 
   ngOnChanges(changes: SimpleChanges) {
-    if (
-      changes['activeItemPath'] &&
-      changes['activeItemPath'].currentValue &&
-      this.level > 0
-    ) {
-      this._activeItemPath.next(changes['activeItemPath'].currentValue);
+    if (NgOnChangesUtilities.inputObjectChanged(changes, 'selection')) {
+      this.state.next(this.selection);
     }
   }
 
@@ -93,20 +96,26 @@ export class DirectoryComponent implements OnChanges {
   selectItem(item: NewDirectoryItem): void {
     const itemValue = item.value || item.name;
     const activePath = `${this.path}/${itemValue}`;
-    this._activeItemPath.next(activePath);
-    this.activePath.emit(activePath);
-    this.itemSelected.emit(itemValue);
-    if (this.level !== 0) {
-      this._activePath.emit(activePath);
+    if (this.level === 0) {
+      this.selectionChanges.emit({
+        activePath: activePath.substring(1),
+        selectedItem: itemValue,
+      });
+    } else {
+      this.stateChanges.emit({ activePath, selectedItem: itemValue });
     }
   }
 
   // called when child emits new _activePath value
-  setActivePath(activePath: string): void {
+  setState(state: DirectorySelection): void {
     if (this.level === 0) {
-      this._activeItemPath.next(activePath);
+      this.state.next(state);
+      this.selectionChanges.emit({
+        activePath: state.activePath.substring(1),
+        selectedItem: state.selectedItem,
+      });
     } else {
-      this._activePath.emit(activePath);
+      this.stateChanges.emit(state);
     }
   }
 }
