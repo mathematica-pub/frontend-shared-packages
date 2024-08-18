@@ -122,7 +122,6 @@ export class LibDocsComponent implements OnInit {
   }
 
   selectAutomatedDocsItem(item: DirectorySelection): void {
-    console.log(item);
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Documentation,
@@ -131,7 +130,6 @@ export class LibDocsComponent implements OnInit {
   }
 
   selectManualDocsItem(item: DirectorySelection): void {
-    console.log(item);
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Content,

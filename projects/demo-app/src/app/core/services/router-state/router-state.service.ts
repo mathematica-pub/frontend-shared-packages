@@ -20,7 +20,6 @@ export class RouterStateService {
 
   initialize() {
     this.setStateObservable();
-    this.state$.subscribe((state) => console.log(state));
   }
 
   private setStateObservable() {
@@ -37,7 +36,6 @@ export class RouterStateService {
   }
 
   getStateFromUrl(url: string): State {
-    console.log(url);
     const fragments = url.split('/');
     return {
       lib: fragments[1] as Library,
@@ -47,7 +45,6 @@ export class RouterStateService {
   }
 
   update(update: Partial<State>): void {
-    console.log('update', update);
     const state = this.getStateFromUrl(this.router.url);
     const updatedState = { ...state, ...update };
     let paths = [`/${updatedState.lib}`, updatedState.section];
@@ -55,7 +52,6 @@ export class RouterStateService {
       const contentPath = updatedState.contentPath.split('/');
       paths = [...paths, ...contentPath];
     }
-    console.log('paths', paths);
     this.router.navigate(paths);
   }
 }
