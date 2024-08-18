@@ -20,7 +20,13 @@
         [items]="item.children"
         [level]="level + 1"
         [terminalItemsAreSelectable]="terminalItemsAreSelectable"
-        [path]="path.concat('/' + (item.value || item.name))"
+        [path]="
+          path.concat(
+            level !== 0
+              ? '/' + (item.value || item.name)
+              : item.value || item.name
+          )
+        "
         [class.invisible]="!open[item.name]"
         (stateChanges)="setState($event)"
         [selection]="state$ | async"

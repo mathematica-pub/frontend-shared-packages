@@ -45,11 +45,9 @@ export class RouterStateService {
   }
 
   update(update: Partial<State>): void {
-    const state = this.getStateFromUrl(this.router.url);
-    const updatedState = { ...state, ...update };
-    let paths = [`/${updatedState.lib}`, updatedState.section];
-    if (updatedState.contentPath) {
-      const contentPath = updatedState.contentPath.split('/');
+    let paths = [`/${update.lib}`, update.section];
+    if (update.contentPath) {
+      const contentPath = update.contentPath.split('/');
       paths = [...paths, ...contentPath];
     }
     this.router.navigate(paths);

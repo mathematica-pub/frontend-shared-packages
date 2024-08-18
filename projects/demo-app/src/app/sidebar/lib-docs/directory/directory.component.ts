@@ -78,7 +78,7 @@ export class DirectoryComponent implements OnChanges {
     const activePath = `${this.path}/${itemValue}`;
     if (this.level === 0) {
       this.selectionChanges.emit({
-        activePath: activePath.substring(1),
+        activePath: activePath,
         selectedItem: itemValue,
       });
     } else {
@@ -91,7 +91,7 @@ export class DirectoryComponent implements OnChanges {
     if (this.level === 0) {
       this.state.next(state);
       this.selectionChanges.emit({
-        activePath: state.activePath.substring(1),
+        activePath: state.activePath,
         selectedItem: state.selectedItem,
       });
     } else {
