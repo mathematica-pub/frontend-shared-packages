@@ -14,8 +14,8 @@ import { RouterStateService } from '../../core/services/router-state/router-stat
 import { Library, Section } from '../../core/services/router-state/state';
 import {
   DirectoryComponent,
+  DirectoryItem,
   DirectorySelection,
-  NewDirectoryItem,
 } from './directory/directory.component';
 
 type NestedStringObject = {
@@ -34,8 +34,8 @@ type NestedStringObject = {
 })
 export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
-  automatedDocsItems$: Observable<NewDirectoryItem[]>;
-  manualDocs$: Observable<{ title: string; items: NewDirectoryItem[] }>;
+  automatedDocsItems$: Observable<DirectoryItem[]>;
+  manualDocs$: Observable<{ title: string; items: DirectoryItem[] }>;
   expanded = true;
   Section = Section;
   Library = Library;
@@ -73,7 +73,7 @@ export class LibDocsComponent implements OnInit {
   getDocsDirectoryTree(
     yaml: NestedStringObject,
     level: number = 0
-  ): NewDirectoryItem[] {
+  ): DirectoryItem[] {
     let itemsArray;
     if (Array.isArray(yaml)) {
       itemsArray = yaml.map((item) => this.createFlatItem(item));
@@ -99,10 +99,10 @@ export class LibDocsComponent implements OnInit {
       });
     }
 
-    return itemsArray as NewDirectoryItem[];
+    return itemsArray as DirectoryItem[];
   }
 
-  createFlatItem(key: string): NewDirectoryItem {
+  createFlatItem(key: string): DirectoryItem {
     return {
       name: this.createDisplayName(key),
       value: key,

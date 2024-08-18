@@ -11,36 +11,16 @@ import {
 import { NgOnChangesUtilities } from 'projects/viz-components/src/lib/core/utilities/ng-on-changes';
 import { BehaviorSubject } from 'rxjs';
 
-export interface NewDirectoryItem {
+export interface DirectoryItem {
   name: string;
   value?: string;
-  children?: NewDirectoryItem[];
+  children?: DirectoryItem[];
 }
 
 export interface DirectorySelection {
   activePath: string;
   selectedItem: string;
 }
-
-export const NESTED_DATA: NewDirectoryItem[] = [
-  {
-    name: 'Fruit',
-    children: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Fruit loops' }],
-  },
-  {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green',
-        children: [{ name: 'Broccoli' }, { name: 'Brussels sprouts' }],
-      },
-      {
-        name: 'Orange',
-        children: [{ name: 'Pumpkins' }, { name: 'Carrots' }],
-      },
-    ],
-  },
-];
 
 @Component({
   selector: 'app-directory',
@@ -51,7 +31,7 @@ export const NESTED_DATA: NewDirectoryItem[] = [
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DirectoryComponent implements OnChanges {
-  @Input() items: NewDirectoryItem[] = NESTED_DATA;
+  @Input() items: DirectoryItem[];
   @Input() level: number = 0;
   @Input() path: string = '';
   @Input() terminalItemsAreSelectable: boolean = true;
@@ -93,7 +73,7 @@ export class DirectoryComponent implements OnChanges {
   }
 
   // public events are emitted on leaf selection
-  selectItem(item: NewDirectoryItem): void {
+  selectItem(item: DirectoryItem): void {
     const itemValue = item.value || item.name;
     const activePath = `${this.path}/${itemValue}`;
     if (this.level === 0) {
