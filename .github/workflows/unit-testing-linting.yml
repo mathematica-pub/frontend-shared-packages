@@ -25,9 +25,6 @@ jobs:
       - name: Lint viz-components
         run: npm run lint:viz-components
 
-      - name: Check for hanging processes
-        run: ps aux | grep node
-
       - name: Lint ui-components
         run: npm run lint:ui-components
 
