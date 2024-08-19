@@ -75,8 +75,6 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    * Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
    *  data will be displayed.
    *
-   * Will not be displayed if pointMarkers.display is true.
-   *
    * @default radius: 4, display: false
    */
   createHoverDot(
@@ -84,7 +82,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   ): this {
     this.hoverDotBuilder = new PointMarkersBuilder();
     this.hoverDotBuilder.radius(4);
-    this.hoverDotBuilder.display(() => false);
+    this.hoverDotBuilder.display(false);
     setProperties?.(this.hoverDotBuilder);
     return this;
   }

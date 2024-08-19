@@ -115,7 +115,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
   onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     select(directive.lines.dotRef.nativeElement)
       .selectAll('circle')
-      .style('display', null)
+      .attr('display', null)
       .attr(
         'fill',
         directive.lines.scales.categorical(
@@ -139,7 +139,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
   onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     select(directive.lines.dotRef.nativeElement)
       .selectAll('circle')
-      .style('display', 'none');
+      .attr('display', 'none');
   }
 }
 
@@ -171,19 +171,22 @@ export class LinesHoverMoveDefaultStyles<
 
   onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     this.linesStyles.onStart(directive);
-    if (directive.lines.config.pointMarkers.display) {
-      this.markersStyles.onStart(directive);
-    } else {
+
+    if (directive.lines.config.hoverDot) {
       this.hoverDotStyles.onStart(directive);
+    }
+    if (directive.lines.config.pointMarkers) {
+      this.markersStyles.onStart(directive);
     }
   }
 
   onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     this.linesStyles.onEnd(directive);
-    if (directive.lines.config.pointMarkers.display) {
-      this.markersStyles.onEnd(directive);
-    } else {
+    if (directive.lines.config.hoverDot) {
       this.hoverDotStyles.onEnd(directive);
+    }
+    if (directive.lines.config.pointMarkers) {
+      this.markersStyles.onEnd(directive);
     }
   }
 }

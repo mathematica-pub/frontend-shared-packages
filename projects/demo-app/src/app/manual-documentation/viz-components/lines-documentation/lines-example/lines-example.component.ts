@@ -155,6 +155,7 @@ export class LinesExampleComponent implements OnInit {
           .growByOnHover(3)
           .display((d) => d.division.includes('Bethesda-Rockville'))
       )
+      .createHoverDot((marker) => marker.radius(5))
       .getConfig();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);

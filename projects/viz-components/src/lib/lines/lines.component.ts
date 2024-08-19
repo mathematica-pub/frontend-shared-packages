@@ -74,7 +74,8 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.drawLines(transitionDuration);
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.hoverDot) {
+    }
+    if (this.config.hoverDot) {
       this.drawHoverDot();
     }
     if (this.config.labelLines) {
