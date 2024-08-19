@@ -88,7 +88,7 @@ describe('LineChartComponent', () => {
       component.drawMarks();
       expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
-    it('does not call drawHoverDot once if config.pointMarkers is true', () => {
+    it('calls drawHoverDot once even if config.pointMarkers is true', () => {
       component.config = new VicLinesConfigBuilder()
         .data([])
         .createXDateDimension((dimension) =>
@@ -102,7 +102,7 @@ describe('LineChartComponent', () => {
         .createHoverDot()
         .getConfig();
       component.drawMarks();
-      expect(component.drawHoverDot).toHaveBeenCalledTimes(0);
+      expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
     it('calls drawLineLabels once if config.labelLines is true', () => {
       component.config = new VicLinesConfigBuilder()
