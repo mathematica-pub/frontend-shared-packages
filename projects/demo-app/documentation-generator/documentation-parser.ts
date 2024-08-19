@@ -23,7 +23,7 @@ class DocumentationParser {
     this.lib = lib;
     this.inputDirectory = `./compodoc-docs/${this.lib}`;
     this.outputDirectory = `./projects/demo-app/src/assets/documentation/${this.lib}`;
-    this.appRouterPath = `${this.lib}/documentation`;
+    this.appRouterPath = `documentation/${this.lib}/`; // change with new routing pattern in 364
     this.missingReferences = [];
   }
 
