@@ -156,7 +156,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
 
     this.lineGroups
       .selectAll('circle')
-      .data(([, indices]) => this.config.getMarkersData(indices))
+      .data(([, indices]) => this.config.getPointMarkersData(indices))
       .join(
         (enter) =>
           enter

@@ -71,13 +71,9 @@ export class LinesConfig<Datum>
     this.linesKeyFunction = (d): string => d[0];
   }
 
-  getMarkersData(indices: number[]): LinesMarkerDatum[] {
+  getPointMarkersData(indices: number[]): LinesMarkerDatum[] {
     return indices
-      .filter((i) =>
-        this.pointMarkers
-          ? this.pointMarkers.display(this.data[i])
-          : this.hoverDot.display(this.data[i])
-      )
+      .filter((i) => this.pointMarkers.display(this.data[i]))
       .map((i) => {
         return {
           key: this.getMarkerKey(i),
