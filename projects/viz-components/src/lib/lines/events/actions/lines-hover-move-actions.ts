@@ -115,7 +115,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
   onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     select(directive.lines.dotRef.nativeElement)
       .selectAll('circle')
-      .attr('display', null)
+      .style('display', null)
       .attr(
         'fill',
         directive.lines.scales.categorical(
@@ -139,7 +139,7 @@ export class LinesHoverMoveDefaultHoverDotStyles<
   onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     select(directive.lines.dotRef.nativeElement)
       .selectAll('circle')
-      .attr('display', 'none');
+      .style('display', 'none');
   }
 }
 

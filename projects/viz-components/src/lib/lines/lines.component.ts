@@ -146,7 +146,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .attr('class', `${this.config.hoverDot.class} ${this.hoverDotClass}`)
       .attr('r', this.config.hoverDot.radius)
       .attr('fill', '#222')
-      .attr('display', 'none');
+      .style('display', 'none');
   }
 
   drawPointMarkers(transitionDuration: number): void {
