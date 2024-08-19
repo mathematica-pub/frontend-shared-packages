@@ -137,7 +137,7 @@ class DocumentationParser {
         .replace(this.outputDirectory, '')
         .replace('.html', '');
       // matches routing pattern used in app
-      return `href="documentation/${this.lib}${routerLink}`;
+      return `href="${this.appRouterPath}${routerLink}`;
     } else {
       if (!this.missingReferences.includes(compodocFile)) {
         this.missingReferences.push(compodocFile);
