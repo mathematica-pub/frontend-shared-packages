@@ -99,7 +99,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .defined((i: any) => isValid[i] as boolean)
       .curve(this.config.curve)
       .x((i: any) => this.scales.x(this.config.x.values[i]))
-      .y0((i: any) => this.scales.y(0))
+      .y0(() => this.scales.y(0))
       .y1((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
