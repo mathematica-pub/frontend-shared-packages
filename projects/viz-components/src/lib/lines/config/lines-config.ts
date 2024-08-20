@@ -6,6 +6,7 @@ import { PointMarkers } from '../../marks/point-markers/point-markers';
 import { Stroke } from '../../marks/stroke/stroke';
 import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
+import { LinesFill } from './lines-filll/lines-fill';
 import { LinesOptions } from './lines-options';
 
 export interface LinesMarkerDatum {
@@ -32,6 +33,7 @@ export class LinesConfig<Datum>
     | QuantitativeDateDimension<Datum>
     | QuantitativeNumericDimension<Datum>;
   readonly y: QuantitativeNumericDimension<Datum>;
+  readonly fill: LinesFill;
 
   constructor(options: LinesOptions<Datum>) {
     super();

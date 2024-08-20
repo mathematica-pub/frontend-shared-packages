@@ -9,7 +9,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { line, map, select, Transition } from 'd3';
+import { area, line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../chart/chart.component';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
@@ -53,6 +53,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('lineLabels', { static: true })
   hoverDotClass = 'vic-lines-hover-dot';
   line: (x: any[]) => any;
+  lineArea: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
   markerClass = 'vic-lines-datum-marker';
@@ -72,6 +73,9 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
+    if (this.config.fill) {
+      this.drawUnderLineAreas(transitionDuration);
+    }
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
     } else if (this.config.hoverDot) {
@@ -90,6 +94,13 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .curve(this.config.curve)
       .x((i: any) => this.scales.x(this.config.x.values[i]))
       .y((i: any) => this.scales.y(this.config.y.values[i]));
+
+    this.lineArea = area()
+      .defined((i: any) => isValid[i] as boolean)
+      .curve(this.config.curve)
+      .x((i: any) => this.scales.x(this.config.x.values[i]))
+      .y0((i: any) => this.scales.y(0))
+      .y1((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
   isValidValue(d: Datum): boolean {
@@ -135,6 +146,39 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
                 .transition(t as any)
                 .attr('d', ([, lineData]) => this.line(lineData))
             ),
+        (exit) => exit.remove()
+      );
+  }
+
+  drawUnderLineAreas(transitionDuration: number): void {
+    const t = select(this.chart.svgRef.nativeElement)
+      .transition()
+      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+
+    this.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('.vic-line-area')
+      .data<LinesGroupSelectionDatum>((d) => [d])
+      .join(
+        (enter) =>
+          enter
+            .append('path')
+            .attr('category', ([category]) => category)
+            .attr('fill', ([category]) => this.scales.categorical(category))
+            .attr('class', 'vic-line-area')
+            .attr('opacity', this.config.fill.opacity)
+            .attr('d', ([, lineData]) => this.lineArea(lineData))
+            .attr('display', this.config.fill.display ? null : 'none'),
+        (update) =>
+          update
+            .attr('category', ([category]) => category)
+            .attr('fill', ([category]) => this.scales.categorical(category))
+            .attr('opacity', this.config.fill.opacity)
+            .call((update) =>
+              update
+                .transition(t as any)
+                .attr('d', ([, lineData]) => this.lineArea(lineData))
+            )
+            .attr('display', this.config.fill.display ? null : 'none'),
         (exit) => exit.remove()
       );
   }

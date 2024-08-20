@@ -7,6 +7,7 @@ import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
 import { PointMarkersBuilder } from '../../marks/point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
 import { LinesConfig } from './lines-config';
+import { LinesFillBuilder } from './lines-filll/lines-fill-builder';
 
 const DEFAULT = {
   _curve: curveLinear,
@@ -35,6 +36,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  private linesFillBuilder: LinesFillBuilder;
 
   constructor() {
     super();
@@ -182,6 +184,21 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   /**
+   * OPTIONAL. A config to set fill underneath lines.
+   *
+   * @default undefined
+   */
+  createFillUnderLines(setProperties?: (fill: LinesFillBuilder) => void): this {
+    this.initLinesFillBuilder();
+    setProperties?.(this.linesFillBuilder);
+    return this;
+  }
+
+  private initLinesFillBuilder(): void {
+    this.linesFillBuilder = new LinesFillBuilder();
+  }
+
+  /**
    * REQUIRED. Builds the configuration object for the LinesComponent.
    */
   getConfig(): LinesConfig<Datum> {
@@ -199,6 +216,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
       stroke: this.strokeBuilder._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
+      fill: this.linesFillBuilder?._build(),
     });
   }
 
