@@ -20,9 +20,9 @@ export class PointMarkersBuilder<Datum> {
    * OPTIONAL. A boolean to determine if point markers will be _displayed_.
    *
    * This is used to configure the visibilty of markers -- a `true` value will set the `display` of markers to `block`, while a `false` value will set the display of the markers to `none`.
-   * 
-   * One use case is to have markers hidden until a user interaction, such as hover. 
-   * 
+   *
+   * One use case is to have markers hidden until a user interaction, such as hover.
+   *
    * If a function is provided, markers whose filtering predicate returns `true` will have `display: block` while those whose predicate returns `false` will have `display: none` when the markers are drawn.
    *
    * @default () => true
