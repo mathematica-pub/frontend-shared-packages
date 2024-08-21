@@ -151,7 +151,7 @@ function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // have to wait for axes to render
+  cy.wait(200); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
@@ -480,7 +480,10 @@ describe('it creates lines with the correct properties per config', () => {
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
       cy.get(`.${markerClass}`)
-        .filter((index, element) => $(element).css('display') === 'block')
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'block'
+        )
         .should('have.length', 24);
     });
     it('draws the correct number of point markers with none visible if display is set to false', () => {
@@ -502,10 +505,16 @@ describe('it creates lines with the correct properties per config', () => {
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
       cy.get(`.${markerClass}`)
-        .filter((index, element) => $(element).css('display') === 'block')
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'block'
+        )
         .should('have.length', 0);
       cy.get(`.${markerClass}`)
-        .filter((index, element) => $(element).css('display') === 'none')
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'none'
+        )
         .should('have.length', 24);
     });
     it('draws the correct number of point markers with the right number visible if display is set to a function', () => {
@@ -527,10 +536,16 @@ describe('it creates lines with the correct properties per config', () => {
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
       cy.get(`.${markerClass}`)
-        .filter((index, element) => $(element).css('display') === 'block')
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'block'
+        )
         .should('have.length', 4);
       cy.get(`.${markerClass}`)
-        .filter((index, element) => $(element).css('display') === 'none')
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'none'
+        )
         .should('have.length', 20);
     });
     it('draws point markers with the correct radius - user provides custom radius', () => {
