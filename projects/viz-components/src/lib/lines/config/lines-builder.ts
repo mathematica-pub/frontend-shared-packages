@@ -101,6 +101,8 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
 
   /**
    * OPTIONAL. A config for the behavior of markers for each datum on the line.
+   *
+   * Creating this config will create markers on lines.
    */
   createPointMarkers(
     setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
