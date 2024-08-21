@@ -161,11 +161,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             .attr('fill', (d) =>
               this.scales.categorical(this.config.categorical.values[d.index])
             )
-            .style('display', (d) =>
-              this.config.pointMarkers.display(this.config.data[d.index])
-                ? 'block'
-                : 'none'
-            ),
+            .style('display', (d) => d.display),
         (update) =>
           update
             .attr('fill', (d) =>

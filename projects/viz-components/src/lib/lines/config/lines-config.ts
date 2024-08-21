@@ -12,6 +12,7 @@ export interface LinesMarkerDatum {
   key: string;
   index: number;
   category: string;
+  display: string;
 }
 
 export class LinesConfig<Datum>
@@ -76,6 +77,7 @@ export class LinesConfig<Datum>
         key: this.getMarkerKey(i),
         index: i,
         category: this.categorical.values[i],
+        display: this.pointMarkers.display(this.data[i]) ? 'block' : 'none',
       };
     });
   }

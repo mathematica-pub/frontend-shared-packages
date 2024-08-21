@@ -96,13 +96,7 @@ export class LinesHoverMoveDefaultMarkersStyles<
   onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
     directive.lines.lineGroups
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('display', (d) =>
-        directive.lines.config.pointMarkers.display(
-          directive.lines.config.data[d.index]
-        )
-          ? 'block'
-          : 'none'
-      )
+      .style('display', (d) => d.display)
       .attr('r', () => directive.lines.config.pointMarkers.radius);
   }
 }
