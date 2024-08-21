@@ -20,7 +20,6 @@ export class LinesConfig<Datum>
 {
   readonly categorical: CategoricalDimension<Datum, string>;
   readonly curve: CurveFactory;
-  readonly hoverDot: PointMarkers<Datum>;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
@@ -72,15 +71,13 @@ export class LinesConfig<Datum>
   }
 
   getPointMarkersData(indices: number[]): LinesMarkerDatum[] {
-    return indices
-      .filter((i) => this.pointMarkers.display(this.data[i]))
-      .map((i) => {
-        return {
-          key: this.getMarkerKey(i),
-          index: i,
-          category: this.categorical.values[i],
-        };
-      });
+    return indices.map((i) => {
+      return {
+        key: this.getMarkerKey(i),
+        index: i,
+        category: this.categorical.values[i],
+      };
+    });
   }
 
   private getMarkerKey(i: number): string {

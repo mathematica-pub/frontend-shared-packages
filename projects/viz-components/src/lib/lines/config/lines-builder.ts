@@ -28,7 +28,6 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
-  private hoverDotBuilder: PointMarkersBuilder<Datum>;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
@@ -66,24 +65,6 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    */
   curve(curve: CurveFactory): this {
     this._curve = curve;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. A config for a dot that will appear on hover of a line.
-   *
-   * Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
-   *  data will be displayed.
-   *
-   * @default radius: 4, display: false
-   */
-  createHoverDot(
-    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
-  ): this {
-    this.hoverDotBuilder = new PointMarkersBuilder();
-    this.hoverDotBuilder.radius(4);
-    this.hoverDotBuilder.display(false);
-    setProperties?.(this.hoverDotBuilder);
     return this;
   }
 
@@ -188,7 +169,6 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
       categorical: this.categoricalDimensionBuilder._build(),
       curve: this._curve,
       data: this._data,
-      hoverDot: this.hoverDotBuilder?._build(),
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,

@@ -9,7 +9,6 @@ import { Stroke } from '../../marks/stroke/stroke';
 export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
-  hoverDot: PointMarkers<Datum>;
   labelLines: boolean;
   lineLabelsFormat: (d: string) => string;
   pointerDetectionRadius: number;

@@ -29,7 +29,6 @@ describe('LineChartComponent', () => {
       spyOn(component, 'getTransitionDuration').and.returnValue(duration);
       spyOn(component, 'drawLines');
       spyOn(component, 'drawPointMarkers');
-      spyOn(component, 'drawHoverDot');
       spyOn(component, 'drawLineLabels');
       component.config = new VicLinesConfigBuilder()
         .data([])
@@ -72,37 +71,6 @@ describe('LineChartComponent', () => {
     it('does not call drawPointMarkers once if config.pointMarkers is undefined', () => {
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledTimes(0);
-    });
-    it('calls drawHoverDot once with the correct argument if config.pointMarkersis undefined and hoverDot is defined', () => {
-      component.config = new VicLinesConfigBuilder()
-        .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createHoverDot()
-        .getConfig();
-      component.drawMarks();
-      expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
-    });
-    it('calls drawHoverDot once even if config.pointMarkers is true', () => {
-      component.config = new VicLinesConfigBuilder()
-        .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createPointMarkers()
-        .createHoverDot()
-        .getConfig();
-      component.drawMarks();
-      expect(component.drawHoverDot).toHaveBeenCalledTimes(1);
     });
     it('calls drawLineLabels once if config.labelLines is true', () => {
       component.config = new VicLinesConfigBuilder()

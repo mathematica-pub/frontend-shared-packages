@@ -1,4 +1,3 @@
-import { select } from 'd3';
 import { HoverMoveAction } from '../../../events/action';
 import { LinesMarkerDatum } from '../../config/lines-config';
 import {
@@ -69,7 +68,9 @@ export class LinesHoverMoveDefaultMarkersStyles<
           ] === category
       )
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('fill', null)
+      .style('display', (d) =>
+        directive.closestPointIndex === d.index ? 'block' : 'none'
+      )
       .attr('r', (d) => {
         let r = directive.lines.config.pointMarkers.radius;
         if (directive.closestPointIndex === d.index) {
@@ -89,57 +90,20 @@ export class LinesHoverMoveDefaultMarkersStyles<
           ] !== category
       )
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('fill', 'transparent');
+      .style('display', 'none');
   }
 
   onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>): void {
     directive.lines.lineGroups
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
-      .style('fill', null)
+      .style('display', (d) =>
+        directive.lines.config.pointMarkers.display(
+          directive.lines.config.data[d.index]
+        )
+          ? 'block'
+          : 'none'
+      )
       .attr('r', () => directive.lines.config.pointMarkers.radius);
-  }
-}
-
-/**
- * A suggested default action for the hover and move event on lines when
- *  line markers are not used.
- *
- * This action displays a circle marker at the closest datum to the pointer
- *  on the "selected" line.
- */
-export class LinesHoverMoveDefaultHoverDotStyles<
-  Datum,
-  TLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> implements HoverMoveAction<LinesHoverMoveDirective<Datum, TLinesComponent>>
-{
-  onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
-    select(directive.lines.dotRef.nativeElement)
-      .selectAll('circle')
-      .style('display', null)
-      .attr(
-        'fill',
-        directive.lines.scales.categorical(
-          directive.lines.config.categorical.values[directive.closestPointIndex]
-        )
-      )
-      .attr(
-        'cx',
-        directive.lines.scales.x(
-          directive.lines.config.x.values[directive.closestPointIndex]
-        )
-      )
-      .attr(
-        'cy',
-        directive.lines.scales.y(
-          directive.lines.config.y.values[directive.closestPointIndex]
-        )
-      );
-  }
-
-  onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
-    select(directive.lines.dotRef.nativeElement)
-      .selectAll('circle')
-      .style('display', 'none');
   }
 }
 
@@ -159,22 +123,14 @@ export class LinesHoverMoveDefaultStyles<
   markersStyles: HoverMoveAction<
     LinesHoverMoveDirective<Datum, TLinesComponent>
   >;
-  hoverDotStyles: HoverMoveAction<
-    LinesHoverMoveDirective<Datum, TLinesComponent>
-  >;
 
   constructor() {
     this.linesStyles = new LinesHoverMoveDefaultLinesStyles();
     this.markersStyles = new LinesHoverMoveDefaultMarkersStyles();
-    this.hoverDotStyles = new LinesHoverMoveDefaultHoverDotStyles();
   }
 
   onStart(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     this.linesStyles.onStart(directive);
-
-    if (directive.lines.config.hoverDot) {
-      this.hoverDotStyles.onStart(directive);
-    }
     if (directive.lines.config.pointMarkers) {
       this.markersStyles.onStart(directive);
     }
@@ -182,9 +138,6 @@ export class LinesHoverMoveDefaultStyles<
 
   onEnd(directive: LinesHoverMoveDirective<Datum, TLinesComponent>) {
     this.linesStyles.onEnd(directive);
-    if (directive.lines.config.hoverDot) {
-      this.hoverDotStyles.onEnd(directive);
-    }
     if (directive.lines.config.pointMarkers) {
       this.markersStyles.onEnd(directive);
     }

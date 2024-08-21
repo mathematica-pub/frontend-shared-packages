@@ -51,7 +51,6 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
-  hoverDotClass = 'vic-lines-hover-dot';
   line: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
@@ -74,9 +73,6 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.drawLines(transitionDuration);
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
-    }
-    if (this.config.hoverDot) {
-      this.drawHoverDot();
     }
     if (this.config.labelLines) {
       this.drawLineLabels();
@@ -140,15 +136,6 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       );
   }
 
-  drawHoverDot(): void {
-    select(this.dotRef.nativeElement)
-      .append('circle')
-      .attr('class', `${this.config.hoverDot.class} ${this.hoverDotClass}`)
-      .attr('r', this.config.hoverDot.radius)
-      .attr('fill', '#222')
-      .style('display', 'none');
-  }
-
   drawPointMarkers(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
@@ -173,6 +160,11 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             .attr('r', this.config.pointMarkers.radius)
             .attr('fill', (d) =>
               this.scales.categorical(this.config.categorical.values[d.index])
+            )
+            .style('display', (d) =>
+              this.config.pointMarkers.display(this.config.data[d.index])
+                ? 'block'
+                : 'none'
             ),
         (update) =>
           update
