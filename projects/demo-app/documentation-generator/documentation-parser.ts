@@ -16,27 +16,28 @@ class DocumentationParser {
   inputDirectory: string;
   outputDirectory: string;
   missingReferences: string[];
-  copiedFiles: Record<string, string>;
   appRouterPath: string;
+  compodocFileTypes: string[];
 
   constructor(lib: string) {
     this.lib = lib;
-    this.inputDirectory = `./compodoc-docs/${this.lib}`;
-    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${this.lib}`;
-    this.appRouterPath = `documentation/${this.lib}/`; // change with new routing pattern in 364
+    this.inputDirectory = `./compodoc-docs/${lib}`;
+    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}`;
+    this.appRouterPath = `documentation/${lib}/`; // TODO: change with new routing pattern in 364 when 364 goes in
     this.missingReferences = [];
   }
 
   async parseDirectory(): Promise<void> {
     const documentationStructure = this.getDocumentationStructure();
+    this.compodocFileTypes = this.getCompodocFileTypes(documentationStructure);
 
-    this.copiedFiles = await this.copyFilesToOutputDirAndGetRecord(
+    const copiedFiles = await this.copyFilesToOutputDirAndGetRecord(
       this.inputDirectory,
       this.outputDirectory,
       documentationStructure
     );
 
-    await this.replaceCrossReferences(this.copiedFiles).then(() => {
+    await this.replaceCrossReferences(copiedFiles).then(() => {
       console.log('Parsing has completed');
       if (this.missingReferences.length > 0) {
         console.log(
@@ -47,7 +48,7 @@ class DocumentationParser {
     });
   }
 
-  getDocumentationStructure() {
+  getDocumentationStructure(): NestedStringObject {
     const yamlLocation = `${this.outputDirectory}/documentation-structure.yaml`;
     let documentationStructure;
     try {
@@ -57,6 +58,24 @@ class DocumentationParser {
       console.error(err);
     }
     return documentationStructure;
+  }
+
+  getCompodocFileTypes(documentationStructure: NestedStringObject): string[] {
+    const fileTypes = [];
+    const traverse = (config: NestedStringObject) => {
+      Object.values(config).forEach((value) => {
+        if (typeof value === 'string') {
+          const fileType = value.split('/')[0];
+          if (!fileTypes.includes(fileType)) {
+            fileTypes.push(fileType);
+          }
+        } else {
+          traverse(value as NestedStringObject);
+        }
+      });
+    };
+    traverse(documentationStructure);
+    return fileTypes;
   }
 
   async copyFilesToOutputDirAndGetRecord(
@@ -117,9 +136,10 @@ class DocumentationParser {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async (outputPath) => {
         let text = await fs.promises.readFile(`${outputPath}.html`, 'utf-8');
-        text = text.replace(
-          /(href="..\/)(classes.*html|components.*html|directives.*html|interfaces.*html|injectables.*html)/g,
-          (match, p1, p2) => this.replaceFileReference(p2, copiedFiles)
+        const files = this.compodocFileTypes.join('.*html|') + '.*html';
+        const regex = new RegExp(`(href="../)(${files})`, 'g');
+        text = text.replace(regex, (match, p1, p2) =>
+          this.replaceFileReference(p2, copiedFiles)
         );
         await fs.promises.writeFile(`${outputPath}.html`, text, 'utf8');
       }
@@ -128,19 +148,19 @@ class DocumentationParser {
   }
 
   replaceFileReference(
-    compodocFile: string,
+    compodocFileReference: string,
     copiedFiles: Record<string, string>
   ): string {
-    if (copiedFiles[compodocFile]) {
-      const routerLink = copiedFiles[compodocFile]
-        .replace('all/', '')
-        .replace(this.outputDirectory, '')
-        .replace('.html', '');
-      // matches routing pattern used in app
-      return `href="${this.appRouterPath}${routerLink}`;
+    if (copiedFiles[compodocFileReference]) {
+      const routerLink = copiedFiles[compodocFileReference].replace(
+        this.outputDirectory,
+        ''
+      );
+      // matches routing pattern used in app, cut off leading / in routerLink to avoid //
+      return `href="${this.appRouterPath}${routerLink.substring(1)}`;
     } else {
-      if (!this.missingReferences.includes(compodocFile)) {
-        this.missingReferences.push(compodocFile);
+      if (!this.missingReferences.includes(compodocFileReference)) {
+        this.missingReferences.push(compodocFileReference);
       }
     }
     return '';
