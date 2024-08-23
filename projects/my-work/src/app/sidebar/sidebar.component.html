@@ -1,0 +1,12 @@
+<nav class="sidebar-container">
+  @if (routerState.state$ | async; as state) {
+    <a
+      class="item"
+      (click)="selectOverview()"
+      [class.active]="state.section === Section.Overview"
+    >
+      Using this application
+    </a>
+    <app-directory></app-directory>
+  }
+</nav>

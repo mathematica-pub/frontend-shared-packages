@@ -17,8 +17,16 @@ $gray: (
   'text': #20283c,
 );
 
+$highlight: (
+  'dark': #0c369e,
+  'default': #1650e1,
+  'light': #4578f6,
+  'hover': #ffeb3b,
+);
+
 $app: (
   'primary': $gray,
+  'highlight': $highlight,
 );
 
 html {
