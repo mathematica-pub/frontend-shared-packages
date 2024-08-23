@@ -1,0 +1,26 @@
+@use './sass-utils';
+
+$gray: (
+  50: #f8f8fb,
+  100: #e0e0e6,
+  200: #c8c9d1,
+  300: #b1b2bd,
+  400: #9a9ca9,
+  500: #848695,
+  600: #6e7182,
+  700: #585d70,
+  800: #434a5e,
+  900: #2f374c,
+  'light': #9a9ca9,
+  'primary': #585d70,
+  'dark': #2f374c,
+  'text': #20283c,
+);
+
+$app: (
+  'primary': $gray,
+);
+
+html {
+  @include sass-utils.map-scss-vars-into-css-vars($app, 'color');
+}
