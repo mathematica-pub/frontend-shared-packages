@@ -6,9 +6,9 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+import { ImageDownloadOptions } from 'projects/viz-components/src/lib/image-download/image-download-options';
 import {
   VicImage,
-  VicImageDownloadConfig,
   VicImageDownloader,
   VicJpegImageConfig,
   VicPngImageConfig,
@@ -46,7 +46,7 @@ export class ExportContentComponent {
   }
 
   getConfig(
-    options: Partial<VicImageDownloadConfig>
+    options: Partial<ImageDownloadOptions>
   ): VicJpegImageConfig | VicPngImageConfig | VicSvgImageConfig {
     switch (this.fileType) {
       case VicImage.jpeg:
@@ -64,8 +64,12 @@ export class ExportContentComponent {
       return base;
     }
     const date = new Date();
-    const timeStamp = `${date.getFullYear()}${this.prependZero(date.getMonth())}${this.prependZero(date.getDate())}-${this.prependZero(date.getHours())}${this.prependZero(date.getMinutes())}${this.prependZero(date.getSeconds())}`;
+    const timeStamp = this.getTimeStampFromDate(date);
     return `${base}-${timeStamp}`;
+  }
+
+  getTimeStampFromDate(date: Date): string {
+    return `${date.getFullYear()}${this.prependZero(date.getMonth())}${this.prependZero(date.getDate())}-${this.prependZero(date.getHours())}${this.prependZero(date.getMinutes())}${this.prependZero(date.getSeconds())}`;
   }
 
   prependZero(value: number): string {
