@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, ROUTES } from '@angular/router';
-import { ContentConfigService } from '../services/content-config.service';
 import { contentRoutesFactory } from './content-routes-factory';
+import { ContentConfigService } from './services/content-config.service';
+
+// @NgModule({
+//   imports: [RouterModule.forChild(CONTENT_ROUTES)],
+//   exports: [RouterModule],
+// })
+// export class ContentRoutingModule {}
 
 @NgModule({
   imports: [RouterModule.forChild([])],

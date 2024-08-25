@@ -8,6 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { NgOnChangesUtilities } from 'projects/viz-components/src/lib/core/utilities/ng-on-changes';
 import { BehaviorSubject } from 'rxjs';
 
@@ -25,7 +26,7 @@ export interface DirectorySelection {
 @Component({
   selector: 'app-directory',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './directory.component.html',
   styleUrls: ['./directory.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

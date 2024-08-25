@@ -26,4 +26,14 @@ export class FileResource {
       })
       .pipe(map((text) => mdParse(text)));
   }
+
+  getCsvFile(filePath: string): Observable<string> {
+    return this.http.get(filePath, { responseType: 'text' });
+  }
+
+  getJsonFile(filePath: string): Observable<object> {
+    return this.http.get(filePath, {
+      responseType: 'json',
+    });
+  }
 }

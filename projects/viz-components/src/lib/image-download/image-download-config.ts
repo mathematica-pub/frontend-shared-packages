@@ -1,6 +1,6 @@
 import { VicImage } from './image-download-enums';
 
-class VicImageDownloadConfig {
+export class VicImageDownloadConfig {
   filter: (domNode: HTMLElement) => boolean;
   containerNode: HTMLElement;
   fileName: string;

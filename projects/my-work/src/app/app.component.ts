@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RouterStateService } from './core/services/router-state/router-state.service';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarComponent } from './platform/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',

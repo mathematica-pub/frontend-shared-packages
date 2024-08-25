@@ -22,11 +22,25 @@
 
 .item:hover {
   cursor: pointer;
-  background-color: colors.$primary-100;
+  background-color: colors.$primary-50;
   transition: all 200ms;
 }
 
 .item.active {
   color: colors.$highlight-default;
-  background-color: colors.$primary-100;
+  background-color: colors.$primary-50;
+}
+
+.top-border {
+  border-top: 1px solid colors.$primary-100;
+  margin-top: grid(4);
+  padding-top: grid(3);
+}
+
+.title {
+  @extend %typography-h5;
+  padding: grid(1) 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

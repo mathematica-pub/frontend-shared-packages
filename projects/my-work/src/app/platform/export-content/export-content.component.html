@@ -1,0 +1,18 @@
+<div class="header" [style.width.px]="width ? width + 16 : null">
+  <p class="file-name-readout"
+    ><span class="file-name">{{ getBaseFileName() }}.{{ fileType }}</span></p
+  >
+  <button class="download-button" (click)="downloadImage()"
+    ><span class="material-symbols-outlined download-icon">download</span>
+  </button>
+</div>
+<div
+  #imageContainer
+  class="image-container"
+  [style.width.px]="width ? width + (padImage ? 8 : 0) : null"
+  [style.height.px]="height ? height + (padImage ? 8 : 0) : null"
+>
+  <div #image class="image" [style.padding]="padImage ? '8px' : 0">
+    <ng-content></ng-content>
+  </div>
+</div>

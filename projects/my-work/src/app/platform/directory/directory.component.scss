@@ -21,12 +21,12 @@
 .item.expandable:hover,
 .item.selectable:hover {
   cursor: pointer;
-  background-color: colors.$primary-100;
+  background-color: colors.$primary-50;
   transition: all 200ms;
 }
 
 .item.active {
-  background-color: colors.$primary-100;
+  background-color: colors.$primary-50;
   color: colors.$highlight-default;
 }
 

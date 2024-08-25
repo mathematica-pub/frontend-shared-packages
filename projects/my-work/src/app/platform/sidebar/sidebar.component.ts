@@ -1,18 +1,18 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { filter, map, Observable } from 'rxjs';
-import { FileResource } from '../core/resources/file.resource';
-import { RouterStateService } from '../core/services/router-state/router-state.service';
-import { Section } from '../core/services/router-state/state';
+import { filter, map, Observable, tap } from 'rxjs';
+import { ContentConfigService } from '../../core/services/content-config.service';
+import { RouterStateService } from '../../core/services/router-state/router-state.service';
+import { Section } from '../../core/services/router-state/state';
 import {
   DirectoryComponent,
   DirectoryItem,
   DirectorySelection,
-} from './directory/directory.component';
+} from '../directory/directory.component';
 
 type NestedStringObject = {
-  [key: string]: string | NestedStringObject;
+  [key: string]: string | string[] | NestedStringObject;
 };
 
 @Component({
@@ -29,8 +29,8 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     public routerState: RouterStateService,
-    private files: FileResource,
-    private titleCase: TitleCasePipe
+    private titleCase: TitleCasePipe,
+    private configService: ContentConfigService
   ) {}
 
   ngOnInit(): void {
@@ -38,9 +38,9 @@ export class SidebarComponent implements OnInit {
   }
 
   initDirectoryItems(): void {
-    const configPath = 'app/core/config.yaml';
-    this.directoryItems$ = this.files.getYamlFile(configPath).pipe(
+    this.directoryItems$ = this.configService.config$.pipe(
       filter((config) => !!config),
+      tap((config) => console.log(config)),
       map((config) => ({
         title: config.title,
         items: this.getDocsDirectoryTree(config.items),
@@ -49,7 +49,7 @@ export class SidebarComponent implements OnInit {
   }
 
   getDocsDirectoryTree(
-    yaml: NestedStringObject,
+    yaml: string[] | NestedStringObject,
     level: number = 0
   ): DirectoryItem[] {
     let itemsArray;

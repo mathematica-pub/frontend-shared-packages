@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { FileResource } from '../resources/file.resource';
 
 export interface ContentConfig {
@@ -10,17 +11,18 @@ export interface ContentConfig {
   providedIn: 'root',
 })
 export class ContentConfigService {
-  basePath: string = '/app/core';
-  fileName: string = 'config.yaml';
-  config: ContentConfig = {} as ContentConfig;
+  basePath: string = '/app/content';
+  fileName: string = 'content.yaml';
+  config$: Observable<ContentConfig>;
+  config: ContentConfig;
 
   constructor(private files: FileResource) {}
 
   initConfig(): void {
-    this.files
-      .getYamlFile(this.basePath + '/' + this.fileName)
-      .subscribe((config) => {
-        this.config = config;
-      });
+    this.config$ = this.files.getYamlFile(this.basePath + '/' + this.fileName);
+
+    this.config$.subscribe((config: ContentConfig) => {
+      this.config = config;
+    });
   }
 }

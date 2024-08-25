@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { OverviewComponent } from './platform/overview/overview.component';
 
 export const APP_ROUTES: Routes = [
   {
@@ -8,13 +9,12 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: 'overview',
-    loadComponent: () =>
-      import('./about/about.component').then((m) => m.AboutComponent),
+    component: OverviewComponent,
   },
   {
     path: 'content',
     loadChildren: () =>
-      import('./core/routing/content-routing.module').then(
+      import('./core/content-routing.module').then(
         (m) => m.ContentRoutingModule
       ),
   },
