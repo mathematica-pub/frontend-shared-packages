@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,12 +12,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    HttpClientModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     SidebarComponent,
   ],
   providers: [
+    provideHttpClient(),
     {
       provide: APP_INITIALIZER,
       multi: true,
