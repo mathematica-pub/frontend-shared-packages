@@ -7,6 +7,12 @@
     >
       Using this application
     </a>
-    <app-directory></app-directory>
+    @if (directoryItems$ | async; as directoryItems) {
+      <h3>{{ directoryItems.title }}</h3>
+      <app-directory
+        [items]="directoryItems.items"
+        (selectionChanges)="selectItem($event)"
+      ></app-directory>
+    }
   }
 </nav>

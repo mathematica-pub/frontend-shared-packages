@@ -237,7 +237,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/my-work/src/favicon.ico",
-              "projects/my-work/src/assets"
+              "projects/my-work/src/assets",
+              "projects/my-work/src"
             ],
             "styles": ["projects/my-work/src/styles/styles.scss"],
             "stylePreprocessorOptions": {

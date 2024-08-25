@@ -1,24 +1,26 @@
 import { Injectable } from '@angular/core';
-import { ManualDocumentationConfig } from 'projects/demo-app/src/app/manual-documentation/viz-components/config';
 import { FileResource } from '../resources/file.resource';
+
+export interface ContentConfig {
+  title: string;
+  items: string[];
+}
 
 @Injectable({
   providedIn: 'root',
 })
-export class ManualDocumentationConfigService {
-  basePath: string = '/app/manual-documentation/';
+export class ContentConfigService {
+  basePath: string = '/app/core';
   fileName: string = 'config.yaml';
-  config: ManualDocumentationConfig = {} as ManualDocumentationConfig;
+  config: ContentConfig = {} as ContentConfig;
 
   constructor(private files: FileResource) {}
 
-  initConfigs(): void {
+  initConfig(): void {
     this.files
       .getYamlFile(this.basePath + '/' + this.fileName)
-      .subscribe((configs) => {
-        (config: ManualDocumentationConfig, index: number) => {
-          this.config = config;
-        };
+      .subscribe((config) => {
+        this.config = config;
       });
   }
 }
