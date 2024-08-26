@@ -238,7 +238,8 @@
             "assets": [
               "projects/my-work/src/favicon.ico",
               "projects/my-work/src/assets",
-              "projects/my-work/src"
+              "projects/my-work/src/content/content.yaml",
+              "projects/my-work/src/content/data"
             ],
             "styles": ["projects/my-work/src/styles/styles.scss"],
             "stylePreprocessorOptions": {
