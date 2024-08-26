@@ -4,6 +4,7 @@ import {
   Component,
   DestroyRef,
   OnInit,
+  ViewEncapsulation,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -22,6 +23,7 @@ import { StateService } from '../../core/services/state/state.service';
   templateUrl: './documentation.component.html',
   styleUrls: ['./documentation.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
 })
 export class DocumentationComponent implements OnInit {
   docsPath = '/assets/documentation/';

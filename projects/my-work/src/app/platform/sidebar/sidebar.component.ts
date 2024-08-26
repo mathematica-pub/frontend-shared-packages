@@ -15,6 +15,12 @@ import {
   DirectorySelection,
 } from '../directory/directory.component';
 
+enum Casing {
+  Lower = 'lower',
+  Sentence = 'sentence',
+  Title = 'title',
+}
+
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -44,7 +50,7 @@ export class SidebarComponent implements OnInit {
       filter((config) => !!config),
       map((config) => ({
         title: config.title,
-        items: this.getDirectoryTree(config.items),
+        items: this.getDirectoryTree(config.items, 0, Casing.Sentence),
       })),
       tap((config) => console.log(config))
     );
@@ -60,19 +66,20 @@ export class SidebarComponent implements OnInit {
 
   getDirectoryTree(
     yaml: FilesItem | AngularComponentsItem,
-    level: number = 0
+    level: number = 0,
+    itemCasing: Casing = Casing.Title
   ): DirectoryItem[] {
     console.log(yaml);
     let itemsArray;
     if (Array.isArray(yaml)) {
-      itemsArray = yaml.map((item) => this.createFlatItem(item));
+      itemsArray = yaml.map((item) => this.createFlatItem(item, itemCasing));
     } else {
       itemsArray = Object.entries(yaml).map(([key, value]) => {
         if (typeof value === 'string') {
-          return this.createFlatItem(key);
+          return this.createFlatItem(key, itemCasing);
         } else {
           return {
-            name: this.createDisplayName(key),
+            name: this.createDisplayName(key, itemCasing),
             value: key,
             children: this.getDirectoryTree(value, level + 1),
           };
@@ -82,15 +89,23 @@ export class SidebarComponent implements OnInit {
     return itemsArray as DirectoryItem[];
   }
 
-  createFlatItem(key: string): DirectoryItem {
+  createFlatItem(key: string, itemCasing: Casing): DirectoryItem {
     return {
-      name: this.createDisplayName(key),
+      name: this.createDisplayName(key, itemCasing),
       value: key,
     };
   }
 
-  createDisplayName(str: string): string {
-    return this.titleCase.transform(str.replace(/-/g, ' '));
+  createDisplayName(str: string, itemCasing: Casing): string {
+    const dehyphenated = str.replace(/-/g, ' ');
+    switch (itemCasing) {
+      case Casing.Lower:
+        return dehyphenated.toLowerCase();
+      case Casing.Sentence:
+        return dehyphenated.charAt(0).toUpperCase() + dehyphenated.slice(1);
+      case Casing.Title:
+        return this.titleCase.transform(dehyphenated);
+    }
   }
 
   selectOverview(): void {

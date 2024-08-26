@@ -1,0 +1,23 @@
+@use 'functions' as *;
+@use 'colors';
+
+.injected-html {
+  max-width: 900px;
+  margin-left: grid(4);
+
+  :first-child {
+    margin-top: grid(4);
+    width: 100%;
+    background-color: colors.$primary-50;
+    border-radius: grid(4);
+    padding: grid(4) grid(2);
+  }
+
+  h4 {
+    margin-bottom: grid(6);
+  }
+
+  p {
+    margin-bottom: grid(4);
+  }
+}

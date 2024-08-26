@@ -4,7 +4,7 @@ import { Section } from './core/services/state/state';
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'documentation/getting-started',
+    redirectTo: 'documentation/about',
     pathMatch: 'full',
   },
   {
@@ -28,6 +28,6 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'documentation/getting-started',
+    redirectTo: 'documentation/about',
   },
 ];
