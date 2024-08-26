@@ -11,7 +11,7 @@ export interface ContentConfig {
   providedIn: 'root',
 })
 export class ContentConfigService {
-  basePath: string = '/app/content';
+  basePath: string = '/assets/content';
   fileName: string = 'content.yaml';
   config$: Observable<ContentConfig>;
   config: ContentConfig;
