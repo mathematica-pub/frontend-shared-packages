@@ -1,4 +1,5 @@
 ---
 title: Using this application
-items:  
+items:
+  about-this-app: about.md
   getting-started: getting-started.md
