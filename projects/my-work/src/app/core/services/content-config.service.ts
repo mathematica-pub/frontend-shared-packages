@@ -53,7 +53,6 @@ export class ConfigsService {
       this.files.getYamlFile(this.basePath + this.docsPath),
       this.files.getYamlFile(this.basePath + this.contentPath),
     ]).subscribe((configs: [DocsConfig, ContentConfig]) => {
-      console.log(configs);
       this._docsConfig.next(configs[0]);
       this._contentConfig.next(configs[1]);
     });

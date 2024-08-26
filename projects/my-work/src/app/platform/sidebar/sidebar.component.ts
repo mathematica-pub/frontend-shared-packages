@@ -1,7 +1,7 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import {
   AngularComponentsItem,
   ConfigsService,
@@ -51,8 +51,7 @@ export class SidebarComponent implements OnInit {
       map((config) => ({
         title: config.title,
         items: this.getDirectoryTree(config.items, 0, Casing.Sentence),
-      })),
-      tap((config) => console.log(config))
+      }))
     );
 
     this.contentItems$ = this.configService.contentConfig$.pipe(
@@ -69,7 +68,6 @@ export class SidebarComponent implements OnInit {
     level: number = 0,
     itemCasing: Casing = Casing.Title
   ): DirectoryItem[] {
-    console.log(yaml);
     let itemsArray;
     if (Array.isArray(yaml)) {
       itemsArray = yaml.map((item) => this.createFlatItem(item, itemCasing));
@@ -113,7 +111,6 @@ export class SidebarComponent implements OnInit {
   }
 
   selectDocsItem(item: DirectorySelection): void {
-    console.log('item', item);
     this.routerState.update({
       section: Section.Docs,
       contentPath: item.activePath,
@@ -121,7 +118,6 @@ export class SidebarComponent implements OnInit {
   }
 
   selectContentItem(item: DirectorySelection): void {
-    console.log('item', item);
     this.routerState.update({
       section: Section.Content,
       contentPath: item.activePath,
