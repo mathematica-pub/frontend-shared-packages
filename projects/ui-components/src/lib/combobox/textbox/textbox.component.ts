@@ -38,7 +38,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   constructor(
     public service: ComboboxService,
     private platform: Platform,
-    public destroyRef: DestroyRef
+    protected destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +67,10 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   handleBlur(event: FocusEvent): void {
     if (event.relatedTarget && this.isHtmlElement(event.relatedTarget)) {
+      // handles new Chrome behavior from focusable scroll containers https://issues.chromium.org/issues/359904703
+      if (event.relatedTarget.id === this.service.scrollContainerId) {
+        return;
+      }
       if (event.relatedTarget.id.includes('listbox')) {
         this.service.setVisualFocus(VisualFocus.textbox);
         return;

@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
+  DestroyRef,
   Input,
   OnChanges,
   forwardRef,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { merge } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { ComboboxService } from '../combobox.service';
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 import { ListboxComponent } from '../listbox/listbox.component';
@@ -31,9 +32,12 @@ export class SelectAllListboxOptionComponent<T>
 {
   @Input() override boxDisplayLabel = 'Select all';
 
+  currentControlledOptions: ListboxOptionComponent<T>[] = [];
+
   constructor(
     service: ComboboxService,
-    private listboxComponent: ListboxComponent<T>
+    private listboxComponent: ListboxComponent<T>,
+    private destroyRef: DestroyRef
   ) {
     super(service);
   }
@@ -82,12 +86,12 @@ export class SelectAllListboxOptionComponent<T>
 
   // automatically updates "selected" based on controlled options
   listenForOptionSelections(): void {
-    merge(
+    combineLatest([
       this.listboxComponent.selectedOptions$,
       this.listboxComponent.groups$,
-      this.listboxComponent.options$
-    )
-      .pipe(takeUntilDestroyed())
+      this.listboxComponent.options$,
+    ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.updateSelectAllSelected();
       });
@@ -95,9 +99,28 @@ export class SelectAllListboxOptionComponent<T>
 
   updateSelectAllSelected(): void {
     const controlledOptions = this.getControlledOptions();
-    const allControlledOptionsSelected = controlledOptions.every((option) =>
-      option.isSelected()
-    );
-    this.updateSelected(allControlledOptionsSelected);
+    const controlledOptionsValues = controlledOptions
+      .map((x) => x.value)
+      .sort();
+    const currentControlledOptionsValues = this.currentControlledOptions
+      .map((x) => x.value)
+      .sort();
+    if (
+      this._selected.value === true &&
+      (controlledOptionsValues.length !==
+        currentControlledOptionsValues.length ||
+        controlledOptionsValues.some(
+          (x, i) => x !== currentControlledOptionsValues[i]
+        ))
+    ) {
+      controlledOptions.forEach((option) => option.select());
+      this.listboxComponent.emitValue(controlledOptions.map((x) => x.value));
+    } else {
+      const allControlledOptionsSelected = controlledOptions.every((option) =>
+        option.isSelected()
+      );
+      this.updateSelected(allControlledOptionsSelected);
+    }
+    this.currentControlledOptions = controlledOptions;
   }
 }

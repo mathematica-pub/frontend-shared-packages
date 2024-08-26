@@ -11,7 +11,7 @@
   "
   [attr.aria-multiselectable]="isMultiSelect"
 >
-  <div class="scroll-container">
+  <div class="scroll-container" [id]="service.scrollContainerId">
     <ng-container
       *ngTemplateOutlet="label?.labelContent || nullContent"
     ></ng-container>
