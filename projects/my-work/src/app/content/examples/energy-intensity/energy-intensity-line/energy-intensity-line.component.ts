@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-overview',
+  selector: 'app-energy-intensity-line',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
+  templateUrl: './energy-intensity-line.component.html',
+  styleUrls: ['./energy-intensity-line.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OverviewComponent {}
+export class EnergyIntensityLineComponent {}

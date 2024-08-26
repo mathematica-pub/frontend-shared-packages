@@ -9,6 +9,7 @@ import { FileResource } from '../resources/file.resource';
 export class DataService {
   constructor(private file: FileResource) {}
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getDataFile(filePath: string): Observable<any> {
     const splitFilePath = filePath.split('.');
     const fileExtension = splitFilePath[splitFilePath.length - 1];

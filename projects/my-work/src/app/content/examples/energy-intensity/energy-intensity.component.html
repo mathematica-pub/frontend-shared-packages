@@ -1,0 +1,6 @@
+<h4>Energy Intensity Visualizations</h4>
+@if (barsData$ | async; as barData) {
+  <app-export-content fileName="EnergyIntensity_2020"
+    ><app-energy-intensity-bar [data]="barData"></app-energy-intensity-bar>
+  </app-export-content>
+}
