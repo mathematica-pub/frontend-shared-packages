@@ -42,7 +42,7 @@ export class StateService {
       // state-based styles won't load on first load if we don't do this
       return {
         section: Section.Docs,
-        contentPath: '',
+        contentPath: 'about-this-app',
       };
     }
     return {
