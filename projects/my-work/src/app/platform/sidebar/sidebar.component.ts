@@ -1,19 +1,19 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { filter, map, Observable, tap } from 'rxjs';
-import { ContentConfigService } from '../../core/services/content-config.service';
-import { RouterStateService } from '../../core/services/router-state/router-state.service';
-import { Section } from '../../core/services/router-state/state';
+import {
+  AngularComponentsItem,
+  ConfigsService,
+  FilesItem,
+} from '../../core/services/content-config.service';
+import { Section } from '../../core/services/state/state';
+import { StateService } from '../../core/services/state/state.service';
 import {
   DirectoryComponent,
   DirectoryItem,
   DirectorySelection,
 } from '../directory/directory.component';
-
-type NestedStringObject = {
-  [key: string]: string | string[] | NestedStringObject;
-};
 
 @Component({
   selector: 'app-sidebar',
@@ -22,15 +22,17 @@ type NestedStringObject = {
   providers: [TitleCasePipe],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class SidebarComponent implements OnInit {
   Section = Section;
-  directoryItems$: Observable<{ title: string; items: DirectoryItem[] }>;
+  contentItems$: Observable<{ title: string; items: DirectoryItem[] }>;
+  docsItems$: Observable<{ title: string; items: DirectoryItem[] }>;
 
   constructor(
-    public routerState: RouterStateService,
+    public routerState: StateService,
     private titleCase: TitleCasePipe,
-    private configService: ContentConfigService
+    private configService: ConfigsService
   ) {}
 
   ngOnInit(): void {
@@ -38,20 +40,29 @@ export class SidebarComponent implements OnInit {
   }
 
   initDirectoryItems(): void {
-    this.directoryItems$ = this.configService.config$.pipe(
+    this.docsItems$ = this.configService.docsConfig$.pipe(
       filter((config) => !!config),
-      tap((config) => console.log(config)),
       map((config) => ({
         title: config.title,
-        items: this.getDocsDirectoryTree(config.items),
+        items: this.getDirectoryTree(config.items),
+      })),
+      tap((config) => console.log(config))
+    );
+
+    this.contentItems$ = this.configService.contentConfig$.pipe(
+      filter((config) => !!config),
+      map((config) => ({
+        title: config.title,
+        items: this.getDirectoryTree(config.items),
       }))
     );
   }
 
-  getDocsDirectoryTree(
-    yaml: string[] | NestedStringObject,
+  getDirectoryTree(
+    yaml: FilesItem | AngularComponentsItem,
     level: number = 0
   ): DirectoryItem[] {
+    console.log(yaml);
     let itemsArray;
     if (Array.isArray(yaml)) {
       itemsArray = yaml.map((item) => this.createFlatItem(item));
@@ -63,20 +74,11 @@ export class SidebarComponent implements OnInit {
           return {
             name: this.createDisplayName(key),
             value: key,
-            children: this.getDocsDirectoryTree(value, level + 1),
+            children: this.getDirectoryTree(value, level + 1),
           };
         }
       });
     }
-    // Documentation structure doc determines the order for the top level
-    if (level !== 0) {
-      itemsArray.sort((a, b) => {
-        if (!a.children && !!b.children) return 1;
-        if (!!a.children && !b.children) return -1;
-        return a.name.localeCompare(b.name);
-      });
-    }
-
     return itemsArray as DirectoryItem[];
   }
 
@@ -92,10 +94,19 @@ export class SidebarComponent implements OnInit {
   }
 
   selectOverview(): void {
-    this.routerState.update({ section: Section.Overview });
+    this.routerState.update({ section: Section.Docs });
   }
 
-  selectItem(item: DirectorySelection): void {
+  selectDocsItem(item: DirectorySelection): void {
+    console.log('item', item);
+    this.routerState.update({
+      section: Section.Docs,
+      contentPath: item.activePath,
+    });
+  }
+
+  selectContentItem(item: DirectorySelection): void {
+    console.log('item', item);
     this.routerState.update({
       section: Section.Content,
       contentPath: item.activePath,

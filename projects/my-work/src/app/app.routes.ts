@@ -1,18 +1,26 @@
 import { Routes } from '@angular/router';
-import { OverviewComponent } from './platform/overview/overview.component';
+import { Section } from './core/services/state/state';
 
 export const APP_ROUTES: Routes = [
   {
     path: '',
-    redirectTo: 'overview',
+    redirectTo: 'documentation/getting-started',
     pathMatch: 'full',
   },
   {
-    path: 'overview',
-    component: OverviewComponent,
+    path: Section.Docs,
+    children: [
+      {
+        path: '**',
+        loadComponent: () =>
+          import('./platform/documentation/documentation.component').then(
+            (m) => m.DocumentationComponent
+          ),
+      },
+    ],
   },
   {
-    path: 'content',
+    path: Section.Content,
     loadChildren: () =>
       import('./core/content-routing.module').then(
         (m) => m.ContentRoutingModule
@@ -20,6 +28,6 @@ export const APP_ROUTES: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'overview',
+    redirectTo: 'documentation/getting-started',
   },
 ];

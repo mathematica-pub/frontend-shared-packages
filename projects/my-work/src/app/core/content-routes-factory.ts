@@ -1,19 +1,11 @@
 import { Route, Routes } from '@angular/router';
-import { ContentConfigService } from './services/content-config.service';
+import {
+  AngularComponentsConfig,
+  ConfigsService,
+} from './services/content-config.service';
 
-interface NestedStringObject {
-  [key: string]: string[] | NestedStringObject;
-}
-
-interface ContentConfig {
-  name: string;
-  items: string[] | NestedStringObject;
-}
-
-export function contentRoutesFactory(
-  configService: ContentConfigService
-): Routes {
-  const config = configService.config;
+export function contentRoutesFactory(configService: ConfigsService): Routes {
+  const config = configService.contentConfig;
   const routes: Routes = [
     {
       path: '',
@@ -24,13 +16,12 @@ export function contentRoutesFactory(
 }
 
 function constructRoutes(
-  config: string[] | NestedStringObject,
+  config: string[] | AngularComponentsConfig,
   path: string
 ): Routes {
-  console.log(config, path);
   const routes: Routes = [];
   if (Array.isArray(config)) {
-    config.forEach((item) => routes.push(getFlatRoute(item, path)));
+    config.forEach((item) => routes.push(getComponentRoute(item, path)));
   } else {
     Object.entries(config).forEach(([key, value]) => {
       const nextPath = path ? `${path}/${key}` : `/${key}`;
@@ -43,8 +34,7 @@ function constructRoutes(
   return routes;
 }
 
-function getFlatRoute(item: string, path: string): Route {
-  console.log('flat route', item, path);
+function getComponentRoute(item: string, path: string): Route {
   return {
     path: item,
     loadComponent: () =>

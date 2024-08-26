@@ -1,19 +1,24 @@
 <nav class="sidebar-container">
   @if (routerState.state$ | async; as state) {
-    <a
-      class="item overview"
-      (click)="selectOverview()"
-      [class.active]="state.section === Section.Overview"
-    >
-      Using this application
-    </a>
-    @if (directoryItems$ | async; as directoryItems) {
-      <div class="top-border"></div>
-      <h3 class="title">{{ directoryItems.title }}</h3>
+    @if (docsItems$ | async; as docsItems) {
+      <h3 class="title docs">{{ docsItems.title }}</h3>
       <app-directory
-        class="directory"
-        [items]="directoryItems.items"
-        (selectionChanges)="selectItem($event)"
+        class="directory docs"
+        [items]="docsItems.items"
+        (selectionChanges)="selectDocsItem($event)"
+        [selection]="{
+          activePath: '/' + state.contentPath,
+          selectedItem: '',
+        }"
+      ></app-directory>
+    }
+    @if (contentItems$ | async; as contentItems) {
+      <div class="top-border"></div>
+      <h3 class="title content">{{ contentItems.title }}</h3>
+      <app-directory
+        class="directory content"
+        [items]="contentItems.items"
+        (selectionChanges)="selectContentItem($event)"
         [selection]="{
           activePath: state.contentPath,
           selectedItem: '',

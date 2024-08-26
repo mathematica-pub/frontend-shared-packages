@@ -8,7 +8,7 @@
 
 #### Adding data
 
-- Passed in path should be the full path relative to `src` directory of my-work
+- Must be placed in `projects/my-work/src/assets`
 - Must be a csv or json file
 - File name cannot include dots beyond dot in front of file type extension
 - Provide type as generic parameter for `getDataFile` on `DataService`.

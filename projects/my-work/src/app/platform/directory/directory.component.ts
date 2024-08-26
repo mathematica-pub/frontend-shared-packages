@@ -61,6 +61,7 @@ export class DirectoryComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (NgOnChangesUtilities.inputObjectChanged(changes, 'selection')) {
+      console.log('selection changed', this.selection);
       this.state.next(this.selection);
     }
   }

@@ -13,7 +13,7 @@ import { Section, State } from './state';
 @Injectable({
   providedIn: 'root',
 })
-export class RouterStateService {
+export class StateService {
   state$: Observable<State>;
 
   constructor(private router: Router) {}
@@ -41,7 +41,7 @@ export class RouterStateService {
       // site will load before router redirect has taken place, so help this along by redirecting to default if no fragments in url
       // state-based styles won't load on first load if we don't do this
       return {
-        section: Section.Overview,
+        section: Section.Docs,
         contentPath: '',
       };
     }
