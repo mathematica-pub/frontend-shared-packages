@@ -16,7 +16,7 @@ export interface FilesConfig {
   [key: string]: FilesItem;
 }
 
-export type FilesItem = string | FilesConfig;
+export type FilesItem = string | null | FilesConfig;
 
 export interface AngularComponentsConfig {
   [key: string]: AngularComponentsItem;
@@ -27,7 +27,7 @@ export type AngularComponentsItem = string[] | AngularComponentsConfig;
 @Injectable({
   providedIn: 'root',
 })
-export class ConfigsService {
+export class DirectoryConfigService {
   basePath = '/assets/';
   contentPath = 'content/content.yaml';
   docsPath = 'documentation/documentation.yaml';

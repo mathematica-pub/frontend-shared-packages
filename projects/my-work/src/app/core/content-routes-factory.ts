@@ -1,10 +1,12 @@
 import { Route, Routes } from '@angular/router';
 import {
   AngularComponentsConfig,
-  ConfigsService,
-} from './services/content-config.service';
+  DirectoryConfigService,
+} from './services/directory-config.service';
 
-export function contentRoutesFactory(configService: ConfigsService): Routes {
+export function contentRoutesFactory(
+  configService: DirectoryConfigService
+): Routes {
   const config = configService.contentConfig;
   const routes: Routes = [
     {

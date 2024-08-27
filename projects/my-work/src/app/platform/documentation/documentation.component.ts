@@ -11,9 +11,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { filter, map, Observable, switchMap, withLatestFrom } from 'rxjs';
 import { FileResource } from '../../core/resources/file.resource';
 import {
-  ConfigsService,
+  DirectoryConfigService,
   FilesItem,
-} from '../../core/services/content-config.service';
+} from '../../core/services/directory-config.service';
 import { StateService } from '../../core/services/state/state.service';
 
 @Component({
@@ -34,7 +34,7 @@ export class DocumentationComponent implements OnInit {
     private files: FileResource,
     private destroyRef: DestroyRef,
     private sanitizer: DomSanitizer,
-    private configService: ConfigsService
+    private configService: DirectoryConfigService
   ) {}
 
   ngOnInit(): void {

@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
 import {
   AngularComponentsItem,
-  ConfigsService,
+  DirectoryConfigService,
   FilesItem,
-} from '../../core/services/content-config.service';
+} from '../../core/services/directory-config.service';
 import { Section } from '../../core/services/state/state';
 import { StateService } from '../../core/services/state/state.service';
 import {
@@ -38,7 +38,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     public routerState: StateService,
     private titleCase: TitleCasePipe,
-    private configService: ConfigsService
+    private configService: DirectoryConfigService
   ) {}
 
   ngOnInit(): void {
