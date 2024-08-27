@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { csvParse } from 'd3';
-import { map, Observable } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 import { FileResource } from '../resources/file.resource';
 
 @Injectable({
@@ -23,8 +23,12 @@ export class DataService {
           .getCsvFile(filePath)
           .pipe(map((text) => csvParse(text)));
       case 'json':
-      default:
         return this.file.getJsonFile(filePath);
+      default:
+        console.error(
+          'File type not supported. Please provide a path with a file extension of .yaml, .md, .csv, or .json'
+        );
+        return of(null);
     }
   }
 }
