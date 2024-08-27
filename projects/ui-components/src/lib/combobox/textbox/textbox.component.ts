@@ -1,5 +1,4 @@
 import { Platform } from '@angular/cdk/platform';
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -22,10 +21,8 @@ import {
 } from '../combobox.service';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-textbox',
   templateUrl: './textbox.component.html',
-  imports: [CommonModule],
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() displaySelected = false;

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -60,7 +59,6 @@ export type CountSelectedOptionsLabel = {
 };
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-listbox',
   templateUrl: './listbox.component.html',
   providers: [ListboxFilteringService, ListboxScrollService],
@@ -68,7 +66,6 @@ export type CountSelectedOptionsLabel = {
   host: {
     class: 'combobox-listbox-component',
   },
-  imports: [CommonModule],
 })
 export class ListboxComponent<T>
   implements OnInit, AfterContentInit, AfterViewInit

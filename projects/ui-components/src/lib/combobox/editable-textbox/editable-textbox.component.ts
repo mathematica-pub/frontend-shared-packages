@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -8,7 +7,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import {
   Autocomplete,
   AutocompleteType,
@@ -22,11 +20,9 @@ import {
 import { TextboxComponent } from '../textbox/textbox.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-editable-textbox',
   templateUrl: './editable-textbox.component.html',
   styleUrls: ['./editable-textbox.component.scss'],
-  imports: [CommonModule, FormsModule],
 })
 export class EditableTextboxComponent
   extends TextboxComponent

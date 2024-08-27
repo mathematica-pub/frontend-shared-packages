@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -14,7 +13,6 @@ import { ListboxOptionComponent } from '../listbox-option/listbox-option.compone
 import { ListboxComponent } from '../listbox/listbox.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-select-all-listbox-option',
   templateUrl: '../listbox-option/listbox-option.component.html',
   styleUrls: ['../listbox-option/listbox-option.component.scss'],
@@ -24,7 +22,6 @@ import { ListboxComponent } from '../listbox/listbox.component';
       useExisting: forwardRef(() => SelectAllListboxOptionComponent),
     },
   ],
-  imports: [CommonModule],
 })
 export class SelectAllListboxOptionComponent<T>
   extends ListboxOptionComponent<T>

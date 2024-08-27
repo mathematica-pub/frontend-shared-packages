@@ -14,7 +14,7 @@ describe('NgFormListboxMultiComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgFormListboxMultiComponent],
+      declarations: [NgFormListboxMultiComponent],
       providers: [
         {
           provide: ComboboxService,

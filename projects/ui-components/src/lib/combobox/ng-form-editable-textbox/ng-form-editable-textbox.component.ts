@@ -1,17 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { filter } from 'rxjs';
 import { OptionAction } from '../combobox.service';
 import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-ng-form-editable-textbox',
   templateUrl: './ng-form-editable-textbox.component.html',
   styleUrls: ['./ng-form-editable-textbox.component.scss'],
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
 })
 export class NgFormEditableTextboxComponent
   extends EditableTextboxComponent

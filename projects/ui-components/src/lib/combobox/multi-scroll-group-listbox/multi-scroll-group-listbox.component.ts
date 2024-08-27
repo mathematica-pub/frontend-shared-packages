@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
 import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { ListboxComponent } from '../listbox/listbox.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-multi-scroll-group-listbox',
   templateUrl: './multi-scroll-group-listbox.component.html',
   providers: [ListboxFilteringService, ListboxScrollService],
@@ -14,7 +12,6 @@ import { ListboxComponent } from '../listbox/listbox.component';
   host: {
     class: 'combobox-listbox-component',
   },
-  imports: [CommonModule],
 })
 export class MultiFiltersListboxComponent<T> extends ListboxComponent<T> {
   /**
