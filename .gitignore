@@ -17,6 +17,9 @@ yarn-error.log
 projects/demo-app/src/assets/documentation/**/*.*
 !projects/demo-app/src/assets/documentation/**/documentation-structure.yaml
 
+# My Work Data
+/projects/my-work/src/assets/data/**/*.*
+
 # IDEs and editors
 .idea/
 .project
