@@ -47,7 +47,6 @@ import { TextboxComponent } from './textbox/textbox.component';
     NgFormEditableTextboxComponent,
     MultiFiltersListboxComponent,
     SelectAllListboxOptionComponent,
-    ComboboxExampleComponent,
   ],
 })
 export class ComboboxModule {}
