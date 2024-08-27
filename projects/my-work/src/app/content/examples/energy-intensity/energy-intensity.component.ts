@@ -23,7 +23,7 @@ export interface EnergyIntensityDatum {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EnergyIntensityComponent implements OnInit {
-  dataPath = '/assets/content/data/energy-intensity-data.csv';
+  dataPath = '/assets/content/example-data/energy-intensity-data.csv';
   barsData$: Observable<EnergyIntensityDatum[]>;
   linesData$: Observable<EnergyIntensityDatum[]>;
 
