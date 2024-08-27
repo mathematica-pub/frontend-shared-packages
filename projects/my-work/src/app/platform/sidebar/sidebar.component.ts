@@ -69,11 +69,14 @@ export class SidebarComponent implements OnInit {
     itemCasing: Casing = Casing.Title
   ): DirectoryItem[] {
     let itemsArray;
+    if (yaml === undefined) {
+      return [];
+    }
     if (Array.isArray(yaml)) {
       itemsArray = yaml.map((item) => this.createFlatItem(item, itemCasing));
     } else {
       itemsArray = Object.entries(yaml).map(([key, value]) => {
-        if (typeof value === 'string') {
+        if (typeof value === 'string' || value === null) {
           return this.createFlatItem(key, itemCasing);
         } else {
           return {
