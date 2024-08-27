@@ -37,6 +37,7 @@ application.
 
 2. Navigate to the following directory in VSCode: `projects/my-work/src/assets/content`. Add your
    data file to `content/data` within that directory. Data can be either a `.csv` or `.json` file.
+   You could also choose to use any of the existing example data located in `content/example-data`.
 
 3. Navigate to the `projects/my-work/src/app/content` directory. Create a new Angular component
    there where you will make your charts. Keep in mind that the name of your component (minus the
@@ -97,7 +98,7 @@ items:
 ###### Writing Your Component Code and Exporting an Image
 
 1. To access your data, create a property in your class that is the path to your data, starting at
-   the `assets` directory. Your code make look something like this:
+   the `assets` directory. Your code may look something like this.
 
 ```ts
 export class NovReportChartsComponent implements OnInit {
