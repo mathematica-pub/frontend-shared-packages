@@ -90,32 +90,32 @@ const scss = `
 `;
 
 @Component({
-  selector: 'app-combobox-single-test',
+  selector: 'hsi-ui-combobox-single-test',
   template: `
     <p class="outside-element"
       >Throwaway element to click on for outside combobox click</p
     >
-    <app-combobox class="fruits-dropdown">
-      <app-combobox-label>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
         <span>Fruits</span>
-      </app-combobox-label>
-      <app-textbox [displaySelected]="true">
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
-      </app-textbox>
-      <app-listbox
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
         [labelIsBoxPlaceholder]="true"
         (valueChanges)="onSelection($event)"
       >
-        <app-listbox-label>
+        <hsi-ui-listbox-label>
           <span>Select a fruit</span>
-        </app-listbox-label>
-        <app-listbox-option *ngFor="let option of options">{{
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
           option.displayName
-        }}</app-listbox-option>
-      </app-listbox>
-    </app-combobox>
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -200,34 +200,34 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
 });
 
 @Component({
-  selector: 'app-combobox-select-from-outside-single-test',
+  selector: 'hsi-ui-combobox-select-from-outside-single-test',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
-    <app-combobox class="fruits-dropdown">
-      <app-combobox-label>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
         <span>Fruits</span>
-      </app-combobox-label>
-      <app-textbox [displaySelected]="true">
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
-      </app-textbox>
-      <app-listbox
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
         [labelIsBoxPlaceholder]="true"
         (valueChanges)="onSelection($event)"
       >
-        <app-listbox-label>
+        <hsi-ui-listbox-label>
           <span>Select a fruit</span>
-        </app-listbox-label>
-        <app-listbox-option
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option
           *ngFor="let option of options; let i = index"
           [selected]="i === 2"
-          >{{ option.displayName }}</app-listbox-option
+          >{{ option.displayName }}</hsi-ui-listbox-option
         >
-      </app-listbox>
-    </app-combobox>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -254,33 +254,33 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
 });
 
 @Component({
-  selector: 'app-combobox-multi-test',
+  selector: 'hsi-ui-combobox-multi-test',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
-    <app-combobox class="fruits-dropdown">
-      <app-combobox-label>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
         <span>Fruits</span>
-      </app-combobox-label>
-      <app-textbox [displaySelected]="true">
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
-      </app-textbox>
-      <app-listbox
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
         [labelIsBoxPlaceholder]="true"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
-        <app-listbox-label>
+        <hsi-ui-listbox-label>
           <span>Select a fruit</span>
-        </app-listbox-label>
-        <app-listbox-option *ngFor="let option of options">{{
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
           option.displayName
-        }}</app-listbox-option>
-      </app-listbox>
-    </app-combobox>
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -313,30 +313,33 @@ describe('ComboboxMultiComponent', () => {
 });
 
 @Component({
-  selector: 'app-combobox-static-label-test',
+  selector: 'hsi-ui-combobox-static-label-test',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
-    <app-combobox class="fruits-dropdown">
-      <app-combobox-label>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
         <span>Fruits</span>
-      </app-combobox-label>
-      <app-textbox>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox>
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
-      </app-textbox>
-      <app-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
-        <app-listbox-label>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
           <span>Select a fruit</span>
-        </app-listbox-label>
-        <app-listbox-option *ngFor="let option of options">{{
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
           option.displayName
-        }}</app-listbox-option>
-      </app-listbox>
-    </app-combobox>
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -363,34 +366,34 @@ describe('ComboboxMultiComponent', () => {
 });
 
 @Component({
-  selector: 'app-combobox-selected-options-count-label-test',
+  selector: 'hsi-ui-combobox-selected-options-count-label-test',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
-    <app-combobox class="fruits-dropdown">
-      <app-combobox-label>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
         <span>Fruits</span>
-      </app-combobox-label>
-      <app-textbox [displaySelected]="true">
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
-      </app-textbox>
-      <app-listbox
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
         [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
-        <app-listbox-label>
+        <hsi-ui-listbox-label>
           <span>Select a fruit</span>
-        </app-listbox-label>
-        <app-listbox-option *ngFor="let option of options">{{
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
           option.displayName
-        }}</app-listbox-option>
-      </app-listbox>
-    </app-combobox>
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
     <p class="combobox-value">{{ value$ | async }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
@@ -420,37 +423,37 @@ describe('ComboboxSelectedOptionsCountLabelTestComponent', () => {
 });
 
 @Component({
-  selector: 'app-combobox-external-label-change',
+  selector: 'hsi-ui-combobox-external-label-change',
   template: `
     <p class="outside-element"
       >Outside element to click on for outside combobox click</p
     >
-    <app-combobox class="fruits-dropdown">
-      <app-combobox-label>
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
         <span>Fruits</span>
-      </app-combobox-label>
-      <app-textbox [displaySelected]="true">
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
         <p boxLabel>Select a fruit, A-E</p>
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
-      </app-textbox>
-      <app-listbox
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
         [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
         [isMultiSelect]="true"
         (valueChanges)="onSelection($event)"
       >
-        <app-listbox-label>
+        <hsi-ui-listbox-label>
           <span>Select a fruit</span>
-        </app-listbox-label>
-        <app-listbox-option
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option
           *ngFor="let option of options$ | async"
           [selected]="option.selected"
           [disabled]="option.disabled"
-          >{{ option.displayName }}</app-listbox-option
+          >{{ option.displayName }}</hsi-ui-listbox-option
         >
-      </app-listbox>
-    </app-combobox>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
     <button
       (click)="disableAppleSelectBanana()"
       class="disable-apple-select-banana-button"
