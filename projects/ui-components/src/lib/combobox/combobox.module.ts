@@ -15,7 +15,6 @@ import { SelectAllListboxOptionComponent } from './select-all-listbox-option/sel
 import { TextboxComponent } from './textbox/textbox.component';
 
 @NgModule({
-  declarations: [],
   imports: [
     CommonModule,
     ReactiveFormsModule,
