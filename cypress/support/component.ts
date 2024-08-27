@@ -13,6 +13,7 @@
 // https://on.cypress.io/configuration
 // ***********************************************************
 // Import commands.js using ES2015 syntax:
+import 'cypress-real-events';
 import { mount } from 'cypress/angular';
 import { Cypress } from 'local-cypress';
 import './commands';

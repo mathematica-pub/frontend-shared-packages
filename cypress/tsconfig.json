@@ -4,7 +4,7 @@
     "baseUrl": "../node_modules",
     "target": "ES2019",
     "lib": ["es2020", "dom"],
-    "types": ["cypress", "node"],
+    "types": ["cypress", "node", "cypress-real-events"],
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
