@@ -1,0 +1,29 @@
+<app-combobox class="fruits-dropdown">
+  <app-combobox-label>
+    <span>Fruits</span>
+  </app-combobox-label>
+  <app-textbox [displaySelected]="true">
+    <p boxLabel>Select a fruit, A-E</p>
+    <span class="material-symbols-outlined expand-more" boxIcon>
+      expand_more
+    </span>
+  </app-textbox>
+  <app-listbox
+    [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
+    [isMultiSelect]="true"
+    (valueChanges)="onSelection($event)"
+  >
+    <app-listbox-label>
+      <span>Select a fruit</span>
+    </app-listbox-label>
+    <app-listbox-option
+      *ngFor="let option of options"
+      [selected]="selected$ | async"
+      >{{ option.displayName }}</app-listbox-option
+    >
+  </app-listbox>
+</app-combobox>
+<button (click)="setSelected()" class="super-cool-button-pls-click-me"
+  >Set all selected</button
+>
+<p class="combobox-value">{{ value$ | async }}</p>
