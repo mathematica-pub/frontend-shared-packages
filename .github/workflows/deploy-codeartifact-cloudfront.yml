@@ -3,7 +3,7 @@ name: Deploy to Codeartifact, Cloudfront
 on:
   push:
     branches:
-      - 322-demo-app-documentation-links-not-working
+      - main
 
 permissions:
   contents: read
@@ -64,86 +64,86 @@ jobs:
           aws s3 cp ./dist/demo-app/index.html s3://$S3WebsiteDeployBucket/index.html --metadata-directive REPLACE --cache-control no-cache --content-type "text/html"
           aws cloudfront create-invalidation --distribution-id=$CloudFrontDistributionId --paths "/*"
 
-  # deploy-viz-components:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 15
-  #   environment: dev
+  deploy-viz-components:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: dev
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 20
-  #         cache: 'npm'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
 
-  #     - name: Get Current Pull Request
-  #       uses: 8BitJonny/gh-get-current-pr@3.0.0
-  #       id: PR
+      - name: Get Current Pull Request
+        uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
 
-  #     - name: Install Dependencies
-  #       run: npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-  #     - name: Build viz-components
-  #       run: npm run build:viz-components
+      - name: Build viz-components
+        run: npm run build:viz-components
 
-  #     - name: Authenticate to codeartifact
-  #       run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
-  #     - name: Deploy viz-components to codeartifact
-  #       run: |
-  #         cd ./dist/viz-components
-  #         npm publish
+      - name: Deploy viz-components to codeartifact
+        run: |
+          cd ./dist/viz-components
+          npm publish
 
-  #     - name: Notify Success
-  #       if: success()
-  #       env:
-  #         pkg: viz-components
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
-  #         pr_title: ${{ steps.PR.outputs.pr_title }}
-  #         pr_url: ${{ steps.PR.outputs.pr_url }}
-  #       run: bash scripts/notify_version_released.sh
+      - name: Notify Success
+        if: success()
+        env:
+          pkg: viz-components
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_VIC }}
+          pr_title: ${{ steps.PR.outputs.pr_title }}
+          pr_url: ${{ steps.PR.outputs.pr_url }}
+        run: bash scripts/notify_version_released.sh
 
-  # deploy-ui-components:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 15
-  #   environment: dev
+  deploy-ui-components:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: dev
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-  #     - name: Set up Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 20
-  #         cache: 'npm'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
 
-  #     - name: Get Current Pull Request
-  #       uses: 8BitJonny/gh-get-current-pr@3.0.0
-  #       id: PR
+      - name: Get Current Pull Request
+        uses: 8BitJonny/gh-get-current-pr@3.0.0
+        id: PR
 
-  #     - name: Install Dependencies
-  #       run: npm ci
+      - name: Install Dependencies
+        run: npm ci
 
-  #     - name: Build ui-components
-  #       run: npm run build:ui-components
+      - name: Build ui-components
+        run: npm run build:ui-components
 
-  #     - name: Authenticate to codeartifact
-  #       run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
-  #     - name: Deploy ui-components to codeartifact
-  #       run: |
-  #         cd ./dist/ui-components
-  #         npm publish
+      - name: Deploy ui-components to codeartifact
+        run: |
+          cd ./dist/ui-components
+          npm publish
 
-  #     - name: Notify Success
-  #       if: success()
-  #       env:
-  #         pkg: ui-components
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
-  #         pr_title: ${{ steps.PR.outputs.pr_title }}
-  #         pr_url: ${{ steps.PR.outputs.pr_url }}
-  #       run: bash scripts/notify_version_released.sh
+      - name: Notify Success
+        if: success()
+        env:
+          pkg: ui-components
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_UIC }}
+          pr_title: ${{ steps.PR.outputs.pr_title }}
+          pr_url: ${{ steps.PR.outputs.pr_url }}
+        run: bash scripts/notify_version_released.sh
