@@ -3,9 +3,8 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
 import {
-  AngularComponentsItem,
+  Casing,
   DirectoryConfigService,
-  FilesItem,
 } from '../../core/services/directory-config.service';
 import { Section } from '../../core/services/state/state';
 import { StateService } from '../../core/services/state/state.service';
@@ -14,12 +13,6 @@ import {
   DirectoryItem,
   DirectorySelection,
 } from '../directory/directory.component';
-
-enum Casing {
-  Lower = 'lower',
-  Sentence = 'sentence',
-  Title = 'title',
-}
 
 @Component({
   selector: 'app-sidebar',
@@ -37,7 +30,7 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     public routerState: StateService,
-    private titleCase: TitleCasePipe,
+
     private configService: DirectoryConfigService
   ) {}
 
@@ -50,7 +43,11 @@ export class SidebarComponent implements OnInit {
       filter((config) => !!config),
       map((config) => ({
         title: config.title,
-        items: this.getDirectoryTree(config.items, 0, Casing.Sentence),
+        items: this.configService.getDirectoryTree(
+          config.items,
+          0,
+          Casing.Sentence
+        ),
       }))
     );
 
@@ -58,55 +55,9 @@ export class SidebarComponent implements OnInit {
       filter((config) => !!config),
       map((config) => ({
         title: config.title,
-        items: this.getDirectoryTree(config.items),
+        items: this.configService.getDirectoryTree(config.items),
       }))
     );
-  }
-
-  getDirectoryTree(
-    yaml: FilesItem | AngularComponentsItem,
-    level: number = 0,
-    itemCasing: Casing = Casing.Title
-  ): DirectoryItem[] {
-    let itemsArray;
-    if (yaml === undefined) {
-      return [];
-    }
-    if (Array.isArray(yaml)) {
-      itemsArray = yaml.map((item) => this.createFlatItem(item, itemCasing));
-    } else {
-      itemsArray = Object.entries(yaml).map(([key, value]) => {
-        if (typeof value === 'string' || value === null) {
-          return this.createFlatItem(key, itemCasing);
-        } else {
-          return {
-            name: this.createDisplayName(key, itemCasing),
-            value: key,
-            children: this.getDirectoryTree(value, level + 1),
-          };
-        }
-      });
-    }
-    return itemsArray as DirectoryItem[];
-  }
-
-  createFlatItem(key: string, itemCasing: Casing): DirectoryItem {
-    return {
-      name: this.createDisplayName(key, itemCasing),
-      value: key,
-    };
-  }
-
-  createDisplayName(str: string, itemCasing: Casing): string {
-    const dehyphenated = str.replace(/-/g, ' ');
-    switch (itemCasing) {
-      case Casing.Lower:
-        return dehyphenated.toLowerCase();
-      case Casing.Sentence:
-        return dehyphenated.charAt(0).toUpperCase() + dehyphenated.slice(1);
-      case Casing.Title:
-        return this.titleCase.transform(dehyphenated);
-    }
   }
 
   selectOverview(): void {

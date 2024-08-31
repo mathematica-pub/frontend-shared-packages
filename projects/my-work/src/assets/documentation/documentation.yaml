@@ -2,6 +2,6 @@
 title: Using this application
 items:
   about-this-app: about.md
-  how-to:
-    add-data: add-data.md
+  learn-how-to:
+    customize-css-for-your-work: customize-css.md
     export-an-image: export-image.md

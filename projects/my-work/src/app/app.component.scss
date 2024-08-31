@@ -3,42 +3,29 @@
 @use 'functions' as *;
 @use 'colors';
 
-$title-height: 8vh;
-$content-height: 100vh - $title-height;
+$title-height: 52px;
+$content-height: calc(100vh - $title-height);
 
 :host {
-  margin: 0px;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-}
-
-.title {
-  padding-left: grid(2);
-  padding-top: grid(4);
-  @extend %typography-h4;
-  border-bottom: 1px solid colors.$primary-200;
-  flex: 0 0 auto;
-  height: $title-height;
-  white-space: nowrap;
+  min-height: 100%;
+  margin: 0px;
 }
 
 .content-container {
   display: flex;
   flex-direction: row;
-  height: $content-height;
 }
 
 .sidebar {
-  overflow-y: auto;
+  display: block;
   width: 300px;
   min-width: 280px;
-  border-right: 1px solid colors.$primary-200;
+  border-right: 1px solid colors.$muted-primary-80;
 }
 
 .main-content {
-  overflow-y: auto;
   flex: 10 1 auto;
   padding: grid(8);
 }

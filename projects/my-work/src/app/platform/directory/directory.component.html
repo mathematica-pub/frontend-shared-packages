@@ -43,7 +43,8 @@
         tabindex="0"
         [style.--level]="level"
         [class.active]="
-          (state$ | async).activePath === path + '/' + (item.value || item.name)
+          (state$ | async).activePath ===
+          (level > 0 ? path + '/' : '') + (item.value || item.name)
         "
         (click)="selectItem(item)"
         (enter)="selectItem(item)"

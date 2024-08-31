@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { ImageDownloadOptions } from 'projects/viz-components/src/lib/image-download/image-download-options';
 import {
-  VicImage,
   VicImageDownloader,
   VicJpegImageConfig,
   VicPngImageConfig,
@@ -16,6 +15,8 @@ import {
 } from 'projects/viz-components/src/public-api';
 
 let uniqueId = 0;
+
+type FileType = 'jpeg' | 'png' | 'svg';
 
 @Component({
   selector: 'app-export-content',
@@ -26,12 +27,12 @@ let uniqueId = 0;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportContentComponent {
-  @Input() fileType: VicImage = VicImage.jpeg;
-  @Input() fileName: string;
   @Input() addTimeStamp = false;
-  @Input() width: number;
+  @Input() fileName: string;
+  @Input() fileType: FileType = 'jpeg';
   @Input() height: number;
-  @Input() padImage = true;
+  @Input() imagePadding = 8;
+  @Input() width: number;
   @ViewChild('image') image: ElementRef<HTMLElement>;
   id = uniqueId++;
 
@@ -49,11 +50,11 @@ export class ExportContentComponent {
     options: Partial<ImageDownloadOptions>
   ): VicJpegImageConfig | VicPngImageConfig | VicSvgImageConfig {
     switch (this.fileType) {
-      case VicImage.jpeg:
+      case 'jpeg':
         return new VicJpegImageConfig(options);
-      case VicImage.png:
+      case 'png':
         return new VicPngImageConfig(options);
-      case VicImage.svg:
+      case 'svg':
         return new VicSvgImageConfig(options);
     }
   }

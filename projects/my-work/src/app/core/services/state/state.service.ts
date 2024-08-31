@@ -51,8 +51,11 @@ export class StateService {
     };
   }
 
+  // full content path is always required in update
   update(update: Partial<State>): void {
-    let paths = [`/${update.section}`];
+    const section =
+      update.section ?? this.getStateFromUrl(this.router.url).section;
+    let paths = [`/${section}`];
     if (update.contentPath) {
       const contentPath = update.contentPath.split('/');
       paths = [...paths, ...contentPath];

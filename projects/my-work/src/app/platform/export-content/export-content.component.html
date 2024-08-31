@@ -9,10 +9,10 @@
 <div
   #imageContainer
   class="image-container"
-  [style.width.px]="width ? width + (padImage ? 8 : 0) : null"
-  [style.height.px]="height ? height + (padImage ? 8 : 0) : null"
+  [style.width.px]="width ? width + imagePadding : null"
+  [style.height.px]="height ? height + imagePadding : null"
 >
-  <div #image class="image" [style.padding]="padImage ? '8px' : 0">
+  <div #image class="image" [style.padding.px]="imagePadding">
     <ng-content></ng-content>
   </div>
 </div>

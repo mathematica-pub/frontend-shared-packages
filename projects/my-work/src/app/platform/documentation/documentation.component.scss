@@ -1,26 +1,139 @@
 @use 'functions' as *;
+@use 'placeholders' as *;
 @use 'colors';
+@use 'vars' as *;
 
 .documentation-container {
   margin: 0 auto;
   max-width: 1200px;
 
-  .injected-html {
-    max-width: 900px;
+  .documentation-content {
+    display: flex;
+    gap: grid(30);
+    margin-top: grid(6);
+  }
 
-    h3:first-child {
-      margin: grid(4) 0 grid(8) 0;
+  .document-index {
+    $top: grid(36);
+    display: block;
+    position: sticky;
+    top: $top;
+    height: calc(100vh - $top);
+  }
+
+  .main-content {
+    width: 75%;
+  }
+
+  .nav-siblings {
+    padding-top: grid(10);
+    padding-bottom: grid(20);
+  }
+
+  .injected-html {
+    h1 {
+      @extend %typography-h4;
+      margin: 0 0 grid(7) 0;
       width: 100%;
-      border-bottom: 1px solid colors.$primary-400;
     }
 
+    h2 {
+      @extend %typography-h5;
+    }
+
+    h3 {
+      @extend %typography-h6;
+    }
+
+    h2,
+    h3,
     h4 {
-      margin-bottom: grid(6);
+      margin: 0;
+      padding-top: grid(4);
+      padding-bottom: grid(6);
     }
 
     p {
-      margin-bottom: grid(6);
+      padding-bottom: grid(6);
       line-height: 1.8;
+    }
+
+    ol {
+      margin: 0;
+      padding-bottom: grid(6);
+    }
+
+    li > p:not(.code-caption) {
+      padding-bottom: grid(4);
+    }
+
+    pre {
+      margin: 0;
+      padding-bottom: grid(6);
+    }
+
+    a {
+      cursor: pointer;
+      color: colors.$primary-40;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .shiki {
+      margin: 0;
+      padding: grid(4);
+      border: 1px solid colors.$muted-primary-90;
+      border-radius: grid(2);
+      margin-bottom: grid(8);
+    }
+
+    p.code-caption {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      font-style: italic;
+
+      code {
+        font-style: normal;
+      }
+    }
+
+    p.code-caption + pre.shiki {
+      display: block;
+      margin-top: 2px;
+    }
+
+    p:has(> code) + hr {
+      margin: 0;
+      border-top: 1px solid colors.$muted-primary-80;
+      margin-bottom: grid(6);
+    }
+
+    P:has(> code):has(+ hr) {
+      padding-bottom: grid(2);
+    }
+
+    h1 > code,
+    h2 > code,
+    h3 > code,
+    h4 > code,
+    h5 > code,
+    h6 > code,
+    li > code,
+    p > code {
+      font-family: $code-font;
+      font-weight: 500;
+      padding-left: grid(1);
+      padding-right: grid(1);
+      background: colors.$muted-primary-98;
+      border-radius: grid(1);
+      color: colors.$primary-40;
+      padding: grid(1);
+    }
+
+    p > code {
+      font-size: 15px;
     }
   }
 }

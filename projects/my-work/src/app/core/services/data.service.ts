@@ -14,10 +14,6 @@ export class DataService {
     const splitFilePath = filePath.split('.');
     const fileExtension = splitFilePath[splitFilePath.length - 1];
     switch (fileExtension) {
-      case 'yaml':
-        return this.file.getYamlFile(filePath);
-      case 'md':
-        return this.file.getMarkdownFile(filePath);
       case 'csv':
         return this.file
           .getCsvFile(filePath)
@@ -26,7 +22,7 @@ export class DataService {
         return this.file.getJsonFile(filePath);
       default:
         console.error(
-          'File type not supported. Please provide a path with a file extension of .yaml, .md, .csv, or .json'
+          'File type not supported. Please provide a path with a file extension of .csv or .json'
         );
         return of(null);
     }

@@ -6,10 +6,21 @@
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  padding: grid(4) grid(2) grid(2) grid(4);
+  padding: grid(3) grid(2) grid(2) grid(4);
+  height: 100%;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
+
+  .application-title {
+    @extend %typography-h6;
+    padding-bottom: grid(2);
+    border-bottom: 1px solid colors.$muted-primary-80;
+    white-space: nowrap;
+  }
 
   .top-border {
-    border-top: 1px solid colors.$primary-100;
+    border-top: 1px solid colors.$muted-primary-90;
     margin-top: grid(4);
     padding-top: grid(3);
   }
@@ -24,7 +35,7 @@
 
   .title.docs {
     @extend %typography-overline-large;
-    padding: grid(1) 0;
+    padding: grid(4) 0 grid(1) 0;
     display: flex;
     justify-content: space-between;
     align-items: center;

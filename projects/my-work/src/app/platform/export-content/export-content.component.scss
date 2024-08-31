@@ -30,8 +30,8 @@
 
 .download-button {
   cursor: pointer;
-  border: 1px solid colors.$primary-100;
-  background-color: colors.$primary-50;
+  border: 1px solid colors.$muted-primary-90;
+  background-color: colors.$muted-primary-95;
   display: flex;
   gap: grid(1);
   align-items: center;
@@ -41,14 +41,14 @@
 }
 
 .download-button:hover {
-  border-color: colors.$highlight-light;
-  background-color: colors.$highlight-light;
+  border-color: colors.$primary-50;
+  background-color: colors.$primary-50;
   color: white;
 }
 
 .image-container {
   margin: grid(2) 0;
-  border: 1px dashed colors.$primary-400;
+  border: 1px dashed colors.$muted-primary-50;
   padding: grid(2);
   border-radius: grid(2);
 }

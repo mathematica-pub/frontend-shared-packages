@@ -14,7 +14,7 @@ body {
   width: 100vw;
   overflow-x: hidden;
   background: white;
-  color: colors.$primary-text;
+  color: $color-text;
   font-family: $sans-font;
   font-size: 1rem;
 
@@ -23,7 +23,7 @@ body {
   }
 
   ::-webkit-scrollbar-thumb {
-    background: colors.$primary-200;
+    background: colors.$muted-primary-80;
   }
 }
 
@@ -47,7 +47,7 @@ p {
 button,
 a {
   cursor: pointer;
-  color: colors.$primary-text;
+  color: $color-text;
 }
 
 button {
