@@ -41,7 +41,6 @@ interface NestedObject {
   [key: string]: string | NestedObject;
 }
 
-// Define the return type of our main function
 export interface NavigationSiblings {
   previous: string | undefined;
   next: string | undefined;
