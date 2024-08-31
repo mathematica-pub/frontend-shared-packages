@@ -5,10 +5,10 @@ data visualizations that do not need to be embedded in a hosted application. The
 with the production of static charts in mind, but we look forward to seeing the different ways it is
 useful and growing the app to meet user needs.
 
-The app provides users with an Angular application designed to make it easy for users to add data to
-the application and write code to make charts from that data. Users can aggregate their work over
-time, and without writing code, add their charts to a directory structure in the side bar of the
-app, essentially building up a collection of their work that they can return to over time.
+The app is designed to make it easy for users to add data to the application and create Angular
+components to make charts from that data. Users can aggregate their work over time, and without
+writing code, add their charts to a directory structure in the side bar of the app, building up a
+collection of their work that they can return to over time.
 
 ## Quick Start Guide
 
