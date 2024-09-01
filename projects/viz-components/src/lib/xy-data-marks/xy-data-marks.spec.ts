@@ -25,7 +25,6 @@ describe('XyDataMarks abstract class', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'subscribeToRanges');
       spyOn(abstractClass, 'subscribeToScales');
-      spyOn(abstractClass, 'initFromConfig');
     });
     it('calls subscribeToRanges()', () => {
       abstractClass.ngOnInit();
@@ -34,10 +33,6 @@ describe('XyDataMarks abstract class', () => {
     it('calls subscribeToScales()', () => {
       abstractClass.ngOnInit();
       expect(abstractClass.subscribeToScales).toHaveBeenCalledTimes(1);
-    });
-    it('calls initFromConfig()', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -54,6 +49,7 @@ describe('XyDataMarks abstract class', () => {
         abstractClass,
         'setChartScalesFromRanges'
       );
+      spyOn(abstractClass, 'initFromConfig');
     });
 
     it('sets ranges to the emitted value from the subscription', () => {
@@ -89,6 +85,10 @@ describe('XyDataMarks abstract class', () => {
         setChartScalesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
         expect(abstractClass.setChartScalesFromRanges).not.toHaveBeenCalled();
+      });
+      it('calls initFromConfig', () => {
+        abstractClass.subscribeToRanges();
+        expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
       });
     });
 
