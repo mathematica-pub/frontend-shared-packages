@@ -42,7 +42,7 @@ describe('XyDataMarks abstract class', () => {
   });
 
   describe('subscribeToRanges', () => {
-    let setPropertiesFromRangesSpy: jasmine.Spy;
+    let setChartScalesFromRangesSpy: jasmine.Spy;
     beforeEach(() => {
       abstractClass.chart = {
         ranges: new BehaviorSubject<any>(null),
@@ -50,9 +50,9 @@ describe('XyDataMarks abstract class', () => {
       abstractClass.chart.ranges$ = (
         abstractClass.chart as any
       ).ranges.asObservable();
-      setPropertiesFromRangesSpy = spyOn(
+      setChartScalesFromRangesSpy = spyOn(
         abstractClass,
-        'setPropertiesFromRanges'
+        'setChartScalesFromRanges'
       );
     });
 
@@ -73,7 +73,7 @@ describe('XyDataMarks abstract class', () => {
       });
       it('calls setPropertiesFromRanges once with the correct values', () => {
         abstractClass.subscribeToRanges();
-        setPropertiesFromRangesSpy.calls.reset();
+        setChartScalesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
         expect(abstractClass.setChartScalesFromRanges).toHaveBeenCalledTimes(1);
       });
@@ -86,7 +86,7 @@ describe('XyDataMarks abstract class', () => {
       });
       it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
-        setPropertiesFromRangesSpy.calls.reset();
+        setChartScalesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
         expect(abstractClass.setChartScalesFromRanges).not.toHaveBeenCalled();
       });
@@ -103,7 +103,7 @@ describe('XyDataMarks abstract class', () => {
       });
       it('does not call setPropertiesFromRanges', () => {
         abstractClass.subscribeToRanges();
-        setPropertiesFromRangesSpy.calls.reset();
+        setChartScalesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
         expect(abstractClass.setChartScalesFromRanges).not.toHaveBeenCalled();
       });

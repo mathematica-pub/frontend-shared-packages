@@ -48,10 +48,10 @@ describe('DataMarks abstract class', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'setPropertiesFromRanges');
+      spyOn(abstractClass, 'setChartScalesFromRanges');
       abstractClass.initFromConfig();
     });
-    it('calls setPropertiesFromRanges()', () => {
+    it('calls setChartScalesFromRanges()', () => {
       expect(abstractClass.setChartScalesFromRanges).toHaveBeenCalledTimes(1);
     });
   });

@@ -24,7 +24,7 @@ describe('GeographiesComponent', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
-      spyOn(component, 'setPropertiesFromRanges');
+      spyOn(component, 'setChartScalesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
       component.config = new VicGeographiesConfigBuilder<
         Datum,
