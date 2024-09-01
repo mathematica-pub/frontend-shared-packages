@@ -25,6 +25,7 @@ import {
   startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../core/types/layout';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 
@@ -115,14 +116,18 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
   protected destroyRef = inject(DestroyRef);
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['height']) {
+    if (
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'height')
+    ) {
       this.setAspectRatio();
       this._height.next(this.height);
     }
-    if (changes['width']) {
+    if (NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'width')) {
       this.setAspectRatio();
     }
-    if (changes['margin']) {
+    if (
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'margin')
+    ) {
       this._margin.next(this.margin);
     }
   }
@@ -155,6 +160,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
     this.svgDimensions$ = combineLatest([divWidth$, height$]).pipe(
       filter(([divWidth, height]) => divWidth > 0 && height > 0),
       map(([divWidth]) => this.getSvgDimensionsFromDivWidth(divWidth)),
+      distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
 
@@ -166,8 +172,19 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
 
     this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
       map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
+      distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
+
+    this.svgDimensions$.subscribe((dimensions) => {
+      console.log('dimensions', dimensions);
+    });
+    this.ranges$.subscribe((ranges) => {
+      console.log('ranges', ranges);
+    });
+    this.margin$.subscribe((margin) => {
+      console.log('margin', margin);
+    });
   }
 
   getDivWidthResizeObservable(): Observable<number> {
