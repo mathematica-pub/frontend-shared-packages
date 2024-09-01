@@ -43,7 +43,7 @@ export abstract class VicXyDataMarks<
           this.scales &&
           this.requiredScales.every((scale) => this.scales[scale])
         ) {
-          this.setPropertiesFromRanges(false);
+          this.setChartScalesFromRanges(false);
         }
       });
   }

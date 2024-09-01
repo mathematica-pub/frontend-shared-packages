@@ -52,7 +52,7 @@ describe('DataMarks abstract class', () => {
       abstractClass.initFromConfig();
     });
     it('calls setPropertiesFromRanges()', () => {
-      expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
+      expect(abstractClass.setChartScalesFromRanges).toHaveBeenCalledTimes(1);
     });
   });
 });

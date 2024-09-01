@@ -12,7 +12,7 @@ export class DataMarksStub<Datum> extends DataMarks<
     throw new Error('Method not implemented.');
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  override setPropertiesFromRanges(useTransition: boolean): void {
+  override setChartScalesFromRanges(useTransition: boolean): void {
     return;
   }
 }

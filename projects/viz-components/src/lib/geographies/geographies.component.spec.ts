@@ -51,7 +51,7 @@ describe('GeographiesComponent', () => {
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
-      expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
+      expect(component.setChartScalesFromRanges).toHaveBeenCalledTimes(1);
     });
     it('calls updateChartAttributeProperties once', () => {
       component.initFromConfig();
@@ -65,11 +65,11 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setPath');
     });
     it('calls setProjection once', () => {
-      component.setPropertiesFromRanges();
+      component.setChartScalesFromRanges();
       expect(component.setProjection).toHaveBeenCalledTimes(1);
     });
     it('calls setPath once', () => {
-      component.setPropertiesFromRanges();
+      component.setChartScalesFromRanges();
       expect(component.setPath).toHaveBeenCalledTimes(1);
     });
   });

@@ -7,7 +7,7 @@ export class MapDataMarksBaseStub<Datum> extends MapDataMarks<
   DataMarksOptions<Datum>
 > {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  override setPropertiesFromRanges(useTransition: boolean): void {
+  override setChartScalesFromRanges(useTransition: boolean): void {
     return;
   }
   drawMarks(): void {

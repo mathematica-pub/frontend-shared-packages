@@ -28,7 +28,7 @@ export interface VicIData extends VicICommon {
    * This method is called on init, after config-based properties are set, and also on
    * resize/when ranges change.
    */
-  setPropertiesFromRanges: (useTransition: boolean) => void;
+  setChartScalesFromRanges: (useTransition: boolean) => void;
 }
 
 export interface VicIMarks extends VicICommon {
@@ -69,7 +69,7 @@ export abstract class DataMarks<
 
   abstract drawMarks(): void;
   abstract getTransitionDuration(): number;
-  abstract setPropertiesFromRanges(useTransition: boolean): void;
+  abstract setChartScalesFromRanges(useTransition: boolean): void;
 
   ngOnChanges(changes: SimpleChanges): void {
     const config = changes['config'];
@@ -83,6 +83,6 @@ export abstract class DataMarks<
   }
 
   initFromConfig(): void {
-    this.setPropertiesFromRanges(true);
+    this.setChartScalesFromRanges(true);
   }
 }

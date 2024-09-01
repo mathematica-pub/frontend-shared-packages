@@ -75,7 +75,7 @@ describe('XyDataMarks abstract class', () => {
         abstractClass.subscribeToRanges();
         setPropertiesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
-        expect(abstractClass.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
+        expect(abstractClass.setChartScalesFromRanges).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -88,7 +88,7 @@ describe('XyDataMarks abstract class', () => {
         abstractClass.subscribeToRanges();
         setPropertiesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
-        expect(abstractClass.setPropertiesFromRanges).not.toHaveBeenCalled();
+        expect(abstractClass.setChartScalesFromRanges).not.toHaveBeenCalled();
       });
     });
 
@@ -105,7 +105,7 @@ describe('XyDataMarks abstract class', () => {
         abstractClass.subscribeToRanges();
         setPropertiesFromRangesSpy.calls.reset();
         (abstractClass.chart as any).ranges.next('test range');
-        expect(abstractClass.setPropertiesFromRanges).not.toHaveBeenCalled();
+        expect(abstractClass.setChartScalesFromRanges).not.toHaveBeenCalled();
       });
     });
   });

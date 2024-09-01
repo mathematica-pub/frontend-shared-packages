@@ -80,7 +80,7 @@ export class BarsComponent<
   barLabels$ = this.bars.asObservable();
   protected zone = inject(NgZone);
 
-  setPropertiesFromRanges(useTransition: boolean): void {
+  setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
       this.ranges.x
     );

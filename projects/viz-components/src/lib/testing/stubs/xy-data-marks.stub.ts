@@ -6,7 +6,7 @@ export class XyDataMarksStub<Datum> extends VicXyDataMarks<
   DataMarksConfig<Datum>
 > {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  override setPropertiesFromRanges(useTransition: boolean): void {
+  override setChartScalesFromRanges(useTransition: boolean): void {
     return;
   }
   override drawMarks(): void {

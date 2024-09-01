@@ -98,19 +98,19 @@ describe('BarsComponent', () => {
         ).and.returnValue('quantitative scale' as any);
       });
       it('calls the scale for x dimension once', () => {
-        component.setPropertiesFromRanges(true);
+        component.setChartScalesFromRanges(true);
         expect(
           component.config.quantitative.getScaleFromRange
         ).toHaveBeenCalledOnceWith([1, 2]);
       });
       it('calls the scale for y dimension once', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(
           component.config.ordinal.getScaleFromRange
         ).toHaveBeenCalledOnceWith([3, 4]);
       });
       it('calls updateScales once with the correct value', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
@@ -134,19 +134,19 @@ describe('BarsComponent', () => {
         ).and.returnValue('quantitative scale' as any);
       });
       it('calls the scale for x dimension once', () => {
-        component.setPropertiesFromRanges(true);
+        component.setChartScalesFromRanges(true);
         expect(
           component.config.ordinal.getScaleFromRange
         ).toHaveBeenCalledOnceWith([1, 2]);
       });
       it('calls the scale for y dimension once', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(
           component.config.quantitative.getScaleFromRange
         ).toHaveBeenCalledOnceWith([3, 4]);
       });
       it('calls updateScales once with the correct value', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'ordinal scale',
           y: 'quantitative scale',

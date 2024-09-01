@@ -42,7 +42,7 @@ export class StackedAreaComponent<
     super();
   }
 
-  setPropertiesFromRanges(useTransition: boolean): void {
+  setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
     const categorical = this.config.categorical.getScale();

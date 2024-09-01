@@ -80,7 +80,7 @@ export class GeographiesComponent<
   }
 
   override initFromConfig(): void {
-    this.setPropertiesFromRanges();
+    this.setChartScalesFromRanges();
     if (this.config.attributeDataLayer) {
       this.updateChartAttributeProperties();
     } else {
@@ -88,7 +88,7 @@ export class GeographiesComponent<
     }
   }
 
-  setPropertiesFromRanges(): void {
+  setChartScalesFromRanges(): void {
     this.setProjection();
     this.setPath();
   }

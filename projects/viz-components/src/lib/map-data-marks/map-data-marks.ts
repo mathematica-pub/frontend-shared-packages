@@ -34,7 +34,7 @@ export abstract class MapDataMarks<
       .subscribe((ranges) => {
         this.ranges = ranges;
         if (this.attributeDataScale && this.attributeDataConfig) {
-          this.setPropertiesFromRanges(false);
+          this.setChartScalesFromRanges(false);
           this.drawMarks();
         }
       });
