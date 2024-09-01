@@ -8,6 +8,7 @@ import {
   XyChartScales,
   XyContentScale,
 } from '../xy-chart/xy-chart.component';
+import { XyMarks } from '../xy-marks/xy-marks';
 
 /**
  * @internal
@@ -15,10 +16,10 @@ import {
 @Directive()
 export abstract class VicXyDataMarks<
     Datum,
-    TDataMarkConfig extends DataMarksOptions<Datum>,
+    TDataMarksConfig extends DataMarksOptions<Datum>,
   >
-  extends DataMarks<Datum, TDataMarkConfig>
-  implements OnInit
+  extends DataMarks<Datum, TDataMarksConfig>
+  implements OnInit, XyMarks
 {
   scales: XyChartScales;
   requiredScales: (keyof typeof XyContentScale)[] = [
@@ -39,6 +40,7 @@ export abstract class VicXyDataMarks<
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((ranges) => {
         this.ranges = ranges;
+        console.log('ranges', ranges);
         if (
           this.scales &&
           this.requiredScales.every((scale) => this.scales[scale])

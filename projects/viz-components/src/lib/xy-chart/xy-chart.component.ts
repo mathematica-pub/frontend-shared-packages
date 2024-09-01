@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter } from 'rxjs';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
@@ -51,9 +51,10 @@ export interface XyChartScales {
 })
 export class XyChartComponent extends ChartComponent implements Chart, OnInit {
   private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);
-  scales$ = this.scales.asObservable();
+  scales$ = this.scales.asObservable().pipe(filter((scales) => !!scales));
 
   updateScales(scales: Partial<XyChartScales>): void {
+    console.log('updateScales', scales);
     this.scales.next({ ...this.scales.value, ...scales });
   }
 }

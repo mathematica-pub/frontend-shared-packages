@@ -1,0 +1,105 @@
+import { Injectable } from '@angular/core';
+import { MarksBuilder } from '../../marks/config/marks-builder';
+import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
+import { RulesLabelsBuilder } from './labels/rules-label-builder';
+import { RulesConfig } from './rules-config';
+import {
+  HORIZONTAL_RULE_DIMENSIONS,
+  RulesDimensions,
+  VERTICAL_RULE_DIMENSIONS,
+} from './rules-dimensions';
+
+const DEFAULT = {
+  _color: '#cccccc',
+};
+
+@Injectable()
+export class VicRulesConfigBuilder<
+  Datum extends number | Date,
+> extends MarksBuilder<Datum> {
+  protected _color: (d: Datum) => string;
+  protected dimensions: RulesDimensions;
+  protected _orientation: 'horizontal' | 'vertical';
+  private strokeBuilder: StrokeBuilder;
+  private labelsBuilder: RulesLabelsBuilder<Datum>;
+
+  constructor() {
+    super();
+    Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Sets the color of the rule.
+   *
+   * Default is #cccccc.
+   */
+  color(color: string | ((d: Datum) => string)): this {
+    if (typeof color === 'string') {
+      this._color = () => color;
+    } else {
+      this._color = color;
+    }
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the orientation of the rule.
+   */
+  orientation(orientation: 'horizontal' | 'vertical'): this {
+    this._orientation = orientation;
+    this.dimensions =
+      orientation === 'horizontal'
+        ? HORIZONTAL_RULE_DIMENSIONS
+        : VERTICAL_RULE_DIMENSIONS;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. A config for the behavior of the rule stroke.
+   */
+  createStroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+    this.initStrokeBuilder();
+    setProperties?.(this.strokeBuilder);
+    return this;
+  }
+
+  private initStrokeBuilder(): void {
+    this.strokeBuilder = new StrokeBuilder();
+  }
+
+  /**
+   * OPTIONAL. A config for the behavior of the rule labels.
+   */
+  createLabels(
+    setProperties?: (labels: RulesLabelsBuilder<Datum>) => void
+  ): this {
+    this.labelsBuilder = new RulesLabelsBuilder();
+    setProperties?.(this.labelsBuilder);
+    return this;
+  }
+
+  /**
+   * REQUIRED. Builds the configuration object for the RuleComponent.
+   */
+  getConfig(): RulesConfig<Datum> {
+    this.validateBuilder();
+    return new RulesConfig({
+      color: this._color,
+      data: this._data,
+      dimensions: this.dimensions,
+      labels: this.labelsBuilder?._build(),
+      mixBlendMode: this._mixBlendMode,
+      stroke: this.strokeBuilder._build(),
+    });
+  }
+
+  protected override validateBuilder(): void {
+    super.validateBuilder('Rule');
+    if (this.strokeBuilder === undefined) {
+      this.initStrokeBuilder();
+    }
+    if (this.labelsBuilder) {
+      this.labelsBuilder.validateBuilder(this._orientation, this._color);
+    }
+  }
+}

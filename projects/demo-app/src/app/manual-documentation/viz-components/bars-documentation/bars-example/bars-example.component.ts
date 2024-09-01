@@ -11,6 +11,7 @@ import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-con
 import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/events/bars-event-output';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
+import { RulesConfig } from 'projects/viz-components/src/lib/rule/config/rules-config';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   BarsHoverMoveDirective,
@@ -20,6 +21,8 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
+  VicRuleModule,
+  VicRulesConfigBuilder,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
@@ -37,6 +40,7 @@ interface ViewModel {
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
+  ruleConfig: RulesConfig<number>;
 }
 
 enum Orientation {
@@ -50,6 +54,7 @@ enum Orientation {
     CommonModule,
     VicChartModule,
     VicBarsModule,
+    VicRuleModule,
     VicXyChartModule,
     VicXyBackgroundModule,
     VicXOrdinalAxisModule,
@@ -70,6 +75,7 @@ enum Orientation {
     VicYOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
+    VicRulesConfigBuilder,
   ],
 })
 export class BarsExampleComponent implements OnInit {
@@ -105,7 +111,8 @@ export class BarsExampleComponent implements OnInit {
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder
+    private tooltip: VicHtmlTooltipConfigBuilder,
+    private rule: VicRulesConfigBuilder<number>
   ) {}
 
   ngOnInit(): void {
@@ -150,10 +157,20 @@ export class BarsExampleComponent implements OnInit {
       .createLabels((labels) => labels.display(true))
       .getConfig();
 
+    console.log('get vm', orientation);
+
+    const ruleConfig = this.rule
+      .data([6])
+      .orientation(orientation === 'horizontal' ? 'vertical' : 'horizontal')
+      .color('red')
+      .createLabels((labels) => labels.value((d) => `benchmark (${d})`))
+      .getConfig();
+
     return {
       dataConfig,
       xAxisConfig,
       yAxisConfig,
+      ruleConfig,
     };
   }
 
@@ -204,5 +221,15 @@ export class BarsExampleComponent implements OnInit {
 
   updateOrientation(value: keyof typeof Orientation): void {
     this.orientation.next(value);
+    this.updateMargin(value);
+  }
+
+  updateMargin(orientation: keyof typeof Orientation): void {
+    this.margin = {
+      top: 36,
+      right: 0,
+      bottom: 8,
+      left: orientation === Orientation.horizontal ? 300 : 36,
+    };
   }
 }

@@ -10,7 +10,7 @@ import {
   HORIZONTAL_BARS_DIMENSIONS,
   VERTICAL_BARS_DIMENSIONS,
 } from './bars-dimensions';
-import { BarsLabelsBuilder } from './labels/bar-labels-builder';
+import { BarsLabelsBuilder } from './labels/bars-labels-builder';
 
 /**
  * Builds a configuration object for a BarsComponent.

@@ -65,6 +65,9 @@ export * from './lib/map-chart/map-chart.component';
 export * from './lib/map-chart/map-chart.module';
 export * from './lib/map-legend/map-legend.component';
 export * from './lib/map-legend/map-legend.module';
+export * from './lib/rule/config/rules-builder';
+export * from './lib/rule/rules.component';
+export * from './lib/rule/rules.module';
 export * from './lib/stacked-area/config/stacked-area-builder';
 export * from './lib/stacked-area/events/actions/stacked-area-hover-move-actions';
 export * from './lib/stacked-area/events/stacked-area-hover-move.directive';
@@ -82,3 +85,4 @@ export * from './lib/xy-background/xy-background.component';
 export * from './lib/xy-background/xy-background.module';
 export * from './lib/xy-chart/xy-chart.component';
 export * from './lib/xy-chart/xy-chart.module';
+

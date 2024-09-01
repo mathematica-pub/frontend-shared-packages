@@ -89,6 +89,7 @@ export class BarsComponent<
     );
     const categorical = this.config.categorical.getScale();
     this.zone.run(() => {
+      console.log('bars updateScales', { x, y, categorical });
       this.chart.updateScales({ x, y, categorical, useTransition });
     });
   }
