@@ -32,7 +32,6 @@ export abstract class VicXyDataMarks<
   ngOnInit(): void {
     this.subscribeToRanges();
     this.subscribeToScales();
-    this.initFromConfig();
   }
 
   subscribeToRanges(): void {
@@ -40,12 +39,13 @@ export abstract class VicXyDataMarks<
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((ranges) => {
         this.ranges = ranges;
-        console.log('ranges', ranges);
         if (
           this.scales &&
           this.requiredScales.every((scale) => this.scales[scale])
         ) {
           this.setChartScalesFromRanges(false);
+        } else {
+          this.initFromConfig();
         }
       });
   }

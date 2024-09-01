@@ -41,8 +41,6 @@ export abstract class VicXyMarks<
       )
       .subscribe((scales): void => {
         this.scales = scales;
-        // console.log(this.scales.x.range(), this.scales.y.range());
-        // console.log(this.scales.x.domain(), this.scales.y.domain());
         this.drawMarks();
       });
   }

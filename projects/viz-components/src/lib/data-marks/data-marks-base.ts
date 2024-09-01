@@ -7,9 +7,9 @@ import {
   SimpleChanges,
   inject,
 } from '@angular/core';
-import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { DataMarksOptions } from './config/data-marks-options';
 
 export interface VicICommon {
@@ -72,17 +72,15 @@ export abstract class DataMarks<
   abstract setChartScalesFromRanges(useTransition: boolean): void;
 
   ngOnChanges(changes: SimpleChanges): void {
-    const config = changes['config'];
     if (
-      config &&
-      !config.isFirstChange() &&
-      !isEqual(config.currentValue, config.previousValue)
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.initFromConfig();
     }
   }
 
   initFromConfig(): void {
+    console.log('data marks init from config method');
     this.setChartScalesFromRanges(true);
   }
 }

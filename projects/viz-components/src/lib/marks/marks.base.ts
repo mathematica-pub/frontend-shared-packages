@@ -1,7 +1,7 @@
 import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { isEqual } from 'lodash-es';
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 import { VicIMarks } from '../data-marks/data-marks-base';
 import { MarksOptions } from './config/marks-options';
 
@@ -16,11 +16,8 @@ export abstract class Marks<Datum, TMarksConfig extends MarksOptions<Datum>>
   ranges: Ranges;
 
   ngOnChanges(changes: SimpleChanges): void {
-    const config = changes['config'];
     if (
-      config &&
-      !config.isFirstChange() &&
-      !isEqual(config.currentValue, config.previousValue)
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
     ) {
       this.initFromConfig();
     }

@@ -22,6 +22,7 @@ import {
   merge,
   of,
   shareReplay,
+  skip,
   startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../core/types/layout';
@@ -149,8 +150,10 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
         min([this.divRef.nativeElement.offsetWidth, this.width])
       );
       const divWidthResize$ = this.getDivWidthResizeObservable();
-      divWidth$ = merge(width$, divWidthResize$).pipe(distinctUntilChanged());
+      // ensure that there is always a subscription to divWidthResize$ so that it emits
       divWidthResize$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+
+      divWidth$ = merge(width$, divWidthResize$).pipe(distinctUntilChanged());
     } else {
       divWidth$ = of(this.width);
     }
@@ -170,21 +173,17 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       shareReplay(1)
     );
 
-    this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
+    this.ranges$ = combineLatest([
+      // svgDimensions will emit twice if scaleChartWithContainerWidth.width is true, skip the first
+      this.svgDimensions$.pipe(
+        skip(this.scaleChartWithContainerWidth.width ? 1 : 0)
+      ),
+      margin$,
+    ]).pipe(
       map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
       distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
-
-    this.svgDimensions$.subscribe((dimensions) => {
-      console.log('dimensions', dimensions);
-    });
-    this.ranges$.subscribe((ranges) => {
-      console.log('ranges', ranges);
-    });
-    this.margin$.subscribe((margin) => {
-      console.log('margin', margin);
-    });
   }
 
   getDivWidthResizeObservable(): Observable<number> {

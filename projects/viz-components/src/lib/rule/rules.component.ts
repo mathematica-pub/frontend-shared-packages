@@ -131,12 +131,13 @@ export class RulesComponent<Datum extends number | Date> extends VicXyMarks<
     let y;
     if (this.config.dimensions.isHorizontal) {
       x = this.scales.x.range()[0];
-      y = this.getYStart(d);
+      // || 0 handles cases where both the scale and this component's config are changing at the same time.
+      // For example, if this is used in a bar chart that it toggling between horizontal and vertical, the bar chart's scale will change before this component's dimensions change, and getYStart/getXStart will return undefined.
+      y = this.getYStart(d) || 0;
     } else {
-      x = this.getXStart(d);
+      x = this.getXStart(d) || 0;
       y = this.scales.y.range()[0];
     }
-    console.log('getRuleTransform', x, y, this.config.dimensions);
     return `translate(${x}, ${y})`;
   }
 
@@ -144,7 +145,6 @@ export class RulesComponent<Datum extends number | Date> extends VicXyMarks<
     if (this.config.dimensions.isHorizontal) {
       return this.scales.x.range()[0];
     }
-    console.log('d', d);
     return this.scales.x(d);
   }
 
