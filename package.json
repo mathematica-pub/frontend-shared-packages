@@ -20,7 +20,7 @@
     "build:viz-components": "ng build viz-components",
     "build:ui-components": "ng build ui-components",
     "build:demo-app": "ng build demo-app",
-    "build:documentation": "bash ./build-compodoc-documentation.sh",
+    "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
     "watch": "ng build --watch --configuration development",
     "watch:viz-components": "ng build viz-components --watch",
     "watch:ui-components": "ng build ui-components --watch",
@@ -32,8 +32,12 @@
     "lint:my-work": "ng lint my-work",
     "lint:viz-components": "ng lint viz-components",
     "lint:ui-components": "ng lint ui-components",
-    "compodoc:build:viz-components": "npx compodoc -p projects/viz-components/tsconfig.doc.json -d documentation/viz-components",
-    "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d documentation/ui-components",
+    "compodoc:build:viz-components": "npx compodoc -p projects/viz-components/tsconfig.doc.json -d compodoc-docs/viz-components",
+    "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d compodoc-docs/ui-components",
+    "process-docs:viz-components": "tsx projects/demo-app/documentation-generator/documentation-parser.ts --lib viz-components",
+    "process-docs:ui-components": "tsx projects/demo-app/documentation-generator/documentation-parser.ts --lib ui-components",
+    "build:docs:viz-components": "npm run compodoc:build:viz-components && npm run process-docs:viz-components",
+    "build:docs:ui-components": "npm run compodoc:build:ui-components && npm run process-docs:ui-components",
     "cypress:open": "cypress open",
     "cypress:component:ci": "cypress run --component --browser chrome"
   },
@@ -103,10 +107,12 @@
     "karma-jasmine-html-reporter": "~1.7.0",
     "karma-junit-reporter": "^2.0.1",
     "local-cypress": "^1.2.6",
+    "minimist": "^1.2.8",
     "ng-packagr": "^18.2.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
+    "tsx": "^4.17.0",
     "typescript": "~5.4.5"
   }
 }
