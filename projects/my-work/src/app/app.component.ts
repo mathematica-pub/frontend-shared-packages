@@ -1,7 +1,7 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { StateService } from './core/services/state/state.service';
+import { RouterStateService } from './core/services/router-state/router-state.service';
 import { SidebarComponent } from './platform/sidebar/sidebar.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
 export class AppComponent implements OnInit {
   title = 'HSI Static Charts';
 
-  constructor(public routerState: StateService) {}
+  constructor(public routerState: RouterStateService) {}
 
   ngOnInit(): void {
     this.routerState.initialize();

@@ -6,8 +6,8 @@ import {
   Casing,
   DirectoryConfigService,
 } from '../../core/services/directory-config.service';
-import { Section } from '../../core/services/state/state';
-import { StateService } from '../../core/services/state/state.service';
+import { RouterStateService } from '../../core/services/router-state/router-state.service';
+import { Section } from '../../core/services/router-state/state';
 import {
   DirectoryComponent,
   DirectoryItem,
@@ -29,7 +29,7 @@ export class SidebarComponent implements OnInit {
   docsItems$: Observable<{ title: string; items: DirectoryItem[] }>;
 
   constructor(
-    public routerState: StateService,
+    public routerState: RouterStateService,
 
     private configService: DirectoryConfigService
   ) {}

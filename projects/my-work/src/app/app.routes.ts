@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { Section } from './core/services/state/state';
+import { Section } from './core/services/router-state/state';
 
 export const APP_ROUTES: Routes = [
   {

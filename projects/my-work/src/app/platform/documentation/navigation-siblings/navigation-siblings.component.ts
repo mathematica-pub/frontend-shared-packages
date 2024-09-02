@@ -9,8 +9,8 @@ import {
   Casing,
   DirectoryConfigService,
 } from '../../../core/services/directory-config.service';
-import { Section } from '../../../core/services/state/state';
-import { StateService } from '../../../core/services/state/state.service';
+import { RouterStateService } from '../../../core/services/router-state/router-state.service';
+import { Section } from '../../../core/services/router-state/state';
 import { NavigationSiblings } from '../documentation.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class NavigationSiblingsComponent implements OnChanges {
   next: string;
 
   constructor(
-    private routerState: StateService,
+    private routerState: RouterStateService,
     public configService: DirectoryConfigService
   ) {}
 

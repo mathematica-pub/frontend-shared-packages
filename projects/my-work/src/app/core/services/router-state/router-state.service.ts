@@ -13,7 +13,7 @@ import { Section, State } from './state';
 @Injectable({
   providedIn: 'root',
 })
-export class StateService {
+export class RouterStateService {
   state$: Observable<State>;
 
   constructor(private router: Router) {}

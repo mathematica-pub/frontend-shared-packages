@@ -16,9 +16,9 @@ import {
   FilesItem,
 } from '../../core/services/directory-config.service';
 import { MarkedCreator } from '../../core/services/marked-creator';
+import { RouterStateService } from '../../core/services/router-state/router-state.service';
+import { Section } from '../../core/services/router-state/state';
 import { ShikiHighlighter } from '../../core/services/shiki-highligher';
-import { Section } from '../../core/services/state/state';
-import { StateService } from '../../core/services/state/state.service';
 
 export interface HighlighterOptions {
   highlightCode?: true;
@@ -51,7 +51,7 @@ export class DocumentationHtmlService {
   docsPath = '/assets/documentation/';
 
   constructor(
-    private routerState: StateService,
+    private routerState: RouterStateService,
     private files: FileResource,
     private sanitizer: DomSanitizer,
     private configService: DirectoryConfigService
