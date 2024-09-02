@@ -6,6 +6,6 @@ export interface MarksOptions<Datum> {
    * @default: []
    * Default is []
    */
-  data: Datum[];
+  data?: Datum[];
   mixBlendMode: string;
 }

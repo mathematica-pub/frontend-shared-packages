@@ -1,5 +1,5 @@
 import { MarksOptions } from '../../marks/config/marks-options';
-import { Stroke } from '../../marks/stroke/stroke';
+import { Stroke } from '../../stroke/stroke';
 import { QuantitativeRulesLabels } from './labels/quantitative-rules-label';
 import { QuantitativeRulesDimensions } from './quantitative-rules-dimensions';
 

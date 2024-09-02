@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MarksBuilder } from '../../marks/config/marks-builder';
-import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
+import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { RulesLabelsBuilder } from './labels/quantitative-rules-label-builder';
 import { QuantitativeRulesConfig } from './quantitative-rules-config';
 import {
