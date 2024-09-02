@@ -14,7 +14,7 @@ Each library that is added will have the possibility of adding two different typ
 1. We have a section that displays html files that we generate with Compodoc, which parses our
    source code to create the HTML files. We refer to this as "Automated Documentation".
 2. Another section, known as "Content", contains manually created components designed to provide
-   users with a guided and/or in-dept understanding of the various parts of the library.
+   users with a guided and/or in-depth understanding of the various parts of the library.
 
 ### File Organization
 
