@@ -3,8 +3,8 @@ import { CategoricalDimension } from '../../data-dimensions/categorical/categori
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
-import { PointMarkers } from '../../marks/point-markers/point-markers';
-import { Stroke } from '../../marks/stroke/stroke';
+import { PointMarkers } from '../../point-markers/point-markers';
+import { Stroke } from '../../stroke/stroke';
 
 export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
   categorical: CategoricalDimension<Datum, string>;
