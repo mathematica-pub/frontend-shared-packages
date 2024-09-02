@@ -20,8 +20,6 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
-  VicQuantitativeRulesConfigBuilder,
-  VicQuantitativeRulesModule,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
@@ -52,7 +50,6 @@ enum Orientation {
     CommonModule,
     VicChartModule,
     VicBarsModule,
-    VicQuantitativeRulesModule,
     VicXyChartModule,
     VicXyBackgroundModule,
     VicXOrdinalAxisModule,
@@ -73,7 +70,6 @@ enum Orientation {
     VicYOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
-    VicQuantitativeRulesConfigBuilder,
   ],
 })
 export class BarsExampleComponent implements OnInit {
@@ -109,8 +105,7 @@ export class BarsExampleComponent implements OnInit {
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
-    private tooltip: VicHtmlTooltipConfigBuilder,
-    private rule: VicQuantitativeRulesConfigBuilder<number>
+    private tooltip: VicHtmlTooltipConfigBuilder
   ) {}
 
   ngOnInit(): void {

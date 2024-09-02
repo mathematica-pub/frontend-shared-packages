@@ -5,7 +5,7 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicLinesConfigBuilder } from './config/lines-builder';
 import { LinesComponent } from './lines.component';
 
-describe('LineChartComponent', () => {
+describe('LinesComponent', () => {
   let component: LinesComponent<any>;
   let fixture: ComponentFixture<LinesComponent<any>>;
 

@@ -54,7 +54,6 @@ export class XyChartComponent extends ChartComponent implements Chart, OnInit {
   scales$ = this.scales.asObservable().pipe(filter((scales) => !!scales));
 
   updateScales(scales: Partial<XyChartScales>): void {
-    console.log('updateScales', scales);
     this.scales.next({ ...this.scales.value, ...scales });
   }
 }
