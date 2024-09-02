@@ -71,7 +71,7 @@ in `app/content`.
 │   │   │   │   ├── {lib-name}
 │   │   │   │   │   │   ├── automated-documentation
 │   │   │   │   │   │   │   ├── documentation-directory.yaml
-│   │   │   │   │   │   │   ├── [various-folders-for-html-files]
+│   │   │   │   │   │   │   ├── [various-folders-for-html-files]*
 │   │   │   │   │   │   ├── content
 │   │   │   │   │   │   │   ├── overview.md
 │   │   │   │   │   │   │   ├── content-directory.yaml
