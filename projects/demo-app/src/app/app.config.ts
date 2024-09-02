@@ -7,10 +7,9 @@ import {
   withComponentInputBinding,
   withInMemoryScrolling,
 } from '@angular/router';
-
 import { APP_ROUTES } from './app.routes';
+import { ContentConfigService } from './content/core/routing/content-config.service';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { ContentConfigService } from './manual-documentation/core/routing/content-config.service';
 import { Library } from './sidebar/lib-docs/libraries';
 
 export const appConfig: ApplicationConfig = {

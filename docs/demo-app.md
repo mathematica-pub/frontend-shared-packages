@@ -59,3 +59,18 @@ per library.
 
 Within the demo app `app` application code, components/files related to displaying these files are
 in `app/content`.
+
+```
+├── projects
+│   ├── demo-app
+│   │   ├── src
+│   │   │   ├── app
+│   │   │   ├── assets
+│   │   │   │   ├── {lib-name}
+│   │   │   │   │   │   ├── automated-documentation
+│   │   │   │   │   │   │   ├── documentation-directory.yaml
+│   │   │   │   │   │   │   ├── [various-folders-for-html-files]
+│   │   │   │   │   │   ├── content
+│   │   │   │   │   │   │   ├── overview.md
+│   │   │   │   │   │   │   ├── content-directory.yaml
+```
