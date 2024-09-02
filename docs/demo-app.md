@@ -24,11 +24,13 @@ Compodoc files (for all libraries) and the script used to process those files li
 `./compdoc` folder in the repo.
 
 ```
+├── .vscode
 ├── compodoc
 │   ├── docs
 │   │   ├── ui-components[^*]
 │   │   ├── viz-components[^*]
 │   ├── compodoc-docs-processor.ts
+├── cypress
 ```
 
 [^*]: these items are gitignored
