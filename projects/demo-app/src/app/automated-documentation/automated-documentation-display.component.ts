@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import {
   distinctUntilChanged,
   filter,
@@ -38,15 +37,14 @@ import { RouterStateService } from '../core/services/router-state/router-state.s
 })
 export class AutomatedDocumentationDisplayComponent implements OnInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
-  sanitizedDocumentation: SafeHtml;
-  private highlightService = inject(HighlightService);
-  private filesService = inject(DocumentationFilesService);
-  private sanitizer = inject(DomSanitizer);
-  router = inject(Router);
-  destroyRef = inject(DestroyRef);
   route: string;
+  sanitizedDocumentation: SafeHtml;
 
-  constructor(private routerState: RouterStateService) {}
+  private highlightService = inject(HighlightService);
+  private docFilesService = inject(DocumentationFilesService);
+  private sanitizer = inject(DomSanitizer);
+  private routerState = inject(RouterStateService);
+  private destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.routerState.state$
@@ -63,8 +61,8 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
         }),
         switchMap((state) => {
           // strip off hash so that on reload, it just loads the front page
-          const path = `/documentation/${state.lib}/${state.contentPath.split('#')[0]}`;
-          return this.filesService.getDocumentation(path);
+          const path = `/${state.lib}/automated-documentation/${state.contentPath.split('#')[0]}`;
+          return this.docFilesService.getDocumentation(path);
         }),
         withLatestFrom(this.routerState.state$)
       )

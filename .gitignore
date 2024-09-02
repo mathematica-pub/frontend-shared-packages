@@ -13,10 +13,10 @@ npm-debug.log
 yarn-error.log
 
 # Automated Documentation
-/documentation
-/compodoc-docs
-projects/demo-app/src/assets/documentation/**/*.*
-!projects/demo-app/src/assets/documentation/**/documentation-structure.yaml
+/compodoc/docs/ui-components
+/compodoc/docs/viz-components
+projects/demo-app/src/assets/**/automated-documentation/**/*.*
+!projects/demo-app/src/assets/**/automated-documentation/**/documentation-directory.yaml
 
 # My Work Data
 /projects/my-work/src/assets/data/**/*.*

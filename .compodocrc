@@ -1,0 +1,10 @@
+{
+  "name": "Frontend Shared Packages Documentation",
+  "watch": true,
+  "theme": "laravel",
+  "disableDomTree": true,
+  "disableGraph": true,
+  "disableRoutesGraph": true,
+  "includes": ".",
+  "includesName": "more READMEs"
+}

@@ -32,7 +32,7 @@ const routes: Routes = [
             path: '**',
             loadComponent: () =>
               import(
-                './automated-documentation-display/automated-documentation-display.component'
+                './automated-documentation/automated-documentation-display.component'
               ).then((m) => m.AutomatedDocumentationDisplayComponent),
           },
         ],

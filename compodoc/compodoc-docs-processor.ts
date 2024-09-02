@@ -11,7 +11,7 @@ interface Arguments {
   lib: string;
 }
 
-class DocumentationParser {
+class CompodocDocsProcessor {
   lib: string;
   inputDirectory: string;
   outputDirectory: string;
@@ -21,9 +21,9 @@ class DocumentationParser {
 
   constructor(lib: string) {
     this.lib = lib;
-    this.inputDirectory = `./compodoc-docs/${lib}`;
-    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}`;
-    this.appRouterPath = `documentation/${lib}/`; // TODO: change with new routing pattern in 364 when 364 goes in
+    this.inputDirectory = `./compodoc/docs/${lib}`;
+    this.outputDirectory = `./projects/demo-app/src/assets/${lib}/automated-documentation`;
+    this.appRouterPath = `${lib}/documentation`;
     this.missingReferences = [];
   }
 
@@ -49,7 +49,7 @@ class DocumentationParser {
   }
 
   getDocumentationStructure(): NestedStringObject {
-    const yamlLocation = `${this.outputDirectory}/documentation-structure.yaml`;
+    const yamlLocation = `${this.outputDirectory}/documentation-directory.yaml`;
     let documentationStructure;
     try {
       const fileContents = fs.readFileSync(yamlLocation, 'utf8');
@@ -177,5 +177,5 @@ function getArgs(): Arguments {
 }
 
 const args = getArgs();
-const documentationParser = new DocumentationParser(args.lib);
+const documentationParser = new CompodocDocsProcessor(args.lib);
 documentationParser.parseDirectory();

@@ -1,4 +1,4 @@
-export interface ManualDocumentationConfig {
+export interface ContentConfig {
   title: string;
   items: string[];
 }

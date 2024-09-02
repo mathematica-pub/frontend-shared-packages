@@ -10,7 +10,7 @@ import {
 
 import { APP_ROUTES } from './app.routes';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
-import { ManualDocumentationConfigService } from './manual-documentation/core/routing/manual-documentation-config.service';
+import { ContentConfigService } from './manual-documentation/core/routing/content-config.service';
 import { Library } from './sidebar/lib-docs/libraries';
 
 export const appConfig: ApplicationConfig = {
@@ -25,12 +25,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      useFactory: (config: ManualDocumentationConfigService) => {
+      useFactory: (config: ContentConfigService) => {
         return () => {
           config.initConfigs([Library.UiComponents, Library.VizComponents]);
         };
       },
-      deps: [ManualDocumentationConfigService],
+      deps: [ContentConfigService],
     },
     {
       provide: RouteReuseStrategy,

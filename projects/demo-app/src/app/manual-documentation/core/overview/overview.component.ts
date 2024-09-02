@@ -47,7 +47,7 @@ export class OverviewComponent implements OnInit, OnChanges {
   }
 
   setHtml(): void {
-    const filePath = `app/manual-documentation/${this.lib}/overview.md`;
+    const filePath = `assets/${this.lib}/content/overview.md`;
     this.html$ = this.files
       .getMarkdownFile(filePath)
       .pipe(map((html) => this.sanitizer.bypassSecurityTrustHtml(html)));

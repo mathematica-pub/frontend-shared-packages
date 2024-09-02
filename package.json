@@ -1,16 +1,6 @@
 {
   "name": "viz-components",
   "version": "0.0.0",
-  "compodoc": {
-    "name": "Viz Component Library Documentation",
-    "watch": true,
-    "theme": "laravel",
-    "disableDomTree": true,
-    "disableGraph": true,
-    "disableRoutesGraph": true,
-    "includes": ".",
-    "includesName": "more READMEs"
-  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -32,10 +22,10 @@
     "lint:my-work": "ng lint my-work",
     "lint:viz-components": "ng lint viz-components",
     "lint:ui-components": "ng lint ui-components",
-    "compodoc:build:viz-components": "npx compodoc -p projects/viz-components/tsconfig.doc.json -d compodoc-docs/viz-components",
-    "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d compodoc-docs/ui-components",
-    "process-docs:viz-components": "tsx projects/demo-app/documentation-generator/documentation-parser.ts --lib viz-components",
-    "process-docs:ui-components": "tsx projects/demo-app/documentation-generator/documentation-parser.ts --lib ui-components",
+    "compodoc:build:viz-components": "npx compodoc -p projects/viz-components/tsconfig.doc.json -d compodoc/docs/viz-components",
+    "compodoc:build:ui-components": "npx compodoc -p projects/ui-components/tsconfig.doc.json -d compodoc/docs/ui-components",
+    "process-docs:viz-components": "tsx compodoc/compodoc-docs-processor.ts --lib viz-components",
+    "process-docs:ui-components": "tsx compodoc/compodoc-docs-processor.ts --lib ui-components",
     "build:docs:viz-components": "npm run compodoc:build:viz-components && npm run process-docs:viz-components",
     "build:docs:ui-components": "npm run compodoc:build:ui-components && npm run process-docs:ui-components",
     "cypress:open": "cypress open",

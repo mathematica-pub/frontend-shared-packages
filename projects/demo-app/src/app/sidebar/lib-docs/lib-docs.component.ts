@@ -52,7 +52,7 @@ export class LibDocsComponent implements OnInit {
   }
 
   initManualDocumentation(): void {
-    const configPath = `app/manual-documentation/${this.lib.id}/config.yaml`;
+    const configPath = `assets/${this.lib.id}/content/content.yaml`;
     this.manualDocs$ = this.files.getYamlFile(configPath).pipe(
       filter((manualConfig) => !!manualConfig),
       map((manualConfig) => ({
@@ -63,7 +63,7 @@ export class LibDocsComponent implements OnInit {
   }
 
   initAutomatedDocumentation(): void {
-    const configPath = `assets/documentation/${this.lib.id}/documentation-structure.yaml`;
+    const configPath = `assets/${this.lib.id}/automated-documentation/documentation-directory.yaml`;
     this.automatedDocsItems$ = this.files.getYamlFile(configPath).pipe(
       filter((automatedConfig) => !!automatedConfig),
       map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig))

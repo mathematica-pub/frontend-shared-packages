@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, ROUTES } from '@angular/router';
 import { Library } from '../../../core/services/router-state/state';
-import { manualDocumentationRoutesFactory } from './manual-docs-routing-factory';
-import { ManualDocumentationConfigService } from './manual-documentation-config.service';
+import { ContentConfigService } from './content-config.service';
+import { contentRoutesFactory } from './content-routing-factory';
 
 @NgModule({
   imports: [RouterModule.forChild([])],
@@ -10,8 +10,8 @@ import { ManualDocumentationConfigService } from './manual-documentation-config.
   providers: [
     {
       provide: ROUTES,
-      useFactory: manualDocumentationRoutesFactory(Library.VizComponents),
-      deps: [ManualDocumentationConfigService],
+      useFactory: contentRoutesFactory(Library.VizComponents),
+      deps: [ContentConfigService],
       multi: true,
     },
   ],
