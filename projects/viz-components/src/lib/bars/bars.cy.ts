@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { max } from 'd3';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import {
   BarsHoverMoveDirective,
@@ -26,8 +27,6 @@ import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-
 import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
 import { VicXyChartModule } from '../xy-chart/xy-chart.module';
 import { VicBarsModule } from './bars.module';
-
-import { cloneDeep } from 'cypress/types/lodash';
 import { BarsConfig } from './config/bars-config';
 import { BarsEventOutput } from './events/bars-event-output';
 
