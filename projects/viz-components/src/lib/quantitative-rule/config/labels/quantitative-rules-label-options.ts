@@ -1,4 +1,4 @@
-export interface RulesLabelsOptions<Datum> {
+export interface QuantitativeRulesLabelsOptions<Datum> {
   color: (d: Datum) => string;
   display: (d: Datum) => boolean;
   dominantBaseline:

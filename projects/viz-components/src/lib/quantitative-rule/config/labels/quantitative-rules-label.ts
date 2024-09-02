@@ -1,6 +1,8 @@
-import { RulesLabelsOptions } from './rules-label-options';
+import { QuantitativeRulesLabelsOptions } from './quantitative-rules-label-options';
 
-export class RulesLabels<Datum> implements RulesLabelsOptions<Datum> {
+export class QuantitativeRulesLabels<Datum>
+  implements QuantitativeRulesLabelsOptions<Datum>
+{
   color: (d: Datum) => string;
   display: (d: Datum) => boolean;
   dominantBaseline:
@@ -17,7 +19,7 @@ export class RulesLabels<Datum> implements RulesLabelsOptions<Datum> {
   position: (start: number, end: number, d: Datum) => number;
   textAnchor: 'start' | 'middle' | 'end';
 
-  constructor(options: RulesLabelsOptions<Datum>) {
+  constructor(options: QuantitativeRulesLabelsOptions<Datum>) {
     Object.assign(this, options);
   }
 }

@@ -11,7 +11,7 @@ import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-con
 import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/events/bars-event-output';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
-import { RulesConfig } from 'projects/viz-components/src/lib/rule/config/rules-config';
+import { QuantitativeRulesConfig } from 'projects/viz-components/src/lib/quantitative-rule/config/quantitative-rules-config';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
   BarsHoverMoveDirective,
@@ -21,8 +21,8 @@ import {
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
+  VicQuantitativeRulesConfigBuilder,
   VicRuleModule,
-  VicRulesConfigBuilder,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
@@ -40,7 +40,7 @@ interface ViewModel {
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
   xAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string> | VicQuantitativeAxisConfig<number>;
-  ruleConfig: RulesConfig<number>;
+  ruleConfig: QuantitativeRulesConfig<number>;
 }
 
 enum Orientation {
@@ -75,7 +75,7 @@ enum Orientation {
     VicYOrdinalAxisConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
     VicHtmlTooltipConfigBuilder,
-    VicRulesConfigBuilder,
+    VicQuantitativeRulesConfigBuilder,
   ],
 })
 export class BarsExampleComponent implements OnInit {
@@ -112,7 +112,7 @@ export class BarsExampleComponent implements OnInit {
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>,
     private yQuantitativeAxis: VicYQuantitativeAxisConfigBuilder<number>,
     private tooltip: VicHtmlTooltipConfigBuilder,
-    private rule: VicRulesConfigBuilder<number>
+    private rule: VicQuantitativeRulesConfigBuilder<number>
   ) {}
 
   ngOnInit(): void {

@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { MarksBuilder } from '../../marks/config/marks-builder';
 import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
-import { RulesLabelsBuilder } from './labels/rules-label-builder';
-import { RulesConfig } from './rules-config';
+import { RulesLabelsBuilder } from './labels/quantitative-rules-label-builder';
+import { QuantitativeRulesConfig } from './quantitative-rules-config';
 import {
   HORIZONTAL_RULE_DIMENSIONS,
-  RulesDimensions,
+  QuantitativeRulesDimensions,
   VERTICAL_RULE_DIMENSIONS,
-} from './rules-dimensions';
+} from './quantitative-rules-dimensions';
 
 const DEFAULT = {
   _color: '#cccccc',
 };
 
 @Injectable()
-export class VicRulesConfigBuilder<
+export class VicQuantitativeRulesConfigBuilder<
   Datum extends number | Date,
 > extends MarksBuilder<Datum> {
   protected _color: (d: Datum) => string;
-  protected dimensions: RulesDimensions;
+  protected dimensions: QuantitativeRulesDimensions;
   protected _orientation: 'horizontal' | 'vertical';
   private strokeBuilder: StrokeBuilder;
   private labelsBuilder: RulesLabelsBuilder<Datum>;
@@ -81,9 +81,9 @@ export class VicRulesConfigBuilder<
   /**
    * REQUIRED. Builds the configuration object for the RuleComponent.
    */
-  getConfig(): RulesConfig<Datum> {
+  getConfig(): QuantitativeRulesConfig<Datum> {
     this.validateBuilder();
-    return new RulesConfig({
+    return new QuantitativeRulesConfig({
       color: this._color,
       data: this._data,
       dimensions: this.dimensions,

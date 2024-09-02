@@ -1,4 +1,4 @@
-import { RulesLabels } from './rules-label';
+import { QuantitativeRulesLabels } from './quantitative-rules-label';
 
 const DEFAULT = {
   // _color: '#cccccc',
@@ -76,8 +76,8 @@ export class RulesLabelsBuilder<Datum> {
     return this;
   }
 
-  _build(): RulesLabels<Datum> {
-    return new RulesLabels<Datum>({
+  _build(): QuantitativeRulesLabels<Datum> {
+    return new QuantitativeRulesLabels<Datum>({
       color: this._color,
       display: this._display,
       dominantBaseline: this._dominantBaseline,

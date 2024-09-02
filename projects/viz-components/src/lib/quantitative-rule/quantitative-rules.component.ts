@@ -8,20 +8,19 @@ import { select, Selection, Transition } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyMarks } from '../xy-marks/xy-marks';
-import { RulesConfig } from './config/rules-config';
+import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-rule]',
-  templateUrl: './rules.component.html',
-  styleUrl: './rules.component.scss',
+  templateUrl: './quantitative-rules.component.html',
+  styleUrl: './quantitative-rules.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: ChartComponent, useExisting: XyChartComponent }],
 })
-export class RulesComponent<Datum extends number | Date> extends VicXyMarks<
-  Datum,
-  RulesConfig<Datum>
-> {
+export class QuantitativeRulesComponent<
+  Datum extends number | Date,
+> extends VicXyMarks<Datum, QuantitativeRulesConfig<Datum>> {
   rulesGroups: Selection<SVGGElement, Datum, SVGGElement, unknown>;
 
   constructor(
