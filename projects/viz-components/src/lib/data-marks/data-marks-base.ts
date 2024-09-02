@@ -10,14 +10,11 @@ import {
 import { Chart } from '../chart/chart';
 import { Ranges } from '../chart/chart.component';
 import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
+import { IMarks } from '../marks/marks.base';
 import { DataMarksOptions } from './config/data-marks-options';
 
-export interface VicICommon {
-  chart: Chart;
+export interface IData {
   ranges: Ranges;
-}
-
-export interface VicIData extends VicICommon {
   /**
    * setPropertiesFromRanges method
    *
@@ -31,25 +28,6 @@ export interface VicIData extends VicICommon {
   setChartScalesFromRanges: (useTransition: boolean) => void;
 }
 
-export interface VicIMarks extends VicICommon {
-  /**
-   * drawMarks method
-   *
-   * All methods that require scales should be called from drawMarks. Methods
-   * called from here should use scale.domain() or scale.range() to obtain those values
-   * rather than this.config.dimension.domain or this.ranges.dimension.
-   *
-   * This method is called when scales emit from ChartComponent.
-   */
-  drawMarks: () => void;
-  /**
-   * getTransitionDuration method
-   *
-   * This method should return the duration of the transition to be used in the marks.
-   */
-  getTransitionDuration: () => number;
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const VIC_DATA_MARKS = new InjectionToken<DataMarks<unknown, any>>(
   'DataMarks'
@@ -60,12 +38,12 @@ export abstract class DataMarks<
     Datum,
     TDataMarksConfig extends DataMarksOptions<Datum>,
   >
-  implements VicIData, VicIMarks, OnChanges
+  implements IData, IMarks, OnChanges
 {
   @Input() config: TDataMarksConfig;
   chart: Chart;
-  destroyRef = inject(DestroyRef);
   ranges: Ranges;
+  destroyRef = inject(DestroyRef);
 
   abstract drawMarks(): void;
   abstract getTransitionDuration(): number;
@@ -80,7 +58,6 @@ export abstract class DataMarks<
   }
 
   initFromConfig(): void {
-    console.log('data marks init from config method');
     this.setChartScalesFromRanges(true);
   }
 }
