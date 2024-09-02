@@ -157,8 +157,6 @@ export class BarsExampleComponent implements OnInit {
       .createLabels((labels) => labels.display(true))
       .getConfig();
 
-    console.log('get vm', orientation);
-
     const ruleConfig = this.rule
       .data([6])
       .orientation(orientation === 'horizontal' ? 'vertical' : 'horizontal')
