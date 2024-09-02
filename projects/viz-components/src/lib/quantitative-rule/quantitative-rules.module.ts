@@ -7,4 +7,4 @@ import { QuantitativeRulesComponent } from './quantitative-rules.component';
   imports: [CommonModule],
   exports: [QuantitativeRulesComponent],
 })
-export class VicRuleModule {}
+export class VicQuantitativeRulesModule {}

@@ -1,12 +1,8 @@
 import { QuantitativeRulesLabels } from './quantitative-rules-label';
 
 const DEFAULT = {
-  // _color: '#cccccc',
-  _display: true,
+  _display: () => true,
   _dominantBaseline: 'middle',
-  // _offset: 124,
-  // _position: (start: number, end: number) => end + 12,
-  // _textAnchor: 'end',
 };
 
 export class RulesLabelsBuilder<Datum> {

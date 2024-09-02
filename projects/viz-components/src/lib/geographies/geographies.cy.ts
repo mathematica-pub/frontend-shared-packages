@@ -24,7 +24,7 @@ import { EventAction } from '../events/action';
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
-} from '../testing/stubs/data/states_population_income';
+} from '../testing/data/states_population_income';
 import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { GeographiesConfig } from './config/geographies-config';

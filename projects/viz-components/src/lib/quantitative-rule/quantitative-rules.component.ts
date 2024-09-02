@@ -12,7 +12,7 @@ import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-rule]',
+  selector: '[vic-quantitative-rules]',
   templateUrl: './quantitative-rules.component.html',
   styleUrl: './quantitative-rules.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,13 +45,13 @@ export class QuantitativeRulesComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.rulesGroups = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, Datum>('.vic-rule-group')
+      .selectAll<SVGGElement, Datum>('.vic-quantitative-rule-group')
       .data<Datum>(this.config.data, (d) => d.toString())
       .join(
         (enter) =>
           enter
             .append('g')
-            .attr('class', 'vic-rule-group')
+            .attr('class', 'vic-quantitative-rule-group')
             .attr('transform', (d) => this.getRuleTransform(d)),
         (update) =>
           update
@@ -62,13 +62,13 @@ export class QuantitativeRulesComponent<
       );
 
     this.rulesGroups
-      .selectAll<SVGLineElement, Datum>('.vic-rule')
+      .selectAll<SVGLineElement, Datum>('.vic-quantitative-rule')
       .data<Datum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('line')
-            .attr('class', (d) => `vic-rule ${d}`)
+            .attr('class', (d) => `vic-quantitative-rule ${d}`)
             .attr('stroke', (d) => this.config.color(d))
             .attr('stroke-width', this.config.stroke.width)
             .attr('opacity', this.config.stroke.opacity)
@@ -98,13 +98,14 @@ export class QuantitativeRulesComponent<
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.rulesGroups
-      .selectAll<SVGTextElement, Datum>('.vic-rule-label')
+      .selectAll<SVGTextElement, Datum>('.vic-quantitative-rule-label')
       .data<Datum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('text')
-            .attr('class', (d) => `vic-rule-label ${d}`)
+            .attr('class', (d) => `vic-quantitative-rule-label ${d}`)
+            .style('display', (d) => this.config.labels.display(d))
             .attr('fill', (d) => this.config.labels.color(d))
             .attr('text-anchor', this.config.labels.textAnchor)
             .attr('dominant-baseline', this.config.labels.dominantBaseline)
@@ -115,7 +116,8 @@ export class QuantitativeRulesComponent<
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
-            .attr('class', (d) => `vic-rule-label ${d}`)
+            .attr('class', (d) => `vic-quantitative-rule-label ${d}`)
+            .style('display', (d) => this.config.labels.display(d))
             .attr('fill', (d) => this.config.labels.color(d))
             .attr('text-anchor', this.config.labels.textAnchor)
             .attr('dominant-baseline', this.config.labels.dominantBaseline)
@@ -132,6 +134,7 @@ export class QuantitativeRulesComponent<
       x = this.scales.x.range()[0];
       // || 0 handles cases where both the scale and this component's config are changing at the same time.
       // For example, if this is used in a bar chart that it toggling between horizontal and vertical, the bar chart's scale will change before this component's dimensions change, and getYStart/getXStart will return undefined.
+      // The expectation is the the correct change comes through in a matter of ms and the 0 condition is never visible -- this is to prevent it erroring out with `undefined`.
       y = this.getYStart(d) || 0;
     } else {
       x = this.getXStart(d) || 0;

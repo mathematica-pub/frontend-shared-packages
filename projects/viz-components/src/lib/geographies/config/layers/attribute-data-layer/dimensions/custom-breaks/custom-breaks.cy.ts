@@ -17,7 +17,7 @@ import {
 import {
   StateInComePopulationDatum,
   stateIncomePopulationData,
-} from '../../../../../../testing/stubs/data/states_population_income';
+} from '../../../../../../testing/data/states_population_income';
 import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
