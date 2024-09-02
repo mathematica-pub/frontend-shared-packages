@@ -5,11 +5,11 @@ import { ExamplesFilesService } from '../../../core/services/examples-files.serv
 @Directive()
 export abstract class ExampleDisplay implements OnInit {
   @Input() includeFiles: string[];
-  @Input() path: string;
-  @Input() label: string = 'example';
-  @Input() maxWidth: string = '1200px';
-  @Input() maxHeight: string;
   @Input() height: string;
+  @Input() label: string = 'example';
+  @Input() maxHeight: string;
+  @Input() maxWidth: string = '1200px';
+  @Input() path: string;
   fileList: string[];
   filesHtml$: Observable<string[]>;
   selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
