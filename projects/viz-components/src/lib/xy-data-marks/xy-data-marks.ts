@@ -30,6 +30,7 @@ export abstract class VicXyDataMarks<
   public override chart = inject(XyChartComponent);
 
   ngOnInit(): void {
+    console.log('VicXyDataMarks', 'ngOnInit');
     this.subscribeToRanges();
     this.subscribeToScales();
   }
@@ -38,6 +39,7 @@ export abstract class VicXyDataMarks<
     this.chart.ranges$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((ranges) => {
+        console.log('subscribeToRanges: ranges', ranges);
         this.ranges = ranges;
         if (
           this.scales &&

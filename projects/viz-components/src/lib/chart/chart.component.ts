@@ -22,7 +22,6 @@ import {
   merge,
   of,
   shareReplay,
-  skip,
   startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../core/types/layout';
@@ -173,13 +172,7 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
       shareReplay(1)
     );
 
-    this.ranges$ = combineLatest([
-      // svgDimensions will emit twice if scaleChartWithContainerWidth.width is true, skip the first
-      this.svgDimensions$.pipe(
-        skip(this.scaleChartWithContainerWidth.width ? 1 : 0)
-      ),
-      margin$,
-    ]).pipe(
+    this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
       map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
       distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
