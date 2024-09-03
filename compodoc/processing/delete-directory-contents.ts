@@ -10,7 +10,8 @@ export async function deleteDirectoryContents(dir: string) {
       const stat = await fs.lstat(filePath);
 
       if (stat.isDirectory()) {
-        await fs.rm(filePath, { recursive: true });
+        await deleteDirectoryContents(filePath);
+        await fs.rm(filePath);
       } else {
         await fs.unlink(filePath);
       }

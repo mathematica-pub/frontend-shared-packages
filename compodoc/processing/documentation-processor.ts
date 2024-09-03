@@ -14,6 +14,7 @@ interface Arguments {
 
 class DocumentationProcessor {
   lib: string;
+  configPath: string;
   inputDirectory: string;
   outputDirectory: string;
   missingReferences: string[];
@@ -23,7 +24,8 @@ class DocumentationProcessor {
   constructor(lib: string) {
     this.lib = lib;
     this.inputDirectory = `./compodoc/docs/${lib}`;
-    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}`;
+    this.configPath = `./projects/demo-app/src/assets/documentation/${lib}/documentation-structure.yaml`;
+    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}/processed`;
     this.appRouterPath = `documentation/${lib}/`; // TODO: change with new routing pattern in 364 when 364 goes in
     this.missingReferences = [];
   }
@@ -31,7 +33,7 @@ class DocumentationProcessor {
   async parseDirectory(): Promise<void> {
     deleteDirectoryContents(this.outputDirectory);
 
-    const documentationStructure = this.getDocumentationStructure();
+    const documentationStructure = this.getDirectoryConfig();
     this.compodocFileTypes = this.getCompodocFileTypes(documentationStructure);
 
     const copiedFiles = await this.copyFilesToOutputDirAndGetRecord(
@@ -51,11 +53,10 @@ class DocumentationProcessor {
     });
   }
 
-  getDocumentationStructure(): NestedStringObject {
-    const yamlLocation = `${this.outputDirectory}/documentation-structure.yaml`;
+  getDirectoryConfig(): NestedStringObject {
     let documentationStructure;
     try {
-      const fileContents = fs.readFileSync(yamlLocation, 'utf8');
+      const fileContents = fs.readFileSync(this.configPath, 'utf8');
       documentationStructure = yamlParse(fileContents);
     } catch (err) {
       console.error(err);

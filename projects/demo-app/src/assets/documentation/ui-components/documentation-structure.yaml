@@ -1,0 +1,8 @@
+---
+tabs:
+  service: 'injectables/TabsService.html'
+  tabs: 'components/TabsComponent.html'
+  tab-content: 'directives/TabContent.html'
+  tab-item: 'components/TabItemComponent.html'
+  tab-body: 'components/TabBodyComponent.html'
+  tab-label: 'components/TabLabelComponent.html'
