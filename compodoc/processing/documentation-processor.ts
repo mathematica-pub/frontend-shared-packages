@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import { existsSync, mkdirSync } from 'fs';
 import minimist from 'minimist';
 import { parse as yamlParse } from 'yaml';
+import { deleteDirectoryContents } from './delete-directory-contents';
 
 interface NestedStringObject {
   [key: string]: string | NestedStringObject;
@@ -11,7 +12,7 @@ interface Arguments {
   lib: string;
 }
 
-class DocumentationParser {
+class DocumentationProcessor {
   lib: string;
   inputDirectory: string;
   outputDirectory: string;
@@ -21,13 +22,15 @@ class DocumentationParser {
 
   constructor(lib: string) {
     this.lib = lib;
-    this.inputDirectory = `./compodoc-docs/${lib}`;
+    this.inputDirectory = `./compodoc/docs/${lib}`;
     this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}`;
     this.appRouterPath = `documentation/${lib}/`; // TODO: change with new routing pattern in 364 when 364 goes in
     this.missingReferences = [];
   }
 
   async parseDirectory(): Promise<void> {
+    deleteDirectoryContents(this.outputDirectory);
+
     const documentationStructure = this.getDocumentationStructure();
     this.compodocFileTypes = this.getCompodocFileTypes(documentationStructure);
 
@@ -177,5 +180,5 @@ function getArgs(): Arguments {
 }
 
 const args = getArgs();
-const documentationParser = new DocumentationParser(args.lib);
+const documentationParser = new DocumentationProcessor(args.lib);
 documentationParser.parseDirectory();
