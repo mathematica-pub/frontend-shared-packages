@@ -1,12 +1,31 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
 
-export async function deleteDirectoryContents(dir: string) {
+export async function deleteDirectoryContents(
+  dir: string,
+  exclude: string[] = []
+) {
   try {
+    const dirExists = await fs
+      .stat(dir)
+      .then(() => true)
+      .catch(() => false);
+
+    if (!dirExists) {
+      console.log(`Directory ${dir} does not exist.`);
+      return;
+    }
+
     const files = await fs.readdir(dir);
 
     for (const file of files) {
       const filePath = path.join(dir, file);
+
+      if (exclude.includes(file)) {
+        console.log(`Skipping excluded file: ${file}`);
+        continue;
+      }
+
       const stat = await fs.lstat(filePath);
 
       if (stat.isDirectory()) {

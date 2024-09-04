@@ -25,13 +25,15 @@ class DocumentationProcessor {
     this.lib = lib;
     this.inputDirectory = `./compodoc/docs/${lib}`;
     this.configPath = `./projects/demo-app/src/assets/documentation/${lib}/documentation-structure.yaml`;
-    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}/processed`;
+    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}`;
     this.appRouterPath = `documentation/${lib}/`; // TODO: change with new routing pattern in 364 when 364 goes in
     this.missingReferences = [];
   }
 
   async parseDirectory(): Promise<void> {
-    deleteDirectoryContents(this.outputDirectory);
+    await deleteDirectoryContents(this.outputDirectory, [
+      'documentation-structure.yaml',
+    ]);
 
     const documentationStructure = this.getDirectoryConfig();
     this.compodocFileTypes = this.getCompodocFileTypes(documentationStructure);
@@ -139,6 +141,7 @@ class DocumentationProcessor {
     const promises = Object.values(copiedFiles).map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async (outputPath) => {
+        console.log('OUTPUT PATH', outputPath);
         let text = await fs.promises.readFile(`${outputPath}.html`, 'utf-8');
         const files = this.compodocFileTypes.join('.*html|') + '.*html';
         const regex = new RegExp(`(href="../)(${files})`, 'g');
