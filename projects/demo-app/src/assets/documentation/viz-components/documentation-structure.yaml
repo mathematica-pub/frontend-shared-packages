@@ -150,7 +150,7 @@ services:
     column-config: 'classes/VicColumnConfig.html'
     service: 'injectables/VicDataExport.html'
   image-download:
-    config: 'classes/VicImageDownloadConfig.html'
+    options: 'interfaces/ImageDownloadOptions.html'
     jpeg-config: 'classes/VicJpegImageConfig.html'
     png-config: 'classes/VicPngImageConfig.html'
     svg-config: 'classes/VicSvgImageConfig.html'
