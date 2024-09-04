@@ -5,11 +5,11 @@ import { ExamplesFilesService } from '../../../core/services/examples-files.serv
 @Directive()
 export abstract class ExampleDisplay implements OnInit {
   @Input() includeFiles: string[];
-  @Input() path: string;
+  @Input() height: string;
   @Input() label: string = 'example';
+  @Input() maxHeight: string;
   @Input() maxWidth: string = '1200px';
-  @Input() maxHeight: string = '600px';
-  @Input() height: string = 'auto';
+  @Input() path: string;
   fileList: string[];
   filesHtml$: Observable<string[]>;
   selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
@@ -17,6 +17,8 @@ export abstract class ExampleDisplay implements OnInit {
   tabList: string[];
   tabContent$: Observable<string | null>;
   private filesService = inject(ExamplesFilesService);
+
+  abstract initTabs(): void;
 
   ngOnInit(): void {
     this.setFileList();
@@ -53,6 +55,4 @@ export abstract class ExampleDisplay implements OnInit {
   onTabChange(index: number): void {
     this.selectedTabIndex.next(index);
   }
-
-  abstract initTabs(): void;
 }
