@@ -151,9 +151,6 @@ export class LinesExampleComponent implements OnInit {
         dimension.valueAccessor((d) => d.division)
       )
       .createPointMarkers((markers) => markers.radius(2).growByOnHover(3))
-      .createBelowLinesAreaFill((belowLinesAreaFill) =>
-        belowLinesAreaFill.display(true).opacity(0.2).gradient(this.patternName)
-      )
       .getConfig();
 
     const labels = [...new Set(data.map((x) => x.division))].slice(0, 9);
