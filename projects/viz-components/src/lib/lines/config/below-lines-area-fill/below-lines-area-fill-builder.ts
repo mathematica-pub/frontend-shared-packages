@@ -1,13 +1,15 @@
-import { LinesFill } from './lines-fill';
+import { BelowLinesAreaFill } from './below-lines-area-fill';
 
 const DEFAULT = {
   _display: true,
   _opacity: 0.2,
+  _gradient: undefined,
 };
 
-export class LinesFillBuilder {
+export class BelowLinesAreaFillBuilder {
   private _display: boolean;
   private _opacity: number;
+  private _gradient: string;
 
   constructor() {
     Object.assign(this, DEFAULT);
@@ -34,12 +36,23 @@ export class LinesFillBuilder {
   }
 
   /**
+   * OPTIONAL. A string to determine the gradient of the fill under line.
+   *
+   * @default undefined
+   */
+  gradient(gradient: string): this {
+    this._gradient = gradient;
+    return this;
+  }
+
+  /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): LinesFill {
+  _build(): BelowLinesAreaFill {
     return {
       display: this._display,
       opacity: this._opacity,
+      gradient: this._gradient,
     };
   }
 }

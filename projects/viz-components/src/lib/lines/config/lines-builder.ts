@@ -6,8 +6,8 @@ import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quant
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
 import { PointMarkersBuilder } from '../../marks/point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
+import { BelowLinesAreaFillBuilder } from './below-lines-area-fill/below-lines-area-fill-builder';
 import { LinesConfig } from './lines-config';
-import { LinesFillBuilder } from './lines-filll/lines-fill-builder';
 
 const DEFAULT = {
   _curve: curveLinear,
@@ -36,7 +36,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
-  private linesFillBuilder: LinesFillBuilder;
+  private belowLinesAreaFillBuilder: BelowLinesAreaFillBuilder;
 
   constructor() {
     super();
@@ -188,14 +188,16 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    *
    * @default undefined
    */
-  createFillUnderLines(setProperties?: (fill: LinesFillBuilder) => void): this {
-    this.initLinesFillBuilder();
-    setProperties?.(this.linesFillBuilder);
+  createBelowLinesAreaFill(
+    setProperties?: (belowLinesAreaFill: BelowLinesAreaFillBuilder) => void
+  ): this {
+    this.initBelowLinesAreaFillBuilder();
+    setProperties?.(this.belowLinesAreaFillBuilder);
     return this;
   }
 
-  private initLinesFillBuilder(): void {
-    this.linesFillBuilder = new LinesFillBuilder();
+  private initBelowLinesAreaFillBuilder(): void {
+    this.belowLinesAreaFillBuilder = new BelowLinesAreaFillBuilder();
   }
 
   /**
@@ -216,7 +218,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
       stroke: this.strokeBuilder._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
-      fill: this.linesFillBuilder?._build(),
+      belowLinesAreaFill: this.belowLinesAreaFillBuilder?._build(),
     });
   }
 

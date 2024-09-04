@@ -73,7 +73,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
-    if (this.config.fill) {
+    if (this.config.belowLinesAreaFill) {
       this.drawUnderLineAreas(transitionDuration);
     }
     if (this.config.pointMarkers) {
@@ -163,22 +163,36 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
           enter
             .append('path')
             .attr('category', ([category]) => category)
-            .attr('fill', ([category]) => this.scales.categorical(category))
+            .attr('fill', ([category]) =>
+              this.config.belowLinesAreaFill.gradient
+                ? `url(#${this.config.belowLinesAreaFill.gradient})`
+                : this.scales.categorical(category)
+            )
             .attr('class', 'vic-line-area')
-            .attr('opacity', this.config.fill.opacity)
+            .attr('opacity', this.config.belowLinesAreaFill.opacity)
             .attr('d', ([, lineData]) => this.lineArea(lineData))
-            .attr('display', this.config.fill.display ? null : 'none'),
+            .attr(
+              'display',
+              this.config.belowLinesAreaFill.display ? null : 'none'
+            ),
         (update) =>
           update
             .attr('category', ([category]) => category)
-            .attr('fill', ([category]) => this.scales.categorical(category))
-            .attr('opacity', this.config.fill.opacity)
+            .attr('fill', ([category]) =>
+              this.config.belowLinesAreaFill.gradient
+                ? `url(#${this.config.belowLinesAreaFill.gradient})`
+                : this.scales.categorical(category)
+            )
+            .attr('opacity', this.config.belowLinesAreaFill.opacity)
             .call((update) =>
               update
                 .transition(t as any)
                 .attr('d', ([, lineData]) => this.lineArea(lineData))
             )
-            .attr('display', this.config.fill.display ? null : 'none'),
+            .attr(
+              'display',
+              this.config.belowLinesAreaFill.display ? null : 'none'
+            ),
         (exit) => exit.remove()
       );
   }

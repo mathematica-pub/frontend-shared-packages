@@ -62,6 +62,19 @@
 
     <ng-template #clickTooltipChart>
       <vic-xy-chart [margin]="margin" #tooltipOrigin>
+        <ng-container svg-defs>
+          <svg:pattern
+            svg-defs
+            [id]="patternName"
+            x="2"
+            y="2"
+            width="5"
+            height="5"
+            patternUnits="userSpaceOnUse"
+          >
+            <rect x="3" y="3" width="2" height="2" fill="#876fc1" />
+          </svg:pattern>
+        </ng-container>
         <ng-container svg-elements>
           <svg:g vic-xy-background></svg:g>
           <svg:g
