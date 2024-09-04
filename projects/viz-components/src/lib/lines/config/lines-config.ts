@@ -1,9 +1,9 @@
 import { CurveFactory, group, range } from 'd3';
+import { PointMarkers } from '../..//point-markers/point-markers';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { PointMarkers } from '../../marks/point-markers/point-markers';
-import { Stroke } from '../../marks/stroke/stroke';
+import { Stroke } from '../../stroke/stroke';
 import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
 import { BelowLinesAreaFill } from './below-lines-area-fill/below-lines-area-fill';
