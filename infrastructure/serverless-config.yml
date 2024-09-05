@@ -15,12 +15,3 @@ config:
       vpcId: vpc-023a4e725eea45604
       subnet1: subnet-04676be1fbfb7ce70
       subnet2: subnet-051a68cecc8c597ae
-
-  release:
-    region: us-east-1
-    operatorEmail: tcoile@mathematica-mpr.com
-    kmsKeyArn: arn:aws:kms:us-east-1:838494257041:key/15cd3869-0eda-44ef-aa2c-1d9d66dc6a84
-    vpc:
-      vpcId: vpc-07bede87aaf0938ad
-      subnet1: subnet-085d09b25dc0993e0
-      subnet2: subnet-08e2dcce0b709bd1d
