@@ -16,7 +16,7 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       Name: !Ref RecordName
-      Comment: !Sub 'ACM Certificate - Validation Record'
+      Comment: 'ACM Certificate - Validation Record'
       HostedZoneId: !Ref HostedZoneId
       Type: CNAME
       TTL: 300

@@ -121,25 +121,17 @@ resources:
         CloudFrontOriginAccessIdentityConfig:
           Comment: !Ref FrontEndWebsiteBucket
 
-    HostedZone:
-      Type: AWS::Route53::HostedZone
-      Properties:
-        Name: ${self:custom.appConfig.config.domainName}
-
-    # Certificate:
-    #   Type: AWS::CertificateManager::Certificate
-    #   Properties:
-    #     # DomainName: !Ref DomainName add domain of hsi.whatever
-    #     ValidationMethod: DNS
-
     CloudFrontDistribution:
       Type: AWS::CloudFront::Distribution
       DependsOn:
         - CloudFrontHttpHeaderResponseFunction
       Properties:
         DistributionConfig:
-          # Aliases:
-          #   - !Ref DomainName
+          Aliases:
+            - ${self:custom.appConfig.config.frontendDomainName}
+          ViewerCertificate:
+            AcmCertificateArn: ${self:custom.appConfig.config.acmCertificateArn}
+            SslSupportMethod: sni-only
           Comment: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-cloudfront-distribution
           CustomErrorResponses:
             - ErrorCode: 404

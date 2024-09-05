@@ -1,12 +1,18 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'ACM Certifcate'
 
+Parameters:
+  DomainName:
+    Type: String
+  ProjectName:
+    Type: String
+
 Resources:
   Certificate:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: shared-packages.mathematica-dev.net
+      DomainName: !Ref DomainName
       ValidationMethod: DNS
       Tags:
         - Key: Project
-          Value: SharedPackages
+          Value: !Ref ProjectName
