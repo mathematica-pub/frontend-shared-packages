@@ -124,12 +124,13 @@ resources:
     CloudfrontCNAMERegistration:
       Type: AWS::Route53::RecordSet
       Properties:
-        HostedZoneId: ${self:custom.appConfig.config.hostedZoneId}
         Name: ${self:custom.appConfig.config.frontendDomainName}
-        Type: A
-        AliasTarget:
-          DNSName: !GetAtt CloudFrontDistribution.DomainName
-          HostedZoneId: ${self:custom.appConfig.config.hostedZoneId}
+        Comment: 'Frontend Shared Packages Cloudfront Distribution CNAME'
+        HostedZoneId: ${self:custom.appConfig.config.hostedZoneId}
+        Type: CNAME
+        TTL: 300
+        ResourceRecords:
+          - !GetAtt CloudFrontDistribution.DomainName
 
     CloudFrontDistribution:
       Type: AWS::CloudFront::Distribution
