@@ -73,8 +73,9 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
-    if (this.config.belowLinesAreaFill) {
-      this.drawUnderLineAreas(transitionDuration);
+    if (this.config.belowLineAreaFills) {
+      this.setBelowLineFills();
+      this.drawBelowLineFills(transitionDuration);
     }
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
@@ -94,6 +95,10 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       .curve(this.config.curve)
       .x((i: any) => this.scales.x(this.config.x.values[i]))
       .y((i: any) => this.scales.y(this.config.y.values[i]));
+  }
+
+  setBelowLineFills(): void {
+    const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.lineArea = area()
       .defined((i: any) => isValid[i] as boolean)
@@ -150,7 +155,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       );
   }
 
-  drawUnderLineAreas(transitionDuration: number): void {
+  drawBelowLineFills(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
@@ -164,26 +169,26 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             .append('path')
             .attr('category', ([category]) => category)
             .attr('fill', ([category]) =>
-              this.config.belowLinesAreaFill.gradient
-                ? `url(#${this.config.belowLinesAreaFill.gradient})`
+              this.config.belowLineAreaFills.gradient
+                ? `url(#${this.config.belowLineAreaFills.gradient})`
                 : this.scales.categorical(category)
             )
             .attr('class', 'vic-line-area')
-            .attr('opacity', this.config.belowLinesAreaFill.opacity)
+            .attr('opacity', this.config.belowLineAreaFills.opacity)
             .attr('d', ([, lineData]) => this.lineArea(lineData))
             .attr(
               'display',
-              this.config.belowLinesAreaFill.display ? null : 'none'
+              this.config.belowLineAreaFills.display ? null : 'none'
             ),
         (update) =>
           update
             .attr('category', ([category]) => category)
             .attr('fill', ([category]) =>
-              this.config.belowLinesAreaFill.gradient
-                ? `url(#${this.config.belowLinesAreaFill.gradient})`
+              this.config.belowLineAreaFills.gradient
+                ? `url(#${this.config.belowLineAreaFills.gradient})`
                 : this.scales.categorical(category)
             )
-            .attr('opacity', this.config.belowLinesAreaFill.opacity)
+            .attr('opacity', this.config.belowLineAreaFills.opacity)
             .call((update) =>
               update
                 .transition(t as any)
@@ -191,7 +196,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             )
             .attr(
               'display',
-              this.config.belowLinesAreaFill.display ? null : 'none'
+              this.config.belowLineAreaFills.display ? null : 'none'
             ),
         (exit) => exit.remove()
       );

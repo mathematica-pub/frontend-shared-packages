@@ -113,7 +113,6 @@ export class LinesExampleComponent implements OnInit {
     'hover' | 'click'
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
-  patternName = 'dotPattern';
 
   private imageService = inject(VicImageDownload);
   constructor(

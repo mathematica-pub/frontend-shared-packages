@@ -5,9 +5,10 @@ import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
-import { BelowLinesAreaFill } from './below-lines-area-fill/below-lines-area-fill';
+import { BelowLineAreaFills } from './below-line-area-fills/below-line-area-fills';
 
 export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
+  belowLineAreaFills: BelowLineAreaFills;
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
   hoverDot: PointMarkers;
@@ -18,5 +19,4 @@ export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
   stroke: Stroke;
   x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
   y: QuantitativeNumericDimension<Datum>;
-  belowLinesAreaFill: BelowLinesAreaFill;
 }

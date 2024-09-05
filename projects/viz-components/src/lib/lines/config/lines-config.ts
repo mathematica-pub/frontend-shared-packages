@@ -6,7 +6,7 @@ import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative
 import { Stroke } from '../../stroke/stroke';
 import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
-import { BelowLinesAreaFill } from './below-lines-area-fill/below-lines-area-fill';
+import { BelowLineAreaFills } from './below-line-area-fills/below-line-area-fills';
 import { LinesOptions } from './lines-options';
 
 export interface LinesMarkerDatum {
@@ -26,6 +26,7 @@ export class LinesConfig<Datum>
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
+  readonly belowLineAreaFills: BelowLineAreaFills;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: PointMarkers;
   readonly stroke: Stroke;
@@ -33,7 +34,6 @@ export class LinesConfig<Datum>
     | QuantitativeDateDimension<Datum>
     | QuantitativeNumericDimension<Datum>;
   readonly y: QuantitativeNumericDimension<Datum>;
-  readonly belowLinesAreaFill: BelowLinesAreaFill;
 
   constructor(options: LinesOptions<Datum>) {
     super();

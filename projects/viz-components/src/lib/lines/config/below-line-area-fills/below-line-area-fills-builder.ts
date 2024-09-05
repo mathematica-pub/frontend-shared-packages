@@ -1,4 +1,4 @@
-import { BelowLinesAreaFill } from './below-lines-area-fill';
+import { BelowLineAreaFills } from './below-line-area-fills';
 
 const DEFAULT = {
   _display: true,
@@ -6,7 +6,7 @@ const DEFAULT = {
   _gradient: undefined,
 };
 
-export class BelowLinesAreaFillBuilder {
+export class BelowLineAreaFillsBuilder {
   private _display: boolean;
   private _opacity: number;
   private _gradient: string;
@@ -48,7 +48,7 @@ export class BelowLinesAreaFillBuilder {
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): BelowLinesAreaFill {
+  _build(): BelowLineAreaFills {
     return {
       display: this._display,
       opacity: this._opacity,

@@ -356,7 +356,7 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
         .createCategoricalDimension((dimension) =>
           dimension.valueAccessor((d) => d.continent)
         )
-        .createBelowLinesAreaFill()
+        .createBelowLineAreaFills()
         .getConfig();
       mountNumberLinesComponent(linesConfig);
       const categories = [];
