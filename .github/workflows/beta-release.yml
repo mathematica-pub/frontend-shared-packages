@@ -16,18 +16,13 @@ env:
 
 jobs:
   beta-release:
-    if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot (viz-components)')
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'beta-release-bot')
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
     steps:
-      # - uses: xt0rted/pull-request-comment-branch@v2
-      #   id: comment-branch
-
-      - uses: actions/checkout@v3
-        # if: success()
-        # with:
-        #   ref: ${{ steps.comment-branch.outputs.head_ref }}
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -35,28 +30,41 @@ jobs:
           node-version: 20
           cache: npm
 
+      - name: Set referenced package
+        run: |
+          REFERENCED_PACKAGE=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot (\([^)]*\)).*/\1/p')
+          echo "Referenced package: $REFERENCED_PACKAGE"
+          echo "REFERENCED_PACKAGE=$REFERENCED_PACKAGE" >> $GITHUB_ENV
+
+      - name: Confirm referenced package exists
+        run: |
+          if [ ! -d "./projects/$REFERENCED_PACKAGE" ]; then
+            echo "Error: Directory ./projects/$REFERENCED_PACKAGE does not exist."
+            exit 1
+          fi
+
       - name: Update package.json with beta
         run: |
-          BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot (viz-components): \(.*\)/\1/p' | tr -d ' ')
-          PACKAGE_VERSION=$(node -p "require('./projects/viz-components/package.json').version")
+          BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot ($REFERENCED_PACKAGE): \(.*\)/\1/p' | tr -d ' ')
+          PACKAGE_VERSION=$(node -p "require('./projects/$REFERENCED_PACKAGE/package.json').version")
           echo "Current version: $PACKAGE_VERSION"
           NEW_VERSION="$PACKAGE_VERSION-$BETA_APPEND_STRING"
           echo "New version: $NEW_VERSION"
-          jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' ./projects/viz-components/package.json > ./projects/viz-components/package.json.tmp
-          mv ./projects/viz-components/package.json.tmp ./projects/viz-components/package.json
+          jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' ./projects/$REFERENCED_PACKAGE/package.json > ./projects/$REFERENCED_PACKAGE/package.json.tmp
+          mv ./projects/$REFERENCED_PACKAGE/package.json.tmp ./projects/$REFERENCED_PACKAGE/package.json
 
       - name: Install Dependencies
         run: npm ci
 
       - name: Build Library
-        run: npm run build:viz-components
+        run: npm run build:$REFERENCED_PACKAGE
 
       - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Deploy to codeartifact
         run: |
-          cd ./dist/viz-components
+          cd ./dist/$REFERENCED_PACKAGE
           npm publish
 
       - name: Add comment to PR
@@ -67,7 +75,7 @@ jobs:
             const name = '${{ github.workflow  }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const body = `${name}: ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+            const body = `${name} ($REFERENCED_PACKAGE): ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
