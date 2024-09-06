@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description:
+  'Route53 CNAME Record for ACM Certificate Validation'
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-route53-recordset.html
+
+Parameters:
+  RecordName:
+    Type: String
+  Value:
+    Type: String
+  HostedZoneId:
+    Type: String
+
+Resources:
+  AcmCertificateValidationRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Name: !Ref RecordName
+      Comment: 'ACM Certificate - Validation Record'
+      HostedZoneId: !Ref HostedZoneId
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+        - !Ref Value
