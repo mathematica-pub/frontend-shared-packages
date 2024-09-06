@@ -1,4 +1,10 @@
-1. Creating ACM certificates
+## Deploying serverless app
+
+```
+npx serverless deploy --verbose --stage dev
+```
+
+## Creating ACM certificates
 
 ```
 cd certificates
@@ -22,7 +28,7 @@ aws cloudformation create-stack \
 --enable-termination-protection
 ```
 
-2. Validating Certificates
+## Validating certificates
 
 ```
 cd route53-records
@@ -42,6 +48,17 @@ aws cloudformation create-stack \
 --stack-name frontend-domain-validation-shared-package \
 --template-body file://acm-domain-validation.yaml \
 --parameters file://frontend-shared-packages-domain-validation.params.json \
+--capabilities CAPABILITY_NAMED_IAM \
+--enable-termination-protection
+```
+
+## Creating GitHub actions access policy
+
+```
+aws cloudformation create-stack \
+--stack-name viz-components-permissions \
+--template-body file://github-actions-access-policy.yml \
+--parameters file://github-actions-access-policy.params.json \
 --capabilities CAPABILITY_NAMED_IAM \
 --enable-termination-protection
 ```
