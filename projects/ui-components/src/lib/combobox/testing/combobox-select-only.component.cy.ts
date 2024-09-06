@@ -298,7 +298,7 @@ describe('ComboboxMultiComponent', () => {
     });
   });
   it('can make more than one selection', () => {
-    cy.get('.combobox-textbox').realClick();
+    cy.get('.combobox-textbox').click();
     cy.get('.listbox-option').first().realClick();
     cy.get('.listbox-option').eq(1).realClick();
     cy.get('.textbox-label').should('have.text', 'Apples, Bananas');
