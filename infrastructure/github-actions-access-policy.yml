@@ -57,14 +57,6 @@ Resources:
               - sns:Subscribe
               - sns:Unsubscribe
               - sns:TagResource
-              - route53:ListHostedZones
-              - route53:ChangeResourceRecordSets
-              - route53:GetHostedZone
-              - route53:ListResourceRecordSets
-              - acm:RequestCertificate
-              - acm:DescribeCertificate
-              - acm:ListCertificates
-              - acm:GetCertificate
             Resource: '*'
       Users:
         - !Ref GithubUser
