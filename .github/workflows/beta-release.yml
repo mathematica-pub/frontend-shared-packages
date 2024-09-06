@@ -76,8 +76,8 @@ jobs:
             const workflow = '${{ github.workflow  }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const pkg = '${{ env.REFERENCED_PACKAGE }}';
-            const version = '${{ env.NEW_VERSION }}';
+            const pkg = process.env.REFERENCED_PACKAGE;
+            const version = process.env.NEW_VERSION;
             let body = `[${workflow} (${pkg})](${url}): ${success ? 'succeeded ✅' : 'failed ❌'}`;
             if (success) {
               body = body + `\n\nTo install, run \`npm install @hsi/${pkg}@${version}\``;
