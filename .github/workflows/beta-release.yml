@@ -45,10 +45,11 @@ jobs:
 
       - name: Update package.json with beta
         run: |
-          BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot ($REFERENCED_PACKAGE): \(.*\)/\1/p' | tr -d ' ')
+          BETA_APPEND_STRING=$(echo "${{ github.event.comment.body }}" | sed -n "s/.*beta-release-bot ($REFERENCED_PACKAGE): \(.*\)/\1/p" | tr -d ' ')
           PACKAGE_VERSION=$(node -p "require('./projects/$REFERENCED_PACKAGE/package.json').version")
           echo "Current version: $PACKAGE_VERSION"
           NEW_VERSION="$PACKAGE_VERSION-$BETA_APPEND_STRING"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
           echo "New version: $NEW_VERSION"
           jq --arg newVersion "$NEW_VERSION" '.version = $newVersion' ./projects/$REFERENCED_PACKAGE/package.json > ./projects/$REFERENCED_PACKAGE/package.json.tmp
           mv ./projects/$REFERENCED_PACKAGE/package.json.tmp ./projects/$REFERENCED_PACKAGE/package.json
@@ -72,10 +73,15 @@ jobs:
         if: always()
         with:
           script: |
-            const name = '${{ github.workflow  }}';
+            const workflow = '${{ github.workflow  }}';
             const url = '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}';
             const success = '${{ job.status }}' === 'success';
-            const body = `${name} ($REFERENCED_PACKAGE): ${success ? 'succeeded ✅' : 'failed ❌'}\n${url}`;
+            const pkg = process.env.REFERENCED_PACKAGE;
+            const version = process.env.NEW_VERSION;
+            let body = `[${workflow} (${pkg})](${url}): ${success ? 'succeeded ✅' : 'failed ❌'}`;
+            if (success) {
+              body = body + `\n\nTo install, run \`npm install @hsi/${pkg}@${version}\``;
+            }
 
             await github.rest.issues.createComment({
               issue_number: context.issue.number,
