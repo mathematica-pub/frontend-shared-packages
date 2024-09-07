@@ -2,14 +2,17 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  inject,
   Input,
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { filter, map, Observable } from 'rxjs';
-import { FileResource } from '../../core/resources/file.resource';
+import {
+  getContentConfigForLib,
+  getDocumentationConfigForLib,
+} from '../../core/constants/file-paths.constants';
+import { AssetsService } from '../../core/services/assets.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../core/services/router-state/state';
 import {
@@ -20,6 +23,16 @@ import {
 
 type NestedStringObject = {
   [key: string]: string | NestedStringObject;
+};
+
+type ContentConfig = {
+  title: string;
+  items: NestedStringObject;
+};
+
+type ContentDocs = {
+  title: string;
+  items: DirectoryItem[];
 };
 
 @Component({
@@ -35,15 +48,15 @@ type NestedStringObject = {
 export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
   automatedDocsItems$: Observable<DirectoryItem[]>;
-  manualDocs$: Observable<{ title: string; items: DirectoryItem[] }>;
+  manualDocs$: Observable<ContentDocs>;
   expanded = true;
   Section = Section;
   Library = Library;
-  private files = inject(FileResource);
 
   constructor(
     private titleCase: TitleCasePipe,
-    public routerState: RouterStateService
+    public routerState: RouterStateService,
+    private assets: AssetsService
   ) {}
 
   ngOnInit(): void {
@@ -52,22 +65,26 @@ export class LibDocsComponent implements OnInit {
   }
 
   initManualDocumentation(): void {
-    const configPath = `app/manual-documentation/${this.lib.id}/config.yaml`;
-    this.manualDocs$ = this.files.getYamlFile(configPath).pipe(
-      filter((manualConfig) => !!manualConfig),
-      map((manualConfig) => ({
-        title: manualConfig.title,
-        items: this.getDocsDirectoryTree(manualConfig.items),
-      }))
-    );
+    const configPath = getContentConfigForLib(this.lib.id);
+    this.manualDocs$ = this.assets
+      .getAsset<ContentConfig>(configPath, 'yaml')
+      .pipe(
+        filter((manualConfig) => !!manualConfig),
+        map((manualConfig) => ({
+          title: manualConfig.title,
+          items: this.getDocsDirectoryTree(manualConfig.items),
+        }))
+      );
   }
 
   initAutomatedDocumentation(): void {
-    const configPath = `assets/documentation/${this.lib.id}/documentation-structure.yaml`;
-    this.automatedDocsItems$ = this.files.getYamlFile(configPath).pipe(
-      filter((automatedConfig) => !!automatedConfig),
-      map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig))
-    );
+    const configPath = getDocumentationConfigForLib(this.lib.id);
+    this.automatedDocsItems$ = this.assets
+      .getAsset<NestedStringObject>(configPath, 'yaml')
+      .pipe(
+        filter((automatedConfig) => !!automatedConfig),
+        map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig))
+      );
   }
 
   getDocsDirectoryTree(
