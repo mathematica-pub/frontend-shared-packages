@@ -41,7 +41,7 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
   private highlightService = inject(HighlightService);
-  private filesService = inject(AssetsService);
+  private assetsService = inject(AssetsService);
   private sanitizer = inject(DomSanitizer);
   router = inject(Router);
   destroyRef = inject(DestroyRef);
@@ -64,7 +64,7 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
         switchMap((state) => {
           // strip off hash so that on reload, it just loads the front page
           const path = `${state.lib}/${Section.Documentation}/${state.contentPath.split('#')[0]}.html`;
-          return this.filesService.getAsset(path);
+          return this.assetsService.getAsset(path);
         }),
         takeUntilDestroyed(this.destroyRef),
         withLatestFrom(this.routerState.state$)
