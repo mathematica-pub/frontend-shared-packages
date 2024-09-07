@@ -36,9 +36,9 @@ export class RouterStateService {
   }
 
   getStateFromUrl(url: string): State {
-    const fragments = url.split('/');
-    if (fragments.every((f) => !f)) {
-      // site will load before router redirect has taken place, so help this along by dedirecting to default if no fragments in url
+    const subdirectories = url.split('/');
+    if (subdirectories.every((f) => !f)) {
+      // site will load before router redirect has taken place, so help this along by redirecting to default if no subdirectories in url
       // state-based styles won't load on first load if we don't do this
       return {
         lib: Library.SharedPackages,
@@ -47,9 +47,9 @@ export class RouterStateService {
       };
     }
     return {
-      lib: fragments[1] as Library,
-      section: fragments[2] as Section,
-      contentPath: fragments.slice(3).join('/'),
+      lib: subdirectories[1] as Library,
+      section: subdirectories[2] as Section,
+      contentPath: subdirectories.slice(3).join('/'),
     };
   }
 
