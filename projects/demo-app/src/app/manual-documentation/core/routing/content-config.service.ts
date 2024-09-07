@@ -8,7 +8,7 @@ import { ManualDocumentationConfig } from '../../viz-components/config';
 @Injectable({
   providedIn: 'root',
 })
-export class ManualDocumentationConfigService {
+export class ContentConfigService {
   configs: Record<Library, ManualDocumentationConfig> = {
     [Library.VizComponents]: {} as ManualDocumentationConfig,
     [Library.UiComponents]: {} as ManualDocumentationConfig,

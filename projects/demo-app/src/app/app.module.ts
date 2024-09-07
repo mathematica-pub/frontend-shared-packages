@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Library } from './core/services/router-state/state';
-import { ManualDocumentationConfigService } from './manual-documentation/core/routing/manual-documentation-config.service';
+import { ContentConfigService } from './manual-documentation/core/routing/content-config.service';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
@@ -21,12 +21,12 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     {
       provide: APP_INITIALIZER,
       multi: true,
-      useFactory: (config: ManualDocumentationConfigService) => {
+      useFactory: (config: ContentConfigService) => {
         return () => {
           config.initConfigs([Library.UiComponents, Library.VizComponents]);
         };
       },
-      deps: [ManualDocumentationConfigService],
+      deps: [ContentConfigService],
     },
   ],
   bootstrap: [AppComponent],

@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { Library } from '../../../core/services/router-state/state';
-import { ManualDocumentationConfigService } from './manual-documentation-config.service';
+import { ContentConfigService } from './content-config.service';
 
-export function manualDocumentationRoutesFactory(lib: Library) {
-  return (configService: ManualDocumentationConfigService) => {
+export function contentRoutesFactory(lib: Library) {
+  return (configService: ContentConfigService) => {
     const config = configService.configs[lib];
     const routes: Routes = [
       {
