@@ -121,12 +121,28 @@ resources:
         CloudFrontOriginAccessIdentityConfig:
           Comment: !Ref FrontEndWebsiteBucket
 
+    CloudfrontCNAMERegistration:
+      Type: AWS::Route53::RecordSet
+      Properties:
+        Name: ${self:custom.appConfig.config.frontendDomainName}
+        Comment: 'Frontend Shared Packages Cloudfront Distribution CNAME'
+        HostedZoneId: ${self:custom.appConfig.config.hostedZoneId}
+        Type: CNAME
+        TTL: 300
+        ResourceRecords:
+          - !GetAtt CloudFrontDistribution.DomainName
+
     CloudFrontDistribution:
       Type: AWS::CloudFront::Distribution
       DependsOn:
         - CloudFrontHttpHeaderResponseFunction
       Properties:
         DistributionConfig:
+          Aliases:
+            - ${self:custom.appConfig.config.frontendDomainName}
+          ViewerCertificate:
+            AcmCertificateArn: ${self:custom.appConfig.config.acmCertificateArn}
+            SslSupportMethod: sni-only
           Comment: !Sub ${self:custom.appConfig.config.appName}-${opt:stage}-cloudfront-distribution
           CustomErrorResponses:
             - ErrorCode: 404
