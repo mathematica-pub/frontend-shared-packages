@@ -4,8 +4,8 @@ import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/c
 import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
-import { PointMarkersBuilder } from '../../marks/point-markers/point-markers-builder';
-import { StrokeBuilder } from '../../marks/stroke/stroke-builder';
+import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
+import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { LinesConfig } from './lines-config';
 
 const DEFAULT = {

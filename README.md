@@ -1,4 +1,11 @@
-# VizComponents
+# Frontend Shared Packages
+
+This is a repo/Angular workspace that houses HSI's Angular libraries and associated applications.
+
+Currently, the workspace consists of two libraries: `ui-components` and `viz-components`, and an app
+that serves as our documentation site, `demo-app`.
+
+## VizComponents
 
 [![build, lint, & test](https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml/badge.svg)](https://github.com/mathematica-org/viz-components/actions/workflows/unit-testing-linting.yml)
 [![Publish to CodeArtifact](https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml/badge.svg)](https://github.com/mathematica-org/viz-components/actions/workflows/deploy-codeartifact-cloudfront.yml)
@@ -13,20 +20,20 @@ fully customize the system of visual marks used to represent data.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version
 14.0.0.
 
-## How to use
+## How to use libraries
 
 1.  set your aws credentials (found in `~/.aws/credentials`)
 2.  `aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi`
-3.  `npm i @hsi/viz-components`
+3.  `npm i @hsi/viz-components` or `npm i @hsi/ui-components`
 4.  Once the package is installed, you can use it like any normal third party package
 
 ## Example Projects
 
 - [Covid Cohort](https://github.com/mathematica-org/covid-cohort)
-- [Scorecard](https://github.com/mathematica-org/MACScorecard-Frontend) Uses VizComponents bars,
+- [Scorecard](https://github.com/mathematica-org/MACScorecard-Frontend) Uses viz-components bars,
   lines, and geographies. Uses image and data download services. Examples of custom/extended bars,
   lines, and geographies components. Geography is US map, and has small state squares w/hover &
-  click actions.
+  click actions. Also uses ui-components dropdown, tabs, and table.
 
 ## Feedback, Bugs, and Issues
 
@@ -49,7 +56,6 @@ Maintainers are jointly responsible for reviewing issue requests and PRs in a ti
 Our current maintainers are:
 
 - Stephanie Tuerk
-- Ellie Irish
 - Claire McShane
 - Tom Coile
 
