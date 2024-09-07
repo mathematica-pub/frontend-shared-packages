@@ -1,6 +1,8 @@
+import { Directive } from '@angular/core';
 import { fromEvent, map, Observable, switchMap, takeUntil } from 'rxjs';
 import { ExampleDisplay } from './example-display';
 
+@Directive()
 export abstract class ResizableExampleDisplay extends ExampleDisplay {
   resizableWidth$: Observable<string>;
 
