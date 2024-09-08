@@ -4,8 +4,7 @@ export interface MarksOptions<Datum> {
    * The objects can be of an type, and can contain any number of properties, including properties that are extraneous to the chart at hand.
    *
    * @default: []
-   * Default is []
    */
-  data?: Datum[];
+  data: Datum[];
   mixBlendMode: string;
 }
