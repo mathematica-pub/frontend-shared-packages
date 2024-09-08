@@ -119,7 +119,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/demo-app/src/favicon.ico",
-              "projects/demo-app/src/assets"
+              "projects/demo-app/src/assets",
+              "projects/demo-app/src/app/manual-documentation/**/*-documentation/**"
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
