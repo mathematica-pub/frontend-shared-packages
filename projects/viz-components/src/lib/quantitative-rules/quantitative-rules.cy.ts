@@ -7,7 +7,6 @@ import {
   VicChartModule,
   VicLinesConfigBuilder,
   VicLinesModule,
-  VicQuantitativeRulesConfigBuilder,
   VicQuantitativeRulesModule,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
@@ -32,6 +31,7 @@ import {
   QnQnCData,
   QnQnCDatum,
 } from '../testing/data/quant-quant-cat-data';
+import { VicQuantitativeRulesConfigBuilder } from './config/quantitative-rules-builder';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 // ***********************************************************
