@@ -31,10 +31,12 @@ export class QuantitativeRulesComponent<
   }
 
   drawMarks(): void {
-    const transitionDuration = this.getTransitionDuration();
-    this.drawRules(transitionDuration);
-    if (this.config.labels) {
-      this.drawLabels(transitionDuration);
+    if (this.chartScalesMatchConfigOrientation()) {
+      const transitionDuration = this.getTransitionDuration();
+      this.drawRules(transitionDuration);
+      if (this.config.labels) {
+        this.drawLabels(transitionDuration);
+      }
     }
   }
 
@@ -127,17 +129,24 @@ export class QuantitativeRulesComponent<
       );
   }
 
+  // Intended to flag situations where both chart scales and the config are both updated
+  // and one goes before the other.
+  chartScalesMatchConfigOrientation(): boolean {
+    if (this.config.dimensions.isHorizontal) {
+      return this.config.data.every((d) => this.getYStart(d) !== undefined);
+    } else {
+      return this.config.data.every((d) => this.getXStart(d) !== undefined);
+    }
+  }
+
   getRuleTransform(d: Datum): string {
     let x;
     let y;
     if (this.config.dimensions.isHorizontal) {
       x = this.scales.x.range()[0];
-      // || 0 handles cases where both the scale and this component's config are changing at the same time.
-      // For example, if this is used in a bar chart that it toggling between horizontal and vertical, the bar chart's scale will change before this component's dimensions change, and getYStart/getXStart will return undefined.
-      // The expectation is the the correct change comes through in a matter of ms and the 0 condition is never visible -- this is to prevent it erroring out with `undefined`.
-      y = this.getYStart(d) || 0;
+      y = this.getYStart(d);
     } else {
-      x = this.getXStart(d) || 0;
+      x = this.getXStart(d);
       y = this.scales.y.range()[0];
     }
     return `translate(${x}, ${y})`;
