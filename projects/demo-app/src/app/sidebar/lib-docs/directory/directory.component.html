@@ -37,6 +37,7 @@
     @if (terminalItemsAreSelectable) {
       <div
         class="item selectable"
+        [ngClass]="'level-' + level"
         [attr.role]="selectionElementRole"
         tabindex="0"
         [style.--level]="level"

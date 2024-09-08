@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs';
-import { FileResource } from '../../../core/resources/file.resource';
+import { getContentConfigForLib } from '../../../core/constants/file-paths.constants';
+import { AssetsService } from '../../../core/services/assets.service';
 import { Library } from '../../../core/services/router-state/state';
 import { ManualDocumentationConfig } from '../../viz-components/config';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ManualDocumentationConfigService {
-  basePath: string = '/app/manual-documentation/';
-  fileName: string = 'config.yaml';
+export class ContentConfigService {
   configs: Record<Library, ManualDocumentationConfig> = {
     [Library.VizComponents]: {} as ManualDocumentationConfig,
     [Library.UiComponents]: {} as ManualDocumentationConfig,
     [Library.SharedPackages]: {} as ManualDocumentationConfig,
   };
 
-  constructor(private files: FileResource) {}
+  constructor(private assets: AssetsService) {}
 
   initConfigs(libs: Library[]): void {
     forkJoin(
       libs.map((lib) =>
-        this.files.getYamlFile(this.basePath + lib + '/' + this.fileName)
+        this.assets.getAsset<ManualDocumentationConfig>(
+          getContentConfigForLib(lib),
+          'yaml'
+        )
       )
     ).subscribe((configs) => {
       (configs as ManualDocumentationConfig[]).forEach(

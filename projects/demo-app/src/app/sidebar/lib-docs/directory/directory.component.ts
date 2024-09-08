@@ -47,6 +47,8 @@ export class DirectoryComponent implements OnChanges {
    */
   @Output() selectionChanges = new EventEmitter<DirectorySelection>();
   /**
+   * @internal
+   *
    * Internal, will have no effect if provided at root level.
    */
   @Output() stateChanges = new EventEmitter<DirectorySelection>();

@@ -11,7 +11,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Observable, map } from 'rxjs';
-import { FileResource } from '../../../core/resources/file.resource';
+import { AssetsService } from '../../../core/services/assets.service';
 import { HighlightService } from '../../../core/services/highlight.service';
 
 @Component({
@@ -30,10 +30,10 @@ export class OverviewComponent implements OnInit, OnChanges {
   route: string;
 
   constructor(
-    private files: FileResource,
     private sanitizer: DomSanitizer,
     private destroyRef: DestroyRef,
-    private highlight: HighlightService
+    private highlight: HighlightService,
+    private assets: AssetsService
   ) {}
 
   ngOnInit(): void {
@@ -47,9 +47,9 @@ export class OverviewComponent implements OnInit, OnChanges {
   }
 
   setHtml(): void {
-    const filePath = `app/manual-documentation/${this.lib}/overview.md`;
-    this.html$ = this.files
-      .getMarkdownFile(filePath)
+    const filePath = `${this.lib}/content/overview.md`;
+    this.html$ = this.assets
+      .getAsset(filePath, 'md')
       .pipe(map((html) => this.sanitizer.bypassSecurityTrustHtml(html)));
   }
 

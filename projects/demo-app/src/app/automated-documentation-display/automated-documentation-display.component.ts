@@ -18,9 +18,10 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs';
-import { DocumentationFilesService } from '../core/services/documentation-files.service';
+import { AssetsService } from '../core/services/assets.service';
 import { HighlightService } from '../core/services/highlight.service';
 import { RouterStateService } from '../core/services/router-state/router-state.service';
+import { Section } from '../core/services/router-state/state';
 
 @Component({
   selector: 'app-automated-documentation-display',
@@ -40,7 +41,7 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
   private highlightService = inject(HighlightService);
-  private filesService = inject(DocumentationFilesService);
+  private assetsService = inject(AssetsService);
   private sanitizer = inject(DomSanitizer);
   router = inject(Router);
   destroyRef = inject(DestroyRef);
@@ -63,8 +64,8 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
         }),
         switchMap((state) => {
           // strip off hash so that on reload, it just loads the front page
-          const path = `/documentation/${state.lib}/${state.contentPath.split('#')[0]}`;
-          return this.filesService.getDocumentation(path);
+          const path = `${state.lib}/${Section.Documentation}/${state.contentPath.split('#')[0]}.html`;
+          return this.assetsService.getAsset(path);
         }),
         withLatestFrom(this.routerState.state$)
       )
