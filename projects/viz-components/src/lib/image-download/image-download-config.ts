@@ -1,40 +1,53 @@
 import { VicImage } from './image-download-enums';
+import { ImageDownloadOptions } from './image-download-options';
 
-class VicImageDownloadConfig {
-  filter: (domNode: HTMLElement) => boolean;
+const DEFAULT = {
+  fontEmbedCSS: '',
+  backgroundColor: '#fff',
+  quality: 1,
+};
+
+export class VicJpegImageConfig implements ImageDownloadOptions {
+  backgroundColor: string;
   containerNode: HTMLElement;
   fileName: string;
+  filter: (domNode: HTMLElement) => boolean;
+  fontEmbedCSS: string;
   imageType: string;
-  /**
-   * Disables external fonts from being read in
-   * Supply with custom css fallback; or set to undefined to read external fonts
-   * (will oftentimes get security errors)
-   */
-  fontEmbedCSS = '';
-  backgroundColor = '#fff';
-  quality = 1;
-}
+  quality: number;
 
-export class VicJpegImageConfig extends VicImageDownloadConfig {
-  constructor(options?: Partial<VicImageDownloadConfig>) {
-    super();
+  constructor(options?: Partial<ImageDownloadOptions>) {
+    Object.assign(this, DEFAULT, options);
     this.imageType = VicImage.jpeg;
-    Object.assign(this, options);
   }
 }
 
-export class VicPngImageConfig extends VicImageDownloadConfig {
-  constructor(options?: Partial<VicImageDownloadConfig>) {
-    super();
+export class VicPngImageConfig implements ImageDownloadOptions {
+  backgroundColor: string;
+  containerNode: HTMLElement;
+  fileName: string;
+  filter: (domNode: HTMLElement) => boolean;
+  fontEmbedCSS: string;
+  imageType: string;
+  quality: number;
+
+  constructor(options?: Partial<ImageDownloadOptions>) {
+    Object.assign(this, DEFAULT, options);
     this.imageType = VicImage.png;
-    Object.assign(this, options);
   }
 }
 
-export class VicSvgImageConfig extends VicImageDownloadConfig {
-  constructor(options?: Partial<VicImageDownloadConfig>) {
-    super();
+export class VicSvgImageConfig implements ImageDownloadOptions {
+  backgroundColor: string;
+  containerNode: HTMLElement;
+  fileName: string;
+  filter: (domNode: HTMLElement) => boolean;
+  fontEmbedCSS: string;
+  imageType: string;
+  quality: number;
+
+  constructor(options?: Partial<ImageDownloadOptions>) {
+    Object.assign(this, DEFAULT, options);
     this.imageType = VicImage.svg;
-    Object.assign(this, options);
   }
 }
