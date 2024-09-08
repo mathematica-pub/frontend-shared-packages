@@ -1,4 +1,4 @@
-import { QuantitativeRulesLabels } from './quantitative-rules-label';
+import { QuantitativeRulesLabels } from './quantitative-rules-labels';
 
 const DEFAULT = {
   _display: () => true,

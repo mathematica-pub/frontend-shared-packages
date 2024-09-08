@@ -1,4 +1,4 @@
-import { QuantitativeRulesLabelsOptions } from './quantitative-rules-label-options';
+import { QuantitativeRulesLabelsOptions } from './quantitative-rules-labels-options';
 
 export class QuantitativeRulesLabels<Datum>
   implements QuantitativeRulesLabelsOptions<Datum>

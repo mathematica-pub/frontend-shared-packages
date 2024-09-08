@@ -1,6 +1,6 @@
 import { Stroke } from '../../stroke/stroke';
 import { XyMarksConfig } from '../../xy-marks/xy-marks-config';
-import { QuantitativeRulesLabels } from './labels/quantitative-rules-label';
+import { QuantitativeRulesLabels } from './labels/quantitative-rules-labels';
 import { QuantitativeRulesDimensions } from './quantitative-rules-dimensions';
 import { QuantitativeRulesOptions } from './quantitative-rules-options';
 
