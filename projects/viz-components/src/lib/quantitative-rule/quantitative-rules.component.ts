@@ -133,9 +133,9 @@ export class QuantitativeRulesComponent<
   // and one goes before the other.
   chartScalesMatchConfigOrientation(): boolean {
     if (this.config.dimensions.isHorizontal) {
-      return this.config.data.every((d) => this.getYStart(d) !== undefined);
+      return this.config.data.every((d) => this.scales.y(d) !== undefined);
     } else {
-      return this.config.data.every((d) => this.getXStart(d) !== undefined);
+      return this.config.data.every((d) => this.scales.x(d) !== undefined);
     }
   }
 
