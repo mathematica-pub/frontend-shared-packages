@@ -20,8 +20,8 @@ export class VicQuantitativeRulesConfigBuilder<
   protected _color: (d: Datum) => string;
   protected dimensions: QuantitativeRulesDimensions;
   protected _orientation: 'horizontal' | 'vertical';
-  private strokeBuilder: StrokeBuilder;
   private labelsBuilder: RulesLabelsBuilder<Datum>;
+  private strokeBuilder: StrokeBuilder;
 
   constructor() {
     super();
@@ -55,6 +55,17 @@ export class VicQuantitativeRulesConfigBuilder<
   }
 
   /**
+   * OPTIONAL. A config for the behavior of the rule labels.
+   */
+  createLabels(
+    setProperties?: (labels: RulesLabelsBuilder<Datum>) => void
+  ): this {
+    this.labelsBuilder = new RulesLabelsBuilder();
+    setProperties?.(this.labelsBuilder);
+    return this;
+  }
+
+  /**
    * OPTIONAL. A config for the behavior of the rule stroke.
    */
   createStroke(setProperties?: (stroke: StrokeBuilder) => void): this {
@@ -65,17 +76,6 @@ export class VicQuantitativeRulesConfigBuilder<
 
   private initStrokeBuilder(): void {
     this.strokeBuilder = new StrokeBuilder();
-  }
-
-  /**
-   * OPTIONAL. A config for the behavior of the rule labels.
-   */
-  createLabels(
-    setProperties?: (labels: RulesLabelsBuilder<Datum>) => void
-  ): this {
-    this.labelsBuilder = new RulesLabelsBuilder();
-    setProperties?.(this.labelsBuilder);
-    return this;
   }
 
   /**
