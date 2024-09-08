@@ -5,7 +5,7 @@ import { SplitPanelExampleDisplayComponent } from '../../core/split-panel-exampl
 import { StackedAreaExampleComponent } from './stacked-area-example/stacked-area-example.component';
 
 @Component({
-  selector: 'app-stacked-area-documentation',
+  selector: 'app-stacked-area-content',
   standalone: true,
   imports: [
     CommonModule,
@@ -13,11 +13,8 @@ import { StackedAreaExampleComponent } from './stacked-area-example/stacked-area
     SplitPanelExampleDisplayComponent,
     StackedAreaExampleComponent,
   ],
-  templateUrl: './stacked-area-documentation.component.html',
-  styleUrls: [
-    '../examples.scss',
-    './stacked-area-documentation.component.scss',
-  ],
+  templateUrl: './stacked-area-content.component.html',
+  styleUrls: ['../examples.scss', './stacked-area-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StackedAreaDocumentationComponent {}
