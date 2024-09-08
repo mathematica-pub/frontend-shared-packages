@@ -16,13 +16,13 @@ export function contentRoutesFactory(lib: Library) {
         item
           .split('-')
           .map((word: string) => word[0].toUpperCase() + word.slice(1))
-          .join('') + 'DocumentationComponent';
+          .join('') + 'ContentComponent';
       routes[0].children.push({
         path: item,
         loadComponent: () =>
-          import(
-            `../../${lib}/${item}-documentation/${item}-documentation.component`
-          ).then((m) => m[componentName]),
+          import(`../../${lib}/${item}-content/${item}-content.component`).then(
+            (m) => m[componentName]
+          ),
       });
     });
     return routes;
