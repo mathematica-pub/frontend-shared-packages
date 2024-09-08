@@ -174,7 +174,6 @@ export class ChartComponent implements Chart, OnInit, OnChanges {
 
     this.ranges$ = combineLatest([this.svgDimensions$, margin$]).pipe(
       map(([dimensions]) => this.getRangesFromSvgDimensions(dimensions)),
-      distinctUntilChanged((a, b) => isEqual(a, b)),
       shareReplay(1)
     );
   }
