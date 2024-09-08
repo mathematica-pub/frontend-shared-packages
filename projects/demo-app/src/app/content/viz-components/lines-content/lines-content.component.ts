@@ -17,4 +17,4 @@ import { LinesExampleComponent } from './lines-example/lines-example.component';
   styleUrls: ['../examples.scss', './lines-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinesDocumentationComponent {}
+export class LinesContentComponent {}

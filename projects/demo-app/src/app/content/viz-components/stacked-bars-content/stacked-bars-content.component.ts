@@ -17,4 +17,4 @@ import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars
   styleUrls: ['../examples.scss', './stacked-bars-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StackedBarsDocumentationComponent {}
+export class StackedBarsContentComponent {}
