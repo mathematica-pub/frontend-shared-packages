@@ -31,7 +31,7 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. Sets the color of the rule.
    *
-   * Default is #cccccc.
+   * @default #cccccc.
    */
   color(color: string | ((d: Datum) => string)): this {
     if (typeof color === 'string') {
