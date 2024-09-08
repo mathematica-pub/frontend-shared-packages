@@ -26,6 +26,9 @@ describe('QuantitativeRulesComponent', () => {
       spyOn(component, 'getTransitionDuration').and.returnValue(50);
       spyOn(component, 'drawRules');
       spyOn(component, 'drawLabels');
+      spyOn(component, 'chartScalesMatchConfigOrientation').and.returnValue(
+        true
+      );
       component.config = {
         data: [1, 2, 3],
         labels: true,
