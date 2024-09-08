@@ -17,4 +17,4 @@ import { GeographiesExampleComponent } from './geographies-example/geographies-e
   styleUrls: ['../examples.scss', './geographies-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeographiesDocumentationComponent {}
+export class GeographiesContentComponent {}

@@ -147,6 +147,7 @@ export class LibDocsComponent implements OnInit {
   }
 
   selectManualDocsItem(item: DirectorySelection): void {
+    console.log('item', item);
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Content,

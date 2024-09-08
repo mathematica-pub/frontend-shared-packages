@@ -17,12 +17,13 @@ export function contentRoutesFactory(lib: Library) {
           .split('-')
           .map((word: string) => word[0].toUpperCase() + word.slice(1))
           .join('') + 'ContentComponent';
+      console.log(componentName);
       routes[0].children.push({
         path: item,
         loadComponent: () =>
-          import(`../../${lib}/${item}-content/${item}-content.component`).then(
-            (m) => m[componentName]
-          ),
+          import(
+            `../../${lib}/${item}-content/${item}-content.component.ts`
+          ).then((m) => m[componentName]),
       });
     });
     return routes;
