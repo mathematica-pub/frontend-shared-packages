@@ -1,4 +1,6 @@
-export class HtmlTooltipSize {
+import { HtmlTooltipSizeOptions } from './tooltip-size-options';
+
+export class HtmlTooltipSize implements HtmlTooltipSizeOptions {
   width: number | string;
   height: number | string;
   minWidth: number | string;
@@ -6,7 +8,7 @@ export class HtmlTooltipSize {
   maxWidth: number | string;
   maxHeight: number | string;
 
-  constructor(options: HtmlTooltipSize) {
+  constructor(options: HtmlTooltipSizeOptions) {
     Object.assign(this, options);
   }
 }
