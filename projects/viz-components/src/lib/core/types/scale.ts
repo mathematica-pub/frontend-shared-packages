@@ -1,4 +1,4 @@
-import { VicContinuousValue } from './value-type';
+import { ContinuousValue } from './values';
 
 export interface GenericScale<Domain, Range> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,4 +7,4 @@ export interface GenericScale<Domain, Range> {
   range?(): Range[];
 }
 
-export type VicQuantitativeScale = GenericScale<VicContinuousValue, number>;
+export type VicQuantitativeScale = GenericScale<ContinuousValue, number>;
