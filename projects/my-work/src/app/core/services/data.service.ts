@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { csvParse } from 'd3';
 import { map, Observable, of } from 'rxjs';
-import { FileResource } from '../resources/file.resource';
+import { AssetsService } from '../services/assets.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private file: FileResource) {}
+  constructor(private assets: AssetsService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getDataFile(filePath: string): Observable<any> {
@@ -15,11 +15,11 @@ export class DataService {
     const fileExtension = splitFilePath[splitFilePath.length - 1];
     switch (fileExtension) {
       case 'csv':
-        return this.file
+        return this.assets
           .getCsvFile(filePath)
           .pipe(map((text) => csvParse(text)));
       case 'json':
-        return this.file.getJsonFile(filePath);
+        return this.assets.getJsonFile(filePath);
       default:
         console.error(
           'File type not supported. Please provide a path with a file extension of .csv or .json'

@@ -153,12 +153,14 @@ application.
 
 ### Bringing data into your component
 
-1. To access your data, create a property in your class that is the path to your data, starting at
-   the `assets` directory. Your code may look something like this.
+1. To access your data, create a property in your class that is the path to your data, after the
+   `/assets` directory. For example, if your data were located in
+   `projects/my-work/src/assets/content/data/` and was named `nov-report-data.csv` your code would
+   look like this.
 
    ```ts
    export class NovReportChartsComponent implements OnInit {
-   dataPath = '/assets/content/data/nov-report-data.csv';
+   dataPath = 'content/data/nov-report-data.csv';
    ```
 
 2. Import the global `DataService` through your component's `constructor`:

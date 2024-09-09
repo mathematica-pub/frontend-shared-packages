@@ -2,7 +2,7 @@ import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { DirectoryItem } from '../../platform/directory/directory.component';
-import { FileResource } from '../resources/file.resource';
+import { AssetsService } from '../services/assets.service';
 
 export interface ContentConfig {
   title: string;
@@ -37,7 +37,6 @@ export enum Casing {
   deps: [TitleCasePipe],
 })
 export class DirectoryConfigService {
-  basePath = '/assets/';
   contentPath = 'content/content.yaml';
   docsPath = 'documentation/documentation.yaml';
   private _contentConfig: BehaviorSubject<ContentConfig> = new BehaviorSubject(
@@ -56,14 +55,14 @@ export class DirectoryConfigService {
   }
 
   constructor(
-    private files: FileResource,
+    private assets: AssetsService,
     private titleCase: TitleCasePipe
   ) {}
 
   initConfigs(): void {
     forkJoin([
-      this.files.getYamlFile(this.basePath + this.docsPath),
-      this.files.getYamlFile(this.basePath + this.contentPath),
+      this.assets.getYamlFile<DocsConfig>(this.docsPath),
+      this.assets.getYamlFile<ContentConfig>(this.contentPath),
     ]).subscribe((configs: [DocsConfig, ContentConfig]) => {
       this._docsConfig.next(configs[0]);
       this._contentConfig.next(configs[1]);

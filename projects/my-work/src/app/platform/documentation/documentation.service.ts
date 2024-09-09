@@ -9,7 +9,7 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs';
-import { FileResource } from '../../core/resources/file.resource';
+import { AssetsService } from '../../core/services/assets.service';
 import {
   DirectoryConfigService,
   DocsConfig,
@@ -48,11 +48,11 @@ export interface NavigationSiblings {
 
 @Injectable({ providedIn: 'root' })
 export class DocumentationHtmlService {
-  docsPath = '/assets/documentation/';
+  docsPath = 'documentation/';
 
   constructor(
     private routerState: RouterStateService,
-    private files: FileResource,
+    private assets: AssetsService,
     private sanitizer: DomSanitizer,
     private configService: DirectoryConfigService
   ) {}
@@ -80,7 +80,7 @@ export class DocumentationHtmlService {
           : new MarkedCreator(
               new ShikiHighlighter(highlighter.theme)
             ).getMarkedInstance();
-        return this.files.getMarkdownFile(path, renderer);
+        return this.assets.getMarkdownFile(path, renderer);
       }),
       withLatestFrom(contentPath$, this.configService.docsConfig$),
       map(([content, contentPath, config]) => {
