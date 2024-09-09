@@ -2,10 +2,11 @@
 
 We use Compodoc to automatically generate .html files that can be used to make documentation of the
 library visible in a hosted site. Compodoc generates one file per symbol in the repo. These files
-are located in `documentation.`
+are located in `compodoc/docs`.
 
-We then use a custom python script to extract the .html files that we want from what Compodoc has
-generated, and assemble those files into a tree structure that we display in the Demo App sidebar.
+We then run a TypeScript script (`compodoc/processing/documentation-processor.ts`) to extract the
+.html files that we want from what Compodoc has generated, and assemble those files into a tree
+structure that we display in the Demo App sidebar.
 
 The `documentation-structure.yaml` file (in `projects/demo-app/assets/documentation/[lib]`)
 determines which of the Compodoc-generated html files we make viewable in the `DOCUMENTATION`
@@ -13,7 +14,7 @@ section of the demo app, and how they are titled and organized.
 
 There are no technical constraints to the names of keys in this file or their hierarchical
 organization. However, the string values of the keys -- for example --
-'classes/VicImageDownloadConfig.html' refers to the file within the `documentation` directory at the
+'classes/VicImageDownloadConfig.html' refers to the file within the `compodoc/docs` directory at the
 top level of the project. This string must match the path name exactly or a build error will be
 thrown.
 
@@ -51,14 +52,10 @@ thrown.
 
 ## Regenerating documentation
 
-1. Remove the existing Compodoc generated documentation in your local branch by running:
-   `rm -rf documentation/[lib]`
-2. Build documentation from the current library code with Compodoc by running:
-   `npm run compodoc:build:viz-components` or `npm run compodoc:build:ui-components`
-3. Ensure that `documentation-structure.yaml` for the library is up to date.
-4. Parse the newly generated Compodoc documentation in to documentation assets for the Demo App by
-   running:
-   `pipenv run python projects/demo-app/documentation-generator/documentation-parser.py --viz-components`
-   or
-   `pipenv run python projects/demo-app/documentation-generator/documentation-parser.py --ui-components`
-   depending on which library's documentation you want to build.
+To generate Compodoc docs, and parse/move files all in one command, you can run
+`npm run build:docs:ui-components` or `npm run viz-components`.
+
+Alternately, in some scenarios, you may want to run Compodoc and then parse/move the docs
+separately. In this case you can run `npm run compodoc:build:ui-components` or
+`npm run compodoc:build:viz-components` first and then `npm run process-docs:ui-components` or
+`npm run process-docs:viz-components`.
