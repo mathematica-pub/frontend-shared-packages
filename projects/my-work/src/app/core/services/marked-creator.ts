@@ -1,11 +1,16 @@
+import { Injectable } from '@angular/core';
 import { marked } from 'marked';
 import { gfmHeadingId } from 'marked-gfm-heading-id';
+import { HighlighterOptions } from '../../platform/documentation/documentation.service';
 import { ShikiHighlighter } from './shiki-highligher';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class MarkedCreator {
-  private readonly marked: typeof marked;
+  constructor(private readonly highlighter: ShikiHighlighter) {}
 
-  constructor(private readonly highlighter?: ShikiHighlighter) {
+  getMarkedInstance(highlight?: HighlighterOptions): typeof marked {
     const renderer = new marked.Renderer();
     renderer.code = ({ text, lang }) => {
       // Let's do a language based detection like on GitHub
@@ -23,8 +28,8 @@ export class MarkedCreator {
 
     const extensions = [gfmHeadingId()];
 
-    if (this.highlighter) {
-      extensions.push(this.highlighter.getHighlightExtension());
+    if (highlight) {
+      extensions.push(this.highlighter.getMarkedExtension(highlight.theme));
     }
 
     marked.use(...extensions, {
@@ -34,10 +39,6 @@ export class MarkedCreator {
       breaks: false,
     });
 
-    this.marked = marked;
-  }
-
-  getMarkedInstance(): typeof marked {
-    return this.marked;
+    return marked;
   }
 }

@@ -1,15 +1,21 @@
+import { Injectable } from '@angular/core';
+import { MarkedExtension } from 'marked';
 import markedShiki from 'marked-shiki';
-import { createHighlighter } from 'shiki';
+import {
+  BundledLanguage,
+  BundledTheme,
+  createHighlighter,
+  HighlighterGeneric,
+} from 'shiki';
 
 export const defaultHighlighterOptions = {
   langs: [
     'json',
     'ts',
-    'tsx',
     'js',
-    'jsx',
     'html',
     'css',
+    'scss',
     'yaml',
     'angular-html',
     'angular-ts',
@@ -71,20 +77,28 @@ export enum ShikiTheme {
   VitesseLight = 'vitesse-light',
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class ShikiHighlighter {
-  theme: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  highlighter: any;
+  highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>;
 
-  constructor(theme?: string) {
+  /**
+   * Initialize the highlighter.
+   *
+   * @param themes an array of any Shiki themes you may want to use in the app. You can control which theme is used where by passing the theme name to the `getMarkedExtension` method.
+   *
+   * @returns void
+   */
+  initialize(themes: ShikiTheme[]): void {
     this.highlighter = createHighlighter({
       langs: defaultHighlighterOptions.langs,
-      themes: theme ? [theme] : ['nord'],
+      themes: themes ? themes : ['nord'],
     });
-    this.theme = theme;
   }
 
-  getHighlightExtension() {
+  getMarkedExtension(theme?: ShikiTheme): MarkedExtension {
     return markedShiki({
       highlight: async (code, lang, props) => {
         if (lang === 'mermaid') {
@@ -96,7 +110,7 @@ export class ShikiHighlighter {
           code,
           Object.assign({
             lang,
-            theme: this.theme || 'nord',
+            theme: theme || 'nord',
             // required by `transformerMeta*`
             meta: { __raw: props.join(' ') },
           })

@@ -2,6 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { RouterStateService } from './core/services/router-state/router-state.service';
+import { ShikiHighlighter, ShikiTheme } from './core/services/shiki-highligher';
 import { SidebarComponent } from './platform/sidebar/sidebar.component';
 
 @Component({
@@ -14,9 +15,13 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
 export class AppComponent implements OnInit {
   title = 'HSI Static Charts';
 
-  constructor(public routerState: RouterStateService) {}
+  constructor(
+    public routerState: RouterStateService,
+    private highlighter: ShikiHighlighter
+  ) {}
 
   ngOnInit(): void {
     this.routerState.initialize();
+    this.highlighter.initialize([ShikiTheme.CatppuccinLatte]);
   }
 }

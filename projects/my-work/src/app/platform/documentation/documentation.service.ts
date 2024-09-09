@@ -18,11 +18,11 @@ import {
 import { MarkedCreator } from '../../core/services/marked-creator';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Section } from '../../core/services/router-state/state';
-import { ShikiHighlighter } from '../../core/services/shiki-highligher';
+import { ShikiTheme } from '../../core/services/shiki-highligher';
 
 export interface HighlighterOptions {
   highlightCode?: true;
-  theme?: string;
+  theme: ShikiTheme;
 }
 
 export interface ParsedDocumentation {
@@ -54,12 +54,15 @@ export class DocumentationHtmlService {
     private routerState: RouterStateService,
     private assets: AssetsService,
     private sanitizer: DomSanitizer,
-    private configService: DirectoryConfigService
+    private configService: DirectoryConfigService,
+    private markedCreator: MarkedCreator
   ) {}
 
   getContentForCurrentContentPath(
     highlighter?: HighlighterOptions
   ): Observable<ParsedDocumentation> {
+    const renderer = this.markedCreator.getMarkedInstance(highlighter);
+
     const contentPath$ = this.routerState.state$.pipe(
       filter(
         (state) =>
@@ -75,11 +78,6 @@ export class DocumentationHtmlService {
       withLatestFrom(this.configService.docsConfig$),
       switchMap(([contentPath, config]) => {
         const path = this.getPathToDocFile(contentPath, config);
-        const renderer = !highlighter
-          ? new MarkedCreator().getMarkedInstance()
-          : new MarkedCreator(
-              new ShikiHighlighter(highlighter.theme)
-            ).getMarkedInstance();
         return this.assets.getMarkdownFile(path, renderer);
       }),
       withLatestFrom(contentPath$, this.configService.docsConfig$),
