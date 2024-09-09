@@ -30,7 +30,7 @@ export const APP_ROUTES: Routes = [
             path: '**',
             loadComponent: () =>
               import(
-                './automated-documentation/automated-documentation-display.component'
+                './documentation/automated-documentation-display.component'
               ).then((m) => m.AutomatedDocumentationDisplayComponent),
           },
         ],
