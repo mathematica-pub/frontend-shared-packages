@@ -1,0 +1,23 @@
+{
+  "branches": [
+    "395-incorporate-an-automated-versioning-+-release-notes-package",
+    { "name": "beta", "prerelease": true },
+    { "name": "alpha", "prerelease": true }
+  ],
+  "dryRun": true,
+  "extends": "semantic-release-monorepo",
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    [
+      "semantic-release-codeartifact",
+      {
+        "tool": "npm",
+        "domain": "shared-package-domain",
+        "repository": "shared-package-repository"
+      }
+    ],
+    "@semantic-release/npm",
+    "@semantic-release/github"
+  ]
+}

@@ -108,6 +108,9 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
+    "semantic-release": "^24.1.0",
+    "semantic-release-codeartifact": "^2.0.17",
+    "semantic-release-monorepo": "^8.0.2",
     "tsx": "^4.17.0",
     "typescript": "~5.4.5"
   }

@@ -2,8 +2,7 @@
   "name": "@hsi/viz-components",
   "version": "2.0.6",
   "scripts": {
-    "build": "tsc -p tsconfig.schematics.json",
-    "postbuild": "node build.js"
+    "build": "ng build"
   },
   "files": [
     "*",
