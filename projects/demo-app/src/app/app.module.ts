@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ContentConfigService } from './content/core/routing/content-config.service';
 import { Library } from './core/services/router-state/state';
-import { ContentConfigService } from './manual-documentation/core/routing/content-config.service';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({

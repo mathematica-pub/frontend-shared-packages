@@ -5,7 +5,7 @@ import { SplitPanelExampleDisplayComponent } from '../../core/split-panel-exampl
 import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars-example.component';
 
 @Component({
-  selector: 'app-stacked-bars-documentation',
+  selector: 'app-stacked-bars-content',
   standalone: true,
   imports: [
     CommonModule,
@@ -13,11 +13,8 @@ import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars
     SplitPanelExampleDisplayComponent,
     StackedBarsExampleComponent,
   ],
-  templateUrl: './stacked-bars-documentation.component.html',
-  styleUrls: [
-    '../examples.scss',
-    './stacked-bars-documentation.component.scss',
-  ],
+  templateUrl: './stacked-bars-content.component.html',
+  styleUrls: ['../examples.scss', './stacked-bars-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StackedBarsDocumentationComponent {}
+export class StackedBarsContentComponent {}

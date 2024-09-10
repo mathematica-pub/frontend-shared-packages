@@ -2,19 +2,19 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SinglePanelExampleDisplayComponent } from '../../core/single-panel-example-display/single-panel-example-display.component';
 import { SplitPanelExampleDisplayComponent } from '../../core/split-panel-example-display/split-panel-example-display.component';
-import { LinesExampleComponent } from './lines-example/lines-example.component';
+import { StackedAreaExampleComponent } from './stacked-area-example/stacked-area-example.component';
 
 @Component({
-  selector: 'app-lines-documentation',
+  selector: 'app-stacked-area-content',
   standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
-    LinesExampleComponent,
+    StackedAreaExampleComponent,
   ],
-  templateUrl: './lines-documentation.component.html',
-  styleUrls: ['../examples.scss', './lines-documentation.component.scss'],
+  templateUrl: './stacked-area-content.component.html',
+  styleUrls: ['../examples.scss', './stacked-area-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinesDocumentationComponent {}
+export class StackedAreaContentComponent {}
