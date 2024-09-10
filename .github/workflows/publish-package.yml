@@ -2,7 +2,7 @@ name: Release
 on:
   push:
     branches:
-      - 395-incorporate-an-automated-versioning-+-release-notes-package
+      - '*'
 jobs:
   release:
     name: Release
