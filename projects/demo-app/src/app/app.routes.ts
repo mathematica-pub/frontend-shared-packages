@@ -7,6 +7,13 @@ export const APP_ROUTES: Routes = [
     pathMatch: 'full',
   },
   {
+    path: 'ui-components/content',
+    loadChildren: () =>
+      import('./content/core/routing/ui-components-routing.module').then(
+        (m) => m.UiComponentsRoutingModule
+      ),
+  },
+  {
     path: 'viz-components/content',
     loadChildren: () =>
       import('./content/core/routing/viz-components-routing.module').then(

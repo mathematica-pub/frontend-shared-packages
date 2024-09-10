@@ -1,8 +1,31 @@
 ---
 tabs:
   service: 'injectables/TabsService.html'
-  tabs: 'components/TabsComponent.html'
+  component: 'components/TabsComponent.html'
   tab-content: 'directives/TabContentDirective.html'
   tab-item: 'components/TabItemComponent.html'
   tab-body: 'components/TabBodyComponent.html'
   tab-label: 'components/TabLabelComponent.html'
+table: 
+  config: classes/HsiUiTableConfig.html
+  component: components/TableComponent.html
+  single-sort-header: components/SingleSortHeaderComponent.html
+  column: classes/TableColumn.html
+combobox:
+  component: components/ComboboxComponent.html
+  label: components/ComboboxLabelComponent.html
+  editable-textbox: components/EditableTextboxComponent.html
+  listbox:
+    component: components/ListboxComponent.html
+    listbox-group: components/ListboxGroupComponent.html
+    multi-filters-listbox: components/MultiFiltersListboxComponent.html
+    ng-form-listbox-multi: components/NgFormListboxMultiComponent.html
+    ng-form-listbox-single: components/NgFormListboxSingleComponent.html
+    listbox-filtering-service: injectables/ListboxFilteringService.html
+    listbox-scroll-service: injectables/ListboxScrollService.html
+    listbox-option:
+      component: components/ListboxOptionComponent.html
+      select-all-listbox-option: components/SelectAllListboxOptionComponent.html
+      listbox-option-property-change: interfaces/ListboxOptionPropertyChange.html
+  service: injectables/ComboboxService.html
+  keyboard-event-with-autocomplete: interfaces/KeyboardEventWithAutocomplete.html
