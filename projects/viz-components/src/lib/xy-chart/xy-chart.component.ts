@@ -4,17 +4,12 @@ import { BehaviorSubject } from 'rxjs';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
+import { GenericScale } from '../core';
 
 export enum XyContentScale {
   x = 'x',
   y = 'y',
   categorical = 'categorical',
-}
-
-export interface GenericScale<Domain, Range> {
-  (...args: any): any;
-  domain?(): Domain[];
-  range?(): Range[];
 }
 
 export interface XyChartScales {

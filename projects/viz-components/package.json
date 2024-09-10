@@ -1,6 +1,6 @@
 {
   "name": "@hsi/viz-components",
-  "version": "2.1.0",
+  "version": "2.1.6",
   "scripts": {
     "build": "tsc -p tsconfig.schematics.json",
     "postbuild": "node build.js"
