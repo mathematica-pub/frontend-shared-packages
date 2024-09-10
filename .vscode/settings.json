@@ -19,11 +19,5 @@
     "titleBar.activeForeground": "#000000",
     "titleBar.inactiveBackground": "#e0fc8a",
     "titleBar.inactiveForeground": "#000000"
-  },
-  "angular-schematics.schematicsDefaultOptions": {
-    "angular-*": {
-      "externalTemplate": true,
-      "style": "scss"
-    }
   }
 }
