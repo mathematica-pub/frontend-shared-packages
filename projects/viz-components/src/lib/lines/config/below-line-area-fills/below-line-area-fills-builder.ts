@@ -1,3 +1,4 @@
+import { FillDef } from '../../../data-dimensions';
 import { BelowLineAreaFills } from './below-line-area-fills';
 
 const DEFAULT = {
@@ -6,10 +7,10 @@ const DEFAULT = {
   _gradient: undefined,
 };
 
-export class BelowLineAreaFillsBuilder {
+export class BelowLineAreaFillsBuilder<Datum> {
   private _display: boolean;
   private _opacity: number;
-  private _gradient: string;
+  private _fillDefs: FillDef<Datum>[];
 
   constructor() {
     Object.assign(this, DEFAULT);
@@ -40,19 +41,19 @@ export class BelowLineAreaFillsBuilder {
    *
    * @default undefined
    */
-  gradient(gradient: string): this {
-    this._gradient = gradient;
+  fillDefs(fillDefs: FillDef<Datum>[]): this {
+    this._fillDefs = fillDefs;
     return this;
   }
 
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): BelowLineAreaFills {
+  _build(): BelowLineAreaFills<Datum> {
     return {
       display: this._display,
       opacity: this._opacity,
-      gradient: this._gradient,
+      fillDefs: this._fillDefs,
     };
   }
 }

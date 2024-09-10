@@ -1,5 +1,5 @@
+export * from '../fill-defs/fill-def';
 export * from './categorical/categorical-options';
-export * from './categorical/fill-pattern';
 export * from './ordinal/ordinal-options';
 export * from './quantitative/domain-padding/percent-over/percent-over-options';
 export * from './quantitative/domain-padding/pixel/pixel-options';

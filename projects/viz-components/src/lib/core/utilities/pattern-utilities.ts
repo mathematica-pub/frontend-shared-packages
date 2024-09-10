@@ -1,4 +1,4 @@
-import { FillPattern } from '../../data-dimensions/categorical/fill-pattern';
+import { FillDef } from '../../fill-defs/fill-def';
 
 /**
  * @internal
@@ -7,10 +7,10 @@ export class PatternUtilities {
   static getFill<Datum>(
     datum: Datum,
     defaultColor: string,
-    patterns: FillPattern<Datum>[]
+    patterns: FillDef<Datum>[]
   ): string {
     if (patterns) {
-      patterns.forEach((pattern: FillPattern<Datum>) => {
+      patterns.forEach((pattern: FillDef<Datum>) => {
         if (pattern.usePattern(datum)) {
           defaultColor = `url(#${pattern.name})`;
         }

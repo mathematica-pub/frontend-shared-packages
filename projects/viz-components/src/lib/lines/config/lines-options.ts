@@ -8,7 +8,7 @@ import { Stroke } from '../../stroke/stroke';
 import { BelowLineAreaFills } from './below-line-area-fills/below-line-area-fills';
 
 export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
-  belowLineAreaFills: BelowLineAreaFills;
+  belowLineAreaFills: BelowLineAreaFills<Datum>;
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
   hoverDot: PointMarkers;

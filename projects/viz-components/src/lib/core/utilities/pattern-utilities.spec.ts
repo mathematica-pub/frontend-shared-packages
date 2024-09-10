@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FillPattern } from '../../data-dimensions/categorical/fill-pattern';
+import { FillDef } from '../../fill-defs/fill-def';
 import { PatternUtilities } from './pattern-utilities';
 
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
-    const predicates: FillPattern<any>[] = [
+    const predicates: FillDef<any>[] = [
       { name: 'pattern', usePattern: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {

@@ -12,7 +12,6 @@ import { MapGeometryProperties } from 'projects/demo-app/src/app/core/services/b
 import { BasemapService } from 'projects/demo-app/src/app/core/services/basemap.service';
 import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
 import { EventAction } from 'projects/viz-components/src/lib/events/action';
 import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
 import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
@@ -24,6 +23,7 @@ import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/
 import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
 import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
+  FillDef,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveActions,
   GeographiesHoverDirective,
@@ -256,7 +256,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillPatterns: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -282,7 +282,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillPatterns: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -308,7 +308,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillPatterns: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -334,7 +334,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillPatterns: FillDef<StateIncomeDatum>[]
   ) {
     return layer
       .data(data)
@@ -357,7 +357,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillPatterns: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties

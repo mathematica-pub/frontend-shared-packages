@@ -1,8 +1,8 @@
 import { InternSet, scaleOrdinal } from 'd3';
 import { DataValue } from '../../core/types/values';
+import { FillDef } from '../../fill-defs/fill-def';
 import { DataDimension } from '../dimension';
 import { CategoricalDimensionOptions } from './categorical-options';
-import { FillPattern } from './fill-pattern';
 
 export class CategoricalDimension<
   Datum,
@@ -10,7 +10,7 @@ export class CategoricalDimension<
 > extends DataDimension<Datum, TCategoricalValue> {
   private _calculatedDomain: TCategoricalValue[];
   private readonly domain: TCategoricalValue[];
-  readonly fillPatterns: FillPattern<Datum>[];
+  readonly fillPatterns: FillDef<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   readonly range: string[];
   private scale: (category: TCategoricalValue) => string;

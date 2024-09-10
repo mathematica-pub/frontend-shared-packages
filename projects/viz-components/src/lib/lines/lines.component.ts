@@ -168,10 +168,8 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
           enter
             .append('path')
             .attr('category', ([category]) => category)
-            .attr('fill', ([category]) =>
-              this.config.belowLineAreaFills.gradient
-                ? `url(#${this.config.belowLineAreaFills.gradient})`
-                : this.scales.categorical(category)
+            .attr('fill', ([category, indices]) =>
+              this.getAreaFill(category, indices)
             )
             .attr('class', 'vic-line-area')
             .attr('opacity', this.config.belowLineAreaFills.opacity)
@@ -183,10 +181,8 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
         (update) =>
           update
             .attr('category', ([category]) => category)
-            .attr('fill', ([category]) =>
-              this.config.belowLineAreaFills.gradient
-                ? `url(#${this.config.belowLineAreaFills.gradient})`
-                : this.scales.categorical(category)
+            .attr('fill', ([category, indices]) =>
+              this.getAreaFill(category, indices)
             )
             .attr('opacity', this.config.belowLineAreaFills.opacity)
             .call((update) =>
@@ -200,6 +196,20 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             ),
         (exit) => exit.remove()
       );
+  }
+
+  getAreaFill(category: string, lineDataIndices: number[]): string {
+    if (this.config.belowLineAreaFills.fillDefs) {
+      const fillDef = this.config.belowLineAreaFills.fillDefs.find((def) =>
+        def.usePattern(this.config.data[lineDataIndices[0]])
+      );
+      if (fillDef) {
+        return `url(#${fillDef.name})`;
+      } else {
+        return null;
+      }
+    }
+    return this.scales.categorical(category);
   }
 
   drawHoverDot(): void {

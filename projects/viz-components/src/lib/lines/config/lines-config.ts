@@ -26,7 +26,7 @@ export class LinesConfig<Datum>
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
-  readonly belowLineAreaFills: BelowLineAreaFills;
+  readonly belowLineAreaFills: BelowLineAreaFills<Datum>;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: PointMarkers;
   readonly stroke: Stroke;

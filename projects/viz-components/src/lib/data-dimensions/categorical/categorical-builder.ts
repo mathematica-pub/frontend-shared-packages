@@ -1,8 +1,8 @@
 import { schemeTableau10 } from 'd3';
 import { DataValue } from '../../core/types/values';
+import { FillDef } from '../../fill-defs/fill-def';
 import { DataDimensionBuilder } from '../dimension-builder';
 import { CategoricalDimension } from './categorical';
-import { FillPattern } from './fill-pattern';
 
 const DEFAULT = {
   _range: schemeTableau10 as string[],
@@ -14,7 +14,7 @@ export class CategoricalDimensionBuilder<
   TCategoricalValue extends DataValue = string,
 > extends DataDimensionBuilder<Datum, TCategoricalValue> {
   private _domain: TCategoricalValue[];
-  private _fillPatterns: FillPattern<Datum>[];
+  private _fillPatterns: FillDef<Datum>[];
   private _range: string[];
   private _scale: (category: TCategoricalValue) => string;
 
@@ -36,7 +36,7 @@ export class CategoricalDimensionBuilder<
   /**
    * OPTIONAL. Sets an array of fill patterns that will be used to fill the categorical values.
    */
-  fillPatterns(fillPatterns: FillPattern<Datum>[]): this {
+  fillPatterns(fillPatterns: FillDef<Datum>[]): this {
     this._fillPatterns = fillPatterns;
     return this;
   }

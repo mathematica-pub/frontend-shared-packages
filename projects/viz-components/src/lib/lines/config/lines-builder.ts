@@ -36,7 +36,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
-  private belowLineAreaFillsBuilder: BelowLineAreaFillsBuilder;
+  private belowLineAreaFillsBuilder: BelowLineAreaFillsBuilder<Datum>;
 
   constructor() {
     super();
@@ -188,7 +188,9 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    *
    */
   createBelowLineAreaFills(
-    setProperties?: (belowLineAreaFills: BelowLineAreaFillsBuilder) => void
+    setProperties?: (
+      belowLineAreaFills: BelowLineAreaFillsBuilder<Datum>
+    ) => void
   ): this {
     this.initBelowLinesAreaFillBuilder();
     setProperties?.(this.belowLineAreaFillsBuilder);
