@@ -153,7 +153,7 @@ const barLabelColorMatchesExpectedRgb = (
           [config]="yQuantitativeAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   `,
@@ -492,7 +492,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
           [config]="yOrdinalAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   `,

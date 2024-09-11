@@ -49,7 +49,7 @@ In the HTML, a minimial implementation of a visualization might look like this. 
 
 ```html
 <vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements vic-data-marks-bars [config]="dataMarksConfig"><svg:g>
+  <svg:g svg-elements vic-primary-marks-bars [config]="dataMarksConfig"><svg:g>
 </vic-xy-chart>
 ```
 
@@ -169,7 +169,7 @@ A very simple HTML implementation of a full chart could look like this
 
 ```html
 <vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements vic-data-marks-bars [config]="dataMarksConfig"><svg:g>
+  <svg:g svg-elements vic-primary-marks-bars [config]="dataMarksConfig"><svg:g>
 </vic-xy-chart>
 ```
 

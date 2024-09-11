@@ -33,7 +33,7 @@ type Datum = { state: string; value: number };
           [config]="xQuantitativeAxisConfig"
           side="top"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g vic primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   `,

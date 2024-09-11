@@ -62,7 +62,8 @@ const numericData = QnQnCData;
           side="left"
         ></svg:g>
         <svg:g
-          vic-data-marks-lines
+          vic
+          primary-marks-lines
           [config]="linesConfig"
           [vicLinesHoverMoveActions]="hoverActions"
           (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"

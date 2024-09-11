@@ -76,7 +76,7 @@ const getYTransform = ($barGroup) => {
           side="left"
         ></svg:g>
         <svg:g
-          vic-data-marks-bars
+          vic-primary-marks-bars
           [config]="barsConfig"
           [vicBarsHoverMoveActions]="hoverAndMoveActions"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
@@ -189,7 +189,7 @@ const mountHorizontalBarsComponent = (
           side="left"
         ></svg:g>
         <svg:g
-          vic-data-marks-bars
+          vic-primary-marks-bars
           [config]="barsConfig"
           [vicBarsHoverMoveActions]="hoverAndMoveActions"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
