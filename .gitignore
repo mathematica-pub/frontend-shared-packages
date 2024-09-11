@@ -14,8 +14,8 @@ yarn-error.log
 
 # Automated Documentation
 /compodoc/docs
-projects/demo-app/src/assets/documentation/**/*.*
-!projects/demo-app/src/assets/documentation/**/documentation-structure.yaml
+projects/demo-app/src/assets/**/documentation/**/*.*
+!projects/demo-app/src/assets/**/documentation/documentation-directory.yaml
 
 # IDEs and editors
 .idea/
