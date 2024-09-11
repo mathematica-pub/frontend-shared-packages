@@ -24,7 +24,7 @@ describe('MapDataMarksBase abstract class', () => {
   describe('ngOnInit()', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'subscribeToRanges');
-      spyOn(abstractClass, 'subscribeToAttributeProperties');
+      spyOn(abstractClass, 'subscribeToAttributeDataProperties');
       spyOn(abstractClass, 'initFromConfig');
     });
     it('calls subscribeToRanges once', () => {
@@ -34,7 +34,7 @@ describe('MapDataMarksBase abstract class', () => {
     it('calls subscribeToAttributeProperties once', () => {
       abstractClass.ngOnInit();
       expect(
-        abstractClass.subscribeToAttributeProperties
+        abstractClass.subscribeToAttributeDataProperties
       ).toHaveBeenCalledTimes(1);
     });
     it('calls initFromConfig once', () => {
@@ -57,7 +57,7 @@ describe('MapDataMarksBase abstract class', () => {
       spyOn(abstractClass, 'drawMarks');
     });
     it('sets attributeDataConfig', () => {
-      abstractClass.subscribeToAttributeProperties();
+      abstractClass.subscribeToAttributeDataProperties();
       (abstractClass.chart as any).attributeProperties.next({
         scale: 'test scale',
         config: 'test config',
@@ -65,7 +65,7 @@ describe('MapDataMarksBase abstract class', () => {
       expect(abstractClass.attributeDataConfig).toEqual('test config' as any);
     });
     it('sets attributeDataScale', () => {
-      abstractClass.subscribeToAttributeProperties();
+      abstractClass.subscribeToAttributeDataProperties();
       (abstractClass.chart as any).attributeProperties.next({
         scale: 'test scale',
         config: 'test config',
@@ -73,7 +73,7 @@ describe('MapDataMarksBase abstract class', () => {
       expect(abstractClass.attributeDataScale).toEqual('test scale' as any);
     });
     it('calls drawMarks()', () => {
-      abstractClass.subscribeToAttributeProperties();
+      abstractClass.subscribeToAttributeDataProperties();
       (abstractClass.chart as any).attributeProperties.next({
         scale: 'test scale',
         config: 'test config',
