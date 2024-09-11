@@ -49,7 +49,7 @@ export * from './lib/grouped-bars/grouped-bars.component';
 export * from './lib/grouped-bars/grouped-bars.module';
 export * from './lib/image-download/image-download-config';
 export * from './lib/image-download/image-download-enums';
-export * from './lib/image-download/image-downloader';
+export * from './lib/image-download/image-download.service';
 export * from './lib/lines/config/lines-builder';
 export * from './lib/lines/events/actions/lines-click-actions';
 export * from './lib/lines/events/actions/lines-hover-move-actions';
