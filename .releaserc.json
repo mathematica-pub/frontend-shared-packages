@@ -1,10 +1,12 @@
 {
   "branches": [
-    "395-incorporate-an-automated-versioning-+-release-notes-package",
-    { "name": "beta", "prerelease": true },
+    "main",
+    {
+      "name": "395-incorporate-an-automated-versioning-+-release-notes-package",
+      "prerelease": true
+    },
     { "name": "alpha", "prerelease": true }
   ],
-  "dryRun": true,
   "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
