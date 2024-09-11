@@ -5,38 +5,43 @@ import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/overview/shared-packages',
+    redirectTo: 'shared-packages/overview',
     pathMatch: 'full',
   },
   {
-    path: 'overview/:lib',
-    loadComponent: () =>
-      import('./manual-documentation/core/overview/overview.component').then(
-        (m) => m.OverviewComponent
+    path: 'viz-components/content',
+    loadChildren: () =>
+      import('./content/core/routing/viz-components-routing.module').then(
+        (m) => m.VizComponentsRoutingModule
       ),
   },
   {
-    path: 'viz-components',
-    loadChildren: () =>
-      import(
-        './manual-documentation/core/routing/viz-components-routing.module'
-      ).then((m) => m.VizComponentsRoutingModule),
-  },
-  {
-    path: 'documentation',
+    path: ':lib',
     children: [
       {
-        path: '**',
+        path: 'overview',
         loadComponent: () =>
-          import(
-            './automated-documentation-display/automated-documentation-display.component'
-          ).then((m) => m.AutomatedDocumentationDisplayComponent),
+          import('./content/core/overview/overview.component').then(
+            (m) => m.OverviewComponent
+          ),
+      },
+      {
+        path: 'documentation',
+        children: [
+          {
+            path: '**',
+            loadComponent: () =>
+              import(
+                './documentation/automated-documentation-display.component'
+              ).then((m) => m.AutomatedDocumentationDisplayComponent),
+          },
+        ],
       },
     ],
   },
   {
     path: '**',
-    redirectTo: '/overview/shared-packages',
+    redirectTo: 'shared-packages/overview',
   },
 ];
 

@@ -1,0 +1,58 @@
+@for (item of items; track $index) {
+  @if (!!item.children && item.children.length > 0) {
+    <!-- This is the template for expandable nodes -->
+    <div [style.--level]="level">
+      <div
+        class="item expandable"
+        role="button"
+        tabindex="0"
+        (click)="toggleOpen(item.name)"
+        (enter)="toggleOpen(item.name)"
+      >
+        <p class="name">{{ item.name }}</p>
+        @if (open[item.name]) {
+          <span class="material-symbols-outlined arrow">expand_more</span>
+        } @else {
+          <span class="material-symbols-outlined arrow">chevron_right</span>
+        }
+      </div>
+      <app-directory
+        [items]="item.children"
+        [level]="level + 1"
+        [terminalItemsAreSelectable]="terminalItemsAreSelectable"
+        [path]="
+          path.concat(
+            level !== 0
+              ? '/' + (item.value || item.name)
+              : item.value || item.name
+          )
+        "
+        [class.invisible]="!open[item.name]"
+        (stateChanges)="setState($event)"
+        [selection]="state$ | async"
+      ></app-directory>
+    </div>
+  } @else {
+    <!-- This is the template for leaf nodes -->
+    @if (terminalItemsAreSelectable) {
+      <div
+        class="item selectable"
+        [ngClass]="'level-' + level"
+        [attr.role]="selectionElementRole"
+        tabindex="0"
+        [style.--level]="level"
+        [class.active]="
+          (state$ | async).activePath === path + '/' + (item.value || item.name)
+        "
+        (click)="selectItem(item)"
+        (enter)="selectItem(item)"
+      >
+        <p class="name">{{ item.name }}</p>
+      </div>
+    } @else {
+      <div class="item" [style.--level]="level">
+        <p class="name">{{ item.name }}</p>
+      </div>
+    }
+  }
+}
