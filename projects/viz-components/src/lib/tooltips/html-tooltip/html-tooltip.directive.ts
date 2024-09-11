@@ -15,28 +15,22 @@ import {
   Input,
   OnChanges,
   OnDestroy,
-  Optional,
   Output,
   SimpleChanges,
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { ChartComponent } from '../../chart';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
-import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
-import { DataMarks, VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
+  providers: [{ provide: ChartComponent, useExisting: ChartComponent }],
 })
-export class HtmlTooltipDirective<
-    Datum,
-    TDataMarksConfig extends DataMarksOptions<Datum>,
-  >
-  implements OnChanges, OnDestroy
-{
+export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   @Input() template: TemplateRef<HTMLElement>;
   @Input() config: HtmlTooltipConfig;
   @Output() backdropClick = new EventEmitter<void>();
@@ -44,15 +38,12 @@ export class HtmlTooltipDirective<
   overlayRef: OverlayRef;
   portalAttached = false;
   positionStrategy: FlexibleConnectedPositionStrategy | GlobalPositionStrategy;
-  log: boolean = false;
 
   constructor(
     private viewContainerRef: ViewContainerRef,
     private overlay: Overlay,
     private overlayPositionBuilder: OverlayPositionBuilder,
-    @Optional()
-    @Inject(VIC_DATA_MARKS)
-    private dataMarks: DataMarks<Datum, TDataMarksConfig>,
+    private chart: ChartComponent,
     @Inject(DOCUMENT) private document: Document
   ) {}
 
@@ -87,12 +78,11 @@ export class HtmlTooltipDirective<
     if (this.config.hasBackdrop) {
       this.subscribeToBackdropClick();
     }
-
     this.updateVisibility();
   }
 
   getPositionStrategy(): PositionStrategy {
-    const origin = this.config.origin ?? this.dataMarks.chart.svgRef;
+    const origin = this.config.origin ?? this.chart.svgRef;
     return this.config.position.getPositionStrategy(
       origin.nativeElement,
       this.overlayPositionBuilder,

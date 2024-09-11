@@ -1,9 +1,9 @@
-import { DataMarksConfig } from '../../data-marks/config/data-marks-config';
-import { VicXyDataMarks } from '../../xy-data-marks/xy-data-marks';
+import { PrimaryMarksConfig } from '../../marks/primary-marks/config/primary-marks-config';
+import { VicXyPrimaryMarks } from '../../xy-marks/xy-primary-marks/xy-primary-marks';
 
-export class XyDataMarksStub<Datum> extends VicXyDataMarks<
+export class XyDataMarksStub<Datum> extends VicXyPrimaryMarks<
   Datum,
-  DataMarksConfig<Datum>
+  PrimaryMarksConfig<Datum>
 > {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   override setChartScalesFromRanges(useTransition: boolean): void {

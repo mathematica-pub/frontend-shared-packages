@@ -2,7 +2,7 @@ const DEFAULT = {
   _mixBlendMode: 'normal',
 };
 
-export abstract class DataMarksBuilder<Datum> {
+export abstract class AuxMarksBuilder<Datum> {
   protected _data: Datum[];
   protected _mixBlendMode: string;
 
@@ -11,7 +11,7 @@ export abstract class DataMarksBuilder<Datum> {
   }
 
   /**
-   * REQUIRED. Sets the data that will be used to render the marks.
+   * OPTIONAL. Sets the data that will be used to render the marks.
    *
    * The objects in the array can be of an type, and if an array of objects, the objects can contain any number of properties, including properties that are extraneous to the chart at hand.
    */
@@ -30,11 +30,7 @@ export abstract class DataMarksBuilder<Datum> {
     return this;
   }
 
-  protected validateBuilder(componentName: string): void {
-    if (!this._data) {
-      throw new Error(
-        `${componentName} Builder: data is required. Use the 'data' method to set the data.`
-      );
-    }
+  protected validateBuilder(): void {
+    return;
   }
 }

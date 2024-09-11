@@ -1,9 +1,9 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { XyChartComponentStub } from '../testing/stubs/xy-chart.component.stub';
-import { XyDataMarksStub } from '../testing/stubs/xy-data-marks.stub';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
+import { XyDataMarksStub } from '../../testing/stubs/xy-data-marks.stub';
+import { XyChartComponent } from '../../xy-chart/xy-chart.component';
 
 describe('XyDataMarks abstract class', () => {
   let abstractClass: XyDataMarksStub<any>;

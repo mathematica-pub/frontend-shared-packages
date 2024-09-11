@@ -3,7 +3,7 @@ import { DataValue } from '../../core/types/values';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { OrdinalDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
-import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
+import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { BarsConfig } from './bars-config';
 import {
   BarsDimensions,
@@ -25,7 +25,7 @@ import { BarsLabelsBuilder } from './labels/bars-labels-builder';
 export class VicBarsConfigBuilder<
   Datum,
   TOrdinalValue extends DataValue,
-> extends DataMarksBuilder<Datum> {
+> extends PrimaryMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
   protected categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;

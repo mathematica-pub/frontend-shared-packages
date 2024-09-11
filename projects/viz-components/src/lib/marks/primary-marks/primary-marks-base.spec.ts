@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { SimpleChange } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { DataMarksStub } from '../testing/stubs/data-marks.stub';
+import { PrimaryMarksStub } from '../../testing/stubs/primary-marks.stub';
 
-describe('DataMarks abstract class', () => {
-  let abstractClass: DataMarksStub<any>;
+describe('PrimaryMarks abstract class', () => {
+  let abstractClass: PrimaryMarksStub<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataMarksStub],
+      providers: [PrimaryMarksStub],
     });
-    abstractClass = TestBed.inject(DataMarksStub);
+    abstractClass = TestBed.inject(PrimaryMarksStub);
   });
 
   describe('ngOnChanges()', () => {

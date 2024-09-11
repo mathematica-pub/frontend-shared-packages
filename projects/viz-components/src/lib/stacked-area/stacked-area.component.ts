@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
 import { DataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
-import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
+import { VicXyPrimaryMarks } from '../xy-marks/xy-primary-marks/xy-primary-marks';
 import { StackedAreaConfig } from './config/stacked-area-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
@@ -19,19 +19,22 @@ export const STACKED_AREA = new InjectionToken<
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-stacked-area]',
+  selector: '[vic-primary-stacked-area]',
   templateUrl: './stacked-area.component.html',
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: VIC_DATA_MARKS, useExisting: StackedAreaComponent },
+    { provide: VIC_PRIMARY_MARKS, useExisting: StackedAreaComponent },
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
   ],
 })
 export class StackedAreaComponent<
   Datum,
   TCategoricalValue extends DataValue,
-> extends VicXyDataMarks<Datum, StackedAreaConfig<Datum, TCategoricalValue>> {
+> extends VicXyPrimaryMarks<
+  Datum,
+  StackedAreaConfig<Datum, TCategoricalValue>
+> {
   area;
   areas;
 

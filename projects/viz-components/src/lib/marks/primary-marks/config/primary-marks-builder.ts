@@ -2,7 +2,7 @@ const DEFAULT = {
   _mixBlendMode: 'normal',
 };
 
-export abstract class MarksBuilder<Datum> {
+export abstract class PrimaryMarksBuilder<Datum> {
   protected _data: Datum[];
   protected _mixBlendMode: string;
 

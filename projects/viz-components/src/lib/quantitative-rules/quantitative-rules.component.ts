@@ -7,7 +7,7 @@ import {
 import { select, Selection, Transition } from 'd3';
 import { ChartComponent } from '../chart/chart.component';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyMarks } from '../xy-marks/xy-marks';
+import { XyAuxMarks } from '../xy-marks/xy-aux-marks/xy-aux-marks';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 @Component({
@@ -20,7 +20,7 @@ import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 })
 export class QuantitativeRulesComponent<
   Datum extends number | Date,
-> extends VicXyMarks<Datum, QuantitativeRulesConfig<Datum>> {
+> extends XyAuxMarks<Datum, QuantitativeRulesConfig<Datum>> {
   rulesGroups: Selection<SVGGElement, Datum, SVGGElement, unknown>;
 
   constructor(

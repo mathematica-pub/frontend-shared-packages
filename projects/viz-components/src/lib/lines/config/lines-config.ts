@@ -4,7 +4,7 @@ import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/qu
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
-import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
+import { XyPrimaryMarksConfig } from '../../xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
 import { LinesOptions } from './lines-options';
 
@@ -15,7 +15,7 @@ export interface LinesMarkerDatum {
 }
 
 export class LinesConfig<Datum>
-  extends XyDataMarksConfig<Datum>
+  extends XyPrimaryMarksConfig<Datum>
   implements LinesOptions<Datum>
 {
   readonly categorical: CategoricalDimension<Datum, string>;
