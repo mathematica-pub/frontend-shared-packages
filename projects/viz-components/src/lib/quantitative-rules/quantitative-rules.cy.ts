@@ -68,8 +68,7 @@ const barsChartWidth = 600;
           side="left"
         ></svg:g>
         <svg:g
-          vic
-          primary-marks-bars
+          vic-primary-marks-bars
           [config]="barsConfig"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
         ></svg:g>
@@ -155,8 +154,7 @@ const mountHorizontalBarsComponent = (
           side="left"
         ></svg:g>
         <svg:g
-          vic
-          primary-marks-bars
+          vic-primary-marks-bars
           [config]="barsConfig"
           [vicBarsHoverMoveActions]="hoverAndMoveActions"
           (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
@@ -250,8 +248,7 @@ const linesNumericData = QnQnCData;
           side="left"
         ></svg:g>
         <svg:g
-          vic
-          primary-marks-lines
+          vic-primary-marks-lines
           [config]="linesConfig"
           [vicLinesHoverMoveActions]="hoverActions"
           (vicLinesHoverMoveOutput)="updateTooltipForNewOutput($event)"
