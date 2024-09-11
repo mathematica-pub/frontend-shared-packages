@@ -29,8 +29,4 @@ export abstract class VicAuxMarksBuilder<Datum> {
     this._mixBlendMode = mixBlendMode;
     return this;
   }
-
-  protected validateBuilder(): void {
-    return;
-  }
 }
