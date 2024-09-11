@@ -8,7 +8,7 @@ import {
 import { VicImage } from './image-download-enums';
 
 @Injectable({ providedIn: 'root' })
-export class VicImageDownloader {
+export class VicImageDownloadService {
   domToImage = domToImage;
 
   async downloadImage(

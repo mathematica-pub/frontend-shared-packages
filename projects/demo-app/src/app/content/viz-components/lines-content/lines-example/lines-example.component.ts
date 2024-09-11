@@ -33,7 +33,7 @@ import {
   VicDataExport,
   VicDataExportConfig,
   VicHtmlTooltipModule,
-  VicImageDownloader,
+  VicImageDownloadService,
   VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
@@ -113,7 +113,7 @@ export class LinesExampleComponent implements OnInit {
     'hover' | 'click'
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
-  private imageService = inject(VicImageDownloader);
+  private imageService = inject(VicImageDownloadService);
 
   constructor(
     private dataService: DataService,

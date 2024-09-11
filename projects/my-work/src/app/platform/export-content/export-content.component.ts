@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ImageDownloadOptions } from 'projects/viz-components/src/lib/image-download/image-download-options';
 import {
-  VicImageDownloader,
+  VicImageDownloadService,
   VicJpegImageConfig,
   VicPngImageConfig,
   VicSvgImageConfig,
@@ -36,7 +36,7 @@ export class ExportContentComponent {
   @ViewChild('image') image: ElementRef<HTMLElement>;
   id = uniqueId++;
 
-  constructor(private imageService: VicImageDownloader) {}
+  constructor(private imageService: VicImageDownloadService) {}
 
   async downloadImage(): Promise<void> {
     const imageConfig = this.getConfig({
