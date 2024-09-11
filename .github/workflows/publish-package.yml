@@ -41,4 +41,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
-        run: npx semantic-release
+        run: |
+          cd projects/viz-components
+          npx semantic-release
