@@ -24,6 +24,6 @@ export class FileResource {
       .get(filePath, {
         responseType: 'text',
       })
-      .pipe(map((text) => mdParse(text) as string));
+      .pipe(map((text) => mdParse(text)));
   }
 }
