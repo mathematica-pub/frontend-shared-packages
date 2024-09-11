@@ -27,7 +27,7 @@ export const GEOGRAPHIES = new InjectionToken<
 >('GeographiesComponent');
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-primary-geographies]',
+  selector: '[vic-primary-marks-geographies]',
   templateUrl: './geographies.component.html',
   styleUrls: ['./geographies.component.scss'],
   encapsulation: ViewEncapsulation.None,

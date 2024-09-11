@@ -31,7 +31,7 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-primary-lines]',
+  selector: '[vic-primary-marks-lines]',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,

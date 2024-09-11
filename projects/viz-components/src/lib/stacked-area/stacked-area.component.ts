@@ -19,7 +19,7 @@ export const STACKED_AREA = new InjectionToken<
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-primary-stacked-area]',
+  selector: '[vic-primary-marks-stacked-area]',
   templateUrl: './stacked-area.component.html',
   styleUrls: ['./stacked-area.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

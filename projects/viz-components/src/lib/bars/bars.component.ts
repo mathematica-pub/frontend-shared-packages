@@ -57,7 +57,7 @@ export type BarDatum<T> = {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-primary-bars]',
+  selector: '[vic-primary-marks-bars]',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
