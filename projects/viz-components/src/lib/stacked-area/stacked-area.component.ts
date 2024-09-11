@@ -8,7 +8,7 @@ import {
 import { Transition, area, select } from 'd3';
 import { DataValue } from '../core/types/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
-import { VicXyPrimaryMarks } from '../xy-marks/xy-primary-marks/xy-primary-marks';
+import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { StackedAreaConfig } from './config/stacked-area-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead

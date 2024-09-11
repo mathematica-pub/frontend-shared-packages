@@ -1,13 +1,13 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { MarksOptions } from '../../marks/config/marks-options';
-import { PrimaryMarks } from '../../marks/primary-marks/primary-marks';
 import {
   XyChartComponent,
   XyChartScales,
   XyContentScale,
-} from '../../xy-chart/xy-chart.component';
+} from '../../../charts/xy-chart/xy-chart.component';
+import { MarksOptions } from '../../config/marks-options';
+import { VicPrimaryMarks } from '../../primary-marks/primary-marks';
 import { XyMarks } from '../xy-marks';
 
 /**
@@ -18,7 +18,7 @@ export abstract class VicXyPrimaryMarks<
     Datum,
     TDataMarksConfig extends MarksOptions<Datum>,
   >
-  extends PrimaryMarks<Datum, TDataMarksConfig>
+  extends VicPrimaryMarks<Datum, TDataMarksConfig>
   implements OnInit, XyMarks
 {
   scales: XyChartScales;

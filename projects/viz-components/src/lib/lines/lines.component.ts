@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
-import { ChartComponent } from '../chart/chart.component';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyPrimaryMarks } from '../xy-marks/xy-primary-marks/xy-primary-marks';
+import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
 
 export type LinesGroupSelection = Selection<

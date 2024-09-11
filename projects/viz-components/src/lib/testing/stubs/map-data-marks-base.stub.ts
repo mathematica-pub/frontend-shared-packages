@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { MapPrimaryMarks } from '../../map-marks/map-primary-marks/map-primary-marks';
 import { MarksOptions } from '../../marks/config/marks-options';
+import { VicMapPrimaryMarks } from '../../marks/map-marks/map-primary-marks/map-primary-marks';
 
-export class MapDataMarksBaseStub<Datum> extends MapPrimaryMarks<
+export class MapDataMarksBaseStub<Datum> extends VicMapPrimaryMarks<
   Datum,
   MarksOptions<Datum>
 > {

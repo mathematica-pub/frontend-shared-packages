@@ -1,7 +1,7 @@
 import { MarksOptions } from '../../marks/config/marks-options';
-import { PrimaryMarks } from '../../marks/primary-marks/primary-marks';
+import { VicPrimaryMarks } from '../../marks/primary-marks/primary-marks';
 
-export class PrimaryMarksStub<Datum> extends PrimaryMarks<
+export class PrimaryMarksStub<Datum> extends VicPrimaryMarks<
   Datum,
   MarksOptions<Datum>
 > {

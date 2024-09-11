@@ -1,4 +1,4 @@
-import { PrimaryMarksConfig } from '../../marks/primary-marks/config/primary-marks-config';
+import { PrimaryMarksConfig } from '../../primary-marks/config/primary-marks-config';
 
 export abstract class XyPrimaryMarksConfig<
   Datum,

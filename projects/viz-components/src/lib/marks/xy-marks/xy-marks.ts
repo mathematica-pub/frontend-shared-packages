@@ -1,7 +1,7 @@
 import {
   XyChartComponent,
   XyChartScales,
-} from '../xy-chart/xy-chart.component';
+} from '../../charts/xy-chart/xy-chart.component';
 
 export interface XyMarks {
   chart: XyChartComponent;

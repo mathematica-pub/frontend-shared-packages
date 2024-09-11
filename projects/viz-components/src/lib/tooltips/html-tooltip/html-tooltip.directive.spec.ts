@@ -3,7 +3,7 @@ import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { ChartComponent } from '../../chart';
+import { ChartComponent } from '../../charts';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { ChartComponentStub } from '../../testing/stubs/chart.component.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';

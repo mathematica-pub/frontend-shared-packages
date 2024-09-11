@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
-import { VicAttributeDataDimensionConfig } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 
 /**
  * A `Chart` component to be used with a `Geographies` `DataMarks` component.

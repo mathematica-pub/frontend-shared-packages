@@ -1,6 +1,8 @@
-import { Chart } from '../chart';
+import { Directive, OnChanges, SimpleChanges } from '@angular/core';
+import { Chart } from '../charts';
+import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 
-export interface Marks {
+export interface IMarks {
   chart: Chart;
   /**
    * drawMarks method
@@ -18,4 +20,20 @@ export interface Marks {
    * This method should return the duration of the transition to be used in the marks.
    */
   getTransitionDuration: () => number;
+}
+
+@Directive()
+export abstract class Marks implements IMarks, OnChanges {
+  chart: Chart;
+  abstract drawMarks(): void;
+  abstract getTransitionDuration(): number;
+  abstract initFromConfig(): void;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
+    ) {
+      this.initFromConfig();
+    }
+  }
 }

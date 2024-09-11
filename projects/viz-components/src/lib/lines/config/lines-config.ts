@@ -2,9 +2,9 @@ import { CurveFactory, group, range } from 'd3';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
-import { XyPrimaryMarksConfig } from '../../xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
 import { LinesOptions } from './lines-options';
 

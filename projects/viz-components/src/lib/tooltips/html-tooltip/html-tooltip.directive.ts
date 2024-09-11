@@ -21,7 +21,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { ChartComponent } from '../../chart';
+import { ChartComponent } from '../../charts';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 

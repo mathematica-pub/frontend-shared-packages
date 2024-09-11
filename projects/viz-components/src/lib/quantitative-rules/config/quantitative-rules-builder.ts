@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuxMarksBuilder } from '../../marks/aux-marks/config/aux-marks-builder';
+import { VicAuxMarksBuilder } from '../../marks/aux-marks/config/aux-marks-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { RulesLabelsBuilder } from './labels/quantitative-rules-labels-builder';
 import { QuantitativeRulesConfig } from './quantitative-rules-config';
@@ -16,7 +16,7 @@ const DEFAULT = {
 @Injectable()
 export class VicQuantitativeRulesConfigBuilder<
   Datum extends number | Date,
-> extends AuxMarksBuilder<Datum> {
+> extends VicAuxMarksBuilder<Datum> {
   protected _color: (d: Datum) => string;
   protected dimensions: QuantitativeRulesDimensions;
   protected _orientation: 'horizontal' | 'vertical';

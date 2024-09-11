@@ -11,7 +11,9 @@ export abstract class PrimaryMarksBuilder<Datum> {
   }
 
   /**
-   * REQUIRED. Sets the data that will be used to render the marks.
+   * REQUIRED. Sets the data that will be used to render the marks for this component
+   *
+   * If no dimension domain overrides are provided, **this primary-marks data will also create the domain of the scales used on the entire chart**.
    *
    * The objects in the array can be of an type, and if an array of objects, the objects can contain any number of properties, including properties that are extraneous to the chart at hand.
    */

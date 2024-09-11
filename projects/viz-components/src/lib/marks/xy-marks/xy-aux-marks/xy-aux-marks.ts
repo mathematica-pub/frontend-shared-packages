@@ -1,9 +1,9 @@
 import { DestroyRef, Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { AuxMarks } from '../../marks/aux-marks/aux-marks';
-import { MarksOptions } from '../../marks/config/marks-options';
-import { XyChartComponent, XyChartScales } from '../../xy-chart';
+import { XyChartComponent, XyChartScales } from '../../../charts';
+import { VicAuxMarks } from '../../aux-marks/aux-marks';
+import { MarksOptions } from '../../config/marks-options';
 import { XyMarks } from '../xy-marks';
 
 @Directive()
@@ -11,7 +11,7 @@ export abstract class XyAuxMarks<
     Datum,
     TMarksConfig extends MarksOptions<Datum>,
   >
-  extends AuxMarks<Datum, TMarksConfig>
+  extends VicAuxMarks<Datum, TMarksConfig>
   implements OnInit, XyMarks
 {
   scales: XyChartScales;

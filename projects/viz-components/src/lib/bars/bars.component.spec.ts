@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { ValueUtilities } from '../core/utilities/values';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
 import { VicBarsConfigBuilder } from './config/bars-builder';
 import { BarsConfig } from './config/bars-config';

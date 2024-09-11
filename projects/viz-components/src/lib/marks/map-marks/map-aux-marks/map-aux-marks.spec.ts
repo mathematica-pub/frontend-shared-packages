@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
-import { MapChartComponent } from '../../map-chart/map-chart.component';
-import { MapChartComponentStub } from '../../testing/stubs/map-chart.component.stub';
-import { MapDataMarksBaseStub } from '../../testing/stubs/map-data-marks-base.stub';
+import { MapChartComponent } from '../../../charts/map-chart/map-chart.component';
+import { MapChartComponentStub } from '../../../testing/stubs/map-chart.component.stub';
+import { MapDataMarksBaseStub } from '../../../testing/stubs/map-data-marks-base.stub';
 
-describe('MapDataMarksBase abstract class', () => {
+describe('MapAuxMarksBase abstract class', () => {
   let abstractClass: MapDataMarksBaseStub<any>;
 
   beforeEach(() => {
@@ -23,23 +23,13 @@ describe('MapDataMarksBase abstract class', () => {
 
   describe('ngOnInit()', () => {
     beforeEach(() => {
-      spyOn(abstractClass, 'subscribeToRanges');
       spyOn(abstractClass, 'subscribeToAttributeDataProperties');
-      spyOn(abstractClass, 'initFromConfig');
     });
-    it('calls subscribeToRanges once', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.subscribeToRanges).toHaveBeenCalledTimes(1);
-    });
-    it('calls subscribeToAttributeProperties once', () => {
+    it('calls subscribeToAttributeDataProperties once', () => {
       abstractClass.ngOnInit();
       expect(
         abstractClass.subscribeToAttributeDataProperties
       ).toHaveBeenCalledTimes(1);
-    });
-    it('calls initFromConfig once', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
     });
   });
 

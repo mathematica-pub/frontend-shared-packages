@@ -12,15 +12,15 @@ import {
 import { select, selectAll, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { isNumber } from '../core/utilities/type-guards';
 import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyPrimaryMarks } from '../xy-marks/xy-primary-marks/xy-primary-marks';
+import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { BarsConfig } from './config/bars-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead

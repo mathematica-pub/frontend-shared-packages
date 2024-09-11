@@ -1,5 +1,5 @@
 import { PrimaryMarksConfig } from '../../marks/primary-marks/config/primary-marks-config';
-import { VicXyPrimaryMarks } from '../../xy-marks/xy-primary-marks/xy-primary-marks';
+import { VicXyPrimaryMarks } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 
 export class XyDataMarksStub<Datum> extends VicXyPrimaryMarks<
   Datum,

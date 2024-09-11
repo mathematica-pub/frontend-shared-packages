@@ -1,17 +1,17 @@
 import { DestroyRef, Directive, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { VicAttributeDataDimensionConfig } from '../../geographies';
-import { MapChartComponent } from '../../map-chart';
-import { AuxMarks } from '../../marks/aux-marks/aux-marks';
-import { MarksOptions } from '../../marks/config/marks-options';
+import { MapChartComponent } from '../../../charts';
+import { VicAttributeDataDimensionConfig } from '../../../geographies';
+import { VicAuxMarks } from '../../aux-marks/aux-marks';
+import { MarksOptions } from '../../config/marks-options';
 
 @Directive()
-export abstract class MapAuxMarks<
+export abstract class VicMapAuxMarks<
     Datum,
     TMarksConfig extends MarksOptions<Datum>,
   >
-  extends AuxMarks<Datum, TMarksConfig>
+  extends VicAuxMarks<Datum, TMarksConfig>
   implements OnInit
 {
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;

@@ -1,20 +1,20 @@
 import { Directive, OnInit, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
-import { MapChartComponent } from '../../map-chart/map-chart.component';
-import { MarksOptions } from '../../marks/config/marks-options';
-import { PrimaryMarks } from '../../marks/primary-marks/primary-marks';
+import { MapChartComponent } from '../../../charts/map-chart/map-chart.component';
+import { VicAttributeDataDimensionConfig } from '../../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
+import { MarksOptions } from '../../config/marks-options';
+import { VicPrimaryMarks } from '../../primary-marks/primary-marks';
 
 /**
  * @internal
  */
 @Directive()
-export abstract class MapPrimaryMarks<
+export abstract class VicMapPrimaryMarks<
     Datum,
     TPrimaryMarksConfig extends MarksOptions<Datum>,
   >
-  extends PrimaryMarks<Datum, TPrimaryMarksConfig>
+  extends VicPrimaryMarks<Datum, TPrimaryMarksConfig>
   implements OnInit
 {
   attributeDataConfig: VicAttributeDataDimensionConfig<Datum>;

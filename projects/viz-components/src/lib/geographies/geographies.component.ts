@@ -10,9 +10,9 @@ import { GeoPath, GeoProjection, geoPath, select } from 'd3';
 import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
-import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapPrimaryMarks } from '../map-marks/map-primary-marks/map-primary-marks';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { MapChartComponent } from '../charts/map-chart/map-chart.component';
+import { VicMapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
@@ -48,7 +48,7 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-> extends MapPrimaryMarks<
+> extends VicMapPrimaryMarks<
   Datum,
   GeographiesConfig<Datum, TProperties, TGeometry>
 > {

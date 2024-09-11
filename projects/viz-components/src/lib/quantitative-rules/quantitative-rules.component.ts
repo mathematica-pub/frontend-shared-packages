@@ -5,9 +5,9 @@ import {
   ElementRef,
 } from '@angular/core';
 import { select, Selection, Transition } from 'd3';
-import { ChartComponent } from '../chart/chart.component';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { XyAuxMarks } from '../xy-marks/xy-aux-marks/xy-aux-marks';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import { XyAuxMarks } from '../marks/xy-marks/xy-aux-marks/xy-aux-marks';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
 @Component({

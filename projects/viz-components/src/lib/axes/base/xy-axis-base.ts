@@ -11,11 +11,11 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
+import { XyChartComponent } from '../../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';
 import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
-import { XyChartComponent } from '../../xy-chart/xy-chart.component';
 import { XyAxisBaseConfig } from './config/xy-axis-config';
 
 export type XyAxisScale = {

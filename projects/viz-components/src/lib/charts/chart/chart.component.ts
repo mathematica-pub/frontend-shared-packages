@@ -24,8 +24,8 @@ import {
   shareReplay,
   startWith,
 } from 'rxjs';
-import { Dimensions, ElementSpacing } from '../core/types/layout';
-import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
+import { Dimensions, ElementSpacing } from '../../core/types/layout';
+import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 

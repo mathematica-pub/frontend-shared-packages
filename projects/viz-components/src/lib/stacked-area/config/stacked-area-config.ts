@@ -13,7 +13,7 @@ import { CategoricalDimension } from '../../data-dimensions/categorical/categori
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { MarksOptions } from '../../marks/config/marks-options';
-import { XyPrimaryMarksConfig } from '../../xy-marks/xy-primary-marks/xy-primary-marks-config';
+import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
 
 export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>

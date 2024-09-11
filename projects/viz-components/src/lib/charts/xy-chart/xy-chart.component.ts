@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject, filter } from 'rxjs';
+import { GenericScale } from '../../core';
 import { Chart } from '../chart/chart';
 import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
-import { GenericScale } from '../core';
 
 export enum XyContentScale {
   x = 'x',

@@ -3,7 +3,7 @@ import { DataValue } from '../../core/types/values';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { XyPrimaryMarksConfig } from '../../xy-marks/xy-primary-marks/xy-primary-marks-config';
+import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { BarsDimensions } from './bars-dimensions';
 import { BarsOptions } from './bars-options';
 import { BarsLabels } from './labels/bars-labels';
