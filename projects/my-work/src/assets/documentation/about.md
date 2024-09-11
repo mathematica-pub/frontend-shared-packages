@@ -68,10 +68,51 @@ application.
 
    ```
 
-3. Navigate to the `projects/my-work/src/app/content` directory. Create a new Angular component
-   there where you will make your charts. Keep in mind that the name of your component (minus the
-   word "Component") will appear in the left sidebar of the app to allow you to navigate to your
-   file.
+3. Open the `content.yaml` file in `projects/my-work/src/assets/content`, and add an entry for the
+   component you want to create to hold your work. This will create an entry in the left sidebar
+   that you can click to get to your work. The name should be lowercased and use hyphens to separate
+   words/be kebab-cased and will also be the name of the Angular component you create.
+
+   If you want the name of your component to appear inside a collapsible directory in the sidebar,
+   you can add that additional structure in the `content.yaml`.
+
+   <p class="code-caption"><code>content.yaml</code> originally</p>
+
+   ```yaml
+   ---
+   title: 'My Work'
+   items:
+     examples:
+       - energy-intensity
+   ```
+
+   <p class="code-caption"><code>content.yaml</code> after adding an entry for your component that will hold your visualization work</p>
+   <p class="code-caption">(note: no need to add a value after the colon, just leave it blank)</p>
+
+   ```yaml
+   ---
+   title: 'My Work'
+   items:
+     my-project:
+     examples:
+       - energy-intensity
+   ```
+
+   <p class="code-caption"><code>content.yaml</code> after adding an entry that will be displayed inside a directory</p>
+
+   ```yaml
+   ---
+   title: 'My Work'
+   items:
+     my-project:
+       - nov-report-charts
+     examples:
+       - energy-intensity
+   ```
+
+4. Now navigate to the `projects/my-work/src/app/content` directory. Create a new Angular component
+   there where you will make your charts. You must use the same name as you used to create the
+   directory entry.
 
    ```
    ├── projects
@@ -90,47 +131,8 @@ application.
    extension, is to right-click on the directory you'd like to place the component in, choose
    Angular Schematics: Generate a file, and use the menus from there.
 
-4. Now go back to `projects/my-work/src/assets/content` from step 2. In the `content.yaml` file
-   there, add an entry for the component you just created under items. The name should be lowercased
-   and use hyphens to separate words/be kebab-cased.
-
-   If you want your "file" (i.e. component) to appear inside a collapsible directory in the side
-   panel, you can add that additional structure in the `content.yaml`. You will also need to create
-   a folder with the same name to enclose the component in its directory.
-
-   <p class="code-caption"><code>content.yaml</code> originally</p>
-
-   ```yaml
-   ---
-   title: 'My Work'
-   items:
-     examples:
-       - energy-intensity
-   ```
-
-   <p class="code-caption"><code>content.yaml</code> after adding a file name for visualization work</p>
-   <p class="code-caption">(note: no need to add a value after the colon, just leave it blank)</p>
-
-   ```yaml
-   ---
-   title: 'My Work'
-   items:
-     my-project:
-     examples:
-       - energy-intensity
-   ```
-
-   <p class="code-caption"><code>content.yaml</code> after adding a file name inside a directory</p>
-
-   ```yaml
-   ---
-   title: 'My Work'
-   items:
-     my-project:
-       - nov-report-charts
-     examples:
-       - energy-intensity
-   ```
+   If you put your entry inside a collasable directory in the `content.yaml` file, you will likewise
+   need to put your component inside a folder of the same name.
 
    ```
    ├── projects
@@ -146,10 +148,8 @@ application.
 
    ```
 
-5. Quit (ctrl-c) and restart the build (`npm run start:my-work`) from the command line. (This needs
-   to be done after modifying the `content.yaml`.) You should now see the changes you just made
-   reflected in the left sidebar. If you click on the file name, you should your component appear in
-   the main space of the app.
+You should now see the the name of your component in the left sidebar directory. If you click on the
+entry name, you should your component appear in the main space of the app.
 
 ### Bringing data into your component
 
