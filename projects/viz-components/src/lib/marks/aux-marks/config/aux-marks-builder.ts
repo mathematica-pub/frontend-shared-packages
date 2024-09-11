@@ -2,22 +2,11 @@ const DEFAULT = {
   _mixBlendMode: 'normal',
 };
 
-export abstract class VicAuxMarksBuilder<Datum> {
-  protected _data: Datum[];
+export abstract class VicAuxMarksBuilder {
   protected _mixBlendMode: string;
 
   constructor() {
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. Sets the data that will be used to render the marks for this component.
-   *
-   * The objects in the array can be of an type, and if an array of objects, the objects can contain any number of properties, including properties that are extraneous to the chart at hand.
-   */
-  data(data: Datum[]): this {
-    this._data = data;
-    return this;
   }
 
   /**

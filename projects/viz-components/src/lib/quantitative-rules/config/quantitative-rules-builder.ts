@@ -16,8 +16,9 @@ const DEFAULT = {
 @Injectable()
 export class VicQuantitativeRulesConfigBuilder<
   Datum extends number | Date,
-> extends VicAuxMarksBuilder<Datum> {
+> extends VicAuxMarksBuilder {
   protected _color: (d: Datum) => string;
+  protected _data: Datum[];
   protected dimensions: QuantitativeRulesDimensions;
   protected _orientation: 'horizontal' | 'vertical';
   private labelsBuilder: RulesLabelsBuilder<Datum>;
@@ -39,6 +40,16 @@ export class VicQuantitativeRulesConfigBuilder<
     } else {
       this._color = color;
     }
+    return this;
+  }
+
+  /**
+   * REQUIRED. Sets the data that will be used to render the quantitative rules.
+   *
+   * @param data The data to be used to render the quantitative rules. Should be an array of numbers or dates.
+   */
+  data(data: Datum[]): this {
+    this._data = data;
     return this;
   }
 
@@ -93,8 +104,10 @@ export class VicQuantitativeRulesConfigBuilder<
     });
   }
 
-  protected override validateBuilder(): void {
-    super.validateBuilder('Rule');
+  protected validateBuilder(): void {
+    if (this.data === undefined) {
+      throw new Error('Data is required for the Quantitative Rules component.');
+    }
     if (this.strokeBuilder === undefined) {
       this.initStrokeBuilder();
     }
