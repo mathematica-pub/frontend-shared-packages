@@ -43,13 +43,15 @@ To create a new visualization using Viz Components in your Angular application, 
 
 Viz Components uses `Chart` components to create a chart's svg and to provide scales to any child components. Hence all visualizations should start with a `Chart` type component, which includes the `Xy Chart` (for charts that have x and y dimensions) and the `Map Chart` (for charts that draw geographies with a projection).
 
-You can place any component you want inside a `Chart` component, and it will be able to access the chart's scales. However, Viz Components has a special type of child component known as a `DataMarks` component that is used to set the domains (data ranges) of the scales on the parent `Chart` component. This means that to create a visualization, you need to combine at minimum, one `Chart` type component and one `DataMarks` component. Examples of `DataMarks` components include `Bars`, `Lines`, `Geographies`, and `Stacked Areas`.
+You can place any component you want inside a `Chart` component, and it will be able to access the chart's scales. However, Viz Components has a special type of child component known as a `PrimaryMarks` component that is used to set the domains (data ranges) of the scales on the parent `Chart` component, which are then available to all child components projected into the `Chart` component.
 
-In the HTML, a minimial implementation of a visualization might look like this. Note how the child `Bars` component is between the tags of the parent `XyChart` component.
+This means that to create a visualization, you need to combine at minimum, one `Chart` type component and one `PrimaryMarks` component. Examples of `PrimaryMarks` components include `Bars`, `Lines`, `Geographies`, `Stacked Areas`, and `Stacked Bars`.
+
+In the HTML, a minimal implementation of a visualization might look like this. Note how the child `Bars` component is between the tags of the parent `XyChart` component.
 
 ```html
 <vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements vic-primary-marks-bars [config]="dataMarksConfig"><svg:g>
+  <svg:g svg-elements vic-primary-marks-bars [config]="PrimaryMarksConfig"><svg:g>
 </vic-xy-chart>
 ```
 
@@ -159,32 +161,32 @@ Some properties do not have default values, and are labeled as required in Intel
 
 ## Library concepts
 
-### Chart + DataMarks
+### Chart + PrimaryMarks
 
-To create a visualization with Viz Components, a user needs to compose their own chart, created from a minimum of one `Chart` component and one `DataMarks` component.
+To create a visualization with Viz Components, a user needs to compose their own chart, created from a minimum of one `Chart` component and one `PrimaryMarks` component.
 
-Conceptually, a `Chart` component is a shell that handles scaling the visualization, while a `DataMarks` component draws from a user-provided array of data to set scales and create svg elements in the DOM.
+Conceptually, a `Chart` component is a shell that handles scaling the visualization, while a `PrimaryMarks` component draws from a user-provided array of data to set scales and create svg elements in the DOM.
 
 A very simple HTML implementation of a full chart could look like this
 
 ```html
 <vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements vic-primary-marks-bars [config]="dataMarksConfig"><svg:g>
+  <svg:g svg-elements vic-primary-marks-bars [config]="primaryMarksConfig"><svg:g>
 </vic-xy-chart>
 ```
 
-The library offers multiple `Chart` components, such as `XyChartComponent` and `MapChartComponent` as well as multiple `DataMarks` components, such as `BarsComponent`, `LinesComponent`, and `GeographiesComponent`. Some `DataMarks` components must be used in conjunction with specific `Chart` components.
+The library offers multiple `Chart` components, such as `XyChartComponent` and `MapChartComponent` as well as multiple `PrimaryMarks` components, such as `BarsComponent`, `LinesComponent`, and `GeographiesComponent`. Some `PrimaryMarks` components must be used in conjunction with specific `Chart` components.
 
 A `Chart` component contains a single `<div>` that wraps a single `<svg>`, with content projection slots before and after the `<div>`, and between the opening and closing tags of the `<svg>`.
 
 The D3 scales used to create the visualization are properties of the `Chart` component, and are used to scale the svg dynamically with the dimensions of the wrapper `<div>`.
 
-Those scales, however, are set using the data and instructions that the user provides in the `DataMarks` component's `config` input property. All other Viz Components (or user-developed components) that a user projects into the content projection slots will have access to these scales and can use them to create other elements of a data visualization.
+Those scales, however, are set using the data and instructions that the user provides in the `PrimaryMarks` component's `config` input property. All other Viz Components (or user-developed components) that a user projects into the content projection slots will have access to these scales and can use them to create other elements of a data visualization.
 
-There is no limit to what can be projected into the `Chart` component's content-projection slots, but a `Chart` may have only one `DataMarks` components.
+There is no limit to what can be projected into the `Chart` component's content-projection slots, but a `Chart` may have only one `PrimaryMarks` component.
 
 ### Data and Styling
 
-At minimum, the user must supply the `DataMarks` component with a `DataMarksConfig` that provides `data` (any[]), and value accessor functions for each of the components' required dimensions that tell the component how to find values for each dimension from a `data` array element -- typically an object with properties. Note that properties that have no relation to the data visualization may remain on the object without consequence.
+At minimum, the user must supply the `PrimaryMarks` component with a `PrimaryMarksConfig` that provides `data` (any[]), and value accessor functions for each of the components' required dimensions that tell the component how to find values for each dimension from a `data` array element -- typically an object with properties. Note that properties that have no relation to the data visualization may remain on the object without consequence.
 
-The library provides minimal default styles for all components in the library, from `DataMarks` components to add-on components such as axis components. Users may overwrite these style properties with their own in each component's `config`.
+The library provides minimal default styles for all components in the library, from `PrimaryMarks` components to add-on components such as axis components. Users may overwrite these style properties with their own in each component's `config`.
