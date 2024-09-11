@@ -3,7 +3,7 @@
 import { MarksOptions } from '../../marks/config/marks-options';
 import { VicMapPrimaryMarks } from '../../marks/map-marks/map-primary-marks/map-primary-marks';
 
-export class MapDataMarksBaseStub<Datum> extends VicMapPrimaryMarks<
+export class MapPrimaryMarksStub<Datum> extends VicMapPrimaryMarks<
   Datum,
   MarksOptions<Datum>
 > {

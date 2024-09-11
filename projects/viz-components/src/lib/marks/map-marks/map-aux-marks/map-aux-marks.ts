@@ -18,10 +18,7 @@ export abstract class VicMapAuxMarks<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   attributeDataScale: any;
   public override chart = inject(MapChartComponent);
-
-  constructor(private destroyRef: DestroyRef) {
-    super();
-  }
+  destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.subscribeToAttributeDataProperties();

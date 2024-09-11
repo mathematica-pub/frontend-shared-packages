@@ -10,10 +10,10 @@ import { Ranges } from '../../charts';
 import { MarksOptions } from '../config/marks-options';
 import { Marks } from '../marks';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const VIC_PRIMARY_MARKS = new InjectionToken<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   VicPrimaryMarks<unknown, any>
->('PrimaryMarks');
+>('VicPrimaryMarks');
 
 @Directive()
 export abstract class VicPrimaryMarks<

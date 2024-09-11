@@ -2,23 +2,23 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { MapChartComponent } from '../../../charts/map-chart/map-chart.component';
+import { MapAuxMarksStub } from '../../../testing/stubs/map-aux-marks.stub';
 import { MapChartComponentStub } from '../../../testing/stubs/map-chart.component.stub';
-import { MapDataMarksBaseStub } from '../../../testing/stubs/map-data-marks-base.stub';
 
 describe('MapAuxMarksBase abstract class', () => {
-  let abstractClass: MapDataMarksBaseStub<any>;
+  let abstractClass: MapAuxMarksStub<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        MapDataMarksBaseStub,
+        MapAuxMarksStub,
         {
           provide: MapChartComponent,
           useValue: MapChartComponentStub,
         },
       ],
     });
-    abstractClass = TestBed.inject(MapDataMarksBaseStub);
+    abstractClass = TestBed.inject(MapAuxMarksStub);
   });
 
   describe('ngOnInit()', () => {
