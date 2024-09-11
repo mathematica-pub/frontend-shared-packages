@@ -25,6 +25,7 @@ export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
 export const GEOGRAPHIES = new InjectionToken<
   GeographiesComponent<unknown, unknown>
 >('GeographiesComponent');
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-geographies]',
