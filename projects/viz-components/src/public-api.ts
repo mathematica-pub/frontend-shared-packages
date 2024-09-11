@@ -13,6 +13,7 @@ export * from './lib/grouped-bars/index';
 export * from './lib/image-download/index';
 export * from './lib/lines/index';
 export * from './lib/map-legend/index';
+export * from './lib/marks/index';
 export * from './lib/point-markers/index';
 export * from './lib/quantitative-rules/index';
 export * from './lib/stacked-area/index';

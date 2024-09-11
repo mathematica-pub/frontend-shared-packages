@@ -28,7 +28,6 @@ import { HtmlTooltipConfig } from './config/html-tooltip-config';
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
   selector: 'vic-html-tooltip',
-  providers: [{ provide: ChartComponent, useExisting: ChartComponent }],
 })
 export class HtmlTooltipDirective implements OnChanges, OnDestroy {
   @Input() template: TemplateRef<HTMLElement>;
