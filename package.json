@@ -1,6 +1,5 @@
 {
-  "name": "viz-components",
-  "version": "0.0.0",
+  "name": "frontend-shared-packages",
   "compodoc": {
     "name": "Frontend Shared Packages Documentation",
     "watch": true,
@@ -15,7 +14,6 @@
     "ng": "ng",
     "start": "ng serve",
     "start:demo-app": "ng serve demo-app",
-    "build": "ng build",
     "build:viz-components": "ng build viz-components",
     "build:ui-components": "ng build ui-components",
     "build:demo-app": "ng build demo-app",
@@ -108,6 +106,9 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
+    "semantic-release": "^24.1.0",
+    "semantic-release-codeartifact": "^2.0.17",
+    "semantic-release-monorepo": "^8.0.2",
     "tsx": "^4.17.0",
     "typescript": "~5.4.5"
   }
