@@ -21,7 +21,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { Subject, takeUntil } from 'rxjs';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { DataMarks, VIC_DATA_MARKS } from '../../data-marks/data-marks-base';

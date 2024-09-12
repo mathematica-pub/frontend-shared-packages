@@ -5,7 +5,7 @@ import {
   DirectoryComponent,
   DirectoryItem,
   DirectorySelection,
-} from '@hsi/ui-components';
+} from 'projects/ui-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
 import {
   Casing,

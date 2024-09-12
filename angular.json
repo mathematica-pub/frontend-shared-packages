@@ -170,10 +170,7 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/demo-app/src/styles",
-                "dist/ui-components/styles"
-              ]
+              "includePaths": ["projects/demo-app/src/styles"]
             },
             "scripts": []
           },
@@ -242,10 +239,7 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/demo-app/src/styles",
-                "dist/ui-components/styles"
-              ]
+              "includePaths": ["projects/demo-app/src/styles"]
             },
             "scripts": []
           }
@@ -287,11 +281,7 @@
             ],
             "styles": ["projects/my-work/src/styles/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/my-work/src/styles",
-                "dist/ui-components/styles",
-                "dist/app-dev-kit/styles"
-              ]
+              "includePaths": ["projects/my-work/src/styles"]
             },
             "scripts": []
           },
@@ -349,11 +339,7 @@
             ],
             "styles": ["projects/my-work/src/styles/styles.scss"],
             "stylePreprocessorOptions": {
-              "includePaths": [
-                "projects/my-work/src/styles",
-                "dist/ui-components/styles",
-                "dist/app-dev-kit/styles"
-              ]
+              "includePaths": ["projects/my-work/src/styles"]
             },
             "scripts": []
           }

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { DirectoryComponent } from './directory.component';
 
 describe('DirectoryComponent', () => {

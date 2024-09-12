@@ -1,6 +1,6 @@
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { DirectoryItem } from '@hsi/ui-components';
+import { DirectoryItem } from 'projects/ui-components/src/public-api';
 import { BehaviorSubject, forkJoin } from 'rxjs';
 import { AssetsService } from '../services/assets.service';
 

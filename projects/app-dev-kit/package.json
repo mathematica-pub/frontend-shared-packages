@@ -11,7 +11,7 @@
   },
   "exports": {
     "./styles": {
-      "sass": "./src/lib/styles/_index.scss"
+      "sass": "./src/lib/styles/index.scss"
     }
   },
   "sideEffects": false

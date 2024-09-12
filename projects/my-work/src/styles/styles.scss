@@ -1,8 +1,7 @@
-@forward 'themes';
 @use 'colors';
 @use 'vars' as *;
 @use 'placeholders' as *;
-@use '../../../../dist/app-dev-kit/styles' as hsi-adk;
+@use '../../../app-dev-kit/src/lib/styles/' as hsi-adk;
 
 *,
 *::before,

@@ -9,8 +9,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { select } from 'd3';
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { Observable } from 'rxjs';
 import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';

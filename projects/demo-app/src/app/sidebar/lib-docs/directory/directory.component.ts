@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DirectoryItem {
