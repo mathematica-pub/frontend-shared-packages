@@ -16,7 +16,7 @@
   },
   "exports": {
     "./styles": {
-      "sass": "./src/lib/core/_index.scss"
+      "sass": "./src/lib/styles/_index.scss"
     }
   },
   "sideEffects": false

@@ -1,0 +1,9 @@
+@use '../../../../../dist/app-dev-kit/styles/' as adk;
+
+// @mixin core() {
+//   @include sass-utils.map-scss-vars-into-css-vars(theming.$app, 'hsi-ui-color');
+// }
+
+html {
+  @include adk.core();
+}

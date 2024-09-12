@@ -1,6 +1,0 @@
-@use './scss/sass-utils';
-@use './theming';
-
-@mixin core() {
-  @include sass-utils.map-scss-vars-into-css-vars(theming.$app, 'hsi-ui-color');
-}
