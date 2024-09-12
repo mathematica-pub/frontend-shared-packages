@@ -19,9 +19,6 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
-
       - name: Install Dependencies
         run: npm ci
 
@@ -48,9 +45,6 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
-
       - name: Install Dependencies
         run: npm ci
 
@@ -74,9 +68,6 @@ jobs:
           node-version: 20
           cache: 'npm'
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
-
       - name: Install Dependencies
         run: npm ci
 
@@ -96,9 +87,6 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Install Dependencies
         run: npm ci

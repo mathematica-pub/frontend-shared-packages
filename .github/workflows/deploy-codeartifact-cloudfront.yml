@@ -72,9 +72,6 @@ jobs:
         uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
-
       - name: Install Dependencies
         run: npm ci
 
@@ -113,9 +110,6 @@ jobs:
       - name: Get Current Pull Request
         uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
-
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Install Dependencies
         run: npm ci

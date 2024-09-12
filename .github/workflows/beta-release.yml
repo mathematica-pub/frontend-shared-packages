@@ -37,9 +37,6 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
-
       - name: Set referenced package
         run: |
           REFERENCED_PACKAGE=$(echo "${{ github.event.comment.body }}" | sed -n 's/.*beta-release-bot (\([^)]*\)).*/\1/p')
