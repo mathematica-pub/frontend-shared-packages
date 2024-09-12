@@ -1,0 +1,63 @@
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'color';
+
+.example-container {
+  ::-webkit-scrollbar {
+    width: $vertical-scrollbar-thickness-thick;
+  }
+
+  a.panel {
+    min-height: 140px;
+    min-width: 140px;
+  }
+
+  .scroll-container {
+    height: var(--height);
+    max-height: var(--max-height);
+    overflow-y: auto;
+  }
+
+  .title-bar,
+  .tab-list {
+    padding-top: grid(3);
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-top-left-radius: grid(3);
+    border-top-right-radius: grid(3);
+    background: color.$primary-8;
+    border-bottom: 1px solid color.$primary-6;
+  }
+
+  .tab-label-container:first-of-type {
+    padding-left: grid(4);
+  }
+
+  .tab-label {
+    padding: grid(3) grid(4);
+    border-top-left-radius: grid(2);
+    border-top-right-radius: grid(2);
+    color: color.$highlight-default;
+
+    & > * {
+      line-height: initial;
+    }
+  }
+
+  .tab-label-container:not(.active):hover .tab-label {
+    color: color.$highlight-default;
+    transition: all 200ms;
+    background-color: color.$primary-7;
+  }
+
+  .tab-label-container.active .tab-label {
+    border: 1px solid color.$primary-6;
+    border-bottom-color: white;
+    color: color.$primary-1;
+    background-color: white;
+    font-weight: $font-weight-semibold;
+    margin-bottom: -1px;
+  }
+}

@@ -1,0 +1,10 @@
+[
+  {
+    "ParameterKey": "DomainName",
+    "ParameterValue": "shared-packages.mathematica-dev.net"
+  },
+  {
+    "ParameterKey": "ProjectName",
+    "ParameterValue": "SharedPackages"
+  }
+]
