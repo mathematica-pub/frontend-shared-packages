@@ -78,6 +78,9 @@ jobs:
       - name: Build viz-components
         run: npm run build:viz-components
 
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+
       - name: Deploy viz-components to codeartifact
         run: |
           cd ./dist/viz-components
