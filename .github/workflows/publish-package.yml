@@ -1,4 +1,4 @@
-name: Release
+name: Release packages
 on:
   push:
     branches:
@@ -11,8 +11,8 @@ env:
   AWS_DEFAULT_OUTPUT: json
 
 jobs:
-  release:
-    name: Release
+  release-packages-into-the-void:
+    name: into the void
     runs-on: ubuntu-latest
     permissions:
       id-token: write
