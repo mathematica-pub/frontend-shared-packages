@@ -23,7 +23,7 @@ import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
 import { BarsConfig } from './config/bars-config';
 
-// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
+// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const BARS = new InjectionToken<BarsComponent<unknown, DataValue>>(
   'BarsComponent'

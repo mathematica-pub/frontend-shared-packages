@@ -19,24 +19,21 @@ class DocumentationProcessor {
   outputDirectory: string;
   missingReferences: string[];
   appRouterPath: string;
-  compodocFileTypes: string[];
+  configName = 'documentation-directory.yaml';
 
   constructor(lib: string) {
     this.lib = lib;
     this.inputDirectory = `./compodoc/docs/${lib}`;
-    this.configPath = `./projects/demo-app/src/assets/documentation/${lib}/documentation-structure.yaml`;
-    this.outputDirectory = `./projects/demo-app/src/assets/documentation/${lib}`;
-    this.appRouterPath = `documentation/${lib}/`; // TODO: change with new routing pattern in 364 when 364 goes in
+    this.outputDirectory = `./projects/demo-app/src/assets/${lib}/documentation`;
+    this.appRouterPath = `${lib}/documentation`;
     this.missingReferences = [];
   }
 
   async parseDirectory(): Promise<void> {
-    await deleteDirectoryContents(this.outputDirectory, [
-      'documentation-structure.yaml',
-    ]);
+    await deleteDirectoryContents(this.outputDirectory, [this.configName]);
 
     const documentationStructure = this.getDirectoryConfig();
-    this.compodocFileTypes = this.getCompodocFileTypes(documentationStructure);
+    const compodocFileTypes = this.getCompodocFileTypes(documentationStructure);
 
     const copiedFiles = await this.copyFilesToOutputDirAndGetRecord(
       this.inputDirectory,
@@ -44,29 +41,32 @@ class DocumentationProcessor {
       documentationStructure
     );
 
-    await this.replaceCrossReferences(copiedFiles).then(() => {
-      console.log('Parsing has completed');
-      if (this.missingReferences.length > 0) {
-        console.log(
-          'WARNING: Compodoc created references to the following files but they are not included in the documentation:'
-        );
-        console.log(this.missingReferences.join('\n'));
+    await this.replaceCrossReferences(copiedFiles, compodocFileTypes).then(
+      () => {
+        console.log('Parsing has completed');
+        if (this.missingReferences.length > 0) {
+          console.log(
+            'WARNING: Compodoc created references to the following files but they are not included in the documentation:'
+          );
+          console.log(this.missingReferences.join('\n'));
+        }
       }
-    });
+    );
   }
 
   getDirectoryConfig(): NestedStringObject {
-    let documentationStructure;
+    const configPath = `${this.outputDirectory}/${this.configName}`;
+    let directoryConfig;
     try {
-      const fileContents = fs.readFileSync(this.configPath, 'utf8');
-      documentationStructure = yamlParse(fileContents);
+      const fileContents = fs.readFileSync(configPath, 'utf8');
+      directoryConfig = yamlParse(fileContents);
     } catch (err) {
       console.error(err);
     }
-    return documentationStructure;
+    return directoryConfig;
   }
 
-  getCompodocFileTypes(documentationStructure: NestedStringObject): string[] {
+  getCompodocFileTypes(directoryConfig: NestedStringObject): string[] {
     const fileTypes = [];
     const traverse = (config: NestedStringObject) => {
       Object.values(config).forEach((value) => {
@@ -80,7 +80,7 @@ class DocumentationProcessor {
         }
       });
     };
-    traverse(documentationStructure);
+    traverse(directoryConfig);
     return fileTypes;
   }
 
@@ -101,7 +101,7 @@ class DocumentationProcessor {
             const destination = `${outputDirectory}/${configKey}`;
             const text = await fs.promises.readFile(source, 'utf-8');
             // appPath corresponds to the way routing is set up in the site
-            const appPath = `${this.appRouterPath}${destination.split(this.lib)[1]}`;
+            const appPath = `${this.appRouterPath}/${destination.split(`${this.lib}/documentation/`)[1]}`;
             const parsed = this.getParsedFile(text, appPath);
             copiedFiles[compodocPath] = destination;
             await fs.promises.writeFile(`${destination}.html`, parsed, 'utf8');
@@ -136,14 +136,15 @@ class DocumentationProcessor {
   }
 
   async replaceCrossReferences(
-    copiedFiles: Record<string, string>
+    copiedFiles: Record<string, string>,
+    compodocFileTypes: string[]
   ): Promise<void> {
     const promises = Object.values(copiedFiles).map(
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       async (outputPath) => {
         console.log('OUTPUT PATH', outputPath);
         let text = await fs.promises.readFile(`${outputPath}.html`, 'utf-8');
-        const files = this.compodocFileTypes.join('.*html|') + '.*html';
+        const files = compodocFileTypes.join('.*html|') + '.*html';
         const regex = new RegExp(`(href="../)(${files})`, 'g');
         text = text.replace(regex, (match, p1, p2) =>
           this.replaceFileReference(p2, copiedFiles)

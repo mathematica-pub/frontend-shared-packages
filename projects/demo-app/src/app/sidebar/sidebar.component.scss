@@ -15,7 +15,9 @@
   padding-top: grid(1);
   padding-bottom: grid(1);
   margin: 1px 0;
-  line-height: 1.2;
+  line-height: 1.5;
+  @extend %typography-body-1;
+  font-size: 18px;
 }
 
 .item:hover {
