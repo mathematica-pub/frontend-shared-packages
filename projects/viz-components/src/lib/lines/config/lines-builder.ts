@@ -6,7 +6,7 @@ import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quant
 import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
-import { BelowLineAreaFillsBuilder } from './below-line-area-fills/below-line-area-fills-builder';
+import { AreaFillsBuilder } from './area-fills/area-fills-builder';
 import { LinesConfig } from './lines-config';
 
 const DEFAULT = {
@@ -36,7 +36,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
-  private belowLineAreaFillsBuilder: BelowLineAreaFillsBuilder<Datum>;
+  private belowLineAreaFillsBuilder: AreaFillsBuilder<Datum>;
 
   constructor() {
     super();
@@ -187,10 +187,8 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
    * OPTIONAL. A config to set fill underneath lines.
    *
    */
-  createBelowLineAreaFills(
-    setProperties?: (
-      belowLineAreaFills: BelowLineAreaFillsBuilder<Datum>
-    ) => void
+  createAreaFills(
+    setProperties?: (belowLineAreaFills: AreaFillsBuilder<Datum>) => void
   ): this {
     this.initBelowLinesAreaFillBuilder();
     setProperties?.(this.belowLineAreaFillsBuilder);
@@ -198,7 +196,7 @@ export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
   }
 
   private initBelowLinesAreaFillBuilder(): void {
-    this.belowLineAreaFillsBuilder = new BelowLineAreaFillsBuilder();
+    this.belowLineAreaFillsBuilder = new AreaFillsBuilder();
   }
 
   /**

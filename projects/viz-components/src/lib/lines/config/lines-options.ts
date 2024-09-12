@@ -5,10 +5,10 @@ import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
-import { BelowLineAreaFills } from './below-line-area-fills/below-line-area-fills';
+import { AreaFills } from './area-fills/area-fills';
 
 export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
-  belowLineAreaFills: BelowLineAreaFills<Datum>;
+  belowLineAreaFills: AreaFills<Datum>;
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
   hoverDot: PointMarkers;

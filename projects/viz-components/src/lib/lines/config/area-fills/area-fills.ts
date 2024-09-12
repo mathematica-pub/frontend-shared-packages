@@ -1,12 +1,12 @@
 import { FillDef } from '../../../data-dimensions';
-import { BelowLineAreaFillsOptions } from './below-line-area-fills-options';
+import { AreaFillsOptions } from './area-fills-options';
 
-export class BelowLineAreaFills<Datum> {
+export class AreaFills<Datum> {
   readonly display: boolean;
   readonly opacity: number;
   readonly fillDefs: FillDef<Datum>[];
 
-  constructor(options: BelowLineAreaFillsOptions) {
+  constructor(options: AreaFillsOptions) {
     Object.assign(this, options);
   }
 }
