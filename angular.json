@@ -7,28 +7,23 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "viz-components": {
+    "app-dev-kit": {
       "projectType": "library",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "projects/viz-components",
-      "sourceRoot": "projects/viz-components/src",
-      "prefix": "vic",
+      "root": "projects/app-dev-kit",
+      "sourceRoot": "projects/app-dev-kit/src",
+      "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "project": "projects/viz-components/ng-package.json"
+            "project": "projects/app-dev-kit/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "projects/viz-components/tsconfig.lib.prod.json"
+              "tsConfig": "projects/app-dev-kit/tsconfig.lib.prod.json"
             },
             "development": {
-              "tsConfig": "projects/viz-components/tsconfig.lib.json"
+              "tsConfig": "projects/app-dev-kit/tsconfig.lib.json"
             }
           },
           "defaultConfiguration": "production"
@@ -36,17 +31,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/viz-components/src/test.ts",
-            "tsConfig": "projects/viz-components/tsconfig.spec.json",
-            "karmaConfig": "projects/viz-components/karma.conf.js"
+            "tsConfig": "projects/app-dev-kit/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "projects/viz-components/**/*.ts",
-              "projects/viz-components/**/*.html"
+              "projects/app-dev-kit/**/*.ts",
+              "projects/app-dev-kit/**/*.html"
             ]
           }
         }
@@ -92,6 +86,51 @@
             "lintFilePatterns": [
               "projects/ui-components/**/*.ts",
               "projects/ui-components/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "viz-components": {
+      "projectType": "library",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/viz-components",
+      "sourceRoot": "projects/viz-components/src",
+      "prefix": "vic",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/viz-components/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/viz-components/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/viz-components/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/viz-components/src/test.ts",
+            "tsConfig": "projects/viz-components/tsconfig.spec.json",
+            "karmaConfig": "projects/viz-components/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/viz-components/**/*.ts",
+              "projects/viz-components/**/*.html"
             ]
           }
         }
@@ -250,7 +289,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "projects/my-work/src/styles",
-                "dist/ui-components/styles"
+                "dist/ui-components/styles",
+                "dist/app-dev-kit/styles"
               ]
             },
             "scripts": []
@@ -311,7 +351,8 @@
             "stylePreprocessorOptions": {
               "includePaths": [
                 "projects/my-work/src/styles",
-                "dist/ui-components/styles"
+                "dist/ui-components/styles",
+                "dist/app-dev-kit/styles"
               ]
             },
             "scripts": []
@@ -323,45 +364,6 @@
             "lintFilePatterns": [
               "projects/my-work/**/*.ts",
               "projects/my-work/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "app-dev-kit": {
-      "projectType": "library",
-      "root": "projects/app-dev-kit",
-      "sourceRoot": "projects/app-dev-kit/src",
-      "prefix": "lib",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "project": "projects/app-dev-kit/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "projects/app-dev-kit/tsconfig.lib.prod.json"
-            },
-            "development": {
-              "tsConfig": "projects/app-dev-kit/tsconfig.lib.json"
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "tsConfig": "projects/app-dev-kit/tsconfig.spec.json",
-            "polyfills": ["zone.js", "zone.js/testing"]
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "projects/app-dev-kit/**/*.ts",
-              "projects/app-dev-kit/**/*.html"
             ]
           }
         }
