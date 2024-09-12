@@ -93,7 +93,7 @@ export class GeographiesAttributeDataLayer<
 
   getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     const geographyIndex = this.featureIndexAccessor(feature);
-    return this.attributeDimension.fillPatterns
+    return this.attributeDimension.fillDefs
       ? this.getPatternFill(geographyIndex)
       : this.getAttributeFill(geographyIndex);
   }
@@ -102,7 +102,7 @@ export class GeographiesAttributeDataLayer<
   getPatternFill(geographyIndex: string): string {
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
-    const patterns = this.attributeDimension.fillPatterns;
+    const patterns = this.attributeDimension.fillDefs;
     return PatternUtilities.getFill(datum, geographyFill, patterns);
   }
 

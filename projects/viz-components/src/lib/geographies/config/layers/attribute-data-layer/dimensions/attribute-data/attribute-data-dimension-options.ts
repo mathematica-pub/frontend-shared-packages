@@ -7,7 +7,7 @@ export interface AttributeDataDimensionOptions<
   AttributeValue extends DataValue,
   RangeValue extends string | number = string,
 > extends DataDimensionOptions<Datum, AttributeValue> {
-  fillPatterns: FillDef<Datum>[];
+  fillDefs: FillDef<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   nullColor: string;

@@ -14,7 +14,7 @@ export class CategoricalDimensionBuilder<
   TCategoricalValue extends DataValue = string,
 > extends DataDimensionBuilder<Datum, TCategoricalValue> {
   private _domain: TCategoricalValue[];
-  private _fillPatterns: FillDef<Datum>[];
+  private _fillDefs: FillDef<Datum>[];
   private _range: string[];
   private _scale: (category: TCategoricalValue) => string;
 
@@ -34,10 +34,10 @@ export class CategoricalDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets an array of fill patterns that will be used to fill the categorical values.
+   * OPTIONAL. Sets an array of fill defs that will be used to fill the categorical values.
    */
-  fillPatterns(fillPatterns: FillDef<Datum>[]): this {
-    this._fillPatterns = fillPatterns;
+  fillDefs(fillDefs: FillDef<Datum>[]): this {
+    this._fillDefs = fillDefs;
     return this;
   }
 
@@ -75,7 +75,7 @@ export class CategoricalDimensionBuilder<
   _build(): CategoricalDimension<Datum, TCategoricalValue> {
     return new CategoricalDimension({
       domain: this._domain,
-      fillPatterns: this._fillPatterns,
+      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       range: this._range,
       scale: this._scale,

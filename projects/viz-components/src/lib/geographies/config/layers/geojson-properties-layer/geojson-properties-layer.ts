@@ -40,11 +40,11 @@ export class GeographiesGeojsonPropertiesLayer<
     }
     const featureIndex = this.featureIndexAccessor(feature);
     const defaultFill = this.categorical.getScale()(featureIndex);
-    return this.categorical.fillPatterns
+    return this.categorical.fillDefs
       ? PatternUtilities.getFill(
           feature,
           defaultFill,
-          this.categorical.fillPatterns
+          this.categorical.fillDefs
         )
       : defaultFill;
   }

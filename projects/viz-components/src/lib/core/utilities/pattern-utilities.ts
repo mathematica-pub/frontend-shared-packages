@@ -11,7 +11,7 @@ export class PatternUtilities {
   ): string {
     if (patterns) {
       patterns.forEach((pattern: FillDef<Datum>) => {
-        if (pattern.usePattern(datum)) {
+        if (pattern.useDef(datum)) {
           defaultColor = `url(#${pattern.name})`;
         }
       });

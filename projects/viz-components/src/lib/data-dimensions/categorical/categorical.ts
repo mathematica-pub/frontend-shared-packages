@@ -10,7 +10,7 @@ export class CategoricalDimension<
 > extends DataDimension<Datum, TCategoricalValue> {
   private _calculatedDomain: TCategoricalValue[];
   private readonly domain: TCategoricalValue[];
-  readonly fillPatterns: FillDef<Datum>[];
+  readonly fillDefs: FillDef<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   readonly range: string[];
   private scale: (category: TCategoricalValue) => string;

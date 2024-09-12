@@ -5,7 +5,7 @@ import { PatternUtilities } from './pattern-utilities';
 describe('PatternUtilities', () => {
   describe('integration: getPatternFill', () => {
     const predicates: FillDef<any>[] = [
-      { name: 'pattern', usePattern: (d: number) => d > 2 },
+      { name: 'pattern', useDef: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {
       const output = PatternUtilities.getFill(3, 'blue', predicates);

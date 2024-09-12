@@ -7,7 +7,7 @@ export interface CategoricalDimensionOptions<
   TCategoricalValue extends DataValue = string,
 > extends DataDimensionOptions<Datum, TCategoricalValue> {
   domain: TCategoricalValue[];
-  fillPatterns: FillDef<Datum>[];
+  fillDefs: FillDef<Datum>[];
   range: string[];
   scale: (category: TCategoricalValue) => string;
 }

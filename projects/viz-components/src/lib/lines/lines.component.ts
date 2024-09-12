@@ -201,7 +201,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   getAreaFill(category: string, lineDataIndices: number[]): string {
     if (this.config.belowLineAreaFills.fillDefs) {
       const fillDef = this.config.belowLineAreaFills.fillDefs.find((def) =>
-        def.usePattern(this.config.data[lineDataIndices[0]])
+        def.useDef(this.config.data[lineDataIndices[0]])
       );
       if (fillDef) {
         return `url(#${fillDef.name})`;

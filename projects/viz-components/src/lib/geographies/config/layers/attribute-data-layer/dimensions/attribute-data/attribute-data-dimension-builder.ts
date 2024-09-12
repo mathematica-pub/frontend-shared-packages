@@ -7,7 +7,7 @@ export abstract class AttributeDataDimensionBuilder<
   AttributeValue extends DataValue,
   RangeValue extends string | number = string,
 > extends DataDimensionBuilder<Datum, AttributeValue> {
-  protected _fillPatterns: FillDef<Datum>[];
+  protected _fillDefs: FillDef<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   protected _interpolator: (...args: any) => any;
   protected _nullColor: string;
@@ -18,8 +18,8 @@ export abstract class AttributeDataDimensionBuilder<
   /**
    * OPTIONAL. An array of fill patterns that will be applied to the features in this layer with attribute data.
    */
-  fillPatterns(fillPatterns: FillDef<Datum>[]): this {
-    this._fillPatterns = fillPatterns;
+  fillDefs(fillDefs: FillDef<Datum>[]): this {
+    this._fillDefs = fillDefs;
     return this;
   }
 

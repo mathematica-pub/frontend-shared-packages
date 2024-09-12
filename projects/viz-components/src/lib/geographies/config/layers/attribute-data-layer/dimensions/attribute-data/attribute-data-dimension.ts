@@ -16,7 +16,7 @@ export abstract class AttributeDataDimension<
   extends DataDimension<Datum, AttributeValue>
   implements AttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {
-  fillPatterns: FillDef<Datum>[];
+  fillDefs: FillDef<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   nullColor: string;
