@@ -14,7 +14,7 @@ describe('NgFormListboxSingleComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgFormListboxSingleComponent],
+      declarations: [NgFormListboxSingleComponent],
       providers: [
         {
           provide: ComboboxService,

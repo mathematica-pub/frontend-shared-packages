@@ -7,11 +7,10 @@ import {
 import { ComboboxService } from '../combobox.service';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-combobox-label',
   template: `<ng-template
-    ><p class="combobox-label" [id]="service.comboboxLabelId">
-      <ng-content></ng-content></p
+    ><p class="combobox-label" [id]="service.comboboxLabelId"
+      ><ng-content></ng-content></p
   ></ng-template>`,
 })
 export class ComboboxLabelComponent implements AfterViewInit {

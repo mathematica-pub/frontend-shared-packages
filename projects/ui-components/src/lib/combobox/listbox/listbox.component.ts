@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   AfterContentInit,
   AfterViewInit,
@@ -54,10 +53,12 @@ export type MultiSelectListboxValue<T> = (string | T)[];
 export type ListboxValue<T> =
   | SingleSelectListboxValue<T>
   | MultiSelectListboxValue<T>;
-export type SelectedOptionsCountLabel = { singular: string; plural: string };
+export type CountSelectedOptionsLabel = {
+  singular: string;
+  plural: string;
+};
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-listbox',
   templateUrl: './listbox.component.html',
   providers: [ListboxFilteringService, ListboxScrollService],
@@ -65,7 +66,6 @@ export type SelectedOptionsCountLabel = { singular: string; plural: string };
   host: {
     class: 'combobox-listbox-component',
   },
-  imports: [CommonModule],
 })
 export class ListboxComponent<T>
   implements OnInit, AfterContentInit, AfterViewInit
@@ -73,8 +73,13 @@ export class ListboxComponent<T>
   @Input() maxHeight = 300;
   @Input() isMultiSelect = false;
   @Input() labelIsBoxPlaceholder = false;
-  @Input() selectedOptionsCountLabel: SelectedOptionsCountLabel;
   @Input() findsOptionOnTyping = true;
+  @Input() countSelectedOptionsLabel?: CountSelectedOptionsLabel;
+  @Input() customTextboxLabel?: (
+    options: ListboxOptionComponent<T>[],
+    countSelectedOptionsLabel?: CountSelectedOptionsLabel
+  ) => string;
+  @Input() autoSelectionOnClose: boolean = true;
   @Output() valueChanges = new EventEmitter<ListboxValue<T>>();
   @ViewChild('listboxEl') listboxElRef: ElementRef;
   @ContentChild(ListboxLabelComponent, { descendants: false })
@@ -209,9 +214,9 @@ export class ListboxComponent<T>
         filter(([, [isOpen]]) => isOpen)
       )
       .subscribe(([, [isOpen, activeIndex]]) => {
-        const index = activeIndex ?? 0;
         if (isOpen) {
-          if (this.shouldSelectActiveIndexOptionOnBlur()) {
+          if (this.shouldSelectActiveIndexOptionOnBlur(activeIndex)) {
+            const index = activeIndex ?? 0;
             this.selectOptionFromIndex(index);
           }
           this.service.closeListbox();
@@ -219,8 +224,12 @@ export class ListboxComponent<T>
       });
   }
 
-  shouldSelectActiveIndexOptionOnBlur() {
-    return !this.isMultiSelect;
+  shouldSelectActiveIndexOptionOnBlur(activeIndex: number) {
+    return (
+      !this.isMultiSelect &&
+      (activeIndex !== null ||
+        (this.autoSelectionOnClose && activeIndex === null))
+    );
   }
 
   setOptionAction() {
@@ -373,11 +382,21 @@ export class ListboxComponent<T>
           let label = '';
           if (options.length === 0 && this.labelIsBoxPlaceholder) {
             label = this.label?.label?.nativeElement.innerText || '';
-          } else if (this.selectedOptionsCountLabel) {
+          } else if (
+            this.customTextboxLabel &&
+            this.countSelectedOptionsLabel
+          ) {
+            label = this.customTextboxLabel(
+              options,
+              this.countSelectedOptionsLabel
+            );
+          } else if (this.customTextboxLabel) {
+            label = this.customTextboxLabel(options);
+          } else if (this.countSelectedOptionsLabel) {
             if (options.length === 1) {
-              label = `${options.length} ${this.selectedOptionsCountLabel.singular} selected`;
+              label = `${options.length} ${this.countSelectedOptionsLabel.singular} selected`;
             } else {
-              label = `${options.length} ${this.selectedOptionsCountLabel.plural} selected`;
+              label = `${options.length} ${this.countSelectedOptionsLabel.plural} selected`;
             }
           } else {
             label = this.getBoxValuesLabel(options);
@@ -493,13 +512,10 @@ export class ListboxComponent<T>
     groupIndex?: number
   ): void {
     event.stopPropagation();
-
     this.handleOptionSelect(option, optionIndex, groupIndex);
-
     if (!this.isMultiSelect) {
       this.service.closeListbox();
     }
-
     this.service.setVisualFocus(VisualFocus.textbox);
   }
 
@@ -566,17 +582,13 @@ export class ListboxComponent<T>
         takeUntilDestroyed(this.destroyRef),
         pairwise(),
         filter(([prev, curr]) => {
-          return (
-            !!prev?.value &&
-            !!curr?.value &&
-            prev.optionValue !== curr.optionValue
-          );
+          return !!prev && !!curr && prev.optionValue !== curr.optionValue;
         }),
         withLatestFrom(this.activeIndex$)
       )
       .subscribe(([, activeIndex]) => {
-        if (!activeIndex) {
-          this.setActiveIndex(activeIndex, OptionAction.next, false);
+        if (activeIndex === null) {
+          this.setActiveIndexToFirstSelected();
         }
       });
   }

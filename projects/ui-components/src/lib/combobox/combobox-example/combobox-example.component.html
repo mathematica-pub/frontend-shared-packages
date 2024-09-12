@@ -1,0 +1,29 @@
+<hsi-ui-combobox class="fruits-dropdown">
+  <hsi-ui-combobox-label>
+    <span>Fruits</span>
+  </hsi-ui-combobox-label>
+  <hsi-ui-textbox [displaySelected]="true">
+    <p boxLabel>Select a fruit, A-E</p>
+    <span class="material-symbols-outlined expand-more" boxIcon>
+      expand_more
+    </span>
+  </hsi-ui-textbox>
+  <hsi-ui-listbox
+    [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
+    [isMultiSelect]="true"
+    (valueChanges)="onSelection($event)"
+  >
+    <hsi-ui-listbox-label>
+      <span>Select a fruit</span>
+    </hsi-ui-listbox-label>
+    <hsi-ui-listbox-option
+      *ngFor="let option of options"
+      [selected]="selected$ | async"
+      >{{ option.displayName }}</hsi-ui-listbox-option
+    >
+  </hsi-ui-listbox>
+</hsi-ui-combobox>
+<button (click)="setSelected()" class="super-cool-button-pls-click-me"
+  >Set all selected</button
+>
+<p class="combobox-value">{{ value$ | async }}</p>

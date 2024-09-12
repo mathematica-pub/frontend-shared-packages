@@ -1,5 +1,5 @@
 import { Platform } from '@angular/cdk/platform';
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -18,13 +18,11 @@ import { ComboboxLabelComponent } from './combobox-label/combobox-label.componen
 import { ComboboxService } from './combobox.service';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-combobox',
   templateUrl: './combobox.component.html',
   styleUrls: ['./combobox.component.scss'],
   providers: [ComboboxService],
   encapsulation: ViewEncapsulation.None,
-  imports: [CommonModule],
 })
 export class ComboboxComponent implements OnInit, AfterViewInit {
   @ViewChild('comboboxComponent') comboboxElRef: ElementRef;
