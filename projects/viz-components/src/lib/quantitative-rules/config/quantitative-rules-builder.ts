@@ -45,6 +45,7 @@ export class VicQuantitativeRulesConfigBuilder<
 
   /**
    * REQUIRED. Sets the data that will be used to render the quantitative rules.
+   * This component is not a Primary Marks component, so this data will not affect chart-level scales.
    *
    * @param data The data to be used to render the quantitative rules. Should be an array of numbers or dates.
    */

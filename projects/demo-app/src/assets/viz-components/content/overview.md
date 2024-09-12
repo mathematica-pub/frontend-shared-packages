@@ -35,17 +35,15 @@ aws codeartifact login --tool npm --domain shared-package-domain --repository sh
 npm install @hsi/viz-components
 ```
 
-## Creating a visualization
+## Library Fundamentals
 
 To create a new visualization using Viz Components in your Angular application, you will need to compose Viz Components's components in the template of an Angular component in your application, and create configuration objects for those components in your component's `.ts` file.
 
-### Composing components
+The Viz Components `Chart` component create a chart's svg and makes chart scales available to any child components that are added to its projection slots. All visualizations should start with a `Chart` type component, which includes the `Xy Chart` (for charts that have x and y dimensions) and the `Map Chart` (for charts that draw geographies with a projection).
 
-Viz Components uses `Chart` components to create a chart's svg and to provide scales to any child components. Hence all visualizations should start with a `Chart` type component, which includes the `Xy Chart` (for charts that have x and y dimensions) and the `Map Chart` (for charts that draw geographies with a projection).
+To create a functional visualization, a user must also provide one `PrimaryMarks` component within a `ChartComponent` projection slot. `PrimaryMarks` components are selected components within the library that not only draw marks based on user-provided data and configuration specifications, but that also set the scales on the `ChartComponent`, using either the provided data or any custom domain values a user provides in the configuration.
 
-You can place any component you want inside a `Chart` component, and it will be able to access the chart's scales. However, Viz Components has a special type of child component known as a `PrimaryMarks` component that is used to set the domains (data ranges) of the scales on the parent `Chart` component, which are then available to all child components projected into the `Chart` component.
-
-This means that to create a visualization, you need to combine at minimum, one `Chart` type component and one `PrimaryMarks` component. Examples of `PrimaryMarks` components include `Bars`, `Lines`, `Geographies`, `Stacked Areas`, and `Stacked Bars`.
+Examples of `PrimaryMarks` components include `Bars`, `Lines`, `Geographies`, `Stacked Areas`, and `Stacked Bars`.
 
 In the HTML, a minimal implementation of a visualization might look like this. Note how the child `Bars` component is between the tags of the parent `XyChart` component.
 
@@ -54,6 +52,14 @@ In the HTML, a minimal implementation of a visualization might look like this. N
   <svg:g svg-elements vic-primary-marks-bars [config]="PrimaryMarksConfig"><svg:g>
 </vic-xy-chart>
 ```
+
+### Adding additional SVG elements to a visualization
+
+The marks drawn by `PrimaryMarks` components can be highly customized through their configuration objects. 
+
+However, users can also add additional marks/svg elements to the chart by adding additional components (or svg code) in the `ChartComponents` projection slots. Any component used inside the `ChartComponent` will have access to the scales on the Chart, and can draw additional elements in the svg using those scales. 
+
+The library provides users with an abstract `AuxMarks` class that with automatically subscribe to the chart scales and call an abstract `drawMarks` method when the scales update. Users can extend this class to create their own components, and the library also provides several premade `AuxMarks` components that provide common visualization functionality, such as drawing a rule to mark a specific quantitative value. Data can be used to generate svg elements in `AuxMarks` components as well, but that data will not affect the global scales at the chart level. 
 
 ### Providing configurations
 
