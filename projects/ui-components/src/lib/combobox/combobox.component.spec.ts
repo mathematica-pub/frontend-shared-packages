@@ -8,9 +8,9 @@ import { ComboboxMainServiceStub } from './testing/main.service.stub';
 
 @Component({
   selector: 'hsi-ui-test-cmp',
-  template: `<hsi-ui-combobox
-    ><hsi-ui-combobox-label></hsi-ui-combobox-label
-  ></hsi-ui-combobox>`,
+  template: `<app-combobox
+    ><app-combobox-label></app-combobox-label
+  ></app-combobox>`,
 })
 class TestWrapperComponent {}
 
@@ -22,8 +22,11 @@ describe('ComboboxComponent', () => {
   beforeEach(() => {
     mainServiceStub = new ComboboxMainServiceStub();
     TestBed.configureTestingModule({
-      declarations: [TestWrapperComponent],
-      imports: [ComboboxComponent, ComboboxLabelComponent],
+      declarations: [
+        TestWrapperComponent,
+        ComboboxComponent,
+        ComboboxLabelComponent,
+      ],
     })
       .overrideComponent(ComboboxComponent, {
         set: {

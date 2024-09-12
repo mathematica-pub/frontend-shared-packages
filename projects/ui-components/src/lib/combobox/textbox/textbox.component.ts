@@ -1,5 +1,4 @@
 import { Platform } from '@angular/cdk/platform';
-import { CommonModule } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -22,10 +21,8 @@ import {
 } from '../combobox.service';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-textbox',
   templateUrl: './textbox.component.html',
-  imports: [CommonModule],
 })
 export class TextboxComponent implements OnInit, AfterViewInit {
   @Input() displaySelected = false;
@@ -38,7 +35,7 @@ export class TextboxComponent implements OnInit, AfterViewInit {
   constructor(
     public service: ComboboxService,
     private platform: Platform,
-    private destroyRef: DestroyRef
+    protected destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
@@ -67,6 +64,10 @@ export class TextboxComponent implements OnInit, AfterViewInit {
 
   handleBlur(event: FocusEvent): void {
     if (event.relatedTarget && this.isHtmlElement(event.relatedTarget)) {
+      // handles new Chrome behavior from focusable scroll containers https://issues.chromium.org/issues/359904703
+      if (event.relatedTarget.id === this.service.scrollContainerId) {
+        return;
+      }
       if (event.relatedTarget.id.includes('listbox')) {
         this.service.setVisualFocus(VisualFocus.textbox);
         return;
