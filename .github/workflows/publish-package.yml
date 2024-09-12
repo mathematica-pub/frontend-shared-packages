@@ -37,10 +37,18 @@ jobs:
       - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
-      - name: Release
+      - name: Release viz-components
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
         run: |
           cd projects/viz-components
+          npx semantic-release
+
+      - name: Release ui-components
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_REGION: us-east-1
+        run: |
+          cd ../ui-components
           npx semantic-release
