@@ -1,6 +1,5 @@
 {
   "name": "@hsi/ui-components",
-  "version": "0.0.6",
   "scripts": {
     "build": "ng build"
   },

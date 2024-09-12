@@ -1,6 +1,5 @@
 {
   "name": "frontend-shared-packages",
-  "version": "0.0.0",
   "compodoc": {
     "name": "Frontend Shared Packages Documentation",
     "watch": true,
