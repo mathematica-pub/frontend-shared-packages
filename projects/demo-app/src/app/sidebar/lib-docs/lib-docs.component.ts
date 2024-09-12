@@ -7,6 +7,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {
+  DirectoryComponent,
+  DirectoryItem,
+  DirectorySelection,
+} from 'projects/ui-components/src/public-api';
 import { filter, map, Observable } from 'rxjs';
 import {
   getContentConfigForLib,
@@ -15,11 +20,6 @@ import {
 import { AssetsService } from '../../core/services/assets.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../core/services/router-state/state';
-import {
-  DirectoryComponent,
-  DirectoryItem,
-  DirectorySelection,
-} from './directory/directory.component';
 
 type NestedStringObject = {
   [key: string]: string | NestedStringObject;

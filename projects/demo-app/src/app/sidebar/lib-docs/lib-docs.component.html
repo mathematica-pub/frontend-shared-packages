@@ -20,7 +20,7 @@
       >
       @if (manualDocs$ | async; as manualDocs) {
         <h3 class="section-label">{{ manualDocs.title }}</h3>
-        <app-directory
+        <hsi-ui-directory
           class="manual-docs-directory"
           [items]="manualDocs.items"
           (selectionChanges)="selectManualDocsItem($event)"
@@ -29,10 +29,10 @@
             selectedItem: '',
           }"
           selectionElementRole="link"
-        ></app-directory>
+        ></hsi-ui-directory>
       }
       <h3 class="section-label documentation">Automated Documentation</h3>
-      <app-directory
+      <hsi-ui-directory
         class="automated-docs-directory"
         [items]="automatedDocsItems$ | async"
         (selectionChanges)="selectAutomatedDocsItem($event)"
@@ -41,7 +41,7 @@
           selectedItem: '',
         }"
         selectionElementRole="link"
-      ></app-directory>
+      ></hsi-ui-directory>
     }
   }
 </div>
