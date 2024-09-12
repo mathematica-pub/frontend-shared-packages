@@ -12,7 +12,7 @@ describe('NgFormTextboxInputComponent', () => {
   beforeEach(() => {
     mainServiceStub = new ComboboxMainServiceStub();
     TestBed.configureTestingModule({
-      imports: [NgFormEditableTextboxComponent],
+      declarations: [NgFormEditableTextboxComponent],
       providers: [
         {
           provide: ComboboxService,
