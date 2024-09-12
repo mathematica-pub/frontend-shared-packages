@@ -15,7 +15,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:demo-app": "ng serve demo-app",
-    "build:viz-components": "npm run build --project-prefix viz-components",
+    "build:viz-components": "ng build viz-components",
     "build:ui-components": "ng build ui-components",
     "build:demo-app": "ng build demo-app",
     "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
