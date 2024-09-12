@@ -2,7 +2,7 @@
   "branches": [
     "main",
     {
-      "name": "395-incorporate-an-automated-versioning-+-release-notes-package",
+      "name": "beta",
       "prerelease": true
     },
     { "name": "alpha", "prerelease": true }
