@@ -3,6 +3,9 @@
 Viz Components heavily uses TypeScript. All contributions should be fully typed, avoiding the use of
 `any`.
 
+## Semantic Releases
+This repo uses the `semantic-release` package, which automatically bumps the version of a given package based on conventional commit messages. Ensure you're using [conventional commit messages](https://www.conventionalcommits.org/en/v1.0.0/) or the version will not be updated appropriately.
+
 ## Generics
 
 Viz Components uses many TS generics to allow the user to specify types specific to their data.
