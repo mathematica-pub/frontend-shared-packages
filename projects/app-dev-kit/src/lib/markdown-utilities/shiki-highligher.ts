@@ -8,20 +8,18 @@ import {
   HighlighterGeneric,
 } from 'shiki';
 
-export const defaultHighlighterOptions = {
-  langs: [
-    'json',
-    'ts',
-    'js',
-    'html',
-    'css',
-    'scss',
-    'yaml',
-    'angular-html',
-    'angular-ts',
-    'mermaid',
-  ],
-};
+export const defaultHighlighterLangs = [
+  'json',
+  'ts',
+  'js',
+  'html',
+  'css',
+  'scss',
+  'yaml',
+  'angular-html',
+  'angular-ts',
+  'mermaid',
+];
 
 export enum ShikiTheme {
   Andromeeda = 'andromeeda',
@@ -77,6 +75,11 @@ export enum ShikiTheme {
   VitesseLight = 'vitesse-light',
 }
 
+export interface HighlighterOptions {
+  highlightCode?: true;
+  theme: ShikiTheme;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -85,15 +88,18 @@ export class ShikiHighlighter {
   highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>;
 
   /**
-   * Initialize the highlighter.
+   * Initialize the highlighter. This should only be called one in an application.
    *
    * @param themes an array of any Shiki themes you may want to use in the app. You can control which theme is used where by passing the theme name to the `getMarkedExtension` method.
    *
    * @returns void
    */
-  initialize(themes: ShikiTheme[]): void {
+  initialize(
+    themes: ShikiTheme[],
+    langs: string[] = defaultHighlighterLangs
+  ): void {
     this.highlighter = createHighlighter({
-      langs: defaultHighlighterOptions.langs,
+      langs,
       themes: themes ? themes : ['nord'],
     });
   }

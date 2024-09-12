@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { marked } from 'marked';
 import { gfmHeadingId } from 'marked-gfm-heading-id';
-import { HighlighterOptions } from '../../platform/documentation/documentation.service';
-import { ShikiHighlighter } from './shiki-highligher';
+import { ShikiHighlighter, ShikiTheme } from './shiki-highligher';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +9,7 @@ import { ShikiHighlighter } from './shiki-highligher';
 export class MarkedCreator {
   constructor(private readonly highlighter: ShikiHighlighter) {}
 
-  getMarkedInstance(highlight?: HighlighterOptions): typeof marked {
+  getMarkedInstance(theme: ShikiTheme = ShikiTheme.Nord): typeof marked {
     const renderer = new marked.Renderer();
     renderer.code = ({ text, lang }) => {
       // Let's do a language based detection like on GitHub
@@ -27,10 +26,7 @@ export class MarkedCreator {
     };
 
     const extensions = [gfmHeadingId()];
-
-    if (highlight) {
-      extensions.push(this.highlighter.getMarkedExtension(highlight.theme));
-    }
+    extensions.push(this.highlighter.getMarkedExtension(theme));
 
     marked.use(...extensions, {
       renderer,

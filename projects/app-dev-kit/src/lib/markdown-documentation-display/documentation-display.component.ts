@@ -5,41 +5,44 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  EventEmitter,
   Inject,
+  Input,
   NgZone,
   OnInit,
+  Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ActiveHeadingService } from '../../core/services/active-heading.service';
-import { DirectoryConfigService } from '../../core/services/directory-config.service';
-import { ShikiTheme } from '../../core/services/shiki-highligher';
+import { ActiveHeadingService } from './active-heading.service';
 import { DocumentIndexComponent } from './document-index/document-index.component';
 import {
-  DocumentationHtmlService,
   GfmHeader,
+  HsiAdkDocumentationDisplayService,
   ParsedDocumentation,
-} from './documentation.service';
+} from './documentation-display.service';
 import { NavigationSiblingsComponent } from './navigation-siblings/navigation-siblings.component';
 
 @Component({
-  selector: 'app-documentation',
+  selector: 'hsi-adk-documentation-display',
   standalone: true,
   imports: [CommonModule, DocumentIndexComponent, NavigationSiblingsComponent],
-  templateUrl: './documentation.component.html',
-  styleUrls: ['./documentation.component.scss'],
+  templateUrl: './documentation-display.component.html',
+  styleUrls: ['./documentation-display.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DocumentationComponent implements OnInit, AfterViewInit {
+export class HsiAdkDocumentationDisplayComponent
+  implements OnInit, AfterViewInit
+{
+  @Input() docsPath: string;
+  @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
-  docsPath = '/assets/documentation/';
   content$: Observable<ParsedDocumentation>;
 
   constructor(
-    private docsService: DocumentationHtmlService,
-    public configsService: DirectoryConfigService,
+    private docsService: HsiAdkDocumentationDisplayService,
     private activeHeadingService: ActiveHeadingService,
     private destroyRef: DestroyRef,
     private zone: NgZone,
@@ -55,9 +58,7 @@ export class DocumentationComponent implements OnInit, AfterViewInit {
   }
 
   setContent(): void {
-    this.content$ = this.docsService.getContentForCurrentContentPath({
-      theme: ShikiTheme.CatppuccinLatte,
-    });
+    this.content$ = this.docsService.getContentForCurrentContentPath();
   }
 
   scrollToHeading(update: {
@@ -94,5 +95,9 @@ export class DocumentationComponent implements OnInit, AfterViewInit {
       top,
       behavior: 'smooth',
     });
+  }
+
+  navigateToDoc(sibling: string): void {
+    this.nextDoc.emit(sibling);
   }
 }

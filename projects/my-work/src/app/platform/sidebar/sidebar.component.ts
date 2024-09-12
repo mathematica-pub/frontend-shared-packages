@@ -30,7 +30,6 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     public routerState: RouterStateService,
-
     private configService: DirectoryConfigService
   ) {}
 

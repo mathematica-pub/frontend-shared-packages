@@ -4,7 +4,10 @@
   "peerDependencies": {
     "@angular/common": "^18.2.0",
     "@angular/core": "^18.2.0",
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "marked-gfm-heading-id": "^4.1.0",
+    "marked-shiki": "^1.1.0",
+    "shiki": "^1.14.1"
   },
   "dependencies": {
     "tslib": "^2.3.0"

@@ -32,17 +32,17 @@
 
   .injected-html {
     h1 {
-      @extend %typography-h4;
+      @extend %hsi-adk-type-h4;
       margin: 0 0 grid(7) 0;
       width: 100%;
     }
 
     h2 {
-      @extend %typography-h5;
+      @extend %hsi-adk-type-h5;
     }
 
     h3 {
-      @extend %typography-h6;
+      @extend %hsi-adk-type-h6;
     }
 
     h2,

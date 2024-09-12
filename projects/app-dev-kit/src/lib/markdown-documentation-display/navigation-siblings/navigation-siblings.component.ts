@@ -1,35 +1,30 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
+  Output,
 } from '@angular/core';
-import {
-  Casing,
-  DirectoryConfigService,
-} from '../../../core/services/directory-config.service';
-import { RouterStateService } from '../../../core/services/router-state/router-state.service';
-import { Section } from '../../../core/services/router-state/state';
-import { NavigationSiblings } from '../documentation.service';
+import { NavigationSiblings } from '../documentation-display.service';
 
 @Component({
-  selector: 'app-navigation-siblings',
+  selector: 'hsi-adk-navigation-siblings',
   standalone: true,
   imports: [CommonModule],
+  providers: [TitleCasePipe],
   templateUrl: './navigation-siblings.component.html',
   styleUrls: ['./navigation-siblings.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavigationSiblingsComponent implements OnChanges {
   @Input() siblings: NavigationSiblings;
+  @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
   previous: string;
   next: string;
 
-  constructor(
-    private routerState: RouterStateService,
-    public configService: DirectoryConfigService
-  ) {}
+  constructor(private titleCase: TitleCasePipe) {}
 
   ngOnChanges(): void {
     this.setDisplayNames();
@@ -46,13 +41,12 @@ export class NavigationSiblingsComponent implements OnChanges {
 
   getDisplayName(path: string): string {
     const paths = path.split('/');
-    return this.configService.getDisplayName(
-      paths[paths.length - 1],
-      Casing.Title
-    );
+    const end = paths[paths.length - 1];
+    const dehyphenated = end.replace(/-/g, ' ');
+    return this.titleCase.transform(dehyphenated);
   }
 
-  goToSibling(sibling: string): void {
-    this.routerState.update({ section: Section.Docs, contentPath: sibling });
+  navigateToDoc(sibling: string): void {
+    this.nextDoc.emit(sibling);
   }
 }

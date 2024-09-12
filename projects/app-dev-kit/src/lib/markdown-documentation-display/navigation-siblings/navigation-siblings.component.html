@@ -1,5 +1,10 @@
 @if (siblings.previous) {
-  <div class="nav-panel previous" (click)="goToSibling(siblings.previous)"
+  <div
+    class="nav-panel previous"
+    role="link"
+    tabindex="0"
+    (click)="navigateToDoc(siblings.previous)"
+    (keydown.enter)="navigateToDoc(siblings.previous)"
     ><p class="label">Previous</p
     ><p class="name"
       ><span class="material-symbols-outlined arrow">arrow_back</span
@@ -8,7 +13,12 @@
   >
 }
 @if (siblings.next) {
-  <div class="nav-panel next" (click)="goToSibling(siblings.next)"
+  <div
+    class="nav-panel next"
+    role="link"
+    tabindex="0"
+    (click)="navigateToDoc(siblings.next)"
+    (keydown.enter)="navigateToDoc(siblings.next)"
     ><p class="label">Next</p
     ><p class="name"
       >{{ next }}

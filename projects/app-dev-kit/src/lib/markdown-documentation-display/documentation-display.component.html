@@ -3,16 +3,17 @@
     <div class="documentation-content">
       <div class="main-content">
         <div class="injected-html" [innerHTML]="content.html" #file></div>
-        <app-navigation-siblings
+        <hsi-adk-navigation-siblings
           class="nav-siblings"
           [siblings]="content.siblings"
-        ></app-navigation-siblings>
+          (nextDoc)="navigateToDoc($event)"
+        ></hsi-adk-navigation-siblings>
       </div>
-      <app-document-index
+      <hsi-adk-document-index
         class="document-index"
         [headings]="content.headings.slice(1)"
         (activeHeading)="scrollToHeading($event)"
-      ></app-document-index>
+      ></hsi-adk-document-index>
     </div>
   }
 </div>

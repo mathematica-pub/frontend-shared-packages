@@ -11,6 +11,9 @@
 
 html {
   @include hsi-adk.core();
+  --hsi-adk-font-sans: #{$sans-font};
+  --hsi-adk-font-serif: #{$serif-font};
+  --hsi-adk-font-mono: #{mono-font};
 }
 
 body {
@@ -127,25 +130,48 @@ legend {
 }
 
 h1 {
-  @extend %typography-h1;
+  @extend %hsi-adk-type-h1;
 }
 
 h2 {
-  @extend %typography-h2;
+  @extend %hsi-adk-type-h2;
 }
 
 h3 {
-  @extend %typography-h3;
+  @extend %hsi-adk-type-h3;
 }
 
 h4 {
-  @extend %typography-h4;
+  @extend %hsi-adk-type-h4;
 }
 
 h5 {
-  @extend %typography-h5;
+  @extend %hsi-adk-type-h5;
 }
 
 h6 {
-  @extend %typography-h6;
+  @extend %hsi-adk-type-h6;
 }
+// h1 {
+//   @extend %typography-h1;
+// }
+
+// h2 {
+//   @extend %typography-h2;
+// }
+
+// h3 {
+//   @extend %typography-h3;
+// }
+
+// h4 {
+//   @extend %typography-h4;
+// }
+
+// h5 {
+//   @extend %typography-h5;
+// }
+
+// h6 {
+//   @extend %typography-h6;
+// }

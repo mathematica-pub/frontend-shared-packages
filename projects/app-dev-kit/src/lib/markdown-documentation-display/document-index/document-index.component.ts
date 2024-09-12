@@ -6,11 +6,11 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ActiveHeadingService } from '../../../core/services/active-heading.service';
-import { GfmHeader } from '../documentation.service';
+import { ActiveHeadingService } from '../active-heading.service';
+import { GfmHeader } from '../documentation-display.service';
 
 @Component({
-  selector: 'app-document-index',
+  selector: 'hsi-adk-document-index',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './document-index.component.html',

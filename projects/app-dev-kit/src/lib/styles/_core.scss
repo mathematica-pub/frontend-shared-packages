@@ -3,7 +3,12 @@
 
 @mixin core() {
   @include sass-utils.map-scss-vars-into-css-vars(
-    theming.$app,
+    theming.$colors,
     'hsi-adk-color'
+  );
+
+  @include sass-utils.map-scss-vars-into-css-vars(
+    theming.$font,
+    'hsi-adk-font'
   );
 }

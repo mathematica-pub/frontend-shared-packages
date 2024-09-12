@@ -2,6 +2,7 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'colors';
+@use '../../../../../app-dev-kit/src/lib/styles/' as *;
 
 .sidebar-container {
   display: flex;
@@ -13,7 +14,7 @@
   top: 0;
 
   .application-title {
-    @extend %typography-h6;
+    @extend %hsi-adk-type-h6;
     padding-bottom: grid(2);
     border-bottom: 1px solid colors.$muted-primary-80;
     white-space: nowrap;
@@ -26,7 +27,7 @@
   }
 
   .title.content {
-    @extend %typography-h5;
+    @extend %hsi-adk-type-h5;
     padding: grid(1) 0;
     display: flex;
     justify-content: space-between;
@@ -34,7 +35,7 @@
   }
 
   .title.docs {
-    @extend %typography-overline-large;
+    @extend %hsi-adk-type-overline-large;
     padding: grid(4) 0 grid(1) 0;
     display: flex;
     justify-content: space-between;
