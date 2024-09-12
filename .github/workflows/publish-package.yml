@@ -50,5 +50,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
         run: |
-          cd ../ui-components
+          cd projects/ui-components
           npx semantic-release
