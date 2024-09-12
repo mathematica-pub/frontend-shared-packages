@@ -11,10 +11,21 @@ import { VicImage } from './image-download-enums';
 export class VicImageDownload {
   domToImage = domToImage;
 
+  /**
+   * @param imageConfig
+   * @returns fontEmbedCSS -- scans stylesheets for font files and base64 encodes them,
+   * reuse this value in imageConfig for subsequent downloads to avoid
+   * re-encoding fonts (slight performance boost)
+   */
   async downloadNode(
     imageConfig: VicJpegImageConfig | VicPngImageConfig | VicSvgImageConfig
   ): Promise<string | void> {
     let dataUrl;
+    if (imageConfig.fontEmbedCSS === undefined) {
+      imageConfig.fontEmbedCSS = await domToImage.getFontEmbedCSS(
+        imageConfig.containerNode
+      );
+    }
     const sizedImageConfig = {
       ...imageConfig,
       width: imageConfig.containerNode.scrollWidth,
@@ -47,6 +58,7 @@ export class VicImageDownload {
       dataUrl,
       `${imageConfig.fileName}.${imageConfig.imageType}`
     );
+    return imageConfig.fontEmbedCSS;
   }
 
   createLinkAndClick(dataUrl: string, fileName: string) {

@@ -1,15 +1,20 @@
 <nav class="sidebar-container">
-  <a
-    class="item"
-    [routerLink]="'/overview/shared-packages'"
-    routerLinkActive="active"
-  >
-    About Shared Packages
-  </a>
-  <app-lib-docs
-    [lib]="{ displayName: 'UI Components', id: Library.UiComponents }"
-  ></app-lib-docs>
-  <app-lib-docs
-    [lib]="{ displayName: 'Viz Components', id: Library.VizComponents }"
-  ></app-lib-docs>
+  @if (routerState.state$ | async; as state) {
+    <a
+      class="item"
+      (click)="selectOverview()"
+      [class.active]="
+        state.lib === Library.SharedPackages &&
+        state.section === Section.Overview
+      "
+    >
+      About Shared Packages
+    </a>
+    <app-lib-docs
+      [lib]="{ displayName: 'UI Components', id: Library.UiComponents }"
+    ></app-lib-docs>
+    <app-lib-docs
+      [lib]="{ displayName: 'Viz Components', id: Library.VizComponents }"
+    ></app-lib-docs>
+  }
 </nav>

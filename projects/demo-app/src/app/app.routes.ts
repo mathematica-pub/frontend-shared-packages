@@ -1,8 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
-import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
+import { Routes } from '@angular/router';
 
-const routes: Routes = [
+export const APP_ROUTES: Routes = [
   {
     path: '',
     redirectTo: 'shared-packages/overview',
@@ -44,20 +42,3 @@ const routes: Routes = [
     redirectTo: 'shared-packages/overview',
   },
 ];
-
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {
-      anchorScrolling: 'enabled',
-      bindToComponentInputs: true,
-    }),
-  ],
-  exports: [RouterModule],
-  providers: [
-    {
-      provide: RouteReuseStrategy,
-      useClass: CustomRouteReuseStrategy,
-    },
-  ],
-})
-export class AppRoutingModule {}
