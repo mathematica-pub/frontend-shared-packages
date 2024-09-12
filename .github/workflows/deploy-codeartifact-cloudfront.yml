@@ -72,14 +72,14 @@ jobs:
         uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
 
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+
       - name: Install Dependencies
         run: npm ci
 
       - name: Build viz-components
         run: npm run build:viz-components
-
-      - name: Authenticate to codeartifact
-        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Deploy viz-components to codeartifact
         run: |
@@ -113,6 +113,9 @@ jobs:
       - name: Get Current Pull Request
         uses: 8BitJonny/gh-get-current-pr@3.0.0
         id: PR
+
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Install Dependencies
         run: npm ci
