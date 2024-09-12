@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormControl } from '@angular/forms';
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
@@ -6,7 +5,6 @@ import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { ListboxComponent } from '../listbox/listbox.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-ng-form-listbox-multi',
   templateUrl: '../listbox/listbox.component.html',
   providers: [ListboxFilteringService, ListboxScrollService],
@@ -14,7 +12,6 @@ import { ListboxComponent } from '../listbox/listbox.component';
   host: {
     class: 'combobox-listbox-component',
   },
-  imports: [CommonModule],
 })
 export class NgFormListboxMultiComponent<T>
   extends ListboxComponent<T>

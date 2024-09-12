@@ -11,7 +11,6 @@ import { ListboxLabelComponent } from '../listbox-label/listbox-label.component'
 import { ListboxOptionComponent } from '../listbox-option/listbox-option.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-listbox-group',
   template: `<ng-content></ng-content>`,
 })

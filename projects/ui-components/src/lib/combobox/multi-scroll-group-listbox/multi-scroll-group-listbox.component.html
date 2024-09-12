@@ -6,7 +6,9 @@
   tabindex="-1"
   [class.open]="service.isOpen$ | async"
   [style.--max-reveal-height.px]="maxHeight"
-  [attr.aria-labelledby]="(service.label$ | async) ? service.comboboxLabelId : label?.id"
+  [attr.aria-labelledby]="
+    (service.label$ | async) ? service.comboboxLabelId : label?.id
+  "
   [attr.aria-multiselectable]="isMultiSelect"
 >
   <ng-container
@@ -19,12 +21,12 @@
 
 <ng-template #listboxOptions>
   <div
-    *ngFor="let option of options$ | async; let i = index;"
+    *ngFor="let option of options$ | async; let i = index"
     role="option"
     class="listbox-option"
     [ngClass]="'listbox-option-' + i"
     [id]="service.id + '-listbox-option-' + i"
-    [attr.aria-selected]="((option.selected$ | async) || false)"
+    [attr.aria-selected]="(option.selected$ | async) || false"
     [class.selected]="option.selected$ | async"
     [class.disabled]="option.disabled$ | async"
     [class.current]="(activeIndex$ | async) === i"
@@ -59,15 +61,17 @@
       [attr.aria-labelledby]="group.label?.id + '-' + i"
     >
       <div
-        *ngFor="let option of group.options$ | async; let j = index;"
+        *ngFor="let option of group.options$ | async; let j = index"
         role="option"
         class="listbox-option"
         [ngClass]="'listbox-option-' + getOptionIndexFromGroups(i, j)"
         [id]="service.id + '-listbox-option-' + getOptionIndexFromGroups(i, j)"
-        [attr.aria-selected]="((option.selected$ | async) || false)"
+        [attr.aria-selected]="(option.selected$ | async) || false"
         [class.selected]="option.selected$ | async"
         [class.disabled]="option.disabled$ | async"
-        [class.current]="(activeIndex$ | async) === getOptionIndexFromGroups(i, j)"
+        [class.current]="
+          (activeIndex$ | async) === getOptionIndexFromGroups(i, j)
+        "
         (click)="handleOptionClick($event, option, j, i)"
         (mousedown)="handleOptionMousedown()"
       >
