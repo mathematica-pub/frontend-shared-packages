@@ -2,7 +2,7 @@ import { VicImage } from './image-download-enums';
 import { ImageDownloadOptions } from './image-download-options';
 
 const DEFAULT = {
-  fontEmbedCSS: '',
+  fontEmbedCSS: undefined,
   backgroundColor: '#fff',
   quality: 1,
 };
