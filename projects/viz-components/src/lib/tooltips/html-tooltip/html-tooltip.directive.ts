@@ -21,8 +21,8 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Subject, takeUntil } from 'rxjs';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
 import { DataMarks, VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';

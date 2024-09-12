@@ -3,5 +3,9 @@
   "dest": "../../dist/ui-components",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    { "input": "src/lib/core/", "glob": "**/*.scss", "output": "styles" }
+  ],
+  "allowedNonPeerDependencies": ["@hsi/app-dev-kit"]
 }

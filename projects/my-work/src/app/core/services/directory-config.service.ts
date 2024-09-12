@@ -1,7 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { DirectoryItem } from '@hsi/ui-components';
 import { BehaviorSubject, forkJoin } from 'rxjs';
-import { DirectoryItem } from '../../platform/directory/directory.component';
 import { AssetsService } from '../services/assets.service';
 
 export interface ContentConfig {

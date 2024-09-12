@@ -2,11 +2,16 @@
 @use 'colors';
 @use 'vars' as *;
 @use 'placeholders' as *;
+@use '../../../../dist/ui-components/styles' as hsi-ui;
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+html {
+  @include hsi-ui.core();
 }
 
 body {

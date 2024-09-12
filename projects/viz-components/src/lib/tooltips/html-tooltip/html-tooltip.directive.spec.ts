@@ -2,8 +2,8 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Subject } from 'rxjs';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
 import { DataMarksStub } from '../../testing/stubs/data-marks.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';

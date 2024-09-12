@@ -6,12 +6,18 @@
     "@angular/core": "^18.0.0",
     "@angular/cdk": "^18.0.0",
     "@angular/material": "^18.0.0",
+    "@hsi/app-dev-kit": "^0.0.1",
     "d3": "^7.8.5",
     "rxjs": "^7.5.0",
     "lodash-es": "^4.17.21"
   },
   "dependencies": {
     "tslib": "^2.3.0"
+  },
+  "exports": {
+    "./styles": {
+      "sass": "./src/lib/core/_index.scss"
+    }
   },
   "sideEffects": false
 }

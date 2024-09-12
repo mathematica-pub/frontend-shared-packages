@@ -1,7 +1,5 @@
-@use 'vars' as *;
-@use 'placeholders' as *;
-@use 'functions' as *;
-@use 'colors';
+@use './../core/scss/colors' as colors;
+@use './../core/scss/functions' as *;
 
 .invisible {
   display: none;

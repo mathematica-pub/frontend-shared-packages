@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgOnChangesUtilities } from 'projects/viz-components/src/lib/core/utilities/ng-on-changes';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DirectoryItem {
@@ -24,7 +24,7 @@ export interface DirectorySelection {
 }
 
 @Component({
-  selector: 'app-directory',
+  selector: 'hsi-ui-directory',
   standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './directory.component.html',
@@ -48,6 +48,8 @@ export class DirectoryComponent implements OnChanges {
    */
   @Output() selectionChanges = new EventEmitter<DirectorySelection>();
   /**
+   * @internal
+   *
    * Internal, will have no effect if provided at root level.
    */
   @Output() stateChanges = new EventEmitter<DirectorySelection>();

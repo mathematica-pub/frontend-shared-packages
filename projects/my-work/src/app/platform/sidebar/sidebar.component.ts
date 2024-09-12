@@ -1,6 +1,11 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {
+  DirectoryComponent,
+  DirectoryItem,
+  DirectorySelection,
+} from '@hsi/ui-components';
 import { filter, map, Observable } from 'rxjs';
 import {
   Casing,
@@ -8,11 +13,6 @@ import {
 } from '../../core/services/directory-config.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Section } from '../../core/services/router-state/state';
-import {
-  DirectoryComponent,
-  DirectoryItem,
-  DirectorySelection,
-} from '../directory/directory.component';
 
 @Component({
   selector: 'app-sidebar',
