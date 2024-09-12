@@ -1,7 +1,7 @@
-@use 'functions' as *;
-@use 'placeholders' as *;
-@use 'colors';
-@use 'vars' as *;
+@use '../styles/scss/functions' as *;
+@use '../styles/scss/placeholders' as *;
+@use '../styles/scss/typography' as *;
+@use '../styles/scss/colors';
 
 .documentation-container {
   margin: 0 auto;
@@ -122,7 +122,7 @@
     h6 > code,
     li > code,
     p > code {
-      font-family: $code-font;
+      font-family: $font-mono;
       font-weight: 500;
       padding-left: grid(1);
       padding-right: grid(1);

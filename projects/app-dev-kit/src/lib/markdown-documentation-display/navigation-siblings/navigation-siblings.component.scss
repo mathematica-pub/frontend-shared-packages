@@ -1,7 +1,6 @@
-@use 'functions' as *;
-@use 'placeholders' as *;
-@use 'colors';
-@use 'vars' as *;
+@use '../../styles/scss/functions' as *;
+@use '../../styles/scss/placeholders' as *;
+@use '../../styles/scss/colors';
 
 :host {
   display: grid;
