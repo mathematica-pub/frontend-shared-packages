@@ -23,7 +23,7 @@ import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { BarsConfig } from './config/bars-config';
 
-// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
+// Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const BARS = new InjectionToken<BarsComponent<unknown, DataValue>>(
   'BarsComponent'

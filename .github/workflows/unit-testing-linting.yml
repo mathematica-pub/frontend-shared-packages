@@ -97,9 +97,6 @@ jobs:
       - name: Build ui-components
         run: npm run build:ui-components
 
-      - name: Build Custom Schematics
-        run: npm run build --prefix projects/viz-components
-
       - name: Build Compodoc Documentation
         run: npm run build:documentation
 
