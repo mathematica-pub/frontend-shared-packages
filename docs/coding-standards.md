@@ -55,7 +55,7 @@ class MyConfig<G extends MySpecialJsonGeometry> {
 ### Interface/Class Properties
 
 Properties on interfaces and classes should be in alphabetical order (among analogous properties)
-unless there is a good reason not too.
+unless there is a good reason not to.
 
 Properties with Angular decorators, such as `@Input`, `@ViewChild`, etc, should be grouped together
 and alphabetized within the group.
