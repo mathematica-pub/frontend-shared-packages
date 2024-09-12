@@ -10,10 +10,10 @@ import { GeoPath, GeoProjection, geoPath, select } from 'd3';
 import { Selection } from 'd3-selection';
 import { GeoJsonProperties, Geometry, MultiPolygon, Polygon } from 'geojson';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
-import { MapChartComponent } from '../map-chart/map-chart.component';
-import { MapDataMarks } from '../map-data-marks/map-data-marks';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { MapChartComponent } from '../charts/map-chart/map-chart.component';
+import { VicMapPrimaryMarks } from '../marks/map-marks/map-primary-marks/map-primary-marks';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesAttributeDataLayer } from './config/layers/attribute-data-layer/attribute-data-layer';
 import { GeographiesGeojsonPropertiesLayer } from './config/layers/geojson-properties-layer/geojson-properties-layer';
@@ -25,15 +25,16 @@ export type LayersGroup = Selection<SVGGElement, unknown, null, undefined>;
 export const GEOGRAPHIES = new InjectionToken<
   GeographiesComponent<unknown, unknown>
 >('GeographiesComponent');
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-geographies]',
+  selector: '[vic-primary-marks-geographies]',
   templateUrl: './geographies.component.html',
   styleUrls: ['./geographies.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: VIC_DATA_MARKS, useExisting: GeographiesComponent },
+    { provide: VIC_PRIMARY_MARKS, useExisting: GeographiesComponent },
     {
       provide: GEOGRAPHIES,
       useExisting: GeographiesComponent,
@@ -48,7 +49,7 @@ export class GeographiesComponent<
   Datum,
   TProperties extends GeoJsonProperties = GeoJsonProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
-> extends MapDataMarks<
+> extends VicMapPrimaryMarks<
   Datum,
   GeographiesConfig<Datum, TProperties, TGeometry>
 > {

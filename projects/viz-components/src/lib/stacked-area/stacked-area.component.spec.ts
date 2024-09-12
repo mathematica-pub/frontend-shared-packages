@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { VicStackedAreaConfigBuilder } from './config/stacked-area-builder';
 import { StackedAreaComponent } from './stacked-area.component';
 

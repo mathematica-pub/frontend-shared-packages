@@ -10,10 +10,10 @@ import {
 } from '@angular/core';
 import { line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
-import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
+import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
 
 export type LinesGroupSelection = Selection<
@@ -31,18 +31,18 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-lines]',
+  selector: '[vic-primary-marks-lines]',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: VIC_DATA_MARKS, useExisting: LinesComponent },
+    { provide: VIC_PRIMARY_MARKS, useExisting: LinesComponent },
     { provide: LINES, useExisting: LinesComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent<Datum> extends VicXyDataMarks<
+export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
   LinesConfig<Datum>
 > {

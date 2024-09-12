@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MapChartComponent } from '../map-chart/map-chart.component';
+import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { VicGeographiesConfigBuilder } from './config/geographies-builder';
 import { GeographiesComponent } from './geographies.component';
 

@@ -12,15 +12,15 @@ import {
 import { select, selectAll, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
-import { ChartComponent } from '../chart/chart.component';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { isNumber } from '../core/utilities/type-guards';
 import { ValueUtilities } from '../core/utilities/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
+import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { BarsConfig } from './config/bars-config';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use "unknown"
@@ -57,13 +57,13 @@ export type BarDatum<T> = {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-bars]',
+  selector: '[vic-primary-marks-bars]',
   templateUrl: './bars.component.html',
   styleUrls: ['./bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: VIC_DATA_MARKS, useExisting: BarsComponent },
+    { provide: VIC_PRIMARY_MARKS, useExisting: BarsComponent },
     { provide: BARS, useExisting: BarsComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
@@ -71,7 +71,7 @@ export type BarDatum<T> = {
 export class BarsComponent<
   Datum,
   TOrdinalValue extends DataValue,
-> extends VicXyDataMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
+> extends VicXyPrimaryMarks<Datum, BarsConfig<Datum, TOrdinalValue>> {
   @ViewChild('bars', { static: true }) barsRef: ElementRef<SVGSVGElement>;
   barGroups: BarGroupSelection;
   bars: BehaviorSubject<BarSelection> = new BehaviorSubject(null);

@@ -2,9 +2,9 @@ import { CurveFactory, group, range } from 'd3';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
-import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
 import { LinesGroupSelectionDatum } from '../lines.component';
 import { LinesOptions } from './lines-options';
 
@@ -15,7 +15,7 @@ export interface LinesMarkerDatum {
 }
 
 export class LinesConfig<Datum>
-  extends XyDataMarksConfig<Datum>
+  extends XyPrimaryMarksConfig<Datum>
   implements LinesOptions<Datum>
 {
   readonly categorical: CategoricalDimension<Datum, string>;

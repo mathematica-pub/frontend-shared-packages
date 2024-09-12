@@ -1,7 +1,7 @@
 import { Directive, Input } from '@angular/core';
 import { axisLeft, axisRight } from 'd3';
 import { Observable, filter, map } from 'rxjs';
-import { Ranges } from '../../chart/chart.component';
+import { Ranges } from '../../charts/chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
 import { XyAxis, XyAxisScale } from '../base/xy-axis-base';

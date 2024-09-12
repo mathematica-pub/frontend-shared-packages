@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { QuantitativeRulesComponent } from './quantitative-rules.component';
 
 describe('QuantitativeRulesComponent', () => {

@@ -52,7 +52,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
       [width]="chartWidth"
     >
       <svg:g
-        vic-data-marks-geographies
+        vic-primary-marks-geographies
         svg-elements
         [config]="geographiesConfig"
         [vicGeographiesHoverActions]="hoverActions"
