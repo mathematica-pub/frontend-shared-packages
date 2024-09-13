@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
@@ -9,7 +8,6 @@ import {
 } from '../listbox/listbox.component';
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-ng-form-listbox-single',
   templateUrl: '../listbox/listbox.component.html',
   providers: [ListboxFilteringService, ListboxScrollService],
@@ -17,7 +15,6 @@ import {
   host: {
     class: 'combobox-listbox-component',
   },
-  imports: [CommonModule],
 })
 export class NgFormListboxSingleComponent<T> extends ListboxComponent<T> {
   @Input() control: FormControl<SingleSelectListboxValue<T>>;
