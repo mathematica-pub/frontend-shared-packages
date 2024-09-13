@@ -1,3 +1,2 @@
 export * from './marked-creator.service';
-export * from './shiki-highligher';
-
+export * from './shiki-highligher.service';

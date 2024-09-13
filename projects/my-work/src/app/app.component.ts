@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
   HsiAdkDocumentationDisplayService,
-  ShikiHighlighter,
+  ShikiHighlighterService,
   ShikiTheme,
 } from 'projects/app-dev-kit/src/public-api';
 import { distinctUntilChanged, filter, map, take } from 'rxjs';
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     public routerState: RouterStateService,
-    private highlighter: ShikiHighlighter,
+    private highlighter: ShikiHighlighterService,
     private documentationService: HsiAdkDocumentationDisplayService,
     private configService: DirectoryConfigService
   ) {}

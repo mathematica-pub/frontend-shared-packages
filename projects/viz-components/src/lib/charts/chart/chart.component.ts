@@ -12,6 +12,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { min } from 'd3';
 import { isEqual } from 'lodash-es';
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -25,7 +26,6 @@ import {
   startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 

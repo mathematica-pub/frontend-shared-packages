@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { getHeadingList } from 'marked-gfm-heading-id';
 import { Observable, from, map, switchMap, withLatestFrom } from 'rxjs';
+import { AdkAssetsService } from '../assets/assets.service';
 import { MarkedCreator } from '../markdown-utilities/marked-creator.service';
-import { ShikiTheme } from '../markdown-utilities/shiki-highligher';
+import { ShikiTheme } from '../markdown-utilities/shiki-highligher.service';
 
 export interface AdkDocsConfig {
   title: string;
@@ -50,9 +50,9 @@ export class HsiAdkDocumentationDisplayService {
   shikiTheme: ShikiTheme;
 
   constructor(
-    private http: HttpClient,
     private sanitizer: DomSanitizer,
-    private markedCreator: MarkedCreator
+    private markedCreator: MarkedCreator,
+    private assetsService: AdkAssetsService
   ) {}
 
   initialize(
@@ -65,12 +65,16 @@ export class HsiAdkDocumentationDisplayService {
     this.shikiTheme = highlightTheme;
   }
 
+  /**
+   * Assumed that the content path matches
+   * @returns
+   */
   getContentForCurrentContentPath(): Observable<ParsedDocumentation> {
     const renderer = this.markedCreator.getMarkedInstance(this.shikiTheme);
 
     return this.contentPath$.pipe(
       switchMap((contentPath) => {
-        const path = this.getPathToDocFile(contentPath, this.config);
+        const path = this.getPathToFile(contentPath, this.config);
         return this.getMarkdownFile(path, renderer);
       }),
       withLatestFrom(this.contentPath$),
@@ -95,30 +99,28 @@ export class HsiAdkDocumentationDisplayService {
     );
   }
 
-  getMarkdownFile(
+  private getMarkdownFile(
     filePathFromAssets: string,
     customMarked: typeof marked
   ): Observable<string> {
     if (!this.files[filePathFromAssets]) {
-      this.files[filePathFromAssets] = this.http
-        .get(`assets/${filePathFromAssets}`, {
-          responseType: 'text',
-        })
+      this.files[filePathFromAssets] = this.assetsService
+        .loadAsset(filePathFromAssets, 'text')
         .pipe(
           switchMap((text) => {
             if (customMarked) {
               // If marked has extensions, return will be Promise<string>, else string
               // See https://github.com/markedjs/marked/discussions/3219
-              return from(customMarked.parse(text));
+              return from(customMarked.parse(text as string));
             }
-            return from(Promise.resolve(marked.parse(text)));
+            return from(Promise.resolve(marked.parse(text as string)));
           })
         );
     }
     return this.files[filePathFromAssets] as Observable<string>;
   }
 
-  getPathToDocFile(contentPath: string, config: AdkDocsConfig): string {
+  getPathToFile(contentPath: string, config: AdkDocsConfig): string {
     const pathParts = contentPath.split('/');
     const fileName = this.getFileNameFromConfig(config.items, pathParts);
     return `${this.docsPath}${fileName}`;

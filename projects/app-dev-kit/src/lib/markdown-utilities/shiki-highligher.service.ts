@@ -83,7 +83,7 @@ export interface HighlighterOptions {
 @Injectable({
   providedIn: 'root',
 })
-export class ShikiHighlighter {
+export class ShikiHighlighterService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>;
 

@@ -37,6 +37,7 @@ export class HsiAdkDocumentationDisplayComponent
   implements OnInit, AfterViewInit
 {
   @Input() docsPath: string;
+  @Input() contentPath$: Observable<string>;
   @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
   content$: Observable<ParsedDocumentation>;

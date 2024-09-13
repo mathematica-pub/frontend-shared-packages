@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { marked } from 'marked';
 import { gfmHeadingId } from 'marked-gfm-heading-id';
-import { ShikiHighlighter, ShikiTheme } from './shiki-highligher';
+import {
+  ShikiHighlighterService,
+  ShikiTheme,
+} from './shiki-highligher.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MarkedCreator {
-  constructor(private readonly highlighter: ShikiHighlighter) {}
+  constructor(private readonly highlighter: ShikiHighlighterService) {}
 
   getMarkedInstance(theme: ShikiTheme = ShikiTheme.Nord): typeof marked {
     const renderer = new marked.Renderer();
