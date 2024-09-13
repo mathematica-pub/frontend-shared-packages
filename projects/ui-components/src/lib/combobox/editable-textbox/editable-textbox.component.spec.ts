@@ -12,7 +12,7 @@ describe('EditableTextboxComponent', () => {
   beforeEach(() => {
     mainServiceStub = new ComboboxMainServiceStub();
     TestBed.configureTestingModule({
-      imports: [EditableTextboxComponent],
+      declarations: [EditableTextboxComponent],
       providers: [
         {
           provide: ComboboxService,

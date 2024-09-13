@@ -90,6 +90,7 @@ export type ComboboxActionType =
 export class ComboboxService {
   id = `combobox-${nextUniqueId++}`;
   comboboxLabelId = `${this.id}-label`;
+  scrollContainerId = `${this.id}-scroll-container`;
   private label: BehaviorSubject<ComboboxLabelComponent> = new BehaviorSubject(
     null
   );
