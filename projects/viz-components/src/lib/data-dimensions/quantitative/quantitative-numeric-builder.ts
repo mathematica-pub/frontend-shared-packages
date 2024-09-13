@@ -1,6 +1,6 @@
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { DataDimensionBuilder } from '../dimension-builder';
-import { ConcreteDomainPadding } from './domain-padding/domain-padding';
+import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
 import { PercentOverDomainPadding } from './domain-padding/percent-over/percent-over';
 import { PixelDomainPadding } from './domain-padding/pixel/pixel';
 import { RoundUpToIntervalDomainPadding } from './domain-padding/round-to-interval/round-to-interval';

@@ -1,6 +1,7 @@
 import { Stroke } from './stroke';
 
 const DEFAULT = {
+  _dasharray: 'none',
   _linecap: 'round',
   _linejoin: 'round',
   _opacity: 1,
@@ -8,6 +9,7 @@ const DEFAULT = {
 };
 
 export class StrokeBuilder {
+  private _dasharray: string;
   private _linecap: string;
   private _linejoin: string;
   private _opacity: number;
@@ -15,6 +17,17 @@ export class StrokeBuilder {
 
   constructor() {
     Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. A value for the line's [stroke-dasharray]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray}
+   *  attribute.
+   *
+   * @default 'round'
+   */
+  dasharray(dasharray: string): this {
+    this._dasharray = dasharray;
+    return this;
   }
 
   /**
@@ -66,6 +79,7 @@ export class StrokeBuilder {
    */
   _build(): Stroke {
     return new Stroke({
+      dasharray: this._dasharray,
       linecap: this._linecap,
       linejoin: this._linejoin,
       opacity: this._opacity,

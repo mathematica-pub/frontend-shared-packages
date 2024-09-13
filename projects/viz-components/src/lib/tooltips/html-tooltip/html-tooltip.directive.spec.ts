@@ -4,14 +4,14 @@ import { ViewContainerRef } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { Subject } from 'rxjs';
-import { VIC_DATA_MARKS } from '../../data-marks/data-marks-base';
-import { DataMarksStub } from '../../testing/stubs/data-marks.stub';
+import { ChartComponent } from '../../charts';
+import { ChartComponentStub } from '../../testing/stubs/chart.component.stub';
 import { MainServiceStub } from '../../testing/stubs/services/main.service.stub';
 import { VicHtmlTooltipConfigBuilder } from './config/html-tooltip-builder';
 import { HtmlTooltipDirective } from './html-tooltip.directive';
 
 describe('HtmlTooltipDirective', () => {
-  let directive: HtmlTooltipDirective<any, any>;
+  let directive: HtmlTooltipDirective;
   let mainServiceStub: MainServiceStub;
   let destroySpy: jasmine.Spy;
 
@@ -24,8 +24,8 @@ describe('HtmlTooltipDirective', () => {
         OverlayPositionBuilder,
         HtmlTooltipDirective,
         {
-          provide: VIC_DATA_MARKS,
-          useClass: DataMarksStub,
+          provide: ChartComponent,
+          useClass: ChartComponentStub,
         },
         {
           provide: Overlay,

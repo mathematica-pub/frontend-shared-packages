@@ -1,4 +1,4 @@
-import { BarsLabelsOptions } from './bar-labels-options';
+import { BarsLabelsOptions } from './bars-labels-options';
 
 export class BarsLabels<Datum> implements BarsLabelsOptions<Datum> {
   color: { default: string; withinBarAlternative: string };
