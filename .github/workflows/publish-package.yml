@@ -2,7 +2,9 @@ name: Release packages
 on:
   push:
     branches:
-      - '*'
+      - main
+      - beta
+      - alpha
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
@@ -11,8 +13,8 @@ env:
   AWS_DEFAULT_OUTPUT: json
 
 jobs:
-  release-packages-into-the-void:
-    name: into the void
+  release-viz-components:
+    name: Release viz-components
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -44,6 +46,32 @@ jobs:
         run: |
           cd projects/viz-components
           npx semantic-release
+
+  release-ui-components:
+    name: Release ui-components
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Authenticate to codeartifact
+        run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
       - name: Release ui-components
         env:
