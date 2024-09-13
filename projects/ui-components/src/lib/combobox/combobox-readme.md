@@ -54,7 +54,7 @@ Outputs: none
 EventListeners:
 
 - `click`: handles click events
-- `blur`: handles blur
+- `blur`: handles blue
 - `keydown`: handles keypresses as described in W3C specifications
 
 Content Projection Slots:
