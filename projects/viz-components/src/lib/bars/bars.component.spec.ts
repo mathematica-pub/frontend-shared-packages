@@ -2,7 +2,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ColorUtilities } from '../core/utilities/colors';
-import { PatternUtilities } from '../core/utilities/pattern-utilities';
+import { FillUtilities } from '../core/utilities/fill-utilities';
 import { ValueUtilities } from '../core/utilities/values';
 import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
@@ -677,7 +677,7 @@ describe('BarsComponent', () => {
     };
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
-      spyOn(PatternUtilities, 'getFill').and.returnValue('return-pattern');
+      spyOn(FillUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
       (component.config.categorical as any).fillDefs = [pattern];
@@ -688,11 +688,9 @@ describe('BarsComponent', () => {
     });
     it('calls getPatternFill once with the correct values', () => {
       component.getBarPattern(datum);
-      expect(PatternUtilities.getFill).toHaveBeenCalledOnceWith(
-        data[2],
-        'blue',
-        [pattern]
-      );
+      expect(FillUtilities.getFill).toHaveBeenCalledOnceWith(data[2], 'blue', [
+        pattern,
+      ]);
     });
   });
 

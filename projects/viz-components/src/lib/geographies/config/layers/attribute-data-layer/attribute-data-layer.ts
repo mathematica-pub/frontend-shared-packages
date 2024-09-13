@@ -1,6 +1,6 @@
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { PatternUtilities } from '../../../../core/utilities/pattern-utilities';
+import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { ValueUtilities } from '../../../../core/utilities/values';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -103,7 +103,7 @@ export class GeographiesAttributeDataLayer<
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
     const patterns = this.attributeDimension.fillDefs;
-    return PatternUtilities.getFill(datum, geographyFill, patterns);
+    return FillUtilities.getFill(datum, geographyFill, patterns);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -3,7 +3,7 @@ import { FillDef } from '../../fill-defs/fill-def';
 /**
  * @internal
  */
-export class PatternUtilities {
+export class FillUtilities {
   static getFill<Datum>(
     datum: Datum,
     defaultColor: string,

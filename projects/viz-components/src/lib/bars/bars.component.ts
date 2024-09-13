@@ -15,7 +15,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../chart/chart.component';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
-import { PatternUtilities } from '../core/utilities/pattern-utilities';
+import { FillUtilities } from '../core/utilities/fill-utilities';
 import { isNumber } from '../core/utilities/type-guards';
 import { ValueUtilities } from '../core/utilities/values';
 import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
@@ -326,7 +326,7 @@ export class BarsComponent<
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
     const patterns = this.config.categorical.fillDefs;
-    return PatternUtilities.getFill(this.config.data[d.index], color, patterns);
+    return FillUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
