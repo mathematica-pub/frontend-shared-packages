@@ -112,18 +112,20 @@ application.
 
 4. Now navigate to the `projects/my-work/src/app/content` directory. Create a new Angular component
    there where you will make your charts. You must use the same name as you used to create the
-   directory entry.
+   directory entry and it should be enclosed in a folder with that same name.
 
    ```
    ├── projects
    │   ├── my-work
-   │   │   ├── app
-   │   │   │   ├── content
-   │   │   │   │   ├── examples
-   │   │   │   │   ├── my-project.html
-   │   │   │   │   ├── my-project.scss
-   │   │   │   │   ├── my-project.spec.ts
-   │   │   │   │   ├── my-project.component.ts
+   │   │   ├── src
+   │   │   │   ├── app
+   │   │   │   │   ├── content
+   │   │   │   │   │   ├── examples
+   │   │   │   │   │   ├── my-project
+   │   │   │   │   │   │   ├── my-project.html
+   │   │   │   │   │   │   ├── my-project.scss
+   │   │   │   │   │   │   ├── my-project.spec.ts
+   │   │   │   │   │   │   ├── my-project.component.ts
 
    ```
 
@@ -131,20 +133,22 @@ application.
    extension, is to right-click on the directory you'd like to place the component in, choose
    Angular Schematics: Generate a file, and use the menus from there.
 
-   If you put your entry inside a collasable directory in the `content.yaml` file, you will likewise
-   need to put your component inside a folder of the same name.
+   If you put your entry inside a collapsible directory in the `content.yaml` file, you will
+   likewise need to put your component folder inside a folder with the collapsible name.
 
    ```
    ├── projects
    │   ├── my-work
-   │   │   ├── app
-   │   │   │   ├── content
-   │   │   │   │   ├── examples
-   │   │   │   │   ├── my-project
-   │   │   │   │   │   ├── nov-report-charts.component.html
-   │   │   │   │   │   ├── nov-report-charts.component.scss
-   │   │   │   │   │   ├── nov-report-charts.component.spec.ts
-   │   │   │   │   │   ├── nov-report-charts.component.ts
+   │   │   ├── src
+   │   │   │   ├── app
+   │   │   │   │   ├── content
+   │   │   │   │   │   ├── examples
+   │   │   │   │   │   ├── my-project
+   │   │   │   │   │   │   ├── nov-report-charts
+   │   │   │   │   │   │   │   ├── nov-report-charts.component.html
+   │   │   │   │   │   │   │   ├── nov-report-charts.component.scss
+   │   │   │   │   │   │   │   ├── nov-report-charts.component.spec.ts
+   │   │   │   │   │   │   │   ├── nov-report-charts.component.ts
 
    ```
 
