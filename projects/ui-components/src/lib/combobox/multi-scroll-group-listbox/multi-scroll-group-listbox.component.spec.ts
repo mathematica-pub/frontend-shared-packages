@@ -15,7 +15,7 @@ describe('MultiFiltersListboxComponent', () => {
   beforeEach(() => {
     mainServiceStub = new ComboboxMainServiceStub();
     TestBed.configureTestingModule({
-      imports: [MultiFiltersListboxComponent],
+      declarations: [MultiFiltersListboxComponent],
       providers: [
         {
           provide: ComboboxService,

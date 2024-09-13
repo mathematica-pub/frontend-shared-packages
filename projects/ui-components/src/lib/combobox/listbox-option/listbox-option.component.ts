@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
   Component,
   ElementRef,
@@ -22,11 +21,9 @@ export interface ListboxOptionPropertyChange<T> {
 let nextUniqueId = 0;
 
 @Component({
-  standalone: true,
   selector: 'hsi-ui-listbox-option',
   templateUrl: './listbox-option.component.html',
   styleUrls: ['./listbox-option.component.scss'],
-  imports: [CommonModule],
 })
 export class ListboxOptionComponent<T> implements OnChanges {
   @ViewChild('label')
