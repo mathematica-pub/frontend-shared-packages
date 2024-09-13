@@ -3,13 +3,13 @@ import { DataValue } from '../../core/types/values';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
+import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { BarsDimensions } from './bars-dimensions';
 import { BarsOptions } from './bars-options';
 import { BarsLabels } from './labels/bars-labels';
 
 export class BarsConfig<Datum, TOrdinalValue extends DataValue>
-  extends XyDataMarksConfig<Datum>
+  extends XyPrimaryMarksConfig<Datum>
   implements BarsOptions<Datum, TOrdinalValue>
 {
   barsKeyFunction: (i: number) => string;

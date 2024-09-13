@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { axisBottom, axisTop } from 'd3';
 import { BehaviorSubject, of, take } from 'rxjs';
-import { Ranges } from '../../chart/chart.component';
+import { Ranges } from '../../charts/chart/chart.component';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';

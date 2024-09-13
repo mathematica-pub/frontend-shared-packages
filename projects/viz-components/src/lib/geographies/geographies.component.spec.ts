@@ -1,7 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MapChartComponent } from '../map-chart/map-chart.component';
+import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { VicGeographiesConfigBuilder } from './config/geographies-builder';
 import { GeographiesComponent } from './geographies.component';
 
@@ -24,7 +24,7 @@ describe('GeographiesComponent', () => {
 
   describe('initFromConfig()', () => {
     beforeEach(() => {
-      spyOn(component, 'setPropertiesFromRanges');
+      spyOn(component, 'setChartScalesFromRanges');
       spyOn(component, 'updateChartAttributeProperties');
       component.config = new VicGeographiesConfigBuilder<
         Datum,
@@ -51,7 +51,7 @@ describe('GeographiesComponent', () => {
     });
     it('calls setPropertiesFromRanges once', () => {
       component.initFromConfig();
-      expect(component.setPropertiesFromRanges).toHaveBeenCalledTimes(1);
+      expect(component.setChartScalesFromRanges).toHaveBeenCalledTimes(1);
     });
     it('calls updateChartAttributeProperties once', () => {
       component.initFromConfig();
@@ -65,11 +65,11 @@ describe('GeographiesComponent', () => {
       spyOn(component, 'setPath');
     });
     it('calls setProjection once', () => {
-      component.setPropertiesFromRanges();
+      component.setChartScalesFromRanges();
       expect(component.setProjection).toHaveBeenCalledTimes(1);
     });
     it('calls setPath once', () => {
-      component.setPropertiesFromRanges();
+      component.setChartScalesFromRanges();
       expect(component.setPath).toHaveBeenCalledTimes(1);
     });
   });

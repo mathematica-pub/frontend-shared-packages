@@ -12,13 +12,13 @@ import { ContinuousValue, DataValue } from '../../core/types/values';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
-import { XyDataMarksConfig } from '../../xy-data-marks/xy-data-marks-config';
+import { MarksOptions } from '../../marks/config/marks-options';
+import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { StackedAreaOptions } from './stacked-area-options';
 
 export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
-  extends XyDataMarksConfig<Datum>
-  implements DataMarksOptions<Datum>
+  extends XyPrimaryMarksConfig<Datum>
+  implements MarksOptions<Datum>
 {
   categorical: CategoricalDimension<Datum, TCategoricalValue>;
   categoricalOrder: TCategoricalValue[];

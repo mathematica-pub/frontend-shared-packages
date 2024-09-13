@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,11 +10,11 @@ import {
 } from '@angular/core';
 import { line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
-import { ChartComponent } from '../chart/chart.component';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
-import { VicXyDataMarks } from '../xy-data-marks/xy-data-marks';
-import { LinesConfig } from './config/lines-config';
+import { ChartComponent } from '../charts/chart/chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
+import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
+import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
 
 export type LinesGroupSelection = Selection<
   SVGGElement,
@@ -32,18 +31,18 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-lines]',
+  selector: '[vic-primary-marks-lines]',
   templateUrl: './lines.component.html',
   styleUrls: ['./lines.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
-    { provide: VIC_DATA_MARKS, useExisting: LinesComponent },
+    { provide: VIC_PRIMARY_MARKS, useExisting: LinesComponent },
     { provide: LINES, useExisting: LinesComponent },
     { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
-export class LinesComponent<Datum> extends VicXyDataMarks<
+export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
   LinesConfig<Datum>
 > {
@@ -52,6 +51,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
   hoverDotClass = 'vic-lines-hover-dot';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
@@ -59,7 +59,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   markerIndexAttr = 'index';
   private zone = inject(NgZone);
 
-  setPropertiesFromRanges(useTransition: boolean): void {
+  setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
     const categorical = this.config.categorical.getScale();
@@ -86,9 +86,12 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
     const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.line = line()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .defined((i: any) => isValid[i] as boolean)
       .curve(this.config.curve)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .x((i: any) => this.scales.x(this.config.x.values[i]))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .y((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
@@ -101,6 +104,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   drawLines(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.lineGroups = select(this.linesRef.nativeElement)
@@ -111,6 +115,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
       )
       .join(
         (enter) => enter.append('g').attr('class', 'vic-line-group'),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (update) => update.transition(t as any),
         (exit) => exit.remove()
       );
@@ -132,6 +137,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             .attr('stroke', ([category]) => this.scales.categorical(category))
             .call((update) =>
               update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .transition(t as any)
                 .attr('d', ([, lineData]) => this.line(lineData))
             ),
@@ -151,11 +157,14 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
   drawPointMarkers(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.lineGroups
-      .selectAll('circle')
-      .data(([, indices]) => this.config.getMarkersData(indices))
+      .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
+      .data<LinesMarkerDatum>(([, indices]) =>
+        this.config.getMarkersData(indices)
+      )
       .join(
         (enter) =>
           enter
@@ -180,6 +189,7 @@ export class LinesComponent<Datum> extends VicXyDataMarks<
             )
             .call((update) =>
               update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .transition(t as any)
                 .attr('cx', (d) => this.scales.x(this.config.x.values[d.index]))
                 .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))

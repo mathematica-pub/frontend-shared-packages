@@ -7,7 +7,7 @@ import {
 import { SeriesPoint, Transition, select } from 'd3';
 import { BarsComponent } from '../bars/bars.component';
 import { DataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { StackedBarsConfig } from './config/stacked-bars-config';
 
 export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
@@ -16,12 +16,14 @@ export type StackDatum = SeriesPoint<{ [key: string]: number }> & {
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-stacked-bars]',
+  selector: '[vic-primary-marks-stacked-bars]',
   templateUrl: '../bars/bars.component.html',
   styleUrls: ['./stacked-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: VIC_DATA_MARKS, useExisting: StackedBarsComponent }],
+  providers: [
+    { provide: VIC_PRIMARY_MARKS, useExisting: StackedBarsComponent },
+  ],
 })
 export class StackedBarsComponent<
   Datum,
