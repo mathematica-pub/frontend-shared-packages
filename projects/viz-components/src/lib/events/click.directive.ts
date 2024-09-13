@@ -25,7 +25,7 @@ export abstract class ClickDirective
    * An `Observable<void>` that triggers the `onEnd` method of all user-provided
    *  [EventAction]{@link EventAction} instances.
    */
-  @Input('vicDataMarksClickRemoveEvent$') clickRemoveEvent$: Observable<void>;
+  @Input('vicClickRemoveEvent$') clickRemoveEvent$: Observable<void>;
   unlistenClick: UnlistenFunction[];
   el: ListenElement;
 
