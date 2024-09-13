@@ -38,7 +38,7 @@ describe('the YAxis mixin', () => {
         .unsubscribe();
     });
 
-    it('returns the correct string', () => {
+    it('returns the correct string value', () => {
       abstractClass.translate$
         .subscribe((str) => {
           expect(str).toBe('translate(90, 0)');
