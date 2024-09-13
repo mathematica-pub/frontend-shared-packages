@@ -77,13 +77,13 @@ export class GroupedBarsExampleComponent implements OnInit {
     const yearlyData = data.filter(
       (d) => d.date.getUTCDate() === 1 && d.date.getUTCMonth() === 0
     );
-    const texasData = yearlyData.filter(
+    const filteredIndustryData = yearlyData.filter(
       (d) => d.industry === 'Government' || d.industry === 'Finance'
     );
     const xAxisConfig = this.xAxisOrdinal.tickFormat('%Y').getConfig();
     const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
     const dataConfig = this.groupedBars
-      .data(texasData)
+      .data(filteredIndustryData)
       .orientation('vertical')
       .createOrdinalDimension((dimension) =>
         dimension.valueAccessor((d) => d.date)
