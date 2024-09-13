@@ -1,0 +1,31 @@
+@use 'vars' as *;
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'colors';
+
+$title-height: 52px;
+$content-height: calc(100vh - $title-height);
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  margin: 0px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.sidebar {
+  display: block;
+  width: 300px;
+  min-width: 280px;
+  border-right: 1px solid colors.$muted-primary-80;
+}
+
+.main-content {
+  flex: 10 1 auto;
+  padding: grid(8);
+}

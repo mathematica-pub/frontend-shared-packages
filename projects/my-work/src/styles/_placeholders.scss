@@ -1,0 +1,105 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'colors';
+
+/* ------- TYPOGRAPHY ------- */
+%typography-h1 {
+  font-family: $sans-font;
+  font-size: 96px;
+  font-weight: $font-weight-light;
+  letter-spacing: -1.5px;
+}
+
+%typography-h2 {
+  font-family: $sans-font;
+  font-size: 60px;
+  font-weight: $font-weight-light;
+  letter-spacing: -0.5px;
+}
+
+%typography-h3 {
+  font-family: $sans-font;
+  font-size: 48px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0;
+}
+
+%typography-h4 {
+  font-family: $sans-font;
+  font-size: 34px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.25px;
+}
+
+%typography-h5 {
+  font-family: $sans-font;
+  font-size: 24px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0;
+}
+
+%typography-h6 {
+  font-family: $sans-font;
+  font-size: 20px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.15px;
+}
+
+%typography-subtitle-1 {
+  font-family: $sans-font;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.15px;
+}
+
+%typography-subtitle-2 {
+  font-family: $sans-font;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.1px;
+}
+
+%typography-body-1 {
+  font-family: $sans-font;
+  font-size: 16px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.5px;
+}
+
+%typography-body-2 {
+  font-family: $sans-font;
+  font-size: 14px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.25px;
+}
+
+%typography-button {
+  font-family: $sans-font;
+  font-size: 14px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 1.25px;
+  text-transform: uppercase;
+}
+
+%typography-caption {
+  font-family: $sans-font;
+  font-size: 12px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.4px;
+}
+
+%typography-overline {
+  font-family: $sans-font;
+  font-size: 10px;
+  font-weight: $font-weight-regular;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+%typography-overline-large {
+  font-family: $sans-font;
+  font-size: 11px;
+  font-weight: $font-weight-medium;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}

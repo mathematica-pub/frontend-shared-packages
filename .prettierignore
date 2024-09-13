@@ -42,5 +42,5 @@ testem.log
 Thumbs.db
 
 # Project files
-documentation
-projects/demo-app/src/assets/documentation/**/*.html
+/compodoc/docs
+/projects/demo-app/src/assets/documentation/**/*.html

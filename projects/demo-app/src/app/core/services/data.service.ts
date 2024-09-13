@@ -28,7 +28,7 @@ export class DataService {
       map((data) =>
         data['data'].map((datum) => this.metroDatumTransform(datum))
       ),
-      shareReplay()
+      shareReplay(1)
     );
   }
 
@@ -39,7 +39,7 @@ export class DataService {
         map((data) =>
           data['data'].map((datum) => this.industryDatumTransform(datum))
         ),
-        shareReplay()
+        shareReplay(1)
       );
   }
 
@@ -48,7 +48,7 @@ export class DataService {
       map((data) => {
         return data as StateIncomeDatum[];
       }),
-      shareReplay()
+      shareReplay(1)
     );
   }
 
