@@ -204,5 +204,15 @@ export class BarsExampleComponent implements OnInit {
 
   updateOrientation(value: keyof typeof Orientation): void {
     this.orientation.next(value);
+    this.updateMargin(value);
+  }
+
+  updateMargin(orientation: keyof typeof Orientation): void {
+    this.margin = {
+      top: 36,
+      right: 0,
+      bottom: 8,
+      left: orientation === Orientation.horizontal ? 300 : 36,
+    };
   }
 }

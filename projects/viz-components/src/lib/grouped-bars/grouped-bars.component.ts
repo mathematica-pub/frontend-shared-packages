@@ -7,17 +7,19 @@ import {
 import { scaleBand } from 'd3';
 import { BarDatum, BarsComponent } from '../bars/bars.component';
 import { DataValue } from '../core/types/values';
-import { VIC_DATA_MARKS } from '../data-marks/data-marks-base';
+import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { GroupedBarsConfig } from './config/grouped-bars-config';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
-  selector: '[vic-data-marks-grouped-bars]',
+  selector: '[vic-primary-grouped-bars]',
   templateUrl: '../bars/bars.component.html',
   styleUrls: ['./grouped-bars.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [{ provide: VIC_DATA_MARKS, useExisting: GroupedBarsComponent }],
+  providers: [
+    { provide: VIC_PRIMARY_MARKS, useExisting: GroupedBarsComponent },
+  ],
 })
 export class GroupedBarsComponent<
   Datum,

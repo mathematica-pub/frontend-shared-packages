@@ -2,11 +2,11 @@ import { CurveFactory } from 'd3';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
-import { DataMarksOptions } from '../../data-marks/config/data-marks-options';
+import { MarksOptions } from '../../marks/config/marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
 
-export interface LinesOptions<Datum> extends DataMarksOptions<Datum> {
+export interface LinesOptions<Datum> extends MarksOptions<Datum> {
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
   hoverDot: PointMarkers;
