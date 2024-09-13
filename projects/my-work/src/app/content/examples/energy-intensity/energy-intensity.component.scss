@@ -1,0 +1,10 @@
+@use 'functions' as *;
+
+.documentation-text {
+  max-width: 900px;
+  padding-top: grid(4);
+}
+
+.text {
+  padding-bottom: grid(4);
+}
