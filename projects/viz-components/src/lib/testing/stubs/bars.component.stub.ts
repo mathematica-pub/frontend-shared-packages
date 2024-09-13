@@ -1,4 +1,4 @@
-import { Chart } from '../../chart/chart';
+import { Chart } from '../../charts/chart/chart';
 
 export class BarsComponentStub {
   ranges = {

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { XyBackgroundComponent } from './xy-background.component';
 
 describe('XyBackgroundComponent', () => {

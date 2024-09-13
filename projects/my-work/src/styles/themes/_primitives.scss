@@ -1,0 +1,120 @@
+@use './sass-utils';
+
+$gray: (
+  50: #f8f8fb,
+  100: #e0e0e6,
+  200: #c8c9d1,
+  300: #b1b2bd,
+  400: #9a9ca9,
+  500: #848695,
+  600: #6e7182,
+  700: #585d70,
+  800: #434a5e,
+  900: #2f374c,
+  'light': #9a9ca9,
+  'primary': #585d70,
+  'dark': #2f374c,
+  'text': #20283c,
+);
+
+$primary: (
+  0: #000000,
+  5: #000c38,
+  10: #001550,
+  15: #001e68,
+  20: #002780,
+  25: #003099,
+  30: #003ab3,
+  35: #0043ce,
+  40: #1550e1,
+  50: #3d6bfb,
+  60: #6889ff,
+  70: #90a7ff,
+  80: #b6c4ff,
+  90: #dce1ff,
+  95: #eff0ff,
+  98: #faf8ff,
+  99: #fefbff,
+  100: #ffffff,
+);
+
+$muted-primary: (
+  0: #000000,
+  5: #0c101f,
+  10: #161b2b,
+  15: #212535,
+  20: #2b3040,
+  25: #363b4c,
+  30: #424658,
+  35: #4d5264,
+  40: #595e70,
+  50: #727689,
+  60: #8c90a4,
+  70: #a6aabf,
+  80: #c2c5db,
+  90: #dee1f7,
+  95: #eff0ff,
+  98: #faf8ff,
+  99: #fefbff,
+  100: #ffffff,
+);
+
+$accent: (
+  0: #000000,
+  5: #1c0e00,
+  10: #2a1800,
+  15: #382100,
+  20: #462a00,
+  25: #553400,
+  30: #643f00,
+  35: #744900,
+  40: #845400,
+  50: #a56a00,
+  60: #c88200,
+  70: #ec9a00,
+  80: #ffb95a,
+  90: #ffddb6,
+  95: #ffeedd,
+  98: #fff8f4,
+  99: #fffbff,
+  100: #ffffff,
+);
+
+$neutral: (
+  0: #000000,
+  5: #111112,
+  10: #1c1b1c,
+  15: #262526,
+  20: #313031,
+  25: #3c3b3c,
+  30: #474647,
+  35: #535253,
+  40: #5f5e5f,
+  50: #787677,
+  60: #929091,
+  70: #adaaab,
+  80: #c9c6c6,
+  90: #e5e2e2,
+  95: #f3f0f0,
+  98: #fcf8f9,
+  99: #fefbff,
+  100: #ffffff,
+);
+
+$highlight: (
+  'dark': #0c369e,
+  'default': #1650e1,
+  'light': #4578f6,
+  'hover': #ffeb3b,
+);
+
+$app: (
+  'primary': $primary,
+  'muted-primary': $muted-primary,
+  'accent': $accent,
+  'neutral': $neutral,
+);
+
+html {
+  @include sass-utils.map-scss-vars-into-css-vars($app, 'color');
+}

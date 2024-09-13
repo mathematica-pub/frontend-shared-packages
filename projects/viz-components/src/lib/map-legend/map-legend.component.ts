@@ -7,9 +7,9 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
+import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 import { Orientation, Side } from '../core/types/layout';
 import { BinStrategy } from '../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
-import { MapChartComponent } from '../map-chart/map-chart.component';
 
 export enum VicLegendType {
   categorical = 'categorical',

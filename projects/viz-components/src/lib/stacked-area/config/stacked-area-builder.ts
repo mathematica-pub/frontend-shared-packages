@@ -11,7 +11,7 @@ import { ContinuousValue, DataValue } from '../../core/types/values';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
-import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
+import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 
 const DEFAULT = {
@@ -33,7 +33,7 @@ const DEFAULT = {
 export class VicStackedAreaConfigBuilder<
   Datum,
   TCategoricalValue extends DataValue,
-> extends DataMarksBuilder<Datum> {
+> extends PrimaryMarksBuilder<Datum> {
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<
     Datum,
     TCategoricalValue

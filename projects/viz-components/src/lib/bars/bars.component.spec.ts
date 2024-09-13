@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { ColorUtilities } from '../core/utilities/colors';
 import { PatternUtilities } from '../core/utilities/pattern-utilities';
 import { ValueUtilities } from '../core/utilities/values';
-import { XyChartComponent } from '../xy-chart/xy-chart.component';
 import { BarDatum, BarsComponent } from './bars.component';
 import { VicBarsConfigBuilder } from './config/bars-builder';
 import { BarsConfig } from './config/bars-config';
@@ -98,19 +98,19 @@ describe('BarsComponent', () => {
         ).and.returnValue('quantitative scale' as any);
       });
       it('calls the scale for x dimension once', () => {
-        component.setPropertiesFromRanges(true);
+        component.setChartScalesFromRanges(true);
         expect(
           component.config.quantitative.getScaleFromRange
         ).toHaveBeenCalledOnceWith([1, 2]);
       });
       it('calls the scale for y dimension once', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(
           component.config.ordinal.getScaleFromRange
         ).toHaveBeenCalledOnceWith([3, 4]);
       });
       it('calls updateScales once with the correct value', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
@@ -134,19 +134,19 @@ describe('BarsComponent', () => {
         ).and.returnValue('quantitative scale' as any);
       });
       it('calls the scale for x dimension once', () => {
-        component.setPropertiesFromRanges(true);
+        component.setChartScalesFromRanges(true);
         expect(
           component.config.ordinal.getScaleFromRange
         ).toHaveBeenCalledOnceWith([1, 2]);
       });
       it('calls the scale for y dimension once', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(
           component.config.quantitative.getScaleFromRange
         ).toHaveBeenCalledOnceWith([3, 4]);
       });
       it('calls updateScales once with the correct value', () => {
-        component.setPropertiesFromRanges(false);
+        component.setChartScalesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'ordinal scale',
           y: 'quantitative scale',

@@ -1,0 +1,30 @@
+<nav class="sidebar-container">
+  <p class="application-title">HSI Static Charts</p>
+  @if (routerState.state$ | async; as state) {
+    @if (docsItems$ | async; as docsItems) {
+      <h3 class="title docs">{{ docsItems.title }}</h3>
+      <app-directory
+        class="directory docs"
+        [items]="docsItems.items"
+        (selectionChanges)="selectDocsItem($event)"
+        [selection]="{
+          activePath: state.contentPath,
+          selectedItem: '',
+        }"
+      ></app-directory>
+    }
+    @if (contentItems$ | async; as contentItems) {
+      <div class="top-border"></div>
+      <h3 class="title content">{{ contentItems.title }}</h3>
+      <app-directory
+        class="directory content"
+        [items]="contentItems.items"
+        (selectionChanges)="selectContentItem($event)"
+        [selection]="{
+          activePath: state.contentPath,
+          selectedItem: '',
+        }"
+      ></app-directory>
+    }
+  }
+</nav>

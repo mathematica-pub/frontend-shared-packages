@@ -1,0 +1,31 @@
+<div class="toc">
+  @if (headings.length > 0) {
+    <p class="index-title">On this page</p>
+    <ul class="links-container">
+      @for (heading of headings; let i = $index; track i) {
+        <li class="toc-item">
+          <a
+            class="toc-link"
+            [style.--level]="heading.level"
+            (click)="setActiveHeading($event, heading)"
+            (keydown.enter)="setActiveHeading($event, heading)"
+            [class.active]="
+              heading.id === (activeHeadingService.activeHeadingId$ | async)
+            "
+            >{{ heading.text }}</a
+          >
+        </li>
+      }
+    </ul>
+    <div
+      role="button"
+      [tabIndex]="0"
+      class="back-to-top"
+      (click)="scrollToTop()"
+    >
+      Back to top<span class="material-symbols-outlined arrow"
+        >arrow_upward</span
+      >
+    </div>
+  }
+</div>
