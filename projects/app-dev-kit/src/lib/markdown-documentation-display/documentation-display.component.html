@@ -2,7 +2,13 @@
   @if (content$ | async; as content) {
     <div class="documentation-content">
       <div class="main-content">
-        <div class="injected-html" [innerHTML]="content.html" #file></div>
+        @for (section of content.sections; track $index) {
+          @if (section.type === 'markdown') {
+            <div class="injected-html" [innerHTML]="section.html" #file></div>
+          } @else if (section.type === 'component') {
+            <div class="injected-html" [innerHTML]="section.content"></div>
+          }
+        }
         <hsi-adk-navigation-siblings
           class="nav-siblings"
           [siblings]="content.siblings"

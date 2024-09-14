@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
-import { getHeadingList } from 'marked-gfm-heading-id';
-import { Observable, from, map, switchMap, withLatestFrom } from 'rxjs';
+import { Observable, map, switchMap, withLatestFrom } from 'rxjs';
 import { AdkAssetsService } from '../assets/assets.service';
-import { MarkedCreator } from '../markdown-utilities/marked-creator.service';
-import { ShikiTheme } from '../markdown-utilities/shiki-highligher.service';
+import {
+  AdkAngularMarkdownParser,
+  AngularMarkdownMarkdownSection,
+  AngularMarkdownSection,
+} from '../markdown/angular-markdown.service';
+import { MarkedCreator } from '../markdown/marked-creator.service';
+import { ShikiTheme } from '../markdown/shiki-highligher.service';
+import { AdkDocumentationConfigParser } from './documentation-config-parser.service';
 
 export interface AdkDocsConfig {
   title: string;
@@ -18,20 +22,19 @@ export interface AdkFilesConfig {
 
 export type AdkFilesItem = string | null | AdkFilesConfig;
 
-export interface ParsedDocumentation {
-  html: SafeHtml;
-  headings: GfmHeader[];
+export interface ParsedAngularMarkdownFile {
+  sections: AngularMarkdownSection[];
+  headings: HtmlHeader[];
+}
+
+export interface ParsedDocumentation extends ParsedAngularMarkdownFile {
   siblings: NavigationSiblings;
 }
 
-export interface GfmHeader {
+export interface HtmlHeader {
   id: string;
   level: number; // starts at 1
   text: string;
-}
-
-interface NestedObject {
-  [key: string]: string | NestedObject;
 }
 
 export interface NavigationSiblings {
@@ -39,129 +42,94 @@ export interface NavigationSiblings {
   next: string | undefined;
 }
 
+export interface AdkDocumentationOptions {
+  assetsDirectory?: string;
+  docsBasePath?: string;
+  docsConfig: AdkDocsConfig;
+  configPath$: Observable<string>;
+  shikiTheme?: ShikiTheme;
+}
+
 @Injectable()
-export class HsiAdkDocumentationDisplayService {
+export class AdkDocumentationDisplayService implements AdkDocumentationOptions {
   // just here so we can use as a type, copied from Analog.js
   private readonly marked: typeof marked;
-  private files: { [name: string]: Observable<unknown> } = {};
-  docsPath = 'documentation/';
-  config: AdkDocsConfig;
-  contentPath$: Observable<string>;
+  private files: { [name: string]: Observable<AngularMarkdownSection[]> } = {};
+  assetsDirectory?: string;
+  docsBasePath?: string;
+  docsConfig: AdkDocsConfig;
+  configPath$: Observable<string>;
   shikiTheme: ShikiTheme;
+  renderer: typeof marked;
 
   constructor(
-    private sanitizer: DomSanitizer,
     private markedCreator: MarkedCreator,
-    private assetsService: AdkAssetsService
+    private assetsService: AdkAssetsService,
+    private docsConfigParser: AdkDocumentationConfigParser,
+    private angularMarkdownParser: AdkAngularMarkdownParser
   ) {}
 
-  initialize(
-    contentPath$: Observable<string>,
-    config: AdkDocsConfig,
-    highlightTheme: ShikiTheme = ShikiTheme.CatppuccinLatte
-  ): void {
-    this.contentPath$ = contentPath$;
-    this.config = config;
-    this.shikiTheme = highlightTheme;
+  /**
+   * This service requires the consuming app to provide the AdkDocumentationDsiplayService, the AdkAssetsService, and the AdkDocumentationConfigParser at the level at which this service is configured.
+   */
+  initialize(options: AdkDocumentationOptions): void {
+    Object.assign(this, options);
+    this.assetsService.setAssetsPath(this.assetsDirectory || 'assets/');
+    if (this.docsBasePath) {
+      this.docsConfigParser.setBasePath(this.docsBasePath);
+    }
+    this.renderer = this.markedCreator.getMarkedInstance({
+      theme: this.shikiTheme,
+    });
   }
 
   /**
    * Assumed that the content path matches
-   * @returns
    */
   getContentForCurrentContentPath(): Observable<ParsedDocumentation> {
-    const renderer = this.markedCreator.getMarkedInstance(this.shikiTheme);
-
-    return this.contentPath$.pipe(
-      switchMap((contentPath) => {
-        const path = this.getPathToFile(contentPath, this.config);
-        return this.getMarkdownFile(path, renderer);
+    return this.configPath$.pipe(
+      switchMap((configPath) => {
+        const pathToFile = this.docsConfigParser.getPathToFile(
+          configPath,
+          this.docsConfig
+        );
+        return this.getParsedMarkdownFile(pathToFile, this.renderer);
       }),
-      withLatestFrom(this.contentPath$),
-      map(([content, contentPath]) => {
+      withLatestFrom(this.configPath$),
+      map(([angularMarkdownSections, configPath]) => {
         return {
-          html: this.sanitizer.bypassSecurityTrustHtml(content),
-          headings: getHeadingList().map((heading) => {
-            // allow code in headers but remove <code> tags for index
-            const cleanedText = heading.text.replace(/<[^>]*>?/gm, '');
-            return {
-              id: heading.id,
-              level: heading.level,
-              text: cleanedText,
-            };
-          }),
-          siblings: this.findPreviousAndNextByPath(
-            this.config.items,
-            contentPath
+          sections: angularMarkdownSections,
+          headings: angularMarkdownSections.reduce((acc, section) => {
+            if (section['headers']) {
+              acc.push(...(section as AngularMarkdownMarkdownSection).headers);
+            }
+            return acc;
+          }, [] as HtmlHeader[]),
+          siblings: this.docsConfigParser.findPreviousAndNextByPath(
+            this.docsConfig.items,
+            configPath
           ),
         };
       })
     );
   }
 
-  private getMarkdownFile(
+  private getParsedMarkdownFile(
     filePathFromAssets: string,
     customMarked: typeof marked
-  ): Observable<string> {
+  ): Observable<AngularMarkdownSection[]> {
     if (!this.files[filePathFromAssets]) {
       this.files[filePathFromAssets] = this.assetsService
         .loadAsset(filePathFromAssets, 'text')
         .pipe(
-          switchMap((text) => {
-            if (customMarked) {
-              // If marked has extensions, return will be Promise<string>, else string
-              // See https://github.com/markedjs/marked/discussions/3219
-              return from(customMarked.parse(text as string));
-            }
-            return from(Promise.resolve(marked.parse(text as string)));
-          })
+          switchMap((text) =>
+            this.angularMarkdownParser.parseMarkdown(
+              text as string,
+              customMarked
+            )
+          )
         );
     }
-    return this.files[filePathFromAssets] as Observable<string>;
-  }
-
-  getPathToFile(contentPath: string, config: AdkDocsConfig): string {
-    const pathParts = contentPath.split('/');
-    const fileName = this.getFileNameFromConfig(config.items, pathParts);
-    return `${this.docsPath}${fileName}`;
-  }
-
-  getFileNameFromConfig(config: AdkFilesItem, pathParts: string[]): string {
-    const fileName = pathParts.reduce((acc, part) => {
-      const level = acc[part];
-      acc = level;
-      return acc;
-    }, config);
-    return fileName as string;
-  }
-
-  findPreviousAndNextByPath(
-    obj: NestedObject,
-    targetPath: string
-  ): NavigationSiblings {
-    const flatPaths = this.flattenObjectWithPath(obj);
-    const index = flatPaths.indexOf(targetPath);
-
-    if (index === -1) {
-      return { previous: undefined, next: undefined };
-    }
-
-    return {
-      previous: index > 0 ? flatPaths[index - 1] : undefined,
-      next: index < flatPaths.length - 1 ? flatPaths[index + 1] : undefined,
-    };
-  }
-
-  flattenObjectWithPath(obj: NestedObject, prefix: string = ''): string[] {
-    let result: string[] = [];
-    for (const [key, value] of Object.entries(obj)) {
-      const newPath = prefix ? `${prefix}/${key}` : key;
-      if (typeof value === 'object' && value !== null) {
-        result = result.concat(this.flattenObjectWithPath(value, newPath));
-      } else {
-        result.push(newPath);
-      }
-    }
-    return result;
+    return this.files[filePathFromAssets];
   }
 }

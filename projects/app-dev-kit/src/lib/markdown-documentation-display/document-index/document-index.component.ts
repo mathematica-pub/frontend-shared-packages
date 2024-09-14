@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { ActiveHeadingService } from '../active-heading.service';
-import { GfmHeader } from '../documentation-display.service';
+import { HtmlHeader } from '../documentation-display.service';
 
 @Component({
   selector: 'hsi-adk-document-index',
@@ -18,9 +18,9 @@ import { GfmHeader } from '../documentation-display.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocumentIndexComponent {
-  @Input() headings: GfmHeader[] = [];
+  @Input() headings: HtmlHeader[] = [];
   @Output() activeHeading = new EventEmitter<{
-    heading: GfmHeader;
+    heading: HtmlHeader;
     event: KeyboardEvent | PointerEvent | MouseEvent | Event;
   }>();
 
@@ -28,7 +28,7 @@ export class DocumentIndexComponent {
 
   setActiveHeading(
     event: KeyboardEvent | PointerEvent | MouseEvent | Event,
-    heading: GfmHeader
+    heading: HtmlHeader
   ): void {
     this.activeHeading.emit({ heading, event });
   }

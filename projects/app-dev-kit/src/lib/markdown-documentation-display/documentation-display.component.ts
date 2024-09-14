@@ -18,8 +18,8 @@ import { Observable } from 'rxjs';
 import { ActiveHeadingService } from './active-heading.service';
 import { DocumentIndexComponent } from './document-index/document-index.component';
 import {
-  GfmHeader,
-  HsiAdkDocumentationDisplayService,
+  AdkDocumentationDisplayService,
+  HtmlHeader,
   ParsedDocumentation,
 } from './documentation-display.service';
 import { NavigationSiblingsComponent } from './navigation-siblings/navigation-siblings.component';
@@ -33,9 +33,7 @@ import { NavigationSiblingsComponent } from './navigation-siblings/navigation-si
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class HsiAdkDocumentationDisplayComponent
-  implements OnInit, AfterViewInit
-{
+export class DocumentationDisplayComponent implements OnInit, AfterViewInit {
   @Input() docsPath: string;
   @Input() contentPath$: Observable<string>;
   @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
@@ -43,7 +41,7 @@ export class HsiAdkDocumentationDisplayComponent
   content$: Observable<ParsedDocumentation>;
 
   constructor(
-    private docsService: HsiAdkDocumentationDisplayService,
+    private docsService: AdkDocumentationDisplayService,
     private activeHeadingService: ActiveHeadingService,
     private destroyRef: DestroyRef,
     private zone: NgZone,
@@ -63,7 +61,7 @@ export class HsiAdkDocumentationDisplayComponent
   }
 
   scrollToHeading(update: {
-    heading: GfmHeader;
+    heading: HtmlHeader;
     event: KeyboardEvent | PointerEvent | MouseEvent | Event;
   }): void {
     const targetHeading = this.file.nativeElement.querySelector(

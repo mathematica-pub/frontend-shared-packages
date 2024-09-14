@@ -2,7 +2,9 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {
-  HsiAdkDocumentationDisplayService,
+  AdkAssetsService,
+  AdkDocumentationConfigParser,
+  AdkDocumentationDisplayService,
   ShikiHighlighterService,
   ShikiTheme,
 } from 'projects/app-dev-kit/src/public-api';
@@ -16,7 +18,11 @@ import { SidebarComponent } from './platform/sidebar/sidebar.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, SidebarComponent, AsyncPipe],
-  providers: [HsiAdkDocumentationDisplayService],
+  providers: [
+    AdkDocumentationDisplayService,
+    AdkAssetsService,
+    AdkDocumentationConfigParser,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -26,7 +32,7 @@ export class AppComponent implements OnInit {
   constructor(
     public routerState: RouterStateService,
     private highlighter: ShikiHighlighterService,
-    private documentationService: HsiAdkDocumentationDisplayService,
+    private documentationService: AdkDocumentationDisplayService,
     private configService: DirectoryConfigService
   ) {}
 
@@ -54,11 +60,13 @@ export class AppComponent implements OnInit {
         take(1)
       )
       .subscribe((config) => {
-        this.documentationService.initialize(
-          contentPath$,
-          config,
-          ShikiTheme.CatppuccinLatte
-        );
+        console.log('config', config);
+        this.documentationService.initialize({
+          configPath$: contentPath$,
+          docsConfig: config,
+          shikiTheme: ShikiTheme.CatppuccinLatte,
+          docsBasePath: 'documentation/',
+        });
       });
   }
 }

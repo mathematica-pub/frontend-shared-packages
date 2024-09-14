@@ -9,12 +9,16 @@ export enum ResponseType {
   Text = 'text',
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class AdkAssetsService {
   private assets: { [key: string]: Observable<unknown> } = {};
   private assetsPath = 'assets/';
 
   constructor(private http: HttpClient) {}
+
+  setAssetsPath(path: string): void {
+    this.assetsPath = path;
+  }
 
   /**
    * Loads an asset from the assets folder.
