@@ -24,9 +24,8 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
-      "@hsi/app-dev-kit": ["dist/app-dev-kit"],
-      "@hsi/viz-components": ["dist/viz-components"],
-      "@hsi/ui-components": ["dist/ui-components"]
+      "app-dev-kit": ["./dist/app-dev-kit"],
+      "viz-components": ["dist/viz-components"]
     },
     "useDefineForClassFields": false
   },

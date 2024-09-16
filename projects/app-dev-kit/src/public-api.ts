@@ -1,6 +1,3 @@
-/*
- * Public API Surface of app-dev-kit
- */
 export * from './lib/assets';
 export * from './lib/markdown';
 export * from './lib/markdown-documentation-display';

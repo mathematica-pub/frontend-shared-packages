@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { ChartComponent } from './chart.component';
 
 describe('ChartComponent', () => {

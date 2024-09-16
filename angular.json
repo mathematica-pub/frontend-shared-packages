@@ -46,6 +46,7 @@
         }
       }
     },
+
     "ui-components": {
       "projectType": "library",
       "schematics": {
