@@ -7,7 +7,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import { NavigationSiblings } from '../documentation-display.service';
+import { NavigationSiblings } from '../documentation-config-parser.service';
 
 @Component({
   selector: 'hsi-adk-navigation-siblings',

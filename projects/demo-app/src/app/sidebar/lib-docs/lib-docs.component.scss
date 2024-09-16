@@ -2,71 +2,68 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
+@use 'colors';
 
-:host {
-  display: block;
-}
+.lib-docs-encapsulation-container {
+  .lib-title {
+    @extend %hsi-adk-type-h6;
+    padding: grid(2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
 
-.top-border {
-  border-top: 1px solid color.$primary-6;
-  margin-top: grid(4);
-  padding-top: grid(3);
-}
+  .lib-title:hover {
+    background-color: colors.$active-background;
+    transition: all 200ms;
+  }
 
-.lib-title {
-  @extend %typography-h5;
-  padding: grid(1) 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  cursor: pointer;
-}
+  .lib-title .arrow {
+    transition: all 150ms;
+    color: colors.$muted-primary-80;
+    transform: scale(1.5);
+  }
 
-.lib-title:hover {
-  background-color: color.$primary-7;
-  transition: all 200ms;
-}
+  .section-label {
+    margin-top: grid(3);
+    margin-bottom: grid(1);
+    padding: 0 grid(2);
+    @extend %hsi-adk-type-subtitle-2;
+    text-transform: uppercase;
+    font-weight: $font-weight-bold;
+  }
 
-.lib-title .arrow {
-  transition: all 150ms;
-  color: color.$primary-6;
-  transform: scale(1.5);
-}
+  .section-label.documentation {
+    cursor: pointer;
+  }
 
-.section-label {
-  margin-top: grid(3);
-  margin-bottom: grid(1);
-  @extend %typography-subtitle-2;
-  text-transform: uppercase;
-  font-weight: $font-weight-bold;
-}
-
-.section-label.documentation {
-  cursor: pointer;
-}
-
-.overview {
-  display: block;
-  padding-right: grid(2);
-  padding-top: grid(1);
-  padding-bottom: grid(1);
-  margin: 1px 0;
-  line-height: 1.2;
-}
-
-.overview:hover {
-  cursor: pointer;
-  background-color: color.$primary-7;
-  transition: all 200ms;
-}
-
-.overview.active {
-  color: color.$highlight-default;
-  background-color: color.$primary-7;
-}
-
-.manual-docs-directory {
-  .item .name {
+  .overview {
+    display: block;
+    padding: grid(1) grid(2);
+    margin: 1px 0;
     line-height: 1.2;
+  }
+
+  .overview:hover {
+    cursor: pointer;
+    background-color: colors.$active-background;
+    transition: all 200ms;
+  }
+
+  .overview.active {
+    color: colors.$active;
+    background-color: colors.$active-background;
+  }
+
+  .manual-docs-directory,
+  .automated-docs-directory {
+    .item {
+      line-height: 1.2;
+    }
+    .item .name {
+      padding: grid(1) grid(2);
+      line-height: 1.2;
+    }
   }
 }

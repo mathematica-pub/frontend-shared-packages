@@ -1,12 +1,17 @@
-<div class="documentation-container">
+<div class="documentation-container" #file>
   @if (content$ | async; as content) {
     <div class="documentation-content">
       <div class="main-content">
         @for (section of content.sections; track $index) {
           @if (section.type === 'markdown') {
-            <div class="injected-html" [innerHTML]="section.html" #file></div>
+            <div class="injected-html" [innerHTML]="section.html"></div>
           } @else if (section.type === 'component') {
-            <div class="injected-html" [innerHTML]="section.content"></div>
+            <ng-container
+              *ngIf="componentTemplateRef"
+              [ngTemplateOutlet]="componentTemplateRef"
+              [ngTemplateOutletContext]="{ $implicit: section }"
+            >
+            </ng-container>
           }
         }
         <hsi-adk-navigation-siblings

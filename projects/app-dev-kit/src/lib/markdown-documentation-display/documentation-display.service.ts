@@ -7,9 +7,13 @@ import {
   AngularMarkdownMarkdownSection,
   AngularMarkdownSection,
 } from '../markdown/angular-markdown.service';
-import { MarkedCreator } from '../markdown/marked-creator.service';
+import { AdkMarkedCreator } from '../markdown/marked-creator.service';
 import { ShikiTheme } from '../markdown/shiki-highligher.service';
-import { AdkDocumentationConfigParser } from './documentation-config-parser.service';
+import {
+  AdkDocumentationConfigParser,
+  AdkNestedObject,
+  NavigationSiblings,
+} from './documentation-config-parser.service';
 
 export interface AdkDocsConfig {
   title: string;
@@ -37,65 +41,53 @@ export interface HtmlHeader {
   text: string;
 }
 
-export interface NavigationSiblings {
-  previous: string | undefined;
-  next: string | undefined;
-}
-
 export interface AdkDocumentationOptions {
   assetsDirectory?: string;
-  docsBasePath?: string;
-  docsConfig: AdkDocsConfig;
-  configPath$: Observable<string>;
   shikiTheme?: ShikiTheme;
 }
 
 @Injectable()
-export class AdkDocumentationDisplayService implements AdkDocumentationOptions {
+export class AdkDocumentationDisplayService {
   // just here so we can use as a type, copied from Analog.js
   private readonly marked: typeof marked;
   private files: { [name: string]: Observable<AngularMarkdownSection[]> } = {};
-  assetsDirectory?: string;
-  docsBasePath?: string;
-  docsConfig: AdkDocsConfig;
-  configPath$: Observable<string>;
-  shikiTheme: ShikiTheme;
   renderer: typeof marked;
 
   constructor(
-    private markedCreator: MarkedCreator,
+    private markedCreator: AdkMarkedCreator,
     private assetsService: AdkAssetsService,
     private docsConfigParser: AdkDocumentationConfigParser,
     private angularMarkdownParser: AdkAngularMarkdownParser
   ) {}
 
   /**
-   * This service requires the consuming app to provide the AdkDocumentationDsiplayService, the AdkAssetsService, and the AdkDocumentationConfigParser at the level at which this service is configured.
+   * This service requires the consuming app to provide the AdkDocumentationDisplayService, the AdkAssetsService, and the AdkDocumentationConfigParser at the level at which this service is configured.
    */
-  initialize(options: AdkDocumentationOptions): void {
-    Object.assign(this, options);
-    this.assetsService.setAssetsPath(this.assetsDirectory || 'assets/');
-    if (this.docsBasePath) {
-      this.docsConfigParser.setBasePath(this.docsBasePath);
-    }
+  initialize(options?: AdkDocumentationOptions): void {
+    this.assetsService.setAssetsPath(options?.assetsDirectory || 'assets/');
     this.renderer = this.markedCreator.getMarkedInstance({
-      theme: this.shikiTheme,
+      theme: options?.shikiTheme || ShikiTheme.Nord,
     });
   }
 
   /**
-   * Assumed that the content path matches
+   * Assumes that the content path matches
    */
-  getContentForCurrentContentPath(): Observable<ParsedDocumentation> {
-    return this.configPath$.pipe(
-      switchMap((configPath) => {
+  getContentForCurrentContentPath(
+    contentPath$: Observable<string>,
+    fileConfig: AdkNestedObject,
+    basePath: string
+  ): Observable<ParsedDocumentation> {
+    return contentPath$.pipe(
+      switchMap((contentPath) => {
         const pathToFile = this.docsConfigParser.getPathToFile(
-          configPath,
-          this.docsConfig
+          contentPath,
+          fileConfig,
+          basePath
         );
         return this.getParsedMarkdownFile(pathToFile, this.renderer);
       }),
-      withLatestFrom(this.configPath$),
+      withLatestFrom(contentPath$),
       map(([angularMarkdownSections, configPath]) => {
         return {
           sections: angularMarkdownSections,
@@ -106,7 +98,7 @@ export class AdkDocumentationDisplayService implements AdkDocumentationOptions {
             return acc;
           }, [] as HtmlHeader[]),
           siblings: this.docsConfigParser.findPreviousAndNextByPath(
-            this.docsConfig.items,
+            fileConfig,
             configPath
           ),
         };

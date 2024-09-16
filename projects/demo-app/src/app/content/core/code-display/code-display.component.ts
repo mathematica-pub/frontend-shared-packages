@@ -9,6 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Observable } from 'rxjs';
 import { HighlightService } from '../../../core/services/highlight.service';
 
 @Component({
@@ -20,7 +21,7 @@ import { HighlightService } from '../../../core/services/highlight.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class CodeDisplayComponent implements OnChanges {
-  @Input() fileData: string;
+  @Input() fileData$: Observable<SafeHtml>;
   private highlightService = inject(HighlightService);
   private sanitizer = inject(DomSanitizer);
   sanitizedDocumentation: SafeHtml;
@@ -29,14 +30,15 @@ export class CodeDisplayComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['fileData']) {
-      this.sanitizeAndHighlight(this.fileData);
+      // this.sanitizeAndHighlight(this.fileData);
+      return;
     }
   }
 
-  sanitizeAndHighlight(data: string): void {
-    this.sanitizedDocumentation = this.sanitizer.bypassSecurityTrustHtml(data);
-    setTimeout(() => {
-      this.highlightService.highlightAll();
-    }, 0);
-  }
+  // sanitizeAndHighlight(data: string): void {
+  //   this.sanitizedDocumentation = this.sanitizer.bypassSecurityTrustHtml(data);
+  //   setTimeout(() => {
+  //     this.highlightService.highlightAll();
+  //   }, 0);
+  // }
 }

@@ -1,0 +1,22 @@
+@mixin custom-webkit-scrollbar(
+  $vertical-scrollbar-thickness: 8px,
+  $horizontal-scrollbar-thickness: 12px,
+  $color: lightgray,
+  $background: white,
+  $border-radius: 50%
+) {
+  ::-webkit-scrollbar {
+    width: $vertical-scrollbar-thickness;
+    height: $horizontal-scrollbar-thickness;
+    border-radius: $border-radius;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: $background;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: $color;
+    border-radius: $vertical-scrollbar-thickness;
+  }
+}

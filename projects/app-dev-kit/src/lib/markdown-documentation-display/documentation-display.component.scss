@@ -14,11 +14,11 @@
   }
 
   .document-index {
-    $top: grid(36);
+    $top: grid(32);
     display: block;
     position: sticky;
     top: $top;
-    height: calc(100vh - $top);
+    max-height: calc(100vh - $top - grid(8));
   }
 
   .main-content {
@@ -87,6 +87,7 @@
       border: 1px solid colors.$muted-primary-90;
       border-radius: grid(2);
       margin-bottom: grid(8);
+      white-space: pre-wrap;
     }
 
     p.code-caption {

@@ -8,9 +8,9 @@ import {
   withInMemoryScrolling,
 } from '@angular/router';
 
+import { AdkAssetsService } from 'projects/app-dev-kit/src/public-api';
 import { APP_ROUTES } from './app.routes';
-import { ContentConfigService } from './content/core/routing/content-config.service';
-import { Library } from './core/services/router-state/state';
+import { ContentConfigService } from './core/services/content-config.service';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
@@ -22,12 +22,13 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideAnimationsAsync(),
+    AdkAssetsService,
     {
       provide: APP_INITIALIZER,
       multi: true,
       useFactory: (config: ContentConfigService) => {
         return () => {
-          config.initConfigs([Library.UiComponents, Library.VizComponents]);
+          config.initConfig();
         };
       },
       deps: [ContentConfigService],

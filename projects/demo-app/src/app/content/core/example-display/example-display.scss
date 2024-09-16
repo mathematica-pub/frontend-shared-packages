@@ -17,6 +17,7 @@
     height: var(--height);
     max-height: var(--max-height);
     overflow-y: auto;
+    padding-left: grid(3);
   }
 
   .title-bar,
@@ -59,5 +60,10 @@
     background-color: white;
     font-weight: $font-weight-semibold;
     margin-bottom: -1px;
+  }
+
+  pre.shiki {
+    padding: grid(4);
+    white-space: pre-wrap;
   }
 }

@@ -4,12 +4,12 @@
 @use 'color';
 
 .main-title {
-  @extend %typography-h4;
+  @extend %hsi-adk-type-h4;
   padding-bottom: grid(4);
 }
 
 .example-title {
-  @extend %typography-h5;
+  @extend %hsi-adk-type-h5;
   padding-bottom: grid(3);
 }
 

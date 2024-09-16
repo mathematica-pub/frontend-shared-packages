@@ -1,0 +1,33 @@
+# export type SidebarConfig = Record<Library, LibConfig>;
+#
+# export interface LibConfig {
+#   title: string;
+#   overview: string;
+#   content: ContentConfig;
+# }
+#
+# export interface ContentConfig {
+#   title: string;
+#   items: string[];
+# }
+---
+shared-packages: { title: null, overview: 'overview.md', content: null }
+ui-components:
+  { title: 'UI Components', overview: 'overview.md', content: null }
+viz-components:
+  {
+    title: 'Component Guides',
+    overview: 'overview.md',
+    content:
+      {
+        title: 'Component guides',
+        items:
+          {
+            bars: 'bars.md',
+            geographies: 'buttons.md',
+            lines: 'lines.md',
+            stacked-area: 'stacked-area.md',
+            stacked-bars: 'stacked-bars.md',
+          },
+      },
+  }

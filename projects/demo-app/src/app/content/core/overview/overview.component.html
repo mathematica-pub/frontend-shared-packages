@@ -1,1 +1,12 @@
-<div class="overview-container" [innerHtml]="html$ | async"></div>
+<hsi-adk-documentation-display
+  [contentPath$]="contentPath$"
+  [fileConfig]="fileConfig$ | async"
+  [pathFromAssetsToFile]="(routerState.state$ | async).lib + '/content'"
+>
+  ><ng-template let-section #component
+    ><p
+      >let's use {{ section.component }} with ngSwitch to inject the
+      component!</p
+    ></ng-template
+  ></hsi-adk-documentation-display
+>

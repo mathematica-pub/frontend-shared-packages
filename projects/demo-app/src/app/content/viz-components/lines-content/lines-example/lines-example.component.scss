@@ -4,17 +4,17 @@
 @use 'color';
 
 .input-event-title {
-  @extend %typography-subtitle-2;
+  @extend %hsi-adk-type-subtitle-2;
   padding-top: grid(2);
 }
 
 .input-event-instruction {
-  @extend %typography-caption;
+  @extend %hsi-adk-type-caption;
   padding-bottom: grid(2);
 }
 
 .download-button {
-  @extend %typography-body-2;
+  @extend %hsi-adk-type-body-2;
   display: flex;
   &:hover {
     font-weight: $font-weight-bold;
@@ -29,7 +29,7 @@
 
 .line-label {
   cursor: pointer;
-  @extend %typography-body-2;
+  @extend %hsi-adk-type-body-2;
 
   &:hover {
     font-weight: $font-weight-bold;
@@ -57,6 +57,6 @@
   }
 
   .value-label {
-    @extend %typography-overline-large;
+    @extend %hsi-adk-type-overline-large;
   }
 }

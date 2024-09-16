@@ -68,9 +68,3 @@ stylesheet.
   }
 }
 ```
-
-{{ ExampleComponent }}
-
-###### An h6 example header
-
-More content that we are trying

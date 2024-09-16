@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+import { Root } from 'hast';
+import { fromParse5 } from 'hast-util-from-parse5';
 import { MarkedExtension } from 'marked';
 import markedShiki from 'marked-shiki';
+import { parse } from 'parse5';
 import {
   BundledLanguage,
   BundledTheme,
   createHighlighter,
   HighlighterGeneric,
 } from 'shiki';
+import { visit } from 'unist-util-visit';
 
 export const defaultHighlighterLangs = [
   'json',
@@ -19,6 +23,7 @@ export const defaultHighlighterLangs = [
   'angular-html',
   'angular-ts',
   'mermaid',
+  'bash',
 ];
 
 export enum ShikiTheme {
@@ -85,7 +90,9 @@ export interface HighlighterOptions {
 })
 export class ShikiHighlighterService {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  highlighter: Promise<HighlighterGeneric<BundledLanguage, BundledTheme>>;
+  private highlighterPromise: Promise<
+    HighlighterGeneric<BundledLanguage, BundledTheme>
+  > | null = null;
 
   /**
    * Initialize the highlighter. This should only be called one in an application.
@@ -94,25 +101,39 @@ export class ShikiHighlighterService {
    *
    * @returns void
    */
-  initialize(
+  async initialize(
     themes: ShikiTheme[],
     langs: string[] = defaultHighlighterLangs
-  ): void {
-    this.highlighter = createHighlighter({
-      langs,
-      themes: themes ? themes : ['nord'],
-    });
+  ): Promise<void> {
+    if (!this.highlighterPromise) {
+      this.highlighterPromise = createHighlighter({
+        langs,
+        themes: themes.length ? themes : ['nord'],
+      });
+    }
+    await this.highlighterPromise;
   }
 
-  getMarkedExtension(theme?: ShikiTheme): MarkedExtension {
+  private async getHighlighter(): Promise<
+    HighlighterGeneric<BundledLanguage, BundledTheme>
+  > {
+    if (!this.highlighterPromise) {
+      throw new Error(
+        'Highlighter is not initialized. Call initialize() first.'
+      );
+    }
+    return this.highlighterPromise;
+  }
+
+  getMarkedExtension = (theme?: ShikiTheme): MarkedExtension => {
     return markedShiki({
       highlight: async (code, lang, props) => {
         if (lang === 'mermaid') {
           return `<pre class="mermaid">${code}</pre>`;
         }
 
-        const { codeToHtml } = await this.highlighter;
-        return codeToHtml(
+        const highlighter = await this.getHighlighter();
+        return highlighter.codeToHtml(
           code,
           Object.assign({
             lang,
@@ -123,5 +144,55 @@ export class ShikiHighlighterService {
         );
       },
     });
-  }
+  };
+
+  getRehypeExtension = (theme: ShikiTheme): ((tree: Root) => Promise<void>) => {
+    return async (tree: Root) => {
+      const highlighter = await this.getHighlighter();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return visit(tree, 'element', (node: any) => {
+        if (
+          node.tagName === 'pre' &&
+          Array.isArray(node.children) &&
+          node.children.length === 1 &&
+          node.children[0].tagName === 'code' &&
+          typeof node.children[0].properties === 'object' &&
+          node.children[0].properties !== null &&
+          Array.isArray(node.children[0].properties.className) &&
+          typeof node.children[0].properties.className[0] === 'string' &&
+          node.children[0].properties.className[0].startsWith('language-')
+        ) {
+          const [langClass] = node.children[0].properties.className;
+          const lang = langClass.replace('language-', '');
+
+          if (highlighter.getLoadedLanguages().includes(lang)) {
+            const code = node.children[0].children[0].value;
+            const highlighted = highlighter.codeToHtml(
+              code,
+              Object.assign({
+                lang,
+                theme: theme || 'nord',
+              })
+            );
+            const parsed = parse(highlighted);
+            const hastTree = fromParse5(parsed);
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const content = (hastTree as any).children[0].children[1]
+              .children[0];
+
+            content.children[0].properties.class = [
+              'shiki',
+              'shiki-' + lang,
+              langClass,
+            ];
+
+            node.properties = content.properties;
+            node.children = content.children;
+          }
+        }
+      });
+    };
+  };
 }

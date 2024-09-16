@@ -2,60 +2,49 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
-  Input,
-  OnChanges,
   ViewEncapsulation,
   type OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, map } from 'rxjs';
-import { AssetsService } from '../../../core/services/assets.service';
-import { HighlightService } from '../../../core/services/highlight.service';
+import { AdkDocumentationDisplayComponent } from 'projects/app-dev-kit/src/public-api';
+import { Observable, combineLatest, filter, map, of } from 'rxjs';
+import { ContentConfigService } from '../../../core/services/content-config.service';
+import { RouterStateService } from '../../../core/services/router-state/router-state.service';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AdkDocumentationDisplayComponent],
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class OverviewComponent implements OnInit, OnChanges {
-  // passed in with routerBinding;
-  @Input() lib: string;
-  html$: Observable<SafeHtml>;
-  route: string;
+export class OverviewComponent implements OnInit {
+  contentPath$: Observable<string>;
+  fileConfig$: Observable<Record<string, string>>;
 
   constructor(
-    private sanitizer: DomSanitizer,
-    private destroyRef: DestroyRef,
-    private highlight: HighlightService,
-    private assets: AssetsService
+    public routerState: RouterStateService,
+    public configService: ContentConfigService
   ) {}
 
   ngOnInit(): void {
-    this.html$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.activateCodeHighlighting();
-    });
+    this.setFileConfig();
+    this.setContentPath();
   }
 
-  ngOnChanges(): void {
-    this.setHtml();
+  setFileConfig(): void {
+    this.fileConfig$ = combineLatest([
+      this.configService.config$.pipe(filter((config) => !!config)),
+      this.routerState.state$.pipe(map((state) => state.lib)),
+    ]).pipe(
+      map(([config, lib]) => {
+        return { overview: config[lib].overview };
+      })
+    );
   }
 
-  setHtml(): void {
-    const filePath = `${this.lib}/content/overview.md`;
-    this.html$ = this.assets
-      .getAsset(filePath, 'md')
-      .pipe(map((html) => this.sanitizer.bypassSecurityTrustHtml(html)));
-  }
-
-  activateCodeHighlighting(): void {
-    setTimeout(() => {
-      this.highlight.highlightAll();
-    }, 0);
+  setContentPath(): void {
+    this.contentPath$ = of('overview');
   }
 }

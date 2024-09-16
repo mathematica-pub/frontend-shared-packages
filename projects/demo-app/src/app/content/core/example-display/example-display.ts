@@ -1,4 +1,5 @@
 import { Directive, inject, Input, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { ExamplesFilesService } from '../../../core/services/examples-files.service';
 
@@ -11,12 +12,14 @@ export abstract class ExampleDisplay implements OnInit {
   @Input() maxWidth: string = '1200px';
   @Input() path: string;
   fileList: string[];
-  filesHtml$: Observable<string[]>;
+  filesHtml$: Observable<SafeHtml[]>;
   selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   selectedTabIndex$ = this.selectedTabIndex.asObservable();
   tabList: string[];
-  tabContent$: Observable<string | null>;
+  tabContent$: Observable<SafeHtml | null>;
+
   private filesService = inject(ExamplesFilesService);
+  private domSanitizer = inject(DomSanitizer);
 
   abstract initTabs(): void;
 

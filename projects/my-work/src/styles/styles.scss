@@ -2,12 +2,9 @@
 @use 'vars' as *;
 @use 'placeholders' as *;
 @use '../../../app-dev-kit/src/lib/styles/' as hsi-adk;
+@forward '../../../app-dev-kit/src/lib/styles/reset';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@include hsi-adk.reset($sans-font, $color-text);
 
 html {
   @include hsi-adk.core();
@@ -16,118 +13,15 @@ html {
   --hsi-adk-font-mono: #{$mono-font};
 }
 
-body {
-  min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
-  background: white;
-  color: $color-text;
-  font-family: $sans-font;
-  font-size: 1rem;
+// body {
+//   ::-webkit-scrollbar {
+//     width: $vertical-scrollbar-thickness-thin;
+//   }
 
-  ::-webkit-scrollbar {
-    width: $vertical-scrollbar-thickness-thin;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: colors.$muted-primary-80;
-  }
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
-}
-
-p {
-  line-height: 1.5;
-}
-
-button,
-a {
-  cursor: pointer;
-  color: $color-text;
-}
-
-button {
-  border: none;
-  background: none;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
-
-img,
-picture {
-  max-width: 100%;
-  display: block;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-block-start: 0;
-  padding-block-end: 0;
-  min-inline-size: 0px;
-}
-
-legend {
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-  border: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
+//   ::-webkit-scrollbar-thumb {
+//     background: color.$primary-6;
+//   }
+// }
 
 h1 {
   @extend %hsi-adk-type-h1;
@@ -152,26 +46,3 @@ h5 {
 h6 {
   @extend %hsi-adk-type-h6;
 }
-// h1 {
-//   @extend %typography-h1;
-// }
-
-// h2 {
-//   @extend %typography-h2;
-// }
-
-// h3 {
-//   @extend %typography-h3;
-// }
-
-// h4 {
-//   @extend %typography-h4;
-// }
-
-// h5 {
-//   @extend %typography-h5;
-// }
-
-// h6 {
-//   @extend %typography-h6;
-// }

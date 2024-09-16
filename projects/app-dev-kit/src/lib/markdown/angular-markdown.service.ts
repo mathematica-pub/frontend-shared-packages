@@ -13,6 +13,7 @@ export interface AngularMarkdownMarkdownSection {
 export interface AngularMarkdownComponentSection {
   type: 'component';
   content: string;
+  component: string;
 }
 
 export type AngularMarkdownSection =
@@ -51,7 +52,11 @@ export class AdkAngularMarkdownParser {
           currentMarkdown = '';
         }
         // Add the component placeholder as a section
-        sections.push({ type: 'component', content: line.trim().slice(2, -2) });
+        sections.push({
+          type: 'component',
+          content: line.trim().slice(2, -2),
+          component: line.trim().slice(2, -2).trim(),
+        });
       } else {
         // Accumulate markdown content
         currentMarkdown += line + '\n';
@@ -119,5 +124,13 @@ export class AdkAngularMarkdownParser {
     }
 
     return headers;
+  }
+
+  parseComponent(content: string): { name: string; pathTo: string } {
+    const cleanedLine = content.trim().slice(2, -2).trim();
+    const [nameKV, pathToKV] = cleanedLine.split(',');
+    const name = nameKV.split(':')[1]?.trim();
+    const pathTo = pathToKV.split(':')[1]?.trim();
+    return { name, pathTo };
   }
 }

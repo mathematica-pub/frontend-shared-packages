@@ -2,43 +2,48 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'colors';
-@use '../../../../../app-dev-kit/src/lib/styles/' as *;
 
-.sidebar-container {
+$dividing-line-color: colors.$muted-primary-90;
+
+.sidebar-encapsulation-container {
   display: flex;
   flex-direction: column;
-  padding: grid(3) grid(2) grid(2) grid(4);
+  padding: grid(2);
   height: 100%;
-  max-height: 100vh;
-  position: sticky;
-  top: 0;
 
   .application-title {
     @extend %hsi-adk-type-h6;
-    padding-bottom: grid(2);
-    border-bottom: 1px solid colors.$muted-primary-80;
+    padding: 0 grid(2) grid(2) grid(2);
+    border-bottom: 1px solid $dividing-line-color;
     white-space: nowrap;
   }
 
   .top-border {
-    border-top: 1px solid colors.$muted-primary-90;
+    border-top: 1px solid $dividing-line-color;
     margin-top: grid(4);
     padding-top: grid(3);
   }
 
   .title.content {
     @extend %hsi-adk-type-h5;
-    padding: grid(1) 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: grid(1) grid(2);
   }
 
   .title.docs {
     @extend %hsi-adk-type-overline-large;
-    padding: grid(4) 0 grid(1) 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: grid(4) grid(2) grid(1) grid(2);
+  }
+
+  .directory {
+    .item .name {
+      padding: grid(1) grid(2);
+      line-height: 1.2;
+    }
   }
 }

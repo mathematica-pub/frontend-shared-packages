@@ -16,7 +16,7 @@ export class ActiveHeadingService {
 
   constructor(private ngZone: NgZone) {}
 
-  initScrollListener(destroyRef: DestroyRef): void {
+  initScrollListener(contentEl: HTMLElement, destroyRef: DestroyRef): void {
     this.ngZone.runOutsideAngular(() => {
       fromEvent(window, 'scroll')
         .pipe(
@@ -26,7 +26,7 @@ export class ActiveHeadingService {
         )
         .subscribe(() => {
           const headings = Array.from(
-            document.querySelectorAll('h1, h2, h3, h4, h5, h6')
+            contentEl.querySelectorAll('h1, h2, h3, h4, h5, h6')
           ) as HTMLHeadingElement[];
           const activeHeading = this.findActiveHeading(headings);
           this.ngZone.run(() => {

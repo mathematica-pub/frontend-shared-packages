@@ -24,7 +24,7 @@
                   <ng-container *ngTemplateOutlet="example"></ng-container>
                 } @else {
                   <app-code-display
-                    [fileData]="tabContent$ | async"
+                    [fileData$]="tabContent$"
                   ></app-code-display>
                 }
               </div>

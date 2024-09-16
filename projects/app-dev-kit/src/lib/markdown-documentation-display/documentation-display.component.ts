@@ -3,6 +3,7 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  ContentChild,
   DestroyRef,
   ElementRef,
   EventEmitter,
@@ -11,12 +12,14 @@ import {
   NgZone,
   OnInit,
   Output,
+  TemplateRef,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ActiveHeadingService } from './active-heading.service';
 import { DocumentIndexComponent } from './document-index/document-index.component';
+import { AdkNestedObject } from './documentation-config-parser.service';
 import {
   AdkDocumentationDisplayService,
   HtmlHeader,
@@ -33,12 +36,15 @@ import { NavigationSiblingsComponent } from './navigation-siblings/navigation-si
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class DocumentationDisplayComponent implements OnInit, AfterViewInit {
-  @Input() docsPath: string;
+export class AdkDocumentationDisplayComponent implements OnInit, AfterViewInit {
   @Input() contentPath$: Observable<string>;
+  @Input() fileConfig: AdkNestedObject;
+  @Input() pathFromAssetsToFile: string;
   @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
   content$: Observable<ParsedDocumentation>;
+  @ContentChild('component', { static: false })
+  componentTemplateRef: TemplateRef<unknown>;
 
   constructor(
     private docsService: AdkDocumentationDisplayService,
@@ -53,11 +59,18 @@ export class DocumentationDisplayComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.activeHeadingService.initScrollListener(this.destroyRef);
+    this.activeHeadingService.initScrollListener(
+      this.file.nativeElement,
+      this.destroyRef
+    );
   }
 
   setContent(): void {
-    this.content$ = this.docsService.getContentForCurrentContentPath();
+    this.content$ = this.docsService.getContentForCurrentContentPath(
+      this.contentPath$,
+      this.fileConfig,
+      this.pathFromAssetsToFile
+    );
   }
 
   scrollToHeading(update: {

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   Component,
   DestroyRef,
   ElementRef,
@@ -8,20 +9,18 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import {
   distinctUntilChanged,
   filter,
   map,
-  switchMap,
+  Observable,
   withLatestFrom,
 } from 'rxjs';
-import { AssetsService } from '../core/services/assets.service';
-import { HighlightService } from '../core/services/highlight.service';
 import { RouterStateService } from '../core/services/router-state/router-state.service';
 import { Section } from '../core/services/router-state/state';
+import { AutomatedDocumentationParser } from './automated-documentation-parser.service';
 
 @Component({
   selector: 'app-automated-documentation-display',
@@ -33,48 +32,53 @@ import { Section } from '../core/services/router-state/state';
     './styles/bootstrap-card.scss',
     './styles/bootstrap.scss',
     './styles/compodoc.scss',
-    './styles/reset.scss',
   ],
   encapsulation: ViewEncapsulation.None,
 })
-export class AutomatedDocumentationDisplayComponent implements OnInit {
+export class AutomatedDocumentationDisplayComponent
+  implements OnInit, AfterViewInit
+{
   @ViewChild('docsDiv', { static: true }) docsDiv: ElementRef<HTMLDivElement>;
   sanitizedDocumentation: SafeHtml;
-  private highlightService = inject(HighlightService);
-  private assetsService = inject(AssetsService);
-  private sanitizer = inject(DomSanitizer);
   router = inject(Router);
   destroyRef = inject(DestroyRef);
   route: string;
+  content$: Observable<SafeHtml>;
+  contentPath$: Observable<string>;
 
-  constructor(private routerState: RouterStateService) {}
+  constructor(
+    private routerState: RouterStateService,
+    private automatedDocsParser: AutomatedDocumentationParser
+  ) {}
 
   ngOnInit(): void {
-    this.routerState.state$
-      .pipe(
-        takeUntilDestroyed(this.destroyRef),
-        filter((state) => !!state.lib && !!state.contentPath),
-        map((state) => ({ lib: state.lib, contentPath: state.contentPath })),
-        distinctUntilChanged((prev, curr) => {
-          // Don't make new API call if all that changed is the tab within the page, as indicated by the stuff after the hash
-          return (
-            prev.lib === curr.lib &&
-            prev.contentPath.split('#')[0] === curr.contentPath.split('#')[0]
-          );
-        }),
-        switchMap((state) => {
-          // strip off hash so that on reload, it just loads the front page
-          const path = `${state.lib}/${Section.Documentation}/${state.contentPath.split('#')[0]}.html`;
-          return this.assetsService.getAsset(path);
-        }),
-        withLatestFrom(this.routerState.state$)
-      )
-      .subscribe(([data, state]) => {
-        this.sanitizedDocumentation =
-          this.sanitizer.bypassSecurityTrustHtml(data);
+    this.contentPath$ = this.routerState.state$.pipe(
+      filter((state) => !!state.lib && !!state.contentPath),
+      map((state) => ({ lib: state.lib, contentPath: state.contentPath })),
+      distinctUntilChanged((prev, curr) => {
+        // Don't make new API call if all that changed is the tab within the page, as indicated by the stuff after the hash
+        return (
+          prev.lib === curr.lib &&
+          prev.contentPath.split('#')[0] === curr.contentPath.split('#')[0]
+        );
+      }),
+      map((state) => {
+        // strip off hash so that on reload, it just loads the front page
+        return `${state.lib}/${Section.Documentation}/${state.contentPath}`;
+      })
+    );
+
+    this.content$ = this.automatedDocsParser.getContentForCurrentContentPath(
+      this.contentPath$
+    );
+  }
+
+  ngAfterViewInit(): void {
+    this.content$
+      .pipe(withLatestFrom(this.contentPath$))
+      .subscribe(([, contentPath]) => {
         setTimeout(() => {
-          this.highlightService.highlightAll();
-          this.addClickListenersToTabs(state.contentPath);
+          this.addClickListenersToTabs(contentPath);
           this.addClickListenersToCodeLinks();
         }, 0);
       });

@@ -1,6 +1,5 @@
-<div class="lib-docs">
+<div class="lib-docs-encapsulation-container">
   @if (routerState.state$ | async; as state) {
-    <div class="top-border"></div>
     <h2 class="lib-title" (click)="toggleLibrary()" [class.open]="expanded"
       >{{ lib.displayName }}
       @if (expanded) {

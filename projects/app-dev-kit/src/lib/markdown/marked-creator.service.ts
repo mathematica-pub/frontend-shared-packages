@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { marked } from 'marked';
+import { gfmHeadingId } from 'marked-gfm-heading-id';
 import {
   ShikiHighlighterService,
   ShikiTheme,
@@ -13,7 +14,7 @@ export interface MarkedOptions {
 @Injectable({
   providedIn: 'root',
 })
-export class MarkedCreator {
+export class AdkMarkedCreator {
   constructor(private readonly highlighter: ShikiHighlighterService) {}
 
   getMarkedInstance(
@@ -37,6 +38,7 @@ export class MarkedCreator {
     };
 
     const extensions = [
+      gfmHeadingId({}),
       this.highlighter.getMarkedExtension(options.theme || ShikiTheme.Nord),
     ];
 
