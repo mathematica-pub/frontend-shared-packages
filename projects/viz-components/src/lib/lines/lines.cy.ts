@@ -479,6 +479,74 @@ describe('it creates lines with the correct properties per config', () => {
         .getConfig();
       mountDateLinesComponent(linesConfig);
       cy.get(`.${markerClass}`).should('have.length', 24);
+      cy.get(`.${markerClass}`)
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'block'
+        )
+        .should('have.length', 24);
+    });
+    it('draws the correct number of point markers with none visible if display is set to false', () => {
+      const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
+        .data(dateData)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createPointMarkers((markers) =>
+          markers.class(markerClass).display(false)
+        )
+        .getConfig();
+      mountDateLinesComponent(linesConfig);
+      cy.get(`.${markerClass}`).should('have.length', 24);
+      cy.get(`.${markerClass}`)
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'block'
+        )
+        .should('have.length', 0);
+      cy.get(`.${markerClass}`)
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'none'
+        )
+        .should('have.length', 24);
+    });
+    it('draws the correct number of point markers with the right number visible if display is set to a function', () => {
+      const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
+        .data(dateData)
+        .createXDateDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createPointMarkers((markers) =>
+          markers.class(markerClass).display((d) => d.continent === 'Asia')
+        )
+        .getConfig();
+      mountDateLinesComponent(linesConfig);
+      cy.get(`.${markerClass}`).should('have.length', 24);
+      cy.get(`.${markerClass}`)
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'block'
+        )
+        .should('have.length', 4);
+      cy.get(`.${markerClass}`)
+        .filter(
+          (index, element) =>
+            window.getComputedStyle(element).display === 'none'
+        )
+        .should('have.length', 20);
     });
     it('draws point markers with the correct radius - user provides custom radius', () => {
       const markerClass = 'test-point-marker';
