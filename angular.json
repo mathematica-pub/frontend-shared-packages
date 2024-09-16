@@ -164,6 +164,11 @@
                 "glob": "**/*-content/**/*",
                 "input": "projects/demo-app/src/app/content/viz-components/",
                 "output": "/app/content/viz-components"
+              },
+              {
+                "glob": "**/*-content/**/*",
+                "input": "projects/demo-app/src/app/content/ui-components/",
+                "output": "/app/content/ui-components"
               }
             ],
             "styles": [
