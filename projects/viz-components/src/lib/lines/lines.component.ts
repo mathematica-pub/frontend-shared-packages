@@ -50,7 +50,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   @ViewChild('dot', { static: true }) dotRef: ElementRef<SVGSVGElement>;
   @ViewChild('markers', { static: true }) markersRef: ElementRef<SVGSVGElement>;
   @ViewChild('lineLabels', { static: true })
-  hoverDotClass = 'vic-lines-hover-dot';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -80,8 +79,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     }
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
-    } else if (this.config.hoverDot) {
-      this.drawHoverDot();
     }
     if (this.config.labelLines) {
       this.drawLineLabels();
@@ -218,15 +215,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     return this.scales.categorical(category);
   }
 
-  drawHoverDot(): void {
-    select(this.dotRef.nativeElement)
-      .append('circle')
-      .attr('class', `${this.config.hoverDot.class} ${this.hoverDotClass}`)
-      .attr('r', this.config.hoverDot.radius)
-      .attr('fill', '#222')
-      .attr('display', 'none');
-  }
-
   drawPointMarkers(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
@@ -236,7 +224,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     this.lineGroups
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .data<LinesMarkerDatum>(([, indices]) =>
-        this.config.getMarkersData(indices)
+        this.config.getPointMarkersData(indices)
       )
       .join(
         (enter) =>
@@ -254,7 +242,8 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('r', this.config.pointMarkers.radius)
             .attr('fill', (d) =>
               this.scales.categorical(this.config.categorical.values[d.index])
-            ),
+            )
+            .style('display', (d) => d.display),
         (update) =>
           update
             .attr('fill', (d) =>
