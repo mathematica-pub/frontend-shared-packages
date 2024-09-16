@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MapChartComponent } from '../map-chart/map-chart.component';
+import { MapChartComponent } from '../charts/map-chart/map-chart.component';
 
 import { MapLegendComponent } from './map-legend.component';
 

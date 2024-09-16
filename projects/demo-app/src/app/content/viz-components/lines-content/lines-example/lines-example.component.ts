@@ -33,7 +33,7 @@ import {
   VicDataExport,
   VicDataExportConfig,
   VicHtmlTooltipModule,
-  VicImageDownload,
+  VicImageDownloadService,
   VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
@@ -113,8 +113,8 @@ export class LinesExampleComponent implements OnInit {
     'hover' | 'click'
   >('click');
   tooltipEvent$ = this.tooltipEvent.asObservable();
+  private imageService = inject(VicImageDownloadService);
 
-  private imageService = inject(VicImageDownload);
   constructor(
     private dataService: DataService,
     public downloadService: VicDataExport,
@@ -207,7 +207,7 @@ export class LinesExampleComponent implements OnInit {
       containerNode: this.imageNode.nativeElement,
       fileName: 'testfile',
     });
-    await this.imageService.downloadNode(imageConfig);
+    await this.imageService.downloadImage(imageConfig);
   }
 
   saveCsv(data): void {

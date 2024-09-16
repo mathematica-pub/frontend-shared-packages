@@ -39,7 +39,7 @@ export class AssetsService {
               case 'yaml':
                 return yamlParse(text);
               case 'md':
-                return mdParse(text);
+                return mdParse(text) as string;
               case 'none':
               default:
                 return text;

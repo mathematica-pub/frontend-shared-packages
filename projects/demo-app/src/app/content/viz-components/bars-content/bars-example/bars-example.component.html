@@ -18,17 +18,13 @@
       <svg:g vic-xy-background></svg:g>
       @if ((orientation$ | async) === 'horizontal') {
         <svg:g vic-x-quantitative-axis [config]="vm.xAxisConfig"></svg:g>
-        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig" side="left"></svg:g>
+        <svg:g vic-y-ordinal-axis [config]="vm.yAxisConfig"></svg:g>
       } @else {
         <svg:g vic-x-ordinal-axis [config]="vm.xAxisConfig"></svg:g>
-        <svg:g
-          vic-y-quantitative-axis
-          [config]="vm.yAxisConfig"
-          side="left"
-        ></svg:g>
+        <svg:g vic-y-quantitative-axis [config]="vm.yAxisConfig"></svg:g>
       }
       <svg:g
-        vic-data-marks-bars
+        vic-primary-marks-bars
         [config]="vm.dataConfig"
         [vicBarsHoverMoveActions]="hoverAndMoveActions"
         (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
