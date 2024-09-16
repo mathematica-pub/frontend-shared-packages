@@ -82,7 +82,6 @@ data-marks-components:
         marker-click-emit-tooltip-data: 'classes/LinesMarkerClickEmitTooltipData.html'
         hover-move-default-lines-styles: 'classes/LinesHoverMoveDefaultLinesStyles.html'
         hover-move-default-markers-styles: 'classes/LinesHoverMoveDefaultMarkersStyles.html'
-        hover-move-default-hover-dot-styles: 'classes/LinesHoverMoveDefaultHoverDotStyles.html'
         hover-move-default-styles: 'classes/LinesHoverMoveDefaultStyles.html'
         hover-move-emit-tooltip-data: 'classes/LinesHoverMoveEmitTooltipData.html'
       internal:
