@@ -53,6 +53,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   hoverDotClass = 'vic-lines-hover-dot';
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lineArea: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
@@ -104,10 +105,13 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const isValid = map(this.config.data, this.isValidValue.bind(this));
 
     this.lineArea = area()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .defined((i: any) => isValid[i] as boolean)
       .curve(this.config.curve)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .x((i: any) => this.scales.x(this.config.x.values[i]))
       .y0(() => this.scales.y(0))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .y1((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
@@ -164,6 +168,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   drawBelowLineFills(transitionDuration: number): void {
     const t = select(this.chart.svgRef.nativeElement)
       .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
 
     this.lineGroups
@@ -190,6 +195,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('opacity', this.config.areaFills.opacity)
             .call((update) =>
               update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .transition(t as any)
                 .attr('d', ([, lineData]) => this.lineArea(lineData))
             )
