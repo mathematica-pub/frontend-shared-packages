@@ -3,5 +3,8 @@
   "dest": "../../dist/app-dev-kit",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    { "input": "src/lib/styles/", "glob": "**/*.scss", "output": "styles" }
+  ]
 }
