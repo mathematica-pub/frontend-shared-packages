@@ -6,8 +6,8 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicBarsModule } from '../../bars/bars.module';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';
-import { VicChartModule } from '../../chart/chart.module';
-import { VicXyChartModule } from '../../xy-chart/xy-chart.module';
+import { VicChartModule } from '../../charts/chart/chart.module';
+import { VicXyChartModule } from '../../charts/xy-chart/xy-chart.module';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
@@ -26,7 +26,7 @@ import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
           [config]="xQuantitativeAxisConfig"
           side="top"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   `,

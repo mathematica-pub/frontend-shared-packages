@@ -5,6 +5,7 @@ export class Stroke implements StrokeOptions {
   readonly linejoin: string;
   readonly opacity: number;
   readonly width: number;
+  readonly dasharray: string;
 
   constructor(options?: Partial<StrokeOptions>) {
     Object.assign(this, options);

@@ -9,8 +9,8 @@ import { VicXQuantitativeAxisModule } from '../../../axes/x-quantitative/x-quant
 import { BarsComponent } from '../../../bars/bars.component';
 import { VicBarsModule } from '../../../bars/bars.module';
 import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
-import { VicChartModule } from '../../../chart/chart.module';
-import { VicXyChartModule } from '../../../xy-chart/xy-chart.module';
+import { VicChartModule } from '../../../charts/chart/chart.module';
+import { VicXyChartModule } from '../../../charts/xy-chart/xy-chart.module';
 import { expectDomain } from './domain-test-utility';
 import { PercentOverDomainPadding } from './percent-over/percent-over';
 import { PixelDomainPadding } from './pixel/pixel';
@@ -33,7 +33,7 @@ type Datum = { state: string; value: number };
           [config]="xQuantitativeAxisConfig"
           side="top"
         ></svg:g>
-        <svg:g vic-data-marks-bars [config]="barsConfig"></svg:g>
+        <svg:g vic-primary-marks-bars [config]="barsConfig"></svg:g>
       </ng-container>
     </vic-xy-chart>
   `,

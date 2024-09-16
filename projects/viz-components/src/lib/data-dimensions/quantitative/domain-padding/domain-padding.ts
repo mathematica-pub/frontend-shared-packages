@@ -1,9 +1,5 @@
 import { ScaleContinuousNumeric } from 'd3';
 import { ValueExtent } from '../../../core/types/values';
-import { PercentOverDomainPadding } from './percent-over/percent-over';
-import { PixelDomainPadding } from './pixel/pixel';
-import { RoundUpToIntervalDomainPadding } from './round-to-interval/round-to-interval';
-import { RoundUpToSigFigDomainPadding } from './round-to-sig-fig/round-to-sig-fig';
 
 export enum DomainPaddingType {
   roundUp = 'roundUp',
@@ -11,12 +7,6 @@ export enum DomainPaddingType {
   percentOver = 'percentOver',
   numPixels = 'numPixels',
 }
-
-export type ConcreteDomainPadding =
-  | RoundUpToSigFigDomainPadding
-  | RoundUpToIntervalDomainPadding
-  | PercentOverDomainPadding
-  | PixelDomainPadding;
 
 export interface PaddedDomainArguments {
   value?: number;

@@ -7,6 +7,10 @@ import {
   Polygon,
 } from 'geojson';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import {
+  stateIncomePopulationData,
+  StateInComePopulationDatum,
+} from 'projects/viz-components/src/lib/testing/data/states-population-income-data';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {
@@ -14,10 +18,6 @@ import {
   VicGeographiesModule,
   VicMapChartModule,
 } from '../../../../../../../public-api';
-import {
-  StateInComePopulationDatum,
-  stateIncomePopulationData,
-} from '../../../../../../testing/data/states-population-income-data';
 import { GeographiesConfig } from '../../../../geographies-config';
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
@@ -52,7 +52,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
       [width]="chartWidth"
     >
       <svg:g
-        vic-data-marks-geographies
+        vic-primary-marks-geographies
         svg-elements
         [config]="geographiesConfig"
         [vicGeographiesHoverActions]="hoverActions"

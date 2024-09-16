@@ -3,7 +3,7 @@ import { CurveFactory, curveLinear } from 'd3';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
-import { DataMarksBuilder } from '../../data-marks/config/data-marks-builder';
+import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { AreaFillsBuilder } from './area-fills/area-fills-builder';
@@ -23,7 +23,7 @@ const DEFAULT = {
  * The generic parameter, Datum, is the type of the data that will be used to create the lines.
  */
 @Injectable()
-export class VicLinesConfigBuilder<Datum> extends DataMarksBuilder<Datum> {
+export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _curve: CurveFactory;
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;

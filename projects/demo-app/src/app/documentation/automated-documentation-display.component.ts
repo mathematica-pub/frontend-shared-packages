@@ -52,6 +52,7 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
   ngOnInit(): void {
     this.routerState.state$
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         filter((state) => !!state.lib && !!state.contentPath),
         map((state) => ({ lib: state.lib, contentPath: state.contentPath })),
         distinctUntilChanged((prev, curr) => {
@@ -66,7 +67,6 @@ export class AutomatedDocumentationDisplayComponent implements OnInit {
           const path = `${state.lib}/${Section.Documentation}/${state.contentPath.split('#')[0]}.html`;
           return this.assetsService.getAsset(path);
         }),
-        takeUntilDestroyed(this.destroyRef),
         withLatestFrom(this.routerState.state$)
       )
       .subscribe(([data, state]) => {
