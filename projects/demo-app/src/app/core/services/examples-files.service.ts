@@ -45,7 +45,7 @@ export class ExamplesFilesService {
                 .data('settings', { fragment: true })
                 .use(
                   this.highlighter.getRehypeExtension,
-                  ShikiTheme.CatppuccinLatte
+                  ShikiTheme.GitHubLight
                 )
                 .process(content as string)
                 .then((vFile) => String(vFile))

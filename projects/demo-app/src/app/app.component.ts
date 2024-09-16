@@ -33,7 +33,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.routerState.initialize();
-    this.highlighter.initialize([ShikiTheme.CatppuccinLatte]);
+    this.highlighter.initialize([
+      ShikiTheme.CatppuccinLatte,
+      ShikiTheme.LightPlus,
+      ShikiTheme.GitHubLight,
+    ]);
     this.documentationService.initialize({
       shikiTheme: ShikiTheme.CatppuccinLatte,
     });
