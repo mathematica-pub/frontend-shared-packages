@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import { of } from 'rxjs';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XyAxisStub } from '../../testing/stubs/xy-axis.stub';
 import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
