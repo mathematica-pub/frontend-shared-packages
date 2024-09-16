@@ -1,0 +1,37 @@
+name: Bug Report
+description: Report a bug in Angular Material or the CDK
+title: 'bug([LIB]-[ITEM]): TITLE'
+labels: ['issue type: bug', 'triage']
+body:
+  - type: checkboxes
+    id: is-regression
+    attributes:
+      label: Is this a regression?
+      description: Did this behavior use to work in the previous version?
+      options:
+        - label: Yes, this behavior used to work in the previous version
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: What behavior were you expecting to see?
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: What behavior did you actually see?
+    validations:
+      required: false
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: You can use `ng version` command.
+      value: |
+        - Angular:
+        - Lib:
+        - Browser(s):
+    validations:
+      required: false
