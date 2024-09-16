@@ -73,7 +73,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
-    if (this.config.belowLineAreaFills) {
+    if (this.config.areaFills) {
       this.setBelowLineFills();
       this.drawBelowLineFills(transitionDuration);
     }
@@ -178,35 +178,29 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
               this.getAreaFill(category, indices)
             )
             .attr('class', 'vic-line-area')
-            .attr('opacity', this.config.belowLineAreaFills.opacity)
+            .attr('opacity', this.config.areaFills.opacity)
             .attr('d', ([, lineData]) => this.lineArea(lineData))
-            .attr(
-              'display',
-              this.config.belowLineAreaFills.display ? null : 'none'
-            ),
+            .attr('display', this.config.areaFills.display ? null : 'none'),
         (update) =>
           update
             .attr('category', ([category]) => category)
             .attr('fill', ([category, indices]) =>
               this.getAreaFill(category, indices)
             )
-            .attr('opacity', this.config.belowLineAreaFills.opacity)
+            .attr('opacity', this.config.areaFills.opacity)
             .call((update) =>
               update
                 .transition(t as any)
                 .attr('d', ([, lineData]) => this.lineArea(lineData))
             )
-            .attr(
-              'display',
-              this.config.belowLineAreaFills.display ? null : 'none'
-            ),
+            .attr('display', this.config.areaFills.display ? null : 'none'),
         (exit) => exit.remove()
       );
   }
 
   getAreaFill(category: string, lineDataIndices: number[]): string {
-    if (this.config.belowLineAreaFills.fillDefs) {
-      const fillDef = this.config.belowLineAreaFills.fillDefs.find((def) =>
+    if (this.config.areaFills.fillDefs) {
+      const fillDef = this.config.areaFills.fillDefs.find((def) =>
         def.useDef(this.config.data[lineDataIndices[0]])
       );
       if (fillDef) {

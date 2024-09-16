@@ -36,7 +36,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
-  private belowLineAreaFillsBuilder: AreaFillsBuilder<Datum>;
+  private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
   constructor() {
     super();
@@ -188,15 +188,15 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    *
    */
   createAreaFills(
-    setProperties?: (belowLineAreaFills: AreaFillsBuilder<Datum>) => void
+    setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
   ): this {
     this.initBelowLinesAreaFillBuilder();
-    setProperties?.(this.belowLineAreaFillsBuilder);
+    setProperties?.(this.areaFillsBuilder);
     return this;
   }
 
   private initBelowLinesAreaFillBuilder(): void {
-    this.belowLineAreaFillsBuilder = new AreaFillsBuilder();
+    this.areaFillsBuilder = new AreaFillsBuilder();
   }
 
   /**
@@ -217,7 +217,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       stroke: this.strokeBuilder._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
-      belowLineAreaFills: this.belowLineAreaFillsBuilder?._build(),
+      areaFills: this.areaFillsBuilder?._build(),
     });
   }
 
