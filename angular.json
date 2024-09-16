@@ -2,7 +2,9 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -114,7 +116,9 @@
             "outputPath": "dist/demo-app",
             "index": "projects/demo-app/src/index.html",
             "browser": "projects/demo-app/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/demo-app/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
@@ -131,7 +135,9 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/demo-app/src/styles"]
+              "includePaths": [
+                "projects/demo-app/src/styles"
+              ]
             },
             "scripts": []
           },
@@ -200,7 +206,9 @@
               "projects/demo-app/src/styles/styles.scss"
             ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/demo-app/src/styles"]
+              "includePaths": [
+                "projects/demo-app/src/styles"
+              ]
             },
             "scripts": []
           }
@@ -233,16 +241,22 @@
             "outputPath": "dist/my-work",
             "index": "projects/my-work/src/index.html",
             "browser": "projects/my-work/src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": [
+              "zone.js"
+            ],
             "tsConfig": "projects/my-work/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/my-work/src/favicon.ico",
               "projects/my-work/src/assets"
             ],
-            "styles": ["projects/my-work/src/styles/styles.scss"],
+            "styles": [
+              "projects/my-work/src/styles/styles.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/my-work/src/styles"]
+              "includePaths": [
+                "projects/my-work/src/styles"
+              ]
             },
             "scripts": []
           },
@@ -291,16 +305,23 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ],
             "tsConfig": "projects/my-work/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "projects/my-work/src/favicon.ico",
               "projects/my-work/src/assets"
             ],
-            "styles": ["projects/my-work/src/styles/styles.scss"],
+            "styles": [
+              "projects/my-work/src/styles/styles.scss"
+            ],
             "stylePreprocessorOptions": {
-              "includePaths": ["projects/my-work/src/styles"]
+              "includePaths": [
+                "projects/my-work/src/styles"
+              ]
             },
             "scripts": []
           }
@@ -311,6 +332,48 @@
             "lintFilePatterns": [
               "projects/my-work/**/*.ts",
               "projects/my-work/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "app-dev-kit": {
+      "projectType": "library",
+      "root": "projects/app-dev-kit",
+      "sourceRoot": "projects/app-dev-kit/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/app-dev-kit/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/app-dev-kit/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/app-dev-kit/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/app-dev-kit/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/app-dev-kit/**/*.ts",
+              "projects/app-dev-kit/**/*.html"
             ]
           }
         }

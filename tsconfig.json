@@ -24,6 +24,9 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
+      "app-dev-kit": [
+        "./dist/app-dev-kit"
+      ],
       "viz-components": ["dist/viz-components"]
     },
     "useDefineForClassFields": false
