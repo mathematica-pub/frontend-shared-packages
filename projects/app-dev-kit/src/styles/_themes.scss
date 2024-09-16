@@ -1,7 +1,7 @@
 @use '../../src/core/scss/sass-utils';
 @use './theming';
 
-@mixin core() {
+@mixin create-theme() {
   @include sass-utils.map-scss-vars-into-css-vars(
     theming.$colors,
     'hsi-adk-color'
