@@ -96,6 +96,7 @@
   line-height: 16pt;
 }
 
+// Not from Material 3 - serve HSI need to communication higher density of information
 @mixin body-xs {
   font-family: $font-sans;
   font-weight: $font-weight-regular;
@@ -168,11 +169,12 @@
   text-transform: uppercase;
 }
 
-@mixin label-sm-caps-prominent {
+@mixin label-small-caps-prominent {
   @include label-small-caps;
   font-weight: $font-weight-bold;
 }
 
+// Not from Material 3 - serves HSI need to communication higher density of information
 @mixin label-xs {
   font-family: $font-sans;
   font-weight: $font-weight-medium;
@@ -196,6 +198,7 @@
   font-weight: $font-weight-bold;
 }
 
+// Not from Material 3 - serves HSI need to communication higher density of information
 @mixin label-2xs {
   font-family: $font-sans;
   font-weight: $font-weight-medium;
