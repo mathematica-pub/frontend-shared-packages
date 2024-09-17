@@ -76,7 +76,7 @@ const smallSquareStates = [
   providers: [VicGeographiesConfigBuilder, VicHtmlTooltipConfigBuilder],
 })
 export class GeographiesExampleComponent implements OnInit {
-  dataMarksConfig$: Observable<
+  primaryMarksConfig$: Observable<
     GeographiesConfig<StateIncomeDatum, MapGeometryProperties>
   >;
   width = 700;
@@ -146,16 +146,16 @@ export class GeographiesExampleComponent implements OnInit {
       )
     );
 
-    this.dataMarksConfig$ = combineLatest([
+    this.primaryMarksConfig$ = combineLatest([
       this.attributeDataBinType$,
       filteredData$,
     ]).pipe(
-      map(([, data]) => this.getDataMarksConfig(data)),
+      map(([, data]) => this.getPrimaryMarksConfig(data)),
       shareReplay(1)
     );
   }
 
-  getDataMarksConfig(
+  getPrimaryMarksConfig(
     data: StateIncomeDatum[]
   ): GeographiesConfig<StateIncomeDatum, MapGeometryProperties> {
     const config = this.geographies
