@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Lint affected apps and packages
-        run: npx nx affected -t lint
+        run: npx nx affected -t lint --base=refs/heads/main --head=HEAD
 
   unit-test:
     runs-on: ubuntu-latest
@@ -47,8 +47,7 @@ jobs:
         run: npm ci
 
       - name: Unit test affected apps and packages
-        run: npx nx affected -t test
-
+        run: npx nx affected -t test --base=refs/heads/main --head=HEAD
   # cypress-test:
   #   runs-on: ubuntu-latest
   #   timeout-minutes: 15
@@ -91,4 +90,4 @@ jobs:
         run: npm ci
 
       - name: Build affected apps and packages
-        run: npx nx affected -t build
+        run: npx nx affected -t build --base=refs/heads/main --head=HEAD
