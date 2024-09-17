@@ -19,11 +19,13 @@ To create a beta release:
 1. Confirm [here](https://github.com/mathematica-org/frontend-shared-packages/branches) that there
    is not already a remote `beta` branch. If it already exists, complete the following steps using
    `alpha` instead.
-2. To ensure our automated releasing system detects that a version bump is needed, confirm that you
+2. Our automated release system requires that you use at least one conventional commit (see:
+   [formatting guidelines](https://gist.github.com/develar/273e2eb938792cf5f86451fbac2bcd51)). To
+   ensure our automated releasing system detects that a version bump is needed, confirm that you
    have at least one commit message that
 
    - Touches code in the package you want to release AND
-   - Is prefixed with `fix:` or `feat:` or has a footer prefixed with `BREAKING CHANGE:`.
+   - Is prefixed with `fix:` or `feat:` or has a footer prefixed with `BREAKING CHANGE:`
 
 3. Push the changes from your local branch to a remote `beta` branch
 
@@ -41,8 +43,8 @@ git push --set-upstream origin beta
    [here](https://github.com/mathematica-org/frontend-shared-packages/releases).
 5. Install the beta release into your project using
    `npm install @hsi/<PACKAGE>@<BETA RELEASE VERSION>` (e.g. `@hsi/viz-components@3.0.1-beta.1`).
-6. **IMPORTANT:** When you're done, delete the remote beta branch from the
-   `frontend-shared-packages` repo!
+6. **IMPORTANT:** Once you've successfully installed your beta release, delete the remote beta
+   branch from the `frontend-shared-packages` repo!
 
 ## Locally generating compodoc documentation
 
