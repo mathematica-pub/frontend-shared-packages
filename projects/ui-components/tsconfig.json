@@ -12,7 +12,7 @@
   },
   "include": [
     "cypress.config.ts",
-    "**/commands.ts",
+    "**/support/*.ts",
     "**/*.cy.ts",
     "**/*.cy.js",
     "**/*.d.ts"

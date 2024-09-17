@@ -54,6 +54,12 @@
         "skipServe": true,
         "devServerTarget": "demo-app:build:production"
       }
+    },
+    "cypress-local": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd projects/ui-components && npx cypress open"
+      }
     }
   }
 }
