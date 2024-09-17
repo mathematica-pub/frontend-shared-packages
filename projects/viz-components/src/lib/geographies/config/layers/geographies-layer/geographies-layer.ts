@@ -1,6 +1,6 @@
 import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
-import { ColorUtilities } from 'projects/viz-components/src/lib/core/utilities/colors';
+import { ColorUtilities } from '../../../../core/utilities/colors';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabels } from '../labels/geographies-labels';
