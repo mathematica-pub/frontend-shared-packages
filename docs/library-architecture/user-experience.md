@@ -78,10 +78,11 @@ The "config" class (`config/my-viz-config.ts`) is a class that transforms a user
 configuration specifications into methods and properties that the component can use to draw the
 visualization.
 
-For all `DataMarks` components, this should _extend_ a base `DataMarksConfig` class and possibly and
-intermediary config like `XYDataMarksConfig`. The config class should _implement_ the corresponding
-"options" interface. The config class should also expect a required object of the options interface
-type (`MyVizOptions`). Config classes are expected to always be instantiated via the builder class.
+For all `PrimaryMarks` components, this should _extend_ a base `PrimaryMarksConfig` class and
+possibly and intermediary config like `XYPrimaryMarksConfig`. The config class should _implement_
+the corresponding "options" interface. The config class should also expect a required object of the
+options interface type (`MyVizOptions`). Config classes are expected to always be instantiated via
+the builder class.
 
 The options interface (`config/my-viz-options.ts`) represents the properties that a user should be
 able to provide values for. It should not include any properties on the config that a user cannot

@@ -3,22 +3,22 @@ import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
 import { XyChartComponent } from '../../../charts/xy-chart/xy-chart.component';
 import { XyChartComponentStub } from '../../../testing/stubs/xy-chart.component.stub';
-import { XyDataMarksStub } from '../../../testing/stubs/xy-data-marks.stub';
+import { XyPrimaryMarksStub } from '../../../testing/stubs/xy-data-marks.stub';
 
-describe('XyDataMarks abstract class', () => {
-  let abstractClass: XyDataMarksStub<any>;
+describe('XyPrimaryMarks abstract class', () => {
+  let abstractClass: XyPrimaryMarksStub<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        XyDataMarksStub,
+        XyPrimaryMarksStub,
         {
           provide: XyChartComponent,
           useValue: XyChartComponentStub,
         },
       ],
     });
-    abstractClass = TestBed.inject(XyDataMarksStub);
+    abstractClass = TestBed.inject(XyPrimaryMarksStub);
   });
 
   describe('ngOnInit()', () => {

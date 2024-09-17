@@ -20,7 +20,7 @@ export interface XyChartScales {
 }
 
 /**
- * A `Chart` component to be used with `DataMarks` components that have X and Y axes, such as `Bars` and `Lines`.
+ * A `Chart` component to be used with `PrimaryMarks` components that have X and Y axes, such as `Bars` and `Lines`.
  *
  * This component adds x, y, and categorical scales to the base `ChartComponent` that can
  *  be used by any components projected into the chart.
