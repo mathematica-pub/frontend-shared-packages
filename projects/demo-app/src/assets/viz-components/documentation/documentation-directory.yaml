@@ -191,11 +191,11 @@ internals:
       data-dimension-builder: 'classes/DataDimensionBuilder.html'
       data-dimension: 'classes/DataDimension.html'
       data-dimension-options: 'interfaces/DataDimensionOptions.html'
-  data-marks:
-    base: 'directives/DataMarks.html'
-    builder: 'classes/DataMarksBuilder.html'
-    config: 'classes/DataMarksConfig.html'
-    options: 'interfaces/DataMarksOptions.html'
+  primary-marks:
+    base: 'directives/PrimaryMarks.html'
+    builder: 'classes/PrimaryMarksBuilder.html'
+    config: 'classes/PrimaryMarksConfig.html'
+    options: 'interfaces/PrimaryMarksOptions.html'
   events:
     click: 'directives/ClickDirective.html'
     hover: 'directives/HoverDirective.html'
