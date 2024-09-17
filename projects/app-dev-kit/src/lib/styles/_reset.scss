@@ -1,4 +1,4 @@
-@use '../lib/core/scss/vars' as *;
+@use '../core/scss/vars' as *;
 
 @mixin reset($default-font: $font-sans, $color-text: #000) {
   *,
