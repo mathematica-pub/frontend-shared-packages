@@ -89,5 +89,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Debug
+        run: git branch -a
+
       - name: Build affected apps and packages
         run: npx nx affected -t build --base=refs/heads/main --head=HEAD
