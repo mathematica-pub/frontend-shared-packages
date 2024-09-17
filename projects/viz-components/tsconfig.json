@@ -10,5 +10,11 @@
       "@hsi/*": ["dist/*"]
     }
   },
-  "include": ["cypress.config.ts", "**/*.cy.ts", "**/*.cy.js", "**/*.d.ts"]
+  "include": [
+    "cypress.config.ts",
+    "**/commands.ts",
+    "**/*.cy.ts",
+    "**/*.cy.js",
+    "**/*.d.ts"
+  ]
 }
