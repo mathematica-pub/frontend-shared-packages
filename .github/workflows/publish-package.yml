@@ -39,6 +39,9 @@ jobs:
       - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
+      - name: Build viz-components
+        run: npm run build:viz-components
+
       - name: Release viz-components
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -72,6 +75,9 @@ jobs:
 
       - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
+
+      - name: Build ui-components
+        run: npm run build:ui-components
 
       - name: Release ui-components
         env:
