@@ -28,8 +28,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
-  private hoverDotBuilder: PointMarkersBuilder;
-  private pointMarkersBuilder: PointMarkersBuilder;
+  private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | QuantitativeNumericDimensionBuilder<Datum>
@@ -70,26 +69,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A config for a dot that will appear on hover of a line.
-   *
-   * Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
-   *  data will be displayed.
-   *
-   * Will not be displayed if pointMarkers.display is true.
-   *
-   * @default radius: 4, display: false
-   */
-  createHoverDot(
-    setProperties?: (pointMarkers: PointMarkersBuilder) => void
-  ): this {
-    this.hoverDotBuilder = new PointMarkersBuilder();
-    this.hoverDotBuilder.radius(4);
-    this.hoverDotBuilder.display(false);
-    setProperties?.(this.hoverDotBuilder);
-    return this;
-  }
-
-  /**
    * OPTIONAL. A boolean to determine if the line will be labeled.
    */
   labelLines(labelLines: boolean): this {
@@ -122,9 +101,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
 
   /**
    * OPTIONAL. A config for the behavior of markers for each datum on the line.
+   *
+   * Creating this config will create markers on lines.
    */
   createPointMarkers(
-    setProperties?: (pointMarkers: PointMarkersBuilder) => void
+    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
   ): this {
     this.pointMarkersBuilder = new PointMarkersBuilder();
     setProperties?.(this.pointMarkersBuilder);
@@ -190,7 +171,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       categorical: this.categoricalDimensionBuilder._build(),
       curve: this._curve,
       data: this._data,
-      hoverDot: this.hoverDotBuilder?._build(),
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,
