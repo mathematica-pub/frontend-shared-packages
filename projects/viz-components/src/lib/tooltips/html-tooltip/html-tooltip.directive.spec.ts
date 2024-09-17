@@ -139,11 +139,9 @@ describe('HtmlTooltipDirective', () => {
     beforeEach(() => {
       (directive as any).overlayPositionBuilder = 'builder' as any;
       (directive as any).document = 'document' as any;
-      (directive as any).dataMarks = {
-        chart: {
-          svgRef: {
-            nativeElement: 'element' as any,
-          },
+      (directive as any).chart = {
+        svgRef: {
+          nativeElement: 'element' as any,
         },
       };
       directive.config = new VicHtmlTooltipConfigBuilder()
