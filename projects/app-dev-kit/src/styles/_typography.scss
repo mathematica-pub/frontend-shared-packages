@@ -1,102 +1,166 @@
 @use './scss/typography' as *;
 
-%hsi-adk-typography-h1 {
+@mixin display-large {
   font-family: $font-sans;
-  font-size: 96px;
-  font-weight: $font-weight-light;
-  letter-spacing: -1.5px;
-}
-
-%hsi-adk-typography-h2 {
-  font-family: $font-sans;
-  font-size: 60px;
-  font-weight: $font-weight-light;
-  letter-spacing: -0.5px;
-}
-
-%hsi-adk-typography-h3 {
-  font-family: $font-sans;
-  font-size: 48px;
   font-weight: $font-weight-regular;
+  font-size: 57pt;
+  letter-spacing: -0.25pt;
+  line-height: 64pt;
+}
+
+@mixin display-medium {
+  font-family: $font-sans;
+  font-weight: $font-weight-regular;
+  font-size: 45pt;
   letter-spacing: 0;
+  line-height: 52pt;
 }
 
-%hsi-adk-typography-h4 {
+@mixin display-small {
   font-family: $font-sans;
-  font-size: 34px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.25px;
-}
-
-%hsi-adk-typography-h5 {
-  font-family: $font-sans;
-  font-size: 24px;
-  font-weight: $font-weight-regular;
+  font-weight: $-weight-regular;
+  font-size: 36pt;
   letter-spacing: 0;
+  line-height: 44pt;
 }
 
-%hsi-adk-typography-h6 {
+@mixin headline-large {
   font-family: $font-sans;
-  font-size: 20px;
-  font-weight: $font-weight-medium;
-  letter-spacing: 0.15px;
-}
-
-%hsi-adk-typography-subtitle-1 {
-  font-family: $font-sans;
-  font-size: 16px;
   font-weight: $font-weight-regular;
-  letter-spacing: 0.15px;
+  font-size: 32pt;
+  letter-spacing: 0;
+  line-height: 40pt;
 }
 
-%hsi-adk-typography-subtitle-2 {
+@mixin headline-medium {
   font-family: $font-sans;
-  font-size: 14px;
-  font-weight: $font-weight-medium;
-  letter-spacing: 0.1px;
-}
-
-%hsi-adk-typography-body-1 {
-  font-family: $font-sans;
-  font-size: 16px;
   font-weight: $font-weight-regular;
-  letter-spacing: 0.5px;
+  font-size: 28pt;
+  letter-spacing: 0;
+  line-height: 36pt;
 }
 
-%hsi-adk-typography-body-2 {
+@mixin headline-small {
   font-family: $font-sans;
-  font-size: 14px;
   font-weight: $font-weight-regular;
-  letter-spacing: 0.25px;
+  font-size: 24pt;
+  letter-spacing: 0;
+  line-height: 32pt;
 }
 
-%hsi-adk-typography-button {
+@mixin title-large {
   font-family: $font-sans;
-  font-size: 14px;
+  font-weight: $font-weight-regular;
+  font-size: 22pt;
+  letter-spacing: 0;
+  line-height: 28pt;
+}
+
+@mixin title-medium {
+  font-family: $font-sans;
   font-weight: $font-weight-medium;
-  letter-spacing: 1.25px;
+  font-size: 16pt;
+  letter-spacing: 0.15pt;
+  line-height: 24pt;
+}
+
+@mixin title-small {
+  font-family: $font-sans;
+  font-weight: $font-weight-medium;
+  font-size: 14pt;
+  letter-spacing: 0.1pt;
+  line-height: 20pt;
+}
+
+@mixin body-large {
+  font-family: $font-sans;
+  font-weight: $font-weight-regular;
+  font-size: 16pt;
+  letter-spacing: 0.5pt;
+  line-height: 24pt;
+}
+
+@mixin body-medium {
+  font-family: $font-sans;
+  font-weight: $font-weight-regular;
+  font-size: 14pt;
+  letter-spacing: 0.25pt;
+  line-height: 20pt;
+}
+
+@mixin body-small {
+  font-family: $font-sans;
+  font-weight: $font-weight-regular;
+  font-size: 12pt;
+  letter-spacing: 0.4pt;
+  line-height: 16pt;
+}
+
+@mixin label-large {
+  font-family: $font-sans;
+  font-weight: $font-weight-medium;
+  font-size: 14pt;
+  letter-spacing: 0.1pt;
+  line-height: 20pt;
+}
+
+@mixin label-large-prominent {
+  @include label-large;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-large-caps {
+  @include label-large;
   text-transform: uppercase;
 }
 
-%hsi-adk-typography-caption {
-  font-family: $font-sans;
-  font-size: 12px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.4px;
+@mixin label-large-caps-prominent {
+  @include label-large-caps;
+  font-weight: $font-weight-bold;
 }
 
-%hsi-adk-typography-overline {
+@mixin label-medium {
   font-family: $font-sans;
-  font-size: 10px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-%hsi-adk-typography-overline-large {
-  font-family: $font-sans;
-  font-size: 11px;
   font-weight: $font-weight-medium;
-  letter-spacing: 1.5px;
+  font-size: 12pt;
+  letter-spacing: 0.5pt;
+  line-height: 16pt;
+}
+
+@mixin label-medium-prominent {
+  @include label-medium;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-medium-caps {
+  @include label-medium;
   text-transform: uppercase;
+}
+
+@mixin label-medium-caps-prominent {
+  @include label-medium-caps;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-small {
+  font-family: $font-sans;
+  font-weight: $font-weight-medium;
+  font-size: 11pt;
+  letter-spacing: 0.5pt;
+  line-height: 16pt;
+}
+
+@mixin label-small-prominent {
+  @include label-small;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-small-caps {
+  @include label-small;
+  text-transform: uppercase;
+}
+
+@mixin label-small-caps-prominent {
+  @include label-small-caps;
+  font-weight: $font-weight-bold;
 }
