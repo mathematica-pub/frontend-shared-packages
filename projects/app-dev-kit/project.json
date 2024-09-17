@@ -3,7 +3,7 @@
   "name": "app-dev-kit",
   "projectType": "library",
   "sourceRoot": "projects/app-dev-kit/src",
-  "prefix": "lib",
+  "prefix": "adk",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
@@ -20,6 +20,12 @@
       },
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/app-dev-kit"]
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd projects/app-dev-kit && npx semantic-release"
+      }
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",

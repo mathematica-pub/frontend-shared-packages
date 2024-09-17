@@ -22,6 +22,10 @@
       "cache": true,
       "inputs": ["default", "^production"],
       "dependsOn": ["^build"]
+    },
+    "publish": {
+      "inputs": ["default", "^production"],
+      "dependsOn": ["^build"]
     }
   },
   "defaultBase": "main",
