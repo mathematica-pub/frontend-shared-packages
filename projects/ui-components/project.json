@@ -45,6 +45,15 @@
         ]
       },
       "outputs": ["{options.outputFile}"]
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "projects/ui-components/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "demo-app:build:production"
+      }
     }
   }
 }

@@ -1,11 +1,6 @@
+import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing';
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
-  component: {
-    devServer: {
-      framework: 'angular',
-      bundler: 'webpack',
-    },
-    specPattern: '**/*.cy.ts',
-  },
+  component: nxComponentTestingPreset(__filename),
 });

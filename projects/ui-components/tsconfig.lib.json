@@ -11,5 +11,14 @@
       "@hsi/*": ["dist/*"]
     }
   },
-  "exclude": ["**/*.spec.ts"]
+  "exclude": [
+    "cypress/**/*",
+    "cypress.config.ts",
+    "**/*.cy.ts",
+    "**/*.cy.js",
+    "**/*.cy.tsx",
+    "**/*.cy.jsx",
+    "**/*.spec.ts"
+  ],
+  "include": ["src/**/*.ts"]
 }

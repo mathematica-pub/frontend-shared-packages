@@ -35,9 +35,7 @@
     "process-docs:ui-components": "tsx compodoc/processing/documentation-processor.ts --lib ui-components",
     "process-docs:viz-components": "tsx compodoc/processing/documentation-processor.ts --lib viz-components",
     "build:docs:ui-components": "npm run compodoc:build:ui-components && npm run process-docs:ui-components",
-    "build:docs:viz-components": "npm run compodoc:build:viz-components && npm run process-docs:viz-components",
-    "cypress:open": "cypress open",
-    "cypress:component:ci": "cypress run --component --browser chrome"
+    "build:docs:viz-components": "npm run compodoc:build:viz-components && npm run process-docs:viz-components"
   },
   "private": true,
   "dependencies": {
