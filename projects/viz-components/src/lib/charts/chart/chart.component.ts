@@ -10,9 +10,9 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { min } from 'd3';
 import { isEqual } from 'lodash-es';
-import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import {
   BehaviorSubject,
   Observable,

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { GeographiesGeojsonPropertiesLayer } from '@hsi/viz-components';
 import { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
-import { GeographiesGeojsonPropertiesLayer } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer';
 import * as topojson from 'topojson-client';
 import { DataResource } from '../resources/data.resource';
 import { MapGeometryProperties, UsMapTopology } from './basemap';

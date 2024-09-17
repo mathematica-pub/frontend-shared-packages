@@ -1,0 +1,44 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "app-dev-kit",
+  "projectType": "library",
+  "sourceRoot": "projects/app-dev-kit/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "projects/app-dev-kit/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/app-dev-kit/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/app-dev-kit/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": ["{workspaceRoot}/dist/app-dev-kit"]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "tsConfig": "projects/app-dev-kit/tsconfig.spec.json",
+        "polyfills": ["zone.js", "zone.js/testing"],
+        "browsers": "ChromeHeadlessNoSandbox",
+        "watch": false
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/app-dev-kit/**/*.ts",
+          "projects/app-dev-kit/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

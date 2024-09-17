@@ -1,0 +1,50 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "ui-components",
+  "projectType": "library",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "projects/ui-components/src",
+  "prefix": "hsi-ui",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "projects/ui-components/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/ui-components/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/ui-components/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": ["{workspaceRoot}/dist/ui-components"]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "projects/ui-components/src/test.ts",
+        "tsConfig": "projects/ui-components/tsconfig.spec.json",
+        "karmaConfig": "projects/ui-components/karma.conf.js",
+        "browsers": "ChromeHeadlessNoSandbox",
+        "watch": false
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/ui-components/**/*.ts",
+          "projects/ui-components/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

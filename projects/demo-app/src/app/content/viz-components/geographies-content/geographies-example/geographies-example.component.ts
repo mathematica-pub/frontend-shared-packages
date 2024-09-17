@@ -5,36 +5,36 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MatSelectModule } from '@angular/material/select';
+import {
+  BinStrategy,
+  ElementSpacing,
+  EventAction,
+  FillPattern,
+  GeographiesAttributeDataLayerBuilder,
+  GeographiesClickDirective,
+  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
+  GeographiesConfig,
+  GeographiesEventOutput,
+  GeographiesFeature,
+  GeographiesGeojsonPropertiesLayerBuilder,
+  GeographiesHoverDirective,
+  GeographiesHoverEmitTooltipData,
+  GeographiesLabelsBuilder,
+  HtmlTooltipConfig,
+  VicGeographiesConfigBuilder,
+  VicGeographiesModule,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
+  VicMapChartModule,
+  VicMapLegendModule,
+  valueFormat,
+} from '@hsi/viz-components';
 import { MultiPolygon } from 'geojson';
 import { colors } from 'projects/demo-app/src/app/core/constants/colors.constants';
 import { StateIncomeDatum } from 'projects/demo-app/src/app/core/models/data';
 import { MapGeometryProperties } from 'projects/demo-app/src/app/core/services/basemap';
 import { BasemapService } from 'projects/demo-app/src/app/core/services/basemap.service';
 import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
-import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { FillPattern } from 'projects/viz-components/src/lib/data-dimensions/categorical/fill-pattern';
-import { EventAction } from 'projects/viz-components/src/lib/events/action';
-import { GeographiesConfig } from 'projects/viz-components/src/lib/geographies/config/geographies-config';
-import { GeographiesAttributeDataLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/attribute-data-layer-builder';
-import { BinStrategy } from 'projects/viz-components/src/lib/geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
-import { GeographiesGeojsonPropertiesLayerBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/geojson-properties-layer/geojson-properties-layer-builder';
-import { GeographiesLabelsBuilder } from 'projects/viz-components/src/lib/geographies/config/layers/labels/geographies-labels-builder';
-import { GeographiesEventOutput } from 'projects/viz-components/src/lib/geographies/events/geographies-event-output';
-import { GeographiesFeature } from 'projects/viz-components/src/lib/geographies/geographies-feature';
-import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
-import {
-  GeographiesClickDirective,
-  GeographiesClickEmitTooltipDataPauseHoverMoveActions,
-  GeographiesHoverDirective,
-  GeographiesHoverEmitTooltipData,
-  VicGeographiesConfigBuilder,
-  VicGeographiesModule,
-  VicHtmlTooltipModule,
-  VicMapChartModule,
-  VicMapLegendModule,
-  valueFormat,
-} from 'projects/viz-components/src/public-api';
 import {
   BehaviorSubject,
   Observable,
