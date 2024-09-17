@@ -1,7 +1,7 @@
 @use 'functions' as *;
-@use 'placeholders' as *;
 @use 'colors';
 @use 'vars' as *;
+@use '../../../../../app-dev-kit/src/styles' as hsi-adk;
 
 .documentation-container {
   margin: 0 auto;
@@ -32,17 +32,17 @@
 
   .injected-html {
     h1 {
-      @extend %typography-h4;
+      @include hsi-adk.headline-medium;
       margin: 0 0 grid(7) 0;
       width: 100%;
     }
 
     h2 {
-      @extend %typography-h5;
+      @include hsi-adk.title-large;
     }
 
     h3 {
-      @extend %typography-h6;
+      @include hsi-adk.title-medium;
     }
 
     h2,
@@ -122,7 +122,7 @@
     h6 > code,
     li > code,
     p > code {
-      font-family: $code-font;
+      font-family: $font-mono;
       font-weight: 500;
       padding-left: grid(1);
       padding-right: grid(1);

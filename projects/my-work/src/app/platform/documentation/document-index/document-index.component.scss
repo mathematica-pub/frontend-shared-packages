@@ -1,7 +1,7 @@
 @use 'functions' as *;
-@use 'placeholders' as *;
 @use 'colors';
 @use 'vars' as *;
+@use '../../../../../../app-dev-kit/src/styles' as hsi-adk;
 
 .links-container {
   list-style: none;
@@ -12,7 +12,8 @@
 }
 
 .index-title {
-  @extend %typography-overline-large;
+  // @extend %typography-overline-large;
+  @include hsi-adk.label-2xs-caps;
   padding-bottom: grid(1);
 }
 
@@ -20,7 +21,7 @@
   padding-top: grid(1);
   padding-bottom: grid(1);
   cursor: pointer;
-  @extend %typography-body-2;
+  @include hsi-adk.body-xs;
   padding-left: calc((var(--level) - 1) * grid(4));
   display: block;
   border-left: 2px solid colors.$muted-primary-90;
@@ -39,7 +40,7 @@
 
 .back-to-top {
   cursor: pointer;
-  @extend %typography-body-2;
+  @include hsi-adk.body-xs;
   padding: grid(2) 0;
   display: flex;
   align-items: center;

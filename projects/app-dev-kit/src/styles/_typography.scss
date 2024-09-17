@@ -1,4 +1,4 @@
-@use './scss/typography' as *;
+@use '../lib/core/scss/vars' as *;
 
 @mixin display-large {
   font-family: $font-sans;
@@ -18,7 +18,7 @@
 
 @mixin display-small {
   font-family: $font-sans;
-  font-weight: $-weight-regular;
+  font-weight: $font-weight-regular;
   font-size: 36pt;
   letter-spacing: 0;
   line-height: 44pt;
@@ -96,6 +96,14 @@
   line-height: 16pt;
 }
 
+@mixin body-xs {
+  font-family: $font-sans;
+  font-weight: $font-weight-regular;
+  font-size: 11pt;
+  letter-spacing: 0.25pt;
+  line-height: 14pt;
+}
+
 @mixin label-large {
   font-family: $font-sans;
   font-weight: $font-weight-medium;
@@ -160,7 +168,53 @@
   text-transform: uppercase;
 }
 
-@mixin label-small-caps-prominent {
+@mixin label-sm-caps-prominent {
   @include label-small-caps;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-xs {
+  font-family: $font-sans;
+  font-weight: $font-weight-medium;
+  font-size: 10pt;
+  letter-spacing: 0.8pt;
+  line-height: 14pt;
+}
+
+@mixin label-xs-prominent {
+  @include label-xs;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-xs-caps {
+  @include label-extra-small;
+  text-transform: uppercase;
+}
+
+@mixin label-xs-caps-prominent {
+  @include label-xs-caps;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-2xs {
+  font-family: $font-sans;
+  font-weight: $font-weight-medium;
+  font-size: 9pt;
+  letter-spacing: 0.5pt;
+  line-height: 12pt;
+}
+
+@mixin label-2xs-prominent {
+  @include label-2xs;
+  font-weight: $font-weight-bold;
+}
+
+@mixin label-2xs-caps {
+  @include label-2xs;
+  text-transform: uppercase;
+}
+
+@mixin label-2xs-caps-prominent {
+  @include label-2xs-small-caps;
   font-weight: $font-weight-bold;
 }
