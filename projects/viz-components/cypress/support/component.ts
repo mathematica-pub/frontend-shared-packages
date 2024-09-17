@@ -28,4 +28,6 @@ declare global {
   }
 }
 
+declare const Cypress: Cypress.Cypress;
+
 Cypress.Commands.add('mount', mount);
