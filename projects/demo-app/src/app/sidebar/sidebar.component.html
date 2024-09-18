@@ -1,4 +1,5 @@
 <nav class="sidebar-container">
+  <p class="application-title">HSI Frontend Shared Packages</p>
   @if (routerState.state$ | async; as state) {
     <a
       class="item"
@@ -11,9 +12,11 @@
       About Shared Packages
     </a>
     <app-lib-docs
+      class="docs-directory"
       [lib]="{ displayName: 'UI Components', id: Library.UiComponents }"
     ></app-lib-docs>
     <app-lib-docs
+      class="docs-directory"
       [lib]="{ displayName: 'Viz Components', id: Library.VizComponents }"
     ></app-lib-docs>
   }

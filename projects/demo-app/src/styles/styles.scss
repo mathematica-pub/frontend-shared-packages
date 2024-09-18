@@ -2,139 +2,18 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
+@use '../../../app-dev-kit/src/lib/styles' as hsi-adk;
 @import 'prismjs/plugins/toolbar/prism-toolbar.css';
 @import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 @import 'prismjs/themes/prism-okaidia';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-body {
-  min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
-  background: white;
-  color: color.$primary-text;
-  font-family: $sans-font;
-  font-size: 1rem;
-
-  ::-webkit-scrollbar {
-    width: $vertical-scrollbar-thickness-thin;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: color.$primary-6;
-  }
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
-}
-
-p {
-  line-height: 1.5;
-}
-
-button,
-a {
-  cursor: pointer;
-  color: color.$primary-text;
-}
-
-button {
-  border: none;
-  background: none;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
-
-img,
-picture {
-  max-width: 100%;
-  display: block;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-block-start: 0;
-  padding-block-end: 0;
-  min-inline-size: 0px;
-}
-
-legend {
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-  border: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-body {
-  overflow: auto;
-  height: 100%;
-}
+@include hsi-adk.reset();
 
 html {
-  overflow: hidden;
-  height: 100%;
+  @include hsi-adk.create-theme();
+  --hsi-adk-font-sans: #{$font-sans};
+  --hsi-adk-font-serif: #{$font-serif};
+  --hsi-adk-font-mono: #{$font-mono};
 }
 
 .vic-html-tooltip-overlay {

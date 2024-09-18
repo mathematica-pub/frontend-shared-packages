@@ -2,14 +2,15 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
+@use '../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
 
 .main-title {
-  @extend %typography-h4;
+  @include hsi-adk.title-small;
   padding-bottom: grid(4);
 }
 
 .example-title {
-  @extend %typography-h5;
+  @include hsi-adk.body-large;
   padding-bottom: grid(3);
 }
 

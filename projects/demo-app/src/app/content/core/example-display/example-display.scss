@@ -2,6 +2,7 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
+@use 'colors';
 
 .example-container {
   ::-webkit-scrollbar {
@@ -27,8 +28,8 @@
     width: 100%;
     border-top-left-radius: grid(3);
     border-top-right-radius: grid(3);
-    background: color.$primary-8;
-    border-bottom: 1px solid color.$primary-6;
+    background: colors.$muted-primary-95;
+    border-bottom: 1px solid colors.$muted-primary-80;
   }
 
   .tab-label-container:first-of-type {
@@ -49,13 +50,13 @@
   .tab-label-container:not(.active):hover .tab-label {
     color: color.$highlight-default;
     transition: all 200ms;
-    background-color: color.$primary-7;
+    background-color: colors.$muted-primary-90;
   }
 
   .tab-label-container.active .tab-label {
-    border: 1px solid color.$primary-6;
+    border: 1px solid colors.$muted-primary-80;
     border-bottom-color: white;
-    color: color.$primary-1;
+    color: colors.$primary-0;
     background-color: white;
     font-weight: $font-weight-semibold;
     margin-bottom: -1px;

@@ -2,6 +2,7 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
+@use '../../../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
 
 .bars-example {
   .ui-instructions {
@@ -48,6 +49,7 @@
   }
 
   .value-label {
-    @extend %typography-overline-large;
+    // @extend %typography-overline-large;
+    @include hsi-adk.label-xs-caps;
   }
 }

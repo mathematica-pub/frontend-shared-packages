@@ -2,19 +2,21 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
+@use 'colors';
+@use '../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+
+$active-background-color: colors.$muted-primary-95;
 
 :host {
   display: block;
 }
 
-.top-border {
-  border-top: 1px solid color.$primary-6;
-  margin-top: grid(4);
-  padding-top: grid(3);
+.lib-docs {
+  padding-bottom: grid(4);
 }
 
 .lib-title {
-  @extend %typography-h5;
+  @include hsi-adk.body-large;
   padding: grid(1) 0;
   display: flex;
   justify-content: space-between;
@@ -23,7 +25,7 @@
 }
 
 .lib-title:hover {
-  background-color: color.$primary-7;
+  background-color: $active-background-color;
   transition: all 200ms;
 }
 
@@ -36,9 +38,7 @@
 .section-label {
   margin-top: grid(3);
   margin-bottom: grid(1);
-  @extend %typography-subtitle-2;
-  text-transform: uppercase;
-  font-weight: $font-weight-bold;
+  @include hsi-adk.label-small-caps;
 }
 
 .section-label.documentation {
@@ -56,13 +56,13 @@
 
 .overview:hover {
   cursor: pointer;
-  background-color: color.$primary-7;
+  background-color: $active-background-color;
   transition: all 200ms;
 }
 
 .overview.active {
   color: color.$highlight-default;
-  background-color: color.$primary-7;
+  background-color: $active-background-color;
 }
 
 .manual-docs-directory {

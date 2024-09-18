@@ -1,12 +1,12 @@
 @use 'vars' as *;
 @use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
+@use 'colors';
 
 .example-container.single {
   display: flex;
   flex-direction: column;
-  border: 1px solid color.$primary-5;
+  border: 1px solid colors.$muted-primary-80;
   border-radius: grid(3);
   max-width: var(--max-width, 1200px);
 

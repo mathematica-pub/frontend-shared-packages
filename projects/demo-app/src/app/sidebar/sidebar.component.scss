@@ -2,31 +2,51 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
+@use 'colors';
+@use '../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+
+$active-background-color: colors.$muted-primary-95;
+$dividing-line-color: colors.$muted-primary-90;
 
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  padding: grid(4) grid(2) grid(2) grid(4);
-}
+  padding: grid(2);
+  height: 100%;
+  overflow-y: auto;
 
-.item {
-  display: block;
-  padding-right: grid(2);
-  padding-top: grid(1);
-  padding-bottom: grid(1);
-  margin: 1px 0;
-  line-height: 1.5;
-  @extend %typography-body-1;
-  font-size: 18px;
-}
+  .application-title {
+    @include hsi-adk.title-small;
+    padding-bottom: grid(2);
+    border-bottom: 1px solid $dividing-line-color;
+    white-space: nowrap;
+  }
 
-.item:hover {
-  cursor: pointer;
-  background-color: color.$primary-7;
-  transition: all 200ms;
-}
+  .item {
+    display: block;
+    padding-right: grid(2);
+    padding-top: grid(1);
+    padding-bottom: grid(1);
+    margin: grid(2) 0;
+    line-height: 1.2;
+    font-size: 18px;
+  }
 
-.item.active {
-  color: color.$highlight-default;
-  background-color: color.$primary-7;
+  .item:hover {
+    cursor: pointer;
+    background-color: $active-background-color;
+    transition: all 200ms;
+  }
+
+  .item.active {
+    background-color: $active-background-color;
+    color: color.$highlight-default;
+  }
+
+  .docs-directory {
+    display: block;
+    border-top: 1px solid $dividing-line-color;
+    margin-bottom: grid(2);
+    padding-top: grid(2);
+  }
 }

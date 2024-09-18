@@ -189,7 +189,7 @@
 }
 
 @mixin label-xs-caps {
-  @include label-extra-small;
+  @include label-xs;
   text-transform: uppercase;
 }
 
