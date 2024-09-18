@@ -6,6 +6,7 @@ import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-p
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
 import { LinesGroupSelectionDatum } from '../lines.component';
+import { AreaFills } from './area-fills/area-fills';
 import { LinesOptions } from './lines-options';
 
 export interface LinesMarkerDatum {
@@ -25,6 +26,7 @@ export class LinesConfig<Datum>
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
+  readonly areaFills: AreaFills<Datum>;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: PointMarkers<Datum>;
   readonly stroke: Stroke;

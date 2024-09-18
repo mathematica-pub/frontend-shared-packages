@@ -46,7 +46,7 @@ export class EqualValueRangesBinsBuilder<
   _build(): EqualValueRangesAttributeDataDimension<Datum, RangeValue> {
     return new EqualValueRangesAttributeDataDimension({
       domain: this._domain,
-      fillPatterns: this._fillPatterns,
+      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,
