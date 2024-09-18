@@ -6,3 +6,4 @@ items:
   - 'lines'
   - 'stacked-area'
   - 'stacked-bars'
+  - 'grouped-bars'
