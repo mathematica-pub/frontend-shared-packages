@@ -14,6 +14,13 @@ export const APP_ROUTES: Routes = [
       ),
   },
   {
+    path: 'ui-components/content',
+    loadChildren: () =>
+      import('./content/core/routing/ui-components-routing.module').then(
+        (m) => m.UiComponentsRoutingModule
+      ),
+  },
+  {
     path: ':lib',
     children: [
       {

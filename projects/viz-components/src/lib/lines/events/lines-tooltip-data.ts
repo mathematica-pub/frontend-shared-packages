@@ -17,13 +17,7 @@ export function linesTooltipMixin<T extends AbstractConstructor>(Base: T) {
       datumIndex: number,
       lines: LinesComponent<Datum>
     ): LinesEventOutput<Datum> {
-      const datum = lines.config.data.find(
-        (d) =>
-          lines.config.x.values[datumIndex] ===
-            lines.config.x.valueAccessor(d) &&
-          lines.config.categorical.values[datumIndex] ===
-            lines.config.categorical.valueAccessor(d)
-      );
+      const datum = lines.config.data[datumIndex];
       return {
         datum,
         x: lines.config.x.formatFunction

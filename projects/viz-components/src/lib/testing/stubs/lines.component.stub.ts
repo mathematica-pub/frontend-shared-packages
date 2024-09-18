@@ -9,6 +9,5 @@ export class LinesComponentStub {
   yScale;
   markers;
   lines;
-  hoverDot;
   chart = new Chart();
 }
