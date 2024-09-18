@@ -290,7 +290,7 @@ describe('user provides a fill pattern', () => {
   beforeEach(() => {
     barsConfig = undefined;
   });
-  it('sets bar fill with either the pattern name or the regular fill according to usePattern function', () => {
+  it('sets bar fill with either the pattern name or the regular fill according to useDef function', () => {
     barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
       .orientation('horizontal')
       .data(QOCData)
@@ -301,10 +301,10 @@ describe('user provides a fill pattern', () => {
         dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
       .createCategoricalDimension((dimension) =>
-        dimension.fillPatterns([
+        dimension.fillDefs([
           {
             name: dotsPatternMagenta,
-            usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
+            useDef: (d) => d.continent === 'Africa' && d.area > 500000,
           },
         ])
       )
@@ -319,7 +319,7 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with either the pattern name or the regular fill according to usePattern function when user provides a scale and valueAccessor', () => {
+  it('sets bar fill with either the pattern name or the regular fill according to useDef function when user provides a scale and valueAccessor', () => {
     barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
       .orientation('horizontal')
       .data(QOCData)
@@ -331,10 +331,10 @@ describe('user provides a fill pattern', () => {
       )
       .createCategoricalDimension((dimension) =>
         dimension
-          .fillPatterns([
+          .fillDefs([
             {
               name: dotsPatternMagenta,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
+              useDef: (d) => d.continent === 'Africa' && d.area > 500000,
             },
           ])
           .valueAccessor((d) => d.continent)
@@ -369,7 +369,7 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with the last matching pattern in fillPatterns array if two patterns match', () => {
+  it('sets bar fill with the last matching pattern in fillDefs array if two patterns match', () => {
     barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
       .orientation('horizontal')
       .data(QOCData)
@@ -381,14 +381,14 @@ describe('user provides a fill pattern', () => {
       )
       .createCategoricalDimension((dimension) =>
         dimension
-          .fillPatterns([
+          .fillDefs([
             {
               name: dotsPatternMagenta,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 500000,
+              useDef: (d) => d.continent === 'Africa' && d.area > 500000,
             },
             {
               name: dotsPatternTeal,
-              usePattern: (d) => d.continent === 'Africa' && d.area > 700000,
+              useDef: (d) => d.continent === 'Africa' && d.area > 700000,
             },
           ])
           .range(['lightcoral'])
