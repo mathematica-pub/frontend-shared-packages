@@ -5,8 +5,10 @@ import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative
 import { MarksOptions } from '../../marks/config/marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
+import { AreaFills } from './area-fills/area-fills';
 
 export interface LinesOptions<Datum> extends MarksOptions<Datum> {
+  areaFills: AreaFills<Datum>;
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
   labelLines: boolean;

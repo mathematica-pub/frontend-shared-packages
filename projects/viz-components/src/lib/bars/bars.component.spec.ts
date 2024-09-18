@@ -3,7 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { ColorUtilities } from '../core/utilities/colors';
-import { PatternUtilities } from '../core/utilities/pattern-utilities';
+import { FillUtilities } from '../core/utilities/fill-utilities';
 import { ValueUtilities } from '../core/utilities/values';
 import { BarDatum, BarsComponent } from './bars.component';
 import { VicBarsConfigBuilder } from './config/bars-builder';
@@ -231,8 +231,8 @@ describe('BarsComponent', () => {
       expect(component.getBarFill(datum)).toEqual('bar color');
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
-      (component.config.categorical as any).fillPatterns = [
-        { name: 'pattern', usePattern: () => true },
+      (component.config.categorical as any).fillDefs = [
+        { name: 'pattern', useDef: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
     });
@@ -673,14 +673,14 @@ describe('BarsComponent', () => {
     let datum: BarDatum<string>;
     const pattern = {
       name: 'pattern1',
-      usePattern: (d) => d.fruit === 'avocado',
+      useDef: (d) => d.fruit === 'avocado',
     };
     beforeEach(() => {
       spyOn(component, 'getBarColor').and.returnValue('blue');
-      spyOn(PatternUtilities, 'getFill').and.returnValue('return-pattern');
+      spyOn(FillUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      (component.config.categorical as any).fillPatterns = [pattern];
+      (component.config.categorical as any).fillDefs = [pattern];
     });
     it('calls getBarColor once with the datum', () => {
       component.getBarPattern(datum);
@@ -688,11 +688,9 @@ describe('BarsComponent', () => {
     });
     it('calls getPatternFill once with the correct values', () => {
       component.getBarPattern(datum);
-      expect(PatternUtilities.getFill).toHaveBeenCalledOnceWith(
-        data[2],
-        'blue',
-        [pattern]
-      );
+      expect(FillUtilities.getFill).toHaveBeenCalledOnceWith(data[2], 'blue', [
+        pattern,
+      ]);
     });
   });
 
