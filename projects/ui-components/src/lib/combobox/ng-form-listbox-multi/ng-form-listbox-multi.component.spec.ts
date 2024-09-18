@@ -35,6 +35,11 @@ describe('NgFormListboxMultiComponent', () => {
   });
 
   describe('emitValue', () => {
+    beforeEach(() => {
+      component.control = {
+        setValue: jasmine.createSpy('setValue'),
+      } as any;
+    });
     it('calls control.setValue with the correct value', () => {
       component.selectedOptions.next([{ value: '1' }, { value: '2' }] as any);
       component.emitValue();
