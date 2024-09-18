@@ -19,6 +19,14 @@ To create a beta release:
 1. Confirm [here](https://github.com/mathematica-org/frontend-shared-packages/branches) that there
    is not already a remote `beta` branch. If it already exists, complete the following steps using
    `alpha` instead.
+
+   > There can only be one alpha or beta branch, but ideally they're short-lived. We're essentially
+   > using them as throwaway branches that are purely for triggering the beta release workflow.
+
+   > This is because `semantic-release` automatically appends the branch name to the end of
+   > prerelease packages, so any branch that has numbers in it or has a long name will fail to
+   > deploy.
+
 2. Our automated release system requires that you use at least one conventional commit (see:
    [formatting guidelines](https://gist.github.com/develar/273e2eb938792cf5f86451fbac2bcd51)). To
    ensure our automated releasing system detects that a version bump is needed, confirm that you
