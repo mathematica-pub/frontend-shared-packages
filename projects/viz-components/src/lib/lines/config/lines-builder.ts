@@ -6,6 +6,7 @@ import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quant
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
+import { AreaFillsBuilder } from './area-fills/area-fills-builder';
 import { LinesConfig } from './lines-config';
 
 const DEFAULT = {
@@ -34,6 +35,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
   constructor() {
     super();
@@ -163,6 +165,22 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   /**
+   * OPTIONAL. A config to set fill underneath lines.
+   *
+   */
+  createAreaFills(
+    setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
+  ): this {
+    this.initBelowLinesAreaFillBuilder();
+    setProperties?.(this.areaFillsBuilder);
+    return this;
+  }
+
+  private initBelowLinesAreaFillBuilder(): void {
+    this.areaFillsBuilder = new AreaFillsBuilder();
+  }
+
+  /**
    * REQUIRED. Builds the configuration object for the LinesComponent.
    */
   getConfig(): LinesConfig<Datum> {
@@ -179,6 +197,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       stroke: this.strokeBuilder._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
+      areaFills: this.areaFillsBuilder?._build(),
     });
   }
 

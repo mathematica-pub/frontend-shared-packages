@@ -342,6 +342,35 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
         ]);
       });
   });
+
+  describe('it creates the correct under-line area fills', () => {
+    it('should draw the correct number of fills, one for each category', () => {
+      const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
+        .data(numericData)
+        .createXNumericDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population)
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createAreaFills()
+        .getConfig();
+      mountNumberLinesComponent(linesConfig);
+      const categories = [];
+      cy.get('.vic-line-area')
+        .each(($lines) => {
+          categories.push($lines.attr('category'));
+        })
+        .then(() => {
+          expect(categories).to.have.members([
+            ...new Set(numericData.map((d) => d.continent)),
+          ]);
+        });
+    });
+  });
 });
 
 // ***********************************************************

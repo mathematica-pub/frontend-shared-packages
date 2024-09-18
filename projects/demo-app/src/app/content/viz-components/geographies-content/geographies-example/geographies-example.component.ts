@@ -9,7 +9,7 @@ import {
   BinStrategy,
   ElementSpacing,
   EventAction,
-  FillPattern,
+  FillDef,
   GeographiesAttributeDataLayerBuilder,
   GeographiesClickDirective,
   GeographiesClickEmitTooltipDataPauseHoverMoveActions,
@@ -219,26 +219,26 @@ export class GeographiesExampleComponent implements OnInit {
     StateIncomeDatum,
     MapGeometryProperties
   > {
-    const fillPatterns = [
+    const fillDefs = [
       {
         name: this.patternName,
-        usePattern: (d) => !!d && d.population < 1000000,
+        useDef: (d) => !!d && d.population < 1000000,
       },
     ];
     if (this.attributeDataBinType.value === BinStrategy.categorical) {
-      return this.getCategoricalLayer(data, layer, fillPatterns);
+      return this.getCategoricalLayer(data, layer, fillDefs);
     } else if (this.attributeDataBinType.value === BinStrategy.customBreaks) {
-      return this.getCustomBreaksLayer(data, layer, fillPatterns);
+      return this.getCustomBreaksLayer(data, layer, fillDefs);
     } else if (
       this.attributeDataBinType.value === BinStrategy.equalFrequencies
     ) {
-      return this.getEqualFrequenciesLayer(data, layer, fillPatterns);
+      return this.getEqualFrequenciesLayer(data, layer, fillDefs);
     } else if (
       this.attributeDataBinType.value === BinStrategy.equalValueRanges
     ) {
-      return this.getEqualValueRangesLayer(data, layer, fillPatterns);
+      return this.getEqualValueRangesLayer(data, layer, fillDefs);
     } else {
-      return this.getNoBinsLayer(data, layer, fillPatterns);
+      return this.getNoBinsLayer(data, layer, fillDefs);
     }
   }
 
@@ -256,7 +256,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillDefs: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -271,7 +271,7 @@ export class GeographiesExampleComponent implements OnInit {
             d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low'
           )
           .range(['sandybrown', 'mediumseagreen', colors.highlight.default])
-          .fillPatterns(fillPatterns)
+          .fillDefs(fillDefs)
       )
       .createLabels((labels) => this.getLabels(labels));
   }
@@ -282,7 +282,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillDefs: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -297,7 +297,7 @@ export class GeographiesExampleComponent implements OnInit {
           .formatSpecifier(`$${valueFormat.integer}`)
           .breakValues([45000, 55000, 65000, 75000, 100000])
           .range([colors.white, colors.highlight.default])
-          .fillPatterns(fillPatterns)
+          .fillDefs(fillDefs)
       )
       .createLabels((labels) => this.getLabels(labels));
   }
@@ -308,7 +308,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillDefs: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -323,7 +323,7 @@ export class GeographiesExampleComponent implements OnInit {
           .formatSpecifier(`$${valueFormat.integer}`)
           .numBins(6)
           .range([colors.white, colors.highlight.default])
-          .fillPatterns(fillPatterns)
+          .fillDefs(fillDefs)
       )
       .createLabels((labels) => this.getLabels(labels));
   }
@@ -334,7 +334,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillDefs: FillDef<StateIncomeDatum>[]
   ) {
     return layer
       .data(data)
@@ -346,7 +346,7 @@ export class GeographiesExampleComponent implements OnInit {
           .formatSpecifier(`$${valueFormat.integer}`)
           .numBins(6)
           .range([colors.white, colors.highlight.default])
-          .fillPatterns(fillPatterns)
+          .fillDefs(fillDefs)
       )
       .createLabels((labels) => this.getLabels(labels));
   }
@@ -357,7 +357,7 @@ export class GeographiesExampleComponent implements OnInit {
       StateIncomeDatum,
       MapGeometryProperties
     >,
-    fillPatterns: FillPattern<StateIncomeDatum>[]
+    fillDefs: FillDef<StateIncomeDatum>[]
   ): GeographiesAttributeDataLayerBuilder<
     StateIncomeDatum,
     MapGeometryProperties
@@ -371,7 +371,7 @@ export class GeographiesExampleComponent implements OnInit {
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
           .range([colors.white, colors.highlight.default])
-          .fillPatterns(fillPatterns)
+          .fillDefs(fillDefs)
       )
       .createLabels((labels) => this.getLabels(labels));
   }
