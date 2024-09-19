@@ -5,8 +5,9 @@ export class AreaFills<Datum> {
   readonly display: boolean;
   readonly opacity: number;
   readonly fillDefs: FillDef<Datum>[];
+  readonly color: (d: Datum) => string;
 
-  constructor(options: AreaFillsOptions) {
+  constructor(options: AreaFillsOptions<Datum>) {
     Object.assign(this, options);
   }
 }

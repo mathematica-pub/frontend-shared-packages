@@ -5,15 +5,31 @@ const DEFAULT = {
   _display: true,
   _opacity: 0.2,
   _gradient: undefined,
+  _color: undefined,
 };
 
 export class AreaFillsBuilder<Datum> {
   private _display: boolean;
   private _opacity: number;
   private _fillDefs: FillDef<Datum>[];
+  private _color: (d: Datum) => string;
 
   constructor() {
     Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. A string which determines color of the fill under line,
+   * or a function whose input is the first point in the line and which returns
+   * a color string.
+   * This string is directly passed to `fill` under the hood.
+   *
+   * If not set, the color of the line will be used.
+   */
+
+  color(color: string | ((d: Datum) => string)): this {
+    this._color = typeof color === 'string' ? () => color : color;
+    return this;
   }
 
   /**
@@ -54,6 +70,7 @@ export class AreaFillsBuilder<Datum> {
       display: this._display,
       opacity: this._opacity,
       fillDefs: this._fillDefs,
+      color: this._color,
     };
   }
 }
