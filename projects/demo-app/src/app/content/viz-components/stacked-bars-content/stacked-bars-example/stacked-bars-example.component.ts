@@ -1,14 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
-import { XOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/x-ordinal/x-ordinal-axis-config';
-import { YQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/y-quantitative-axis/y-quantitative-axis-config';
-import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { VicStackedBarsConfigBuilder } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-builder';
-import { StackedBarsConfig } from 'projects/viz-components/src/lib/stacked-bars/config/stacked-bars-config';
 import {
+  ElementSpacing,
+  StackedBarsConfig,
   VicChartModule,
+  VicStackedBarsConfigBuilder,
   VicStackedBarsModule,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
@@ -16,7 +12,11 @@ import {
   VicXyChartModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-} from 'projects/viz-components/src/public-api';
+  XOrdinalAxisConfig,
+  YQuantitativeAxisConfig,
+} from '@hsi/viz-components';
+import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
+import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { Observable, filter, map } from 'rxjs';
 
 interface ViewModel {

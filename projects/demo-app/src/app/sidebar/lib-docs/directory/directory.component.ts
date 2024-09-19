@@ -8,7 +8,7 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { NgOnChangesUtilities } from 'projects/viz-components/src/lib/core/utilities/ng-on-changes';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DirectoryItem {
