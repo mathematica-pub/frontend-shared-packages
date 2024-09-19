@@ -1,3 +1,4 @@
+import { mount } from 'cypress/angular';
 // ***********************************************************
 // This example support/component.ts is processed and
 // loaded automatically before your test files.
@@ -12,30 +13,21 @@
 // You can read more here:
 // https://on.cypress.io/configuration
 // ***********************************************************
-// Import commands.js using ES2015 syntax:
-import { mount } from 'cypress/angular';
-import { Cypress } from 'local-cypress';
+
+// Import commands.ts using ES2015 syntax:
 import './commands';
 
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
-
-// Augment the Cypress namespace to include type definitions for
-// your custom command.
-// Alternatively, can be defined in cypress/support/component.d.ts
-// with a <reference path="./component" /> at the top of your spec.
-
-// eslint-disable-next-line @typescript-eslint/no-namespace
+// add component testing only related command here, such as mount
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Cypress {
-    interface Chainable {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    interface Chainable<Subject> {
       mount: typeof mount;
     }
   }
 }
 
-Cypress.Commands.add('mount', mount);
+declare const Cypress: Cypress.Cypress;
 
-// Example use:
-// cy.mount(MyComponent)
+Cypress.Commands.add('mount', mount);

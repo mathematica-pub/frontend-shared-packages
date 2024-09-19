@@ -151,7 +151,7 @@ function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // have to wait for axes to render
+  cy.wait(1000); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
@@ -170,7 +170,7 @@ function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // have to wait for axes to render
+  cy.wait(1000); // have to wait for axes to render
 }
 
 // ***********************************************************

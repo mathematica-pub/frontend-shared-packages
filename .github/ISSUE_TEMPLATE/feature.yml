@@ -1,5 +1,5 @@
 name: Feature
-description: Propose a new feature for Angular Material or the CDK
+description: Propose a new feature for Viz Components, UI Components, or the Application Development Kit (ADK)
 title: 'feat([LIB]-[ITEM]): TITLE'
 labels: ['issue type: enhancement', 'needs triage']
 body:
