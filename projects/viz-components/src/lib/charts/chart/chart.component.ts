@@ -10,9 +10,9 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { min } from 'd3';
 import { isEqual } from 'lodash-es';
-import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
 import {
   BehaviorSubject,
   Observable,
@@ -41,7 +41,7 @@ export interface ChartScaling {
 
 /**
  * A base component that can be extended to create specific types of `Chart` components,
- *  each of which can serve as a wrapper component for one `DataMarks` component and any
+ *  each of which can serve as a wrapper component for one `PrimaryMarks` component and any
  *  other content that is projected into its content projection slots.
  *
  * <p class="comment-slots">Content projection slots</p>

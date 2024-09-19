@@ -2,7 +2,7 @@
 import { Overlay, OverlayPositionBuilder } from '@angular/cdk/overlay';
 import { ViewContainerRef } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Subject } from 'rxjs';
 import { ChartComponent } from '../../charts';
 import { ChartComponentStub } from '../../testing/stubs/chart.component.stub';
@@ -139,11 +139,9 @@ describe('HtmlTooltipDirective', () => {
     beforeEach(() => {
       (directive as any).overlayPositionBuilder = 'builder' as any;
       (directive as any).document = 'document' as any;
-      (directive as any).dataMarks = {
-        chart: {
-          svgRef: {
-            nativeElement: 'element' as any,
-          },
+      (directive as any).chart = {
+        svgRef: {
+          nativeElement: 'element' as any,
         },
       };
       directive.config = new VicHtmlTooltipConfigBuilder()

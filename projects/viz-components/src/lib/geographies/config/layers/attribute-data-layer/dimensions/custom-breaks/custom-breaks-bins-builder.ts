@@ -52,7 +52,7 @@ export class CustomBreaksBinsAttributeDataDimensionBuilder<
   _build(): CustomBreaksBinsAttributeDataDimension<Datum, RangeValue> {
     return new CustomBreaksBinsAttributeDataDimension({
       breakValues: this._breakValues,
-      fillPatterns: this._fillPatterns,
+      fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       interpolator: this._interpolator,

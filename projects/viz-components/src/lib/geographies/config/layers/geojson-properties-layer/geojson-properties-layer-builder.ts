@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { CategoricalDimensionBuilder } from 'projects/viz-components/src/lib/data-dimensions/categorical/categorical-builder';
+import { CategoricalDimensionBuilder } from '../../../../data-dimensions/categorical/categorical-builder';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
