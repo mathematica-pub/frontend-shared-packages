@@ -6,13 +6,13 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
-import { ImageDownloadOptions } from 'projects/viz-components/src/lib/image-download/image-download-options';
 import {
+  ImageDownloadOptions,
   VicImageDownloadService,
   VicJpegImageConfig,
   VicPngImageConfig,
   VicSvgImageConfig,
-} from 'projects/viz-components/src/public-api';
+} from '@hsi/viz-components';
 
 let uniqueId = 0;
 

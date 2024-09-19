@@ -1,19 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
-import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
-import { StackedAreaConfig } from 'projects/viz-components/src/lib/stacked-area/config/stacked-area-config';
-import { StackedAreaEventOutput } from 'projects/viz-components/src/lib/stacked-area/events/stacked-area-event-output';
-import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
+  ElementSpacing,
+  HoverMoveAction,
+  HtmlTooltipConfig,
+  StackedAreaConfig,
+  StackedAreaEventOutput,
   StackedAreaHoverMoveDirective,
   StackedAreaHoverMoveEmitTooltipData,
   VicChartModule,
+  VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
+  VicQuantitativeAxisConfig,
   VicStackedAreaConfigBuilder,
   VicStackedAreaModule,
   VicXQuantitativeAxisConfigBuilder,
@@ -22,7 +20,9 @@ import {
   VicXyChartModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-} from 'projects/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
+import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {
