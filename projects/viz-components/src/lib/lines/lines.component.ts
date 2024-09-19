@@ -202,15 +202,19 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   }
 
   getAreaFill(category: string, lineDataIndices: number[]): string {
+    const firstPointInLine = this.config.data[lineDataIndices[0]];
     if (this.config.areaFills.fillDefs) {
       const fillDef = this.config.areaFills.fillDefs.find((def) =>
-        def.useDef(this.config.data[lineDataIndices[0]])
+        def.useDef(firstPointInLine)
       );
       if (fillDef) {
         return `url(#${fillDef.name})`;
       } else {
         return null;
       }
+    }
+    if (this.config.areaFills.color) {
+      return this.config.areaFills.color(firstPointInLine);
     }
     return this.scales.categorical(category);
   }
