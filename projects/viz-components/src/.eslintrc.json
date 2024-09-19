@@ -6,7 +6,8 @@
       "parserOptions": {
         "project": [
           "projects/viz-components/tsconfig.lib.json",
-          "projects/viz-components/tsconfig.spec.json"
+          "projects/viz-components/tsconfig.spec.json",
+          "projects/viz-components/tsconfig.json"
         ],
         "createDefaultProgram": true
       },
