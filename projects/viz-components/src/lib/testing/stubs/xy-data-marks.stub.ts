@@ -1,7 +1,7 @@
 import { PrimaryMarksConfig } from '../../marks/primary-marks/config/primary-marks-config';
 import { VicXyPrimaryMarks } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 
-export class XyDataMarksStub<Datum> extends VicXyPrimaryMarks<
+export class XyPrimaryMarksStub<Datum> extends VicXyPrimaryMarks<
   Datum,
   PrimaryMarksConfig<Datum>
 > {

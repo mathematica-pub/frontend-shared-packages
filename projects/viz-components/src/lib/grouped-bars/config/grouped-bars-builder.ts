@@ -4,7 +4,7 @@ import { DataValue } from '../../core/types/values';
 import { GroupedBarsConfig } from './grouped-bars-config';
 
 const DEFAULT = {
-  intraGroupPadding: 0.05,
+  _intraGroupPadding: 0.05,
 };
 
 /**
