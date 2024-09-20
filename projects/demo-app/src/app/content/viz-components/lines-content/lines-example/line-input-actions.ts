@@ -1,10 +1,10 @@
-import { InputEventAction } from 'projects/viz-components/src/lib/events/action';
-import { LinesMarkerDatum } from 'projects/viz-components/src/lib/lines/config/lines-config';
-import { LinesInputEventDirective } from 'projects/viz-components/src/lib/lines/events/lines-input-event.directive';
 import {
+  InputEventAction,
   LinesComponent,
   LinesGroupSelectionDatum,
-} from 'projects/viz-components/src/lib/lines/lines.component';
+  LinesInputEventDirective,
+  LinesMarkerDatum,
+} from '@hsi/viz-components';
 
 export class HighlightLineForLabel<
   Datum,

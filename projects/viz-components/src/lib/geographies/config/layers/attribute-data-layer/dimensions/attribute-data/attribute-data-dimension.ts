@@ -1,6 +1,6 @@
 import { DataValue } from '../../../../../../core/types/values';
-import { FillPattern } from '../../../../../../data-dimensions/categorical/fill-pattern';
 import { DataDimension } from '../../../../../../data-dimensions/dimension';
+import { FillDef } from '../../../../../../fill-defs/fill-def';
 import { AttributeDataDimensionOptions } from './attribute-data-dimension-options';
 
 /**
@@ -16,7 +16,7 @@ export abstract class AttributeDataDimension<
   extends DataDimension<Datum, AttributeValue>
   implements AttributeDataDimensionOptions<Datum, AttributeValue, RangeValue>
 {
-  fillPatterns: FillPattern<Datum>[];
+  fillDefs: FillDef<Datum>[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   interpolator: (...args: any) => any;
   nullColor: string;

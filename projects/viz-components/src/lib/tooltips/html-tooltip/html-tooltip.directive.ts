@@ -20,9 +20,9 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Subject, takeUntil } from 'rxjs';
 import { ChartComponent } from '../../charts';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { HtmlTooltipConfig } from './config/html-tooltip-config';
 
 @Directive({

@@ -1,6 +1,6 @@
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { PatternUtilities } from '../../../../core/utilities/pattern-utilities';
+import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -40,12 +40,8 @@ export class GeographiesGeojsonPropertiesLayer<
     }
     const featureIndex = this.featureIndexAccessor(feature);
     const defaultFill = this.categorical.getScale()(featureIndex);
-    return this.categorical.fillPatterns
-      ? PatternUtilities.getFill(
-          feature,
-          defaultFill,
-          this.categorical.fillPatterns
-        )
+    return this.categorical.fillDefs
+      ? FillUtilities.getFill(feature, defaultFill, this.categorical.fillDefs)
       : defaultFill;
   }
 
