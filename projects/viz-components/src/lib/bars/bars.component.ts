@@ -16,7 +16,7 @@ import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
-import { PatternUtilities } from '../core/utilities/pattern-utilities';
+import { FillUtilities } from '../core/utilities/fill-utilities';
 import { isNumber } from '../core/utilities/type-guards';
 import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
@@ -168,7 +168,7 @@ export class BarsComponent<
   }
 
   getBarFill(datum: BarDatum<TOrdinalValue>): string {
-    return this.config.categorical.fillPatterns
+    return this.config.categorical.fillDefs
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
   }
@@ -325,8 +325,8 @@ export class BarsComponent<
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
-    const patterns = this.config.categorical.fillPatterns;
-    return PatternUtilities.getFill(this.config.data[d.index], color, patterns);
+    const patterns = this.config.categorical.fillDefs;
+    return FillUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {

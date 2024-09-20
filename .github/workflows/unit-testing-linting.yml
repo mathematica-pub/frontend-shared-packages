@@ -12,6 +12,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -22,14 +24,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Lint viz-components
-        run: npm run lint:viz-components
-
-      - name: Lint ui-components
-        run: npm run lint:ui-components
-
-      - name: Lint demo-app
-        run: npm run lint:demo-app
+      - name: Lint affected apps and packages
+        run: npx nx affected -t lint --base=remotes/origin/main --head=HEAD
 
   unit-test:
     runs-on: ubuntu-latest
@@ -38,6 +34,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -48,11 +46,8 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Unit test viz-components
-        run: npm run test:viz-components:ci
-
-      - name: Unit test ui-components
-        run: npm run test:ui-components:ci
+      - name: Unit test affected apps and packages
+        run: npx nx affected -t test --base=remotes/origin/main --head=HEAD
 
   cypress-test:
     runs-on: ubuntu-latest
@@ -61,6 +56,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -72,7 +69,7 @@ jobs:
         run: npm ci
 
       - name: Run cypress component tests
-        run: npm run cypress:component:ci
+        run: npx nx affected -t component-test --base=remotes/origin/main --head=HEAD --parallel=false
 
   build:
     runs-on: ubuntu-latest
@@ -81,6 +78,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -91,14 +90,5 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Build viz-components
-        run: npm run build:viz-components
-
-      - name: Build ui-components
-        run: npm run build:ui-components
-
-      - name: Build Compodoc Documentation
-        run: npm run build:documentation
-
-      - name: Build Demo App
-        run: npm run build:demo-app
+      - name: Build affected apps and packages
+        run: npx nx affected -t build --base=remotes/origin/main --head=HEAD

@@ -6,12 +6,14 @@ import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-p
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
 import { LinesGroupSelectionDatum } from '../lines.component';
+import { AreaFills } from './area-fills/area-fills';
 import { LinesOptions } from './lines-options';
 
 export interface LinesMarkerDatum {
   key: string;
   index: number;
   category: string;
+  display: string;
 }
 
 export class LinesConfig<Datum>
@@ -20,13 +22,13 @@ export class LinesConfig<Datum>
 {
   readonly categorical: CategoricalDimension<Datum, string>;
   readonly curve: CurveFactory;
-  readonly hoverDot: PointMarkers;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
   linesD3Data;
   linesKeyFunction: (d: LinesGroupSelectionDatum) => string;
+  readonly areaFills: AreaFills<Datum>;
   readonly pointerDetectionRadius: number;
-  readonly pointMarkers: PointMarkers;
+  readonly pointMarkers: PointMarkers<Datum>;
   readonly stroke: Stroke;
   readonly x:
     | QuantitativeDateDimension<Datum>
@@ -71,12 +73,13 @@ export class LinesConfig<Datum>
     this.linesKeyFunction = (d): string => d[0];
   }
 
-  getMarkersData(indices: number[]): LinesMarkerDatum[] {
+  getPointMarkersData(indices: number[]): LinesMarkerDatum[] {
     return indices.map((i) => {
       return {
         key: this.getMarkerKey(i),
         index: i,
         category: this.categorical.values[i],
+        display: this.pointMarkers.display(this.data[i]) ? 'block' : 'none',
       };
     });
   }

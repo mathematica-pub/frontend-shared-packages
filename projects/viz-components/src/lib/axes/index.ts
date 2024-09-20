@@ -1,3 +1,5 @@
+export * from './ordinal/ordinal-axis-config';
+export * from './quantitative/quantitative-axis-config';
 export * from './x-ordinal/x-ordinal-axis-builder';
 export * from './x-ordinal/x-ordinal-axis-config';
 export * from './x-ordinal/x-ordinal-axis.component';

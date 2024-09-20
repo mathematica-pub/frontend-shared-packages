@@ -5,15 +5,16 @@ import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative
 import { MarksOptions } from '../../marks/config/marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
+import { AreaFills } from './area-fills/area-fills';
 
 export interface LinesOptions<Datum> extends MarksOptions<Datum> {
+  areaFills: AreaFills<Datum>;
   categorical: CategoricalDimension<Datum, string>;
   curve: CurveFactory;
-  hoverDot: PointMarkers;
   labelLines: boolean;
   lineLabelsFormat: (d: string) => string;
   pointerDetectionRadius: number;
-  pointMarkers: PointMarkers;
+  pointMarkers: PointMarkers<Datum>;
   stroke: Stroke;
   x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
   y: QuantitativeNumericDimension<Datum>;

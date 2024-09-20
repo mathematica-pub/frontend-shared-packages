@@ -117,6 +117,14 @@ The mixins available in `_typography.scss` are:
 - label-small-prominent
 - label-small-caps
 - label-small-caps-prominent
+- label-xs
+- label-xs-prominent
+- label-xs-caps
+- label-xs-caps-prominent
+- label-2xs
+- label-2xs-prominent
+- label-2xs-caps
+- label-2xs-caps-prominent
 
 These can be used in a consuming application in the following way:
 

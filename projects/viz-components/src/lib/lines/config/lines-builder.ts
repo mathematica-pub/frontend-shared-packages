@@ -6,6 +6,7 @@ import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quant
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
+import { AreaFillsBuilder } from './area-fills/area-fills-builder';
 import { LinesConfig } from './lines-config';
 
 const DEFAULT = {
@@ -28,13 +29,13 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
-  private hoverDotBuilder: PointMarkersBuilder;
-  private pointMarkersBuilder: PointMarkersBuilder;
+  private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | QuantitativeNumericDimensionBuilder<Datum>
     | QuantitativeDateDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
   constructor() {
     super();
@@ -66,26 +67,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   curve(curve: CurveFactory): this {
     this._curve = curve;
-    return this;
-  }
-
-  /**
-   * OPTIONAL. A config for a dot that will appear on hover of a line.
-   *
-   * Intended to be used when there are no point markers along the line (i.e. at all points), particularly when a tooltip with point-specific
-   *  data will be displayed.
-   *
-   * Will not be displayed if pointMarkers.display is true.
-   *
-   * @default radius: 4, display: false
-   */
-  createHoverDot(
-    setProperties?: (pointMarkers: PointMarkersBuilder) => void
-  ): this {
-    this.hoverDotBuilder = new PointMarkersBuilder();
-    this.hoverDotBuilder.radius(4);
-    this.hoverDotBuilder.display(false);
-    setProperties?.(this.hoverDotBuilder);
     return this;
   }
 
@@ -122,9 +103,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
 
   /**
    * OPTIONAL. A config for the behavior of markers for each datum on the line.
+   *
+   * Creating this config will create markers on lines.
    */
   createPointMarkers(
-    setProperties?: (pointMarkers: PointMarkersBuilder) => void
+    setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
   ): this {
     this.pointMarkersBuilder = new PointMarkersBuilder();
     setProperties?.(this.pointMarkersBuilder);
@@ -182,6 +165,22 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   /**
+   * OPTIONAL. A config to set fill underneath lines.
+   *
+   */
+  createAreaFills(
+    setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
+  ): this {
+    this.initBelowLinesAreaFillBuilder();
+    setProperties?.(this.areaFillsBuilder);
+    return this;
+  }
+
+  private initBelowLinesAreaFillBuilder(): void {
+    this.areaFillsBuilder = new AreaFillsBuilder();
+  }
+
+  /**
    * REQUIRED. Builds the configuration object for the LinesComponent.
    */
   getConfig(): LinesConfig<Datum> {
@@ -190,7 +189,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       categorical: this.categoricalDimensionBuilder._build(),
       curve: this._curve,
       data: this._data,
-      hoverDot: this.hoverDotBuilder?._build(),
       labelLines: this._labelLines,
       lineLabelsFormat: this._lineLabelsFormat,
       mixBlendMode: this._mixBlendMode,
@@ -199,6 +197,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       stroke: this.strokeBuilder._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
+      areaFills: this.areaFillsBuilder?._build(),
     });
   }
 
