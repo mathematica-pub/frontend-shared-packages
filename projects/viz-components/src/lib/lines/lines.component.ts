@@ -8,7 +8,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
-import { line, map, select, Transition } from 'd3';
+import { area, line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
@@ -52,6 +52,8 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   @ViewChild('lineLabels', { static: true })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   line: (x: any[]) => any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  lineArea: (x: any[]) => any;
   lineGroups: LinesGroupSelection;
   lineLabelsRef: ElementRef<SVGSVGElement>;
   markerClass = 'vic-lines-datum-marker';
@@ -71,6 +73,10 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     this.setLine();
     const transitionDuration = this.getTransitionDuration();
     this.drawLines(transitionDuration);
+    if (this.config.areaFills) {
+      this.setBelowLineFills();
+      this.drawBelowLineFills(transitionDuration);
+    }
     if (this.config.pointMarkers) {
       this.drawPointMarkers(transitionDuration);
     }
@@ -90,6 +96,20 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       .x((i: any) => this.scales.x(this.config.x.values[i]))
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .y((i: any) => this.scales.y(this.config.y.values[i]));
+  }
+
+  setBelowLineFills(): void {
+    const isValid = map(this.config.data, this.isValidValue.bind(this));
+
+    this.lineArea = area()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .defined((i: any) => isValid[i] as boolean)
+      .curve(this.config.curve)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .x((i: any) => this.scales.x(this.config.x.values[i]))
+      .y0(() => this.scales.y(0))
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .y1((i: any) => this.scales.y(this.config.y.values[i]));
   }
 
   isValidValue(d: Datum): boolean {
@@ -140,6 +160,63 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             ),
         (exit) => exit.remove()
       );
+  }
+
+  drawBelowLineFills(transitionDuration: number): void {
+    const t = select(this.chart.svgRef.nativeElement)
+      .transition()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+
+    this.lineGroups
+      .selectAll<SVGPathElement, LinesGroupSelectionDatum>('.vic-line-area')
+      .data<LinesGroupSelectionDatum>((d) => [d])
+      .join(
+        (enter) =>
+          enter
+            .append('path')
+            .attr('category', ([category]) => category)
+            .attr('fill', ([category, indices]) =>
+              this.getAreaFill(category, indices)
+            )
+            .attr('class', 'vic-line-area')
+            .attr('opacity', this.config.areaFills.opacity)
+            .attr('d', ([, lineData]) => this.lineArea(lineData))
+            .attr('display', this.config.areaFills.display ? null : 'none'),
+        (update) =>
+          update
+            .attr('category', ([category]) => category)
+            .attr('fill', ([category, indices]) =>
+              this.getAreaFill(category, indices)
+            )
+            .attr('opacity', this.config.areaFills.opacity)
+            .call((update) =>
+              update
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .transition(t as any)
+                .attr('d', ([, lineData]) => this.lineArea(lineData))
+            )
+            .attr('display', this.config.areaFills.display ? null : 'none'),
+        (exit) => exit.remove()
+      );
+  }
+
+  getAreaFill(category: string, lineDataIndices: number[]): string {
+    const firstPointInLine = this.config.data[lineDataIndices[0]];
+    if (this.config.areaFills.fillDefs) {
+      const fillDef = this.config.areaFills.fillDefs.find((def) =>
+        def.useDef(firstPointInLine)
+      );
+      if (fillDef) {
+        return `url(#${fillDef.name})`;
+      } else {
+        return null;
+      }
+    }
+    if (this.config.areaFills.color) {
+      return this.config.areaFills.color(firstPointInLine);
+    }
+    return this.scales.categorical(category);
   }
 
   drawPointMarkers(transitionDuration: number): void {

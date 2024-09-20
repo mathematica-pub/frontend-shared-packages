@@ -151,7 +151,7 @@ function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // have to wait for axes to render
+  cy.wait(1000); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
@@ -170,7 +170,7 @@ function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // have to wait for axes to render
+  cy.wait(1000); // have to wait for axes to render
 }
 
 // ***********************************************************
@@ -341,6 +341,35 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
           ...new Set(numericData.map((d) => d.continent)),
         ]);
       });
+  });
+
+  describe('it creates the correct under-line area fills', () => {
+    it('should draw the correct number of fills, one for each category', () => {
+      const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
+        .data(numericData)
+        .createXNumericDimension((dimension) =>
+          dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
+        )
+        .createYDimension((dimension) =>
+          dimension.valueAccessor((d) => d.population)
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.continent)
+        )
+        .createAreaFills()
+        .getConfig();
+      mountNumberLinesComponent(linesConfig);
+      const categories = [];
+      cy.get('.vic-line-area')
+        .each(($lines) => {
+          categories.push($lines.attr('category'));
+        })
+        .then(() => {
+          expect(categories).to.have.members([
+            ...new Set(numericData.map((d) => d.continent)),
+          ]);
+        });
+    });
   });
 });
 

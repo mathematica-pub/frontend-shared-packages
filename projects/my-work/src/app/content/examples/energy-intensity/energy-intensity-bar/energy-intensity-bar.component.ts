@@ -6,20 +6,20 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
-import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
 import {
+  BarsConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
   VicChartModule,
+  VicOrdinalAxisConfig,
+  VicQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
-} from 'projects/viz-components/src/public-api';
+} from '@hsi/viz-components';
 import { EnergyIntensityDatum } from '../energy-intensity.component';
 
 @Component({

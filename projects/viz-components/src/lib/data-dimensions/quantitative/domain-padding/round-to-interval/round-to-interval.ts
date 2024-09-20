@@ -1,4 +1,4 @@
-import { ValueUtilities } from 'projects/viz-components/src/lib/core/utilities/values';
+import { ValueUtilities } from '../../../../core/utilities/values';
 import {
   DomainPadding,
   DomainPaddingType,

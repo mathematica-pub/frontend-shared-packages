@@ -10,6 +10,7 @@ import {
   inject,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { min } from 'd3';
 import { isEqual } from 'lodash-es';
 import {
@@ -25,7 +26,6 @@ import {
   startWith,
 } from 'rxjs';
 import { Dimensions, ElementSpacing } from '../../core/types/layout';
-import { NgOnChangesUtilities } from '../../core/utilities/ng-on-changes';
 import { Chart } from './chart';
 import { CHART } from './chart.token';
 
