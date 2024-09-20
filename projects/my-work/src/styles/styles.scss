@@ -1,6 +1,6 @@
-@use 'colors';
+@use '@hsi/app-dev-kit' as hsi-adk;
 @use 'vars' as *;
-@use '../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'colors';
 
 @include hsi-adk.reset();
 
