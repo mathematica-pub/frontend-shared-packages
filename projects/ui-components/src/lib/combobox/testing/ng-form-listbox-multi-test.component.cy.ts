@@ -144,6 +144,18 @@ describe('NgFormListboxMultiTestComponent', () => {
     cy.get('.listbox-option').first().should('have.class', 'selected');
     cy.get('.listbox-option').eq(1).should('have.class', 'selected');
   });
+  it('can unselect selections', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', 'Apples, Bananas');
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.textbox-label').should('have.text', 'Bananas');
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.listbox-option').first().should('not.have.class', 'selected');
+    cy.get('.listbox-option').eq(1).should('not.have.class', 'selected');
+  });
   it('clicking outside the combobox should close the listbox', () => {
     cy.get('.combobox-textbox').click();
     cy.get('.listbox-option').first().realClick();
