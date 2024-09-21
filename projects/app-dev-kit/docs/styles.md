@@ -20,7 +20,7 @@ Add the exported styles to your angular.json's stylePreprocessorOptions.
 ```ts
 "stylePreprocessorOptions": {
   "includePaths": [
-    "node_modules/@hsi/app-dev-kit/lib/styles"
+    "node_modules/@hsi/app-dev-kit/styles"
   ]
 }
 ```
@@ -32,7 +32,7 @@ added to your app. We recommend adding these in your global styles file, usually
 using the adk's `create-theme` mixin.
 
 ```scss
-@use '@hsi/app-dev-kit/lib/styles' as hsi-adk;
+@use '@hsi/app-dev-kit' as hsi-adk;
 
 html {
   @include hsi-adk.create-theme();
