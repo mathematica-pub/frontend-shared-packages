@@ -13,8 +13,8 @@
     "tslib": "^2.3.0"
   },
   "exports": {
-    "./styles": {
-      "sass": "./src/lib/styles/index.scss"
+    ".": {
+      "sass": "./styles/_index.scss"
     }
   },
   "sideEffects": false

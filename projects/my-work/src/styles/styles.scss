@@ -1,6 +1,6 @@
-@use 'colors';
+@use 'index' as hsi-adk; // lib to app imports of styles have to reference lib directly, along with stylePreProcessor options, https://github.com/nrwl/nx/discussions/22622
 @use 'vars' as *;
-@use '../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'colors';
 
 @include hsi-adk.reset();
 

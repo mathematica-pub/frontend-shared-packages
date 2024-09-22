@@ -25,7 +25,10 @@
         ],
         "styles": ["projects/my-work/src/styles/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["projects/my-work/src/styles"]
+          "includePaths": [
+            "projects/my-work/src/styles",
+            "projects/app-dev-kit/src/styles"
+          ]
         },
         "scripts": []
       },
