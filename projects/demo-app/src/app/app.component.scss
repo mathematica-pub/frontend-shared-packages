@@ -30,6 +30,7 @@
 }
 
 .main-content {
+  flex-grow: 1;
   flex-shrink: 1;
   padding: grid(8);
 }
