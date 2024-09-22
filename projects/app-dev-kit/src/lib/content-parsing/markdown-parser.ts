@@ -88,9 +88,7 @@ export class AdkMarkdownParser {
 
     return of(mergedOptions).pipe(
       mergeMap((_options) => {
-        console.log('getting highlighter reg', _options);
         if (_options.highlighter && !_options.highlighter.highlighter) {
-          console.log('getting highlighter async');
           return from(this.shikiHighlighter.getHighlighter()).pipe(
             map((highlighter) => ({
               ..._options,
@@ -101,12 +99,10 @@ export class AdkMarkdownParser {
             }))
           );
         } else {
-          console.log('getting highlighter not async');
           return of(_options);
         }
       }),
       switchMap((_options) => {
-        console.log('options', _options);
         const sections = this.getSections(markdown, _options.detectAngularRefs);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
