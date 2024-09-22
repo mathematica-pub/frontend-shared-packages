@@ -6,7 +6,7 @@ import { ChartComponent } from '../chart/chart.component';
 import { CHART } from '../chart/chart.token';
 
 /**
- * A `Chart` component to be used with a `Geographies` `DataMarks` component.
+ * A `Chart` component to be used with a `Geographies` `PrimaryMarks` component.
  *
  * This component adds an attribute data scale and config to the base `ChartComponent` that can
  *  be used by any components projected into the chart.

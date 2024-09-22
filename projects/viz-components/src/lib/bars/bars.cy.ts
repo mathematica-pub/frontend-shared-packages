@@ -161,7 +161,7 @@ const mountHorizontalBarsComponent = (
       yOrdinalAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(1000); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
@@ -275,7 +275,7 @@ const mountVerticalBarsComponent = (
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(100); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(1000); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
