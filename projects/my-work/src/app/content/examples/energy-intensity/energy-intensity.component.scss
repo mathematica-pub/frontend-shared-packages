@@ -1,5 +1,5 @@
 @use 'functions' as *;
-@use '../../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'index' as hsi-adk;
 
 .title {
   @include hsi-adk.title-large;
