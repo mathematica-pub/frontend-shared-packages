@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { NgOnChangesUtilities } from 'projects/app-dev-kit/src/public-api';
-import { DirectoryComponent } from './directory.component';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { HsiUiDirectoryComponent } from './directory.component';
 
 describe('DirectoryComponent', () => {
-  let component: DirectoryComponent;
-  let fixture: ComponentFixture<DirectoryComponent>;
+  let component: HsiUiDirectoryComponent;
+  let fixture: ComponentFixture<HsiUiDirectoryComponent>;
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [DirectoryComponent],
+      imports: [HsiUiDirectoryComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(DirectoryComponent);
+    fixture = TestBed.createComponent(HsiUiDirectoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
