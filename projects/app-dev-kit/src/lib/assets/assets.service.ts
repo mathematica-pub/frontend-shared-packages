@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 
-export enum AssetResponseType {
+export enum AdkAssetResponseType {
   ArrayBuffer = 'arraybuffer',
   Blob = 'blob',
   Json = 'json',
@@ -26,20 +26,24 @@ export class AdkAssetsService {
    * @param assetName The path to the asset from assets/. Should not include leading slash.
    * @returns An observable that emits the asset data.
    */
-  loadAsset(
+  getAsset(
     assetName: string,
-    responseType: AssetResponseType
+    responseType: AdkAssetResponseType
   ): Observable<unknown> {
     if (!this.assets[assetName]) {
-      this.assets[assetName] = this.http.get<unknown>(
-        `${this.assetsPath}${assetName}`,
-        {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          responseType: responseType as any,
-        }
-      );
+      this.assets[assetName] = this.fetchAsset(assetName, responseType);
     }
     return this.assets[assetName];
+  }
+
+  private fetchAsset(
+    assetName: string,
+    responseType: AdkAssetResponseType
+  ): Observable<unknown> {
+    return this.http.get<unknown>(`${this.assetsPath}${assetName}`, {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      responseType: responseType as any,
+    });
   }
 
   /**
@@ -48,12 +52,12 @@ export class AdkAssetsService {
    * @param assetNames An array of asset names to load.
    * @returns An observable that emits an array of asset data.
    */
-  loadAssets(
+  getAssets(
     assetNames: string[],
-    responseType: AssetResponseType
+    responseType: AdkAssetResponseType
   ): Observable<unknown[]> {
     return forkJoin(
-      assetNames.map((assetName) => this.loadAsset(assetName, responseType))
+      assetNames.map((assetName) => this.getAsset(assetName, responseType))
     );
   }
 }
