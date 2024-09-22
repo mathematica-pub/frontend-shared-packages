@@ -14,7 +14,10 @@ import { GeographiesExampleComponent } from './geographies-example/geographies-e
     GeographiesExampleComponent,
   ],
   templateUrl: './geographies-content.component.html',
-  styleUrls: ['../examples.scss', './geographies-content.component.scss'],
+  styleUrls: [
+    '../../core/examples.scss',
+    './geographies-content.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeographiesContentComponent {}

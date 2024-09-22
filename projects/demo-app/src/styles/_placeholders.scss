@@ -1,36 +1,36 @@
 @use 'vars' as *;
 @use 'functions' as *;
 @use 'color';
-@use '../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'index' as hsi-adk;
 
 // /* ------- TYPOGRAPHY ------- */
-%typography-h1 {
-  font-family: $font-sans;
-  font-size: 96px;
-  font-weight: $font-weight-light;
-  letter-spacing: -1.5px;
-}
+// %typography-h1 {
+//   font-family: $font-sans;
+//   font-size: 96px;
+//   font-weight: $font-weight-light;
+//   letter-spacing: -1.5px;
+// }
 
-%typography-h2 {
-  font-family: $font-sans;
-  font-size: 60px;
-  font-weight: $font-weight-light;
-  letter-spacing: -0.5px;
-}
+// %typography-h2 {
+//   font-family: $font-sans;
+//   font-size: 60px;
+//   font-weight: $font-weight-light;
+//   letter-spacing: -0.5px;
+// }
 
-%typography-h3 {
-  font-family: $font-sans;
-  font-size: 48px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0;
-}
+// %typography-h3 {
+//   font-family: $font-sans;
+//   font-size: 48px;
+//   font-weight: $font-weight-regular;
+//   letter-spacing: 0;
+// }
 
-%typography-h4 {
-  font-family: $font-sans;
-  font-size: 34px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.25px;
-}
+// %typography-h4 {
+//   font-family: $font-sans;
+//   font-size: 34px;
+//   font-weight: $font-weight-regular;
+//   letter-spacing: 0.25px;
+// }
 
 %typography-h5 {
   font-family: $font-sans;

@@ -14,7 +14,10 @@ import { GroupedBarsExampleComponent } from './grouped-bars-example/grouped-bars
     GroupedBarsExampleComponent,
   ],
   templateUrl: './grouped-bars-content.component.html',
-  styleUrls: ['../examples.scss', './grouped-bars-content.component.scss'],
+  styleUrls: [
+    '../../core/examples.scss',
+    './grouped-bars-content.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupedBarsContentComponent {}

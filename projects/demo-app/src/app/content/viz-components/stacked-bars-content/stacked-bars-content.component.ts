@@ -14,7 +14,10 @@ import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars
     StackedBarsExampleComponent,
   ],
   templateUrl: './stacked-bars-content.component.html',
-  styleUrls: ['../examples.scss', './stacked-bars-content.component.scss'],
+  styleUrls: [
+    '../../core/examples.scss',
+    './stacked-bars-content.component.scss',
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StackedBarsContentComponent {}

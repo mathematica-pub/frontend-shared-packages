@@ -14,7 +14,7 @@ import { BarsExampleComponent } from './bars-example/bars-example.component';
     BarsExampleComponent,
   ],
   templateUrl: './bars-content.component.html',
-  styleUrls: ['../examples.scss', './bars-content.component.scss'],
+  styleUrls: ['../../core/examples.scss', './bars-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarsContentComponent {}
