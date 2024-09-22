@@ -27,7 +27,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "projects/my-work/src/styles",
-            "node_modules/@hsi/app-dev-kit/styles/"
+            "projects/app-dev-kit/src/styles"
           ]
         },
         "scripts": []
