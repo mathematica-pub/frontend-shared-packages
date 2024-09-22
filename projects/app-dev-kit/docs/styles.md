@@ -104,6 +104,8 @@ The mixins available in `_typography.scss` are:
 - body-large
 - body-medium
 - body-small
+- body-xs
+- body-2xs
 - label-large
 - label-large-prominent
 - label-large-caps
