@@ -1,13 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { MainServiceStub } from '../core/testing/stubs/services/main.service.stub';
+import { AdkAssetsResource } from './assets-resource';
 import { AdkAssetResponseType, AdkAssetsService } from './assets-service';
 
 describe('AssetsService', () => {
   let service: AdkAssetsService;
+  let mainServiceStub: MainServiceStub;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    mainServiceStub = new MainServiceStub();
+    TestBed.configureTestingModule({
+      providers: [
+        AdkAssetsService,
+        {
+          provide: AdkAssetsResource,
+          useValue: mainServiceStub.assetsResourceStub,
+        },
+      ],
+    });
     service = TestBed.inject(AdkAssetsService);
   });
 

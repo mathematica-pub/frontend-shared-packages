@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
+import { AdkAssetsResource } from './assets-resource';
 
 export enum AdkAssetResponseType {
   ArrayBuffer = 'arraybuffer',
@@ -14,7 +14,7 @@ export class AdkAssetsService {
   private assets: { [key: string]: Observable<unknown> } = {};
   private assetsPath = 'assets/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private resource: AdkAssetsResource) {}
 
   setAssetsPath(path: string): void {
     this.assetsPath = path;
@@ -40,10 +40,10 @@ export class AdkAssetsService {
     assetName: string,
     responseType: AdkAssetResponseType
   ): Observable<unknown> {
-    return this.http.get<unknown>(`${this.assetsPath}${assetName}`, {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      responseType: responseType as any,
-    });
+    return this.resource.getAsset(
+      `${this.assetsPath}${assetName}`,
+      responseType
+    );
   }
 
   /**
