@@ -14,7 +14,7 @@ import { TableExampleComponent } from './table-example/table-example.component';
     TableExampleComponent,
   ],
   templateUrl: './table-content.component.html',
-  styleUrls: ['../../core/examples.scss', './table-content.component.scss'],
+  styleUrls: ['../../examples.scss', './table-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableContentComponent {}

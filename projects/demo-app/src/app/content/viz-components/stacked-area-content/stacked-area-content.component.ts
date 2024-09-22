@@ -14,10 +14,7 @@ import { StackedAreaExampleComponent } from './stacked-area-example/stacked-area
     StackedAreaExampleComponent,
   ],
   templateUrl: './stacked-area-content.component.html',
-  styleUrls: [
-    '../../core/examples.scss',
-    './stacked-area-content.component.scss',
-  ],
+  styleUrls: ['../../examples.scss', './stacked-area-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StackedAreaContentComponent {}
