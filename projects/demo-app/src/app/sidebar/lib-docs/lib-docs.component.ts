@@ -7,6 +7,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {
+  HsiUiDirectoryComponent,
+  HsiUiDirectoryItem,
+  HsiUiDirectorySelection,
+} from '@hsi/ui-components';
 import { filter, map, Observable } from 'rxjs';
 import {
   getContentConfigForLib,
@@ -15,11 +20,6 @@ import {
 import { AssetsService } from '../../core/services/assets.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../core/services/router-state/state';
-import {
-  DirectoryComponent,
-  DirectoryItem,
-  DirectorySelection,
-} from './directory/directory.component';
 
 type NestedStringObject = {
   [key: string]: string | NestedStringObject;
@@ -32,13 +32,13 @@ type ContentConfig = {
 
 type ContentDocs = {
   title: string;
-  items: DirectoryItem[];
+  items: HsiUiDirectoryItem[];
 };
 
 @Component({
   selector: 'app-lib-docs',
   standalone: true,
-  imports: [CommonModule, RouterModule, DirectoryComponent, TitleCasePipe],
+  imports: [CommonModule, RouterModule, HsiUiDirectoryComponent, TitleCasePipe],
   providers: [TitleCasePipe],
   templateUrl: './lib-docs.component.html',
   styleUrls: ['./lib-docs.component.scss'],
@@ -47,7 +47,7 @@ type ContentDocs = {
 })
 export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
-  automatedDocsItems$: Observable<DirectoryItem[]>;
+  automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
   manualDocs$: Observable<ContentDocs>;
   expanded = true;
   Section = Section;
@@ -90,7 +90,7 @@ export class LibDocsComponent implements OnInit {
   getDocsDirectoryTree(
     yaml: NestedStringObject,
     level: number = 0
-  ): DirectoryItem[] {
+  ): HsiUiDirectoryItem[] {
     let itemsArray;
     if (Array.isArray(yaml)) {
       itemsArray = yaml.map((item) => this.createFlatItem(item));
@@ -116,10 +116,10 @@ export class LibDocsComponent implements OnInit {
       });
     }
 
-    return itemsArray as DirectoryItem[];
+    return itemsArray as HsiUiDirectoryItem[];
   }
 
-  createFlatItem(key: string): DirectoryItem {
+  createFlatItem(key: string): HsiUiDirectoryItem {
     return {
       name: this.createDisplayName(key),
       value: key,
@@ -138,7 +138,7 @@ export class LibDocsComponent implements OnInit {
     });
   }
 
-  selectAutomatedDocsItem(item: DirectorySelection): void {
+  selectAutomatedDocsItem(item: HsiUiDirectorySelection): void {
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Documentation,
@@ -146,7 +146,7 @@ export class LibDocsComponent implements OnInit {
     });
   }
 
-  selectManualDocsItem(item: DirectorySelection): void {
+  selectManualDocsItem(item: HsiUiDirectorySelection): void {
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Content,

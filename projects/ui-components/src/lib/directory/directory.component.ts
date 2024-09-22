@@ -12,27 +12,27 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { BehaviorSubject } from 'rxjs';
 
-export interface DirectoryItem {
+export interface HsiUiDirectoryItem {
   name: string;
   value?: string;
-  children?: DirectoryItem[];
+  children?: HsiUiDirectoryItem[];
 }
 
-export interface DirectorySelection {
+export interface HsiUiDirectorySelection {
   activePath: string;
   selectedItem: string;
 }
 
 @Component({
-  selector: 'app-directory',
+  selector: 'hsi-ui-directory',
   standalone: true,
   imports: [CommonModule, MatIconModule],
   templateUrl: './directory.component.html',
   styleUrls: ['./directory.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DirectoryComponent implements OnChanges {
-  @Input() items: DirectoryItem[];
+export class HsiUiDirectoryComponent implements OnChanges {
+  @Input() items: HsiUiDirectoryItem[];
   @Input() level: number = 0;
   @Input() path: string = '';
   @Input() terminalItemsAreSelectable: boolean = true;
@@ -40,19 +40,21 @@ export class DirectoryComponent implements OnChanges {
   /**
    * Sets the activePath and selectedItem.
    */
-  @Input() selection: DirectorySelection;
+  @Input() selection: HsiUiDirectorySelection;
   /**
    * Emits the activePath and selectedItem when a leaf item is selected.
    *
    * Constructed from the `value` of each item if provided, otherwise uses `name`.
    */
-  @Output() selectionChanges = new EventEmitter<DirectorySelection>();
+  @Output() selectionChanges = new EventEmitter<HsiUiDirectorySelection>();
   /**
+   * @internal
+   *
    * Internal, will have no effect if provided at root level.
    */
-  @Output() stateChanges = new EventEmitter<DirectorySelection>();
-  state: BehaviorSubject<DirectorySelection> =
-    new BehaviorSubject<DirectorySelection>({
+  @Output() stateChanges = new EventEmitter<HsiUiDirectorySelection>();
+  state: BehaviorSubject<HsiUiDirectorySelection> =
+    new BehaviorSubject<HsiUiDirectorySelection>({
       activePath: '',
       selectedItem: '',
     });
@@ -74,7 +76,7 @@ export class DirectoryComponent implements OnChanges {
   }
 
   // public events are emitted on leaf selection
-  selectItem(item: DirectoryItem): void {
+  selectItem(item: HsiUiDirectoryItem): void {
     const itemValue = item.value || item.name;
     const activePath = this.path ? `${this.path}/${itemValue}` : itemValue;
     if (this.level === 0) {
@@ -88,7 +90,7 @@ export class DirectoryComponent implements OnChanges {
   }
 
   // called when child emits new _activePath value
-  setState(state: DirectorySelection): void {
+  setState(state: HsiUiDirectorySelection): void {
     if (this.level === 0) {
       this.state.next(state);
       this.selectionChanges.emit({

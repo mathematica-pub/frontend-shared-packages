@@ -1,7 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { HsiUiDirectoryItem } from '@hsi/ui-components';
 import { BehaviorSubject, forkJoin } from 'rxjs';
-import { DirectoryItem } from '../../platform/directory/directory.component';
 import { AssetsService } from '../services/assets.service';
 
 export interface ContentConfig {
@@ -73,7 +73,7 @@ export class DirectoryConfigService {
     yaml: FilesItem | AngularComponentsItem,
     level: number = 0,
     itemCasing: Casing = Casing.Title
-  ): DirectoryItem[] {
+  ): HsiUiDirectoryItem[] {
     let itemsArray;
     if (yaml === undefined) {
       return [];
@@ -93,10 +93,10 @@ export class DirectoryConfigService {
         }
       });
     }
-    return itemsArray as DirectoryItem[];
+    return itemsArray as HsiUiDirectoryItem[];
   }
 
-  createFlatItem(key: string, itemCasing: Casing): DirectoryItem {
+  createFlatItem(key: string, itemCasing: Casing): HsiUiDirectoryItem {
     return {
       name: this.getDisplayName(key, itemCasing),
       value: key,

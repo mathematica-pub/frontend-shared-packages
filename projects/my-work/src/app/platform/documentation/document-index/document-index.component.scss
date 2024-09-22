@@ -1,7 +1,7 @@
 @use 'functions' as *;
 @use 'colors';
 @use 'vars' as *;
-@use '../../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'index' as hsi-adk;
 
 .links-container {
   list-style: none;
@@ -12,7 +12,6 @@
 }
 
 .index-title {
-  // @extend %typography-overline-large;
   @include hsi-adk.label-2xs-caps;
   padding-bottom: grid(1);
 }
