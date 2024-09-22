@@ -1,6 +1,11 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import {
+  HsiUiDirectoryComponent,
+  HsiUiDirectoryItem,
+  HsiUiDirectorySelection,
+} from '@hsi/ui-components';
 import { filter, map, Observable } from 'rxjs';
 import {
   Casing,
@@ -8,16 +13,11 @@ import {
 } from '../../core/services/directory-config.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Section } from '../../core/services/router-state/state';
-import {
-  DirectoryComponent,
-  DirectoryItem,
-  DirectorySelection,
-} from '../directory/directory.component';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, DirectoryComponent, TitleCasePipe],
+  imports: [CommonModule, RouterModule, HsiUiDirectoryComponent, TitleCasePipe],
   providers: [TitleCasePipe],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
@@ -25,8 +25,8 @@ import {
 })
 export class SidebarComponent implements OnInit {
   Section = Section;
-  contentItems$: Observable<{ title: string; items: DirectoryItem[] }>;
-  docsItems$: Observable<{ title: string; items: DirectoryItem[] }>;
+  contentItems$: Observable<{ title: string; items: HsiUiDirectoryItem[] }>;
+  docsItems$: Observable<{ title: string; items: HsiUiDirectoryItem[] }>;
 
   constructor(
     public routerState: RouterStateService,
@@ -64,14 +64,14 @@ export class SidebarComponent implements OnInit {
     this.routerState.update({ section: Section.Docs });
   }
 
-  selectDocsItem(item: DirectorySelection): void {
+  selectDocsItem(item: HsiUiDirectorySelection): void {
     this.routerState.update({
       section: Section.Docs,
       contentPath: item.activePath,
     });
   }
 
-  selectContentItem(item: DirectorySelection): void {
+  selectContentItem(item: HsiUiDirectorySelection): void {
     this.routerState.update({
       section: Section.Content,
       contentPath: item.activePath,

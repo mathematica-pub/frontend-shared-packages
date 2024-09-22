@@ -1,5 +1,4 @@
 @use 'vars' as *;
-@use 'placeholders' as *;
 @use 'functions' as *;
 @use 'colors';
 
@@ -27,7 +26,7 @@
 
 .item.active {
   background-color: colors.$muted-primary-95;
-  color: colors.$highlight-default;
+  color: colors.$primary-40;
 }
 
 .arrow {

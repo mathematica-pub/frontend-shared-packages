@@ -3,7 +3,7 @@
   @if (routerState.state$ | async; as state) {
     @if (docsItems$ | async; as docsItems) {
       <h3 class="title docs">{{ docsItems.title }}</h3>
-      <app-directory
+      <hsi-ui-directory
         class="directory docs"
         [items]="docsItems.items"
         (selectionChanges)="selectDocsItem($event)"
@@ -11,12 +11,12 @@
           activePath: state.contentPath,
           selectedItem: '',
         }"
-      ></app-directory>
+      ></hsi-ui-directory>
     }
     @if (contentItems$ | async; as contentItems) {
       <div class="top-border"></div>
       <h3 class="title content">{{ contentItems.title }}</h3>
-      <app-directory
+      <hsi-ui-directory
         class="directory content"
         [items]="contentItems.items"
         (selectionChanges)="selectContentItem($event)"
@@ -24,7 +24,7 @@
           activePath: state.contentPath,
           selectedItem: '',
         }"
-      ></app-directory>
+      ></hsi-ui-directory>
     }
   }
 </nav>
