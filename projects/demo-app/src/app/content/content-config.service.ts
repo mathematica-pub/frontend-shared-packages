@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { forkJoin } from 'rxjs';
-import { getContentConfigForLib } from '../../../core/constants/file-paths.constants';
-import { AssetsService } from '../../../core/services/assets.service';
-import { Library } from '../../../core/services/router-state/state';
-import { ContentConfig } from '../../viz-components/config';
+import { getContentConfigForLib } from '../core/constants/file-paths.constants';
+import { AssetsService } from '../core/services/assets.service';
+import { Library } from '../core/services/router-state/state';
+import { ContentConfig } from './viz-components/config';
 
 @Injectable({
   providedIn: 'root',

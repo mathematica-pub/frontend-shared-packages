@@ -16,10 +16,10 @@ import { filter, map, Observable } from 'rxjs';
 import {
   getContentConfigForLib,
   getDocumentationConfigForLib,
-} from '../../core/constants/file-paths.constants';
-import { AssetsService } from '../../core/services/assets.service';
-import { RouterStateService } from '../../core/services/router-state/router-state.service';
-import { Library, Section } from '../../core/services/router-state/state';
+} from '../../../core/constants/file-paths.constants';
+import { AssetsService } from '../../../core/services/assets.service';
+import { RouterStateService } from '../../../core/services/router-state/router-state.service';
+import { Library, Section } from '../../../core/services/router-state/state';
 
 type NestedStringObject = {
   [key: string]: string | NestedStringObject;
