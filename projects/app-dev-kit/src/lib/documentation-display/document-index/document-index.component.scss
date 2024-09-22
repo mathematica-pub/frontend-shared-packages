@@ -1,7 +1,6 @@
-@use 'functions' as *;
-@use 'colors';
-@use 'vars' as *;
-@use '../../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use '../../core/scss/functions' as *;
+@use '../../core/scss/placeholders' as *;
+@use '../../core/scss/colors';
 
 .links-container {
   list-style: none;
@@ -12,16 +11,15 @@
 }
 
 .index-title {
-  // @extend %typography-overline-large;
-  @include hsi-adk.label-2xs-caps;
+  @include label-2xs-caps;
   padding-bottom: grid(1);
 }
 
 .toc-link {
-  @include hsi-adk.body-xs;
+  @include body-xs;
+  cursor: pointer;
   padding-top: grid(1);
   padding-bottom: grid(1);
-  cursor: pointer;
   padding-left: calc((var(--level) - 1) * grid(4));
   display: block;
   border-left: 2px solid colors.$muted-primary-90;
@@ -39,7 +37,7 @@
 }
 
 .back-to-top {
-  @include hsi-adk.body-xs;
+  @include body-xs;
   cursor: pointer;
   padding: grid(2) 0;
   display: flex;

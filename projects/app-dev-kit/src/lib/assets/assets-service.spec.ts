@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { AdkAssetResponseType, AdkAssetsService } from './assets.service';
+import { AdkAssetResponseType, AdkAssetsService } from './assets-service';
 
 describe('AssetsService', () => {
   let service: AdkAssetsService;
