@@ -2,7 +2,7 @@
 @use 'placeholders' as *;
 @use 'functions' as *;
 @use 'color';
-@use '../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'index' as hsi-adk;
 @import 'prismjs/plugins/toolbar/prism-toolbar.css';
 @import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 @import 'prismjs/themes/prism-okaidia';

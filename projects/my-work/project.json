@@ -27,7 +27,7 @@
         "stylePreprocessorOptions": {
           "includePaths": [
             "projects/my-work/src/styles",
-            "projects/app-dev-kit/src/styles"
+            "projects/app-dev-kit/src/lib/styles"
           ]
         },
         "scripts": []
