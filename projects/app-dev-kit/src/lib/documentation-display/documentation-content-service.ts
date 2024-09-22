@@ -80,7 +80,7 @@ export class AdkDocumentationContentService {
           options.fileConfig,
           options.basePath
         );
-        return this.getParsedMarkdownFile(pathToFile);
+        return this.getParsedMarkdownFile(pathToFile, options.parsingOptions);
       }),
       withLatestFrom(contentPath$),
       map(([angularMarkdownSections, configPath]) => {
@@ -102,13 +102,16 @@ export class AdkDocumentationContentService {
   }
 
   private getParsedMarkdownFile(
-    filePathFromAssets: string
+    filePathFromAssets: string,
+    parsingOptions?: AdkMarkdownParsingOptions
   ): Observable<AdkParsedContentSection[]> {
     if (!this.files[filePathFromAssets]) {
       this.files[filePathFromAssets] = this.assetsService
         .getAsset(filePathFromAssets, AdkAssetResponseType.Text)
         .pipe(
-          switchMap((text) => this.markdownParser.parseMarkdown(text as string))
+          switchMap((text) =>
+            this.markdownParser.parseMarkdown(text as string, parsingOptions)
+          )
         );
     }
     return this.files[filePathFromAssets];

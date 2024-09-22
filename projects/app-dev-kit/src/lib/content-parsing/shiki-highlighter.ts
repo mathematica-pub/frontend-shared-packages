@@ -80,7 +80,7 @@ const MISSING_HIGHLIGHTER = `Please provide a \`shiki\` highlighter instance via
 @Injectable({
   providedIn: 'root',
 })
-export class AdkShikiHighlight {
+export class AdkShikiHighlighter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private highlighterPromise: Promise<
     HighlighterGeneric<BundledLanguage, BundledTheme>

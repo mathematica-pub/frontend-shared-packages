@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { marked } from 'marked';
 import { gfmHeadingId } from 'marked-gfm-heading-id';
-import { HighlighterOptions } from '../../platform/documentation/documentation.service';
+import { HighlighterOptions } from '../../platform/documentation-container/documentation.service';
 import { ShikiHighlighter } from './shiki-highligher';
 
 @Injectable({

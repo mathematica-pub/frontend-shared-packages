@@ -52,7 +52,6 @@ export class AdkDocumentationConfigParser {
     pathParts: string[],
     config: string | AdkNestedObject
   ): string {
-    console.log(pathParts, config);
     const fileName = pathParts.reduce((acc, part) => {
       const level = acc[part];
       acc = level;

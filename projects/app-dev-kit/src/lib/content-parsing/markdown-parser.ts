@@ -12,7 +12,8 @@ import { BundledLanguage } from 'shiki/langs';
 import { BundledTheme } from 'shiki/themes';
 import { HighlighterGeneric } from 'shiki/types.mjs';
 import { unified } from 'unified';
-import { AdkShikiHighlight, ShikiTheme } from './shiki-highlighter';
+import { deepMerge } from '../core/utilities/deep-merge';
+import { AdkShikiHighlighter, ShikiTheme } from './shiki-highlighter';
 
 export interface AdkMdParsedContentSection {
   type: 'markdown';
@@ -40,7 +41,6 @@ export interface AdkMarkdownParsingOptions {
 }
 
 export interface AdkShikiHighlighterOptions {
-  highlight?: boolean;
   highlighter?: HighlighterGeneric<BundledLanguage, BundledTheme>;
   theme?: ShikiTheme;
   type?: 'html' | 'markdown';
@@ -52,18 +52,19 @@ export interface AdkHeadingFragmentLinkOptions {
   behavior?: 'append' | 'prepend' | 'wrap' | 'before' | 'after';
 }
 
-const DEFAULT: AdkMarkdownParsingOptions = {
+const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
+  highlighter: undefined,
+  theme: ShikiTheme.GitHubLight,
+  type: 'markdown',
+  ignoreUnknownLanguage: true,
+};
+
+const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
   detectAngularRefs: true,
-  highlighter: {
-    highlight: true,
-    highlighter: undefined,
-    theme: ShikiTheme.GitHubLight,
-    type: 'markdown',
-    ignoreUnknownLanguage: true,
-  },
   gfm: true,
   headingIds: true,
   headingFragmentLinks: { createLinks: false },
+  highlighter: DEFAULT_HIGHLIGHTER_OPTIONS,
 };
 
 @Injectable({
@@ -74,27 +75,38 @@ export class AdkMarkdownParser {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private shikiHighlighter: AdkShikiHighlight
+    private shikiHighlighter: AdkShikiHighlighter
   ) {
-    this.parser = unified();
+    this.parser = unified;
   }
 
   parseMarkdown(
     markdown: string,
     options?: AdkMarkdownParsingOptions
   ): Observable<AdkParsedContentSection[]> {
-    return of({ ...DEFAULT, ...options }).pipe(
-      mergeMap(async (_options) => {
-        if (
-          _options.highlighter.highlight &&
-          !_options.highlighter.highlighter
-        ) {
-          _options.highlighter.highlighter =
-            await this.shikiHighlighter.getHighlighter();
+    const mergedOptions = deepMerge(DEFAULT_PARSING_OPTIONS, options || {});
+
+    return of(mergedOptions).pipe(
+      mergeMap((_options) => {
+        console.log('getting highlighter reg', _options);
+        if (_options.highlighter && !_options.highlighter.highlighter) {
+          console.log('getting highlighter async');
+          return from(this.shikiHighlighter.getHighlighter()).pipe(
+            map((highlighter) => ({
+              ..._options,
+              highlighter: {
+                ..._options.highlighter,
+                highlighter,
+              },
+            }))
+          );
+        } else {
+          console.log('getting highlighter not async');
+          return of(_options);
         }
-        return _options;
       }),
       switchMap((_options) => {
+        console.log('options', _options);
         const sections = this.getSections(markdown, _options.detectAngularRefs);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
@@ -160,7 +172,7 @@ export class AdkMarkdownParser {
   ): Observable<AdkParsedContentSection> {
     if (section.type === 'markdown') {
       const parsedContent$ = from(
-        this.parser
+        unified()
           .use(remarkParse)
           .use(options.gfm ? remarkGfm : undefined)
           .use(

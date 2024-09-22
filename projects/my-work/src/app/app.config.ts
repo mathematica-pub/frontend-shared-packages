@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { APP_ROUTES } from './app.routes';
-import { DirectoryConfigService } from './core/services/directory-config.service';
+import { DirectoryConfigsService } from './core/services/directory-config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,12 +18,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      useFactory: (config: DirectoryConfigService) => {
+      useFactory: (config: DirectoryConfigsService) => {
         return () => {
           config.initConfigs();
         };
       },
-      deps: [DirectoryConfigService],
+      deps: [DirectoryConfigsService],
     },
   ],
 };

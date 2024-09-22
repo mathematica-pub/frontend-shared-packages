@@ -38,6 +38,9 @@ import { NavigationSiblingsComponent } from './navigation-siblings/navigation-si
   encapsulation: ViewEncapsulation.None,
 })
 export class AdkDocumentationDisplayComponent implements OnInit, AfterViewInit {
+  /**
+   * Observable that emits the current content path
+   */
   @Input() contentPath$: Observable<string>;
   @Input() fileConfig: AdkNestedObject;
   @Input() highlightTheme: ShikiTheme;

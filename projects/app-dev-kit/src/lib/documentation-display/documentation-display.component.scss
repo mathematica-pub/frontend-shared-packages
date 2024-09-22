@@ -1,7 +1,7 @@
-@use '../styles/scss/functions' as *;
-@use '../styles/scss/placeholders' as *;
-@use '../styles/scss/typography' as *;
-@use '../styles/scss/colors';
+@use '../core/scss/functions' as *;
+@use '../core/scss/placeholders' as *;
+@use '../core/scss/vars' as *;
+@use '../core/scss/colors';
 
 .documentation-container {
   margin: 0 auto;
@@ -32,17 +32,17 @@
 
   .injected-html {
     h1 {
-      @extend %hsi-adk-type-h4;
+      @include headline-large;
       margin: 0 0 grid(7) 0;
       width: 100%;
     }
 
     h2 {
-      @extend %hsi-adk-type-h5;
+      @include headline-small;
     }
 
     h3 {
-      @extend %hsi-adk-type-h6;
+      @include label-large;
     }
 
     h2,
