@@ -1,7 +1,7 @@
 @use 'functions' as *;
 @use 'colors';
 @use 'vars' as *;
-@use '../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'index' as hsi-adk;
 
 .documentation-container {
   margin: 0 auto;

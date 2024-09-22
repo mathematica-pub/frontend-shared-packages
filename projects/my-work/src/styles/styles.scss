@@ -1,4 +1,4 @@
-@use 'index' as hsi-adk; // lib to app imports of styles have to reference lib directly, along with stylePreProcessor options, https://github.com/nrwl/nx/discussions/22622
+@use 'index' as hsi-adk;
 @use 'vars' as *;
 @use 'colors';
 
