@@ -1,7 +1,6 @@
 @use 'vars' as *;
 @use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
 @use 'colors';
 @use '../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
 
@@ -31,7 +30,7 @@ $active-background-color: colors.$muted-primary-95;
 
 .lib-title .arrow {
   transition: all 150ms;
-  color: color.$primary-6;
+  color: colors.$muted-primary-80;
   transform: scale(1.5);
 }
 
@@ -61,7 +60,7 @@ $active-background-color: colors.$muted-primary-95;
 }
 
 .overview.active {
-  color: color.$highlight-default;
+  color: colors.$highlight-default;
   background-color: $active-background-color;
 }
 

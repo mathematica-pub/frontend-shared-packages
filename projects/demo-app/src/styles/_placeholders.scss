@@ -1,109 +1,7 @@
 @use 'vars' as *;
 @use 'functions' as *;
-@use 'color';
+@use 'colors';
 @use 'index' as hsi-adk;
-
-// /* ------- TYPOGRAPHY ------- */
-// %typography-h1 {
-//   font-family: $font-sans;
-//   font-size: 96px;
-//   font-weight: $font-weight-light;
-//   letter-spacing: -1.5px;
-// }
-
-// %typography-h2 {
-//   font-family: $font-sans;
-//   font-size: 60px;
-//   font-weight: $font-weight-light;
-//   letter-spacing: -0.5px;
-// }
-
-// %typography-h3 {
-//   font-family: $font-sans;
-//   font-size: 48px;
-//   font-weight: $font-weight-regular;
-//   letter-spacing: 0;
-// }
-
-// %typography-h4 {
-//   font-family: $font-sans;
-//   font-size: 34px;
-//   font-weight: $font-weight-regular;
-//   letter-spacing: 0.25px;
-// }
-
-%typography-h5 {
-  font-family: $font-sans;
-  font-size: 24px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0;
-}
-
-%typography-h6 {
-  font-family: $font-sans;
-  font-size: 20px;
-  font-weight: $font-weight-medium;
-  letter-spacing: 0.15px;
-}
-
-%typography-subtitle-1 {
-  font-family: $font-sans;
-  font-size: 16px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.15px;
-}
-
-%typography-subtitle-2 {
-  font-family: $font-sans;
-  font-size: 14px;
-  font-weight: $font-weight-medium;
-  letter-spacing: 0.1px;
-}
-
-%typography-body-1 {
-  font-family: $font-sans;
-  font-size: 16px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.5px;
-}
-
-%typography-body-2 {
-  font-family: $font-sans;
-  font-size: 14px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.25px;
-}
-
-%typography-button {
-  font-family: $font-sans;
-  font-size: 14px;
-  font-weight: $font-weight-medium;
-  letter-spacing: 1.25px;
-  text-transform: uppercase;
-}
-
-%typography-caption {
-  font-family: $font-sans;
-  font-size: 12px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 0.4px;
-}
-
-%typography-overline {
-  font-family: $font-sans;
-  font-size: 10px;
-  font-weight: $font-weight-regular;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-%typography-overline-large {
-  font-family: $font-sans;
-  font-size: 11px;
-  font-weight: $font-weight-medium;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
 
 /*------ HIDDEN ELEMENTS -----*/
 %visually-hidden {
@@ -130,22 +28,14 @@
   }
 }
 
-// Common Example Styles
-%tooltip-container-styles {
-  background: rgba(white, 0.9);
-  padding: grid(2);
-  border: 1px solid color.$primary-6;
-  width: 100%;
-}
-
 %markdown-styles {
   code {
     font-family: $font-mono;
   }
 
   code:not(.language-html):not(.language-ts) {
-    color: color.$highlight-code;
-    background-color: color.$primary-7;
+    color: colors.$highlight-code;
+    background-color: colors.$muted-primary-95;
     padding: grid(0.75) grid(1.25);
     white-space: normal;
     border-radius: grid(1);

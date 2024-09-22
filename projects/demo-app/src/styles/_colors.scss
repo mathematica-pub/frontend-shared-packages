@@ -37,3 +37,19 @@ $muted-primary-95: var(--hsi-adk-color-muted-primary-95);
 $muted-primary-98: var(--hsi-adk-color-muted-primary-98);
 $muted-primary-99: var(--hsi-adk-color-muted-primary-99);
 $muted-primary-100: var(--hsi-adk-color-muted-primary-100);
+
+$text: $muted-primary-10;
+
+$highlight: (
+  'dark': #0c369e,
+  'default': #1650e1,
+  'light': #4578f6,
+  'hover': #ffeb3b,
+  'code': #db3012,
+);
+
+$highlight-dark: map.get($highlight, 'dark');
+$highlight-default: map.get($highlight, 'default');
+$highlight-light: map.get($highlight, 'light');
+$highlight-hover: map.get($highlight, 'hover');
+$highlight-code: map.get($highlight, 'code');

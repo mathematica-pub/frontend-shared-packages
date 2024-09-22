@@ -1,7 +1,6 @@
 @use 'vars' as *;
 @use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
 @use 'colors';
 @use '../../../../app-dev-kit/src/lib/styles' as hsi-adk;
 
@@ -40,7 +39,7 @@ $dividing-line-color: colors.$muted-primary-90;
 
   .item.active {
     background-color: $active-background-color;
-    color: color.$highlight-default;
+    color: colors.$highlight-default;
   }
 
   .docs-directory {

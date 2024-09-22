@@ -1,7 +1,5 @@
 @use 'vars' as *;
-@use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
 @use 'colors';
 
 .example-container {
@@ -40,7 +38,7 @@
     padding: grid(3) grid(4);
     border-top-left-radius: grid(2);
     border-top-right-radius: grid(2);
-    color: color.$highlight-default;
+    color: colors.$highlight-default;
 
     & > * {
       line-height: initial;
@@ -48,7 +46,7 @@
   }
 
   .tab-label-container:not(.active):hover .tab-label {
-    color: color.$highlight-default;
+    color: colors.$highlight-default;
     transition: all 200ms;
     background-color: colors.$muted-primary-90;
   }

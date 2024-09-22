@@ -1,13 +1,13 @@
 @use 'vars' as *;
 @use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
+@use 'colors';
 @use 'index' as hsi-adk;
 @import 'prismjs/plugins/toolbar/prism-toolbar.css';
 @import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
 @import 'prismjs/themes/prism-okaidia';
 
-@include hsi-adk.reset();
+@include hsi-adk.reset(#{$font-sans}, #{colors.$text});
 
 html {
   @include hsi-adk.create-theme();
@@ -65,6 +65,6 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: color.$primary-6;
+  background: colors.$muted-primary-80;
   border-radius: grid(2);
 }

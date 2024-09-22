@@ -1,8 +1,6 @@
 @use 'vars' as *;
-@use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
-@use '../../../../../app-dev-kit/src/lib/styles' as hsi-adk;
+@use 'index' as hsi-adk;
 
 .main-title {
   @include hsi-adk.title-small;

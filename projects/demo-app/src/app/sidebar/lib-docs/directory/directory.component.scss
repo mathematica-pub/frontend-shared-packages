@@ -1,7 +1,7 @@
 @use 'vars' as *;
 @use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
+@use 'colors';
 
 .invisible {
   display: none;
@@ -21,16 +21,16 @@
 .item.expandable:hover,
 .item.selectable:hover {
   cursor: pointer;
-  background-color: color.$primary-7;
+  background-color: colors.$muted-primary-95;
   transition: all 200ms;
 }
 
 .item.active {
-  background-color: color.$primary-7;
-  color: color.$highlight-default;
+  background-color: colors.$muted-primary-95;
+  color: colors.$highlight-default;
 }
 
 .arrow {
-  color: color.$primary-2;
+  color: colors.$muted-primary-30;
   width: 16px;
 }
