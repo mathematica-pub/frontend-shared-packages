@@ -114,7 +114,10 @@
           "projects/demo-app/src/styles/styles.scss"
         ],
         "stylePreprocessorOptions": {
-          "includePaths": ["projects/demo-app/src/styles"]
+          "includePaths": [
+            "projects/demo-app/src/styles",
+            "projects/app-dev-kit/src/lib/styles"
+          ]
         },
         "scripts": []
       }
