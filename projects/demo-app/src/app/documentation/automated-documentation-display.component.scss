@@ -1,5 +1,5 @@
 @use 'vars' as *;
-@use 'color';
+@use 'colors';
 @use 'functions' as *;
 
 .wrap {
@@ -15,16 +15,16 @@
   }
 
   a {
-    color: color.$highlight-default;
+    color: colors.$highlight-default;
   }
 
   code {
     font-family: $font-mono;
-    color: color.$highlight-code;
+    color: colors.$highlight-code;
   }
 
   code a {
-    color: color.$highlight-code;
+    color: colors.$highlight-code;
     font-weight: 480;
   }
 
@@ -54,7 +54,7 @@
     section > h3 {
       padding-top: 1rem;
       padding-bottom: 0.25rem;
-      border-bottom: 1px solid color.$primary-0;
+      border-bottom: 1px solid colors.$text;
       font-weight: $font-weight-semibold;
       font-size: 18px;
     }
@@ -73,7 +73,7 @@
 
     .table-bordered > tbody > tr:first-of-type > td {
       font-weight: $font-weight-semibold;
-      background: color.$primary-7;
+      background: colors.$muted-primary-90;
     }
 
     .table-bordered .io-description {
@@ -92,7 +92,7 @@
 
     table.params {
       thead {
-        background: color.$primary-7;
+        background: colors.$muted-primary-90;
       }
       td {
         padding-top: 8px;
