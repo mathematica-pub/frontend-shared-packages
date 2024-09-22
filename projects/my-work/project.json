@@ -25,7 +25,10 @@
         ],
         "styles": ["projects/my-work/src/styles/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["projects/my-work/src/styles"]
+          "includePaths": [
+            "projects/my-work/src/styles",
+            "projects/app-dev-kit/src/lib/styles"
+          ]
         },
         "scripts": []
       },
@@ -39,8 +42,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "2kb",
-              "maximumError": "50kb"
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
             }
           ],
           "outputHashing": "all"
@@ -85,7 +88,10 @@
         ],
         "styles": ["projects/my-work/src/styles/styles.scss"],
         "stylePreprocessorOptions": {
-          "includePaths": ["projects/my-work/src/styles"]
+          "includePaths": [
+            "projects/my-work/src/styles",
+            "projects/app-dev-kit/src/lib/styles"
+          ]
         },
         "scripts": []
       }
