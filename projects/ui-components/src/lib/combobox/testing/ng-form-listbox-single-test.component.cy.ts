@@ -124,22 +124,21 @@ describe('NgFormListboxSingleTestComponent', () => {
     cy.get('.textbox-label').should('have.text', 'Bananas');
     cy.get('.listbox-option').eq(1).should('have.class', 'selected');
   });
-  // it('can change selection', () => {
-  //   cy.get('.combobox-textbox').click();
-  //   cy.get('.listbox-option').eq(1).realClick();
-  //   cy.get('.textbox-label').should('have.text', 'Bananas');
-  //   cy.get('.listbox-option').first().realClick();
-  //   cy.get('.textbox-label').should('have.text', 'Apples');
-  //   cy.get('.listbox-option').first().should('have.class', 'selected');
-  //   cy.get('.listbox-option').eq(1).should('not.have.class', 'selected');
-  // });
-  // it('clicking outside the combobox should close the listbox', () => {
-  //   cy.get('.combobox-textbox').click();
-  //   cy.get('.listbox-option').first().realClick();
-  //   cy.get('.combobox-listbox').should('be.visible');
-  //   cy.get('.display-control-value').realClick();
-  //   cy.get('.combobox-listbox').should('not.be.visible');
-  // });
+  it('can change selection', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', 'Bananas');
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.textbox-label').should('have.text', 'Apples');
+    cy.get('.listbox-option').first().should('have.class', 'selected');
+    cy.get('.listbox-option').eq(1).should('not.have.class', 'selected');
+  });
+  it('selecting option should close the listbox', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.combobox-listbox').should('not.be.visible');
+  });
   it('should have correct control value', () => {
     cy.get('.combobox-textbox').click();
     cy.get('.listbox-option').eq(1).realClick();
