@@ -1,22 +1,14 @@
 <div class="lib-docs">
   @if (routerState.state$ | async; as state) {
-    <h2 class="lib-title" (click)="toggleLibrary()" [class.open]="expanded"
+    <!-- <h2 class="lib-title" (click)="toggleLibrary()" [class.open]="expanded"
       >{{ lib.displayName }}
       @if (expanded) {
         <span class="material-symbols-outlined arrow">expand_more</span>
       } @else {
         <span class="material-symbols-outlined arrow">chevron_right</span>
       }
-    </h2>
+    </h2> -->
     @if (expanded) {
-      <a
-        class="overview"
-        (click)="selectLibOverview()"
-        [class.active]="
-          state.lib === lib.id && state.section === Section.Overview
-        "
-        >Overview</a
-      >
       @if (manualDocs$ | async; as manualDocs) {
         <h3 class="section-label">{{ manualDocs.title }}</h3>
         <hsi-ui-directory

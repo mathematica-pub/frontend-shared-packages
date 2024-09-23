@@ -12,7 +12,7 @@ import {
   HsiUiDirectoryItem,
   HsiUiDirectorySelection,
 } from '@hsi/ui-components';
-import { filter, map, Observable } from 'rxjs';
+import { filter, map, Observable, tap } from 'rxjs';
 import { getDocumentationConfigForLib } from '../../../core/constants/file-paths.constants';
 import { AssetsService } from '../../../core/services/assets.service';
 import { ContentConfigService } from '../../../core/services/content-config.service';
@@ -60,12 +60,12 @@ export class LibDocsComponent implements OnInit {
 
   initManualDocumentation(): void {
     this.manualDocs$ = this.configService.config$.pipe(
-      filter((siteConfig) => !!siteConfig && !!siteConfig[this.lib.id].content),
+      filter((siteConfig) => !!siteConfig && !!siteConfig[this.lib.id].items),
       map((siteConfig) => siteConfig[this.lib.id]),
       map((libConfig) => {
         return {
-          title: libConfig.content.title,
-          items: this.getDocsDirectoryTree(libConfig.content.items),
+          title: libConfig.title,
+          items: this.getDocsDirectoryTree(libConfig.items),
         };
       })
     );
@@ -77,7 +77,8 @@ export class LibDocsComponent implements OnInit {
       .getAsset<NestedStringObject>(configPath, 'yaml')
       .pipe(
         filter((automatedConfig) => !!automatedConfig),
-        map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig))
+        map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig)),
+        tap((items) => console.log('items', items))
       );
   }
 

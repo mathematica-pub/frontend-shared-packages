@@ -49,7 +49,7 @@ export class ContentFilesService {
         distinctUntilChanged()
       ),
     ]).pipe(
-      map(([config, lib]) => ({ config: config[lib].content.items, lib: lib })),
+      map(([config, lib]) => ({ config: config[lib].items, lib: lib })),
       shareReplay(1)
     );
   }

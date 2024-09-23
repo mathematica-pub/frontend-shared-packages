@@ -4,7 +4,7 @@ import { BehaviorSubject, map } from 'rxjs';
 import { parse as yamlParse } from 'yaml';
 import { Library } from './router-state/state';
 
-export type SidebarConfig = Record<Library, LibConfig>;
+export type SidebarConfig = Record<Library, DocsConfig>;
 
 export interface LibConfig {
   title: string;
@@ -16,6 +16,17 @@ export interface ContentConfig {
   title: string;
   items: Record<string, string>;
 }
+
+export interface DocsConfig {
+  title: string;
+  items: FilesConfig;
+}
+
+export interface FilesConfig {
+  [key: string]: FilesItem;
+}
+
+export type FilesItem = string | null | FilesConfig;
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +49,7 @@ export class ContentConfigService {
       });
   }
 
-  getConfig(lib: Library): LibConfig {
+  getConfig(lib: Library): DocsConfig {
     return this.config.value[lib];
   }
 }

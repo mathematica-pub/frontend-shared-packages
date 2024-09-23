@@ -1,4 +1,4 @@
-# export type SidebarConfig = Record<Library, LibConfig>;
+# export type SidebarConfig = Record<Library, DocsConfig>;
 #
 # export interface LibConfig {
 #   title: string;
@@ -10,25 +10,38 @@
 #   title: string;
 #   items: string[];
 # }
+# export interface DocsConfig {
+#   title: string;
+#   items: FilesConfig;
+# }
+
+# export interface FilesConfig {
+#   [key: string]: FilesItem;
+# }
+
+# export type FilesItem = string | null | FilesConfig;
 ---
-shared-packages: { title: null, overview: 'overview.md', content: null }
+shared-packages:
+  title: Shared Packages
+  items:
+    overview: overview.md
+app-dev-kit:
+  title: Using the App Dev Kit
+  items:
+    overview: overview.md
 ui-components:
-  { title: 'UI Components', overview: 'overview.md', content: null }
+  title: Using UI Components
+  items:
+    overview: overview.md
 viz-components:
-  {
-    title: 'Component Guides',
-    overview: 'overview.md',
-    content:
-      {
-        title: 'Component guides',
-        items:
-          {
-            bars: 'bars.md',
-            geographies: 'geographies.md',
-            grouped-bars: 'grouped-bars.md',
-            lines: 'lines.md',
-            stacked-area: 'stacked-area.md',
-            stacked-bars: 'stacked-bars.md',
-          },
-      },
-  }
+  title: Using Viz Components
+  items:
+    overview: overview.md
+    how-to: how-to.md
+    marks-guides:
+      bars: bars.md
+      geographies: geographies.md
+      grouped-bars: grouped-bars.md
+      lines: lines.md
+      stacked-area: stacked-area.md
+      stacked-bars: stacked-bars.md

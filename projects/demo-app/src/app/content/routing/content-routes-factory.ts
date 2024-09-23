@@ -11,7 +11,7 @@ export function contentRoutesFactory(lib: Library) {
         children: [],
       },
     ];
-    Object.keys(config.content.items).forEach((item: string) => {
+    Object.keys(config.items).forEach((item: string) => {
       const componentName =
         item
           .split('-')
