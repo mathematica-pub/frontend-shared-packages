@@ -4,4 +4,5 @@ items:
   examples:
     - energy-intensity
   my-project:
+    - csa
     - my-chart
