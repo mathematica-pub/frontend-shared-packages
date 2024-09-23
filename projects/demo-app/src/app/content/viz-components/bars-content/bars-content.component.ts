@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ShikiTheme } from '@hsi/app-dev-kit';
 import { ContentFilesService } from '../../../core/services/content-files.service';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
 import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
@@ -22,6 +21,5 @@ import { BarsExampleComponent } from './bars-example/bars-example.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BarsContentComponent {
-  theme = ShikiTheme.CatppuccinLatte;
   constructor(public content: ContentFilesService) {}
 }

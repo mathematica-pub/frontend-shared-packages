@@ -24,7 +24,8 @@ viz-components:
         items:
           {
             bars: 'bars.md',
-            geographies: 'buttons.md',
+            geographies: 'geographies.md',
+            grouped-bars: 'grouped-bars.md',
             lines: 'lines.md',
             stacked-area: 'stacked-area.md',
             stacked-bars: 'stacked-bars.md',
