@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
@@ -96,7 +96,7 @@ const scss = `
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
 })
-class NgFormListboxSingleTestComponent implements OnInit {
+class NgFormListboxSingleTestComponent {
   options = [
     { displayName: 'Apples', id: 'appl' },
     { displayName: 'Bananas', id: 'bana' },
@@ -104,11 +104,9 @@ class NgFormListboxSingleTestComponent implements OnInit {
     { displayName: 'Durians', id: 'duri' },
     { displayName: 'Elderberries', id: 'elde' },
   ];
-  control: FormControl<SingleSelectListboxValue<string>>;
-
-  ngOnInit(): void {
-    this.control = new FormControl(null);
-  }
+  control: FormControl<SingleSelectListboxValue<string>> = new FormControl(
+    null
+  );
 }
 
 describe('NgFormListboxSingleTestComponent', () => {
