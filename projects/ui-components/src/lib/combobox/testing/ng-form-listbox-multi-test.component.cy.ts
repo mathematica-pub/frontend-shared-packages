@@ -91,7 +91,7 @@ const scss = `
           expand_more
         </span>
       </hsi-ui-textbox>
-      <hsi-ui-ng-form-listbox-multi [isMultiSelect]="true" [control]="control">
+      <hsi-ui-ng-form-listbox-multi [control]="control">
         <hsi-ui-listbox-label>
           <span>Select a fruit</span>
         </hsi-ui-listbox-label>
