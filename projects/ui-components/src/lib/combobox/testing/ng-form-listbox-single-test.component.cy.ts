@@ -67,7 +67,7 @@ const scss = `
 `;
 
 @Component({
-  selector: 'hsi-ui-ng-form-listbox-multi-test',
+  selector: 'hsi-ui-ng-form-listbox-single-test',
   template: `
     <p class="display-control-value">{{ control.value }}</p>
     <hsi-ui-combobox class="fruits-dropdown">
