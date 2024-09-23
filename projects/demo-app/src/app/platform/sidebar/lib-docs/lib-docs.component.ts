@@ -23,11 +23,6 @@ type NestedStringObject = {
   [key: string]: string | NestedStringObject;
 };
 
-type ContentConfig = {
-  title: string;
-  items: NestedStringObject;
-};
-
 type ContentDocs = {
   title: string;
   items: HsiUiDirectoryItem[];
