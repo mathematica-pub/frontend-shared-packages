@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ShikiTheme } from '@hsi/app-dev-kit';
+import { ContentFilesService } from '../../../core/services/content-files.service';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
 import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
+import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { BarsExampleComponent } from './bars-example/bars-example.component';
 
 @Component({
@@ -12,9 +15,13 @@ import { BarsExampleComponent } from './bars-example/bars-example.component';
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
     BarsExampleComponent,
+    ContentContainerComponent,
   ],
   templateUrl: './bars-content.component.html',
   styleUrls: ['../../examples.scss', './bars-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BarsContentComponent {}
+export class BarsContentComponent {
+  theme = ShikiTheme.CatppuccinLatte;
+  constructor(public content: ContentFilesService) {}
+}

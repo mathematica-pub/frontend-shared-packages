@@ -1,5 +1,5 @@
 <div class="documentation-container" #file>
-  @if (content$ | async; as content) {
+  @if (contentService.content$ | async; as content) {
     <div class="documentation-content">
       <div class="main-content">
         @for (section of content.sections; track $index) {
@@ -13,13 +13,6 @@
             >
             </ng-container>
           }
-        }
-        @if (showPrevNextNavigation) {
-          <hsi-adk-navigation-siblings
-            class="nav-siblings"
-            [siblings]="content.siblings"
-            (nextDoc)="navigateToDoc($event)"
-          ></hsi-adk-navigation-siblings>
         }
       </div>
       <hsi-adk-document-index

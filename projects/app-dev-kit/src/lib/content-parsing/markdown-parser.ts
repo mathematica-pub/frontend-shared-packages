@@ -22,18 +22,17 @@ export interface AdkMdParsedContentSection {
   headers: { id: string; text: string; level: number }[];
 }
 
-export interface AdkNgParsedContentSection {
-  type: 'component';
+export interface AdkSpecialParsedContentSection {
+  type: 'special';
   content: string;
-  component: string;
 }
 
 export type AdkParsedContentSection =
   | AdkMdParsedContentSection
-  | AdkNgParsedContentSection;
+  | AdkSpecialParsedContentSection;
 
 export interface AdkMarkdownParsingOptions {
-  detectAngularRefs?: boolean;
+  detectSpecial?: boolean;
   highlighter?: AdkShikiHighlighterOptions;
   gfm?: boolean;
   headingIds?: boolean;
@@ -60,7 +59,7 @@ const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
 };
 
 const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
-  detectAngularRefs: true,
+  detectSpecial: true,
   gfm: true,
   headingIds: true,
   headingFragmentLinks: { createLinks: false },
@@ -103,7 +102,7 @@ export class AdkMarkdownParser {
         }
       }),
       switchMap((_options) => {
-        const sections = this.getSections(markdown, _options.detectAngularRefs);
+        const sections = this.getSections(markdown, _options.detectSpecial);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
         });
@@ -139,9 +138,8 @@ export class AdkMarkdownParser {
         }
         // Add the component placeholder as a section
         sections.push({
-          type: 'component',
-          content: line.trim().slice(2, -2),
-          component: line.trim().slice(2, -2).trim(),
+          type: 'special',
+          content: line.trim().slice(2, -2).trim(),
         });
       } else {
         // Accumulate markdown content

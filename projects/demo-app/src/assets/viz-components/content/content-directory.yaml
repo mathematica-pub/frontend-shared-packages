@@ -1,9 +1,10 @@
 ---
+---
 title: 'Component composition'
 items:
-  - 'bars'
-  - 'geographies'
-  - 'lines'
-  - 'stacked-area'
-  - 'stacked-bars'
-  - 'grouped-bars'
+  bars: 'bars.md'
+  geographies: 'geographies.md'
+  lines: 'lines.md'
+  stacked-area: 'stacked-area.md'
+  stacked-bars: 'stacked-bars.md'
+  grouped-bars: 'grouped-bars.md'

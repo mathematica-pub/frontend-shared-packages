@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Root } from 'hast';
+import { fromParse5 } from 'hast-util-from-parse5';
+import { parse } from 'parse5';
 import { createHighlighter } from 'shiki/index.mjs';
 import { BundledLanguage } from 'shiki/langs';
 import { BundledTheme } from 'shiki/themes';
@@ -151,5 +153,88 @@ export class AdkShikiHighlighter {
     };
 
     return transformer;
+  }
+
+  rehypeHighlight(options: AdkShikiHighlighterOptions): (tree: Root) => void {
+    const highlighter = options.highlighter;
+    if (!options.highlighter) {
+      throw new Error(MISSING_HIGHLIGHTER);
+    }
+
+    const visitor = (node, _index, parent) => {
+      if (!parent || parent.tagName !== 'pre' || node.tagName !== 'code') {
+        return;
+      }
+
+      const [langClass] = node.properties.className;
+      const lang = langClass.replace('language-', '');
+
+      if (highlighter.getLoadedLanguages().includes(lang)) {
+        const code = node.children[0]?.value;
+        if (!code) {
+          return;
+        }
+        const highlighted = highlighter.codeToHtml(code, {
+          lang,
+          theme: options.theme,
+        });
+        const parsed = parse(highlighted);
+        const hastTree = fromParse5(parsed);
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const content = (hastTree as any).children[0].children[1].children[0]
+          .children[0];
+
+        content.properties.class = ['shiki', 'shiki-' + lang, langClass];
+
+        node.properties = content.properties;
+        node.children = content.children;
+      }
+
+      // if (!parent || parent.tagName !== 'pre' || node.tagName !== 'code') {
+      //   return;
+      // }
+
+      // let lang = this.getLanguage(node);
+
+      // if (ignoreUnknownLanguage && !loadedLanguages.includes(lang)) {
+      //   lang = null;
+      // }
+
+      // const code = node.value;
+      // const highlighted = highlighter.codeToHtml(code, {
+      //   lang,
+      //   theme: options.theme,
+      // });
+      // const parsed = parse(highlighted);
+      // const hastTree = fromParse5(parsed);
+
+      // parent.properties = code.properties;
+      // parent.children = code.children;
+    };
+
+    const transformer = (tree: Root) => {
+      visit(tree, 'element', visitor);
+    };
+
+    return transformer;
+  }
+
+  getLanguage(node): string {
+    const dataLanguage = node.properties.dataLanguage;
+
+    if (dataLanguage != null) {
+      return dataLanguage;
+    }
+
+    const className = node.properties.className || [];
+
+    for (const classListItem of className) {
+      if (classListItem.slice(0, 9) === 'language-') {
+        return classListItem.slice(9).toLowerCase();
+      }
+    }
+
+    return null;
   }
 }

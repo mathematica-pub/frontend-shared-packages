@@ -10,15 +10,23 @@ $dividing-line-color: colors.$muted-primary-90;
 .sidebar-container {
   display: flex;
   flex-direction: column;
-  padding: grid(2);
+  padding: grid(3) grid(2) grid(2) grid(4);
   height: 100%;
-  overflow-y: auto;
+  max-height: 100vh;
+  position: sticky;
+  top: 0;
 
   .application-title {
     @include hsi-adk.title-small;
     padding-bottom: grid(2);
     border-bottom: 1px solid $dividing-line-color;
     white-space: nowrap;
+  }
+
+  .top-border {
+    border-top: 1px solid colors.$muted-primary-90;
+    margin-top: grid(4);
+    padding-top: grid(3);
   }
 
   .item {

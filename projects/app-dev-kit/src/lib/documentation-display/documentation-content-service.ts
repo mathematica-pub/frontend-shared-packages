@@ -83,10 +83,10 @@ export class AdkDocumentationContentService {
         return this.getParsedMarkdownFile(pathToFile, options.parsingOptions);
       }),
       withLatestFrom(contentPath$),
-      map(([angularMarkdownSections, configPath]) => {
+      map(([markdownSections, configPath]) => {
         return {
-          sections: angularMarkdownSections,
-          headings: angularMarkdownSections.reduce((acc, section) => {
+          sections: markdownSections,
+          headings: markdownSections.reduce((acc, section) => {
             if (section.type === 'markdown') {
               acc.push(...section.headers);
             }

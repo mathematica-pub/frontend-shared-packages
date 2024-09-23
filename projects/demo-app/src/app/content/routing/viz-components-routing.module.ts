@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, ROUTES } from '@angular/router';
+import { ContentConfigService } from '../../core/services/content-config.service';
 import { Library } from '../../core/services/router-state/state';
-import { ContentConfigService } from '../content-config.service';
 import { contentRoutesFactory } from './content-routes-factory';
 
 @NgModule({

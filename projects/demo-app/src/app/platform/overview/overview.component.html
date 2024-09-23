@@ -1,1 +1,10 @@
-<div class="overview-container" [innerHtml]="html$ | async"></div>
+@if (content$ | async; as content) {
+  @for (section of content; track $index) {
+    @if (section.type === 'markdown') {
+      <div
+        class="overview-container injected-html"
+        [innerHTML]="section.html"
+      ></div>
+    }
+  }
+}

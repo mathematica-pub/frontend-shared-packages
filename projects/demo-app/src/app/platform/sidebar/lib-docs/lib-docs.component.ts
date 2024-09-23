@@ -13,11 +13,9 @@ import {
   HsiUiDirectorySelection,
 } from '@hsi/ui-components';
 import { filter, map, Observable } from 'rxjs';
-import {
-  getContentConfigForLib,
-  getDocumentationConfigForLib,
-} from '../../../core/constants/file-paths.constants';
+import { getDocumentationConfigForLib } from '../../../core/constants/file-paths.constants';
 import { AssetsService } from '../../../core/services/assets.service';
+import { ContentConfigService } from '../../../core/services/content-config.service';
 import { RouterStateService } from '../../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../../core/services/router-state/state';
 
@@ -47,16 +45,17 @@ type ContentDocs = {
 })
 export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
+  @Input() expanded = true;
   automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
   manualDocs$: Observable<ContentDocs>;
-  expanded = true;
   Section = Section;
   Library = Library;
 
   constructor(
     private titleCase: TitleCasePipe,
     public routerState: RouterStateService,
-    private assets: AssetsService
+    private assets: AssetsService,
+    private configService: ContentConfigService
   ) {}
 
   ngOnInit(): void {
@@ -65,16 +64,16 @@ export class LibDocsComponent implements OnInit {
   }
 
   initManualDocumentation(): void {
-    const configPath = getContentConfigForLib(this.lib.id);
-    this.manualDocs$ = this.assets
-      .getAsset<ContentConfig>(configPath, 'yaml')
-      .pipe(
-        filter((manualConfig) => !!manualConfig),
-        map((manualConfig) => ({
-          title: manualConfig.title,
-          items: this.getDocsDirectoryTree(manualConfig.items),
-        }))
-      );
+    this.manualDocs$ = this.configService.config$.pipe(
+      filter((siteConfig) => !!siteConfig && !!siteConfig[this.lib.id].content),
+      map((siteConfig) => siteConfig[this.lib.id]),
+      map((libConfig) => {
+        return {
+          title: libConfig.content.title,
+          items: this.getDocsDirectoryTree(libConfig.content.items),
+        };
+      })
+    );
   }
 
   initAutomatedDocumentation(): void {
@@ -147,6 +146,7 @@ export class LibDocsComponent implements OnInit {
   }
 
   selectManualDocsItem(item: HsiUiDirectorySelection): void {
+    console.log('item', item);
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Content,

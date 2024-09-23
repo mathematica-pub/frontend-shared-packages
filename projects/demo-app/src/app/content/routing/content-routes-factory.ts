@@ -1,17 +1,17 @@
 import { Routes } from '@angular/router';
+import { ContentConfigService } from '../../core/services/content-config.service';
 import { Library } from '../../core/services/router-state/state';
-import { ContentConfigService } from '../content-config.service';
 
 export function contentRoutesFactory(lib: Library) {
   return (configService: ContentConfigService) => {
-    const config = configService.configs[lib];
+    const config = configService.getConfig(lib);
     const routes: Routes = [
       {
         path: '',
         children: [],
       },
     ];
-    config.items.forEach((item: string) => {
+    Object.keys(config.content.items).forEach((item: string) => {
       const componentName =
         item
           .split('-')
@@ -20,9 +20,9 @@ export function contentRoutesFactory(lib: Library) {
       routes[0].children.push({
         path: item,
         loadComponent: () =>
-          import(
-            `../../${lib}/${item}-content/${item}-content.component.ts`
-          ).then((m) => m[componentName]),
+          import(`../${lib}/${item}-content/${item}-content.component.ts`).then(
+            (m) => m[componentName]
+          ),
       });
     });
     return routes;

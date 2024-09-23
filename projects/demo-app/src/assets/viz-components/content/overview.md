@@ -1,4 +1,4 @@
-## Introduction
+# Viz Components
 
 Viz Components is a library of Angular components for building highly custom data visualizations,
 built on top of [D3](https://d3js.org/).

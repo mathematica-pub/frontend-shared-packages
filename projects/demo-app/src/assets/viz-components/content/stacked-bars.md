@@ -1,0 +1,3 @@
+# Stacked Bars Component
+
+{{ StackedBarsExampleComponent }}
