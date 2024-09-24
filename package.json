@@ -21,7 +21,7 @@
     "build:viz-components": "nx build viz-components",
     "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
     "watch": "nx build --watch --configuration development",
-    "watch:app-dev-kit": "nx build ui-components --watch",
+    "watch:app-dev-kit": "nx build app-dev-kit --watch",
     "watch:ui-components": "nx build ui-components --watch",
     "watch:viz-components": "nx build viz-components --watch",
     "test:app-dev-kit": "nx test viz-components --browsers=Chrome",
