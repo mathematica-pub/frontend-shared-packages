@@ -17,5 +17,8 @@
       "sass": "./src/lib/styles/index.scss"
     }
   },
-  "sideEffects": false
+  "sideEffects": false,
+  "release": {
+    "pkgRoot": "../../dist/app-dev-kit"
+  }
 }
