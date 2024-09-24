@@ -190,27 +190,6 @@ export class AdkShikiHighlighter {
         node.properties = content.properties;
         node.children = content.children;
       }
-
-      // if (!parent || parent.tagName !== 'pre' || node.tagName !== 'code') {
-      //   return;
-      // }
-
-      // let lang = this.getLanguage(node);
-
-      // if (ignoreUnknownLanguage && !loadedLanguages.includes(lang)) {
-      //   lang = null;
-      // }
-
-      // const code = node.value;
-      // const highlighted = highlighter.codeToHtml(code, {
-      //   lang,
-      //   theme: options.theme,
-      // });
-      // const parsed = parse(highlighted);
-      // const hastTree = fromParse5(parsed);
-
-      // parent.properties = code.properties;
-      // parent.children = code.children;
     };
 
     const transformer = (tree: Root) => {
