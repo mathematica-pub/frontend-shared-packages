@@ -1,7 +1,7 @@
 {
   "name": "@hsi/viz-components",
   "scripts": {
-    "build": "npx nx build"
+    "build": "ng build"
   },
   "files": [
     "dist"
