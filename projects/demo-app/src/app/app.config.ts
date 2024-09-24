@@ -9,7 +9,6 @@ import {
 } from '@angular/router';
 
 import {
-  AdkAssetsService,
   AdkDocumentationConfigParser,
   AdkDocumentationContentService,
 } from '@hsi/app-dev-kit';
@@ -26,7 +25,6 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideAnimationsAsync(),
-    AdkAssetsService,
     AdkDocumentationContentService,
     AdkDocumentationConfigParser,
     {

@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import { csvParse } from 'd3';
 import { Observable, forkJoin } from 'rxjs';
+import { parse as yamlParse } from 'yaml';
 import { AdkAssetsResource } from './assets-resource';
 
-export enum AdkAssetResponseType {
+export enum AdkAssetResponse {
   ArrayBuffer = 'arraybuffer',
   Blob = 'blob',
   Json = 'json',
   Text = 'text',
 }
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AdkAssetsService {
   private assets: { [key: string]: Observable<unknown> } = {};
   private assetsPath = 'assets/';
@@ -28,7 +30,7 @@ export class AdkAssetsService {
    */
   getAsset(
     assetName: string,
-    responseType: AdkAssetResponseType
+    responseType: AdkAssetResponse
   ): Observable<unknown> {
     if (!this.assets[assetName]) {
       this.assets[assetName] = this.fetchAsset(assetName, responseType);
@@ -38,7 +40,7 @@ export class AdkAssetsService {
 
   private fetchAsset(
     assetName: string,
-    responseType: AdkAssetResponseType
+    responseType: AdkAssetResponse
   ): Observable<unknown> {
     return this.resource.getAsset(
       `${this.assetsPath}${assetName}`,
@@ -54,10 +56,18 @@ export class AdkAssetsService {
    */
   getAssets(
     assetNames: string[],
-    responseType: AdkAssetResponseType
+    responseType: AdkAssetResponse
   ): Observable<unknown[]> {
     return forkJoin(
       assetNames.map((assetName) => this.getAsset(assetName, responseType))
     );
+  }
+
+  parseCsv<T>(str: string): T[] {
+    return csvParse(str) as unknown as T[];
+  }
+
+  parseYaml<T>(str: string): T {
+    return yamlParse(str) as T;
   }
 }

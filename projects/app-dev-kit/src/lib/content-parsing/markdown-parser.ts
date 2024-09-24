@@ -79,7 +79,7 @@ export class AdkMarkdownParser {
     this.parser = unified;
   }
 
-  parseMarkdown(
+  parse(
     markdown: string,
     options?: AdkMarkdownParsingOptions
   ): Observable<AdkParsedContentSection[]> {

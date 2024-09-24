@@ -7,6 +7,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
 import {
   HsiUiDirectoryComponent,
   HsiUiDirectoryItem,
@@ -14,7 +15,6 @@ import {
 } from '@hsi/ui-components';
 import { filter, map, Observable, tap } from 'rxjs';
 import { getDocumentationConfigForLib } from '../../../core/constants/file-paths.constants';
-import { AssetsService } from '../../../core/services/assets.service';
 import { ContentConfigService } from '../../../core/services/content-config.service';
 import { RouterStateService } from '../../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../../core/services/router-state/state';
@@ -49,7 +49,7 @@ export class LibDocsComponent implements OnInit {
   constructor(
     private titleCase: TitleCasePipe,
     public routerState: RouterStateService,
-    private assets: AssetsService,
+    private assets: AdkAssetsService,
     private configService: ContentConfigService
   ) {}
 
@@ -74,8 +74,9 @@ export class LibDocsComponent implements OnInit {
   initAutomatedDocumentation(): void {
     const configPath = getDocumentationConfigForLib(this.lib.id);
     this.automatedDocsItems$ = this.assets
-      .getAsset<NestedStringObject>(configPath, 'yaml')
+      .getAsset(configPath, AdkAssetResponse.Text)
       .pipe(
+        map((str) => this.assets.parseYaml<NestedStringObject>(str as string)),
         filter((automatedConfig) => !!automatedConfig),
         map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig)),
         tap((items) => console.log('items', items))

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
-  AdkAssetResponseType,
+  AdkAssetResponse,
   AdkAssetsService,
   AdkShikiHighlighter,
   AdkShikiHighlighterOptions,
@@ -44,7 +44,7 @@ export class AutomatedDocumentationParser {
     if (!this.files[contentPath]) {
       const filePathFromAssets = `${contentPath.split('#')[0]}.html`;
       this.files[contentPath] = this.assetsService
-        .getAsset(filePathFromAssets, AdkAssetResponseType.Text)
+        .getAsset(filePathFromAssets, AdkAssetResponse.Text)
         .pipe(
           mergeMap((text) =>
             from(this.highlighter.getHighlighter()).pipe(

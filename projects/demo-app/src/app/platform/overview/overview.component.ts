@@ -7,7 +7,7 @@ import {
   type OnInit,
 } from '@angular/core';
 import {
-  AdkAssetResponseType,
+  AdkAssetResponse,
   AdkAssetsService,
   AdkMarkdownParser,
   AdkParsedContentSection,
@@ -47,10 +47,10 @@ export class OverviewComponent implements OnInit {
       map((lib) => `${lib}/content/overview.md`),
       distinctUntilChanged(),
       switchMap((filePath) =>
-        this.assets.getAsset(filePath, AdkAssetResponseType.Text)
+        this.assets.getAsset(filePath, AdkAssetResponse.Text)
       ),
       switchMap((raw) => {
-        return this.markdown.parseMarkdown(raw as string, {
+        return this.markdown.parse(raw as string, {
           detectSpecial: false,
           highlighter: { type: 'markdown', theme: ShikiTheme.CatppuccinLatte },
         });

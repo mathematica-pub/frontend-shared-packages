@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AdkAssetResponseType, AdkAssetsService } from '@hsi/app-dev-kit';
+import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
 import { BehaviorSubject, map } from 'rxjs';
-import { parse as yamlParse } from 'yaml';
 import { Library } from './router-state/state';
 
 export type SidebarConfig = Record<Library, DocsConfig>;
@@ -41,10 +40,9 @@ export class ContentConfigService {
 
   initConfig(): void {
     this.assets
-      .getAsset('content.yaml', AdkAssetResponseType.Text)
-      .pipe(map((raw) => yamlParse(raw as string) as SidebarConfig))
+      .getAsset('content.yaml', AdkAssetResponse.Text)
+      .pipe(map((raw) => this.assets.parseYaml(raw as string) as SidebarConfig))
       .subscribe((config) => {
-        console.log('Config loaded:', config);
         this.config.next(config);
       });
   }
