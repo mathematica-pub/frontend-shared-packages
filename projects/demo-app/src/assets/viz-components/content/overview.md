@@ -8,38 +8,100 @@ and to fully customize the system of visual marks used to represent data. At the
 package takes care of common data viz functionality, such as setting scales, creating axes, and
 responsively scaling svgs under the hood.
 
-## Getting Started
+## Quick Start Guide
 
-### System Requirements
+The following is a minimal set of steps to take to start creating data visualizations with Viz
+Components.
+
+This guide will show you how to create a simple bar chart. Analogous steps can be take for other
+chart types.
+
+### System requirements
 
 Viz Components requires the following:
 
-- Node v16.4 or higher
-- npm
-- Angular v16 or higher
+- Node v20
+- Angular v18
 - AWS cli
 
-### Installing the library
+### Getting Set up
 
 Viz Components is hosted in a private repository on AWS. In order to add it to a project as a
-dependency or to update it, you'll need to follow the steps below:
+dependency or to update it, you'll need to follow the steps below.
 
-#### Update your AWS credentials locally
+1. Update your AWS credentials locally.
 
-Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use
-credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
+   Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use
+   credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
 
-#### Use the AWS CLI to authenticate to the remote repository
+2. Use the AWS CLI to authenticate to the remote repository
 
-```bash
-aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
+   ```
+   aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
+   ```
+
+3. Install the library with npm
+
+   ```
+   npm install @hsi/viz-components
+   ```
+
+### Preparing to make your chart
+
+You will need to import a number of modules and services from from `@hsi/viz-components` to your
+Angular component or application.
+
+For just the bar chart, you will need to do the following.
+
+1. Add modules. These will import required components.
+
+   ```ts
+   import { VicChartModule, VicXyChartModule, VicBarsModule } from '@hsi/viz-components';
+   ...
+   @Component ({
+     ...
+     imports: [
+       VicChartModule,
+       VicXyChartModule,
+       VicBarsModule,
+     ],
+   })
+   ```
+
+2. Provide a primary marks builder class to create the configuration for the primary marks
+   component.
+
+   ```ts
+   import { VicBarsBuilder } from '@hsi/viz-components';
+   ...
+   @Component ({
+     ...
+     providers: [
+      VicBarsConfigBuilder
+     ]
+   })
+   ```
+
+### Adding components in an HTML template
+
+The following is the minimum html you will need to create the chart:
+
+```angular-html
+<vic-xy-chart>
+  <ng-container svg-elements>
+    <svg:g vic-primary-marks-bars [config]="barsConfig" />
+  </ng-container>
+</vic-xy-chart>
 ```
 
-#### Install the library with npm
+Note: `svg-elements` is an identifier that needs to be used on a container/element that includes svg
+elements that are part of the chart. In this case, because there is only one component with svg
+elements, that identifier could also be placed on the `vic-primary-marks-bars` component.
 
-```bash
-npm install @hsi/viz-components
-```
+### Creating your chart configuration
+
+You will also need to create the configuration object for your primary marks component (`barsConfig`
+in the HTML example above) in your `.ts` file.
 
 ## Library Fundamentals
 
