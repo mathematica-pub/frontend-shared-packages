@@ -21,6 +21,6 @@
     "tslib": "^2.3.0"
   },
   "release": {
-    "pkgRoot": "../../dist/viz-components"
+    "pkgRoot": "../../dist"
   }
 }
