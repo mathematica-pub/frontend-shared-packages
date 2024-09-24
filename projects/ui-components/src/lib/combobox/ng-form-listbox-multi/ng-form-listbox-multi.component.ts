@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { ListboxFilteringService } from '../listbox-filtering/listbox-filtering.service';
 import { ListboxScrollService } from '../listbox-scroll/listbox-scroll.service';
 import { ListboxComponent } from '../listbox/listbox.component';
@@ -17,18 +17,10 @@ export class NgFormListboxMultiComponent<T>
   extends ListboxComponent<T>
   implements OnInit
 {
-  @Input() control: FormArray<FormControl<boolean>>;
+  @Input() control: FormControl<T[]>;
   override isMultiSelect = true;
 
   override emitValue(): void {
-    this.control.setValue(this.getBooleanSelectedArray());
-  }
-
-  getBooleanSelectedArray(): boolean[] {
-    const array = [];
-    for (const option of this.allOptionsArray) {
-      array.push(this.selectedOptions.value.includes(option));
-    }
-    return array;
+    this.control.setValue(this.selectedOptions.value.map((x) => x.value));
   }
 }
