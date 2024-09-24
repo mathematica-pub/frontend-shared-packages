@@ -3,9 +3,6 @@
   "scripts": {
     "build": "ng build"
   },
-  "files": [
-    "dist"
-  ],
   "peerDependencies": {
     "@angular/cdk": "^18.0.0",
     "@angular/common": "^18.0.0",
