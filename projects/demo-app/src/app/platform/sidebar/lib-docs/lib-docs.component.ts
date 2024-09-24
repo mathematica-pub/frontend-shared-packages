@@ -13,7 +13,7 @@ import {
   HsiUiDirectoryItem,
   HsiUiDirectorySelection,
 } from '@hsi/ui-components';
-import { filter, map, Observable, tap } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { getDocumentationConfigForLib } from '../../../core/constants/file-paths.constants';
 import { ContentConfigService } from '../../../core/services/content-config.service';
 import { RouterStateService } from '../../../core/services/router-state/router-state.service';
@@ -80,8 +80,7 @@ export class LibDocsComponent implements OnInit {
         filter((automatedConfig) => !!automatedConfig),
         map((automatedConfig) =>
           this.getDocsDirectoryTree(automatedConfig, undefined)
-        ),
-        tap((items) => console.log('items', items))
+        )
       );
   }
 

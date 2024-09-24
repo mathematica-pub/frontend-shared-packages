@@ -26,15 +26,15 @@ shared-packages:
   items:
     overview: overview.md
 app-dev-kit:
-  title: Using the App Dev Kit
+  title: App Dev Kit
   items:
     overview: overview.md
 ui-components:
-  title: Using UI Components
+  title: UI Components
   items:
     overview: overview.md
 viz-components:
-  title: Using Viz Components
+  title: Viz Components
   items:
     overview: overview.md
     how-to: how-to.md
