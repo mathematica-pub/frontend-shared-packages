@@ -20,12 +20,7 @@
         "repository": "shared-package-repository"
       }
     ],
-    [
-      "@semantic-release/npm",
-      {
-        "pkgRoot": "../../dist/viz-components"
-      }
-    ],
+    "@semantic-release/npm",
     "@semantic-release/github"
   ]
 }
