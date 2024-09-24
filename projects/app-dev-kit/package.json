@@ -19,6 +19,6 @@
   },
   "sideEffects": false,
   "release": {
-    "pkgRoot": "../../dist"
+    "pkgRoot": "../../dist/app-dev-kit"
   }
 }

@@ -17,6 +17,6 @@
   },
   "sideEffects": false,
   "release": {
-    "pkgRoot": "../../dist"
+    "pkgRoot": "../../dist/ui-components"
   }
 }
