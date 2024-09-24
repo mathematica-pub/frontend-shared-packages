@@ -1,10 +1,10 @@
 {
   "name": "@hsi/viz-components",
   "scripts": {
-    "build": "ng build"
+    "build": "npx nx build"
   },
   "files": [
-    "*"
+    "dist"
   ],
   "peerDependencies": {
     "@angular/cdk": "^18.0.0",
