@@ -23,8 +23,6 @@ export interface HsiUiDirectorySelection {
   selectedItem: string;
 }
 
-const nextUniqueId = 0;
-
 @Component({
   selector: 'hsi-ui-directory',
   standalone: true,

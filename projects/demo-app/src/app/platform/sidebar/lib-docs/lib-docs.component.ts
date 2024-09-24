@@ -42,7 +42,7 @@ export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
   @Input() expanded = true;
   automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
-  manualDocs$: Observable<ContentDocs>;
+  customDocs$: Observable<ContentDocs>;
   Section = Section;
   Library = Library;
 
@@ -54,18 +54,18 @@ export class LibDocsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.initManualDocumentation();
+    this.initCustomDocumentation();
     this.initAutomatedDocumentation();
   }
 
-  initManualDocumentation(): void {
-    this.manualDocs$ = this.configService.config$.pipe(
+  initCustomDocumentation(): void {
+    this.customDocs$ = this.configService.config$.pipe(
       filter((siteConfig) => !!siteConfig && !!siteConfig[this.lib.id].items),
       map((siteConfig) => siteConfig[this.lib.id]),
       map((libConfig) => {
         return {
           title: libConfig.title,
-          items: this.getDocsDirectoryTree(libConfig.items),
+          items: this.getDocsDirectoryTree(libConfig.items, this.lib.id),
         };
       })
     );
@@ -78,27 +78,30 @@ export class LibDocsComponent implements OnInit {
       .pipe(
         map((str) => this.assets.parseYaml<NestedStringObject>(str as string)),
         filter((automatedConfig) => !!automatedConfig),
-        map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig)),
+        map((automatedConfig) =>
+          this.getDocsDirectoryTree(automatedConfig, undefined)
+        ),
         tap((items) => console.log('items', items))
       );
   }
 
   getDocsDirectoryTree(
     yaml: NestedStringObject,
+    valuePrefix: string, //use value prefix to distinguish between overview for lib 1 and for lib 2
     level: number = 0
   ): HsiUiDirectoryItem[] {
     let itemsArray;
     if (Array.isArray(yaml)) {
-      itemsArray = yaml.map((item) => this.createFlatItem(item));
+      itemsArray = yaml.map((item) => this.createFlatItem(item, valuePrefix));
     } else {
       itemsArray = Object.entries(yaml).map(([key, value]) => {
         if (typeof value === 'string') {
-          return this.createFlatItem(key);
+          return this.createFlatItem(key, valuePrefix);
         } else {
           return {
             name: this.createDisplayName(key),
-            value: key,
-            children: this.getDocsDirectoryTree(value, level + 1),
+            value: valuePrefix ? `${valuePrefix}-${key}` : key,
+            children: this.getDocsDirectoryTree(value, valuePrefix, level + 1),
           };
         }
       });
@@ -115,10 +118,10 @@ export class LibDocsComponent implements OnInit {
     return itemsArray as HsiUiDirectoryItem[];
   }
 
-  createFlatItem(key: string): HsiUiDirectoryItem {
+  createFlatItem(key: string, valuePrefix: string): HsiUiDirectoryItem {
     return {
       name: this.createDisplayName(key),
-      value: key,
+      value: valuePrefix ? `${valuePrefix}-${key}` : key,
     };
   }
 
@@ -134,19 +137,21 @@ export class LibDocsComponent implements OnInit {
     });
   }
 
+  selectCustomDocsItem(item: HsiUiDirectorySelection): void {
+    this.routerState.update({
+      lib: this.lib.id,
+      section: Section.Content,
+      contentPath: item.activePath.replace(
+        new RegExp(`${this.lib.id}-`, 'g'),
+        ''
+      ),
+    });
+  }
+
   selectAutomatedDocsItem(item: HsiUiDirectorySelection): void {
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Documentation,
-      contentPath: item.activePath,
-    });
-  }
-
-  selectManualDocsItem(item: HsiUiDirectorySelection): void {
-    console.log('item', item);
-    this.routerState.update({
-      lib: this.lib.id,
-      section: Section.Content,
       contentPath: item.activePath,
     });
   }

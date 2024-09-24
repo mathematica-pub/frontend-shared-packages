@@ -9,14 +9,14 @@
       }
     </h2> -->
     @if (expanded) {
-      @if (manualDocs$ | async; as manualDocs) {
+      @if (customDocs$ | async; as manualDocs) {
         <h3 class="section-label">{{ manualDocs.title }}</h3>
         <hsi-ui-directory
           class="manual-docs-directory"
           [items]="manualDocs.items"
-          (selectionChanges)="selectManualDocsItem($event)"
+          (selectionChanges)="selectCustomDocsItem($event)"
           [selection]="{
-            activePath: state.contentPath.split('#')[0],
+            activePath: state.lib + '-' + state.contentPath.split('#')[0],
             selectedItem: '',
           }"
           selectionElementRole="link"
