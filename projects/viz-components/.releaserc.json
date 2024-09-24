@@ -23,7 +23,7 @@
     [
       "@semantic-release/npm",
       {
-        "pkgRoot": "dist/viz-components"
+        "pkgRoot": "../../dist/viz-components"
       }
     ],
     "@semantic-release/github"
