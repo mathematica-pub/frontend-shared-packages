@@ -2,7 +2,7 @@ import { SimpleChanges } from '@angular/core';
 import { get, isEqual } from 'lodash-es';
 
 /**
- * A utility class for detecting changes to objects in Angular's ngOnChanges lifecycle hook.
+ * A utility "class" for detecting changes to objects in Angular's ngOnChanges lifecycle hook.
  */
 export class NgOnChangesUtilities {
   /**
