@@ -126,7 +126,6 @@ export class AdkMarkdownParser {
         line.trim().startsWith('{{') &&
         line.trim().endsWith('}}')
       ) {
-        // If we have accumulated any markdown, add it as a section
         if (currentMarkdown.trim()) {
           sections.push({
             type: 'markdown',
@@ -136,13 +135,11 @@ export class AdkMarkdownParser {
           });
           currentMarkdown = '';
         }
-        // Add the component placeholder as a section
         sections.push({
           type: 'special',
           content: line.trim().slice(2, -2).trim(),
         });
       } else {
-        // Accumulate markdown content
         currentMarkdown += line + '\n';
       }
     }
@@ -197,7 +194,6 @@ export class AdkMarkdownParser {
         })
       );
     }
-    // For 'component' type, return the section as is
     return from(Promise.resolve(section));
   }
 
