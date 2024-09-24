@@ -7,7 +7,7 @@
     },
     { "name": "alpha", "prerelease": true }
   ],
-  "extends": "semantic-release-monorepo",
+  "tagFormat": "@hsi/ui-components-${version}",
   "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
