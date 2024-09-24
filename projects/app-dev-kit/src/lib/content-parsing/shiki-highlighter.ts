@@ -91,7 +91,7 @@ export class AdkShikiHighlighter {
   /**
    * Initialize the highlighter. This should only be called one in an application.
    *
-   * @param themes an array of any Shiki themes you may want to use in the app. You can control which theme is used where by passing the theme name to the `getMarkedExtension` method.
+   * @param themes an array of any Shiki themes you may want to use anywhere in the app. You can control which theme for your particular parsing by passing the theme name to the actual parsing function.
    *
    * @returns void
    */
