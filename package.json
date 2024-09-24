@@ -24,7 +24,7 @@
     "watch:app-dev-kit": "nx build app-dev-kit --watch",
     "watch:ui-components": "nx build ui-components --watch",
     "watch:viz-components": "nx build viz-components --watch",
-    "test:app-dev-kit": "nx test viz-components --browsers=Chrome",
+    "test:app-dev-kit": "nx test app-dev-kit --browsers=Chrome",
     "test:ui-components": "nx test ui-components --browsers=Chrome",
     "test:ui-components:ci": "nx test ui-components --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox",
     "test:viz-components": "nx test viz-components --browsers=Chrome",
