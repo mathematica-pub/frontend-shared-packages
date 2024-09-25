@@ -23,6 +23,7 @@ ui-components:
   title: UI Components
   items:
     overview: overview.md
+    table: table.md
 viz-components:
   title: Viz Components
   items:
