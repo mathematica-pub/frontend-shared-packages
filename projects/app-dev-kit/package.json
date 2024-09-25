@@ -1,5 +1,6 @@
 {
   "name": "@hsi/app-dev-kit",
+  "version": "1.0.1",
   "scripts": {
     "build": "ng build"
   },
