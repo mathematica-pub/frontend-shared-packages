@@ -20,5 +20,5 @@
     "**/*.cy.jsx",
     "**/*.spec.ts"
   ],
-  "include": ["src/**/*.ts", ".releaserc.json"]
+  "include": ["src/**/*.ts"]
 }
