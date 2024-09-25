@@ -16,7 +16,7 @@ tests and decent documentation for new features without slowing down project wor
 
 To create a beta release, you will push code to a remote `beta` branch in the
 `frontend-shared-packages` repo. This will trigger a workflow that will publish a beta release to
-the `@hsi` npm organization.
+the `@hsi` npm registry.
 
 Follow the following steps to create a beta release:
 
