@@ -16,7 +16,7 @@
     "tslib": "^2.3.0"
   },
   "sideEffects": false,
-  "release": {
-    "pkgRoot": "../../dist/ui-components"
+  "publishConfig": {
+    "directory": "../../dist/ui-components"
   }
 }
