@@ -103,6 +103,8 @@ elements, that identifier could also be placed on the `vic-primary-marks-bars` c
 You will also need to create the configuration object for your primary marks component (`barsConfig`
 in the HTML example above) in your `.ts` file.
 
+You will do this using a config builder service from `@hsi/viz-components`.
+
 ## Library Fundamentals
 
 To create a new visualization using Viz Components in your Angular application, you will need to
