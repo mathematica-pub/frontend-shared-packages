@@ -43,7 +43,7 @@ Conventional Commits)
    > prerelease packages, so any branch that has numbers in it or has a long name will fail to
    > deploy.
 
-3. Create a local `beta` branch from your development brand, and then push to a remote `beta` branch
+3. Create a local `beta` branch from your development branch, and then push to a remote `beta` branch
 
 ```bash
 // Branch off your development branch
