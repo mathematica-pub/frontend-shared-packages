@@ -7,7 +7,7 @@
     },
     { "name": "alpha", "prerelease": true }
   ],
-  "tagFormat": "@hsi/app-dev-kit-${version}",
+  "extends": "semantic-release-monorepo",
   "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
