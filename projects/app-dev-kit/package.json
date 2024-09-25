@@ -4,7 +4,7 @@
     "build": "ng build"
   },
   "files": [
-    "../../dist/app-dev-kit"
+    "dist/app-dev-kit"
   ],
   "peerDependencies": {
     "@angular/common": "^18.2.0",

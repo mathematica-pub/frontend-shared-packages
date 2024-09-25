@@ -24,7 +24,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd projects/app-dev-kit && npx semantic-release"
+        "command": "cd projects/app-dev-kit && npx semantic-release --dry-run"
       }
     },
     "test": {
