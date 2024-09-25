@@ -1,12 +1,9 @@
 {
   "name": "@hsi/ui-components",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "scripts": {
     "build": "ng build"
   },
-  "files": [
-    "../../dist/ui-components"
-  ],
   "peerDependencies": {
     "@angular/common": "^18.0.0",
     "@angular/core": "^18.0.0",
