@@ -27,8 +27,8 @@ viz-components:
   title: Viz Components
   items:
     overview: overview.md
-    learn-how-to: how-to.md
-    marks-guides:
+    learn-about: how-to.md
+    primary-marks-examples:
       bars: bars.md
       geographies: geographies.md
       grouped-bars: grouped-bars.md

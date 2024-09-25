@@ -1,8 +1,10 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ContentChild,
+  DestroyRef,
   ElementRef,
   Inject,
   NgZone,
@@ -34,7 +36,7 @@ import { ContentFilesService } from '../../core/services/content-files.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class ContentContainerComponent {
+export class ContentContainerComponent implements AfterViewInit {
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
   content$: Observable<AdkParsedDocumentation>;
   @ContentChild('special', { static: false })
@@ -44,8 +46,16 @@ export class ContentContainerComponent {
     public contentService: ContentFilesService,
     private activeHeading: AdkActiveHeadingTracker,
     private zone: NgZone,
+    private destroyRef: DestroyRef,
     @Inject(DOCUMENT) private document: Document
   ) {}
+
+  ngAfterViewInit(): void {
+    this.activeHeading.initScrollListener(
+      this.file.nativeElement,
+      this.destroyRef
+    );
+  }
 
   scrollToHeading(update: {
     heading: AdkHtmlHeader;
