@@ -21,7 +21,7 @@ export class SingleSelectComboboxExampleComponent {
     { displayName: 'Ratatouille', id: 'rat' },
     { displayName: 'Finding Nemo', id: 'nemo' },
     { displayName: 'Toy Story', id: 'toy' },
-    { displayName: 'Monsters Inc.', id: 'monsterInc' },
+    { displayName: 'Monsters Inc.', id: 'monstersInc' },
     { displayName: 'WALL-E', id: 'robot' },
     { displayName: 'Cars', id: 'cars' },
     { displayName: 'The Incredibles', id: 'incredibles' },
