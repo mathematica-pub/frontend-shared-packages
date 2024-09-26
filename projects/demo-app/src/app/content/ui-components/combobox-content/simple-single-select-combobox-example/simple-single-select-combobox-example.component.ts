@@ -8,15 +8,15 @@ import { ComboboxModule } from 'dist/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-single-select-combobox-example',
+  selector: 'app-simple-single-select-combobox-example',
   standalone: true,
   imports: [CommonModule, ComboboxModule],
-  templateUrl: './single-select-combobox-example.component.html',
-  styleUrl: './single-select-combobox-example.component.scss',
+  templateUrl: './simple-single-select-combobox-example.component.html',
+  styleUrl: './simple-single-select-combobox-example.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class SingleSelectComboboxExampleComponent {
+export class SimpleSingleSelectComboboxExampleComponent {
   options = [
     { displayName: 'Ratatouille', id: 'rat' },
     { displayName: 'Finding Nemo', id: 'nemo' },
