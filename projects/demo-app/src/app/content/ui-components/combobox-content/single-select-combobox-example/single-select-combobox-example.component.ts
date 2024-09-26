@@ -23,6 +23,7 @@ export class SingleSelectComboboxExampleComponent {
     { displayName: 'Toy Story', id: 'toy' },
     { displayName: 'Monsters Inc.', id: 'monsterInc' },
     { displayName: 'WALL-E', id: 'robot' },
+    { displayName: 'Cars', id: 'cars' },
     { displayName: 'The Incredibles', id: 'incredibles' },
     { displayName: 'Inside Out', id: 'insideOut' },
     { displayName: 'Up', id: 'up' },
