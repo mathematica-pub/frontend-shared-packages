@@ -1,9 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ComboboxModule } from 'dist/ui-components';
 import { BehaviorSubject } from 'rxjs';
 
@@ -13,7 +9,6 @@ import { BehaviorSubject } from 'rxjs';
   imports: [CommonModule, ComboboxModule],
   templateUrl: './simple-single-select-combobox-example.component.html',
   styleUrl: './simple-single-select-combobox-example.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
 export class SimpleSingleSelectComboboxExampleComponent {
