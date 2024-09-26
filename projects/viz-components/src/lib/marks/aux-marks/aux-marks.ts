@@ -2,9 +2,6 @@ import { Directive, Input, OnChanges } from '@angular/core';
 import { MarksOptions } from '../config/marks-options';
 import { Marks } from '../marks';
 
-/**
- * VicAuxMarks
- */
 @Directive()
 export abstract class VicAuxMarks<
     Datum,
