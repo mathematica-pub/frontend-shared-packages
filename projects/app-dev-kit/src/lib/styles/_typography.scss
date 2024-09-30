@@ -99,15 +99,24 @@
   font-family: var(--hsi-adk-font-sans);
   font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 11pt;
-  letter-spacing: 0.25pt;
-  line-height: 14pt;
+  letter-spacing: 0;
+  line-height: 16pt;
+}
+
+// Not from Material 3 - serve HSI need to communication higher density of information
+@mixin body-2xs {
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
+  font-size: 10pt;
+  letter-spacing: 0;
+  line-height: 16pt;
 }
 
 @mixin label-large {
   font-family: var(--hsi-adk-font-sans);
   font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 14pt;
-  letter-spacing: 0.1pt;
+  letter-spacing: 0.25pt;
   line-height: 20pt;
 }
 
@@ -177,7 +186,7 @@
   font-family: var(--hsi-adk-font-sans);
   font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 10pt;
-  letter-spacing: 0.8pt;
+  letter-spacing: 0.25pt;
   line-height: 14pt;
 }
 
@@ -187,7 +196,8 @@
 }
 
 @mixin label-xs-caps {
-  @include label-extra-small;
+  @include label-xs;
+  letter-spacing: 0.8pt;
   text-transform: uppercase;
 }
 
@@ -201,7 +211,7 @@
   font-family: var(--hsi-adk-font-sans);
   font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 9pt;
-  letter-spacing: 0.5pt;
+  letter-spacing: 0.25pt;
   line-height: 12pt;
 }
 
@@ -212,6 +222,7 @@
 
 @mixin label-2xs-caps {
   @include label-2xs;
+  letter-spacing: 1pt;
   text-transform: uppercase;
 }
 

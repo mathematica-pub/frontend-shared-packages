@@ -1,7 +1,7 @@
 @use 'functions' as *;
-@use 'placeholders' as *;
 @use 'colors';
 @use 'vars' as *;
+@use 'index' as hsi-adk;
 
 :host {
   display: grid;
@@ -40,7 +40,7 @@
 }
 
 .label {
-  @extend %typography-overline-large;
+  @include hsi-adk.label-2xs-caps;
   line-height: 1;
   display: flex;
   align-items: center;
