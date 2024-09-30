@@ -1,11 +1,9 @@
 {
   "name": "@hsi/viz-components",
+  "version": "3.2.3",
   "scripts": {
     "build": "ng build"
   },
-  "files": [
-    "*"
-  ],
   "peerDependencies": {
     "@angular/cdk": "^18.0.0",
     "@angular/common": "^18.0.0",
