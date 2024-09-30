@@ -39,12 +39,7 @@ export class CsaComponent implements OnInit {
     );
 
     this.data$ = data$.pipe(
-      map(
-        (data) =>
-          data
-            .filter((d) => d.date.getFullYear() === 2020)
-            .filter((x, i) => i < 10) // artificially limits the energy dataset
-      )
+      map((data) => data.filter((d) => d.date.getFullYear() === 2020))
     );
   }
 }
