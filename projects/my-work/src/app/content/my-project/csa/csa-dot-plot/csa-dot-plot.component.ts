@@ -6,22 +6,21 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  BarsConfig,
+  StackedBarsConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
   VicOrdinalAxisConfig,
   VicQuantitativeAxisConfig,
+  VicStackedBarsConfigBuilder,
+  VicStackedBarsModule,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyChartModule,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
+import { max } from 'd3';
 import { EnergyIntensityDatum } from '../../../examples/energy-intensity/energy-intensity.component';
-
-interface CSADatum extends EnergyIntensityDatum {
-  gap: number;
-}
 
 @Component({
   selector: 'app-csa-dot-plot',
@@ -30,11 +29,13 @@ interface CSADatum extends EnergyIntensityDatum {
     CommonModule,
     VicXyChartModule,
     VicBarsModule,
+    VicStackedBarsModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
   ],
   providers: [
     VicBarsConfigBuilder,
+    VicStackedBarsConfigBuilder,
     VicXQuantitativeAxisConfigBuilder,
     VicYOrdinalAxisConfigBuilder,
   ],
@@ -44,7 +45,7 @@ interface CSADatum extends EnergyIntensityDatum {
 })
 export class CsaDotPlotComponent implements OnInit {
   @Input() data: EnergyIntensityDatum[];
-  sortedDataConfig: BarsConfig<CSADatum, string>;
+  filteredDataConfig: StackedBarsConfig<EnergyIntensityDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
   perCap = 'Energy consumption per capita';
@@ -52,7 +53,7 @@ export class CsaDotPlotComponent implements OnInit {
   chartHeight = 600;
 
   constructor(
-    private bars: VicBarsConfigBuilder<CSADatum, string>,
+    private bars: VicStackedBarsConfigBuilder<EnergyIntensityDatum, string>,
     private xQuantitativeAxis: VicXQuantitativeAxisConfigBuilder<number>,
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
   ) {}
@@ -62,41 +63,45 @@ export class CsaDotPlotComponent implements OnInit {
   }
 
   setProperties(): void {
-    let sortedData = this.data
+    const filteredData = this.data
       .filter((x) => x.category === this.sortVar && x.value !== null)
       .slice()
-      .sort((a, b) => {
-        if (a.value > b.value) return -1;
-        if (b.value > a.value) return 1;
-        else return 0;
-      }) as CSADatum[];
+      .filter((x, i) => i < 10); // artificially limits the energy dataset
 
-    sortedData.forEach((d) => {
-      d.gap = d.value / 2;
+    const invisibleStacks = [];
+    const maxInvisible = max(filteredData, (d) => d.value);
+    const minInvisible = maxInvisible / 2;
+
+    filteredData.forEach((d) => {
+      const invisibleStack = structuredClone(d);
+      invisibleStack.category = 'invisible';
+      // create random data
+      invisibleStack.value = Math.floor(
+        Math.random() * (maxInvisible - minInvisible + 1) + minInvisible
+      );
+      invisibleStacks.push(invisibleStack);
     });
-    sortedData = sortedData.filter((x, i) => i < 10); // artificially limits the energy dataset
+    filteredData.push(...invisibleStacks);
 
     console.log('CSA dot plot data:', this.data);
-    console.log('sortedData', sortedData);
+    console.log('filteredData', filteredData);
 
-    this.sortedDataConfig = this.bars
-      .data(sortedData)
+    this.filteredDataConfig = this.bars
+      .data(filteredData)
       .orientation('horizontal')
+      .createOrdinalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.geography)
+      )
+      .createCategoricalDimension((dimension) =>
+        dimension.valueAccessor((d) => d.category)
+      )
       .createQuantitativeDimension((dimension) =>
         dimension
           .valueAccessor((d) => d.value * 1000)
           .formatSpecifier(',.0f')
           .domainPaddingPixels(16)
       )
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.geography)
-      )
-      .createCategoricalDimension((dimension) => dimension.range(['#2cafb0']))
-      .createLabels((labels) =>
-        labels
-          .display(true)
-          .color({ default: '#2cafb0', withinBarAlternative: 'white' })
-      )
+      .stackOrder(() => [1, 0])
       .getConfig();
 
     this.yAxisConfig = this.yOrdinalAxis.getConfig();
