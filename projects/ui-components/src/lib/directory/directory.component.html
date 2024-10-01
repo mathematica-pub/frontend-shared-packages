@@ -17,7 +17,7 @@
           <span class="material-symbols-outlined arrow">chevron_right</span>
         }
       </div>
-      <app-directory
+      <hsi-ui-directory
         [items]="item.children"
         [level]="level + 1"
         [terminalItemsAreSelectable]="terminalItemsAreSelectable"
@@ -31,7 +31,7 @@
         [class.invisible]="!open[item.name]"
         (stateChanges)="setState($event)"
         [selection]="state$ | async"
-      ></app-directory>
+      ></hsi-ui-directory>
     </div>
   } @else {
     <!-- This is the template for leaf nodes -->

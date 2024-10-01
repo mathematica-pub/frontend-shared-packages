@@ -1,6 +1,5 @@
-@use 'vars' as *;
-@use 'functions' as *;
-@use 'colors';
+@use '../core/styles/colors';
+@use '../core/styles/functions' as *;
 
 .invisible {
   display: none;
