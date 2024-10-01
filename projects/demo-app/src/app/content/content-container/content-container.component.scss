@@ -43,6 +43,7 @@
 
     code {
       @include hsi-adk.body-2xs;
+      font-weight: $font-weight-medium;
       font-family: $font-mono;
     }
   }

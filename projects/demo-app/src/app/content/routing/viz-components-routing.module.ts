@@ -3,46 +3,58 @@ import { RouterModule } from '@angular/router';
 
 const routes = [
   {
-    path: 'marks-guides/bars',
-    loadComponent: () =>
-      import('../viz-components/bars-content/bars-content.component').then(
-        (m) => m.BarsContentComponent
-      ),
-  },
-  {
-    path: 'marks-guides/geographies',
+    path: 'overview',
     loadComponent: () =>
       import(
-        '../viz-components/geographies-content/geographies-content.component'
-      ).then((m) => m.GeographiesContentComponent),
+        '../viz-components/overview-content/overview-content.component'
+      ).then((m) => m.OverviewContentComponent),
   },
   {
-    path: 'marks-guides/grouped-bars',
-    loadComponent: () =>
-      import(
-        '../viz-components/grouped-bars-content/grouped-bars-content.component'
-      ).then((m) => m.GroupedBarsContentComponent),
-  },
-  {
-    path: 'marks-guides/lines',
-    loadComponent: () =>
-      import('../viz-components/lines-content/lines-content.component').then(
-        (m) => m.LinesContentComponent
-      ),
-  },
-  {
-    path: 'marks-guides/stacked-area',
-    loadComponent: () =>
-      import(
-        '../viz-components/stacked-area-content/stacked-area-content.component'
-      ).then((m) => m.StackedAreaContentComponent),
-  },
-  {
-    path: 'marks-guides/stacked-bars',
-    loadComponent: () =>
-      import(
-        '../viz-components/stacked-bars-content/stacked-bars-content.component'
-      ).then((m) => m.StackedBarsContentComponent),
+    path: 'primary-marks-examples',
+    children: [
+      {
+        path: 'bars',
+        loadComponent: () =>
+          import('../viz-components/bars-content/bars-content.component').then(
+            (m) => m.BarsContentComponent
+          ),
+      },
+      {
+        path: 'geographies',
+        loadComponent: () =>
+          import(
+            '../viz-components/geographies-content/geographies-content.component'
+          ).then((m) => m.GeographiesContentComponent),
+      },
+      {
+        path: 'grouped-bars',
+        loadComponent: () =>
+          import(
+            '../viz-components/grouped-bars-content/grouped-bars-content.component'
+          ).then((m) => m.GroupedBarsContentComponent),
+      },
+      {
+        path: 'lines',
+        loadComponent: () =>
+          import(
+            '../viz-components/lines-content/lines-content.component'
+          ).then((m) => m.LinesContentComponent),
+      },
+      {
+        path: 'stacked-area',
+        loadComponent: () =>
+          import(
+            '../viz-components/stacked-area-content/stacked-area-content.component'
+          ).then((m) => m.StackedAreaContentComponent),
+      },
+      {
+        path: 'stacked-bars',
+        loadComponent: () =>
+          import(
+            '../viz-components/stacked-bars-content/stacked-bars-content.component'
+          ).then((m) => m.StackedBarsContentComponent),
+      },
+    ],
   },
   {
     path: '**',

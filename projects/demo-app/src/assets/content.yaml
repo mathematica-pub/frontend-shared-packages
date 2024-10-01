@@ -1,15 +1,5 @@
 # export type SidebarConfig = Record<Library, DocsConfig>;
 #
-# export interface LibConfig {
-#   title: string;
-#   overview: string;
-#   content: ContentConfig;
-# }
-#
-# export interface ContentConfig {
-#   title: string;
-#   items: string[];
-# }
 # export interface DocsConfig {
 #   title: string;
 #   items: FilesConfig;
@@ -33,12 +23,12 @@ ui-components:
   title: UI Components
   items:
     overview: overview.md
+    table: table.md
 viz-components:
   title: Viz Components
   items:
     overview: overview.md
-    how-to: how-to.md
-    marks-guides:
+    primary-marks-examples:
       bars: bars.md
       geographies: geographies.md
       grouped-bars: grouped-bars.md

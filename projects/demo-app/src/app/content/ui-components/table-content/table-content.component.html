@@ -1,9 +1,16 @@
-<h2 class="main-title">Table UI Component</h2>
-<app-split-panel-example-display
-  height="600px"
-  path="app/content/ui-components/table-content/table-example"
-  class="example"
-  label="table example"
->
-  <app-table-example></app-table-example>
-</app-split-panel-example-display>
+<app-content-container>
+  <ng-template let-section #special>
+    @switch (section.content.trim()) {
+      @case ('TableExampleComponent') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/table-content/table-example"
+          class="example"
+          label="table example"
+        >
+          <app-table-example></app-table-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>

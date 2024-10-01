@@ -8,258 +8,188 @@ and to fully customize the system of visual marks used to represent data. At the
 package takes care of common data viz functionality, such as setting scales, creating axes, and
 responsively scaling svgs under the hood.
 
-## Getting Started
+## Quick Start Guide
 
-### System Requirements
+The following is a minimal set of steps to take to start creating data visualizations with Viz
+Components.
+
+This guide will show you how to create a simple bar chart. Analogous steps can be take for other
+chart types.
+
+### System requirements
 
 Viz Components requires the following:
 
-- Node v16.4 or higher
-- npm
-- Angular v16 or higher
+- Node v20
+- Angular v18
 - AWS cli
 
-### Installing the library
+### Getting Set up
 
-Viz Components is hosted in a private repository on AWS. In order to add it to a project as a
-dependency or to update it, you'll need to follow the steps below:
+Viz Components is hosted in a private repository on AWS. In order to add it to a project or update
+it as a dependency, you'll need to follow the steps below.
 
-#### Update your AWS credentials locally
+1. Update your AWS credentials locally.
 
-Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use
-credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
+   Your credentials can be found locally on your machine in `~/.aws/credentials`. You can use
+   credentials from any Mathematica AWS account. Your credentials will last 24 hrs.
 
-#### Use the AWS CLI to authenticate to the remote repository
+2. Use the AWS CLI to authenticate to the remote repository
 
-```bash
-aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
-```
+   ```
+   aws codeartifact login --tool npm --domain shared-package-domain --repository shared-package-repository --domain-owner 922539530544 --namespace @hsi
+   ```
 
-#### Install the library with npm
+3. Install the library with npm
 
-```bash
-npm install @hsi/viz-components
-```
+   ```
+   npm install @hsi/viz-components
+   ```
 
-## Library Fundamentals
+### Preparing to make your chart
 
-To create a new visualization using Viz Components in your Angular application, you will need to
-compose Viz Components's components in the template of an Angular component in your application, and
-create configuration objects for those components in your component's `.ts` file.
+You will need to import a number of modules and services from from `@hsi/viz-components` to your
+Angular component or application.
 
-The Viz Components `Chart` component create a chart's svg and makes chart scales available to any
-child components that are added to its projection slots. All visualizations should start with a
-`Chart` type component, which includes the `Xy Chart` (for charts that have x and y dimensions) and
-the `Map Chart` (for charts that draw geographies with a projection).
+For just the bar chart, you will need to do the following.
 
-To create a functional visualization, a user must also provide one `PrimaryMarks` component within a
-`ChartComponent` projection slot. `PrimaryMarks` components are selected components within the
-library that not only draw marks based on user-provided data and configuration specifications, but
-that also set the scales on the `ChartComponent`, using either the provided data or any custom
-domain values a user provides in the configuration.
+1. Add modules. These will import required components.
 
-Examples of `PrimaryMarks` components include `Bars`, `Lines`, `Geographies`, `Stacked Areas`, and
-`Stacked Bars`.
+   ```ts
+   import { VicChartModule, VicXyChartModule, VicBarsModule } from '@hsi/viz-components';
+   ...
+   @Component ({
+     ...
+     imports: [
+       VicChartModule,
+       VicXyChartModule,
+       VicBarsModule,
+     ],
+   })
+   ```
 
-In the HTML, a minimal implementation of a visualization might look like this. Note how the child
-`Bars` component is between the tags of the parent `XyChart` component.
+2. Provide a primary marks builder class to create the configuration for the primary marks
+   component.
 
-```html
-<vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements vic-primary-marks-bars [config]="PrimaryMarksConfig"><svg:g>
+   ```ts
+   import { VicBarsBuilder } from '@hsi/viz-components';
+   ...
+   @Component ({
+     ...
+     providers: [
+      VicBarsConfigBuilder
+     ]
+   })
+   ```
+
+### Adding components in a HTML template
+
+The following is the minimum html you will need to create the chart:
+
+```angular-html
+<vic-xy-chart>
+  <ng-container svg-elements>
+    <svg:g vic-primary-marks-bars [config]="barsConfig" />
+  </ng-container>
 </vic-xy-chart>
 ```
 
-### Adding additional SVG elements to a visualization
+Note: `svg-elements` is an identifier that needs to be used on a container/element that includes svg
+elements that are part of the chart. In this case, because there is only one component with svg
+elements, that identifier could also be placed on the `vic-primary-marks-bars` component.
 
-The marks drawn by `PrimaryMarks` components can be highly customized through their configuration
-objects.
+### Creating your chart configuration
 
-However, users can also add additional marks/svg elements to the chart by adding additional
-components (or svg code) in the `ChartComponents` projection slots. Any component used inside the
-`ChartComponent` will have access to the scales on the Chart, and can draw additional elements in
-the svg using those scales.
+You will also need to create the configuration object for your primary marks component (`barsConfig`
+in the HTML example above) in your `.ts` file. You will do this using a viz-components config
+builder.
 
-The library provides users with an abstract `AuxMarks` class that with automatically subscribe to
-the chart scales and call an abstract `drawMarks` method when the scales update. Users can extend
-this class to create their own components, and the library also provides several premade `AuxMarks`
-components that provide common visualization functionality, such as drawing a rule to mark a
-specific quantitative value. Data can be used to generate svg elements in `AuxMarks` components as
-well, but that data will not affect the global scales at the chart level.
+#### Injecting a builder
 
-### Providing configurations
-
-Each viz-components _component_ that accepts any user input will have one `@Input` property called
-`config`. Users can generate these configs using builder classes that the library provides to easily
-and correctly construct configs for the components. The library provides the following builders:
-
-#### For Data Marks Components
-
-- `VicBarsBuilder`
-- `VicGeographiesBuilder`
-- `VicGroupedBarsBuilder`
-- `VicLinesBuilder`
-- `VicStackedAreaBuilder`
-- `VicStackedBarsBuilder`
-
-#### For Axis Components
-
-- `VicXOrdinalAxisBuilder`
-- `VicXQuantitativeAxisBuilder`
-- `VicYOrdinalAxisBuilder`
-- `VicYQuantitativeAxisBuilder`
-
-#### Other
-
-- `VicHtmlTooltipBuilder`
-
-The builders provide a set of chainable methods that allow the user to specify the properties of the
-config. Methods may be called in any order, but the user must call the `build` method at the end of
-the chain to get the configuration object to pass to the Data Marks component.
-
-Methods on the builder that have the name of a property can be used to set that property though the
-method's argument. Methods that start with a verb such as `create` or `set` require the user to pass
-a function that will be called with the property as an argument. Many of these methods allow the
-user to configure data dimensions, such as a quantitative or ordinal dimension, or for geographies,
-layers.
-
-_Example_
+At this point, you should have already added the `VicBarsConfigBuilder` to your component's
+`providers` array. Having provided it, we can access it in the component through the constructor (or
+`inject` function).
 
 ```ts
-this.barsBuilder
+constructor(private bars: VicBarsConfigBuilder<MyDatum, string>)
+```
+
+#### Providing types
+
+You may have noticed that we provide the builder with two types when we inject it. What these types
+represent vary from builder to builder.
+
+Here, the first generic is a type that represents one item in the data array that you will use to
+make the chart. For the bar chart, the second type is the type of the ordinal value for each bar.
+
+Providing types to the builder to the library will ensure that any callback functions you provide to
+the library will have type safety.
+
+#### Using a builder
+
+Builders give users a set of chainable functions that allow for component specification. Functions
+can be called in any order, but `getConfig` must be called last.
+
+A minimal use of the bars builder may look like this:
+
+```ts
+import { BarsConfig } from '@hsi/viz-components';
+...
+barsConfig: BarsConfig<MetroUnemploymentDatum, string>;
+data: MyDatum[];
+...
+this.barsConfig = this.bars
+  .data(this.data)
   .orientation('horizontal')
-  .data(data)
-  .createQuantitativeDimension((dimension) => dimension.valueAccessor((d) => d.value))
-  .createOrdinalDimension((dimension) => dimension.valueAccessor((d) => d.state))
-  .createCategoricalDimension((dimension) =>
-    dimension.valueAccessor((d) => d.fruit).range(['red', 'blue'])
+  .createQuantitativeDimension((dimension) =>
+    dimension
+      .valueAccessor((d) => d.value)
   )
-  .createLabels((labels) => labels.noValueFunction(() => 'no value'))
-  .build();
+  .createOrdinalDimension((dimension) =>
+    dimension.valueAccessor((d) => d.division)
+  )
+  .createCategoricalDimension((dimension) => dimension.range(['teal']))
+  .getConfig();
 ```
 
-There are two different methods for instantiating a config builder.
+This configuration will create horizontal bars, with one bar per item in `this.data`. Each bar will
+represent a `division` value, and all bars will be `teal`.
 
-Generally, we recommend that users access the config builders by providing them in the providers
-array of a component and then declaring in the component's constructor, as shown in the code block
-below. We recommend this because we anticipate that this method will feel more familiar to most
-developers, as it better matches Angular application development patterns as well as the patterns
-using most modern JavaScript libraries, and will create a more seamless development experience.
+### Adding additional components/features
 
-However, if this approach is used, _the config must be supplied to its corresponding component as an
-observable or alias of an observable_, so that changes are detected in this object in the target
-component.
+#### Axes
 
-_Using providers array_
+To make this an actual data visualization, we will need to create some additional context,
+particularly in the form of axes. Axes are separate components that you can add to the
+`svg-elements` container in your HTML, just like the bars component.
 
-```ts
-import { VicLinesBuilder } from '@hsi/viz-components';
+For a horizontal bar chart, you'll want to use a `YOrdinalAxis` component as well as a
+`XQuantitativeAxisComponent`.
 
-@Component({
-  ...
-  providers: [
-    VicLinesBuilder,
-  ],
-})
-export class MyAppLinesComponent {
+You'll need to import and provide these modules as well as their respective config builders, just
+like you did with `Bars`. Then you can create configuration objects for these components, and
+provide them in to their respective components.
 
-  constructor(private linesBuilder: VicLinesConfigBuilder) {}
+#### Everything else
 
-  getConfig(): LinesConfig {
-    const config = this.linesBuilder
-      ...
-      .getConfig();
-  }
-}
-```
+After adding the bars and two axis components with minimal configuration, you likely aren't going to
+be satisfied with your visualization. The goal of the team behind this library is to say, "no
+problem, we've got you!" and help you quickly get your charts to where they need to be.
 
-Alternately, users can `new` a config builder themselves, as shown below.
+We've developed a number of additional features that you can access via the various builders to
+provide common viz functionalities. The chart below implements the above instructions, and adds a
+few more things. If you look at the code, you'll see that we're wrapping labels on the y axis,
+setting a margin on the chart to make space for the wrapped labels, and adding some labels to read
+out the values of the bars. You might also notice that the library automatically positioned the
+labels based on available space in the chart, and selected a high contrast color for the label when
+it is on top of the bar.
 
-_New-ing the class_
+This example is only a small taste of what is possible with the library. We encourage you to explore
+the rest of the documentation to learn more about the library (including how to make your own
+components), and invite you to visit our
+[Github issues](https://github.com/mathematica-org/frontend-shared-packages/issues) if any issues
+arise while using the library or if you have requests for additional features. Happy Vizzing!
 
-```ts
-import { VicLinesBuilder } from '@hsi/viz-components';
+## Example Chart
 
-export class MyAppLinesComponent {
-
-  constructor() {}
-
-  getConfig(): LinesConfig {
-    const linesBuilder = new VicLinesConfigBuilder();
-    const config = linesBuilder
-      ...
-      .getConfig();
-  }
-}
-```
-
-#### Builder classes are stateful
-
-Note that builders are stateful classes.
-
-If you create a single instance of the builder class in your component by injecting vis the
-constructor, set 5 properties, call `build`, and then at a later time set only one additional
-property, your original 5 properties will be retained. In this case, and in all cases, you will need
-to called `build` for your changes to be applied.
-
-If you create many new instances of the builder class by calling `new`, each instance will be
-independent of the others.
-
-#### Builders provide default values and throw errors for missing required properties
-
-The builders provide default values for properties whenever possible. The values for these defaults
-can be found in IntelliSense descriptions for builder methods. If the library provides a default
-value, the method to set that property is labeled as optional in IntelliSense.
-
-Some properties do not have default values, and are labeled as required in IntelliSense. If a
-required property is not set, the builder will throw an error when `build` is called.
-
-## Library concepts
-
-### Chart + PrimaryMarks
-
-To create a visualization with Viz Components, a user needs to compose their own chart, created from
-a minimum of one `Chart` component and one `PrimaryMarks` component.
-
-Conceptually, a `Chart` component is a shell that handles scaling the visualization, while a
-`PrimaryMarks` component draws from a user-provided array of data to set scales and create svg
-elements in the DOM.
-
-A very simple HTML implementation of a full chart could look like this
-
-```html
-<vic-xy-chart [margin]="margin" [height]="height" [width]="width">
-  <svg:g svg-elements vic-primary-marks-bars [config]="primaryMarksConfig"><svg:g>
-</vic-xy-chart>
-```
-
-The library offers multiple `Chart` components, such as `XyChartComponent` and `MapChartComponent`
-as well as multiple `PrimaryMarks` components, such as `BarsComponent`, `LinesComponent`, and
-`GeographiesComponent`. Some `PrimaryMarks` components must be used in conjunction with specific
-`Chart` components.
-
-A `Chart` component contains a single `<div>` that wraps a single `<svg>`, with content projection
-slots before and after the `<div>`, and between the opening and closing tags of the `<svg>`.
-
-The D3 scales used to create the visualization are properties of the `Chart` component, and are used
-to scale the svg dynamically with the dimensions of the wrapper `<div>`.
-
-Those scales, however, are set using the data and instructions that the user provides in the
-`PrimaryMarks` component's `config` input property. All other Viz Components (or user-developed
-components) that a user projects into the content projection slots will have access to these scales
-and can use them to create other elements of a data visualization.
-
-There is no limit to what can be projected into the `Chart` component's content-projection slots,
-but a `Chart` may have only one `PrimaryMarks` component.
-
-### Data and Styling
-
-At minimum, the user must supply the `PrimaryMarks` component with a `PrimaryMarksConfig` that
-provides `data` (any[]), and value accessor functions for each of the components' required
-dimensions that tell the component how to find values for each dimension from a `data` array element
--- typically an object with properties. Note that properties that have no relation to the data
-visualization may remain on the object without consequence.
-
-The library provides minimal default styles for all components in the library, from `PrimaryMarks`
-components to add-on components such as axis components. Users may overwrite these style properties
-with their own in each component's `config`.
+{{ QuickStartExampleComponent }}
