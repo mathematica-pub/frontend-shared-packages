@@ -6,6 +6,7 @@ import {
   NgZone,
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
+import { ChartComponent, XyChartComponent } from '../charts';
 import { DataValue } from '../core/types/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
@@ -26,6 +27,7 @@ export const STACKED_AREA = new InjectionToken<
   providers: [
     { provide: VIC_PRIMARY_MARKS, useExisting: StackedAreaComponent },
     { provide: STACKED_AREA, useExisting: StackedAreaComponent },
+    { provide: ChartComponent, useExisting: XyChartComponent },
   ],
 })
 export class StackedAreaComponent<
