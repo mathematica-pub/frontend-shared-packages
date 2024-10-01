@@ -17,6 +17,7 @@
     "start:my-work": "nx serve my-work",
     "build:viz-components": "nx build viz-components",
     "build:ui-components": "nx build ui-components",
+    "build:app-dev-kit": "nx build app-dev-kit",
     "build:demo-app": "nx build demo-app",
     "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
     "watch": "nx build --watch --configuration development",
@@ -119,9 +120,6 @@
     "nx": "19.7.3",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
-    "semantic-release": "^24.1.0",
-    "semantic-release-codeartifact": "^2.0.17",
-    "semantic-release-monorepo": "^8.0.2",
     "tsx": "^4.17.0",
     "typescript": "~5.4.5"
   }
