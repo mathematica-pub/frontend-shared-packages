@@ -1,6 +1,6 @@
 .combobox-textbox {
   background: white;
-  border: 1px solid blue;
+  border: 1px solid grey;
   padding: 12px;
 }
 
@@ -32,9 +32,9 @@
 
 .combobox-listbox.open {
   background: white;
-  border-right: 1px solid orange;
-  border-bottom: 1px solid orange;
-  border-left: 1px solid orange;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+  border-left: 1px solid grey;
   border-radius: 2px;
 }
 
@@ -47,20 +47,20 @@
 }
 
 .listbox-option:hover {
-  background: blanchedalmond;
+  background: #f2f2f2;
 }
 
 .listbox-option.current {
-  outline: 2px solid red;
+  outline: 2px solid black;
   outline-offset: -2px;
 }
 
 .listbox-option.current:not(.selected) {
-  background: blanchedalmond;
+  background: lightgrey;
 }
 
 .listbox-option.selected {
-  background: blanchedalmond;
+  background: lightgrey;
 }
 
 .combobox-value {
