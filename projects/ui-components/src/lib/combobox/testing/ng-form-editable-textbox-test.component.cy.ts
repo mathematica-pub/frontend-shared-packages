@@ -39,7 +39,7 @@ describe('NgFormListboxSingleTestComponent', () => {
   });
   it('displays inputControl value', () => {
     cy.get('.combobox-textbox').should('have.value', 'apples');
-    cy.get('.value-display').should('have.text', 'Textbook value is: apples');
+    cy.get('.value-display').should('have.text', 'Textbox value is: apples');
   });
   it('can change FormControl value', () => {
     cy.get('.combobox-textbox').should('have.value', 'apples');
