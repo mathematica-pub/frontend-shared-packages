@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { Library } from '../../../core/services/router-state/state';
-import { ContentConfigService } from './content-config.service';
+import { Library } from '../../core/services/router-state/state';
+import { ContentConfigService } from '../content-config.service';
 
 export function contentRoutesFactory(lib: Library) {
   return (configService: ContentConfigService) => {

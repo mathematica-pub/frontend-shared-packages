@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { HighlightService } from '../../../core/services/highlight.service';
+import { HighlightService } from '../../core/services/highlight.service';
 
 @Component({
   selector: 'app-code-display',

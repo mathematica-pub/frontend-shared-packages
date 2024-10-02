@@ -18,10 +18,10 @@ import {
   switchMap,
   withLatestFrom,
 } from 'rxjs';
-import { AssetsService } from '../core/services/assets.service';
-import { HighlightService } from '../core/services/highlight.service';
-import { RouterStateService } from '../core/services/router-state/router-state.service';
-import { Section } from '../core/services/router-state/state';
+import { AssetsService } from '../../core/services/assets.service';
+import { HighlightService } from '../../core/services/highlight.service';
+import { RouterStateService } from '../../core/services/router-state/router-state.service';
+import { Section } from '../../core/services/router-state/state';
 
 @Component({
   selector: 'app-automated-documentation-display',

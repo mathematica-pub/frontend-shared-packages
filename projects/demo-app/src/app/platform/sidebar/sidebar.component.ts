@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RouterStateService } from '../core/services/router-state/router-state.service';
-import { Library, Section } from '../core/services/router-state/state';
+import { RouterStateService } from '../../core/services/router-state/router-state.service';
+import { Library, Section } from '../../core/services/router-state/state';
 import { LibDocsComponent } from './lib-docs/lib-docs.component';
 
 @Component({

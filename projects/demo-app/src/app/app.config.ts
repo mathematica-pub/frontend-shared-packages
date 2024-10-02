@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 
 import { APP_ROUTES } from './app.routes';
-import { ContentConfigService } from './content/core/routing/content-config.service';
+import { ContentConfigService } from './content/content-config.service';
 import { Library } from './core/services/router-state/state';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 

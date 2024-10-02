@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { MainServiceStub } from '../core/testing/stubs/services/main.service.stub';
 import { AdkAssetsResource } from './assets-resource';
-import { AdkAssetResponseType, AdkAssetsService } from './assets-service';
+import { AdkAssetResponse, AdkAssetsService } from './assets-service';
 
 describe('AssetsService', () => {
   let service: AdkAssetsService;
@@ -35,17 +35,17 @@ describe('AssetsService', () => {
       spyOn(service as any, 'fetchAsset').and.returnValue(of('asset text'));
     });
     it('calls fetch asset if asset does not exist in assets object', (done) => {
-      service.getAsset('test', AdkAssetResponseType.Text).subscribe(() => {
+      service.getAsset('test', AdkAssetResponse.Text).subscribe(() => {
         expect(service['fetchAsset']).toHaveBeenCalledOnceWith(
           'test',
-          AdkAssetResponseType.Text
+          AdkAssetResponse.Text
         );
         done();
       });
     });
     it('does not call fetch asset if asset exists in assets object', (done) => {
       service['assets']['test'] = of('asset text');
-      service.getAsset('test', AdkAssetResponseType.Text).subscribe(() => {
+      service.getAsset('test', AdkAssetResponse.Text).subscribe(() => {
         expect(service['fetchAsset']).not.toHaveBeenCalled();
         done();
       });

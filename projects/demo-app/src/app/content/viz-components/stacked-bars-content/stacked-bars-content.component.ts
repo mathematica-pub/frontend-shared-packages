@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SinglePanelExampleDisplayComponent } from '../../core/single-panel-example-display/single-panel-example-display.component';
-import { SplitPanelExampleDisplayComponent } from '../../core/split-panel-example-display/split-panel-example-display.component';
+import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
+import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
 import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars-example.component';
 
 @Component({
@@ -14,10 +14,7 @@ import { StackedBarsExampleComponent } from './stacked-bars-example/stacked-bars
     StackedBarsExampleComponent,
   ],
   templateUrl: './stacked-bars-content.component.html',
-  styleUrls: [
-    '../../core/examples.scss',
-    './stacked-bars-content.component.scss',
-  ],
+  styleUrls: ['../../examples.scss', './stacked-bars-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StackedBarsContentComponent {}

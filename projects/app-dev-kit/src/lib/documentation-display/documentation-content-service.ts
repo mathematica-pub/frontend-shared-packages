@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, map, switchMap, withLatestFrom } from 'rxjs';
-import {
-  AdkAssetResponseType,
-  AdkAssetsService,
-} from '../assets/assets-service';
+import { AdkAssetResponse, AdkAssetsService } from '../assets/assets-service';
 import {
   AdkMarkdownParser,
   AdkMarkdownParsingOptions,
@@ -107,7 +104,7 @@ export class AdkDocumentationContentService {
   ): Observable<AdkParsedContentSection[]> {
     if (!this.files[filePathFromAssets]) {
       this.files[filePathFromAssets] = this.assetsService
-        .getAsset(filePathFromAssets, AdkAssetResponseType.Text)
+        .getAsset(filePathFromAssets, AdkAssetResponse.Text)
         .pipe(
           switchMap((text) =>
             this.markdownParser.parseMarkdown(text as string, parsingOptions)

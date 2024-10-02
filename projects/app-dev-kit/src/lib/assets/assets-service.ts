@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, forkJoin } from 'rxjs';
 import { AdkAssetsResource } from './assets-resource';
 
-export enum AdkAssetResponseType {
+export enum AdkAssetResponse {
   ArrayBuffer = 'arraybuffer',
   Blob = 'blob',
   Json = 'json',
@@ -28,7 +28,7 @@ export class AdkAssetsService {
    */
   getAsset(
     assetName: string,
-    responseType: AdkAssetResponseType
+    responseType: AdkAssetResponse
   ): Observable<unknown> {
     if (!this.assets[assetName]) {
       this.assets[assetName] = this.fetchAsset(assetName, responseType);
@@ -38,7 +38,7 @@ export class AdkAssetsService {
 
   private fetchAsset(
     assetName: string,
-    responseType: AdkAssetResponseType
+    responseType: AdkAssetResponse
   ): Observable<unknown> {
     return this.resource.getAsset(
       `${this.assetsPath}${assetName}`,
@@ -54,7 +54,7 @@ export class AdkAssetsService {
    */
   getAssets(
     assetNames: string[],
-    responseType: AdkAssetResponseType
+    responseType: AdkAssetResponse
   ): Observable<unknown[]> {
     return forkJoin(
       assetNames.map((assetName) => this.getAsset(assetName, responseType))

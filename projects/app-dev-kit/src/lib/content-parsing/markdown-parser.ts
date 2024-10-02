@@ -22,15 +22,14 @@ export interface AdkMdParsedContentSection {
   headers: { id: string; text: string; level: number }[];
 }
 
-export interface AdkNgParsedContentSection {
-  type: 'component';
+export interface AdkSpecialParsedContentSection {
+  type: 'special';
   content: string;
-  component: string;
 }
 
 export type AdkParsedContentSection =
   | AdkMdParsedContentSection
-  | AdkNgParsedContentSection;
+  | AdkSpecialParsedContentSection;
 
 export interface AdkMarkdownParsingOptions {
   detectAngularRefs?: boolean;
@@ -139,9 +138,8 @@ export class AdkMarkdownParser {
         }
         // Add the component placeholder as a section
         sections.push({
-          type: 'component',
+          type: 'special',
           content: line.trim().slice(2, -2),
-          component: line.trim().slice(2, -2).trim(),
         });
       } else {
         // Accumulate markdown content
@@ -199,7 +197,6 @@ export class AdkMarkdownParser {
         })
       );
     }
-    // For 'component' type, return the section as is
     return from(Promise.resolve(section));
   }
 

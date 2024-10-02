@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { BasemapService } from './core/services/basemap.service';
 import { DataService } from './core/services/data.service';
 import { RouterStateService } from './core/services/router-state/router-state.service';
-import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidebarComponent } from './platform/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-root',

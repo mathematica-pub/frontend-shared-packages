@@ -9,14 +9,14 @@ export const APP_ROUTES: Routes = [
   {
     path: 'viz-components/content',
     loadChildren: () =>
-      import('./content/core/routing/viz-components-routing.module').then(
+      import('./content/routing/viz-components-routing.module').then(
         (m) => m.VizComponentsRoutingModule
       ),
   },
   {
     path: 'ui-components/content',
     loadChildren: () =>
-      import('./content/core/routing/ui-components-routing.module').then(
+      import('./content/routing/ui-components-routing.module').then(
         (m) => m.UiComponentsRoutingModule
       ),
   },
@@ -26,7 +26,7 @@ export const APP_ROUTES: Routes = [
       {
         path: 'overview',
         loadComponent: () =>
-          import('./content/core/overview/overview.component').then(
+          import('./platform/overview/overview.component').then(
             (m) => m.OverviewComponent
           ),
       },
@@ -37,7 +37,7 @@ export const APP_ROUTES: Routes = [
             path: '**',
             loadComponent: () =>
               import(
-                './documentation/automated-documentation-display.component'
+                './platform/automated-documentation-display/automated-documentation-display.component'
               ).then((m) => m.AutomatedDocumentationDisplayComponent),
           },
         ],
