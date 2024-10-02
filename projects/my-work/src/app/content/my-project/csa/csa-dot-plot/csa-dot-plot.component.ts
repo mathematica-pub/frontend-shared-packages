@@ -15,7 +15,6 @@ import {
   VicStackedBarsModule,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
-  VicXyBackgroundModule,
   VicXyChartModule,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
@@ -33,7 +32,6 @@ import { EnergyIntensityDatum } from '../../../examples/energy-intensity/energy-
     VicStackedBarsModule,
     VicXQuantitativeAxisModule,
     VicYOrdinalAxisModule,
-    VicXyBackgroundModule,
   ],
   providers: [
     VicBarsConfigBuilder,
