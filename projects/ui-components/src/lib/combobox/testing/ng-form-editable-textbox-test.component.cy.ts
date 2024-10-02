@@ -20,7 +20,7 @@ const scss = `
   template: `
     <hsi-ui-ng-form-editable-textbox [inputControl]="inputControl">
     </hsi-ui-ng-form-editable-textbox>
-    <p class="value-display">Textbook value is: {{ inputControl.value }}</p>
+    <p class="value-display">Textbox value is: {{ inputControl.value }}</p>
   `,
   encapsulation: ViewEncapsulation.None,
   styles: [scss],
