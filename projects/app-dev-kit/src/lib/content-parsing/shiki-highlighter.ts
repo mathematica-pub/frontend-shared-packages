@@ -87,7 +87,7 @@ export class AdkShikiHighlighter {
   > | null = null;
 
   /**
-   * Initialize the highlighter. This should only be called one in an application.
+   * Initialize the highlighter. This should only be called once in an application.
    *
    * @param themes an array of any Shiki themes you may want to use in the app. You can control which theme is used where by passing the theme name to the `getMarkedExtension` method.
    *
