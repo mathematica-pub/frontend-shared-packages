@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
-import 'cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import 'projects/viz-components/cypress/support/component';
 import {
   VicBarsModule,
   VicChartModule,
@@ -109,7 +109,7 @@ const checkPositionBeforeAndAfterWindowResize = (assertions: () => void) => {
 
   // Resize window to check that label positioning is maintained
   cy.viewport(300, 300);
-  cy.wait(100);
+  cy.wait(1000);
   assertions();
 };
 

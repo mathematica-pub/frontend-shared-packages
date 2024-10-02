@@ -2,24 +2,21 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { format } from 'd3';
-import { MetroUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
-import { VicOrdinalAxisConfig } from 'projects/viz-components/src/lib/axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
-import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
-import { BarsEventOutput } from 'projects/viz-components/src/lib/bars/events/bars-event-output';
-import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
-import { HoverMoveAction } from 'projects/viz-components/src/lib/events/action';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
 import {
+  BarsConfig,
+  BarsEventOutput,
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
+  ElementSpacing,
+  HoverMoveAction,
+  HtmlTooltipConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
+  VicOrdinalAxisConfig,
+  VicQuantitativeAxisConfig,
   VicXOrdinalAxisConfigBuilder,
   VicXOrdinalAxisModule,
   VicXQuantitativeAxisConfigBuilder,
@@ -30,7 +27,10 @@ import {
   VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-} from 'projects/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import { format } from 'd3';
+import { MetroUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
+import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 
 interface ViewModel {

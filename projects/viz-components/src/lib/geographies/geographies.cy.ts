@@ -8,7 +8,6 @@ import {
   Polygon,
 } from 'geojson';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { StateIncomeDatum } from 'projects/demo-app/src/app/core/models/data';
 import { BehaviorSubject } from 'rxjs';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
@@ -29,6 +28,12 @@ import { VicHtmlTooltipConfigBuilder } from '../tooltips/html-tooltip/config/htm
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { GeographiesConfig } from './config/geographies-config';
 import { GeographiesEventOutput } from './events/geographies-event-output';
+interface StateIncomeDatum {
+  state: string;
+  population: number;
+  income: number;
+  year: number;
+}
 
 const margin = { top: 36, right: 36, bottom: 36, left: 36 };
 const chartHeight = 400;

@@ -10,21 +10,15 @@ import {
   MatButtonToggleChange,
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
-import { MetroUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
-import { VicQuantitativeAxisConfig } from 'projects/viz-components/src/lib/axes/quantitative/quantitative-axis-config';
-import { ElementSpacing } from 'projects/viz-components/src/lib/core/types/layout';
 import {
+  ElementSpacing,
   EventAction,
   HoverMoveAction,
-} from 'projects/viz-components/src/lib/events/action';
-import { LinesConfig } from 'projects/viz-components/src/lib/lines/config/lines-config';
-import { LinesEventOutput } from 'projects/viz-components/src/lib/lines/events/lines-event-output';
-import { VicHtmlTooltipConfigBuilder } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-builder';
-import { HtmlTooltipConfig } from 'projects/viz-components/src/lib/tooltips/html-tooltip/config/html-tooltip-config';
-import {
+  HtmlTooltipConfig,
   LinesClickDirective,
   LinesClickEmitTooltipDataPauseHoverMoveActions,
+  LinesConfig,
+  LinesEventOutput,
   LinesHoverMoveDefaultStyles,
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
@@ -32,18 +26,22 @@ import {
   VicColumnConfig,
   VicDataExport,
   VicDataExportConfig,
+  VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
   VicImageDownloadService,
   VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
+  VicQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
   VicXyBackgroundModule,
   VicXyChartModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-} from 'projects/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import { MetroUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
+import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
 import { HighlightLineForLabel } from './line-input-actions';
 

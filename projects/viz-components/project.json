@@ -1,0 +1,71 @@
+{
+  "name": "viz-components",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "projects/viz-components/src",
+  "prefix": "vic",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "projects/viz-components/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "projects/viz-components/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "projects/viz-components/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": ["{workspaceRoot}/dist/viz-components"]
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd ./dist/viz-components && npm publish"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "projects/viz-components/src/test.ts",
+        "tsConfig": "projects/viz-components/tsconfig.spec.json",
+        "karmaConfig": "projects/viz-components/karma.conf.js",
+        "browsers": "ChromeHeadlessNoSandbox",
+        "watch": false
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "projects/viz-components/**/*.ts",
+          "projects/viz-components/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "projects/viz-components/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "demo-app:build:production"
+      }
+    },
+    "cypress-local": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd projects/viz-components && npx cypress open"
+      }
+    }
+  }
+}

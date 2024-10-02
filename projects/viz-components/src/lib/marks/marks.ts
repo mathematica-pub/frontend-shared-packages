@@ -1,6 +1,6 @@
 import { Directive, OnChanges, SimpleChanges } from '@angular/core';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { Chart } from '../charts';
-import { NgOnChangesUtilities } from '../core/utilities/ng-on-changes';
 
 export interface IMarks {
   chart: Chart;

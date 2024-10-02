@@ -2,6 +2,7 @@ export * from './config/geographies-builder';
 export * from './config/geographies-config';
 export * from './config/geographies-options';
 export * from './config/layers/attribute-data-layer/attribute-data-layer';
+export * from './config/layers/attribute-data-layer/attribute-data-layer-builder';
 export * from './config/layers/attribute-data-layer/attribute-data-layer-options';
 export * from './config/layers/attribute-data-layer/dimensions/attribute-data-bin-enums';
 export * from './config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
@@ -16,8 +17,10 @@ export * from './config/layers/attribute-data-layer/dimensions/equal-value-range
 export * from './config/layers/attribute-data-layer/dimensions/no-bins/no-bins';
 export * from './config/layers/attribute-data-layer/dimensions/no-bins/no-bins-options';
 export * from './config/layers/geojson-properties-layer/geojson-properties-layer';
+export * from './config/layers/geojson-properties-layer/geojson-properties-layer-builder';
 export * from './config/layers/geojson-properties-layer/geojson-properties-layer-options';
 export * from './config/layers/labels/geographies-labels';
+export * from './config/layers/labels/geographies-labels-builder';
 export * from './config/layers/labels/geographies-labels-options';
 export * from './events/actions/geographies-click-actions';
 export * from './events/actions/geographies-hover-actions';

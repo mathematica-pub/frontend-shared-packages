@@ -79,7 +79,7 @@ describe('ngInputObjectChanged()', () => {
     };
   });
 
-  describe('if testObject has changes', () => {
+  describe('if testObject has changed', () => {
     describe('if it is not the first change', () => {
       it('returns true if previous testObject value does not equal current testObject value -- deep check', () => {
         const result = NgOnChangesUtilities.inputObjectChanged(

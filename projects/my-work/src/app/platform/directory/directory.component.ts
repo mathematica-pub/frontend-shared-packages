@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgOnChangesUtilities } from 'projects/viz-components/src/lib/core/utilities/ng-on-changes';
+import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
 import { BehaviorSubject } from 'rxjs';
 
 export interface DirectoryItem {

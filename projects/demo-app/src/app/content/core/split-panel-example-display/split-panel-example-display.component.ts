@@ -9,7 +9,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
-import { TabsModule } from 'projects/ui-components/src/public-api';
+import { TabsModule } from '@hsi/ui-components';
 import {
   BehaviorSubject,
   combineLatest,
