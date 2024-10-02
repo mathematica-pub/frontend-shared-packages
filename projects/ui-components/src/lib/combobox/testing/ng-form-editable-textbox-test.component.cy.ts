@@ -47,7 +47,7 @@ describe('NgFormListboxSingleTestComponent', () => {
     cy.get('.combobox-textbox').should('have.value', 'applesbananas');
     cy.get('.value-display').should(
       'have.text',
-      'Textbook value is: applesbananas'
+      'Textbox value is: applesbananas'
     );
   });
 });
