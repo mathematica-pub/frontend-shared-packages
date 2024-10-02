@@ -137,7 +137,7 @@ describe('NgFormListboxSingleTestComponent', () => {
     cy.get('.listbox-option').first().realClick();
     cy.get('.combobox-listbox').should('not.be.visible');
   });
-  it('should have correct control value', () => {
+  it('control value should match selected combobox value', () => {
     cy.get('.combobox-textbox').click();
     cy.get('.listbox-option').eq(1).realClick();
     cy.get('.display-control-value').realClick();
