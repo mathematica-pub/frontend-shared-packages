@@ -15,7 +15,7 @@ export class DisabledSelectionsSingleExampleComponent {
   options = [
     { displayName: 'Ratatouille', id: 'rat', disabled: true },
     { displayName: 'Finding Nemo', id: 'nemo', disabled: false },
-    { displayName: 'Toy Story', id: 'toy', disabled: true },
+    { displayName: 'Toy Story', id: 'toy', disabled: false },
     { displayName: 'Monsters Inc.', id: 'monstersInc', disabled: true },
     { displayName: 'WALL-E', id: 'robot', disabled: true },
     { displayName: 'Cars', id: 'cars', disabled: false },
