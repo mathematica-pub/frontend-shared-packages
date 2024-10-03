@@ -9,7 +9,7 @@ import {
 import { filter, map, Observable } from 'rxjs';
 import {
   Casing,
-  DirectoryConfigService,
+  DirectoryConfigsService,
 } from '../../core/services/directory-config.service';
 import { RouterStateService } from '../../core/services/router-state/router-state.service';
 import { Section } from '../../core/services/router-state/state';
@@ -31,7 +31,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     public routerState: RouterStateService,
 
-    private configService: DirectoryConfigService
+    private configService: DirectoryConfigsService
   ) {}
 
   ngOnInit(): void {

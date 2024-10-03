@@ -36,7 +36,7 @@ export enum Casing {
   providedIn: 'root',
   deps: [TitleCasePipe],
 })
-export class DirectoryConfigService {
+export class DirectoryConfigsService {
   contentPath = 'content/content.yaml';
   docsPath = 'documentation/documentation.yaml';
   private _contentConfig: BehaviorSubject<ContentConfig> = new BehaviorSubject(
