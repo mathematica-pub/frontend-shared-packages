@@ -1,5 +1,6 @@
 export enum Library {
   SharedPackages = 'shared-packages',
+  AppDevKit = 'app-dev-kit',
   UiComponents = 'ui-components',
   VizComponents = 'viz-components',
 }

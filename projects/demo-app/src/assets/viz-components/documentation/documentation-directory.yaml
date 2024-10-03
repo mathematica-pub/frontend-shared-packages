@@ -4,7 +4,7 @@ chart-components:
   map-chart: 'components/MapChartComponent.html'
   internal:
     chart: 'components/ChartComponent.html'
-data-marks-components:
+primary-marks-components:
   bars:
     component: 'components/BarsComponent.html'
     builder: 'injectables/VicBarsConfigBuilder.html'

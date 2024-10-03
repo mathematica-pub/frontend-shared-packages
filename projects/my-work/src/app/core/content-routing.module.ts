@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, ROUTES } from '@angular/router';
 import { contentRoutesFactory } from './content-routes-factory';
-import { DirectoryConfigService } from './services/directory-config.service';
+import { DirectoryConfigsService } from './services/directory-config.service';
 
 @NgModule({
   imports: [RouterModule.forChild([])],
@@ -10,7 +10,7 @@ import { DirectoryConfigService } from './services/directory-config.service';
     {
       provide: ROUTES,
       useFactory: contentRoutesFactory,
-      deps: [DirectoryConfigService],
+      deps: [DirectoryConfigsService],
       multi: true,
     },
   ],

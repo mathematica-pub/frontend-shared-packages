@@ -1,59 +1,44 @@
 @use 'sass:map';
-@use 'color';
+@use 'colors';
 @use 'functions' as *;
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&display=swap');
 
 /* ----- FONTS ----- */
-$sans-font: 'Fira Sans', sans-serif;
-$serif-font: 'PT Serif', monospace;
-$code-font: 'Fira Code', monospace;
+$font-sans: 'Fira Sans', sans-serif;
+$font-serif: 'PT Serif', monospace;
+$font-mono: 'Fira Code', monospace;
 
-$font-weight: (
-  'light': 300,
-  'regular': 400,
-  'medium': 500,
-  'semibold': 600,
-  'bold': 700,
-);
-
-$line-height: (
-  0: 1,
-  1: 1.125,
-  2: 1.25,
-  3: 1.5,
-  4: 1.75,
-  5: 2,
-);
-
-$font-weight-light: map.get($font-weight, 'light');
-$font-weight-regular: map.get($font-weight, 'regular');
-$font-weight-medium: map.get($font-weight, 'medium');
-$font-weight-semibold: map.get($font-weight, 'semibold');
-$font-weight-bold: map.get($font-weight, 'bold');
-$line-height-0: map.get($line-height, 0);
-$line-height-1: map.get($line-height, 1);
-$line-height-2: map.get($line-height, 2);
-$line-height-3: map.get($line-height, 3);
-$line-height-4: map.get($line-height, 4);
-$line-height-5: map.get($line-height, 5);
+$font-weight-light: var(--hsi-adk-font-weight-light);
+$font-weight-regular: var(--hsi-adk-font-weight-regular);
+$font-weight-medium: var(--hsi-adk-font-weight-medium);
+$font-weight-semibold: var(--hsi-adk-font-weight-semibold);
+$font-weight-bold: var(--hsi-adk-font-weight-bold);
+$line-height-0: var(--hsi-adk-line-height-0);
+$line-height-1: var(--hsi-adk-line-height-1);
+$line-height-2: var(--hsi-adk-line-height-2);
+$line-height-3: var(--hsi-adk-line-height-3);
+$line-height-4: var(--hsi-adk-line-height-4);
+$line-height-5: var(--hsi-adk-line-height-5);
 
 $transition-default: all 0.2s ease-in-out;
 $transition-quick: all 0.125s ease-in-out;
 
 $drop-shadow-light:
-  0 1px 3px rgba(color.$primary-text, 0.12),
-  0 1px 2px rgba(color.$primary-text, 0.24);
+  0 1px 3px rgba(colors.$text, 0.12),
+  0 1px 2px rgba(colors.$text, 0.24);
 $drop-shadow-lightest:
-  0 1px 3px rgba(color.$primary-text, 0.06),
-  0 1px 2px rgba(color.$primary-text, 0.12);
+  0 1px 3px rgba(colors.$text, 0.06),
+  0 1px 2px rgba(colors.$text, 0.12);
 $drop-shadow-bottom-light:
-  0 1px 3px -1px rgba(color.$primary-text, 0.12),
-  0 1px 2px -1px rgba(color.$primary-text, 0.24);
+  0 1px 3px -1px rgba(colors.$text, 0.12),
+  0 1px 2px -1px rgba(colors.$text, 0.24);
 $drop-shadow-bottom-lightest:
-  0 1px 3px -1px rgba(color.$primary-text, 0.06),
-  0 1px 2px -1px rgba(color.$primary-text, 0.12);
+  0 1px 3px -1px rgba(colors.$text, 0.06),
+  0 1px 2px -1px rgba(colors.$text, 0.12);
 
 $focus-ring-width: 2px;
-$color-focus-ring: color.$highlight-default;
+$color-focus-ring: colors.$highlight-default;
 $focus-ring-style: $focus-ring-width solid $color-focus-ring;
 $main-content-width: 900px;
 
