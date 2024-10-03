@@ -80,10 +80,10 @@ export class AdkDocumentationContentService {
         return this.getParsedMarkdownFile(pathToFile, options.parsingOptions);
       }),
       withLatestFrom(contentPath$),
-      map(([angularMarkdownSections, configPath]) => {
+      map(([markdownSections, configPath]) => {
         return {
-          sections: angularMarkdownSections,
-          headings: angularMarkdownSections.reduce((acc, section) => {
+          sections: markdownSections,
+          headings: markdownSections.reduce((acc, section) => {
             if (section.type === 'markdown') {
               acc.push(...section.headers);
             }
@@ -107,7 +107,7 @@ export class AdkDocumentationContentService {
         .getAsset(filePathFromAssets, AdkAssetResponse.Text)
         .pipe(
           switchMap((text) =>
-            this.markdownParser.parseMarkdown(text as string, parsingOptions)
+            this.markdownParser.parse(text as string, parsingOptions)
           )
         );
     }

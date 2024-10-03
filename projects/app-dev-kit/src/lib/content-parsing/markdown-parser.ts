@@ -32,7 +32,7 @@ export type AdkParsedContentSection =
   | AdkSpecialParsedContentSection;
 
 export interface AdkMarkdownParsingOptions {
-  detectAngularRefs?: boolean;
+  detectSpecial?: boolean;
   highlighter?: AdkShikiHighlighterOptions;
   gfm?: boolean;
   headingIds?: boolean;
@@ -59,7 +59,7 @@ const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
 };
 
 const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
-  detectAngularRefs: true,
+  detectSpecial: true,
   gfm: true,
   headingIds: true,
   headingFragmentLinks: { createLinks: false },
@@ -79,7 +79,7 @@ export class AdkMarkdownParser {
     this.parser = unified;
   }
 
-  parseMarkdown(
+  parse(
     markdown: string,
     options?: AdkMarkdownParsingOptions
   ): Observable<AdkParsedContentSection[]> {
@@ -102,7 +102,7 @@ export class AdkMarkdownParser {
         }
       }),
       switchMap((_options) => {
-        const sections = this.getSections(markdown, _options.detectAngularRefs);
+        const sections = this.getSections(markdown, _options.detectSpecial);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
         });
@@ -126,7 +126,6 @@ export class AdkMarkdownParser {
         line.trim().startsWith('{{') &&
         line.trim().endsWith('}}')
       ) {
-        // If we have accumulated any markdown, add it as a section
         if (currentMarkdown.trim()) {
           sections.push({
             type: 'markdown',
@@ -136,13 +135,11 @@ export class AdkMarkdownParser {
           });
           currentMarkdown = '';
         }
-        // Add the component placeholder as a section
         sections.push({
           type: 'special',
-          content: line.trim().slice(2, -2),
+          content: line.trim().slice(2, -2).trim(),
         });
       } else {
-        // Accumulate markdown content
         currentMarkdown += line + '\n';
       }
     }

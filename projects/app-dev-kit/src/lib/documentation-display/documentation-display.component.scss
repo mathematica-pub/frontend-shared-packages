@@ -122,7 +122,8 @@
     h5 > code,
     h6 > code,
     li > code,
-    p > code {
+    li > em > code,
+    p > code p > em > code {
       font-family: $font-mono;
       font-weight: 500;
       padding-left: grid(1);
@@ -133,7 +134,8 @@
       padding: grid(1);
     }
 
-    p > code {
+    p > code,
+    p > em > code {
       font-size: 15px;
     }
   }

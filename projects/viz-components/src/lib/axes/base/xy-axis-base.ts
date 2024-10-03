@@ -134,7 +134,7 @@ export abstract class XyAxis<TickValue extends DataValue>
       width = this.config.wrap.wrapWidth;
     }
     const config = new SvgTextWrap({ ...properties, width });
-    tickTextSelection.call(config.wrap);
+    config.wrap(tickTextSelection);
   }
 
   processAxisFeatures(): void {

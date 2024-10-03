@@ -8,19 +8,12 @@ import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TabsModule } from '@hsi/ui-components';
 import { combineLatest, map, shareReplay } from 'rxjs';
-import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { ExampleDisplay } from '../example-display/example-display';
 
 @Component({
   selector: 'app-single-panel-example-display',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CodeDisplayComponent,
-    TabsModule,
-    MatTabsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, TabsModule, MatTabsModule],
   providers: [FormGroupDirective],
   templateUrl: './single-panel-example-display.component.html',
   styleUrls: [

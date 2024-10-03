@@ -17,18 +17,12 @@ import {
   Observable,
   shareReplay,
 } from 'rxjs';
-import { CodeDisplayComponent } from '../code-display/code-display.component';
 import { ResizableExampleDisplay } from './resizable-example-display';
 
 @Component({
   selector: 'app-split-panel-example-display',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CodeDisplayComponent,
-    TabsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, TabsModule],
   providers: [FormGroupDirective],
   templateUrl: './split-panel-example-display.component.html',
   styleUrls: [

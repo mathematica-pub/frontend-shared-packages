@@ -1,7 +1,9 @@
 import { AsyncPipe } from '@angular/common';
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AdkShikiHighlighter, ShikiTheme } from '@hsi/app-dev-kit';
 import { BasemapService } from './core/services/basemap.service';
+import { ContentFilesService } from './core/services/content-files.service';
 import { DataService } from './core/services/data.service';
 import { RouterStateService } from './core/services/router-state/router-state.service';
 import { SidebarComponent } from './platform/sidebar/sidebar.component';
@@ -19,11 +21,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   constructor(
     private basemap: BasemapService,
     private dataService: DataService,
-    public routerState: RouterStateService
+    public routerState: RouterStateService,
+    private highlighting: AdkShikiHighlighter,
+    private contentService: ContentFilesService
   ) {}
 
   ngOnInit(): void {
     this.routerState.initialize();
+    this.highlighting.initialize([
+      ShikiTheme.GitHubLight,
+      ShikiTheme.CatppuccinLatte,
+    ]);
+    this.contentService.initialize();
   }
 
   ngAfterViewInit(): void {

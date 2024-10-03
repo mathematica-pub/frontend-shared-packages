@@ -45,6 +45,7 @@ export class AdkDocumentationDisplayComponent implements OnInit, AfterViewInit {
   @Input() fileConfig: AdkNestedObject;
   @Input() highlightTheme: ShikiTheme;
   @Input() pathFromAssetsToFile: string;
+  @Input() showPrevNextNavigation = true;
   @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
   content$: Observable<AdkParsedDocumentation>;

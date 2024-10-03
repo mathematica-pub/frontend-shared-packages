@@ -8,9 +8,12 @@ import {
   withInMemoryScrolling,
 } from '@angular/router';
 
+import {
+  AdkDocumentationConfigParser,
+  AdkDocumentationContentService,
+} from '@hsi/app-dev-kit';
 import { APP_ROUTES } from './app.routes';
-import { ContentConfigService } from './content/content-config.service';
-import { Library } from './core/services/router-state/state';
+import { ContentConfigService } from './core/services/content-config.service';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
@@ -22,12 +25,14 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideAnimationsAsync(),
+    AdkDocumentationContentService,
+    AdkDocumentationConfigParser,
     {
       provide: APP_INITIALIZER,
       multi: true,
       useFactory: (config: ContentConfigService) => {
         return () => {
-          config.initConfigs([Library.UiComponents, Library.VizComponents]);
+          config.initConfig();
         };
       },
       deps: [ContentConfigService],

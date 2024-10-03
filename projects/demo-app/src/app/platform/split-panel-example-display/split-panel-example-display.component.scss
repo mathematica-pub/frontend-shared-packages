@@ -8,13 +8,13 @@
 
   .panel {
     border-radius: grid(3);
-    border: 1px solid colors.$muted-primary-80;
+    border: 1px solid colors.$muted-primary-90;
     min-width: 100px;
   }
 
   .panel.example {
     width: calc(50% - 0.5rem);
-    border-right: 1px solid colors.$muted-primary-80;
+    border-right: 1px solid colors.$muted-primary-90;
   }
 
   .panel.code {

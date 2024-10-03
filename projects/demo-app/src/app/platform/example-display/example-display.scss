@@ -27,7 +27,7 @@
     border-top-left-radius: grid(3);
     border-top-right-radius: grid(3);
     background: colors.$muted-primary-95;
-    border-bottom: 1px solid colors.$muted-primary-80;
+    border-bottom: 1px solid colors.$muted-primary-90;
   }
 
   .tab-label-container:first-of-type {
@@ -46,13 +46,14 @@
   }
 
   .tab-label-container:not(.active):hover .tab-label {
+    cursor: pointer;
     color: colors.$highlight-default;
     transition: all 200ms;
-    background-color: colors.$muted-primary-90;
+    background-color: colors.$primary-90;
   }
 
   .tab-label-container.active .tab-label {
-    border: 1px solid colors.$muted-primary-80;
+    border: 1px solid colors.$muted-primary-90;
     border-bottom-color: white;
     color: colors.$primary-0;
     background-color: white;

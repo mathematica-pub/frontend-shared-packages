@@ -3,9 +3,6 @@
 @use 'functions' as *;
 @use 'colors';
 @use 'index' as hsi-adk;
-@import 'prismjs/plugins/toolbar/prism-toolbar.css';
-@import 'prismjs/plugins/line-numbers/prism-line-numbers.css';
-@import 'prismjs/themes/prism-okaidia';
 
 @include hsi-adk.reset(#{$font-sans}, #{colors.$text});
 

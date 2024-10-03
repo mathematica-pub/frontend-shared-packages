@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
 import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
+import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { GeographiesExampleComponent } from './geographies-example/geographies-example.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { GeographiesExampleComponent } from './geographies-example/geographies-e
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
     GeographiesExampleComponent,
+    ContentContainerComponent,
   ],
   templateUrl: './geographies-content.component.html',
   styleUrls: ['../../examples.scss', './geographies-content.component.scss'],

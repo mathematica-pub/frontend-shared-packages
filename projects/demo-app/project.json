@@ -24,6 +24,11 @@
           "projects/demo-app/src/assets",
           {
             "glob": "**/*-content/**/*",
+            "input": "projects/demo-app/src/app/content/ui-components/",
+            "output": "/app/content/ui-components"
+          },
+          {
+            "glob": "**/*-content/**/*",
             "input": "projects/demo-app/src/app/content/viz-components/",
             "output": "/app/content/viz-components"
           }
@@ -52,12 +57,6 @@
               "type": "anyComponentStyle",
               "maximumWarning": "500kb",
               "maximumError": "1mb"
-            }
-          ],
-          "fileReplacements": [
-            {
-              "replace": "projects/demo-app/src/environments/environment.ts",
-              "with": "projects/demo-app/src/environments/environment.prod.ts"
             }
           ],
           "outputHashing": "all"

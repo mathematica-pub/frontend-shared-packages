@@ -1,8 +1,8 @@
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
 import { HsiUiDirectoryItem } from '@hsi/ui-components';
-import { BehaviorSubject, forkJoin } from 'rxjs';
-import { AssetsService } from '../services/assets.service';
+import { BehaviorSubject, forkJoin, map } from 'rxjs';
 
 export interface ContentConfig {
   title: string;
@@ -55,14 +55,20 @@ export class DirectoryConfigsService {
   }
 
   constructor(
-    private assets: AssetsService,
+    private assets: AdkAssetsService,
     private titleCase: TitleCasePipe
   ) {}
 
   initConfigs(): void {
     forkJoin([
-      this.assets.getYamlFile<DocsConfig>(this.docsPath),
-      this.assets.getYamlFile<ContentConfig>(this.contentPath),
+      this.assets
+        .getAsset(this.docsPath, AdkAssetResponse.Text)
+        .pipe(map((str) => this.assets.parseYaml<DocsConfig>(str as string))),
+      this.assets
+        .getAsset(this.contentPath, AdkAssetResponse.Text)
+        .pipe(
+          map((str) => this.assets.parseYaml<ContentConfig>(str as string))
+        ),
     ]).subscribe((configs: [DocsConfig, ContentConfig]) => {
       this._docsConfig.next(configs[0]);
       this._contentConfig.next(configs[1]);

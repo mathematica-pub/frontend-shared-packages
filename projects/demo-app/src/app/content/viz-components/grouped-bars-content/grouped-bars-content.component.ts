@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
 import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
+import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { GroupedBarsExampleComponent } from './grouped-bars-example/grouped-bars-example.component';
 
 @Component({
@@ -12,6 +13,7 @@ import { GroupedBarsExampleComponent } from './grouped-bars-example/grouped-bars
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
     GroupedBarsExampleComponent,
+    ContentContainerComponent,
   ],
   templateUrl: './grouped-bars-content.component.html',
   styleUrls: ['../../examples.scss', './grouped-bars-content.component.scss'],

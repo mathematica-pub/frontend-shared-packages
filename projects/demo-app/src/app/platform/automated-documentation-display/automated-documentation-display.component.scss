@@ -1,6 +1,8 @@
 @use 'vars' as *;
+@use 'placeholders' as *;
 @use 'colors';
 @use 'functions' as *;
+@use 'index' as hsi-adk;
 
 .wrap {
   position: relative;
@@ -18,7 +20,15 @@
     color: colors.$highlight-default;
   }
 
+  pre:has(> code) {
+    background-color: colors.$muted-primary-98;
+    padding: grid(4);
+    border-radius: 4px;
+    overflow-x: auto;
+  }
+
   code {
+    @include hsi-adk.body-2xs;
     font-family: $font-mono;
     color: colors.$highlight-code;
   }

@@ -1,19 +1,25 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, ROUTES } from '@angular/router';
-import { Library } from '../../core/services/router-state/state';
-import { ContentConfigService } from '../content-config.service';
-import { contentRoutesFactory } from './content-routes-factory';
+import { RouterModule } from '@angular/router';
+
+const routes = [
+  {
+    path: 'table',
+    loadComponent: () =>
+      import('../ui-components/table-content/table-content.component').then(
+        (m) => m.TableContentComponent
+      ),
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('../content-container/content-container.component').then(
+        (m) => m.ContentContainerComponent
+      ),
+  },
+];
 
 @NgModule({
-  imports: [RouterModule.forChild([])],
+  imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
-  providers: [
-    {
-      provide: ROUTES,
-      useFactory: contentRoutesFactory(Library.UiComponents),
-      deps: [ContentConfigService],
-      multi: true,
-    },
-  ],
 })
 export class UiComponentsRoutingModule {}

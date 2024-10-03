@@ -7,27 +7,20 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
 import {
   HsiUiDirectoryComponent,
   HsiUiDirectoryItem,
   HsiUiDirectorySelection,
 } from '@hsi/ui-components';
 import { filter, map, Observable } from 'rxjs';
-import {
-  getContentConfigForLib,
-  getDocumentationConfigForLib,
-} from '../../../core/constants/file-paths.constants';
-import { AssetsService } from '../../../core/services/assets.service';
+import { getDocumentationConfigForLib } from '../../../core/constants/file-paths.constants';
+import { ContentConfigService } from '../../../core/services/content-config.service';
 import { RouterStateService } from '../../../core/services/router-state/router-state.service';
 import { Library, Section } from '../../../core/services/router-state/state';
 
 type NestedStringObject = {
   [key: string]: string | NestedStringObject;
-};
-
-type ContentConfig = {
-  title: string;
-  items: NestedStringObject;
 };
 
 type ContentDocs = {
@@ -47,62 +40,67 @@ type ContentDocs = {
 })
 export class LibDocsComponent implements OnInit {
   @Input() lib: { displayName: string; id: Library };
+  @Input() expanded = true;
   automatedDocsItems$: Observable<HsiUiDirectoryItem[]>;
-  manualDocs$: Observable<ContentDocs>;
-  expanded = true;
+  customDocs$: Observable<ContentDocs>;
   Section = Section;
   Library = Library;
 
   constructor(
     private titleCase: TitleCasePipe,
     public routerState: RouterStateService,
-    private assets: AssetsService
+    private assets: AdkAssetsService,
+    private configService: ContentConfigService
   ) {}
 
   ngOnInit(): void {
-    this.initManualDocumentation();
+    this.initCustomDocumentation();
     this.initAutomatedDocumentation();
   }
 
-  initManualDocumentation(): void {
-    const configPath = getContentConfigForLib(this.lib.id);
-    this.manualDocs$ = this.assets
-      .getAsset<ContentConfig>(configPath, 'yaml')
-      .pipe(
-        filter((manualConfig) => !!manualConfig),
-        map((manualConfig) => ({
-          title: manualConfig.title,
-          items: this.getDocsDirectoryTree(manualConfig.items),
-        }))
-      );
+  initCustomDocumentation(): void {
+    this.customDocs$ = this.configService.config$.pipe(
+      filter((siteConfig) => !!siteConfig && !!siteConfig[this.lib.id].items),
+      map((siteConfig) => siteConfig[this.lib.id]),
+      map((libConfig) => {
+        return {
+          title: libConfig.title,
+          items: this.getDocsDirectoryTree(libConfig.items, this.lib.id),
+        };
+      })
+    );
   }
 
   initAutomatedDocumentation(): void {
     const configPath = getDocumentationConfigForLib(this.lib.id);
     this.automatedDocsItems$ = this.assets
-      .getAsset<NestedStringObject>(configPath, 'yaml')
+      .getAsset(configPath, AdkAssetResponse.Text)
       .pipe(
+        map((str) => this.assets.parseYaml<NestedStringObject>(str as string)),
         filter((automatedConfig) => !!automatedConfig),
-        map((automatedConfig) => this.getDocsDirectoryTree(automatedConfig))
+        map((automatedConfig) =>
+          this.getDocsDirectoryTree(automatedConfig, undefined)
+        )
       );
   }
 
   getDocsDirectoryTree(
     yaml: NestedStringObject,
+    valuePrefix: string, //use value prefix to distinguish between overview for lib 1 and for lib 2
     level: number = 0
   ): HsiUiDirectoryItem[] {
     let itemsArray;
     if (Array.isArray(yaml)) {
-      itemsArray = yaml.map((item) => this.createFlatItem(item));
+      itemsArray = yaml.map((item) => this.createFlatItem(item, valuePrefix));
     } else {
       itemsArray = Object.entries(yaml).map(([key, value]) => {
         if (typeof value === 'string') {
-          return this.createFlatItem(key);
+          return this.createFlatItem(key, valuePrefix);
         } else {
           return {
             name: this.createDisplayName(key),
-            value: key,
-            children: this.getDocsDirectoryTree(value, level + 1),
+            value: valuePrefix ? `${valuePrefix}-${key}` : key,
+            children: this.getDocsDirectoryTree(value, valuePrefix, level + 1),
           };
         }
       });
@@ -119,10 +117,10 @@ export class LibDocsComponent implements OnInit {
     return itemsArray as HsiUiDirectoryItem[];
   }
 
-  createFlatItem(key: string): HsiUiDirectoryItem {
+  createFlatItem(key: string, valuePrefix: string): HsiUiDirectoryItem {
     return {
       name: this.createDisplayName(key),
-      value: key,
+      value: valuePrefix ? `${valuePrefix}-${key}` : key,
     };
   }
 
@@ -138,18 +136,21 @@ export class LibDocsComponent implements OnInit {
     });
   }
 
+  selectCustomDocsItem(item: HsiUiDirectorySelection): void {
+    this.routerState.update({
+      lib: this.lib.id,
+      section: Section.Content,
+      contentPath: item.activePath.replace(
+        new RegExp(`${this.lib.id}-`, 'g'),
+        ''
+      ),
+    });
+  }
+
   selectAutomatedDocsItem(item: HsiUiDirectorySelection): void {
     this.routerState.update({
       lib: this.lib.id,
       section: Section.Documentation,
-      contentPath: item.activePath,
-    });
-  }
-
-  selectManualDocsItem(item: HsiUiDirectorySelection): void {
-    this.routerState.update({
-      lib: this.lib.id,
-      section: Section.Content,
       contentPath: item.activePath,
     });
   }

@@ -14,11 +14,13 @@
             </ng-container>
           }
         }
-        <hsi-adk-navigation-siblings
-          class="nav-siblings"
-          [siblings]="content.siblings"
-          (nextDoc)="navigateToDoc($event)"
-        ></hsi-adk-navigation-siblings>
+        @if (showPrevNextNavigation) {
+          <hsi-adk-navigation-siblings
+            class="nav-siblings"
+            [siblings]="content.siblings"
+            (nextDoc)="navigateToDoc($event)"
+          ></hsi-adk-navigation-siblings>
+        }
       </div>
       <hsi-adk-document-index
         class="document-index"

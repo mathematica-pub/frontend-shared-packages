@@ -1,9 +1,16 @@
-<h2 class="main-title">Stacked Area Primary Marks Component</h2>
-<app-split-panel-example-display
-  height="600px"
-  path="app/content/viz-components/stacked-area-content/stacked-area-example"
-  class="example"
-  label="stacked-area example"
->
-  <app-stacked-area-example></app-stacked-area-example>
-</app-split-panel-example-display>
+<app-content-container>
+  <ng-template let-section #special>
+    @switch (section.content.trim()) {
+      @case ('StackedAreaExampleComponent') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/viz-components/stacked-area-content/stacked-area-example"
+          class="example"
+          label="stacked-area example"
+        >
+          <app-stacked-area-example></app-stacked-area-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>

@@ -30,9 +30,10 @@
           >
           <hsi-ui-tab-body>
             <div class="scroll-container">
-              <app-code-display
-                [fileData]="tabContent$ | async"
-              ></app-code-display>
+              <div
+                class="render-file-container"
+                [innerHtml]="tabContent$ | async"
+              ></div>
             </div>
           </hsi-ui-tab-body>
         </hsi-ui-tab-item>

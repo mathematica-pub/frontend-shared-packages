@@ -2,17 +2,19 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   Input,
-  OnChanges,
   ViewEncapsulation,
   type OnInit,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { Observable, map } from 'rxjs';
-import { AssetsService } from '../../core/services/assets.service';
-import { HighlightService } from '../../core/services/highlight.service';
+import {
+  AdkAssetResponse,
+  AdkAssetsService,
+  AdkMarkdownParser,
+  AdkParsedContentSection,
+  ShikiTheme,
+} from '@hsi/app-dev-kit';
+import { distinctUntilChanged, map, Observable, switchMap } from 'rxjs';
+import { RouterStateService } from '../../core/services/router-state/router-state.service';
 
 @Component({
   selector: 'app-overview',
@@ -23,39 +25,36 @@ import { HighlightService } from '../../core/services/highlight.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
-export class OverviewComponent implements OnInit, OnChanges {
+export class OverviewComponent implements OnInit {
   // passed in with routerBinding;
   @Input() lib: string;
-  html$: Observable<SafeHtml>;
+  content$: Observable<AdkParsedContentSection[]>;
   route: string;
 
   constructor(
-    private sanitizer: DomSanitizer,
-    private destroyRef: DestroyRef,
-    private highlight: HighlightService,
-    private assets: AssetsService
+    private routerState: RouterStateService,
+    private assets: AdkAssetsService,
+    private markdown: AdkMarkdownParser
   ) {}
 
   ngOnInit(): void {
-    this.html$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
-      this.activateCodeHighlighting();
-    });
-  }
-
-  ngOnChanges(): void {
     this.setHtml();
   }
 
   setHtml(): void {
-    const filePath = `${this.lib}/content/overview.md`;
-    this.html$ = this.assets
-      .getAsset(filePath, 'md')
-      .pipe(map((html) => this.sanitizer.bypassSecurityTrustHtml(html)));
-  }
-
-  activateCodeHighlighting(): void {
-    setTimeout(() => {
-      this.highlight.highlightAll();
-    }, 0);
+    this.content$ = this.routerState.state$.pipe(
+      map((state) => state.lib),
+      map((lib) => `${lib}/content/overview.md`),
+      distinctUntilChanged(),
+      switchMap((filePath) =>
+        this.assets.getAsset(filePath, AdkAssetResponse.Text)
+      ),
+      switchMap((raw) => {
+        return this.markdown.parse(raw as string, {
+          detectSpecial: false,
+          highlighter: { type: 'markdown', theme: ShikiTheme.CatppuccinLatte },
+        });
+      })
+    );
   }
 }
