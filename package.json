@@ -21,10 +21,10 @@
     "build:viz-components": "nx build viz-components",
     "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
     "watch": "nx build --watch --configuration development",
-    "watch:app-dev-kit": "nx build ui-components --watch",
+    "watch:app-dev-kit": "nx build app-dev-kit --watch",
     "watch:ui-components": "nx build ui-components --watch",
     "watch:viz-components": "nx build viz-components --watch",
-    "test:app-dev-kit": "nx test viz-components --browsers=Chrome",
+    "test:app-dev-kit": "nx test app-dev-kit --browsers=Chrome",
     "test:ui-components": "nx test ui-components --browsers=Chrome",
     "test:ui-components:ci": "nx test ui-components --watch=false --code-coverage --browsers=ChromeHeadlessNoSandbox",
     "test:viz-components": "nx test viz-components --browsers=Chrome",
@@ -134,9 +134,6 @@
     "nx": "19.7.3",
     "prettier": "^3.3.3",
     "prettier-eslint": "^16.3.0",
-    "semantic-release": "^24.1.0",
-    "semantic-release-codeartifact": "^2.0.17",
-    "semantic-release-monorepo": "^8.0.2",
     "tsx": "^4.17.0",
     "typescript": "~5.4.5"
   }
