@@ -15,21 +15,19 @@ import { unified } from 'unified';
 import { deepMerge } from '../core/utilities/deep-merge';
 import { AdkShikiHighlighter, ShikiTheme } from './shiki-highlighter';
 
-export interface AdkMdParsedContentSection {
+export interface AdkMdContentSection {
   type: 'markdown';
   content: string;
   html: SafeHtml;
   headers: { id: string; text: string; level: number }[];
 }
 
-export interface AdkSpecialParsedContentSection {
+export interface AdkSpecialContentSection {
   type: 'special';
   content: string;
 }
 
-export type AdkParsedContentSection =
-  | AdkMdParsedContentSection
-  | AdkSpecialParsedContentSection;
+export type AdkContentSection = AdkMdContentSection | AdkSpecialContentSection;
 
 export interface AdkMarkdownParsingOptions {
   detectAngularRefs?: boolean;
@@ -82,7 +80,7 @@ export class AdkMarkdownParser {
   parseMarkdown(
     markdown: string,
     options?: AdkMarkdownParsingOptions
-  ): Observable<AdkParsedContentSection[]> {
+  ): Observable<AdkContentSection[]> {
     const mergedOptions = deepMerge(DEFAULT_PARSING_OPTIONS, options || {});
 
     return of(mergedOptions).pipe(
@@ -114,8 +112,8 @@ export class AdkMarkdownParser {
   private getSections(
     markdown: string,
     detectAngularRefs: boolean
-  ): AdkParsedContentSection[] {
-    const sections: AdkParsedContentSection[] = [];
+  ): AdkContentSection[] {
+    const sections: AdkContentSection[] = [];
     let currentMarkdown = '';
 
     const lines = markdown.split('\n');
@@ -161,9 +159,9 @@ export class AdkMarkdownParser {
   }
 
   private parseSection(
-    section: AdkParsedContentSection,
+    section: AdkContentSection,
     options: AdkMarkdownParsingOptions
-  ): Observable<AdkParsedContentSection> {
+  ): Observable<AdkContentSection> {
     if (section.type === 'markdown') {
       const parsedContent$ = from(
         unified()

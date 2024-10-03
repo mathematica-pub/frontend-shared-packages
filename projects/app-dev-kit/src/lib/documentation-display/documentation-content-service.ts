@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable, map, switchMap, withLatestFrom } from 'rxjs';
 import { AdkAssetResponse, AdkAssetsService } from '../assets/assets-service';
 import {
+  AdkContentSection,
   AdkMarkdownParser,
   AdkMarkdownParsingOptions,
-  AdkParsedContentSection,
 } from '../content-parsing';
 import {
   AdkDocumentationConfigParser,
@@ -24,7 +24,7 @@ export interface AdkFilesConfig {
 export type AdkFilesItem = string | null | AdkFilesConfig;
 
 export interface AdkParsedMarkdownFile {
-  sections: AdkParsedContentSection[];
+  sections: AdkContentSection[];
   headings: AdkHtmlHeader[];
 }
 
@@ -46,7 +46,7 @@ export interface AdkDocumentationContentOptions {
 
 @Injectable()
 export class AdkDocumentationContentService {
-  private files: { [name: string]: Observable<AdkParsedContentSection[]> } = {};
+  private files: { [name: string]: Observable<AdkContentSection[]> } = {};
 
   constructor(
     private assetsService: AdkAssetsService,
@@ -101,7 +101,7 @@ export class AdkDocumentationContentService {
   private getParsedMarkdownFile(
     filePathFromAssets: string,
     parsingOptions?: AdkMarkdownParsingOptions
-  ): Observable<AdkParsedContentSection[]> {
+  ): Observable<AdkContentSection[]> {
     if (!this.files[filePathFromAssets]) {
       this.files[filePathFromAssets] = this.assetsService
         .getAsset(filePathFromAssets, AdkAssetResponse.Text)
