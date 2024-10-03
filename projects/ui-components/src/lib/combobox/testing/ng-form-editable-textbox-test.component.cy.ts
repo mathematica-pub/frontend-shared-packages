@@ -6,14 +6,7 @@ import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
 import { ComboboxService } from '../combobox.service';
-
-const scss = `
-  .combobox-textbox {
-    background: white;
-    border: 1px solid blue;
-    padding: 12px;
-  }
-`;
+import { scss } from './combobox-testing.constants';
 
 @Component({
   selector: 'hsi-ui-ng-form-editable-textbox-test',
