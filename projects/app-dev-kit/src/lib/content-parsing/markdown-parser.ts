@@ -217,12 +217,4 @@ export class AdkMarkdownParser {
 
     return headers;
   }
-
-  parseComponent(content: string): { name: string; pathTo: string } {
-    const cleanedLine = content.trim().slice(2, -2).trim();
-    const [nameKV, pathToKV] = cleanedLine.split(',');
-    const name = nameKV.split(':')[1]?.trim();
-    const pathTo = pathToKV.split(':')[1]?.trim();
-    return { name, pathTo };
-  }
 }
