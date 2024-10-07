@@ -569,3 +569,61 @@ describe('ComboboxExternalLabelChangeTestComponent', () => {
     cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
   });
 });
+
+@Component({
+  selector: 'hsi-ui-combobox-multi-disabled-options-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [labelIsBoxPlaceholder]="true"
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option
+          *ngFor="let option of options"
+          [disabled]="option.displayName.length > 7"
+          >{{ option.displayName }}</hsi-ui-listbox-option
+        >
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">{{ value$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxMultiSelectDisabledOptionsComponent extends ComboboxBaseTestComponent {}
+
+describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxMultiSelectDisabledOptionsComponent, {
+      declarations: [ComboboxMultiSelectDisabledOptionsComponent],
+      imports: [ComboboxModule, MatIconModule],
+    });
+  });
+  it('can select non-disabled options', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+  });
+  it('cannot select disabled options', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(2).realClick();
+    cy.get('.listbox-option').eq(4).realClick();
+    cy.get('.combobox-value').should('not.have.text', 'Coconuts,Elderberries');
+  });
+});
