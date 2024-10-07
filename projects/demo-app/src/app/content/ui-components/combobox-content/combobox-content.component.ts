@@ -4,6 +4,7 @@ import { SinglePanelExampleDisplayComponent } from '../../core/single-panel-exam
 import { SplitPanelExampleDisplayComponent } from '../../core/split-panel-example-display/split-panel-example-display.component';
 import { DisabledSelectionsSingleExampleComponent } from './disabled-selections-single-combobox-example/disabled-selections-single-combobox-example.component';
 import { DisplaySingleSelectedComboboxExampleComponent } from './display-single-selected-combobox-example/display-single-selected-combobox-example.component';
+import { FindOnSearchSingleComboboxExampleComponent } from './find-on-search-single-combobox-example/find-on-search-single-combobox-example.component';
 import { SimpleSingleSelectComboboxExampleComponent } from './simple-single-select-combobox-example/simple-single-select-combobox-example.component';
 
 @Component({
@@ -16,6 +17,7 @@ import { SimpleSingleSelectComboboxExampleComponent } from './simple-single-sele
     SimpleSingleSelectComboboxExampleComponent,
     DisplaySingleSelectedComboboxExampleComponent,
     DisabledSelectionsSingleExampleComponent,
+    FindOnSearchSingleComboboxExampleComponent,
   ],
   templateUrl: './combobox-content.component.html',
   styleUrls: ['../examples.scss', './combobox-content.component.scss'],

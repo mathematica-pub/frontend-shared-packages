@@ -1,0 +1,21 @@
+<hsi-ui-combobox class="pixar-movies-dropdown">
+  <hsi-ui-combobox-label>
+    <span>Pixar Movies Combobox</span>
+  </hsi-ui-combobox-label>
+  <hsi-ui-editable-textbox
+    autoSelectionOnTextInput="character"
+    placeholder="Search by name"
+    ariaLabel="Search by name"
+  >
+  </hsi-ui-editable-textbox>
+  <hsi-ui-listbox [autoSelectionOnClose]="false">
+    <hsi-ui-listbox-label>
+      <span>Select your favorite Pixar movie</span>
+    </hsi-ui-listbox-label>
+    <hsi-ui-listbox-option
+      *ngFor="let option of options"
+      [value]="option.displayName"
+      >{{ option.displayName }}</hsi-ui-listbox-option
+    >
+  </hsi-ui-listbox>
+</hsi-ui-combobox>
