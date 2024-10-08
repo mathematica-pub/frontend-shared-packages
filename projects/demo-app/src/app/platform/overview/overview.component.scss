@@ -1,0 +1,11 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'placeholders' as *;
+@use 'colors';
+@use 'index' as hsi-adk;
+
+.overview-container {
+  max-width: 900px;
+
+  @extend %markdown-styles;
+}

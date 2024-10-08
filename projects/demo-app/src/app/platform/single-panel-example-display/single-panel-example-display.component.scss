@@ -1,0 +1,16 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'colors';
+
+.example-container.single {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid colors.$muted-primary-90;
+  border-radius: grid(3);
+  max-width: var(--max-width, 1200px);
+
+  .panel {
+    padding: grid(6) grid(4);
+    min-height: 400px;
+  }
+}

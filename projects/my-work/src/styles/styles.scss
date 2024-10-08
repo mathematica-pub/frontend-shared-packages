@@ -1,147 +1,31 @@
-@forward 'themes';
-@use 'colors';
+@use 'index' as hsi-adk;
 @use 'vars' as *;
-@use 'placeholders' as *;
+@use 'colors';
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
+@include hsi-adk.reset();
 
-body {
-  min-height: 100vh;
-  width: 100vw;
-  overflow-x: hidden;
-  background: white;
-  color: $color-text;
-  font-family: $sans-font;
-  font-size: 1rem;
+html {
+  @include hsi-adk.create-theme();
+  --hsi-adk-font-sans: #{$font-sans};
+  --hsi-adk-font-serif: #{$font-serif};
+  --hsi-adk-font-mono: #{$font-mono};
 
-  ::-webkit-scrollbar {
-    width: $vertical-scrollbar-thickness-thin;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: colors.$muted-primary-80;
-  }
-}
-
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-figure,
-blockquote,
-dl,
-dd {
-  margin: 0;
-}
-
-p {
-  line-height: 1.5;
-}
-
-button,
-a {
-  cursor: pointer;
-  color: $color-text;
-}
-
-button {
-  border: none;
-  background: none;
-  padding: 0;
-}
-
-a {
-  text-decoration: none;
-}
-
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-html:focus-within {
-  scroll-behavior: smooth;
-}
-
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-}
-
-img,
-picture {
-  max-width: 100%;
-  display: block;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-}
-
-fieldset {
-  border: none;
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-block-start: 0;
-  padding-block-end: 0;
-  min-inline-size: 0px;
-}
-
-legend {
-  padding: 0;
-  margin: 0;
-  padding-inline-start: 0;
-  padding-inline-end: 0;
-  border: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html:focus-within {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-h1 {
-  @extend %typography-h1;
-}
-
-h2 {
-  @extend %typography-h2;
-}
-
-h3 {
-  @extend %typography-h3;
-}
-
-h4 {
-  @extend %typography-h4;
-}
-
-h5 {
-  @extend %typography-h5;
-}
-
-h6 {
-  @extend %typography-h6;
+  --hsi-adk-color-muted-primary-0: #000000;
+  --hsi-adk-color-muted-primary-5: #0c101f;
+  --hsi-adk-color-muted-primary-10: #161b2b;
+  --hsi-adk-color-muted-primary-15: #212535;
+  --hsi-adk-color-muted-primary-20: #2b3040;
+  --hsi-adk-color-muted-primary-25: #363b4c;
+  --hsi-adk-color-muted-primary-30: #424658;
+  --hsi-adk-color-muted-primary-35: #4d5264;
+  --hsi-adk-color-muted-primary-40: #595e70;
+  --hsi-adk-color-muted-primary-50: #727689;
+  --hsi-adk-color-muted-primary-60: #8c90a4;
+  --hsi-adk-color-muted-primary-70: #a6aabf;
+  --hsi-adk-color-muted-primary-80: #c2c5db;
+  --hsi-adk-color-muted-primary-90: #dee1f7;
+  --hsi-adk-color-muted-primary-95: #eff0ff;
+  --hsi-adk-color-muted-primary-98: #faf8ff;
+  --hsi-adk-color-muted-primary-99: #fefbff;
+  --hsi-adk-color-muted-primary-100: #ffffff;
 }

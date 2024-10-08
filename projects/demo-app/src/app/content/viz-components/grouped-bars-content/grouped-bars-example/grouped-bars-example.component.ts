@@ -1,7 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import {
   ElementSpacing,
   GroupedBarsConfig,
@@ -16,7 +14,9 @@ import {
   VicYQuantitativeAxisModule,
   XOrdinalAxisConfig,
   YQuantitativeAxisConfig,
-} from 'projects/viz-components/src/public-api';
+} from '@hsi/viz-components';
+import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
+import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { filter, map, Observable } from 'rxjs';
 
 interface ViewModel {

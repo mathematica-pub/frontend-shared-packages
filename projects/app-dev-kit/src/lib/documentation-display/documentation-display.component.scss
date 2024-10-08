@@ -1,0 +1,142 @@
+@use '../core/scss/functions' as *;
+@use '../core/scss/placeholders' as *;
+@use '../core/scss/vars' as *;
+@use '../core/scss/colors';
+
+.documentation-container {
+  margin: 0 auto;
+  max-width: 1200px;
+
+  .documentation-content {
+    display: flex;
+    gap: grid(30);
+    margin-top: grid(6);
+  }
+
+  .document-index {
+    $top: grid(32);
+    display: block;
+    position: sticky;
+    top: $top;
+    max-height: calc(100vh - $top - grid(8));
+  }
+
+  .main-content {
+    width: 75%;
+  }
+
+  .nav-siblings {
+    padding-top: grid(10);
+    padding-bottom: grid(20);
+  }
+
+  .injected-html {
+    h1 {
+      @include headline-large;
+      margin: 0 0 grid(7) 0;
+      width: 100%;
+    }
+
+    h2 {
+      @include headline-small;
+    }
+
+    h3 {
+      @include label-large;
+    }
+
+    h2,
+    h3,
+    h4 {
+      margin: 0;
+      padding-top: grid(4);
+      padding-bottom: grid(6);
+    }
+
+    p {
+      padding-bottom: grid(6);
+      line-height: 1.8;
+    }
+
+    ol {
+      margin: 0;
+      padding-bottom: grid(6);
+    }
+
+    li > p:not(.code-caption) {
+      padding-bottom: grid(4);
+    }
+
+    pre {
+      margin: 0;
+      padding-bottom: grid(6);
+    }
+
+    a {
+      cursor: pointer;
+      color: colors.$primary-40;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .shiki {
+      margin: 0;
+      padding: grid(4);
+      border: 1px solid colors.$muted-primary-90;
+      border-radius: grid(2);
+      margin-bottom: grid(8);
+      white-space: pre-wrap;
+    }
+
+    p.code-caption {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      font-style: italic;
+
+      code {
+        font-style: normal;
+      }
+    }
+
+    p.code-caption + pre.shiki {
+      display: block;
+      margin-top: 2px;
+    }
+
+    p:has(> code) + hr {
+      margin: 0;
+      border-top: 1px solid colors.$muted-primary-80;
+      margin-bottom: grid(6);
+    }
+
+    P:has(> code):has(+ hr) {
+      padding-bottom: grid(2);
+    }
+
+    h1 > code,
+    h2 > code,
+    h3 > code,
+    h4 > code,
+    h5 > code,
+    h6 > code,
+    li > code,
+    li > em > code,
+    p > code p > em > code {
+      font-family: $font-mono;
+      font-weight: 500;
+      padding-left: grid(1);
+      padding-right: grid(1);
+      background: colors.$muted-primary-98;
+      border-radius: grid(1);
+      color: colors.$primary-40;
+      padding: grid(1);
+    }
+
+    p > code,
+    p > em > code {
+      font-size: 15px;
+    }
+  }
+}
