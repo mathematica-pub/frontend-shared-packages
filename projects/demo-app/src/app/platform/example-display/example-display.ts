@@ -1,0 +1,63 @@
+import { Directive, inject, Input, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ShikiTheme } from '@hsi/app-dev-kit';
+import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { ExamplesFilesService } from '../../core/services/examples-files.service';
+
+@Directive()
+export abstract class ExampleDisplay implements OnInit {
+  @Input() includeFiles: string[];
+  @Input() height: string;
+  @Input() label: string = 'example';
+  @Input() maxHeight: string;
+  @Input() maxWidth: string = '1200px';
+  @Input() path: string;
+  @Input() shikiTheme: ShikiTheme = ShikiTheme.CatppuccinLatte;
+  fileList: string[];
+  filesHtml$: Observable<SafeHtml[]>;
+  selectedTabIndex: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  selectedTabIndex$ = this.selectedTabIndex.asObservable();
+  tabList: string[];
+  tabContent$: Observable<SafeHtml | null>;
+
+  private filesService = inject(ExamplesFilesService);
+  private domSanitizer = inject(DomSanitizer);
+
+  abstract initTabs(): void;
+
+  ngOnInit(): void {
+    this.setFileList();
+    this.setFilesHtml();
+    this.initTabs();
+  }
+
+  setFileList(): void {
+    const componentName = this.path.split('/').slice(-1)[0];
+    const baseSourceUrl = `${this.path}/${componentName}.component`;
+    const fileList = ['ts', 'html', 'scss'].map(
+      (extension) => `${baseSourceUrl}.${extension}`
+    );
+    if (this.includeFiles !== undefined) {
+      this.includeFiles.forEach((fileName) =>
+        fileList.push(`${this.path}/${fileName}`)
+      );
+    }
+    this.fileList = fileList;
+  }
+
+  setFilesHtml(): void {
+    this.filesHtml$ = forkJoin(
+      this.fileList.map((fileName) =>
+        this.filesService.getComponentCode(fileName, this.shikiTheme)
+      )
+    );
+  }
+
+  getFileDisplayName(fullFilePath: string): string {
+    return fullFilePath.match(/([^/]+)$/)[0];
+  }
+
+  onTabChange(index: number): void {
+    this.selectedTabIndex.next(index);
+  }
+}

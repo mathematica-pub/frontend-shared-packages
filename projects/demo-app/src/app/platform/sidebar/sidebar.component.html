@@ -1,0 +1,25 @@
+<nav class="sidebar-container">
+  <p class="application-title">HSI Frontend Shared Packages</p>
+  @if (routerState.state$ | async; as state) {
+    <a
+      class="item"
+      (click)="selectOverview()"
+      [class.active]="
+        state.lib === Library.SharedPackages &&
+        state.section === Section.Overview
+      "
+    >
+      About Shared Packages
+    </a>
+    <app-lib-docs
+      class="docs-directory"
+      [lib]="{ displayName: 'UI Components', id: Library.UiComponents }"
+      [expanded]="true"
+    ></app-lib-docs>
+    <app-lib-docs
+      class="docs-directory"
+      [lib]="{ displayName: 'Viz Components', id: Library.VizComponents }"
+      [expanded]="true"
+    ></app-lib-docs>
+  }
+</nav>

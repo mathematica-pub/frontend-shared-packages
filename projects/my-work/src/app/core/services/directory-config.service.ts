@@ -1,8 +1,8 @@
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin } from 'rxjs';
-import { DirectoryItem } from '../../platform/directory/directory.component';
-import { AssetsService } from '../services/assets.service';
+import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
+import { HsiUiDirectoryItem } from '@hsi/ui-components';
+import { BehaviorSubject, forkJoin, map } from 'rxjs';
 
 export interface ContentConfig {
   title: string;
@@ -36,7 +36,7 @@ export enum Casing {
   providedIn: 'root',
   deps: [TitleCasePipe],
 })
-export class DirectoryConfigService {
+export class DirectoryConfigsService {
   contentPath = 'content/content.yaml';
   docsPath = 'documentation/documentation.yaml';
   private _contentConfig: BehaviorSubject<ContentConfig> = new BehaviorSubject(
@@ -55,14 +55,20 @@ export class DirectoryConfigService {
   }
 
   constructor(
-    private assets: AssetsService,
+    private assets: AdkAssetsService,
     private titleCase: TitleCasePipe
   ) {}
 
   initConfigs(): void {
     forkJoin([
-      this.assets.getYamlFile<DocsConfig>(this.docsPath),
-      this.assets.getYamlFile<ContentConfig>(this.contentPath),
+      this.assets
+        .getAsset(this.docsPath, AdkAssetResponse.Text)
+        .pipe(map((str) => this.assets.parseYaml<DocsConfig>(str as string))),
+      this.assets
+        .getAsset(this.contentPath, AdkAssetResponse.Text)
+        .pipe(
+          map((str) => this.assets.parseYaml<ContentConfig>(str as string))
+        ),
     ]).subscribe((configs: [DocsConfig, ContentConfig]) => {
       this._docsConfig.next(configs[0]);
       this._contentConfig.next(configs[1]);
@@ -73,7 +79,7 @@ export class DirectoryConfigService {
     yaml: FilesItem | AngularComponentsItem,
     level: number = 0,
     itemCasing: Casing = Casing.Title
-  ): DirectoryItem[] {
+  ): HsiUiDirectoryItem[] {
     let itemsArray;
     if (yaml === undefined) {
       return [];
@@ -93,10 +99,10 @@ export class DirectoryConfigService {
         }
       });
     }
-    return itemsArray as DirectoryItem[];
+    return itemsArray as HsiUiDirectoryItem[];
   }
 
-  createFlatItem(key: string, itemCasing: Casing): DirectoryItem {
+  createFlatItem(key: string, itemCasing: Casing): HsiUiDirectoryItem {
     return {
       name: this.getDisplayName(key, itemCasing),
       value: key,
