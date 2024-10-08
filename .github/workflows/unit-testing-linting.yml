@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm ci
@@ -41,7 +40,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm ci
@@ -63,10 +61,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Dependencies
-        run: npm ci
+        run: |
+          npm --version
+          npm ci
 
       - name: Run cypress component tests
         run: npx nx affected -t component-test --base=remotes/origin/main --head=HEAD --parallel=false
@@ -85,7 +84,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm ci

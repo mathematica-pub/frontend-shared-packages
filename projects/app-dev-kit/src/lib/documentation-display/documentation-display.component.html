@@ -1,0 +1,32 @@
+<div class="documentation-container" #file>
+  @if (content$ | async; as content) {
+    <div class="documentation-content">
+      <div class="main-content">
+        @for (section of content.sections; track $index) {
+          @if (section.type === 'markdown') {
+            <div class="injected-html" [innerHTML]="section.html"></div>
+          } @else if (section.type === 'special') {
+            <ng-container
+              *ngIf="specialTemplateRef"
+              [ngTemplateOutlet]="specialTemplateRef"
+              [ngTemplateOutletContext]="{ $implicit: section }"
+            >
+            </ng-container>
+          }
+        }
+        @if (showPrevNextNavigation) {
+          <hsi-adk-navigation-siblings
+            class="nav-siblings"
+            [siblings]="content.siblings"
+            (nextDoc)="navigateToDoc($event)"
+          ></hsi-adk-navigation-siblings>
+        }
+      </div>
+      <hsi-adk-document-index
+        class="document-index"
+        [headings]="content.headings.slice(1)"
+        (activeHeading)="scrollToHeading($event)"
+      ></hsi-adk-document-index>
+    </div>
+  }
+</div>

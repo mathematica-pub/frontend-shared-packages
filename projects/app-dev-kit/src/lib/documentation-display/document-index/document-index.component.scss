@@ -1,0 +1,54 @@
+@use '../../core/scss/functions' as *;
+@use '../../core/scss/placeholders' as *;
+@use '../../core/scss/colors';
+
+.links-container {
+  list-style: none;
+  flex-basis: 28%;
+  padding: 0;
+  margin: 0;
+  width: 250px;
+}
+
+.index-title {
+  @include label-2xs-caps;
+  padding-bottom: grid(1);
+}
+
+.toc-link {
+  @include body-xs;
+  cursor: pointer;
+  padding-top: grid(1);
+  padding-bottom: grid(1);
+  padding-left: calc((var(--level) - 1) * grid(4));
+  display: block;
+  border-left: 2px solid colors.$muted-primary-90;
+  color: colors.$muted-primary-50;
+}
+
+.toc-link:hover {
+  color: colors.$muted-primary-25;
+  border-left: 2px solid colors.$muted-primary-70;
+}
+
+.toc-link.active {
+  color: colors.$primary-40;
+  border-left: 2px solid colors.$primary-40;
+}
+
+.back-to-top {
+  @include body-xs;
+  cursor: pointer;
+  padding: grid(2) 0;
+  display: flex;
+  align-items: center;
+  color: colors.$muted-primary-40;
+}
+
+.back-to-top:hover {
+  color: colors.$muted-primary-10;
+}
+
+.arrow {
+  transform: scale(0.7);
+}

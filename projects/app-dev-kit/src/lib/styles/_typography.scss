@@ -1,96 +1,94 @@
-@use '../core/scss/vars' as *;
-
 @mixin display-large {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 57pt;
   letter-spacing: -0.25pt;
   line-height: 64pt;
 }
 
 @mixin display-medium {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 45pt;
   letter-spacing: 0;
   line-height: 52pt;
 }
 
 @mixin display-small {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 36pt;
   letter-spacing: 0;
   line-height: 44pt;
 }
 
 @mixin headline-large {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 32pt;
   letter-spacing: 0;
   line-height: 40pt;
 }
 
 @mixin headline-medium {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 28pt;
   letter-spacing: 0;
   line-height: 36pt;
 }
 
 @mixin headline-small {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 24pt;
   letter-spacing: 0;
   line-height: 32pt;
 }
 
 @mixin title-large {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 22pt;
   letter-spacing: 0;
   line-height: 28pt;
 }
 
 @mixin title-medium {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 16pt;
   letter-spacing: 0.15pt;
   line-height: 24pt;
 }
 
 @mixin title-small {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 14pt;
   letter-spacing: 0.1pt;
   line-height: 20pt;
 }
 
 @mixin body-large {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 16pt;
   letter-spacing: 0.5pt;
   line-height: 24pt;
 }
 
 @mixin body-medium {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 14pt;
   letter-spacing: 0.25pt;
   line-height: 20pt;
 }
 
 @mixin body-small {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 12pt;
   letter-spacing: 0.4pt;
   line-height: 16pt;
@@ -98,24 +96,33 @@
 
 // Not from Material 3 - serve HSI need to communication higher density of information
 @mixin body-xs {
-  font-family: $font-sans;
-  font-weight: $font-weight-regular;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
   font-size: 11pt;
-  letter-spacing: 0.25pt;
-  line-height: 14pt;
+  letter-spacing: 0;
+  line-height: 16pt;
+}
+
+// Not from Material 3 - serve HSI need to communication higher density of information
+@mixin body-2xs {
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-regular);
+  font-size: 10pt;
+  letter-spacing: 0;
+  line-height: 16pt;
 }
 
 @mixin label-large {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 14pt;
-  letter-spacing: 0.1pt;
+  letter-spacing: 0.25pt;
   line-height: 20pt;
 }
 
 @mixin label-large-prominent {
   @include label-large;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-large-caps {
@@ -125,12 +132,12 @@
 
 @mixin label-large-caps-prominent {
   @include label-large-caps;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-medium {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 12pt;
   letter-spacing: 0.5pt;
   line-height: 16pt;
@@ -138,7 +145,7 @@
 
 @mixin label-medium-prominent {
   @include label-medium;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-medium-caps {
@@ -148,12 +155,12 @@
 
 @mixin label-medium-caps-prominent {
   @include label-medium-caps;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-small {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 11pt;
   letter-spacing: 0.5pt;
   line-height: 16pt;
@@ -161,7 +168,7 @@
 
 @mixin label-small-prominent {
   @include label-small;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-small-caps {
@@ -171,53 +178,55 @@
 
 @mixin label-small-caps-prominent {
   @include label-small-caps;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 // Not from Material 3 - serves HSI need to communication higher density of information
 @mixin label-xs {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 10pt;
-  letter-spacing: 0.8pt;
+  letter-spacing: 0.25pt;
   line-height: 14pt;
 }
 
 @mixin label-xs-prominent {
   @include label-xs;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-xs-caps {
-  @include label-extra-small;
+  @include label-xs;
+  letter-spacing: 0.8pt;
   text-transform: uppercase;
 }
 
 @mixin label-xs-caps-prominent {
   @include label-xs-caps;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 // Not from Material 3 - serves HSI need to communication higher density of information
 @mixin label-2xs {
-  font-family: $font-sans;
-  font-weight: $font-weight-medium;
+  font-family: var(--hsi-adk-font-sans);
+  font-weight: var(--hsi-adk-font-weight-medium);
   font-size: 9pt;
-  letter-spacing: 0.5pt;
+  letter-spacing: 0.25pt;
   line-height: 12pt;
 }
 
 @mixin label-2xs-prominent {
   @include label-2xs;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }
 
 @mixin label-2xs-caps {
   @include label-2xs;
+  letter-spacing: 1pt;
   text-transform: uppercase;
 }
 
 @mixin label-2xs-caps-prominent {
   @include label-2xs-small-caps;
-  font-weight: $font-weight-bold;
+  font-weight: var(--hsi-adk-font-weight-bold);
 }

@@ -1,0 +1,3 @@
+# Grouped Bars Component
+
+{{ GroupedBarsExampleComponent }}
