@@ -13,7 +13,7 @@ import { SimpleSingleSelectComboboxExampleComponent } from './simple-single-sele
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
     SimpleSingleSelectComboboxExampleComponent,
-    SimpleMultiSelectComboboxExampleComponent
+    SimpleMultiSelectComboboxExampleComponent,
   ],
   templateUrl: './combobox-content.component.html',
   styleUrls: ['../examples.scss', './combobox-content.component.scss'],
