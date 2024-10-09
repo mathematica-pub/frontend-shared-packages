@@ -6,9 +6,49 @@
           height="600px"
           path="app/content/ui-components/combobox-content/simple-single-select-combobox-example"
           class="example"
-          label="combobox example"
+          label="simple single select combobox example"
         >
           <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('DisplaySingleSelected') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/combobox-content/display-single-selected-combobox-example"
+          class="example"
+          label="single select combobox example that displays selected"
+        >
+          <app-display-single-selected-combobox-example></app-display-single-selected-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('DisabledSelectionsSingleSelect') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/combobox-content/disabled-selections-single-combobox-example"
+          class="example"
+          label="single select combobox example with disabled options"
+        >
+          <app-disabled-selections-single-combobox-example></app-disabled-selections-single-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('FindOnSearchSingleSelect') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/combobox-content/find-on-search-single-combobox-example"
+          class="example"
+          label="single select combobox example with findsOptionOnTyping"
+        >
+          <app-find-on-search-single-combobox-example></app-find-on-search-single-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('NgFormSingleSelect') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/combobox-content/ng-form-single-select-combobox-example"
+          class="example"
+          label="single select combobox example that uses FormControl"
+        >
+          <app-ng-form-single-select-combobox-example></app-ng-form-single-select-combobox-example>
         </app-single-panel-example-display>
       }
     }
