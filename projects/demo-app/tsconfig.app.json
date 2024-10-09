@@ -9,9 +9,6 @@
     }
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "include": [
-    "src/**/*.d.ts",
-    "src/app/content/viz-components/**/*.ts",
-    "src/app/content/ui-components/**/*.ts"
-  ]
+  "include": ["src/**/*.d.ts", "src/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"]
 }

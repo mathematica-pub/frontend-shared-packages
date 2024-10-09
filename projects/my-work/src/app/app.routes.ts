@@ -13,9 +13,9 @@ export const APP_ROUTES: Routes = [
       {
         path: '**',
         loadComponent: () =>
-          import('./platform/documentation/documentation.component').then(
-            (m) => m.DocumentationComponent
-          ),
+          import(
+            './platform/documentation-container/documentation-container.component'
+          ).then((m) => m.DocumentationContainerComponent),
       },
     ],
   },

@@ -1,0 +1,50 @@
+@use 'placeholders' as *;
+@use 'functions' as *;
+@use 'colors';
+@use 'index' as hsi-adk;
+@use 'vars' as *;
+
+.documentation-container {
+  margin: 0 auto;
+  max-width: 1400px;
+
+  .documentation-content {
+    display: flex;
+    gap: grid(30);
+    margin-top: grid(6);
+  }
+
+  .document-index {
+    $top: grid(32);
+    display: block;
+    position: sticky;
+    top: $top;
+    max-height: calc(100vh - $top - grid(8));
+  }
+
+  .main-content {
+    width: 75%;
+  }
+
+  .nav-siblings {
+    padding-top: grid(10);
+    padding-bottom: grid(20);
+  }
+
+  .injected-html {
+    @extend %markdown-styles;
+  }
+
+  pre:has(> code) {
+    background-color: colors.$muted-primary-98;
+    padding: grid(4);
+    border-radius: grid(1);
+    overflow-x: auto;
+
+    code {
+      @include hsi-adk.body-2xs;
+      font-weight: $font-weight-medium;
+      font-family: $font-mono;
+    }
+  }
+}

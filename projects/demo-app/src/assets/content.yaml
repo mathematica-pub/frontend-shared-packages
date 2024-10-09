@@ -1,0 +1,37 @@
+# export type SidebarConfig = Record<Library, DocsConfig>;
+#
+# export interface DocsConfig {
+#   title: string;
+#   items: FilesConfig;
+# }
+
+# export interface FilesConfig {
+#   [key: string]: FilesItem;
+# }
+
+# export type FilesItem = string | null | FilesConfig;
+---
+shared-packages:
+  title: Shared Packages
+  items:
+    overview: overview.md
+app-dev-kit:
+  title: App Dev Kit
+  items:
+    overview: overview.md
+ui-components:
+  title: UI Components
+  items:
+    overview: overview.md
+    table: table.md
+viz-components:
+  title: Viz Components
+  items:
+    overview: overview.md
+    primary-marks-examples:
+      bars: bars.md
+      geographies: geographies.md
+      grouped-bars: grouped-bars.md
+      lines: lines.md
+      stacked-area: stacked-area.md
+      stacked-bars: stacked-bars.md

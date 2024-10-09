@@ -17,7 +17,7 @@ application.
 
 ### Getting set up
 
-1. The application requires [Node.js](https://nodejs.org/en). If you don't already have Node
+1. The application requires [Node.js](https://nodejs.org/en) v20. If you don't already have Node
    installed, install it via the Mathematica Software Center.
 
 2. Clone the [Frontend Shared Packages](https://github.com/mathematica-org/frontend-shared-packages)

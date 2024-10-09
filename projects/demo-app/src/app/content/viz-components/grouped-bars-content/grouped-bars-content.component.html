@@ -1,8 +1,16 @@
-<app-split-panel-example-display
-  height="600px"
-  path="app/content/viz-components/grouped-bars-content/grouped-bars-example"
-  class="example"
-  label="grouped bars example"
->
-  <app-grouped-bars-example></app-grouped-bars-example>
-</app-split-panel-example-display>
+<app-content-container>
+  <ng-template let-section #special>
+    @switch (section.content.trim()) {
+      @case ('GroupedBarsExampleComponent') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/viz-components/grouped-bars-content/grouped-bars-example"
+          class="example"
+          label="grouped bars example"
+        >
+          <app-grouped-bars-example></app-grouped-bars-example>
+        </app-single-panel-example-display>
+      }
+    }
+  </ng-template>
+</app-content-container>

@@ -1,0 +1,38 @@
+<div class="lib-docs">
+  @if (routerState.state$ | async; as state) {
+    <!-- <h2 class="lib-title" (click)="toggleLibrary()" [class.open]="expanded"
+      >{{ lib.displayName }}
+      @if (expanded) {
+        <span class="material-symbols-outlined arrow">expand_more</span>
+      } @else {
+        <span class="material-symbols-outlined arrow">chevron_right</span>
+      }
+    </h2> -->
+    @if (expanded) {
+      @if (customDocs$ | async; as manualDocs) {
+        <h3 class="section-label">{{ manualDocs.title }}</h3>
+        <hsi-ui-directory
+          class="manual-docs-directory"
+          [items]="manualDocs.items"
+          (selectionChanges)="selectCustomDocsItem($event)"
+          [selection]="{
+            activePath: state.lib + '-' + state.contentPath.split('#')[0],
+            selectedItem: '',
+          }"
+          selectionElementRole="link"
+        ></hsi-ui-directory>
+      }
+      <h3 class="section-label documentation">Automated Documentation</h3>
+      <hsi-ui-directory
+        class="automated-docs-directory"
+        [items]="automatedDocsItems$ | async"
+        (selectionChanges)="selectAutomatedDocsItem($event)"
+        [selection]="{
+          activePath: state.contentPath,
+          selectedItem: '',
+        }"
+        selectionElementRole="link"
+      ></hsi-ui-directory>
+    }
+  }
+</div>
