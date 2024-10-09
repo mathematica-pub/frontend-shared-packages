@@ -1,6 +1,4 @@
-@use '../core/scss/vars' as *;
-
-@mixin reset($default-font: $font-sans, $color-text: #000) {
+@mixin reset($default-font: var(--hsi-adk-font-sans), $color-text: #000) {
   *,
   *::before,
   *::after {
@@ -12,7 +10,7 @@
     width: 100vw;
     overflow-x: hidden;
     background: white;
-    font-family: $default-font;
+    font-family: $default-font, sans-serif;
     color: $color-text;
     font-size: 1rem;
   }

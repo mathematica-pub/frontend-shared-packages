@@ -1,20 +1,21 @@
 @use 'vars' as *;
-@use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
+@use 'colors';
+@use 'index' as hsi-adk;
+@use '../../styles/placeholders.scss' as *;
 
 .input-event-title {
-  @extend %typography-subtitle-2;
+  @include hsi-adk.label-large;
   padding-top: grid(2);
 }
 
 .input-event-instruction {
-  @extend %typography-caption;
+  @include hsi-adk.body-2xs;
   padding-bottom: grid(2);
 }
 
 .download-button {
-  @extend %typography-body-2;
+  @include hsi-adk.body-2xs;
   display: flex;
   &:hover {
     font-weight: $font-weight-bold;
@@ -29,7 +30,7 @@
 
 .line-label {
   cursor: pointer;
-  @extend %typography-body-2;
+  @include hsi-adk.body-xs;
 
   &:hover {
     font-weight: $font-weight-bold;
@@ -38,25 +39,5 @@
 
 //Note: requires global styles for .vic-html-tooltip-overlay
 .lines-example-tooltip-container {
-  @extend %tooltip-container-styles;
-
-  .tooltip-label {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tooltip-label:not(.category) {
-    padding-top: grid(1);
-  }
-
-  .category {
-    color: var(--color);
-    font-weight: $font-weight-bold;
-    line-height: 1.2;
-    padding-bottom: grid(1);
-  }
-
-  .value-label {
-    @extend %typography-overline-large;
-  }
+  @extend %vc-examples-tooltip-container-styles;
 }

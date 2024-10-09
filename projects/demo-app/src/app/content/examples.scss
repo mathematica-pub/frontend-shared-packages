@@ -1,0 +1,19 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use 'index' as hsi-adk;
+
+.main-title {
+  @include hsi-adk.title-small;
+  padding-bottom: grid(4);
+}
+
+.example-title {
+  @include hsi-adk.body-large;
+  padding-bottom: grid(3);
+}
+
+.example {
+  display: block;
+  padding-top: grid(6);
+  padding-bottom: grid(8);
+}

@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { csvParse } from 'd3';
+import { AdkAssetResponse, AdkAssetsService } from '@hsi/app-dev-kit';
 import { map, Observable, of } from 'rxjs';
-import { AssetsService } from '../services/assets.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  constructor(private assets: AssetsService) {}
+  constructor(private assets: AdkAssetsService) {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getDataFile(filePath: string): Observable<any> {
@@ -16,10 +15,10 @@ export class DataService {
     switch (fileExtension) {
       case 'csv':
         return this.assets
-          .getCsvFile(filePath)
-          .pipe(map((text) => csvParse(text)));
+          .getAsset(filePath, AdkAssetResponse.Text)
+          .pipe(map((text) => this.assets.parseCsv(text as string)));
       case 'json':
-        return this.assets.getJsonFile(filePath);
+        return this.assets.getAsset(filePath, AdkAssetResponse.Json);
       default:
         console.error(
           'File type not supported. Please provide a path with a file extension of .csv or .json'

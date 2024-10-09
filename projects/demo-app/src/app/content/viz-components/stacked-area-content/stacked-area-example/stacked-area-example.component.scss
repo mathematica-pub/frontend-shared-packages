@@ -1,35 +1,11 @@
 @use 'vars' as *;
-@use 'placeholders' as *;
 @use 'functions' as *;
-@use 'color';
+@use '../../styles/placeholders.scss' as *;
 
 .tooltip-line {
   stroke: white;
 }
 
 .stacked-area-example-tooltip-container {
-  background: rgba(white, 0.9);
-  padding: grid(2);
-  border: 1px solid color.$primary-6;
-  width: 100%;
-
-  .tooltip-label {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .tooltip-label:not(.category) {
-    padding-top: grid(1);
-  }
-
-  .category {
-    color: var(--color);
-    font-weight: $font-weight-bold;
-    line-height: 1.2;
-    padding-bottom: grid(1);
-  }
-
-  .value-label {
-    @extend %typography-overline-large;
-  }
+  @extend %vc-examples-tooltip-container-styles;
 }
