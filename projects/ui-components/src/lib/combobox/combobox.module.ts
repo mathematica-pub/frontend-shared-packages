@@ -45,6 +45,7 @@ import { TextboxComponent } from './textbox/textbox.component';
     NgFormListboxSingleComponent,
     NgFormListboxMultiComponent,
     NgFormEditableTextboxComponent,
+    EditableTextboxComponent,
     MultiFiltersListboxComponent,
     SelectAllListboxOptionComponent,
   ],
