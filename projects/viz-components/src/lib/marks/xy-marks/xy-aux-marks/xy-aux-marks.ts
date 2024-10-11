@@ -30,7 +30,6 @@ export abstract class XyAuxMarks<
       )
       .subscribe((scales): void => {
         this.scales = scales;
-        console.log(this.scales.y.range(), this.scales.x.range());
         this.drawMarks();
       });
   }

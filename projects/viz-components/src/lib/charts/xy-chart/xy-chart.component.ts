@@ -56,9 +56,7 @@ export class XyChartComponent extends ChartComponent implements Chart, OnInit {
 
   updateScales(scales: Partial<XyChartScales>): void {
     this.zone.run(() => {
-      console.log('scales next on xychart');
       this.scales.next({ ...this.scales.value, ...scales });
     });
-    console.log('after zone run on xychart');
   }
 }

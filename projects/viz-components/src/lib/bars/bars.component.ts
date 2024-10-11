@@ -102,7 +102,6 @@ export class BarsComponent<
   }
 
   drawMarks(): void {
-    console.log('draw marks bars');
     const transitionDuration = this.getTransitionDuration();
     this.drawBars(transitionDuration);
     if (this.config.labels) {
