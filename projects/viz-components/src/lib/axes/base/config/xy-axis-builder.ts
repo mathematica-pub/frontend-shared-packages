@@ -1,6 +1,7 @@
+import { VicAuxMarksBuilder } from '../../../marks';
 import { TickWrapBuilder } from '../../tick-wrap/tick-wrap-builder';
 
-export abstract class XyAxisBaseBuilder<TickValue> {
+export abstract class XyAxisBaseBuilder<TickValue> extends VicAuxMarksBuilder {
   protected _axis: 'x' | 'y';
   protected _dimension: 'ordinal' | 'quantitative';
   protected _removeDomainLine: boolean;

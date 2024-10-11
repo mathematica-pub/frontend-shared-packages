@@ -33,7 +33,7 @@ export class QuantitativeDateDimension<Datum>
     this.calculatedDomain = extents;
   }
 
-  getScaleFromRange(range: [number, number]) {
+  getScaleFromRange(range: [number, number]): ScaleTime<number, number> {
     return this.scaleFn().domain(this.calculatedDomain).range(range);
   }
 

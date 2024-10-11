@@ -12,6 +12,7 @@ import { area, line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import { GenericScale } from '../core';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
@@ -64,9 +65,16 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
     const categorical = this.config.categorical.getScale();
-    this.zone.run(() => {
-      this.chart.updateScales({ x, y, categorical, useTransition });
+    // this.zone.run(() => {
+    this.chart.updateScales({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      x: x as unknown as GenericScale<any, any>,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      y: y as unknown as GenericScale<any, any>,
+      categorical,
+      useTransition,
     });
+    // });
   }
 
   drawMarks(): void {

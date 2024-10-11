@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DestroyRef,
-  ElementRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
 import { select, Selection, Transition } from 'd3';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
@@ -23,11 +18,8 @@ export class QuantitativeRulesComponent<
 > extends XyAuxMarks<Datum, QuantitativeRulesConfig<Datum>> {
   rulesGroups: Selection<SVGGElement, Datum, SVGGElement, unknown>;
 
-  constructor(
-    private elRef: ElementRef<SVGGElement>,
-    destroyRef: DestroyRef
-  ) {
-    super(destroyRef);
+  constructor(private elRef: ElementRef<SVGGElement>) {
+    super();
   }
 
   drawMarks(): void {

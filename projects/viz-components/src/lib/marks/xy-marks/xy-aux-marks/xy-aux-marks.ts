@@ -16,7 +16,7 @@ export abstract class XyAuxMarks<
 {
   scales: XyChartScales;
   public override chart = inject(XyChartComponent);
-  private destroyRef = inject(DestroyRef);
+  public destroyRef = inject(DestroyRef);
 
   ngOnInit(): void {
     this.subscribeToScales();
@@ -30,6 +30,7 @@ export abstract class XyAuxMarks<
       )
       .subscribe((scales): void => {
         this.scales = scales;
+        console.log(this.scales.y.range(), this.scales.x.range());
         this.drawMarks();
       });
   }

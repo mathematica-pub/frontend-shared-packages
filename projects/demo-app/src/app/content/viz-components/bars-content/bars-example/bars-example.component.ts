@@ -77,7 +77,7 @@ export class BarsExampleComponent implements OnInit {
   margin: ElementSpacing = {
     top: 36,
     right: 0,
-    bottom: 8,
+    bottom: 32,
     left: 300,
   };
   folderName = 'bars-example';
@@ -127,7 +127,7 @@ export class BarsExampleComponent implements OnInit {
     );
     const xAxisConfig =
       orientation === Orientation.horizontal
-        ? this.xQuantitativeAxis.tickFormat('.0f').getConfig()
+        ? this.xQuantitativeAxis.side('top').tickFormat('.0f').getConfig()
         : this.xOrdinalAxis.getConfig();
     const yAxisConfig =
       orientation === Orientation.horizontal

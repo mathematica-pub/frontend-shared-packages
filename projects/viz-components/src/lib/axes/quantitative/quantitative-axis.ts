@@ -14,8 +14,8 @@ export function quantitativeAxisMixin<
     @Input() override config: QuantitativeAxisConfig<TickValue>;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setAxis(axisFunction: any): void {
-      this.axis = axisFunction(this.scale);
+    setAxisFromScaleAndConfig(): void {
+      this.axis = this.axisFunction(this.scale);
       this.setTicks(this.config.tickFormat);
     }
 

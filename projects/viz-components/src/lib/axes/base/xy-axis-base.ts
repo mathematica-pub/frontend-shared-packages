@@ -1,22 +1,11 @@
-import {
-  DestroyRef,
-  Directive,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
+import { Directive, ElementRef, ViewChild } from '@angular/core';
 import { select } from 'd3';
 import { Observable } from 'rxjs';
-import { XyChartComponent } from '../../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../../core';
 import { DataValue } from '../../core/types/values';
+import { XyAuxMarks } from '../../marks';
 import { SvgTextWrap } from '../../svg-text-wrap/svg-text-wrap';
-import { XyAxisBaseConfig } from './config/xy-axis-config';
+import { XyAxisConfig } from './config/xy-axis-config';
 
 export type XyAxisScale = {
   useTransition: boolean;
@@ -28,13 +17,10 @@ export type XyAxisScale = {
  * A base directive for all axes.
  */
 @Directive()
-export abstract class XyAxis<TickValue extends DataValue>
-  implements OnInit, OnChanges
-{
-  /**
-   * The configuration for the axis.
-   */
-  @Input() config: XyAxisBaseConfig<TickValue>;
+export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
+  never,
+  XyAxisConfig<TickValue>
+> {
   @ViewChild('axis', { static: true }) axisRef: ElementRef<SVGGElement>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   axisFunction: any;
@@ -43,52 +29,28 @@ export abstract class XyAxis<TickValue extends DataValue>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   scale: any;
 
-  constructor(
-    public chart: XyChartComponent,
-    public destroyRef: DestroyRef
-  ) {}
-
   abstract getScale(): Observable<XyAxisScale>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   abstract setAxisFunction(): any;
   abstract setTranslate(): void;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  abstract setAxis(axisFunction: any): void;
+  abstract setAxisFromScaleAndConfig(): void;
+  abstract setScale(): void;
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (
-      NgOnChangesUtilities.inputObjectChangedNotFirstTime(changes, 'config')
-    ) {
-      this.updateAxis(this.chart.transitionDuration);
-    }
-  }
-
-  ngOnInit(): void {
+  override initFromConfig(): void {
     this.setAxisFunction();
     this.setTranslate();
-    this.subscribeToScale();
+    super.initFromConfig();
   }
 
-  subscribeToScale(): void {
-    this.getScale()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((scale) => {
-        this.onScaleUpdate(scale.scale, scale.useTransition);
-      });
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onScaleUpdate(scale: GenericScale<any, any>, useTransition: boolean): void {
-    const transitionDuration = useTransition
-      ? this.chart.transitionDuration
-      : 0;
-    this.scale = scale;
-    this.updateAxis(transitionDuration);
-  }
-
-  updateAxis(transitionDuration: number): void {
-    this.setAxis(this.axisFunction);
+  drawMarks(): void {
+    if (!this.axisFunction) {
+      this.initFromConfig();
+    }
+    this.setScale();
+    const transitionDuration = this.getTransitionDuration();
+    this.setAxisFromScaleAndConfig();
     this.drawAxis(transitionDuration);
-    this.processAxisFeatures();
+    this.postProcessAxisFeatures();
   }
 
   drawAxis(transitionDuration: number): void {
@@ -137,7 +99,7 @@ export abstract class XyAxis<TickValue extends DataValue>
     config.wrap(tickTextSelection);
   }
 
-  processAxisFeatures(): void {
+  postProcessAxisFeatures(): void {
     if (this.config.removeDomainLine) {
       select(this.axisRef.nativeElement).call((g) =>
         g.select('.domain').remove()
