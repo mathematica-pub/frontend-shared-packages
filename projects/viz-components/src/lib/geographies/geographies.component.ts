@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   InjectionToken,
-  NgZone,
   ViewEncapsulation,
 } from '@angular/core';
 import { GeoPath, GeoProjection, geoPath, select } from 'd3';
@@ -73,10 +72,7 @@ export class GeographiesComponent<
   > = this.pathsByLayer.asObservable();
   formatForClassName = (s: string): string => s.replace(/\s/g, '-');
 
-  constructor(
-    public zone: NgZone,
-    public elRef: ElementRef
-  ) {
+  constructor(public elRef: ElementRef) {
     super();
   }
 
@@ -106,11 +102,9 @@ export class GeographiesComponent<
   }
 
   updateChartAttributeProperties(): void {
-    this.zone.run(() => {
-      this.chart.updateAttributeProperties({
-        scale: this.config.attributeDataLayer.attributeDimension.getScale(),
-        config: this.config.attributeDataLayer.attributeDimension,
-      });
+    this.chart.updateAttributeProperties({
+      scale: this.config.attributeDataLayer.attributeDimension.getScale(),
+      config: this.config.attributeDataLayer.attributeDimension,
     });
   }
 
