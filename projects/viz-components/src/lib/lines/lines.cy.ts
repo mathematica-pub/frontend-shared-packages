@@ -31,7 +31,7 @@ import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-
 import { LinesConfig } from './config/lines-config';
 import { LinesEventOutput } from './events/lines-event-output';
 
-const waitTime = 300;
+const waitTime = 500;
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
