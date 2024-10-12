@@ -16,7 +16,6 @@ describe('the QuantitativeAxis mixin', () => {
   });
 
   describe('setAxisFromScaleAndConfig()', () => {
-    let axisFnSpy: jasmine.Spy;
     beforeEach(() => {
       abstractClass.scale = 'class scale' as any;
       spyOn(abstractClass as any, 'setTicks');
