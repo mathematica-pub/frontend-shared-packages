@@ -39,7 +39,7 @@ export abstract class XyAxis<TickValue extends DataValue> extends XyAuxMarks<
   override initFromConfig(): void {
     this.setAxisFunction();
     this.setTranslate();
-    super.initFromConfig();
+    this.drawMarks();
   }
 
   drawMarks(): void {

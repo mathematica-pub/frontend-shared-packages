@@ -5,7 +5,7 @@ import { XyAxisStub } from './xy-axis.stub';
 
 export class XAxisStub<T extends DataValue> extends xAxisMixin(XyAxisStub)<T> {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  setAxis(axisFunction: any): void {
+  setAxisFromScaleAndConfig(): void {
     return;
   }
 }
