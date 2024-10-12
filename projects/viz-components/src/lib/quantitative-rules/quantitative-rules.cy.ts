@@ -34,6 +34,8 @@ import {
 import { VicQuantitativeRulesConfigBuilder } from './config/quantitative-rules-builder';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
+const waitTime = 100;
+
 // ***********************************************************
 // BAR CHARTS
 // ***********************************************************
@@ -126,7 +128,7 @@ const mountHorizontalBarsComponent = (
       yOrdinalAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(waitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
@@ -214,7 +216,7 @@ const mountVerticalBarsComponent = (
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(waitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 const linesMargin = { top: 60, right: 20, bottom: 40, left: 80 };
@@ -311,7 +313,7 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // have to wait for axes to render
+  cy.wait(waitTime); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(
@@ -345,7 +347,7 @@ function mountNumberLinesComponent(
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // have to wait for axes to render
+  cy.wait(waitTime); // have to wait for axes to render
 }
 
 // ***********************************************************

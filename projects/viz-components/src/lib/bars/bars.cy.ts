@@ -30,6 +30,8 @@ import { VicBarsModule } from './bars.module';
 import { BarsConfig } from './config/bars-config';
 import { BarsEventOutput } from './events/bars-event-output';
 
+const waitTime = 100;
+
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
@@ -161,7 +163,7 @@ const mountHorizontalBarsComponent = (
       yOrdinalAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(waitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
@@ -275,7 +277,7 @@ const mountVerticalBarsComponent = (
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(waitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************

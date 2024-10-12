@@ -31,6 +31,8 @@ import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-
 import { LinesConfig } from './config/lines-config';
 import { LinesEventOutput } from './events/lines-event-output';
 
+const waitTime = 100;
+
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
 const chartWidth = 600;
@@ -151,7 +153,7 @@ function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // have to wait for axes to render
+  cy.wait(waitTime); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
@@ -170,7 +172,7 @@ function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // have to wait for axes to render
+  cy.wait(waitTime); // have to wait for axes to render
 }
 
 // ***********************************************************
