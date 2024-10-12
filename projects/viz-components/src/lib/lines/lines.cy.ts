@@ -403,13 +403,11 @@ describe('if the user specifies a y domain that is smaller than max value', () =
           ...new Set(dateData.map((d) => d.continent)),
         ]);
       });
-    cy.get('.vic-y')
-      .find('.tick text')
-      .each(($tick) => {
-        const tickValue = parseInt($tick.text());
-        expect(tickValue).to.be.gte(0);
-        expect(tickValue).to.be.lte(4900000000);
-      });
+    cy.get('.vic-y .tick text').each(($tick) => {
+      const tickValue = parseInt($tick.text());
+      expect(tickValue).to.be.gte(0);
+      expect(tickValue).to.be.lte(4900000000);
+    });
   });
 });
 
@@ -441,13 +439,11 @@ describe('if the user specifies an x domain that is smaller than max value', () 
           ...new Set(dateData.map((d) => d.continent)),
         ]);
       });
-    cy.get('.vic-x')
-      .find('.tick text')
-      .each(($tick) => {
-        const tickValue = parseInt($tick.text());
-        expect(tickValue).to.be.gte(2020);
-        expect(tickValue).to.be.lte(2080);
-      });
+    cy.get('.vic-x .tick text').each(($tick) => {
+      const tickValue = parseInt($tick.text());
+      expect(tickValue).to.be.gte(2020);
+      expect(tickValue).to.be.lte(2080);
+    });
   });
 });
 
