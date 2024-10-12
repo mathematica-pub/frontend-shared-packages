@@ -30,7 +30,7 @@ import { VicBarsModule } from './bars.module';
 import { BarsConfig } from './config/bars-config';
 import { BarsEventOutput } from './events/bars-event-output';
 
-const waitTime = 100;
+const waitTime = 300;
 
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
