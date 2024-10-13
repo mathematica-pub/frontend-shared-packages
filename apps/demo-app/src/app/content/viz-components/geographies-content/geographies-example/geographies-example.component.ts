@@ -29,12 +29,12 @@ import {
   VicMapLegendModule,
   valueFormat,
 } from '@hsi/viz-components';
+import { colors } from 'apps/demo-app/src/app/core/constants/colors.constants';
+import { StateIncomeDatum } from 'apps/demo-app/src/app/core/models/data';
+import { MapGeometryProperties } from 'apps/demo-app/src/app/core/services/basemap';
+import { BasemapService } from 'apps/demo-app/src/app/core/services/basemap.service';
+import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { MultiPolygon } from 'geojson';
-import { colors } from 'projects/demo-app/src/app/core/constants/colors.constants';
-import { StateIncomeDatum } from 'projects/demo-app/src/app/core/models/data';
-import { MapGeometryProperties } from 'projects/demo-app/src/app/core/services/basemap';
-import { BasemapService } from 'projects/demo-app/src/app/core/services/basemap.service';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import {
   BehaviorSubject,
   Observable,

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
+import { BarsConfig } from 'libs/viz-components/src/lib/bars/config/bars-config';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { BarsConfig } from 'projects/viz-components/src/lib/bars/config/bars-config';
 import { BehaviorSubject } from 'rxjs';
 import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
 import { VicXQuantitativeAxisConfigBuilder } from '../../../axes/x-quantitative/x-quantitative-axis-builder';

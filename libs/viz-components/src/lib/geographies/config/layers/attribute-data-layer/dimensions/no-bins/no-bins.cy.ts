@@ -6,11 +6,11 @@ import {
   MultiPolygon,
   Polygon,
 } from 'geojson';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   stateIncomePopulationData,
   StateInComePopulationDatum,
-} from 'projects/viz-components/src/lib/testing/data/states-population-income-data';
+} from 'libs/viz-components/src/lib/testing/data/states-population-income-data';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import * as topojson from 'topojson-client';
 import { GeometryCollection, Objects, Topology } from 'topojson-specification';
 import {

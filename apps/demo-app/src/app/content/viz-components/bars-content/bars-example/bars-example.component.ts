@@ -28,9 +28,9 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
+import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
+import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { format } from 'd3';
-import { MetroUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
 
 interface ViewModel {

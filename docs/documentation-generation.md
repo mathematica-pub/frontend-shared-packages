@@ -8,9 +8,9 @@ We then run a TypeScript script (`compodoc/processing/documentation-processor.ts
 .html files that we want from what Compodoc has generated, and assemble those files into a tree
 structure that we display in the Demo App sidebar.
 
-The `documentation-structure.yaml` file (in `projects/demo-app/assets/documentation/[lib]`)
-determines which of the Compodoc-generated html files we make viewable in the `DOCUMENTATION`
-section of the demo app, and how they are titled and organized.
+The `documentation-structure.yaml` file (in `apps/demo-app/assets/documentation/[lib]`) determines
+which of the Compodoc-generated html files we make viewable in the `DOCUMENTATION` section of the
+demo app, and how they are titled and organized.
 
 There are no technical constraints to the names of keys in this file or their hierarchical
 organization. However, the string values of the keys -- for example --

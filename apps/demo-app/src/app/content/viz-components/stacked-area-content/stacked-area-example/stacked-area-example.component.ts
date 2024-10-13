@@ -21,8 +21,8 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
-import { IndustryUnemploymentDatum } from 'projects/demo-app/src/app/core/models/data';
-import { DataService } from 'projects/demo-app/src/app/core/services/data.service';
+import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
+import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
 
 interface ViewModel {

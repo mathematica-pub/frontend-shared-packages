@@ -10,7 +10,7 @@ is to create a new `.scss` stylesheet in the top level directory for your projec
 these styles, and then include that stylesheet in the `stylesUrl` array in each of your components.
 
 ```
-├── projects
+├── apps
 │   ├── my-work
 │   │   ├── app
 │   │   │   ├── content

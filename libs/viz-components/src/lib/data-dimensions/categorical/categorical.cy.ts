@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { schemeTableau10 } from 'd3';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   VicBarsModule,
   VicChartModule,
@@ -9,7 +8,8 @@ import {
   VicXyChartModule,
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
-} from 'projects/viz-components/src/public-api';
+} from 'libs/viz-components/src/public-api';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis-config';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';

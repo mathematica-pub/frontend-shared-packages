@@ -43,7 +43,8 @@ Conventional Commits)
    > prerelease packages, so any branch that has numbers in it or has a long name will fail to
    > deploy.
 
-3. Create a local `beta` branch from your development branch, and then push to a remote `beta` branch
+3. Create a local `beta` branch from your development branch, and then push to a remote `beta`
+   branch
 
 ```bash
 // Branch off your development branch
@@ -82,8 +83,8 @@ To generate documentation, run `npm run build:documentation`.
 ## Adding dependencies to the library
 
 If you are going to add dependencies to the library (an external package such as D3), you should
-manually add the package and appropriate version to `projects/viz-components/package.json` as a
-**peer dependency**.
+manually add the package and appropriate version to `libs/viz-components/package.json` as a **peer
+dependency**.
 
 **Do not install via the command line with npm install** as that will build node_modules inside viz
 components which will cause version conflicts.

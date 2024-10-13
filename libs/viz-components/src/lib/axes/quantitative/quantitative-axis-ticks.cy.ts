@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import { extent } from 'd3';
+import 'libs/viz-components/cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import 'projects/viz-components/cypress/support/component';
 import { VicBarsModule } from '../../bars/bars.module';
 import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
 import { BarsOptions } from '../../bars/config/bars-options';

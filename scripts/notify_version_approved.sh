@@ -13,7 +13,7 @@ output=$(aws codeartifact list-package-versions --package $pkg \
     --output json)
 
 latest_version=$(echo "$output" | jq -r '.versions[] | select(.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$")) | .version' | sort -V | tail -n 1)
-current_version=$(node -p "require('./projects/$pkg/package.json').version")
+current_version=$(node -p "require('./libs/$pkg/package.json').version")
 
 echo "Latest version of $pkg: $latest_version"
 echo "Current version of $pkg: $current_version"
