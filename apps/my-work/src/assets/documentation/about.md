@@ -37,10 +37,10 @@ application.
 
 1. Serve the app by running `npm run start:my-work` from the command line.
 
-2. Navigate to the following directory in VSCode: `projects/my-work/src/assets/content`.
+2. Navigate to the following directory in VSCode: `apps/my-work/src/assets/content`.
 
    ```
-   ├── projects
+   ├── apps
    │   ├── my-work
    │   │   ├── app
    │   │   ├── assets
@@ -56,7 +56,7 @@ application.
    `content/example-data` as dummy data.
 
    ```
-   ├── projects
+   ├── apps
    │   ├── my-work
    │   │   ├── app
    │   │   ├── assets
@@ -68,7 +68,7 @@ application.
 
    ```
 
-3. Open the `content.yaml` file in `projects/my-work/src/assets/content`, and add an entry for the
+3. Open the `content.yaml` file in `apps/my-work/src/assets/content`, and add an entry for the
    component you want to create to hold your work. This will create an entry in the left sidebar
    that you can click to get to your work. The name should be lowercased and use hyphens to separate
    words/be kebab-cased and will also be the name of the Angular component you create.
@@ -110,12 +110,12 @@ application.
        - energy-intensity
    ```
 
-4. Now navigate to the `projects/my-work/src/app/content` directory. Create a new Angular component
+4. Now navigate to the `apps/my-work/src/app/content` directory. Create a new Angular component
    there where you will make your charts. You must use the same name as you used to create the
    directory entry.
 
    ```
-   ├── projects
+   ├── apps
    │   ├── my-work
    │   │   ├── src
    │   │   │   ├── app
@@ -137,7 +137,7 @@ application.
    likewise need to put your component folder inside a folder with the collapsible name.
 
    ```
-   ├── projects
+   ├── apps
    │   ├── my-work
    │   │   ├── src
    │   │   │   ├── app
@@ -159,8 +159,8 @@ entry name, you should your component appear in the main space of the app.
 
 1. To access your data, create a property in your class that is the path to your data, after the
    `/assets` directory. For example, if your data were located in
-   `projects/my-work/src/assets/content/data/` and was named `nov-report-data.csv` your code would
-   look like this.
+   `apps/my-work/src/assets/content/data/` and was named `nov-report-data.csv` your code would look
+   like this.
 
    ```ts
    export class NovReportChartsComponent implements OnInit {
