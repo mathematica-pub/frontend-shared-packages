@@ -1,45 +1,45 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "demo-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "sourceRoot": "apps/demo-app/src",
+  "prefix": "app",
   "generators": {
     "@schematics/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "projects/demo-app/src",
-  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "options": {
         "outputPath": "dist/demo-app",
-        "index": "projects/demo-app/src/index.html",
-        "browser": "projects/demo-app/src/main.ts",
+        "index": "apps/demo-app/src/index.html",
+        "browser": "apps/demo-app/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "projects/demo-app/tsconfig.app.json",
+        "tsConfig": "apps/demo-app/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          "projects/demo-app/src/favicon.ico",
-          "projects/demo-app/src/assets",
+          "apps/demo-app/src/favicon.ico",
+          "apps/demo-app/src/assets",
           {
             "glob": "**/*-content/**/*",
-            "input": "projects/demo-app/src/app/content/ui-components/",
+            "input": "apps/demo-app/src/app/content/ui-components/",
             "output": "/app/content/ui-components"
           },
           {
             "glob": "**/*-content/**/*",
-            "input": "projects/demo-app/src/app/content/viz-components/",
+            "input": "apps/demo-app/src/app/content/viz-components/",
             "output": "/app/content/viz-components"
           }
         ],
         "styles": [
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-          "projects/demo-app/src/styles/styles.scss"
+          "apps/demo-app/src/styles/styles.scss"
         ],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "projects/demo-app/src/styles",
+            "apps/demo-app/src/styles",
             "projects/app-dev-kit/src/lib/styles"
           ]
         },
@@ -97,24 +97,21 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "projects/demo-app/src/test.ts",
-        "polyfills": "projects/demo-app/src/polyfills.ts",
-        "tsConfig": "projects/demo-app/tsconfig.spec.json",
-        "karmaConfig": "projects/demo-app/karma.conf.js",
+        "main": "apps/demo-app/src/test.ts",
+        "polyfills": "apps/demo-app/src/polyfills.ts",
+        "tsConfig": "apps/demo-app/tsconfig.spec.json",
+        "karmaConfig": "apps/demo-app/karma.conf.js",
         "inlineStyleLanguage": "scss",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false,
-        "assets": [
-          "projects/demo-app/src/favicon.ico",
-          "projects/demo-app/src/assets"
-        ],
+        "assets": ["apps/demo-app/src/favicon.ico", "apps/demo-app/src/assets"],
         "styles": [
           "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-          "projects/demo-app/src/styles/styles.scss"
+          "apps/demo-app/src/styles/styles.scss"
         ],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "projects/demo-app/src/styles",
+            "apps/demo-app/src/styles",
             "projects/app-dev-kit/src/lib/styles"
           ]
         },
@@ -124,10 +121,7 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": [
-          "projects/demo-app/**/*.ts",
-          "projects/demo-app/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/demo-app/**/*.ts", "apps/demo-app/**/*.html"]
       },
       "outputs": ["{options.outputFile}"]
     }
