@@ -5,7 +5,10 @@
     "outDir": "../../dist/out-tsc",
     "module": "commonjs",
     "types": ["cypress", "node"],
-    "sourceMap": false
+    "sourceMap": false,
+    "paths": {
+      "@hsi/*": ["dist/*"]
+    }
   },
   "include": [
     "cypress.config.ts",
