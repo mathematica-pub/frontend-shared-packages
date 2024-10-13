@@ -23,7 +23,7 @@
     "module": "es2020",
     "lib": ["es2020", "dom"],
     "paths": {
-      "@hsi/app-dev-kit": ["projects/app-dev-kit/src/public-api"],
+      "@hsi/app-dev-kit": ["libs/app-dev-kit/src/public-api"],
       "@hsi/ui-components": ["projects/ui-components/src/public-api"],
       "@hsi/viz-components": ["projects/viz-components/src/public-api"]
     },

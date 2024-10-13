@@ -1,21 +1,21 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "app-dev-kit",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "projects/app-dev-kit/src",
+  "sourceRoot": "libs/app-dev-kit/src",
   "prefix": "adk",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "projects/app-dev-kit/ng-package.json"
+        "project": "libs/app-dev-kit/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "projects/app-dev-kit/tsconfig.lib.prod.json"
+          "tsConfig": "libs/app-dev-kit/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "projects/app-dev-kit/tsconfig.lib.json"
+          "tsConfig": "libs/app-dev-kit/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
@@ -30,7 +30,7 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "tsConfig": "projects/app-dev-kit/tsconfig.spec.json",
+        "tsConfig": "libs/app-dev-kit/tsconfig.spec.json",
         "polyfills": ["zone.js", "zone.js/testing"],
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
@@ -40,8 +40,8 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "projects/app-dev-kit/**/*.ts",
-          "projects/app-dev-kit/**/*.html"
+          "libs/app-dev-kit/**/*.ts",
+          "libs/app-dev-kit/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]
