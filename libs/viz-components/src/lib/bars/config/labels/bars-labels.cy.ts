@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
-import 'libs/viz-components/cypress/support/component';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   VicBarsModule,
