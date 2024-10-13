@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, Input } from '@angular/core';
 import 'libs/viz-components/cypress/support/component';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import {
   VicBarsModule,
   VicChartModule,
@@ -13,8 +14,7 @@ import {
   VicYOrdinalAxisModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-} from 'libs/viz-components/src/public-api';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+} from 'src/public-api';
 import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
 import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
 import { VicBarsConfigBuilder } from '../bars-builder';

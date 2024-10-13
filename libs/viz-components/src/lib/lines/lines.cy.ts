@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import 'cypress-real-events';
 import { curveBasis, schemeTableau10 } from 'd3';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
+import { BehaviorSubject } from 'rxjs';
 import {
   LinesHoverMoveDirective,
   LinesHoverMoveEmitTooltipData,
@@ -14,10 +17,7 @@ import {
   VicXyChartModule,
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
-} from 'libs/viz-components/src/public-api';
-import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { cloneDeep } from 'lodash-es';
-import { BehaviorSubject } from 'rxjs';
+} from 'src/public-api';
 import { XQuantitativeAxisConfig } from '../axes/x-quantitative/x-quantitative-axis-config';
 import { YQuantitativeAxisConfig } from '../axes/y-quantitative-axis/y-quantitative-axis-config';
 import { HoverMoveAction } from '../events/action';
