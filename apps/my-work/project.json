@@ -1,32 +1,29 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "my-work",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "sourceRoot": "apps/my-work/src",
+  "prefix": "app",
   "generators": {
     "@schematics/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "projects/my-work/src",
-  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "options": {
         "outputPath": "dist/my-work",
-        "index": "projects/my-work/src/index.html",
-        "browser": "projects/my-work/src/main.ts",
+        "index": "apps/my-work/src/index.html",
+        "browser": "apps/my-work/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "projects/my-work/tsconfig.app.json",
+        "tsConfig": "apps/my-work/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "projects/my-work/src/favicon.ico",
-          "projects/my-work/src/assets"
-        ],
-        "styles": ["projects/my-work/src/styles/styles.scss"],
+        "assets": ["apps/my-work/src/favicon.ico", "apps/my-work/src/assets"],
+        "styles": ["apps/my-work/src/styles/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "projects/my-work/src/styles",
+            "apps/my-work/src/styles",
             "projects/app-dev-kit/src/lib/styles"
           ]
         },
@@ -78,18 +75,15 @@
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
         "polyfills": ["zone.js", "zone.js/testing"],
-        "tsConfig": "projects/my-work/tsconfig.spec.json",
+        "tsConfig": "apps/my-work/tsconfig.spec.json",
         "inlineStyleLanguage": "scss",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false,
-        "assets": [
-          "projects/my-work/src/favicon.ico",
-          "projects/my-work/src/assets"
-        ],
-        "styles": ["projects/my-work/src/styles/styles.scss"],
+        "assets": ["apps/my-work/src/favicon.ico", "apps/my-work/src/assets"],
+        "styles": ["apps/my-work/src/styles/styles.scss"],
         "stylePreprocessorOptions": {
           "includePaths": [
-            "projects/my-work/src/styles",
+            "apps/my-work/src/styles",
             "projects/app-dev-kit/src/lib/styles"
           ]
         },
@@ -99,10 +93,7 @@
     "lint": {
       "executor": "@angular-eslint/builder:lint",
       "options": {
-        "lintFilePatterns": [
-          "projects/my-work/**/*.ts",
-          "projects/my-work/**/*.html"
-        ]
+        "lintFilePatterns": ["apps/my-work/**/*.ts", "apps/my-work/**/*.html"]
       },
       "outputs": ["{options.outputFile}"]
     }

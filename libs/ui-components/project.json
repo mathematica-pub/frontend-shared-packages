@@ -1,26 +1,26 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "ui-components",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
+  "sourceRoot": "libs/ui-components/src",
+  "prefix": "hsi-ui",
   "generators": {
     "@schematics/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "projects/ui-components/src",
-  "prefix": "hsi-ui",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "projects/ui-components/ng-package.json"
+        "project": "libs/ui-components/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "projects/ui-components/tsconfig.lib.prod.json"
+          "tsConfig": "libs/ui-components/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "projects/ui-components/tsconfig.lib.json"
+          "tsConfig": "libs/ui-components/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
@@ -35,9 +35,9 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "projects/ui-components/src/test.ts",
-        "tsConfig": "projects/ui-components/tsconfig.spec.json",
-        "karmaConfig": "projects/ui-components/karma.conf.js",
+        "main": "libs/ui-components/src/test.ts",
+        "tsConfig": "libs/ui-components/tsconfig.spec.json",
+        "karmaConfig": "libs/ui-components/karma.conf.js",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -46,8 +46,8 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "projects/ui-components/**/*.ts",
-          "projects/ui-components/**/*.html"
+          "libs/ui-components/**/*.ts",
+          "libs/ui-components/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]
@@ -55,7 +55,7 @@
     "component-test": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "projects/ui-components/cypress.config.ts",
+        "cypressConfig": "libs/ui-components/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "demo-app:build:production"
@@ -64,7 +64,7 @@
     "cypress-local": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd projects/ui-components && npx cypress open"
+        "command": "cd libs/ui-components && npx cypress open"
       }
     }
   }

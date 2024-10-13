@@ -5,9 +5,9 @@
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "projects/ui-components/tsconfig.lib.json",
-          "projects/ui-components/tsconfig.spec.json",
-          "projects/ui-components/tsconfig.json"
+          "libs/ui-components/tsconfig.lib.json",
+          "libs/ui-components/tsconfig.spec.json",
+          "libs/ui-components/tsconfig.json"
         ],
         "createDefaultProgram": true
       },
