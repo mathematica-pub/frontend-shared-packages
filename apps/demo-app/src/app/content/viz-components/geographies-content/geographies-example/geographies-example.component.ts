@@ -29,11 +29,6 @@ import {
   VicMapLegendModule,
   valueFormat,
 } from '@hsi/viz-components';
-import { colors } from 'apps/demo-app/src/app/core/constants/colors.constants';
-import { StateIncomeDatum } from 'apps/demo-app/src/app/core/models/data';
-import { MapGeometryProperties } from 'apps/demo-app/src/app/core/services/basemap';
-import { BasemapService } from 'apps/demo-app/src/app/core/services/basemap.service';
-import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { MultiPolygon } from 'geojson';
 import {
   BehaviorSubject,
@@ -44,6 +39,11 @@ import {
   map,
   shareReplay,
 } from 'rxjs';
+import { colors } from '../../../../core/constants/colors.constants';
+import { StateIncomeDatum } from '../../../../core/models/data';
+import { MapGeometryProperties } from '../../../../core/services/basemap';
+import { BasemapService } from '../../../../core/services/basemap.service';
+import { DataService } from '../../../../core/services/data.service';
 
 const polylabelStates = ['CA', 'ID', 'MN', 'LA', 'MI', 'KY', 'FL', 'VA', 'NY'];
 const unlabelledTerritories = ['GU', 'MP', 'PR', 'VI', 'AS'];

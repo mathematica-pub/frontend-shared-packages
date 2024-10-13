@@ -40,9 +40,9 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
-import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
-import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, filter, map, Observable, Subject } from 'rxjs';
+import { MetroUnemploymentDatum } from '../../../../core/models/data';
+import { DataService } from '../../../../core/services/data.service';
 import { HighlightLineForLabel } from './line-input-actions';
 
 interface ViewModel {

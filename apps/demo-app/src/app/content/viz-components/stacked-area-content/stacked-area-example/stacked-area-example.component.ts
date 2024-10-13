@@ -21,9 +21,9 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
-import { IndustryUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
-import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { BehaviorSubject, Observable, filter, map } from 'rxjs';
+import { IndustryUnemploymentDatum } from '../../../../core/models/data';
+import { DataService } from '../../../../core/services/data.service';
 
 interface ViewModel {
   dataConfig: StackedAreaConfig<IndustryUnemploymentDatum, string>;

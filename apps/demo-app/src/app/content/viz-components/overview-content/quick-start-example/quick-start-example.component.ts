@@ -19,12 +19,7 @@ import {
   VicYOrdinalAxisConfigBuilder,
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
-
-export interface MetroUnemploymentDatum {
-  division: string;
-  date: Date;
-  value: number;
-}
+import { MetroUnemploymentDatum } from '../../../../core/models/data';
 
 @Component({
   selector: 'app-quick-start-example',

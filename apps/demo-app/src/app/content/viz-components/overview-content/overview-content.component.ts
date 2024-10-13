@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { filter, map, Observable } from 'rxjs';
+import { MetroUnemploymentDatum } from '../../../core/models/data';
 import { DataService } from '../../../core/services/data.service';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
-import {
-  MetroUnemploymentDatum,
-  QuickStartExampleComponent,
-} from './quick-start-example/quick-start-example.component';
+import { QuickStartExampleComponent } from './quick-start-example/quick-start-example.component';
 
 @Component({
   selector: 'app-overview-content',
