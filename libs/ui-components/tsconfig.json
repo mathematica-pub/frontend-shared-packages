@@ -6,10 +6,7 @@
     "module": "commonjs",
     "types": ["cypress", "node"],
     "sourceMap": false,
-    "baseUrl": "./",
-    "paths": {
-      "@hsi/*": ["dist/*"]
-    }
+    "baseUrl": "./"
   },
   "include": [
     "cypress.config.ts",
