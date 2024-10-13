@@ -9,6 +9,7 @@
       "style": "scss"
     }
   },
+  "implicitDependencies": ["app-dev-kit"],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
