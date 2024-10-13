@@ -1,22 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
-import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
-import { LinesExampleComponent } from './lines-example/lines-example.component';
+import { DotsExampleComponent } from './dots-example/dots-example.component';
 
 @Component({
-  selector: 'app-lines-content',
+  selector: 'app-dots-content',
   standalone: true,
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,
-    SplitPanelExampleDisplayComponent,
-    LinesExampleComponent,
+    DotsExampleComponent,
     ContentContainerComponent,
   ],
-  templateUrl: './lines-content.component.html',
-  styleUrls: ['../../examples.scss', './lines-content.component.scss'],
+  templateUrl: './dots-content.component.html',
+  styleUrls: ['../../examples.scss', './dots-content.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LinesContentComponent {}
+export class DotsContentComponent {}
