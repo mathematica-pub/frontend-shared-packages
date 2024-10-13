@@ -25,7 +25,7 @@
     "paths": {
       "@hsi/app-dev-kit": ["libs/app-dev-kit/src/public-api"],
       "@hsi/ui-components": ["projects/ui-components/src/public-api"],
-      "@hsi/viz-components": ["projects/viz-components/src/public-api"]
+      "@hsi/viz-components": ["libs/viz-components/src/public-api"]
     },
     "useDefineForClassFields": false
   },

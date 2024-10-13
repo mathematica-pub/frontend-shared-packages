@@ -1,6 +1,6 @@
 <div
   class="vic-legend-color-scale vic-continuous"
-  [ngClass]="['vic-'+orientation, 'vic-'+valuesSide]"
+  [ngClass]="['vic-' + orientation, 'vic-' + valuesSide]"
   [style.--width]="width + 'px'"
   [style.--height]="height + 'px'"
   [style.--border-color]="outlineColor"
@@ -8,7 +8,10 @@
   [style.left.px]="leftOffset"
 >
   <ng-container
-    *ngIf="(orientation === 'vertical' && valuesSide === 'left') || (orientation === 'horizontal' && valuesSide === 'top')"
+    *ngIf="
+      (orientation === 'vertical' && valuesSide === 'left') ||
+      (orientation === 'horizontal' && valuesSide === 'top')
+    "
   >
     <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
   </ng-container>
@@ -16,7 +19,10 @@
     <canvas class="vic-legend-canvas" #canvas></canvas>
   </div>
   <ng-container
-    *ngIf="(orientation === 'vertical' && valuesSide === 'right') || (orientation === 'horizontal' && valuesSide === 'bottom')"
+    *ngIf="
+      (orientation === 'vertical' && valuesSide === 'right') ||
+      (orientation === 'horizontal' && valuesSide === 'bottom')
+    "
   >
     <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
   </ng-container>

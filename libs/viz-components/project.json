@@ -2,7 +2,7 @@
   "name": "viz-components",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "sourceRoot": "projects/viz-components/src",
+  "sourceRoot": "libs/viz-components/src",
   "prefix": "vic",
   "generators": {
     "@schematics/angular:component": {
@@ -13,14 +13,14 @@
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
       "options": {
-        "project": "projects/viz-components/ng-package.json"
+        "project": "libs/viz-components/ng-package.json"
       },
       "configurations": {
         "production": {
-          "tsConfig": "projects/viz-components/tsconfig.lib.prod.json"
+          "tsConfig": "libs/viz-components/tsconfig.lib.prod.json"
         },
         "development": {
-          "tsConfig": "projects/viz-components/tsconfig.lib.json"
+          "tsConfig": "libs/viz-components/tsconfig.lib.json"
         }
       },
       "defaultConfiguration": "production",
@@ -35,9 +35,9 @@
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "main": "projects/viz-components/src/test.ts",
-        "tsConfig": "projects/viz-components/tsconfig.spec.json",
-        "karmaConfig": "projects/viz-components/karma.conf.js",
+        "main": "libs/viz-components/src/test.ts",
+        "tsConfig": "libs/viz-components/tsconfig.spec.json",
+        "karmaConfig": "libs/viz-components/karma.conf.js",
         "browsers": "ChromeHeadlessNoSandbox",
         "watch": false
       }
@@ -46,8 +46,8 @@
       "executor": "@angular-eslint/builder:lint",
       "options": {
         "lintFilePatterns": [
-          "projects/viz-components/**/*.ts",
-          "projects/viz-components/**/*.html"
+          "libs/viz-components/**/*.ts",
+          "libs/viz-components/**/*.html"
         ]
       },
       "outputs": ["{options.outputFile}"]
@@ -55,7 +55,7 @@
     "component-test": {
       "executor": "@nx/cypress:cypress",
       "options": {
-        "cypressConfig": "projects/viz-components/cypress.config.ts",
+        "cypressConfig": "libs/viz-components/cypress.config.ts",
         "testingType": "component",
         "skipServe": true,
         "devServerTarget": "demo-app:build:production"
@@ -64,7 +64,7 @@
     "cypress-local": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd projects/viz-components && npx cypress open"
+        "command": "cd libs/viz-components && npx cypress open"
       }
     }
   }

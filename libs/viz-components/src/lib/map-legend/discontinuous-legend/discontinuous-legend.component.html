@@ -1,6 +1,6 @@
 <div
   class="vic-legend-color-scale vic-discontinuous"
-  [ngClass]="['vic-'+orientation, 'vic-'+valuesSide]"
+  [ngClass]="['vic-' + orientation, 'vic-' + valuesSide]"
   [class.vic-categorical]="config.binType === VicValuesBin.categorical"
   [style.--border-color]="outlineColor"
   [style.--width]="width + 'px'"
@@ -10,7 +10,10 @@
   [style.left.px]="leftOffset"
 >
   <ng-container
-    *ngIf="(orientation === 'vertical' && valuesSide === 'left') || (orientation === 'horizontal' && valuesSide === 'top')"
+    *ngIf="
+      (orientation === 'vertical' && valuesSide === 'left') ||
+      (orientation === 'horizontal' && valuesSide === 'top')
+    "
   >
     <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
   </ng-container>
@@ -28,7 +31,10 @@
     </div>
   </div>
   <ng-container
-    *ngIf="(orientation === 'vertical' && valuesSide === 'right') || (orientation === 'horizontal' && valuesSide === 'bottom')"
+    *ngIf="
+      (orientation === 'vertical' && valuesSide === 'right') ||
+      (orientation === 'horizontal' && valuesSide === 'bottom')
+    "
   >
     <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
   </ng-container>
@@ -37,7 +43,7 @@
 <ng-template #valuesDisplay>
   <div class="vic-legend-values-container vic-discontinous">
     <p class="vic-value" *ngFor="let value of values; let i = index">
-      {{value}}
+      {{ value }}
     </p>
   </div>
 </ng-template>
