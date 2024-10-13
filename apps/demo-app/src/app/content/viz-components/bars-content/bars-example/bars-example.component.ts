@@ -28,10 +28,10 @@ import {
   VicYQuantitativeAxisConfigBuilder,
   VicYQuantitativeAxisModule,
 } from '@hsi/viz-components';
-import { MetroUnemploymentDatum } from 'apps/demo-app/src/app/core/models/data';
-import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
 import { format } from 'd3';
 import { BehaviorSubject, Observable, combineLatest, filter, map } from 'rxjs';
+import { MetroUnemploymentDatum } from '../../../../core/models/data';
+import { DataService } from '../../../../core/services/data.service';
 
 interface ViewModel {
   dataConfig: BarsConfig<MetroUnemploymentDatum, string>;
