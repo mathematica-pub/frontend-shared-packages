@@ -1,12 +1,12 @@
 {
-  "root": false,
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "libs/viz-components/tsconfig.lib.json",
-          "libs/viz-components/tsconfig.spec.json",
+          "libs/viz-components/tsconfig.(lib|spec).json",
           "libs/viz-components/tsconfig.json"
         ],
         "createDefaultProgram": true

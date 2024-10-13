@@ -1,12 +1,12 @@
 {
-  "root": false,
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
       "files": ["*.ts"],
       "parserOptions": {
         "project": [
-          "libs/ui-components/tsconfig.lib.json",
-          "libs/ui-components/tsconfig.spec.json",
+          "libs/ui-components/tsconfig.(lib|spec).json",
           "libs/ui-components/tsconfig.json"
         ],
         "createDefaultProgram": true
