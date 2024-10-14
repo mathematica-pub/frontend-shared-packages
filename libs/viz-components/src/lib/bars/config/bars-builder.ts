@@ -41,11 +41,11 @@ export class VicBarsConfigBuilder<
   }
 
   /**
-   * OPTIONAL. Creates a categorical dimension that will control the coloring of the bars.
+   * OPTIONAL. Creates a categorical dimension that will control the fill of the bars.
    *
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
-  createCategoricalDimension(
+  fill(
     setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
   ): this {
     this.initCategoricalDimensionBuilder();
@@ -58,58 +58,43 @@ export class VicBarsConfigBuilder<
   }
 
   /**
-   * REQUIRED. Creates an ordinal dimension that will control the position of the bars.
+   * REQUIRED FOR HORIZONTAL BAR CHART.
    */
-  createOrdinalDimension(
-    setProperties?: (
-      dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
-    ) => void
-  ): this {
-    this.initOrdinalDimensionBuilder();
-    setProperties?.(this.ordinalDimensionBuilder);
-    return this;
-  }
-
-  private initOrdinalDimensionBuilder() {
-    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder();
-  }
-
-  /**
-   * REQUIRED. Sets the orientation of the bars.
-   */
-  orientation(orientation: 'horizontal' | 'vertical'): this {
-    this._orientation = orientation;
-    this.dimensions =
-      orientation === 'horizontal'
-        ? HORIZONTAL_BARS_DIMENSIONS
-        : VERTICAL_BARS_DIMENSIONS;
-    return this;
-  }
-
-  /**
-   * REQUIRED. Creates a quantitative dimension that will control the data-driven size of the bars.
-   */
-  createQuantitativeDimension(
+  horizontal(
     setProperties: (
-      dimension: NumberChartPositionDimensionBuilder<Datum>
+      dimension: HorizontalBarsDimensionsBuilder<Datum, TOrdinalValue>
     ) => void
   ): this {
-    this.initQuantitativeDimensionBuilder();
-    setProperties(this.quantitativeDimensionBuilder);
+    this._orientation = 'horizontal';
+    this.dimensions = HORIZONTAL_BARS_DIMENSIONS;
+    const builder = new HorizontalBarsDimensionsBuilder<Datum, TOrdinalValue>();
+    setProperties(builder);
+    this.ordinalDimensionBuilder = builder.ordinalDimensionBuilder;
+    this.quantitativeDimensionBuilder = builder.quantitativeDimensionBuilder;
     return this;
   }
 
-  private initQuantitativeDimensionBuilder() {
-    this.quantitativeDimensionBuilder =
-      new NumberChartPositionDimensionBuilder();
+  /**
+   * REQUIRED FOR VERTICAL BAR CHART.
+   */
+  vertical(
+    setProperties: (
+      dimension: VerticalBarsDimensionsBuilder<Datum, TOrdinalValue>
+    ) => void
+  ): this {
+    this._orientation = 'vertical';
+    this.dimensions = VERTICAL_BARS_DIMENSIONS;
+    const builder = new VerticalBarsDimensionsBuilder<Datum, TOrdinalValue>();
+    setProperties(builder);
+    this.ordinalDimensionBuilder = builder.ordinalDimensionBuilder;
+    this.quantitativeDimensionBuilder = builder.quantitativeDimensionBuilder;
+    return this;
   }
 
   /**
    * OPTIONAL. Creates labels for the bars. If not called, no labels will be created.
    */
-  createLabels(
-    setProperties?: (dimension: BarsLabelsBuilder<Datum>) => void
-  ): this {
+  labels(setProperties?: (dimension: BarsLabelsBuilder<Datum>) => void): this {
     this.labelsBuilder = new BarsLabelsBuilder<Datum>();
     setProperties?.(this.labelsBuilder);
     return this;
@@ -123,12 +108,12 @@ export class VicBarsConfigBuilder<
   getConfig(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
-      categorical: this.categoricalDimensionBuilder._build(),
+      fill: this.categoricalDimensionBuilder._build(),
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
-      ordinal: this.ordinalDimensionBuilder._build(),
-      quantitative: this.quantitativeDimensionBuilder._build(),
+      x: this.ordinalDimensionBuilder._build(),
+      y: this.quantitativeDimensionBuilder._build(),
     });
   }
 
@@ -146,13 +131,99 @@ export class VicBarsConfigBuilder<
     if (!this.ordinalDimensionBuilder) {
       // Note that the chart will still build if there is not ordinal dimension provided but it will not be full featured/anything we imagine users wanting, so we make this required.
       throw new Error(
-        `${componentName} Builder: Ordinal dimension is required. Please use method 'createOrdinalDimension' to create dimension.`
+        `${componentName} Builder: Ordinal dimension is required. Please use methods 'horizontal' and 'y' or 'vertical' and 'x' to create dimension.`
       );
     }
     if (!this.quantitativeDimensionBuilder) {
       throw new Error(
-        `${componentName} Builder: Quantitative dimension is required. Please use method 'createQuantitativeDimension' to create dimension.`
+        `${componentName} Builder: Quantitative dimension is required. Please use methods 'horizontal' and 'x' or 'vertical' and 'y' to create dimension.`
       );
     }
+  }
+}
+
+export class HorizontalBarsDimensionsBuilder<
+  Datum,
+  TOrdinalValue extends DataValue,
+> {
+  ordinalDimensionBuilder: OrdinalDimensionBuilder<Datum, TOrdinalValue>;
+  quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
+
+  /**
+   * REQUIRED. Creates a number-chart position dimension that will control aspects of the quantitative dimension of the chart.
+   */
+  x(
+    setProperties: (
+      dimension: NumberChartPositionDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.initQuantitativeDimensionBuilder();
+    setProperties(this.quantitativeDimensionBuilder);
+    return this;
+  }
+
+  private initQuantitativeDimensionBuilder() {
+    this.quantitativeDimensionBuilder =
+      new NumberChartPositionDimensionBuilder();
+  }
+
+  /**
+   * REQUIRED. Creates an ordinal dimension that will control aspects of the ordinal dimension of the chart.
+   */
+  y(
+    setProperties: (
+      dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
+    ) => void
+  ): this {
+    this.initOrdinalDimensionBuilder();
+    setProperties(this.ordinalDimensionBuilder);
+    return this;
+  }
+
+  private initOrdinalDimensionBuilder() {
+    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder();
+  }
+}
+
+export class VerticalBarsDimensionsBuilder<
+  Datum,
+  TOrdinalValue extends DataValue,
+> {
+  ordinalDimensionBuilder: OrdinalDimensionBuilder<Datum, TOrdinalValue>;
+  quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
+
+  /**
+   * REQUIRED. Creates an ordinal dimension that will control aspects of the ordinal dimension of the chart.
+   */
+  x(
+    setProperties: (
+      dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
+    ) => void
+  ): this {
+    this.initOrdinalDimensionBuilder();
+    setProperties(this.ordinalDimensionBuilder);
+    return this;
+  }
+
+  private initOrdinalDimensionBuilder() {
+    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder();
+  }
+
+  /**
+   * REQUIRED. Creates a number-chart position dimension that will control aspects of the quantitative dimension of the chart.
+   */
+  y(
+    setProperties: (
+      dimension: NumberChartPositionDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.initQuantitativeDimensionBuilder();
+    setProperties(this.quantitativeDimensionBuilder);
+    return this;
+  }
+
+  private initQuantitativeDimensionBuilder() {
+    this.quantitativeDimensionBuilder =
+      new NumberChartPositionDimensionBuilder();
   }
 }

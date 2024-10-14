@@ -91,9 +91,7 @@ export class GroupedBarsExampleComponent implements OnInit {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.industry)
-      )
+      .setFill((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
 
     return {

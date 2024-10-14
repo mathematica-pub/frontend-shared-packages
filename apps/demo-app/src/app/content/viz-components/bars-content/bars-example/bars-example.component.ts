@@ -134,21 +134,38 @@ export class BarsExampleComponent implements OnInit {
         ? this.yOrdinalAxis.getConfig()
         : this.yQuantitativeAxis.tickFormat('.0f').getConfig();
 
-    const dataConfig = this.bars
+    let dataConfigBuilder = this.bars
       .data(filteredData)
-      .orientation(orientation)
-      .createQuantitativeDimension((dimension) =>
-        dimension
-          .valueAccessor((d) => d.value)
-          .formatFunction((d) => this.getQuantitativeValueFormat(d))
-          .domainPaddingPixels()
-      )
-      .createCategoricalDimension((dimension) => dimension.range(['slategray']))
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.division)
-      )
-      .createLabels((labels) => labels.display(true))
-      .getConfig();
+      .fill((dimension) => dimension.range(['slategray']))
+      .labels((labels) => labels.display(true));
+
+    if (orientation === Orientation.horizontal) {
+      dataConfigBuilder = dataConfigBuilder.horizontal((bars) =>
+        bars
+          .x((dimension) =>
+            dimension
+              .valueAccessor((d) => d.value)
+              .formatFunction((d) => this.getQuantitativeValueFormat(d))
+              .domainPaddingPixels()
+          )
+          .y((dimension) => dimension.valueAccessor((d) => d.division))
+      );
+    } else {
+      dataConfigBuilder = dataConfigBuilder
+        .vertical((bars) =>
+          bars
+            .y((dimension) =>
+              dimension
+                .valueAccessor((d) => d.value)
+                .formatFunction((d) => this.getQuantitativeValueFormat(d))
+                .domainPaddingPixels()
+            )
+            .x((dimension) => dimension.valueAccessor((d) => d.division))
+        )
+        .fill((dimension) => dimension.range(['slategray']));
+    }
+
+    const dataConfig = dataConfigBuilder.getConfig();
 
     return {
       dataConfig,

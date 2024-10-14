@@ -23,36 +23,30 @@ const data = [
 function horizontalConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
     .data(data)
-    .orientation('horizontal')
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) => dimension.valueAccessor((d) => d.value))
+        .y((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.fruit)
-    )
-    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .fill((dimension) => dimension.valueAccessor((d) => d.fruit))
+    .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
 
 function verticalConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
-    .orientation('vertical')
     .data(data)
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
+    .vertical((bars) =>
+      bars
+        .y((dimension) => dimension.valueAccessor((d) => d.value))
+        .x((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
-    )
-    .createCategoricalDimension((dimension) =>
+    .fill((dimension) =>
       dimension
         .valueAccessor((d) => d.fruit)
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
     )
-    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
 
@@ -86,7 +80,7 @@ describe('BarsComponent', () => {
     describe('chart is horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
-        spyOn(component.config.categorical, 'getScale').and.returnValue(
+        spyOn(component.config.fill, 'getScale').and.returnValue(
           'categorical scale' as any
         );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
@@ -122,7 +116,7 @@ describe('BarsComponent', () => {
     describe('chart is vertical', () => {
       beforeEach(() => {
         component.config = verticalConfig();
-        spyOn(component.config.categorical, 'getScale').and.returnValue(
+        spyOn(component.config.fill, 'getScale').and.returnValue(
           'categorical scale' as any
         );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
@@ -231,7 +225,7 @@ describe('BarsComponent', () => {
       expect(component.getBarFill(datum)).toEqual('bar color');
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
-      (component.config.categorical as any).fillDefs = [
+      (component.config.fill as any).fillDefs = [
         { name: 'pattern', useDef: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
@@ -680,7 +674,7 @@ describe('BarsComponent', () => {
       spyOn(FillUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      (component.config.categorical as any).fillDefs = [pattern];
+      (component.config.fill as any).fillDefs = [pattern];
     });
     it('calls getBarColor once with the datum', () => {
       component.getBarPattern(datum);

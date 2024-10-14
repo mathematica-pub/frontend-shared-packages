@@ -7,7 +7,7 @@ import { BarsLabels } from './labels/bars-labels';
 
 export interface BarsOptions<Datum, TOrdinalValue extends DataValue>
   extends MarksOptions<Datum> {
-  categorical: CategoricalDimension<Datum, string, string>;
+  fill: CategoricalDimension<Datum, string, string>;
   ordinal: CategoricalChartPositionDimension<Datum, TOrdinalValue>;
   quantitative: NumberChartPositionDimension<Datum>;
   labels: BarsLabels<Datum>;

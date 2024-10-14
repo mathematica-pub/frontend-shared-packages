@@ -199,18 +199,18 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsConfigBuilder<Datum, string>()
-        .orientation('vertical')
         .data(dataWithAllValueTypes)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
+        .vertical((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.state))
+            .y((dimension) =>
+              dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
+            )
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
@@ -321,18 +321,18 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   describe('for bar data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsConfigBuilder<Datum, string>()
-        .orientation('vertical')
         .data(dataWithNegativeZeroAndNonnumericValues)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
+        .vertical((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.state))
+            .y((dimension) =>
+              dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
+            )
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
@@ -355,18 +355,18 @@ describe('it correctly positions the vertical bar chart data labels', () => {
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsConfigBuilder<Datum, string>()
-        .orientation('vertical')
         .data(dataWithPositiveZeroAndNonnumericValues)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
+        .vertical((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.state))
+            .y((dimension) =>
+              dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
+            )
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
@@ -398,21 +398,21 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       describe('when the domain maximum is greater than 0', () => {
         beforeEach(() => {
           barsConfig = new VicBarsConfigBuilder<Datum, string>()
-            .orientation('vertical')
             .data(item.data)
-            .createOrdinalDimension((dimension) =>
-              dimension.valueAccessor((d) => d.state)
+            .vertical((bars) =>
+              bars
+                .x((dimension) => dimension.valueAccessor((d) => d.state))
+                .y((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .domain([0, 10])
+                    .domainPaddingPixels(-4)
+                )
             )
-            .createQuantitativeDimension((dimension) =>
-              dimension
-                .valueAccessor((d) => d.value)
-                .domain([-10, 10])
-                .domainPaddingPixels(-4)
-            )
-            .createCategoricalDimension((dimension) =>
+            .fill((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountVerticalBarsComponent(barsConfig);
         });
@@ -433,21 +433,21 @@ describe('it correctly positions the vertical bar chart data labels', () => {
       describe('when the domain maximum is not greater than 0', () => {
         beforeEach(() => {
           barsConfig = new VicBarsConfigBuilder<Datum, string>()
-            .orientation('vertical')
             .data(item.data)
-            .createOrdinalDimension((dimension) =>
-              dimension.valueAccessor((d) => d.state)
+            .vertical((bars) =>
+              bars
+                .x((dimension) => dimension.valueAccessor((d) => d.state))
+                .y((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .domain([-10, 0])
+                    .domainPaddingPixels(-4)
+                )
             )
-            .createQuantitativeDimension((dimension) =>
-              dimension
-                .valueAccessor((d) => d.value)
-                .domain([-10, 0])
-                .domainPaddingPixels(-4)
-            )
-            .createCategoricalDimension((dimension) =>
+            .fill((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountVerticalBarsComponent(barsConfig);
         });
@@ -538,18 +538,16 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   describe('for bar data that has positive, negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsConfigBuilder<Datum, string>()
-        .orientation('horizontal')
         .data(dataWithAllValueTypes)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
@@ -661,18 +659,18 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   describe('for data that has negative, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsConfigBuilder<Datum, string>()
-        .orientation('horizontal')
         .data(dataWithNegativeZeroAndNonnumericValues)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) =>
+              dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
+            )
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
@@ -695,18 +693,18 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
   describe('for bar data that has positive, zero, and non-numeric values', () => {
     beforeEach(() => {
       barsConfig = new VicBarsConfigBuilder<Datum, string>()
-        .orientation('horizontal')
         .data(dataWithPositiveZeroAndNonnumericValues)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) =>
+              dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
+            )
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
@@ -738,21 +736,21 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       describe('when the domain maximum value is positive', () => {
         beforeEach(() => {
           barsConfig = new VicBarsConfigBuilder<Datum, string>()
-            .orientation('horizontal')
             .data(item.data)
-            .createOrdinalDimension((dimension) =>
-              dimension.valueAccessor((d) => d.state)
+            .horizontal((bars) =>
+              bars
+                .x((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .domain([-10, 10])
+                    .domainPaddingPixels(4)
+                )
+                .y((dimension) => dimension.valueAccessor((d) => d.state))
             )
-            .createQuantitativeDimension((dimension) =>
-              dimension
-                .valueAccessor((d) => d.value)
-                .domain([-10, 10])
-                .domainPaddingPixels(-4)
-            )
-            .createCategoricalDimension((dimension) =>
+            .fill((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountHorizontalBarsComponent(barsConfig);
         });
@@ -773,21 +771,21 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
       describe('when the domain maximum value is not greater than 0', () => {
         beforeEach(() => {
           barsConfig = new VicBarsConfigBuilder<Datum, string>()
-            .orientation('horizontal')
             .data(item.data)
-            .createOrdinalDimension((dimension) =>
-              dimension.valueAccessor((d) => d.state)
+            .horizontal((bars) =>
+              bars
+                .x((dimension) =>
+                  dimension
+                    .valueAccessor((d) => d.value)
+                    .domain([-10, 0])
+                    .domainPaddingPixels(4)
+                )
+                .y((dimension) => dimension.valueAccessor((d) => d.state))
             )
-            .createQuantitativeDimension((dimension) =>
-              dimension
-                .valueAccessor((d) => d.value)
-                .domain([-10, 0])
-                .domainPaddingPixels(4)
-            )
-            .createCategoricalDimension((dimension) =>
+            .fill((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountHorizontalBarsComponent(barsConfig);
         });

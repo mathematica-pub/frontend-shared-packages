@@ -101,19 +101,17 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -254,19 +252,17 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -407,19 +403,17 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: -1.1 },
         { state: 'Alaska', value: -2.2 },
         { state: 'Arizona', value: -30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -578,19 +572,18 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: -1.1 },
         { state: 'Alaska', value: -2.2 },
         { state: 'Arizona', value: -30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createLabels((labels) => labels.display(true))
+
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -658,7 +651,9 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       (barsConfig.quantitative as any).domainPadding =
-        new RoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new RoundUpToIntervalDomainPadding({
+          interval: () => 5,
+        });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -729,7 +724,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
@@ -737,13 +731,12 @@ describe('it correctly sets quantitative domain - values are positive and negati
         { state: 'Arkansas', value: -2.2 },
         { state: 'California', value: -60.6 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -829,7 +822,9 @@ describe('it correctly sets quantitative domain - values are positive and negati
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       (barsConfig.quantitative as any).domainPadding =
-        new RoundUpToIntervalDomainPadding({ interval: () => 5 });
+        new RoundUpToIntervalDomainPadding({
+          interval: () => 5,
+        });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,
@@ -909,19 +904,17 @@ describe('it correctly sets quantitative domain - all values are positive and le
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 0.01 },
         { state: 'Alaska', value: 0.22 },
         { state: 'Arizona', value: 0.303 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -989,7 +982,9 @@ describe('it correctly sets quantitative domain - all values are positive and le
   describe('roundUpToInterval domain padding', () => {
     beforeEach(() => {
       (barsConfig.quantitative as any).domainPadding =
-        new RoundUpToIntervalDomainPadding({ interval: () => 0.2 });
+        new RoundUpToIntervalDomainPadding({
+          interval: () => 0.2,
+        });
       cy.mount(TestXQuantitativeDomainComponent, {
         declarations,
         imports,

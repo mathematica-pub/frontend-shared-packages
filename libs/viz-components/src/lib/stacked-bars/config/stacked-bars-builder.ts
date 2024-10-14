@@ -60,11 +60,11 @@ export class VicStackedBarsConfigBuilder<
   override getConfig(): StackedBarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Stacked Bars');
     return new StackedBarsConfig(this.dimensions, {
-      categorical: this.categoricalDimensionBuilder._build(),
+      fill: this.categoricalDimensionBuilder._build(),
       data: this._data,
       mixBlendMode: this._mixBlendMode,
-      ordinal: this.ordinalDimensionBuilder._build(),
-      quantitative: this.quantitativeDimensionBuilder._build(),
+      x: this.ordinalDimensionBuilder._build(),
+      y: this.quantitativeDimensionBuilder._build(),
       labels: this.labelsBuilder?._build(),
       stackOffset: this._stackOffset,
       stackOrder: this._stackOrder,

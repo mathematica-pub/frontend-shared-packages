@@ -14,17 +14,13 @@ const data = [
 
 function getNewConfig(): StackedBarsConfig<Datum, string> {
   return new VicStackedBarsConfigBuilder<Datum, string>()
-    .orientation('horizontal')
     .data(data)
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.country)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) => dimension.valueAccessor((d) => d.value))
+        .y((dimension) => dimension.valueAccessor((d) => d.country))
     )
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.category)
-    )
+    .fill((dimension) => dimension.valueAccessor((d) => d.category))
     .getConfig();
 }
 describe('StackedBarsConfig', () => {
@@ -76,33 +72,29 @@ describe('StackedBarsConfig', () => {
     });
     it('returns an array of indices when ordinal domain is limited by user', () => {
       config = new VicStackedBarsConfigBuilder<Datum, string>()
-        .orientation('horizontal')
         .data(data)
-        .createOrdinalDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.country)
-            .domain(['Sweden', 'Norway', 'Iceland'])
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) =>
+              dimension
+                .valueAccessor((d) => d.country)
+                .domain(['Sweden', 'Norway', 'Iceland'])
+            )
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
-        )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.category)
-        )
+        .fill((dimension) => dimension.valueAccessor((d) => d.category))
         .getConfig();
       expect(config.valueIndices).toEqual([0, 2, 3]);
     });
     it('returns an array of indices when categorical domain is limited by user', () => {
       config = new VicStackedBarsConfigBuilder<Datum, string>()
-        .orientation('horizontal')
         .data(data)
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.country)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.country))
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
         .getConfig();
@@ -110,17 +102,17 @@ describe('StackedBarsConfig', () => {
     });
     it('returns an array of indices when both ordinal and categorical domains are limited by user', () => {
       config = new VicStackedBarsConfigBuilder<Datum, string>()
-        .orientation('horizontal')
         .data(data)
-        .createOrdinalDimension((dimension) =>
-          dimension
-            .valueAccessor((d) => d.country)
-            .domain(['Sweden', 'Norway', 'Iceland'])
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) =>
+              dimension
+                .valueAccessor((d) => d.country)
+                .domain(['Sweden', 'Norway', 'Iceland'])
+            )
         )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
-        )
-        .createCategoricalDimension((dimension) =>
+        .fill((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
         .getConfig();

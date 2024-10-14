@@ -87,7 +87,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.categorical.getScale();
+    const categorical = this.config.fill.getScale();
     this.zone.run(() => {
       this.chart.updateScales({ x, y, categorical, useTransition });
     });
@@ -155,9 +155,9 @@ export class BarsComponent<
   getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {
     return {
       index: i,
-      quantitative: this.config.quantitative.values[i],
-      ordinal: this.config.ordinal.values[i],
-      categorical: this.config.categorical.values[i],
+      quantitative: this.config.y.values[i],
+      ordinal: this.config.x.values[i],
+      categorical: this.config.fill.values[i],
     };
   }
 
@@ -168,7 +168,7 @@ export class BarsComponent<
   }
 
   getBarFill(datum: BarDatum<TOrdinalValue>): string {
-    return this.config.categorical.fillDefs
+    return this.config.fill.fillDefs
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
   }
@@ -184,9 +184,9 @@ export class BarsComponent<
       .data<BarDatum<TOrdinalValue>>((i: number) => [
         {
           index: i,
-          quantitative: this.config.quantitative.values[i],
-          ordinal: this.config.ordinal.values[i],
-          categorical: this.config.categorical.values[i],
+          quantitative: this.config.y.values[i],
+          ordinal: this.config.x.values[i],
+          categorical: this.config.fill.values[i],
         },
       ])
       .join(
@@ -263,7 +263,7 @@ export class BarsComponent<
       const origin = this.getBarQuantitativeOrigin();
       return this.scales.y(origin);
     } else if (d.quantitative < 0) {
-      if (this.config.quantitative.domainIncludesZero) {
+      if (this.config.y.domainIncludesZero) {
         return this.scales.y(0);
       } else {
         return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
@@ -315,7 +315,7 @@ export class BarsComponent<
   }
 
   getBarQuantitativeOrigin(): number {
-    if (this.config.quantitative.domainIncludesZero) {
+    if (this.config.y.domainIncludesZero) {
       return 0;
     } else {
       const domain = this.getQuantitativeDomainFromScale();
@@ -325,7 +325,7 @@ export class BarsComponent<
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
-    const patterns = this.config.categorical.fillDefs;
+    const patterns = this.config.fill.fillDefs;
     return FillUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 
@@ -338,14 +338,11 @@ export class BarsComponent<
     if (!isNumber(d.quantitative)) {
       return this.config.labels.noValueFunction(datum);
     } else {
-      return this.config.quantitative.formatFunction
-        ? ValueUtilities.customFormat(
-            datum,
-            this.config.quantitative.formatFunction
-          )
+      return this.config.y.formatFunction
+        ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
         : ValueUtilities.d3Format(
             d.quantitative,
-            this.config.quantitative.formatSpecifier
+            this.config.y.formatSpecifier
           );
     }
   }
@@ -503,7 +500,7 @@ export class BarsComponent<
   }
 
   positionZeroOrNonNumericValueLabelInPositiveDirection(): boolean {
-    const quantitativeValues = this.config.quantitative.values;
+    const quantitativeValues = this.config.y.values;
     const someValuesArePositive = quantitativeValues.some((x) => x > 0);
     if (someValuesArePositive) {
       return true;
