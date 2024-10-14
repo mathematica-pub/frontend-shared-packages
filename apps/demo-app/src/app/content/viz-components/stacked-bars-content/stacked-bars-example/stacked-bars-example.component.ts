@@ -81,14 +81,12 @@ export class StackedBarsExampleComponent implements OnInit {
     const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
     const dataConfig = this.stackedBars
       .data(yearlyData)
-      .orientation('vertical')
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.date)
+      .vertical((bars) =>
+        bars
+          .y((dimension) => dimension.valueAccessor((d) => d.value))
+          .x((dimension) => dimension.valueAccessor((d) => d.date))
       )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .setFill((dimension) => dimension.valueAccessor((d) => d.industry))
+      .fill((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
 
     return {
