@@ -1,3 +1,5 @@
+import { BehaviorSubject } from "rxjs";
+
 export const scss = `
 .combobox-textbox {
   background: white;
@@ -64,3 +66,19 @@ export const scss = `
   padding-top: 16px;
 }
 `;
+
+export class ComboboxBaseTestComponent {
+  options = [
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+    { displayName: 'Durians', id: 'duri' },
+    { displayName: 'Elderberries', id: 'elde' },
+  ];
+  value = new BehaviorSubject<any>(null);
+  value$ = this.value.asObservable();
+
+  onSelection(event: any): void {
+    this.value.next(event);
+  }
+}
