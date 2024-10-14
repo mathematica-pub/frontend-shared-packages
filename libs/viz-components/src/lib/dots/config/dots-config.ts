@@ -1,5 +1,5 @@
 import { range } from 'd3';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { Stroke } from '../../stroke/stroke';
 import { DotsOptions } from './dots-options';
@@ -12,8 +12,8 @@ export class DotsConfig<Datum>
   pointerDetectionRadius: number;
   radius: number;
   stroke: Stroke;
-  x: QuantitativeNumericDimension<Datum>;
-  y: QuantitativeNumericDimension<Datum>;
+  x: NumberChartPositionDimension<Datum>;
+  y: NumberChartPositionDimension<Datum>;
 
   constructor(options: DotsOptions<Datum>) {
     super();

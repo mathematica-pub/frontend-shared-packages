@@ -1,11 +1,11 @@
 import { ScaleTime, max, min } from 'd3';
-import { isDate } from '../../core/utilities/type-guards';
-import { DataDimension } from '../dimension';
-import { QuantitativeDateDimensionOptions } from './quantitative-date-options';
+import { isDate } from '../../../core/utilities/type-guards';
+import { DataDimension } from '../../dimension';
+import { DateNumberDimensionOptions } from './date-number-options';
 
-export class QuantitativeDateDimension<Datum>
+export class DateNumberDimension<Datum>
   extends DataDimension<Datum, Date>
-  implements QuantitativeDateDimensionOptions<Datum>
+  implements DateNumberDimensionOptions<Datum>
 {
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
@@ -15,7 +15,7 @@ export class QuantitativeDateDimension<Datum>
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
 
-  constructor(options: QuantitativeDateDimensionOptions<Datum>) {
+  constructor(options: DateNumberDimensionOptions<Datum>) {
     super();
     Object.assign(this, options);
   }

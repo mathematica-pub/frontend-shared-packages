@@ -1,15 +1,16 @@
 import { ScaleTime, scaleUtc } from 'd3';
-import { DataDimensionBuilder } from '../dimension-builder';
-import { QuantitativeDateDimension } from './quantitative-date';
+import { DataDimensionBuilder } from '../../dimension-builder';
+import { DateNumberDimension } from '../date-number';
 
 const DEFAULT = {
   _scaleFn: scaleUtc,
   formatSpecifier: '%Y %m',
 };
 
-export class QuantitativeDateDimensionBuilder<
+export class DateNumberDimensionBuilder<Datum> extends DataDimensionBuilder<
   Datum,
-> extends DataDimensionBuilder<Datum, Date> {
+  Date
+> {
   private _domain: [Date, Date];
   private _formatSpecifier: string;
   private _scaleFn: (
@@ -62,9 +63,9 @@ export class QuantitativeDateDimensionBuilder<
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): QuantitativeDateDimension<Datum> {
+  _build(): DateNumberDimension<Datum> {
     this.validateBuilder();
-    return new QuantitativeDateDimension<Datum>({
+    return new DateNumberDimension<Datum>({
       domain: this._domain,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,

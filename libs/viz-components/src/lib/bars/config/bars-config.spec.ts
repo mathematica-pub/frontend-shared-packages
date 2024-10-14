@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { OrdinalDimension } from '../../data-dimensions/categorical/categorical-chart-position/categorical-chart-position';
+import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicBarsConfigBuilder } from './bars-builder';
 import { BarsConfig } from './bars-config';
 

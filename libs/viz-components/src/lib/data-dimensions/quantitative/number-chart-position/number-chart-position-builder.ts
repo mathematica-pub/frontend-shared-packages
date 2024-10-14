@@ -1,11 +1,11 @@
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
-import { DataDimensionBuilder } from '../dimension-builder';
+import { DataDimensionBuilder } from '../../dimension-builder';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
 import { PercentOverDomainPadding } from './domain-padding/percent-over/percent-over';
 import { PixelDomainPadding } from './domain-padding/pixel/pixel';
 import { RoundUpToIntervalDomainPadding } from './domain-padding/round-to-interval/round-to-interval';
 import { RoundUpToSigFigDomainPadding } from './domain-padding/round-to-sig-fig/round-to-sig-fig';
-import { QuantitativeNumericDimension } from './quantitative-numeric';
+import { NumberChartPositionDimension } from './number-chart-position';
 
 const DEFAULT = {
   _includeZeroInDomain: true,
@@ -19,13 +19,13 @@ const DEFAULT_PADDING = {
   roundUp: () => 1,
 };
 
-export class QuantitativeNumericDimensionBuilder<
+export class NumberChartPositionDimensionBuilder<
   Datum,
 > extends DataDimensionBuilder<Datum, number> {
   private _domain: [number, number];
+  private _domainPadding: ConcreteDomainPadding;
   private _formatSpecifier: string;
   private _includeZeroInDomain: boolean;
-  private _domainPadding: ConcreteDomainPadding;
   private _scaleFn: (
     domain?: Iterable<number>,
     range?: Iterable<number>
@@ -136,9 +136,9 @@ export class QuantitativeNumericDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  _build(): QuantitativeNumericDimension<Datum> {
+  _build(): NumberChartPositionDimension<Datum> {
     this.validateBuilder();
-    return new QuantitativeNumericDimension({
+    return new NumberChartPositionDimension({
       domain: this._domain,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
@@ -152,7 +152,7 @@ export class QuantitativeNumericDimensionBuilder<
   private validateBuilder(): void {
     if (!this._valueAccessor) {
       throw new Error(
-        'Quantitative Numeric Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
+        'Number Chart Position Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
       );
     }
   }

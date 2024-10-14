@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { QuantitativeDateDimension } from './quantitative-date';
-import { QuantitativeDateDimensionBuilder } from './quantitative-date-builder';
 
-describe('VicDateDimension', () => {
-  let dimension: QuantitativeDateDimension<Date>;
+import { DateNumberDimension } from './date-number';
+import { DateNumberDimensionBuilder } from './date-number-builder';
+
+describe('DateNumberDimension', () => {
+  let dimension: DateNumberDimension<Date>;
   beforeEach(() => {
-    dimension = new QuantitativeDateDimensionBuilder<Date>()
+    dimension = new DateNumberDimensionBuilder<Date>()
       .valueAccessor((d) => d)
       ._build();
   });

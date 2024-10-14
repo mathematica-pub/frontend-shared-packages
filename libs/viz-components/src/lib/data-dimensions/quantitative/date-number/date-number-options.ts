@@ -1,7 +1,7 @@
 import { ScaleTime } from 'd3';
-import { DataDimensionOptions } from '../dimension-options';
+import { DataDimensionOptions } from '../../dimension-options';
 
-export interface QuantitativeDateDimensionOptions<Datum>
+export interface DateNumberDimensionOptions<Datum>
   extends DataDimensionOptions<Datum, Date> {
   /**
    * An optional, user-provided range of values that is used as the domain of the dimension's scale.

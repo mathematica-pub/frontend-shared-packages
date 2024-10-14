@@ -1,6 +1,6 @@
-import { DataValue } from '../../core/types/values';
-import { DataDimensionBuilder } from '../dimension-builder';
-import { OrdinalDimension } from './ordinal';
+import { DataValue } from '../../../core/types/values';
+import { DataDimensionBuilder } from '../../dimension-builder';
+import { CategoricalChartPositionDimension } from './categorical-chart-position';
 
 const DEFAULT = {
   _align: 0.5,
@@ -72,8 +72,8 @@ export class OrdinalDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  _build(): OrdinalDimension<Datum, TOrdinalValue> {
-    return new OrdinalDimension({
+  _build(): CategoricalChartPositionDimension<Datum, TOrdinalValue> {
+    return new CategoricalChartPositionDimension({
       align: this._align,
       domain: this._domain,
       formatFunction: this._formatFunction,

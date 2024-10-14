@@ -1,30 +1,31 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { DataValue } from '../../core/types/values';
+import { DataValue, VisualValue } from '../../core/types/values';
 import { FillDef } from '../../fill-defs/fill-def';
 import { DataDimension } from '../dimension';
 import { CategoricalDimensionOptions } from './categorical-options';
 
 export class CategoricalDimension<
   Datum,
-  TCategoricalValue extends DataValue = string,
-> extends DataDimension<Datum, TCategoricalValue> {
-  private _calculatedDomain: TCategoricalValue[];
-  private readonly domain: TCategoricalValue[];
+  Domain extends DataValue,
+  Range extends VisualValue,
+> extends DataDimension<Datum, Domain> {
+  private _calculatedDomain: Domain[];
+  private readonly domain: Domain[];
   readonly fillDefs: FillDef<Datum>[];
-  private internSetDomain: InternSet<TCategoricalValue>;
-  readonly range: string[];
-  private scale: (category: TCategoricalValue) => string;
+  private internSetDomain: InternSet<Domain>;
+  readonly range: Range[];
+  private scale: (category: Domain) => Range;
 
-  constructor(options: CategoricalDimensionOptions<Datum, TCategoricalValue>) {
+  constructor(options: CategoricalDimensionOptions<Datum, Domain>) {
     super();
     Object.assign(this, options);
   }
 
-  get calculatedDomain(): TCategoricalValue[] {
+  get calculatedDomain(): Domain[] {
     return this._calculatedDomain;
   }
 
-  getScale(): (category: TCategoricalValue) => string {
+  getScale(): (category: Domain) => Range {
     return this.scale;
   }
 
@@ -49,7 +50,7 @@ export class CategoricalDimension<
     }
   }
 
-  domainIncludes(value: TCategoricalValue): boolean {
+  domainIncludes(value: Domain): boolean {
     return this.internSetDomain.has(value);
   }
 }
