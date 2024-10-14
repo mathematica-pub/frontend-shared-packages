@@ -59,7 +59,8 @@
         "preset": "angular",
         "push": true,
         "postTargets": ["build", "publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"],
+        "commitMessageFormat": "build({projectName}): release version {version}"
       }
     }
   }
