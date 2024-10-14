@@ -31,8 +31,8 @@ export function stackedAreaTooltipMixin<T extends AbstractConstructor>(
           (d) =>
             stackedArea.config.x.valueAccessor(d) ===
               stackedArea.config.x.values[i] &&
-            stackedArea.config.categorical.valueAccessor(d) ===
-              stackedArea.config.categorical.values[i]
+            stackedArea.config.color.valueAccessor(d) ===
+              stackedArea.config.color.values[i]
         );
         return {
           datum: originalDatum,
@@ -54,9 +54,9 @@ export function stackedAreaTooltipMixin<T extends AbstractConstructor>(
                 stackedArea.config.y.valueAccessor(originalDatum),
                 stackedArea.config.y.formatSpecifier
               ),
-          category: stackedArea.config.categorical.valueAccessor(originalDatum),
+          category: stackedArea.config.color.valueAccessor(originalDatum),
           color: stackedArea.scales.categorical(
-            stackedArea.config.categorical.valueAccessor(originalDatum)
+            stackedArea.config.color.valueAccessor(originalDatum)
           ),
         };
       });

@@ -87,7 +87,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.fill.getScale();
+    const categorical = this.config.color.getScale();
     this.zone.run(() => {
       this.chart.updateScales({ x, y, categorical, useTransition });
     });
@@ -157,7 +157,7 @@ export class BarsComponent<
       index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
-      categorical: this.config.fill.values[i],
+      categorical: this.config.color.values[i],
     };
   }
 
@@ -168,7 +168,7 @@ export class BarsComponent<
   }
 
   getBarFill(datum: BarDatum<TOrdinalValue>): string {
-    return this.config.fill.fillDefs
+    return this.config.color.fillDefs
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
   }
@@ -186,7 +186,7 @@ export class BarsComponent<
           index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
-          categorical: this.config.fill.values[i],
+          categorical: this.config.color.values[i],
         },
       ])
       .join(
@@ -325,7 +325,7 @@ export class BarsComponent<
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
-    const patterns = this.config.fill.fillDefs;
+    const patterns = this.config.color.fillDefs;
     return FillUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 

@@ -43,7 +43,7 @@ export class StackedBarsComponent<
       .join('g')
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       .attr('fill', ([{ i }]: any) =>
-        this.scales.categorical(this.config.fill.values[i])
+        this.scales.categorical(this.config.color.values[i])
       )
       .selectAll('rect')
       .data((d) => d)

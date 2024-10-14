@@ -30,12 +30,12 @@ export class HighlightLineForLabel<
     event.lines.lineGroups
       .selectAll<SVGPathElement, LinesMarkerDatum>('circle')
       .style('fill', (d): string =>
-        label === event.lines.config.categorical.values[d.index]
+        label === event.lines.config.color.values[d.index]
           ? null
           : 'transparent'
       )
       .filter(
-        (d): boolean => label === event.lines.config.categorical.values[d.index]
+        (d): boolean => label === event.lines.config.color.values[d.index]
       )
       .raise();
   }

@@ -81,7 +81,7 @@ describe('BarsConfig', () => {
       );
     });
     it('calls categorical.setPropertiesFromData once', () => {
-      expect(config.fill.setPropertiesFromData).toHaveBeenCalledOnceWith(data);
+      expect(config.color.setPropertiesFromData).toHaveBeenCalledOnceWith(data);
     });
   });
 

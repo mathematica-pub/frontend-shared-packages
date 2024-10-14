@@ -65,9 +65,9 @@ export class VicStackedAreaConfigBuilder<
   }
 
   /**
-   * REQUIRED. Sets the categorical dimension for the stacked area chart.
+   * REQUIRED. Sets the relationship between categorical data and colors for the chart.
    */
-  createCategoricalDimension(
+  color(
     setProperties: (
       dimension: CategoricalDimensionBuilder<Datum, CategoricalDomain, string>
     ) => void
@@ -139,7 +139,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the x dimension for the stacked area chart when using numeric data.
    */
-  createXNumericDimension(
+  xNumber(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -152,7 +152,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
    */
-  createXDateDimension(
+  xDate(
     setProperties: (dimension: DateNumberDimensionBuilder<Datum>) => void
   ): this {
     this.xDimensionBuilder = new DateNumberDimensionBuilder<Datum>();
@@ -163,7 +163,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Sets the y dimension for the stacked area chart.
    */
-  createYNumericDimension(
+  y(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -179,7 +179,7 @@ export class VicStackedAreaConfigBuilder<
   getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
     this.validateBuilder();
     return new StackedAreaConfig({
-      categorical: this.categoricalDimensionBuilder._build(),
+      color: this.categoricalDimensionBuilder._build(),
       categoricalOrder: this._categoricalOrder,
       curve: this._curve,
       data: this._data,

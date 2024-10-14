@@ -17,13 +17,9 @@ const data = [
 function createConfig(): StackedAreaConfig<Datum, string> {
   return new VicStackedAreaConfigBuilder<Datum, string>()
     .data(data)
-    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
-    .createYNumericDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.category)
-    )
+    .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+    .y((dimension) => dimension.valueAccessor((d) => d.value))
+    .color((dimension) => dimension.valueAccessor((d) => d.category))
     .getConfig();
 }
 

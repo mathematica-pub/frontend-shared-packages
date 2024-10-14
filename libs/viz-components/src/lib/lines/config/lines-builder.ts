@@ -47,11 +47,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A config for the behavior of the chart's categorical dimension.
+   * OPTIONAL. A config to set the color of the lines.
    *
-   * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
+   * If not provided, all lines will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
-  createCategoricalDimension(
+  color(
     setProperties?: (
       dimension: CategoricalDimensionBuilder<Datum, string, string>
     ) => void
@@ -116,7 +116,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    *
    * Creating this config will create markers on lines.
    */
-  createPointMarkers(
+  pointMarkers(
     setProperties?: (pointMarkers: PointMarkersBuilder<Datum>) => void
   ): this {
     this.pointMarkersBuilder = new PointMarkersBuilder();
@@ -127,7 +127,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  createStroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
@@ -140,7 +140,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
-  createXNumericDimension(
+  xNumber(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -153,7 +153,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
-  createXDateDimension(
+  xDate(
     setProperties: (dimension: DateNumberDimensionBuilder<Datum>) => void
   ): this {
     this.xDimensionBuilder = new DateNumberDimensionBuilder<Datum>();
@@ -164,7 +164,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's y dimension.
    */
-  createYDimension(
+  y(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
@@ -178,7 +178,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * OPTIONAL. A config to set fill underneath lines.
    *
    */
-  createAreaFills(
+  areaFills(
     setProperties?: (areaFills: AreaFillsBuilder<Datum>) => void
   ): this {
     this.initBelowLinesAreaFillBuilder();
@@ -196,7 +196,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      categorical: this.categoricalDimensionBuilder._build(),
+      color: this.categoricalDimensionBuilder._build(),
       curve: this._curve,
       data: this._data,
       labelLines: this._labelLines,

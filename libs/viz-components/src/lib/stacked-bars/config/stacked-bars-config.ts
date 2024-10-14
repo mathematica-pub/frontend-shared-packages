@@ -41,14 +41,14 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
     this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
         this.ordinal.domainIncludes(this.ordinal.values[i]) &&
-        this.fill.domainIncludes(this.fill.values[i])
+        this.color.domainIncludes(this.color.values[i])
       );
     });
   }
 
   constructStackedData(): void {
     const stackedData = stack<[unknown, InternMap<string, number>]>()
-      .keys(this.fill.calculatedDomain)
+      .keys(this.color.calculatedDomain)
       .value((d, key) => {
         return this.quantitative.values[d[1].get(key)];
       })
@@ -58,7 +58,7 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
         this.valueIndices,
         ([i]) => i,
         (i) => this.ordinal.values[i],
-        (i) => this.fill.values[i]
+        (i) => this.color.values[i]
       )
     );
 

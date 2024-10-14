@@ -43,7 +43,7 @@ export function barsTooltipMixin<T extends AbstractConstructor>(Base: T) {
               bars.config.quantitative.valueAccessor(datum),
               bars.config.quantitative.formatSpecifier
             ),
-        category: bars.config.fill.valueAccessor(datum),
+        category: bars.config.color.valueAccessor(datum),
         elRef: elRef,
       };
       return tooltipData;

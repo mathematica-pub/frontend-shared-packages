@@ -21,9 +21,8 @@ export class LinesHoverMoveDefaultLinesStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
-            directive.closestPointIndex
-          ] === category
+          directive.lines.config.color.values[directive.closestPointIndex] ===
+          category
       )
       .raise()
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
@@ -32,9 +31,8 @@ export class LinesHoverMoveDefaultLinesStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
-            directive.closestPointIndex
-          ] !== category
+          directive.lines.config.color.values[directive.closestPointIndex] !==
+          category
       )
       .selectAll<SVGPathElement, LinesGroupSelectionDatum>('path')
       .style('stroke', '#ddd');
@@ -63,9 +61,8 @@ export class LinesHoverMoveDefaultMarkersStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
-            directive.closestPointIndex
-          ] === category
+          directive.lines.config.color.values[directive.closestPointIndex] ===
+          category
       )
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .style('display', (d) =>
@@ -85,9 +82,8 @@ export class LinesHoverMoveDefaultMarkersStyles<
     directive.lines.lineGroups
       .filter(
         ([category]) =>
-          directive.lines.config.categorical.values[
-            directive.closestPointIndex
-          ] !== category
+          directive.lines.config.color.values[directive.closestPointIndex] !==
+          category
       )
       .selectAll<SVGCircleElement, LinesMarkerDatum>('circle')
       .style('display', 'none');

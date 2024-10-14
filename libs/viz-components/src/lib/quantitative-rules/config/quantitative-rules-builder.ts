@@ -69,9 +69,7 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. A config for the behavior of the rule labels.
    */
-  createLabels(
-    setProperties?: (labels: RulesLabelsBuilder<Datum>) => void
-  ): this {
+  labels(setProperties?: (labels: RulesLabelsBuilder<Datum>) => void): this {
     this.labelsBuilder = new RulesLabelsBuilder();
     setProperties?.(this.labelsBuilder);
     return this;
@@ -80,7 +78,7 @@ export class VicQuantitativeRulesConfigBuilder<
   /**
    * OPTIONAL. A config for the behavior of the rule stroke.
    */
-  createStroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  strsoke(setProperties?: (stroke: StrokeBuilder) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;

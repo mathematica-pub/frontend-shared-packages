@@ -80,7 +80,7 @@ describe('BarsComponent', () => {
     describe('chart is horizontal', () => {
       beforeEach(() => {
         component.config = horizontalConfig();
-        spyOn(component.config.fill, 'getScale').and.returnValue(
+        spyOn(component.config.color, 'getScale').and.returnValue(
           'categorical scale' as any
         );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
@@ -116,7 +116,7 @@ describe('BarsComponent', () => {
     describe('chart is vertical', () => {
       beforeEach(() => {
         component.config = verticalConfig();
-        spyOn(component.config.fill, 'getScale').and.returnValue(
+        spyOn(component.config.color, 'getScale').and.returnValue(
           'categorical scale' as any
         );
         spyOn(component.config.ordinal, 'getScaleFromRange').and.returnValue(
@@ -225,7 +225,7 @@ describe('BarsComponent', () => {
       expect(component.getBarFill(datum)).toEqual('bar color');
     });
     it('returns the result of getBarPattern if there are pattern fills specified', () => {
-      (component.config.fill as any).fillDefs = [
+      (component.config.color as any).fillDefs = [
         { name: 'pattern', useDef: () => true },
       ];
       expect(component.getBarFill(datum)).toEqual('bar pattern');
@@ -674,7 +674,7 @@ describe('BarsComponent', () => {
       spyOn(FillUtilities, 'getFill').and.returnValue('return-pattern');
       component.config = horizontalConfig();
       datum = component.getBarDatumFromIndex(2);
-      (component.config.fill as any).fillDefs = [pattern];
+      (component.config.color as any).fillDefs = [pattern];
     });
     it('calls getBarColor once with the datum', () => {
       component.getBarPattern(datum);
