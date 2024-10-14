@@ -1,16 +1,6 @@
 <app-content-container>
   <ng-template let-section #special>
     @switch (section.content.trim()) {
-      @case ('SimpleMultiSelect') {
-        <app-single-panel-example-display
-          height="600px"
-          path="app/content/ui-components/combobox-content/simple-multi-select-combobox-example"
-          class="example"
-          label="combobox multi example"
-        >
-          <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
-        </app-single-panel-example-display>
-      }
       @case ('SimpleSingleSelect') {
         <app-single-panel-example-display
           height="600px"
@@ -19,6 +9,16 @@
           label="combobox single example"
         >
           <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('SimpleMultiSelect') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/combobox-content/simple-multi-select-combobox-example"
+          class="example"
+          label="combobox multi example"
+        >
+          <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
         </app-single-panel-example-display>
       }
     }

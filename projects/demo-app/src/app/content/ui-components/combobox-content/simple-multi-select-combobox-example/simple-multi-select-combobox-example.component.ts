@@ -23,6 +23,7 @@ export class SimpleMultiSelectComboboxExampleComponent {
   ];
   selected = new BehaviorSubject([]);
   selected$ = this.selected.asObservable();
+
   onSelection(selectedIds: string[]): void {
     this.selected.next(selectedIds);
   }
