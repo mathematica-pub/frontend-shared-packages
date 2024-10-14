@@ -20,7 +20,7 @@ export class LinesConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
   implements LinesOptions<Datum>
 {
-  readonly categorical: CategoricalDimension<Datum, string>;
+  readonly categorical: CategoricalDimension<Datum, string, string>;
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;

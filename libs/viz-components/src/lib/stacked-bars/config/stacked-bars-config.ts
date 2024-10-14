@@ -38,9 +38,9 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
   }
 
   override setValueIndices(): void {
-    this.valueIndices = range(this.x.values.length).filter((i) => {
+    this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
-        this.x.domainIncludes(this.x.values[i]) &&
+        this.ordinal.domainIncludes(this.ordinal.values[i]) &&
         this.fill.domainIncludes(this.fill.values[i])
       );
     });
@@ -50,14 +50,14 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
     const stackedData = stack<[unknown, InternMap<string, number>]>()
       .keys(this.fill.calculatedDomain)
       .value((d, key) => {
-        return this.y.values[d[1].get(key)];
+        return this.quantitative.values[d[1].get(key)];
       })
       .order(this.stackOrder)
       .offset(this.stackOffset)(
       rollup(
         this.valueIndices,
         ([i]) => i,
-        (i) => this.x.values[i],
+        (i) => this.ordinal.values[i],
         (i) => this.fill.values[i]
       )
     );
@@ -74,6 +74,6 @@ export class StackedBarsConfig<Datum, TOrdinalValue extends DataValue>
 
   initQuantitativeDomainFromStack(): void {
     const extents = extent(this.stackedData.flat(2));
-    this.y.setDomain(extents);
+    this.quantitative.setDomain(extents);
   }
 }

@@ -28,7 +28,11 @@ export class VicBarsConfigBuilder<
 > extends PrimaryMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
-  protected categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
+  protected categoricalDimensionBuilder: CategoricalDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   protected ordinalDimensionBuilder: OrdinalDimensionBuilder<
     Datum,
     TOrdinalValue
@@ -46,7 +50,9 @@ export class VicBarsConfigBuilder<
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   fill(
-    setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
+    setProperties?: (
+      dimension: CategoricalDimensionBuilder<Datum, string, string>
+    ) => void
   ): this {
     this.initCategoricalDimensionBuilder();
     setProperties?.(this.categoricalDimensionBuilder);
@@ -112,8 +118,8 @@ export class VicBarsConfigBuilder<
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
-      x: this.ordinalDimensionBuilder._build(),
-      y: this.quantitativeDimensionBuilder._build(),
+      ordinal: this.ordinalDimensionBuilder._build(),
+      quantitative: this.quantitativeDimensionBuilder._build(),
     });
   }
 

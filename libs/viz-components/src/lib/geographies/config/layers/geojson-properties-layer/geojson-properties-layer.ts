@@ -16,6 +16,7 @@ export class GeographiesGeojsonPropertiesLayer<
 {
   readonly categorical: CategoricalDimension<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
   readonly fill: string;

@@ -24,9 +24,9 @@ export class GroupedBarsConfig<Datum, TOrdinalValue extends DataValue>
   }
 
   override setValueIndices(): void {
-    this.valueIndices = range(this.x.values.length).filter((i) => {
+    this.valueIndices = range(this.ordinal.values.length).filter((i) => {
       return (
-        this.x.domainIncludes(this.x.values[i]) &&
+        this.ordinal.domainIncludes(this.ordinal.values[i]) &&
         this.fill.domainIncludes(this.fill.values[i])
       );
     });

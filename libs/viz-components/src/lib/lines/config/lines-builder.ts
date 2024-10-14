@@ -28,7 +28,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
+  private categoricalDimensionBuilder: CategoricalDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
@@ -48,7 +52,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   createCategoricalDimension(
-    setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
+    setProperties?: (
+      dimension: CategoricalDimensionBuilder<Datum, string, string>
+    ) => void
   ): this {
     this.initCatetgoricalBuilder();
     setProperties?.(this.categoricalDimensionBuilder);
@@ -56,7 +62,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   private initCatetgoricalBuilder(): void {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
+    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<
+      Datum,
+      string,
+      string
+    >();
   }
 
   /**

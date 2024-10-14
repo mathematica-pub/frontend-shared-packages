@@ -16,7 +16,7 @@ export class CategoricalDimension<
   readonly range: Range[];
   private scale: (category: Domain) => Range;
 
-  constructor(options: CategoricalDimensionOptions<Datum, Domain>) {
+  constructor(options: CategoricalDimensionOptions<Datum, Domain, Range>) {
     super();
     Object.assign(this, options);
   }

@@ -9,6 +9,7 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
   categorical: CategoricalDimension<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
   fill: string;

@@ -1,7 +1,7 @@
 import { max, min, ScaleContinuousNumeric } from 'd3';
 import { isNumber } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
-import { NumberNumberDimensionOptions } from '../number-number-options';
+import { NumberNumberDimensionOptions } from './number-number-options';
 
 export class NumberNumberDimension<Datum>
   extends DataDimension<Datum, number>

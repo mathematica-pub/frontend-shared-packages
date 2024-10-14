@@ -9,7 +9,7 @@ import { AreaFills } from './area-fills/area-fills';
 
 export interface LinesOptions<Datum> extends MarksOptions<Datum> {
   areaFills: AreaFills<Datum>;
-  categorical: CategoricalDimension<Datum, string>;
+  categorical: CategoricalDimension<Datum, string, string>;
   curve: CurveFactory;
   labelLines: boolean;
   lineLabelsFormat: (d: string) => string;

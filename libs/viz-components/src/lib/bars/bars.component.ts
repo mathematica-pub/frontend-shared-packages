@@ -155,8 +155,8 @@ export class BarsComponent<
   getBarDatumFromIndex(i: number): BarDatum<TOrdinalValue> {
     return {
       index: i,
-      quantitative: this.config.y.values[i],
-      ordinal: this.config.x.values[i],
+      quantitative: this.config.quantitative.values[i],
+      ordinal: this.config.ordinal.values[i],
       categorical: this.config.fill.values[i],
     };
   }
@@ -184,8 +184,8 @@ export class BarsComponent<
       .data<BarDatum<TOrdinalValue>>((i: number) => [
         {
           index: i,
-          quantitative: this.config.y.values[i],
-          ordinal: this.config.x.values[i],
+          quantitative: this.config.quantitative.values[i],
+          ordinal: this.config.ordinal.values[i],
           categorical: this.config.fill.values[i],
         },
       ])
@@ -263,7 +263,7 @@ export class BarsComponent<
       const origin = this.getBarQuantitativeOrigin();
       return this.scales.y(origin);
     } else if (d.quantitative < 0) {
-      if (this.config.y.domainIncludesZero) {
+      if (this.config.quantitative.domainIncludesZero) {
         return this.scales.y(0);
       } else {
         return this.scales.y(this.getQuantitativeDomainFromScale()[1]);
@@ -315,7 +315,7 @@ export class BarsComponent<
   }
 
   getBarQuantitativeOrigin(): number {
-    if (this.config.y.domainIncludesZero) {
+    if (this.config.quantitative.domainIncludesZero) {
       return 0;
     } else {
       const domain = this.getQuantitativeDomainFromScale();
@@ -338,11 +338,14 @@ export class BarsComponent<
     if (!isNumber(d.quantitative)) {
       return this.config.labels.noValueFunction(datum);
     } else {
-      return this.config.y.formatFunction
-        ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
+      return this.config.quantitative.formatFunction
+        ? ValueUtilities.customFormat(
+            datum,
+            this.config.quantitative.formatFunction
+          )
         : ValueUtilities.d3Format(
             d.quantitative,
-            this.config.y.formatSpecifier
+            this.config.quantitative.formatSpecifier
           );
     }
   }
@@ -500,7 +503,7 @@ export class BarsComponent<
   }
 
   positionZeroOrNonNumericValueLabelInPositiveDirection(): boolean {
-    const quantitativeValues = this.config.y.values;
+    const quantitativeValues = this.config.quantitative.values;
     const someValuesArePositive = quantitativeValues.some((x) => x > 0);
     if (someValuesArePositive) {
       return true;

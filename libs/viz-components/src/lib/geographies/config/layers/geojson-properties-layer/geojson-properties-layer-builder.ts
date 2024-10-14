@@ -15,6 +15,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private categoricalBuilder: CategoricalDimensionBuilder<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
   private _fill: string;
@@ -40,6 +41,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     setProperties: (
       builder: CategoricalDimensionBuilder<
         GeographiesFeature<TProperties, TGeometry>,
+        string,
         string
       >
     ) => void

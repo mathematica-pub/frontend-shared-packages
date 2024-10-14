@@ -24,21 +24,24 @@ export function barsTooltipMixin<T extends AbstractConstructor>(Base: T) {
     ): BarsTooltipData<Datum, TOrdinalValue> {
       const datum = bars.config.data.find(
         (d) =>
-          bars.config.y.values[barDatum.index] ===
-            bars.config.y.valueAccessor(d) &&
-          bars.config.x.values[barDatum.index] ===
-            bars.config.x.valueAccessor(d)
+          bars.config.quantitative.values[barDatum.index] ===
+            bars.config.quantitative.valueAccessor(d) &&
+          bars.config.ordinal.values[barDatum.index] ===
+            bars.config.ordinal.valueAccessor(d)
       );
 
       const tooltipData: BarsTooltipData<Datum, TOrdinalValue> = {
         datum,
         color: bars.getBarColor(barDatum),
-        ordinal: bars.config.x.valueAccessor(datum),
-        quantitative: bars.config.y.formatFunction
-          ? ValueUtilities.customFormat(datum, bars.config.y.formatFunction)
+        ordinal: bars.config.ordinal.valueAccessor(datum),
+        quantitative: bars.config.quantitative.formatFunction
+          ? ValueUtilities.customFormat(
+              datum,
+              bars.config.quantitative.formatFunction
+            )
           : ValueUtilities.d3Format(
-              bars.config.y.valueAccessor(datum),
-              bars.config.y.formatSpecifier
+              bars.config.quantitative.valueAccessor(datum),
+              bars.config.quantitative.formatSpecifier
             ),
         category: bars.config.fill.valueAccessor(datum),
         elRef: elRef,

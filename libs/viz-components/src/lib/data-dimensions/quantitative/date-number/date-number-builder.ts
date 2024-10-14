@@ -1,6 +1,6 @@
 import { ScaleTime, scaleUtc } from 'd3';
 import { DataDimensionBuilder } from '../../dimension-builder';
-import { DateNumberDimension } from '../date-number';
+import { DateNumberDimension } from './date-number';
 
 const DEFAULT = {
   _scaleFn: scaleUtc,

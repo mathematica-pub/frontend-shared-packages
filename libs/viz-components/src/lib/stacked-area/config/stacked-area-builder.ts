@@ -32,24 +32,25 @@ const DEFAULT = {
 @Injectable()
 export class VicStackedAreaConfigBuilder<
   Datum,
-  TCategoricalValue extends DataValue,
+  CategoricalDomain extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
   private categoricalDimensionBuilder: CategoricalDimensionBuilder<
     Datum,
-    TCategoricalValue
+    CategoricalDomain,
+    string
   >;
-  private _categoricalOrder: TCategoricalValue[];
+  private _categoricalOrder: CategoricalDomain[];
   private _curve: CurveFactory;
   private _stackOrder: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >
   ) => Iterable<number>;
   private _stackOffset: (
     series: Series<
-      [ContinuousValue, InternMap<TCategoricalValue, number>],
-      TCategoricalValue
+      [ContinuousValue, InternMap<CategoricalDomain, number>],
+      CategoricalDomain
     >,
     order: number[]
   ) => void;
@@ -68,12 +69,13 @@ export class VicStackedAreaConfigBuilder<
    */
   createCategoricalDimension(
     setProperties: (
-      dimension: CategoricalDimensionBuilder<Datum, TCategoricalValue>
+      dimension: CategoricalDimensionBuilder<Datum, CategoricalDomain, string>
     ) => void
   ): this {
     this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<
       Datum,
-      TCategoricalValue
+      CategoricalDomain,
+      string
     >();
     setProperties(this.categoricalDimensionBuilder);
     return this;
@@ -84,7 +86,7 @@ export class VicStackedAreaConfigBuilder<
    *
    * If not provided, the order will be determined by d3.
    */
-  categoricalOrder(value: TCategoricalValue[]): this {
+  categoricalOrder(value: CategoricalDomain[]): this {
     this._categoricalOrder = value;
     return this;
   }
@@ -107,8 +109,8 @@ export class VicStackedAreaConfigBuilder<
   stackOrder(
     value: (
       series: Series<
-        [ContinuousValue, InternMap<TCategoricalValue, number>],
-        TCategoricalValue
+        [ContinuousValue, InternMap<CategoricalDomain, number>],
+        CategoricalDomain
       >
     ) => Iterable<number>
   ): this {
@@ -124,8 +126,8 @@ export class VicStackedAreaConfigBuilder<
   stackOffset(
     value: (
       series: Series<
-        [ContinuousValue, InternMap<TCategoricalValue, number>],
-        TCategoricalValue
+        [ContinuousValue, InternMap<CategoricalDomain, number>],
+        CategoricalDomain
       >,
       order: number[]
     ) => void
@@ -174,7 +176,7 @@ export class VicStackedAreaConfigBuilder<
   /**
    * REQUIRED. Builds the configuration object for the stacked area chart.
    */
-  getConfig(): StackedAreaConfig<Datum, TCategoricalValue> {
+  getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
     this.validateBuilder();
     return new StackedAreaConfig({
       categorical: this.categoricalDimensionBuilder._build(),
