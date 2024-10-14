@@ -1,6 +1,6 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "app-dev-kit",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
   "sourceRoot": "projects/app-dev-kit/src",
   "prefix": "adk",
@@ -27,6 +27,13 @@
         "command": "nx run app-dev-kit:build:production && cd ./dist/app-dev-kit && npm publish"
       }
     },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -45,6 +52,15 @@
         ]
       },
       "outputs": ["{options.outputFile}"]
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "push": true,
+        "postTargets": ["build", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+      }
     }
   }
 }

@@ -44,4 +44,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
-        run: npx nx affected -t publish --base=origin/main~1 --head=origin/main
+        run: npx nx affected -t version --base=origin/main~1 --head=origin/main --parallel=false
