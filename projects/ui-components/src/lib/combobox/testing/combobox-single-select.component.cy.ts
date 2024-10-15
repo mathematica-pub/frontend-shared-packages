@@ -6,6 +6,7 @@ import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
+// Simple single select combobox
 @Component({
   selector: 'hsi-ui-combobox-single-test',
   template: `
@@ -116,6 +117,7 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
   });
 });
 
+// Single select combobox with some disabled options
 @Component({
   selector: 'hsi-ui-combobox-single-disabled-options-test',
   template: `
@@ -171,6 +173,7 @@ describe('ComboboxSingleSelectDisabledOptionsComponent', () => {
   });
 });
 
+// Single select combobox with a pre-set selected option
 @Component({
   selector: 'hsi-ui-combobox-select-from-outside-single-test',
   template: `
