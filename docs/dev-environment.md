@@ -10,57 +10,19 @@ This project has the following requirements for the developer's/virtual machine:
 
 ## Beta-releases
 
-Viz-components supports beta-releases so that we can test library code on real projects before
-officially making a feature stable and merging to main. This lets us make sure we can have rigorous
-tests and decent documentation for new features without slowing down project work too much.
+Frontend shared packages support beta-releases so that we can test library code on real projects
+before officially making a feature stable and merging to main. This lets us make sure we can have
+rigorous tests and decent documentation for new features without slowing down project work too much.
 
-To create a beta release, you will push code to a remote `beta` branch in the
-`frontend-shared-packages` repo. This will trigger a workflow that will publish a beta release to
-the `@hsi` npm registry.
+On any open PR add a comment that says `beta-release-bot (PACKAGE_NAME): CUSTOM_RELEASE_SUFFIX` and
+a beta-release job will be deployed. For example, if the current package version in
+`libs/viz-components/package.json` is `1.0.6`,
+`beta-release-bot (viz-components): my-awesome-release` will release version
+`1.0.6-my-awesome-release`. You can then install this in your project by running
+`npm install @hsi/viz-components@1.0.6-my-awesome-release`.
 
-Follow the following steps to create a beta release:
-
-1. Develop and test the changes that you would like to release on a local branch, e.g.
-   `my-new-changes`. To ensure our automated releasing system (handled by the `semantic-release`
-   library) detects that a version bump is needed, confirm that you have at least one commit message
-   that
-
-   - Touches code in the package you want to release AND
-   - Is prefixed with `fix:` or `feat:` or has a footer prefixed with `BREAKING CHANGE:`
-
-(See: [formatting guidelines](https://gist.github.com/develar/273e2eb938792cf5f86451fbac2bcd51) on
-Conventional Commits)
-
-2. When you are ready to release, confirm
-   [here](https://github.com/mathematica-org/frontend-shared-packages/branches) that there is not
-   already a remote `beta` branch in the `frontend-shared-packages`. If it already exists, complete
-   the following steps using `alpha` instead.
-
-   > There can only be one alpha or beta branch, but ideally they're short-lived. We're essentially
-   > using them as throwaway branches that are purely for triggering the beta release workflow.
-
-   > This is because `semantic-release` automatically appends the branch name to the end of
-   > prerelease packages, so any branch that has numbers in it or has a long name will fail to
-   > deploy.
-
-3. Create a local `beta` branch from your development branch, and then push to a remote `beta` branch
-
-```bash
-// Branch off your development branch
-git checkout -b beta
-
-// Push to beta branch
-git push --set-upstream origin beta
-```
-
-4. You should see a new
-   [workflow](https://github.com/mathematica-org/frontend-shared-packages/actions/workflows/publish-package.yml)
-   kicked off. Once that's complete, your beta release should show up
-   [here](https://github.com/mathematica-org/frontend-shared-packages/releases).
-5. Install the beta release into your project using
-   `npm install @hsi/<PACKAGE>@<BETA RELEASE VERSION>` (e.g. `@hsi/viz-components@3.0.1-beta.1`).
-6. **IMPORTANT:** Once you've successfully installed your beta release, delete the remote beta
-   branch from the `frontend-shared-packages` repo!
+To redeploy, add another comment with a new release name (e.g.
+`beta-release-bot (viz-components): my-awesome-release-trying-this-again`).
 
 ## Locally generating compodoc documentation
 
