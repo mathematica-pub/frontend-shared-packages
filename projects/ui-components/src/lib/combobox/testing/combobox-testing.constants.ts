@@ -1,4 +1,5 @@
-import { BehaviorSubject } from "rxjs";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { BehaviorSubject } from 'rxjs';
 
 export const scss = `
 .combobox-textbox {
