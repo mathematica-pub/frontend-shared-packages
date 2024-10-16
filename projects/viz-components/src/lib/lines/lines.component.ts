@@ -65,7 +65,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
     const categorical = this.config.categorical.getScale();
-    // this.zone.run(() => {
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -74,7 +73,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
       categorical,
       useTransition,
     });
-    // });
   }
 
   drawMarks(): void {
