@@ -49,8 +49,8 @@ export class AdkDocumentationDisplayComponent implements OnInit, AfterViewInit {
   @Output() nextDoc: EventEmitter<string> = new EventEmitter<string>();
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
   content$: Observable<AdkParsedDocumentation>;
-  @ContentChild('special', { static: false })
-  specialTemplateRef: TemplateRef<unknown>;
+  @ContentChild('escapedContent', { static: false })
+  escapedContentTemplateRef: TemplateRef<unknown>;
 
   constructor(
     private content: AdkDocumentationContentService,
