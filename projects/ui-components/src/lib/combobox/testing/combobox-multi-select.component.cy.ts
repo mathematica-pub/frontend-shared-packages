@@ -121,7 +121,8 @@ describe('ComboboxSelectedOptionsCountLabelTestComponent', () => {
   });
 });
 
-// Multi-select combobox
+// Multi select combobox with dropdown options that get
+//  updated by interacting with outside button components
 @Component({
   selector: 'hsi-ui-combobox-external-label-change',
   template: `
