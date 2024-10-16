@@ -24,7 +24,7 @@
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "nx run app-dev-kit:build:production && cd ./dist/app-dev-kit && npm publish"
+        "command": "cd ./dist/app-dev-kit && npm publish"
       }
     },
     "github-release": {
@@ -57,8 +57,7 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
-        "push": true,
-        "postTargets": ["build", "publish", "github-release"],
+        "postTargets": ["publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"],
         "commitMessageFormat": "build({projectName}): release version {version}"
       }
