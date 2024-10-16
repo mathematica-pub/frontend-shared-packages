@@ -211,27 +211,3 @@ cannot serve as placeholder text for the box.
 
 Each `ListboxGroup` can have exactly one `ListboxLabel`, and each `ListboxComponent` can have
 exactly one `ListboxLabel` outside of a `ListboxGroup`.
-
-## Examples
-
-{{SimpleSingleSelect}}
-
-This is a single select that displays the selected option.
-
-{{DisplaySingleSelected}}
-
-This is a single select that has disabled options.
-
-{{DisabledSelectionsSingleSelect}}
-
-This is a single select that uses findsOptionOnTyping.
-
-{{FindOnSearchSingleSelect}}
-
-This is a single select that uses FormControl.
-
-{{NgFormSingleSelect}}
-
-This is a simple multi select.
-
-{{SimpleMultiSelect}}

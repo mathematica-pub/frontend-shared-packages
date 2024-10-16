@@ -11,10 +11,29 @@ const routes = [
   },
   {
     path: 'combobox',
-    loadComponent: () =>
-      import(
-        '../ui-components/combobox-content/combobox-content.component'
-      ).then((m) => m.ComboboxContentComponent),
+    children: [
+      {
+        path: 'documentation',
+        loadComponent: () =>
+          import(
+            '../ui-components/combobox-content/combobox-content.component'
+          ).then((m) => m.ComboboxContentComponent),
+      },
+      {
+        path: 'single-select-examples',
+        loadComponent: () =>
+          import(
+            '../ui-components/combobox-content/combobox-content.component'
+          ).then((m) => m.ComboboxContentComponent),
+      },
+      {
+        path: 'multi-select-examples',
+        loadComponent: () =>
+          import(
+            '../ui-components/combobox-content/combobox-content.component'
+          ).then((m) => m.ComboboxContentComponent),
+      },
+    ],
   },
   {
     path: '**',
