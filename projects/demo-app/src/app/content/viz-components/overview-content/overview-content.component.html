@@ -1,6 +1,6 @@
 @if (data$ | async; as data) {
   <app-content-container>
-    <ng-template let-section #special>
+    <ng-template let-section #escapedContent>
       @switch (section.content.trim()) {
         @case ('QuickStartExampleComponent') {
           <app-single-panel-example-display
