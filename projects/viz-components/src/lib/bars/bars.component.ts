@@ -89,7 +89,6 @@ export class BarsComponent<
       this.ranges.y
     );
     const categorical = this.config.categorical.getScale();
-    // this.zone.run(() => {
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -98,7 +97,6 @@ export class BarsComponent<
       categorical,
       useTransition,
     });
-    // });
   }
 
   drawMarks(): void {
