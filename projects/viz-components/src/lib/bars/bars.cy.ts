@@ -30,7 +30,10 @@ import { VicBarsModule } from './bars.module';
 import { BarsConfig } from './config/bars-config';
 import { BarsEventOutput } from './events/bars-event-output';
 
-const waitTime = 1000;
+// Cypress will get the tick elements before d3 has set the text value of the elements,
+// because d3 creates the elements and sets the text value in a transition).
+// This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
+const axisTickTextWaitTime = 1000;
 
 const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
@@ -300,7 +303,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createLabels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
       cy.get('.vic-bar-group').should('have.length', QOCData.length);
       cy.get('.vic-bar').should('have.length', QOCData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
@@ -329,7 +332,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createLabels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
       cy.get('.vic-bar-group').should('have.length', QOCData.length);
       cy.get('.vic-bar').should('have.length', QOCData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
@@ -360,7 +363,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
     });
     it('creates one bar and one ordinal axis tick per value in the provided domain and does not create bars for data not in domain', () => {
       mountVerticalBarsComponent(barsConfig);
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
       cy.get('.vic-bar-group').should('have.length', ordinalDomain.length);
       cy.get('.vic-bar').should('have.length', ordinalDomain.length);
       // D3 draws the top axis tick first, so we need to reverse the domain to match the order of the axis ticks
@@ -370,7 +373,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
     });
     it('sets the quantitative domain according to all quantitative values in all of the data including those datums which are not drawn in the chart because of restricted domain', () => {
       mountVerticalBarsComponent(barsConfig);
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
       cy.get('.vic-y.vic-axis-g .tick text').then((ticks) => {
         const lastTickValue = ticks[ticks.length - 1].innerHTML;
         // expect "above" because we are adding 20 px of padding to the domain
@@ -395,7 +398,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createLabels((labels) => labels.display(true))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
       cy.get('.vic-bar-group').should('have.length', ordinalDomain.length);
       cy.get('.vic-bar').should('have.length', ordinalDomain.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks

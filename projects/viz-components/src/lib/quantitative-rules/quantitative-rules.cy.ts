@@ -34,7 +34,10 @@ import {
 import { VicQuantitativeRulesConfigBuilder } from './config/quantitative-rules-builder';
 import { QuantitativeRulesConfig } from './config/quantitative-rules-config';
 
-const waitTime = 100;
+// Cypress will get the tick elements before d3 has set the text value of the elements,
+// because d3 creates the elements and sets the text value in a transition).
+// This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
+const axisTickTextWaitTime = 100;
 
 // ***********************************************************
 // BAR CHARTS
@@ -128,7 +131,7 @@ const mountHorizontalBarsComponent = (
       yOrdinalAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(waitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(axisTickTextWaitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 // ***********************************************************
@@ -216,7 +219,7 @@ const mountVerticalBarsComponent = (
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(waitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
+  cy.wait(axisTickTextWaitTime); // axes do not get drawn quickly enough without this - due to pattern of subscribing to chart scales
 };
 
 const linesMargin = { top: 60, right: 20, bottom: 40, left: 80 };
@@ -313,7 +316,7 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(waitTime); // have to wait for axes to render
+  cy.wait(axisTickTextWaitTime); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(
@@ -347,7 +350,7 @@ function mountNumberLinesComponent(
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(waitTime); // have to wait for axes to render
+  cy.wait(axisTickTextWaitTime); // have to wait for axes to render
 }
 
 // ***********************************************************

@@ -12,7 +12,10 @@ import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitat
 import { VicXQuantitativeAxisModule } from '../x-quantitative/x-quantitative-axis.module';
 import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 
-const waitTime = 100;
+// Cypress will get the tick elements before d3 has set the text value of the elements,
+// because d3 creates the elements and sets the text value in a transition).
+// This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
+const axisTickTextWaitTime = 100;
 
 @Component({
   selector: 'vic-test-x-quantitative-axis',
@@ -83,7 +86,7 @@ describe('it correctly sets ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has a last tick whose value is less than or equal to the max value', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -108,7 +111,7 @@ describe('it correctly sets ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -131,7 +134,7 @@ describe('it correctly sets ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, excluding those that are outside of the data range', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -187,7 +190,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as specified -- case .0f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -211,7 +214,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -252,7 +255,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as integers', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -300,7 +303,7 @@ describe('integer formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as integers', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -363,7 +366,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -387,7 +390,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, rounded to the nearest tenth', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -434,7 +437,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -489,7 +492,7 @@ describe('float formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as floats with the correct number of decimal places - case .1f', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -552,7 +555,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are formatted as percentages with the correct number of decimal places - case .0%', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -576,7 +579,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has the specified tick values, rounded to the nearest integer', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -605,7 +608,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {
@@ -660,7 +663,7 @@ describe('percent formatted ticks', () => {
           xQuantitativeAxisConfig: axisConfig,
         },
       });
-      cy.wait(waitTime);
+      cy.wait(axisTickTextWaitTime);
     });
     it('has ticks that are correctly formatted', () => {
       cy.get('.vic-x.vic-axis-g .tick text').then((ticks) => {

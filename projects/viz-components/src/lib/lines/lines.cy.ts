@@ -31,7 +31,10 @@ import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-
 import { LinesConfig } from './config/lines-config';
 import { LinesEventOutput } from './events/lines-event-output';
 
-const waitTime = 500;
+// Cypress will get the tick elements before d3 has set the text value of the elements,
+// because d3 creates the elements and sets the text value in a transition).
+// This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
+const axisTickTextWaitTime = 500;
 
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
@@ -391,7 +394,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
       )
       .getConfig();
     mountDateLinesComponent(linesConfig);
-    cy.wait(waitTime);
+    cy.wait(axisTickTextWaitTime);
     const categories = [];
     cy.get('.vic-line')
       .each(($lines) => {
@@ -428,7 +431,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
       )
       .getConfig();
     mountNumberLinesComponent(linesConfig);
-    cy.wait(waitTime);
+    cy.wait(axisTickTextWaitTime);
     const categories = [];
     cy.get('.vic-line')
       .each(($lines) => {
