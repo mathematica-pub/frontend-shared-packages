@@ -1,4 +1,4 @@
-.pixar-movies-dropdown {  
+.office-locations-dropdown {
   .combobox-textbox {
     background: white;
     border: 1px solid grey;
@@ -49,15 +49,6 @@
 
   .listbox-option:hover {
     background: #f2f2f2;
-  }
-
-  .listbox-option.current {
-    outline: 2px solid black;
-    outline-offset: -2px;
-  }
-
-  .listbox-option.current:not(.selected) {
-    background: lightgrey;
   }
 
   .listbox-option.selected {
