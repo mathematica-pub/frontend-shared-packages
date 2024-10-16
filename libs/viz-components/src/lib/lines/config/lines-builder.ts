@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
-import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { DateNumberDimensionBuilder } from '../../data-dimensions/quantitative/date-number/date-number-builder';
+import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
@@ -28,7 +28,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private categoricalDimensionBuilder: CategoricalDimensionBuilder<
+  private categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
     string,
     string
@@ -37,7 +37,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | NumberChartPositionDimensionBuilder<Datum>
-    | DateNumberDimensionBuilder<Datum>;
+    | DateChartPositionDimensionBuilder<Datum>;
   private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
   private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
@@ -53,7 +53,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   color(
     setProperties?: (
-      dimension: CategoricalDimensionBuilder<Datum, string, string>
+      dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
     this.initCatetgoricalBuilder();
@@ -62,7 +62,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   private initCatetgoricalBuilder(): void {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<
+    this.categoricalDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
       Datum,
       string,
       string
@@ -154,9 +154,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
   xDate(
-    setProperties: (dimension: DateNumberDimensionBuilder<Datum>) => void
+    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
   ): this {
-    this.xDimensionBuilder = new DateNumberDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }

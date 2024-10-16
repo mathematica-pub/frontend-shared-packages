@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { CategoricalDimensionBuilder } from '../../../../data-dimensions/categorical/categorical-builder';
+import { OrdinalVisualValueDimensionBuilder } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
@@ -13,7 +13,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
-  private categoricalBuilder: CategoricalDimensionBuilder<
+  private categoricalBuilder: OrdinalVisualValueDimensionBuilder<
     GeographiesFeature<TProperties, TGeometry>,
     string,
     string
@@ -39,7 +39,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
 
   createCategoricalDimension(
     setProperties: (
-      builder: CategoricalDimensionBuilder<
+      builder: OrdinalVisualValueDimensionBuilder<
         GeographiesFeature<TProperties, TGeometry>,
         string,
         string
@@ -55,7 +55,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   }
 
   private initCategricalBuilder(): void {
-    this.categoricalBuilder = new CategoricalDimensionBuilder();
+    this.categoricalBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {

@@ -1,15 +1,15 @@
 import { schemeTableau10 } from 'd3';
-import { DataValue, VisualValue } from '../../core/types/values';
-import { FillDef } from '../../fill-defs/fill-def';
-import { DataDimensionBuilder } from '../dimension-builder';
-import { CategoricalDimension } from './categorical';
+import { DataValue, VisualValue } from '../../../core/types/values';
+import { FillDef } from '../../../fill-defs/fill-def';
+import { DataDimensionBuilder } from '../../dimension-builder';
+import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 
 const DEFAULT = {
   _range: schemeTableau10 as string[],
   _valueAccessor: () => '',
 };
 
-export class CategoricalDimensionBuilder<
+export class OrdinalVisualValueDimensionBuilder<
   Datum,
   Domain extends DataValue,
   Range extends VisualValue,
@@ -59,11 +59,11 @@ export class CategoricalDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a user-defined function that transforms a categorical value into a graphical value.
+   * OPTIONAL. Sets a user-defined function that transforms a categorical value into a visual value.
    *
    * User must also provide their own implementation of `valueAccessor`.
    *
-   * If a custom valueAccessor function is not provided, this function will not be used (due to default value of `valueAccessor`).
+   * If a custom valueAccessor function is not provided, this function will not be used even if provided (due to default value of `valueAccessor`).
    */
   scale(scale: (category: Domain) => Range): this {
     this._scale = scale;
@@ -73,8 +73,8 @@ export class CategoricalDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  _build(): CategoricalDimension<Datum, Domain, Range> {
-    return new CategoricalDimension({
+  _build(): OrdinalVisualValueDimension<Datum, Domain, Range> {
+    return new OrdinalVisualValueDimension({
       domain: this._domain,
       fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,

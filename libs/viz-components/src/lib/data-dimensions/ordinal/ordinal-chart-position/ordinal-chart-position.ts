@@ -1,14 +1,14 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
 import { DataValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';
-import { CategoricalChartPositionDimensionOptions } from './categorical-chart-position-options';
+import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-options';
 
-export class CategoricalChartPositionDimension<
+export class OrdinalChartPositionDimension<
     Datum,
     TOrdinalValue extends DataValue,
   >
   extends DataDimension<Datum, TOrdinalValue>
-  implements CategoricalChartPositionDimensionOptions<Datum, TOrdinalValue>
+  implements OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
 {
   readonly align: number;
   private _calculatedDomain: TOrdinalValue[];
@@ -24,7 +24,7 @@ export class CategoricalChartPositionDimension<
   override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
 
   constructor(
-    options: CategoricalChartPositionDimensionOptions<Datum, TOrdinalValue>
+    options: OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
   ) {
     super();
     this.scaleFn = scaleBand;

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from './categorical';
-import { CategoricalDimensionBuilder } from './categorical-builder';
+import { OrdinalVisualValueDimension } from './ordinal-visual-value';
+import { OrdinalVisualValueDimensionBuilder } from './ordinal-visual-value-builder';
 
 describe('VicDimensionCategorical', () => {
-  let dimension: CategoricalDimension<string>;
+  let dimension: OrdinalVisualValueDimension<string, string, string>;
   beforeEach(() => {
-    dimension = new CategoricalDimensionBuilder<string>()
+    dimension = new OrdinalVisualValueDimensionBuilder<string, string, string>()
       .valueAccessor((d) => d)
       ._build();
   });

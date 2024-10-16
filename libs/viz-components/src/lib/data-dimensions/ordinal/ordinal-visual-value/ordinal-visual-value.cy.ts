@@ -10,11 +10,11 @@ import {
   VicYOrdinalAxisModule,
 } from 'libs/viz-components/src/public-api';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
-import { VicOrdinalAxisConfig } from '../../axes/ordinal/ordinal-axis-config';
-import { VicQuantitativeAxisConfig } from '../../axes/quantitative/quantitative-axis-config';
-import { VicBarsConfigBuilder } from '../../bars/config/bars-builder';
-import { BarsConfig } from '../../bars/config/bars-config';
-import { QOCData, QOCDatum } from '../../testing/data/quant-ord-cat-data';
+import { VicOrdinalAxisConfig } from '../../../axes/ordinal/ordinal-axis-config';
+import { VicQuantitativeAxisConfig } from '../../../axes/quantitative/quantitative-axis-config';
+import { VicBarsConfigBuilder } from '../../../bars/config/bars-builder';
+import { BarsConfig } from '../../../bars/config/bars-config';
+import { QOCData, QOCDatum } from '../../../testing/data/quant-ord-cat-data';
 
 const dotsPatternMagenta = 'dotsMagenta';
 const dotsPatternTeal = 'dotsTeal';

@@ -1,16 +1,15 @@
 import { ScaleTime, scaleUtc } from 'd3';
 import { DataDimensionBuilder } from '../../dimension-builder';
-import { DateNumberDimension } from './date-number';
+import { DateChartPositionDimension } from './date-chart-position';
 
 const DEFAULT = {
   _scaleFn: scaleUtc,
   formatSpecifier: '%Y %m',
 };
 
-export class DateNumberDimensionBuilder<Datum> extends DataDimensionBuilder<
+export class DateChartPositionDimensionBuilder<
   Datum,
-  Date
-> {
+> extends DataDimensionBuilder<Datum, Date> {
   private _domain: [Date, Date];
   private _formatSpecifier: string;
   private _scaleFn: (
@@ -63,9 +62,9 @@ export class DateNumberDimensionBuilder<Datum> extends DataDimensionBuilder<
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): DateNumberDimension<Datum> {
+  _build(): DateChartPositionDimension<Datum> {
     this.validateBuilder();
-    return new DateNumberDimension<Datum>({
+    return new DateChartPositionDimension<Datum>({
       domain: this._domain,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,

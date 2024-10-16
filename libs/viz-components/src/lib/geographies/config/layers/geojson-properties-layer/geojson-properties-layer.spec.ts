@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
+import { CategoricalDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 import { GeographiesGeojsonPropertiesLayerBuilder } from './geojson-properties-layer-builder';
 

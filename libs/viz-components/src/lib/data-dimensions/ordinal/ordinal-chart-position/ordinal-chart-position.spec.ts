@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { CategoricalChartPositionDimension } from './categorical-chart-position';
-import { OrdinalDimensionBuilder } from './categorical-chart-position-builder';
+import { OrdinalDimensionBuilder } from './ordinal-chart-position-builder';
 
 const data = [
   { value: 1, category: 'a' },

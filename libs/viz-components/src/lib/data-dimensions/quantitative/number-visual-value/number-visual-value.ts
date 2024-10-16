@@ -1,23 +1,26 @@
 import { max, min, ScaleContinuousNumeric } from 'd3';
+import { VisualValue } from '../../../core';
 import { isNumber } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
-import { NumberNumberDimensionOptions } from './number-number-options';
+import { NumberVisualValueDimensionOptions } from './number-visual-value-options';
 
-export class NumberNumberDimension<Datum>
+export class NumberVisualValueDimension<Datum, Range extends VisualValue>
   extends DataDimension<Datum, number>
-  implements NumberNumberDimensionOptions<Datum>
+  implements NumberVisualValueDimensionOptions<Datum, Range>
 {
   protected calculatedDomain: [number, number];
   readonly domain: [number, number];
   domainIncludesZero: boolean;
   readonly formatSpecifier: string;
   readonly includeZeroInDomain: boolean;
+  readonly range: Range[];
   readonly scaleFn: (
     domain?: Iterable<number>,
-    range?: Iterable<number>
-  ) => ScaleContinuousNumeric<number, number>;
+    range?: Iterable<Range>
+  ) => ScaleContinuousNumeric<Range, Range>;
+  scale: (value: number) => Range;
 
-  constructor(options: NumberNumberDimensionOptions<Datum>) {
+  constructor(options: NumberVisualValueDimensionOptions<Datum, Range>) {
     super();
     Object.assign(this, options);
   }
@@ -25,6 +28,7 @@ export class NumberNumberDimension<Datum>
   setPropertiesFromData(data: Datum[]): void {
     this.setValues(data);
     this.setDomain();
+    this.setScale();
   }
 
   setDomain(valuesOverride?: [number, number]) {
@@ -47,8 +51,12 @@ export class NumberNumberDimension<Datum>
       this.calculatedDomain[0] <= 0 && 0 <= this.calculatedDomain[1];
   }
 
-  getScaleFromRange(range: [number, number]) {
-    return this.scaleFn().domain(this.calculatedDomain).range(range);
+  private setScale(): void {
+    if (this.scale === undefined) {
+      this.scale = this.scaleFn()
+        .domain(this.calculatedDomain)
+        .range(this.range);
+    }
   }
 
   // returns false if data is undefined or null or not a number

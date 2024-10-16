@@ -1,9 +1,9 @@
-import { NumberNumberDimension } from '../number-number/number-number';
+import { NumberVisualValueDimension } from '../number-visual-value/number-visual-value';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
 import { NumberChartPositionDimensionOptions } from './number-chart-position-options';
 
 export class NumberChartPositionDimension<Datum>
-  extends NumberNumberDimension<Datum>
+  extends NumberVisualValueDimension<Datum>
   implements NumberChartPositionDimensionOptions<Datum>
 {
   readonly domainPadding?: ConcreteDomainPadding;

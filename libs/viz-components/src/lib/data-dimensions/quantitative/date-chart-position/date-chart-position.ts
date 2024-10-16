@@ -1,11 +1,11 @@
 import { ScaleTime, max, min } from 'd3';
 import { isDate } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
-import { DateNumberDimensionOptions } from './date-number-options';
+import { DateChartPositionDimensionOptions } from './date-chart-position-options';
 
-export class DateNumberDimension<Datum>
+export class DateChartPositionDimension<Datum>
   extends DataDimension<Datum, Date>
-  implements DateNumberDimensionOptions<Datum>
+  implements DateChartPositionDimensionOptions<Datum>
 {
   private calculatedDomain: [Date, Date];
   readonly domain: [Date, Date];
@@ -15,7 +15,7 @@ export class DateNumberDimension<Datum>
     range?: Iterable<number>
   ) => ScaleTime<number, number>;
 
-  constructor(options: DateNumberDimensionOptions<Datum>) {
+  constructor(options: DateChartPositionDimensionOptions<Datum>) {
     super();
     Object.assign(this, options);
   }

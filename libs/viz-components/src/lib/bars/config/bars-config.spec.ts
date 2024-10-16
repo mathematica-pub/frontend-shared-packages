@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { OrdinalDimension } from '../../data-dimensions/categorical/categorical-chart-position/categorical-chart-position';
+import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/categorical-chart-position';
+import { CategoricalDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicBarsConfigBuilder } from './bars-builder';
 import { BarsConfig } from './bars-config';

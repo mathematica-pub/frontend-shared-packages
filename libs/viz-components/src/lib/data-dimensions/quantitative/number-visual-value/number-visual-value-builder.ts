@@ -1,23 +1,26 @@
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
+import { VisualValue } from '../../../core';
 import { DataDimensionBuilder } from '../../dimension-builder';
-import { NumberNumberDimension } from '../number-number';
+import { NumberVisualValueDimension } from './number-visual-value';
 
 const DEFAULT = {
   _includeZeroInDomain: false,
   _scaleFn: scaleLinear,
 };
 
-export class NumberNumberDimensionBuilder<Datum> extends DataDimensionBuilder<
+export class NumberVisualValueDimensionBuilder<
   Datum,
-  number
-> {
+  Range extends VisualValue,
+> extends DataDimensionBuilder<Datum, number> {
   private _domain: [number, number];
   private _formatSpecifier: string;
   private _includeZeroInDomain: boolean;
+  private _range: Range[];
+  private _scale: (value: number) => Range;
   private _scaleFn: (
     domain?: Iterable<number>,
-    range?: Iterable<number>
-  ) => ScaleContinuousNumeric<number, number>;
+    range?: Iterable<Range>
+  ) => ScaleContinuousNumeric<Range, Range>;
 
   constructor() {
     super();
@@ -53,31 +56,57 @@ export class NumberNumberDimensionBuilder<Datum> extends DataDimensionBuilder<
   }
 
   /**
+   * OPTIONAL. Sets an array of visual values that will be the output from D3 scale linear.
+   *
+   * For example, this could be an array of colors or sizes.
+   *
+   * To have all marks use the same visual value, use an array with a single element.
+   */
+  range(range: Range[]): this {
+    this._range = range;
+    return this;
+  }
+
+  /**
    * OPTIONAL. This is a D3 scale function that maps values from the dimension's domain to the dimension's range.
+   *
+   * If the user provides a custom scale function through the `scale` method, this will be ignored.
    *
    * @default d3.scaleLinear
    */
   scaleFn(
     scaleFn: (
       domain?: Iterable<number>,
-      range?: Iterable<number>
-    ) => ScaleContinuousNumeric<number, number>
+      range?: Iterable<Range>
+    ) => ScaleContinuousNumeric<Range, Range>
   ): this {
     this._scaleFn = scaleFn;
     return this;
   }
 
   /**
+   * OPTIONAL. Allows a user to set a completely custom scale that transforms the value returned by this dimension's valueAccessor into a visual value (string or number).
+   *
+   * If provided, this will override any values provided to domain, range, and scaleFn.
+   */
+  scale(scale: (value: number) => Range): this {
+    this._scale = scale;
+    return this;
+  }
+
+  /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  _build(): NumberNumberDimension<Datum> {
+  _build(): NumberVisualValueDimension<Datum, Range> {
     this.validateBuilder();
-    return new NumberNumberDimension({
+    return new NumberVisualValueDimension({
       domain: this._domain,
       formatFunction: this._formatFunction,
       formatSpecifier: this._formatSpecifier,
       includeZeroInDomain: this._includeZeroInDomain,
+      range: this._range,
       scaleFn: this._scaleFn,
+      scale: this._scale,
       valueAccessor: this._valueAccessor,
     });
   }
@@ -85,7 +114,7 @@ export class NumberNumberDimensionBuilder<Datum> extends DataDimensionBuilder<
   private validateBuilder(): void {
     if (!this._valueAccessor) {
       throw new Error(
-        'Number-Number Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
+        'Number-Visual Value Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
       );
     }
   }

@@ -1,18 +1,25 @@
 import { range } from 'd3';
+import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
 import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
+import { NumberVisualValueDimension } from '../../data-dimensions/quantitative/number-visual-value/number-visual-value';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
-import { Stroke } from '../../stroke/stroke';
+import { OutlineStroke } from '../../stroke/outline-stroke/outline-stroke';
 import { DotsOptions } from './dots-options';
 
 export class DotsConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
   implements DotsOptions<Datum>
 {
-  fill: string;
+  fill:
+    | OrdinalVisualValueDimension<Datum, string, string>
+    | NumberVisualValueDimension<Datum, string>;
   pointerDetectionRadius: number;
-  radius: number;
-  stroke: Stroke;
-  x: NumberChartPositionDimension<Datum>;
+  radius:
+    | OrdinalVisualValueDimension<Datum, string, number>
+    | NumberVisualValueDimension<Datum, number>;
+  stroke: OutlineStroke;
+  x: NumberChartPositionDimension<Datum> | DateChartPositionDimension<Datum>;
   y: NumberChartPositionDimension<Datum>;
 
   constructor(options: DotsOptions<Datum>) {
@@ -29,6 +36,8 @@ export class DotsConfig<Datum>
   protected setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
     this.y.setPropertiesFromData(this.data);
+    this.fill.setPropertiesFromData(this.data);
+    this.radius.setPropertiesFromData(this.data);
   }
 
   protected setValueIndices(): void {

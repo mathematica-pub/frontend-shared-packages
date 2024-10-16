@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { DateNumberDimension } from './date-number';
-import { DateNumberDimensionBuilder } from './date-number-builder';
+import { DateNumberDimension } from './date-chart-position';
+import { DateNumberDimensionBuilder } from './date-chart-position-builder';
 
 describe('DateNumberDimension', () => {
   let dimension: DateNumberDimension<Date>;

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/date-number/date-number';
+import { CategoricalDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicStackedAreaConfigBuilder } from './stacked-area-builder';
 import { StackedAreaConfig } from './stacked-area-config';

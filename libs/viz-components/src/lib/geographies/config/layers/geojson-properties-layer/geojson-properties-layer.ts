@@ -1,7 +1,7 @@
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
-import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
+import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
@@ -14,7 +14,7 @@ export class GeographiesGeojsonPropertiesLayer<
   extends GeographiesLayer<string, TProperties, TGeometry>
   implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
 {
-  readonly categorical: CategoricalDimension<
+  readonly categorical: OrdinalVisualValueDimension<
     GeographiesFeature<TProperties, TGeometry>,
     string,
     string

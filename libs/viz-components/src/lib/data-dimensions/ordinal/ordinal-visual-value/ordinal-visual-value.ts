@@ -1,10 +1,10 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { DataValue, VisualValue } from '../../core/types/values';
-import { FillDef } from '../../fill-defs/fill-def';
-import { DataDimension } from '../dimension';
-import { CategoricalDimensionOptions } from './categorical-options';
+import { DataValue, VisualValue } from '../../../core/types/values';
+import { FillDef } from '../../../fill-defs/fill-def';
+import { DataDimension } from '../../dimension';
+import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-options';
 
-export class CategoricalDimension<
+export class OrdinalVisualValueDimension<
   Datum,
   Domain extends DataValue,
   Range extends VisualValue,
@@ -14,9 +14,11 @@ export class CategoricalDimension<
   readonly fillDefs: FillDef<Datum>[];
   private internSetDomain: InternSet<Domain>;
   readonly range: Range[];
-  private scale: (category: Domain) => Range;
+  scale: (category: Domain) => Range;
 
-  constructor(options: CategoricalDimensionOptions<Datum, Domain, Range>) {
+  constructor(
+    options: OrdinalVisualValueDimensionOptions<Datum, Domain, Range>
+  ) {
     super();
     Object.assign(this, options);
   }
