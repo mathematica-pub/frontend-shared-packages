@@ -3,6 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SinglePanelExampleDisplayComponent } from '../../../platform/single-panel-example-display/single-panel-example-display.component';
 import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
+import { SimpleMultiSelectComboboxExampleComponent } from './simple-multi-select-combobox-example/simple-multi-select-combobox-example.component';
 import { SimpleSingleSelectComboboxExampleComponent } from './simple-single-select-combobox-example/simple-single-select-combobox-example.component';
 
 @Component({
@@ -13,6 +14,7 @@ import { SimpleSingleSelectComboboxExampleComponent } from './simple-single-sele
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
     SimpleSingleSelectComboboxExampleComponent,
+    SimpleMultiSelectComboboxExampleComponent,
     ContentContainerComponent,
   ],
   templateUrl: './combobox-content.component.html',
