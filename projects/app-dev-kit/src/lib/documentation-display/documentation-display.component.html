@@ -5,10 +5,10 @@
         @for (section of content.sections; track $index) {
           @if (section.type === 'markdown') {
             <div class="injected-html" [innerHTML]="section.html"></div>
-          } @else if (section.type === 'special') {
+          } @else if (section.type === 'escaped') {
             <ng-container
-              *ngIf="specialTemplateRef"
-              [ngTemplateOutlet]="specialTemplateRef"
+              *ngIf="escapedContentTemplateRef"
+              [ngTemplateOutlet]="escapedContentTemplateRef"
               [ngTemplateOutletContext]="{ $implicit: section }"
             >
             </ng-container>

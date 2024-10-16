@@ -231,3 +231,7 @@ This is a single select that uses findsOptionOnTyping.
 This is a single select that uses FormControl.
 
 {{NgFormSingleSelect}}
+
+This is a simple multi select.
+
+{{SimpleMultiSelect}}
