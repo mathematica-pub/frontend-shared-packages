@@ -1,14 +1,14 @@
 {
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "name": "ui-components",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
+  "sourceRoot": "projects/ui-components/src",
+  "prefix": "hsi-ui",
   "generators": {
     "@schematics/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "projects/ui-components/src",
-  "prefix": "hsi-ui",
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:ng-packagr",
@@ -30,6 +30,13 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "cd ./dist/ui-components && npm publish"
+      }
+    },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
       }
     },
     "test": {
@@ -65,6 +72,16 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "cd projects/ui-components && npx cypress open"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "push": true,
+        "postTargets": ["publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"],
+        "commitMessageFormat": "build({projectName}): release version {version}"
       }
     }
   }
