@@ -1,6 +1,5 @@
 {
   "name": "@hsi/viz-components",
-  "version": "3.2.4",
   "scripts": {
     "build": "ng build"
   },
