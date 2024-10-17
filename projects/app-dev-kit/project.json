@@ -21,6 +21,12 @@
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/app-dev-kit"]
     },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build app-dev-kit"
+      }
+    },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
@@ -58,7 +64,7 @@
       "options": {
         "preset": "angular",
         "skipCommit": true,
-        "postTargets": ["build", "publish", "github-release"],
+        "postTargets": ["build-release", "publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
