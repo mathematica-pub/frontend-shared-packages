@@ -39,8 +39,8 @@ import { ContentFilesService } from '../../core/services/content-files.service';
 export class ContentContainerComponent implements AfterViewInit {
   @ViewChild('file') file: ElementRef<HTMLDivElement>;
   content$: Observable<AdkParsedDocumentation>;
-  @ContentChild('special', { static: false })
-  specialTemplateRef: TemplateRef<unknown>;
+  @ContentChild('escapedContent', { static: false })
+  escapedContentTemplateRef: TemplateRef<unknown>;
 
   constructor(
     public contentService: ContentFilesService,
