@@ -26,8 +26,8 @@ ui-components:
     table: table.md
     combobox:
       documentation: combobox-documentation.md
-      single-select-examples: combobox-single-select-examples.md
       multi-select-examples: combobox-multi-select-examples.md
+      single-select-examples: combobox-single-select-examples.md
 
 viz-components:
   title: Viz Components

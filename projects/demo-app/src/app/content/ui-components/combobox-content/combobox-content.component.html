@@ -1,6 +1,16 @@
 <app-content-container>
   <ng-template let-section #escapedContent>
     @switch (section.content.trim()) {
+      @case ('SimpleMultiSelect') {
+        <app-single-panel-example-display
+          height="600px"
+          path="app/content/ui-components/combobox-content/simple-multi-select-combobox-example"
+          class="example"
+          label="combobox multi example"
+        >
+          <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
+        </app-single-panel-example-display>
+      }
       @case ('SimpleSingleSelect') {
         <app-single-panel-example-display
           height="500px"
@@ -49,16 +59,6 @@
           label="single select combobox example that uses FormControl"
         >
           <app-ng-form-single-select-combobox-example></app-ng-form-single-select-combobox-example>
-        </app-single-panel-example-display>
-      }
-      @case ('SimpleMultiSelect') {
-        <app-single-panel-example-display
-          height="600px"
-          path="app/content/ui-components/combobox-content/simple-multi-select-combobox-example"
-          class="example"
-          label="combobox multi example"
-        >
-          <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
         </app-single-panel-example-display>
       }
     }
