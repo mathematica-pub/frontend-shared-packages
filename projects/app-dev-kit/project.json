@@ -58,6 +58,7 @@
       "options": {
         "preset": "angular",
         "push": true,
+        "skipCommit": true,
         "postTargets": ["publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
