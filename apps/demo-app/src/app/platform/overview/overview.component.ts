@@ -51,7 +51,7 @@ export class OverviewComponent implements OnInit {
       ),
       switchMap((raw) => {
         return this.markdown.parse(raw as string, {
-          detectSpecial: false,
+          detectEscaped: false,
           highlighter: { type: 'markdown', theme: ShikiTheme.CatppuccinLatte },
         });
       })

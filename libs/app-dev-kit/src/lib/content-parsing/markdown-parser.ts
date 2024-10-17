@@ -22,17 +22,17 @@ export interface AdkMdParsedContentSection {
   headers: { id: string; text: string; level: number }[];
 }
 
-export interface AdkSpecialParsedContentSection {
-  type: 'special';
+export interface AdkEscapedContentSection {
+  type: 'escaped';
   content: string;
 }
 
 export type AdkParsedContentSection =
   | AdkMdParsedContentSection
-  | AdkSpecialParsedContentSection;
+  | AdkEscapedContentSection;
 
 export interface AdkMarkdownParsingOptions {
-  detectSpecial?: boolean;
+  detectEscaped?: boolean;
   highlighter?: AdkShikiHighlighterOptions;
   gfm?: boolean;
   headingIds?: boolean;
@@ -59,7 +59,7 @@ const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
 };
 
 const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
-  detectSpecial: true,
+  detectEscaped: true,
   gfm: true,
   headingIds: true,
   headingFragmentLinks: { createLinks: false },
@@ -102,7 +102,7 @@ export class AdkMarkdownParser {
         }
       }),
       switchMap((_options) => {
-        const sections = this.getSections(markdown, _options.detectSpecial);
+        const sections = this.getSections(markdown, _options.detectEscaped);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
         });
@@ -136,7 +136,7 @@ export class AdkMarkdownParser {
           currentMarkdown = '';
         }
         sections.push({
-          type: 'special',
+          type: 'escaped',
           content: line.trim().slice(2, -2).trim(),
         });
       } else {
