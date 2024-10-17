@@ -2,7 +2,7 @@ name: Release packages
 on:
   push:
     branches:
-      - '*'
+      - main
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
