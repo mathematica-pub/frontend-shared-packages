@@ -42,13 +42,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Authenticate Git
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-
-      - name: Fetch all branches
-        run: git fetch --all
-
       - name: Update versions and release packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
