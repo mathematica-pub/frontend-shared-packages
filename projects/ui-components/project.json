@@ -78,9 +78,7 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
-        "push": true,
         "skipCommit": true,
-        "baseBranch": "HEAD:main",
         "postTargets": ["publish", "github-release"],
         "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
