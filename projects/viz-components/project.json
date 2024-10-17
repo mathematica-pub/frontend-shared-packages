@@ -32,6 +32,13 @@
         "command": "cd ./dist/viz-components && npm publish"
       }
     },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
@@ -65,6 +72,16 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "cd projects/viz-components && npx cypress open"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "push": true,
+        "postTargets": ["publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"],
+        "commitMessageFormat": "build({projectName}): release version {version}"
       }
     }
   }
