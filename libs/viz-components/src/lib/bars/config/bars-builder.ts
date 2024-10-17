@@ -45,11 +45,11 @@ export class VicBarsConfigBuilder<
   }
 
   /**
-   * OPTIONAL. Creates a categorical dimension that will control the fill of the bars.
+   * OPTIONAL. Creates a categorical dimension that will control the color of the bars.
    *
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
-  fill(
+  color(
     setProperties?: (
       dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void

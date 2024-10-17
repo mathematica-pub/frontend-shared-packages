@@ -146,7 +146,7 @@ describe('marks have expected fill', () => {
             .x((dimension) => dimension.valueAccessor((d) => d.area))
             .y((dimension) => dimension.valueAccessor((d) => d.country))
         )
-        .fill((dimension) => dimension.range([color, 'red', 'yellow']))
+        .color((dimension) => dimension.range([color, 'red', 'yellow']))
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
@@ -185,7 +185,7 @@ describe('marks have expected fill', () => {
             )
             .y((dimension) => dimension.valueAccessor((d) => d.country))
         )
-        .fill((dimension) => dimension.valueAccessor((d) => d.continent))
+        .color((dimension) => dimension.valueAccessor((d) => d.continent))
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
@@ -223,7 +223,7 @@ describe('marks have expected fill', () => {
             )
             .y((dimension) => dimension.valueAccessor((d) => d.country))
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension
             .valueAccessor((d) => d.continent)
             .scale(customCategoricalScale)
@@ -263,7 +263,7 @@ describe('marks have expected fill', () => {
             )
             .y((dimension) => dimension.valueAccessor((d) => d.country))
         )
-        .fill((dimension) => dimension.scale(customCategoricalScale))
+        .color((dimension) => dimension.scale(customCategoricalScale))
         .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
@@ -292,7 +292,7 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .fill((dimension) =>
+      .color((dimension) =>
         dimension.fillDefs([
           {
             name: dotsPatternMagenta,
@@ -321,7 +321,7 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .fill((dimension) =>
+      .color((dimension) =>
         dimension
           .fillDefs([
             {
@@ -371,7 +371,7 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .fill((dimension) =>
+      .color((dimension) =>
         dimension
           .fillDefs([
             {

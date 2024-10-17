@@ -207,7 +207,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
             )
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .labels((labels) => labels.display(true).offset(labelOffset))
@@ -329,7 +329,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
             )
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .labels((labels) => labels.display(true).offset(labelOffset))
@@ -363,7 +363,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
               dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
             )
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .labels((labels) => labels.display(true).offset(labelOffset))
@@ -409,7 +409,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
                     .domainPaddingPixels(-4)
                 )
             )
-            .fill((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .labels((labels) => labels.display(true).offset(labelOffset))
@@ -444,7 +444,7 @@ describe('it correctly positions the vertical bar chart data labels', () => {
                     .domainPaddingPixels(-4)
                 )
             )
-            .fill((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .labels((labels) => labels.display(true).offset(labelOffset))
@@ -544,7 +544,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             .x((dimension) => dimension.valueAccessor((d) => d.value))
             .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .labels((labels) => labels.display(true).offset(labelOffset))
@@ -667,7 +667,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             )
             .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .labels((labels) => labels.display(true).offset(labelOffset))
@@ -701,7 +701,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
             )
             .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
         .labels((labels) => labels.display(true).offset(labelOffset))
@@ -747,7 +747,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
                 )
                 .y((dimension) => dimension.valueAccessor((d) => d.state))
             )
-            .fill((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .labels((labels) => labels.display(true).offset(labelOffset))
@@ -782,7 +782,7 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
                 )
                 .y((dimension) => dimension.valueAccessor((d) => d.state))
             )
-            .fill((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
             .labels((labels) => labels.display(true).offset(labelOffset))
