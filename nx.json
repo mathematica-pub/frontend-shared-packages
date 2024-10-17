@@ -30,6 +30,9 @@
     "publish": {
       "inputs": ["default", "^production"],
       "dependsOn": ["^build"]
+    },
+    "version": {
+      "dependsOn": ["^version"]
     }
   },
   "defaultBase": "main",
