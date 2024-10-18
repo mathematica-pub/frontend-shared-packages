@@ -80,8 +80,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             .attr('class', 'vic-dot')
             .attr('cx', (i) => this.scales.x(this.config.x.values[i]))
             .attr('cy', (i) => this.scales.y(this.config.y.values[i]))
-            .attr('r', this.config.radius)
-            .attr('fill', this.config.fill)
+            .attr('r', 2)
+            .attr('fill', 'blue')
             .attr('stroke', 'red')
             .attr('stroke-width', this.config.stroke.width),
         (update) =>
@@ -90,8 +90,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             .transition(t as any)
             .attr('cx', (i) => this.scales.x(this.config.x.values[i]))
             .attr('cy', (i) => this.scales.y(this.config.y.values[i]))
-            .attr('r', this.config.radius)
-            .attr('fill', this.config.fill)
+            .attr('r', 2)
+            .attr('fill', 'blue')
             .attr('stroke', 'red')
             .attr('stroke-width', this.config.stroke.width),
         (exit) => exit.remove()
