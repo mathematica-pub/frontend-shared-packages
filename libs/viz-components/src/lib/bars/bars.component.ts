@@ -13,7 +13,11 @@ import { select, selectAll, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
-import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import {
+  XyChartComponent,
+  XyChartScales,
+} from '../charts/xy-chart/xy-chart.component';
+import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
 import { FillUtilities } from '../core/utilities/fill-utilities';
@@ -52,7 +56,7 @@ export type BarDatum<T> = {
   index: number;
   quantitative: number;
   ordinal: T;
-  categorical: string;
+  color: string;
 };
 
 @Component({
@@ -79,6 +83,7 @@ export class BarsComponent<
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
   protected zone = inject(NgZone);
+  override scales: { color: GenericScale<any, any> } & XyChartScales;
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -87,9 +92,9 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.color.getScale();
+    this.scales.color = this.config.color.getScale();
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, categorical, useTransition });
+      this.chart.updateScales({ x, y, useTransition });
     });
   }
 
@@ -157,7 +162,7 @@ export class BarsComponent<
       index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
-      categorical: this.config.color.values[i],
+      color: this.config.color.values[i],
     };
   }
 
@@ -186,7 +191,7 @@ export class BarsComponent<
           index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
-          categorical: this.config.color.values[i],
+          color: this.config.color.values[i],
         },
       ])
       .join(
@@ -330,7 +335,7 @@ export class BarsComponent<
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
-    return this.scales.categorical(d.categorical);
+    return this.scales.color(d.color);
   }
 
   getBarLabelText(d: BarDatum<TOrdinalValue>): string {

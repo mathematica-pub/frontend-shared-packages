@@ -6,7 +6,8 @@ import {
   NgZone,
 } from '@angular/core';
 import { Transition, area, select } from 'd3';
-import { ChartComponent, XyChartComponent } from '../charts';
+import { ChartComponent, XyChartComponent, XyChartScales } from '../charts';
+import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
@@ -39,6 +40,8 @@ export class StackedAreaComponent<
 > {
   area;
   areas;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale<any, any> } & XyChartScales;
 
   constructor(
     private areasRef: ElementRef<SVGSVGElement>,
@@ -50,9 +53,9 @@ export class StackedAreaComponent<
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.color.getScale();
+    this.scales.color = this.config.color.getScale();
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, categorical, useTransition });
+      this.chart.updateScales({ x, y, useTransition });
     });
   }
 
@@ -86,7 +89,7 @@ export class StackedAreaComponent<
             .append('path')
             .property('key', ([{ i }]) => this.config.color.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.categorical(this.config.color.values[i])
+              this.scales.color(this.config.color.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -96,7 +99,7 @@ export class StackedAreaComponent<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.categorical(this.config.color.values[i])
+                this.scales.color(this.config.color.values[i])
               )
           ),
         (exit) => exit.remove()

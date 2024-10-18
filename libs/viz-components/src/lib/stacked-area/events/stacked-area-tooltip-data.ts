@@ -55,7 +55,7 @@ export function stackedAreaTooltipMixin<T extends AbstractConstructor>(
                 stackedArea.config.y.formatSpecifier
               ),
           category: stackedArea.config.color.valueAccessor(originalDatum),
-          color: stackedArea.scales.categorical(
+          color: stackedArea.scales.color(
             stackedArea.config.color.valueAccessor(originalDatum)
           ),
         };

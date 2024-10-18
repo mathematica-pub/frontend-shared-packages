@@ -192,7 +192,7 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       radius: this.radiusBuilderOrdinal
         ? this.radiusBuilderOrdinal._build()
         : this.radiusBuilderNumber._build(),
-      stroke: this.strokeBuilder._build(),
+      stroke: this.strokeBuilder?._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
     });
@@ -223,9 +223,6 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       throw new Error(
         'Dots Builder: Radius can only be set for ordinal or number data, not both.'
       );
-    }
-    if (this.strokeBuilder === undefined) {
-      this.initStrokeBuilder();
     }
     if (!this.xDimensionBuilder) {
       throw new Error(

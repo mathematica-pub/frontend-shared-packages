@@ -77,13 +77,13 @@ export class DotsExampleComponent implements OnInit {
     const yAxisConfig = this.yQuantitativeAxis.tickFormat('.1f').getConfig();
 
     const dataConfig = this.dots
-      .data(
-        data.filter(
-          (x) => x.location === 'Seattle' && x.date.getFullYear() === 2012
-        )
+      .data(data.filter((x) => x.date.getFullYear() === 2012))
+      .fillOrdinal((dimension) =>
+        dimension.valueAccessor((d) => d.location).range(['#2cafb0', '#a560cc'])
       )
-      .fill('red')
-      .radius(2)
+      .radiusNumber((dimension) =>
+        dimension.valueAccessor((d) => d.wind).range([2, 8])
+      )
       .x((dimension) => dimension.valueAccessor((d) => d.tempMax))
       .y((dimension) => dimension.valueAccessor((d) => d.precipitation))
       .getConfig();

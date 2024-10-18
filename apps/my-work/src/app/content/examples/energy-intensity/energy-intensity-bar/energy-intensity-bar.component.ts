@@ -102,7 +102,7 @@ export class EnergyIntensityBarComponent implements OnInit {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.geography))
       )
-      .fill((dimension) => dimension.range(['#2cafb0']))
+      .color((dimension) => dimension.range(['#2cafb0']))
       .labels((labels) =>
         labels
           .display(true)
@@ -122,7 +122,7 @@ export class EnergyIntensityBarComponent implements OnInit {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.geography))
       )
-      .fill((dimension) => dimension.range(['#a560cc']))
+      .color((dimension) => dimension.range(['#a560cc']))
       .labels((labels) =>
         labels
           .display(true)

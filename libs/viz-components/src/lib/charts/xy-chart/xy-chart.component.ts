@@ -9,13 +9,13 @@ import { CHART } from '../chart/chart.token';
 export enum XyContentScale {
   x = 'x',
   y = 'y',
-  categorical = 'categorical',
+  // categorical = 'categorical',
 }
 
 export interface XyChartScales {
   [XyContentScale.x]: GenericScale<any, any>;
   [XyContentScale.y]: GenericScale<any, any>;
-  [XyContentScale.categorical]: GenericScale<any, any>;
+  // [XyContentScale.categorical]: GenericScale<any, any>;
   useTransition: boolean;
 }
 

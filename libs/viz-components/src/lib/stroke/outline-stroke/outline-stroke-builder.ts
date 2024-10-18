@@ -5,7 +5,6 @@ const DEFAULT = {
   _dasharray: 'none',
   _linecap: 'round',
   _linejoin: 'round',
-  _opacity: 1,
   _width: 1,
 };
 
@@ -14,7 +13,6 @@ export class OutlineStrokeBuilder {
   private _dasharray: string;
   private _linecap: string;
   private _linejoin: string;
-  private _opacity: number;
   private _width: number;
 
   constructor() {
@@ -65,17 +63,6 @@ export class OutlineStrokeBuilder {
   }
 
   /**
-   * OPTIONAL. A value for the line's [stroke-opacity]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-opacity}
-   *  attribute.
-   *
-   * @default 1
-   */
-  opacity(opacity: number): this {
-    this._opacity = opacity;
-    return this;
-  }
-
-  /**
    * OPTIONAL. A value for the line's [stroke-width]{@link https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-width}
    *  attribute, in px.
    *
@@ -95,7 +82,6 @@ export class OutlineStrokeBuilder {
       dasharray: this._dasharray,
       linecap: this._linecap,
       linejoin: this._linejoin,
-      opacity: this._opacity,
       width: this._width,
     });
   }

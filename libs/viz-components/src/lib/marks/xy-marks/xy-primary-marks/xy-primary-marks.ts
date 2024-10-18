@@ -6,9 +6,15 @@ import {
   XyChartScales,
   XyContentScale,
 } from '../../../charts/xy-chart/xy-chart.component';
+import { GenericScale } from '../../../core';
 import { MarksOptions } from '../../config/marks-options';
 import { VicPrimaryMarks } from '../../primary-marks/primary-marks';
 import { XyMarks } from '../xy-marks';
+
+export type XyPrimaryMarksScales = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [name: string]: GenericScale<any, any>;
+} & XyChartScales;
 
 /**
  * @internal
@@ -21,11 +27,10 @@ export abstract class VicXyPrimaryMarks<
   extends VicPrimaryMarks<Datum, TPrimaryMarksConfig>
   implements OnInit, XyMarks
 {
-  scales: XyChartScales;
+  scales: XyChartScales = {} as XyChartScales;
   requiredScales: (keyof typeof XyContentScale)[] = [
     XyContentScale.x,
     XyContentScale.y,
-    XyContentScale.categorical,
   ];
   public override chart = inject(XyChartComponent);
 
@@ -57,7 +62,9 @@ export abstract class VicXyPrimaryMarks<
         filter((scales) => !!scales)
       )
       .subscribe((scales): void => {
-        this.scales = scales;
+        this.scales[XyContentScale.x] = scales.x;
+        this.scales[XyContentScale.y] = scales.y;
+        this.scales.useTransition = scales.useTransition;
         this.drawMarks();
       });
   }
