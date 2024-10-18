@@ -21,10 +21,16 @@
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/app-dev-kit"]
     },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build app-dev-kit"
+      }
+    },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/app-dev-kit && npm publish"
+        "command": "cd ./dist/app-dev-kit && npm publish && git push --tags"
       }
     },
     "github-release": {
@@ -57,10 +63,9 @@
       "executor": "@jscutlery/semver:version",
       "options": {
         "preset": "angular",
-        "push": true,
-        "postTargets": ["publish", "github-release"],
-        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"],
-        "commitMessageFormat": "build({projectName}): release version {version}"
+        "skipCommit": true,
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }
