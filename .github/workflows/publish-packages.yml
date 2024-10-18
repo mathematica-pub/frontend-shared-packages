@@ -37,11 +37,13 @@ jobs:
       - name: Authenticate to codeartifact
         run: aws codeartifact login --tool npm --repository shared-package-repository --domain shared-package-domain --namespace @hsi
 
-      - name: Build packages
-        run: npx nx affected -t build --base=origin/main~1 --head=origin/main
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Release packages
+      - name: Update versions and release packages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_REGION: us-east-1
-        run: npx nx affected -t publish --base=origin/main~1 --head=origin/main
+        run: npx nx affected -t version --base=origin/main~1 --head=origin/main --parallel=false

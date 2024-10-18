@@ -26,10 +26,23 @@
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/viz-components"]
     },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build viz-components"
+      }
+    },
     "publish": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "cd ./dist/viz-components && npm publish"
+        "command": "cd ./dist/viz-components && npm publish && git push --tags"
+      }
+    },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
       }
     },
     "test": {
@@ -65,6 +78,15 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "cd projects/viz-components && npx cypress open"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "skipCommit": true,
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
       }
     }
   }

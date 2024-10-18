@@ -4,7 +4,11 @@ Viz Components heavily uses TypeScript. All contributions should be fully typed,
 `any`.
 
 ## Semantic Releases
-This repo uses the `semantic-release` package, which automatically bumps the version of a given package based on conventional commit messages. Ensure you're using [conventional commit messages](https://www.conventionalcommits.org/en/v1.0.0/) or the version will not be updated appropriately.
+
+This repo uses the `@jscutlery/semver` package, which automatically bumps the version of a given
+package based on conventional commit messages. Ensure you're using
+[conventional commit messages](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-angular)
+or the version will not be updated appropriately.
 
 ## Generics
 
