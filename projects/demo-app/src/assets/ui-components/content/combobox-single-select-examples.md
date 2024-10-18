@@ -1,3 +1,5 @@
+# Single-select examples
+
 This is a simple single select.
 
 {{SimpleSingleSelect}}
