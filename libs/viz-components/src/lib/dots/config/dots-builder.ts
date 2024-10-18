@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import { schemeTableau10 } from 'd3';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { NumberVisualValueDimensionBuilder } from '../../data-dimensions/quantitative/number-visual-value/number-visual-value-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { OutlineStrokeBuilder } from '../../stroke/outline-stroke/outline-stroke-builder';
 import { DotsConfig } from './dots-config';
-import { DataValue } from '../../core';
-import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
 
 const DEFAULT = {
   _pointerDetectionRadius: 12,
@@ -15,12 +15,24 @@ const DEFAULT = {
 };
 
 @Injectable()
-export class VicDotsConfigBuilder<Datum, FillDomain extends DataValue, RadiusDomain extends DataValue> extends PrimaryMarksBuilder<Datum> {
+export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _pointerDetectionRadius: number;
-  private fillBuilder: OrdinalVisualValueDimensionBuilder<Datum, FillDomain, string> | NumberVisualValueDimensionBuilder<Datum, string>;
-  private radiusBuilder: OrdinalVisualValueDimensionBuilder<Datum, RadiusDomain, string> | NumberVisualValueDimensionBuilder<Datum, number>;
+  private fillBuilderOrdinal: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
+  private fillBuilderNumber: NumberVisualValueDimensionBuilder<Datum, string>;
+  private radiusBuilderOrdinal: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    number
+  >;
+  private radiusBuilderNumber: NumberVisualValueDimensionBuilder<Datum, number>;
   private strokeBuilder: OutlineStrokeBuilder;
-  private xDimensionBuilder: NumberChartPositionDimensionBuilder<Datum> | DateChartPositionDimensionBuilder<Datum>;
+  private xDimensionBuilder:
+    | NumberChartPositionDimensionBuilder<Datum>
+    | DateChartPositionDimensionBuilder<Datum>;
   private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
 
   constructor() {
@@ -49,18 +61,38 @@ export class VicDotsConfigBuilder<Datum, FillDomain extends DataValue, RadiusDom
    *
    * @default 'schemeTableau10[0]'
    */
-  fill(setProperties: string | ((color: OrdinalVisualValueDimensionBuilder<Datum, FillDomain, string>) => void) | ((color: NumberVisualValueDimensionBuilder<Datum, string>) => void)): this {
-    this.initFillBuilder();
-    if (typeof setProperties === 'string') {
-      this.fillBuilder.valueAccessor(() => null).range([setProperties]);
-    } else {
-      setProperties?.(this.fillBuilder);
-    }
+  fill(fill: string): this {
+    this.initFillBuilderOrdinal();
+    this.fillBuilderOrdinal.valueAccessor(() => null).range([fill]);
     return this;
   }
 
-  private initFillBuilder(): void {
-    this.fillBuilder = new OrdinalVisualValueDimensionBuilder();
+  fillOrdinal(
+    setProperties: (
+      fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
+    ) => void
+  ): this {
+    this.initFillBuilderOrdinal();
+    setProperties(this.fillBuilderOrdinal);
+    return this;
+  }
+
+  private initFillBuilderOrdinal(): void {
+    this.fillBuilderOrdinal = new OrdinalVisualValueDimensionBuilder();
+  }
+
+  fillNumber(
+    setProperties: (
+      fill: NumberVisualValueDimensionBuilder<Datum, string>
+    ) => void
+  ): this {
+    this.initFillBuilderNumber();
+    setProperties(this.fillBuilderNumber);
+    return this;
+  }
+
+  private initFillBuilderNumber(): void {
+    this.fillBuilderNumber = new NumberVisualValueDimensionBuilder();
   }
 
   /**
@@ -70,22 +102,38 @@ export class VicDotsConfigBuilder<Datum, FillDomain extends DataValue, RadiusDom
    *
    * @default 2
    */
-  radius(
-    setProperties:
-      | number
-      | ((radius: NumberVisualValueDimensionBuilder<Datum, number>) => void)
-  ): this {
-    this.initRadiusBuilder();
-    if (typeof setProperties === 'number') {
-      this.radiusBuilder.valueAccessor(() => null).range([setProperties]);
-    } else {
-      setProperties.(this.radiusBuilder);
-    }
+  radius(radius: number): this {
+    this.initRadiusBuilderOrdinal();
+    this.radiusBuilderOrdinal.range([radius]);
     return this;
   }
 
-  private initRadiusBuilder(): void {
-    this.radiusBuilder = new NumberVisualValueDimensionBuilder();
+  radiusOrdinal(
+    setProperties: (
+      radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
+    ) => void
+  ): this {
+    this.initRadiusBuilderOrdinal();
+    setProperties(this.radiusBuilderOrdinal);
+    return this;
+  }
+
+  private initRadiusBuilderOrdinal(): void {
+    this.radiusBuilderOrdinal = new OrdinalVisualValueDimensionBuilder();
+  }
+
+  radiusNumber(
+    setProperties: (
+      radius: NumberVisualValueDimensionBuilder<Datum, number>
+    ) => void
+  ): this {
+    this.initRadiusBuilderNumber();
+    setProperties(this.radiusBuilderNumber);
+    return this;
+  }
+
+  private initRadiusBuilderNumber(): void {
+    this.radiusBuilderNumber = new NumberVisualValueDimensionBuilder();
   }
 
   /**
@@ -136,10 +184,14 @@ export class VicDotsConfigBuilder<Datum, FillDomain extends DataValue, RadiusDom
     this.validateBuilder();
     return new DotsConfig<Datum>({
       data: this._data,
-      fill: this.fillBuilder._build(),
+      fill: this.fillBuilderOrdinal
+        ? this.fillBuilderOrdinal._build()
+        : this.fillBuilderNumber._build(),
       mixBlendMode: this._mixBlendMode,
       pointerDetectionRadius: this._pointerDetectionRadius,
-      radius: this.radiusBuilder._build(),
+      radius: this.radiusBuilderOrdinal
+        ? this.radiusBuilderOrdinal._build()
+        : this.radiusBuilderNumber._build(),
       stroke: this.strokeBuilder._build(),
       x: this.xDimensionBuilder._build(),
       y: this.yDimensionBuilder._build(),
@@ -148,11 +200,29 @@ export class VicDotsConfigBuilder<Datum, FillDomain extends DataValue, RadiusDom
 
   protected override validateBuilder(): void {
     super.validateBuilder('Lines');
-    if (this.fillBuilder === undefined) {
-      this.initFillBuilder();
+    if (
+      this.fillBuilderOrdinal === undefined &&
+      this.fillBuilderNumber === undefined
+    ) {
+      this.initFillBuilderOrdinal();
+      this.fillBuilderOrdinal.range([schemeTableau10[0]]);
     }
-    if (this.radiusBuilder === undefined) {
-      this.initRadiusBuilder();
+    if (this.fillBuilderOrdinal && this.fillBuilderNumber) {
+      throw new Error(
+        'Dots Builder: Fill can only be set for ordinal or number data, not both.'
+      );
+    }
+    if (
+      this.radiusBuilderOrdinal === undefined &&
+      this.radiusBuilderNumber === undefined
+    ) {
+      this.initRadiusBuilderOrdinal();
+      this.radiusBuilderOrdinal.range([2]);
+    }
+    if (this.radiusBuilderOrdinal && this.radiusBuilderNumber) {
+      throw new Error(
+        'Dots Builder: Radius can only be set for ordinal or number data, not both.'
+      );
     }
     if (this.strokeBuilder === undefined) {
       this.initStrokeBuilder();

@@ -89,7 +89,7 @@ export class GroupedBarsExampleComponent implements OnInit {
           .y((dimension) => dimension.valueAccessor((d) => d.value))
           .x((dimension) => dimension.valueAccessor((d) => d.date))
       )
-      .fill((dimension) => dimension.valueAccessor((d) => d.industry))
+      .color((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
 
     return {

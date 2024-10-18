@@ -14,7 +14,7 @@ export class OrdinalVisualValueDimension<
   readonly fillDefs: FillDef<Datum>[];
   private internSetDomain: InternSet<Domain>;
   readonly range: Range[];
-  scale: (category: Domain) => Range;
+  private scale: (category: Domain) => Range;
 
   constructor(
     options: OrdinalVisualValueDimensionOptions<Datum, Domain, Range>

@@ -1,11 +1,9 @@
-import { schemeTableau10 } from 'd3';
 import { DataValue, VisualValue } from '../../../core/types/values';
 import { FillDef } from '../../../fill-defs/fill-def';
 import { DataDimensionBuilder } from '../../dimension-builder';
 import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 
 const DEFAULT = {
-  _range: schemeTableau10 as string[],
   _valueAccessor: () => '',
 };
 

@@ -82,12 +82,10 @@ export class DotsExampleComponent implements OnInit {
           (x) => x.location === 'Seattle' && x.date.getFullYear() === 2012
         )
       )
-      .createXDimension((dimension) =>
-        dimension.valueAccessor((d) => d.tempMax)
-      )
-      .createYDimension((dimension) =>
-        dimension.valueAccessor((d) => d.precipitation)
-      )
+      .fill('red')
+      .radius(2)
+      .x((dimension) => dimension.valueAccessor((d) => d.tempMax))
+      .y((dimension) => dimension.valueAccessor((d) => d.precipitation))
       .getConfig();
 
     return {

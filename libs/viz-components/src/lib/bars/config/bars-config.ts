@@ -1,6 +1,6 @@
 import { min, range } from 'd3';
 import { DataValue } from '../../core/types/values';
-import { CategoricalChartPositionDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/categorical-chart-position';
+import { OrdinalChartPositionDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
@@ -17,7 +17,7 @@ export class BarsConfig<Datum, TOrdinalValue extends DataValue>
   readonly dimensions: BarsDimensions;
   hasNegativeValues: boolean;
   readonly labels: BarsLabels<Datum>;
-  readonly ordinal: CategoricalChartPositionDimension<Datum, TOrdinalValue>;
+  readonly ordinal: OrdinalChartPositionDimension<Datum, TOrdinalValue>;
   readonly quantitative: NumberChartPositionDimension<Datum>;
 
   constructor(

@@ -15,7 +15,7 @@ export class NumberVisualValueDimensionBuilder<
   private _domain: [number, number];
   private _formatSpecifier: string;
   private _includeZeroInDomain: boolean;
-  private _range: Range[];
+  private _range: [Range, Range];
   private _scale: (value: number) => Range;
   private _scaleFn: (
     domain?: Iterable<number>,
@@ -56,13 +56,13 @@ export class NumberVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets an array of visual values that will be the output from D3 scale linear.
+   * OPTIONAL. Sets a range of visual values that will be the output from D3 scale linear.
    *
-   * For example, this could be an array of colors or sizes.
+   * For example, this could be a range of colors or sizes.
    *
    * To have all marks use the same visual value, use an array with a single element.
    */
-  range(range: Range[]): this {
+  range(range: [Range, Range]): this {
     this._range = range;
     return this;
   }

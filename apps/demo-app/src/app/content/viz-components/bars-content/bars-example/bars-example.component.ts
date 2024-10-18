@@ -136,7 +136,7 @@ export class BarsExampleComponent implements OnInit {
 
     let dataConfigBuilder = this.bars
       .data(filteredData)
-      .fill((dimension) => dimension.range(['slategray']))
+      .color((dimension) => dimension.range(['slategray']))
       .labels((labels) => labels.display(true));
 
     if (orientation === Orientation.horizontal) {
@@ -162,7 +162,7 @@ export class BarsExampleComponent implements OnInit {
             )
             .x((dimension) => dimension.valueAccessor((d) => d.division))
         )
-        .fill((dimension) => dimension.range(['slategray']));
+        .color((dimension) => dimension.range(['slategray']));
     }
 
     const dataConfig = dataConfigBuilder.getConfig();

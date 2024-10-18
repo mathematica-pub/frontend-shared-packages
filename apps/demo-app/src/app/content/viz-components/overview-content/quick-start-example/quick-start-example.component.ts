@@ -67,7 +67,7 @@ export class QuickStartExampleComponent implements OnInit {
           .x((dimension) => dimension.valueAccessor((d) => d.value))
           .y((dimension) => dimension.valueAccessor((d) => d.division))
       )
-      .fill((dimension) => dimension.range(['teal']))
+      .color((dimension) => dimension.range(['teal']))
       .labels()
       .getConfig();
 
