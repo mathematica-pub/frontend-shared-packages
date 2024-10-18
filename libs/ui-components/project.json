@@ -1,0 +1,93 @@
+{
+  "name": "ui-components",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "library",
+  "sourceRoot": "libs/ui-components/src",
+  "prefix": "hsi-ui",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "libs/ui-components/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ui-components/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/ui-components/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": ["{workspaceRoot}/dist/ui-components"]
+    },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build ui-components"
+      }
+    },
+    "publish": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd ./dist/ui-components && npm publish && git push --tags"
+      }
+    },
+    "github-release": {
+      "executor": "@jscutlery/semver:github",
+      "options": {
+        "tag": "{tag}",
+        "notes": "{notes}"
+      }
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "libs/ui-components/src/test.ts",
+        "tsConfig": "libs/ui-components/tsconfig.spec.json",
+        "karmaConfig": "libs/ui-components/karma.conf.js",
+        "browsers": "ChromeHeadlessNoSandbox",
+        "watch": false
+      }
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/ui-components/**/*.ts",
+          "libs/ui-components/**/*.html"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "component-test": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "libs/ui-components/cypress.config.ts",
+        "testingType": "component",
+        "skipServe": true,
+        "devServerTarget": "demo-app:build:production"
+      }
+    },
+    "cypress-local": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "cd libs/ui-components && npx cypress open"
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "angular",
+        "skipCommit": true,
+        "postTargets": ["build-release", "publish", "github-release"],
+        "skipCommitTypes": ["build", "ci", "docs", "refactor", "style", "test"]
+      }
+    }
+  }
+}
