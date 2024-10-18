@@ -43,4 +43,4 @@ Thumbs.db
 
 # Project files
 /compodoc/docs
-/projects/demo-app/src/assets/documentation/**/*.html
+/apps/demo-app/src/assets/documentation/**/*.html

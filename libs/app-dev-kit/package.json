@@ -1,0 +1,21 @@
+{
+  "name": "@hsi/app-dev-kit",
+  "scripts": {
+    "build": "ng build"
+  },
+  "peerDependencies": {
+    "@angular/common": "^18.2.0",
+    "@angular/core": "^18.2.0",
+    "lodash-es": "^4.17.21",
+    "rxjs": "^7.5.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "exports": {
+    ".": {
+      "sass": "./styles/_index.scss"
+    }
+  },
+  "sideEffects": false
+}
