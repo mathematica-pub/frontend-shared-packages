@@ -28,7 +28,7 @@ export class VicBarsConfigBuilder<
 > extends PrimaryMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
-  protected categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+  protected colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
     string,
     string
@@ -54,13 +54,13 @@ export class VicBarsConfigBuilder<
       dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
-    this.initCategoricalDimensionBuilder();
-    setProperties?.(this.categoricalDimensionBuilder);
+    this.initColorDimensionBuilder();
+    setProperties?.(this.colorDimensionBuilder);
     return this;
   }
 
-  private initCategoricalDimensionBuilder() {
-    this.categoricalDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
+  private initColorDimensionBuilder() {
+    this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
   /**
@@ -114,7 +114,7 @@ export class VicBarsConfigBuilder<
   getConfig(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
-      color: this.categoricalDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build(),
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
@@ -125,8 +125,8 @@ export class VicBarsConfigBuilder<
 
   protected override validateBuilder(componentName: string): void {
     super.validateBuilder(componentName);
-    if (!this.categoricalDimensionBuilder) {
-      this.initCategoricalDimensionBuilder();
+    if (!this.colorDimensionBuilder) {
+      this.initColorDimensionBuilder();
     }
     if (!this._orientation) {
       // Technically we could make horizontal the default, but we want to make sure users are thinking about this.
