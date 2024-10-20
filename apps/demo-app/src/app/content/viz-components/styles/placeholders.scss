@@ -1,8 +1,9 @@
 @use 'index' as hsi-adk;
 @use 'colors';
 @use 'vars' as *;
+@use 'functions' as *;
 
-%vc-examples-tooltip-container-styles {
+%vic-examples-tooltip-container-styles {
   background: rgba(white, 0.9);
   padding: grid(2);
   border: 1px solid colors.$muted-primary-80;

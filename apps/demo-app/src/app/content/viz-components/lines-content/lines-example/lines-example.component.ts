@@ -5,6 +5,7 @@ import {
   inject,
   OnInit,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   MatButtonToggleChange,
@@ -69,6 +70,7 @@ const includeFiles = ['line-input-actions.ts'];
   ],
   templateUrl: './lines-example.component.html',
   styleUrls: ['./lines-example.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [
     VicLinesConfigBuilder,
     VicYQuantitativeAxisConfigBuilder,
@@ -144,10 +146,7 @@ export class LinesExampleComponent implements OnInit {
       )
       .color((dimension) => dimension.valueAccessor((d) => d.division))
       .pointMarkers((markers) =>
-        markers
-          .radius(2)
-          .growByOnHover(3)
-          .display((d) => d.division.includes('Bethesda-Rockville'))
+        markers.radius(2).growByOnHover(3).display(false)
       )
       .getConfig();
 
