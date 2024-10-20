@@ -5,9 +5,9 @@ import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantit
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
-import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { AreaFillsBuilder } from './area-fills/area-fills-builder';
 import { LinesConfig } from './lines-config';
+import { LinesStrokeBuilder } from './stroke/lines-stroke-builder';
 
 const DEFAULT = {
   _curve: curveLinear,
@@ -34,7 +34,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     string
   >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
-  private strokeBuilder: StrokeBuilder;
+  private strokeBuilder: LinesStrokeBuilder;
   private xDimensionBuilder:
     | NumberChartPositionDimensionBuilder<Datum>
     | DateChartPositionDimensionBuilder<Datum>;
@@ -127,14 +127,14 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+  stroke(setProperties?: (stroke: LinesStrokeBuilder) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
   }
 
   private initStrokeBuilder(): void {
-    this.strokeBuilder = new StrokeBuilder();
+    this.strokeBuilder = new LinesStrokeBuilder();
   }
 
   /**

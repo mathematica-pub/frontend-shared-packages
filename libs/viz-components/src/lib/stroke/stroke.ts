@@ -1,6 +1,7 @@
 import { StrokeOptions } from './stroke-options';
 
 export class Stroke implements StrokeOptions {
+  readonly color: string;
   readonly linecap: string;
   readonly linejoin: string;
   readonly opacity: number;
