@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -83,7 +82,13 @@ export class BarsComponent<
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
   protected zone = inject(NgZone);
-  override scales: { color: GenericScale<any, any> } & XyChartScales;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -291,6 +296,7 @@ export class BarsComponent<
   }
 
   getBarWidthOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.scales.x as any).bandwidth();
   }
 
@@ -303,6 +309,7 @@ export class BarsComponent<
   }
 
   getBarHeightOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.scales.y as any).bandwidth();
   }
 
