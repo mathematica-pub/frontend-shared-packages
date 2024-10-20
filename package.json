@@ -13,8 +13,10 @@
   "scripts": {
     "ng": "ng",
     "start": "nx serve",
-    "start:demo-app": "nx serve demo-app && nx watch --all -- nx run $NX_PROJECT_NAME:build",
-    "start:my-work": "nx serve my-work nx watch --all -- nx run $NX_PROJECT_NAME:build",
+    "start:demo-app": "nx serve demo-app",
+    "start:my-work": "nx serve my-wor",
+    "watch-deps:demo-app": "nx watch --projects=demo-app --includeDependentProjects -- nx run-many -t build -p $NX_PROJECT_NAME --exclude=my-app",
+    "watch-deps:my-work": "nx watch --projects=my-work --includeDependentProjects -- nx run-many -t build -p $NX_PROJECT_NAME --exclude=my-app",
     "build:app-dev-kit": "nx build app-dev-kit",
     "build:demo-app": "nx build demo-app",
     "build:ui-components": "nx build ui-components",
