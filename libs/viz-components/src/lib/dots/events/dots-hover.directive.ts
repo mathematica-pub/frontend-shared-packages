@@ -13,7 +13,7 @@ import { select } from 'd3';
 import { filter } from 'rxjs';
 import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
-import { DotDatum, DotsComponent } from '../dots.component';
+import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsEventOutput } from './dots-event-output';
 import { dotsTooltipMixin } from './dots-tooltip';
 
@@ -22,18 +22,16 @@ import { dotsTooltipMixin } from './dots-tooltip';
 })
 export class DotsHoverDirective<
   Datum,
-  Color extends string | number,
-  Radius extends string | number,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
 > extends dotsTooltipMixin(HoverDirective) {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicDotsHoverActions') actions: EventAction<
-    DotsHoverDirective<Datum, Color, Radius, TDotsComponent>
+    DotsHoverDirective<Datum, TDotsComponent>
   >[];
   @Output('vicDotsHoverOutput') eventOutput = new EventEmitter<
-    DotsEventOutput<Datum, Color, Radius>
+    DotsEventOutput<Datum>
   >();
-  dotDatum: DotDatum<Color, Radius>;
+  dotDatum: DotDatum;
   elRef: ElementRef;
   positionX: number;
   positionY: number;
@@ -55,10 +53,7 @@ export class DotsHoverDirective<
   }
 
   onElementPointerEnter(event: PointerEvent): void {
-    this.dotDatum = select(event.target as SVGRectElement).datum() as DotDatum<
-      Color,
-      Radius
-    >;
+    this.dotDatum = select(event.target as SVGRectElement).datum() as DotDatum;
     this.elRef = new ElementRef(event.target);
     const dotRect = this.elRef.nativeElement.getBoundingClientRect();
     this.positionX = dotRect.x + dotRect.width / 2;
@@ -74,7 +69,7 @@ export class DotsHoverDirective<
     }
   }
 
-  getEventOutput(): DotsEventOutput<Datum, Color, Radius> {
+  getEventOutput(): DotsEventOutput<Datum> {
     const tooltipData = this.getDotsTooltipData(
       this.dotDatum,
       this.elRef,

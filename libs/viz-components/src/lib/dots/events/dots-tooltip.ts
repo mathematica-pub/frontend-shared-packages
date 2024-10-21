@@ -15,7 +15,6 @@ interface DotsTooltip {
 // TODO: have this extend a specific class so that we don't need to pass everything in as an argument
 export function dotsTooltipMixin<T extends AbstractConstructor>(Base: T) {
   abstract class Mixin extends Base implements DotsTooltip {
-    // Step 2: Implement the empty function
     getDotsTooltipData<Datum>(
       dotDatum: DotDatum,
       elRef: ElementRef,
@@ -26,16 +25,19 @@ export function dotsTooltipMixin<T extends AbstractConstructor>(Base: T) {
           dots.config.x.values[dotDatum.index] ===
             dots.config.x.valueAccessor(d) &&
           dots.config.y.values[dotDatum.index] ===
-            dots.config.y.valueAccessor(d) && 
-          dots.config.color.values[dotDatum.index] ===
-            dots.config.color.valueAccessor(d) &&
+            dots.config.y.valueAccessor(d) &&
+          dots.config.fill.values[dotDatum.index] ===
+            dots.config.fill.valueAccessor(d) &&
+          dots.config.radius.values[dotDatum.index] ===
+            dots.config.radius.valueAccessor(d)
       );
 
+      const valueFill = dots.config.fill.valueAccessor(datum);
       const tooltipData: DotsTooltipData<Datum> = {
         datum,
         values: {
-          color: dots.config.color.valueAccessor(datum),
-          radius: dots.config.ordinal.valueAccessor(datum),
+          fill: valueFill,
+          radius: dots.config.radius.valueAccessor(datum),
           x: dots.config.x.formatFunction
             ? ValueUtilities.customFormat(datum, dots.config.x.formatFunction)
             : ValueUtilities.d3Format(
@@ -49,6 +51,7 @@ export function dotsTooltipMixin<T extends AbstractConstructor>(Base: T) {
                 dots.config.y.formatSpecifier
               ),
         },
+        color: dots.scales.fill(valueFill),
         elRef: elRef,
       };
       return tooltipData;

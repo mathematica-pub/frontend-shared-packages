@@ -13,7 +13,7 @@ import { select } from 'd3';
 import { filter } from 'rxjs';
 import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
-import { DotDatum, DotsComponent } from '../dots.component';
+import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsEventOutput } from './dots-event-output';
 import { dotsTooltipMixin } from './dots-tooltip';
 
@@ -22,21 +22,18 @@ import { dotsTooltipMixin } from './dots-tooltip';
 })
 export class DotsHoverMoveDirective<
   Datum,
-  Color extends string | number,
-  Radius extends string | number,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
 > extends dotsTooltipMixin(HoverMoveDirective) {
   @Input('vicDotsHoverMoveActions')
-  actions: HoverMoveAction<
-    DotsHoverMoveDirective<Datum, Color, Radius, TDotsComponent>
-  >[];
+  actions: HoverMoveAction<DotsHoverMoveDirective<Datum, TDotsComponent>>[];
   @Output('vicDotsHoverMoveOutput') eventOutput = new EventEmitter<
-    DotsEventOutput<Datum, Color, Radius>
+    DotsEventOutput<Datum>
   >();
-  dotDatum: DotDatum<Color, Radius>;
+  dotDatum: DotDatum;
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
+  closestPointIndex: number;
 
   constructor(@Inject(DOTS) public dots: TDotsComponent) {
     super();
@@ -68,11 +65,8 @@ export class DotsHoverMoveDirective<
     }
   }
 
-  getDotDatum(event: PointerEvent): DotDatum<Color, Radius> {
-    return select(event.target as SVGCircleElement).datum() as DotDatum<
-      Color,
-      Radius
-    >;
+  getDotDatum(event: PointerEvent): DotDatum {
+    return select(event.target as SVGCircleElement).datum() as DotDatum;
   }
 
   onElementPointerMove(event: PointerEvent) {
@@ -90,7 +84,7 @@ export class DotsHoverMoveDirective<
     this.elRef = undefined;
   }
 
-  getEventOutput(): DotsEventOutput<Datum, Color, Radius> {
+  getEventOutput(): DotsEventOutput<Datum> {
     const tooltipData = this.getDotsTooltipData(
       this.dotDatum,
       this.elRef,

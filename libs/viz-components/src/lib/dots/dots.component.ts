@@ -40,15 +40,12 @@ export type DotLabelSelection = Selection<
   number
 >;
 
-export type DotDatum<
-  Color extends string | number,
-  Radius extends string | number,
-> = {
+export type DotDatum = {
   index: number;
   x: number;
   y: number;
-  color: Color;
-  radius: Radius;
+  fill: string | number;
+  radius: string | number;
 };
 
 @Component({

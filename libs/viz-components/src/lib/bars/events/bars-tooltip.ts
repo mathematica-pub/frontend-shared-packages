@@ -16,7 +16,6 @@ interface BarsTooltip {
 // TODO: have this extend a specific class so that we don't need to pass everything in as an argument
 export function barsTooltipMixin<T extends AbstractConstructor>(Base: T) {
   abstract class Mixin extends Base implements BarsTooltip {
-    // Step 2: Implement the empty function
     getBarsTooltipData<Datum, TOrdinalValue extends DataValue>(
       barDatum: BarDatum<TOrdinalValue>,
       elRef: ElementRef,

@@ -1,23 +1,18 @@
-export interface DotsTooltipData<
-  Datum,
-  Color extends string | number,
-  Radius extends string | number,
-> {
+import { ElementRef } from '@angular/core';
+
+export interface DotsTooltipData<Datum> {
   datum: Datum;
   values: {
     x: string;
     y: string;
-    color: Color;
-    radius: Radius;
+    fill: string | number;
+    radius: string | number;
   };
   color: string;
+  elRef: ElementRef;
 }
 
-export interface DotsEventOutput<
-  Datum,
-  Color extends string | number,
-  Radius extends string | number,
-> extends DotsTooltipData<Datum, Color, Radius> {
+export interface DotsEventOutput<Datum> extends DotsTooltipData<Datum> {
   positionX: number;
   positionY: number;
 }

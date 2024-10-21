@@ -3,3 +3,8 @@ export * from './config/dots-config';
 export * from './config/dots-options';
 export * from './dots.component';
 export * from './dots.module';
+export * from './events/dots-click.directive';
+export * from './events/dots-event-output';
+export * from './events/dots-hover-move.directive';
+export * from './events/dots-hover.directive';
+export * from './events/dots-input.directive';
