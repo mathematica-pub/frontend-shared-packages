@@ -23,26 +23,26 @@ export const DOTS = new InjectionToken<DotsComponent<unknown>>('DotsComponent');
 
 export type DotGroupSelection = Selection<
   SVGGElement,
-  number,
+  DotDatum,
   SVGGElement,
   unknown
 >;
 export type DotSelection = Selection<
   SVGCircleElement,
-  number,
+  DotDatum,
   SVGGElement,
-  number
+  DotDatum
 >;
 export type DotLabelSelection = Selection<
   SVGTextElement,
-  number,
+  DotDatum,
   SVGGElement,
-  number
+  DotDatum
 >;
 
 export type DotDatum = {
   index: number;
-  x: number;
+  x: number | Date;
   y: number;
   fill: string | number;
   radius: string | number;
@@ -101,32 +101,45 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   }
 
   drawDots(transitionDuration: number): void {
-    const t = select(this.elRef.nativeElement)
+    const t = select(this.chart.svgRef.nativeElement)
       .transition()
       .duration(transitionDuration);
 
     this.dotGroups = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, number>('vic-dot-group')
-      .data<number>(this.config.valueIndices)
+      .selectAll<SVGGElement, DotDatum>('vic-dot-group')
+      .data<DotDatum>(
+        this.config.valueIndices.map((i) => this.getDotDatumFromIndex(i))
+      )
       .join(
-        (enter) => enter.append('g').attr('class', 'vic-dot-group'),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (update) => update.transition(t as any),
+        (enter) =>
+          enter
+            .append('g')
+            .attr('class', 'vic-dot-group')
+            .attr(
+              'transform',
+              (d) => `translate(${this.scales.x(d.x)}, ${this.scales.y(d.y)})`
+            ),
+        (update) =>
+          update
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            .transition(t as any)
+            .attr(
+              'transform',
+              (d) => `translate(${this.scales.x(d.x)}, ${this.scales.y(d.y)})`
+            ),
         (exit) => exit.remove()
       );
 
     this.dotGroups
-      .selectAll<SVGCircleElement, number>('.vic-dot')
-      .data<number>((d) => [d])
+      .selectAll<SVGCircleElement, DotDatum>('.vic-dot')
+      .data<DotDatum>((d) => [d])
       .join(
         (enter) =>
           enter
             .append('circle')
             .attr('class', 'vic-dot')
-            .attr('cx', (i) => this.scales.x(this.config.x.values[i]))
-            .attr('cy', (i) => this.scales.y(this.config.y.values[i]))
-            .attr('r', (i) => this.scales.radius(this.config.radius.values[i]))
-            .attr('fill', (i) => this.scales.fill(this.config.fill.values[i]))
+            .attr('r', (d) => this.scales.radius(d.radius))
+            .attr('fill', (d) => this.scales.fill(d.fill))
             .attr(
               'stroke',
               this.config.stroke ? this.config.stroke.color : 'none'
@@ -155,10 +168,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
-            .attr('cx', (i) => this.scales.x(this.config.x.values[i]))
-            .attr('cy', (i) => this.scales.y(this.config.y.values[i]))
-            .attr('r', (i) => this.scales.radius(this.config.radius.values[i]))
-            .attr('fill', (i) => this.scales.fill(this.config.fill.values[i]))
+            .attr('r', (d) => this.scales.radius(d.radius))
+            .attr('fill', (d) => this.scales.fill(d.fill))
             .attr(
               'stroke',
               this.config.stroke ? this.config.stroke.color : 'none'
@@ -187,14 +198,24 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       );
   }
 
+  getDotDatumFromIndex(index: number): DotDatum {
+    return {
+      index,
+      x: this.config.x.values[index],
+      y: this.config.y.values[index],
+      fill: this.config.fill.values[index],
+      radius: this.config.radius.values[index],
+    };
+  }
+
   updateDotElements(): void {
     const dots = select(this.elRef.nativeElement).selectAll<
       SVGCircleElement,
-      number
+      DotDatum
     >('.vic-dot');
     const dotLabels = select(this.elRef.nativeElement).selectAll<
       SVGTextElement,
-      number
+      DotDatum
     >('.vic-dot-label');
     this.dots.next(dots);
     this.dotLabels.next(dotLabels);

@@ -38,6 +38,7 @@ export abstract class HoverMoveDirective extends HoverDirective {
   }
 
   getPointerValuesArray(event: PointerEvent): [number, number] {
+    console.log(pointer(event), pointer(event, event.target));
     return pointer(event);
   }
 }

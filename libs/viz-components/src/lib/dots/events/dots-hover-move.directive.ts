@@ -33,7 +33,6 @@ export class DotsHoverMoveDirective<
   elRef: ElementRef;
   pointerX: number;
   pointerY: number;
-  closestPointIndex: number;
 
   constructor(@Inject(DOTS) public dots: TDotsComponent) {
     super();
@@ -53,6 +52,7 @@ export class DotsHoverMoveDirective<
 
   onElementPointerEnter(event: PointerEvent): void {
     if (!this.preventAction) {
+      console.log(event.target);
       this.dotDatum = this.getDotDatum(event);
       this.elRef = new ElementRef(event.target);
     }
@@ -70,6 +70,7 @@ export class DotsHoverMoveDirective<
   }
 
   onElementPointerMove(event: PointerEvent) {
+    console.log(event);
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => action.onStart(this));

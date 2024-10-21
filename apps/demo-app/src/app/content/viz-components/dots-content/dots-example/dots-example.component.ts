@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   DotsConfig,
+  DotsEventOutput,
+  DotsHoverMoveDefaultStyles,
+  DotsHoverMoveDirective,
+  DotsHoverMoveEmitTooltipData,
   ElementSpacing,
+  HoverMoveAction,
+  HtmlTooltipConfig,
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
@@ -18,7 +24,7 @@ import {
 } from '@hsi/viz-components';
 import { WeatherDatum } from 'apps/demo-app/src/app/core/models/data';
 import { DataService } from 'apps/demo-app/src/app/core/services/data.service';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 interface ViewModel {
   dataConfig: DotsConfig<WeatherDatum>;
@@ -57,6 +63,16 @@ export class DotsExampleComponent implements OnInit {
     bottom: 8,
     left: 60,
   };
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<DotsEventOutput<WeatherDatum>> =
+    new BehaviorSubject<DotsEventOutput<WeatherDatum>>(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverActions: HoverMoveAction<DotsHoverMoveDirective<WeatherDatum>>[] = [
+    new DotsHoverMoveDefaultStyles(),
+    new DotsHoverMoveEmitTooltipData(),
+  ];
 
   constructor(
     private dataService: DataService,
@@ -93,5 +109,26 @@ export class DotsExampleComponent implements OnInit {
       xAxisConfig,
       yAxisConfig,
     };
+  }
+
+  updateTooltipForNewOutput(data: DotsEventOutput<WeatherDatum>): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
+
+  updateTooltipData(data: DotsEventOutput<WeatherDatum>): void {
+    this.tooltipData.next(data);
+  }
+
+  updateTooltipConfig(data: DotsEventOutput<WeatherDatum>): void {
+    console.log(data?.positionX, data?.positionY);
+    const config = this.tooltip
+      .origin(data?.elRef || undefined)
+      .createOffsetFromOriginPosition((position) =>
+        position.offsetX(data?.positionX).offsetY(data?.positionY)
+      )
+      .show(!!data)
+      .getConfig();
+    this.tooltipConfig.next(config);
   }
 }

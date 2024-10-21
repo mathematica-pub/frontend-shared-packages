@@ -198,6 +198,7 @@ export class BarsExampleComponent implements OnInit {
   updateTooltipConfig(
     data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
+    console.log(data?.positionX, data?.positionY);
     const config = this.tooltip
       .createOffsetFromOriginPosition((position) =>
         position

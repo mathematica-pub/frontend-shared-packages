@@ -78,6 +78,7 @@ export class BarsHoverMoveDirective<
   }
 
   onElementPointerMove(event: PointerEvent) {
+    console.log(event);
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => action.onStart(this));
