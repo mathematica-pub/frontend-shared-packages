@@ -5,7 +5,7 @@ const DEFAULT = {
   _linecap: 'round',
   _linejoin: 'round',
   _opacity: 1,
-  _width: 1,
+  _width: 2,
 };
 
 export class LinesStrokeBuilder {

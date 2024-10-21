@@ -5,17 +5,19 @@ import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantit
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { NumberVisualValueDimensionBuilder } from '../../data-dimensions/quantitative/number-visual-value/number-visual-value-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
-import { OutlineStrokeBuilder } from '../../stroke/outline-stroke/outline-stroke-builder';
+import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { DotsConfig } from './dots-config';
 
 const DEFAULT = {
   _pointerDetectionRadius: 12,
   _fill: 'none',
+  _opacity: 1,
   _radius: 2,
 };
 
 @Injectable()
 export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
+  private _opacity: number;
   private _pointerDetectionRadius: number;
   private fillBuilderOrdinal: OrdinalVisualValueDimensionBuilder<
     Datum,
@@ -29,7 +31,7 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     number
   >;
   private radiusBuilderNumber: NumberVisualValueDimensionBuilder<Datum, number>;
-  private strokeBuilder: OutlineStrokeBuilder;
+  private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | NumberChartPositionDimensionBuilder<Datum>
     | DateChartPositionDimensionBuilder<Datum>;
@@ -49,6 +51,16 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   pointerDetectionRadius(pointerDetectionRadius: number): this {
     this._pointerDetectionRadius = pointerDetectionRadius;
+    return this;
+  }
+
+  /**
+   * OPTIONAL. Sets the opacity of the dots.
+   *
+   * @default 1
+   */
+  opacity(opacity: number): this {
+    this._opacity = opacity;
     return this;
   }
 
@@ -139,14 +151,14 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. Sets the appearance of the stroke for the dots.
    */
-  stroke(setProperties?: (stroke: OutlineStrokeBuilder) => void): this {
+  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
   }
 
   private initStrokeBuilder(): void {
-    this.strokeBuilder = new OutlineStrokeBuilder();
+    this.strokeBuilder = new StrokeBuilder();
   }
 
   /**
@@ -188,6 +200,7 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
         ? this.fillBuilderOrdinal._build()
         : this.fillBuilderNumber._build(),
       mixBlendMode: this._mixBlendMode,
+      opacity: this._opacity,
       pointerDetectionRadius: this._pointerDetectionRadius,
       radius: this.radiusBuilderOrdinal
         ? this.radiusBuilderOrdinal._build()

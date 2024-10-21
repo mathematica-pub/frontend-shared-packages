@@ -153,6 +153,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('category', ([category]) => category)
             .attr('class', 'vic-line')
             .attr('stroke', ([category]) => this.scales.color(category))
+            .attr('stroke-width', this.config.stroke.width)
             .attr('d', ([, lineData]) => this.line(lineData)),
         (update) =>
           update

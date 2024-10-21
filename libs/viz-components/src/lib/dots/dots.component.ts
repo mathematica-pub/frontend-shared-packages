@@ -6,7 +6,9 @@ import {
   InjectionToken,
   NgZone,
 } from '@angular/core';
-import { select, Transition } from 'd3';
+import { select } from 'd3';
+import { Selection } from 'd3-selection';
+import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import {
   XyChartComponent,
@@ -18,6 +20,36 @@ import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary
 import { DotsConfig } from './config/dots-config';
 
 export const DOTS = new InjectionToken<DotsComponent<unknown>>('DotsComponent');
+
+export type DotGroupSelection = Selection<
+  SVGGElement,
+  number,
+  SVGGElement,
+  unknown
+>;
+export type DotSelection = Selection<
+  SVGCircleElement,
+  number,
+  SVGGElement,
+  number
+>;
+export type DotLabelSelection = Selection<
+  SVGTextElement,
+  number,
+  SVGGElement,
+  number
+>;
+
+export type DotDatum<
+  Color extends string | number,
+  Radius extends string | number,
+> = {
+  index: number;
+  x: number;
+  y: number;
+  color: Color;
+  radius: Radius;
+};
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -35,10 +67,13 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   Datum,
   DotsConfig<Datum>
 > {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  dotGroups: any;
+  dotGroups: DotGroupSelection;
+  dots: BehaviorSubject<DotSelection> = new BehaviorSubject(null);
+  dots$ = this.dots.asObservable();
+  dotLabels: BehaviorSubject<DotLabelSelection> = new BehaviorSubject(null);
+  dotLabels$ = this.dotLabels.asObservable();
   private zone = inject(NgZone);
-  private elRef = inject(ElementRef);
+  private elRef = inject<ElementRef<SVGGElement>>(ElementRef);
   override scales: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     fill: GenericScale<any, any>;
@@ -65,17 +100,17 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   drawMarks(): void {
     const transitionDuration = this.getTransitionDuration();
     this.drawDots(transitionDuration);
+    this.updateDotElements();
   }
 
   drawDots(transitionDuration: number): void {
     const t = select(this.elRef.nativeElement)
       .transition()
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .duration(transitionDuration) as Transition<SVGSVGElement, any, any, any>;
+      .duration(transitionDuration);
 
     this.dotGroups = select(this.elRef.nativeElement)
-      .selectAll('vic-dot-group')
-      .data(this.config.valueIndices)
+      .selectAll<SVGGElement, number>('vic-dot-group')
+      .data<number>(this.config.valueIndices)
       .join(
         (enter) => enter.append('g').attr('class', 'vic-dot-group'),
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -84,8 +119,8 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       );
 
     this.dotGroups
-      .selectAll('.vic-dot')
-      .data((d) => [d])
+      .selectAll<SVGCircleElement, number>('.vic-dot')
+      .data<number>((d) => [d])
       .join(
         (enter) =>
           enter
@@ -95,8 +130,30 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             .attr('cy', (i) => this.scales.y(this.config.y.values[i]))
             .attr('r', (i) => this.scales.radius(this.config.radius.values[i]))
             .attr('fill', (i) => this.scales.fill(this.config.fill.values[i]))
-            .attr('stroke', 'none')
-            .attr('stroke-width', this.config.stroke.width),
+            .attr(
+              'stroke',
+              this.config.stroke ? this.config.stroke.color : 'none'
+            )
+            .attr(
+              'stroke-dasharray',
+              this.config.stroke ? this.config.stroke.dasharray : null
+            )
+            .attr(
+              'stroke-linecap',
+              this.config.stroke ? this.config.stroke.linecap : null
+            )
+            .attr(
+              'stroke-linejoin',
+              this.config.stroke ? this.config.stroke.linejoin : null
+            )
+            .attr(
+              'stroke-opacity',
+              this.config.stroke ? this.config.stroke.opacity : null
+            )
+            .attr(
+              'stroke-width',
+              this.config.stroke ? this.config.stroke.width : null
+            ),
         (update) =>
           update
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -110,10 +167,6 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
               this.config.stroke ? this.config.stroke.color : 'none'
             )
             .attr(
-              'stroke-width',
-              this.config.stroke ? this.config.stroke.width : null
-            )
-            .attr(
               'stroke-dasharray',
               this.config.stroke ? this.config.stroke.dasharray : null
             )
@@ -124,8 +177,29 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             .attr(
               'stroke-linejoin',
               this.config.stroke ? this.config.stroke.linejoin : null
+            )
+            .attr(
+              'stroke-opacity',
+              this.config.stroke ? this.config.stroke.opacity : null
+            )
+            .attr(
+              'stroke-width',
+              this.config.stroke ? this.config.stroke.width : null
             ),
         (exit) => exit.remove()
       );
+  }
+
+  updateDotElements(): void {
+    const dots = select(this.elRef.nativeElement).selectAll<
+      SVGCircleElement,
+      number
+    >('.vic-dot');
+    const dotLabels = select(this.elRef.nativeElement).selectAll<
+      SVGTextElement,
+      number
+    >('.vic-dot-label');
+    this.dots.next(dots);
+    this.dotLabels.next(dotLabels);
   }
 }
