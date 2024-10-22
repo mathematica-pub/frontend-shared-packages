@@ -8,6 +8,11 @@ This project has the following requirements for the developer's/virtual machine:
 - `npm` for package management on a developer's machine
 - optional: python, pipenv for compodoc documentation generation
 
+## Setup
+
+To install necessary dependencies and automatic commit linting for development, run
+`npm run setup-repo`.
+
 ## Beta-releases
 
 Viz-components supports beta-releases so that we can test library code on real projects before
