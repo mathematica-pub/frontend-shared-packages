@@ -14,7 +14,7 @@ can also use
 
 ## Build
 
-Run `ng build app-dev-kit` to build the project. The build artifacts will be stored in the `dist/`
+Run `ng build app-dev-kit` to build the project. The build artifacts will be stored in the `dist`
 directory.
 
 ## Publishing

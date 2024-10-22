@@ -12,7 +12,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "setup-repo": "npm ci && npx husky init",
+    "setup-repo": "npm ci && husky init",
     "start": "nx serve",
     "start:demo-app": "nx serve demo-app",
     "start:my-work": "nx serve my-work",
