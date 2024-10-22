@@ -24,7 +24,7 @@ class DocumentationProcessor {
   constructor(lib: string) {
     this.lib = lib;
     this.inputDirectory = `./compodoc/docs/${lib}`;
-    this.outputDirectory = `./projects/demo-app/src/assets/${lib}/documentation`;
+    this.outputDirectory = `./apps/demo-app/src/assets/${lib}/documentation`;
     this.appRouterPath = `${lib}/documentation`;
     this.missingReferences = [];
   }
