@@ -1,0 +1,9 @@
+<h4 class="title">Iris Incidents Visualizations</h4>
+
+@if (data$ | async; as data) {
+  <app-export-content fileName="EnergyIntensity_2020"
+    ><app-iris-incidents-by-lme-and-year
+      [data]="data"
+    ></app-iris-incidents-by-lme-and-year>
+  </app-export-content>
+}
