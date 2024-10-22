@@ -83,6 +83,7 @@
     "topojson-client": "^3.1.0",
     "tslib": "^2.3.0",
     "unified": "^11.0.5",
+    "xmldoc": "^1.2.0",
     "yaml": "^2.1.1",
     "zone.js": "^0.14.7"
   },
