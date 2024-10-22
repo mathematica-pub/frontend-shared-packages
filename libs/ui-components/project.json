@@ -11,17 +11,13 @@
   },
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@nx/angular:package",
       "options": {
         "project": "libs/ui-components/ng-package.json"
       },
       "configurations": {
-        "production": {
-          "tsConfig": "libs/ui-components/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/ui-components/tsconfig.lib.json"
-        }
+        "production": {},
+        "development": {}
       },
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/ui-components"]
@@ -46,7 +42,7 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@nx/angular:karma",
       "options": {
         "main": "libs/ui-components/src/test.ts",
         "tsConfig": "libs/ui-components/tsconfig.spec.json",
@@ -56,7 +52,7 @@
       }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/ui-components/**/*.ts",

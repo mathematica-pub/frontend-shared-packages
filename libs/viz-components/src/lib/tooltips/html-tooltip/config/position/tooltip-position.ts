@@ -67,7 +67,7 @@ export class HtmlTooltipOffsetFromOriginPosition
     const originDims = origin.getBoundingClientRect();
     return overlayPositionBuilder
       .global()
-      .bottom(`${viewport.height - originDims.top - this.offsetY}px`)
+      .top(`${viewport.height - originDims.top - this.offsetY}px`)
       .centerHorizontally(
         `${-2 * (viewport.width / 2 - originDims.left - this.offsetX)}px`
       );

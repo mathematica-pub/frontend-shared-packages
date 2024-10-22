@@ -11,13 +11,13 @@ import { EditableTextboxComponent } from '../editable-textbox/editable-textbox.c
   styleUrls: ['./ng-form-editable-textbox.component.scss'],
 })
 export class NgFormEditableTextboxComponent
-  extends EditableTextboxComponent
+  extends Omit<EditableTextboxComponent, 'inputValue'>
   implements OnInit
 {
   override displaySelected = false;
   @ViewChild('box') boxElRef: ElementRef<HTMLInputElement>;
   @Input({ required: true }) inputControl: FormControl<string>;
-  override inputValue: never;
+  override inputValue: never = '';
 
   override ngOnInit(): void {
     super.ngOnInit();

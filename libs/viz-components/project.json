@@ -11,17 +11,13 @@
   },
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@nx/angular:package",
       "options": {
         "project": "libs/viz-components/ng-package.json"
       },
       "configurations": {
-        "production": {
-          "tsConfig": "libs/viz-components/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/viz-components/tsconfig.lib.json"
-        }
+        "production": {},
+        "development": {}
       },
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/viz-components"]
@@ -46,7 +42,7 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@nx/angular:karma",
       "options": {
         "main": "libs/viz-components/src/test.ts",
         "tsConfig": "libs/viz-components/tsconfig.spec.json",
@@ -56,7 +52,7 @@
       }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/viz-components/**/*.ts",

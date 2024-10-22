@@ -6,17 +6,13 @@
   "prefix": "adk",
   "targets": {
     "build": {
-      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "executor": "@nx/angular:package",
       "options": {
         "project": "libs/app-dev-kit/ng-package.json"
       },
       "configurations": {
-        "production": {
-          "tsConfig": "libs/app-dev-kit/tsconfig.lib.prod.json"
-        },
-        "development": {
-          "tsConfig": "libs/app-dev-kit/tsconfig.lib.json"
-        }
+        "production": {},
+        "development": {}
       },
       "defaultConfiguration": "production",
       "outputs": ["{workspaceRoot}/dist/app-dev-kit"]
@@ -41,7 +37,7 @@
       }
     },
     "test": {
-      "executor": "@angular-devkit/build-angular:karma",
+      "executor": "@nx/angular:karma",
       "options": {
         "tsConfig": "libs/app-dev-kit/tsconfig.spec.json",
         "polyfills": ["zone.js", "zone.js/testing"],
@@ -50,7 +46,7 @@
       }
     },
     "lint": {
-      "executor": "@angular-eslint/builder:lint",
+      "executor": "@nx/linter:eslint",
       "options": {
         "lintFilePatterns": [
           "libs/app-dev-kit/**/*.ts",
