@@ -1,123 +1,72 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { NgOnChangesUtilities } from '@hsi/app-dev-kit';
-import { of } from 'rxjs';
-import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
+import { TestBed } from '@angular/core/testing';
+import { XyChartComponent } from '@hsi/viz-components';
 import { XyAxisStub } from '../../testing/stubs/xy-axis.stub';
-import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 
 describe('the XyAxis abstract class', () => {
   let abstractClass: XyAxisStub<number>;
-  let chart: XyChartComponentStub;
 
   beforeEach(() => {
-    chart = new XyChartComponentStub();
-    abstractClass = new XyAxisStub(chart as any, new DestroyRefStub());
+    TestBed.configureTestingModule({
+      providers: [XyAxisStub, XyChartComponent],
+    });
+    abstractClass = TestBed.inject(XyAxisStub);
   });
 
-  describe('ngOnChanges', () => {
-    let objectChangedSpy: jasmine.Spy;
-    beforeEach(() => {
-      spyOn(abstractClass, 'updateAxis');
-      objectChangedSpy = spyOn(
-        NgOnChangesUtilities,
-        'inputObjectChangedNotFirstTime'
-      );
-    });
-    it('calls updateAxis once if inputObjectChangedNotFirstTime returns true', () => {
-      objectChangedSpy.and.returnValue(true);
-      abstractClass.ngOnChanges({ config: {} } as any);
-      expect(abstractClass.updateAxis).toHaveBeenCalledTimes(1);
-    });
-    it('does not call updateAxis if config is first change', () => {
-      objectChangedSpy.and.returnValue(false);
-      abstractClass.ngOnChanges({ config: {} } as any);
-      expect(abstractClass.updateAxis).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('ngOnInit', () => {
+  describe('initFromConfig', () => {
     beforeEach(() => {
       spyOn(abstractClass, 'setAxisFunction');
       spyOn(abstractClass, 'setTranslate');
-      spyOn(abstractClass, 'subscribeToScale');
+      spyOn(abstractClass, 'drawMarks');
     });
-    it('calls subscribeToScale once', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.subscribeToScale).toHaveBeenCalledTimes(1);
-    });
-
-    it('calls setTranslate once', () => {
-      abstractClass.ngOnInit();
-      expect(abstractClass.setTranslate).toHaveBeenCalledTimes(1);
-    });
-
     it('calls setAxisFunction once', () => {
-      abstractClass.ngOnInit();
+      abstractClass.initFromConfig();
       expect(abstractClass.setAxisFunction).toHaveBeenCalledTimes(1);
     });
-  });
-
-  describe('subscribeToScale', () => {
-    beforeEach(() => {
-      spyOn(abstractClass, 'onScaleUpdate');
-      spyOn(abstractClass, 'getScale').and.returnValue(
-        of({
-          scale: 'scale',
-          useTransition: false,
-        } as any)
-      );
+    it('calls setTranslate once', () => {
+      abstractClass.initFromConfig();
+      expect(abstractClass.setTranslate).toHaveBeenCalledTimes(1);
     });
-    it('calls onScaleUpdate with the correct values', () => {
-      abstractClass.subscribeToScale();
-      expect(abstractClass.onScaleUpdate).toHaveBeenCalledOnceWith(
-        'scale' as any,
-        false
-      );
+    it('calls drawMarks once', () => {
+      abstractClass.initFromConfig();
+      expect(abstractClass.drawMarks).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('onScaleUpdate()', () => {
-    let updateSpy: jasmine.Spy;
-    let curr;
+  describe('drawMarks', () => {
     beforeEach(() => {
-      updateSpy = spyOn(abstractClass, 'updateAxis');
-      abstractClass.chart = { transitionDuration: 500 } as any;
-      curr = { range: () => [0, 1] };
-    });
-    it('sets scale to the correct value', () => {
-      abstractClass.onScaleUpdate(curr, true);
-      expect(abstractClass.scale).toEqual(curr);
-    });
-    it('calls updateAxis once with the correct value if useTransition is true', () => {
-      abstractClass.onScaleUpdate(curr, true);
-      expect(updateSpy).toHaveBeenCalledOnceWith(500);
-    });
-    it('calls updateAxis once with the correct value if useTransition is false', () => {
-      abstractClass.onScaleUpdate(curr, false);
-      expect(updateSpy).toHaveBeenCalledOnceWith(0);
-    });
-  });
-
-  describe('updateAxis()', () => {
-    let transition: number;
-    beforeEach(() => {
-      abstractClass.axisFunction = 'func' as any;
-      spyOn(abstractClass, 'setAxis');
+      spyOn(abstractClass, 'initFromConfig');
+      spyOn(abstractClass, 'setScale');
+      spyOn(abstractClass, 'setAxisFromScaleAndConfig');
       spyOn(abstractClass, 'drawAxis');
-      spyOn(abstractClass, 'processAxisFeatures');
-      transition = 200;
-      abstractClass.updateAxis(transition);
+      spyOn(abstractClass, 'postProcessAxisFeatures');
+      spyOn(abstractClass, 'getTransitionDuration').and.returnValue(200);
     });
-    it('calls setAxis once with the correct value', () => {
-      expect(abstractClass.setAxis).toHaveBeenCalledOnceWith('func');
+    it('calls initFromConfig once if axisFunction is falsy', () => {
+      abstractClass.axisFunction = undefined;
+      abstractClass.drawMarks();
+      expect(abstractClass.initFromConfig).toHaveBeenCalledTimes(1);
     });
-
-    it('calls drawAxis once', () => {
-      expect(abstractClass.drawAxis).toHaveBeenCalledTimes(1);
+    it('does not call initFromConfig if axisFunction is truthy', () => {
+      abstractClass.axisFunction = 'func' as any;
+      abstractClass.drawMarks();
+      expect(abstractClass.initFromConfig).not.toHaveBeenCalled();
     });
-
-    it('calls processAxisFeatures once', () => {
-      expect(abstractClass.processAxisFeatures).toHaveBeenCalledTimes(1);
+    it('calls setScale once', () => {
+      abstractClass.drawMarks();
+      expect(abstractClass.setScale).toHaveBeenCalledTimes(1);
+    });
+    it('calls setAxisFromScaleAndConfig once', () => {
+      abstractClass.drawMarks();
+      expect(abstractClass.setAxisFromScaleAndConfig).toHaveBeenCalledTimes(1);
+    });
+    it('calls drawAxis once with the correct value', () => {
+      abstractClass.drawMarks();
+      expect(abstractClass.drawAxis).toHaveBeenCalledOnceWith(200);
+    });
+    it('calls postProcessAxisFeatures once', () => {
+      abstractClass.drawMarks();
+      expect(abstractClass.postProcessAxisFeatures).toHaveBeenCalledTimes(1);
     });
   });
 });

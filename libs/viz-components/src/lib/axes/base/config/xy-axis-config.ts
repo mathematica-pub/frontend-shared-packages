@@ -1,6 +1,11 @@
 import { TickWrap } from '../../tick-wrap/tick-wrap-config';
+import { XyAxisBaseOptions } from './xy-axis-options';
 
-export abstract class XyAxisBaseConfig<TickValue> {
+export abstract class XyAxisConfig<TickValue>
+  implements XyAxisBaseOptions<TickValue>
+{
+  data: never;
+  mixBlendMode: string;
   removeDomainLine: boolean;
   removeTickMarks: boolean;
   removeTicks: boolean;

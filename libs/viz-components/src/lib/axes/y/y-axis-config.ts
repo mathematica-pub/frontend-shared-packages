@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
-import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
+import { XyAxisConfig } from '../base/config/xy-axis-config';
 import { XyAxisBaseOptions } from '../base/config/xy-axis-options';
 
 export interface YAxisOptions<TickValue extends DataValue>
@@ -14,7 +14,7 @@ export interface YAxisOptions<TickValue extends DataValue>
 
 export function mixinYAxisConfig<
   TickValue extends DataValue,
-  T extends AbstractConstructor<XyAxisBaseConfig<TickValue>>,
+  T extends AbstractConstructor<XyAxisConfig<TickValue>>,
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base implements YAxisOptions<TickValue> {
@@ -39,5 +39,5 @@ export function mixinYAxisConfig<
 }
 
 export class YAxisConfig<TickValue extends DataValue> extends mixinYAxisConfig(
-  XyAxisBaseConfig
+  XyAxisConfig
 )<TickValue> {}

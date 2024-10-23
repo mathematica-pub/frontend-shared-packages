@@ -4,6 +4,10 @@ import { FillDef } from '../../fill-defs/fill-def';
 import { DataDimension } from '../dimension';
 import { CategoricalDimensionOptions } from './categorical-options';
 
+export type VicCategoricalScale<Domain, Range = string> = (
+  category: Domain
+) => Range;
+
 export class CategoricalDimension<
   Datum,
   TCategoricalValue extends DataValue = string,
@@ -13,7 +17,7 @@ export class CategoricalDimension<
   readonly fillDefs: FillDef<Datum>[];
   private internSetDomain: InternSet<TCategoricalValue>;
   readonly range: string[];
-  private scale: (category: TCategoricalValue) => string;
+  private scale: VicCategoricalScale<TCategoricalValue>;
 
   constructor(options: CategoricalDimensionOptions<Datum, TCategoricalValue>) {
     super();
@@ -24,7 +28,7 @@ export class CategoricalDimension<
     return this._calculatedDomain;
   }
 
-  getScale(): (category: TCategoricalValue) => string {
+  getScale(): VicCategoricalScale<TCategoricalValue> {
     return this.scale;
   }
 

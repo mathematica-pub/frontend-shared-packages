@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  NgZone,
+  OnInit,
+} from '@angular/core';
 import { BehaviorSubject, filter } from 'rxjs';
 import { GenericScale } from '../../core';
 import { Chart } from '../chart/chart';
@@ -18,7 +24,6 @@ export interface XyChartScales {
   [XyContentScale.categorical]: GenericScale<any, any>;
   useTransition: boolean;
 }
-
 /**
  * A `Chart` component to be used with `PrimaryMarks` components that have X and Y axes, such as `Bars` and `Lines`.
  *
@@ -47,8 +52,11 @@ export interface XyChartScales {
 export class XyChartComponent extends ChartComponent implements Chart, OnInit {
   private scales: BehaviorSubject<XyChartScales> = new BehaviorSubject(null);
   scales$ = this.scales.asObservable().pipe(filter((scales) => !!scales));
+  protected zone = inject(NgZone);
 
   updateScales(scales: Partial<XyChartScales>): void {
-    this.scales.next({ ...this.scales.value, ...scales });
+    this.zone.run(() => {
+      this.scales.next({ ...this.scales.value, ...scales });
+    });
   }
 }

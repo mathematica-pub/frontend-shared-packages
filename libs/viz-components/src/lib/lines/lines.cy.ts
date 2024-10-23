@@ -31,6 +31,11 @@ import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-
 import { LinesConfig } from './config/lines-config';
 import { LinesEventOutput } from './events/lines-event-output';
 
+// Cypress will get the tick elements before d3 has set the text value of the elements,
+// because d3 creates the elements and sets the text value in a transition).
+// This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
+const axisTickTextWaitTime = 1000;
+
 const margin = { top: 60, right: 20, bottom: 40, left: 80 };
 const chartHeight = 400;
 const chartWidth = 600;
@@ -151,7 +156,6 @@ function mountDateLinesComponent(linesConfig: LinesConfig<QdQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // have to wait for axes to render
 }
 
 function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
@@ -170,7 +174,6 @@ function mountNumberLinesComponent(linesConfig: LinesConfig<QnQnCDatum>): void {
       yQuantitativeAxisConfig: yAxisConfig,
     },
   });
-  cy.wait(1000); // have to wait for axes to render
 }
 
 // ***********************************************************
@@ -391,6 +394,7 @@ describe('if the user specifies a y domain that is smaller than max value', () =
       )
       .getConfig();
     mountDateLinesComponent(linesConfig);
+    cy.wait(axisTickTextWaitTime);
     const categories = [];
     cy.get('.vic-line')
       .each(($lines) => {
@@ -401,13 +405,11 @@ describe('if the user specifies a y domain that is smaller than max value', () =
           ...new Set(dateData.map((d) => d.continent)),
         ]);
       });
-    cy.get('.vic-y')
-      .find('.tick text')
-      .each(($tick) => {
-        const tickValue = parseInt($tick.text());
-        expect(tickValue).to.be.gte(0);
-        expect(tickValue).to.be.lte(4900000000);
-      });
+    cy.get('.vic-y.vic-axis-g .tick text').each(($tick) => {
+      const tickValue = parseInt($tick.text());
+      expect(tickValue).to.be.gte(0);
+      expect(tickValue).to.be.lte(4900000000);
+    });
   });
 });
 
@@ -429,6 +431,7 @@ describe('if the user specifies an x domain that is smaller than max value', () 
       )
       .getConfig();
     mountNumberLinesComponent(linesConfig);
+    cy.wait(axisTickTextWaitTime);
     const categories = [];
     cy.get('.vic-line')
       .each(($lines) => {
@@ -439,13 +442,11 @@ describe('if the user specifies an x domain that is smaller than max value', () 
           ...new Set(dateData.map((d) => d.continent)),
         ]);
       });
-    cy.get('.vic-x')
-      .find('.tick text')
-      .each(($tick) => {
-        const tickValue = parseInt($tick.text());
-        expect(tickValue).to.be.gte(2020);
-        expect(tickValue).to.be.lte(2080);
-      });
+    cy.get('.vic-x.vic-axis-g .tick text').each(($tick) => {
+      const tickValue = parseInt($tick.text());
+      expect(tickValue).to.be.gte(2020);
+      expect(tickValue).to.be.lte(2080);
+    });
   });
 });
 

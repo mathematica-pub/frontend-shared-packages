@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
+import { TestBed } from '@angular/core/testing';
+import { XyChartComponent } from '@hsi/viz-components';
 import { OrdinalAxisStub } from '../../testing/stubs/ordinal-axis.stub';
-import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { VicXOrdinalAxisConfigBuilder } from '../x-ordinal/x-ordinal-axis-builder';
 
 describe('the OrdinalAxis mixin', () => {
   let abstractClass: OrdinalAxisStub<string>;
-  let chart: XyChartComponentStub;
 
   beforeEach(() => {
-    chart = new XyChartComponentStub();
-    abstractClass = new OrdinalAxisStub(chart as any, new DestroyRefStub());
+    TestBed.configureTestingModule({
+      providers: [OrdinalAxisStub, XyChartComponent],
+    });
+    abstractClass = TestBed.inject(OrdinalAxisStub);
   });
 
-  describe('setAxis()', () => {
+  describe('setAxisFromScaleAndConfig()', () => {
     let tickSizeOuterSpy: jasmine.Spy;
-    let axisFunction: (...args: any[]) => any;
     beforeEach(() => {
       tickSizeOuterSpy = jasmine
         .createSpy('tickSizeOuter')
         .and.returnValue('tick size' as any);
-      axisFunction = () => {
+      abstractClass.axisFunction = () => {
         return {
           tickSizeOuter: tickSizeOuterSpy,
         };
@@ -31,7 +31,7 @@ describe('the OrdinalAxis mixin', () => {
         .getConfig();
     });
     it('calls tickSizeOuter once with the correct value', () => {
-      abstractClass.setAxis(axisFunction);
+      abstractClass.setAxisFromScaleAndConfig();
       expect(tickSizeOuterSpy).toHaveBeenCalledOnceWith(3);
     });
   });

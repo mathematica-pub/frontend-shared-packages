@@ -14,6 +14,7 @@ import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
 import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
 import { FillUtilities } from '../core/utilities/fill-utilities';
@@ -88,8 +89,13 @@ export class BarsComponent<
       this.ranges.y
     );
     const categorical = this.config.categorical.getScale();
-    this.zone.run(() => {
-      this.chart.updateScales({ x, y, categorical, useTransition });
+    this.chart.updateScales({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      x: x as unknown as GenericScale<any, any>,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      y: y as unknown as GenericScale<any, any>,
+      categorical,
+      useTransition,
     });
   }
 

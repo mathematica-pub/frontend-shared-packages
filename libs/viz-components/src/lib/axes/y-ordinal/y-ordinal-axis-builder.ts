@@ -24,6 +24,8 @@ export class VicYOrdinalAxisConfigBuilder<
 
   getConfig(): YOrdinalAxisConfig<TickValue> {
     return new YOrdinalAxisConfig<TickValue>({
+      data: undefined,
+      mixBlendMode: this._mixBlendMode,
       removeDomainLine: this._removeDomainLine,
       removeTickMarks: this._removeTickMarks,
       removeTicks: this._removeTicks,

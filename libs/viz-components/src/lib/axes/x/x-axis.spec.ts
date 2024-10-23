@@ -1,100 +1,61 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { TestBed } from '@angular/core/testing';
+import { XyChartComponent } from '@hsi/viz-components';
 import { axisBottom, axisTop } from 'd3';
-import { BehaviorSubject, of, take } from 'rxjs';
-import { Ranges } from '../../charts/chart/chart.component';
-import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { XAxisStub } from '../../testing/stubs/x-axis.stub';
-import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 
 describe('the XAxis mixin', () => {
   let abstractClass: XAxisStub<number>;
-  let chart: XyChartComponentStub;
-  let testRanges: Ranges;
 
   beforeEach(() => {
-    chart = new XyChartComponentStub();
-    abstractClass = new XAxisStub(chart as any, new DestroyRefStub());
-    testRanges = { x: [0, 10], y: [20, 50] } as Ranges;
+    TestBed.configureTestingModule({
+      providers: [XAxisStub, XyChartComponent],
+    });
+    abstractClass = TestBed.inject(XAxisStub);
+    abstractClass.scales = {
+      y: {
+        range: jasmine.createSpy().and.returnValue([100, 20]),
+      },
+      x: 'scale',
+    } as any;
+    abstractClass.chart = {
+      margin: { top: 10 },
+    } as any;
   });
 
   describe('setTranslate()', () => {
-    const rangesBS = new BehaviorSubject<Ranges>(null);
     beforeEach(() => {
-      abstractClass.chart = {
-        ranges$: rangesBS.asObservable(),
-      } as any;
       spyOn(abstractClass, 'getTranslateDistance').and.returnValue(90);
-      rangesBS.next(testRanges);
       abstractClass.setTranslate();
     });
     it('calls getTranslateDistance once', () => {
-      abstractClass.translate$
-        .subscribe(() => {
-          expect(abstractClass.getTranslateDistance).toHaveBeenCalledOnceWith(
-            testRanges
-          );
-        })
-        .unsubscribe();
+      expect(abstractClass.getTranslateDistance).toHaveBeenCalledTimes(1);
     });
     it('returns the correct string', () => {
-      abstractClass.translate$
-        .subscribe((str) => {
-          expect(str).toBe('translate(0, 90)');
-        })
-        .unsubscribe();
+      expect(abstractClass.translate).toEqual('translate(0, 90)');
     });
   });
 
-  describe('getTranslateDistance', () => {
-    beforeEach(() => {
-      spyOn(abstractClass, 'getTopTranslate').and.returnValue(90);
-      spyOn(abstractClass, 'getBottomTranslate').and.returnValue(60);
-    });
+  describe('integration: getTranslateDistance', () => {
     it('returns the correct value for the top side', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('top')
         .getConfig();
-      expect(abstractClass.getTranslateDistance(testRanges)).toBe(90);
+      expect(abstractClass.getTranslateDistance()).toBe(20);
     });
     it('returns the correct value for the bottom side', () => {
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .side('bottom')
         .getConfig();
-      expect(abstractClass.getTranslateDistance(testRanges)).toBe(60);
+      expect(abstractClass.getTranslateDistance()).toBe(90);
     });
   });
 
-  describe('getTopTranslate', () => {
-    it('returns the correct value', () => {
-      expect(abstractClass.getTopTranslate(testRanges)).toEqual(50);
-    });
-  });
-
-  describe('getBottomTranslate', () => {
-    it('returns the correct value', () => {
-      abstractClass.chart = {
-        margin: { top: 40 },
-      } as any;
-      expect(abstractClass.getBottomTranslate(testRanges)).toEqual(10);
-    });
-  });
-
-  describe('getScale', () => {
-    it('returns the correct scale', () => {
-      const scales = {
-        x: 'hello',
-        useTransition: false,
-        y: 'something else',
-      } as any;
-      abstractClass.chart.scales$ = of(scales);
-      const result$ = abstractClass.getScale();
-      result$.pipe(take(1)).subscribe((scale) => {
-        expect(scale).toEqual({
-          scale: 'hello' as any,
-          useTransition: false,
-        });
-      });
+  describe('setScale', () => {
+    it('sets scale to the correct value', () => {
+      abstractClass.setScale();
+      expect(abstractClass.scale).toBe('scale');
     });
   });
 
