@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, NgZone } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { VicAttributeDataDimensionConfig } from '../../geographies/config/layers/attribute-data-layer/dimensions/attribute-data-bin-types';
 import { Chart } from '../chart/chart';
@@ -39,15 +39,18 @@ export class MapChartComponent<Datum> extends ChartComponent implements Chart {
     scale: any;
   }> = new BehaviorSubject({ config: undefined, scale: undefined });
   attributeProperties$ = this.attributeProperties.asObservable();
+  protected zone = inject(NgZone);
 
   updateAttributeProperties(properties: {
     config: VicAttributeDataDimensionConfig<Datum>;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     scale: any;
   }): void {
-    this.attributeProperties.next({
-      config: properties.config,
-      scale: properties.scale,
+    this.zone.run(() => {
+      this.attributeProperties.next({
+        config: properties.config,
+        scale: properties.scale,
+      });
     });
   }
 }

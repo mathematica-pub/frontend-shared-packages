@@ -1,10 +1,8 @@
 import { Directive, Input } from '@angular/core';
 import { axisLeft, axisRight } from 'd3';
-import { Observable, filter, map } from 'rxjs';
-import { Ranges } from '../../charts/chart/chart.component';
 import { AbstractConstructor } from '../../core/common-behaviors/constructor';
 import { DataValue } from '../../core/types/values';
-import { XyAxis, XyAxisScale } from '../base/xy-axis-base';
+import { XyAxis } from '../base/xy-axis-base';
 import { YAxisConfig } from './y-axis-config';
 
 /**
@@ -18,55 +16,44 @@ export function yAxisMixin<
 >(Base: T) {
   @Directive()
   abstract class Mixin extends Base {
-    /**
-     * The side of the chart on which the axis will be rendered.
-     */
     @Input() override config: YAxisConfig<TickValue>;
-    translate$: Observable<string>;
-
-    setTranslate(): void {
-      this.translate$ = this.chart.ranges$.pipe(
-        map((ranges) => {
-          const translate = this.getTranslateDistance(ranges);
-          return `translate(${translate}, 0)`;
-        })
-      );
-    }
-
-    getTranslateDistance(ranges: Ranges): number {
-      return this.config.side === 'left'
-        ? this.getLeftTranslate(ranges)
-        : this.getRightTranslate(ranges);
-    }
-
-    getLeftTranslate(ranges: Ranges): number {
-      return ranges.x[0];
-    }
-
-    getRightTranslate(ranges: Ranges): number {
-      return ranges.x[1] + this.chart.margin.right;
-    }
-
-    getScale(): Observable<XyAxisScale> {
-      const scales$ = this.chart.scales$.pipe(
-        filter((scales) => !!scales && !!scales.y),
-        map((scales) => {
-          return { scale: scales.y, useTransition: scales.useTransition };
-        })
-      );
-      return scales$;
-    }
+    translate: string;
 
     setAxisFunction(): void {
       this.axisFunction = this.config.side === 'left' ? axisLeft : axisRight;
     }
 
+    setTranslate(): void {
+      const translate = this.getTranslateDistance();
+      this.translate = `translate(${translate}, 0)`;
+    }
+
+    getTranslateDistance(): number {
+      const range = this.scales.x.range();
+      return this.config.side === 'left'
+        ? this.getLeftTranslate(range)
+        : this.getRightTranslate(range);
+    }
+
+    getLeftTranslate(range: [number, number]): number {
+      return range[0];
+    }
+
+    getRightTranslate(range: [number, number]): number {
+      return range[1] + this.chart.margin.right;
+    }
+
+    setScale(): void {
+      this.scale = this.scales.y;
+    }
+
     initNumTicks(): number {
-      const d3ExampleDefault = this.chart.height / 50;
-      if (d3ExampleDefault < 1) {
+      // value mimics D3's default
+      const defaultNumTicks = this.chart.height / 50;
+      if (defaultNumTicks < 1) {
         return 1;
       } else {
-        return Math.floor(d3ExampleDefault);
+        return Math.floor(defaultNumTicks);
       }
     }
   }

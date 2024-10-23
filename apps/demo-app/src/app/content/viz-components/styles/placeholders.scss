@@ -1,7 +1,7 @@
 @use 'index' as hsi-adk;
-@use 'colors';
-@use 'vars' as *;
 @use 'functions' as *;
+@use 'vars' as *;
+@use 'colors';
 
 %vic-examples-tooltip-container-styles {
   background: rgba(white, 0.9);

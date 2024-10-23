@@ -1,40 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { TestBed } from '@angular/core/testing';
+import { XyChartComponent } from '@hsi/viz-components';
 import { timeMonth } from 'd3';
-import { DestroyRefStub } from '../../testing/stubs/core/destroy-ref.stub';
 import { QuantitativeAxisStub } from '../../testing/stubs/quantitative-axis.stub';
-import { XyChartComponentStub } from '../../testing/stubs/xy-chart.component.stub';
 import { VicXQuantitativeAxisConfigBuilder } from '../x-quantitative/x-quantitative-axis-builder';
 
 describe('the QuantitativeAxis mixin', () => {
   let abstractClass: QuantitativeAxisStub<number>;
-  let chart: XyChartComponentStub;
 
   beforeEach(() => {
-    chart = new XyChartComponentStub();
-    abstractClass = new QuantitativeAxisStub(
-      chart as any,
-      new DestroyRefStub()
-    );
+    TestBed.configureTestingModule({
+      providers: [QuantitativeAxisStub, XyChartComponent],
+    });
+    abstractClass = TestBed.inject(QuantitativeAxisStub);
   });
 
-  describe('setAxis()', () => {
-    let axisFnSpy: jasmine.Spy;
+  describe('setAxisFromScaleAndConfig()', () => {
     beforeEach(() => {
-      axisFnSpy = jasmine
+      abstractClass.scale = 'class scale' as any;
+      spyOn(abstractClass as any, 'setTicks');
+      abstractClass.axisFunction = jasmine
         .createSpy('axisFunction')
         .and.returnValue('a scale' as any);
-      spyOn(abstractClass as any, 'setTicks');
-      abstractClass.scale = 'class scale' as any;
       abstractClass.config = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
         .getConfig();
     });
     it('calls axisFunction once with the correct value', () => {
-      abstractClass.setAxis(axisFnSpy);
-      expect(axisFnSpy).toHaveBeenCalledOnceWith('class scale');
+      abstractClass.setAxisFromScaleAndConfig();
+      expect(abstractClass.axisFunction).toHaveBeenCalledOnceWith(
+        'class scale'
+      );
     });
     it('calls setTicks once with config.tickFormat', () => {
-      abstractClass.setAxis(axisFnSpy);
+      abstractClass.setAxisFromScaleAndConfig();
       expect((abstractClass as any).setTicks).toHaveBeenCalledOnceWith('.0f');
     });
   });

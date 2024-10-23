@@ -38,6 +38,8 @@ export class VicXQuantitativeAxisConfigBuilder<
 
   getConfig(): XQuantitativeAxisConfig<TickValue> {
     return new XQuantitativeAxisConfig<TickValue>({
+      data: undefined,
+      mixBlendMode: this._mixBlendMode,
       numTicks: this._numTicks,
       removeDomainLine: this._removeDomainLine,
       removeTickMarks: this._removeTickMarks,

@@ -55,7 +55,13 @@ export class StackedAreaComponent<
     const y = this.config.y.getScaleFromRange(this.ranges.y);
     this.scales.color = this.config.color.getScale();
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, useTransition });
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale<any, any>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale<any, any>,
+        useTransition,
+      });
     });
   }
 

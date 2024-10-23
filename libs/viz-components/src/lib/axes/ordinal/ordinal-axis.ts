@@ -14,9 +14,9 @@ export function ordinalAxisMixin<
     @Input() override config: OrdinalAxisConfig<TickValue>;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    setAxis(axisFunction: any): void {
+    setAxisFromScaleAndConfig(): void {
       const tickFormat = this.config.tickFormat ?? undefined;
-      this.axis = axisFunction(this.scale).tickSizeOuter(
+      this.axis = this.axisFunction(this.scale).tickSizeOuter(
         this.config.tickSizeOuter
       );
       if (tickFormat) {

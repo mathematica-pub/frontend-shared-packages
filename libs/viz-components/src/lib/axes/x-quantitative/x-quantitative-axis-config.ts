@@ -1,5 +1,5 @@
 import { DataValue } from '../../core/types/values';
-import { XyAxisBaseConfig } from '../base/config/xy-axis-config';
+import { XyAxisConfig } from '../base/config/xy-axis-config';
 import {
   VicQuantitativeAxisOptions,
   mixinQuantitativeAxisConfig,
@@ -7,7 +7,7 @@ import {
 import { XAxisOptions, mixinXAxisConfig } from '../x/x-axis-config';
 
 const AbstractXQuantitativeAxis = mixinXAxisConfig(
-  mixinQuantitativeAxisConfig(XyAxisBaseConfig)
+  mixinQuantitativeAxisConfig(XyAxisConfig)
 );
 
 export class XQuantitativeAxisConfig<
