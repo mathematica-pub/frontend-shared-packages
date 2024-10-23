@@ -90,7 +90,13 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     this.scales.fill = this.config.fill.getScale();
     this.scales.radius = this.config.radius.getScale();
     this.zone.run(() => {
-      this.chart.updateScales({ x, y, useTransition });
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale<any, any>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale<any, any>,
+        useTransition,
+      });
     });
   }
 
