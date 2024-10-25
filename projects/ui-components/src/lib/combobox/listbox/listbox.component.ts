@@ -73,7 +73,6 @@ export class ListboxComponent<T>
   @Input() maxHeight = 300;
   @Input() isMultiSelect = false;
   @Input() labelIsBoxPlaceholder = false;
-  @Input() findsOptionOnTyping = true;
   @Input() countSelectedOptionsLabel?: CountSelectedOptionsLabel;
   @Input() customTextboxLabel?: (
     options: ListboxOptionComponent<T>[],

@@ -42,9 +42,7 @@ export class NgFormEditableTextboxComponent
         filter((value) => value === '')
       )
       .subscribe(() => {
-        const optionAction = this.autoSelectWhenTextboxIsEmpty
-          ? OptionAction.zeroActiveIndex
-          : OptionAction.nullActiveIndex;
+        const optionAction = OptionAction.nullActiveIndex;
         this.service.emitOptionAction(optionAction);
       });
   }

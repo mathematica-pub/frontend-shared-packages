@@ -52,6 +52,7 @@
 
 .listbox-option.current:not(.selected) {
   background: lightgrey;
+  outline: none;
 }
 
 .listbox-option.selected {
