@@ -56,6 +56,15 @@ export type BarDatum<T> = {
   color: string;
 };
 
+export interface BarsTooltipData<Datum, TOrdinalValue extends DataValue> {
+  datum: Datum;
+  color: string;
+  ordinal: TOrdinalValue;
+  quantitative: string;
+  category: string;
+  elRef: ElementRef;
+}
+
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: '[vic-primary-marks-bars]',
@@ -538,5 +547,40 @@ export class BarsComponent<
     >('.vic-bar-label');
     this.bars.next(bars);
     this.barLabels.next(barLabels);
+  }
+
+  getTooltipData(
+    barDatum: BarDatum<TOrdinalValue>,
+    elRef: ElementRef
+  ): BarsTooltipData<Datum, TOrdinalValue> {
+    const datum = this.getUserDatumFromBarDatum(barDatum);
+
+    const tooltipData: BarsTooltipData<Datum, TOrdinalValue> = {
+      datum,
+      color: this.getBarColor(barDatum),
+      ordinal: this.config.ordinal.valueAccessor(datum),
+      quantitative: this.config.quantitative.formatFunction
+        ? ValueUtilities.customFormat(
+            datum,
+            this.config.quantitative.formatFunction
+          )
+        : ValueUtilities.d3Format(
+            this.config.quantitative.valueAccessor(datum),
+            this.config.quantitative.formatSpecifier
+          ),
+      category: this.config.color.valueAccessor(datum),
+      elRef: elRef,
+    };
+    return tooltipData;
+  }
+
+  getUserDatumFromBarDatum(barDatum: BarDatum<TOrdinalValue>): Datum {
+    return this.config.data.find(
+      (d) =>
+        this.config.ordinal.values[barDatum.index] ===
+          this.config.ordinal.valueAccessor(d) &&
+        this.config.quantitative.values[barDatum.index] ===
+          this.config.quantitative.valueAccessor(d)
+    );
   }
 }

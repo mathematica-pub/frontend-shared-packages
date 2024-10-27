@@ -16,7 +16,6 @@ import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsEventOutput } from './bars-event-output';
-import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
   selector: '[vicBarsHoverActions]',
@@ -28,7 +27,7 @@ export class BarsHoverDirective<
     Datum,
     TOrdinalValue
   >,
-> extends barsTooltipMixin(HoverDirective) {
+> extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicBarsHoverActions') actions: EventAction<
     BarsHoverDirective<Datum, TOrdinalValue, TBarsComponent>
@@ -77,11 +76,7 @@ export class BarsHoverDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const tooltipData = this.getBarsTooltipData(
-      this.barDatum,
-      this.elRef,
-      this.bars
-    );
+    const tooltipData = this.bars.getTooltipData(this.barDatum, this.elRef);
 
     return {
       ...tooltipData,
