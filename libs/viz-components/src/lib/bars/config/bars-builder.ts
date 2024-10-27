@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { OrdinalDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-builder';
-import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { BarsConfig } from './bars-config';
 import {
@@ -33,7 +33,7 @@ export class VicBarsConfigBuilder<
     Datum,
     TOrdinalValue
   >;
-  protected quantitativeDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  protected quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
   protected labelsBuilder: BarsLabelsBuilder<Datum>;
 
   constructor() {
@@ -91,7 +91,7 @@ export class VicBarsConfigBuilder<
    */
   createQuantitativeDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
     this.initQuantitativeDimensionBuilder();
@@ -101,7 +101,7 @@ export class VicBarsConfigBuilder<
 
   private initQuantitativeDimensionBuilder() {
     this.quantitativeDimensionBuilder =
-      new QuantitativeNumericDimensionBuilder();
+      new NumberChartPositionDimensionBuilder();
   }
 
   /**

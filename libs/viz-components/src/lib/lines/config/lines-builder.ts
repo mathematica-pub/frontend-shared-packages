@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
-import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
@@ -32,9 +32,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
-    | QuantitativeNumericDimensionBuilder<Datum>
+    | NumberChartPositionDimensionBuilder<Datum>
     | DateChartPositionDimensionBuilder<Datum>;
-  private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
   private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
   constructor() {
@@ -132,10 +132,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   createXNumericDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }
@@ -156,10 +156,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   createYDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.yDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.yDimensionBuilder);
     return this;
   }

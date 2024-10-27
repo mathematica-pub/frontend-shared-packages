@@ -7,4 +7,4 @@ export * from './quantitative/number-chart-position/domain-padding/round-to-sig-
 
 export * from './quantitative/date-chart-position/date-chart-position-options';
 export * from './quantitative/number-chart-position/domain-padding/percent-over/percent-over-options';
-export * from './quantitative/quantitative-numeric-options';
+export * from './quantitative/number-chart-position/number-chart-position-options';

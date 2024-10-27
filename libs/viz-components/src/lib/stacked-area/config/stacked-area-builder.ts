@@ -10,7 +10,7 @@ import {
 import { ContinuousValue, DataValue } from '../../core/types/values';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
-import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 
@@ -54,9 +54,9 @@ export class VicStackedAreaConfigBuilder<
     order: number[]
   ) => void;
   private xDimensionBuilder:
-    | QuantitativeNumericDimensionBuilder<Datum>
+    | NumberChartPositionDimensionBuilder<Datum>
     | DateChartPositionDimensionBuilder<Datum>;
-  private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
 
   constructor() {
     super();
@@ -139,10 +139,10 @@ export class VicStackedAreaConfigBuilder<
    */
   createXNumericDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }
@@ -163,10 +163,10 @@ export class VicStackedAreaConfigBuilder<
    */
   createYNumericDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.yDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.yDimensionBuilder);
     return this;
   }

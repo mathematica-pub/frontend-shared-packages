@@ -1,7 +1,7 @@
 import { CurveFactory, group, range } from 'd3';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
@@ -32,8 +32,8 @@ export class LinesConfig<Datum>
   readonly stroke: Stroke;
   readonly x:
     | DateChartPositionDimension<Datum>
-    | QuantitativeNumericDimension<Datum>;
-  readonly y: QuantitativeNumericDimension<Datum>;
+    | NumberChartPositionDimension<Datum>;
+  readonly y: NumberChartPositionDimension<Datum>;
 
   constructor(options: LinesOptions<Datum>) {
     super();

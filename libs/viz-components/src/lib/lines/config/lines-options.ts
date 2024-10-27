@@ -1,7 +1,7 @@
 import { CurveFactory } from 'd3';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
 import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { MarksOptions } from '../../marks/config/marks-options';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
@@ -16,6 +16,6 @@ export interface LinesOptions<Datum> extends MarksOptions<Datum> {
   pointerDetectionRadius: number;
   pointMarkers: PointMarkers<Datum>;
   stroke: Stroke;
-  x: DateChartPositionDimension<Datum> | QuantitativeNumericDimension<Datum>;
-  y: QuantitativeNumericDimension<Datum>;
+  x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
+  y: NumberChartPositionDimension<Datum>;
 }
