@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
 import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
 import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
@@ -33,7 +33,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
     | QuantitativeNumericDimensionBuilder<Datum>
-    | QuantitativeDateDimensionBuilder<Datum>;
+    | DateChartPositionDimensionBuilder<Datum>;
   private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
   private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
@@ -144,9 +144,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
   createXDateDimension(
-    setProperties: (dimension: QuantitativeDateDimensionBuilder<Datum>) => void
+    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeDateDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }

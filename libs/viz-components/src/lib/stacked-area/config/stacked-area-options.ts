@@ -1,7 +1,7 @@
 import { CurveFactory, InternMap, Series } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { MarksOptions } from '../../marks/config/marks-options';
 
@@ -24,6 +24,6 @@ export interface StackedAreaOptions<Datum, TCategoricalValue extends DataValue>
     >,
     order: number[]
   ) => void;
-  x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
+  x: DateChartPositionDimension<Datum> | QuantitativeNumericDimension<Datum>;
   y: QuantitativeNumericDimension<Datum>;
 }

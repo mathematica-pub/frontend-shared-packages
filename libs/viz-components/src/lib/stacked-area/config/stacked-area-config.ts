@@ -10,7 +10,7 @@ import {
 } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
 import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
 import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
 import { MarksOptions } from '../../marks/config/marks-options';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
@@ -36,7 +36,7 @@ export class StackedAreaConfig<Datum, TCategoricalValue extends DataValue>
     >,
     order: number[]
   ) => void;
-  x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
+  x: DateChartPositionDimension<Datum> | QuantitativeNumericDimension<Datum>;
   y: QuantitativeNumericDimension<Datum>;
   series: (SeriesPoint<
     [ContinuousValue, InternMap<TCategoricalValue, number>]
