@@ -8,7 +8,7 @@ import {
   stackOrderNone,
 } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
-import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
+import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
@@ -34,7 +34,7 @@ export class VicStackedAreaConfigBuilder<
   Datum,
   TCategoricalValue extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
-  private categoricalDimensionBuilder: CategoricalDimensionBuilder<
+  private categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
     TCategoricalValue
   >;
@@ -68,10 +68,10 @@ export class VicStackedAreaConfigBuilder<
    */
   createCategoricalDimension(
     setProperties: (
-      dimension: CategoricalDimensionBuilder<Datum, TCategoricalValue>
+      dimension: OrdinalVisualValueDimensionBuilder<Datum, TCategoricalValue>
     ) => void
   ): this {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<
+    this.categoricalDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
       Datum,
       TCategoricalValue
     >();

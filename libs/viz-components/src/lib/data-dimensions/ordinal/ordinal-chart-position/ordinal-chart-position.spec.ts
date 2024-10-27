@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { OrdinalDimension } from './ordinal';
-import { OrdinalDimensionBuilder } from './ordinal-builder';
+import { OrdinalChartPositionDimension } from './ordinal-chart-position';
+import { OrdinalDimensionBuilder } from './ordinal-chart-position-builder';
 
 const data = [
   { value: 1, category: 'a' },
@@ -10,8 +10,11 @@ const data = [
   { value: 5, category: 'b' },
 ];
 
-describe('VicDimensionOrdinal', () => {
-  let dimension: OrdinalDimension<{ value: number; category: string }, string>;
+describe('OrdinalChartPositionDimension', () => {
+  let dimension: OrdinalChartPositionDimension<
+    { value: number; category: string },
+    string
+  >;
   beforeEach(() => {
     dimension = new OrdinalDimensionBuilder<
       { value: number; category: string },
