@@ -78,7 +78,6 @@ export class GeographiesHoverDirective<
       TGeometry
     >;
     this.bounds = this.geographies.path.bounds(d);
-    console.log(this.bounds);
     if (this.actions && !this.preventAction) {
       this.actions.forEach((action) => action.onStart(this));
     }

@@ -76,7 +76,12 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   markerIndexAttr = 'index';
   private zone = inject(NgZone);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  override scales: { color: GenericScale<any, any> } & XyChartScales;
+  override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
