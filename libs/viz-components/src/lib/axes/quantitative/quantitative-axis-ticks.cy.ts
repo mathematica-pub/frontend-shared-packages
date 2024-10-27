@@ -61,17 +61,15 @@ describe('it correctly sets ticks', () => {
       { state: string; value: number },
       string
     >()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -161,17 +159,15 @@ describe('integer formatted ticks', () => {
       { state: string; value: number },
       string
     >()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -229,17 +225,15 @@ describe('integer formatted ticks', () => {
         { state: string; value: number },
         string
       >()
-        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 1.1 },
           { state: 'Alaska', value: 2.2 },
           { state: 'Arizona', value: 3.3 },
         ])
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
-        )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
         .labels((labels) => labels.display(true))
         .getConfig();
@@ -277,17 +271,15 @@ describe('integer formatted ticks', () => {
         { state: string; value: number },
         string
       >()
-        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 0.1 },
           { state: 'Alaska', value: 0.4 },
           { state: 'Arizona', value: 0.8 },
         ])
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
-        )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
         .labels((labels) => labels.display(true))
         .getConfig();
@@ -337,17 +329,15 @@ describe('float formatted ticks', () => {
       { state: string; value: number },
       string
     >()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -406,17 +396,15 @@ describe('float formatted ticks', () => {
         { state: string; value: number },
         string
       >()
-        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 1.1 },
           { state: 'Alaska', value: 2.2 },
           { state: 'Arizona', value: 3.3 },
         ])
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
-        )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
         .labels((labels) => labels.display(true))
         .getConfig();
@@ -466,17 +454,15 @@ describe('float formatted ticks', () => {
         { state: string; value: number },
         string
       >()
-        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 0.01 },
           { state: 'Alaska', value: 0.04 },
           { state: 'Arizona', value: 0.08 },
         ])
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
-        )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
         .labels((labels) => labels.display(true))
         .getConfig();
@@ -526,17 +512,15 @@ describe('percent formatted ticks', () => {
       { state: string; value: number },
       string
     >()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 0.011 },
         { state: 'Alaska', value: 0.022 },
         { state: 'Arizona', value: 0.303 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -637,17 +621,15 @@ describe('percent formatted ticks', () => {
         { state: string; value: number },
         string
       >()
-        .orientation('horizontal')
         .data([
           { state: 'Alabama', value: 0.001 },
           { state: 'Alaska', value: 0.004 },
           { state: 'Arizona', value: 0.008 },
         ])
-        .createOrdinalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.state)
-        )
-        .createQuantitativeDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
+        .horizontal((bars) =>
+          bars
+            .x((dimension) => dimension.valueAccessor((d) => d.value))
+            .y((dimension) => dimension.valueAccessor((d) => d.state))
         )
         .labels((labels) => labels.display(true))
         .getConfig();
