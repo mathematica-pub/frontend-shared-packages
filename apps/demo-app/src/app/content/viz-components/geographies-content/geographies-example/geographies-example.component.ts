@@ -161,9 +161,9 @@ export class GeographiesExampleComponent implements OnInit {
     const config = this.geographies
       .boundary(this.basemap.us)
       .featureIndexAccessor(this.featureIndexAccessor)
-      .createGeojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
-      .createGeojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
-      .createAttributeDataLayer((layer) => this.getDataLayer(data, layer))
+      .geojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
+      .geojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
+      .attributeDataLayer((layer) => this.getDataLayer(data, layer))
       .getConfig();
     return config;
   }
@@ -174,7 +174,7 @@ export class GeographiesExampleComponent implements OnInit {
     return layer
       .geographies(this.basemap.us.features)
       .stroke((stroke) => stroke.color(colors.base).width(1))
-      .createCategoricalDimension((dimension) =>
+      .fillCategorical((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
   }
@@ -191,7 +191,7 @@ export class GeographiesExampleComponent implements OnInit {
       d.properties.id;
     return layer
       .geographies(features)
-      .createCategoricalDimension((dimension) =>
+      .fillCategorical((dimension) =>
         dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
       )
       .labels((labels) =>

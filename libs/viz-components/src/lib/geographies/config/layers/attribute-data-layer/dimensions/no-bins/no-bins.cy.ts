@@ -119,7 +119,7 @@ describe('the No Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
@@ -187,7 +187,7 @@ describe('the No Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(dataWithFalsyValues)
             .geographies(states.features)
@@ -234,7 +234,7 @@ describe('the No Bins Attribute Data dimension', () => {
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
         .projection(geoMercator())
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)

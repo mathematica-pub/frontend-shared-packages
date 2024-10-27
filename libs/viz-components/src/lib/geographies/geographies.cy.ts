@@ -198,7 +198,7 @@ describe('drawing the geography paths for various layers', () => {
         >()
           .boundary(usBoundary)
           .featureIndexAccessor((d) => d.properties.name)
-          .createAttributeDataLayer((layer) =>
+          .attributeDataLayer((layer) =>
             layer
               .data(attributeData)
               .geographies(states.features)
@@ -245,12 +245,12 @@ describe('drawing the geography paths for various layers', () => {
         >()
           .boundary(usBoundary)
           .featureIndexAccessor((d) => d.properties.name)
-          .createGeojsonPropertiesLayer((layer) =>
+          .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
               .stroke((stroke) => stroke.color('black').width(1))
           )
-          .createGeojsonPropertiesLayer((layer) =>
+          .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
               .stroke((stroke) => stroke.color('red').width(1))
@@ -300,7 +300,7 @@ describe('drawing the geography paths for various layers', () => {
         >()
           .boundary(usBoundary)
           .featureIndexAccessor((d) => d.properties.name)
-          .createAttributeDataLayer((layer) =>
+          .attributeDataLayer((layer) =>
             layer
               .data(attributeData)
               .geographies(states.features)
@@ -312,7 +312,7 @@ describe('drawing the geography paths for various layers', () => {
               )
               .stroke((stroke) => stroke.color('black').width(1))
           )
-          .createGeojsonPropertiesLayer((layer) =>
+          .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
               .stroke((stroke) => stroke.color('red').width(1))
@@ -391,11 +391,11 @@ describe('drawing the geography paths for various layers', () => {
         >()
           .boundary(usBoundary)
           .featureIndexAccessor((d) => d.properties.name)
-          .createGeojsonPropertiesLayer((layer) =>
+          .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
               .stroke((stroke) => stroke.color('black').width(1))
-              .createCategoricalDimension((dimension) =>
+              .fillCategorical((dimension) =>
                 dimension
                   .scale((stateNameLength) =>
                     stateNamesScale(+stateNameLength.length)
@@ -403,7 +403,7 @@ describe('drawing the geography paths for various layers', () => {
                   .valueAccessor((d) => d.properties.name.length.toString())
               )
           )
-          .createGeojsonPropertiesLayer((layer) =>
+          .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
               .stroke((stroke) => stroke.color('blue').width(1))
@@ -476,7 +476,7 @@ describe('drawing the geography labels various layers', () => {
         >()
           .boundary(usBoundary)
           .featureIndexAccessor((d) => d.properties.name)
-          .createAttributeDataLayer((layer) =>
+          .attributeDataLayer((layer) =>
             layer
               .data(attributeData)
               .geographies(
@@ -496,16 +496,14 @@ describe('drawing the geography labels various layers', () => {
                 labels.valueAccessor((d) => d.properties.id).color('black')
               )
           )
-          .createGeojsonPropertiesLayer((layer) =>
+          .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(
                 states.features.filter(
                   (x) => x.properties.name[x.properties.name.length - 1] === 'a'
                 )
               )
-              .createCategoricalDimension((dimension) =>
-                dimension.range(['darkblue'])
-              )
+              .fillCategorical((dimension) => dimension.range(['darkblue']))
               .class('test-no-data-layer')
               .stroke((stroke) => stroke.width(1))
               .labels((labels) =>
@@ -563,7 +561,7 @@ const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
   >()
     .boundary(usBoundary)
     .featureIndexAccessor((d) => d.properties.name)
-    .createAttributeDataLayer((layer) =>
+    .attributeDataLayer((layer) =>
       layer
         .data(attributeData)
         .geographies(states.features)

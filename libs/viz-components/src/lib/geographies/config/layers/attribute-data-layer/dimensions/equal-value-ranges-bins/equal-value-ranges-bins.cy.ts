@@ -119,7 +119,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -177,7 +177,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -226,7 +226,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -273,7 +273,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
