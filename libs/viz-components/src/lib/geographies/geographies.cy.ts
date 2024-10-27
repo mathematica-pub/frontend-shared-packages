@@ -394,9 +394,8 @@ describe('drawing the geography paths for various layers', () => {
           .geojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
-              .strokeColor('black')
-              .strokeWidth('1')
-              .createCategoricalDimension((dimension) =>
+              .stroke((stroke) => stroke.color('black').width(1))
+              .fillCategorical((dimension) =>
                 dimension
                   .scale((stateNameLength) =>
                     stateNamesScale(+stateNameLength.length)
@@ -570,8 +569,7 @@ const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
         .binsNone((dimension) =>
           dimension.valueAccessor((d) => d.income).range(['white', 'orangered'])
         )
-        .strokeColor('black')
-        .strokeWidth('1')
+        .stroke((stroke) => stroke.color('black').width(1))
     )
     .getConfig();
   mountGeographiesComponent(geographiesConfig);

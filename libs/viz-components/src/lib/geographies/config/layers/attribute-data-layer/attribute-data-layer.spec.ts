@@ -18,7 +18,7 @@ function createLayer(): GeographiesAttributeDataLayer<
   any
 > {
   return new GeographiesAttributeDataLayerBuilder<Datum, { name: string }>()
-    .createEqualValueRangesBinsDimension((dimension) =>
+    .binsEqualValueRanges((dimension) =>
       dimension.valueAccessor((d) => d.value).numBins(5)
     )
     .geographyIndexAccessor((d) => d.state)
