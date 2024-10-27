@@ -265,7 +265,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createCategoricalBinsDimension((dimension) =>
+      .categoricalBins((dimension) =>
         dimension
           .valueAccessor((d) =>
             d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low'
@@ -291,7 +291,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createCustomBreaksBinsDimension((dimension) =>
+      .customBreaksBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -317,7 +317,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createEqualValueRangesBinsDimension((dimension) =>
+      .equalValueRangesBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -340,7 +340,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createEqualFrequenciesBinsDimension((dimension) =>
+      .equalFrequenciesBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -366,7 +366,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createNoBinsDimension((dimension) =>
+      .noBins((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)

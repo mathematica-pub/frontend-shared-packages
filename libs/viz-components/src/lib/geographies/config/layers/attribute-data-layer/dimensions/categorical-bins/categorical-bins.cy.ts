@@ -126,7 +126,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
@@ -187,7 +187,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
@@ -251,7 +251,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {
@@ -328,7 +328,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
             .data(dataWithFalsyValues)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (
@@ -392,7 +392,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCategoricalBinsDimension((dimension) =>
+            .categoricalBins((dimension) =>
               dimension
                 .valueAccessor((d) => {
                   if (d.income < binValues[0]) {

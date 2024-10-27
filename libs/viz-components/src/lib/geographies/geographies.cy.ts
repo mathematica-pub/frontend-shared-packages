@@ -203,7 +203,7 @@ describe('drawing the geography paths for various layers', () => {
               .data(attributeData)
               .geographies(states.features)
               .geographyIndexAccessor((d) => d.state)
-              .createNoBinsDimension((dimension) =>
+              .noBins((dimension) =>
                 dimension
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
@@ -308,7 +308,7 @@ describe('drawing the geography paths for various layers', () => {
               .data(attributeData)
               .geographies(states.features)
               .geographyIndexAccessor((d) => d.state)
-              .createNoBinsDimension((dimension) =>
+              .noBins((dimension) =>
                 dimension
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
@@ -492,7 +492,7 @@ describe('drawing the geography labels various layers', () => {
                 )
               )
               .geographyIndexAccessor((d) => d.state)
-              .createNoBinsDimension((dimension) =>
+              .noBins((dimension) =>
                 dimension
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
@@ -576,7 +576,7 @@ const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
         .data(attributeData)
         .geographies(states.features)
         .geographyIndexAccessor((d) => d.state)
-        .createNoBinsDimension((dimension) =>
+        .noBins((dimension) =>
           dimension.valueAccessor((d) => d.income).range(['white', 'orangered'])
         )
         .strokeColor('black')

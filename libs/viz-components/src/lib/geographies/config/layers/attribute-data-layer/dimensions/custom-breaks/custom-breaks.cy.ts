@@ -125,7 +125,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)
@@ -173,7 +173,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)
@@ -225,7 +225,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues([
@@ -291,7 +291,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
             .data(dataWithFalsyValues)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)
@@ -341,7 +341,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createCustomBreaksBinsDimension((bins) =>
+            .customBreaksBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .breakValues(breakValues)

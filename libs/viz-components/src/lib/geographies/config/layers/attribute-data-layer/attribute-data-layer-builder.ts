@@ -36,7 +36,7 @@ export class GeographiesAttributeDataLayerBuilder<
    *
    * For example, if the data for a set of U.S. states had a string property, 'region', this could be used to color the states by region.
    */
-  createCategoricalBinsDimension(
+  categoricalBins(
     setProperties: (builder: CategoricalBinsBuilder<Datum>) => void
   ): this {
     this.binsBuilder = new CategoricalBinsBuilder<Datum, string>();
@@ -47,7 +47,7 @@ export class GeographiesAttributeDataLayerBuilder<
   /**
    * OPTIONAL. Creates a configuration object that maps data to colors by custom breaks values for bins.
    */
-  createCustomBreaksBinsDimension(
+  customBreaksBins(
     setProperties: (
       builder: CustomBreaksBinsAttributeDataDimensionBuilder<Datum>
     ) => void
@@ -57,7 +57,7 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
-  createNoBinsDimension(
+  noBins(
     setProperties: (builder: NoBinsAttributeDataDimensionBuilder<Datum>) => void
   ): this {
     this.binsBuilder = new NoBinsAttributeDataDimensionBuilder();
@@ -65,7 +65,7 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
-  createEqualValueRangesBinsDimension(
+  equalValueRangesBins(
     setProperties: (builder: EqualValueRangesBinsBuilder<Datum>) => void
   ): this {
     this.binsBuilder = new EqualValueRangesBinsBuilder();
@@ -73,7 +73,7 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
-  createEqualFrequenciesBinsDimension(
+  equalFrequenciesBins(
     setProperties: (
       builder: EqualFrequenciesAttributeDataDimensionBuilder<Datum>
     ) => void
