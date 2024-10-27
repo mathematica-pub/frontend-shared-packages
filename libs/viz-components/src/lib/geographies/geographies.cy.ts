@@ -35,13 +35,13 @@ interface StateIncomeDatum {
   year: number;
 }
 
-const margin = { top: 36, right: 36, bottom: 36, left: 36 };
+const margin = { top: 40, right: 40, bottom: 0, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
 const attributeData = stateIncomePopulationData
   .filter((x) => x.year === 2020)
   .filter((x) => x.state !== 'Puerto Rico');
-const tooltipYOffset = 60;
+const tooltipYOffset = 40;
 
 interface TestMapGeometryProperties extends GeoJsonProperties {
   name: string;
@@ -135,7 +135,7 @@ class TestGeographiesComponent {
 
   updateTooltipConfig(data: GeographiesEventOutput<StateIncomeDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .setSize((size) => size.minWidth(130))
+      .size((size) => size.minWidth(80))
       .geographiesPosition([
         {
           offsetX: data?.positionX,
@@ -611,8 +611,8 @@ describe('displays tooltips for correct data per hover position', () => {
             const tooltipBox = $el[0].getBoundingClientRect();
             cy.get(
               `.vic-geography-g.${stateDatum.state.split(' ').join('-')}`
-            ).then(($el) => {
-              const stateBox = $el[0].getBoundingClientRect();
+            ).then(($stateEl) => {
+              const stateBox = $stateEl[0].getBoundingClientRect();
               expect(mean([tooltipBox.left, tooltipBox.right])).to.be.closeTo(
                 mean([stateBox.left, stateBox.right]),
                 1

@@ -175,7 +175,7 @@ export class LinesExampleComponent implements OnInit {
   updateTooltipConfig(eventContext: 'click' | 'hover'): void {
     const data = this.tooltipData.getValue();
     const config = this.tooltip
-      .setSize((size) => size.minWidth(340))
+      .size((size) => size.minWidth(340))
       .linesPosition([
         {
           offsetX: data?.positionX,

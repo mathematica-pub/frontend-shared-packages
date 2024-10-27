@@ -126,7 +126,7 @@ export class StackedAreaExampleComponent implements OnInit {
     data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
-      .setSize((size) => size.minWidth(130))
+      .size((size) => size.minWidth(130))
       .stackedAreaPosition([
         {
           offsetX: data?.positionX,

@@ -34,7 +34,7 @@ export class VicHtmlTooltipConfigBuilder {
     this._applyEventsDisabledClass = false;
   }
 
-  setSize(setProperties: (size: HtmlTooltipSizeBuilder) => void): this {
+  size(setProperties: (size: HtmlTooltipSizeBuilder) => void): this {
     this.initSizeBuilder();
     setProperties?.(this.sizeBuilder);
     return this;

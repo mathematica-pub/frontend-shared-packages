@@ -91,8 +91,12 @@ export class GeographiesComponent<
   }
 
   setProjection(): void {
+    console.log(this.ranges);
     this.projection = this.config.projection.fitSize(
-      [this.ranges.x[1], this.ranges.y[0]],
+      [
+        this.ranges.x[1] - this.ranges.x[0],
+        this.ranges.y[0] - this.ranges.y[1],
+      ],
       this.config.boundary
     );
   }
@@ -124,6 +128,10 @@ export class GeographiesComponent<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   drawLayers(t: any): void {
     const layerGroup = select(this.elRef.nativeElement)
+      .style(
+        'transform',
+        `translate(${this.chart.margin.left}px, ${this.chart.margin.top}px)`
+      )
       .selectAll<
         SVGGElement,
         | GeographiesAttributeDataLayer<Datum, TProperties, TGeometry>
