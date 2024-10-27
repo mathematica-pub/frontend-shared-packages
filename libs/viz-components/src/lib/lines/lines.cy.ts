@@ -617,7 +617,7 @@ describe('it creates lines with the correct properties per config', () => {
           dimension.valueAccessor((d) => d.continent)
         )
         .createPointMarkers()
-        .createStroke((stroke) =>
+        .stroke((stroke) =>
           stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
         )
         .getConfig();
@@ -680,7 +680,7 @@ describe('displays tooltips for correct data per hover position', () => {
         dimension.valueAccessor((d) => d.continent)
       )
       .createPointMarkers()
-      .createStroke((stroke) =>
+      .stroke((stroke) =>
         stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
       )
       .getConfig();

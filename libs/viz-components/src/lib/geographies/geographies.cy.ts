@@ -492,7 +492,7 @@ describe('drawing the geography labels various layers', () => {
               )
               .class('test-data-layer')
               .stroke((stroke) => stroke.color('black').width(1))
-              .createLabels((labels) =>
+              .labels((labels) =>
                 labels.valueAccessor((d) => d.properties.id).color('black')
               )
           )
@@ -507,8 +507,8 @@ describe('drawing the geography labels various layers', () => {
                 dimension.range(['darkblue'])
               )
               .class('test-no-data-layer')
-              .strokeWidth('1')
-              .createLabels((labels) =>
+              .stroke((stroke) => stroke.width(1))
+              .labels((labels) =>
                 labels
                   .valueAccessor((d) => `${d.properties.id}*`)
                   .color('chartreuse')

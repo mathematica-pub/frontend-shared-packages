@@ -120,7 +120,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  createStroke(setProperties?: (stroke: LinesStrokeBuilder) => void): this {
+  stroke(setProperties?: (stroke: LinesStrokeBuilder) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;

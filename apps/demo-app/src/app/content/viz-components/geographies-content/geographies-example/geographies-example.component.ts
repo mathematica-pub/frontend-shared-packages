@@ -194,7 +194,7 @@ export class GeographiesExampleComponent implements OnInit {
       .createCategoricalDimension((dimension) =>
         dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
       )
-      .createLabels((labels) =>
+      .labels((labels) =>
         labels
           .valueAccessor(valueAccessor)
           .display(
@@ -272,7 +272,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range(['sandybrown', 'mediumseagreen', colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getCustomBreaksLayer(
@@ -298,7 +298,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getEqualValueRangesLayer(
@@ -324,7 +324,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getEqualFrequenciesLayer(
@@ -347,7 +347,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getNoBinsLayer(
@@ -372,7 +372,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getLabels(

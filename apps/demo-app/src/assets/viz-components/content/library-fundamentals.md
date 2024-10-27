@@ -84,14 +84,16 @@ _Example_
 
 ```ts
 this.barsBuilder
-  .orientation('horizontal')
   .data(data)
-  .createQuantitativeDimension((dimension) => dimension.valueAccessor((d) => d.value))
-  .createOrdinalDimension((dimension) => dimension.valueAccessor((d) => d.state))
+  .horizontal((bars) =>
+    bars
+      .x((dimension) => dimension.valueAccessor((d) => d.value))
+      .y((dimension) => dimension.valueAccessor((d) => d.state))
+  )
   .createCategoricalDimension((dimension) =>
     dimension.valueAccessor((d) => d.fruit).range(['red', 'blue'])
   )
-  .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+  .labels((labels) => labels.noValueFunction(() => 'no value'))
   .build();
 ```
 

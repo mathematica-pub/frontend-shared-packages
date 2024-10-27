@@ -55,7 +55,7 @@ export abstract class GeographiesLayerBuilder<
   /**
    * OPTIONAL. Creates a configuration object for labels that will be drawn on the geographies.
    */
-  createLabels(
+  labels(
     setProperties: (
       builder: GeographiesLabelsBuilder<TProperties, TGeometry>
     ) => void
