@@ -97,7 +97,7 @@ describe('HtmlTooltipDirective', () => {
         .hasBackdrop(true)
         .offsetFromOriginPosition()
         .applyEventsDisabledClass(true)
-        .setSize((size) => size.width(100))
+        .size((size) => size.width(100))
         .getConfig();
     });
 
@@ -148,7 +148,7 @@ describe('HtmlTooltipDirective', () => {
         .hasBackdrop(true)
         .offsetFromOriginPosition()
         .applyEventsDisabledClass(true)
-        .setSize((size) => size.width(100))
+        .size((size) => size.width(100))
         .getConfig();
       spyOn(directive.config.position, 'getPositionStrategy').and.returnValue(
         'position' as any
