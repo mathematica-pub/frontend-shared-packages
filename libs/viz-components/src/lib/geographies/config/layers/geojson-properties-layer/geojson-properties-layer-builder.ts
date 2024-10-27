@@ -17,7 +17,6 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     GeographiesFeature<TProperties, TGeometry>,
     string
   >;
-  private _fill: string;
 
   constructor() {
     super();
