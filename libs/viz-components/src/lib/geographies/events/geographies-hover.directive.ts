@@ -8,20 +8,18 @@ import { filter } from 'rxjs';
 import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
 import { GeographiesAttributeDataLayer } from '../config/layers/attribute-data-layer/attribute-data-layer';
+import { GeographiesTooltipDatum } from '../config/layers/geographies-layer/geographies-layer';
 import { GeographiesGeojsonPropertiesLayer } from '../config/layers/geojson-properties-layer/geojson-properties-layer';
 import { GeographiesFeature } from '../geographies-feature';
 import { GEOGRAPHIES, GeographiesComponent } from '../geographies.component';
-import {
-  GeographiesEventOutput,
-  GeographiesTooltipData,
-} from './geographies-event-output';
+import { GeographiesEventOutput } from './geographies-event-output';
 
 interface GeographiesHoverExtras {
   feature: Feature;
   bounds: [[number, number], [number, number]];
 }
 
-export type GeographiesHoverOutput<Datum> = GeographiesTooltipData<Datum> &
+export type GeographiesHoverOutput<Datum> = GeographiesTooltipDatum<Datum> &
   GeographiesHoverExtras;
 
 @Directive({

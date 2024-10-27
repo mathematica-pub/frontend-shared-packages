@@ -56,7 +56,7 @@ export type BarDatum<T> = {
   color: string;
 };
 
-export interface BarsTooltipData<Datum, TOrdinalValue extends DataValue> {
+export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
   datum: Datum;
   color: string;
   ordinal: TOrdinalValue;
@@ -552,10 +552,10 @@ export class BarsComponent<
   getTooltipData(
     barDatum: BarDatum<TOrdinalValue>,
     elRef: ElementRef
-  ): BarsTooltipData<Datum, TOrdinalValue> {
+  ): BarsTooltipDatum<Datum, TOrdinalValue> {
     const datum = this.getUserDatumFromBarDatum(barDatum);
 
-    const tooltipData: BarsTooltipData<Datum, TOrdinalValue> = {
+    const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
       datum,
       color: this.getBarColor(barDatum),
       ordinal: this.config.ordinal.valueAccessor(datum),

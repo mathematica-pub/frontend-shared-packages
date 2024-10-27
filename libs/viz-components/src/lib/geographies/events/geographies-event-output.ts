@@ -1,12 +1,7 @@
-export interface GeographiesTooltipData<Datum> {
-  datum?: Datum;
-  color: string;
-  geography: string;
-  attributeValue?: string;
-}
+import { GeographiesTooltipDatum } from '../config/layers/geographies-layer/geographies-layer';
 
 export interface GeographiesEventOutput<Datum>
-  extends GeographiesTooltipData<Datum> {
+  extends GeographiesTooltipDatum<Datum> {
   positionX: number;
   positionY: number;
 }

@@ -2,9 +2,11 @@ import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { ValueUtilities } from '../../../../core/utilities/values';
-import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
-import { GeographiesLayer } from '../geographies-layer/geographies-layer';
+import {
+  GeographiesLayer,
+  GeographiesTooltipDatum,
+} from '../geographies-layer/geographies-layer';
 import { GeographiesAttributeDataLayerOptions } from './attribute-data-layer-options';
 import { BinStrategy } from './dimensions/attribute-data-bin-enums';
 import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
@@ -112,7 +114,7 @@ export class GeographiesAttributeDataLayer<
     return this.attributeScale(dataValue);
   }
 
-  getTooltipData(path: SVGPathElement): GeographiesTooltipData<Datum> {
+  getTooltipData(path: SVGPathElement): GeographiesTooltipDatum<Datum> {
     const feature = select(path).datum() as GeographiesFeature<
       TProperties,
       TGeometry
@@ -120,7 +122,7 @@ export class GeographiesAttributeDataLayer<
     const featureIndex = this.featureIndexAccessor(feature);
     const datum = this.datumsByGeographyIndex.get(featureIndex);
     const value = this.attributeValuesByGeographyIndex.get(featureIndex);
-    const tooltipData: GeographiesTooltipData<Datum> = {
+    const tooltipData: GeographiesTooltipDatum<Datum> = {
       datum,
       geography: this.geographyIndexAccessor(datum),
       attributeValue: this.attributeDimension.formatFunction

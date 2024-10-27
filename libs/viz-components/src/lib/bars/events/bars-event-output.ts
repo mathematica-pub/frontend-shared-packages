@@ -1,8 +1,8 @@
 import { DataValue } from '../../core/types/values';
-import { BarsTooltipData } from '../bars.component';
+import { BarsTooltipDatum } from '../bars.component';
 
 export interface BarsEventOutput<Datum, TOrdinalValue extends DataValue>
-  extends BarsTooltipData<Datum, TOrdinalValue> {
+  extends BarsTooltipDatum<Datum, TOrdinalValue> {
   positionX: number;
   positionY: number;
 }

@@ -32,7 +32,7 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
   'LinesComponent'
 );
 
-export interface LinesTooltipData<Datum> {
+export interface LinesTooltipDatum<Datum> {
   datum: Datum;
   x: string;
   y: string;

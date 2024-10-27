@@ -9,15 +9,28 @@ import { Transition, area, select } from 'd3';
 import { ChartComponent, XyChartComponent } from '../charts';
 import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
+import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { StackedAreaConfig } from './config/stacked-area-config';
+import { StackedAreaEventOutput } from './events/stacked-area-event-output';
 
 // Ideally we would be able to use generic T with the component, but Angular doesn't yet support this, so we use unknown instead
 // https://github.com/angular/angular/issues/46815, https://github.com/angular/angular/pull/47461
 export const STACKED_AREA = new InjectionToken<
   StackedAreaComponent<unknown, DataValue>
 >('StackedAreaComponent');
+
+export interface StackedAreaTooltipDatum<
+  Datum,
+  TCategoricalValue extends DataValue,
+> {
+  datum: Datum;
+  color: string;
+  x: string;
+  y: string;
+  category: TCategoricalValue;
+}
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -107,5 +120,70 @@ export class StackedAreaComponent<
           ),
         (exit) => exit.remove()
       );
+  }
+
+  getTooltipData(
+    closestXIndicies: number[],
+    categoryYMin: number,
+    categoryYMax: number,
+    categoryIndex: number
+  ): StackedAreaEventOutput<Datum, TCategoricalValue> {
+    const data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[] =
+      closestXIndicies.map((i) => {
+        const datum = this.getDatumFromIndex(i);
+        return {
+          datum: datum,
+          x: this.getXyDimensionValue(datum, 'x'),
+          y: this.getXyDimensionValue(datum, 'y'),
+          category: this.config.color.valueAccessor(datum),
+          color: this.scales.categorical(
+            this.config.color.valueAccessor(datum)
+          ),
+        };
+      });
+    if (this.config.categoricalOrder) {
+      this.sortTooltipDataByCategoricalSortOrder(data);
+      categoryIndex = closestXIndicies.length - categoryIndex;
+    }
+    return {
+      data,
+      positionX: this.scales.x(this.config.x.values[closestXIndicies[0]]),
+      categoryYMin: categoryYMin,
+      categoryYMax: categoryYMax,
+      hoveredDatum: data[categoryIndex],
+    };
+  }
+
+  private getDatumFromIndex(i: number) {
+    return this.config.data.find(
+      (d) =>
+        this.config.x.valueAccessor(d) === this.config.x.values[i] &&
+        this.config.color.valueAccessor(d) === this.config.color.values[i]
+    );
+  }
+
+  private getXyDimensionValue(datum: Datum, dimension: 'x' | 'y'): string {
+    return this.config[dimension].formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config[dimension].formatFunction
+        )
+      : ValueUtilities.d3Format(
+          this.config[dimension].valueAccessor(datum),
+          this.config[dimension].formatSpecifier
+        );
+  }
+
+  private sortTooltipDataByCategoricalSortOrder(
+    data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[]
+  ) {
+    if (this.config.categoricalOrder) {
+      data.sort((a, b) => {
+        return (
+          this.config.categoricalOrder.indexOf(a.category) -
+          this.config.categoricalOrder.indexOf(b.category)
+        );
+      });
+    }
   }
 }
