@@ -5,7 +5,7 @@ import { DataDimensionBuilder } from '../../dimension-builder';
 import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 
 const DEFAULT = {
-  _range: schemeTableau10 as string[],
+  _range: schemeTableau10,
   _valueAccessor: () => '',
 };
 
@@ -58,7 +58,7 @@ export class OrdinalVisualValueDimensionBuilder<
   }
 
   /**
-   * OPTIONAL. Sets a user-defined function that transforms a categorical value into a graphical value.
+   * OPTIONAL. Sets a user-defined function that transforms a categorical value into a visual value.
    *
    * User must also provide their own implementation of `valueAccessor`.
    *
