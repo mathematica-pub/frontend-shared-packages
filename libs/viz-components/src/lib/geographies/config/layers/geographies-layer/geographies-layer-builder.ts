@@ -74,7 +74,7 @@ export abstract class GeographiesLayerBuilder<
     return this;
   }
 
-  private initStrokeBuilder(): void {
+  protected initStrokeBuilder(): void {
     this.strokeBuilder = new StrokeBuilder();
   }
 }

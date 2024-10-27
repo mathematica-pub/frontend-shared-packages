@@ -57,6 +57,9 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
+  /**
+   * OPTIONAL. Creates a configuration object that for creating a map without binning values.
+   */
   noBins(
     setProperties: (builder: NoBinsAttributeDataDimensionBuilder<Datum>) => void
   ): this {
@@ -65,6 +68,11 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
+  /**
+   * OPTIONAL. Creates a configuration object that maps data to bins that each have the same size range.
+   *
+   * For example, bins may be, 0-10, 10-20, 20-30, etc.
+   */
   equalValueRangesBins(
     setProperties: (builder: EqualValueRangesBinsBuilder<Datum>) => void
   ): this {
@@ -73,6 +81,11 @@ export class GeographiesAttributeDataLayerBuilder<
     return this;
   }
 
+  /**
+   * OPTIONAL. Creates a configuration object that maps data to bins that contain an equal number of data observations.
+   *
+   * This is useful for creating quartiles, deciles, etc.
+   */
   equalFrequenciesBins(
     setProperties: (
       builder: EqualFrequenciesAttributeDataDimensionBuilder<Datum>
@@ -121,7 +134,10 @@ export class GeographiesAttributeDataLayerBuilder<
       throw new Error('Geography index accessor must be provided');
     }
     if (!this.binsBuilder) {
-      throw new Error('Bins builder must be provided');
+      throw new Error('One bin strategy must be provided');
+    }
+    if (!this.strokeBuilder) {
+      this.initStrokeBuilder();
     }
   }
 }

@@ -69,5 +69,8 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     if (!this.fillBuilder) {
       this.initFillBuilder();
     }
+    if (!this.strokeBuilder) {
+      this.initStrokeBuilder();
+    }
   }
 }
