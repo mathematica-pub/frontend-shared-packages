@@ -108,6 +108,7 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
+          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
