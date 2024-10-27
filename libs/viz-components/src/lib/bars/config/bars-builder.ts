@@ -110,7 +110,7 @@ export class VicBarsConfigBuilder<
   getConfig(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
-      categorical: this.colorDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build(),
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,

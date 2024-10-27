@@ -88,7 +88,7 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.categorical.getScale();
+    const categorical = this.config.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -163,7 +163,7 @@ export class BarsComponent<
       index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
-      categorical: this.config.categorical.values[i],
+      categorical: this.config.color.values[i],
     };
   }
 
@@ -174,7 +174,7 @@ export class BarsComponent<
   }
 
   getBarFill(datum: BarDatum<TOrdinalValue>): string {
-    return this.config.categorical.fillDefs
+    return this.config.color.fillDefs
       ? this.getBarPattern(datum)
       : this.getBarColor(datum);
   }
@@ -192,7 +192,7 @@ export class BarsComponent<
           index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
-          categorical: this.config.categorical.values[i],
+          categorical: this.config.color.values[i],
         },
       ])
       .join(
@@ -331,7 +331,7 @@ export class BarsComponent<
 
   getBarPattern(d: BarDatum<TOrdinalValue>): string {
     const color = this.getBarColor(d);
-    const patterns = this.config.categorical.fillDefs;
+    const patterns = this.config.color.fillDefs;
     return FillUtilities.getFill(this.config.data[d.index], color, patterns);
   }
 

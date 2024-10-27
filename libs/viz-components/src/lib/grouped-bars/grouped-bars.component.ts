@@ -37,13 +37,13 @@ export class GroupedBarsComponent<
 
   setGroupScale(): void {
     if (this.config.dimensions.ordinal === 'x') {
-      this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
+      this.groupScale = scaleBand(this.config.color.calculatedDomain, [
         0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.x as any).bandwidth(),
       ]).padding(this.config.intraGroupPadding);
     } else {
-      this.groupScale = scaleBand(this.config.categorical.calculatedDomain, [
+      this.groupScale = scaleBand(this.config.color.calculatedDomain, [
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (this.scales.y as any).bandwidth(),
         0,
