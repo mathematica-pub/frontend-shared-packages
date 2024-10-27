@@ -15,7 +15,7 @@ import { VicQuantitativeAxisConfig } from './quantitative-axis-config';
 // Cypress will get the tick elements before d3 has set the text value of the elements,
 // because d3 creates the elements and sets the text value in a transition).
 // This wait time is necessary to ensure that the text value of the tick elements has been set by d3.
-const axisTickTextWaitTime = 100;
+const axisTickTextWaitTime = 250;
 
 @Component({
   selector: 'vic-test-x-quantitative-axis',
