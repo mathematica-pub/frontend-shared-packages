@@ -26,7 +26,7 @@ function createLayer(): GeographiesAttributeDataLayer<
     ._build();
 }
 
-describe('GeographieAttributeDataLayer', () => {
+describe('GeographiesAttributeDataLayer', () => {
   let layer: GeographiesAttributeDataLayer<Datum, { name: string }, any>;
 
   describe('initPropertiesFromData()', () => {
