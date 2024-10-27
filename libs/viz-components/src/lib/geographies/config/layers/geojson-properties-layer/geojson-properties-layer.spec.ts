@@ -17,7 +17,7 @@ function createLayer(): GeographiesGeojsonPropertiesLayer<
 > {
   return new GeographiesGeojsonPropertiesLayerBuilder<FeatureProperties>()
     .geographies(features as any)
-    .fillCategorical((dimension) => dimension.range(['lime']))
+    .fillGeojsonProperties((dimension) => dimension.range(['lime']))
     ._build();
 }
 
@@ -32,9 +32,9 @@ describe('GeographiesGeojsonPropertiesLayer', () => {
       );
       layer = createLayer();
     });
-    it('calls setPropertiesFromData once if categorical dimension exists', () => {
+    it('calls setPropertiesFromData once if fill dimension exists', () => {
       expect(
-        (layer as any).categorical.setPropertiesFromData
+        (layer as any).fill.setPropertiesFromData
       ).toHaveBeenCalledOnceWith(features);
     });
   });

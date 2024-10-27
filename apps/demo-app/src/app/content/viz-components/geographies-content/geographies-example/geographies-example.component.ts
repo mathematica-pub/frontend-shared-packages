@@ -174,7 +174,7 @@ export class GeographiesExampleComponent implements OnInit {
     return layer
       .geographies(this.basemap.us.features)
       .stroke((stroke) => stroke.color(colors.base).width(1))
-      .fillCategorical((dimension) =>
+      .fillGeojsonProperties((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
   }
@@ -191,7 +191,7 @@ export class GeographiesExampleComponent implements OnInit {
       d.properties.id;
     return layer
       .geographies(features)
-      .fillCategorical((dimension) =>
+      .fillGeojsonProperties((dimension) =>
         dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
       )
       .labels((labels) =>

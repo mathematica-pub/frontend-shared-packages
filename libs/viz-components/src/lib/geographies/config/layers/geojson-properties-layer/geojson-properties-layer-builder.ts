@@ -27,7 +27,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
   /**
    * OPTIONAL: Set a fill color for all geographies in the layer.
    *
-   * To set a fill color based on a geography's geojson properties, use the `createCategoricalDimension` method.
+   * To set a fill color based on a geography's geojson properties, use the `fillCategorical` method.
    *
    * @default 'none'
    */
@@ -37,7 +37,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     return this;
   }
 
-  fillCategorical(
+  fillGeojsonProperties(
     setProperties: (
       builder: OrdinalVisualValueDimensionBuilder<
         GeographiesFeature<TProperties, TGeometry>,

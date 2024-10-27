@@ -32,13 +32,9 @@ describe('LinesComponent', () => {
       spyOn(component, 'drawLineLabels');
       component.config = new VicLinesConfigBuilder()
         .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
+        .xDate((dimension) => dimension.valueAccessor(() => null))
+        .y((dimension) => dimension.valueAccessor(() => null))
+        .color((dimension) => dimension.valueAccessor(() => null))
         .getConfig();
     });
     it('calls setLine once', () => {
@@ -56,14 +52,10 @@ describe('LinesComponent', () => {
     it('calls drawPointMarkers once with the correct argument if config.pointMarkers is truthy', () => {
       component.config = new VicLinesConfigBuilder()
         .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createPointMarkers()
+        .xDate((dimension) => dimension.valueAccessor(() => null))
+        .y((dimension) => dimension.valueAccessor(() => null))
+        .color((dimension) => dimension.valueAccessor(() => null))
+        .pointMarkers()
         .getConfig();
       component.drawMarks();
       expect(component.drawPointMarkers).toHaveBeenCalledOnceWith(duration);
@@ -75,13 +67,9 @@ describe('LinesComponent', () => {
     it('calls drawLineLabels once if config.labelLines is true', () => {
       component.config = new VicLinesConfigBuilder()
         .data([])
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
-        .createYDimension((dimension) => dimension.valueAccessor(() => null))
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor(() => null)
-        )
+        .xDate((dimension) => dimension.valueAccessor(() => null))
+        .y((dimension) => dimension.valueAccessor(() => null))
+        .color((dimension) => dimension.valueAccessor(() => null))
         .labelLines(true)
         .getConfig();
       component.drawMarks();

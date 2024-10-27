@@ -15,11 +15,9 @@ const data = [
 function createConfig(): LinesConfig<Datum> {
   return new VicLinesConfigBuilder<Datum>()
     .data(data)
-    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.date))
-    .createYDimension((dimension) => dimension.valueAccessor((d) => d.value))
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.category)
-    )
+    .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+    .y((dimension) => dimension.valueAccessor((d) => d.value))
+    .color((dimension) => dimension.valueAccessor((d) => d.category))
     .getConfig();
 }
 

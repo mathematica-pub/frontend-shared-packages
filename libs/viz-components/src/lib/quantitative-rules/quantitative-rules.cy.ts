@@ -297,13 +297,9 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
   const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
     .data(linesDateData)
-    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.year))
-    .createYDimension((dimension) =>
-      dimension.valueAccessor((d) => d.population)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.continent)
-    )
+    .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+    .y((dimension) => dimension.valueAccessor((d) => d.population))
+    .color((dimension) => dimension.valueAccessor((d) => d.continent))
     .getConfig();
   const declarations = [TestLinesComponent<QdQnCDatum, Date, RuleDatum>];
   cy.mount(TestLinesComponent<QdQnCDatum, Date, RuleDatum>, {
@@ -329,15 +325,11 @@ function mountNumberLinesComponent(
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
   const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
     .data(linesNumericData)
-    .createXNumericDimension((dimension) =>
+    .xNumeric((dimension) =>
       dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
     )
-    .createYDimension((dimension) =>
-      dimension.valueAccessor((d) => d.population)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.continent)
-    )
+    .y((dimension) => dimension.valueAccessor((d) => d.population))
+    .color((dimension) => dimension.valueAccessor((d) => d.continent))
     .getConfig();
   const declarations = [TestLinesComponent<QnQnCDatum, number, number>];
   cy.mount(TestLinesComponent<QnQnCDatum, number, number>, {
