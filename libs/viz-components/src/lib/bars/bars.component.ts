@@ -64,7 +64,6 @@ export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
     quantitative: string;
     category: string;
   };
-  elRef: ElementRef;
 }
 
 @Component({
@@ -552,8 +551,7 @@ export class BarsComponent<
   }
 
   getTooltipData(
-    barDatum: BarDatum<TOrdinalValue>,
-    elRef: ElementRef
+    barDatum: BarDatum<TOrdinalValue>
   ): BarsTooltipDatum<Datum, TOrdinalValue> {
     const datum = this.getUserDatumFromBarDatum(barDatum);
 
@@ -573,7 +571,6 @@ export class BarsComponent<
             ),
         category: this.config.color.valueAccessor(datum),
       },
-      elRef: elRef,
     };
     return tooltipData;
   }

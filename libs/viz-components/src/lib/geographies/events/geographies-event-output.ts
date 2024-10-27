@@ -2,6 +2,7 @@ import { GeographiesTooltipDatum } from '../config/layers/geographies-layer/geog
 
 export interface GeographiesEventOutput<Datum>
   extends GeographiesTooltipDatum<Datum> {
+  origin: SVGPathElement;
   positionX: number;
   positionY: number;
 }

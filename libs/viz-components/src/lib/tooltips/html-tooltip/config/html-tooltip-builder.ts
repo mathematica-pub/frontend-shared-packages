@@ -1,8 +1,8 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
 import {
-  VicElementRelativeTooltipPosition,
-  VicSvgRelativeTooltipPosition,
+  RelativeToCenterLeftTooltipPosition,
+  RelativeToTopLeftTooltipPosition,
 } from '../../../events';
 import { HtmlTooltipConfig } from './html-tooltip-config';
 import {
@@ -74,17 +74,25 @@ export class VicHtmlTooltipConfigBuilder {
     return this;
   }
 
-  barsPosition(positions: Partial<ConnectedPosition>[]): this {
+  barsPosition(
+    positions: Partial<ConnectedPosition>[],
+    origin: SVGRectElement
+  ): this {
+    this.origin(origin ? new ElementRef(origin) : undefined);
     const barsPositions = positions.map(
-      (p) => new VicElementRelativeTooltipPosition(p)
+      (p) => new RelativeToCenterLeftTooltipPosition(p)
     );
     this._position = new HtmlTooltipCdkManagedPosition(barsPositions);
     return this;
   }
 
-  geographiesPosition(positions: Partial<ConnectedPosition>[]): this {
+  geographiesPosition(
+    positions: Partial<ConnectedPosition>[],
+    origin: SVGPathElement
+  ): this {
+    this.origin(origin ? new ElementRef(origin) : undefined);
     const geographiesPositions = positions.map(
-      (p) => new VicSvgRelativeTooltipPosition(p)
+      (p) => new RelativeToTopLeftTooltipPosition(p)
     );
     this._position = new HtmlTooltipCdkManagedPosition(geographiesPositions);
     return this;
@@ -92,7 +100,7 @@ export class VicHtmlTooltipConfigBuilder {
 
   linesPosition(positions: Partial<ConnectedPosition>[]): this {
     const linesPositions = positions.map(
-      (p) => new VicSvgRelativeTooltipPosition(p)
+      (p) => new RelativeToTopLeftTooltipPosition(p)
     );
     this._position = new HtmlTooltipCdkManagedPosition(linesPositions);
     return this;
@@ -100,7 +108,7 @@ export class VicHtmlTooltipConfigBuilder {
 
   stackedAreaPosition(positions: Partial<ConnectedPosition>[]): this {
     const stackedAreaPositions = positions.map(
-      (p) => new VicSvgRelativeTooltipPosition(p)
+      (p) => new RelativeToTopLeftTooltipPosition(p)
     );
     this._position = new HtmlTooltipCdkManagedPosition(stackedAreaPositions);
     return this;

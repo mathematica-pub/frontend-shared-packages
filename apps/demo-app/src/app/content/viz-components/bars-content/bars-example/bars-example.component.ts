@@ -199,13 +199,15 @@ export class BarsExampleComponent implements OnInit {
     data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
-      .barsPosition([
-        {
-          offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : undefined,
-        },
-      ])
-      .origin(data ? data.elRef : undefined)
+      .barsPosition(
+        [
+          {
+            offsetX: data?.positionX,
+            offsetY: data ? data.positionY - 16 : undefined,
+          },
+        ],
+        data.origin
+      )
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);

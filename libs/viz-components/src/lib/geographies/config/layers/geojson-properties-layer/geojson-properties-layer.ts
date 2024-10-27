@@ -48,10 +48,10 @@ export class GeographiesGeojsonPropertiesLayer<
     >;
     const featureIndex = this.featureIndexAccessor(feature);
     const tooltipData: GeographiesTooltipDatum<undefined> = {
-      datum: undefined,
-      geography: featureIndex,
       attributeValue: undefined,
+      datum: undefined,
       color: this.getFill(feature),
+      geography: featureIndex,
     };
 
     return tooltipData;

@@ -11,10 +11,10 @@ import {
 import { GeographiesLayerOptions } from './geographies-layer-options';
 
 export interface GeographiesTooltipDatum<Datum> {
-  datum?: Datum;
-  color: string;
-  geography: string;
   attributeValue?: string;
+  color: string;
+  datum?: Datum;
+  geography: string;
 }
 
 export abstract class GeographiesLayer<
