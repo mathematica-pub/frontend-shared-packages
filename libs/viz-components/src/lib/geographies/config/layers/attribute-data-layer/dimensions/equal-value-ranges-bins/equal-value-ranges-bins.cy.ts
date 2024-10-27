@@ -124,9 +124,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
-              bins.valueAccessor((d) => d.income)
-            )
+            .binsEqualValueRanges((bins) => bins.valueAccessor((d) => d.income))
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
@@ -184,7 +182,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
+            .binsEqualValueRanges((bins) =>
               bins.valueAccessor((d) => d.income).domain([50000, 80000])
             )
         )
@@ -233,7 +231,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
+            .binsEqualValueRanges((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)
@@ -280,7 +278,7 @@ describe('the Equal Value Ranges Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualValueRangesBinsDimension((bins) =>
+            .binsEqualValueRanges((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)

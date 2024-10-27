@@ -162,9 +162,9 @@ export class GeographiesExampleComponent implements OnInit {
     const config = this.geographies
       .boundary(this.basemap.us)
       .featureIndexAccessor(this.featureIndexAccessor)
-      .createGeojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
-      .createGeojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
-      .createAttributeDataLayer((layer) => this.getDataLayer(data, layer))
+      .geojsonPropertiesLayer((layer) => this.getUsOutlineConfig(layer))
+      .geojsonPropertiesLayer((layer) => this.getNoDataLayer(data, layer))
+      .attributeDataLayer((layer) => this.getDataLayer(data, layer))
       .getConfig();
     return config;
   }
@@ -265,7 +265,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createCategoricalBinsDimension((dimension) =>
+      .binsCategorical((dimension) =>
         dimension
           .valueAccessor((d) =>
             d.income > 75000 ? 'high' : d.income > 60000 ? 'middle' : 'low'
@@ -291,7 +291,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createCustomBreaksBinsDimension((dimension) =>
+      .binsCustomBreaks((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -317,7 +317,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createEqualValueRangesBinsDimension((dimension) =>
+      .binsEqualValueRanges((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -340,7 +340,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createEqualFrequenciesBinsDimension((dimension) =>
+      .binsEqualFrequencies((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)
@@ -366,7 +366,7 @@ export class GeographiesExampleComponent implements OnInit {
       .data(data)
       .geographies(this.getDataGeographiesFeatures(data))
       .geographyIndexAccessor((d) => d.state)
-      .createNoBinsDimension((dimension) =>
+      .binsNone((dimension) =>
         dimension
           .valueAccessor((d) => d.income)
           .formatSpecifier(`$${valueFormat.integer}`)

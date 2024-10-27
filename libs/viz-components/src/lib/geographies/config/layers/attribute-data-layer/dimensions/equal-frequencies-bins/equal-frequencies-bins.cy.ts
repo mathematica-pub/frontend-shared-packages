@@ -124,9 +124,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
-              bins.valueAccessor((d) => d.income)
-            )
+            .binsEqualFrequencies((bins) => bins.valueAccessor((d) => d.income))
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
@@ -216,7 +214,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
+            .binsEqualFrequencies((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(5)
@@ -293,7 +291,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
+            .binsEqualFrequencies((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)

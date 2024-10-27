@@ -124,7 +124,7 @@ describe('the No Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createNoBinsDimension((dimension) =>
+            .binsNone((dimension) =>
               dimension
                 .valueAccessor((d) => d.income)
                 .range(['white', '#ff00ff'])
@@ -192,7 +192,7 @@ describe('the No Bins Attribute Data dimension', () => {
             .data(dataWithFalsyValues)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createNoBinsDimension((dimension) =>
+            .binsNone((dimension) =>
               dimension
                 .valueAccessor((d) => d.income)
                 .range(['white', '#ff00ff'])
@@ -239,7 +239,7 @@ describe('the No Bins Attribute Data dimension', () => {
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createNoBinsDimension((dimension) =>
+            .binsNone((dimension) =>
               dimension
                 .valueAccessor((d) => d.income)
                 .range(['white', '#ff00ff'])
