@@ -41,6 +41,7 @@ const chartWidth = 600;
 const attributeData = stateIncomePopulationData
   .filter((x) => x.year === 2020)
   .filter((x) => x.state !== 'Puerto Rico');
+const tooltipYOffset = 60;
 
 interface TestMapGeometryProperties extends GeoJsonProperties {
   name: string;
@@ -96,7 +97,7 @@ type TestUsMapTopology = Topology<TestMapObjects>;
       </div>
     </ng-template>
   `,
-  styles: [],
+  styles: ['.tooltip-container { font-size: 12px; }'],
 })
 class TestGeographiesComponent {
   @Input() geographiesConfig: GeographiesConfig<
@@ -138,7 +139,7 @@ class TestGeographiesComponent {
       .geographiesPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 8 : undefined,
+          offsetY: data ? data.positionY - tooltipYOffset : undefined,
         },
       ])
       .show(!!data)
@@ -616,7 +617,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 mean([stateBox.left, stateBox.right]),
                 1
               );
-              expect(tooltipBox.bottom).to.be.closeTo(
+              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
                 mean([stateBox.top, stateBox.bottom]),
                 20
               );

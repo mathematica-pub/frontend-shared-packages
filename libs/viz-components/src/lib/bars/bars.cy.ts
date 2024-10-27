@@ -39,6 +39,7 @@ const horizontalMargin = { top: 36, right: 20, bottom: 4, left: 80 };
 const verticalMargin = { top: 20, right: 20, bottom: 4, left: 40 };
 const chartHeight = 400;
 const chartWidth = 600;
+const tooltipYOffset = 30;
 const getXTransform = ($barGroup) => {
   const [x] = $barGroup
     .attr('transform')
@@ -131,7 +132,7 @@ class TestHorizontalBarsComponent {
       .barsPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 30 : undefined,
+          offsetY: data ? data.positionY - tooltipYOffset : undefined,
         },
       ])
       .origin(data ? data.elRef : undefined)
@@ -244,7 +245,7 @@ class TestVerticalBarsComponent {
       .barsPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 30 : undefined,
+          offsetY: data ? data.positionY - tooltipYOffset : undefined,
         },
       ])
       .origin(data ? data.elRef : undefined)
@@ -790,7 +791,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 (barBox.left + barBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom).to.be.closeTo(
+              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
                 (barBox.top + barBox.bottom) / 2,
                 10
               );
