@@ -114,7 +114,6 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
-          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -322,7 +321,8 @@ describe('BarsComponent', () => {
       expect(component.scales.x).toHaveBeenCalledTimes(1);
     });
     it('calls xScale once with origin if quant value is not a number', () => {
-      datum.quantitative = undefined;
+      datum.quantitative =
+        'oops it turns out there is a string in the users quant data' as any;
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
     });
@@ -435,7 +435,7 @@ describe('BarsComponent', () => {
       expect(component.scales.y).toHaveBeenCalledTimes(1);
     });
     it('calls yScale once with origin if quant value is not a number', () => {
-      datum.quantitative = undefined;
+      datum.quantitative = 'oops i am a string' as any;
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
     });
@@ -608,7 +608,7 @@ describe('BarsComponent', () => {
       } as any;
     });
     it('returns zero if quantitative value is non-numeric', () => {
-      datum.quantitative = undefined;
+      datum.quantitative = 'not a number' as any;
       expect(component.getBarDimensionQuantitative(datum, 'x')).toEqual(0);
     });
     it('returns zero if quantitative value is zero', () => {
@@ -725,7 +725,7 @@ describe('BarsComponent', () => {
       spyOn(ValueUtilities, 'd3Format').and.returnValue('d3 formatted value');
     });
     it('returns the correct value if value is not a number', () => {
-      datum.quantitative = undefined;
+      datum.quantitative = 'not a number' as any;
       expect(component.getBarLabelText(datum)).toEqual('no value');
     });
     it('calls customFormat once with full datum if formatFunction exists', () => {
@@ -835,12 +835,12 @@ describe('BarsComponent', () => {
         expect(zeroOrNonNumericSpy).toHaveBeenCalledTimes(1);
       });
       it('calls positionZeroOrNonNumericValueLabelInPositiveDirection once - value is non-numeric', () => {
-        datum.quantitative = undefined;
+        datum.quantitative = 'not a number' as any;
         component.alignTextInPositiveDirection(datum);
         expect(zeroOrNonNumericSpy).toHaveBeenCalledTimes(1);
       });
       it('returns the return value from positionZeroOrNonNumericValueLabelInPositiveDirection if quant value is non-numeric', () => {
-        datum.quantitative = undefined;
+        datum.quantitative = 'not a number' as any;
         zeroOrNonNumericSpy.and.returnValue(true);
         component.alignTextInPositiveDirection(datum);
         expect(component.alignTextInPositiveDirection(datum)).toEqual(true);
@@ -891,7 +891,7 @@ describe('BarsComponent', () => {
       datum = component.getBarDatumFromIndex(2);
     });
     it('returns the default color if quant value is non-numeric', () => {
-      datum.quantitative = undefined;
+      datum.quantitative = 'not a number' as any;
       expect(component.getBarLabelColor(datum)).toEqual(
         component.config.labels.color.default
       );
