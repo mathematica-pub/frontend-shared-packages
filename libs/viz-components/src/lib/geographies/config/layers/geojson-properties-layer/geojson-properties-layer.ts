@@ -1,7 +1,7 @@
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { OrdinalVisualValueDimension } from 'libs/viz-components/src/lib/data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
+import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayer } from '../geographies-layer/geographies-layer';
