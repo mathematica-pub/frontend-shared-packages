@@ -109,11 +109,12 @@ describe('BarsComponent', () => {
           component.config.ordinal.getScaleFromRange
         ).toHaveBeenCalledOnceWith([3, 4]);
       });
-      it('calls updateScales once with the correct value', () => {
+      it('calls setChartScalesFromRanges once with the correct value', () => {
         component.setChartScalesFromRanges(false);
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
+          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
