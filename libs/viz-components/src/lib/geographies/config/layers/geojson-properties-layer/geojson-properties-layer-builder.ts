@@ -64,8 +64,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
       fill: this._fill,
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),
-      strokeColor: this._strokeColor,
-      strokeWidth: this._strokeWidth,
+      stroke: this.strokeBuilder?._build(),
     });
   }
 }

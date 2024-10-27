@@ -4,10 +4,10 @@ import { DateChartPositionDimension } from '../../data-dimensions/quantitative/d
 import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
-import { Stroke } from '../../stroke/stroke';
 import { LinesGroupSelectionDatum } from '../lines.component';
 import { AreaFills } from './area-fills/area-fills';
 import { LinesOptions } from './lines-options';
+import { LinesStroke } from './stroke/lines-stroke';
 
 export interface LinesMarkerDatum {
   key: string;
@@ -29,7 +29,7 @@ export class LinesConfig<Datum>
   readonly areaFills: AreaFills<Datum>;
   readonly pointerDetectionRadius: number;
   readonly pointMarkers: PointMarkers<Datum>;
-  readonly stroke: Stroke;
+  readonly stroke: LinesStroke;
   readonly x:
     | DateChartPositionDimension<Datum>
     | NumberChartPositionDimension<Datum>;

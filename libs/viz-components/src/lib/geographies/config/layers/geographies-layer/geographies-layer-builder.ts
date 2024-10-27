@@ -1,4 +1,5 @@
 import { Geometry } from 'geojson';
+import { StrokeBuilder } from 'libs/viz-components/src/lib/stroke/stroke-builder';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabelsBuilder } from '../labels/geographies-labels-builder';
 
@@ -15,7 +16,7 @@ export abstract class GeographiesLayerBuilder<
   protected _enableEventActions: boolean;
   protected _geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   protected labelsBuilder: GeographiesLabelsBuilder<TProperties, TGeometry>;
-  protected _strokeColor: string;
+  protected strokeBuilder: StrokeBuilder;
   protected _strokeWidth: string;
 
   constructor() {
@@ -65,22 +66,15 @@ export abstract class GeographiesLayerBuilder<
   }
 
   /**
-   * OPTIONAL. The color of the stroke for the geography.
-   *
-   * @default 'dimgray'
+   * OPTIONAL. Sets the appearance of the stroke for the geographies in the layer.
    */
-  strokeColor(value: string): this {
-    this._strokeColor = value;
+  stroke(setProperties?: (stroke: StrokeBuilder) => void): this {
+    this.initStrokeBuilder();
+    setProperties?.(this.strokeBuilder);
     return this;
   }
 
-  /**
-   * OPTIONAL. The width of the stroke for the geography.
-   *
-   * @default '1'
-   */
-  strokeWidth(value: string): this {
-    this._strokeWidth = value;
-    return this;
+  private initStrokeBuilder(): void {
+    this.strokeBuilder = new StrokeBuilder();
   }
 }

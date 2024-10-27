@@ -109,8 +109,7 @@ export class GeographiesAttributeDataLayerBuilder<
       geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
       labels: this.labelsBuilder?._build(),
-      strokeColor: this._strokeColor,
-      strokeWidth: this._strokeWidth,
+      stroke: this.strokeBuilder?._build(),
     });
   }
 

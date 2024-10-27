@@ -208,8 +208,7 @@ describe('drawing the geography paths for various layers', () => {
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
               )
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -249,14 +248,12 @@ describe('drawing the geography paths for various layers', () => {
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
           )
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
-              .strokeColor('red')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('red').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -313,14 +310,12 @@ describe('drawing the geography paths for various layers', () => {
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
               )
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
           )
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
-              .strokeColor('red')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('red').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -399,8 +394,7 @@ describe('drawing the geography paths for various layers', () => {
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
               .createCategoricalDimension((dimension) =>
                 dimension
                   .scale((stateNameLength) =>
@@ -412,8 +406,7 @@ describe('drawing the geography paths for various layers', () => {
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
-              .strokeColor('blue')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('blue').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -498,8 +491,7 @@ describe('drawing the geography labels various layers', () => {
                   .range(['white', 'orangered'])
               )
               .class('test-data-layer')
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
               .createLabels((labels) =>
                 labels.valueAccessor((d) => d.properties.id).color('black')
               )
@@ -579,8 +571,7 @@ const mountGeographiesForTooltipTests = (json: TestUsMapTopology) => {
         .noBins((dimension) =>
           dimension.valueAccessor((d) => d.income).range(['white', 'orangered'])
         )
-        .strokeColor('black')
-        .strokeWidth('1')
+        .stroke((stroke) => stroke.color('black').width(1))
     )
     .getConfig();
   mountGeographiesComponent(geographiesConfig);

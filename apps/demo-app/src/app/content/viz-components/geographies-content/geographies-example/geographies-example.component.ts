@@ -173,8 +173,7 @@ export class GeographiesExampleComponent implements OnInit {
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     return layer
       .geographies(this.basemap.us.features)
-      .strokeColor(colors.base)
-      .strokeWidth('1')
+      .stroke((stroke) => stroke.color(colors.base).width(1))
       .createCategoricalDimension((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );

@@ -1,6 +1,7 @@
 import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
 import { ColorUtilities } from '../../../../core/utilities/colors';
+import { Stroke } from '../../../../stroke/stroke';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLabels } from '../labels/geographies-labels';
@@ -24,8 +25,7 @@ export abstract class GeographiesLayer<
   geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   id: number;
   labels: GeographiesLabels<TProperties, TGeometry>;
-  strokeColor: string;
-  strokeWidth: string;
+  stroke: Stroke;
 
   setFeatureIndexAccessor(
     accessor: (d: GeographiesFeature<TProperties, TGeometry>) => string
