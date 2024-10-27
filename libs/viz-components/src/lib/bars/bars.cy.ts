@@ -791,7 +791,7 @@ describe('displays tooltips for correct data per hover position', () => {
                 (barBox.left + barBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
+              expect(tooltipBox.bottom).to.be.closeTo(
                 (barBox.top + barBox.bottom) / 2,
                 10
               );
