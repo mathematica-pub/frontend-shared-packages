@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OrdinalChartPositionDimension } from './ordinal-chart-position';
-import { OrdinalDimensionBuilder } from './ordinal-chart-position-builder';
+import { OrdinalChartPositionDimensionBuilder } from './ordinal-chart-position-builder';
 
 const data = [
   { value: 1, category: 'a' },
@@ -16,7 +16,7 @@ describe('OrdinalChartPositionDimension', () => {
     string
   >;
   beforeEach(() => {
-    dimension = new OrdinalDimensionBuilder<
+    dimension = new OrdinalChartPositionDimensionBuilder<
       { value: number; category: string },
       string
     >()

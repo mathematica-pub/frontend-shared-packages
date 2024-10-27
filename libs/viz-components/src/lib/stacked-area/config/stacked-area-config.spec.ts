@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicStackedAreaConfigBuilder } from './stacked-area-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 
@@ -67,9 +67,9 @@ describe('StackedAreaConfig', () => {
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(StackedAreaConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(QuantitativeDateDimension.prototype, 'setPropertiesFromData');
-      spyOn(QuantitativeNumericDimension.prototype, 'setPropertiesFromData');
-      spyOn(CategoricalDimension.prototype, 'setPropertiesFromData');
+      spyOn(DateChartPositionDimension.prototype, 'setPropertiesFromData');
+      spyOn(NumberChartPositionDimension.prototype, 'setPropertiesFromData');
+      spyOn(OrdinalVisualValueDimension.prototype, 'setPropertiesFromData');
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
     });
