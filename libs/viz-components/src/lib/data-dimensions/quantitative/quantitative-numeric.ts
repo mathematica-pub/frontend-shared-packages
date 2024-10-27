@@ -1,7 +1,7 @@
 import { ScaleContinuousNumeric, max, min } from 'd3';
 import { isNumber } from '../../core/utilities/type-guards';
 import { DataDimension } from '../dimension';
-import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
+import { ConcreteDomainPadding } from './number-chart-position/domain-padding/concrete-domain-padding';
 import { QuantitativeNumericDimensionOptions } from './quantitative-numeric-options';
 
 export class QuantitativeNumericDimension<Datum>

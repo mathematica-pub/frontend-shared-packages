@@ -1,6 +1,6 @@
 import { ScaleContinuousNumeric } from 'd3';
 import { DataDimensionOptions } from '../dimension-options';
-import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
+import { ConcreteDomainPadding } from './number-chart-position/domain-padding/concrete-domain-padding';
 
 export interface QuantitativeNumericDimensionOptions<Datum>
   extends DataDimensionOptions<Datum, number> {

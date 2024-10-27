@@ -1,5 +1,5 @@
 import { ScaleContinuousNumeric } from 'd3';
-import { ValueExtent } from '../../../core/types/values';
+import { ValueExtent } from '../../../../core/types/values';
 
 export enum DomainPaddingType {
   roundUp = 'roundUp',

@@ -1,10 +1,10 @@
 import { ScaleContinuousNumeric, scaleLinear } from 'd3';
 import { DataDimensionBuilder } from '../dimension-builder';
-import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
-import { PercentOverDomainPadding } from './domain-padding/percent-over/percent-over';
-import { PixelDomainPadding } from './domain-padding/pixel/pixel';
-import { RoundUpToIntervalDomainPadding } from './domain-padding/round-to-interval/round-to-interval';
-import { RoundUpToSigFigDomainPadding } from './domain-padding/round-to-sig-fig/round-to-sig-fig';
+import { ConcreteDomainPadding } from './number-chart-position/domain-padding/concrete-domain-padding';
+import { PercentOverDomainPadding } from './number-chart-position/domain-padding/percent-over/percent-over';
+import { PixelDomainPadding } from './number-chart-position/domain-padding/pixel/pixel';
+import { RoundUpToIntervalDomainPadding } from './number-chart-position/domain-padding/round-to-interval/round-to-interval';
+import { RoundUpToSigFigDomainPadding } from './number-chart-position/domain-padding/round-to-sig-fig/round-to-sig-fig';
 import { QuantitativeNumericDimension } from './quantitative-numeric';
 
 const DEFAULT = {
