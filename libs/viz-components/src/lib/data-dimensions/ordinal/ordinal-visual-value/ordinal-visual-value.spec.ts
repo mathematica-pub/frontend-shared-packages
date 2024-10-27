@@ -7,7 +7,7 @@ describe('VicDimensionCategorical', () => {
   beforeEach(() => {
     dimension = new OrdinalVisualValueDimensionBuilder<string, string, string>()
       .valueAccessor((d) => d)
-      ._build();
+      ._build('Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

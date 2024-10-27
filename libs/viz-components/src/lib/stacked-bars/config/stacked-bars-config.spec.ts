@@ -20,15 +20,11 @@ function getNewConfig(): StackedBarsConfig<Datum, string> {
         .x((dimension) => dimension.valueAccessor((d) => d.value))
         .y((dimension) => dimension.valueAccessor((d) => d.country))
     )
-    .fill((dimension) => dimension.valueAccessor((d) => d.category))
+    .color((dimension) => dimension.valueAccessor((d) => d.category))
     .getConfig();
 }
 describe('StackedBarsConfig', () => {
   let config: StackedBarsConfig<Datum, string>;
-  beforeEach(() => {
-    config = undefined;
-  });
-
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(
@@ -82,7 +78,7 @@ describe('StackedBarsConfig', () => {
                 .domain(['Sweden', 'Norway', 'Iceland'])
             )
         )
-        .fill((dimension) => dimension.valueAccessor((d) => d.category))
+        .color((dimension) => dimension.valueAccessor((d) => d.category))
         .getConfig();
       expect(config.valueIndices).toEqual([0, 2, 3]);
     });
@@ -94,7 +90,7 @@ describe('StackedBarsConfig', () => {
             .x((dimension) => dimension.valueAccessor((d) => d.value))
             .y((dimension) => dimension.valueAccessor((d) => d.country))
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
         .getConfig();
@@ -112,7 +108,7 @@ describe('StackedBarsConfig', () => {
                 .domain(['Sweden', 'Norway', 'Iceland'])
             )
         )
-        .fill((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
         .getConfig();

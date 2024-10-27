@@ -117,7 +117,7 @@ describe('BarsHoverMoveDirective', () => {
       expect(applyBSpy).toHaveBeenCalledOnceWith(directive);
     });
     it('does not call apply action on each action in actions array if actions do not exist', () => {
-      directive.actions = undefined;
+      directive.actions = undefined as any;
       directive.onElementPointerMove(event as any);
       expect(applyASpy).not.toHaveBeenCalled();
       expect(applyBSpy).not.toHaveBeenCalled();
@@ -152,7 +152,7 @@ describe('BarsHoverMoveDirective', () => {
       expect(removeBSpy).toHaveBeenCalledOnceWith(directive);
     });
     it('does not call remove action on each action in actions array if actions do not exist', () => {
-      directive.actions = undefined;
+      directive.actions = undefined as any;
       directive.onElementPointerLeave();
       expect(removeASpy).not.toHaveBeenCalled();
       expect(removeBSpy).not.toHaveBeenCalled();
@@ -160,7 +160,7 @@ describe('BarsHoverMoveDirective', () => {
     it('sets barDatum to undefined', () => {
       directive.barDatum = {
         index: 1,
-        categorical: 'categorical',
+        color: 'categorical',
         quantitative: 2,
         ordinal: 'ordinal',
       };

@@ -120,7 +120,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -168,7 +168,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -220,7 +220,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -286,7 +286,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(dataWithFalsyValues)
             .geographies(states.features)
@@ -336,7 +336,7 @@ describe('the Custom Breaks Attribute Data dimension', () => {
         .boundary(usBoundary)
         .projection(geoMercator())
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)

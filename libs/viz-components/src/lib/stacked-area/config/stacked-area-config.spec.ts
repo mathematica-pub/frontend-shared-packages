@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
+import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicStackedAreaConfigBuilder } from './stacked-area-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 
@@ -25,9 +25,6 @@ function createConfig(): StackedAreaConfig<Datum, string> {
 
 describe('StackedAreaConfig', () => {
   let config: StackedAreaConfig<Datum, string>;
-  beforeEach(() => {
-    config = undefined;
-  });
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(
@@ -63,9 +60,9 @@ describe('StackedAreaConfig', () => {
   describe('setDimensionPropertiesFromData()', () => {
     beforeEach(() => {
       spyOn(StackedAreaConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(QuantitativeDateDimension.prototype, 'setPropertiesFromData');
-      spyOn(QuantitativeNumericDimension.prototype, 'setPropertiesFromData');
-      spyOn(CategoricalDimension.prototype, 'setPropertiesFromData');
+      spyOn(DateChartPositionDimension.prototype, 'setPropertiesFromData');
+      spyOn(NumberChartPositionDimension.prototype, 'setPropertiesFromData');
+      spyOn(OrdinalVisualValueDimension.prototype, 'setPropertiesFromData');
       config = createConfig();
       (config as any).setDimensionPropertiesFromData();
     });
@@ -76,7 +73,7 @@ describe('StackedAreaConfig', () => {
       expect(config.y.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
     it('calls categorical.setPropertiesFromData once', () => {
-      expect(config.categorical.setPropertiesFromData).toHaveBeenCalledTimes(1);
+      expect(config.color.setPropertiesFromData).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -93,13 +90,9 @@ describe('StackedAreaConfig', () => {
     it('sets valueIndicies to an array of length 3 if categorical domain is limited by user', () => {
       config = new VicStackedAreaConfigBuilder<Datum, string>()
         .data(data)
-        .createXDateDimension((dimension) =>
-          dimension.valueAccessor((d) => d.date)
-        )
-        .createYNumericDimension((dimension) =>
-          dimension.valueAccessor((d) => d.value)
-        )
-        .createCategoricalDimension((dimension) =>
+        .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+        .y((dimension) => dimension.valueAccessor((d) => d.value))
+        .color((dimension) =>
           dimension.valueAccessor((d) => d.category).domain(['a'])
         )
         .getConfig();

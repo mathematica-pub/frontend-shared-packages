@@ -119,7 +119,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -211,7 +211,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
@@ -288,7 +288,7 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)

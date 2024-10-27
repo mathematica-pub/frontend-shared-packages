@@ -28,7 +28,7 @@ function horizontalConfig(): BarsConfig<Datum, string> {
         .x((dimension) => dimension.valueAccessor((d) => d.value))
         .y((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .fill((dimension) => dimension.valueAccessor((d) => d.fruit))
+    .color((dimension) => dimension.valueAccessor((d) => d.fruit))
     .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
@@ -41,7 +41,7 @@ function verticalConfig(): BarsConfig<Datum, string> {
         .y((dimension) => dimension.valueAccessor((d) => d.value))
         .x((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .fill((dimension) =>
+    .color((dimension) =>
       dimension
         .valueAccessor((d) => d.fruit)
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
@@ -187,7 +187,7 @@ describe('BarsComponent', () => {
         index: 1,
         quantitative: 2,
         ordinal: 'AK',
-        categorical: 'avocado',
+        color: 'avocado',
       });
     });
   });
@@ -316,11 +316,12 @@ describe('BarsComponent', () => {
       expect(component.scales.x).toHaveBeenCalledTimes(1);
     });
     it('calls xScale once with origin if quant value is not a number', () => {
-      datum.quantitative = undefined;
+      datum.quantitative =
+        'oops im accidentally a string because the users data isnt 100% valid' as any;
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
     });
-    it('calls xScale once with the correct value if quant value is 0', () => {
+    it('calls xScale once with the origin if quant value is 0', () => {
       datum.quantitative = 0;
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
@@ -429,11 +430,12 @@ describe('BarsComponent', () => {
       expect(component.scales.y).toHaveBeenCalledTimes(1);
     });
     it('calls yScale once with origin if quant value is not a number', () => {
-      datum.quantitative = undefined;
+      datum.quantitative =
+        'oops im accidentally a string because the users data isnt 100% valid' as any;
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
     });
-    it('calls yScale once with the correct value if quant value is 0', () => {
+    it('calls yScale once with the origin if quant value is 0', () => {
       datum.quantitative = 0;
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
@@ -602,7 +604,7 @@ describe('BarsComponent', () => {
       } as any;
     });
     it('returns zero if quantitative value is non-numeric', () => {
-      datum.quantitative = undefined;
+      datum.quantitative = 'not a number' as any;
       expect(component.getBarDimensionQuantitative(datum, 'x')).toEqual(0);
     });
     it('returns zero if quantitative value is zero', () => {
@@ -701,7 +703,7 @@ describe('BarsComponent', () => {
     });
     it('calls categorical scale once with the correct value', () => {
       component.getBarColor(datum);
-      expect(component.scales.categorical).toHaveBeenCalledOnceWith('banana');
+      expect(component.scales.color).toHaveBeenCalledOnceWith('banana');
     });
     it('returns the correct value', () => {
       expect(component.getBarColor(datum)).toEqual('blue');
@@ -719,7 +721,8 @@ describe('BarsComponent', () => {
       spyOn(ValueUtilities, 'd3Format').and.returnValue('d3 formatted value');
     });
     it('returns the correct value if value is not a number', () => {
-      datum.quantitative = undefined;
+      datum.quantitative =
+        'oops im accidentally a string because the users data isnt 100% valid' as any;
       expect(component.getBarLabelText(datum)).toEqual('no value');
     });
     it('calls customFormat once with full datum if formatFunction exists', () => {
@@ -829,12 +832,12 @@ describe('BarsComponent', () => {
         expect(zeroOrNonNumericSpy).toHaveBeenCalledTimes(1);
       });
       it('calls positionZeroOrNonNumericValueLabelInPositiveDirection once - value is non-numeric', () => {
-        datum.quantitative = undefined;
+        datum.quantitative = 'not a number' as any;
         component.alignTextInPositiveDirection(datum);
         expect(zeroOrNonNumericSpy).toHaveBeenCalledTimes(1);
       });
       it('returns the return value from positionZeroOrNonNumericValueLabelInPositiveDirection if quant value is non-numeric', () => {
-        datum.quantitative = undefined;
+        datum.quantitative = 'not a number' as any;
         zeroOrNonNumericSpy.and.returnValue(true);
         component.alignTextInPositiveDirection(datum);
         expect(component.alignTextInPositiveDirection(datum)).toEqual(true);
@@ -885,7 +888,7 @@ describe('BarsComponent', () => {
       datum = component.getBarDatumFromIndex(2);
     });
     it('returns the default color if quant value is non-numeric', () => {
-      datum.quantitative = undefined;
+      datum.quantitative = 'not a number' as any;
       expect(component.getBarLabelColor(datum)).toEqual(
         component.config.labels.color.default
       );

@@ -121,7 +121,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
@@ -182,7 +182,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
@@ -246,7 +246,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
@@ -323,7 +323,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(dataWithFalsyValues)
             .geographies(states.features)
@@ -387,7 +387,7 @@ describe('the Categorical Bins Attribute Data dimension', () => {
         .boundary(usBoundary)
         .projection(geoMercator())
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((layer) =>
+        .attributeDataLayer((layer) =>
           layer
             .data(attributeData)
             .geographies(states.features)
