@@ -7,8 +7,8 @@ export interface StackedAreaEventOutput<
 > {
   data: StackedAreaTooltipDatum<Datum, TCategoricalValue>[];
   positionX: number;
-  categoryYMin: number;
-  categoryYMax: number;
+  hoveredAreaTop: number;
+  hoveredAreaBottom: number;
   hoveredDatum: StackedAreaTooltipDatum<Datum, TCategoricalValue>;
   svgHeight?: number;
 }

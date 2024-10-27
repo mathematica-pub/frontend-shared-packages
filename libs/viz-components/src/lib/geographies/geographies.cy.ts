@@ -135,9 +135,12 @@ class TestGeographiesComponent {
   updateTooltipConfig(data: GeographiesEventOutput<StateIncomeDatum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .setSize((size) => size.minWidth(130))
-      .offsetFromOriginPosition((position) =>
-        position.offsetX(data?.positionX).offsetY(data?.positionY)
-      )
+      .geographiesPosition([
+        {
+          offsetX: data?.positionX,
+          offsetY: data ? data.positionY - 8 : undefined,
+        },
+      ])
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);

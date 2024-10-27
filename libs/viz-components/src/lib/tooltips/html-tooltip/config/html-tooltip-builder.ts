@@ -1,5 +1,9 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
+import {
+  VicElementRelativeTooltipPosition,
+  VicSvgRelativeTooltipPosition,
+} from '../../../events';
 import { HtmlTooltipConfig } from './html-tooltip-config';
 import {
   HtmlTooltipCdkManagedPosition,
@@ -67,6 +71,38 @@ export class VicHtmlTooltipConfigBuilder {
 
   panelClass(panelClass: string | string[]): this {
     this._panelClass = panelClass;
+    return this;
+  }
+
+  barsPosition(positions: Partial<ConnectedPosition>[]): this {
+    const barsPositions = positions.map(
+      (p) => new VicElementRelativeTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(barsPositions);
+    return this;
+  }
+
+  geographiesPosition(positions: Partial<ConnectedPosition>[]): this {
+    const geographiesPositions = positions.map(
+      (p) => new VicSvgRelativeTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(geographiesPositions);
+    return this;
+  }
+
+  linesPosition(positions: Partial<ConnectedPosition>[]): this {
+    const linesPositions = positions.map(
+      (p) => new VicSvgRelativeTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(linesPositions);
+    return this;
+  }
+
+  stackedAreaPosition(positions: Partial<ConnectedPosition>[]): this {
+    const stackedAreaPositions = positions.map(
+      (p) => new VicSvgRelativeTooltipPosition(p)
+    );
+    this._position = new HtmlTooltipCdkManagedPosition(stackedAreaPositions);
     return this;
   }
 
