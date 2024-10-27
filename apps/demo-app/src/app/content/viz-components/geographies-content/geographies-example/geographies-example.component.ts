@@ -426,7 +426,7 @@ export class GeographiesExampleComponent implements OnInit {
   ): void {
     const config = this.tooltip
       .setSize((size) => size.minWidth(130))
-      .createOffsetFromOriginPosition((position) =>
+      .offsetFromOriginPosition((position) =>
         position.offsetX(data?.positionX).offsetY(data?.positionY)
       )
       .hasBackdrop(eventContext === 'click')

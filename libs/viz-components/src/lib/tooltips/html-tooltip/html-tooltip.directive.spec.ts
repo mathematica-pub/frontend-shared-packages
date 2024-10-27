@@ -95,7 +95,7 @@ describe('HtmlTooltipDirective', () => {
       mainServiceStub.overlayStub.create.and.returnValue('test ref' as any);
       directive.config = new VicHtmlTooltipConfigBuilder()
         .hasBackdrop(true)
-        .createOffsetFromOriginPosition()
+        .offsetFromOriginPosition()
         .applyEventsDisabledClass(true)
         .setSize((size) => size.width(100))
         .getConfig();
@@ -146,7 +146,7 @@ describe('HtmlTooltipDirective', () => {
       };
       directive.config = new VicHtmlTooltipConfigBuilder()
         .hasBackdrop(true)
-        .createOffsetFromOriginPosition()
+        .offsetFromOriginPosition()
         .applyEventsDisabledClass(true)
         .setSize((size) => size.width(100))
         .getConfig();

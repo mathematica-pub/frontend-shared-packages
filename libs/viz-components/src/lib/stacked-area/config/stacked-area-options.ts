@@ -8,7 +8,7 @@ import { MarksOptions } from '../../marks/config/marks-options';
 export interface StackedAreaOptions<Datum, TCategoricalValue extends DataValue>
   extends MarksOptions<Datum>,
     MarksOptions<Datum> {
-  categorical: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
+  color: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
   categoricalOrder: TCategoricalValue[];
   curve: CurveFactory;
   stackOrder: (

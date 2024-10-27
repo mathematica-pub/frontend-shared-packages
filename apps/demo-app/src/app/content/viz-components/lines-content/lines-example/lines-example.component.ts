@@ -176,7 +176,7 @@ export class LinesExampleComponent implements OnInit {
     const data = this.tooltipData.getValue();
     const config = this.tooltip
       .setSize((size) => size.minWidth(340))
-      .createOffsetFromOriginPosition((position) =>
+      .offsetFromOriginPosition((position) =>
         position
           .offsetX(data?.positionX)
           .offsetY(data ? data.positionY - 16 : undefined)
