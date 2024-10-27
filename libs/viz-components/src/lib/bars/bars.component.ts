@@ -61,9 +61,11 @@ export type BarDatum<T> = {
 export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
   datum: Datum;
   color: string;
-  ordinal: TOrdinalValue;
-  quantitative: string;
-  category: string;
+  values: {
+    ordinal: TOrdinalValue;
+    quantitative: string;
+    category: string;
+  };
   elRef: ElementRef;
 }
 
@@ -568,17 +570,19 @@ export class BarsComponent<
     const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
       datum,
       color: this.getBarColor(barDatum),
-      ordinal: this.config.ordinal.valueAccessor(datum),
-      quantitative: this.config.quantitative.formatFunction
-        ? ValueUtilities.customFormat(
-            datum,
-            this.config.quantitative.formatFunction
-          )
-        : ValueUtilities.d3Format(
-            this.config.quantitative.valueAccessor(datum),
-            this.config.quantitative.formatSpecifier
-          ),
-      category: this.config.color.valueAccessor(datum),
+      values: {
+        ordinal: this.config.ordinal.valueAccessor(datum),
+        quantitative: this.config.quantitative.formatFunction
+          ? ValueUtilities.customFormat(
+              datum,
+              this.config.quantitative.formatFunction
+            )
+          : ValueUtilities.d3Format(
+              this.config.quantitative.valueAccessor(datum),
+              this.config.quantitative.formatSpecifier
+            ),
+        category: this.config.color.valueAccessor(datum),
+      },
       elRef: elRef,
     };
     return tooltipData;

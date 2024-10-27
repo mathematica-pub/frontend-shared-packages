@@ -45,11 +45,13 @@
     [style.--color]="(tooltipData$ | async).color"
     class="bars-example-tooltip-container"
   >
-    <p class="tooltip-label category"> {{ (tooltipData$ | async).ordinal }} </p>
+    <p class="tooltip-label category">
+      {{ (tooltipData$ | async).values.ordinal }}
+    </p>
     <div class="values-container">
       <p class="tooltip-label y">
         <span class="value-label">Value</span>
-        {{ (tooltipData$ | async).quantitative }}
+        {{ (tooltipData$ | async).values.quantitative }}
       </p>
     </div>
   </div>

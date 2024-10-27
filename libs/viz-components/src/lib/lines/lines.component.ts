@@ -37,10 +37,12 @@ export const LINES = new InjectionToken<LinesComponent<unknown>>(
 
 export interface LinesTooltipDatum<Datum> {
   datum: Datum;
-  x: string;
-  y: string;
-  category: string;
   color: string;
+  values: {
+    x: string;
+    y: string;
+    color: string;
+  };
 }
 
 @Component({
@@ -338,20 +340,22 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const datum = this.config.data[datumIndex];
     return {
       datum,
-      x: this.config.x.formatFunction
-        ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
-        : ValueUtilities.d3Format(
-            this.config.x.valueAccessor(datum),
-            this.config.x.formatSpecifier
-          ),
-      y: this.config.y.formatFunction
-        ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
-        : ValueUtilities.d3Format(
-            this.config.y.valueAccessor(datum),
-            this.config.y.formatSpecifier
-          ),
-      category: this.config.color.valueAccessor(datum),
       color: this.scales.color(this.config.color.valueAccessor(datum)),
+      values: {
+        x: this.config.x.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.x.valueAccessor(datum),
+              this.config.x.formatSpecifier
+            ),
+        y: this.config.y.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.y.valueAccessor(datum),
+              this.config.y.formatSpecifier
+            ),
+        color: this.config.color.valueAccessor(datum),
+      },
       positionX: this.scales.x(this.config.x.values[datumIndex]),
       positionY: this.scales.y(this.config.y.values[datumIndex]),
     };

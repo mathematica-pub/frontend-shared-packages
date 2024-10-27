@@ -108,15 +108,15 @@
       [style.--color]="tooltipData.color"
       class="lines-example-tooltip-container"
     >
-      <p class="tooltip-label category"> {{ tooltipData.category }} </p>
+      <p class="tooltip-label category"> {{ tooltipData.values.color }} </p>
       <div class="values-container">
         <p class="tooltip-label x">
           <span class="value-label">Date</span>
-          {{ tooltipData.x }}
+          {{ tooltipData.values.x }}
         </p>
         <p class="tooltip-label y">
           <span class="value-label">Value</span>
-          {{ tooltipData.y }}
+          {{ tooltipData.values.y }}
         </p>
       </div>
     </div>

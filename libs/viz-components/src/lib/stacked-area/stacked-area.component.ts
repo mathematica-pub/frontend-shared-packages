@@ -27,9 +27,11 @@ export interface StackedAreaTooltipDatum<
 > {
   datum: Datum;
   color: string;
-  x: string;
-  y: string;
-  category: TCategoricalValue;
+  values: {
+    x: string;
+    y: string;
+    color: TCategoricalValue;
+  };
 }
 
 @Component({
@@ -136,9 +138,11 @@ export class StackedAreaComponent<
         const datum = this.getDatumFromIndex(i);
         return {
           datum: datum,
-          x: this.getXyDimensionValue(datum, 'x'),
-          y: this.getXyDimensionValue(datum, 'y'),
-          category: this.config.color.valueAccessor(datum),
+          values: {
+            x: this.getXyDimensionValue(datum, 'x'),
+            y: this.getXyDimensionValue(datum, 'y'),
+            color: this.config.color.valueAccessor(datum),
+          },
           color: this.scales.color(this.config.color.valueAccessor(datum)),
         };
       });
@@ -149,8 +153,8 @@ export class StackedAreaComponent<
     return {
       data,
       positionX: this.scales.x(this.config.x.values[closestXIndicies[0]]),
-      categoryYMin: categoryYMin,
-      categoryYMax: categoryYMax,
+      hoveredAreaTop: categoryYMin,
+      hoveredAreaBottom: categoryYMax,
       hoveredDatum: data[categoryIndex],
     };
   }
@@ -181,8 +185,8 @@ export class StackedAreaComponent<
     if (this.config.categoricalOrder) {
       data.sort((a, b) => {
         return (
-          this.config.categoricalOrder.indexOf(a.category) -
-          this.config.categoricalOrder.indexOf(b.category)
+          this.config.categoricalOrder.indexOf(a.values.color) -
+          this.config.categoricalOrder.indexOf(b.values.color)
         );
       });
     }

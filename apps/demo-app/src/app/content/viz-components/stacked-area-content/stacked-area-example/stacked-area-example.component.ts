@@ -117,22 +117,23 @@ export class StackedAreaExampleComponent implements OnInit {
   }
 
   updateTooltipData(
-    output: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
-    this.tooltipData.next(output);
+    this.tooltipData.next(data);
   }
 
   updateTooltipConfig(
-    output: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
+    data: StackedAreaEventOutput<IndustryUnemploymentDatum, string>
   ): void {
     const config = this.tooltip
       .setSize((size) => size.minWidth(130))
-      .offsetFromOriginPosition((position) =>
-        position
-          .offsetX(output?.positionX)
-          .offsetY(output ? output.categoryYMin - 5 : undefined)
-      )
-      .show(output?.hoveredDatum !== undefined)
+      .stackedAreaPosition([
+        {
+          offsetX: data?.positionX,
+          offsetY: data ? data.hoveredAreaTop - 8 : undefined,
+        },
+      ])
+      .show(data?.hoveredDatum !== undefined)
       .getConfig();
     this.tooltipConfig.next(config);
   }
