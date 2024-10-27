@@ -92,18 +92,18 @@ export class EnergyIntensityBarComponent implements OnInit {
 
     this.sortedDataConfig = this.bars
       .data(sortedData)
-      .orientation('horizontal')
-      .createQuantitativeDimension((dimension) =>
-        dimension
-          .valueAccessor((d) => d.value * 1000)
-          .formatSpecifier(',.0f')
-          .domainPaddingPixels(16)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) =>
+            dimension
+              .valueAccessor((d) => d.value * 1000)
+              .formatSpecifier(',.0f')
+              .domainPaddingPixels(16)
+          )
+          .y((dimension) => dimension.valueAccessor((d) => d.geography))
       )
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.geography)
-      )
-      .createCategoricalDimension((dimension) => dimension.range(['#2cafb0']))
-      .createLabels((labels) =>
+      .color((dimension) => dimension.range(['#2cafb0']))
+      .labels((labels) =>
         labels
           .display(true)
           .color({ default: '#2cafb0', withinBarAlternative: 'white' })
@@ -112,18 +112,18 @@ export class EnergyIntensityBarComponent implements OnInit {
 
     this.followingDataConfig = this.bars
       .data(secondaryData)
-      .orientation('horizontal')
-      .createQuantitativeDimension((dimension) =>
-        dimension
-          .valueAccessor((d) => d.value * 1000)
-          .formatSpecifier(',.0f')
-          .domainPaddingPercentOver()
+      .horizontal((bars) =>
+        bars
+          .x((dimension) =>
+            dimension
+              .valueAccessor((d) => d.value * 1000)
+              .formatSpecifier(',.0f')
+              .domainPaddingPercentOver()
+          )
+          .y((dimension) => dimension.valueAccessor((d) => d.geography))
       )
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.geography)
-      )
-      .createCategoricalDimension((dimension) => dimension.range(['#a560cc']))
-      .createLabels((labels) =>
+      .color((dimension) => dimension.range(['#a560cc']))
+      .labels((labels) =>
         labels
           .display(true)
           .color({ default: '#a560cc', withinBarAlternative: 'white' })
