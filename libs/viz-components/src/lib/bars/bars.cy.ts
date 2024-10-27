@@ -128,7 +128,7 @@ class TestHorizontalBarsComponent {
 
   updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .createOffsetFromOriginPosition((position) =>
+      .offsetFromOriginPosition((position) =>
         position
           .offsetX(data?.positionX)
           .offsetY(data ? data.positionY - 10 : undefined)
@@ -240,7 +240,7 @@ class TestVerticalBarsComponent {
 
   updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .createOffsetFromOriginPosition((position) =>
+      .offsetFromOriginPosition((position) =>
         position
           .offsetX(data?.positionX)
           .offsetY(data ? data.positionY - 10 : undefined)

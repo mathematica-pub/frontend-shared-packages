@@ -90,9 +90,7 @@ this.barsBuilder
       .x((dimension) => dimension.valueAccessor((d) => d.value))
       .y((dimension) => dimension.valueAccessor((d) => d.state))
   )
-  .createCategoricalDimension((dimension) =>
-    dimension.valueAccessor((d) => d.fruit).range(['red', 'blue'])
-  )
+  .color((dimension) => dimension.valueAccessor((d) => d.fruit).range(['red', 'blue']))
   .labels((labels) => labels.noValueFunction(() => 'no value'))
   .build();
 ```
