@@ -53,7 +53,7 @@ export type BarDatum<T> = {
   index: number;
   quantitative: number;
   ordinal: T;
-  categorical: string;
+  color: string;
 };
 
 @Component({
@@ -163,7 +163,7 @@ export class BarsComponent<
       index: i,
       quantitative: this.config.quantitative.values[i],
       ordinal: this.config.ordinal.values[i],
-      categorical: this.config.color.values[i],
+      color: this.config.color.values[i],
     };
   }
 
@@ -192,7 +192,7 @@ export class BarsComponent<
           index: i,
           quantitative: this.config.quantitative.values[i],
           ordinal: this.config.ordinal.values[i],
-          categorical: this.config.color.values[i],
+          color: this.config.color.values[i],
         },
       ])
       .join(
@@ -336,7 +336,7 @@ export class BarsComponent<
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
-    return this.scales.categorical(d.categorical);
+    return this.scales.categorical(d.color);
   }
 
   getBarLabelText(d: BarDatum<TOrdinalValue>): string {

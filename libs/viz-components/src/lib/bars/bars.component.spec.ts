@@ -23,36 +23,30 @@ const data = [
 function horizontalConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
     .data(data)
-    .orientation('horizontal')
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) => dimension.valueAccessor((d) => d.value))
+        .y((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.fruit)
-    )
-    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .color((dimension) => dimension.valueAccessor((d) => d.fruit))
+    .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
 
 function verticalConfig(): BarsConfig<Datum, string> {
   return new VicBarsConfigBuilder<Datum, string>()
-    .orientation('vertical')
     .data(data)
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.value)
+    .vertical((bars) =>
+      bars
+        .y((dimension) => dimension.valueAccessor((d) => d.value))
+        .x((dimension) => dimension.valueAccessor((d) => d.state))
     )
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.state)
-    )
-    .createCategoricalDimension((dimension) =>
+    .color((dimension) =>
       dimension
         .valueAccessor((d) => d.fruit)
         .range(['red', 'blue', 'green', 'yellow', 'purple'])
     )
-    .createLabels((labels) => labels.noValueFunction(() => 'no value'))
+    .labels((labels) => labels.noValueFunction(() => 'no value'))
     .getConfig();
 }
 
@@ -114,6 +108,7 @@ describe('BarsComponent', () => {
         expect(component.chart.updateScales).toHaveBeenCalledOnceWith({
           x: 'quantitative scale',
           y: 'ordinal scale',
+          categorical: 'categorical scale',
           useTransition: false,
         } as any);
       });
@@ -192,7 +187,7 @@ describe('BarsComponent', () => {
         index: 1,
         quantitative: 2,
         ordinal: 'AK',
-        categorical: 'avocado',
+        color: 'avocado',
       });
     });
   });
@@ -326,7 +321,7 @@ describe('BarsComponent', () => {
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
     });
-    it('calls xScale once with the correct value if quant value is 0', () => {
+    it('calls xScale once with the origin if quant value is 0', () => {
       datum.quantitative = 0;
       component.getBarXQuantitative(datum);
       expect(component.scales.x).toHaveBeenCalledWith(10);
@@ -439,7 +434,7 @@ describe('BarsComponent', () => {
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
     });
-    it('calls yScale once with the correct value if quant value is 0', () => {
+    it('calls yScale once with the origin if quant value is 0', () => {
       datum.quantitative = 0;
       component.getBarYQuantitative(datum);
       expect(component.scales.y).toHaveBeenCalledWith(10);
