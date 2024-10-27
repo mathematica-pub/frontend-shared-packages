@@ -148,10 +148,8 @@ describe('marks have expected fill', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area)
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.range([color, 'red', 'yellow'])
-        )
-        .createLabels((labels) => labels.display(true))
+        .color((dimension) => dimension.range([color, 'red', 'yellow']))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
@@ -169,7 +167,7 @@ describe('marks have expected fill', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
@@ -189,10 +187,8 @@ describe('marks have expected fill', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.valueAccessor((d) => d.continent)
-        )
-        .createLabels((labels) => labels.display(true))
+        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
@@ -229,12 +225,12 @@ describe('marks have expected fill', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension
             .valueAccessor((d) => d.continent)
             .scale(customCategoricalScale)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar, i) => {
@@ -269,10 +265,8 @@ describe('marks have expected fill', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createCategoricalDimension((dimension) =>
-          dimension.scale(customCategoricalScale)
-        )
-        .createLabels((labels) => labels.display(true))
+        .color((dimension) => dimension.scale(customCategoricalScale))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar').each(($bar) => {
@@ -300,7 +294,7 @@ describe('user provides a fill pattern', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
-      .createCategoricalDimension((dimension) =>
+      .color((dimension) =>
         dimension.fillDefs([
           {
             name: dotsPatternMagenta,
@@ -308,7 +302,7 @@ describe('user provides a fill pattern', () => {
           },
         ])
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
@@ -329,7 +323,7 @@ describe('user provides a fill pattern', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
-      .createCategoricalDimension((dimension) =>
+      .color((dimension) =>
         dimension
           .fillDefs([
             {
@@ -340,7 +334,7 @@ describe('user provides a fill pattern', () => {
           .valueAccessor((d) => d.continent)
           .scale(customCategoricalScale)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {
@@ -379,7 +373,7 @@ describe('user provides a fill pattern', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
-      .createCategoricalDimension((dimension) =>
+      .color((dimension) =>
         dimension
           .fillDefs([
             {
@@ -393,7 +387,7 @@ describe('user provides a fill pattern', () => {
           ])
           .range(['lightcoral'])
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
     cy.get('.vic-bar').each(($bar, i) => {

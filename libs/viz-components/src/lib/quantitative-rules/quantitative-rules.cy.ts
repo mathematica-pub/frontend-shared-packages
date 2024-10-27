@@ -109,7 +109,7 @@ const mountHorizontalBarsComponent = (
     .createQuantitativeDimension((dimension) =>
       dimension.valueAccessor((d) => d.area).domainPaddingPixels()
     )
-    .createLabels((labels) => labels.display(true))
+    .labels((labels) => labels.display(true))
     .getConfig();
   const declarations = [TestQuantitativeRulesHorizontalBarsComponent];
   const imports = [
@@ -196,7 +196,7 @@ const mountVerticalBarsComponent = (
     .createQuantitativeDimension((dimension) =>
       dimension.valueAccessor((d) => d.area).domainPaddingPixels()
     )
-    .createLabels((labels) => labels.display(true))
+    .labels((labels) => labels.display(true))
     .getConfig();
 
   const declarations = [TestVerticalBarsComponent];

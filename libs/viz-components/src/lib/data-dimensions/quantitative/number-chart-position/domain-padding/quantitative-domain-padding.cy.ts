@@ -113,7 +113,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -266,7 +266,7 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -419,7 +419,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -590,7 +590,7 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -743,7 +743,7 @@ describe('it correctly sets quantitative domain - values are positive and negati
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')
@@ -921,7 +921,7 @@ describe('it correctly sets quantitative domain - all values are positive and le
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder<number>()
       .tickFormat('.0f')

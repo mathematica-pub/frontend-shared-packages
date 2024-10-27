@@ -206,10 +206,10 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
@@ -328,10 +328,10 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
@@ -362,10 +362,10 @@ describe('it correctly positions the vertical bar chart data labels', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value).domainPaddingPixels(-4)
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
     });
@@ -408,10 +408,10 @@ describe('it correctly positions the vertical bar chart data labels', () => {
                 .domain([-10, 10])
                 .domainPaddingPixels(-4)
             )
-            .createCategoricalDimension((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountVerticalBarsComponent(barsConfig);
         });
@@ -443,10 +443,10 @@ describe('it correctly positions the vertical bar chart data labels', () => {
                 .domain([-10, 0])
                 .domainPaddingPixels(-4)
             )
-            .createCategoricalDimension((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountVerticalBarsComponent(barsConfig);
         });
@@ -545,10 +545,10 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
@@ -668,10 +668,10 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
@@ -702,10 +702,10 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value).domainPaddingPixels(4)
         )
-        .createCategoricalDimension((dimension) =>
+        .color((dimension) =>
           dimension.valueAccessor(() => '').range(['#000080'])
         )
-        .createLabels((labels) => labels.display(true).offset(labelOffset))
+        .labels((labels) => labels.display(true).offset(labelOffset))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
     });
@@ -748,10 +748,10 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
                 .domain([-10, 10])
                 .domainPaddingPixels(-4)
             )
-            .createCategoricalDimension((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountHorizontalBarsComponent(barsConfig);
         });
@@ -783,10 +783,10 @@ describe('it correctly positions the horizontal bar chart data labels', () => {
                 .domain([-10, 0])
                 .domainPaddingPixels(4)
             )
-            .createCategoricalDimension((dimension) =>
+            .color((dimension) =>
               dimension.valueAccessor(() => '').range(['#000080'])
             )
-            .createLabels((labels) => labels.display(true).offset(labelOffset))
+            .labels((labels) => labels.display(true).offset(labelOffset))
             .getConfig();
           mountHorizontalBarsComponent(barsConfig);
         });

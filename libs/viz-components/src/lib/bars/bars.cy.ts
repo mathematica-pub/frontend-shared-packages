@@ -300,7 +300,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
@@ -329,7 +329,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
@@ -358,7 +358,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels(50)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
     });
     it('creates one bar and one ordinal axis tick per value in the provided domain and does not create bars for data not in domain', () => {
@@ -395,7 +395,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
@@ -448,7 +448,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           .createQuantitativeDimension((dimension) =>
             dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
-          .createLabels((labels) => labels.display(true))
+          .labels((labels) => labels.display(true))
           .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').each(($bar, i) => {
@@ -472,7 +472,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           .createQuantitativeDimension((dimension) =>
             dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
-          .createLabels((labels) => labels.display(true))
+          .labels((labels) => labels.display(true))
           .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').each(($bar, i) => {
@@ -496,7 +496,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
           .createQuantitativeDimension((dimension) =>
             dimension.valueAccessor((d) => d.area).domainPaddingPixels()
           )
-          .createLabels((labels) => labels.display(true))
+          .labels((labels) => labels.display(true))
           .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').then(($bars) => {
@@ -521,7 +521,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
               .domain([0, 700000])
               .domainPaddingPixels()
           )
-          .createLabels((labels) => labels.display(true))
+          .labels((labels) => labels.display(true))
           .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar')
@@ -553,7 +553,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
               .domain([0, 1000000])
               .domainPaddingPixels()
           )
-          .createLabels((labels) => labels.display(true))
+          .labels((labels) => labels.display(true))
           .getConfig();
         mountFunction(barsConfig);
         cy.get('.vic-bar').then(($bars) => {
@@ -582,7 +582,7 @@ describe('it creates the correct bars in the correct order for the data', () => 
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountFunction(barsConfig);
       cy.get('.vic-bar').then(($bars) => {
@@ -619,7 +619,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
@@ -640,7 +640,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
@@ -672,7 +672,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
@@ -706,7 +706,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
@@ -748,7 +748,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountHorizontalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
@@ -778,7 +778,7 @@ describe('bars have the expected origin in the quantitative dimension', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.area).domainPaddingPixels()
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       mountVerticalBarsComponent(barsConfig);
       cy.get('.vic-bar-group').then(($barGroups) => {
@@ -805,7 +805,7 @@ describe('displays tooltips for correct data per hover position', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.area).domainPaddingPixels()
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
   });

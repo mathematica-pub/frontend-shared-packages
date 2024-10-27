@@ -73,7 +73,7 @@ describe('it correctly sets ticks', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
   });
   describe('only tickFormat is specified by the user', () => {
@@ -173,7 +173,7 @@ describe('integer formatted ticks', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .tickFormat('.0f')
@@ -241,7 +241,7 @@ describe('integer formatted ticks', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
@@ -289,7 +289,7 @@ describe('integer formatted ticks', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0f')
@@ -349,7 +349,7 @@ describe('float formatted ticks', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .tickFormat('.1f')
@@ -418,7 +418,7 @@ describe('float formatted ticks', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.1f')
@@ -478,7 +478,7 @@ describe('float formatted ticks', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.1f')
@@ -538,7 +538,7 @@ describe('percent formatted ticks', () => {
       .createQuantitativeDimension((dimension) =>
         dimension.valueAccessor((d) => d.value)
       )
-      .createLabels((labels) => labels.display(true))
+      .labels((labels) => labels.display(true))
       .getConfig();
     axisConfig = new VicXQuantitativeAxisConfigBuilder()
       .tickFormat('.0%')
@@ -649,7 +649,7 @@ describe('percent formatted ticks', () => {
         .createQuantitativeDimension((dimension) =>
           dimension.valueAccessor((d) => d.value)
         )
-        .createLabels((labels) => labels.display(true))
+        .labels((labels) => labels.display(true))
         .getConfig();
       axisConfig = new VicXQuantitativeAxisConfigBuilder()
         .tickFormat('.0%')
