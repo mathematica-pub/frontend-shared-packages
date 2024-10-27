@@ -11,7 +11,10 @@ import {
 import { area, line, map, select, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { ChartComponent } from '../charts/chart/chart.component';
-import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import {
+  XyChartComponent,
+  XyChartScales,
+} from '../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../core';
 import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
@@ -70,18 +73,21 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   markerClass = 'vic-lines-datum-marker';
   markerIndexAttr = 'index';
   private zone = inject(NgZone);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale<any, any> } & XyChartScales;
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.color.getScale();
-    this.chart.updateScales({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      x: x as unknown as GenericScale<any, any>,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      y: y as unknown as GenericScale<any, any>,
-      categorical,
-      useTransition,
+    this.scales.color = this.config.color.getScale();
+    this.zone.run(() => {
+      this.chart.updateScales({
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        x: x as unknown as GenericScale<any, any>,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        y: y as unknown as GenericScale<any, any>,
+        useTransition,
+      });
     });
   }
 
@@ -162,12 +168,12 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .append('path')
             .attr('category', ([category]) => category)
             .attr('class', 'vic-line')
-            .attr('stroke', ([category]) => this.scales.categorical(category))
+            .attr('stroke', ([category]) => this.scales.color(category))
             .attr('d', ([, lineData]) => this.line(lineData)),
         (update) =>
           update
             .attr('category', ([category]) => category)
-            .attr('stroke', ([category]) => this.scales.categorical(category))
+            .attr('stroke', ([category]) => this.scales.color(category))
             .call((update) =>
               update
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -232,7 +238,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     if (this.config.areaFills.color) {
       return this.config.areaFills.color(firstPointInLine);
     }
-    return this.scales.categorical(category);
+    return this.scales.color(category);
   }
 
   drawPointMarkers(transitionDuration: number): void {
@@ -261,13 +267,13 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
             .attr('r', this.config.pointMarkers.radius)
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.color.values[d.index])
+              this.scales.color(this.config.color.values[d.index])
             )
             .style('display', (d) => d.display),
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.color.values[d.index])
+              this.scales.color(this.config.color.values[d.index])
             )
             .call((update) =>
               update
@@ -299,7 +305,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('class', 'vic-line-label')
             .attr('text-anchor', 'end')
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.color.values[d.index])
+              this.scales.color(this.config.color.values[d.index])
             )
             .attr(
               'x',
@@ -313,7 +319,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.color.values[d.index])
+              this.scales.color(this.config.color.values[d.index])
             )
             .attr(
               'x',
@@ -345,7 +351,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             this.config.y.formatSpecifier
           ),
       category: this.config.color.valueAccessor(datum),
-      color: this.scales.categorical(this.config.color.valueAccessor(datum)),
+      color: this.scales.color(this.config.color.valueAccessor(datum)),
       positionX: this.scales.x(this.config.x.values[datumIndex]),
       positionY: this.scales.y(this.config.y.values[datumIndex]),
     };

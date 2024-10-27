@@ -52,7 +52,7 @@ export class GroupedBarsComponent<
   }
 
   override getBarColor(d: BarDatum<TOrdinalValue>): string {
-    return this.scales.categorical(d.color);
+    return this.scales.color(d.color);
   }
 
   override getBarXOrdinal(d: BarDatum<TOrdinalValue>): number {

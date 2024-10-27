@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,7 +12,10 @@ import { select, selectAll, Transition } from 'd3';
 import { Selection } from 'd3-selection';
 import { BehaviorSubject } from 'rxjs';
 import { ChartComponent } from '../charts/chart/chart.component';
-import { XyChartComponent } from '../charts/xy-chart/xy-chart.component';
+import {
+  XyChartComponent,
+  XyChartScales,
+} from '../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../core';
 import { DataValue } from '../core/types/values';
 import { ColorUtilities } from '../core/utilities/colors';
@@ -89,6 +91,13 @@ export class BarsComponent<
   barLabels: BehaviorSubject<BarLabelSelection> = new BehaviorSubject(null);
   barLabels$ = this.bars.asObservable();
   protected zone = inject(NgZone);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
 
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config[this.config.dimensions.x].getScaleFromRange(
@@ -97,13 +106,12 @@ export class BarsComponent<
     const y = this.config[this.config.dimensions.y].getScaleFromRange(
       this.ranges.y
     );
-    const categorical = this.config.color.getScale();
+    this.scales.color = this.config.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       y: y as unknown as GenericScale<any, any>,
-      categorical,
       useTransition,
     });
   }
@@ -301,6 +309,7 @@ export class BarsComponent<
   }
 
   getBarWidthOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.scales.x as any).bandwidth();
   }
 
@@ -313,6 +322,7 @@ export class BarsComponent<
   }
 
   getBarHeightOrdinal(): number {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (this.scales.y as any).bandwidth();
   }
 
@@ -345,7 +355,7 @@ export class BarsComponent<
   }
 
   getBarColor(d: BarDatum<TOrdinalValue>): string {
-    return this.scales.categorical(d.color);
+    return this.scales.color(d.color);
   }
 
   getBarLabelText(d: BarDatum<TOrdinalValue>): string {
