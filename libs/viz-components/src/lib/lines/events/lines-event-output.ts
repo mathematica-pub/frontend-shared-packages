@@ -1,10 +1,4 @@
-export interface LinesTooltipData<Datum> {
-  datum: Datum;
-  x: string;
-  y: string;
-  category: string;
-  color: string;
-}
+import { LinesTooltipData } from '../lines.component';
 
 export interface LinesEventOutput<Datum> extends LinesTooltipData<Datum> {
   positionX: number;

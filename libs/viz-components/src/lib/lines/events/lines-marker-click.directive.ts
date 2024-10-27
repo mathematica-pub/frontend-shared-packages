@@ -19,7 +19,6 @@ import { LinesEventOutput } from './lines-event-output';
 import { LinesHoverMoveDirective } from './lines-hover-move.directive';
 import { LinesHoverDirective } from './lines-hover.directive';
 import { LinesInputEventDirective } from './lines-input-event.directive';
-import { linesTooltipMixin } from './lines-tooltip-data';
 
 /**
  * A directive that allows users to provide custom actions on click events on lines markers.
@@ -32,7 +31,7 @@ import { linesTooltipMixin } from './lines-tooltip-data';
 export class LinesMarkerClickDirective<
   Datum,
   ExtendedLinesComponent extends LinesComponent<Datum> = LinesComponent<Datum>,
-> extends linesTooltipMixin(ClickDirective) {
+> extends ClickDirective {
   /**
    * An array of user-provided [EventAction]{@link EventAction} instances.
    *
@@ -104,7 +103,7 @@ export class LinesMarkerClickDirective<
   }
 
   getTooltipData(): LinesEventOutput<Datum> {
-    const data = this.getLinesTooltipData(this.pointIndex, this.lines);
+    const data = this.lines.getTooltipData(this.pointIndex);
     return data;
   }
 
