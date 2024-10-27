@@ -91,14 +91,11 @@ export class GeographiesHoverDirective<
 
   getEventOutput(): GeographiesEventOutput<Datum | undefined> {
     const tooltipData = this.layer.getTooltipData(this.path);
-    this.positionX =
-      (this.bounds[1][0] + this.bounds[0][0]) / 2 +
-      this.geographies.chart.margin.left;
-    this.positionY =
-      (this.bounds[1][1] + this.bounds[0][1]) / 2 +
-      this.geographies.chart.margin.top;
+    this.positionX = (this.bounds[1][0] - this.bounds[0][0]) / 2;
+    this.positionY = (this.bounds[1][1] - this.bounds[0][1]) / 2;
     return {
       ...tooltipData,
+      origin: this.path,
       positionX: this.positionX,
       positionY: this.positionY,
     };

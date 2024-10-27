@@ -1,6 +1,6 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 
-export class VicSvgRelativeTooltipPosition implements ConnectedPosition {
+export class RelativeToTopLeftTooltipPosition implements ConnectedPosition {
   originX: 'start' | 'end' | 'center';
   originY: 'center' | 'bottom' | 'top';
   overlayX: 'start' | 'end' | 'center';

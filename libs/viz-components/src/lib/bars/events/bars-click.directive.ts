@@ -2,7 +2,6 @@
 /* eslint-disable @angular-eslint/no-input-rename */
 import {
   Directive,
-  ElementRef,
   EventEmitter,
   Inject,
   Input,
@@ -44,7 +43,7 @@ export class BarsClickDirective<
     BarsEventOutput<Datum, TOrdinalValue>
   >();
   barDatum: BarDatum<TOrdinalValue>;
-  elRef: ElementRef;
+  origin: SVGRectElement;
   pointerX: number;
   pointerY: number;
 
@@ -88,10 +87,8 @@ export class BarsClickDirective<
   }
 
   onElementClick(event: PointerEvent): void {
-    this.barDatum = select(
-      event.target as SVGRectElement
-    ).datum() as BarDatum<TOrdinalValue>;
-    this.elRef = new ElementRef(event.target);
+    this.origin = event.target as SVGRectElement;
+    this.barDatum = select(this.origin).datum() as BarDatum<TOrdinalValue>;
     [this.pointerX, this.pointerY] = this.getPointerValuesArray(event);
     if (this.hoverDirective) {
       this.pointerX = this.hoverDirective.positionX;
@@ -103,14 +100,15 @@ export class BarsClickDirective<
   onClickRemove(): void {
     this.actions.forEach((action) => action.onEnd(this));
     this.barDatum = undefined;
-    this.elRef = undefined;
+    this.origin = undefined;
     this.pointerX = undefined;
     this.pointerY = undefined;
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const data = this.bars.getTooltipData(this.barDatum, this.elRef);
+    const data = this.bars.getTooltipData(this.barDatum);
     const extras = {
+      origin: this.origin,
       positionX: this.pointerX,
       positionY: this.pointerY,
     };
