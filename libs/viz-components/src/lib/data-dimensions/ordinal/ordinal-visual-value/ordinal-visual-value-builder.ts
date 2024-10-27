@@ -72,8 +72,13 @@ export class OrdinalVisualValueDimensionBuilder<
 
   /**
    * @internal This method is not intended to be used by consumers of this library.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): OrdinalVisualValueDimension<Datum, Domain, Range> {
+  _build(
+    dimensionName: string
+  ): OrdinalVisualValueDimension<Datum, Domain, Range> {
+    this.validateDimension(dimensionName);
     return new OrdinalVisualValueDimension({
       domain: this._domain,
       fillDefs: this._fillDefs,
@@ -82,5 +87,9 @@ export class OrdinalVisualValueDimensionBuilder<
       scale: this._scale,
       valueAccessor: this._valueAccessor,
     });
+  }
+
+  private validateDimension(dimensionName: string): void {
+    this.validateValueAccessor(dimensionName);
   }
 }

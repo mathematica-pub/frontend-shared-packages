@@ -135,9 +135,11 @@ export class NumberChartPositionDimensionBuilder<
 
   /**
    * @internal This method is not intended to be used by consumers of this library.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): NumberChartPositionDimension<Datum> {
-    this.validateBuilder();
+  _build(dimensionName: string): NumberChartPositionDimension<Datum> {
+    this.validateBuilder(dimensionName);
     return new NumberChartPositionDimension({
       domain: this._domain,
       formatFunction: this._formatFunction,
@@ -149,11 +151,7 @@ export class NumberChartPositionDimensionBuilder<
     });
   }
 
-  private validateBuilder(): void {
-    if (!this._valueAccessor) {
-      throw new Error(
-        'Number Chart Position Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
-      );
-    }
+  private validateBuilder(dimensionName: string): void {
+    this.validateValueAccessor(dimensionName);
   }
 }

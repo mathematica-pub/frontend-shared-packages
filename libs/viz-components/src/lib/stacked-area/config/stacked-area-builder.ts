@@ -183,15 +183,15 @@ export class VicStackedAreaConfigBuilder<
   getConfig(): StackedAreaConfig<Datum, CategoricalDomain> {
     this.validateBuilder();
     return new StackedAreaConfig({
-      color: this.categoricalDimensionBuilder._build(),
+      color: this.categoricalDimensionBuilder._build('Color'),
       categoricalOrder: this._categoricalOrder,
       curve: this._curve,
       data: this._data,
       mixBlendMode: this._mixBlendMode,
       stackOrder: this._stackOrder,
       stackOffset: this._stackOffset,
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
     });
   }
 

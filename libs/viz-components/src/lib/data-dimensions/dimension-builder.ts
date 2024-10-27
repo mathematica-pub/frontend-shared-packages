@@ -28,4 +28,12 @@ export abstract class DataDimensionBuilder<
     this._valueAccessor = valueAccessor;
     return this;
   }
+
+  protected validateValueAccessor(dimensionName: string): void {
+    if (!this._valueAccessor) {
+      throw new Error(
+        `${dimensionName} Dimension: valueAccessor is required. Please use method 'valueAccessor' to set it.`
+      );
+    }
+  }
 }

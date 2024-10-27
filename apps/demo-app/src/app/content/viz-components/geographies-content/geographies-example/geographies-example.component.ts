@@ -174,9 +174,8 @@ export class GeographiesExampleComponent implements OnInit {
   ): GeographiesGeojsonPropertiesLayerBuilder<MapGeometryProperties> {
     return layer
       .geographies(this.basemap.us.features)
-      .strokeColor(colors.base)
-      .strokeWidth('1')
-      .createCategoricalDimension((dimension) =>
+      .stroke((stroke) => stroke.color(colors.base).width(1))
+      .fillCategorical((dimension) =>
         dimension.valueAccessor((d) => d.properties.name).range(['none'])
       );
   }
@@ -193,10 +192,10 @@ export class GeographiesExampleComponent implements OnInit {
       d.properties.id;
     return layer
       .geographies(features)
-      .createCategoricalDimension((dimension) =>
+      .fillCategorical((dimension) =>
         dimension.range(['lightgray']).valueAccessor(this.featureIndexAccessor)
       )
-      .createLabels((labels) =>
+      .labels((labels) =>
         labels
           .valueAccessor(valueAccessor)
           .display(
@@ -274,7 +273,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range(['sandybrown', 'mediumseagreen', colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getCustomBreaksLayer(
@@ -300,7 +299,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getEqualValueRangesLayer(
@@ -326,7 +325,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getEqualFrequenciesLayer(
@@ -349,7 +348,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getNoBinsLayer(
@@ -374,7 +373,7 @@ export class GeographiesExampleComponent implements OnInit {
           .range([colors.white, colors.highlight.default])
           .fillDefs(fillDefs)
       )
-      .createLabels((labels) => this.getLabels(labels));
+      .labels((labels) => this.getLabels(labels));
   }
 
   getLabels(

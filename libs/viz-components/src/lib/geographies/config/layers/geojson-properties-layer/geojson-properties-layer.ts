@@ -14,12 +14,11 @@ export class GeographiesGeojsonPropertiesLayer<
   extends GeographiesLayer<string, TProperties, TGeometry>
   implements GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
 {
-  readonly categorical: OrdinalVisualValueDimension<
+  readonly fill: OrdinalVisualValueDimension<
     GeographiesFeature<TProperties, TGeometry>,
     string,
     string
   >;
-  readonly fill: string;
 
   constructor(
     options: GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
@@ -30,19 +29,14 @@ export class GeographiesGeojsonPropertiesLayer<
   }
 
   private initPropertiesFromGeographies(): void {
-    if (this.categorical) {
-      this.categorical.setPropertiesFromData(this.geographies);
-    }
+    this.fill.setPropertiesFromData(this.geographies);
   }
 
   getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
-    if (!this.categorical) {
-      return this.fill;
-    }
     const featureIndex = this.featureIndexAccessor(feature);
-    const defaultFill = this.categorical.getScale()(featureIndex);
-    return this.categorical.fillDefs
-      ? FillUtilities.getFill(feature, defaultFill, this.categorical.fillDefs)
+    const defaultFill = this.fill.getScale()(featureIndex);
+    return this.fill.fillDefs
+      ? FillUtilities.getFill(feature, defaultFill, this.fill.fillDefs)
       : defaultFill;
   }
 

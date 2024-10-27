@@ -19,13 +19,13 @@ const DEFAULT = {
 export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _opacity: number;
   private _pointerDetectionRadius: number;
-  private fillBuilderOrdinal: OrdinalVisualValueDimensionBuilder<
+  private fillBuilderCategorical: OrdinalVisualValueDimensionBuilder<
     Datum,
     string,
     string
   >;
   private fillBuilderNumber: NumberVisualValueDimensionBuilder<Datum, string>;
-  private radiusBuilderOrdinal: OrdinalVisualValueDimensionBuilder<
+  private radiusBuilderCategorical: OrdinalVisualValueDimensionBuilder<
     Datum,
     string,
     number
@@ -74,26 +74,26 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * @default 'schemeTableau10[0]'
    */
   fill(fill: string): this {
-    this.initFillBuilderOrdinal();
-    this.fillBuilderOrdinal.valueAccessor(() => null).range([fill]);
+    this.initFillBuilderCategorical();
+    this.fillBuilderCategorical.valueAccessor(() => null).range([fill]);
     return this;
   }
 
-  fillOrdinal(
+  fillCategorical(
     setProperties: (
       fill: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
-    this.initFillBuilderOrdinal();
-    setProperties(this.fillBuilderOrdinal);
+    this.initFillBuilderCategorical();
+    setProperties(this.fillBuilderCategorical);
     return this;
   }
 
-  private initFillBuilderOrdinal(): void {
-    this.fillBuilderOrdinal = new OrdinalVisualValueDimensionBuilder();
+  private initFillBuilderCategorical(): void {
+    this.fillBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
   }
 
-  fillNumber(
+  fillNumeric(
     setProperties: (
       fill: NumberVisualValueDimensionBuilder<Datum, string>
     ) => void
@@ -115,26 +115,26 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * @default 2
    */
   radius(radius: number): this {
-    this.initRadiusBuilderOrdinal();
-    this.radiusBuilderOrdinal.range([radius]);
+    this.initRadiusBuilderCategorical();
+    this.radiusBuilderCategorical.range([radius]);
     return this;
   }
 
-  radiusOrdinal(
+  radiusCategorical(
     setProperties: (
       radius: OrdinalVisualValueDimensionBuilder<Datum, string, number>
     ) => void
   ): this {
-    this.initRadiusBuilderOrdinal();
-    setProperties(this.radiusBuilderOrdinal);
+    this.initRadiusBuilderCategorical();
+    setProperties(this.radiusBuilderCategorical);
     return this;
   }
 
-  private initRadiusBuilderOrdinal(): void {
-    this.radiusBuilderOrdinal = new OrdinalVisualValueDimensionBuilder();
+  private initRadiusBuilderCategorical(): void {
+    this.radiusBuilderCategorical = new OrdinalVisualValueDimensionBuilder();
   }
 
-  radiusNumber(
+  radiusNumeric(
     setProperties: (
       radius: NumberVisualValueDimensionBuilder<Datum, number>
     ) => void
@@ -194,45 +194,47 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   getConfig(): DotsConfig<Datum> {
     this.validateBuilder();
+    const fillName = 'Fill';
+    const radiusName = 'Radius';
     return new DotsConfig<Datum>({
       data: this._data,
-      fill: this.fillBuilderOrdinal
-        ? this.fillBuilderOrdinal._build()
-        : this.fillBuilderNumber._build(),
+      fill: this.fillBuilderCategorical
+        ? this.fillBuilderCategorical._build(fillName)
+        : this.fillBuilderNumber._build(fillName),
       mixBlendMode: this._mixBlendMode,
       opacity: this._opacity,
       pointerDetectionRadius: this._pointerDetectionRadius,
-      radius: this.radiusBuilderOrdinal
-        ? this.radiusBuilderOrdinal._build()
-        : this.radiusBuilderNumber._build(),
+      radius: this.radiusBuilderCategorical
+        ? this.radiusBuilderCategorical._build(radiusName)
+        : this.radiusBuilderNumber._build(radiusName),
       stroke: this.strokeBuilder?._build(),
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
     });
   }
 
   protected override validateBuilder(): void {
     super.validateBuilder('Lines');
     if (
-      this.fillBuilderOrdinal === undefined &&
+      this.fillBuilderCategorical === undefined &&
       this.fillBuilderNumber === undefined
     ) {
-      this.initFillBuilderOrdinal();
-      this.fillBuilderOrdinal.range([schemeTableau10[0]]);
+      this.initFillBuilderCategorical();
+      this.fillBuilderCategorical.range([schemeTableau10[0]]);
     }
-    if (this.fillBuilderOrdinal && this.fillBuilderNumber) {
+    if (this.fillBuilderCategorical && this.fillBuilderNumber) {
       throw new Error(
         'Dots Builder: Fill can only be set for ordinal or number data, not both.'
       );
     }
     if (
-      this.radiusBuilderOrdinal === undefined &&
+      this.radiusBuilderCategorical === undefined &&
       this.radiusBuilderNumber === undefined
     ) {
-      this.initRadiusBuilderOrdinal();
-      this.radiusBuilderOrdinal.range([2]);
+      this.initRadiusBuilderCategorical();
+      this.radiusBuilderCategorical.range([2]);
     }
-    if (this.radiusBuilderOrdinal && this.radiusBuilderNumber) {
+    if (this.radiusBuilderCategorical && this.radiusBuilderNumber) {
       throw new Error(
         'Dots Builder: Radius can only be set for ordinal or number data, not both.'
       );

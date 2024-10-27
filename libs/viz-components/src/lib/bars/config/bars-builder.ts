@@ -114,12 +114,16 @@ export class VicBarsConfigBuilder<
   getConfig(): BarsConfig<Datum, TOrdinalValue> {
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
-      color: this.colorDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build('Color'),
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
-      ordinal: this.ordinalDimensionBuilder._build(),
-      quantitative: this.quantitativeDimensionBuilder._build(),
+      ordinal: this.ordinalDimensionBuilder._build(
+        this.getOrdinalDimensionName()
+      ),
+      quantitative: this.quantitativeDimensionBuilder._build(
+        this.getQuantitativeDimensionName()
+      ),
     });
   }
 
@@ -131,20 +135,30 @@ export class VicBarsConfigBuilder<
     if (!this._orientation) {
       // Technically we could make horizontal the default, but we want to make sure users are thinking about this.
       throw new Error(
-        `${componentName} Builder: Orientation is required. Please use method 'orientation' to set orientation.`
+        `${componentName} Builder: Orientation is required. Please use method 'horizontal' or 'vertical' to set orientation.`
       );
     }
     if (!this.ordinalDimensionBuilder) {
       // Note that the chart will still build if there is not ordinal dimension provided but it will not be full featured/anything we imagine users wanting, so we make this required.
+      const dimension = this.getOrdinalDimensionName();
       throw new Error(
-        `${componentName} Builder: Ordinal dimension is required. Please use methods 'horizontal' and 'y' or 'vertical' and 'x' to create dimension.`
+        `${componentName} Builder: ${dimension} dimension is required. Please use ${dimension.toLowerCase()} method to create dimension.`
       );
     }
     if (!this.quantitativeDimensionBuilder) {
+      const dimension = this.getQuantitativeDimensionName();
       throw new Error(
-        `${componentName} Builder: Quantitative dimension is required. Please use methods 'horizontal' and 'x' or 'vertical' and 'y' to create dimension.`
+        `${componentName} Builder: ${dimension} dimension is required. Please use ${dimension.toLowerCase()} method to create dimension.`
       );
     }
+  }
+
+  protected getOrdinalDimensionName(): string {
+    return this._orientation === 'horizontal' ? 'Y' : 'X';
+  }
+
+  protected getQuantitativeDimensionName(): string {
+    return this._orientation === 'horizontal' ? 'X' : 'Y';
   }
 }
 

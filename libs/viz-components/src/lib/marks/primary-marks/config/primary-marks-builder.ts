@@ -32,6 +32,13 @@ export abstract class PrimaryMarksBuilder<Datum> {
     return this;
   }
 
+  /**
+   * @Internal
+   *
+   * Validates that the builder has been properly configured.
+   *
+   * @param dimensionName A user-intelligible name for the component being built. Used for error messages. Should be title cased.
+   */
   protected validateBuilder(componentName: string): void {
     if (!this._data) {
       throw new Error(

@@ -96,9 +96,11 @@ export class NumberVisualValueDimensionBuilder<
 
   /**
    * @internal This method is not intended to be used by consumers of this library.
+   *
+   * @param dimensionName A user-intelligible name for the dimension being built. Used for error messages. Should be title cased.
    */
-  _build(): NumberVisualValueDimension<Datum, Range> {
-    this.validateBuilder();
+  _build(dimensionName: string): NumberVisualValueDimension<Datum, Range> {
+    this.validateBuilder(dimensionName);
     return new NumberVisualValueDimension({
       domain: this._domain,
       formatFunction: this._formatFunction,
@@ -111,11 +113,7 @@ export class NumberVisualValueDimensionBuilder<
     });
   }
 
-  private validateBuilder(): void {
-    if (!this._valueAccessor) {
-      throw new Error(
-        'Number-Visual Value Dimension: valueAccessor is required. Please use method `valueAccessor` to set it.'
-      );
-    }
+  private validateBuilder(dimensionName: string): void {
+    this.validateValueAccessor(dimensionName);
   }
 }

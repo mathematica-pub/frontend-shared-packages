@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { DateNumberDimension } from './date-chart-position';
-import { DateNumberDimensionBuilder } from './date-chart-position-builder';
+import { DateChartPositionDimension } from './date-chart-position';
+import { DateChartPositionDimensionBuilder } from './date-chart-position-builder';
 
-describe('DateNumberDimension', () => {
-  let dimension: DateNumberDimension<Date>;
+describe('DateChartPositionDimension', () => {
+  let dimension: DateChartPositionDimension<Date>;
   beforeEach(() => {
-    dimension = new DateNumberDimensionBuilder<Date>()
+    dimension = new DateChartPositionDimensionBuilder<Date>()
       .valueAccessor((d) => d)
-      ._build();
+      ._build('Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

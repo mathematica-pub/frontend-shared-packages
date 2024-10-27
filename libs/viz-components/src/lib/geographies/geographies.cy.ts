@@ -208,8 +208,7 @@ describe('drawing the geography paths for various layers', () => {
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
               )
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -249,14 +248,12 @@ describe('drawing the geography paths for various layers', () => {
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(states.features)
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
           )
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
-              .strokeColor('red')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('red').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -313,14 +310,12 @@ describe('drawing the geography paths for various layers', () => {
                   .valueAccessor((d) => d.income)
                   .range(['white', 'orangered'])
               )
-              .strokeColor('black')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('black').width(1))
           )
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
-              .strokeColor('red')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('red').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -412,8 +407,7 @@ describe('drawing the geography paths for various layers', () => {
           .createGeojsonPropertiesLayer((layer) =>
             layer
               .geographies(usBoundary.features)
-              .strokeColor('blue')
-              .strokeWidth('1')
+              .stroke((stroke) => stroke.color('blue').width(1))
           )
           .getConfig();
         mountGeographiesComponent(geographiesConfig);
@@ -498,9 +492,8 @@ describe('drawing the geography labels various layers', () => {
                   .range(['white', 'orangered'])
               )
               .class('test-data-layer')
-              .strokeColor('black')
-              .strokeWidth('1')
-              .createLabels((labels) =>
+              .stroke((stroke) => stroke.color('black').width(1))
+              .labels((labels) =>
                 labels.valueAccessor((d) => d.properties.id).color('black')
               )
           )
@@ -511,12 +504,10 @@ describe('drawing the geography labels various layers', () => {
                   (x) => x.properties.name[x.properties.name.length - 1] === 'a'
                 )
               )
-              .createCategoricalDimension((dimension) =>
-                dimension.range(['darkblue'])
-              )
+              .fillCategorical((dimension) => dimension.range(['darkblue']))
               .class('test-no-data-layer')
-              .strokeWidth('1')
-              .createLabels((labels) =>
+              .stroke((stroke) => stroke.width(1))
+              .labels((labels) =>
                 labels
                   .valueAccessor((d) => `${d.properties.id}*`)
                   .color('chartreuse')

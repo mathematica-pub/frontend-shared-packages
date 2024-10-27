@@ -1,5 +1,6 @@
 import * as CSSType from 'csstype';
 import { Geometry } from 'geojson';
+import { Stroke } from 'libs/viz-components/src/public-api';
 import { ColorUtilities } from '../../../../core/utilities/colors';
 import { GeographiesTooltipData } from '../../../events/geographies-event-output';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -24,8 +25,7 @@ export abstract class GeographiesLayer<
   geographies: Array<GeographiesFeature<TProperties, TGeometry>>;
   id: number;
   labels: GeographiesLabels<TProperties, TGeometry>;
-  strokeColor: string;
-  strokeWidth: string;
+  stroke: Stroke;
 
   setFeatureIndexAccessor(
     accessor: (d: GeographiesFeature<TProperties, TGeometry>) => string

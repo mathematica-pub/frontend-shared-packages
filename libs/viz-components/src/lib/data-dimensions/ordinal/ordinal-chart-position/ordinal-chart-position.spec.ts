@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { CategoricalChartPositionDimension } from './categorical-chart-position';
-import { OrdinalDimensionBuilder } from './ordinal-chart-position-builder';
+import { OrdinalChartPositionDimension } from './ordinal-chart-position';
+import { OrdinalChartPositionDimensionBuilder } from './ordinal-chart-position-builder';
 
 const data = [
   { value: 1, category: 'a' },
@@ -11,18 +10,18 @@ const data = [
   { value: 5, category: 'b' },
 ];
 
-describe('VicDimensionOrdinal', () => {
-  let dimension: CategoricalChartPositionDimension<
+describe('OrdinalChartPositionDimension', () => {
+  let dimension: OrdinalChartPositionDimension<
     { value: number; category: string },
     string
   >;
   beforeEach(() => {
-    dimension = new OrdinalDimensionBuilder<
+    dimension = new OrdinalChartPositionDimensionBuilder<
       { value: number; category: string },
       string
     >()
       .valueAccessor((d) => d.category)
-      ._build();
+      ._build('Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

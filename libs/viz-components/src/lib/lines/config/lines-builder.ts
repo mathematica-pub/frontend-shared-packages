@@ -196,7 +196,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      color: this.categoricalDimensionBuilder._build(),
+      color: this.categoricalDimensionBuilder._build('Color'),
       curve: this._curve,
       data: this._data,
       labelLines: this._labelLines,
@@ -205,8 +205,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       pointerDetectionRadius: this._pointerDetectionRadius,
       pointMarkers: this.pointMarkersBuilder?._build(),
       stroke: this.strokeBuilder._build(),
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
       areaFills: this.areaFillsBuilder?._build(),
     });
   }

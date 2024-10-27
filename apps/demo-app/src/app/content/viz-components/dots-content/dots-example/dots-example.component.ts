@@ -95,10 +95,10 @@ export class DotsExampleComponent implements OnInit {
 
     const dataConfig = this.dots
       .data(data.filter((x) => x.date.getFullYear() === 2012))
-      .fillOrdinal((dimension) =>
+      .fillCategorical((dimension) =>
         dimension.valueAccessor((d) => d.location).range(['#2cafb0', '#a560cc'])
       )
-      .radiusNumber((dimension) =>
+      .radiusNumeric((dimension) =>
         dimension.valueAccessor((d) => d.wind).range([2, 8])
       )
       .x((dimension) => dimension.valueAccessor((d) => d.tempMax))
