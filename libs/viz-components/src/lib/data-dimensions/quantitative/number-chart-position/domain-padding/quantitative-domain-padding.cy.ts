@@ -101,17 +101,15 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -254,17 +252,15 @@ describe('it correctly sets quantitative domain - all values are positive, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
         { state: 'Arizona', value: 30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -407,17 +403,15 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: -1.1 },
         { state: 'Alaska', value: -2.2 },
         { state: 'Arizona', value: -30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -578,17 +572,15 @@ describe('it correctly sets quantitative domain - all values are negative, 0 is 
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: -1.1 },
         { state: 'Alaska', value: -2.2 },
         { state: 'Arizona', value: -30.3 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -729,7 +721,6 @@ describe('it correctly sets quantitative domain - values are positive and negati
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 1.1 },
         { state: 'Alaska', value: 2.2 },
@@ -737,11 +728,10 @@ describe('it correctly sets quantitative domain - values are positive and negati
         { state: 'Arkansas', value: -2.2 },
         { state: 'California', value: -60.6 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
@@ -909,17 +899,15 @@ describe('it correctly sets quantitative domain - all values are positive and le
   ];
   beforeEach(() => {
     barsConfig = new VicBarsConfigBuilder<Datum, string>()
-      .orientation('horizontal')
       .data([
         { state: 'Alabama', value: 0.01 },
         { state: 'Alaska', value: 0.22 },
         { state: 'Arizona', value: 0.303 },
       ])
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.state)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
+      .horizontal((bars) =>
+        bars
+          .x((dimension) => dimension.valueAccessor((d) => d.value))
+          .y((dimension) => dimension.valueAccessor((d) => d.state))
       )
       .labels((labels) => labels.display(true))
       .getConfig();
