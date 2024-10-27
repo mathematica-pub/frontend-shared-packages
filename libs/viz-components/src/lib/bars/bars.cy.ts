@@ -127,12 +127,11 @@ class TestHorizontalBarsComponent {
   }
 
   updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
-    console.log(data);
     const config = new VicHtmlTooltipConfigBuilder()
       .barsPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 10 : undefined,
+          offsetY: data ? data.positionY - 30 : undefined,
         },
       ])
       .origin(data ? data.elRef : undefined)
@@ -245,7 +244,7 @@ class TestVerticalBarsComponent {
       .barsPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 10 : undefined,
+          offsetY: data ? data.positionY - 30 : undefined,
         },
       ])
       .origin(data ? data.elRef : undefined)
@@ -768,18 +767,18 @@ describe('displays tooltips for correct data per hover position', () => {
       beforeEach(() => {
         cy.get('.vic-bar').eq(i).realHover();
       });
-
+      it('is okay', () => {
+        cy.get('svg').should('exist');
+      });
       it('displays a tooltip', () => {
         cy.get('.vic-html-tooltip-overlay').should('be.visible');
       });
-
       it('tooltip displays correct data', () => {
         cy.get('.vic-html-tooltip-overlay p').should(
           'have.text',
           QOCData[i].area
         );
       });
-
       it('tooltip appears at the correct position', () => {
         cy.get('.vic-html-tooltip-overlay').then(($el) => {
           const tooltipBox = $el[0].getBoundingClientRect();
