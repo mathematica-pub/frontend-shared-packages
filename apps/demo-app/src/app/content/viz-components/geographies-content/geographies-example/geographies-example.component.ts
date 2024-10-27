@@ -81,7 +81,7 @@ export class GeographiesExampleComponent implements OnInit {
   >;
   width = 700;
   height = 400;
-  margin: ElementSpacing = { top: 0, right: 0, bottom: 0, left: 0 };
+  margin: ElementSpacing = { top: 16, right: 40, bottom: 0, left: 40 };
   outlineColor = colors.base;
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
@@ -425,11 +425,12 @@ export class GeographiesExampleComponent implements OnInit {
     eventContext: 'hover' | 'click'
   ): void {
     const config = this.tooltip
-      .setSize((size) => size.minWidth(130))
+      .size((size) => size.minWidth(130))
       .geographiesPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 8 : undefined,
+          offsetY: data ? data.positionY : undefined,
+          overlayY: 'bottom',
         },
       ])
       .hasBackdrop(eventContext === 'click')

@@ -41,6 +41,7 @@ const chartHeight = 400;
 const chartWidth = 600;
 const dateData = QdQnCData;
 const numericData = QnQnCData;
+const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
 // ***********************************************************
 // Set up Lines component -- can use with Date or numeric values for x axis
@@ -82,13 +83,13 @@ const numericData = QnQnCData;
 
     <ng-template #htmlTooltip>
       <ng-container *ngIf="tooltipData$ | async as tooltipData">
-        <p>{{ tooltipData.category }}</p>
-        <p>{{ tooltipData.x }}</p>
-        <p>{{ tooltipData.y }}</p>
+        <p class="tooltip-text">{{ tooltipData.values.color }}</p>
+        <p class="tooltip-text">{{ tooltipData.values.x }}</p>
+        <p class="tooltip-text">{{ tooltipData.values.y }}</p>
       </ng-container>
     </ng-template>
   `,
-  styles: [],
+  styles: ['.tooltip-text { font-size: 12px; }'],
 })
 class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
   @Input() linesConfig: LinesConfig<Datum>;
@@ -119,11 +120,11 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
 
   updateTooltipConfig(data: LinesEventOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .setSize((size) => size.minWidth(340))
+      .size((size) => size.minWidth(340))
       .linesPosition([
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - 16 : 0,
+          offsetY: data ? data.positionY - tooltipYOffset : 0,
         },
       ])
       .show(!!data)
@@ -645,7 +646,10 @@ describe('displays tooltips for correct data per hover position', () => {
                 (markerBox.left + markerBox.right) / 2,
                 1
               );
-              expect(tooltipBox.bottom).to.be.closeTo(markerBox.top, 10);
+              expect(tooltipBox.bottom + tooltipYOffset).to.be.closeTo(
+                markerBox.top,
+                10
+              );
             });
         });
       });
