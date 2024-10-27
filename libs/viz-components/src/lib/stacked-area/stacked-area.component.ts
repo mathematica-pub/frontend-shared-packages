@@ -56,7 +56,12 @@ export class StackedAreaComponent<
   area;
   areas;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  override scales: { color: GenericScale<any, any> } & XyChartScales;
+  override scales: { color: GenericScale<any, any> } & XyChartScales = {
+    x: undefined,
+    y: undefined,
+    color: undefined,
+    useTransition: undefined,
+  };
 
   constructor(
     private areasRef: ElementRef<SVGSVGElement>,
