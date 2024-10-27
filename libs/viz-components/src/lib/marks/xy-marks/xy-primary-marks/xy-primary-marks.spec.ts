@@ -121,16 +121,32 @@ describe('XyPrimaryMarks abstract class', () => {
 
     describe('if scales are defined', () => {
       beforeEach(() => {
-        abstractClass.scales = 'test scales' as any;
+        abstractClass.scales = {
+          x: undefined as any,
+          y: undefined as any,
+          useTransition: undefined as any,
+        };
       });
       it('sets scales to the emitted value from the subscription', () => {
         abstractClass.subscribeToScales();
-        (abstractClass.chart as any).scales.next('test scales');
-        expect(abstractClass.scales).toEqual('test scales' as any);
+        (abstractClass.chart as any).scales.next({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          useTransition: true,
+        });
+        expect(abstractClass.scales).toEqual({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          useTransition: true,
+        });
       });
       it('calls drawMarks once with the correct values', () => {
         abstractClass.subscribeToScales();
-        (abstractClass.chart as any).scales.next('test scales');
+        (abstractClass.chart as any).scales.next({
+          x: 'test x' as any,
+          y: 'test y' as any,
+          useTransition: true,
+        });
         expect(abstractClass.drawMarks).toHaveBeenCalledTimes(1);
       });
     });
