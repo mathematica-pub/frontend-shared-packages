@@ -15,7 +15,6 @@ import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsEventOutput } from './dots-event-output';
-import { dotsTooltipMixin } from './dots-tooltip';
 
 @Directive({
   selector: '[vicDotsHoverMoveActions]',
@@ -23,7 +22,7 @@ import { dotsTooltipMixin } from './dots-tooltip';
 export class DotsHoverMoveDirective<
   Datum,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> extends dotsTooltipMixin(HoverMoveDirective) {
+> extends HoverMoveDirective {
   @Input('vicDotsHoverMoveActions')
   actions: HoverMoveAction<DotsHoverMoveDirective<Datum, TDotsComponent>>[];
   @Output('vicDotsHoverMoveOutput') eventOutput = new EventEmitter<
@@ -86,11 +85,7 @@ export class DotsHoverMoveDirective<
   }
 
   getEventOutput(): DotsEventOutput<Datum> {
-    const tooltipData = this.getDotsTooltipData(
-      this.dotDatum,
-      this.elRef,
-      this.dots
-    );
+    const tooltipData = this.dots.getTooltipData(this.dotDatum, this.elRef);
     const extras = {
       positionX: this.pointerX,
       positionY: this.pointerY,

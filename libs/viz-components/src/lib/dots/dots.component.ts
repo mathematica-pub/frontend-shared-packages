@@ -15,9 +15,11 @@ import {
   XyChartScales,
 } from '../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../core';
+import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { DotsConfig } from './config/dots-config';
+import { DotsTooltipData } from './events/dots-event-output';
 
 export const DOTS = new InjectionToken<DotsComponent<unknown>>('DotsComponent');
 
@@ -225,5 +227,49 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
     >('.vic-dot-label');
     this.dots.next(dots);
     this.dotLabels.next(dotLabels);
+  }
+
+  getTooltipData(
+    dotDatum: DotDatum,
+    elRef: ElementRef
+  ): DotsTooltipData<Datum> {
+    const datum = this.getUserDatumFromDotsDatum(dotDatum);
+    const valueFill = this.config.fill.valueAccessor(datum);
+    const tooltipData: DotsTooltipData<Datum> = {
+      datum,
+      values: {
+        fill: valueFill,
+        radius: this.config.radius.valueAccessor(datum),
+        x: this.config.x.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.x.valueAccessor(datum),
+              this.config.x.formatSpecifier
+            ),
+        y: this.config.y.formatFunction
+          ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
+          : ValueUtilities.d3Format(
+              this.config.y.valueAccessor(datum),
+              this.config.y.formatSpecifier
+            ),
+      },
+      color: this.scales.fill(valueFill),
+      elRef: elRef,
+    };
+    return tooltipData;
+  }
+
+  getUserDatumFromDotsDatum(dotDatum: DotDatum): Datum {
+    return this.config.data.find(
+      (d) =>
+        this.config.x.values[dotDatum.index] ===
+          this.config.x.valueAccessor(d) &&
+        this.config.y.values[dotDatum.index] ===
+          this.config.y.valueAccessor(d) &&
+        this.config.fill.values[dotDatum.index] ===
+          this.config.fill.valueAccessor(d) &&
+        this.config.radius.values[dotDatum.index] ===
+          this.config.radius.valueAccessor(d)
+    );
   }
 }

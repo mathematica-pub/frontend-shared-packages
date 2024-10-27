@@ -16,9 +16,11 @@ import {
   XyChartScales,
 } from '../charts/xy-chart/xy-chart.component';
 import { GenericScale } from '../core';
+import { ValueUtilities } from '../core/utilities/values';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { LinesConfig, LinesMarkerDatum } from './config/lines-config';
+import { LinesEventOutput } from './events/lines-event-output';
 
 export type LinesGroupSelection = Selection<
   SVGGElement,
@@ -323,5 +325,28 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .text((d) => this.config.lineLabelsFormat(d.category)),
         (exit) => exit.remove()
       );
+  }
+
+  getTooltipData(datumIndex: number): LinesEventOutput<Datum> {
+    const datum = this.config.data[datumIndex];
+    return {
+      datum,
+      x: this.config.x.formatFunction
+        ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
+        : ValueUtilities.d3Format(
+            this.config.x.valueAccessor(datum),
+            this.config.x.formatSpecifier
+          ),
+      y: this.config.y.formatFunction
+        ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
+        : ValueUtilities.d3Format(
+            this.config.y.valueAccessor(datum),
+            this.config.y.formatSpecifier
+          ),
+      category: this.config.color.valueAccessor(datum),
+      color: this.scales.color(this.config.color.valueAccessor(datum)),
+      positionX: this.scales.x(this.config.x.values[datumIndex]),
+      positionY: this.scales.y(this.config.y.values[datumIndex]),
+    };
   }
 }

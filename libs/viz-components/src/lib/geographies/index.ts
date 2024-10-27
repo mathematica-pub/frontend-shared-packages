@@ -30,6 +30,7 @@ export * from './events/geographies-event-output';
 export * from './events/geographies-hover-move.directive';
 export * from './events/geographies-hover.directive';
 export * from './events/geographies-input-event.directive';
+export * from './events/geographies-tooltip-position';
 export * from './geographies-feature';
 export * from './geographies.component';
 export * from './geographies.module';

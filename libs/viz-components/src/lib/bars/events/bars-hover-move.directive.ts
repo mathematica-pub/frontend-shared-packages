@@ -16,7 +16,6 @@ import { HoverMoveAction } from '../../events/action';
 import { HoverMoveDirective } from '../../events/hover-move.directive';
 import { BarDatum, BARS, BarsComponent } from '../bars.component';
 import { BarsEventOutput } from './bars-event-output';
-import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
   selector: '[vicBarsHoverMoveActions]',
@@ -28,7 +27,7 @@ export class BarsHoverMoveDirective<
     Datum,
     TOrdinalValue
   >,
-> extends barsTooltipMixin(HoverMoveDirective) {
+> extends HoverMoveDirective {
   @Input('vicBarsHoverMoveActions')
   actions: HoverMoveAction<
     BarsHoverMoveDirective<Datum, TOrdinalValue, TBarsComponent>
@@ -94,11 +93,7 @@ export class BarsHoverMoveDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const tooltipData = this.getBarsTooltipData(
-      this.barDatum,
-      this.elRef,
-      this.bars
-    );
+    const tooltipData = this.bars.getTooltipData(this.barDatum, this.elRef);
     const extras = {
       positionX: this.pointerX,
       positionY: this.pointerY,

@@ -12,6 +12,7 @@ import {
   VicChartModule,
   VicDotsConfigBuilder,
   VicDotsModule,
+  VicDotsTooltipPosition,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
   VicQuantitativeAxisConfig,
@@ -121,12 +122,12 @@ export class DotsExampleComponent implements OnInit {
   }
 
   updateTooltipConfig(data: DotsEventOutput<WeatherDatum>): void {
-    console.log(data?.positionX, data?.positionY);
+    const position = new VicDotsTooltipPosition({
+      offsetY: -16,
+    });
     const config = this.tooltip
       .origin(data?.elRef || undefined)
-      .createOffsetFromOriginPosition((position) =>
-        position.offsetX(data?.positionX).offsetY(data?.positionY)
-      )
+      .cdkManagedPosition([position])
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);

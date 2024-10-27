@@ -13,3 +13,4 @@ export * from './events/bars-event-output';
 export * from './events/bars-hover-move.directive';
 export * from './events/bars-hover.directive';
 export * from './events/bars-input-event.directive';
+export * from './events/bars-tooltip-position';

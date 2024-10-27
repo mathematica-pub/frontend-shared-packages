@@ -12,6 +12,12 @@ export class DotsHoverMoveDefaultStyles<
       .filter((d) => d.index !== directive.dotDatum.index)
       .selectAll<SVGCircleElement, number>('circle')
       .style('fill', '#ccc');
+
+    directive.dots.dotGroups
+      .filter((d) => d.index === directive.dotDatum.index)
+      .selectAll<SVGCircleElement, number>('circle')
+      .select((d, i, nodes) => nodes[i].parentElement)
+      .raise();
   }
 
   onEnd(directive: DotsHoverMoveDirective<Datum, TDotsComponent>): void {

@@ -33,6 +33,7 @@ import {
   VicJpegImageConfig,
   VicLinesConfigBuilder,
   VicLinesModule,
+  VicLinesTooltipPosition,
   VicQuantitativeAxisConfig,
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
@@ -173,13 +174,13 @@ export class LinesExampleComponent implements OnInit {
 
   updateTooltipConfig(eventContext: 'click' | 'hover'): void {
     const data = this.tooltipData.getValue();
+    const position = new VicLinesTooltipPosition({
+      offsetX: data?.positionX,
+      offsetY: data ? data.positionY - 16 : 0,
+    });
     const config = this.tooltip
       .setSize((size) => size.minWidth(340))
-      .createOffsetFromOriginPosition((position) =>
-        position
-          .offsetX(data?.positionX)
-          .offsetY(data ? data.positionY - 16 : undefined)
-      )
+      .cdkManagedPosition([position])
       .hasBackdrop(eventContext === 'click')
       .show(!!data)
       .getConfig();

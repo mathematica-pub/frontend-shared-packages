@@ -10,5 +10,6 @@ export * from './events/lines-hover-move.directive';
 export * from './events/lines-hover.directive';
 export * from './events/lines-input-event.directive';
 export * from './events/lines-marker-click.directive';
+export * from './events/lines-tooltip-position';
 export * from './lines.component';
 export * from './lines.module';

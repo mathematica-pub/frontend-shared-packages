@@ -15,7 +15,6 @@ import { EventAction } from '../../events/action';
 import { HoverDirective } from '../../events/hover.directive';
 import { DotDatum, DOTS, DotsComponent } from '../dots.component';
 import { DotsEventOutput } from './dots-event-output';
-import { dotsTooltipMixin } from './dots-tooltip';
 
 @Directive({
   selector: '[vicDotsHoverActions]',
@@ -23,7 +22,7 @@ import { dotsTooltipMixin } from './dots-tooltip';
 export class DotsHoverDirective<
   Datum,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> extends dotsTooltipMixin(HoverDirective) {
+> extends HoverDirective {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('vicDotsHoverActions') actions: EventAction<
     DotsHoverDirective<Datum, TDotsComponent>
@@ -70,11 +69,7 @@ export class DotsHoverDirective<
   }
 
   getEventOutput(): DotsEventOutput<Datum> {
-    const tooltipData = this.getDotsTooltipData(
-      this.dotDatum,
-      this.elRef,
-      this.dots
-    );
+    const tooltipData = this.dots.getTooltipData(this.dotDatum, this.elRef);
 
     return {
       ...tooltipData,

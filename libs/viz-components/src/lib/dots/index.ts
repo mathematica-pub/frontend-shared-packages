@@ -9,3 +9,4 @@ export * from './events/dots-event-output';
 export * from './events/dots-hover-move.directive';
 export * from './events/dots-hover.directive';
 export * from './events/dots-input.directive';
+export * from './events/dots-tooltip-position';

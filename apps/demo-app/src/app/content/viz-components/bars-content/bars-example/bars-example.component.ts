@@ -12,6 +12,7 @@ import {
   HtmlTooltipConfig,
   VicBarsConfigBuilder,
   VicBarsModule,
+  VicBarsTooltipPosition,
   VicChartModule,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
@@ -198,13 +199,12 @@ export class BarsExampleComponent implements OnInit {
   updateTooltipConfig(
     data: BarsEventOutput<MetroUnemploymentDatum, string>
   ): void {
-    console.log(data?.positionX, data?.positionY);
+    const position = new VicBarsTooltipPosition({
+      offsetX: data?.positionX,
+      offsetY: data ? data.positionY - 16 : undefined,
+    });
     const config = this.tooltip
-      .createOffsetFromOriginPosition((position) =>
-        position
-          .offsetX(data?.positionX)
-          .offsetY(data ? data.positionY - 4 : undefined)
-      )
+      .cdkManagedPosition([position])
       .origin(data ? data.elRef : undefined)
       .show(!!data)
       .getConfig();

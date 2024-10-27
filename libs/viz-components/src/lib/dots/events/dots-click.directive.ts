@@ -21,7 +21,6 @@ import { DotsEventOutput } from './dots-event-output';
 import { DotsHoverMoveDirective } from './dots-hover-move.directive';
 import { DotsHoverDirective } from './dots-hover.directive';
 import { DotsInputEventDirective } from './dots-input.directive';
-import { dotsTooltipMixin } from './dots-tooltip';
 
 @Directive({
   selector: '[vicDotsClickActions]',
@@ -29,7 +28,7 @@ import { dotsTooltipMixin } from './dots-tooltip';
 export class DotsClickDirective<
   Datum,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> extends dotsTooltipMixin(ClickDirective) {
+> extends ClickDirective {
   @Input('vicDotsClickActions')
   actions: EventAction<DotsClickDirective<Datum, TDotsComponent>>[];
   @Input('vicDotsClickRemoveEvent$')
@@ -94,7 +93,7 @@ export class DotsClickDirective<
   }
 
   getEventOutput(): DotsEventOutput<Datum> {
-    const data = this.getDotsTooltipData(this.dotDatum, this.elRef, this.dots);
+    const data = this.dots.getTooltipData(this.dotDatum, this.elRef);
     const extras = {
       positionX: this.pointerX,
       positionY: this.pointerY,

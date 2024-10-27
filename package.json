@@ -22,7 +22,7 @@
     "build:app-dev-kit": "nx build app-dev-kit",
     "build:demo-app": "nx build demo-app",
     "build:ui-components": "nx build ui-components",
-    "build:viz-components": "nx build viz-components -watch",
+    "build:viz-components": "nx build viz-components",
     "build:documentation": "npm run build:docs:ui-components && npm run build:docs:viz-components",
     "watch": "nx build --watch --configuration development",
     "watch:app-dev-kit": "nx build app-dev-kit --watch",

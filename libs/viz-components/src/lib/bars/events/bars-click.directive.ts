@@ -22,7 +22,6 @@ import { BarsEventOutput } from './bars-event-output';
 import { BarsHoverMoveDirective } from './bars-hover-move.directive';
 import { BarsHoverDirective } from './bars-hover.directive';
 import { BarsInputEventDirective } from './bars-input-event.directive';
-import { barsTooltipMixin } from './bars-tooltip';
 
 @Directive({
   selector: '[vicBarsClickActions]',
@@ -34,7 +33,7 @@ export class BarsClickDirective<
     Datum,
     TOrdinalValue
   >,
-> extends barsTooltipMixin(ClickDirective) {
+> extends ClickDirective {
   @Input('vicBarsClickActions')
   actions: EventAction<
     BarsClickDirective<Datum, TOrdinalValue, TBarsComponent>
@@ -110,7 +109,7 @@ export class BarsClickDirective<
   }
 
   getEventOutput(): BarsEventOutput<Datum, TOrdinalValue> {
-    const data = this.getBarsTooltipData(this.barDatum, this.elRef, this.bars);
+    const data = this.bars.getTooltipData(this.barDatum, this.elRef);
     const extras = {
       positionX: this.pointerX,
       positionY: this.pointerY,

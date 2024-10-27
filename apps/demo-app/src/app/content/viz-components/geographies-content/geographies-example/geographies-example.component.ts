@@ -23,6 +23,7 @@ import {
   HtmlTooltipConfig,
   VicGeographiesConfigBuilder,
   VicGeographiesModule,
+  VicGeographiesTooltipPosition,
   VicHtmlTooltipConfigBuilder,
   VicHtmlTooltipModule,
   VicMapChartModule,
@@ -425,11 +426,13 @@ export class GeographiesExampleComponent implements OnInit {
     data: GeographiesEventOutput<StateIncomeDatum>,
     eventContext: 'hover' | 'click'
   ): void {
+    const position = new VicGeographiesTooltipPosition({
+      // offsetX: data?.positionX,
+      offsetY: 16,
+    });
     const config = this.tooltip
       .setSize((size) => size.minWidth(130))
-      .createOffsetFromOriginPosition((position) =>
-        position.offsetX(data?.positionX).offsetY(data?.positionY)
-      )
+      .cdkManagedPosition([position])
       .hasBackdrop(eventContext === 'click')
       .show(!!data)
       .getConfig();
