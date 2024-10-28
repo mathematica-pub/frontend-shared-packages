@@ -62,8 +62,7 @@ export class EditableTextboxComponent
       this.service.closeListbox();
     } else {
       this.service.openListbox();
-      const currentValue = this.inputElRef.nativeElement.value;
-      let optionAction: OptionAction = OptionAction.nullActiveIndex;
+      const optionAction: OptionAction = OptionAction.nullActiveIndex;
       this.service.emitOptionAction(optionAction);
     }
     this.service.setVisualFocus(VisualFocus.textbox);
