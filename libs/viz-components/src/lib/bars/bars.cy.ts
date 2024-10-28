@@ -129,13 +129,12 @@ class TestHorizontalBarsComponent {
 
   updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition([
+      .barsPosition(data?.origin, [
         {
           offsetX: data?.positionX,
           offsetY: data ? data.positionY - tooltipYOffset : undefined,
         },
       ])
-      .origin(data ? data.elRef : undefined)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
@@ -242,13 +241,12 @@ class TestVerticalBarsComponent {
 
   updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .barsPosition([
+      .barsPosition(data?.origin, [
         {
           offsetX: data?.positionX,
           offsetY: data ? data.positionY - tooltipYOffset : undefined,
         },
       ])
-      .origin(data ? data.elRef : undefined)
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);

@@ -84,7 +84,9 @@ const tooltipYOffset = 60; // need to offset otherwise the hover will be on the 
     <ng-template #htmlTooltip>
       <ng-container *ngIf="tooltipData$ | async as tooltipData">
         <p class="tooltip-text">{{ tooltipData.values.color }}</p>
-        <p class="tooltip-text">{{ tooltipData.values.x }}</p>
+        <p class="tooltip-text">{{
+          getYearFromStringDate(tooltipData.values.x)
+        }}</p>
         <p class="tooltip-text">{{ tooltipData.values.y }}</p>
       </ng-container>
     </ng-template>
@@ -120,7 +122,7 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
 
   updateTooltipConfig(data: LinesEventOutput<Datum>): void {
     const config = new VicHtmlTooltipConfigBuilder()
-      .size((size) => size.minWidth(340))
+      .size((size) => size.minWidth(100))
       .linesPosition([
         {
           offsetX: data?.positionX,
@@ -130,6 +132,10 @@ class TestLinesComponent<Datum, QuantAxisType extends number | Date> {
       .show(!!data)
       .getConfig();
     this.tooltipConfig.next(config);
+  }
+
+  getYearFromStringDate(dateString: string): number {
+    return new Date(dateString).getFullYear();
   }
 }
 
@@ -626,9 +632,7 @@ describe('displays tooltips for correct data per hover position', () => {
         cy.get('.vic-html-tooltip-overlay p')
           .eq(1)
           .then(($el) => {
-            expect(new Date($el.text()).getTime()).to.equal(
-              dateData[i].year.getTime()
-            );
+            expect(+$el.text()).to.equal(dateData[i].year.getFullYear());
           });
         cy.get('.vic-html-tooltip-overlay p')
           .eq(2)
