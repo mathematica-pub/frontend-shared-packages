@@ -240,7 +240,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
   }
 
   getTooltipData(dotDatum: DotDatum): DotsTooltipDatum<Datum> {
-    const datum = this.getUserDatumFromDotsDatum(dotDatum);
+    const datum = this.config.data[dotDatum.index];
     const valueFill = this.config.fill.valueAccessor(datum);
     const tooltipData: DotsTooltipDatum<Datum> = {
       datum,
@@ -263,19 +263,5 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       color: this.scales.fill(valueFill),
     };
     return tooltipData;
-  }
-
-  getUserDatumFromDotsDatum(dotDatum: DotDatum): Datum {
-    return this.config.data.find(
-      (d) =>
-        this.config.x.values[dotDatum.index] ===
-          this.config.x.valueAccessor(d) &&
-        this.config.y.values[dotDatum.index] ===
-          this.config.y.valueAccessor(d) &&
-        this.config.fill.values[dotDatum.index] ===
-          this.config.fill.valueAccessor(d) &&
-        this.config.radius.values[dotDatum.index] ===
-          this.config.radius.valueAccessor(d)
-    );
   }
 }
