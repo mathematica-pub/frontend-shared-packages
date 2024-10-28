@@ -10,7 +10,7 @@ This is a single select that has disabled options.
 
 {{DisabledSelectionsSingleSelect}}
 
-This is a single select that uses findsOptionOnTyping.
+This is a single select that uses an editable textbox.
 
 {{FindOnSearchSingleSelect}}
 
