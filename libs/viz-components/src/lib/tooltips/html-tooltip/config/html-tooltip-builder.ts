@@ -75,8 +75,8 @@ export class VicHtmlTooltipConfigBuilder {
   }
 
   barsPosition(
-    positions: Partial<ConnectedPosition>[],
-    origin: SVGRectElement
+    origin: SVGRectElement,
+    positions: Partial<ConnectedPosition>[]
   ): this {
     this.origin(origin ? new ElementRef(origin) : undefined);
     const barsPositions = positions.map(
@@ -87,8 +87,8 @@ export class VicHtmlTooltipConfigBuilder {
   }
 
   geographiesPosition(
-    positions: Partial<ConnectedPosition>[],
-    origin: SVGPathElement
+    origin: SVGPathElement,
+    positions: Partial<ConnectedPosition>[]
   ): this {
     this.origin(origin ? new ElementRef(origin) : undefined);
     const geographiesPositions = positions.map(
