@@ -31,6 +31,7 @@ viz-components:
     overview: overview.md
     primary-marks-examples:
       bars: bars.md
+      dots: dots.md
       geographies: geographies.md
       grouped-bars: grouped-bars.md
       lines: lines.md
