@@ -18,6 +18,7 @@ export class GeographiesGeojsonPropertiesLayer<
 {
   readonly fill: OrdinalVisualValueDimension<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
 

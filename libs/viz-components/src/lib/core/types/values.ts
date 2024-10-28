@@ -6,3 +6,5 @@ export enum ValueExtent {
 export type ContinuousValue = number | Date;
 
 export type DataValue = number | string | Date;
+
+export type VisualValue = number | string;

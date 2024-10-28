@@ -20,7 +20,7 @@ export class LinesConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
   implements LinesOptions<Datum>
 {
-  readonly color: OrdinalVisualValueDimension<Datum, string>;
+  readonly color: OrdinalVisualValueDimension<Datum, string, string>;
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;

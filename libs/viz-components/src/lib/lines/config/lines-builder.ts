@@ -28,7 +28,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
+    Datum,
+    string,
+    string
+  >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: LinesStrokeBuilder;
   private xDimensionBuilder:
@@ -43,13 +47,13 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   /**
-   * OPTIONAL. A config for the behavior of the colors for the lines.
+   * OPTIONAL. A config to set the color of the lines.
    *
    * If not provided, all lines will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   color(
     setProperties?: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+      dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
     ) => void
   ): this {
     this.initCategoricalBuilder();
@@ -58,8 +62,11 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   private initCategoricalBuilder(): void {
-    this.colorDimensionBuilder =
-      new OrdinalVisualValueDimensionBuilder<Datum>();
+    this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
+      Datum,
+      string,
+      string
+    >();
   }
 
   /**
@@ -189,7 +196,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      color: this.colorDimensionBuilder._build(),
+      color: this.colorDimensionBuilder._build('Color'),
       curve: this._curve,
       data: this._data,
       labelLines: this._labelLines,
@@ -198,8 +205,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       pointerDetectionRadius: this._pointerDetectionRadius,
       pointMarkers: this.pointMarkersBuilder?._build(),
       stroke: this.strokeBuilder._build(),
-      x: this.xDimensionBuilder._build(),
-      y: this.yDimensionBuilder._build(),
+      x: this.xDimensionBuilder._build('X'),
+      y: this.yDimensionBuilder._build('Y'),
       areaFills: this.areaFillsBuilder?._build(),
     });
   }

@@ -5,10 +5,10 @@ import { NumberChartPositionDimension } from '../../data-dimensions/quantitative
 import { MarksOptions } from '../../marks/config/marks-options';
 import { BarsLabels } from './labels/bars-labels';
 
-export interface BarsOptions<Datum, TOrdinalValue extends DataValue>
+export interface BarsOptions<Datum, OrdinalDomain extends DataValue>
   extends MarksOptions<Datum> {
-  color: OrdinalVisualValueDimension<Datum, string>;
-  ordinal: OrdinalChartPositionDimension<Datum, TOrdinalValue>;
+  color: OrdinalVisualValueDimension<Datum, string, string>;
+  ordinal: OrdinalChartPositionDimension<Datum, OrdinalDomain>;
   quantitative: NumberChartPositionDimension<Datum>;
   labels: BarsLabels<Datum>;
 }

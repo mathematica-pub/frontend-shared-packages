@@ -1,13 +1,14 @@
-import { DataValue } from '../../../core/types/values';
+import { DataValue, VisualValue } from '../../../core/types/values';
 import { FillDef } from '../../../fill-defs/fill-def';
 import { DataDimensionOptions } from '../../dimension-options';
 
 export interface OrdinalVisualValueDimensionOptions<
   Datum,
-  TCategoricalValue extends DataValue = string,
-> extends DataDimensionOptions<Datum, TCategoricalValue> {
-  domain: TCategoricalValue[];
+  Domain extends DataValue,
+  Range extends VisualValue,
+> extends DataDimensionOptions<Datum, Domain> {
+  domain: Domain[];
   fillDefs: FillDef<Datum>[];
-  range: string[];
-  scale: (category: TCategoricalValue) => string;
+  range: Range[];
+  scale: (category: Domain) => Range;
 }

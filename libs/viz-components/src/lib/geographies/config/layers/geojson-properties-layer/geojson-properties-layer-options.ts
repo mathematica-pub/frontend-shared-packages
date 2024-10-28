@@ -9,6 +9,7 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
   fill: OrdinalVisualValueDimension<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
 }

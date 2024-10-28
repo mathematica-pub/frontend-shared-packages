@@ -4,11 +4,11 @@ import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 import { OrdinalVisualValueDimensionBuilder } from './ordinal-visual-value-builder';
 
 describe('OrdinalVisualValueDimension', () => {
-  let dimension: OrdinalVisualValueDimension<string>;
+  let dimension: OrdinalVisualValueDimension<string, string, string>;
   beforeEach(() => {
-    dimension = new OrdinalVisualValueDimensionBuilder<string>()
+    dimension = new OrdinalVisualValueDimensionBuilder<string, string, string>()
       .valueAccessor((d) => d)
-      ._build();
+      ._build('Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

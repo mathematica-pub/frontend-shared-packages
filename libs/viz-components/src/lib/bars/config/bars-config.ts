@@ -8,21 +8,21 @@ import { BarsDimensions } from './bars-dimensions';
 import { BarsOptions } from './bars-options';
 import { BarsLabels } from './labels/bars-labels';
 
-export class BarsConfig<Datum, TOrdinalValue extends DataValue>
+export class BarsConfig<Datum, OrdinalDomain extends DataValue>
   extends XyPrimaryMarksConfig<Datum>
-  implements BarsOptions<Datum, TOrdinalValue>
+  implements BarsOptions<Datum, OrdinalDomain>
 {
   barsKeyFunction: (i: number) => string;
-  readonly color: OrdinalVisualValueDimension<Datum, string>;
+  readonly color: OrdinalVisualValueDimension<Datum, string, string>;
   readonly dimensions: BarsDimensions;
   hasNegativeValues: boolean;
   readonly labels: BarsLabels<Datum>;
-  readonly ordinal: OrdinalChartPositionDimension<Datum, TOrdinalValue>;
+  readonly ordinal: OrdinalChartPositionDimension<Datum, OrdinalDomain>;
   readonly quantitative: NumberChartPositionDimension<Datum>;
 
   constructor(
     dimensions: BarsDimensions,
-    options: BarsOptions<Datum, TOrdinalValue>
+    options: BarsOptions<Datum, OrdinalDomain>
   ) {
     super();
     Object.assign(this, options);

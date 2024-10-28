@@ -15,6 +15,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private fillBuilder: OrdinalVisualValueDimensionBuilder<
     GeographiesFeature<TProperties, TGeometry>,
+    string,
     string
   >;
 
@@ -40,6 +41,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     setProperties: (
       builder: OrdinalVisualValueDimensionBuilder<
         GeographiesFeature<TProperties, TGeometry>,
+        string,
         string
       >
     ) => void
@@ -58,7 +60,7 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     return new GeographiesGeojsonPropertiesLayer({
       class: this._class,
       enableEventActions: this._enableEventActions,
-      fill: this.fillBuilder._build(),
+      fill: this.fillBuilder._build('Fill'),
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),
       stroke: this.strokeBuilder?._build(),

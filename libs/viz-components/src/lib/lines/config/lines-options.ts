@@ -9,7 +9,7 @@ import { LinesStroke } from './stroke/lines-stroke';
 
 export interface LinesOptions<Datum> extends MarksOptions<Datum> {
   areaFills: AreaFills<Datum>;
-  color: OrdinalVisualValueDimension<Datum, string>;
+  color: OrdinalVisualValueDimension<Datum, string, string>;
   curve: CurveFactory;
   labelLines: boolean;
   lineLabelsFormat: (d: string) => string;
