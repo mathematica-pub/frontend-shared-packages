@@ -43,7 +43,9 @@ export class DotsConfig<Datum>
 
   protected setValueIndices(): void {
     this.valueIndices = range(this.data.length).filter(
-      (d) => this.x.isValidValue(d) && this.y.isValidValue(d)
+      (i) =>
+        this.x.isValidValue(this.x.values[i]) &&
+        this.y.isValidValue(this.y.values[i])
     );
   }
 }

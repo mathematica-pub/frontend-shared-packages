@@ -55,9 +55,10 @@ describe('DotsConfig', () => {
   });
 
   describe('setDimensionPropertiesFromData()', () => {
+    let numChartPositionSpy: jasmine.Spy;
     beforeEach(() => {
       spyOn(DotsConfig.prototype as any, 'initPropertiesFromData');
-      spyOn(
+      numChartPositionSpy = spyOn(
         NumberChartPositionDimension.prototype as any,
         'setPropertiesFromData'
       );
@@ -72,11 +73,11 @@ describe('DotsConfig', () => {
       config = getNewConfig(testData);
       (config as any).setDimensionPropertiesFromData();
     });
-    it('calls x.setPropertiesFromData once', () => {
-      expect(config.x.setPropertiesFromData).toHaveBeenCalledOnceWith(testData);
-    });
-    it('calls y.setPropertiesFromData once', () => {
-      expect(config.y.setPropertiesFromData).toHaveBeenCalledOnceWith(testData);
+    it('calls x.setPropertiesFromData and y.setPropertiesFromData once each', () => {
+      expect(numChartPositionSpy.calls.allArgs()).toEqual([
+        [testData],
+        [testData],
+      ]);
     });
     it('calls fill.setPropertiesFromData once', () => {
       expect(config.fill.setPropertiesFromData).toHaveBeenCalledOnceWith(
