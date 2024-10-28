@@ -27,19 +27,6 @@ const testData = [
   { rain: 49, snow: 63, state: 'CO', year: 2021, other: 'j' },
 ];
 
-const problemData = [
-  { rain: 50, snow: 2, state: 'AL', year: 2020, other: 'a' },
-  { rain: 54, snow: 1, state: 'AL', year: 2021, other: 'b' },
-  { rain: 66, snow: 82, state: 'AK', year: null, other: 'c' },
-  { rain: 'im a string' as any, snow: 53, state: 'AK', year: 2021, other: 'd' },
-  { rain: 24, snow: 18, state: 'AZ', year: 2020, other: 'e' },
-  { rain: 17, snow: 25, state: 'AZ', year: 2021, other: 'f' },
-  { rain: 58, snow: 36, state: 'CA', year: 2020, other: 'g' },
-  { rain: 66, snow: 50, state: 'CA', year: 2021, other: 'h' },
-  { rain: 37, snow: 42, state: 'CO', year: 2020, other: 'i' },
-  { rain: 49, snow: 63, state: 'CO', year: 2021, other: 'j' },
-] as Datum[];
-
 function getNewConfig(data: Datum[]): DotsConfig<Datum> {
   return new VicDotsConfigBuilder<Datum>()
     .data(data)
