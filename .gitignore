@@ -14,11 +14,11 @@ yarn-error.log
 
 # Automated Documentation
 /compodoc/docs
-projects/demo-app/src/assets/**/documentation/**/*.*
-!projects/demo-app/src/assets/**/documentation/documentation-directory.yaml
+apps/demo-app/src/assets/**/documentation/**/*.*
+!apps/demo-app/src/assets/**/documentation/documentation-directory.yaml
 
 # My Work Data
-/projects/my-work/src/assets/content/data
+/apps/my-work/src/assets/content/data
 
 # IDEs and editors
 .idea/

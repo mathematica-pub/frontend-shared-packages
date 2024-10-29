@@ -1,0 +1,36 @@
+<div
+  class="vic-legend-color-scale vic-continuous"
+  [ngClass]="['vic-' + orientation, 'vic-' + valuesSide]"
+  [style.--width]="width + 'px'"
+  [style.--height]="height + 'px'"
+  [style.--border-color]="outlineColor"
+  [style.--value-space]="largerValueSpace + 'px'"
+  [style.left.px]="leftOffset"
+>
+  <ng-container
+    *ngIf="
+      (orientation === 'vertical' && valuesSide === 'left') ||
+      (orientation === 'horizontal' && valuesSide === 'top')
+    "
+  >
+    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  </ng-container>
+  <div class="vic-legend-canvas-container">
+    <canvas class="vic-legend-canvas" #canvas></canvas>
+  </div>
+  <ng-container
+    *ngIf="
+      (orientation === 'vertical' && valuesSide === 'right') ||
+      (orientation === 'horizontal' && valuesSide === 'bottom')
+    "
+  >
+    <ng-container *ngTemplateOutlet="valuesDisplay"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #valuesDisplay>
+  <div class="vic-legend-values-container vic-continuous">
+    <p class="vic-value vic-low">{{ values[0] }}</p>
+    <p class="vic-value vic-high">{{ values[values.length - 1] }}</p>
+  </div>
+</ng-template>

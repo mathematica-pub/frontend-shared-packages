@@ -1,0 +1,11 @@
+@use 'vars' as *;
+@use 'functions' as *;
+@use '../../styles/placeholders.scss' as *;
+
+.tooltip-line {
+  stroke: white;
+}
+
+.stacked-area-example-tooltip-container {
+  @extend %vic-examples-tooltip-container-styles;
+}
