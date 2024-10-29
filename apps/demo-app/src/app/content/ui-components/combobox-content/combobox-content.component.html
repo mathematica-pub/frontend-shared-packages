@@ -1,24 +1,64 @@
 <app-content-container>
   <ng-template let-section #escapedContent>
     @switch (section.content.trim()) {
-      @case ('SimpleSingleSelect') {
-        <app-single-panel-example-display
-          height="600px"
-          path="app/content/ui-components/combobox-content/simple-single-select-combobox-example"
-          class="example"
-          label="combobox single example"
-        >
-          <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
-        </app-single-panel-example-display>
-      }
       @case ('SimpleMultiSelect') {
         <app-single-panel-example-display
           height="600px"
-          path="app/content/ui-components/combobox-content/simple-multi-select-combobox-example"
+          path="app/content/ui-components/combobox-content/multi-select/simple-multi-select-combobox-example"
           class="example"
           label="combobox multi example"
         >
           <app-simple-multi-select-combobox-example></app-simple-multi-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('SimpleSingleSelect') {
+        <app-single-panel-example-display
+          height="500px"
+          path="app/content/ui-components/combobox-content/single-select/simple-single-select-combobox-example"
+          class="example"
+          label="simple single select combobox example"
+        >
+          <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('DisplaySingleSelected') {
+        <app-single-panel-example-display
+          height="500px"
+          path="app/content/ui-components/combobox-content/single-select/display-single-selected-combobox-example"
+          class="example"
+          label="single select combobox example that displays selected"
+        >
+          <app-display-single-selected-combobox-example></app-display-single-selected-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('DisabledSelectionsSingleSelect') {
+        <app-single-panel-example-display
+          height="500px"
+          path="app/content/ui-components/combobox-content/single-select/disabled-selections-single-combobox-example"
+          class="example"
+          label="single select combobox example with disabled options"
+        >
+          <app-disabled-selections-single-combobox-example></app-disabled-selections-single-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('FindOnSearchSingleSelect') {
+        <app-single-panel-example-display
+          height="500px"
+          path="app/content/ui-components/combobox-content/single-select/find-on-search-single-combobox-example"
+          class="example"
+          label="single select combobox example with findsOptionOnTyping"
+        >
+          <app-find-on-search-single-combobox-example></app-find-on-search-single-combobox-example>
+        </app-single-panel-example-display>
+      }
+      @case ('NgFormSingleSelect') {
+        <app-single-panel-example-display
+          height="500px"
+          path="app/content/ui-components/combobox-content/single-select/ng-form-single-select-combobox-example"
+          class="example"
+          label="single select combobox example that uses FormControl"
+        >
+          <app-ng-form-single-select-combobox-example></app-ng-form-single-select-combobox-example>
         </app-single-panel-example-display>
       }
     }
