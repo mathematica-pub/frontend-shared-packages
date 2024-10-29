@@ -6,7 +6,6 @@ import { ContentContainerComponent } from '../../content-container/content-conta
 import { SimpleMultiSelectComboboxExampleComponent } from './multi-select/simple-multi-select-combobox-example/simple-multi-select-combobox-example.component';
 import { DisabledSelectionsSingleExampleComponent } from './single-select/disabled-selections-single-combobox-example/disabled-selections-single-combobox-example.component';
 import { DisplaySingleSelectedComboboxExampleComponent } from './single-select/display-single-selected-combobox-example/display-single-selected-combobox-example.component';
-import { FindOnSearchSingleComboboxExampleComponent } from './single-select/find-on-search-single-combobox-example/find-on-search-single-combobox-example.component';
 import { NgFormSingleSelectComboboxExampleComponent } from './single-select/ng-form-single-select-combobox-example/ng-form-single-select-combobox-example.component';
 import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simple-single-select-combobox-example/simple-single-select-combobox-example.component';
 
@@ -21,7 +20,6 @@ import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simp
     SimpleSingleSelectComboboxExampleComponent,
     DisplaySingleSelectedComboboxExampleComponent,
     DisabledSelectionsSingleExampleComponent,
-    FindOnSearchSingleComboboxExampleComponent,
     NgFormSingleSelectComboboxExampleComponent,
     ContentContainerComponent,
   ],
