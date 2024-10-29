@@ -93,9 +93,6 @@ Inputs:
   also be used as a displayed label in the box component when no selections are made. This will
   override any static label a user has projected as a `boxLabel` in the box component. Default to
   false.
-- `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
-  types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
-  functionality. Default is true.
 
 Outputs:
 
@@ -125,9 +122,6 @@ Inputs:
   also be used as a displayed label in the box component when no selections are made. This will
   override any static label a user has projected as a `boxLabel` in the box component. Default to
   false.
-- `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
-  types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
-  functionality. Default is true.
 - `control: FormControl<T>`: An Angular form control that will be updated with the selected value.
 
 Outputs: none
@@ -147,9 +141,6 @@ Inputs:
   also be used as a displayed label in the box component when no selections are made. This will
   override any static label a user has projected as a `boxLabel` in the box component. Default to
   false.
-- `findsOptionOnTyping: boolean`: Moves simulated focus to option that matches string that a user
-  types. If listbox is closed, opens box and moves simulated focus. Replicates native `<select>`
-  functionality. Default is true.
 - `control: FormArray<FormControl<boolean>>`: An Angular `FormArray` with one `FormControl` for each
   multi-select option.
 
