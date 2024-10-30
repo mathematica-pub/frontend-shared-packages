@@ -9,10 +9,7 @@
     </span>
   </hsi-ui-textbox>
   <hsi-ui-listbox [isMultiSelect]="true" (valueChanges)="onSelection($event)">
-    <hsi-ui-listbox-option
-      *ngFor="let option of options"
-      [value]="option.id"
-    >{{
+    <hsi-ui-listbox-option *ngFor="let option of options" [value]="option.id">{{
       option.displayName
     }}</hsi-ui-listbox-option>
   </hsi-ui-listbox>
