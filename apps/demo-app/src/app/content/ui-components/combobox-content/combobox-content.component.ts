@@ -4,6 +4,7 @@ import { SinglePanelExampleDisplayComponent } from '../../../platform/single-pan
 import { SplitPanelExampleDisplayComponent } from '../../../platform/split-panel-example-display/split-panel-example-display.component';
 import { ContentContainerComponent } from '../../content-container/content-container.component';
 import { DisabledSelectionsMultiComboboxExampleComponent } from './multi-select/disabled-selections-multi-combobox-example/disabled-selections-multi-combobox-example.component';
+import { DisplayMultiSelectedComboboxExampleComponent } from './multi-select/display-multi-selected-combobox-example/display-multi-selected-combobox-example.component';
 import { NgFormMultiSelectComboboxExampleComponent } from './multi-select/ng-form-multi-select-combobox-example/ng-form-multi-select-combobox-example.component';
 import { SimpleMultiSelectComboboxExampleComponent } from './multi-select/simple-multi-select-combobox-example/simple-multi-select-combobox-example.component';
 import { DisabledSelectionsSingleExampleComponent } from './single-select/disabled-selections-single-combobox-example/disabled-selections-single-combobox-example.component';
@@ -19,6 +20,7 @@ import { SimpleSingleSelectComboboxExampleComponent } from './single-select/simp
     SinglePanelExampleDisplayComponent,
     SplitPanelExampleDisplayComponent,
     SimpleMultiSelectComboboxExampleComponent,
+    DisplayMultiSelectedComboboxExampleComponent,
     DisabledSelectionsMultiComboboxExampleComponent,
     NgFormMultiSelectComboboxExampleComponent,
     SimpleSingleSelectComboboxExampleComponent,
