@@ -20,11 +20,20 @@ import {
   VicYOrdinalAxisModule,
 } from '@hsi/viz-components';
 import { max } from 'd3';
-import { EnergyIntensityDatum } from '../../../examples/energy-intensity/energy-intensity.component';
 import { CsaStackedBarsComponent } from './csa-stacked-bars/csa-stacked-bars.component';
 
-export interface CsaDatum extends EnergyIntensityDatum {
+export interface CsaDatum {
+  series: string;
+  size: string;
   plans: number[];
+  csa_25: number;
+  csa_75: number;
+  measureCode: string;
+  stratVal: string;
+  delivSys: string;
+  value: number;
+  planValue: number;
+  units: string;
 }
 
 @Component({
@@ -51,11 +60,12 @@ export interface CsaDatum extends EnergyIntensityDatum {
 })
 export class CsaDotPlotComponent implements OnInit {
   @Input() data: CsaDatum[];
-  filteredDataConfig: StackedBarsConfig<CsaDatum, string>;
+  rollupData: CsaDatum[] = [];
+  rollupDataConfig: StackedBarsConfig<CsaDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
-  perCap = 'Energy consumption per capita';
-  sortVar = this.perCap;
+  percentile = 'percentile';
+  sortVar = this.percentile;
   chartHeight = 600;
 
   constructor(
@@ -70,57 +80,54 @@ export class CsaDotPlotComponent implements OnInit {
 
   setProperties(): void {
     const filteredData = this.data
-      .filter((x) => x.category === this.sortVar && x.value !== null)
-      .slice()
-      .filter((x, i) => i < 10); // artificially limits the energy dataset
+      .filter((x) => x.series === this.sortVar && x.value !== null)
+      // TODO: select these via dropdown. Perhaps in csa.component?
+      .filter(
+        (x) =>
+          x.measureCode === 'AOGX' &&
+          x.stratVal === 'Child' &&
+          x.delivSys === 'PZIL'
+      )
+      .slice();
 
-    const invisibleStacks = [];
-    const maxInvisible = max(filteredData, (d) => d.value);
-    const minInvisible = maxInvisible / 2;
+    filteredData.forEach((plan) => {
+      const visibleStack = structuredClone(plan);
+      const currentRollup = this.rollupData.find((x) => x.size === plan.size);
+      if (!currentRollup) {
+        visibleStack.plans = [];
 
-    filteredData.forEach((d) => {
-      const invisibleStack = structuredClone(d);
-      invisibleStack.category = 'invisible';
-      // create random data
-      invisibleStack.value = Math.floor(
-        Math.random() * (maxInvisible - minInvisible + 1) + minInvisible
-      );
-      invisibleStacks.push(invisibleStack);
+        const invisibleStack = structuredClone(plan);
+        invisibleStack.series = 'invisible';
+        invisibleStack.value = plan.csa_25;
+
+        this.rollupData.push(visibleStack);
+        this.rollupData.push(invisibleStack);
+      } else {
+        currentRollup.plans.push(plan.planValue);
+      }
     });
-    filteredData.push(...invisibleStacks);
 
-    // artificially create fake plan data
-    const maxLength = 40;
-    const dataMax = 2000000;
-    filteredData
-      .filter((d) => d.category !== 'invisible')
-      .forEach((d) => {
-        const plans = Array.from(
-          { length: Math.floor(Math.random() * maxLength) },
-          () => Math.floor(Math.random() * dataMax)
-        );
-        d.plans = plans;
-      });
+    const dotMax = max(this.rollupData.map((d) => max(d.plans)));
+    const barMax = max(this.rollupData, (d) => d.csa_75);
+    const trueMax = max([dotMax, barMax]) * 1.1;
 
     console.log('original data:', this.data);
     console.log('filteredData', filteredData);
+    console.log('rollupData', this.rollupData);
+    console.log('trueMax', trueMax);
 
-    const dotMax = max(filteredData.map((d) => max(d.plans)));
-    const barMax = max(filteredData, (d) => d.value);
-    const trueMax = max([dotMax, barMax]);
-
-    this.filteredDataConfig = this.bars
-      .data(filteredData)
+    this.rollupDataConfig = this.bars
+      .data(this.rollupData)
       .orientation('horizontal')
       .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.geography)
+        dimension.valueAccessor((d) => d.size)
       )
       .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.category)
+        dimension.valueAccessor((d) => d.series)
       )
       .createQuantitativeDimension((dimension) =>
         dimension
-          .valueAccessor((d) => d.value * 1000)
+          .valueAccessor((d) => d.value)
           .formatSpecifier(',.0f')
           .domainPaddingPixels(16)
           .domain([0, trueMax])
@@ -130,9 +137,17 @@ export class CsaDotPlotComponent implements OnInit {
 
     this.yAxisConfig = this.yOrdinalAxis.getConfig();
     this.xAxisConfig = this.xQuantitativeAxis
-      .tickFormat(',.0f')
+      .tickFormat(this.getTickFormat())
       .numTicks(4)
       .getConfig();
-    console.log('this.xAxisConfig', this.xAxisConfig);
+  }
+
+  getTickFormat(): string {
+    const units = this.rollupData[0].units;
+    if (units === 'Percentage') {
+      return '.0%';
+    } else {
+      return ',.0f';
+    }
   }
 }

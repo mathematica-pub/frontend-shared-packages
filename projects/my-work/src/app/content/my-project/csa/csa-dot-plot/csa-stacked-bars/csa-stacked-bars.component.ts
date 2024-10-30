@@ -24,23 +24,21 @@ export class CsaStackedBarsComponent
   }
 
   drawCircles(): void {
-    console.log('this.scales', this.scales);
-    console.log('this.config', this.config);
     select(this.chart.svgRef.nativeElement)
       .append('g')
       .attr('class', 'plans')
-      .selectAll('county')
+      .selectAll('category')
       .data(
-        this.config.data.filter((county) => county.category !== 'invisible')
+        this.config.data.filter((category) => category.series !== 'invisible')
       )
       .join('g')
       .attr(
         'transform',
-        (county) =>
-          `translate(0, ${this.scales.y(county.geography) + (this.scales.y as any).bandwidth() / 2})`
+        (category) =>
+          `translate(0, ${this.scales.y(category.size) + (this.scales.y as any).bandwidth() / 2})`
       )
       .selectAll('circle')
-      .data((county) => county.plans)
+      .data((category) => category.plans)
       .join('circle')
       .attr('r', 5)
       .attr('cx', (plan) => this.scales.x(plan));

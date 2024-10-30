@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { filter, map, Observable } from 'rxjs';
 import { DataService } from '../../../core/services/data.service';
 import { ExportContentComponent } from '../../../platform/export-content/export-content.component';
 import {
@@ -17,22 +17,32 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CsaComponent implements OnInit {
-  dataPath = 'content/example-data/energy-intensity-data.csv';
+  dataPath = 'content/data/Mock_Statistical_Results.csv';
   data$: Observable<CsaDatum[]>;
+  rollupData$: Observable<CsaDatum[]>;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    const data$ = this.dataService.getDataFile(this.dataPath).pipe(
+    // const data$ = this.dataService.getDataFile(this.dataPath).pipe(
+    this.data$ = this.dataService.getDataFile(this.dataPath).pipe(
+      filter((data) => data.length > 0),
       map((data) => {
         const transformed: CsaDatum[] = data.map((x) => {
           const obj: CsaDatum = {
-            category: x.category,
-            geography: x.geography,
-            date: new Date(x.date),
-            units: x.units,
-            name: x.name,
-            value: x.value && !isNaN(x.value) ? +x.value : null,
+            series: 'percentile',
+            size: x.County_Size,
+            measureCode: x.Measure_Code,
+            stratVal: x.StratVal,
+            delivSys: x.DelivSys,
+            units: x.Units,
+            value:
+              x.CSA_25 && !isNaN(x.CSA_25) && x.CSA_75 && !isNaN(x.CSA_75)
+                ? x.CSA_75 - x.CSA_25
+                : null,
+            planValue: x.Value && !isNaN(x.Value) ? +x.Value : null,
+            csa_25: x.CSA_25 && !isNaN(x.CSA_25) ? +x.CSA_25 : null,
+            csa_75: x.CSA_75 && !isNaN(x.CSA_75) ? +x.CSA_75 : null,
             plans: [],
           };
           return obj;
@@ -41,8 +51,8 @@ export class CsaComponent implements OnInit {
       })
     );
 
-    this.data$ = data$.pipe(
-      map((data) => data.filter((d) => d.date.getFullYear() === 2020))
-    );
+    // this.data$ = data$.pipe(
+    //   map((data) => data.filter((d) => d.date.getFullYear() === 2020))
+    // );
   }
 }
