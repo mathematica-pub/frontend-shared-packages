@@ -14,6 +14,7 @@
     </hsi-ui-listbox-label>
     <hsi-ui-listbox-option
       *ngFor="let option of options"
+      [value]="option.id"
       [disabled]="option.disabled"
       >{{ option.displayName }}</hsi-ui-listbox-option
     >

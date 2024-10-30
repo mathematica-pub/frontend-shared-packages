@@ -26,7 +26,7 @@ export class DisplaySingleSelectedComboboxExampleComponent {
   value = new BehaviorSubject<string>(null);
   value$ = this.value.asObservable();
 
-  onSelection(event: string): void {
-    this.value.next(event);
+  onSelection(selectedId: string): void {
+    this.value.next(selectedId);
   }
 }
