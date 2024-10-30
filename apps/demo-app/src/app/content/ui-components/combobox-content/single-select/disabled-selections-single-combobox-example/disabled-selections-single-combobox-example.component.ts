@@ -23,10 +23,10 @@ export class DisabledSelectionsSingleExampleComponent {
     { displayName: 'Inside Out', id: 'insideOut', disabled: true },
     { displayName: 'Up', id: 'up', disabled: false },
   ];
-  value = new BehaviorSubject<string>(null);
-  value$ = this.value.asObservable();
+  selected = new BehaviorSubject<string>(null);
+  selected$ = this.selected.asObservable();
 
   onSelection(selectedId: string): void {
-    this.value.next(selectedId);
+    this.selected.next(selectedId);
   }
 }
