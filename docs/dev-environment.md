@@ -23,8 +23,8 @@ The beta release process is as follows:
 1. Open a PR that has at least one commit prefixed with `fix:`, `feat:`, or `perf:` or that has a
    `BREAKING CHANGE:` footer. This way our automated versioning system can detect that your changes
    warrant a version bump.
-2. Leave a comment on the PR that says `beta-release-bot: PACKAGE_NAME`. This should kick off a beta
-   release job.
+2. Leave a comment on the PR that says `beta-release-bot: <package name>` (e.g.
+   `beta-release-bot: viz-components`). This should kick off a beta release job.
 3. An automated comment should be left on your PR. This will either indicate success and provide
    instructions for how to install your beta release or notify you of a workflow failure.
 
