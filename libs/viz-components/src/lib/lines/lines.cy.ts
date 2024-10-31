@@ -183,9 +183,11 @@ describe('it creates the correct marks - x axis values are Dates', () => {
   it('should draw the correct number of lines', () => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
-      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
-      .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .xDate((xDate) => xDate.valueAccessor((d) => d.year))
+      .y((y) => y.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .getConfig();
     mountDateLinesComponent(linesConfig);
     const categories = [];
@@ -213,9 +215,11 @@ describe('it creates the correct marks - x axis values are Dates', () => {
     }, {});
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(testData)
-      .xDate((dimension) => dimension.valueAccessor((d) => d.year))
-      .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .xDate((xDate) => xDate.valueAccessor((d) => d.year))
+      .y((y) => y.valueAccessor((d) => d.population))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .pointMarkers((markers) => markers.class('test-point-marker'))
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -588,17 +592,17 @@ describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
     const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
       .data(dateData)
-      .xDate((dimension) =>
+      .xDate((xDate) =>
         // When running in headless mode, realHover is finicky with point markers that are on the edge of the svg container
         // Padded the x and y domains to avoid this issue
-        dimension
+        xDate
           .valueAccessor((d) => d.year)
           .domain([new Date('2020-01-02'), new Date('2104-01-02')])
       )
-      .y((dimension) =>
-        dimension.valueAccessor((d) => d.population).domainPaddingPixels(100)
+      .y((y) => y.valueAccessor((d) => d.population).domainPaddingPixels(100))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
       )
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
       .pointMarkers()
       .stroke((stroke) =>
         stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')

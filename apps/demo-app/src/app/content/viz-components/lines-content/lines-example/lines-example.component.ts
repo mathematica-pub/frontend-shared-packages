@@ -138,11 +138,11 @@ export class LinesExampleComponent implements OnInit {
     const yAxisConfig = this.yAxisQuantitative.getConfig();
     const dataConfig = this.lines
       .data(data)
-      .xDate((dimension) => dimension.valueAccessor((d) => d.date))
-      .y((dimension) =>
-        dimension.valueAccessor((d) => d.value).domainPaddingPixels(20)
+      .xDate((xDate) => xDate.valueAccessor((d) => d.date))
+      .y((y) => y.valueAccessor((d) => d.value).domainPaddingPixels(20))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.division))
       )
-      .color((dimension) => dimension.valueAccessor((d) => d.division))
       .pointMarkers((markers) =>
         markers
           .radius(2)

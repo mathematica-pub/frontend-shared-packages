@@ -1,3 +1,4 @@
+import { OrdinalVisualValueDimensionBuilder } from '../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { LinesStroke } from './lines-stroke';
 
 const DEFAULT = {
@@ -8,7 +9,8 @@ const DEFAULT = {
   _width: 2,
 };
 
-export class LinesStrokeBuilder {
+export class LinesStrokeBuilder<Datum> {
+  private colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
   private _dasharray: string;
   private _linecap: string;
   private _linejoin: string;
@@ -17,6 +19,25 @@ export class LinesStrokeBuilder {
 
   constructor() {
     Object.assign(this, DEFAULT);
+  }
+
+  /**
+   * OPTIONAL. Creates a dimension that will control the color of the bars.
+   *
+   * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
+   */
+  color(
+    setProperties?: (
+      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+    ) => void
+  ): this {
+    this.initColorDimensionBuilder();
+    setProperties?.(this.colorDimensionBuilder);
+    return this;
+  }
+
+  private initColorDimensionBuilder() {
+    this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
   /**
@@ -77,13 +98,21 @@ export class LinesStrokeBuilder {
   /**
    * @internal This function is for internal use only and should never be called by the user.
    */
-  _build(): LinesStroke {
-    return new LinesStroke({
+  _build(): LinesStroke<Datum> {
+    this.validateBuilder();
+    return new LinesStroke<Datum>({
+      color: this.colorDimensionBuilder._build(),
       dasharray: this._dasharray,
       linecap: this._linecap,
       linejoin: this._linejoin,
       opacity: this._opacity,
       width: this._width,
     });
+  }
+
+  validateBuilder(): void {
+    if (!this.colorDimensionBuilder) {
+      this.initColorDimensionBuilder();
+    }
   }
 }
