@@ -34,7 +34,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     string
   >;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
-  private strokeBuilder: LinesStrokeBuilder;
+  private strokeBuilder: LinesStrokeBuilder<Datum>;
   private xDimensionBuilder:
     | NumberChartPositionDimensionBuilder<Datum>
     | DateChartPositionDimensionBuilder<Datum>;
@@ -44,29 +44,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   constructor() {
     super();
     Object.assign(this, DEFAULT);
-  }
-
-  /**
-   * OPTIONAL. A config to set the color of the lines.
-   *
-   * If not provided, all lines will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
-   */
-  color(
-    setProperties?: (
-      dimension: OrdinalVisualValueDimensionBuilder<Datum, string, string>
-    ) => void
-  ): this {
-    this.initCategoricalBuilder();
-    setProperties?.(this.colorDimensionBuilder);
-    return this;
-  }
-
-  private initCategoricalBuilder(): void {
-    this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
-      Datum,
-      string,
-      string
-    >();
   }
 
   /**
@@ -127,7 +104,7 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * OPTIONAL. A config for the behavior of the line stroke.
    */
-  stroke(setProperties?: (stroke: LinesStrokeBuilder) => void): this {
+  stroke(setProperties?: (stroke: LinesStrokeBuilder<Datum>) => void): this {
     this.initStrokeBuilder();
     setProperties?.(this.strokeBuilder);
     return this;
@@ -196,7 +173,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   getConfig(): LinesConfig<Datum> {
     this.validateBuilder();
     return new LinesConfig({
-      color: this.colorDimensionBuilder._build('Color'),
       curve: this._curve,
       data: this._data,
       labelLines: this._labelLines,
@@ -215,9 +191,6 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
     super.validateBuilder('Lines');
     if (this.strokeBuilder === undefined) {
       this.initStrokeBuilder();
-    }
-    if (!this.colorDimensionBuilder) {
-      this.initCategoricalBuilder();
     }
     if (!this.xDimensionBuilder) {
       throw new Error(

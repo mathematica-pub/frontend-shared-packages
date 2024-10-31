@@ -32,9 +32,9 @@ export function linesTooltipMixin<T extends AbstractConstructor>(Base: T) {
               lines.config.y.valueAccessor(datum),
               lines.config.y.formatSpecifier
             ),
-        category: lines.config.color.valueAccessor(datum),
+        category: lines.config.stroke.color.valueAccessor(datum),
         color: lines.scales.categorical(
-          lines.config.color.valueAccessor(datum)
+          lines.config.stroke.color.valueAccessor(datum)
         ),
         positionX: lines.scales.x(lines.config.x.values[datumIndex]),
         positionY: lines.scales.y(lines.config.y.values[datumIndex]),

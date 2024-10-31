@@ -299,7 +299,9 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
     .data(linesDateData)
     .xDate((dimension) => dimension.valueAccessor((d) => d.year))
     .y((dimension) => dimension.valueAccessor((d) => d.population))
-    .color((dimension) => dimension.valueAccessor((d) => d.continent))
+    .stroke((stroke) =>
+      stroke.color((color) => color.valueAccessor((d) => d.continent))
+    )
     .getConfig();
   const declarations = [TestLinesComponent<QdQnCDatum, Date, RuleDatum>];
   cy.mount(TestLinesComponent<QdQnCDatum, Date, RuleDatum>, {
@@ -329,7 +331,9 @@ function mountNumberLinesComponent(
       dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
     )
     .y((dimension) => dimension.valueAccessor((d) => d.population))
-    .color((dimension) => dimension.valueAccessor((d) => d.continent))
+    .stroke((stroke) =>
+      stroke.color((color) => color.valueAccessor((d) => d.continent))
+    )
     .getConfig();
   const declarations = [TestLinesComponent<QnQnCDatum, number, number>];
   cy.mount(TestLinesComponent<QnQnCDatum, number, number>, {

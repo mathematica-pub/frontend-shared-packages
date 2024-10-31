@@ -17,15 +17,14 @@ function createConfig(): LinesConfig<Datum> {
     .data(data)
     .xDate((dimension) => dimension.valueAccessor((d) => d.date))
     .y((dimension) => dimension.valueAccessor((d) => d.value))
-    .color((dimension) => dimension.valueAccessor((d) => d.category))
+    .stroke((stroke) =>
+      stroke.color((dimension) => dimension.valueAccessor((d) => d.category))
+    )
     .getConfig();
 }
 
 describe('LinesConfig', () => {
   let config: LinesConfig<Datum>;
-  beforeEach(() => {
-    config = undefined;
-  });
 
   describe('initPropertiesFromData()', () => {
     beforeEach(() => {
