@@ -1,3 +1,6 @@
-import { StrokeOptions } from '../../../stroke/stroke-options';
+import { OrdinalVisualValueDimension } from '../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { StrokeBase } from '../../../stroke/base/stroke-base';
 
-export interface LinesStrokeOptions extends Omit<StrokeOptions, 'color'> {}
+export interface LinesStrokeOptions<Datum> extends StrokeBase {
+  color: OrdinalVisualValueDimension<Datum, string>;
+}

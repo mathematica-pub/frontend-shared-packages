@@ -96,7 +96,7 @@ const getYTransform = ($barGroup) => {
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <p>{{ (tooltipData$ | async).values.quantitative }}</p>
+      <p>{{ (tooltipData$ | async).values.x }}</p>
     </ng-template>
   `,
   styles: [],
@@ -208,7 +208,7 @@ const mountHorizontalBarsComponent = (
     </vic-xy-chart>
 
     <ng-template #htmlTooltip>
-      <p>{{ (tooltipData$ | async).values.quantitative }}</p>
+      <p>{{ (tooltipData$ | async).values.y }}</p>
     </ng-template>
   `,
   styles: [],

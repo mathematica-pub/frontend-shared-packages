@@ -1,13 +1,14 @@
+import { OrdinalVisualValueDimension } from '../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { StrokeBase } from '../../../stroke/base/stroke-base';
 import { LinesStrokeOptions } from './lines-stroke-options';
+export class LinesStroke<Datum>
+  extends StrokeBase
+  implements LinesStrokeOptions<Datum>
+{
+  color: OrdinalVisualValueDimension<Datum, string>;
 
-export class LinesStroke implements LinesStrokeOptions {
-  readonly dasharray: string;
-  readonly linecap: string;
-  readonly linejoin: string;
-  readonly opacity: number;
-  readonly width: number;
-
-  constructor(options: Partial<LinesStrokeOptions>) {
+  constructor(options: Partial<LinesStrokeOptions<Datum>>) {
+    super();
     Object.assign(this, options);
   }
 }
