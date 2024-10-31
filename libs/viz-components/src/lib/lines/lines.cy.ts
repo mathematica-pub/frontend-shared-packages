@@ -251,7 +251,9 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       .data(testData)
       .xDate((dimension) => dimension.valueAccessor((d) => d.year))
       .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .pointMarkers((markers) => markers.class('test-point-marker'))
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -283,7 +285,9 @@ describe('it creates the correct marks - x axis values are Dates', () => {
       .data(testData)
       .xDate((dimension) => dimension.valueAccessor((d) => d.year))
       .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .pointMarkers((markers) => markers.class('test-point-marker'))
       .getConfig();
     mountDateLinesComponent(linesConfig);
@@ -307,7 +311,9 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
         dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
       )
       .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .getConfig();
     mountNumberLinesComponent(linesConfig);
     const categories = [];
@@ -330,7 +336,9 @@ describe('it creates the correct lines - x axis values are Numbers', () => {
           dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
         )
         .y((dimension) => dimension.valueAccessor((d) => d.population))
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .areaFills()
         .getConfig();
       mountNumberLinesComponent(linesConfig);
@@ -359,7 +367,9 @@ describe('if the user specifies a y domain that is smaller than max value', () =
       .y((dimension) =>
         dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
       )
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.wait(axisTickTextWaitTime);
@@ -392,7 +402,9 @@ describe('if the user specifies an x domain that is smaller than max value', () 
           .domain([2020, 2080])
       )
       .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .getConfig();
     mountNumberLinesComponent(linesConfig);
     cy.wait(axisTickTextWaitTime);
@@ -424,7 +436,9 @@ describe('it creates lines with the correct properties per config', () => {
       .data(dateData)
       .xDate((dimension) => dimension.valueAccessor((d) => d.year))
       .y((dimension) => dimension.valueAccessor((d) => d.population))
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').each(($line, i) => {
@@ -439,7 +453,9 @@ describe('it creates lines with the correct properties per config', () => {
       .y((dimension) =>
         dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
       )
-      .color((dimension) => dimension.valueAccessor((d) => d.continent))
+      .stroke((stroke) =>
+        stroke.color((color) => color.valueAccessor((d) => d.continent))
+      )
       .getConfig();
     mountDateLinesComponent(linesConfig);
     cy.get('.vic-line').should('have.length', 6);
@@ -454,7 +470,9 @@ describe('it creates lines with the correct properties per config', () => {
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .pointMarkers((markers) => markers.class(markerClass))
         .getConfig();
       mountDateLinesComponent(linesConfig);
@@ -473,7 +491,9 @@ describe('it creates lines with the correct properties per config', () => {
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .pointMarkers((markers) => markers.class(markerClass).display(false))
         .getConfig();
       mountDateLinesComponent(linesConfig);
@@ -498,7 +518,9 @@ describe('it creates lines with the correct properties per config', () => {
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .pointMarkers((markers) =>
           markers.class(markerClass).display((d) => d.continent === 'Asia')
         )
@@ -527,7 +549,9 @@ describe('it creates lines with the correct properties per config', () => {
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .pointMarkers((markers) => markers.class(markerClass).radius(radius))
         .getConfig();
       mountDateLinesComponent(linesConfig);
@@ -545,7 +569,9 @@ describe('it creates lines with the correct properties per config', () => {
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .pointMarkers()
         .stroke((stroke) =>
           stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
@@ -567,7 +593,9 @@ describe('it creates lines with the correct properties per config', () => {
         .y((dimension) =>
           dimension.valueAccessor((d) => d.population).domain([0, 4900000000])
         )
-        .color((dimension) => dimension.valueAccessor((d) => d.continent))
+        .stroke((stroke) =>
+          stroke.color((color) => color.valueAccessor((d) => d.continent))
+        )
         .labelLines(true)
         .getConfig();
       mountDateLinesComponent(linesConfig);
