@@ -2,5 +2,5 @@ import { OrdinalVisualValueDimension } from '../../../data-dimensions/ordinal/or
 import { StrokeBase } from '../../../stroke/base/stroke-base';
 
 export interface LinesStrokeOptions<Datum> extends StrokeBase {
-  color: OrdinalVisualValueDimension<Datum, string>;
+  color: OrdinalVisualValueDimension<Datum, string, string>;
 }
