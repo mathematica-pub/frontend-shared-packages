@@ -41,7 +41,7 @@ export interface LinesTooltipDatum<Datum> {
   values: {
     x: string;
     y: string;
-    color: string;
+    strokeColor: string;
   };
 }
 
@@ -86,7 +86,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    this.scales.color = this.config.color.getScale();
+    this.scales.color = this.config.stroke.color.getScale();
     this.zone.run(() => {
       this.chart.updateScales({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -274,13 +274,13 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
             .attr('r', this.config.pointMarkers.radius)
             .attr('fill', (d) =>
-              this.scales.color(this.config.color.values[d.index])
+              this.scales.color(this.config.stroke.color.values[d.index])
             )
             .style('display', (d) => d.display),
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.color(this.config.color.values[d.index])
+              this.scales.color(this.config.stroke.color.values[d.index])
             )
             .call((update) =>
               update
@@ -312,7 +312,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('class', 'vic-line-label')
             .attr('text-anchor', 'end')
             .attr('fill', (d) =>
-              this.scales.color(this.config.color.values[d.index])
+              this.scales.color(this.config.stroke.color.values[d.index])
             )
             .attr(
               'x',
@@ -326,7 +326,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.color(this.config.color.values[d.index])
+              this.scales.color(this.config.stroke.color.values[d.index])
             )
             .attr(
               'x',
@@ -345,8 +345,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const datum = this.config.data[datumIndex];
     return {
       datum,
-      color: this.scales.color(this.config.color.valueAccessor(datum)),
+      color: this.scales.color(this.config.stroke.color.valueAccessor(datum)),
       values: {
+        strokeColor: this.config.stroke.color.valueAccessor(datum),
         x: this.config.x.formatFunction
           ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
           : ValueUtilities.d3Format(
@@ -359,7 +360,6 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
               this.config.y.valueAccessor(datum),
               this.config.y.formatSpecifier
             ),
-        color: this.config.color.valueAccessor(datum),
       },
       positionX: this.scales.x(this.config.x.values[datumIndex]),
       positionY: this.scales.y(this.config.y.values[datumIndex]),
