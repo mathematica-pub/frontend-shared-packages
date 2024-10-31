@@ -1,11 +1,14 @@
 import { InternSet, ScaleBand, scaleBand } from 'd3';
-import { DataValue } from '../../core/types/values';
-import { DataDimension } from '../dimension';
-import { OrdinalDimensionOptions } from './ordinal-options';
+import { DataValue } from '../../../core/types/values';
+import { DataDimension } from '../../dimension';
+import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-options';
 
-export class OrdinalDimension<Datum, TOrdinalValue extends DataValue>
+export class OrdinalChartPositionDimension<
+    Datum,
+    TOrdinalValue extends DataValue,
+  >
   extends DataDimension<Datum, TOrdinalValue>
-  implements OrdinalDimensionOptions<Datum, TOrdinalValue>
+  implements OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
 {
   readonly align: number;
   private _calculatedDomain: TOrdinalValue[];
@@ -20,7 +23,9 @@ export class OrdinalDimension<Datum, TOrdinalValue extends DataValue>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
 
-  constructor(options: OrdinalDimensionOptions<Datum, TOrdinalValue>) {
+  constructor(
+    options: OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
+  ) {
     super();
     this.scaleFn = scaleBand;
     Object.assign(this, options);

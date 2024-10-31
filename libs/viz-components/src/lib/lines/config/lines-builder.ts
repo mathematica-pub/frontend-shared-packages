@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CurveFactory, curveLinear } from 'd3';
-import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
-import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
+import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { PointMarkersBuilder } from '../../point-markers/point-markers-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
@@ -28,13 +28,13 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   private _labelLines: boolean;
   private _lineLabelsFormat: (d: string) => string;
   private _pointerDetectionRadius: number;
-  private categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
+  private categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
   private pointMarkersBuilder: PointMarkersBuilder<Datum>;
   private strokeBuilder: StrokeBuilder;
   private xDimensionBuilder:
-    | QuantitativeNumericDimensionBuilder<Datum>
-    | QuantitativeDateDimensionBuilder<Datum>;
-  private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+    | NumberChartPositionDimensionBuilder<Datum>
+    | DateChartPositionDimensionBuilder<Datum>;
+  private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
   private areaFillsBuilder: AreaFillsBuilder<Datum>;
 
   constructor() {
@@ -48,7 +48,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   createCategoricalDimension(
-    setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
+    setProperties?: (
+      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+    ) => void
   ): this {
     this.initCatetgoricalBuilder();
     setProperties?.(this.categoricalDimensionBuilder);
@@ -56,7 +58,8 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   }
 
   private initCatetgoricalBuilder(): void {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<Datum>();
+    this.categoricalDimensionBuilder =
+      new OrdinalVisualValueDimensionBuilder<Datum>();
   }
 
   /**
@@ -132,10 +135,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   createXNumericDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }
@@ -144,9 +147,9 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    * REQUIRED. A config for the behavior of the chart's x dimension when using Date date.
    */
   createXDateDimension(
-    setProperties: (dimension: QuantitativeDateDimensionBuilder<Datum>) => void
+    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeDateDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }
@@ -156,10 +159,10 @@ export class VicLinesConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    */
   createYDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.yDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.yDimensionBuilder);
     return this;
   }

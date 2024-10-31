@@ -1,14 +1,14 @@
 import { CurveFactory, InternMap, Series } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
-import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { MarksOptions } from '../../marks/config/marks-options';
 
 export interface StackedAreaOptions<Datum, TCategoricalValue extends DataValue>
   extends MarksOptions<Datum>,
     MarksOptions<Datum> {
-  categorical: CategoricalDimension<Datum, TCategoricalValue>;
+  categorical: OrdinalVisualValueDimension<Datum, TCategoricalValue>;
   categoricalOrder: TCategoricalValue[];
   curve: CurveFactory;
   stackOrder: (
@@ -24,6 +24,6 @@ export interface StackedAreaOptions<Datum, TCategoricalValue extends DataValue>
     >,
     order: number[]
   ) => void;
-  x: QuantitativeDateDimension<Datum> | QuantitativeNumericDimension<Datum>;
-  y: QuantitativeNumericDimension<Datum>;
+  x: DateChartPositionDimension<Datum> | NumberChartPositionDimension<Datum>;
+  y: NumberChartPositionDimension<Datum>;
 }

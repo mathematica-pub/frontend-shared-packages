@@ -1,5 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
-import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
+import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-options';
 
@@ -7,7 +7,7 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
-  categorical: CategoricalDimension<
+  categorical: OrdinalVisualValueDimension<
     GeographiesFeature<TProperties, TGeometry>,
     string
   >;

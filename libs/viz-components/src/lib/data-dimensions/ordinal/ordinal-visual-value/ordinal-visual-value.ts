@@ -1,14 +1,14 @@
 import { InternSet, scaleOrdinal } from 'd3';
-import { DataValue } from '../../core/types/values';
-import { FillDef } from '../../fill-defs/fill-def';
-import { DataDimension } from '../dimension';
-import { CategoricalDimensionOptions } from './categorical-options';
+import { DataValue } from '../../../core/types/values';
+import { FillDef } from '../../../fill-defs/fill-def';
+import { DataDimension } from '../../dimension';
+import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-options';
 
 export type VicCategoricalScale<Domain, Range = string> = (
   category: Domain
 ) => Range;
 
-export class CategoricalDimension<
+export class OrdinalVisualValueDimension<
   Datum,
   TCategoricalValue extends DataValue = string,
 > extends DataDimension<Datum, TCategoricalValue> {
@@ -19,7 +19,9 @@ export class CategoricalDimension<
   readonly range: string[];
   private scale: VicCategoricalScale<TCategoricalValue>;
 
-  constructor(options: CategoricalDimensionOptions<Datum, TCategoricalValue>) {
+  constructor(
+    options: OrdinalVisualValueDimensionOptions<Datum, TCategoricalValue>
+  ) {
     super();
     Object.assign(this, options);
   }

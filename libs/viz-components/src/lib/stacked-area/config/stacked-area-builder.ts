@@ -8,9 +8,9 @@ import {
   stackOrderNone,
 } from 'd3';
 import { ContinuousValue, DataValue } from '../../core/types/values';
-import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { QuantitativeDateDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-date-builder';
-import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
+import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 
@@ -34,7 +34,7 @@ export class VicStackedAreaConfigBuilder<
   Datum,
   TCategoricalValue extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
-  private categoricalDimensionBuilder: CategoricalDimensionBuilder<
+  private categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
     TCategoricalValue
   >;
@@ -54,9 +54,9 @@ export class VicStackedAreaConfigBuilder<
     order: number[]
   ) => void;
   private xDimensionBuilder:
-    | QuantitativeNumericDimensionBuilder<Datum>
-    | QuantitativeDateDimensionBuilder<Datum>;
-  private yDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+    | NumberChartPositionDimensionBuilder<Datum>
+    | DateChartPositionDimensionBuilder<Datum>;
+  private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
 
   constructor() {
     super();
@@ -68,10 +68,10 @@ export class VicStackedAreaConfigBuilder<
    */
   createCategoricalDimension(
     setProperties: (
-      dimension: CategoricalDimensionBuilder<Datum, TCategoricalValue>
+      dimension: OrdinalVisualValueDimensionBuilder<Datum, TCategoricalValue>
     ) => void
   ): this {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder<
+    this.categoricalDimensionBuilder = new OrdinalVisualValueDimensionBuilder<
       Datum,
       TCategoricalValue
     >();
@@ -139,10 +139,10 @@ export class VicStackedAreaConfigBuilder<
    */
   createXNumericDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }
@@ -151,9 +151,9 @@ export class VicStackedAreaConfigBuilder<
    * REQUIRED. Sets the x dimension for the stacked area chart when using Date data.
    */
   createXDateDimension(
-    setProperties: (dimension: QuantitativeDateDimensionBuilder<Datum>) => void
+    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
   ): this {
-    this.xDimensionBuilder = new QuantitativeDateDimensionBuilder<Datum>();
+    this.xDimensionBuilder = new DateChartPositionDimensionBuilder<Datum>();
     setProperties(this.xDimensionBuilder);
     return this;
   }
@@ -163,10 +163,10 @@ export class VicStackedAreaConfigBuilder<
    */
   createYNumericDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.yDimensionBuilder = new QuantitativeNumericDimensionBuilder<Datum>();
+    this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.yDimensionBuilder);
     return this;
   }
