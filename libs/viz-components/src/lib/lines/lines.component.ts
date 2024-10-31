@@ -38,7 +38,7 @@ export interface LinesTooltipDatum<Datum> {
   values: {
     x: string;
     y: string;
-    color: string;
+    strokeColor: string;
   };
 }
 
@@ -334,7 +334,9 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const datum = this.config.data[datumIndex];
     return {
       datum,
-      color: this.scales.categorical(this.config.color.valueAccessor(datum)),
+      color: this.scales.categorical(
+        this.config.stroke.color.valueAccessor(datum)
+      ),
       values: {
         x: this.config.x.formatFunction
           ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
@@ -348,7 +350,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
               this.config.y.valueAccessor(datum),
               this.config.y.formatSpecifier
             ),
-        color: this.config.color.valueAccessor(datum),
+        strokeColor: this.config.stroke.color.valueAccessor(datum),
       },
       positionX: this.scales.x(this.config.x.values[datumIndex]),
       positionY: this.scales.y(this.config.y.values[datumIndex]),
