@@ -1,12 +1,12 @@
 import { ScaleContinuousNumeric, max, min } from 'd3';
-import { isNumber } from '../../core/utilities/type-guards';
-import { DataDimension } from '../dimension';
+import { isNumber } from '../../../core/utilities/type-guards';
+import { DataDimension } from '../../dimension';
 import { ConcreteDomainPadding } from './domain-padding/concrete-domain-padding';
-import { QuantitativeNumericDimensionOptions } from './quantitative-numeric-options';
+import { NumberChartPositionDimensionOptions } from './number-chart-position-options';
 
-export class QuantitativeNumericDimension<Datum>
+export class NumberChartPositionDimension<Datum>
   extends DataDimension<Datum, number>
-  implements QuantitativeNumericDimensionOptions<Datum>
+  implements NumberChartPositionDimensionOptions<Datum>
 {
   private calculatedDomain: [number, number];
   readonly domain: [number, number];
@@ -19,7 +19,7 @@ export class QuantitativeNumericDimension<Datum>
     range?: Iterable<number>
   ) => ScaleContinuousNumeric<number, number>;
 
-  constructor(options: QuantitativeNumericDimensionOptions<Datum>) {
+  constructor(options: NumberChartPositionDimensionOptions<Datum>) {
     super();
     Object.assign(this, options);
   }

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { QuantitativeNumericDimension } from './quantitative-numeric';
-import { QuantitativeNumericDimensionBuilder } from './quantitative-numeric-builder';
+import { NumberChartPositionDimension } from './number-chart-position';
+import { NumberChartPositionDimensionBuilder } from './number-chart-position-builder';
 
-describe('VicQuantitativeDimension', () => {
-  let dimension: QuantitativeNumericDimension<number>;
+describe('NumberChartPositionDimension', () => {
+  let dimension: NumberChartPositionDimension<number>;
   beforeEach(() => {
-    dimension = new QuantitativeNumericDimensionBuilder<number>()
+    dimension = new NumberChartPositionDimensionBuilder<number>()
       .valueAccessor((d) => d)
       ._build();
   });

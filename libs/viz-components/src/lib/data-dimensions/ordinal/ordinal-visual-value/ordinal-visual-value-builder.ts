@@ -1,15 +1,15 @@
 import { schemeTableau10 } from 'd3';
-import { DataValue } from '../../core/types/values';
-import { FillDef } from '../../fill-defs/fill-def';
-import { DataDimensionBuilder } from '../dimension-builder';
-import { CategoricalDimension } from './categorical';
+import { DataValue } from '../../../core/types/values';
+import { FillDef } from '../../../fill-defs/fill-def';
+import { DataDimensionBuilder } from '../../dimension-builder';
+import { OrdinalVisualValueDimension } from './ordinal-visual-value';
 
 const DEFAULT = {
   _range: schemeTableau10 as string[],
   _valueAccessor: () => '',
 };
 
-export class CategoricalDimensionBuilder<
+export class OrdinalVisualValueDimensionBuilder<
   Datum,
   TCategoricalValue extends DataValue = string,
 > extends DataDimensionBuilder<Datum, TCategoricalValue> {
@@ -72,8 +72,8 @@ export class CategoricalDimensionBuilder<
   /**
    * @internal This method is not intended to be used by consumers of this library.
    */
-  _build(): CategoricalDimension<Datum, TCategoricalValue> {
-    return new CategoricalDimension({
+  _build(): OrdinalVisualValueDimension<Datum, TCategoricalValue> {
+    return new OrdinalVisualValueDimension({
       domain: this._domain,
       fillDefs: this._fillDefs,
       formatFunction: this._formatFunction,
