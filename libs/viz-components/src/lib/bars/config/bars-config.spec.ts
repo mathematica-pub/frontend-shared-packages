@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { OrdinalDimension } from '../../data-dimensions/ordinal/ordinal';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { OrdinalChartPositionDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position';
+import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicBarsConfigBuilder } from './bars-builder';
 import { BarsConfig } from './bars-config';
 
@@ -29,9 +29,6 @@ function getNewConfig(): BarsConfig<Datum, string> {
 
 describe('BarsConfig', () => {
   let config: BarsConfig<Datum, string>;
-  beforeEach(() => {
-    config = undefined;
-  });
 
   describe('init()', () => {
     beforeEach(() => {
@@ -61,11 +58,17 @@ describe('BarsConfig', () => {
     beforeEach(() => {
       spyOn(BarsConfig.prototype as any, 'initPropertiesFromData');
       spyOn(
-        QuantitativeNumericDimension.prototype as any,
+        NumberChartPositionDimension.prototype as any,
         'setPropertiesFromData'
       );
-      spyOn(OrdinalDimension.prototype as any, 'setPropertiesFromData');
-      spyOn(CategoricalDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(
+        OrdinalChartPositionDimension.prototype as any,
+        'setPropertiesFromData'
+      );
+      spyOn(
+        OrdinalVisualValueDimension.prototype as any,
+        'setPropertiesFromData'
+      );
       config = getNewConfig();
       (config as any).setDimensionPropertiesFromData();
     });
