@@ -629,12 +629,14 @@ describe('displays tooltips for correct data per hover position', () => {
       )
       .y((y) => y.valueAccessor((d) => d.population).domainPaddingPixels(100))
       .stroke((stroke) =>
-        stroke.color((color) => color.valueAccessor((d) => d.continent))
+        stroke
+          .color((color) => color.valueAccessor((d) => d.continent))
+          .width(3)
+          .opacity(0.5)
+          .linecap('square')
+          .linejoin('miter')
       )
       .pointMarkers()
-      .stroke((stroke) =>
-        stroke.width(3).opacity(0.5).linecap('square').linejoin('miter')
-      )
       .getConfig();
     mountDateLinesComponent(linesConfig);
   });
