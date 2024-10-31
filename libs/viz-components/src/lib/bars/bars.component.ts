@@ -60,8 +60,8 @@ export interface BarsTooltipDatum<Datum, TOrdinalValue extends DataValue> {
   datum: Datum;
   color: string;
   values: {
-    ordinal: TOrdinalValue;
-    quantitative: string;
+    x: TOrdinalValue | string;
+    y: TOrdinalValue | string;
     category: string;
   };
 }
@@ -554,21 +554,29 @@ export class BarsComponent<
     barDatum: BarDatum<TOrdinalValue>
   ): BarsTooltipDatum<Datum, TOrdinalValue> {
     const datum = this.getUserDatumFromBarDatum(barDatum);
+    const ordinalValue = this.config.ordinal.valueAccessor(datum);
+    const quantitativeValue = this.config.quantitative.formatFunction
+      ? ValueUtilities.customFormat(
+          datum,
+          this.config.quantitative.formatFunction
+        )
+      : ValueUtilities.d3Format(
+          this.config.quantitative.valueAccessor(datum),
+          this.config.quantitative.formatSpecifier
+        );
 
     const tooltipData: BarsTooltipDatum<Datum, TOrdinalValue> = {
       datum,
       color: this.getBarColor(barDatum),
       values: {
-        ordinal: this.config.ordinal.valueAccessor(datum),
-        quantitative: this.config.quantitative.formatFunction
-          ? ValueUtilities.customFormat(
-              datum,
-              this.config.quantitative.formatFunction
-            )
-          : ValueUtilities.d3Format(
-              this.config.quantitative.valueAccessor(datum),
-              this.config.quantitative.formatSpecifier
-            ),
+        x:
+          this.config.dimensions.x === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
+        y:
+          this.config.dimensions.y === 'ordinal'
+            ? ordinalValue
+            : quantitativeValue,
         category: this.config.color.valueAccessor(datum),
       },
     };
