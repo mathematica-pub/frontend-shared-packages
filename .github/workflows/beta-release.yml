@@ -7,8 +7,8 @@ on:
 permissions:
   id-token: write
   pull-requests: write
-  contents: read
-  issues: read
+  contents: write
+  issues: write
 
 env:
   AWS_ACCESS_KEY_ID: ${{ secrets.ACCESS_KEY }}
