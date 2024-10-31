@@ -83,7 +83,7 @@ const tooltipYOffset = 60; // need to offset otherwise the hover will be on the 
 
     <ng-template #htmlTooltip>
       <ng-container *ngIf="tooltipData$ | async as tooltipData">
-        <p class="tooltip-text">{{ tooltipData.values.color }}</p>
+        <p class="tooltip-text">{{ tooltipData.values.strokeColor }}</p>
         <p class="tooltip-text">{{
           getYearFromStringDate(tooltipData.values.x)
         }}</p>
