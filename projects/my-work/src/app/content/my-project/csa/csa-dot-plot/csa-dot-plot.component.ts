@@ -81,13 +81,6 @@ export class CsaDotPlotComponent implements OnInit {
   setProperties(): void {
     const filteredData = this.data
       .filter((x) => x.series === this.sortVar && x.value !== null)
-      // TODO: select these via dropdown. Perhaps in csa.component?
-      .filter(
-        (x) =>
-          x.measureCode === 'AOGX' &&
-          x.stratVal === 'Child' &&
-          x.delivSys === 'PZIL'
-      )
       .slice();
 
     filteredData.forEach((plan) => {

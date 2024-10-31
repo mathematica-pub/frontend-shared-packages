@@ -24,8 +24,7 @@ export class CsaComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit(): void {
-    // const data$ = this.dataService.getDataFile(this.dataPath).pipe(
-    this.data$ = this.dataService.getDataFile(this.dataPath).pipe(
+    const data$ = this.dataService.getDataFile(this.dataPath).pipe(
       filter((data) => data.length > 0),
       map((data) => {
         const transformed: CsaDatum[] = data.map((x) => {
@@ -51,8 +50,15 @@ export class CsaComponent implements OnInit {
       })
     );
 
-    // this.data$ = data$.pipe(
-    //   map((data) => data.filter((d) => d.date.getFullYear() === 2020))
-    // );
+    this.data$ = data$.pipe(
+      map((data) =>
+        data.filter(
+          (x) =>
+            x.measureCode === 'AOGX' &&
+            x.stratVal === 'Child' &&
+            x.delivSys === 'PZIL'
+        )
+      )
+    );
   }
 }
