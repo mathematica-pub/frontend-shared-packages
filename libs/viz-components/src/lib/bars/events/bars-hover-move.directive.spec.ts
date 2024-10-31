@@ -160,7 +160,7 @@ describe('BarsHoverMoveDirective', () => {
     it('sets barDatum to undefined', () => {
       directive.barDatum = {
         index: 1,
-        categorical: 'categorical',
+        color: 'categorical',
         quantitative: 2,
         ordinal: 'ordinal',
       };

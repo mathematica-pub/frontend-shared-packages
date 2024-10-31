@@ -101,15 +101,15 @@ const mountHorizontalBarsComponent = (
     .getConfig();
   const yAxisConfig = new VicYOrdinalAxisConfigBuilder().getConfig();
   const barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-    .orientation('horizontal')
     .data(QOCData)
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.country)
+    .horizontal((bars) =>
+      bars
+        .x((dimension) =>
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
+        )
+        .y((dimension) => dimension.valueAccessor((d) => d.country))
     )
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.area).domainPaddingPixels()
-    )
-    .createLabels((labels) => labels.display(true))
+    .labels((labels) => labels.display(true))
     .getConfig();
   const declarations = [TestQuantitativeRulesHorizontalBarsComponent];
   const imports = [
@@ -188,15 +188,15 @@ const mountVerticalBarsComponent = (
     .tickFormat('.0f')
     .getConfig();
   const barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-    .orientation('vertical')
     .data(QOCData)
-    .createOrdinalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.country)
+    .vertical((bars) =>
+      bars
+        .x((dimension) => dimension.valueAccessor((d) => d.country))
+        .y((dimension) =>
+          dimension.valueAccessor((d) => d.area).domainPaddingPixels()
+        )
     )
-    .createQuantitativeDimension((dimension) =>
-      dimension.valueAccessor((d) => d.area).domainPaddingPixels()
-    )
-    .createLabels((labels) => labels.display(true))
+    .labels((labels) => labels.display(true))
     .getConfig();
 
   const declarations = [TestVerticalBarsComponent];
