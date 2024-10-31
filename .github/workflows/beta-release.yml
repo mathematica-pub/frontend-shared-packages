@@ -45,8 +45,8 @@ jobs:
 
       - name: Confirm referenced package exists
         run: |
-          if [ ! -d "./projects/$REFERENCED_PACKAGE" ]; then
-            echo "Error: Directory ./projects/$REFERENCED_PACKAGE does not exist."
+          if [ ! -d "./libs/$REFERENCED_PACKAGE" ]; then
+            echo "Error: Directory ./libs/$REFERENCED_PACKAGE does not exist."
             exit 1
           fi
 
