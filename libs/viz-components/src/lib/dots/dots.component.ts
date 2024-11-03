@@ -14,8 +14,10 @@ import {
   XyChartComponent,
   XyChartScales,
 } from '../charts/xy-chart/xy-chart.component';
-import { GenericScale } from '../core';
+import { DataValue, GenericScale } from '../core';
 import { ValueUtilities } from '../core/utilities/values';
+import { NumberDimension } from '../data-dimensions/continuous-quantitative/number-dimension/number-dimension';
+import { DataDimension } from '../data-dimensions/dimension';
 import { VIC_PRIMARY_MARKS } from '../marks/primary-marks/primary-marks';
 import { VicXyPrimaryMarks } from '../marks/xy-marks/xy-primary-marks/xy-primary-marks';
 import { DotsConfig } from './config/dots-config';
@@ -43,8 +45,8 @@ export type DotLabelSelection = Selection<
 
 export type DotDatum = {
   index: number;
-  x: number | Date;
-  y: number;
+  x: DataValue;
+  y: DataValue;
   fill: string | number;
   radius: string | number;
 };
@@ -133,14 +135,17 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
           enter
             .append('g')
             .attr('class', 'vic-dot-group')
-            .attr('key', (d) => this.config.key(this.config.data[d.index]))
+            .attr('key', (d) =>
+              this.config.key
+                ? this.config.key(this.config.data[d.index])
+                : null
+            )
             .attr(
               'transform',
               (d) => `translate(${this.scales.x(d.x)}, ${this.scales.y(d.y)})`
             ),
         (update) =>
           update
-            .attr('key', (d) => this.config.key(this.config.data[d.index]))
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr(
@@ -158,7 +163,11 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
           enter
             .append('circle')
             .attr('class', 'vic-dot')
-            .attr('key', (d) => this.config.key(this.config.data[d.index]))
+            .attr('key', (d) =>
+              this.config.key
+                ? this.config.key(this.config.data[d.index])
+                : null
+            )
             .attr('r', (d) => this.scales.radius(d.radius))
             .attr('fill', (d) => this.scales.fill(d.fill))
             .attr(
@@ -187,7 +196,6 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             ),
         (update) =>
           update
-            .attr('key', (d) => this.config.key(this.config.data[d.index]))
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('r', (d) => this.scales.radius(d.radius))
@@ -251,21 +259,34 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       values: {
         fill: valueFill,
         radius: this.config.radius.valueAccessor(datum),
-        x: this.config.x.formatFunction
-          ? ValueUtilities.customFormat(datum, this.config.x.formatFunction)
-          : ValueUtilities.d3Format(
-              this.config.x.valueAccessor(datum),
-              this.config.x.formatSpecifier
-            ),
-        y: this.config.y.formatFunction
-          ? ValueUtilities.customFormat(datum, this.config.y.formatFunction)
-          : ValueUtilities.d3Format(
-              this.config.y.valueAccessor(datum),
-              this.config.y.formatSpecifier
-            ),
+        x: this.getFormattedValue('x', datum),
+        y: this.getFormattedValue('y', datum),
       },
       color: this.scales.fill(valueFill),
     };
     return tooltipData;
+  }
+
+  getFormattedValue(dimension: 'x' | 'y', datum: Datum): string {
+    const config = this.config[dimension];
+    if (config.formatFunction) {
+      return ValueUtilities.customFormat(datum, config.formatFunction);
+    } else if (this.isContinuousNumericDimension(config)) {
+      return ValueUtilities.d3Format(
+        config.valueAccessor(datum) as number,
+        config.formatSpecifier
+      );
+    } else {
+      return config.valueAccessor(datum).toString();
+    }
+  }
+
+  isContinuousNumericDimension(
+    dimension: DataDimension<Datum, DataValue>
+  ): dimension is NumberDimension<Datum> {
+    return (
+      'formatSpecifier' in dimension &&
+      typeof dimension.formatSpecifier === 'string'
+    );
   }
 }

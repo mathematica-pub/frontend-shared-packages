@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { schemeTableau10 } from 'd3';
+import { DataValue } from '../../core';
 import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
 import { NumberVisualValueDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value-builder';
+import { OrdinalChartPositionDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
@@ -16,7 +18,11 @@ const DEFAULT = {
 };
 
 @Injectable()
-export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
+export class VicDotsConfigBuilder<
+  Datum,
+  XOrdinalDomain extends DataValue = string,
+  YOrdinalDomain extends DataValue = string,
+> extends PrimaryMarksBuilder<Datum> {
   private _key: (datum: Datum) => string;
   private _opacity: number;
   private _pointerDetectionRadius: number;
@@ -33,10 +39,18 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   >;
   private radiusBuilderNumber: NumberVisualValueDimensionBuilder<Datum, number>;
   private strokeBuilder: StrokeBuilder;
-  private xDimensionBuilder:
-    | NumberChartPositionDimensionBuilder<Datum>
-    | DateChartPositionDimensionBuilder<Datum>;
-  private yDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
+  private xBuilderNumeric: NumberChartPositionDimensionBuilder<Datum>;
+  private xBuilderDate: DateChartPositionDimensionBuilder<Datum>;
+  private xBuilderOrdinal: OrdinalChartPositionDimensionBuilder<
+    Datum,
+    XOrdinalDomain
+  >;
+  private yBuilderNumeric: NumberChartPositionDimensionBuilder<Datum>;
+  private yBuilderDate: DateChartPositionDimensionBuilder<Datum>;
+  private yBuilderOrdinal: OrdinalChartPositionDimensionBuilder<
+    Datum,
+    YOrdinalDomain
+  >;
 
   constructor() {
     super();
@@ -177,26 +191,26 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
-  x(
+  xNumeric(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.xDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.xDimensionBuilder);
+    this.xBuilderNumeric = new NumberChartPositionDimensionBuilder<Datum>();
+    setProperties(this.xBuilderNumeric);
     return this;
   }
 
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
-  y(
+  yNumeric(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
-    this.yDimensionBuilder = new NumberChartPositionDimensionBuilder<Datum>();
-    setProperties(this.yDimensionBuilder);
+    this.yBuilderNumeric = new NumberChartPositionDimensionBuilder<Datum>();
+    setProperties(this.yBuilderNumeric);
     return this;
   }
 
@@ -205,11 +219,13 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
    *
    * The user must call this at the end of the chain of methods to build the configuration object.
    */
-  getConfig(): DotsConfig<Datum> {
+  getConfig(): DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain> {
     this.validateBuilder();
-    const fillName = 'Fill';
-    const radiusName = 'Radius';
-    return new DotsConfig<Datum>({
+    const fillName = 'Dots Fill';
+    const radiusName = 'Dots Radius';
+    const xName = 'Dots X';
+    const yName = 'Dots Y';
+    return new DotsConfig<Datum, XOrdinalDomain, YOrdinalDomain>({
       data: this._data,
       fill: this.fillBuilderCategorical
         ? this.fillBuilderCategorical._build(fillName)
@@ -222,8 +238,16 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
         ? this.radiusBuilderCategorical._build(radiusName)
         : this.radiusBuilderNumber._build(radiusName),
       stroke: this.strokeBuilder?._build(),
-      x: this.xDimensionBuilder._build('X'),
-      y: this.yDimensionBuilder._build('Y'),
+      x: this.xBuilderDate
+        ? this.xBuilderDate._build(xName)
+        : this.xBuilderNumeric
+          ? this.xBuilderNumeric._build(xName)
+          : this.xBuilderOrdinal._build(xName),
+      y: this.xBuilderDate
+        ? this.yBuilderDate._build(yName)
+        : this.yBuilderNumeric
+          ? this.yBuilderNumeric._build(yName)
+          : this.yBuilderOrdinal._build(yName),
     });
   }
 
@@ -253,14 +277,24 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
         'Dots Builder: Radius can only be set for ordinal or number data, not both.'
       );
     }
-    if (!this.xDimensionBuilder) {
+    if (
+      +!!this.xBuilderNumeric +
+        +!!this.xBuilderDate +
+        +!!this.xBuilderOrdinal !==
+      1
+    ) {
       throw new Error(
-        'Dots Builder: X dimension is required. Please use method `createXDimension` to set it.'
+        'Dots Builder: Exactly one X dimension is required. Please use one of `xDate`, `xNumeric`, or `xOrdinal` to set it.'
       );
     }
-    if (!this.yDimensionBuilder) {
+    if (
+      +!!this.yBuilderNumeric +
+        +!!this.yBuilderDate +
+        +!!this.yBuilderOrdinal !==
+      1
+    ) {
       throw new Error(
-        'Dots Builder: Y dimension is required. Please use method `createYDimension` to set it.'
+        'Dots Builder: Exactly one Y dimension is required. Please use one of `yDate`, `yNumeric`, or `yOrdinal` to set it.'
       );
     }
   }

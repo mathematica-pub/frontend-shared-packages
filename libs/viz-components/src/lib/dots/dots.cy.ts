@@ -181,8 +181,8 @@ describe('it creates one dot for each valid value in the data with the expected 
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .x((x) => x.valueAccessor((d) => d.population))
-      .y((y) => y.valueAccessor((d) => d.gdpPerCapita))
+      .xNumeric((x) => x.valueAccessor((d) => d.population))
+      .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
         fill.valueAccessor((d) => d.continent).range(colors)
       )
@@ -244,8 +244,8 @@ describe('it handles negative y-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
-      .x((x) => x.valueAccessor((d) => d.population))
-      .y((y) => y.valueAccessor((d) => d.gdpPerCapita))
+      .xNumeric((x) => x.valueAccessor((d) => d.population))
+      .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
         fill.valueAccessor((d) => d.continent).range(colors)
       )
@@ -277,8 +277,8 @@ describe('it handles negative x-dimension values', () => {
     dataWithNegatives[0].gdpPerCapita = -10000;
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(dataWithNegatives)
-      .x((x) => x.valueAccessor((d) => d.gdpPerCapita))
-      .y((y) => y.valueAccessor((d) => d.population))
+      .xNumeric((x) => x.valueAccessor((d) => d.gdpPerCapita))
+      .yNumeric((y) => y.valueAccessor((d) => d.population))
       .fillCategorical((fill) =>
         fill.valueAccessor((d) => d.continent).range(colors)
       )
@@ -311,8 +311,8 @@ describe('displays a tooltips with correct data on each dot', () => {
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
-      .x((x) => x.valueAccessor((d) => d.population))
-      .y((y) => y.valueAccessor((d) => d.gdpPerCapita))
+      .xNumeric((x) => x.valueAccessor((d) => d.population))
+      .yNumeric((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
         fill.valueAccessor((d) => d.continent).range(colors)
       )

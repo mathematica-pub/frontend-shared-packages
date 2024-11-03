@@ -100,8 +100,8 @@ export class DotsExampleComponent implements OnInit {
       .radiusNumeric((dimension) =>
         dimension.valueAccessor((d) => d.wind).range([2, 8])
       )
-      .x((dimension) => dimension.valueAccessor((d) => d.tempMax))
-      .y((dimension) => dimension.valueAccessor((d) => d.precipitation))
+      .xNumeric((dimension) => dimension.valueAccessor((d) => d.tempMax))
+      .yNumeric((dimension) => dimension.valueAccessor((d) => d.precipitation))
       .getConfig();
 
     return {

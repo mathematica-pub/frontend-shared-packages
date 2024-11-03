@@ -30,7 +30,7 @@ const testData = [
 function getNewConfig(data: Datum[]): DotsConfig<Datum> {
   return new VicDotsConfigBuilder<Datum>()
     .data(data)
-    .x((x) => x.valueAccessor((d) => d.year))
+    .xNumeric((x) => x.valueAccessor((d) => d.year))
     .y((y) => y.valueAccessor((d) => d.rain))
     .radiusNumeric((radius) =>
       radius.valueAccessor((d) => d.snow).range([1, 12])

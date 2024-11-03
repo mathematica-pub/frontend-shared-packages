@@ -41,7 +41,7 @@ export class OrdinalVisualValueDimension<
   constructor(
     options: OrdinalVisualValueDimensionOptions<Datum, Domain, Range>
   ) {
-    super();
+    super('ordinal');
     Object.assign(this, options);
   }
 

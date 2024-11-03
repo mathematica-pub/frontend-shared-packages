@@ -41,7 +41,7 @@ export class DateChartPositionDimension<Datum>
   ) => ScaleTime<number, number>;
 
   constructor(options: DateChartPositionDimensionOptions<Datum>) {
-    super();
+    super('date');
     Object.assign(this, options);
   }
 

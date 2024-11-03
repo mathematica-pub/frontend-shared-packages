@@ -33,7 +33,7 @@ export class NumberChartPositionDimension<Datum>
   ) => ScaleContinuousNumeric<number, number>;
 
   constructor(options: NumberChartPositionDimensionOptions<Datum>) {
-    super();
+    super('number');
     Object.assign(this, options);
   }
 

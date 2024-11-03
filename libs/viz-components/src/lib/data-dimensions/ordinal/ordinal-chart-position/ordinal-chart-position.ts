@@ -51,7 +51,7 @@ export class OrdinalChartPositionDimension<
   constructor(
     options: OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
   ) {
-    super();
+    super('ordinal');
     this.scaleFn = scaleBand;
     Object.assign(this, options);
   }
@@ -60,7 +60,7 @@ export class OrdinalChartPositionDimension<
     return this._calculatedDomain;
   }
 
-  setPropertiesFromData(data: Datum[], reverseDomain: boolean): void {
+  setPropertiesFromData(data: Datum[], reverseDomain: boolean = false): void {
     this.setValues(data);
     this.setDomain(reverseDomain);
   }

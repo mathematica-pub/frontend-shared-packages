@@ -32,7 +32,7 @@ export class NumberVisualValueDimension<
   ) => ScaleContinuousNumeric<Range, Range>;
 
   constructor(options: NumberVisualValueDimensionOptions<Datum, Range>) {
-    super();
+    super('number');
     Object.assign(this, options);
   }
 
