@@ -2,7 +2,8 @@
 // Set up Lines component -- can use with Date or numeric values for x axis
 
 import { Component, Input } from '@angular/core';
-import { cy, describe, expect, it } from 'local-cypress';
+import { beforeEach, cy, describe, expect, it } from 'local-cypress';
+import { cloneDeep } from 'lodash-es';
 import {
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
@@ -128,16 +129,15 @@ function mountDotsComponent(dotsConfig: DotsConfig<CountryFactsDatum>): void {
 // ***********************************************************
 // Creating the dots
 // ***********************************************************
-describe('it creates the correct dots - x axis values are Dates', () => {
-  it('should draw the correct number of dots', () => {
+describe('it creates one dot for each valid value in the data with the expected color and radius', () => {
+  const colors = ['red', 'blue', 'green', 'orange', 'purple'];
+  beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
       .data(data)
       .x((x) => x.valueAccessor((d) => d.population))
       .y((y) => y.valueAccessor((d) => d.gdpPerCapita))
       .fillCategorical((fill) =>
-        fill
-          .valueAccessor((d) => d.continent)
-          .range(['red', 'blue', 'green', 'orange'])
+        fill.valueAccessor((d) => d.continent).range(colors)
       )
       .radiusNumeric((radius) =>
         radius.valueAccessor((d) => d.popGrowth).range([2, 10])
@@ -145,15 +145,174 @@ describe('it creates the correct dots - x axis values are Dates', () => {
       .key((d) => d.country)
       .getConfig();
     mountDotsComponent(dotsConfig);
+  });
+  it('should draw one dot for each valid value in the data', () => {
     const dotKeys = [];
     cy.get('.vic-dot')
-      .each(($lines) => {
-        dotKeys.push($lines.attr('key'));
+      .each(($dots) => {
+        dotKeys.push($dots.attr('key'));
       })
       .then(() => {
         expect(dotKeys).to.have.members([
           ...new Set(data.map((d) => d.country)),
         ]);
+      });
+  });
+  it('should draw dots with the expected color', () => {
+    const continents = [...new Set(data.map((d) => d.continent))];
+    cy.get('.vic-dot').each((dots) => {
+      const key = dots.attr('key');
+      const continent = data.find((d) => d.country === key).continent;
+      const expectedFill = colors[continents.indexOf(continent)];
+      expect(dots.attr('fill')).to.equal(expectedFill);
+    });
+  });
+  it('should draw dots with the expected radius', () => {
+    const dotRadii = [];
+    cy.get('.vic-dot')
+      .each((dots) => {
+        dotRadii.push({ country: dots.attr('key'), r: dots.attr('r') });
+      })
+      .then(() => {
+        const countriesByRadius = dotRadii
+          .slice()
+          .sort((a, b) => a.r - b.r)
+          .map((d) => d.country);
+        const countriesByPopGrowth = data
+          .slice()
+          .sort((a, b) => a.popGrowth - b.popGrowth)
+          .map((d) => d.country);
+        expect(countriesByRadius).to.deep.equal(countriesByPopGrowth);
+      });
+  });
+});
+
+// ***********************************************************
+// Positional data with negative values
+// ***********************************************************
+describe('it handles negative y-dimension values', () => {
+  const colors = ['red', 'blue', 'green', 'orange', 'purple'];
+  beforeEach(() => {
+    const dataWithNegatives = cloneDeep(data);
+    dataWithNegatives[0].gdpPerCapita = -10000;
+    const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
+      .data(dataWithNegatives)
+      .x((x) => x.valueAccessor((d) => d.population))
+      .y((y) => y.valueAccessor((d) => d.gdpPerCapita))
+      .fillCategorical((fill) =>
+        fill.valueAccessor((d) => d.continent).range(colors)
+      )
+      .radiusNumeric((radius) =>
+        radius.valueAccessor((d) => d.popGrowth).range([2, 10])
+      )
+      .key((d) => d.country)
+      .getConfig();
+    mountDotsComponent(dotsConfig);
+  });
+  it('should draw one dot for each valid value in the data', () => {
+    const dotKeys = [];
+    cy.get('.vic-dot')
+      .each(($dots) => {
+        dotKeys.push($dots.attr('key'));
+      })
+      .then(() => {
+        expect(dotKeys).to.have.members([
+          ...new Set(data.map((d) => d.country)),
+        ]);
+      });
+  });
+});
+
+describe('it handles negative x-dimension values', () => {
+  const colors = ['red', 'blue', 'green', 'orange', 'purple'];
+  beforeEach(() => {
+    const dataWithNegatives = cloneDeep(data);
+    dataWithNegatives[0].gdpPerCapita = -10000;
+    const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
+      .data(dataWithNegatives)
+      .x((x) => x.valueAccessor((d) => d.gdpPerCapita))
+      .y((y) => y.valueAccessor((d) => d.population))
+      .fillCategorical((fill) =>
+        fill.valueAccessor((d) => d.continent).range(colors)
+      )
+      .radiusNumeric((radius) =>
+        radius.valueAccessor((d) => d.popGrowth).range([2, 10])
+      )
+      .key((d) => d.country)
+      .getConfig();
+    mountDotsComponent(dotsConfig);
+  });
+  it('should draw one dot for each valid value in the data', () => {
+    const dotKeys = [];
+    cy.get('.vic-dot')
+      .each(($dots) => {
+        dotKeys.push($dots.attr('key'));
+      })
+      .then(() => {
+        expect(dotKeys).to.have.members([
+          ...new Set(data.map((d) => d.country)),
+        ]);
+      });
+  });
+});
+
+// ***********************************************************
+// Tooltips
+// ***********************************************************
+describe('it creates one dot for each valid value in the data with the expected color and radius', () => {
+  const colors = ['red', 'blue', 'green', 'orange', 'purple'];
+  beforeEach(() => {
+    const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
+      .data(data)
+      .x((x) => x.valueAccessor((d) => d.population))
+      .y((y) => y.valueAccessor((d) => d.gdpPerCapita))
+      .fillCategorical((fill) =>
+        fill.valueAccessor((d) => d.continent).range(colors)
+      )
+      .radiusNumeric((radius) =>
+        radius.valueAccessor((d) => d.popGrowth).range([2, 10])
+      )
+      .key((d) => d.country)
+      .getConfig();
+    mountDotsComponent(dotsConfig);
+  });
+  it('should draw one dot for each valid value in the data', () => {
+    const dotKeys = [];
+    cy.get('.vic-dot')
+      .each(($dots) => {
+        dotKeys.push($dots.attr('key'));
+      })
+      .then(() => {
+        expect(dotKeys).to.have.members([
+          ...new Set(data.map((d) => d.country)),
+        ]);
+      });
+  });
+  it('should draw dots with the expected color', () => {
+    const continents = [...new Set(data.map((d) => d.continent))];
+    cy.get('.vic-dot').each((dots) => {
+      const key = dots.attr('key');
+      const continent = data.find((d) => d.country === key).continent;
+      const expectedFill = colors[continents.indexOf(continent)];
+      expect(dots.attr('fill')).to.equal(expectedFill);
+    });
+  });
+  it('should draw dots with the expected radius', () => {
+    const dotRadii = [];
+    cy.get('.vic-dot')
+      .each((dots) => {
+        dotRadii.push({ country: dots.attr('key'), r: dots.attr('r') });
+      })
+      .then(() => {
+        const countriesByRadius = dotRadii
+          .slice()
+          .sort((a, b) => a.r - b.r)
+          .map((d) => d.country);
+        const countriesByPopGrowth = data
+          .slice()
+          .sort((a, b) => a.popGrowth - b.popGrowth)
+          .map((d) => d.country);
+        expect(countriesByRadius).to.deep.equal(countriesByPopGrowth);
       });
   });
 });
