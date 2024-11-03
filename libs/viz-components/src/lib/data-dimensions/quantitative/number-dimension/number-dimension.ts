@@ -2,6 +2,22 @@ import { max, min } from 'd3';
 import { isNumber } from '../../../core/utilities/type-guards';
 import { DataDimension } from '../../dimension';
 
+/**
+ * An abstract dimension that for dimensions whose input values are numbers. It assumes that the domain is two numbers.
+ *
+ * The generic is the type of the data that will be passed to the dimension.
+ *
+ * TESTABLE FUNCTIONALITY
+ *
+ * - The domain will be the user=provided domain if the user provides a domain.
+ *    - tested in: number-dimension.spec.ts
+ * - The domain will be [min, max] of values if the user does not provide a domain.
+ *    - tested in: number-dimension.spec.ts
+ * - The domain will include 0 if includeZeroInDomain is true.
+ *    - tested in: number-dimension.spec.ts
+ * - domainIncludesZero will be true if 0 is in the domain.
+ *   - tested in: number-dimension.spec.ts
+ */
 export abstract class NumberDimension<Datum> extends DataDimension<
   Datum,
   number

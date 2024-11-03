@@ -58,6 +58,8 @@ export class NumberVisualValueDimensionBuilder<
   /**
    * OPTIONAL. Sets a range of visual values that will be the output from D3 scale linear.
    *
+   * If not provided, a scale must be provided.
+   *
    * For example, this could be a range of colors or sizes.
    *
    * To have all marks use the same visual value, use an array with a single element.
@@ -87,6 +89,8 @@ export class NumberVisualValueDimensionBuilder<
   /**
    * OPTIONAL. Allows a user to set a completely custom scale that transforms the value returned by this dimension's valueAccessor into a visual value (string or number).
    *
+   * If not provided, a range must be provided.
+   *
    * If provided, this will override any values provided to domain, range, and scaleFn.
    */
   scale(scale: (value: number) => Range): this {
@@ -115,5 +119,10 @@ export class NumberVisualValueDimensionBuilder<
 
   private validateBuilder(dimensionName: string): void {
     this.validateValueAccessor(dimensionName);
+    if (!this._range && !this._scale) {
+      throw new Error(
+        `${dimensionName} Dimension: Either a range or a scale must be provided.`
+      );
+    }
   }
 }

@@ -38,38 +38,37 @@ describe('OrdinalChartPositionDimension', () => {
     });
   });
 
-  describe('setDomain', () => {
-    it('sets the domain to the correct value, user did not specify domain and reverse domain is false', () => {
-      dimension.setPropertiesFromData(data, false);
-      expect((dimension as any)._calculatedDomain).toEqual(['a', 'b', 'c']);
+  describe('setDomain()', () => {
+    describe('when user specifies a domain', () => {
+      beforeEach(() => {
+        (dimension as any).domain = ['e', 'f', 'g', 'e'];
+      });
+      it('sets the domain to the unique values in user specified domain in the provided order, and ignores values from data', () => {
+        dimension.setPropertiesFromData(data, false);
+        expect((dimension as any)._calculatedDomain).toEqual(['e', 'f', 'g']);
+      });
+      describe('when reverseDomain is true', () => {
+        it('sets the domain to the unique values in user specified domain in reverse order, and ignores values from data', () => {
+          dimension.setPropertiesFromData(data, true);
+          expect((dimension as any)._calculatedDomain).toEqual(['g', 'f', 'e']);
+        });
+      });
     });
-    it('sets the domain to the correct value, user did not specify domain and reverse domain is true', () => {
-      dimension.setPropertiesFromData(data, true);
-      expect((dimension as any)._calculatedDomain).toEqual(['c', 'b', 'a']);
-    });
-    it('sets the domain to the correct value, user specified domain', () => {
-      (dimension as any).domain = ['c', 'd', 'b', 'a', 'd'];
-      dimension.setPropertiesFromData(data, false);
-      expect((dimension as any)._calculatedDomain).toEqual([
-        'c',
-        'd',
-        'b',
-        'a',
-      ]);
-    });
-    it('sets the domain to the correct value, user specified domain and reverseDomain is true', () => {
-      (dimension as any).domain = ['c', 'd', 'b', 'a', 'd'];
-      dimension.setPropertiesFromData(data, true);
-      expect((dimension as any)._calculatedDomain).toEqual([
-        'a',
-        'b',
-        'd',
-        'c',
-      ]);
+    describe('when user does not specify a domain', () => {
+      it('sets the domain to the unique values in the data in the provided order', () => {
+        dimension.setPropertiesFromData(data, false);
+        expect((dimension as any)._calculatedDomain).toEqual(['a', 'b', 'c']);
+      });
+      describe('when reverseDomain is true', () => {
+        it('sets the domain to the unique values in the data in reverse order', () => {
+          dimension.setPropertiesFromData(data, true);
+          expect((dimension as any)._calculatedDomain).toEqual(['c', 'b', 'a']);
+        });
+      });
     });
   });
 
-  describe('domainIncludes', () => {
+  describe('domainIncludes()', () => {
     it('correctly sets internSetDomain and domainIncludes returns correct value', () => {
       (dimension as any).domain = ['c', 'd', 'b', 'a', 'd'];
       dimension.setPropertiesFromData(data, false);
