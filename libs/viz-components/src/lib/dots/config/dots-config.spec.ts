@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
+import { NumberVisualValueDimension } from '../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
-import { NumberVisualValueDimension } from '../../data-dimensions/quantitative/number-visual-value/number-visual-value';
 import { VicDotsConfigBuilder } from './dots-builder';
 import { DotsConfig } from './dots-config';
 

@@ -2,11 +2,12 @@
 import { NumberVisualValueDimension } from './number-visual-value';
 import { NumberVisualValueDimensionBuilder } from './number-visual-value-builder';
 
-describe('NumberChartPositionDimension', () => {
+describe('NumberVisualValueDimension', () => {
   let dimension: NumberVisualValueDimension<number, number>;
   beforeEach(() => {
     dimension = new NumberVisualValueDimensionBuilder<number, number>()
       .valueAccessor((d) => d)
+      .range([0, 100])
       ._build('Test');
   });
   describe('setPropertiesFromData', () => {

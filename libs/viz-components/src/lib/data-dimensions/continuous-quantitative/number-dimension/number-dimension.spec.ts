@@ -131,23 +131,25 @@ describe('NumberDimension', () => {
   });
 
   describe('setDomainIncludesZero', () => {
-    it('sets domainIncludesZero to true if includeZeroInDomain is true', () => {
-      (dimension as any).includeZeroInDomain = true;
-      dimension.setPropertiesFromData([1, 2, 3, 4, 5]);
-      expect((dimension as any).domainIncludesZero).toEqual(true);
+    it('sets domainIncludesZero to true if zero is in the domain', () => {
+      (dimension as any).calculatedDomain = [0, 5];
+      (dimension as any).setDomainIncludesZero();
+      expect((dimension as any).domainIncludesZero).toBeTrue();
     });
-    describe('includeZeroInDomain is false', () => {
-      beforeEach(() => {
-        (dimension as any).includeZeroInDomain = false;
-      });
-      it('sets domainIncludesZero to true if domain includes 0', () => {
-        dimension.setPropertiesFromData([0, 1, 2, 3, 4, 5]);
-        expect((dimension as any).domainIncludesZero).toEqual(true);
-      });
-      it('sets domainIncludesZero to false if domain does not include 0', () => {
-        dimension.setPropertiesFromData([1, 2, 3, 4, 5]);
-        expect((dimension as any).domainIncludesZero).toEqual(false);
-      });
+    it('sets domainIncludesZero to true if zero is in the domain', () => {
+      (dimension as any).calculatedDomain = [-5, 5];
+      (dimension as any).setDomainIncludesZero();
+      expect((dimension as any).domainIncludesZero).toBeTrue();
+    });
+    it('sets domainIncludesZero to true if zero is in the domain', () => {
+      (dimension as any).calculatedDomain = [-5, 0];
+      (dimension as any).setDomainIncludesZero();
+      expect((dimension as any).domainIncludesZero).toBeTrue();
+    });
+    it('sets domainIncludesZero to false if zero is not in the domain', () => {
+      (dimension as any).calculatedDomain = [-5, -1];
+      (dimension as any).setDomainIncludesZero();
+      expect((dimension as any).domainIncludesZero).toBeFalse();
     });
   });
 });

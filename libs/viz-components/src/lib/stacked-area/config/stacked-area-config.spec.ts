@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { VicStackedAreaConfigBuilder } from './stacked-area-builder';
 import { StackedAreaConfig } from './stacked-area-config';
 

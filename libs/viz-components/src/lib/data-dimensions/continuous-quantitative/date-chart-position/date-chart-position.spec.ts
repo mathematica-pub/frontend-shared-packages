@@ -38,7 +38,6 @@ describe('DateChartPositionDimension', () => {
         (dimension as any).domain = [
           new Date('2020-01-03'),
           new Date('2020-01-01'),
-          new Date('2020-01-01'),
         ];
         dimension.setPropertiesFromData([
           new Date('2020-02-01'),

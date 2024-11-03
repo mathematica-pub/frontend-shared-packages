@@ -30,6 +30,8 @@ export class NumberVisualValueDimensionBuilder<
   /**
    * OPTIONAL. Sets the domain of the scale.
    *
+   * Should be in the form of [min, max].
+   *
    * If not provided, the domain will be determined by the data.
    */
   domain(domain: [number, number]): this {
