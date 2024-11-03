@@ -1,10 +1,11 @@
-import { DotsComponent } from '@hsi/viz-components';
+import { EventAction } from '../../../events';
+import { DotsComponent } from '../../dots.component';
 import { DotsHoverDirective } from '../dots-hover.directive';
 
 export class DotsHoverDefaultStyles<
   Datum,
   TDotsComponent extends DotsComponent<Datum> = DotsComponent<Datum>,
-> implements HoverAction<DotsHoverDirective<Datum, TDotsComponent>>
+> implements EventAction<DotsHoverDirective<Datum, TDotsComponent>>
 {
   onStart(directive: DotsHoverDirective<Datum, TDotsComponent>): void {
     directive.dots.dotGroups
