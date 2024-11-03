@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { schemeTableau10 } from 'd3';
+import { DateChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
+import { NumberVisualValueDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value-builder';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
-import { DateChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position-builder';
-import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
-import { NumberVisualValueDimensionBuilder } from '../../data-dimensions/quantitative/number-visual-value/number-visual-value-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { StrokeBuilder } from '../../stroke/stroke-builder';
 import { DotsConfig } from './dots-config';

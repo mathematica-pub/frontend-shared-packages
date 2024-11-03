@@ -1,6 +1,6 @@
 import { CurveFactory, group, range } from 'd3';
-import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
+import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { LinesGroupSelectionDatum } from '../lines.component';

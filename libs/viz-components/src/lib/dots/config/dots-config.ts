@@ -1,8 +1,8 @@
 import { range } from 'd3';
+import { DateChartPositionDimension } from '../../data-dimensions/continuous-quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
+import { NumberVisualValueDimension } from '../../data-dimensions/continuous-quantitative/number-visual-value/number-visual-value';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
-import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
-import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
-import { NumberVisualValueDimension } from '../../data-dimensions/quantitative/number-visual-value/number-visual-value';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { Stroke } from '../../stroke/stroke';
 import { DotsOptions } from './dots-options';
