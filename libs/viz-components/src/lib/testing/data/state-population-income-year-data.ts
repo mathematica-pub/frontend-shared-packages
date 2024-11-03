@@ -1,11 +1,11 @@
-export type StateInComePopulationDatum = {
+export type StateIncomePopulationYearDatum = {
   state: string;
   year: number;
   income: number;
   population: number;
 };
 
-export const stateIncomePopulationData = [
+export const stateIncomePopulationYearData = [
   { state: 'Alabama', year: 2020, income: 52035, population: 5024279 },
   { state: 'Alabama', year: 2010, income: 40474, population: 4779736 },
   { state: 'Alaska', year: 2020, income: 77790, population: 733391 },

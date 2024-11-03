@@ -23,7 +23,10 @@ import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quanti
 import { VicChartModule } from '../charts/chart/chart.module';
 import { VicXyChartModule } from '../charts/xy-chart/xy-chart.module';
 import { HoverMoveAction } from '../events/action';
-import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
+import {
+  countryFactsData,
+  CountryFactsDatum,
+} from '../testing/data/country-area-continent';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
 import { VicBarsModule } from './bars.module';
@@ -102,7 +105,7 @@ const getYTransform = ($barGroup) => {
   styles: [],
 })
 class TestHorizontalBarsComponent {
-  @Input() barsConfig: BarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() yOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() xQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = horizontalMargin;
@@ -111,23 +114,25 @@ class TestHorizontalBarsComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<QOCDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<QOCDatum, string>>(null);
+  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
+    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<QOCDatum, string>
+    BarsHoverMoveDirective<CountryFactsDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
 
-  updateTooltipForNewOutput(data: BarsEventOutput<QOCDatum, string>): void {
+  updateTooltipForNewOutput(
+    data: BarsEventOutput<CountryFactsDatum, string>
+  ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<QOCDatum, string>): void {
+  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
+  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .barsPosition(data?.origin, [
         {
@@ -142,7 +147,7 @@ class TestHorizontalBarsComponent {
 }
 
 const mountHorizontalBarsComponent = (
-  barsConfig: BarsConfig<QOCDatum, string>
+  barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXQuantitativeAxisConfigBuilder()
     .tickFormat(',.0f')
@@ -214,7 +219,7 @@ const mountHorizontalBarsComponent = (
   styles: [],
 })
 class TestVerticalBarsComponent {
-  @Input() barsConfig: BarsConfig<QOCDatum, string>;
+  @Input() barsConfig: BarsConfig<CountryFactsDatum, string>;
   @Input() xOrdinalAxisConfig: VicOrdinalAxisConfig<string>;
   @Input() yQuantitativeAxisConfig: VicQuantitativeAxisConfig<number>;
   margin = verticalMargin;
@@ -223,23 +228,25 @@ class TestVerticalBarsComponent {
   tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
     new BehaviorSubject<HtmlTooltipConfig>(null);
   tooltipConfig$ = this.tooltipConfig.asObservable();
-  tooltipData: BehaviorSubject<BarsEventOutput<QOCDatum, string>> =
-    new BehaviorSubject<BarsEventOutput<QOCDatum, string>>(null);
+  tooltipData: BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>> =
+    new BehaviorSubject<BarsEventOutput<CountryFactsDatum, string>>(null);
   tooltipData$ = this.tooltipData.asObservable();
   hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<QOCDatum, string>
+    BarsHoverMoveDirective<CountryFactsDatum, string>
   >[] = [new BarsHoverMoveEmitTooltipData()];
 
-  updateTooltipForNewOutput(data: BarsEventOutput<QOCDatum, string>): void {
+  updateTooltipForNewOutput(
+    data: BarsEventOutput<CountryFactsDatum, string>
+  ): void {
     this.updateTooltipData(data);
     this.updateTooltipConfig(data);
   }
 
-  updateTooltipData(data: BarsEventOutput<QOCDatum, string>): void {
+  updateTooltipData(data: BarsEventOutput<CountryFactsDatum, string>): void {
     this.tooltipData.next(data);
   }
 
-  updateTooltipConfig(data: BarsEventOutput<QOCDatum, string>): void {
+  updateTooltipConfig(data: BarsEventOutput<CountryFactsDatum, string>): void {
     const config = new VicHtmlTooltipConfigBuilder()
       .barsPosition(data?.origin, [
         {
@@ -254,7 +261,7 @@ class TestVerticalBarsComponent {
 }
 
 const mountVerticalBarsComponent = (
-  barsConfig: BarsConfig<QOCDatum, string>
+  barsConfig: BarsConfig<CountryFactsDatum, string>
 ): void => {
   const xAxisConfig = new VicXOrdinalAxisConfigBuilder().getConfig();
   const yAxisConfig = new VicYQuantitativeAxisConfigBuilder()
@@ -282,8 +289,10 @@ const mountVerticalBarsComponent = (
   });
 };
 
-function getHorizontalConfig(data: QOCDatum[]): BarsConfig<QOCDatum, string> {
-  return new VicBarsConfigBuilder<QOCDatum, string>()
+function getHorizontalConfig(
+  data: CountryFactsDatum[]
+): BarsConfig<CountryFactsDatum, string> {
+  return new VicBarsConfigBuilder<CountryFactsDatum, string>()
     .data(data)
     .horizontal((bars) =>
       bars
@@ -296,8 +305,10 @@ function getHorizontalConfig(data: QOCDatum[]): BarsConfig<QOCDatum, string> {
     .getConfig();
 }
 
-function getVerticalConfig(data: QOCDatum[]): BarsConfig<QOCDatum, string> {
-  return new VicBarsConfigBuilder<QOCDatum, string>()
+function getVerticalConfig(
+  data: CountryFactsDatum[]
+): BarsConfig<CountryFactsDatum, string> {
+  return new VicBarsConfigBuilder<CountryFactsDatum, string>()
     .data(data)
     .vertical((bars) =>
       bars
@@ -314,52 +325,52 @@ function getVerticalConfig(data: QOCDatum[]): BarsConfig<QOCDatum, string> {
 // Creating the correct bars in the correct order - functionality is agnostic to direction
 // ***********************************************************
 describe('it creates the correct bars in the correct order for the data', () => {
-  let barsConfig: BarsConfig<QOCDatum, string>;
+  let barsConfig: BarsConfig<CountryFactsDatum, string>;
   beforeEach(() => {
     barsConfig = undefined;
   });
   describe('if a user does not provide an explicit ordinal domain', () => {
     it('creates one bar and one ordinal axis tick per datum when data has no repeated ordinal values', () => {
-      barsConfig = getHorizontalConfig(QOCData);
+      barsConfig = getHorizontalConfig(countryFactsData);
       mountHorizontalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-bar-group').should('have.length', QOCData.length);
-      cy.get('.vic-bar').should('have.length', QOCData.length);
+      cy.get('.vic-bar-group').should('have.length', countryFactsData.length);
+      cy.get('.vic-bar').should('have.length', countryFactsData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      const reversedData = QOCData.slice().reverse();
+      const reversedData = countryFactsData.slice().reverse();
       cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       cy.get('.vic-bar-label').each(($label, index) => {
-        expect($label.text()).to.equal(QOCData[index].area.toString());
+        expect($label.text()).to.equal(countryFactsData[index].area.toString());
       });
     });
     it('creates one bar and one ordinal axis tick per unique ordinal value and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
       barsConfig = getHorizontalConfig([
-        QOCData[0],
-        { country: 'Afghanistan', area: 300000, continent: 'Asia' },
-        ...QOCData.slice(1),
+        countryFactsData[0],
+        countryFactsData.find((x) => x.country === 'Afghanistan'),
+        ...countryFactsData.slice(1),
       ]);
       mountHorizontalBarsComponent(barsConfig);
       cy.wait(axisTickTextWaitTime);
-      cy.get('.vic-bar-group').should('have.length', QOCData.length);
-      cy.get('.vic-bar').should('have.length', QOCData.length);
+      cy.get('.vic-bar-group').should('have.length', countryFactsData.length);
+      cy.get('.vic-bar').should('have.length', countryFactsData.length);
       // D3 draws the top axis tick first, so we need to reverse the data to match the order of the axis ticks
-      const reversedData = QOCData.slice().reverse();
+      const reversedData = countryFactsData.slice().reverse();
       cy.get('.vic-y.vic-axis-g .tick text').each(($tick, index) => {
         expect($tick.text()).to.equal(reversedData[index].country);
       });
       // Below tests that it did not use the second Afghanistan value
       cy.get('.vic-bar-label').each(($label, index) => {
-        expect($label.text()).to.equal(QOCData[index].area.toString());
+        expect($label.text()).to.equal(countryFactsData[index].area.toString());
       });
     });
   });
   describe('if a user provides an explicit ordinal domain', () => {
     const ordinalDomain = ['Afghanistan', 'Albania', 'Angola'];
     beforeEach(() => {
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
-        .data(QOCData)
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
+        .data(countryFactsData)
         .vertical((bars) =>
           bars
             .y((dimension) =>
@@ -389,15 +400,15 @@ describe('it creates the correct bars in the correct order for the data', () => 
         const lastTickValue = ticks[ticks.length - 1].innerHTML;
         // expect "above" because we are adding 20 px of padding to the domain
         expect(parseFloat(lastTickValue)).to.be.above(
-          max(QOCData.map((d) => d.area))
+          max(countryFactsData.map((d) => d.area))
         );
       });
     });
     it('creates one bar and one ordinal axis tick per ordinal value in the domain and uses the first of the repeated ordinal values when data has datums with duplicate ordinal values', () => {
-      barsConfig = new VicBarsConfigBuilder<QOCDatum, string>()
+      barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
         .data([
-          ...QOCData,
-          { country: 'Afghanistan', area: 300000, continent: 'Asia' },
+          ...countryFactsData,
+          countryFactsData.find((x) => x.country === 'Afghanistan'),
         ])
         .vertical((bars) =>
           bars
@@ -442,11 +453,11 @@ describe('it creates the correct bars in the correct order for the data', () => 
   },
 ].forEach(({ mountFunction, orientation, barAttr }) => {
   describe('bars have the expected size in the quantitative dimension', () => {
-    let barsConfig: BarsConfig<QOCDatum, string>;
-    let testData: QOCDatum[];
+    let barsConfig: BarsConfig<CountryFactsDatum, string>;
+    let testData: CountryFactsDatum[];
     beforeEach(() => {
       barsConfig = undefined;
-      testData = cloneDeep(QOCData);
+      testData = cloneDeep(countryFactsData);
     });
     describe(`bars are ${orientation}`, () => {
       it(`a bar has a ${barAttr} of 0 if the quantitative value is 0`, () => {
@@ -504,7 +515,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
         });
       });
       it('has bars that extend beyond the domain if the quantitative value is greater than the domain max - CORRECT BEHAVIOR CAUSES VISUAL ERROR', () => {
-        const partialBuilder = new VicBarsConfigBuilder<QOCDatum, string>()
+        const partialBuilder = new VicBarsConfigBuilder<
+          CountryFactsDatum,
+          string
+        >()
           .data(testData)
           .labels((labels) => labels.display(true));
         if (orientation === 'horizontal') {
@@ -552,7 +566,10 @@ describe('it creates the correct bars in the correct order for the data', () => 
       it(`has bars with the correct ${barAttr} when values are negative and the smallest values is less than the domain min - CORRECT BEHAVIOR CAUSES VISUAL ERROR`, () => {
         const negativeIndex = 1;
         testData[negativeIndex].area = testData[negativeIndex + 1].area * -1;
-        const partialBuilder = new VicBarsConfigBuilder<QOCDatum, string>()
+        const partialBuilder = new VicBarsConfigBuilder<
+          CountryFactsDatum,
+          string
+        >()
           .data(testData)
           .labels((labels) => labels.display(true));
         if (orientation === 'horizontal') {
@@ -595,15 +612,15 @@ describe('it creates the correct bars in the correct order for the data', () => 
     });
   });
   describe('bars all have the same size in the ordinal dimension', () => {
-    let barsConfig: BarsConfig<QOCDatum, string>;
+    let barsConfig: BarsConfig<CountryFactsDatum, string>;
     beforeEach(() => {
       barsConfig = undefined;
     });
     it(`bars are ${orientation} and have the same ${barAttr}`, () => {
       if (orientation === 'horizontal') {
-        barsConfig = getHorizontalConfig(QOCData);
+        barsConfig = getHorizontalConfig(countryFactsData);
       } else {
-        barsConfig = getVerticalConfig(QOCData);
+        barsConfig = getVerticalConfig(countryFactsData);
       }
       mountFunction(barsConfig);
       cy.get('.vic-bar').then(($bars) => {
@@ -622,11 +639,11 @@ describe('it creates the correct bars in the correct order for the data', () => 
 // Bars are correctly positioned in the quantitative dimension
 // ***********************************************************
 describe('bars have the expected origin in the quantitative dimension', () => {
-  let barsConfig: BarsConfig<QOCDatum, string>;
-  let testData: QOCDatum[];
+  let barsConfig: BarsConfig<CountryFactsDatum, string>;
+  let testData: CountryFactsDatum[];
   beforeEach(() => {
     barsConfig = undefined;
-    testData = cloneDeep(QOCData);
+    testData = cloneDeep(countryFactsData);
     cy.viewport(800, 600);
   });
   describe('all values are positive', () => {
@@ -757,11 +774,11 @@ describe('bars have the expected origin in the quantitative dimension', () => {
 // ***********************************************************
 describe('displays tooltips for correct data per hover position', () => {
   beforeEach(() => {
-    const barsConfig = getHorizontalConfig(QOCData);
+    const barsConfig = getHorizontalConfig(countryFactsData);
     mountHorizontalBarsComponent(barsConfig);
   });
 
-  QOCData.forEach((_, i) => {
+  countryFactsData.forEach((_, i) => {
     describe(`Data point at index ${i}`, () => {
       beforeEach(() => {
         cy.get('.vic-bar').eq(i).realHover();
@@ -775,7 +792,7 @@ describe('displays tooltips for correct data per hover position', () => {
       it('tooltip displays correct data', () => {
         cy.get('.vic-html-tooltip-overlay p').should(
           'have.text',
-          QOCData[i].area
+          countryFactsData[i].area
         );
       });
       it('tooltip appears at the correct position', () => {
