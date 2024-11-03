@@ -124,7 +124,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
       .duration(transitionDuration);
 
     this.dotGroups = select(this.elRef.nativeElement)
-      .selectAll<SVGGElement, DotDatum>('vic-dot-group')
+      .selectAll<SVGGElement, DotDatum>('.vic-dot-group')
       .data<DotDatum>(
         this.config.valueIndices.map((i) => this.getDotDatumFromIndex(i))
       )
@@ -133,12 +133,14 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
           enter
             .append('g')
             .attr('class', 'vic-dot-group')
+            .attr('key', (d) => this.config.key(this.config.data[d.index]))
             .attr(
               'transform',
               (d) => `translate(${this.scales.x(d.x)}, ${this.scales.y(d.y)})`
             ),
         (update) =>
           update
+            .attr('key', (d) => this.config.key(this.config.data[d.index]))
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr(
@@ -156,6 +158,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
           enter
             .append('circle')
             .attr('class', 'vic-dot')
+            .attr('key', (d) => this.config.key(this.config.data[d.index]))
             .attr('r', (d) => this.scales.radius(d.radius))
             .attr('fill', (d) => this.scales.fill(d.fill))
             .attr(
@@ -184,6 +187,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             ),
         (update) =>
           update
+            .attr('key', (d) => this.config.key(this.config.data[d.index]))
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             .transition(t as any)
             .attr('r', (d) => this.scales.radius(d.radius))

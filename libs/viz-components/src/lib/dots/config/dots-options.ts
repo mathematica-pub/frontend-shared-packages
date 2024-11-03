@@ -9,6 +9,7 @@ export interface DotsOptions<Datum> extends MarksOptions<Datum> {
   fill:
     | OrdinalVisualValueDimension<Datum, string, string>
     | NumberVisualValueDimension<Datum, string>;
+  key: (datum: Datum) => string;
   opacity: number;
   pointerDetectionRadius: number;
   radius:

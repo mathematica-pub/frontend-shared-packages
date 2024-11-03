@@ -17,6 +17,7 @@ const DEFAULT = {
 
 @Injectable()
 export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
+  private _key: (datum: Datum) => string;
   private _opacity: number;
   private _pointerDetectionRadius: number;
   private fillBuilderCategorical: OrdinalVisualValueDimensionBuilder<
@@ -105,6 +106,18 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
 
   private initFillBuilderNumber(): void {
     this.fillBuilderNumber = new NumberVisualValueDimensionBuilder();
+  }
+
+  /**
+   * OPTIONAL. Sets a key that will be set as a `key` attribute on the SVGGElement that is the parent for each SVGCircleElement.
+   *
+   * Can be used to differentiate between dots.
+   *
+   * No key wil be set if this method is not called.
+   */
+  key(key: (datum: Datum) => string): this {
+    this._key = key;
+    return this;
   }
 
   /**
@@ -201,6 +214,7 @@ export class VicDotsConfigBuilder<Datum> extends PrimaryMarksBuilder<Datum> {
       fill: this.fillBuilderCategorical
         ? this.fillBuilderCategorical._build(fillName)
         : this.fillBuilderNumber._build(fillName),
+      key: this._key,
       mixBlendMode: this._mixBlendMode,
       opacity: this._opacity,
       pointerDetectionRadius: this._pointerDetectionRadius,
