@@ -2,8 +2,11 @@
 // Set up Lines component -- can use with Date or numeric values for x axis
 
 import { Component, Input } from '@angular/core';
+import 'cypress-real-events';
 import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
+import { BehaviorSubject } from 'rxjs';
+import { DotsHoverMoveEmitTooltipData } from '../../public-api';
 import {
   VicXQuantitativeAxisConfigBuilder,
   VicXQuantitativeAxisModule,
@@ -13,20 +16,26 @@ import {
   YQuantitativeAxisConfig,
 } from '../axes';
 import { VicChartModule, VicXyChartModule } from '../charts';
+import { HoverMoveAction } from '../events';
 import {
   countryFactsData,
   CountryFactsDatum,
 } from '../testing/data/country-area-continent';
-import { VicHtmlTooltipModule } from '../tooltips';
+import {
+  HtmlTooltipConfig,
+  VicHtmlTooltipConfigBuilder,
+  VicHtmlTooltipModule,
+} from '../tooltips';
 import { VicDotsConfigBuilder } from './config/dots-builder';
 import { DotsConfig } from './config/dots-config';
 import { VicDotsModule } from './dots.module';
+import { DotsEventOutput } from './events/dots-event-output';
+import { DotsHoverMoveDirective } from './events/dots-hover-move.directive';
 
-const margin = { top: 60, right: 20, bottom: 40, left: 80 };
+const margin = { top: 120, right: 80, bottom: 40, left: 80 };
 const chartHeight = 400;
 const chartWidth = 600;
 const data = countryFactsData;
-// const tooltipYOffset = 60; // need to offset otherwise the hover will be on the tooltip itself rather than svg
 
 // ***********************************************************
 @Component({
@@ -50,11 +59,50 @@ const data = countryFactsData;
           [config]="yQuantitativeAxisConfig"
           side="left"
         ></svg:g>
-        <svg:g vic-primary-marks-dots [config]="dotsConfig"></svg:g>
+        <svg:g
+          vic-primary-marks-dots
+          [config]="dotsConfig"
+          [vicDotsHoverMoveActions]="hoverActions"
+          (vicDotsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+        >
+          <vic-html-tooltip
+            [config]="tooltipConfig$ | async"
+            [template]="htmlTooltip"
+          ></vic-html-tooltip>
+        </svg:g>
       </ng-container>
     </vic-xy-chart>
+
+    <ng-template #htmlTooltip>
+      @if (tooltipData$ | async; as tooltipData) {
+        <div
+          [style.--color]="tooltipData.color"
+          class="dots-example-tooltip-container"
+        >
+          <p class="tooltip-label country">
+            {{ tooltipData.datum.country }}
+          </p>
+          <p class="tooltip-label fill">
+            <span class="value-label">Fill Value</span>
+            {{ tooltipData.values.fill }}
+          </p>
+          <p class="tooltip-label x">
+            <span class="value-label">X Value</span>
+            {{ tooltipData.values.x }}
+          </p>
+          <p class="tooltip-label y">
+            <span class="value-label">Y Value</span>
+            {{ tooltipData.values.y }}
+          </p>
+          <p class="tooltip-label radius">
+            <span class="value-label">Radius Value</span>
+            {{ tooltipData.values.radius }}
+          </p>
+        </div>
+      }
+    </ng-template>
   `,
-  styles: ['.tooltip-text { font-size: 12px; }'],
+  styles: ['.tooltip-label { font-size: 12px; }'],
 })
 class TestDotsComponent<Datum> {
   @Input() dotsConfig: DotsConfig<Datum>;
@@ -63,39 +111,38 @@ class TestDotsComponent<Datum> {
   margin = margin;
   chartHeight = chartHeight;
   chartWidth = chartWidth;
-  // tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
-  //   new BehaviorSubject<HtmlTooltipConfig>(null);
-  // tooltipConfig$ = this.tooltipConfig.asObservable();
-  // tooltipData: BehaviorSubject<LinesEventOutput<Datum>> = new BehaviorSubject<
-  //   LinesEventOutput<Datum>
-  // >(null);
-  // tooltipData$ = this.tooltipData.asObservable();
-  // hoverActions: HoverMoveAction<LinesHoverMoveDirective<Datum>>[] = [
-  //   new LinesHoverMoveEmitTooltipData(),
-  // ];
+  tooltipConfig: BehaviorSubject<HtmlTooltipConfig> =
+    new BehaviorSubject<HtmlTooltipConfig>(null);
+  tooltipConfig$ = this.tooltipConfig.asObservable();
+  tooltipData: BehaviorSubject<DotsEventOutput<Datum>> = new BehaviorSubject<
+    DotsEventOutput<Datum>
+  >(null);
+  tooltipData$ = this.tooltipData.asObservable();
+  hoverActions: HoverMoveAction<DotsHoverMoveDirective<Datum>>[] = [
+    new DotsHoverMoveEmitTooltipData(),
+  ];
 
-  // updateTooltipForNewOutput(data: LinesEventOutput<Datum>): void {
-  //   this.updateTooltipData(data);
-  //   this.updateTooltipConfig(data);
-  // }
+  updateTooltipForNewOutput(data: DotsEventOutput<Datum>): void {
+    this.updateTooltipData(data);
+    this.updateTooltipConfig(data);
+  }
 
-  // updateTooltipData(data: LinesEventOutput<Datum>): void {
-  //   this.tooltipData.next(data);
-  // }
+  updateTooltipData(data: DotsEventOutput<Datum>): void {
+    this.tooltipData.next(data);
+  }
 
-  // updateTooltipConfig(data: LinesEventOutput<Datum>): void {
-  //   const config = new VicHtmlTooltipConfigBuilder()
-  //     .size((size) => size.minWidth(100))
-  //     .linesPosition([
-  //       {
-  //         offsetX: data?.positionX,
-  //         offsetY: data ? data.positionY - tooltipYOffset : 0,
-  //       },
-  //     ])
-  //     .show(!!data)
-  //     .getConfig();
-  //   this.tooltipConfig.next(config);
-  // }
+  updateTooltipConfig(data: DotsEventOutput<Datum>): void {
+    const config = new VicHtmlTooltipConfigBuilder()
+      .dotsPosition(data?.origin, [
+        {
+          offsetY: data ? data.positionY - 12 : undefined,
+          offsetX: data?.positionX,
+        },
+      ])
+      .show(!!data)
+      .getConfig();
+    this.tooltipConfig.next(config);
+  }
 }
 
 const imports = [
@@ -259,7 +306,7 @@ describe('it handles negative x-dimension values', () => {
 // ***********************************************************
 // Tooltips
 // ***********************************************************
-describe('it creates one dot for each valid value in the data with the expected color and radius', () => {
+describe('displays a tooltips with correct data on each dot', () => {
   const colors = ['red', 'blue', 'green', 'orange', 'purple'];
   beforeEach(() => {
     const dotsConfig = new VicDotsConfigBuilder<CountryFactsDatum>()
@@ -276,43 +323,19 @@ describe('it creates one dot for each valid value in the data with the expected 
       .getConfig();
     mountDotsComponent(dotsConfig);
   });
-  it('should draw one dot for each valid value in the data', () => {
-    const dotKeys = [];
-    cy.get('.vic-dot')
-      .each(($dots) => {
-        dotKeys.push($dots.attr('key'));
-      })
-      .then(() => {
-        expect(dotKeys).to.have.members([
-          ...new Set(data.map((d) => d.country)),
-        ]);
+  data.forEach((datum) => {
+    describe(`when hovering over the dot for ${datum.country}`, () => {
+      beforeEach(() => {
+        cy.get(`.vic-dot[key="${datum.country}"]`).realHover();
       });
-  });
-  it('should draw dots with the expected color', () => {
-    const continents = [...new Set(data.map((d) => d.continent))];
-    cy.get('.vic-dot').each((dots) => {
-      const key = dots.attr('key');
-      const continent = data.find((d) => d.country === key).continent;
-      const expectedFill = colors[continents.indexOf(continent)];
-      expect(dots.attr('fill')).to.equal(expectedFill);
+      it('should display a tooltip with the correct data', () => {
+        cy.get('.vic-html-tooltip-overlay').should('exist');
+        cy.get('.tooltip-label.country').should('contain', datum.country);
+        cy.get('.tooltip-label.fill').should('contain', datum.continent);
+        cy.get('.tooltip-label.x').should('contain', datum.population);
+        cy.get('.tooltip-label.y').should('contain', datum.gdpPerCapita);
+        cy.get('.tooltip-label.radius').should('contain', datum.popGrowth);
+      });
     });
-  });
-  it('should draw dots with the expected radius', () => {
-    const dotRadii = [];
-    cy.get('.vic-dot')
-      .each((dots) => {
-        dotRadii.push({ country: dots.attr('key'), r: dots.attr('r') });
-      })
-      .then(() => {
-        const countriesByRadius = dotRadii
-          .slice()
-          .sort((a, b) => a.r - b.r)
-          .map((d) => d.country);
-        const countriesByPopGrowth = data
-          .slice()
-          .sort((a, b) => a.popGrowth - b.popGrowth)
-          .map((d) => d.country);
-        expect(countriesByRadius).to.deep.equal(countriesByPopGrowth);
-      });
   });
 });
