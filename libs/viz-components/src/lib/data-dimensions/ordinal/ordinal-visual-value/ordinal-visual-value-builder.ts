@@ -93,7 +93,7 @@ export class OrdinalVisualValueDimensionBuilder<
     this.validateValueAccessor(dimensionName);
     if (!this._range && !this._scale) {
       throw new Error(
-        `${dimensionName} requires that either a range or a scale is provided the user.`
+        `${dimensionName} Dimension: Either a range or a scale must be provided.`
       );
     }
   }
