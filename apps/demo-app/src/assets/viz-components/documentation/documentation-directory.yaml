@@ -28,6 +28,24 @@ primary-marks-components:
         labels-builder: 'classes/BarsLabelsBuilder.html'
         labels: 'classes/BarsLabels.html'
         labels-options: 'interfaces/BarsLabelsOptions.html'
+  dots:
+    component: 'components/DotsComponent.html'
+    builder: 'injectables/VicDotsConfigBuilder.html'
+    events:
+      click: 'directives/DotsClickDirective.html'
+      hover: 'directives/DotsHoverDirective.html'
+      hover-move: 'directives/DotsHoverMoveDirective.html'
+      input-event: 'directives/DotsInputEventDirective.html'
+      actions:
+        hover-default-styles: 'classes/DotsHoverDefaultStyles.html'
+        hover-move-default-styles: 'classes/DotsHoverMoveDefaultStyles.html'
+        hover-move-emit-tooltip-data: 'classes/DotsHoverMoveEmitTooltipData.html'
+      internal:
+        tooltip-data: 'interfaces/DotsTooltipData.html'
+        event-output: 'interfaces/DotsEventOutput.html'
+    internal:
+      config: 'classes/DotsConfig.html'
+      options: 'interfaces/DotsOptions.html'
   geographies:
     component: 'components/GeographiesComponent.html'
     builder: 'injectables/VicGeographiesConfigBuilder.html'
