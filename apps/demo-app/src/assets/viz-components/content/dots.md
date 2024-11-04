@@ -215,14 +215,12 @@ object.
   <div class="params">
     <div class="param">
       <p class="param-def">
-        <span class="label">@param</span><span class="name">stroke:</span><code class="type-def">Stroke</code>
+        <span class="label">@param</span><span class="name">stroke:</span><code class="type-def">(stroke: StrokeBuilder) => void</code>
       </p>
-      <p class="param-description">A value between 0 and 1 for the `opacity` attribute of the `SVGCircleElement`.</p>
+      <p class="param-description">A callback that allows for the specification of the attributes for the stroke of the dots.</p>
     </div>  
   </div>
 </div>
-
-#### stroke
 
 ## Example
 
