@@ -73,7 +73,7 @@ export class QuickStartExampleComponent implements OnInit {
 
     this.xAxisConfig = this.xQuantitativeAxis.getConfig();
     this.yAxisConfig = this.yOrdinalAxis
-      .createTickWrap((wrap) =>
+      .wrapTickText((wrap) =>
         wrap.wrapWidth(140).maintainYPosition(true).maintainXPosition(true)
       )
       .getConfig();

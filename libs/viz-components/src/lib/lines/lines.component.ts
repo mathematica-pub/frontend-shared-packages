@@ -64,7 +64,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.categorical.getScale();
+    const categorical = this.config.stroke.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -251,13 +251,13 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('cy', (d) => this.scales.y(this.config.y.values[d.index]))
             .attr('r', this.config.pointMarkers.radius)
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .style('display', (d) => d.display),
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .call((update) =>
               update
@@ -289,7 +289,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
             .attr('class', 'vic-line-label')
             .attr('text-anchor', 'end')
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .attr(
               'x',
@@ -303,7 +303,7 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
         (update) =>
           update
             .attr('fill', (d) =>
-              this.scales.categorical(this.config.categorical.values[d.index])
+              this.scales.categorical(this.config.stroke.color.values[d.index])
             )
             .attr(
               'x',

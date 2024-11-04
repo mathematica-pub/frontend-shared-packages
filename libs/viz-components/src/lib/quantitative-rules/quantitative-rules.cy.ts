@@ -297,12 +297,10 @@ function mountDateLinesComponent<RuleDatum extends number | Date>(
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
   const linesConfig = new VicLinesConfigBuilder<QdQnCDatum>()
     .data(linesDateData)
-    .createXDateDimension((dimension) => dimension.valueAccessor((d) => d.year))
-    .createYDimension((dimension) =>
-      dimension.valueAccessor((d) => d.population)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.continent)
+    .xDate((dimension) => dimension.valueAccessor((d) => d.year))
+    .y((dimension) => dimension.valueAccessor((d) => d.population))
+    .stroke((stroke) =>
+      stroke.color((color) => color.valueAccessor((d) => d.continent))
     )
     .getConfig();
   const declarations = [TestLinesComponent<QdQnCDatum, Date, RuleDatum>];
@@ -329,14 +327,12 @@ function mountNumberLinesComponent(
     new VicYQuantitativeAxisConfigBuilder<number>().getConfig();
   const linesConfig = new VicLinesConfigBuilder<QnQnCDatum>()
     .data(linesNumericData)
-    .createXNumericDimension((dimension) =>
+    .xNumeric((dimension) =>
       dimension.valueAccessor((d) => d.year).includeZeroInDomain(false)
     )
-    .createYDimension((dimension) =>
-      dimension.valueAccessor((d) => d.population)
-    )
-    .createCategoricalDimension((dimension) =>
-      dimension.valueAccessor((d) => d.continent)
+    .y((dimension) => dimension.valueAccessor((d) => d.population))
+    .stroke((stroke) =>
+      stroke.color((color) => color.valueAccessor((d) => d.continent))
     )
     .getConfig();
   const declarations = [TestLinesComponent<QnQnCDatum, number, number>];
@@ -403,7 +399,7 @@ describe('it creates the correct rules and labels - vertical rules on horizontal
       .orientation('vertical')
       .data(ruleData)
       .color(getColor)
-      .createLabels()
+      .labels()
       .getConfig();
     mountHorizontalBarsComponent(rulesConfig);
     cy.get('.vic-quantitative-rule-group').each(($group, index) => {
@@ -437,7 +433,7 @@ describe('it creates the correct rules and labels - vertical rules on horizontal
       .orientation('vertical')
       .data(ruleData)
       .color(getColor)
-      .createLabels((labels) =>
+      .labels((labels) =>
         labels
           .color((d) => (d < 300000 ? 'green' : 'hotpink'))
           .value((d) => (d < 300000 ? 'pretty big' : 'really big'))
@@ -485,7 +481,7 @@ describe('it creates the correct rules and labels - horizontal rules on vertical
       .orientation('horizontal')
       .data(ruleData)
       .color(getColor)
-      .createLabels((labels) =>
+      .labels((labels) =>
         labels
           .color((d) => (d < 300000 ? 'green' : 'hotpink'))
           .value((d) => (d < 300000 ? 'pretty big' : 'really big'))
@@ -529,7 +525,7 @@ describe('it creates the correct rules and labels on a date line chart', () => {
       .orientation('horizontal')
       .data(ruleData)
       .color(ruleColor)
-      .createLabels()
+      .labels()
       .getConfig();
     mountDateLinesComponent<number>(rulesConfig);
     cy.get('.vic-quantitative-rule-group').should(
@@ -551,7 +547,7 @@ describe('it creates the correct rules and labels on a date line chart', () => {
       .orientation('vertical')
       .data(ruleData)
       .color(ruleColor)
-      .createLabels((labels) => labels.value(() => 'no return'))
+      .labels((labels) => labels.value(() => 'no return'))
       .getConfig();
     mountDateLinesComponent<Date>(rulesConfig);
     cy.get('.vic-quantitative-rule-group').should(
@@ -579,7 +575,7 @@ describe('it creates the correct rules and labels on a number line chart', () =>
       .orientation('horizontal')
       .data(ruleData)
       .color(ruleColor)
-      .createLabels()
+      .labels()
       .getConfig();
     mountNumberLinesComponent(rulesConfig);
     cy.get('.vic-quantitative-rule-group').should(
@@ -601,7 +597,7 @@ describe('it creates the correct rules and labels on a number line chart', () =>
       .orientation('vertical')
       .data(ruleData)
       .color(ruleColor)
-      .createLabels((labels) => labels.value(() => 'no return'))
+      .labels((labels) => labels.value(() => 'no return'))
       .getConfig();
     mountNumberLinesComponent(rulesConfig);
     cy.get('.vic-quantitative-rule-group').should(

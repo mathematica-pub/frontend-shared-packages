@@ -75,7 +75,7 @@ export class VicHtmlTooltipConfigBuilder {
     return this;
   }
 
-  createOffsetFromOriginPosition(
+  offsetFromOriginPosition(
     setProperties?: (
       position: HtmlTooltipOffsetFromOriginPositionBuilder
     ) => void

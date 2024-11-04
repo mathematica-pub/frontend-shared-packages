@@ -24,19 +24,18 @@ function createConfig(): GeographiesConfig<Datum, { name: string }, any> {
   return new VicGeographiesConfigBuilder<Datum, { name: string }>()
     .boundary('boundary' as any)
     .featureIndexAccessor((d) => d.properties.name)
-    .createAttributeDataLayer((layer) =>
+    .attributeDataLayer((layer) =>
       layer
-        .createEqualValueRangesBinsDimension((dimension) =>
+        .equalValueRangesBins((dimension) =>
           dimension.valueAccessor((d) => d.value).numBins(5)
         )
         .geographyIndexAccessor((d) => d.state)
         .data(data)
     )
-    .createGeojsonPropertiesLayer((layer) =>
+    .geojsonPropertiesLayer((layer) =>
       layer
         .geographies(features as any)
-        .createCategoricalDimension((dimension) => dimension.range(['lime']))
-        .fill('lime')
+        .fillGeojsonProperties((dimension) => dimension.range(['lime']))
     )
     .getConfig();
 }

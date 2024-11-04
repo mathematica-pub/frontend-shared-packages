@@ -7,9 +7,8 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
   TProperties,
   TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerOptions<TProperties, TGeometry> {
-  categorical: OrdinalVisualValueDimension<
+  fill: OrdinalVisualValueDimension<
     GeographiesFeature<TProperties, TGeometry>,
     string
   >;
-  fill: string;
 }

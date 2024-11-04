@@ -51,7 +51,7 @@ export class StackedAreaComponent<
   setChartScalesFromRanges(useTransition: boolean): void {
     const x = this.config.x.getScaleFromRange(this.ranges.x);
     const y = this.config.y.getScaleFromRange(this.ranges.y);
-    const categorical = this.config.categorical.getScale();
+    const categorical = this.config.color.getScale();
     this.chart.updateScales({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       x: x as unknown as GenericScale<any, any>,
@@ -90,9 +90,9 @@ export class StackedAreaComponent<
         (enter) =>
           enter
             .append('path')
-            .property('key', ([{ i }]) => this.config.categorical.values[i])
+            .property('key', ([{ i }]) => this.config.color.values[i])
             .attr('fill', ([{ i }]) =>
-              this.scales.categorical(this.config.categorical.values[i])
+              this.scales.categorical(this.config.color.values[i])
             )
             .attr('d', this.area),
         (update) =>
@@ -102,7 +102,7 @@ export class StackedAreaComponent<
               .transition(t as any)
               .attr('d', this.area)
               .attr('fill', ([{ i }]) =>
-                this.scales.categorical(this.config.categorical.values[i])
+                this.scales.categorical(this.config.color.values[i])
               )
           ),
         (exit) => exit.remove()

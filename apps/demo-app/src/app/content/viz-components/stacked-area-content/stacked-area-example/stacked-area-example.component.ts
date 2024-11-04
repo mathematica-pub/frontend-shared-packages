@@ -98,15 +98,9 @@ export class StackedAreaExampleComponent implements OnInit {
     const yAxisConfig = this.yAxisQuantitative.tickFormat(',.0f').getConfig();
     const dataConfig = this.stackedArea
       .data(data)
-      .createXDateDimension((dimension) =>
-        dimension.valueAccessor((d) => d.date)
-      )
-      .createYNumericDimension((dimension) =>
-        dimension.valueAccessor((d) => d.value)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.industry)
-      )
+      .xDate((dimension) => dimension.valueAccessor((d) => d.date))
+      .y((dimension) => dimension.valueAccessor((d) => d.value))
+      .color((dimension) => dimension.valueAccessor((d) => d.industry))
       .getConfig();
     return {
       dataConfig,
@@ -133,7 +127,7 @@ export class StackedAreaExampleComponent implements OnInit {
   ): void {
     const config = this.tooltip
       .setSize((size) => size.minWidth(130))
-      .createOffsetFromOriginPosition((position) =>
+      .offsetFromOriginPosition((position) =>
         position
           .offsetX(output?.positionX)
           .offsetY(output ? output.categoryYMin - 5 : undefined)

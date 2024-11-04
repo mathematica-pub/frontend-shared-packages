@@ -119,14 +119,12 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
-              bins.valueAccessor((d) => d.income)
-            )
+            .equalFrequenciesBins((bins) => bins.valueAccessor((d) => d.income))
         )
         .getConfig();
       mountGeographiesComponent(geographiesConfig);
@@ -211,12 +209,12 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
+            .equalFrequenciesBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(5)
@@ -288,12 +286,12 @@ describe('the Equal Frequencies Bins Attribute Data dimension', () => {
       >()
         .boundary(usBoundary)
         .featureIndexAccessor((d) => d.properties.name)
-        .createAttributeDataLayer((dimension) =>
+        .attributeDataLayer((dimension) =>
           dimension
             .data(attributeData)
             .geographies(states.features)
             .geographyIndexAccessor((d) => d.state)
-            .createEqualFrequenciesBinsDimension((bins) =>
+            .equalFrequenciesBins((bins) =>
               bins
                 .valueAccessor((d) => d.income)
                 .numBins(numBins)
