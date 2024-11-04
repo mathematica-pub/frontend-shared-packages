@@ -23,10 +23,10 @@ export class SimpleSingleSelectComboboxExampleComponent {
     { displayName: 'Inside Out', id: 'insideOut' },
     { displayName: 'Up', id: 'up' },
   ];
-  value = new BehaviorSubject<string>(null);
-  value$ = this.value.asObservable();
+  selected = new BehaviorSubject<string>(null);
+  selected$ = this.selected.asObservable();
 
-  onSelection(event: string): void {
-    this.value.next(event);
+  onSelection(selectedId: string): void {
+    this.selected.next(selectedId);
   }
 }
