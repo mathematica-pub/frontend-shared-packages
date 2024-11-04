@@ -191,6 +191,17 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  xDate(
+    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
+  ): this {
+    this.xBuilderDate = new DateChartPositionDimensionBuilder<Datum>();
+    setProperties(this.xBuilderDate);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
+   */
   xNumeric(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
@@ -204,6 +215,33 @@ export class VicDotsConfigBuilder<
   /**
    * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
    */
+  xOrdinal(
+    setProperties: (
+      dimension: OrdinalChartPositionDimensionBuilder<Datum, XOrdinalDomain>
+    ) => void
+  ): this {
+    this.xBuilderOrdinal = new OrdinalChartPositionDimensionBuilder<
+      Datum,
+      XOrdinalDomain
+    >();
+    setProperties(this.xBuilderOrdinal);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
+   */
+  yDate(
+    setProperties: (dimension: DateChartPositionDimensionBuilder<Datum>) => void
+  ): this {
+    this.yBuilderDate = new DateChartPositionDimensionBuilder<Datum>();
+    setProperties(this.yBuilderDate);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
+   */
   yNumeric(
     setProperties: (
       dimension: NumberChartPositionDimensionBuilder<Datum>
@@ -211,6 +249,22 @@ export class VicDotsConfigBuilder<
   ): this {
     this.yBuilderNumeric = new NumberChartPositionDimensionBuilder<Datum>();
     setProperties(this.yBuilderNumeric);
+    return this;
+  }
+
+  /**
+   * REQUIRED. A config for the behavior of the chart's x dimension when using numeric data.
+   */
+  yOrdinal(
+    setProperties: (
+      dimension: OrdinalChartPositionDimensionBuilder<Datum, YOrdinalDomain>
+    ) => void
+  ): this {
+    this.yBuilderOrdinal = new OrdinalChartPositionDimensionBuilder<
+      Datum,
+      YOrdinalDomain
+    >();
+    setProperties(this.yBuilderOrdinal);
     return this;
   }
 
@@ -242,12 +296,12 @@ export class VicDotsConfigBuilder<
         ? this.xBuilderDate._build(xName)
         : this.xBuilderNumeric
           ? this.xBuilderNumeric._build(xName)
-          : this.xBuilderOrdinal._build(xName),
+          : this.xBuilderOrdinal._build('point', xName),
       y: this.xBuilderDate
         ? this.yBuilderDate._build(yName)
         : this.yBuilderNumeric
           ? this.yBuilderNumeric._build(yName)
-          : this.yBuilderOrdinal._build(yName),
+          : this.yBuilderOrdinal._build('point', yName),
     });
   }
 

@@ -1,4 +1,4 @@
-import { InternSet, ScaleBand, scaleBand } from 'd3';
+import { InternSet, ScaleBand, scaleBand, scalePoint, ScalePoint } from 'd3';
 import { DataValue } from '../../../core/types/values';
 import { DataDimension } from '../../dimension';
 import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-options';
@@ -28,35 +28,33 @@ import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-o
  *   - tested in: ordinal-chart-position.spec.ts
  */
 
-export class OrdinalChartPositionDimension<
-    Datum,
-    TOrdinalValue extends DataValue,
-  >
-  extends DataDimension<Datum, TOrdinalValue>
-  implements OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
+export class OrdinalChartPositionDimension<Datum, Domain extends DataValue>
+  extends DataDimension<Datum, Domain>
+  implements OrdinalChartPositionDimensionOptions<Datum, Domain>
 {
   readonly align: number;
-  private _calculatedDomain: TOrdinalValue[];
-  readonly domain: TOrdinalValue[];
-  private internSetDomain: InternSet<TOrdinalValue>;
+  private _calculatedDomain: Domain[];
+  readonly domain: Domain[];
+  private internSetDomain: InternSet<Domain>;
   readonly paddingInner: number;
   readonly paddingOuter: number;
   private scaleFn: (
-    domain?: Iterable<TOrdinalValue>,
+    domain?: Iterable<Domain>,
     range?: Iterable<number>
-  ) => ScaleBand<TOrdinalValue>;
+  ) => ScaleBand<Domain> | ScalePoint<Domain>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  override readonly valueAccessor: (d: Datum, ...args: any) => TOrdinalValue;
+  override readonly valueAccessor: (d: Datum, ...args: any) => Domain;
 
   constructor(
-    options: OrdinalChartPositionDimensionOptions<Datum, TOrdinalValue>
+    scaleType: 'band' | 'point' = 'band',
+    options: OrdinalChartPositionDimensionOptions<Datum, Domain>
   ) {
     super('ordinal');
-    this.scaleFn = scaleBand;
+    this.scaleFn = scaleType === 'band' ? scaleBand : scalePoint;
     Object.assign(this, options);
   }
 
-  get calculatedDomain(): TOrdinalValue[] {
+  get calculatedDomain(): Domain[] {
     return this._calculatedDomain;
   }
 
@@ -77,16 +75,26 @@ export class OrdinalChartPositionDimension<
       : uniqueValues;
   }
 
-  domainIncludes(value: TOrdinalValue): boolean {
+  domainIncludes(value: Domain): boolean {
     return this.internSetDomain.has(value);
   }
 
-  getScaleFromRange(range: [number, number]) {
-    return this.scaleFn()
-      .domain(this._calculatedDomain)
-      .range(range)
-      .paddingInner(this.paddingInner)
-      .paddingOuter(this.paddingOuter)
-      .align(this.align);
+  getScaleFromRange(
+    range: [number, number]
+  ): ScaleBand<Domain> | ScalePoint<Domain> {
+    if (this.scaleFn === scalePoint) {
+      return (this.scaleFn() as ScalePoint<Domain>)
+        .domain(this._calculatedDomain)
+        .range(range)
+        .padding(this.paddingOuter)
+        .align(this.align);
+    } else {
+      return (this.scaleFn() as ScaleBand<Domain>)
+        .domain(this._calculatedDomain)
+        .range(range)
+        .paddingInner(this.paddingInner)
+        .paddingOuter(this.paddingOuter)
+        .align(this.align);
+    }
   }
 }

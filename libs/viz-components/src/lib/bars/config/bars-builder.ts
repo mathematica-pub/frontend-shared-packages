@@ -119,6 +119,7 @@ export class VicBarsConfigBuilder<
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(
+        'band',
         this.getOrdinalDimensionName()
       ),
       quantitative: this.quantitativeDimensionBuilder._build(
