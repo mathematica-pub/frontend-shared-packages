@@ -13,11 +13,11 @@ import { NumberVisualValueDimensionOptions } from './number-visual-value-options
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
- *   - tested in:
+ *   - tested in: dots.cy.ts
  * - It sets the domain of the dimension.
- *   - tested in:
+ *   - tested in: dots.cy.ts
  * - It set the scale from the calculated domain and the user-provided range of the user does not provide a scale.
- *   - tested in:
+ *   - tested in: dots.cy.ts
  */
 
 export class NumberVisualValueDimension<

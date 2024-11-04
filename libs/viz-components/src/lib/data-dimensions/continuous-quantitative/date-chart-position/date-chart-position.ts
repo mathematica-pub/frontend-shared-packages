@@ -13,13 +13,13 @@ import { DateChartPositionDimensionOptions } from './date-chart-position-options
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
- *   - tested in:
+ *   - tested in: lines.cy.ts
  * - It sets the domain of the dimension.
- *   - tested in:
+ *   - tested in: lines.cy.ts
  * - It creates and returns a scale from a range.
- *   - tested in:
+ *   - tested in: lines.cy.ts
  * - It checks if a value is in valid.
- *   - tested in:
+ *   - tested in: lines.cy.ts
  * - The domain will be unique values from the user-provided domain if the user provides a domain.
  *   - tested in: date-chart-position.spec.ts
  * - The domain will be unique values from the data if no custom domain is given by the user.

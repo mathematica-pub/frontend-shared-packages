@@ -14,9 +14,9 @@ import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-optio
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
- *   - tested in:
+ *   - tested in: ordinal-visual-value.cy.ts
  * - It sets the domain of the dimension.
- *   - tested in:
+ *   - tested in: ordinal-visual-value.cy.ts
  * - It checks if a value is in the domain.
  * - The domain can be set by the user passing in an array of values.
  *   - tested in: ordinal-chart-position.spec.ts

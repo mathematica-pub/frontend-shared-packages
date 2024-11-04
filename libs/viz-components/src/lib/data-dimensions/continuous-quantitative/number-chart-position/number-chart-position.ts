@@ -13,13 +13,13 @@ import { NumberChartPositionDimensionOptions } from './number-chart-position-opt
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
- *   - tested in:
+ *   - tested in: bars.cy.ts, dots.cy.ts, lines.cy.ts, stacked-bars.cy.ts
  * - It sets the domain of the dimension.
- *   - tested in:
+ *   - tested in: bars.cy.ts, dots.cy.ts, lines.cy.ts, stacked-bars.cy.ts
  * - It creates and returns a scale from a range and the a padded domain if domain padding is provided.
  *   - tested in: quantitative-domain-padding.cy.ts
  * - It creates and returns a scale from a range and the regular domain if domain padding is not provided.
- *   - tested in:
+ *   - tested in: bars.cy.ts, dots.cy.ts, lines.cy.ts, stacked-bars.cy.ts
  */
 
 export class NumberChartPositionDimension<Datum>

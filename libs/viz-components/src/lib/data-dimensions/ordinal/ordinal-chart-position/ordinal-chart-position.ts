@@ -13,13 +13,13 @@ import { OrdinalChartPositionDimensionOptions } from './ordinal-chart-position-o
  * TESTABLE FUNCTIONALITY
  *
  * - It extracts values for the dimension from data.
- *   - tested in:
+ *   - tested in: bars.cy.ts, dots.cy.ts, stacked-bars.cy.ts
  * - It sets the domain of the dimension.
- *   - tested in:
+ *   - tested in: bars.cy.ts, dots.cy.ts
  * - It checks if a value is in the domain.
- *   - tested in:
+ *   - tested in: bars.cy.ts
  * - It creates a scale from a range.
- *   - tested in:
+ *   - tested in: bars.cy.ts, dots.cy.ts
  * - The domain will be unique values from the user-provided domain if the user provides a domain.
  *   - tested in: ordinal-chart-position.spec.ts
  * - The domain will be unique values from the data if no custom domain is given by the user.
