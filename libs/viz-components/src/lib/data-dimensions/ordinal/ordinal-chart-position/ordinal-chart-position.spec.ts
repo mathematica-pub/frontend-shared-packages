@@ -21,7 +21,7 @@ describe('OrdinalChartPositionDimension', () => {
       string
     >()
       .valueAccessor((d) => d.category)
-      ._build('Test');
+      ._build('band', 'Test');
   });
   describe('setPropertiesFromData', () => {
     beforeEach(() => {

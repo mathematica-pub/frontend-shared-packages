@@ -180,7 +180,7 @@ object.
       <p class="param-description">A callback that allows for specification of how number values will be transformed into y position values to be used for the <code>cy</code> attribute for circles.</p></p>
     </div>  
   </div>
-  <h4 class="method-name">xOrdinal</h4>
+  <h4 class="method-name">yOrdinal</h4>
   <p class="description">Create the specifications for the y position of the circles using ordinal (string, number or Date) values.</p>
   <div class="params">
     <div class="param">
@@ -196,7 +196,31 @@ object.
 
 ### Optional Methods
 
-#### opacity
+<div class="builder-method">
+  <h4 class="method-name">opacity</h4>
+  <p class="description">Sets the opacity for each dot.</p>
+  <div class="params">
+    <div class="param">
+      <p class="param-def">
+        <span class="label">@param</span><span class="name">opacity:</span><code class="type-def">number</code>
+      </p>
+      <p class="param-description">A value between 0 and 1 for the `opacity` attribute of the `SVGCircleElement`.</p>
+    </div>  
+  </div>
+</div>
+
+<div class="builder-method">
+  <h4 class="method-name">stroke</h4>
+  <p class="description">Sets the stroke attributes for each dot.</p>
+  <div class="params">
+    <div class="param">
+      <p class="param-def">
+        <span class="label">@param</span><span class="name">stroke:</span><code class="type-def">Stroke</code>
+      </p>
+      <p class="param-description">A value between 0 and 1 for the `opacity` attribute of the `SVGCircleElement`.</p>
+    </div>  
+  </div>
+</div>
 
 #### stroke
 

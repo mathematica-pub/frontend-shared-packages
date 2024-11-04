@@ -11,7 +11,7 @@ class ConcreteNumberDimension<Datum> extends NumberDimension<Datum> {
 describe('NumberDimension', () => {
   let dimension: ConcreteNumberDimension<number>;
   beforeEach(() => {
-    dimension = new ConcreteNumberDimension<number>();
+    dimension = new ConcreteNumberDimension<number>('number');
   });
 
   describe('setDomain', () => {
