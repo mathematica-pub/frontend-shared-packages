@@ -1,7 +1,7 @@
 import { CurveFactory, group, range } from 'd3';
-import { CategoricalDimension } from '../../data-dimensions/categorical/categorical';
-import { QuantitativeDateDimension } from '../../data-dimensions/quantitative/quantitative-date';
-import { QuantitativeNumericDimension } from '../../data-dimensions/quantitative/quantitative-numeric';
+import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { DateChartPositionDimension } from '../../data-dimensions/quantitative/date-chart-position/date-chart-position';
+import { NumberChartPositionDimension } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { PointMarkers } from '../../point-markers/point-markers';
 import { Stroke } from '../../stroke/stroke';
@@ -20,7 +20,7 @@ export class LinesConfig<Datum>
   extends XyPrimaryMarksConfig<Datum>
   implements LinesOptions<Datum>
 {
-  readonly categorical: CategoricalDimension<Datum, string>;
+  readonly categorical: OrdinalVisualValueDimension<Datum, string>;
   readonly curve: CurveFactory;
   readonly labelLines: boolean;
   readonly lineLabelsFormat: (d: string) => string;
@@ -31,9 +31,9 @@ export class LinesConfig<Datum>
   readonly pointMarkers: PointMarkers<Datum>;
   readonly stroke: Stroke;
   readonly x:
-    | QuantitativeDateDimension<Datum>
-    | QuantitativeNumericDimension<Datum>;
-  readonly y: QuantitativeNumericDimension<Datum>;
+    | DateChartPositionDimension<Datum>
+    | NumberChartPositionDimension<Datum>;
+  readonly y: NumberChartPositionDimension<Datum>;
 
   constructor(options: LinesOptions<Datum>) {
     super();
