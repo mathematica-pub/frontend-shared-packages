@@ -6,7 +6,7 @@ import { beforeEach, cy, describe, it } from 'local-cypress';
 import { ComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
-// Simple single select combobox
+// Simple single select combobox that displays selected
 @Component({
   selector: 'hsi-ui-combobox-single-test',
   template: `
@@ -17,7 +17,7 @@ import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
       <hsi-ui-combobox-label>
         <span>Fruits</span>
       </hsi-ui-combobox-label>
-      <hsi-ui-textbox [displaySelected]="true">
+      <hsi-ui-textbox class="textbox" [displaySelected]="true">
         <span class="material-symbols-outlined expand-more" boxIcon>
           expand_more
         </span>
@@ -63,6 +63,11 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.listbox-option').first().realClick();
       cy.get('.combobox-value').should('have.text', 'Apples');
+    });
+    it('should display value on textbox', () => {
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').first().realClick();
+      cy.get('.textbox').should('include.text', 'Apples');
     });
     it('listbox should close on option click', () => {
       cy.get('.combobox-textbox').click();
@@ -114,6 +119,56 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-listbox').should('be.visible');
     });
     // TODO: get typing chars to work
+  });
+});
+
+// Simple single select combobox that does not display selected
+@Component({
+  selector: 'hsi-ui-combobox-single-no-display-selected-test',
+  template: `
+    <p class="outside-element"
+      >Throwaway element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox class="textbox">
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [labelIsBoxPlaceholder]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-label>
+          <span>Select a fruit</span>
+        </hsi-ui-listbox-label>
+        <hsi-ui-listbox-option *ngFor="let option of options">{{
+          option.displayName
+        }}</hsi-ui-listbox-option>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">{{ value$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxSingleTestNoDisplaySelectedComponent extends ComboboxBaseTestComponent {}
+
+describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxSingleTestNoDisplaySelectedComponent, {
+      declarations: [ComboboxSingleTestComponent],
+      imports: [ComboboxModule, MatIconModule],
+    });
+  });
+  it('does not display selected', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.textbox').should('not.include.text', 'Apples');
+    cy.get('.combobox-value').should('have.text', 'Apples');
   });
 });
 
