@@ -68,6 +68,10 @@ describe('ComboboxSingleSelectOnlyComponent', () => {
       cy.get('.combobox-textbox').click();
       cy.get('.listbox-option').first().realClick();
       cy.get('.textbox').should('include.text', 'Apples');
+      cy.get('.combobox-textbox').click();
+      cy.get('.listbox-option').eq(1).realClick();
+      cy.get('.textbox').should('include.text', 'Bananas');
+      cy.get('.textbox').should('not.include.text', 'Apples');
     });
     it('listbox should close on option click', () => {
       cy.get('.combobox-textbox').click();
