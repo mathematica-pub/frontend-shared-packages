@@ -3,6 +3,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import 'cypress-real-events';
 import { beforeEach, cy, describe, it } from 'local-cypress';
+import { BehaviorSubject } from 'rxjs';
 import { ComboboxModule } from '../combobox.module';
 import { ComboboxBaseTestComponent, scss } from './combobox-testing.constants';
 
@@ -164,7 +165,7 @@ class ComboboxSingleTestNoDisplaySelectedComponent extends ComboboxBaseTestCompo
 describe('ComboboxSingleTestNoDisplaySelectedComponent', () => {
   beforeEach(() => {
     cy.mount(ComboboxSingleTestNoDisplaySelectedComponent, {
-      declarations: [ComboboxSingleTestComponent],
+      declarations: [ComboboxSingleTestNoDisplaySelectedComponent],
       imports: [ComboboxModule, MatIconModule],
     });
   });
@@ -284,5 +285,86 @@ describe('ComboboxSelectFromOutsideSingleComponent', () => {
     cy.get('.combobox-textbox').click();
     cy.get('.listbox-option').first().realClick();
     cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
+
+// Single select combobox with groups
+@Component({
+  selector: 'hsi-ui-combobox-grouped-single-test',
+  template: `
+    <hsi-ui-combobox class="pixar-movies-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Star Wars Movies Combobox</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox class="textbox" [displaySelected]="true">
+        <p boxLabel
+          >This combobox stores your favorite pre-Disney Star Wars movie!</p
+        >
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox (valueChanges)="onSelection($event)">
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span class="group-label">Original Trilogy</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option
+            *ngFor="let option of optionsGroup1"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        </hsi-ui-listbox-group>
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span class="group-label">Prequel Trilogy</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option
+            *ngFor="let option of optionsGroup2"
+            [value]="option.id"
+            >{{ option.displayName }}</hsi-ui-listbox-option
+          >
+        </hsi-ui-listbox-group>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">Selected id value: {{ selected$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxGroupedSingleTestComponent {
+  optionsGroup1 = [
+    { displayName: 'A New Hope', id: 'newHope' },
+    { displayName: 'The Empire Strikes Back', id: 'empire' },
+    { displayName: 'Return of the Jedi', id: 'returnJedi' },
+  ];
+  optionsGroup2 = [
+    { displayName: 'The Phantom Menace', id: 'phantom' },
+    { displayName: 'Attack of the Clones', id: 'clones' },
+    { displayName: 'Revenge of the Sith', id: 'sith' },
+  ];
+  value = new BehaviorSubject<any>(null);
+  value$ = this.value.asObservable();
+
+  onSelection(selectedId: string): void {
+    this.value.next(selectedId);
+  }
+}
+
+describe('ComboboxGroupedSingleTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxGroupedSingleTestComponent, {
+      declarations: [ComboboxGroupedSingleTestComponent],
+      imports: [ComboboxModule, MatIconModule],
+    });
+  });
+  it('can select values from different groups', () => {
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').first().realClick();
+    cy.get('.textbox').should('include.text', 'A New Hope');
+    cy.get('.combobox-textbox').click();
+    cy.get('.listbox-option').eq(4).realClick();
+    cy.get('.textbox').should('include.text', 'Attack of the Clones');
+    cy.get('.textbox').should('not.include.text', 'A New Hope');
   });
 });

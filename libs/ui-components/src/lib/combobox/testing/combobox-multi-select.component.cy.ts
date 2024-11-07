@@ -338,3 +338,89 @@ describe('ComboboxMultiSelectDisabledOptionsComponent', () => {
     cy.get('.combobox-value').should('not.have.text', 'Coconuts,Elderberries');
   });
 });
+
+// Multi select combobox with dynamic label that uses groups
+@Component({
+  selector: 'hsi-ui-combobox-grouped-multi-test',
+  template: `
+    <p class="outside-element"
+      >Outside element to click on for outside combobox click</p
+    >
+    <hsi-ui-combobox class="fruits-dropdown">
+      <hsi-ui-combobox-label>
+        <span>Fruits</span>
+      </hsi-ui-combobox-label>
+      <hsi-ui-textbox [displaySelected]="true">
+        <p boxLabel>Select a fruit, A-E</p>
+        <span class="material-symbols-outlined expand-more" boxIcon>
+          expand_more
+        </span>
+      </hsi-ui-textbox>
+      <hsi-ui-listbox
+        [countSelectedOptionsLabel]="{ singular: 'fruit', plural: 'fruits' }"
+        [isMultiSelect]="true"
+        (valueChanges)="onSelection($event)"
+      >
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span>Group 1</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option *ngFor="let option of options1">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        </hsi-ui-listbox-group>
+        <hsi-ui-listbox-group>
+          <hsi-ui-listbox-label>
+            <span>Group 2</span>
+          </hsi-ui-listbox-label>
+          <hsi-ui-listbox-option *ngFor="let option of options2">{{
+            option.displayName
+          }}</hsi-ui-listbox-option>
+        </hsi-ui-listbox-group>
+      </hsi-ui-listbox>
+    </hsi-ui-combobox>
+    <p class="combobox-value">{{ value$ | async }}</p>
+  `,
+  encapsulation: ViewEncapsulation.None,
+  styles: [scss],
+})
+class ComboboxGroupedMultiTestComponent {
+  options1 = [
+    { displayName: 'Apples', id: 'appl' },
+    { displayName: 'Bananas', id: 'bana' },
+    { displayName: 'Coconuts', id: 'coco' },
+  ];
+  options2 = [
+    { displayName: 'Durians', id: 'duri' },
+    { displayName: 'Elderberries', id: 'elde' },
+  ];
+  value = new BehaviorSubject<any>(null);
+  value$ = this.value.asObservable();
+
+  onSelection(event: any): void {
+    this.value.next(event);
+  }
+}
+
+describe('ComboboxGroupedMultiTestComponent', () => {
+  beforeEach(() => {
+    cy.mount(ComboboxGroupedMultiTestComponent, {
+      declarations: [ComboboxGroupedMultiTestComponent],
+      imports: [ComboboxModule, MatIconModule],
+      providers: [ComboboxService],
+    });
+  });
+
+  it('can select from multiple groups', () => {
+    cy.get('.textbox-label').should('have.text', 'Select a fruit, A-E');
+    cy.get('.combobox-textbox').click();
+    cy.get('.textbox-label').should('have.text', '0 fruits selected');
+    cy.get('.listbox-option').eq(0).realClick();
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', '2 fruits selected');
+    cy.get('.combobox-value').should('have.text', 'Apples,Bananas');
+    cy.get('.listbox-option').eq(1).realClick();
+    cy.get('.textbox-label').should('have.text', '1 fruit selected');
+    cy.get('.combobox-value').should('have.text', 'Apples');
+  });
+});
