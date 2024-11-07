@@ -15,3 +15,7 @@ This is a single select that has disabled options.
 This is a single select that uses FormControl.
 
 {{NgFormSingleSelect}}
+
+This is a single select that uses grouping.
+
+{{GroupedSelectionsSingleSelect}}
