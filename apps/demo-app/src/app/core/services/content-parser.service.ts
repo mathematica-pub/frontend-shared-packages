@@ -1,5 +1,14 @@
 import { Injectable } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import {
+  AdkMarkdownParsingOptions,
+  AdkMdParsedContentSection,
+  AdkShikiHighlighter,
+  AdkShikiHighlighterOptions,
+  deepMerge,
+  ShikiTheme,
+} from '@hsi/app-dev-kit';
+import yaml from 'js-yaml';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
@@ -8,48 +17,7 @@ import remarkGfm from 'remark-gfm';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { forkJoin, from, map, mergeMap, Observable, of, switchMap } from 'rxjs';
-import { BundledLanguage } from 'shiki/langs';
-import { BundledTheme } from 'shiki/themes';
-import { HighlighterGeneric } from 'shiki/types.mjs';
 import { unified } from 'unified';
-import { deepMerge } from '../core/utilities/deep-merge';
-import { AdkShikiHighlighter, ShikiTheme } from './shiki-highlighter';
-
-export interface AdkMdParsedContentSection {
-  type: 'markdown';
-  content: string;
-  html: SafeHtml;
-  headers: { id: string; text: string; level: number }[];
-}
-
-export interface AdkEscapedContentSection {
-  type: 'escaped';
-  content: string;
-}
-
-export type AdkParsedContentSection =
-  | AdkMdParsedContentSection
-  | AdkEscapedContentSection;
-
-export interface AdkMarkdownParsingOptions {
-  detectEscaped?: boolean;
-  highlighter?: AdkShikiHighlighterOptions;
-  gfm?: boolean;
-  headingIds?: boolean;
-  headingFragmentLinks?: AdkHeadingFragmentLinkOptions;
-}
-
-export interface AdkShikiHighlighterOptions {
-  highlighter?: HighlighterGeneric<BundledLanguage, BundledTheme>;
-  theme?: ShikiTheme;
-  type?: 'html' | 'markdown';
-  ignoreUnknownLanguage?: boolean;
-}
-
-export interface AdkHeadingFragmentLinkOptions {
-  createLinks?: boolean;
-  behavior?: 'append' | 'prepend' | 'wrap' | 'before' | 'after';
-}
 
 const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
   highlighter: undefined,
@@ -66,8 +34,36 @@ const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
   highlighter: DEFAULT_HIGHLIGHTER_OPTIONS,
 };
 
+enum ContentSection {
+  Markdown = 'markdown',
+  ExampleComponent = 'example-component',
+  BuilderMethod = 'builder-method',
+}
+
+interface ExampleComponentSection {
+  type: ContentSection.ExampleComponent;
+  component: string;
+}
+
+interface BuilderMethodSection {
+  type: ContentSection.BuilderMethod;
+  content: Record<string, unknown>;
+  headers: { id: string; text: string; level: number }[];
+}
+
+type DemoAppCustomContentSection =
+  | AdkMdParsedContentSection
+  | ExampleComponentSection
+  | BuilderMethodSection;
+
+type DemoAppCustomContentSections = (
+  | AdkMdParsedContentSection
+  | ExampleComponentSection
+  | BuilderMethodSection
+)[];
+
 @Injectable()
-export class AdkMarkdownParser {
+export class ContentParser {
   parser: typeof unified;
 
   constructor(
@@ -80,7 +76,7 @@ export class AdkMarkdownParser {
   parse(
     markdown: string,
     options?: AdkMarkdownParsingOptions
-  ): Observable<AdkParsedContentSection[]> {
+  ): Observable<DemoAppCustomContentSections> {
     const mergedOptions = deepMerge(DEFAULT_PARSING_OPTIONS, options || {});
 
     return of(mergedOptions).pipe(
@@ -100,7 +96,7 @@ export class AdkMarkdownParser {
         }
       }),
       switchMap((_options) => {
-        const sections = this.getSections(markdown, _options.detectEscaped);
+        const sections = this.getSections(markdown);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
         });
@@ -109,20 +105,19 @@ export class AdkMarkdownParser {
     );
   }
 
-  private getSections(
-    markdown: string,
-    detectAngularRefs: boolean
-  ): AdkParsedContentSection[] {
-    const sections: AdkParsedContentSection[] = [];
+  getSections(markdown: string): DemoAppCustomContentSections {
+    const sections: DemoAppCustomContentSections = [];
     let currentMarkdown = '';
+    let currentSection = [];
+    let currentType: ContentSection = ContentSection.Markdown;
 
     const lines = markdown.split('\n');
+    console.log(lines);
 
     for (const line of lines) {
       if (
-        detectAngularRefs &&
-        line.trim().startsWith('{{') &&
-        line.trim().endsWith('}}')
+        line.startsWith('```example-component') ||
+        currentType === ContentSection.ExampleComponent
       ) {
         if (currentMarkdown.trim()) {
           sections.push({
@@ -133,10 +128,43 @@ export class AdkMarkdownParser {
           });
           currentMarkdown = '';
         }
-        sections.push({
-          type: 'escaped',
-          content: line.trim().slice(2, -2).trim(),
-        });
+        currentType = ContentSection.ExampleComponent;
+        if (!line.startsWith('```')) {
+          currentSection.push(line);
+        }
+        if (line.startsWith('```') && currentSection.length > 1) {
+          sections.push({
+            type: ContentSection.ExampleComponent,
+            component: currentSection[0],
+          });
+          currentSection = [];
+          currentType = ContentSection.Markdown;
+        }
+      } else if (
+        line.startsWith('```builder-method') ||
+        currentType === ContentSection.BuilderMethod
+      ) {
+        currentType = ContentSection.BuilderMethod;
+        if (!line.startsWith('```')) {
+          currentSection.push(line);
+        }
+        if (line.startsWith('```') && currentSection.length > 1) {
+          try {
+            const content = yaml.load(currentSection.join('\n')) as Record<
+              string,
+              unknown
+            >;
+            sections.push({
+              type: ContentSection.BuilderMethod,
+              content,
+              headers: [],
+            });
+          } catch (error) {
+            console.error('Error parsing builder method:', error);
+          }
+          currentSection = [];
+          currentType = ContentSection.Markdown;
+        }
       } else {
         currentMarkdown += line + '\n';
       }
@@ -156,9 +184,9 @@ export class AdkMarkdownParser {
   }
 
   private parseSection(
-    section: AdkParsedContentSection,
+    section: DemoAppCustomContentSection,
     options: AdkMarkdownParsingOptions
-  ): Observable<AdkParsedContentSection> {
+  ): Observable<DemoAppCustomContentSection> {
     if (section.type === 'markdown') {
       const parsedContent$ = from(
         unified()
@@ -184,7 +212,7 @@ export class AdkMarkdownParser {
 
       return parsedContent$.pipe(
         map((parsedContent) => {
-          const toReturn = {
+          const toReturn: AdkMdParsedContentSection = {
             ...section,
             html: this.sanitizer.bypassSecurityTrustHtml(parsedContent),
           };
@@ -222,13 +250,5 @@ export class AdkMarkdownParser {
       headers.push({ id, text, level });
     }
     return headers;
-  }
-
-  parseComponent(content: string): { name: string; pathTo: string } {
-    const cleanedLine = content.trim().slice(2, -2).trim();
-    const [nameKV, pathToKV] = cleanedLine.split(',');
-    const name = nameKV.split(':')[1]?.trim();
-    const pathTo = pathToKV.split(':')[1]?.trim();
-    return { name, pathTo };
   }
 }
