@@ -1,0 +1,31 @@
+import { CommonModule } from '@angular/common';
+import { Component, ViewEncapsulation } from '@angular/core';
+import { ComboboxModule } from '@hsi/ui-components';
+import { BehaviorSubject } from 'rxjs';
+
+@Component({
+  selector: 'app-grouped-selections-multi-combobox-example',
+  standalone: true,
+  imports: [CommonModule, ComboboxModule],
+  templateUrl: './grouped-selections-multi-combobox-example.component.html',
+  styleUrl: './grouped-selections-multi-combobox-example.component.scss',
+  encapsulation: ViewEncapsulation.None,
+})
+export class GroupedSelectionsMultiComboboxExampleComponent {
+  eastCoastOptions = [
+    { displayName: 'Cambridge', id: 'cambridge' },
+    { displayName: 'Washington, D.C.', id: 'dc' },
+    { displayName: 'Princeton', id: 'princeton' },
+  ];
+  midwestOptions = [
+    { displayName: 'Chicago', id: 'chicago' },
+    { displayName: 'Ann Arbor', id: 'annArbor' },
+  ];
+  westCoastOptions = [{ displayName: 'Oakland', id: 'oakland' }];
+  selected = new BehaviorSubject([]);
+  selected$ = this.selected.asObservable();
+
+  onSelection(selectedIds: string[]): void {
+    this.selected.next(selectedIds);
+  }
+}

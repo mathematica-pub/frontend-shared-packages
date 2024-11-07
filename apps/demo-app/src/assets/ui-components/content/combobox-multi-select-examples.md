@@ -15,3 +15,7 @@ This is a multi select that has disabled options.
 This is a multi select that uses FormControl.
 
 {{NgFormMultiSelect}}
+
+This is a multi select that uses grouping.
+
+{{GroupedSelectionsMultiSelect}}
