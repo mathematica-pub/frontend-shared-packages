@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
-import { CategoricalDimensionBuilder } from '../../data-dimensions/categorical/categorical-builder';
-import { OrdinalDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-builder';
-import { QuantitativeNumericDimensionBuilder } from '../../data-dimensions/quantitative/quantitative-numeric-builder';
+import { OrdinalChartPositionDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder';
+import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/quantitative/number-chart-position/number-chart-position-builder';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { BarsConfig } from './bars-config';
 import {
@@ -28,12 +28,12 @@ export class VicBarsConfigBuilder<
 > extends PrimaryMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
-  protected categoricalDimensionBuilder: CategoricalDimensionBuilder<Datum>;
-  protected ordinalDimensionBuilder: OrdinalDimensionBuilder<
+  protected categoricalDimensionBuilder: OrdinalVisualValueDimensionBuilder<Datum>;
+  protected ordinalDimensionBuilder: OrdinalChartPositionDimensionBuilder<
     Datum,
     TOrdinalValue
   >;
-  protected quantitativeDimensionBuilder: QuantitativeNumericDimensionBuilder<Datum>;
+  protected quantitativeDimensionBuilder: NumberChartPositionDimensionBuilder<Datum>;
   protected labelsBuilder: BarsLabelsBuilder<Datum>;
 
   constructor() {
@@ -46,7 +46,9 @@ export class VicBarsConfigBuilder<
    * If not provided, all bars will be colored with the first color in `d3.schemeTableau10`, the default `range` for the dimension.
    */
   createCategoricalDimension(
-    setProperties?: (dimension: CategoricalDimensionBuilder<Datum>) => void
+    setProperties?: (
+      dimension: OrdinalVisualValueDimensionBuilder<Datum>
+    ) => void
   ): this {
     this.initCategoricalDimensionBuilder();
     setProperties?.(this.categoricalDimensionBuilder);
@@ -54,7 +56,7 @@ export class VicBarsConfigBuilder<
   }
 
   private initCategoricalDimensionBuilder() {
-    this.categoricalDimensionBuilder = new CategoricalDimensionBuilder();
+    this.categoricalDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
   /**
@@ -62,7 +64,7 @@ export class VicBarsConfigBuilder<
    */
   createOrdinalDimension(
     setProperties?: (
-      dimension: OrdinalDimensionBuilder<Datum, TOrdinalValue>
+      dimension: OrdinalChartPositionDimensionBuilder<Datum, TOrdinalValue>
     ) => void
   ): this {
     this.initOrdinalDimensionBuilder();
@@ -71,7 +73,7 @@ export class VicBarsConfigBuilder<
   }
 
   private initOrdinalDimensionBuilder() {
-    this.ordinalDimensionBuilder = new OrdinalDimensionBuilder();
+    this.ordinalDimensionBuilder = new OrdinalChartPositionDimensionBuilder();
   }
 
   /**
@@ -91,7 +93,7 @@ export class VicBarsConfigBuilder<
    */
   createQuantitativeDimension(
     setProperties: (
-      dimension: QuantitativeNumericDimensionBuilder<Datum>
+      dimension: NumberChartPositionDimensionBuilder<Datum>
     ) => void
   ): this {
     this.initQuantitativeDimensionBuilder();
@@ -101,7 +103,7 @@ export class VicBarsConfigBuilder<
 
   private initQuantitativeDimensionBuilder() {
     this.quantitativeDimensionBuilder =
-      new QuantitativeNumericDimensionBuilder();
+      new NumberChartPositionDimensionBuilder();
   }
 
   /**

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CategoricalDimension } from '../../../../data-dimensions/categorical/categorical';
+import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesGeojsonPropertiesLayer } from './geojson-properties-layer';
 import { GeographiesGeojsonPropertiesLayerBuilder } from './geojson-properties-layer-builder';
 
@@ -24,13 +24,12 @@ function createLayer(): GeographiesGeojsonPropertiesLayer<
 describe('GeographiesGeojsonPropertiesLayer', () => {
   let layer: GeographiesGeojsonPropertiesLayer<{ name: string }, any>;
 
-  beforeEach(() => {
-    layer = undefined;
-  });
-
   describe('initPropertiesFromGeographies()', () => {
     beforeEach(() => {
-      spyOn(CategoricalDimension.prototype as any, 'setPropertiesFromData');
+      spyOn(
+        OrdinalVisualValueDimension.prototype as any,
+        'setPropertiesFromData'
+      );
       layer = createLayer();
     });
     it('calls setPropertiesFromData once if categorical dimension exists', () => {
