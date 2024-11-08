@@ -2,7 +2,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { StackedBarsComponent } from '@hsi/viz-components';
-import { select } from 'd3';
+import { select, Selection } from 'd3';
 import { CsaDatum } from '../csa-dot-plot.component';
 
 @Component({
@@ -18,29 +18,49 @@ export class CsaStackedBarsComponent
   extends StackedBarsComponent<CsaDatum, string>
   implements OnInit
 {
+  group: Selection<SVGGElement, unknown, null, undefined>;
+
   override ngOnInit(): void {
+    this.createGroup();
     super.ngOnInit();
-    this.drawCircles();
   }
 
-  drawCircles(): void {
-    select(this.chart.svgRef.nativeElement)
+  override drawMarks(): void {
+    const transitionDuration = this.getTransitionDuration();
+    this.drawBars(transitionDuration);
+    if (this.config.labels) {
+      this.drawBarLabels(transitionDuration);
+    }
+    this.updateBarElements();
+    this.updateCircleElements();
+  }
+
+  createGroup(): void {
+    this.group = select(this.chart.svgRef.nativeElement)
       .append('g')
-      .attr('class', 'plans')
-      .selectAll('category')
+      .attr('class', 'plans');
+  }
+
+  updateCircleElements(): void {
+    this.group
+      .selectAll('.category')
       .data(
-        this.config.data.filter((category) => category.series !== 'invisible')
+        this.config.data.filter(
+          (category: CsaDatum) => category.series !== 'invisible'
+        )
       )
       .join('g')
+      .attr('class', 'category')
       .attr(
         'transform',
-        (category) =>
+        (category: CsaDatum) =>
           `translate(0, ${this.scales.y(category.size) + (this.scales.y as any).bandwidth() / 2})`
       )
-      .selectAll('circle')
-      .data((category) => category.plans)
+      .selectAll('.plan')
+      .data((category: CsaDatum) => category.plans)
       .join('circle')
       .attr('r', 5)
-      .attr('cx', (plan) => this.scales.x(plan));
+      .attr('cx', (plan) => this.scales.x(plan))
+      .attr('class', 'plan');
   }
 }

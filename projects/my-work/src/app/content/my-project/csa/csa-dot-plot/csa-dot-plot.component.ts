@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
+  OnChanges,
 } from '@angular/core';
 import {
   StackedBarsConfig,
@@ -58,14 +58,12 @@ export interface CsaDatum {
   styleUrl: './csa-dot-plot.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CsaDotPlotComponent implements OnInit {
+export class CsaDotPlotComponent implements OnChanges {
   @Input() data: CsaDatum[];
   rollupData: CsaDatum[] = [];
   rollupDataConfig: StackedBarsConfig<CsaDatum, string>;
   xAxisConfig: VicQuantitativeAxisConfig<number>;
   yAxisConfig: VicOrdinalAxisConfig<string>;
-  percentile = 'percentile';
-  sortVar = this.percentile;
   chartHeight = 600;
 
   constructor(
@@ -74,16 +72,15 @@ export class CsaDotPlotComponent implements OnInit {
     private yOrdinalAxis: VicYOrdinalAxisConfigBuilder<string>
   ) {}
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    console.log('this.data after changes', this.data);
     this.setProperties();
   }
 
   setProperties(): void {
-    const filteredData = this.data
-      .filter((x) => x.series === this.sortVar && x.value !== null)
-      .slice();
+    this.rollupData = [];
 
-    filteredData.forEach((plan) => {
+    this.data.forEach((plan) => {
       const visibleStack = structuredClone(plan);
       const currentRollup = this.rollupData.find((x) => x.size === plan.size);
       if (!currentRollup) {
@@ -100,39 +97,38 @@ export class CsaDotPlotComponent implements OnInit {
       }
     });
 
-    const dotMax = max(this.rollupData.map((d) => max(d.plans)));
-    const barMax = max(this.rollupData, (d) => d.csa_75);
-    const trueMax = max([dotMax, barMax]) * 1.1;
+    if (this.rollupData.length > 0) {
+      const dotMax = max(this.rollupData.map((d) => max(d.plans)));
+      const barMax = max(this.rollupData, (d) => d.csa_75);
+      const trueMax = max([dotMax, barMax]) * 1.1;
 
-    console.log('original data:', this.data);
-    console.log('filteredData', filteredData);
-    console.log('rollupData', this.rollupData);
-    console.log('trueMax', trueMax);
+      console.log('rollupData', this.rollupData);
 
-    this.rollupDataConfig = this.bars
-      .data(this.rollupData)
-      .orientation('horizontal')
-      .createOrdinalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.size)
-      )
-      .createCategoricalDimension((dimension) =>
-        dimension.valueAccessor((d) => d.series)
-      )
-      .createQuantitativeDimension((dimension) =>
-        dimension
-          .valueAccessor((d) => d.value)
-          .formatSpecifier(',.0f')
-          .domainPaddingPixels(16)
-          .domain([0, trueMax])
-      )
-      .stackOrder(() => [1, 0])
-      .getConfig();
+      this.rollupDataConfig = this.bars
+        .data(this.rollupData)
+        .orientation('horizontal')
+        .createOrdinalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.size)
+        )
+        .createCategoricalDimension((dimension) =>
+          dimension.valueAccessor((d) => d.series)
+        )
+        .createQuantitativeDimension((dimension) =>
+          dimension
+            .valueAccessor((d) => d.value)
+            .formatSpecifier(',.0f')
+            .domainPaddingPixels(16)
+            .domain([0, trueMax])
+        )
+        .stackOrder(() => [1, 0])
+        .getConfig();
 
-    this.yAxisConfig = this.yOrdinalAxis.getConfig();
-    this.xAxisConfig = this.xQuantitativeAxis
-      .tickFormat(this.getTickFormat())
-      .numTicks(4)
-      .getConfig();
+      this.yAxisConfig = this.yOrdinalAxis.getConfig();
+      this.xAxisConfig = this.xQuantitativeAxis
+        .tickFormat(this.getTickFormat())
+        .numTicks(4)
+        .getConfig();
+    }
   }
 
   getTickFormat(): string {

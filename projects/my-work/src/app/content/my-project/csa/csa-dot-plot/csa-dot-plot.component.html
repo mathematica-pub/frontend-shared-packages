@@ -1,12 +1,16 @@
-<vic-xy-chart
-  [margin]="{ top: 30, right: 0, bottom: 36, left: 200 }"
-  [height]="chartHeight"
-  [width]="600"
-  [scaleChartWithContainerWidth]="{ width: false, height: false }"
->
-  <ng-container svg-elements>
-    <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>
-    <svg:g vic-y-ordinal-axis [config]="yAxisConfig"></svg:g>
-    <svg:g app-csa-stacked-bars [config]="rollupDataConfig"></svg:g>
-  </ng-container>
-</vic-xy-chart>
+@if (rollupData.length === 0) {
+  <p>The current selections are not a valid combination.</p>
+} @else {
+  <vic-xy-chart
+    [margin]="{ top: 30, right: 0, bottom: 36, left: 200 }"
+    [height]="chartHeight"
+    [width]="600"
+    [scaleChartWithContainerWidth]="{ width: false, height: false }"
+  >
+    <ng-container svg-elements>
+      <svg:g vic-x-quantitative-axis [config]="xAxisConfig"></svg:g>
+      <svg:g vic-y-ordinal-axis [config]="yAxisConfig"></svg:g>
+      <svg:g app-csa-stacked-bars [config]="rollupDataConfig"></svg:g>
+    </ng-container>
+  </vic-xy-chart>
+}
