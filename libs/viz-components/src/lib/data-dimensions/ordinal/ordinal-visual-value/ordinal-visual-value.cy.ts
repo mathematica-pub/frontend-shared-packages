@@ -285,7 +285,7 @@ describe('user provides a fill pattern', () => {
   beforeEach(() => {
     barsConfig = undefined;
   });
-  it('sets bar fill with either the pattern name or the regular fill according to useDef function', () => {
+  it('sets bar fill with either the pattern name or the regular fill according to shouldApply function', () => {
     barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
       .data(countryFactsData)
       .horizontal((bars) =>
@@ -312,7 +312,7 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with either the pattern name or the regular fill according to useDef function when user provides a scale and valueAccessor', () => {
+  it('sets bar fill with either the pattern name or the regular fill according to shouldApply function when user provides a scale and valueAccessor', () => {
     barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
       .data(countryFactsData)
       .horizontal((bars) =>
