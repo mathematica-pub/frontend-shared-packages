@@ -362,7 +362,7 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with the last matching pattern in fillDefs array if two patterns match', () => {
+  it('sets bar fill with the last matching pattern in customFills array if two patterns match', () => {
     barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
       .data(countryFactsData)
       .horizontal((bars) =>
@@ -372,20 +372,17 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .color((dimension) =>
-        dimension
-          .fillDefs([
-            {
-              defId: dotsPatternMagenta,
-              shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-            {
-              defId: dotsPatternTeal,
-              shouldApply: (d) => d.continent === 'Africa' && d.area > 700000,
-            },
-          ])
-          .range(['lightcoral'])
-      )
+      .color((dimension) => dimension.range(['lightcoral']))
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+        {
+          defId: dotsPatternTeal,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 700000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
