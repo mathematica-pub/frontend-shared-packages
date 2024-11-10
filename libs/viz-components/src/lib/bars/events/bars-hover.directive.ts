@@ -55,8 +55,8 @@ export class BarsHoverDirective<
     ).datum() as BarDatum<TOrdinalValue>;
     this.origin = event.target as SVGRectElement;
     const barRect = this.origin.getBoundingClientRect();
-    this.positionX = barRect.x + barRect.width / 2;
-    this.positionY = barRect.y;
+    this.positionX = barRect.width / 2;
+    this.positionY = barRect.height / 2;
     if (this.actions) {
       this.actions.forEach((action) => action.onStart(this));
     }

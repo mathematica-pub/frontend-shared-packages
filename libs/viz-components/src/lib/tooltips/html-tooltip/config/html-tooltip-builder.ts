@@ -1,9 +1,6 @@
 import { ConnectedPosition } from '@angular/cdk/overlay';
 import { ElementRef, Injectable } from '@angular/core';
-import {
-  RelativeToCenterLeftTooltipPosition,
-  RelativeToTopLeftTooltipPosition,
-} from '../../../events';
+import { RelativeToTopLeftTooltipPosition } from '../../../events';
 import { HtmlTooltipConfig } from './html-tooltip-config';
 import {
   HtmlTooltipCdkManagedPosition,
@@ -80,7 +77,7 @@ export class VicHtmlTooltipConfigBuilder {
   ): this {
     this.origin(origin ? new ElementRef(origin) : undefined);
     const barsPositions = positions.map(
-      (p) => new RelativeToCenterLeftTooltipPosition(p)
+      (p) => new RelativeToTopLeftTooltipPosition(p)
     );
     this._position = new HtmlTooltipCdkManagedPosition(barsPositions);
     return this;
