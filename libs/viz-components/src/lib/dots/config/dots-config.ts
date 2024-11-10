@@ -51,7 +51,7 @@ export class DotsConfig<
 
   protected setDimensionPropertiesFromData(): void {
     this.x.setPropertiesFromData(this.data);
-    this.y.setPropertiesFromData(this.data);
+    this.y.setPropertiesFromData(this.data, this.y.dimensionType === 'ordinal');
     this.fill.setPropertiesFromData(this.data);
     this.radius.setPropertiesFromData(this.data);
   }
