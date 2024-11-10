@@ -1,3 +1,5 @@
 # Bars Primary Marks Component
 
-{{ BarsExampleComponent}}
+```custom-angular
+main example
+```

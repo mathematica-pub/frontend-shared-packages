@@ -2,8 +2,12 @@
 
 This is a simple single select.
 
-{{SimpleSingleSelect}}
+```custom-angular
+simple single select
+```
 
 This is a simple multi select.
 
-{{SimpleMultiSelect}}
+```custom-angular
+simple multi select
+```

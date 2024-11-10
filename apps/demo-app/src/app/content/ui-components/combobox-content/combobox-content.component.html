@@ -1,7 +1,7 @@
 <app-content-container>
-  <ng-template let-section #escapedContent>
-    @switch (section.content.trim()) {
-      @case ('SimpleSingleSelect') {
+  <ng-template let-section #customAngular>
+    @switch (section.content) {
+      @case ('simple single select') {
         <app-single-panel-example-display
           height="600px"
           path="app/content/ui-components/combobox-content/simple-single-select-combobox-example"
@@ -11,7 +11,7 @@
           <app-simple-single-select-combobox-example></app-simple-single-select-combobox-example>
         </app-single-panel-example-display>
       }
-      @case ('SimpleMultiSelect') {
+      @case ('simple multi select') {
         <app-single-panel-example-display
           height="600px"
           path="app/content/ui-components/combobox-content/simple-multi-select-combobox-example"

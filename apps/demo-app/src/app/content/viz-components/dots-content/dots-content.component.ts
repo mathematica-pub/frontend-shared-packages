@@ -14,8 +14,10 @@ import { DotsExampleComponent } from './dots-example/dots-example.component';
   imports: [
     CommonModule,
     SinglePanelExampleDisplayComponent,
-    DotsExampleComponent,
     ContentContainerComponent,
+    DotsExampleComponent,
+    DotsScatterplotExampleComponent,
+    DotsOrdinalQuantExampleComponent,
   ],
   templateUrl: './dots-content.component.html',
   styleUrls: ['../../api-documentation.scss', './dots-content.component.scss'],

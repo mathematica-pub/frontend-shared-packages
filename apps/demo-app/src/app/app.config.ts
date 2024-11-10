@@ -11,9 +11,11 @@ import {
 import {
   AdkDocumentationConfigParser,
   AdkDocumentationContentService,
+  AdkMarkdownParser,
 } from '@hsi/app-dev-kit';
 import { APP_ROUTES } from './app.routes';
 import { ContentConfigService } from './core/services/content-config.service';
+import { ContentParser } from './core/services/content-parser.service';
 import { CustomRouteReuseStrategy } from './custom-route-reuse-strategy';
 
 export const appConfig: ApplicationConfig = {
@@ -25,6 +27,7 @@ export const appConfig: ApplicationConfig = {
       withComponentInputBinding()
     ),
     provideAnimationsAsync(),
+    { provide: AdkMarkdownParser, useClass: ContentParser },
     AdkDocumentationContentService,
     AdkDocumentationConfigParser,
     {
