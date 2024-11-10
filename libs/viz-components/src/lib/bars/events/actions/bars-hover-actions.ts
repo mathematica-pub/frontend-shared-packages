@@ -31,3 +31,16 @@ export class BarsHoverShowLabels<
       .style('display', 'none');
   }
 }
+
+export class BarsHoverEmitTooltipData<Datum, TOrdinalValue extends DataValue>
+  implements EventAction<BarsHoverDirective<Datum, TOrdinalValue>>
+{
+  onStart(directive: BarsHoverDirective<Datum, TOrdinalValue>): void {
+    const tooltipData = directive.getEventOutput();
+    directive.eventOutput.emit(tooltipData);
+  }
+
+  onEnd(directive: BarsHoverDirective<Datum, TOrdinalValue>): void {
+    directive.eventOutput.emit(null);
+  }
+}
