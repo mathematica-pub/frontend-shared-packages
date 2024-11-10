@@ -285,7 +285,7 @@ describe('user provides a fill pattern', () => {
   beforeEach(() => {
     barsConfig = undefined;
   });
-  it('sets bar fill with either the pattern name or the regular fill according to useDef function', () => {
+  it('sets bar fill with either the pattern name or the regular fill according to shouldApply function', () => {
     barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
       .data(countryFactsData)
       .horizontal((bars) =>
@@ -312,7 +312,7 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with either the pattern name or the regular fill according to useDef function when user provides a scale and valueAccessor', () => {
+  it('sets bar fill with either the pattern name or the regular fill according to shouldApply function when user provides a scale and valueAccessor', () => {
     barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
       .data(countryFactsData)
       .horizontal((bars) =>
@@ -362,7 +362,7 @@ describe('user provides a fill pattern', () => {
       }
     });
   });
-  it('sets bar fill with the last matching pattern in fillDefs array if two patterns match', () => {
+  it('sets bar fill with the last matching pattern in customFills array if two patterns match', () => {
     barsConfig = new VicBarsConfigBuilder<CountryFactsDatum, string>()
       .data(countryFactsData)
       .horizontal((bars) =>
@@ -372,20 +372,17 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .color((dimension) =>
-        dimension
-          .fillDefs([
-            {
-              defId: dotsPatternMagenta,
-              shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-            {
-              defId: dotsPatternTeal,
-              shouldApply: (d) => d.continent === 'Africa' && d.area > 700000,
-            },
-          ])
-          .range(['lightcoral'])
-      )
+      .color((dimension) => dimension.range(['lightcoral']))
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+        {
+          defId: dotsPatternTeal,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 700000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);

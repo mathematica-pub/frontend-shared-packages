@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { FillDefinition } from '../../fill-definitions/fill-definitions';
 import { FillUtilities } from './fill-utilities';
 
 describe('FillUtilities', () => {
   describe('integration: getFill', () => {
-    const predicates: FillDef<any>[] = [
+    const predicates: FillDefinition<any>[] = [
       { defId: 'pattern', shouldApply: (d: number) => d > 2 },
     ];
     it('returns pattern when predicate is true', () => {
