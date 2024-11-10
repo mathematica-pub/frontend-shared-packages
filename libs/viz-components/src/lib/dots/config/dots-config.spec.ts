@@ -76,7 +76,7 @@ describe('DotsConfig', () => {
     it('calls x.setPropertiesFromData and y.setPropertiesFromData once each', () => {
       expect(numChartPositionSpy.calls.allArgs()).toEqual([
         [testData],
-        [testData],
+        [testData, false],
       ]);
     });
     it('calls fill.setPropertiesFromData once', () => {

@@ -1,5 +1,7 @@
 # Dots Primary Marks Component
 
+## Overview
+
 The `DotsComponent` allows you to create `SvgCircleElement`s within an `XyChart`, positioned and
 styled according to four different dimensions of data that control the `cx`, `cy`, `r`, and `fill`
 properties of the circles.
