@@ -15,24 +15,14 @@ import { unified } from 'unified';
 import { deepMerge } from '../core/utilities/deep-merge';
 import { AdkShikiHighlighter, ShikiTheme } from './shiki-highlighter';
 
-export interface AdkMdParsedContentSection {
-  type: 'markdown';
-  content: string;
-  html: SafeHtml;
+export interface AdkParsedContentSection<Content = string> {
+  type: string;
+  content: Content;
+  html?: SafeHtml;
   headers: { id: string; text: string; level: number }[];
 }
 
-export interface AdkEscapedContentSection {
-  type: 'escaped';
-  content: string;
-}
-
-export type AdkParsedContentSection =
-  | AdkMdParsedContentSection
-  | AdkEscapedContentSection;
-
 export interface AdkMarkdownParsingOptions {
-  detectEscaped?: boolean;
   highlighter?: AdkShikiHighlighterOptions;
   gfm?: boolean;
   headingIds?: boolean;
@@ -59,7 +49,6 @@ const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
 };
 
 const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
-  detectEscaped: true,
   gfm: true,
   headingIds: true,
   headingFragmentLinks: { createLinks: false },
@@ -100,7 +89,7 @@ export class AdkMarkdownParser {
         }
       }),
       switchMap((_options) => {
-        const sections = this.getSections(markdown, _options.detectEscaped);
+        const sections = this.getSections(markdown);
         const parsedSections$ = sections.map((section) => {
           return this.parseSection(section, _options);
         });
@@ -109,37 +98,14 @@ export class AdkMarkdownParser {
     );
   }
 
-  private getSections(
-    markdown: string,
-    detectAngularRefs: boolean
-  ): AdkParsedContentSection[] {
+  private getSections(markdown: string): AdkParsedContentSection[] {
     const sections: AdkParsedContentSection[] = [];
     let currentMarkdown = '';
 
     const lines = markdown.split('\n');
 
     for (const line of lines) {
-      if (
-        detectAngularRefs &&
-        line.trim().startsWith('{{') &&
-        line.trim().endsWith('}}')
-      ) {
-        if (currentMarkdown.trim()) {
-          sections.push({
-            type: 'markdown',
-            content: currentMarkdown,
-            html: undefined,
-            headers: this.getHeaders(currentMarkdown),
-          });
-          currentMarkdown = '';
-        }
-        sections.push({
-          type: 'escaped',
-          content: line.trim().slice(2, -2).trim(),
-        });
-      } else {
-        currentMarkdown += line + '\n';
-      }
+      currentMarkdown += line + '\n';
     }
 
     // Add any remaining markdown
@@ -159,40 +125,37 @@ export class AdkMarkdownParser {
     section: AdkParsedContentSection,
     options: AdkMarkdownParsingOptions
   ): Observable<AdkParsedContentSection> {
-    if (section.type === 'markdown') {
-      const parsedContent$ = from(
-        unified()
-          .use(remarkParse)
-          .use(options.gfm ? remarkGfm : undefined)
-          .use(
-            options.highlighter && options.highlighter.type === 'markdown'
-              ? this.shikiHighlighter.remarkHighlight
-              : undefined,
-            options.highlighter
-          )
-          .use(remarkRehype, { allowDangerousHtml: true })
-          .use(rehypeRaw)
-          .use(options.headingIds ? rehypeSlug : undefined)
-          .use(
-            options.headingFragmentLinks ? rehypeAutolinkHeadings : undefined,
-            { behavior: options.headingFragmentLinks?.behavior }
-          )
-          .use(rehypeStringify)
-          .process(section.content)
-          .then((file) => String(file))
-      );
+    const parsedContent$ = from(
+      unified()
+        .use(remarkParse)
+        .use(options.gfm ? remarkGfm : undefined)
+        .use(
+          options.highlighter && options.highlighter.type === 'markdown'
+            ? this.shikiHighlighter.remarkHighlight
+            : undefined,
+          options.highlighter
+        )
+        .use(remarkRehype, { allowDangerousHtml: true })
+        .use(rehypeRaw)
+        .use(options.headingIds ? rehypeSlug : undefined)
+        .use(
+          options.headingFragmentLinks ? rehypeAutolinkHeadings : undefined,
+          { behavior: options.headingFragmentLinks?.behavior }
+        )
+        .use(rehypeStringify)
+        .process(section.content)
+        .then((file) => String(file))
+    );
 
-      return parsedContent$.pipe(
-        map((parsedContent) => {
-          const toReturn = {
-            ...section,
-            html: this.sanitizer.bypassSecurityTrustHtml(parsedContent),
-          };
-          return toReturn;
-        })
-      );
-    }
-    return from(Promise.resolve(section));
+    return parsedContent$.pipe(
+      map((parsedContent) => {
+        const toReturn = {
+          ...section,
+          html: this.sanitizer.bypassSecurityTrustHtml(parsedContent),
+        };
+        return toReturn;
+      })
+    );
   }
 
   getHeaders(markdown: string): { id: string; text: string; level: number }[] {

@@ -1,5 +1,6 @@
 import { select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -21,6 +22,9 @@ export class GeographiesGeojsonPropertiesLayer<
     string,
     string
   >;
+  readonly customFills: FillDefinition<
+    GeographiesFeature<TProperties, TGeometry>
+  >[];
 
   constructor(
     options: GeographiesGeojsonPropertiesLayerOptions<TProperties, TGeometry>
@@ -37,8 +41,8 @@ export class GeographiesGeojsonPropertiesLayer<
   getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     const featureIndex = this.featureIndexAccessor(feature);
     const defaultFill = this.fill.getScale()(featureIndex);
-    return this.fill.fillDefs
-      ? FillUtilities.getFill(feature, defaultFill, this.fill.fillDefs)
+    return this.customFills
+      ? FillUtilities.getFill(feature, defaultFill, this.customFills)
       : defaultFill;
   }
 

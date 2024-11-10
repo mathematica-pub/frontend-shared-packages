@@ -1,7 +1,7 @@
 <app-content-container>
-  <ng-template let-section #escapedContent>
+  <ng-template let-section #customAngular>
     @switch (section.content.trim()) {
-      @case ('GroupedBarsExampleComponent') {
+      @case ('main example') {
         <app-single-panel-example-display
           height="600px"
           path="app/content/viz-components/grouped-bars-content/grouped-bars-example"

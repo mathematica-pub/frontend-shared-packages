@@ -3,6 +3,7 @@ import { DataValue } from '../../core/types/values';
 import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { OrdinalChartPositionDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
+import { FillDefinition } from '../../fill-definition/fill-definition';
 import { XyPrimaryMarksConfig } from '../../marks/xy-marks/xy-primary-marks/xy-primary-marks-config';
 import { BarsDimensions } from './bars-dimensions';
 import { BarsOptions } from './bars-options';
@@ -15,6 +16,7 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
   barsKeyFunction: (i: number) => string;
   readonly color: OrdinalVisualValueDimension<Datum, string, string>;
   readonly dimensions: BarsDimensions;
+  readonly customFills: FillDefinition<Datum>[];
   hasNegativeValues: boolean;
   readonly labels: BarsLabels<Datum>;
   readonly ordinal: OrdinalChartPositionDimension<Datum, OrdinalDomain>;

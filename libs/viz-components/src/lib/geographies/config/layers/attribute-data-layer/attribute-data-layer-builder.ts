@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
 import { GeographiesAttributeDataLayer } from './attribute-data-layer';
 import { CategoricalBinsBuilder } from './dimensions/categorical-bins/categorical-bins-builder';
@@ -17,6 +18,7 @@ export class GeographiesAttributeDataLayerBuilder<
   TGeometry extends Geometry = MultiPolygon | Polygon,
 > extends GeographiesLayerBuilder<TProperties, TGeometry> {
   private _data: Datum[];
+  private _customFills: FillDefinition<Datum>[];
   private _geographyIndexAccessor: (d: Datum) => string;
 
   private binsBuilder:
@@ -105,6 +107,14 @@ export class GeographiesAttributeDataLayerBuilder<
   }
 
   /**
+   * OPTIONAL. An array of fill definitions that will be used to color the geographies using user-defined SVG defs. If provided, the fillDefinitions will override the fill color provided by the bins.
+   */
+  customFills(fillDefinitions: FillDefinition<Datum>[]): this {
+    this._customFills = fillDefinitions;
+    return this;
+  }
+
+  /**
    * REQUIRED. The accessor function that returns a value from a Datum that must match the value returned by featureIndexAccessor.
    */
   geographyIndexAccessor(accessor: (d: Datum) => string): this {
@@ -119,6 +129,7 @@ export class GeographiesAttributeDataLayerBuilder<
       class: this._class,
       data: this._data,
       enableEventActions: this._enableEventActions,
+      customFills: this._customFills,
       geographies: this._geographies,
       geographyIndexAccessor: this._geographyIndexAccessor,
       labels: this.labelsBuilder?._build(),

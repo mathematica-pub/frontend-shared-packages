@@ -1,4 +1,4 @@
-import { FillDef } from '../../fill-defs/fill-def';
+import { FillDefinition } from '../../fill-definition/fill-definition';
 
 /**
  * @internal
@@ -7,12 +7,12 @@ export class FillUtilities {
   static getFill<Datum>(
     datum: Datum,
     defaultColor: string,
-    patterns: FillDef<Datum>[]
+    patterns: FillDefinition<Datum>[]
   ): string {
     if (patterns) {
-      patterns.forEach((pattern: FillDef<Datum>) => {
-        if (pattern.useDef(datum)) {
-          defaultColor = `url(#${pattern.name})`;
+      patterns.forEach((pattern: FillDefinition<Datum>) => {
+        if (pattern.shouldApply(datum)) {
+          defaultColor = `url(#${pattern.defId})`;
         }
       });
     }

@@ -3,6 +3,7 @@ import { DataValue } from '../../core/types/values';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
 import { OrdinalChartPositionDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
+import { FillDefinition } from '../../fill-definition/fill-definition';
 import { PrimaryMarksBuilder } from '../../marks/primary-marks/config/primary-marks-builder';
 import { BarsConfig } from './bars-config';
 import {
@@ -27,6 +28,7 @@ export class VicBarsConfigBuilder<
   OrdinalDomain extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
   protected dimensions: BarsDimensions;
+  protected _customFills: FillDefinition<Datum>[];
   protected _orientation: 'horizontal' | 'vertical';
   protected colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
     Datum,
@@ -61,6 +63,14 @@ export class VicBarsConfigBuilder<
 
   private initColorDimensionBuilder() {
     this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
+  }
+
+  /**
+   * OPTIONAL. Sets an array of fill defs that will be used to fill SVG elements. Fills that meet the criteria of the useDef function will override the standard color for the element.
+   */
+  customFills(fillDefinitions: FillDefinition<Datum>[]): this {
+    this._customFills = fillDefinitions;
+    return this;
   }
 
   /**
@@ -116,6 +126,7 @@ export class VicBarsConfigBuilder<
     return new BarsConfig(this.dimensions, {
       color: this.colorDimensionBuilder._build('Color'),
       data: this._data,
+      customFills: this._customFills,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,
       ordinal: this.ordinalDimensionBuilder._build(

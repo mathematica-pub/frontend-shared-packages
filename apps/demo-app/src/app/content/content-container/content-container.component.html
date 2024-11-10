@@ -3,13 +3,19 @@
     <div class="documentation-content">
       <div class="main-content">
         @for (section of content.sections; track $index) {
-          @if (section.type === 'markdown') {
+          @if (section.type === ContentSection.Markdown) {
             <div class="injected-html" [innerHTML]="section.html"></div>
-          } @else if (section.type === 'escaped') {
+          } @else if (section.type === ContentSection.CustomAngular) {
             <ng-container
-              *ngIf="escapedContentTemplateRef"
-              [ngTemplateOutlet]="escapedContentTemplateRef"
+              *ngIf="customAngularTemplateRef"
+              [ngTemplateOutlet]="customAngularTemplateRef"
               [ngTemplateOutletContext]="{ $implicit: section }"
+            >
+            </ng-container>
+          } @else if (section.type === ContentSection.BuilderMethod) {
+            <ng-container
+              [ngTemplateOutlet]="method"
+              [ngTemplateOutletContext]="{ $implicit: section.content }"
             >
             </ng-container>
           }
@@ -23,3 +29,42 @@
     </div>
   }
 </div>
+
+<ng-template let-content #method>
+  <div class="builder-method">
+    @if (content.methods) {
+      <p class="pre">{{ content.pre }}</p>
+      @for (method of content.methods; track $index) {
+        <h4 class="method-name" [id]="method.name">{{ method.name }}</h4>
+        <p class="description">{{ method.description }}</p>
+        <div class="params">
+          @for (param of method.params; track $index) {
+            <div class="param">
+              <p class="param-def">
+                <span class="label">&#64;param</span
+                ><span class="name">{{ param.name }}:</span
+                ><code class="type-def">{{ param.type }}</code>
+              </p>
+              <p class="param-description">{{ param.description }}</p>
+            </div>
+          }
+        </div>
+      }
+    } @else {
+      <h4 class="method-name" [id]="content.name">{{ content.name }}</h4>
+      <p class="description">{{ content.description }}</p>
+      <div class="params">
+        @for (param of content.params; track $index) {
+          <div class="param">
+            <p class="param-def">
+              <span class="label">&#64;param</span
+              ><span class="name">{{ param.name }}:</span
+              ><code class="type-def">{{ param.type }}</code>
+            </p>
+            <p class="param-description">{{ param.description }}</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</ng-template>

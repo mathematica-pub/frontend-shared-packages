@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { FillDef } from '../../fill-defs/fill-def';
+import { FillDef } from '../../fill-definition/def-fill';
 import { FillUtilities } from './fill-utilities';
 
 describe('FillUtilities', () => {

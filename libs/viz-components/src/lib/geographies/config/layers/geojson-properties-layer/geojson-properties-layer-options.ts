@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { OrdinalVisualValueDimension } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-options';
@@ -12,4 +13,5 @@ export interface GeographiesGeojsonPropertiesLayerOptions<
     string,
     string
   >;
+  customFills: FillDefinition<GeographiesFeature<TProperties, TGeometry>>[];
 }

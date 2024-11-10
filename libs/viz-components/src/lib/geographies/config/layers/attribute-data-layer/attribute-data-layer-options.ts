@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { GeographiesLayerOptions } from '../geographies-layer/geographies-layer-options';
 import { CategoricalBinsAttributeDataDimension } from './dimensions/categorical-bins/categorical-bins';
 import { CustomBreaksBinsAttributeDataDimension } from './dimensions/custom-breaks/custom-breaks-bins';
@@ -18,5 +19,6 @@ export interface GeographiesAttributeDataLayerOptions<
     | EqualFrequenciesAttributeDataDimension<Datum>
     | CustomBreaksBinsAttributeDataDimension<Datum>;
   data: Datum[];
+  customFills: FillDefinition<Datum>[];
   geographyIndexAccessor: (d: Datum) => string;
 }

@@ -9,7 +9,7 @@ export * from './lib/data-dimensions/index';
 export * from './lib/data-export/index';
 export * from './lib/dots/index';
 export * from './lib/events/index';
-export * from './lib/fill-defs/index';
+export * from './lib/fill-definition/index';
 export * from './lib/geographies/index';
 export * from './lib/grouped-bars/index';
 export * from './lib/image-download/index';

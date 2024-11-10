@@ -46,6 +46,7 @@ export class VicGroupedBarsConfigBuilder<
     return new GroupedBarsConfig(this.dimensions, {
       color: this.colorDimensionBuilder._build('Color'),
       data: this._data,
+      customFills: this._customFills,
       intraGroupPadding: this._intraGroupPadding,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,

@@ -1,5 +1,6 @@
 import { InternMap, select } from 'd3';
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { FillUtilities } from '../../../../core/utilities/fill-utilities';
 import { ValueUtilities } from '../../../../core/utilities/values';
 import { GeographiesFeature } from '../../../geographies-feature';
@@ -41,6 +42,7 @@ export class GeographiesAttributeDataLayer<
   attributeScale: any;
   attributeValuesByGeographyIndex: InternMap<string, string | number>;
   readonly data: Datum[];
+  readonly customFills: FillDefinition<Datum>[];
   datumsByGeographyIndex: InternMap<string, Datum>;
   geographyIndexAccessor: (d: Datum) => string;
 
@@ -95,7 +97,7 @@ export class GeographiesAttributeDataLayer<
 
   getFill(feature: GeographiesFeature<TProperties, TGeometry>): string {
     const geographyIndex = this.featureIndexAccessor(feature);
-    return this.attributeDimension.fillDefs
+    return this.customFills
       ? this.getPatternFill(geographyIndex)
       : this.getAttributeFill(geographyIndex);
   }
@@ -104,8 +106,7 @@ export class GeographiesAttributeDataLayer<
   getPatternFill(geographyIndex: string): string {
     const datum = this.datumsByGeographyIndex.get(geographyIndex);
     const geographyFill = this.getAttributeFill(geographyIndex);
-    const patterns = this.attributeDimension.fillDefs;
-    return FillUtilities.getFill(datum, geographyFill, patterns);
+    return FillUtilities.getFill(datum, geographyFill, this.customFills);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

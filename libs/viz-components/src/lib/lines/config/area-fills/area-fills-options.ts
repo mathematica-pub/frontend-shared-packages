@@ -1,8 +1,8 @@
-import { FillDef } from '../../../data-dimensions';
+import { FillDefinition } from '../../../fill-definition/fill-definition';
 
 export interface AreaFillsOptions<Datum> {
   display: boolean;
   opacity: number;
-  fillDefs: FillDef<Datum>[];
+  customFills: FillDefinition<Datum>[];
   color: (d: Datum) => string;
 }

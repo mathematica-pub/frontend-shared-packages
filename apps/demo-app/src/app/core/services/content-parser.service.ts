@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import {
   AdkMarkdownParsingOptions,
-  AdkMdParsedContentSection,
+  AdkParsedContentSection,
   AdkShikiHighlighter,
   AdkShikiHighlighterOptions,
   deepMerge,
@@ -27,40 +27,28 @@ const DEFAULT_HIGHLIGHTER_OPTIONS: AdkShikiHighlighterOptions = {
 };
 
 const DEFAULT_PARSING_OPTIONS: AdkMarkdownParsingOptions = {
-  detectEscaped: true,
   gfm: true,
   headingIds: true,
   headingFragmentLinks: { createLinks: false },
   highlighter: DEFAULT_HIGHLIGHTER_OPTIONS,
 };
 
-enum ContentSection {
+export enum ContentSection {
   Markdown = 'markdown',
-  ExampleComponent = 'example-component',
+  CustomAngular = 'custom-angular',
   BuilderMethod = 'builder-method',
 }
 
-interface ExampleComponentSection {
-  type: ContentSection.ExampleComponent;
-  component: string;
+export interface BuilderMethod {
+  name: string;
+  description: string;
+  params: { name: string; type: string; description: string }[];
 }
 
-interface BuilderMethodSection {
-  type: ContentSection.BuilderMethod;
-  content: Record<string, unknown>;
-  headers: { id: string; text: string; level: number }[];
+export interface BuilderMethods {
+  pre: string;
+  methods: BuilderMethod[];
 }
-
-type DemoAppCustomContentSection =
-  | AdkMdParsedContentSection
-  | ExampleComponentSection
-  | BuilderMethodSection;
-
-type DemoAppCustomContentSections = (
-  | AdkMdParsedContentSection
-  | ExampleComponentSection
-  | BuilderMethodSection
-)[];
 
 @Injectable()
 export class ContentParser {
@@ -76,7 +64,7 @@ export class ContentParser {
   parse(
     markdown: string,
     options?: AdkMarkdownParsingOptions
-  ): Observable<DemoAppCustomContentSections> {
+  ): Observable<AdkParsedContentSection<string | Record<string, unknown>>[]> {
     const mergedOptions = deepMerge(DEFAULT_PARSING_OPTIONS, options || {});
 
     return of(mergedOptions).pipe(
@@ -105,20 +93,48 @@ export class ContentParser {
     );
   }
 
-  getSections(markdown: string): DemoAppCustomContentSections {
-    const sections: DemoAppCustomContentSections = [];
+  getSections(
+    markdown: string
+  ): AdkParsedContentSection<string | Record<string, unknown>>[] {
+    const sections: AdkParsedContentSection<
+      string | Record<string, unknown>
+    >[] = [];
     let currentMarkdown = '';
     let currentSection = [];
-    let currentType: ContentSection = ContentSection.Markdown;
+    let type: ContentSection = ContentSection.Markdown;
+    let level: number;
 
     const lines = markdown.split('\n');
-    console.log(lines);
 
     for (const line of lines) {
-      if (
-        line.startsWith('```example-component') ||
-        currentType === ContentSection.ExampleComponent
-      ) {
+      level = this.getCurrentLevel(line, level);
+
+      if (this.isCustomAngular(line, type)) {
+        if (currentMarkdown.trim()) {
+          sections.push({
+            type: ContentSection.Markdown,
+            content: currentMarkdown,
+            html: undefined,
+            headers: this.getHeaders(currentMarkdown),
+          });
+        }
+        currentMarkdown = '';
+        type = ContentSection.CustomAngular;
+        if (!this.isCodeBlockStartOrEnd(line)) {
+          currentSection.push(line.replace('\r', ''));
+        } else if (currentSection.length > 0) {
+          // assume only one line of code for ExampleComponent
+          sections.push({
+            type: ContentSection.CustomAngular,
+            content: currentSection[0],
+            html: undefined,
+            headers: [],
+          });
+          currentSection = [];
+          type = ContentSection.Markdown;
+        }
+        // Builder Method
+      } else if (this.isBuilderMethod(line, type)) {
         if (currentMarkdown.trim()) {
           sections.push({
             type: 'markdown',
@@ -126,44 +142,25 @@ export class ContentParser {
             html: undefined,
             headers: this.getHeaders(currentMarkdown),
           });
-          currentMarkdown = '';
         }
-        currentType = ContentSection.ExampleComponent;
-        if (!line.startsWith('```')) {
-          currentSection.push(line);
-        }
-        if (line.startsWith('```') && currentSection.length > 1) {
-          sections.push({
-            type: ContentSection.ExampleComponent,
-            component: currentSection[0],
-          });
-          currentSection = [];
-          currentType = ContentSection.Markdown;
-        }
-      } else if (
-        line.startsWith('```builder-method') ||
-        currentType === ContentSection.BuilderMethod
-      ) {
-        currentType = ContentSection.BuilderMethod;
-        if (!line.startsWith('```')) {
-          currentSection.push(line);
-        }
-        if (line.startsWith('```') && currentSection.length > 1) {
+        currentMarkdown = '';
+        type = ContentSection.BuilderMethod;
+        if (!this.isCodeBlockStartOrEnd(line)) {
+          currentSection.push(line.replace('\r', ''));
+        } else if (currentSection.length > 1) {
           try {
-            const content = yaml.load(currentSection.join('\n')) as Record<
-              string,
-              unknown
-            >;
+            const content = yaml.load(currentSection.join('\n'));
             sections.push({
               type: ContentSection.BuilderMethod,
               content,
-              headers: [],
+              html: undefined,
+              headers: this.getHeadersFromBuilderMethodYaml(content, level),
             });
-          } catch (error) {
-            console.error('Error parsing builder method:', error);
+            currentSection = [];
+            type = ContentSection.Markdown;
+          } catch (e) {
+            console.error('Error parsing builder method', e);
           }
-          currentSection = [];
-          currentType = ContentSection.Markdown;
         }
       } else {
         currentMarkdown += line + '\n';
@@ -173,7 +170,7 @@ export class ContentParser {
     // Add any remaining markdown
     if (currentMarkdown.trim()) {
       sections.push({
-        type: 'markdown',
+        type: ContentSection.Markdown,
         content: currentMarkdown,
         html: undefined,
         headers: this.getHeaders(currentMarkdown),
@@ -183,17 +180,67 @@ export class ContentParser {
     return sections;
   }
 
+  private getCurrentLevel(line: string, level: number): number {
+    if (line.startsWith('#')) {
+      return line.split(' ')[0].split('#').length - 1;
+    } else {
+      return level;
+    }
+  }
+
+  private isCustomAngular(line: string, type: ContentSection): boolean {
+    return (
+      line.startsWith(`\`\`\`${ContentSection.CustomAngular}`) ||
+      type === ContentSection.CustomAngular
+    );
+  }
+
+  private isBuilderMethod(line: string, type: ContentSection): boolean {
+    return (
+      line.startsWith(`\`\`\`${ContentSection.BuilderMethod}`) ||
+      type === ContentSection.BuilderMethod
+    );
+  }
+
+  private getHeadersFromBuilderMethodYaml(
+    content: BuilderMethods | BuilderMethod,
+    level: number
+  ): { id: string; text: string; level: number }[] {
+    if ((content as BuilderMethods).methods) {
+      return (content as BuilderMethods).methods.map((method) => {
+        return {
+          id: method.name,
+          text: method.name,
+          level: level + 1,
+        };
+      });
+    } else {
+      return [
+        {
+          id: (content as BuilderMethod).name,
+          text: (content as BuilderMethod).name,
+          level: level + 1,
+        },
+      ];
+    }
+  }
+
+  private isCodeBlockStartOrEnd(line: string): boolean {
+    return line.startsWith('```');
+  }
+
   private parseSection(
-    section: DemoAppCustomContentSection,
+    section: AdkParsedContentSection<string | Record<string, unknown>>,
     options: AdkMarkdownParsingOptions
-  ): Observable<DemoAppCustomContentSection> {
-    if (section.type === 'markdown') {
+  ): Observable<AdkParsedContentSection<string | Record<string, unknown>>> {
+    if (section.type === ContentSection.Markdown) {
       const parsedContent$ = from(
         unified()
           .use(remarkParse)
           .use(options.gfm ? remarkGfm : undefined)
           .use(
-            options.highlighter && options.highlighter.type === 'markdown'
+            options.highlighter &&
+              options.highlighter.type === ContentSection.Markdown
               ? this.shikiHighlighter.remarkHighlight
               : undefined,
             options.highlighter
@@ -212,7 +259,9 @@ export class ContentParser {
 
       return parsedContent$.pipe(
         map((parsedContent) => {
-          const toReturn: AdkMdParsedContentSection = {
+          const toReturn: AdkParsedContentSection<
+            string | Record<string, unknown>
+          > = {
             ...section,
             html: this.sanitizer.bypassSecurityTrustHtml(parsedContent),
           };

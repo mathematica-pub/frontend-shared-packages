@@ -170,6 +170,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             )
             .attr('r', (d) => this.scales.radius(d.radius))
             .attr('fill', (d) => this.scales.fill(d.fill))
+            .attr('opacity', this.config.opacity)
             .attr(
               'stroke',
               this.config.stroke ? this.config.stroke.color : 'none'
@@ -200,6 +201,7 @@ export class DotsComponent<Datum> extends VicXyPrimaryMarks<
             .transition(t as any)
             .attr('r', (d) => this.scales.radius(d.radius))
             .attr('fill', (d) => this.scales.fill(d.fill))
+            .attr('opacity', this.config.opacity)
             .attr(
               'stroke',
               this.config.stroke ? this.config.stroke.color : 'none'

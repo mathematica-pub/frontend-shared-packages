@@ -1,3 +1,5 @@
 # Table Component
 
-{{TableExampleComponent}}
+```custom-angular
+simple example
+```

@@ -1,4 +1,5 @@
 import { Geometry, MultiPolygon, Polygon } from 'geojson';
+import { FillDefinition } from 'libs/viz-components/src/public-api';
 import { OrdinalVisualValueDimensionBuilder } from '../../../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
 import { GeographiesFeature } from '../../../geographies-feature';
 import { GeographiesLayerBuilder } from '../geographies-layer/geographies-layer-builder';
@@ -18,6 +19,9 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     string,
     string
   >;
+  private _customFills: FillDefinition<
+    GeographiesFeature<TProperties, TGeometry>
+  >[];
 
   constructor() {
     super();
@@ -37,6 +41,11 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     return this;
   }
 
+  /**
+   * OPTIONAL: Set a fill color for all geographies in the layer based on the geojson properties of each geography.
+   *
+   * To set a fill color for all geographies in the layer, use the `fill` method.
+   */
   fillGeojsonProperties(
     setProperties: (
       builder: OrdinalVisualValueDimensionBuilder<
@@ -55,12 +64,20 @@ export class GeographiesGeojsonPropertiesLayerBuilder<
     this.fillBuilder = new OrdinalVisualValueDimensionBuilder();
   }
 
+  customFills(
+    defSpecs: FillDefinition<GeographiesFeature<TProperties, TGeometry>>[]
+  ): this {
+    this._customFills = defSpecs;
+    return this;
+  }
+
   _build(): GeographiesGeojsonPropertiesLayer<TProperties, TGeometry> {
     this.validateBuilder();
     return new GeographiesGeojsonPropertiesLayer({
       class: this._class,
       enableEventActions: this._enableEventActions,
       fill: this.fillBuilder._build('Fill'),
+      customFills: this._customFills,
       geographies: this._geographies,
       labels: this.labelsBuilder?._build(),
       stroke: this.strokeBuilder?._build(),

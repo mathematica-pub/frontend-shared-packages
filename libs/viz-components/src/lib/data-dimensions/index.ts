@@ -1,4 +1,3 @@
-export * from '../fill-defs/fill-def';
 export * from './continuous-quantitative/date-chart-position/date-chart-position-options';
 export * from './continuous-quantitative/number-chart-position/domain-padding/percent-over/percent-over-options';
 export * from './continuous-quantitative/number-chart-position/domain-padding/pixel/pixel-options';
