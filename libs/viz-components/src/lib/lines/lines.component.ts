@@ -234,10 +234,10 @@ export class LinesComponent<Datum> extends VicXyPrimaryMarks<
     const firstPointInLine = this.config.data[lineDataIndices[0]];
     if (this.config.areaFills.fillDefs) {
       const fillDef = this.config.areaFills.fillDefs.find((def) =>
-        def.useDef(firstPointInLine)
+        def.shouldApply(firstPointInLine)
       );
       if (fillDef) {
-        return `url(#${fillDef.name})`;
+        return `url(#${fillDef.defId})`;
       } else {
         return null;
       }

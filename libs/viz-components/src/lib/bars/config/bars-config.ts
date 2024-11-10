@@ -1,5 +1,6 @@
 import { min, range } from 'd3';
 import { DataValue } from '../../core/types/values';
+import { FillDefinition } from '../../data-dimensions';
 import { NumberChartPositionDimension } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position';
 import { OrdinalChartPositionDimension } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position';
 import { OrdinalVisualValueDimension } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value';
@@ -14,6 +15,7 @@ export class BarsConfig<Datum, OrdinalDomain extends DataValue>
 {
   barsKeyFunction: (i: number) => string;
   readonly color: OrdinalVisualValueDimension<Datum, string, string>;
+  readonly customFills: FillDefinition<Datum>[];
   readonly dimensions: BarsDimensions;
   hasNegativeValues: boolean;
   readonly labels: BarsLabels<Datum>;

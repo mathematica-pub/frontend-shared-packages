@@ -295,14 +295,12 @@ describe('user provides a fill pattern', () => {
           )
           .y((dimension) => dimension.valueAccessor((d) => d.country))
       )
-      .color((dimension) =>
-        dimension.fillDefs([
-          {
-            name: dotsPatternMagenta,
-            useDef: (d) => d.continent === 'Africa' && d.area > 500000,
-          },
-        ])
-      )
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
@@ -326,15 +324,15 @@ describe('user provides a fill pattern', () => {
       )
       .color((dimension) =>
         dimension
-          .fillDefs([
-            {
-              name: dotsPatternMagenta,
-              useDef: (d) => d.continent === 'Africa' && d.area > 500000,
-            },
-          ])
           .valueAccessor((d) => d.continent)
           .scale(customCategoricalScale)
       )
+      .customFills([
+        {
+          defId: dotsPatternMagenta,
+          shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
+        },
+      ])
       .labels((labels) => labels.display(true))
       .getConfig();
     mountHorizontalBarsComponent(barsConfig);
@@ -378,12 +376,12 @@ describe('user provides a fill pattern', () => {
         dimension
           .fillDefs([
             {
-              name: dotsPatternMagenta,
-              useDef: (d) => d.continent === 'Africa' && d.area > 500000,
+              defId: dotsPatternMagenta,
+              shouldApply: (d) => d.continent === 'Africa' && d.area > 500000,
             },
             {
-              name: dotsPatternTeal,
-              useDef: (d) => d.continent === 'Africa' && d.area > 700000,
+              defId: dotsPatternTeal,
+              shouldApply: (d) => d.continent === 'Africa' && d.area > 700000,
             },
           ])
           .range(['lightcoral'])

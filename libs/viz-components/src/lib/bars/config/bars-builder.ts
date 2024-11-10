@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataValue } from '../../core/types/values';
+import { FillDefinition } from '../../data-dimensions';
 import { NumberChartPositionDimensionBuilder } from '../../data-dimensions/continuous-quantitative/number-chart-position/number-chart-position-builder';
 import { OrdinalChartPositionDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-chart-position/ordinal-chart-position-builder';
 import { OrdinalVisualValueDimensionBuilder } from '../../data-dimensions/ordinal/ordinal-visual-value/ordinal-visual-value-builder';
@@ -26,6 +27,7 @@ export class VicBarsConfigBuilder<
   Datum,
   OrdinalDomain extends DataValue,
 > extends PrimaryMarksBuilder<Datum> {
+  protected _customFills: FillDefinition<Datum>[];
   protected dimensions: BarsDimensions;
   protected _orientation: 'horizontal' | 'vertical';
   protected colorDimensionBuilder: OrdinalVisualValueDimensionBuilder<
@@ -61,6 +63,11 @@ export class VicBarsConfigBuilder<
 
   private initColorDimensionBuilder() {
     this.colorDimensionBuilder = new OrdinalVisualValueDimensionBuilder();
+  }
+
+  customFills(customFills: FillDefinition<Datum>[]): this {
+    this._customFills = customFills;
+    return this;
   }
 
   /**
@@ -115,6 +122,7 @@ export class VicBarsConfigBuilder<
     this.validateBuilder('Bars');
     return new BarsConfig(this.dimensions, {
       color: this.colorDimensionBuilder._build('Color'),
+      customFills: this._customFills,
       data: this._data,
       labels: this.labelsBuilder?._build(),
       mixBlendMode: this._mixBlendMode,

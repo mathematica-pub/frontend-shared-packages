@@ -1,4 +1,4 @@
-import { FillDef } from '../../../data-dimensions';
+import { FillDefinition } from '../../../data-dimensions';
 import { AreaFills } from './area-fills';
 
 const DEFAULT = {
@@ -11,7 +11,7 @@ const DEFAULT = {
 export class AreaFillsBuilder<Datum> {
   private _display: boolean;
   private _opacity: number;
-  private _fillDefs: FillDef<Datum>[];
+  private _fillDefs: FillDefinition<Datum>[];
   private _color: (d: Datum) => string;
 
   constructor() {
@@ -57,7 +57,7 @@ export class AreaFillsBuilder<Datum> {
    *
    * @default undefined
    */
-  fillDefs(fillDefs: FillDef<Datum>[]): this {
+  fillDefs(fillDefs: FillDefinition<Datum>[]): this {
     this._fillDefs = fillDefs;
     return this;
   }

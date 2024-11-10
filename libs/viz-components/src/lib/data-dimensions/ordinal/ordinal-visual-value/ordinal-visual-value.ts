@@ -1,6 +1,5 @@
 import { InternSet, scaleOrdinal } from 'd3';
 import { DataValue, VisualValue } from '../../../core/types/values';
-import { FillDef } from '../../../fill-defs/fill-def';
 import { DataDimension } from '../../dimension';
 import { OrdinalVisualValueDimensionOptions } from './ordinal-visual-value-options';
 
@@ -33,7 +32,6 @@ export class OrdinalVisualValueDimension<
 > extends DataDimension<Datum, Domain> {
   private _calculatedDomain: Domain[];
   private readonly domain: Domain[];
-  readonly fillDefs: FillDef<Datum>[];
   private internSetDomain: InternSet<Domain>;
   readonly range: Range[];
   private scale: (category: Domain) => Range;
