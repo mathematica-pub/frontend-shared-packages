@@ -5,6 +5,8 @@ import { beforeEach, cy, describe, expect, it } from 'local-cypress';
 import { cloneDeep } from 'lodash-es';
 import { BehaviorSubject } from 'rxjs';
 import {
+  BarsHoverDirective,
+  BarsHoverEmitTooltipData,
   BarsHoverMoveDirective,
   BarsHoverMoveEmitTooltipData,
   VicBarsConfigBuilder,
@@ -22,7 +24,7 @@ import { VicYOrdinalAxisModule } from '../axes/y-ordinal/y-ordinal-axis.module';
 import { VicYQuantitativeAxisModule } from '../axes/y-quantitative-axis/y-quantitative-axis.module';
 import { VicChartModule } from '../charts/chart/chart.module';
 import { VicXyChartModule } from '../charts/xy-chart/xy-chart.module';
-import { HoverMoveAction } from '../events/action';
+import { EventAction, HoverMoveAction } from '../events/action';
 import { QOCData, QOCDatum } from '../testing/data/quant-ord-cat-data';
 import { HtmlTooltipConfig } from '../tooltips/html-tooltip/config/html-tooltip-config';
 import { VicHtmlTooltipModule } from '../tooltips/html-tooltip/html-tooltip.module';
@@ -84,8 +86,8 @@ const getYTransform = ($barGroup) => {
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverMoveActions]="hoverAndMoveActions"
-          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          [vicBarsHoverActions]="hoverAndMoveActions"
+          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -132,7 +134,7 @@ class TestHorizontalBarsComponent {
       .barsPosition(data?.origin, [
         {
           offsetX: data?.positionX,
-          offsetY: data ? data.positionY - tooltipYOffset : undefined,
+          offsetY: data ? data.positionY : undefined,
         },
       ])
       .show(!!data)
@@ -196,8 +198,8 @@ const mountHorizontalBarsComponent = (
         <svg:g
           vic-primary-marks-bars
           [config]="barsConfig"
-          [vicBarsHoverMoveActions]="hoverAndMoveActions"
-          (vicBarsHoverMoveOutput)="updateTooltipForNewOutput($event)"
+          [vicBarsHoverActions]="hoverActions"
+          (vicBarsHoverOutput)="updateTooltipForNewOutput($event)"
         >
           <vic-html-tooltip
             [config]="tooltipConfig$ | async"
@@ -226,9 +228,9 @@ class TestVerticalBarsComponent {
   tooltipData: BehaviorSubject<BarsEventOutput<QOCDatum, string>> =
     new BehaviorSubject<BarsEventOutput<QOCDatum, string>>(null);
   tooltipData$ = this.tooltipData.asObservable();
-  hoverAndMoveActions: HoverMoveAction<
-    BarsHoverMoveDirective<QOCDatum, string>
-  >[] = [new BarsHoverMoveEmitTooltipData()];
+  hoverActions: EventAction<BarsHoverDirective<QOCDatum, string>>[] = [
+    new BarsHoverEmitTooltipData(),
+  ];
 
   updateTooltipForNewOutput(data: BarsEventOutput<QOCDatum, string>): void {
     this.updateTooltipData(data);
