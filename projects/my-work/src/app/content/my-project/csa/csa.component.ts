@@ -84,25 +84,21 @@ export class CsaComponent implements OnInit {
         this.measureCodes = [...new Set(data.map((x) => x.measureCode))];
         this.stratVals = [...new Set(data.map((x) => x.stratVal))];
         this.delivSyss = [...new Set(data.map((x) => x.delivSys))];
+
+        this.myForm.controls['measureCode'].setValue(this.measureCodes[0]);
+        this.myForm.controls['stratVal'].setValue(this.stratVals[0]);
+        this.myForm.controls['delivSys'].setValue(this.delivSyss[0]);
+
         return data;
       })
     );
   }
 
-  getFilteredData(data: CsaDatum[], filters: any): CsaDatum[] {
-    return data.filter(
-      (plan) =>
-        plan.measureCode === filters.measureCode &&
-        plan.stratVal === filters.stratVal &&
-        plan.delivSys === filters.delivSys
-    );
-  }
-
   setForm(): void {
     this.myForm = new FormGroup({
-      measureCode: new FormControl('AOGX'),
-      stratVal: new FormControl('Child'),
-      delivSys: new FormControl('PZIL'),
+      measureCode: new FormControl(),
+      stratVal: new FormControl(),
+      delivSys: new FormControl(),
     });
 
     this.filter$ = this.myForm.valueChanges.pipe(
@@ -114,9 +110,16 @@ export class CsaComponent implements OnInit {
       combineLatest([this.data$, this.filter$.pipe(startWith(this.myForm))]);
 
     this.filteredData$ = dataAndFilter$.pipe(
-      map(([data, filters]) => {
-        return this.getFilteredData(data, filters);
-      })
+      map(([data, filters]) => this.getFilteredData(data, filters))
+    );
+  }
+
+  getFilteredData(data: CsaDatum[], filters: any): CsaDatum[] {
+    return data.filter(
+      (plan) =>
+        plan.measureCode === filters.measureCode &&
+        plan.stratVal === filters.stratVal &&
+        plan.delivSys === filters.delivSys
     );
   }
 }
