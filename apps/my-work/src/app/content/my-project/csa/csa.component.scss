@@ -1,4 +1,19 @@
+form {
+  display: flex;
+  gap: 2em;
+  padding-top: 1.5em;
+}
+
 option:checked {
   background-color: #444;
   color: white;
+}
+
+.title {
+  font-size: 2rem;
+}
+
+.selection {
+  display: flex;
+  gap: 0.4em;
 }
